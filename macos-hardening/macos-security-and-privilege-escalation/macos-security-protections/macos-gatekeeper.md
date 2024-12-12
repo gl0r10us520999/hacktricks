@@ -1,0 +1,486 @@
+# macOS Gatekeeper / Quarantine / XProtect
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+## Gatekeeper
+
+**Gatekeeper** ni kipengele cha usalama kilichoundwa kwa mifumo ya uendeshaji ya Mac, kilichokusudia kuhakikisha kwamba watumiaji **wanatumia tu programu zinazotegemewa** kwenye mifumo yao. Inafanya kazi kwa **kuhakiki programu** ambayo mtumiaji anashusha na kujaribu kufungua kutoka **vyanzo vya nje ya Duka la Programu**, kama vile programu, plug-in, au kifurushi cha installer.
+
+Mekaniki kuu ya Gatekeeper inategemea **mchakato wa uthibitisho**. Inakagua ikiwa programu iliyoshushwa **imeandikwa na mtengenezaji anayekubalika**, kuhakikisha uhalali wa programu hiyo. Zaidi ya hayo, inathibitisha ikiwa programu hiyo **imeandikwa na Apple**, ikithibitisha kwamba haina maudhui mabaya yanayojulikana na haijaharibiwa baada ya kuandikwa.
+
+Zaidi ya hayo, Gatekeeper inaimarisha udhibiti wa mtumiaji na usalama kwa **kuwataka watumiaji kuidhinisha ufunguzi** wa programu iliyoshushwa kwa mara ya kwanza. Ulinzi huu husaidia kuzuia watumiaji kuendesha kwa bahati mbaya msimbo wa utendaji ambao unaweza kuwa na madhara ambao wanaweza kuwa wamechukulia kuwa faili ya data isiyo na madhara.
+
+### Application Signatures
+
+Saini za programu, pia zinajulikana kama saini za msimbo, ni sehemu muhimu ya miundombinu ya usalama ya Apple. Zinatumika ku **thibitisha utambulisho wa mwandishi wa programu** (mtengenezaji) na kuhakikisha kwamba msimbo haujaharibiwa tangu ilipotiwa mwisho.
+
+Hivi ndivyo inavyofanya kazi:
+
+1. **Kusaini Programu:** Wakati mtengenezaji yuko tayari kusambaza programu yao, wana **saini programu hiyo kwa kutumia funguo binafsi**. Funguo hii binafsi inahusishwa na **cheti ambacho Apple inatoa kwa mtengenezaji** wanapojisajili katika Programu ya Wataalamu wa Apple. Mchakato wa kusaini unajumuisha kuunda hash ya kificho ya sehemu zote za programu na kuificha hash hii kwa funguo binafsi ya mtengenezaji.
+2. **Kusambaza Programu:** Programu iliyosainiwa kisha inasambazwa kwa watumiaji pamoja na cheti cha mtengenezaji, ambacho kinafunguo ya umma inayolingana.
+3. **Kuthibitisha Programu:** Wakati mtumiaji anashusha na kujaribu kuendesha programu, mfumo wa uendeshaji wa Mac unatumia funguo ya umma kutoka kwa cheti cha mtengenezaji kufichua hash. Kisha inarejesha hash kulingana na hali ya sasa ya programu na kulinganisha hii na hash iliyofichuliwa. Ikiwa zinakubaliana, inamaanisha **programu hiyo haijaharibiwa** tangu mtengenezaji aitishe, na mfumo unaruhusu programu hiyo kuendesha.
+
+Saini za programu ni sehemu muhimu ya teknolojia ya Gatekeeper ya Apple. Wakati mtumiaji anajaribu **kufungua programu iliyoshushwa kutoka mtandao**, Gatekeeper inathibitisha saini ya programu. Ikiwa imesainiwa na cheti kilichotolewa na Apple kwa mtengenezaji anayejulikana na msimbo haujaharibiwa, Gatekeeper inaruhusu programu hiyo kuendesha. Vinginevyo, inazuia programu hiyo na kumjulisha mtumiaji.
+
+Kuanzia macOS Catalina, **Gatekeeper pia inakagua ikiwa programu hiyo imeandikwa** na Apple, ikiongeza safu ya ziada ya usalama. Mchakato wa kuandikwa unakagua programu hiyo kwa masuala ya usalama yanayojulikana na msimbo mbaya, na ikiwa ukaguzi huu unakubalika, Apple inaongeza tiketi kwa programu ambayo Gatekeeper inaweza kuthibitisha.
+
+#### Check Signatures
+
+Wakati wa kuangalia **kielelezo cha malware** unapaswa kila wakati **kuangalia saini** ya binary kwani **mtengenezaji** aliyeisaini anaweza kuwa tayari **ana uhusiano** na **malware.**
+```bash
+# Get signer
+codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
+
+# Check if the app’s contents have been modified
+codesign --verify --verbose /Applications/Safari.app
+
+# Get entitlements from the binary
+codesign -d --entitlements :- /System/Applications/Automator.app # Check the TCC perms
+
+# Check if the signature is valid
+spctl --assess --verbose /Applications/Safari.app
+
+# Sign a binary
+codesign -s <cert-name-keychain> toolsdemo
+```
+### Notarization
+
+Mchakato wa notarization wa Apple unatumika kama kinga ya ziada kulinda watumiaji kutokana na programu zinazoweza kuwa na madhara. Unahusisha **mwandishi kuwasilisha programu yao kwa uchunguzi** na **Huduma ya Notary ya Apple**, ambayo haipaswi kuchanganywa na Mapitio ya Programu. Huduma hii ni **mfumo wa kiotomatiki** unaochambua programu iliyowasilishwa kwa uwepo wa **maudhui mabaya** na masuala yoyote yanayoweza kutokea na saini ya msimbo.
+
+Ikiwa programu hiyo **inasimama** ukaguzi huu bila kuibua wasiwasi wowote, Huduma ya Notary inaunda tiketi ya notarization. Mwandishi anahitajika **kuunganisha tiketi hii na programu yao**, mchakato unaojulikana kama 'stapling.' Zaidi ya hayo, tiketi ya notarization pia inachapishwa mtandaoni ambapo Gatekeeper, teknolojia ya usalama ya Apple, inaweza kuipata.
+
+Wakati wa usakinishaji au utekelezaji wa kwanza wa programu na mtumiaji, uwepo wa tiketi ya notarization - iwe imeunganishwa na executable au kupatikana mtandaoni - **inawaarifu Gatekeeper kwamba programu hiyo imekuwa notarized na Apple**. Kama matokeo, Gatekeeper inaonyesha ujumbe wa maelezo katika kidirisha cha uzinduzi wa awali, ikionyesha kwamba programu hiyo imefanyiwa ukaguzi wa maudhui mabaya na Apple. Mchakato huu hivyo huongeza uaminifu wa mtumiaji katika usalama wa programu wanazosakinisha au kuendesha kwenye mifumo yao.
+
+### spctl & syspolicyd
+
+{% hint style="danger" %}
+Kumbuka kwamba kuanzia toleo la Sequoia, **`spctl`** haiwaruhusu kubadilisha usanidi wa Gatekeeper tena.
+{% endhint %}
+
+**`spctl`** ni zana ya CLI ya kuorodhesha na kuingiliana na Gatekeeper (pamoja na daemon ya `syspolicyd` kupitia ujumbe wa XPC). Kwa mfano, inawezekana kuona **hali** ya GateKeeper kwa:
+```bash
+# Check the status
+spctl --status
+```
+{% hint style="danger" %}
+Kumbuka kwamba ukaguzi wa saini wa GateKeeper unafanywa tu kwa **faili zenye sifa ya Quarantine**, si kwa kila faili.
+{% endhint %}
+
+GateKeeper itakagua ikiwa kulingana na **mapendeleo & saini** binary inaweza kutekelezwa:
+
+<figure><img src="../../../.gitbook/assets/image (1150).png" alt=""><figcaption></figcaption></figure>
+
+**`syspolicyd`** ndiye daemon mkuu anayehusika na kutekeleza Gatekeeper. Inashikilia hifadhidata iliyoko katika `/var/db/SystemPolicy` na inawezekana kupata msimbo wa kusaidia [hifadhidata hapa](https://opensource.apple.com/source/Security/Security-58286.240.4/OSX/libsecurity\_codesigning/lib/policydb.cpp) na [templat ya SQL hapa](https://opensource.apple.com/source/Security/Security-58286.240.4/OSX/libsecurity\_codesigning/lib/syspolicy.sql). Kumbuka kwamba hifadhidata haina vizuizi vya SIP na inaweza kuandikwa na root na hifadhidata `/var/db/.SystemPolicy-default` inatumika kama nakala ya awali endapo nyingine itaharibika.
+
+Zaidi ya hayo, vifurushi **`/var/db/gke.bundle`** na **`/var/db/gkopaque.bundle`** vina faili zenye sheria ambazo zinaingizwa katika hifadhidata. Unaweza kuangalia hifadhidata hii kama root kwa:
+```bash
+# Open database
+sqlite3 /var/db/SystemPolicy
+
+# Get allowed rules
+SELECT requirement,allow,disabled,label from authority where label != 'GKE' and disabled=0;
+requirement|allow|disabled|label
+anchor apple generic and certificate 1[subject.CN] = "Apple Software Update Certification Authority"|1|0|Apple Installer
+anchor apple|1|0|Apple System
+anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists|1|0|Mac App Store
+anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
+[...]
+```
+**`syspolicyd`** pia inatoa seva ya XPC yenye operesheni tofauti kama `assess`, `update`, `record` na `cancel` ambazo pia zinaweza kufikiwa kwa kutumia **`Security.framework`'s `SecAssessment*`** APIs na **`xpctl`** kwa kweli inazungumza na **`syspolicyd`** kupitia XPC.
+
+Tazama jinsi sheria ya kwanza ilivyomalizika kwa "**App Store**" na ya pili kwa "**Developer ID**" na kwamba katika picha iliyopita ilikuwa **imewezeshwa kutekeleza programu kutoka kwa App Store na waendelezaji waliotambulika**.\
+Ikiwa **utabadilisha** mipangilio hiyo kuwa App Store, sheria za "**Notarized Developer ID" zitaondoka**.
+
+Pia kuna maelfu ya sheria za **aina GKE** :
+```bash
+SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
+cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
+cdhash H"5fd63f5342ac0c7c0774ebcbecaf8787367c480f"|1|0|GKE
+cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
+cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
+cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
+```
+Hizi ni hash ambazo zinatoka:
+
+* `/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`
+* `/var/db/gke.bundle/Contents/Resources/gk.db`
+* `/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`
+
+Au unaweza kuorodhesha taarifa za awali kwa:
+```bash
+sudo spctl --list
+```
+Chaguzi **`--master-disable`** na **`--global-disable`** za **`spctl`** zitakomesha kabisa **kuangalia** saini hizi:
+```bash
+# Disable GateKeeper
+spctl --global-disable
+spctl --master-disable
+
+# Enable it
+spctl --global-enable
+spctl --master-enable
+```
+Wakati imewezeshwa kikamilifu, chaguo jipya litajitokeza:
+
+<figure><img src="../../../.gitbook/assets/image (1151).png" alt=""><figcaption></figcaption></figure>
+
+Inawezekana **kuangalia ikiwa App itaruhusiwa na GateKeeper** kwa:
+```bash
+spctl --assess -v /Applications/App.app
+```
+Ni uwezekano wa kuongeza sheria mpya katika GateKeeper ili kuruhusu utekelezaji wa programu fulani kwa:
+```bash
+# Check if allowed - nop
+spctl --assess -v /Applications/App.app
+/Applications/App.app: rejected
+source=no usable signature
+
+# Add a label and allow this label in GateKeeper
+sudo spctl --add --label "whitelist" /Applications/App.app
+sudo spctl --enable --label "whitelist"
+
+# Check again - yep
+spctl --assess -v /Applications/App.app
+/Applications/App.app: accepted
+```
+Regarding **kernel extensions**, the folder `/var/db/SystemPolicyConfiguration` contains files with lists of kexts allowed to be loaded. Moreover, `spctl` has the entitlement `com.apple.private.iokit.nvram-csr` because it's capable of adding new pre-approved kernel extensions which need to be saved also in NVRAM in a `kext-allowed-teams` key.
+
+### Quarantine Files
+
+Upon **downloading** an application or file, specific macOS **applications** such as web browsers or email clients **attach an extended file attribute**, commonly known as the "**quarantine flag**," to the downloaded file. This attribute acts as a security measure to **mark the file** as coming from an untrusted source (the internet), and potentially carrying risks. However, not all applications attach this attribute, for instance, common BitTorrent client software usually bypasses this process.
+
+**Uwepo wa bendera ya karantini unamaanisha kipengele cha usalama cha Gatekeeper cha macOS wakati mtumiaji anajaribu kutekeleza faili**.
+
+In the case where the **quarantine flag is not present** (as with files downloaded via some BitTorrent clients), Gatekeeper's **checks may not be performed**. Thus, users should exercise caution when opening files downloaded from less secure or unknown sources.
+
+{% hint style="info" %}
+**Kuangalia** **halali** ya saini za msimbo ni mchakato wa **rasilimali nyingi** ambao unajumuisha kuunda **hashes** za cryptographic za msimbo na rasilimali zake zote zilizofungwa. Zaidi ya hayo, kuangalia halali ya cheti kunahusisha kufanya **kuangalia mtandaoni** kwa seva za Apple ili kuona kama kimeondolewa baada ya kutolewa. Kwa sababu hizi, kuangalia saini kamili ya msimbo na notarization ni **sio rahisi kufanywa kila wakati programu inapoanzishwa**.
+
+Hivyo, ukaguzi huu unafanywa **tu wakati wa kutekeleza programu zenye sifa ya karantini.**
+{% endhint %}
+
+{% hint style="warning" %}
+Sifa hii lazima iwe **imewekwa na programu inayounda/kuhifadhi** faili.
+
+Hata hivyo, faili ambazo zimewekwa kwenye sandbox zitakuwa na sifa hii imewekwa kwa kila faili wanayounda. Na programu zisizo na sandbox zinaweza kujiwekea zenyewe, au kuashiria funguo ya [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information_property_list/lsfilequarantineenabled?language=objc) katika **Info.plist** ambayo itafanya mfumo kuweka sifa ya `com.apple.quarantine` kwenye faili zilizoundwa,
+{% endhint %}
+
+Moreover, all files created by a process calling **`qtn_proc_apply_to_self`** are quarantined. Or the API **`qtn_file_apply_to_path`** adds the quarantine attribute to a specified file path.
+
+It's possible to **check it's status and enable/disable** (root required) with:
+```bash
+spctl --status
+assessments enabled
+
+spctl --enable
+spctl --disable
+#You can also allow nee identifies to execute code using the binary "spctl"
+```
+Unaweza pia **kupata kama faili ina sifa ya kupumzika ya ziada** kwa kutumia:
+```bash
+xattr file.png
+com.apple.macl
+com.apple.quarantine
+```
+Angalia **thamani** ya **sifa** za **kupanuliwa** na pata programu ambayo iliandika sifa ya karantini na:
+```bash
+xattr -l portada.png
+com.apple.macl:
+00000000  03 00 53 DA 55 1B AE 4C 4E 88 9D CA B7 5C 50 F3  |..S.U..LN.....P.|
+00000010  16 94 03 00 27 63 64 97 98 FB 4F 02 84 F3 D0 DB  |....'cd...O.....|
+00000020  89 53 C3 FC 03 00 27 63 64 97 98 FB 4F 02 84 F3  |.S....'cd...O...|
+00000030  D0 DB 89 53 C3 FC 00 00 00 00 00 00 00 00 00 00  |...S............|
+00000040  00 00 00 00 00 00 00 00                          |........|
+00000048
+com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
+# 00c1 -- It has been allowed to eexcute this file (QTN_FLAG_USER_APPROVED = 0x0040)
+# 607842eb -- Timestamp
+# Brave -- App
+# F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
+```
+Kwa kweli, mchakato "unaweza kuweka bendera za karantini kwa faili zinazoundwa" (nimejaribu tayari kutumia bendera ya USER_APPROVED katika faili iliyoundwa lakini haitatumika):
+
+<details>
+
+<summary>Source Code apply quarantine flags</summary>
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+enum qtn_flags {
+QTN_FLAG_DOWNLOAD = 0x0001,
+QTN_FLAG_SANDBOX = 0x0002,
+QTN_FLAG_HARD = 0x0004,
+QTN_FLAG_USER_APPROVED = 0x0040,
+};
+
+#define qtn_proc_alloc _qtn_proc_alloc
+#define qtn_proc_apply_to_self _qtn_proc_apply_to_self
+#define qtn_proc_free _qtn_proc_free
+#define qtn_proc_init _qtn_proc_init
+#define qtn_proc_init_with_self _qtn_proc_init_with_self
+#define qtn_proc_set_flags _qtn_proc_set_flags
+#define qtn_file_alloc _qtn_file_alloc
+#define qtn_file_init_with_path _qtn_file_init_with_path
+#define qtn_file_free _qtn_file_free
+#define qtn_file_apply_to_path _qtn_file_apply_to_path
+#define qtn_file_set_flags _qtn_file_set_flags
+#define qtn_file_get_flags _qtn_file_get_flags
+#define qtn_proc_set_identifier _qtn_proc_set_identifier
+
+typedef struct _qtn_proc *qtn_proc_t;
+typedef struct _qtn_file *qtn_file_t;
+
+int qtn_proc_apply_to_self(qtn_proc_t);
+void qtn_proc_init(qtn_proc_t);
+int qtn_proc_init_with_self(qtn_proc_t);
+int qtn_proc_set_flags(qtn_proc_t, uint32_t flags);
+qtn_proc_t qtn_proc_alloc();
+void qtn_proc_free(qtn_proc_t);
+qtn_file_t qtn_file_alloc(void);
+void qtn_file_free(qtn_file_t qf);
+int qtn_file_set_flags(qtn_file_t qf, uint32_t flags);
+uint32_t qtn_file_get_flags(qtn_file_t qf);
+int qtn_file_apply_to_path(qtn_file_t qf, const char *path);
+int qtn_file_init_with_path(qtn_file_t qf, const char *path);
+int qtn_proc_set_identifier(qtn_proc_t qp, const char* bundleid);
+
+int main() {
+
+qtn_proc_t qp = qtn_proc_alloc();
+qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
+qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
+qtn_proc_apply_to_self(qp);
+qtn_proc_free(qp);
+
+FILE *fp;
+fp = fopen("thisisquarantined.txt", "w+");
+fprintf(fp, "Hello Quarantine\n");
+fclose(fp);
+
+return 0;
+
+}
+```
+</details>
+
+Na **ondoa** sifa hiyo kwa:
+```bash
+xattr -d com.apple.quarantine portada.png
+#You can also remove this attribute from every file with
+find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
+```
+Na pata faili zote zilizokuwa katika karantini kwa kutumia: 
+
+{% code overflow="wrap" %}
+```bash
+find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.quarantine"
+```
+{% endcode %}
+
+Taarifa za karantini pia zinahifadhiwa katika hifadhidata kuu inayosimamiwa na LaunchServices katika **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`** ambayo inaruhusu GUI kupata data kuhusu asili za faili. Zaidi ya hayo, hii inaweza kubadilishwa na programu ambazo zinaweza kuwa na nia ya kuficha asili zake. Aidha, hii inaweza kufanywa kutoka kwa LaunchServices APIS.
+
+#### **libquarantine.dylb**
+
+Maktaba hii inatoa kazi kadhaa zinazoruhusu kubadilisha maeneo ya sifa za ziada.
+
+APIs za `qtn_file_*` zinahusiana na sera za karantini za faili, APIs za `qtn_proc_*` zinatumika kwa michakato (faili zilizoundwa na mchakato). Kazi zisizotolewa za `__qtn_syscall_quarantine*` ndizo zinazotumia sera ambazo zinaita `mac_syscall` na "Karantini" kama hoja ya kwanza ambayo inatuma maombi kwa `Quarantine.kext`.
+
+#### **Quarantine.kext**
+
+Kipanuzi cha kernel kinapatikana tu kupitia **cache ya kernel kwenye mfumo**; hata hivyo, unaweza kupakua **Kernel Debug Kit kutoka** [**https://developer.apple.com/**](https://developer.apple.com/), ambayo itakuwa na toleo lililosimbwa la kipanuzi.
+
+Kext hii itashughulikia kupitia MACF simu kadhaa ili kunasa matukio yote ya mzunguko wa faili: Uundaji, ufunguzi, kubadilisha jina, kuunganisha ngumu... hata `setxattr` ili kuzuia kuweka sifa ya ziada ya `com.apple.quarantine`.
+
+Pia inatumia MIB kadhaa:
+
+* `security.mac.qtn.sandbox_enforce`: Lazimisha karantini pamoja na Sandbox
+* `security.mac.qtn.user_approved_exec`: Michakato iliyowekwa karantini inaweza tu kutekeleza faili zilizothibitishwa
+
+### XProtect
+
+XProtect ni kipengele cha **anti-malware** kilichojengwa ndani ya macOS. XProtect **inaangalia programu yoyote inapozinduliwa au kubadilishwa kwa mara ya kwanza dhidi ya hifadhidata yake** ya malware inayojulikana na aina za faili zisizo salama. Unapopakua faili kupitia programu fulani, kama Safari, Mail, au Messages, XProtect moja kwa moja inachunguza faili hiyo. Ikiwa inalingana na malware yoyote inayojulikana katika hifadhidata yake, XProtect itazuia **faili hiyo isifanye kazi** na kukujulisha kuhusu tishio hilo.
+
+Hifadhidata ya XProtect **inasasishwa mara kwa mara** na Apple kwa ufafanuzi mpya wa malware, na sasisho hizi zinapakuliwa na kufungwa kiotomatiki kwenye Mac yako. Hii inahakikisha kwamba XProtect iko daima na habari za hivi karibuni kuhusu vitisho vinavyojulikana.
+
+Hata hivyo, inafaa kutambua kwamba **XProtect si suluhisho kamili la antivirus**. Inakagua tu orodha maalum ya vitisho vinavyojulikana na haisahihishi skanning ya upatikanaji kama programu nyingi za antivirus.
+
+Unaweza kupata taarifa kuhusu sasisho la hivi karibuni la XProtect ukikimbia:
+
+{% code overflow="wrap" %}
+```bash
+system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistConfigData" | tail -n 5
+```
+{% endcode %}
+
+XProtect iko kwenye. SIP iliyo na ulinzi katika **/Library/Apple/System/Library/CoreServices/XProtect.bundle** na ndani ya bundle unaweza kupata taarifa ambazo XProtect inatumia:
+
+* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Inaruhusu msimbo wenye cdhashes hizo kutumia haki za zamani.
+* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: Orodha ya plugins na nyongeza ambazo haziruhusiwi kupakia kupitia BundleID na TeamID au kuashiria toleo la chini.
+* **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Sheria za Yara kugundua malware.
+* **`XProtect.bundle/Contents/Resources/gk.db`**: Hifadhidata ya SQLite3 yenye hashes za programu zilizozuiwa na TeamIDs.
+
+Kumbuka kwamba kuna App nyingine katika **`/Library/Apple/System/Library/CoreServices/XProtect.app`** inayohusiana na XProtect ambayo haihusiki na mchakato wa Gatekeeper.
+
+### Si Gatekeeper
+
+{% hint style="danger" %}
+Kumbuka kwamba Gatekeeper **haiendeshwi kila wakati** unapotekeleza programu, ni _**AppleMobileFileIntegrity**_ (AMFI) tu itakay **thibitisha saini za msimbo wa kutekeleza** unapotekeleza app ambayo tayari imeendeshwa na kuthibitishwa na Gatekeeper.
+{% endhint %}
+
+Hivyo, hapo awali ilikuwa inawezekana kutekeleza app ili kuikatia akiba na Gatekeeper, kisha **kubadilisha faili zisizotekelezwa za programu** (kama Electron asar au NIB files) na ikiwa hakuna ulinzi mwingine ulio kuwekwa, programu hiyo ilikuwa **ikiendeshwa** na **nyongeza** za **hatari**.
+
+Hata hivyo, sasa hii haiwezekani kwa sababu macOS **inazuia kubadilisha faili** ndani ya bundles za programu. Hivyo, ukijaribu shambulio la [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), utagundua kwamba si tena inawezekana kulitumia kwa sababu baada ya kutekeleza app ili kuikatia akiba na Gatekeeper, huwezi kubadilisha bundle. Na ikiwa badala yake unabadilisha jina la saraka ya Contents kuwa NotCon (kama ilivyoonyeshwa katika exploit), kisha kutekeleza binary kuu ya app ili kuikatia akiba na Gatekeeper, itasababisha kosa na haitatekelezwa.
+
+## Mipango ya Kuepuka Gatekeeper
+
+Njia yoyote ya kuepuka Gatekeeper (kufanikiwa kumfanya mtumiaji apakue kitu na kukitekeleza wakati Gatekeeper inapaswa kukataa) inachukuliwa kuwa udhaifu katika macOS. Hizi ni baadhi ya CVEs zilizotolewa kwa mbinu ambazo ziliruhusu kuepuka Gatekeeper katika siku za nyuma:
+
+### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
+
+Ilionekana kwamba ikiwa **Archive Utility** inatumika kwa uchimbaji, faili zenye **njia zinazozidi herufi 886** hazipati sifa ya ziada ya com.apple.quarantine. Hali hii bila kukusudia inaruhusu faili hizo **kuepuka ukaguzi wa usalama wa Gatekeeper**.
+
+Angalia [**ripoti ya asili**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) kwa maelezo zaidi.
+
+### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
+
+Wakati programu inaundwa kwa **Automator**, taarifa kuhusu kile inachohitaji kutekeleza iko ndani ya `application.app/Contents/document.wflow` si katika executable. Executable ni binary ya jumla ya Automator inayoitwa **Automator Application Stub**.
+
+Hivyo, unaweza kufanya `application.app/Contents/MacOS/Automator\ Application\ Stub` **ielekeze kwa kiungo cha alama kwa Automator Application Stub nyingine ndani ya mfumo** na itatekeleza kile kilichomo ndani ya `document.wflow` (script yako) **bila kuamsha Gatekeeper** kwa sababu executable halisi haina xattr ya karantini.
+
+Mfano wa eneo linalotarajiwa: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
+
+Angalia [**ripoti ya asili**](https://ronmasas.com/posts/bypass-macos-gatekeeper) kwa maelezo zaidi.
+
+### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
+
+Katika kuepuka hii, faili ya zip iliundwa na programu ikianza kubana kutoka `application.app/Contents` badala ya `application.app`. Hivyo, **sifa ya karantini** ilitumika kwa **faili zote kutoka `application.app/Contents`** lakini **siyo kwa `application.app`**, ambayo ilikuwa inakaguliwa na Gatekeeper, hivyo Gatekeeper iliepukwa kwa sababu wakati `application.app` ilipohamasishwa **haikuwa na sifa ya karantini.**
+```bash
+zip -r test.app/Contents test.zip
+```
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) for more information.
+
+### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
+
+Hata kama vipengele ni tofauti, matumizi ya udhaifu huu ni sawa sana na ule wa awali. Katika kesi hii, tutaunda Apple Archive kutoka **`application.app/Contents`** ili **`application.app` isipate sifa ya karantini** wakati inakunjwa na **Archive Utility**.
+```bash
+aa archive -d test.app/Contents -o test.app.aar
+```
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) for more information.
+
+### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
+
+ACL **`writeextattr`** inaweza kutumika kuzuia mtu yeyote kuandika sifa katika faili:
+```bash
+touch /tmp/no-attr
+chmod +a "everyone deny writeextattr" /tmp/no-attr
+xattr -w attrname vale /tmp/no-attr
+xattr: [Errno 13] Permission denied: '/tmp/no-attr'
+```
+Moreover, **AppleDouble** file format copies a file including its ACEs.
+
+In the [**source code**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) it's possible to see that the ACL text representation stored inside the xattr called **`com.apple.acl.text`** is going to be set as ACL in the decompressed file. So, if you compressed an application into a zip file with **AppleDouble** file format with an ACL that prevents other xattrs to be written to it... the quarantine xattr wasn't set into de application:
+
+{% code overflow="wrap" %}
+```bash
+chmod +a "everyone deny write,writeattr,writeextattr" /tmp/test
+ditto -c -k test test.zip
+python3 -m http.server
+# Download the zip from the browser and decompress it, the file should be without a quarantine xattr
+```
+{% endcode %}
+
+Angalia [**ripoti asilia**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
+
+Kumbuka kwamba hii inaweza pia kutumika kwa AppleArchives:
+```bash
+mkdir app
+touch app/test
+chmod +a "everyone deny write,writeattr,writeextattr" app/test
+aa archive -d app -o test.aar
+```
+### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
+
+Iligundulika kwamba **Google Chrome haikuwa ikipanga sifa ya karantini** kwa faili zilizopakuliwa kwa sababu ya matatizo fulani ya ndani ya macOS.
+
+### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+
+Mifumo ya faili ya AppleDouble huhifadhi sifa za faili katika faili tofauti inayaanza na `._`, hii husaidia kuhamasisha sifa za faili **katika mashine za macOS**. Hata hivyo, ilionekana kwamba baada ya kufungua faili ya AppleDouble, faili inayaanza na `._` **haikupatiwa sifa ya karantini**.
+
+{% code overflow="wrap" %}
+```bash
+mkdir test
+echo a > test/a
+echo b > test/b
+echo ._a > test/._a
+aa archive -d test/ -o test.aar
+
+# If you downloaded the resulting test.aar and decompress it, the file test/._a won't have a quarantitne attribute
+```
+{% endcode %}
+
+Kuweza kuunda faili ambayo haitakuwa na sifa ya karantini, ilikuwa **inawezekana kupita Gatekeeper.** Njia ilikuwa **kuunda programu ya faili la DMG** kwa kutumia kanuni ya jina la AppleDouble (anza nayo `._`) na kuunda **faili inayoonekana kama kiungo cha alama kwa faili hii iliyofichwa** bila sifa ya karantini.\
+Wakati **faili la dmg linatekelezwa**, kwa kuwa halina sifa ya karantini litapita **Gatekeeper.**
+```bash
+# Create an app bundle with the backdoor an call it app.app
+
+echo "[+] creating disk image with app"
+hdiutil create -srcfolder app.app app.dmg
+
+echo "[+] creating directory and files"
+mkdir
+mkdir -p s/app
+cp app.dmg s/app/._app.dmg
+ln -s ._app.dmg s/app/app.dmg
+
+echo "[+] compressing files"
+aa archive -d s/ -o app.aar
+```
+### uchg (from this [talk](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
+
+* Unda directory inayojumuisha app.
+* Ongeza uchg kwenye app.
+* Funga app kuwa faili ya tar.gz.
+* Tuma faili ya tar.gz kwa mwathirika.
+* Mwathirika anafungua faili ya tar.gz na kuendesha app.
+* Gatekeeper haitakagua app.
+
+### Zuia Quarantine xattr
+
+Katika kifurushi cha ".app" ikiwa xattr ya quarantine haijongezwa, wakati wa kuendesha **Gatekeeper haitasababisha**.
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

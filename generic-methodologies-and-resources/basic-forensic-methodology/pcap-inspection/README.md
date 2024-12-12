@@ -1,0 +1,263 @@
+# Pcap Inspection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
+
+{% embed url="https://www.rootedcon.com/" %}
+
+{% hint style="info" %}
+Kumbuka kuhusu **PCAP** dhidi ya **PCAPNG**: kuna toleo mbili za muundo wa faili ya PCAP; **PCAPNG ni mpya na haikubaliwi na zana zote**. Unaweza kuhitaji kubadilisha faili kutoka PCAPNG hadi PCAP kwa kutumia Wireshark au zana nyingine inayofaa, ili kufanya kazi nayo katika zana nyingine.
+{% endhint %}
+
+## Online tools for pcaps
+
+* Ikiwa kichwa cha pcap yako ni **kilichovunjika** unapaswa kujaribu **kurekebisha** kwa kutumia: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Toa **habari** na tafuta **malware** ndani ya pcap katika [**PacketTotal**](https://packettotal.com)
+* Tafuta **shughuli mbaya** kwa kutumia [**www.virustotal.com**](https://www.virustotal.com) na [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* **Uchambuzi kamili wa pcap kutoka kivinjari katika** [**https://apackets.com/**](https://apackets.com/)
+
+## Extract Information
+
+Zana zifuatazo ni muhimu kutoa takwimu, faili, n.k.
+
+### Wireshark
+
+{% hint style="info" %}
+**Ikiwa unataka kuchambua PCAP lazima ujue jinsi ya kutumia Wireshark**
+{% endhint %}
+
+Unaweza kupata mbinu za Wireshark katika:
+
+{% content-ref url="wireshark-tricks.md" %}
+[wireshark-tricks.md](wireshark-tricks.md)
+{% endcontent-ref %}
+
+### [**https://apackets.com/**](https://apackets.com/)
+
+Uchambuzi wa pcap kutoka kivinjari.
+
+### Xplico Framework
+
+[**Xplico** ](https://github.com/xplico/xplico)_(tu linux)_ inaweza **kuchambua** **pcap** na kutoa habari kutoka kwake. Kwa mfano, kutoka faili ya pcap Xplico, inatoa kila barua pepe (protokali za POP, IMAP, na SMTP), maudhui yote ya HTTP, kila simu ya VoIP (SIP), FTP, TFTP, na kadhalika.
+
+**Sakinisha**
+```bash
+sudo bash -c 'echo "deb http://repo.xplico.org/ $(lsb_release -s -c) main" /etc/apt/sources.list'
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
+sudo apt-get update
+sudo apt-get install xplico
+```
+**Kimbia**
+```
+/etc/init.d/apache2 restart
+/etc/init.d/xplico start
+```
+Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
+
+Then create a **new case**, create a **new session** inside the case and **upload the pcap** file.
+
+### NetworkMiner
+
+Kama Xplico, ni chombo cha **kuchambua na kutoa vitu kutoka pcaps**. Ina toleo la bure ambalo unaweza **kupakua** [**hapa**](https://www.netresec.com/?page=NetworkMiner). Inafanya kazi na **Windows**.\
+Chombo hiki pia ni muhimu kupata **habari nyingine zilizochambuliwa** kutoka kwa pakiti ili uweze kujua kilichokuwa kinaendelea kwa **haraka** zaidi.
+
+### NetWitness Investigator
+
+Unaweza kupakua [**NetWitness Investigator kutoka hapa**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Inafanya kazi kwenye Windows)**.\
+Hiki ni chombo kingine muhimu ambacho **kuchambua pakiti** na kupanga habari kwa njia inayofaa ili **kujua kinachoendelea ndani**.
+
+### [BruteShark](https://github.com/odedshimon/BruteShark)
+
+* Kutolewa na kuandika majina ya watumiaji na nywila (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Toa hash za uthibitisho na uzivunje kwa kutumia Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Jenga mchoro wa mtandao wa kuona (Vituo vya mtandao & watumiaji)
+* Toa maswali ya DNS
+* Rejesha kila kikao cha TCP & UDP
+* Ukarabati wa Faili
+
+### Capinfos
+```
+capinfos capture.pcap
+```
+### Ngrep
+
+Ikiwa unatafuta **kitu** ndani ya pcap unaweza kutumia **ngrep**. Hapa kuna mfano ukitumia vichujio vikuu:
+```bash
+ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
+```
+### Kukata
+
+Kutumia mbinu za kukata za kawaida kunaweza kuwa na manufaa kutoa faili na taarifa kutoka kwa pcap:
+
+{% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
+[file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
+{% endcontent-ref %}
+
+### Kukamata akidi
+
+Unaweza kutumia zana kama [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) kuchambua akidi kutoka kwa pcap au kiolesura cha moja kwa moja.
+
+<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
+
+{% embed url="https://www.rootedcon.com/" %}
+
+## Angalia Uvunjaji/Malware
+
+### Suricata
+
+**Sakinisha na weka mipangilio**
+```
+apt-get install suricata
+apt-get install oinkmaster
+echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
+oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
+```
+**Angalia pcap**
+```
+suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
+```
+### YaraPcap
+
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) ni chombo ambacho
+
+* Hutoa Faili la PCAP na Kutolewa kwa Mipango ya Http.
+* gzip inachambua mipango yoyote iliyoshinikizwa
+* Inachunguza kila faili kwa yara
+* Inaandika ripoti.txt
+* Kwa hiari huhifadhi faili zinazolingana kwenye Dir
+
+### Uchambuzi wa Malware
+
+Angalia kama unaweza kupata alama yoyote ya malware inayojulikana:
+
+{% content-ref url="../malware-analysis.md" %}
+[malware-analysis.md](../malware-analysis.md)
+{% endcontent-ref %}
+
+## Zeek
+
+> [Zeek](https://docs.zeek.org/en/master/about.html) ni mchambuzi wa trafiki wa mtandao wa wazi na wa kupita. Wengi wa waendeshaji hutumia Zeek kama Msimamizi wa Usalama wa Mtandao (NSM) kusaidia uchunguzi wa shughuli za kushuku au zenye uharibifu. Zeek pia inasaidia aina mbalimbali za kazi za uchambuzi wa trafiki zaidi ya eneo la usalama, ikiwa ni pamoja na kipimo cha utendaji na kutatua matatizo.
+
+Kimsingi, kumbukumbu zinazoundwa na `zeek` si **pcaps**. Hivyo utahitaji kutumia **zana nyingine** kuchambua kumbukumbu ambapo **habari** kuhusu pcaps zipo.
+
+### Taarifa za Munganisho
+```bash
+#Get info about longest connections (add "grep udp" to see only udp traffic)
+#The longest connection might be of malware (constant reverse shell?)
+cat conn.log | zeek-cut id.orig_h id.orig_p id.resp_h id.resp_p proto service duration | sort -nrk 7 | head -n 10
+
+10.55.100.100   49778   65.52.108.225   443     tcp     -       86222.365445
+10.55.100.107   56099   111.221.29.113  443     tcp     -       86220.126151
+10.55.100.110   60168   40.77.229.82    443     tcp     -       86160.119664
+
+
+#Improve the metrics by summing up the total duration time for connections that have the same destination IP and Port.
+cat conn.log | zeek-cut id.orig_h id.resp_h id.resp_p proto duration | awk 'BEGIN{ FS="\t" } { arr[$1 FS $2 FS $3 FS $4] += $5 } END{ for (key in arr) printf "%s%s%s\n", key, FS, arr[key] }' | sort -nrk 5 | head -n 10
+
+10.55.100.100   65.52.108.225   443     tcp     86222.4
+10.55.100.107   111.221.29.113  443     tcp     86220.1
+10.55.100.110   40.77.229.82    443     tcp     86160.1
+
+#Get the number of connections summed up per each line
+cat conn.log | zeek-cut id.orig_h id.resp_h duration | awk 'BEGIN{ FS="\t" } { arr[$1 FS $2] += $3; count[$1 FS $2] += 1 } END{ for (key in arr) printf "%s%s%s%s%s\n", key, FS, count[key], FS, arr[key] }' | sort -nrk 4 | head -n 10
+
+10.55.100.100   65.52.108.225   1       86222.4
+10.55.100.107   111.221.29.113  1       86220.1
+10.55.100.110   40.77.229.82    134       86160.1
+
+#Check if any IP is connecting to 1.1.1.1
+cat conn.log | zeek-cut id.orig_h id.resp_h id.resp_p proto service | grep '1.1.1.1' | sort | uniq -c
+
+#Get number of connections per source IP, dest IP and dest Port
+cat conn.log | zeek-cut id.orig_h id.resp_h id.resp_p proto | awk 'BEGIN{ FS="\t" } { arr[$1 FS $2 FS $3 FS $4] += 1 } END{ for (key in arr) printf "%s%s%s\n", key, FS, arr[key] }' | sort -nrk 5 | head -n 10
+
+
+# RITA
+#Something similar can be done with the tool rita
+rita show-long-connections -H --limit 10 zeek_logs
+
++---------------+----------------+--------------------------+----------------+
+|   SOURCE IP   | DESTINATION IP | DSTPORT:PROTOCOL:SERVICE |    DURATION    |
++---------------+----------------+--------------------------+----------------+
+| 10.55.100.100 | 65.52.108.225  | 443:tcp:-                | 23h57m2.3655s  |
+| 10.55.100.107 | 111.221.29.113 | 443:tcp:-                | 23h57m0.1262s  |
+| 10.55.100.110 | 40.77.229.82   | 443:tcp:-                | 23h56m0.1197s  |
+
+#Get connections info from rita
+rita show-beacons zeek_logs | head -n 10
+Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top Intvl,Top Size,Top Intvl Count,Top Size Count,Intvl Skew,Size Skew,Intvl Dispersion,Size Dispersion
+1,192.168.88.2,165.227.88.15,108858,197,860,182,1,89,53341,108319,0,0,0,0
+1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
+0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
+```
+### Taarifa za DNS
+```bash
+#Get info about each DNS request performed
+cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
+
+#Get the number of times each domain was requested and get the top 10
+cat dns.log | zeek-cut query | sort | uniq | rev | cut -d '.' -f 1-2 | rev | sort | uniq -c | sort -nr | head -n 10
+
+#Get all the IPs
+cat dns.log | zeek-cut id.orig_h query | grep 'example\.com' | cut -f 1 | sort | uniq -c
+
+#Sort the most common DNS record request (should be A)
+cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
+
+#See top DNS domain requested with rita
+rita show-exploded-dns -H --limit 10 zeek_logs
+```
+## Njia nyingine za uchambuzi wa pcap
+
+{% content-ref url="dnscat-exfiltration.md" %}
+[dnscat-exfiltration.md](dnscat-exfiltration.md)
+{% endcontent-ref %}
+
+{% content-ref url="wifi-pcap-analysis.md" %}
+[wifi-pcap-analysis.md](wifi-pcap-analysis.md)
+{% endcontent-ref %}
+
+{% content-ref url="usb-keystrokes.md" %}
+[usb-keystrokes.md](usb-keystrokes.md)
+{% endcontent-ref %}
+
+​
+
+<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
+
+{% embed url="https://www.rootedcon.com/" %}
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+
+</details>
+{% endhint %}

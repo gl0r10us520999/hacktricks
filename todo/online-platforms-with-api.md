@@ -1,0 +1,155 @@
+# Online Platforms with API
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## [ProjectHoneypot](https://www.projecthoneypot.org/)
+
+Unaweza kuuliza kama IP inahusiana na shughuli za kutatanisha/mbaya. Bure kabisa.
+
+## [**BotScout**](http://botscout.com/api.htm)
+
+Angalia kama anwani ya IP inahusiana na bot inayosajili akaunti. Inaweza pia kuangalia majina ya watumiaji na barua pepe. Kwanza bure.
+
+## [Hunter](https://hunter.io/)
+
+Pata na thibitisha barua pepe.\
+Maombi machache ya API bure, kwa zaidi unahitaji kulipa.\
+Kibiashara?
+
+## [AlientVault](https://otx.alienvault.com/api)
+
+Pata shughuli mbaya zinazohusiana na IPs na Domains. Bure.
+
+## [Clearbit](https://dashboard.clearbit.com/)
+
+Pata data binafsi zinazohusiana na barua pepe (profaili kwenye majukwaa mengine), domain (taarifa za msingi za kampuni, barua na watu wanaofanya kazi) na kampuni (pata taarifa za kampuni kutoka kwa barua).\
+Unahitaji kulipa ili kufikia uwezekano wote.\
+Kibiashara?
+
+## [BuiltWith](https://builtwith.com/)
+
+Teknolojia zinazotumika na wavuti. Ghali...\
+Kibiashara?
+
+## [Fraudguard](https://fraudguard.io/)
+
+Angalia kama mwenyeji (domain au IP) anahusiana na shughuli za kutatanisha/mbaya. Ina upatikanaji wa API bure.\
+Kibiashara?
+
+## [FortiGuard](https://fortiguard.com/)
+
+Angalia kama mwenyeji (domain au IP) anahusiana na shughuli za kutatanisha/mbaya. Ina upatikanaji wa API bure.
+
+## [SpamCop](https://www.spamcop.net/)
+
+Inaonyesha kama mwenyeji anahusiana na shughuli za spam. Ina upatikanaji wa API bure.
+
+## [mywot](https://www.mywot.com/)
+
+Kulingana na maoni na vipimo vingine pata kama domain inahusiana na taarifa za kutatanisha/mbaya.
+
+## [ipinfo](https://ipinfo.io/)
+
+Pata taarifa za msingi kutoka anwani ya IP. Unaweza kupima hadi 100K/ mwezi.
+
+## [securitytrails](https://securitytrails.com/app/account)
+
+Jukwaa hili linatoa taarifa kuhusu domains na anwani za IP kama domains ndani ya IP au ndani ya seva ya domain, domains zinazomilikiwa na barua pepe (pata domains zinazohusiana), historia ya IP ya domains (pata mwenyeji nyuma ya CloudFlare), domains zote zinazotumia nameserver....\
+Una upatikanaji wa bure.
+
+## [fullcontact](https://www.fullcontact.com/)
+
+Inaruhusu kutafuta kwa barua pepe, domain au jina la kampuni na kupata taarifa "binafsi" zinazohusiana. Inaweza pia kuthibitisha barua pepe. Kuna upatikanaji wa bure.
+
+## [RiskIQ](https://www.spiderfoot.net/documentation/)
+
+Taarifa nyingi kutoka kwa domains na IPs hata katika toleo la bure/jamii.
+
+## [\_IntelligenceX](https://intelx.io/)
+
+Tafuta Domains, IPs na barua pepe na pata taarifa kutoka kwa dumps. Ina upatikanaji wa bure.
+
+## [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
+
+Tafuta kwa IP na kukusanya taarifa zinazohusiana na shughuli za kutatanisha. Kuna upatikanaji wa bure.
+
+## [Greynoise](https://viz.greynoise.io/)
+
+Tafuta kwa IP au anuwai ya IP na pata taarifa kuhusu IPs zinazoskania Mtandao. Upatikanaji wa bure wa siku 15.
+
+## [Shodan](https://www.shodan.io/)
+
+Pata taarifa za skana za anwani ya IP. Ina upatikanaji wa API bure.
+
+## [Censys](https://censys.io/)
+
+Ni sawa sana na shodan
+
+## [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
+
+Pata ndoo za S3 zilizo wazi kwa kutafuta kwa neno muhimu.
+
+## [Dehashed](https://www.dehashed.com/data)
+
+Pata akidi zilizovuja za barua pepe na hata domains\
+Kibiashara?
+
+## [psbdmp](https://psbdmp.ws/)
+
+Tafuta pastebins ambapo barua pepe ilionekana. Kibiashara?
+
+## [emailrep.io](https://emailrep.io/key)
+
+Pata sifa ya barua. Kibiashara?
+
+## [ghostproject](https://ghostproject.fr/)
+
+Pata nywila kutoka kwa barua pepe zilizovuja. Kibiashara?
+
+## [Binaryedge](https://www.binaryedge.io/)
+
+Pata taarifa za kuvutia kutoka kwa IPs
+
+## [haveibeenpwned](https://haveibeenpwned.com/)
+
+Tafuta kwa domain na barua pepe na pata kama ilipwoned na nywila. Kibiashara?
+
+### [IP2Location.io](https://www.ip2location.io/)
+
+Inagundua geolocation ya IP, kituo cha data, ASN na hata taarifa za VPN. Inatoa maswali 30K bure kwa mwezi.
+
+
+
+[https://dnsdumpster.com/](https://dnsdumpster.com/)(katika zana ya kibiashara?)
+
+[https://www.netcraft.com/](https://www.netcraft.com/) (katika zana ya kibiashara?)
+
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (katika zana ya kibiashara?)
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
