@@ -1,0 +1,119 @@
+# Integrity Levels
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## Integrity Levels
+
+Στα Windows Vista και σε μεταγενέστερες εκδόσεις, όλα τα προστατευμένα αντικείμενα συνοδεύονται από μια ετικέτα **επίπεδου ακεραιότητας**. Αυτή η ρύθμιση αναθέτει κυρίως ένα "μεσαίο" επίπεδο ακεραιότητας σε αρχεία και κλειδιά μητρώου, εκτός από ορισμένους φακέλους και αρχεία στα οποία μπορεί να γράψει ο Internet Explorer 7 σε χαμηλό επίπεδο ακεραιότητας. Η προεπιλεγμένη συμπεριφορά είναι οι διαδικασίες που ξεκινούν από τυπικούς χρήστες να έχουν μεσαίο επίπεδο ακεραιότητας, ενώ οι υπηρεσίες συνήθως λειτουργούν σε επίπεδο ακεραιότητας συστήματος. Μια ετικέτα υψηλής ακεραιότητας προστατεύει τον ριζικό κατάλογο.
+
+Ένας βασικός κανόνας είναι ότι τα αντικείμενα δεν μπορούν να τροποποιηθούν από διαδικασίες με χαμηλότερο επίπεδο ακεραιότητας από το επίπεδο του αντικειμένου. Τα επίπεδα ακεραιότητας είναι:
+
+* **Untrusted**: Αυτό το επίπεδο είναι για διαδικασίες με ανώνυμες συνδέσεις. %%%Example: Chrome%%%
+* **Low**: Κυρίως για διαδικτυακές αλληλεπιδράσεις, ειδικά στη Λειτουργία Προστασίας του Internet Explorer, επηρεάζοντας τα σχετικά αρχεία και διαδικασίες, και ορισμένους φακέλους όπως ο **Φάκελος Προσωρινών Διαδικτυακών Αρχείων**. Οι διαδικασίες χαμηλής ακεραιότητας αντιμετωπίζουν σημαντικούς περιορισμούς, συμπεριλαμβανομένης της απουσίας πρόσβασης εγγραφής στο μητρώο και περιορισμένης πρόσβασης εγγραφής στο προφίλ χρήστη.
+* **Medium**: Το προεπιλεγμένο επίπεδο για τις περισσότερες δραστηριότητες, που ανατίθεται σε τυπικούς χρήστες και αντικείμενα χωρίς συγκεκριμένα επίπεδα ακεραιότητας. Ακόμη και τα μέλη της ομάδας Διαχειριστών λειτουργούν σε αυτό το επίπεδο από προεπιλογή.
+* **High**: Διατηρείται για τους διαχειριστές, επιτρέποντάς τους να τροποποιούν αντικείμενα σε χαμηλότερα επίπεδα ακεραιότητας, συμπεριλαμβανομένων εκείνων στο υψηλό επίπεδο.
+* **System**: Το υψηλότερο λειτουργικό επίπεδο για τον πυρήνα των Windows και τις βασικές υπηρεσίες, εκτός εμβέλειας ακόμη και για τους διαχειριστές, διασφαλίζοντας την προστασία ζωτικών λειτουργιών του συστήματος.
+* **Installer**: Ένα μοναδικό επίπεδο που βρίσκεται πάνω από όλα τα άλλα, επιτρέποντας στα αντικείμενα σε αυτό το επίπεδο να απεγκαθιστούν οποιοδήποτε άλλο αντικείμενο.
+
+Μπορείτε να αποκτήσετε το επίπεδο ακεραιότητας μιας διαδικασίας χρησιμοποιώντας το **Process Explorer** από το **Sysinternals**, αποκτώντας πρόσβαση στις **ιδιότητες** της διαδικασίας και βλέποντας την καρτέλα "**Security**":
+
+![](<../../.gitbook/assets/image (824).png>)
+
+Μπορείτε επίσης να αποκτήσετε το **τρέχον επίπεδο ακεραιότητάς** σας χρησιμοποιώντας `whoami /groups`
+
+![](<../../.gitbook/assets/image (325).png>)
+
+### Integrity Levels in File-system
+
+Ένα αντικείμενο μέσα στο σύστημα αρχείων μπορεί να χρειάζεται μια **ελάχιστη απαίτηση επιπέδου ακεραιότητας** και αν μια διαδικασία δεν έχει αυτή την ακεραιότητα, δεν θα μπορεί να αλληλεπιδράσει με αυτό.\
+Για παράδειγμα, ας **δημιουργήσουμε ένα κανονικό αρχείο από μια κανονική κονσόλα χρήστη και να ελέγξουμε τις άδειες**:
+```
+echo asd >asd.txt
+icacls asd.txt
+asd.txt BUILTIN\Administrators:(I)(F)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
+```
+Τώρα, ας αναθέσουμε ένα ελάχιστο επίπεδο ακεραιότητας **Υψηλό** στο αρχείο. Αυτό **πρέπει να γίνει από μια κονσόλα** που τρέχει ως **διαχειριστής** καθώς μια **κανονική κονσόλα** θα τρέχει σε επίπεδο ακεραιότητας Μεσαίο και **δεν θα επιτρέπεται** να αναθέσει επίπεδο ακεραιότητας Υψηλό σε ένα αντικείμενο:
+```
+icacls asd.txt /setintegritylevel(oi)(ci) High
+processed file: asd.txt
+Successfully processed 1 files; Failed processing 0 files
+
+C:\Users\Public>icacls asd.txt
+asd.txt BUILTIN\Administrators:(I)(F)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
+Mandatory Label\High Mandatory Level:(NW)
+```
+Αυτό είναι το σημείο όπου τα πράγματα γίνονται ενδιαφέροντα. Μπορείτε να δείτε ότι ο χρήστης `DESKTOP-IDJHTKP\user` έχει **ΠΛΗΡΗ δικαιώματα** πάνω στο αρχείο (στην πραγματικότητα αυτός ήταν ο χρήστης που δημιούργησε το αρχείο), ωστόσο, λόγω του ελάχιστου επιπέδου ακεραιότητας που έχει εφαρμοστεί, δεν θα μπορεί να τροποποιήσει το αρχείο πια εκτός αν εκτελείται σε Υψηλό Επίπεδο Ακεραιότητας (σημειώστε ότι θα μπορεί να το διαβάσει):
+```
+echo 1234 > asd.txt
+Access is denied.
+
+del asd.txt
+C:\Users\Public\asd.txt
+Access is denied.
+```
+{% hint style="info" %}
+**Επομένως, όταν ένα αρχείο έχει ελάχιστο επίπεδο ακεραιότητας, για να το τροποποιήσετε πρέπει να εκτελείστε τουλάχιστον σε αυτό το επίπεδο ακεραιότητας.**
+{% endhint %}
+
+### Επίπεδα Ακεραιότητας σε Εκτελέσιμα
+
+Έκανα ένα αντίγραφο του `cmd.exe` στο `C:\Windows\System32\cmd-low.exe` και του έθεσα ένα **επίπεδο ακεραιότητας χαμηλό από μια κονσόλα διαχειριστή:**
+```
+icacls C:\Windows\System32\cmd-low.exe
+C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
+BUILTIN\Administrators:(I)(F)
+BUILTIN\Users:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
+Mandatory Label\Low Mandatory Level:(NW)
+```
+Τώρα, όταν εκτελώ το `cmd-low.exe`, θα **εκτελείται υπό χαμηλό επίπεδο ακεραιότητας** αντί για μέτριο:
+
+![](<../../.gitbook/assets/image (313).png>)
+
+Για τους περίεργους, αν αναθέσετε υψηλό επίπεδο ακεραιότητας σε ένα δυαδικό αρχείο (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), δεν θα εκτελείται αυτόματα με υψηλό επίπεδο ακεραιότητας (αν το καλέσετε από μέτριο επίπεδο ακεραιότητας --κατά προεπιλογή-- θα εκτελείται υπό μέτριο επίπεδο ακεραιότητας).
+
+### Επίπεδα Ακεραιότητας σε Διαδικασίες
+
+Όχι όλα τα αρχεία και οι φάκελοι έχουν ελάχιστο επίπεδο ακεραιότητας, **αλλά όλες οι διαδικασίες εκτελούνται υπό ένα επίπεδο ακεραιότητας**. Και παρόμοια με ό,τι συνέβη με το σύστημα αρχείων, **αν μια διαδικασία θέλει να γράψει μέσα σε μια άλλη διαδικασία, πρέπει να έχει τουλάχιστον το ίδιο επίπεδο ακεραιότητας**. Αυτό σημαίνει ότι μια διαδικασία με χαμηλό επίπεδο ακεραιότητας δεν μπορεί να ανοίξει ένα handle με πλήρη πρόσβαση σε μια διαδικασία με μέτριο επίπεδο ακεραιότητας.
+
+Λόγω των περιορισμών που αναφέρθηκαν σε αυτήν και την προηγούμενη ενότητα, από άποψη ασφάλειας, είναι πάντα **συνιστώμενο να εκτελείτε μια διαδικασία στο χαμηλότερο δυνατό επίπεδο ακεραιότητας**.
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

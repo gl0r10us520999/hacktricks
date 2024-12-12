@@ -1,0 +1,199 @@
+# macOS Launch/Environment Constraints & Trust Cache
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## Basic Information
+
+Οι περιορισμοί εκκίνησης στο macOS εισήχθησαν για να ενισχύσουν την ασφάλεια **ρυθμίζοντας πώς, ποιος και από πού μπορεί να ξεκινήσει μια διαδικασία**. Εισήχθησαν στο macOS Ventura, παρέχοντας ένα πλαίσιο που κατηγοριοποιεί **κάθε δυαδικό σύστημα σε διακριτές κατηγορίες περιορισμών**, οι οποίες ορίζονται μέσα στην **cache εμπιστοσύνης**, μια λίστα που περιέχει τα δυαδικά συστήματα και τους αντίστοιχους κατακερματισμούς τους. Αυτοί οι περιορισμοί επεκτείνονται σε κάθε εκτελέσιμο δυαδικό αρχείο μέσα στο σύστημα, περιλαμβάνοντας ένα σύνολο **κανόνων** που καθορίζουν τις απαιτήσεις για **την εκκίνηση ενός συγκεκριμένου δυαδικού αρχείου**. Οι κανόνες περιλαμβάνουν αυτοπεριορισμούς που πρέπει να ικανοποιεί ένα δυαδικό αρχείο, περιορισμούς γονέα που απαιτείται να πληρούνται από τη γονική διαδικασία του, και υπεύθυνους περιορισμούς που πρέπει να τηρούνται από άλλες σχετικές οντότητες​.
+
+Ο μηχανισμός επεκτείνεται σε εφαρμογές τρίτων μέσω των **Περιορισμών Περιβάλλοντος**, ξεκινώντας από το macOS Sonoma, επιτρέποντας στους προγραμματιστές να προστατεύουν τις εφαρμογές τους καθορίζοντας ένα **σύνολο κλειδιών και τιμών για περιορισμούς περιβάλλοντος.**
+
+Ορίζετε **περιορισμούς περιβάλλοντος εκκίνησης και βιβλιοθήκης** σε λεξικά περιορισμών που είτε αποθηκεύετε σε **αρχεία λίστας ιδιοτήτων `launchd`**, είτε σε **ξεχωριστά αρχεία λίστας ιδιοτήτων** που χρησιμοποιείτε στην υπογραφή κώδικα.
+
+Υπάρχουν 4 τύποι περιορισμών:
+
+* **Αυτοπεριορισμοί**: Περιορισμοί που εφαρμόζονται στο **τρέχον** δυαδικό αρχείο.
+* **Γονική Διαδικασία**: Περιορισμοί που εφαρμόζονται στη **γονική διαδικασία** (για παράδειγμα **`launchd`** που εκτελεί μια υπηρεσία XP)
+* **Υπεύθυνοι Περιορισμοί**: Περιορισμοί που εφαρμόζονται στη **διαδικασία που καλεί την υπηρεσία** σε μια επικοινωνία XPC
+* **Περιορισμοί φόρτωσης βιβλιοθήκης**: Χρησιμοποιήστε περιορισμούς φόρτωσης βιβλιοθήκης για να περιγράψετε επιλεκτικά τον κώδικα που μπορεί να φορτωθεί
+
+Έτσι, όταν μια διαδικασία προσπαθεί να εκκινήσει μια άλλη διαδικασία — καλώντας `execve(_:_:_:)` ή `posix_spawn(_:_:_:_:_:_:)` — το λειτουργικό σύστημα ελέγχει ότι το **εκτελέσιμο** αρχείο **ικανοποιεί** τον **δικό του αυτοπεριορισμό**. Ελέγχει επίσης ότι το **εκτελέσιμο** της **γονικής** **διαδικασίας** **ικανοποιεί** τον **περιορισμό γονέα** του εκτελέσιμου, και ότι το **εκτελέσιμο** της **υπεύθυνης** **διαδικασίας** **ικανοποιεί** τον περιορισμό της υπεύθυνης διαδικασίας του εκτελέσιμου. Εάν κανένας από αυτούς τους περιορισμούς εκκίνησης δεν ικανοποιείται, το λειτουργικό σύστημα δεν εκτελεί το πρόγραμμα.
+
+Εάν κατά τη φόρτωση μιας βιβλιοθήκης οποιοδήποτε μέρος του **περιορισμού βιβλιοθήκης δεν είναι αληθές**, η διαδικασία σας **δεν φορτώνει** τη βιβλιοθήκη.
+
+## LC Categories
+
+Ένα LC αποτελείται από **γεγονότα** και **λογικές λειτουργίες** (και, ή..) που συνδυάζουν γεγονότα.
+
+Τα [**γεγονότα που μπορεί να χρησιμοποιήσει ένα LC είναι τεκμηριωμένα**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Για παράδειγμα:
+
+* is-init-proc: Μια Boolean τιμή που υποδεικνύει εάν το εκτελέσιμο πρέπει να είναι η διαδικασία αρχικοποίησης του λειτουργικού συστήματος (`launchd`).
+* is-sip-protected: Μια Boolean τιμή που υποδεικνύει εάν το εκτελέσιμο πρέπει να είναι ένα αρχείο που προστατεύεται από την Προστασία Ακεραιότητας Συστήματος (SIP).
+* `on-authorized-authapfs-volume:` Μια Boolean τιμή που υποδεικνύει εάν το λειτουργικό σύστημα φόρτωσε το εκτελέσιμο από έναν εξουσιοδοτημένο, αυθεντικοποιημένο όγκο APFS.
+* `on-authorized-authapfs-volume`: Μια Boolean τιμή που υποδεικνύει εάν το λειτουργικό σύστημα φόρτωσε το εκτελέσιμο από έναν εξουσιοδοτημένο, αυθεντικοποιημένο όγκο APFS.
+* Cryptexes volume
+* `on-system-volume:` Μια Boolean τιμή που υποδεικνύει εάν το λειτουργικό σύστημα φόρτωσε το εκτελέσιμο από τον τρέχοντα εκκινούμενο όγκο συστήματος.
+* Inside /System...
+* ...
+
+Όταν ένα δυαδικό αρχείο της Apple υπογράφεται, **του ανατίθεται μια κατηγορία LC** μέσα στην **cache εμπιστοσύνης**.
+
+* Οι **κατηγορίες LC iOS 16** έχουν [**αντιστραφεί και τεκμηριωθεί εδώ**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Οι τρέχουσες **κατηγορίες LC (macOS 14** - Somona) έχουν αντιστραφεί και οι [**περιγραφές τους μπορούν να βρεθούν εδώ**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+
+Για παράδειγμα, η Κατηγορία 1 είναι:
+```
+Category 1:
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
+```
+* `(on-authorized-authapfs-volume || on-system-volume)`: Πρέπει να είναι σε System ή Cryptexes volume.
+* `launch-type == 1`: Πρέπει να είναι μια υπηρεσία συστήματος (plist σε LaunchDaemons).
+* `validation-category == 1`: Ένα εκτελέσιμο λειτουργικού συστήματος.
+* `is-init-proc`: Launchd
+
+### Αντιστροφή Κατηγοριών LC
+
+Έχετε περισσότερες πληροφορίες [**εδώ**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), αλλά βασικά, ορίζονται στο **AMFI (AppleMobileFileIntegrity)**, οπότε πρέπει να κατεβάσετε το Kernel Development Kit για να αποκτήσετε το **KEXT**. Τα σύμβολα που ξεκινούν με **`kConstraintCategory`** είναι τα **ενδιαφέροντα**. Εξάγοντας τα θα λάβετε ένα DER (ASN.1) κωδικοποιημένο ρεύμα που θα χρειαστεί να αποκωδικοποιήσετε με [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ή τη βιβλιοθήκη python-asn1 και το σενάριο `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) που θα σας δώσει μια πιο κατανοητή συμβολοσειρά.
+
+## Περιορισμοί Περιβάλλοντος
+
+Αυτοί είναι οι Περιορισμοί Εκκίνησης που έχουν ρυθμιστεί σε **εφαρμογές τρίτων**. Ο προγραμματιστής μπορεί να επιλέξει τα **γεγονότα** και **λογικά τελεστές που θα χρησιμοποιήσει** στην εφαρμογή του για να περιορίσει την πρόσβαση σε αυτήν.
+
+Είναι δυνατόν να απαριθμήσετε τους Περιορισμούς Περιβάλλοντος μιας εφαρμογής με:
+```bash
+codesign -d -vvvv app.app
+```
+## Trust Caches
+
+Στο **macOS** υπάρχουν μερικές cache εμπιστοσύνης:
+
+* **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
+* **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
+* **`/System/Library/Security/OSLaunchPolicyData`**
+
+Και στο iOS φαίνεται ότι βρίσκεται στο **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+
+{% hint style="warning" %}
+Στο macOS που τρέχει σε συσκευές Apple Silicon, αν ένα υπογεγραμμένο από την Apple δυαδικό αρχείο δεν είναι στην cache εμπιστοσύνης, το AMFI θα αρνηθεί να το φορτώσει.
+{% endhint %}
+
+### Enumerating Trust Caches
+
+Τα προηγούμενα αρχεία cache εμπιστοσύνης είναι σε μορφή **IMG4** και **IM4P**, με το IM4P να είναι η ενότητα payload μιας μορφής IMG4.
+
+Μπορείτε να χρησιμοποιήσετε [**pyimg4**](https://github.com/m1stadev/PyIMG4) για να εξάγετε το payload των βάσεων δεδομένων:
+
+{% code overflow="wrap" %}
+```bash
+# Installation
+python3 -m pip install pyimg4
+
+# Extract payloads data
+cp /System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4 /tmp
+pyimg4 img4 extract -i /tmp/BaseSystemTrustCache.img4 -p /tmp/BaseSystemTrustCache.im4p
+pyimg4 im4p extract -i /tmp/BaseSystemTrustCache.im4p -o /tmp/BaseSystemTrustCache.data
+
+cp /System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4 /tmp
+pyimg4 img4 extract -i /tmp/StaticTrustCache.img4 -p /tmp/StaticTrustCache.im4p
+pyimg4 im4p extract -i /tmp/StaticTrustCache.im4p -o /tmp/StaticTrustCache.data
+
+pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLaunchPolicyData.data
+```
+{% endcode %}
+
+(Μια άλλη επιλογή θα μπορούσε να είναι η χρήση του εργαλείου [**img4tool**](https://github.com/tihmstar/img4tool), το οποίο θα λειτουργήσει ακόμη και σε M1, ακόμη και αν η έκδοση είναι παλιά και για x86\_64 αν το εγκαταστήσετε στις κατάλληλες τοποθεσίες).
+
+Τώρα μπορείτε να χρησιμοποιήσετε το εργαλείο [**trustcache**](https://github.com/CRKatri/trustcache) για να αποκτήσετε τις πληροφορίες σε αναγνώσιμη μορφή:
+```bash
+# Install
+wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
+sudo mv ./trustcache_macos_arm64 /usr/local/bin/trustcache
+xattr -rc /usr/local/bin/trustcache
+chmod +x /usr/local/bin/trustcache
+
+# Run
+trustcache info /tmp/OSLaunchPolicyData.data | head
+trustcache info /tmp/StaticTrustCache.data | head
+trustcache info /tmp/BaseSystemTrustCache.data | head
+
+version = 2
+uuid = 35EB5284-FD1E-4A5A-9EFB-4F79402BA6C0
+entry count = 969
+0065fc3204c9f0765049b82022e4aa5b44f3a9c8 [none] [2] [1]
+00aab02b28f99a5da9b267910177c09a9bf488a2 [none] [2] [1]
+0186a480beeee93050c6c4699520706729b63eff [none] [2] [2]
+0191be4c08426793ff3658ee59138e70441fc98a [none] [2] [3]
+01b57a71112235fc6241194058cea5c2c7be3eb1 [none] [2] [2]
+01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
+020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
+```
+Η cache εμπιστοσύνης ακολουθεί την παρακάτω δομή, οπότε η **κατηγορία LC είναι η 4η στήλη**
+```c
+struct trust_cache_entry2 {
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
+} __attribute__((__packed__));
+```
+Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+
+From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+
+## Attack Mitigations
+
+Οι περιορισμοί εκκίνησης θα είχαν μετριάσει αρκετές παλιές επιθέσεις διασφαλίζοντας ότι η διαδικασία δεν θα εκτελείται σε απροσδόκητες συνθήκες: Για παράδειγμα από απροσδόκητες τοποθεσίες ή να καλείται από μια απροσδόκητη γονική διαδικασία (αν μόνο το launchd θα έπρεπε να την εκκινεί).
+
+Επιπλέον, οι περιορισμοί εκκίνησης επίσης **μετριάζουν τις επιθέσεις υποβάθμισης.**
+
+Ωστόσο, **δεν μετριάζουν τις κοινές καταχρήσεις XPC**, **Electron** εισβολές κώδικα ή **εισβολές dylib** χωρίς έλεγχο βιβλιοθήκης (εκτός αν είναι γνωστά τα IDs ομάδας που μπορούν να φορτώσουν βιβλιοθήκες).
+
+### XPC Daemon Protection
+
+Στην έκδοση Sonoma, ένα αξιοσημείωτο σημείο είναι η **διαμόρφωση ευθύνης** της υπηρεσίας XPC daemon. Η υπηρεσία XPC είναι υπεύθυνη για τον εαυτό της, σε αντίθεση με τον συνδεδεμένο πελάτη που είναι υπεύθυνος. Αυτό καταγράφεται στην αναφορά ανατροφοδότησης FB13206884. Αυτή η ρύθμιση μπορεί να φαίνεται ελαττωματική, καθώς επιτρέπει ορισμένες αλληλεπιδράσεις με την υπηρεσία XPC:
+
+- **Εκκίνηση της Υπηρεσίας XPC**: Αν θεωρηθεί σφάλμα, αυτή η ρύθμιση δεν επιτρέπει την εκκίνηση της υπηρεσίας XPC μέσω κώδικα επιτιθέμενου.
+- **Σύνδεση σε Μια Ενεργή Υπηρεσία**: Αν η υπηρεσία XPC είναι ήδη σε λειτουργία (πιθανώς ενεργοποιημένη από την αρχική της εφαρμογή), δεν υπάρχουν εμπόδια για τη σύνδεση σε αυτήν.
+
+Ενώ η εφαρμογή περιορισμών στην υπηρεσία XPC μπορεί να είναι ωφέλιμη περιορίζοντας το παράθυρο για πιθανές επιθέσεις, δεν αντιμετωπίζει την κύρια ανησυχία. Η διασφάλιση της ασφάλειας της υπηρεσίας XPC απαιτεί θεμελιωδώς **έλεγχο του συνδεδεμένου πελάτη αποτελεσματικά**. Αυτή παραμένει η μοναδική μέθοδος για την ενίσχυση της ασφάλειας της υπηρεσίας. Επίσης, αξίζει να σημειωθεί ότι η αναφερόμενη διαμόρφωση ευθύνης είναι αυτή τη στιγμή λειτουργική, κάτι που μπορεί να μην ευθυγραμμίζεται με τον προγραμματισμένο σχεδιασμό.
+
+### Electron Protection
+
+Ακόμα και αν απαιτείται η εφαρμογή να **ανοίγεται από το LaunchService** (στους γονικούς περιορισμούς). Αυτό μπορεί να επιτευχθεί χρησιμοποιώντας **`open`** (το οποίο μπορεί να ρυθμίσει μεταβλητές περιβάλλοντος) ή χρησιμοποιώντας το **API Υπηρεσιών Εκκίνησης** (όπου μπορούν να υποδειχθούν μεταβλητές περιβάλλοντος).
+
+## References
+
+* [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
+* [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
+* [https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/](https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/)
+* [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

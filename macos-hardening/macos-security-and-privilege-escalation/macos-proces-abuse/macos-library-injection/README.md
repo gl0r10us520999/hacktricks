@@ -1,0 +1,365 @@
+# macOS Library Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+{% hint style="danger" %}
+The code of **dyld is open source** and can be found in [https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/) and cab be downloaded a tar using a **URL such as** [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+{% endhint %}
+
+## **Dyld Process**
+
+Δείτε πώς το Dyld φορτώνει βιβλιοθήκες μέσα σε δυαδικά αρχεία στο:
+
+{% content-ref url="macos-dyld-process.md" %}
+[macos-dyld-process.md](macos-dyld-process.md)
+{% endcontent-ref %}
+
+## **DYLD\_INSERT\_LIBRARIES**
+
+Αυτό είναι όπως το [**LD\_PRELOAD στο Linux**](../../../../linux-hardening/privilege-escalation/#ld\_preload). Επιτρέπει να υποδείξετε μια διαδικασία που πρόκειται να εκτελεστεί για να φορτώσει μια συγκεκριμένη βιβλιοθήκη από μια διαδρομή (αν η μεταβλητή περιβάλλοντος είναι ενεργοποιημένη)
+
+Αυτή η τεχνική μπορεί επίσης να **χρησιμοποιηθεί ως τεχνική ASEP** καθώς κάθε εφαρμογή που είναι εγκατεστημένη έχει ένα plist που ονομάζεται "Info.plist" που επιτρέπει την **ανάθεση περιβαλλοντικών μεταβλητών** χρησιμοποιώντας ένα κλειδί που ονομάζεται `LSEnvironmental`.
+
+{% hint style="info" %}
+Από το 2012, **η Apple έχει μειώσει δραστικά τη δύναμη** του **`DYLD_INSERT_LIBRARIES`**.
+
+Πηγαίνετε στον κώδικα και **ελέγξτε το `src/dyld.cpp`**. Στη λειτουργία **`pruneEnvironmentVariables`** μπορείτε να δείτε ότι οι **`DYLD_*`** μεταβλητές αφαιρούνται.
+
+Στη λειτουργία **`processRestricted`** ορίζεται ο λόγος της περιορισμού. Ελέγχοντας αυτόν τον κώδικα μπορείτε να δείτε ότι οι λόγοι είναι:
+
+* Το δυαδικό αρχείο είναι `setuid/setgid`
+* Υπάρχει τμήμα `__RESTRICT/__restrict` στο macho δυαδικό αρχείο.
+* Το λογισμικό έχει δικαιώματα (σκληρός χρόνος εκτέλεσης) χωρίς δικαίωμα [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)
+* Ελέγξτε τα **δικαιώματα** ενός δυαδικού αρχείου με: `codesign -dv --entitlements :- </path/to/bin>`
+
+Σε πιο ενημερωμένες εκδόσεις μπορείτε να βρείτε αυτή τη λογική στο δεύτερο μέρος της λειτουργίας **`configureProcessRestrictions`.** Ωστόσο, αυτό που εκτελείται σε νεότερες εκδόσεις είναι οι **έλεγχοι αρχής της λειτουργίας** (μπορείτε να αφαιρέσετε τα ifs που σχετίζονται με το iOS ή την προσομοίωση καθώς αυτά δεν θα χρησιμοποιηθούν στο macOS.
+{% endhint %}
+
+### Library Validation
+
+Ακόμα και αν το δυαδικό αρχείο επιτρέπει τη χρήση της μεταβλητής περιβάλλοντος **`DYLD_INSERT_LIBRARIES`**, αν το δυαδικό αρχείο ελέγχει την υπογραφή της βιβλιοθήκης για να τη φορτώσει, δεν θα φορτώσει μια προσαρμοσμένη.
+
+Για να φορτωθεί μια προσαρμοσμένη βιβλιοθήκη, το δυαδικό αρχείο πρέπει να έχει **ένα από τα παρακάτω δικαιώματα**:
+
+* [`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
+* [`com.apple.private.security.clear-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.private.security.clear-library-validation)
+
+ή το δυαδικό αρχείο **δεν θα πρέπει** να έχει τη **σημαία σκληρού χρόνου εκτέλεσης** ή τη **σημαία επικύρωσης βιβλιοθήκης**.
+
+Μπορείτε να ελέγξετε αν ένα δυαδικό αρχείο έχει **σκληρό χρόνο εκτέλεσης** με `codesign --display --verbose <bin>` ελέγχοντας τη σημαία runtime στο **`CodeDirectory`** όπως: **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
+
+Μπορείτε επίσης να φορτώσετε μια βιβλιοθήκη αν είναι **υπογεγραμμένη με το ίδιο πιστοποιητικό όπως το δυαδικό αρχείο**.
+
+Βρείτε ένα παράδειγμα για το πώς να (κατα)χρησιμοποιήσετε αυτό και ελέγξτε τους περιορισμούς στο:
+
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% endcontent-ref %}
+
+## Dylib Hijacking
+
+{% hint style="danger" %}
+Θυμηθείτε ότι **οι προηγούμενοι περιορισμοί επικύρωσης βιβλιοθήκης ισχύουν επίσης** για την εκτέλεση επιθέσεων Dylib hijacking.
+{% endhint %}
+
+Όπως και στα Windows, στο MacOS μπορείτε επίσης να **καταλάβετε dylibs** για να κάνετε **εφαρμογές** **να εκτελούν** **τυχαίο** **κώδικα** (καλά, στην πραγματικότητα από έναν κανονικό χρήστη αυτό δεν θα ήταν δυνατό καθώς μπορεί να χρειαστείτε άδεια TCC για να γράψετε μέσα σε ένα `.app` bundle και να καταλάβετε μια βιβλιοθήκη).\
+Ωστόσο, ο τρόπος που οι **εφαρμογές MacOS** **φορτώνουν** βιβλιοθήκες είναι **πιο περιορισμένος** από ότι στα Windows. Αυτό σημαίνει ότι οι **προγραμματιστές κακόβουλου λογισμικού** μπορούν να χρησιμοποιήσουν αυτή την τεχνική για **απόκρυψη**, αλλά η πιθανότητα να μπορέσουν να **καταχραστούν αυτό για να κλιμακώσουν προνόμια είναι πολύ χαμηλότερη**.
+
+Πρώτα απ' όλα, είναι **πιο συνηθισμένο** να βρείτε ότι τα **δυαδικά αρχεία MacOS υποδεικνύουν την πλήρη διαδρομή** στις βιβλιοθήκες που πρέπει να φορτωθούν. Και δεύτερον, **το MacOS ποτέ δεν ψάχνει** στους φακέλους του **$PATH** για βιβλιοθήκες.
+
+Η **κύρια** μέρος του **κώδικα** που σχετίζεται με αυτή τη λειτουργικότητα είναι στη **`ImageLoader::recursiveLoadLibraries`** στο `ImageLoader.cpp`.
+
+Υπάρχουν **4 διαφορετικές εντολές κεφαλίδας** που μπορεί να χρησιμοποιήσει ένα macho δυαδικό αρχείο για να φορτώσει βιβλιοθήκες:
+
+* Η εντολή **`LC_LOAD_DYLIB`** είναι η κοινή εντολή για να φορτώσετε μια dylib.
+* Η εντολή **`LC_LOAD_WEAK_DYLIB`** λειτουργεί όπως η προηγούμενη, αλλά αν η dylib δεν βρεθεί, η εκτέλεση συνεχίζεται χωρίς κανένα σφάλμα.
+* Η εντολή **`LC_REEXPORT_DYLIB`** προξενεί (ή επανεξάγει) τα σύμβολα από μια διαφορετική βιβλιοθήκη.
+* Η εντολή **`LC_LOAD_UPWARD_DYLIB`** χρησιμοποιείται όταν δύο βιβλιοθήκες εξαρτώνται η μία από την άλλη (αυτό ονομάζεται _ανωδική εξάρτηση_).
+
+Ωστόσο, υπάρχουν **2 τύποι Dylib hijacking**:
+
+* **Απουσία αδύναμων συνδεδεμένων βιβλιοθηκών**: Αυτό σημαίνει ότι η εφαρμογή θα προσπαθήσει να φορτώσει μια βιβλιοθήκη που δεν υπάρχει ρυθμισμένη με **LC\_LOAD\_WEAK\_DYLIB**. Στη συνέχεια, **αν ένας επιτιθέμενος τοποθετήσει μια dylib όπου αναμένεται να φορτωθεί**.
+* Το γεγονός ότι ο σύνδεσμος είναι "αδύναμος" σημαίνει ότι η εφαρμογή θα συνεχίσει να εκτελείται ακόμη και αν η βιβλιοθήκη δεν βρεθεί.
+* Ο **κώδικας που σχετίζεται** με αυτό είναι στη λειτουργία `ImageLoaderMachO::doGetDependentLibraries` του `ImageLoaderMachO.cpp` όπου `lib->required` είναι μόνο `false` όταν το `LC_LOAD_WEAK_DYLIB` είναι true.
+* **Βρείτε αδύναμες συνδεδεμένες βιβλιοθήκες** σε δυαδικά αρχεία με (έχετε αργότερα ένα παράδειγμα για το πώς να δημιουργήσετε βιβλιοθήκες hijacking):
+* ```bash
+otool -l </path/to/bin> | grep LC_LOAD_WEAK_DYLIB -A 5 cmd LC_LOAD_WEAK_DYLIB
+cmdsize 56
+name /var/tmp/lib/libUtl.1.dylib (offset 24)
+time stamp 2 Wed Jun 21 12:23:31 1969
+current version 1.0.0
+compatibility version 1.0.0
+```
+* **Ρυθμισμένο με @rpath**: Τα Mach-O δυαδικά αρχεία μπορούν να έχουν τις εντολές **`LC_RPATH`** και **`LC_LOAD_DYLIB`**. Βασισμένο στις **τιμές** αυτών των εντολών, οι **βιβλιοθήκες** θα φορτωθούν από **διαφορετικούς καταλόγους**.
+* Το **`LC_RPATH`** περιέχει τις διαδρομές ορισμένων φακέλων που χρησιμοποιούνται για να φορτωθούν οι βιβλιοθήκες από το δυαδικό αρχείο.
+* Το **`LC_LOAD_DYLIB`** περιέχει τη διαδρομή προς συγκεκριμένες βιβλιοθήκες που πρέπει να φορτωθούν. Αυτές οι διαδρομές μπορεί να περιέχουν **`@rpath`**, το οποίο θα **αντικατασταθεί** από τις τιμές στο **`LC_RPATH`**. Αν υπάρχουν πολλές διαδρομές στο **`LC_RPATH`**, όλες θα χρησιμοποιηθούν για να αναζητήσουν τη βιβλιοθήκη προς φόρτωση. Παράδειγμα:
+* Αν το **`LC_LOAD_DYLIB`** περιέχει `@rpath/library.dylib` και το **`LC_RPATH`** περιέχει `/application/app.app/Contents/Framework/v1/` και `/application/app.app/Contents/Framework/v2/`. Και οι δύο φάκελοι θα χρησιμοποιηθούν για να φορτώσουν το `library.dylib`**.** Αν η βιβλιοθήκη δεν υπάρχει στο `[...]/v1/` και ο επιτιθέμενος μπορούσε να την τοποθετήσει εκεί για να καταλάβει τη φόρτωση της βιβλιοθήκης στο `[...]/v2/` καθώς η σειρά των διαδρομών στο **`LC_LOAD_DYLIB`** ακολουθείται.
+* **Βρείτε διαδρομές rpath και βιβλιοθήκες** σε δυαδικά αρχεία με: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
+
+{% hint style="info" %}
+**`@executable_path`**: Είναι η **διαδρομή** προς τον κατάλογο που περιέχει το **κύριο εκτελέσιμο αρχείο**.
+
+**`@loader_path`**: Είναι η **διαδρομή** προς τον **κατάλογο** που περιέχει το **Mach-O δυαδικό αρχείο** το οποίο περιέχει την εντολή φόρτωσης.
+
+* Όταν χρησιμοποιείται σε ένα εκτελέσιμο, **`@loader_path`** είναι ουσιαστικά το **ίδιο** με το **`@executable_path`**.
+* Όταν χρησιμοποιείται σε μια **dylib**, **`@loader_path`** δίνει τη **διαδρομή** προς τη **dylib**.
+{% endhint %}
+
+Ο τρόπος για να **κλιμακώσετε προνόμια** εκμεταλλευόμενοι αυτή τη λειτουργικότητα θα ήταν στην σπάνια περίπτωση που μια **εφαρμογή** που εκτελείται **από** **root** **ψάχνει** για κάποια **βιβλιοθήκη σε κάποιον φάκελο όπου ο επιτιθέμενος έχει δικαιώματα εγγραφής.**
+
+{% hint style="success" %}
+Ένας ωραίος **σάρωτης** για να βρείτε **ελλείπουσες βιβλιοθήκες** σε εφαρμογές είναι [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) ή μια [**CLI έκδοση**](https://github.com/pandazheng/DylibHijack).\
+Ένας ωραίος **αναφορά με τεχνικές λεπτομέρειες** σχετικά με αυτή την τεχνική μπορεί να βρεθεί [**εδώ**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x).
+{% endhint %}
+
+**Example**
+
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% endcontent-ref %}
+
+## Dlopen Hijacking
+
+{% hint style="danger" %}
+Θυμηθείτε ότι **οι προηγούμενοι περιορισμοί επικύρωσης βιβλιοθήκης ισχύουν επίσης** για την εκτέλεση επιθέσεων Dlopen hijacking.
+{% endhint %}
+
+Από **`man dlopen`**:
+
+* Όταν η διαδρομή **δεν περιέχει χαρακτήρα slash** (δηλαδή είναι απλώς ένα όνομα φύλλου), **το dlopen() θα κάνει αναζητήσεις**. Αν **`$DYLD_LIBRARY_PATH`** έχει ρυθμιστεί κατά την εκκίνηση, το dyld θα κοιτάξει πρώτα **σε αυτή τη διαδρομή**. Στη συνέχεια, αν το καλούν macho αρχείο ή το κύριο εκτελέσιμο καθορίζει ένα **`LC_RPATH`**, τότε το dyld θα **κοιτάξει σε αυτές** τις διαδρομές. Στη συνέχεια, αν η διαδικασία είναι **χωρίς περιορισμούς**, το dyld θα αναζητήσει στον **τρέχοντα κατάλογο εργασίας**. Τέλος, για παλαιότερα δυαδικά αρχεία, το dyld θα προσπαθήσει κάποιες εναλλακτικές λύσεις. Αν **`$DYLD_FALLBACK_LIBRARY_PATH`** έχει ρυθμιστεί κατά την εκκίνηση, το dyld θα αναζητήσει σε **αυτές τις διαδρομές**, αλλιώς, το dyld θα κοιτάξει σε **`/usr/local/lib/`** (αν η διαδικασία είναι χωρίς περιορισμούς), και στη συνέχεια σε **`/usr/lib/`** (αυτή η πληροφορία ελήφθη από **`man dlopen`**).
+1. `$DYLD_LIBRARY_PATH`
+2. `LC_RPATH`
+3. `CWD`(αν είναι χωρίς περιορισμούς)
+4. `$DYLD_FALLBACK_LIBRARY_PATH`
+5. `/usr/local/lib/` (αν είναι χωρίς περιορισμούς)
+6. `/usr/lib/`
+
+{% hint style="danger" %}
+Αν δεν υπάρχουν slashes στο όνομα, θα υπάρχουν 2 τρόποι για να κάνετε hijacking:
+
+* Αν οποιοδήποτε **`LC_RPATH`** είναι **γραπτό** (αλλά η υπογραφή ελέγχεται, οπότε για αυτό χρειάζεστε επίσης το δυαδικό αρχείο να είναι χωρίς περιορισμούς)
+* Αν το δυαδικό αρχείο είναι **χωρίς περιορισμούς** και στη συνέχεια είναι δυνατό να φορτωθεί κάτι από τον CWD (ή εκμεταλλευόμενοι μία από τις αναφερόμενες μεταβλητές περιβάλλοντος)
+{% endhint %}
+
+* Όταν η διαδρομή **φαίνεται να είναι διαδρομή πλαισίου** (π.χ. `/stuff/foo.framework/foo`), αν **`$DYLD_FRAMEWORK_PATH`** έχει ρυθμιστεί κατά την εκκίνηση, το dyld θα κοιτάξει πρώτα σε αυτή τη διαδρομή για το **μερικό μονοπάτι πλαισίου** (π.χ. `foo.framework/foo`). Στη συνέχεια, το dyld θα προσπαθήσει την **παρεχόμενη διαδρομή όπως είναι** (χρησιμοποιώντας τον τρέχοντα κατάλογο εργασίας για σχετικές διαδρομές). Τέλος, για παλαιότερα δυαδικά αρχεία, το dyld θα προσπαθήσει κάποιες εναλλακτικές λύσεις. Αν **`$DYLD_FALLBACK_FRAMEWORK_PATH`** έχει ρυθμιστεί κατά την εκκίνηση, το dyld θα αναζητήσει σε αυτές τις διαδρομές. Διαφορετικά, θα αναζητήσει **`/Library/Frameworks`** (στο macOS αν η διαδικασία είναι χωρίς περιορισμούς), στη συνέχεια **`/System/Library/Frameworks`**.
+1. `$DYLD_FRAMEWORK_PATH`
+2. παρεχόμενη διαδρομή (χρησιμοποιώντας τον τρέχοντα κατάλογο εργασίας για σχετικές διαδρομές αν είναι χωρίς περιορισμούς)
+3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
+4. `/Library/Frameworks` (αν είναι χωρίς περιορισμούς)
+5. `/System/Library/Frameworks`
+
+{% hint style="danger" %}
+Αν είναι διαδρομή πλαισίου, ο τρόπος για να την καταλάβετε θα ήταν:
+
+* Αν η διαδικασία είναι **χωρίς περιορισμούς**, εκμεταλλευόμενοι τη **σχετική διαδρομή από CWD** τις αναφερόμενες μεταβλητές περιβάλλοντος (ακόμα και αν δεν αναφέρεται στα έγγραφα αν η διαδικασία είναι περιορισμένη οι μεταβλητές DYLD\_\* αφαιρούνται)
+{% endhint %}
+
+* Όταν η διαδρομή **περιέχει slash αλλά δεν είναι διαδρομή πλαισίου** (δηλαδή μια πλήρη διαδρομή ή μια μερική διαδρομή προς μια dylib), το dlopen() πρώτα κοιτάζει (αν έχει ρυθμιστεί) στο **`$DYLD_LIBRARY_PATH`** (με το φύλλο μέρους από τη διαδρομή). Στη συνέχεια, το dyld **δοκιμάζει την παρεχόμενη διαδρομή** (χρησιμοποιώντας τον τρέχοντα κατάλογο εργασίας για σχετικές διαδρομές (αλλά μόνο για διαδικασίες χωρίς περιορισμούς)). Τέλος, για παλαιότερα δυαδικά αρχεία, το dyld θα προσπαθήσει εναλλακτικές λύσεις. Αν **`$DYLD_FALLBACK_LIBRARY_PATH`** έχει ρυθμιστεί κατά την εκκίνηση, το dyld θα αναζητήσει σε αυτές τις διαδρομές, αλλιώς, το dyld θα κοιτάξει σε **`/usr/local/lib/`** (αν η διαδικασία είναι χωρίς περιορισμούς), και στη συνέχεια σε **`/usr/lib/`**.
+1. `$DYLD_LIBRARY_PATH`
+2. παρεχόμενη διαδρομή (χρησιμοποιώντας τον τρέχοντα κατάλογο εργασίας για σχετικές διαδρομές αν είναι χωρίς περιορισμούς)
+3. `$DYLD_FALLBACK_LIBRARY_PATH`
+4. `/usr/local/lib/` (αν είναι χωρίς περιορισμούς)
+5. `/usr/lib/`
+
+{% hint style="danger" %}
+Αν υπάρχουν slashes στο όνομα και δεν είναι πλαισίων, ο τρόπος για να κάνετε hijacking θα ήταν:
+
+* Αν το δυαδικό αρχείο είναι **χωρίς περιορισμούς** και στη συνέχεια είναι δυνατό να φορτωθεί κάτι από τον CWD ή `/usr/local/lib` (ή εκμεταλλευόμενοι μία από τις αναφερόμενες μεταβλητές περιβάλλοντος)
+{% endhint %}
+
+{% hint style="info" %}
+Σημείωση: Δεν υπάρχουν **αρχεία ρυθμίσεων** για **έλεγχο της αναζήτησης dlopen**.
+
+Σημείωση: Αν το κύριο εκτελέσιμο είναι ένα **set\[ug]id δυαδικό αρχείο ή υπογεγραμμένο με δικαιώματα**, τότε **όλες οι μεταβλητές περιβάλλοντος αγνοούνται**, και μπορεί να χρησιμοποιηθεί μόνο μια πλήρης διαδρομή ([ελέγξτε τους περιορισμούς DYLD\_INSERT\_LIBRARIES](macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_librery-restrictions) για περισσότερες λεπτομέρειες)
+
+Σημείωση: Οι πλατφόρμες της Apple χρησιμοποιούν "καθολικά" αρχεία για να συνδυάσουν 32-bit και 64-bit βιβλιοθήκες. Αυτό σημαίνει ότι δεν υπάρχουν **χωριστές διαδρομές αναζήτησης 32-bit και 64-bit**.
+
+Σημείωση: Σε πλατφόρμες της Apple οι περισσότερες OS dylibs είναι **συνδυασμένες στο dyld cache** και δεν υπάρχουν στο δίσκο. Επομένως, η κλήση **`stat()`** για προετοιμασία αν μια OS dylib υπάρχει **δεν θα λειτουργήσει**. Ωστόσο, **`dlopen_preflight()`** χρησιμοποιεί τα ίδια βήματα με το **`dlopen()`** για να βρει ένα συμβατό mach-o αρχείο.
+{% endhint %}
+
+**Check paths**
+
+Ας ελέγξουμε όλες τις επιλογές με τον παρακάτω κώδικα:
+```c
+// gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
+#include <dlfcn.h>
+#include <stdio.h>
+
+int main(void)
+{
+void* handle;
+
+fprintf("--- No slash ---\n");
+handle = dlopen("just_name_dlopentest.dylib",1);
+if (!handle) {
+fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
+}
+
+fprintf("--- Relative framework ---\n");
+handle = dlopen("a/framework/rel_framework_dlopentest.dylib",1);
+if (!handle) {
+fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
+}
+
+fprintf("--- Abs framework ---\n");
+handle = dlopen("/a/abs/framework/abs_framework_dlopentest.dylib",1);
+if (!handle) {
+fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
+}
+
+fprintf("--- Relative Path ---\n");
+handle = dlopen("a/folder/rel_folder_dlopentest.dylib",1);
+if (!handle) {
+fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
+}
+
+fprintf("--- Abs Path ---\n");
+handle = dlopen("/a/abs/folder/abs_folder_dlopentest.dylib",1);
+if (!handle) {
+fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
+}
+
+return 0;
+}
+```
+Αν το μεταγλωττίσετε και το εκτελέσετε, μπορείτε να δείτε **πού αναζητήθηκε κάθε βιβλιοθήκη χωρίς επιτυχία**. Επίσης, θα μπορούσατε να **φιλτράρετε τα αρχεία καταγραφής FS**:
+```bash
+sudo fs_usage | grep "dlopentest"
+```
+## Relative Path Hijacking
+
+Αν ένα **privileged binary/app** (όπως ένα SUID ή κάποιο binary με ισχυρά entitlements) **φορτώνει μια βιβλιοθήκη σχετικής διαδρομής** (για παράδειγμα χρησιμοποιώντας `@executable_path` ή `@loader_path`) και έχει **απενεργοποιημένη την Επικύρωση Βιβλιοθηκών**, θα μπορούσε να είναι δυνατό να μετακινήσετε το binary σε μια τοποθεσία όπου ο επιτιθέμενος θα μπορούσε να **τροποποιήσει τη βιβλιοθήκη που φορτώνεται με σχετική διαδρομή**, και να την εκμεταλλευτεί για να εισάγει κώδικα στη διαδικασία.
+
+## Prune `DYLD_*` and `LD_LIBRARY_PATH` env variables
+
+Στο αρχείο `dyld-dyld-832.7.1/src/dyld2.cpp` είναι δυνατό να βρείτε τη συνάρτηση **`pruneEnvironmentVariables`**, η οποία θα αφαιρέσει οποιαδήποτε env μεταβλητή που **ξεκινά με `DYLD_`** και **`LD_LIBRARY_PATH=`**.
+
+Θα ορίσει επίσης σε **null** συγκεκριμένα τις env μεταβλητές **`DYLD_FALLBACK_FRAMEWORK_PATH`** και **`DYLD_FALLBACK_LIBRARY_PATH`** για **suid** και **sgid** binaries.
+
+Αυτή η συνάρτηση καλείται από τη **`_main`** συνάρτηση του ίδιου αρχείου αν στοχεύει το OSX έτσι:
+```cpp
+#if TARGET_OS_OSX
+if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
+pruneEnvironmentVariables(envp, &apple);
+```
+και αυτές οι λογικές σημαίες ορίζονται στο ίδιο αρχείο στον κώδικα:
+```cpp
+#if TARGET_OS_OSX
+// support chrooting from old kernel
+bool isRestricted = false;
+bool libraryValidation = false;
+// any processes with setuid or setgid bit set or with __RESTRICT segment is restricted
+if ( issetugid() || hasRestrictedSegment(mainExecutableMH) ) {
+isRestricted = true;
+}
+bool usingSIP = (csr_check(CSR_ALLOW_TASK_FOR_PID) != 0);
+uint32_t flags;
+if ( csops(0, CS_OPS_STATUS, &flags, sizeof(flags)) != -1 ) {
+// On OS X CS_RESTRICT means the program was signed with entitlements
+if ( ((flags & CS_RESTRICT) == CS_RESTRICT) && usingSIP ) {
+isRestricted = true;
+}
+// Library Validation loosens searching but requires everything to be code signed
+if ( flags & CS_REQUIRE_LV ) {
+isRestricted = false;
+libraryValidation = true;
+}
+}
+gLinkContext.allowAtPaths                = !isRestricted;
+gLinkContext.allowEnvVarsPrint           = !isRestricted;
+gLinkContext.allowEnvVarsPath            = !isRestricted;
+gLinkContext.allowEnvVarsSharedCache     = !libraryValidation || !usingSIP;
+gLinkContext.allowClassicFallbackPaths   = !isRestricted;
+gLinkContext.allowInsertFailures         = false;
+gLinkContext.allowInterposing         	 = true;
+```
+Που σημαίνει βασικά ότι αν το δυαδικό αρχείο είναι **suid** ή **sgid**, ή έχει ένα τμήμα **RESTRICT** στις κεφαλίδες ή έχει υπογραφεί με τη σημαία **CS\_RESTRICT**, τότε **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** είναι αληθές και οι μεταβλητές περιβάλλοντος αποκόπτονται.
+
+Σημειώστε ότι αν το CS\_REQUIRE\_LV είναι αληθές, τότε οι μεταβλητές δεν θα αποκοπούν αλλά η επικύρωση της βιβλιοθήκης θα ελέγξει ότι χρησιμοποιούν το ίδιο πιστοποιητικό με το αρχικό δυαδικό αρχείο.
+
+## Έλεγχος Περιορισμών
+
+### SUID & SGID
+```bash
+# Make it owned by root and suid
+sudo chown root hello
+sudo chmod +s hello
+# Insert the library
+DYLD_INSERT_LIBRARIES=inject.dylib ./hello
+
+# Remove suid
+sudo chmod -s hello
+```
+### Section `__RESTRICT` με τμήμα `__restrict`
+```bash
+gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
+DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
+```
+### Hardened runtime
+
+Δημιουργήστε ένα νέο πιστοποιητικό στο Keychain και χρησιμοποιήστε το για να υπογράψετε το δυαδικό αρχείο:
+
+{% code overflow="wrap" %}
+```bash
+# Apply runtime proetction
+codesign -s <cert-name> --option=runtime ./hello
+DYLD_INSERT_LIBRARIES=inject.dylib ./hello #Library won't be injected
+
+# Apply library validation
+codesign -f -s <cert-name> --option=library ./hello
+DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed #Will throw an error because signature of binary and library aren't signed by same cert (signs must be from a valid Apple-signed developer certificate)
+
+# Sign it
+## If the signature is from an unverified developer the injection will still work
+## If it's from a verified developer, it won't
+codesign -f -s <cert-name> inject.dylib
+DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed
+
+# Apply CS_RESTRICT protection
+codesign -f -s <cert-name> --option=restrict hello-signed
+DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
+```
+{% endcode %}
+
+{% hint style="danger" %}
+Σημειώστε ότι ακόμη και αν υπάρχουν δυαδικά αρχεία υπογεγραμμένα με σημαίες **`0x0(none)`**, μπορούν να αποκτήσουν τη σημαία **`CS_RESTRICT`** δυναμικά κατά την εκτέλεση και επομένως αυτή η τεχνική δεν θα λειτουργήσει σε αυτά.
+
+Μπορείτε να ελέγξετε αν μια διαδικασία έχει αυτή τη σημαία με (πάρετε [**csops εδώ**](https://github.com/axelexic/CSOps)):
+```bash
+csops -status <pid>
+```
+και στη συνέχεια ελέγξτε αν η σημαία 0x800 είναι ενεργοποιημένη.
+{% endhint %}
+
+## Αναφορές
+
+* [https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/](https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/)
+* [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστήριξη HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

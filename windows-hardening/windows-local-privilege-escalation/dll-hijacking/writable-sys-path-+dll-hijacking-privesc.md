@@ -1,0 +1,109 @@
+# Writable Sys Path +Dll Hijacking Privesc
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## Εισαγωγή
+
+Αν διαπιστώσετε ότι μπορείτε να **γράψετε σε έναν φάκελο System Path** (σημειώστε ότι αυτό δεν θα λειτουργήσει αν μπορείτε να γράψετε σε έναν φάκελο User Path) είναι πιθανό να μπορείτε να **κλιμακώσετε τα δικαιώματα** στο σύστημα.
+
+Για να το κάνετε αυτό, μπορείτε να εκμεταλλευτείτε ένα **Dll Hijacking** όπου θα **παρακάμψετε μια βιβλιοθήκη που φορτώνεται** από μια υπηρεσία ή διαδικασία με **περισσότερα δικαιώματα** από τα δικά σας, και επειδή αυτή η υπηρεσία φορτώνει μια Dll που πιθανώς δεν υπάρχει καν σε ολόκληρο το σύστημα, θα προσπαθήσει να την φορτώσει από το System Path όπου μπορείτε να γράψετε.
+
+Για περισσότερες πληροφορίες σχετικά με **τι είναι το Dll Hijacking** ελέγξτε:
+
+{% content-ref url="./" %}
+[.](./)
+{% endcontent-ref %}
+
+## Κλιμάκωση δικαιωμάτων με Dll Hijacking
+
+### Εύρεση μιας ελλείπουσας Dll
+
+Το πρώτο πράγμα που χρειάζεστε είναι να **εντοπίσετε μια διαδικασία** που εκτελείται με **περισσότερα δικαιώματα** από εσάς και προσπαθεί να **φορτώσει μια Dll από το System Path** όπου μπορείτε να γράψετε.
+
+Το πρόβλημα σε αυτές τις περιπτώσεις είναι ότι πιθανώς αυτές οι διαδικασίες εκτελούνται ήδη. Για να βρείτε ποιες Dlls λείπουν από τις υπηρεσίες, πρέπει να εκκινήσετε το procmon το συντομότερο δυνατό (πριν φορτωθούν οι διαδικασίες). Έτσι, για να βρείτε τις ελλείπουσες .dlls κάντε:
+
+* **Δημιουργήστε** τον φάκελο `C:\privesc_hijacking` και προσθέστε τη διαδρομή `C:\privesc_hijacking` στη **μεταβλητή περιβάλλοντος System Path**. Μπορείτε να το κάνετε αυτό **χειροκίνητα** ή με **PS**:
+```powershell
+# Set the folder path to create and check events for
+$folderPath = "C:\privesc_hijacking"
+
+# Create the folder if it does not exist
+if (!(Test-Path $folderPath -PathType Container)) {
+New-Item -ItemType Directory -Path $folderPath | Out-Null
+}
+
+# Set the folder path in the System environment variable PATH
+$envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+if ($envPath -notlike "*$folderPath*") {
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+}
+```
+* Εκκινήστε **`procmon`** και πηγαίνετε στο **`Options`** --> **`Enable boot logging`** και πατήστε **`OK`** στο προειδοποιητικό μήνυμα.
+* Στη συνέχεια, **επανεκκινήστε**. Όταν ο υπολογιστής επανεκκινήσει, το **`procmon`** θα αρχίσει να **καταγράφει** γεγονότα αμέσως.
+* Μόλις **ξεκινήσει το Windows**, εκτελέστε ξανά το **`procmon`**, θα σας πει ότι έχει τρέξει και θα **ρωτήσει αν θέλετε να αποθηκεύσετε** τα γεγονότα σε ένα αρχείο. Πείτε **ναι** και **αποθηκεύστε τα γεγονότα σε ένα αρχείο**.
+* **Αφού** το **αρχείο** έχει **δημιουργηθεί**, **κλείστε** το ανοιχτό παράθυρο **`procmon`** και **ανοίξτε το αρχείο γεγονότων**.
+* Προσθέστε αυτά τα **φίλτρα** και θα βρείτε όλα τα Dlls που κάποια **διαδικασία προσπάθησε να φορτώσει** από τον φάκελο Writable System Path:
+
+<figure><img src="../../../.gitbook/assets/image (945).png" alt=""><figcaption></figcaption></figure>
+
+### Χαμένα Dlls
+
+Τρέχοντας αυτό σε μια δωρεάν **εικονική (vmware) μηχανή Windows 11** πήρα αυτά τα αποτελέσματα:
+
+<figure><img src="../../../.gitbook/assets/image (607).png" alt=""><figcaption></figcaption></figure>
+
+Σε αυτή την περίπτωση, τα .exe είναι άχρηστα, οπότε αγνοήστε τα, τα χαμένα DLLs προέρχονταν από:
+
+| Υπηρεσία                         | Dll                | CMD γραμμή                                                             |
+| ------------------------------- | ------------------ | -------------------------------------------------------------------- |
+| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
+
+Αφού βρήκα αυτό, βρήκα αυτή την ενδιαφέρουσα ανάρτηση ιστολογίου που εξηγεί επίσης πώς να [**καταχραστείτε το WptsExtensions.dll για privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Αυτό είναι αυτό που **θα κάνουμε τώρα**.
+
+### Εκμετάλλευση
+
+Έτσι, για να **ανεβάσουμε δικαιώματα**, θα καταχραστούμε τη βιβλιοθήκη **WptsExtensions.dll**. Έχοντας το **μονοπάτι** και το **όνομα**, απλώς πρέπει να **δημιουργήσουμε το κακόβουλο dll**.
+
+Μπορείτε να [**δοκιμάσετε να χρησιμοποιήσετε οποιοδήποτε από αυτά τα παραδείγματα**](./#creating-and-compiling-dlls). Μπορείτε να εκτελέσετε payloads όπως: να αποκτήσετε ένα rev shell, να προσθέσετε έναν χρήστη, να εκτελέσετε ένα beacon...
+
+{% hint style="warning" %}
+Σημειώστε ότι **όλες οι υπηρεσίες δεν εκτελούνται** με **`NT AUTHORITY\SYSTEM`**, κάποιες εκτελούνται επίσης με **`NT AUTHORITY\LOCAL SERVICE`** που έχει **λιγότερα δικαιώματα** και δεν **θα μπορέσετε να δημιουργήσετε νέο χρήστη** εκμεταλλευόμενοι τα δικαιώματά του.\
+Ωστόσο, αυτός ο χρήστης έχει το **`seImpersonate`** δικαίωμα, οπότε μπορείτε να χρησιμοποιήσετε το [**potato suite για να ανεβάσετε δικαιώματα**](../roguepotato-and-printspoofer.md). Έτσι, σε αυτή την περίπτωση, ένα rev shell είναι καλύτερη επιλογή από το να προσπαθήσετε να δημιουργήσετε έναν χρήστη.
+{% endhint %}
+
+Αυτή τη στιγμή που γράφω, η υπηρεσία **Task Scheduler** εκτελείται με **Nt AUTHORITY\SYSTEM**.
+
+Έχοντας **δημιουργήσει το κακόβουλο Dll** (_στην περίπτωσή μου χρησιμοποίησα x64 rev shell και πήρα ένα shell πίσω αλλά ο defender το σκότωσε γιατί ήταν από το msfvenom_), αποθηκεύστε το στο Writable System Path με το όνομα **WptsExtensions.dll** και **επανεκκινήστε** τον υπολογιστή (ή επανεκκινήστε την υπηρεσία ή κάντε ό,τι χρειάζεται για να επανεκκινήσετε την επηρεαζόμενη υπηρεσία/πρόγραμμα).
+
+Όταν η υπηρεσία επανεκκινήσει, το **dll θα πρέπει να φορτωθεί και να εκτελεστεί** (μπορείτε να **ξαναχρησιμοποιήσετε** το κόλπο **procmon** για να ελέγξετε αν η **βιβλιοθήκη φορτώθηκε όπως αναμενόταν**).
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστήριξη HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
