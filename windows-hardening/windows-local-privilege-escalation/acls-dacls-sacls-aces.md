@@ -1,0 +1,202 @@
+# ACLs - DACLs/SACLs/ACEs
+
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
+
+\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
+
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+
+</details>
+{% endhint %}
+
+## **アクセス制御リスト (ACL)**
+
+アクセス制御リスト (ACL) は、オブジェクトとそのプロパティの保護を指示するアクセス制御エントリ (ACE) の順序付けられたセットで構成されています。要するに、ACLは特定のオブジェクトに対してどのセキュリティプリンシパル（ユーザーまたはグループ）がどのアクションを許可または拒否されるかを定義します。
+
+ACLには2種類あります：
+
+* **裁量アクセス制御リスト (DACL)：** どのユーザーとグループがオブジェクトにアクセスできるか、またはできないかを指定します。
+* **システムアクセス制御リスト (SACL)：** オブジェクトへのアクセス試行の監査を管理します。
+
+ファイルにアクセスするプロセスでは、システムがオブジェクトのセキュリティ記述子をユーザーのアクセス トークンと照合して、アクセスが許可されるべきか、またそのアクセスの範囲をACEに基づいて判断します。
+
+### **主要コンポーネント**
+
+* **DACL：** ユーザーとグループに対してオブジェクトへのアクセス権を付与または拒否するACEを含みます。基本的に、アクセス権を指示する主要なACLです。
+* **SACL：** オブジェクトへのアクセスを監査するために使用され、ACEはセキュリティイベントログに記録されるアクセスの種類を定義します。これは、不正アクセスの試行を検出したり、アクセスの問題をトラブルシューティングしたりするのに非常に役立ちます。
+
+### **ACLとのシステムの相互作用**
+
+各ユーザーセッションは、そのセッションに関連するセキュリティ情報を含むアクセス トークンに関連付けられています。これには、ユーザー、グループの識別子、および特権が含まれます。このトークンには、セッションを一意に識別するログオンSIDも含まれています。
+
+ローカルセキュリティ機関 (LSASS) は、アクセスを試みるセキュリティプリンシパルに一致するACEをDACLで調べることによって、オブジェクトへのアクセス要求を処理します。関連するACEが見つからない場合、アクセスは即座に許可されます。そうでない場合、LSASSはACEをアクセス トークン内のセキュリティプリンシパルのSIDと比較して、アクセスの適格性を判断します。
+
+### **要約プロセス**
+
+* **ACL：** DACLを通じてアクセス権を定義し、SACLを通じて監査ルールを定義します。
+* **アクセス トークン：** セッションのユーザー、グループ、および特権情報を含みます。
+* **アクセス決定：** DACL ACEとアクセス トークンを比較することによって行われます。SACLは監査に使用されます。
+
+### ACEs
+
+**アクセス制御エントリ (ACE)** には **3つの主要なタイプ** があります：
+
+* **アクセス拒否ACE：** このACEは、指定されたユーザーまたはグループに対してオブジェクトへのアクセスを明示的に拒否します（DACL内）。
+* **アクセス許可ACE：** このACEは、指定されたユーザーまたはグループに対してオブジェクトへのアクセスを明示的に許可します（DACL内）。
+* **システム監査ACE：** システムアクセス制御リスト (SACL) 内に配置され、このACEはユーザーまたはグループによるオブジェクトへのアクセス試行時に監査ログを生成する役割を担います。アクセスが許可されたか拒否されたか、またその性質を記録します。
+
+各ACEには **4つの重要なコンポーネント** があります：
+
+1. ユーザーまたはグループの **セキュリティ識別子 (SID)**（またはグラフィカル表現におけるそのプリンシパル名）。
+2. ACEタイプを識別する **フラグ**（アクセス拒否、許可、またはシステム監査）。
+3. 子オブジェクトが親からACEを継承できるかどうかを決定する **継承フラグ**。
+4. オブジェクトの付与された権利を指定する32ビット値の[**アクセスマスク**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)。
+
+アクセスの決定は、次の条件が満たされるまで各ACEを順番に調べることによって行われます：
+
+* **アクセス拒否ACE** が、アクセス トークン内の受託者に対して要求された権利を明示的に拒否します。
+* **アクセス許可ACE** が、アクセス トークン内の受託者に対して要求されたすべての権利を明示的に許可します。
+* すべてのACEを確認した結果、要求された権利が**明示的に許可されていない**場合、アクセスは暗黙的に**拒否**されます。
+
+### ACEの順序
+
+**ACEs**（誰が何にアクセスできるかを示すルール）が **DACL** と呼ばれるリストに配置される方法は非常に重要です。これは、システムがこれらのルールに基づいてアクセスを許可または拒否すると、残りのルールの確認を停止するためです。
+
+これらのACEを整理する最良の方法は **「標準順序」** と呼ばれます。この方法は、すべてがスムーズかつ公平に機能することを保証します。以下は、**Windows 2000** および **Windows Server 2003** のシステムにおける手順です：
+
+* 最初に、**このアイテム専用**のルールを、親フォルダーなどの他の場所からのルールの前に配置します。
+* その特定のルールの中で、**「いいえ」（拒否）**とするルールを、**「はい」（許可）**とするルールの前に配置します。
+* 他の場所からのルールについては、**最も近いソース**（親など）から始め、そこから遡ります。再度、**「いいえ」**を**「はい」**の前に配置します。
+
+この設定は、2つの大きな利点があります：
+
+* 特定の**「いいえ」**がある場合、それが尊重されることを保証し、他の**「はい」**ルールがあっても影響を受けません。
+* アイテムの所有者が、親フォルダーやさらに遡るルールが適用される前に、誰が入るかについて**最終的な決定権**を持つことができます。
+
+この方法を採用することで、ファイルやフォルダーの所有者は、誰がアクセスできるかを非常に正確に指定でき、正しい人が入れるようにし、間違った人が入れないようにします。
+
+![](https://www.ntfs.com/images/screenshots/ACEs.gif)
+
+したがって、この**「標準順序」**は、アクセスルールが明確で効果的に機能することを保証し、特定のルールを優先し、すべてを賢く整理することに関するものです。
+
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
+
+\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+### GUIの例
+
+[**こちらからの例**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
+
+これは、ACL、DACL、およびACEを示すフォルダーのクラシックなセキュリティタブです：
+
+![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
+
+**詳細ボタン**をクリックすると、継承などの追加オプションが表示されます：
+
+![http://secureidentity.se/wp-content/uploads/2014/04/aceinheritance.jpg](../../.gitbook/assets/aceinheritance.jpg)
+
+セキュリティプリンシパルを追加または編集すると：
+
+![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
+
+最後に、監査タブにSACLがあります：
+
+![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
+
+### アクセス制御を簡略化して説明する
+
+リソースへのアクセスを管理する際、フォルダーのようなリソースに対して、アクセス制御リスト (ACL) およびアクセス制御エントリ (ACE) と呼ばれるリストとルールを使用します。これにより、誰が特定のデータにアクセスできるか、またはできないかを定義します。
+
+#### 特定のグループへのアクセスを拒否する
+
+「Cost」という名前のフォルダーがあり、マーケティングチームを除くすべての人がアクセスできるようにしたいとします。ルールを正しく設定することで、マーケティングチームが明示的にアクセスを拒否されることを保証し、他のすべての人にアクセスを許可することができます。これは、マーケティングチームへのアクセスを拒否するルールを、他のすべての人へのアクセスを許可するルールの前に配置することで実現します。
+
+#### 拒否されたグループの特定のメンバーへのアクセスを許可する
+
+マーケティングディレクターのボブが、マーケティングチームが一般的にアクセスできない「Cost」フォルダーにアクセスする必要があるとします。ボブにアクセスを許可する特定のルール (ACE) を追加し、それをマーケティングチームへのアクセスを拒否するルールの前に配置することができます。これにより、ボブはチームに対する一般的な制限にもかかわらずアクセスを得ることができます。
+
+#### アクセス制御エントリの理解
+
+ACEはACL内の個々のルールです。これらはユーザーまたはグループを特定し、許可または拒否されるアクセスを指定し、これらのルールがサブアイテムにどのように適用されるか（継承）を決定します。ACEには2つの主要なタイプがあります：
+
+* **一般的なACE：** これらは広く適用され、すべてのタイプのオブジェクトに影響を与えるか、コンテナ（フォルダーのような）と非コンテナ（ファイルのような）のみを区別します。たとえば、ユーザーがフォルダーの内容を見ることはできるが、その中のファイルにはアクセスできないというルールです。
+* **オブジェクト特定のACE：** これらはより正確な制御を提供し、特定のタイプのオブジェクトやオブジェクト内の個々のプロパティに対してルールを設定できるようにします。たとえば、ユーザーのディレクトリ内で、ユーザーが自分の電話番号を更新できるが、ログイン時間は更新できないというルールがあります。
+
+各ACEには、ルールが適用される対象（セキュリティ識別子またはSIDを使用）、ルールが許可または拒否する内容（アクセスマスクを使用）、および他のオブジェクトによってどのように継承されるかに関する重要な情報が含まれています。
+
+#### ACEタイプ間の主な違い
+
+* **一般的なACE**は、オブジェクトのすべての側面またはコンテナ内のすべてのオブジェクトに同じルールが適用される単純なアクセス制御シナリオに適しています。
+* **オブジェクト特定のACE**は、特にActive Directoryのような環境で、オブジェクトの特定のプロパティへのアクセスを異なる方法で制御する必要がある場合に使用されます。
+
+要約すると、ACLとACEは正確なアクセス制御を定義するのに役立ち、適切な個人またはグループだけが機密情報やリソースにアクセスできるようにし、アクセス権を個々のプロパティやオブジェクトタイプのレベルまで調整できるようにします。
+
+### アクセス制御エントリのレイアウト
+
+| ACEフィールド | 説明                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| タイプ        | ACEのタイプを示すフラグ。Windows 2000およびWindows Server 2003は、すべてのセキュアオブジェクトに付随する3つの一般的なACEタイプと、Active Directoryオブジェクトに発生する可能性のある3つのオブジェクト特定のACEタイプをサポートしています。                                                                                                                                                                                                                                   |
+| フラグ        | 継承と監査を制御するビットフラグのセット。                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| サイズ        | ACEに割り当てられたメモリのバイト数。                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| アクセスマスク | オブジェクトのアクセス権に対応するビットを持つ32ビット値。ビットはオンまたはオフに設定できますが、設定の意味はACEタイプによって異なります。たとえば、権限を読み取る権利に対応するビットがオンになっていて、ACEタイプが拒否の場合、ACEはオブジェクトの権限を読む権利を拒否します。同じビットがオンになっていて、ACEタイプが許可の場合、ACEはオブジェクトの権限を読む権利を付与します。アクセスマスクの詳細は次の表に示されます。 |
+| SID          | このACEによって制御または監視されるユーザーまたはグループを識別します。                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+
+### アクセスマスクのレイアウト
+
+| ビット（範囲） | 意味                            | 説明/例                       |
+| -------------- | ------------------------------- | ----------------------------- |
+| 0 - 15         | オブジェクト特定のアクセス権  | データの読み取り、実行、データの追加 |
+| 16 - 22        | 標準アクセス権                 | 削除、ACLの書き込み、所有者の書き込み |
+| 23             | セキュリティACLにアクセスできる |                               |
+| 24 - 27        | 予約                           |                               |
+| 28             | 一般的なすべて（読み取り、書き込み、実行） | すべての下位項目               |
+| 29             | 一般的な実行                   | プログラムを実行するために必要なすべてのもの |
+| 30             | 一般的な書き込み               | ファイルに書き込むために必要なすべてのもの |
+| 31             | 一般的な読み取り               | ファイルを読むために必要なすべてのもの |
+
+## 参考文献
+
+* [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
+* [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
+* [https://www.coopware.in2.info/_ntfsacl_ht.htm](https://www.coopware.in2.info/_ntfsacl_ht.htm)
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+
+</details>
+{% endhint %}
+
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
+
+\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
+
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
