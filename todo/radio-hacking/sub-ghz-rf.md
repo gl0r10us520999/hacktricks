@@ -1,0 +1,116 @@
+# Sub-GHz RF
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## 차고 문
+
+차고 문 개폐기는 일반적으로 300-190 MHz 범위의 주파수에서 작동하며, 가장 일반적인 주파수는 300 MHz, 310 MHz, 315 MHz 및 390 MHz입니다. 이 주파수 범위는 다른 주파수 대역보다 혼잡하지 않으며 다른 장치의 간섭을 받을 가능성이 적기 때문에 차고 문 개폐기에 일반적으로 사용됩니다.
+
+## 자동차 문
+
+대부분의 자동차 키 폼은 **315 MHz 또는 433 MHz**에서 작동합니다. 이 두 주파수는 모두 무선 주파수이며 다양한 응용 프로그램에 사용됩니다. 두 주파수의 주요 차이점은 433 MHz가 315 MHz보다 더 긴 범위를 가지고 있다는 것입니다. 이는 433 MHz가 원격 키리스 진입과 같이 더 긴 범위가 필요한 응용 프로그램에 더 적합하다는 것을 의미합니다.\
+유럽에서는 433.92MHz가 일반적으로 사용되며, 미국과 일본에서는 315MHz가 사용됩니다.
+
+## **무차별 대입 공격**
+
+<figure><img src="../../.gitbook/assets/image (1084).png" alt=""><figcaption></figcaption></figure>
+
+각 코드를 5번 보내는 대신(수신자가 수신하는지 확인하기 위해 이렇게 전송됨) 한 번만 보내면 시간이 6분으로 단축됩니다:
+
+<figure><img src="../../.gitbook/assets/image (622).png" alt=""><figcaption></figcaption></figure>
+
+신호 사이의 2ms 대기 시간을 **제거하면 시간을 3분으로 줄일 수 있습니다.**
+
+또한, De Bruijn Sequence를 사용하면(모든 잠재적인 이진 숫자를 무차별 대입하기 위해 필요한 비트 수를 줄이는 방법) 이 **시간이 단 8초로 줄어듭니다**:
+
+<figure><img src="../../.gitbook/assets/image (583).png" alt=""><figcaption></figcaption></figure>
+
+이 공격의 예는 [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)에서 구현되었습니다.
+
+**프리앰블이 필요하면 De Bruijn Sequence** 최적화를 피할 수 있으며, **롤링 코드는 이 공격을 방지합니다**(코드가 무차별 대입할 수 없을 만큼 충분히 길다고 가정할 때).
+
+## Sub-GHz 공격
+
+Flipper Zero로 이러한 신호를 공격하려면 확인하세요:
+
+{% content-ref url="flipper-zero/fz-sub-ghz.md" %}
+[fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
+{% endcontent-ref %}
+
+## 롤링 코드 보호
+
+자동 차고 문 개폐기는 일반적으로 차고 문을 열고 닫기 위해 무선 리모컨을 사용합니다. 리모컨은 차고 문 개폐기에 **무선 주파수(RF) 신호**를 전송하여 모터를 활성화하여 문을 열거나 닫습니다.
+
+누군가 코드 그래버라는 장치를 사용하여 RF 신호를 가로채고 나중에 사용할 수 있도록 기록할 수 있습니다. 이를 **재전송 공격**이라고 합니다. 이러한 유형의 공격을 방지하기 위해 많은 현대 차고 문 개폐기는 **롤링 코드** 시스템이라는 보다 안전한 암호화 방법을 사용합니다.
+
+**RF 신호는 일반적으로 롤링 코드를 사용하여 전송되며**, 이는 코드가 매번 사용될 때마다 변경된다는 것을 의미합니다. 이는 누군가가 신호를 **가로채고** 이를 사용하여 차고에 **무단 접근**하는 것을 **어렵게** 만듭니다.
+
+롤링 코드 시스템에서 리모컨과 차고 문 개폐기는 **공유 알고리즘**을 가지고 있어 리모컨이 사용될 때마다 **새로운 코드를 생성**합니다. 차고 문 개폐기는 **올바른 코드**에만 반응하므로 누군가가 코드를 캡처하여 차고에 무단으로 접근하는 것이 훨씬 더 어렵습니다.
+
+### **누락된 링크 공격**
+
+기본적으로 버튼을 듣고 **리모컨이 장치의 범위를 벗어났을 때 신호를 캡처**합니다(예: 자동차나 차고). 그런 다음 장치로 이동하여 **캡처한 코드를 사용하여 열 수 있습니다**.
+
+### 전체 링크 재밍 공격
+
+공격자는 **차량이나 수신기 근처에서 신호를 재밍**하여 **수신기가 실제로 코드를 ‘듣지 못하게** 할 수 있으며, 그런 일이 발생하면 **코드를 캡처하고 재전송**할 수 있습니다.
+
+피해자는 어느 시점에서 **차를 잠그기 위해 키를 사용할 것이지만**, 공격자는 **"문 닫기" 코드**를 충분히 기록하여 문을 열 수 있기를 바랍니다(같은 코드를 사용하여 열고 닫는 차량이 있으므로 **주파수 변경이 필요할 수 있습니다**).
+
+{% hint style="warning" %}
+**재밍은 작동하지만**, 눈에 띄며 **차를 잠그는 사람이 문을 잠그기 위해 간단히 테스트**하면 차가 잠기지 않았다는 것을 알 수 있습니다. 또한, 그들이 이러한 공격을 인지하고 있다면, 잠금 버튼을 눌렀을 때 문이 잠기는 **소리**가 나지 않거나 차량의 **불빛**이 깜박이지 않았다는 사실을 들을 수 있습니다.
+{% endhint %}
+
+### **코드 그래빙 공격(일명 ‘롤잼’)**
+
+이것은 더 **은밀한 재밍 기술**입니다. 공격자는 신호를 재밍하여 피해자가 문을 잠그려고 할 때 작동하지 않게 하지만, 공격자는 **이 코드를 기록**합니다. 그런 다음 피해자는 버튼을 눌러 **차를 다시 잠그려고 시도**하고 차량은 **이 두 번째 코드를 기록**합니다.\
+즉시 이후에 **공격자는 첫 번째 코드를 전송**하고 **차량은 잠깁니다**(피해자는 두 번째 누름으로 잠겼다고 생각할 것입니다). 그런 다음 공격자는 **차를 열기 위해 두 번째 도난 코드를 전송**할 수 있습니다( **"차 닫기" 코드가 열기에도 사용될 수 있다고 가정할 때**). 주파수 변경이 필요할 수 있습니다(같은 코드를 사용하여 열고 닫는 차량이 있으므로 두 명령을 서로 다른 주파수에서 듣습니다).
+
+공격자는 **차량 수신기를 재밍하고 자신의 수신기는 재밍하지 않을 수 있습니다**. 예를 들어 차량 수신기가 1MHz 대역폭에서 듣고 있다면, 공격자는 리모컨이 사용하는 정확한 주파수를 **재밍**하지 않고 **그 스펙트럼에서 가까운 주파수를 재밍**하면서 **공격자의 수신기는 더 작은 범위에서** 리모컨 신호를 **재밍 신호 없이 들을 수 있습니다**.
+
+{% hint style="warning" %}
+사양에서 본 다른 구현은 **롤링 코드가 전송된 총 코드의 일부**임을 보여줍니다. 즉, 전송된 코드는 **24비트 키**이며, 첫 번째 **12비트는 롤링 코드**, **두 번째 8비트는 명령**(잠금 또는 잠금 해제와 같은)이고 마지막 4비트는 **체크섬**입니다. 이러한 유형을 구현하는 차량은 공격자가 롤링 코드 세그먼트를 교체하기만 하면 **두 주파수에서 모든 롤링 코드를 사용할 수 있게 됩니다**.
+{% endhint %}
+
+{% hint style="danger" %}
+피해자가 공격자가 첫 번째 코드를 전송하는 동안 세 번째 코드를 전송하면 첫 번째 및 두 번째 코드는 무효화됩니다.
+{% endhint %}
+
+### 알람 소리 재밍 공격
+
+차량에 설치된 애프터마켓 롤링 코드 시스템에 대해 테스트한 결과, **같은 코드를 두 번 전송**하면 즉시 **알람**과 **이모빌라이저**가 활성화되어 독특한 **서비스 거부** 기회를 제공합니다. 아이러니하게도 **알람**과 **이모빌라이저를 비활성화하는 방법은 **리모컨을 누르는 것**이었으며, 이는 공격자가 **지속적으로 DoS 공격을 수행할 수 있는 능력**을 제공합니다. 또는 피해자가 가능한 한 빨리 공격을 중단하고 싶어하므로 **이 공격과 이전 공격을 혼합하여 더 많은 코드를 얻을 수 있습니다**.
+
+## 참고 문헌
+
+* [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
+* [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
+* [https://samy.pl/defcon2015/](https://samy.pl/defcon2015/)
+* [https://hackaday.io/project/164566-how-to-hack-a-car/details](https://hackaday.io/project/164566-how-to-hack-a-car/details)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

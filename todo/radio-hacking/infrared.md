@@ -1,0 +1,108 @@
+# 적외선
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks 지원하기</summary>
+
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+
+</details>
+{% endhint %}
+
+## 적외선 작동 원리 <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+
+**적외선은 인간에게 보이지 않습니다**. IR 파장은 **0.7에서 1000 마이크론**입니다. 가정용 리모컨은 데이터 전송을 위해 IR 신호를 사용하며, 0.75..1.4 마이크론의 파장 범위에서 작동합니다. 리모컨의 마이크로컨트롤러는 특정 주파수로 적외선 LED를 깜박이게 하여 디지털 신호를 IR 신호로 변환합니다.
+
+IR 신호를 수신하기 위해 **광수신기**가 사용됩니다. 이는 **IR 빛을 전압 펄스로 변환**하며, 이는 이미 **디지털 신호**입니다. 일반적으로 수신기 내부에는 **어두운 빛 필터**가 있어 **원하는 파장만 통과**시키고 잡음을 차단합니다.
+
+### 다양한 IR 프로토콜 <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+
+IR 프로토콜은 3가지 요소에서 다릅니다:
+
+* 비트 인코딩
+* 데이터 구조
+* 반송 주파수 — 일반적으로 36..38 kHz 범위
+
+#### 비트 인코딩 방식 <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+
+**1. 펄스 간격 인코딩**
+
+비트는 펄스 사이의 간격 지속 시간을 변조하여 인코딩됩니다. 펄스 자체의 너비는 일정합니다.
+
+<figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
+
+**2. 펄스 폭 인코딩**
+
+비트는 펄스 폭의 변조로 인코딩됩니다. 펄스 폭 후의 간격 너비는 일정합니다.
+
+<figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
+
+**3. 위상 인코딩**
+
+맨체스터 인코딩으로도 알려져 있습니다. 논리 값은 펄스 폭과 간격 사이의 전환의 극성에 의해 정의됩니다. "간격에서 펄스 폭"은 논리 "0"을 나타내고, "펄스 폭에서 간격"은 논리 "1"을 나타냅니다.
+
+<figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
+
+**4. 이전 방식과 기타 이국적인 조합**
+
+{% hint style="info" %}
+여러 유형의 장치에 대해 **보편적이 되려고 하는** IR 프로토콜이 있습니다. 가장 유명한 것은 RC5와 NEC입니다. 불행히도, 가장 유명하다고 해서 가장 일반적이라는 의미는 아닙니다. 제 환경에서는 NEC 리모컨 두 개만 보았고 RC5는 없었습니다.
+
+제조업체는 동일한 장치 범위 내에서도 고유한 IR 프로토콜을 사용하는 것을 좋아합니다(예: TV 박스). 따라서 서로 다른 회사의 리모컨과 때로는 동일한 회사의 서로 다른 모델의 리모컨은 동일한 유형의 다른 장치와 작동할 수 없습니다.
+{% endhint %}
+
+### IR 신호 탐색
+
+리모컨의 IR 신호가 어떻게 생겼는지 확인하는 가장 신뢰할 수 있는 방법은 오실로스코프를 사용하는 것입니다. 이는 수신된 신호를 복조하거나 반전하지 않고 "있는 그대로" 표시합니다. 이는 테스트 및 디버깅에 유용합니다. NEC IR 프로토콜의 예를 통해 예상 신호를 보여드리겠습니다.
+
+<figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
+
+일반적으로 인코딩된 패킷의 시작 부분에는 프리앰블이 있습니다. 이는 수신기가 이득 수준과 배경을 결정할 수 있게 해줍니다. 프리앰블이 없는 프로토콜도 있으며, 예를 들어 Sharp가 있습니다.
+
+그런 다음 데이터가 전송됩니다. 구조, 프리앰블 및 비트 인코딩 방법은 특정 프로토콜에 의해 결정됩니다.
+
+**NEC IR 프로토콜**은 짧은 명령과 버튼이 눌리는 동안 전송되는 반복 코드로 구성됩니다. 명령과 반복 코드 모두 시작 부분에 동일한 프리앰블을 가지고 있습니다.
+
+NEC **명령**은 프리앰블 외에도 장치가 수행해야 할 작업을 이해할 수 있도록 주소 바이트와 명령 번호 바이트로 구성됩니다. 주소 및 명령 번호 바이트는 전송의 무결성을 확인하기 위해 역값으로 중복됩니다. 명령 끝에는 추가적인 정지 비트가 있습니다.
+
+**반복 코드**는 프리앰블 뒤에 "1"이 있으며, 이는 정지 비트입니다.
+
+**논리 "0"과 "1"**에 대해 NEC는 펄스 간격 인코딩을 사용합니다: 먼저 펄스 폭이 전송된 후 그 뒤에 간격이 있으며, 그 길이가 비트의 값을 설정합니다.
+
+### 에어컨
+
+다른 리모컨과 달리 **에어컨은 눌린 버튼의 코드만 전송하지 않습니다**. 버튼이 눌리면 **모든 정보를 전송하여** **에어컨과 리모컨이 동기화되도록** 합니다.\
+이렇게 하면 20ºC로 설정된 기계가 한 리모컨으로 21ºC로 증가하고, 이후 20ºC로 온도가 설정된 다른 리모컨으로 온도를 더 높이면 21ºC로 "증가"하게 됩니다(21ºC에 있다고 생각하고 22ºC로 증가하지 않음).
+
+### 공격
+
+Flipper Zero로 적외선을 공격할 수 있습니다:
+
+{% content-ref url="flipper-zero/fz-infrared.md" %}
+[fz-infrared.md](flipper-zero/fz-infrared.md)
+{% endcontent-ref %}
+
+## 참고 문헌
+
+* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks 지원하기</summary>
+
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+
+</details>
+{% endhint %}

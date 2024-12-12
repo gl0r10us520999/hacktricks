@@ -1,0 +1,66 @@
+# FZ - 적외선
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks 지원하기</summary>
+
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+
+</details>
+{% endhint %}
+
+## 소개 <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+
+적외선 작동 방식에 대한 자세한 정보는 다음을 확인하세요:
+
+{% content-ref url="../infrared.md" %}
+[infrared.md](../infrared.md)
+{% endcontent-ref %}
+
+## Flipper Zero의 IR 신호 수신기 <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+
+Flipper는 **IR 리모컨의 신호를 가로챌 수 있는** 디지털 IR 신호 수신기 TSOP를 사용합니다. Xiaomi와 같은 일부 **스마트폰**에도 IR 포트가 있지만, **대부분은 신호를 전송만 할 수 있으며** 수신할 수는 없습니다.
+
+Flipper의 적외선 **수신기는 매우 민감합니다**. 리모컨과 TV 사이의 **어딘가에 있는 동안에도 신호를 잡을 수 있습니다**. 리모컨을 Flipper의 IR 포트에 직접 겨냥할 필요는 없습니다. 이는 누군가 TV 근처에서 채널을 변경할 때 유용하며, 당신과 Flipper는 어느 정도 거리가 있을 수 있습니다.
+
+**적외선 신호의 디코딩**은 **소프트웨어** 측에서 이루어지므로, Flipper Zero는 **모든 IR 리모컨 코드의 수신 및 전송을 지원할 수 있습니다**. 인식할 수 없는 **알 수 없는** 프로토콜의 경우, Flipper는 수신한 그대로의 원시 신호를 **기록하고 재생**합니다.
+
+## 작업
+
+### 유니버설 리모컨
+
+Flipper Zero는 **모든 TV, 에어컨 또는 미디어 센터를 제어하는 유니버설 리모컨**으로 사용할 수 있습니다. 이 모드에서 Flipper는 **SD 카드의 사전**에 따라 모든 지원 제조업체의 **모든 알려진 코드**를 **무작위로 시도합니다**. 레스토랑 TV를 끄기 위해 특정 리모컨을 선택할 필요가 없습니다.
+
+유니버설 리모컨 모드에서 전원 버튼을 누르기만 하면 Flipper는 **알고 있는 모든 TV의 "전원 끄기"** 명령을 순차적으로 전송합니다: Sony, Samsung, Panasonic... 등. TV가 신호를 수신하면 반응하여 꺼집니다.
+
+이러한 무작위 시도는 시간이 걸립니다. 사전이 클수록 완료하는 데 더 오랜 시간이 걸립니다. TV에서 피드백이 없기 때문에 TV가 정확히 어떤 신호를 인식했는지 알 수 없습니다.
+
+### 새로운 리모컨 배우기
+
+Flipper Zero로 **적외선 신호를 캡처**할 수 있습니다. 데이터베이스에서 신호를 **찾으면** Flipper는 자동으로 **이 장치가 무엇인지 알게 되고** 상호작용할 수 있게 해줍니다.\
+신호를 찾지 못하면 Flipper는 **신호를 저장**하고 **재생할 수 있게** 해줍니다.
+
+## 참고자료
+
+* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks 지원하기</summary>
+
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+
+</details>
+{% endhint %}

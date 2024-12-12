@@ -1,0 +1,181 @@
+# macOS Thread Injection via Task port
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## Code
+
+* [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
+* [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
+
+
+## 1. Thread Hijacking
+
+처음에, **`task_threads()`** 함수가 원격 작업에서 스레드 목록을 얻기 위해 작업 포트에서 호출됩니다. 스레드가 하이재킹을 위해 선택됩니다. 이 접근 방식은 새로운 완화가 `thread_create_running()`을 차단하기 때문에 기존의 코드 주입 방법과 다릅니다.
+
+스레드를 제어하기 위해 **`thread_suspend()`**가 호출되어 실행이 중단됩니다.
+
+원격 스레드에서 허용되는 유일한 작업은 **중지** 및 **시작**과 **레지스터** 값을 **가져오고** **수정하는** 것입니다. 원격 함수 호출은 레지스터 `x0`에서 `x7`을 **인수**로 설정하고, **`pc`**를 원하는 함수로 설정한 후 스레드를 활성화하여 시작됩니다. 반환 후 스레드가 충돌하지 않도록 하려면 반환을 감지해야 합니다.
+
+한 가지 전략은 `thread_set_exception_ports()`를 사용하여 원격 스레드에 대한 예외 처리기를 **등록**하는 것입니다. 함수 호출 전에 `lr` 레지스터를 잘못된 주소로 설정합니다. 이는 함수 실행 후 예외를 발생시켜 예외 포트에 메시지를 보내고, 스레드의 상태를 검사하여 반환 값을 복구할 수 있게 합니다. 또는 Ian Beer의 triple\_fetch 익스플로잇에서 채택한 대로 `lr`을 무한 루프에 설정할 수 있습니다. 그런 다음 스레드의 레지스터를 지속적으로 모니터링하여 **`pc`가 해당 명령어를 가리킬 때까지** 진행합니다.
+
+## 2. Mach ports for communication
+
+다음 단계는 원격 스레드와의 통신을 용이하게 하기 위해 Mach 포트를 설정하는 것입니다. 이러한 포트는 작업 간에 임의의 전송 및 수신 권한을 전송하는 데 중요합니다.
+
+양방향 통신을 위해 두 개의 Mach 수신 권한이 생성됩니다: 하나는 로컬 작업에, 다른 하나는 원격 작업에 있습니다. 이후 각 포트에 대한 전송 권한이 상대 작업으로 전송되어 메시지 교환이 가능해집니다.
+
+로컬 포트에 집중하면, 수신 권한은 로컬 작업에 의해 보유됩니다. 포트는 `mach_port_allocate()`로 생성됩니다. 이 포트에 대한 전송 권한을 원격 작업으로 전송하는 것이 도전 과제가 됩니다.
+
+한 가지 전략은 `thread_set_special_port()`를 활용하여 원격 스레드의 `THREAD_KERNEL_PORT`에 로컬 포트에 대한 전송 권한을 배치하는 것입니다. 그런 다음 원격 스레드에 `mach_thread_self()`를 호출하여 전송 권한을 가져오도록 지시합니다.
+
+원격 포트의 경우, 과정은 본질적으로 반대로 진행됩니다. 원격 스레드는 `mach_reply_port()`를 통해 Mach 포트를 생성하도록 지시됩니다(반환 메커니즘 때문에 `mach_port_allocate()`는 적합하지 않음). 포트가 생성되면, 원격 스레드에서 `mach_port_insert_right()`가 호출되어 전송 권한이 설정됩니다. 이 권한은 `thread_set_special_port()`를 사용하여 커널에 저장됩니다. 로컬 작업으로 돌아가서, `thread_get_special_port()`를 사용하여 원격 스레드에서 새로 할당된 Mach 포트에 대한 전송 권한을 획득합니다.
+
+이 단계가 완료되면 Mach 포트가 설정되어 양방향 통신을 위한 기초가 마련됩니다.
+
+## 3. Basic Memory Read/Write Primitives
+
+이 섹션에서는 기본 메모리 읽기 및 쓰기 원시 작업을 설정하기 위해 실행 원시 작업을 활용하는 데 중점을 둡니다. 이러한 초기 단계는 원격 프로세스에 대한 더 많은 제어를 얻는 데 중요하지만, 이 단계의 원시 작업은 많은 용도로 사용되지 않을 것입니다. 곧 더 고급 버전으로 업그레이드될 것입니다.
+
+### Memory Reading and Writing Using Execute Primitive
+
+목표는 특정 함수를 사용하여 메모리 읽기 및 쓰기를 수행하는 것입니다. 메모리를 읽기 위해 다음과 유사한 구조의 함수가 사용됩니다:
+```c
+uint64_t read_func(uint64_t *address) {
+return *address;
+}
+```
+그리고 메모리에 쓰기 위해서는 이 구조와 유사한 함수들이 사용됩니다:
+```c
+void write_func(uint64_t *address, uint64_t value) {
+*address = value;
+}
+```
+이 함수는 주어진 어셈블리 명령어에 해당합니다:
+```
+_read_func:
+ldr x0, [x0]
+ret
+_write_func:
+str x1, [x0]
+ret
+```
+### 적합한 함수 식별
+
+일반 라이브러리를 스캔한 결과 이러한 작업에 적합한 후보가 발견되었습니다:
+
+1. **메모리 읽기:**
+`property_getName()` 함수는 메모리를 읽기 위한 적합한 함수로 확인되었습니다. 함수는 아래에 설명되어 있습니다:
+```c
+const char *property_getName(objc_property_t prop) {
+return prop->name;
+}
+```
+이 함수는 `objc_property_t`의 첫 번째 필드를 반환함으로써 효과적으로 `read_func`처럼 작동합니다.
+
+2. **메모리 쓰기:**
+메모리를 쓰기 위한 미리 구축된 함수를 찾는 것은 더 어려운 일입니다. 그러나 libxpc의 `_xpc_int64_set_value()` 함수는 다음과 같은 디스어셈블리와 함께 적합한 후보입니다:
+```c
+__xpc_int64_set_value:
+str x1, [x0, #0x18]
+ret
+```
+특정 주소에서 64비트 쓰기를 수행하기 위해 원격 호출은 다음과 같이 구성됩니다:
+```c
+_xpc_int64_set_value(address - 0x18, value)
+```
+이러한 원시 기능이 설정되면, 원격 프로세스를 제어하는 데 있어 중요한 진전을 이루는 공유 메모리를 생성할 준비가 됩니다.
+
+## 4. 공유 메모리 설정
+
+목표는 로컬 및 원격 작업 간에 공유 메모리를 설정하여 데이터 전송을 간소화하고 여러 인수를 가진 함수 호출을 용이하게 하는 것입니다. 이 접근 방식은 Mach 메모리 항목을 기반으로 하는 `libxpc`와 그 `OS_xpc_shmem` 객체 유형을 활용하는 것을 포함합니다.
+
+### 프로세스 개요:
+
+1. **메모리 할당**:
+- `mach_vm_allocate()`를 사용하여 공유할 메모리를 할당합니다.
+- 할당된 메모리 영역에 대해 `xpc_shmem_create()`를 사용하여 `OS_xpc_shmem` 객체를 생성합니다. 이 함수는 Mach 메모리 항목의 생성을 관리하고 `OS_xpc_shmem` 객체의 오프셋 `0x18`에 Mach 전송 권한을 저장합니다.
+
+2. **원격 프로세스에서 공유 메모리 생성**:
+- 원격 호출을 통해 원격 프로세스에서 `OS_xpc_shmem` 객체를 위한 메모리를 할당합니다.
+- 로컬 `OS_xpc_shmem` 객체의 내용을 원격 프로세스로 복사합니다. 그러나 이 초기 복사는 오프셋 `0x18`에서 잘못된 Mach 메모리 항목 이름을 가질 것입니다.
+
+3. **Mach 메모리 항목 수정**:
+- `thread_set_special_port()` 메서드를 사용하여 Mach 메모리 항목에 대한 전송 권한을 원격 작업에 삽입합니다.
+- 원격 메모리 항목의 이름으로 오프셋 `0x18`의 Mach 메모리 항목 필드를 덮어씁니다.
+
+4. **공유 메모리 설정 완료**:
+- 원격 `OS_xpc_shmem` 객체를 검증합니다.
+- 원격 호출을 통해 공유 메모리 매핑을 설정합니다 `xpc_shmem_remote()`.
+
+이 단계를 따르면 로컬 및 원격 작업 간에 공유 메모리가 효율적으로 설정되어 데이터 전송과 여러 인수를 요구하는 함수 실행이 간단해집니다.
+
+## 추가 코드 스니펫
+
+메모리 할당 및 공유 메모리 객체 생성을 위한:
+```c
+mach_vm_allocate();
+xpc_shmem_create();
+```
+원격 프로세스에서 공유 메모리 객체를 생성하고 수정하기 위해:
+```c
+malloc(); // for allocating memory remotely
+thread_set_special_port(); // for inserting send right
+```
+기억하세요, 공유 메모리 설정이 제대로 작동하도록 Mach 포트와 메모리 항목 이름의 세부 사항을 올바르게 처리해야 합니다.
+
+## 5. 완전한 제어 달성
+
+공유 메모리를 성공적으로 설정하고 임의 실행 기능을 얻으면, 본질적으로 대상 프로세스에 대한 완전한 제어를 얻게 됩니다. 이 제어를 가능하게 하는 주요 기능은 다음과 같습니다:
+
+1. **임의 메모리 작업**:
+- `memcpy()`를 호출하여 공유 영역에서 데이터를 복사함으로써 임의 메모리 읽기를 수행합니다.
+- `memcpy()`를 사용하여 공유 영역으로 데이터를 전송함으로써 임의 메모리 쓰기를 실행합니다.
+
+2. **다중 인수를 가진 함수 호출 처리**:
+- 8개 이상의 인수를 요구하는 함수의 경우, 호출 규약에 따라 추가 인수를 스택에 배치합니다.
+
+3. **Mach 포트 전송**:
+- 이전에 설정된 포트를 통해 Mach 메시지를 통해 작업 간에 Mach 포트를 전송합니다.
+
+4. **파일 설명자 전송**:
+- Ian Beer가 `triple_fetch`에서 강조한 기술인 fileports를 사용하여 프로세스 간에 파일 설명자를 전송합니다.
+
+이 포괄적인 제어는 [threadexec](https://github.com/bazad/threadexec) 라이브러리에 캡슐화되어 있으며, 피해자 프로세스와의 상호작용을 위한 상세한 구현과 사용자 친화적인 API를 제공합니다.
+
+## 중요한 고려 사항:
+
+- 시스템 안정성과 데이터 무결성을 유지하기 위해 메모리 읽기/쓰기 작업에 `memcpy()`를 적절히 사용해야 합니다.
+- Mach 포트나 파일 설명자를 전송할 때는 적절한 프로토콜을 따르고 자원을 책임감 있게 처리하여 누수나 의도치 않은 접근을 방지해야 합니다.
+
+이 가이드라인을 준수하고 `threadexec` 라이브러리를 활용함으로써, 프로세스를 세밀하게 관리하고 상호작용하여 대상 프로세스에 대한 완전한 제어를 달성할 수 있습니다.
+
+## 참고 문헌
+* [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

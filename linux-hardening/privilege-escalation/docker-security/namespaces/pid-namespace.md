@@ -1,0 +1,110 @@
+# PID Namespace
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+{% endhint %}
+
+## Basic Information
+
+PID (Process IDentifier) 네임스페이스는 리눅스 커널의 기능으로, 프로세스 격리를 제공하여 프로세스 그룹이 다른 네임스페이스의 PID와 분리된 고유한 PID 집합을 가질 수 있게 합니다. 이는 보안 및 자원 관리에 필수적인 프로세스 격리가 필요한 컨테이너화에서 특히 유용합니다.
+
+새로운 PID 네임스페이스가 생성되면, 해당 네임스페이스의 첫 번째 프로세스는 PID 1이 할당됩니다. 이 프로세스는 새로운 네임스페이스의 "init" 프로세스가 되며, 네임스페이스 내의 다른 프로세스를 관리하는 역할을 합니다. 네임스페이스 내에서 생성된 이후의 각 프로세스는 해당 네임스페이스 내에서 고유한 PID를 가지며, 이러한 PID는 다른 네임스페이스의 PID와 독립적입니다.
+
+PID 네임스페이스 내의 프로세스 관점에서 볼 때, 동일한 네임스페이스의 다른 프로세스만 볼 수 있습니다. 다른 네임스페이스의 프로세스는 인식하지 못하며, 전통적인 프로세스 관리 도구(예: `kill`, `wait` 등)를 사용하여 상호작용할 수 없습니다. 이는 프로세스 간의 간섭을 방지하는 격리 수준을 제공합니다.
+
+### How it works:
+
+1. 새로운 프로세스가 생성될 때(예: `clone()` 시스템 호출을 사용하여), 프로세스는 새로운 또는 기존의 PID 네임스페이스에 할당될 수 있습니다. **새로운 네임스페이스가 생성되면, 프로세스는 해당 네임스페이스의 "init" 프로세스가 됩니다**.
+2. **커널**은 **새로운 네임스페이스의 PID와 부모 네임스페이스의 해당 PID 간의 매핑을 유지합니다**(즉, 새로운 네임스페이스가 생성된 네임스페이스). 이 매핑은 **커널이 필요할 때 PID를 변환할 수 있게 합니다**, 예를 들어 서로 다른 네임스페이스의 프로세스 간에 신호를 보낼 때.
+3. **PID 네임스페이스 내의 프로세스는 동일한 네임스페이스의 다른 프로세스만 보고 상호작용할 수 있습니다**. 그들은 다른 네임스페이스의 프로세스를 인식하지 못하며, 그들의 PID는 네임스페이스 내에서 고유합니다.
+4. **PID 네임스페이스가 파괴될 때**(예: 네임스페이스의 "init" 프로세스가 종료될 때), **해당 네임스페이스 내의 모든 프로세스가 종료됩니다**. 이는 네임스페이스와 관련된 모든 자원이 적절히 정리되도록 보장합니다.
+
+## Lab:
+
+### Create different Namespaces
+
+#### CLI
+```bash
+sudo unshare -pf --mount-proc /bin/bash
+```
+<details>
+
+<summary>Error: bash: fork: Cannot allocate memory</summary>
+
+`unshare`가 `-f` 옵션 없이 실행될 때, Linux가 새로운 PID (프로세스 ID) 네임스페이스를 처리하는 방식 때문에 오류가 발생합니다. 주요 세부사항과 해결책은 아래에 설명되어 있습니다:
+
+1. **문제 설명**:
+- Linux 커널은 프로세스가 `unshare` 시스템 호출을 사용하여 새로운 네임스페이스를 생성할 수 있도록 허용합니다. 그러나 새로운 PID 네임스페이스를 생성하는 프로세스(이를 "unshare" 프로세스라고 함)는 새로운 네임스페이스에 들어가지 않으며, 오직 그 자식 프로세스만 들어갑니다.
+- `%unshare -p /bin/bash%`를 실행하면 `/bin/bash`가 `unshare`와 동일한 프로세스에서 시작됩니다. 결과적으로 `/bin/bash`와 그 자식 프로세스는 원래 PID 네임스페이스에 있습니다.
+- 새로운 네임스페이스에서 `/bin/bash`의 첫 번째 자식 프로세스는 PID 1이 됩니다. 이 프로세스가 종료되면, 다른 프로세스가 없을 경우 네임스페이스의 정리가 트리거됩니다. PID 1은 고아 프로세스를 입양하는 특별한 역할을 가지고 있습니다. 그러면 Linux 커널은 해당 네임스페이스에서 PID 할당을 비활성화합니다.
+
+2. **결과**:
+- 새로운 네임스페이스에서 PID 1의 종료는 `PIDNS_HASH_ADDING` 플래그의 정리를 초래합니다. 이로 인해 새로운 프로세스를 생성할 때 `alloc_pid` 함수가 새로운 PID를 할당하는 데 실패하여 "Cannot allocate memory" 오류가 발생합니다.
+
+3. **해결책**:
+- 이 문제는 `unshare`와 함께 `-f` 옵션을 사용하여 해결할 수 있습니다. 이 옵션은 `unshare`가 새로운 PID 네임스페이스를 생성한 후 새로운 프로세스를 포크하도록 만듭니다.
+- `%unshare -fp /bin/bash%`를 실행하면 `unshare` 명령 자체가 새로운 네임스페이스에서 PID 1이 됩니다. `/bin/bash`와 그 자식 프로세스는 이 새로운 네임스페이스 내에서 안전하게 포함되어 PID 1의 조기 종료를 방지하고 정상적인 PID 할당을 허용합니다.
+
+`unshare`가 `-f` 플래그와 함께 실행되도록 함으로써 새로운 PID 네임스페이스가 올바르게 유지되어 `/bin/bash`와 그 하위 프로세스가 메모리 할당 오류 없이 작동할 수 있습니다.
+
+</details>
+
+새로운 `/proc` 파일 시스템 인스턴스를 마운트하면 `--mount-proc` 매개변수를 사용하여 새로운 마운트 네임스페이스가 **해당 네임스페이스에 특정한 프로세스 정보에 대한 정확하고 격리된 뷰**를 갖도록 보장합니다.
+
+#### Docker
+```bash
+docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
+```
+### &#x20;프로세스가 어떤 네임스페이스에 있는지 확인하기
+```bash
+ls -l /proc/self/ns/pid
+lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
+```
+### 모든 PID 네임스페이스 찾기
+
+{% code overflow="wrap" %}
+```bash
+sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null | sort -u
+```
+{% endcode %}
+
+초기(기본) PID 네임스페이스의 루트 사용자는 모든 프로세스를 볼 수 있으며, 새로운 PID 네임스페이스의 프로세스도 포함됩니다. 그래서 모든 PID 네임스페이스를 볼 수 있습니다.
+
+### PID 네임스페이스 내부로 들어가기
+```bash
+nsenter -t TARGET_PID --pid /bin/bash
+```
+When you enter inside a PID namespace from the default namespace, you will still be able to see all the processes. And the process from that PID ns will be able to see the new bash on the PID ns.
+
+또한, **루트일 경우에만 다른 프로세스 PID 네임스페이스에 들어갈 수 있습니다**. 그리고 **디스크립터** 없이 다른 네임스페이스에 **들어갈 수 없습니다** (예: `/proc/self/ns/pid`)
+
+## References
+* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}

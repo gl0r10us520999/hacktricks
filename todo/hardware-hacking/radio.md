@@ -1,0 +1,210 @@
+# Radio
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## SigDigger
+
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)는 GNU/Linux 및 macOS용 무료 디지털 신호 분석기로, 알려지지 않은 라디오 신호의 정보를 추출하도록 설계되었습니다. 다양한 SDR 장치를 SoapySDR를 통해 지원하며, FSK, PSK 및 ASK 신호의 조정 가능한 복조, 아날로그 비디오 디코딩, 버스트 신호 분석 및 아날로그 음성 채널 청취(모두 실시간)를 허용합니다.
+
+### Basic Config
+
+설치 후 구성할 수 있는 몇 가지 사항이 있습니다.\
+설정(두 번째 탭 버튼)에서 **SDR 장치**를 선택하거나 **파일을 선택**하여 읽고 조정할 주파수 및 샘플 속도(PC가 지원하는 경우 최대 2.56Msps 권장)를 선택할 수 있습니다.\\
+
+![](<../../.gitbook/assets/image (245).png>)
+
+GUI 동작에서 PC가 지원하는 경우 몇 가지를 활성화하는 것이 좋습니다:
+
+![](<../../.gitbook/assets/image (472).png>)
+
+{% hint style="info" %}
+PC가 신호를 캡처하지 못하는 경우 OpenGL을 비활성화하고 샘플 속도를 낮추어 보십시오.
+{% endhint %}
+
+### Uses
+
+* 신호의 일부를 **캡처하고 분석**하려면 "Push to capture" 버튼을 필요한 만큼 유지하십시오.
+
+![](<../../.gitbook/assets/image (960).png>)
+
+* SigDigger의 **튜너**는 **더 나은 신호를 캡처하는 데 도움**을 줍니다(하지만 신호를 저하시킬 수도 있습니다). 이상적으로는 0에서 시작하여 **신호의 개선보다** **노이즈**가 **더 커질 때까지** **크기를 늘리십시오**.
+
+![](<../../.gitbook/assets/image (1099).png>)
+
+### Synchronize with radio channel
+
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)로 듣고 싶은 채널과 동기화하고 "Baseband audio preview" 옵션을 구성한 다음, 전송되는 모든 정보를 얻기 위해 대역폭을 구성하고 튜너를 노이즈가 실제로 증가하기 시작하기 전의 수준으로 설정하십시오:
+
+![](<../../.gitbook/assets/image (585).png>)
+
+## Interesting tricks
+
+* 장치가 정보의 버스트를 전송할 때, 일반적으로 **첫 번째 부분은 프리앰블**이므로 **정보를 찾지 못하더라도 걱정할 필요가 없습니다** **또는 거기에 오류가 있는 경우**.
+* 정보 프레임에서 일반적으로 **서로 잘 정렬된 다양한 프레임을 찾아야 합니다**:
+
+![](<../../.gitbook/assets/image (1076).png>)
+
+![](<../../.gitbook/assets/image (597).png>)
+
+* **비트를 복구한 후에는 어떤 식으로든 처리해야 할 수 있습니다**. 예를 들어, 맨체스터 부호화에서 up+down은 1 또는 0이 되고 down+up은 다른 하나가 됩니다. 따라서 1과 0의 쌍(업과 다운)은 실제 1 또는 실제 0이 됩니다.
+* 신호가 맨체스터 부호화를 사용하고 있다면(연속으로 0 또는 1이 2개 이상 발견되는 것은 불가능), **프리앰블에서 여러 개의 1 또는 0을 찾을 수 있습니다**!
+
+### Uncovering modulation type with IQ
+
+신호에 정보를 저장하는 방법은 3가지가 있습니다: **진폭**, **주파수** 또는 **위상**을 변조하는 것입니다.\
+신호를 확인할 때 정보를 저장하는 데 사용되는 방법을 알아내기 위해 시도할 수 있는 다양한 방법이 있지만(아래에서 더 많은 방법을 찾으십시오) 좋은 방법 중 하나는 IQ 그래프를 확인하는 것입니다.
+
+![](<../../.gitbook/assets/image (788).png>)
+
+* **AM 감지**: IQ 그래프에 예를 들어 **2개의 원**이 나타나면(아마도 하나는 0이고 다른 하나는 다른 진폭), 이는 AM 신호일 수 있습니다. 이는 IQ 그래프에서 0과 원 사이의 거리가 신호의 진폭이기 때문에 서로 다른 진폭이 사용되는 것을 쉽게 시각화할 수 있습니다.
+* **PM 감지**: 이전 이미지와 같이 서로 관련이 없는 작은 원을 찾으면 이는 위상 변조가 사용되고 있음을 의미할 수 있습니다. 이는 IQ 그래프에서 점과 0,0 사이의 각도가 신호의 위상이기 때문에 4개의 서로 다른 위상이 사용된다는 것을 의미합니다.
+* 정보가 위상이 변경된 사실에 숨겨져 있고 위상 자체에 숨겨져 있다면, 서로 다른 위상을 명확하게 구분할 수 없습니다.
+* **FM 감지**: IQ에는 주파수를 식별하는 필드가 없습니다(중심까지의 거리는 진폭이고 각도는 위상입니다).\
+따라서 FM을 식별하려면 이 그래프에서 **기본적으로 원만 보아야 합니다**.\
+또한, 다른 주파수는 IQ 그래프에서 **원 주위를 가로지르는 속도 가속**으로 "표현"됩니다(따라서 SysDigger에서 신호를 선택하면 IQ 그래프가 채워지며, 생성된 원에서 가속 또는 방향 변경을 찾으면 이는 FM일 수 있습니다):
+
+## AM Example
+
+{% file src="../../.gitbook/assets/sigdigger_20220308_165547Z_2560000_433500000_float32_iq.raw" %}
+
+### Uncovering AM
+
+#### Checking the envelope
+
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)로 AM 정보를 확인하고 **엔벨로프**를 보면 서로 다른 명확한 진폭 수준을 볼 수 있습니다. 사용된 신호는 AM으로 정보를 전송하는 펄스를 보내고 있으며, 하나의 펄스는 다음과 같이 보입니다:
+
+![](<../../.gitbook/assets/image (590).png>)
+
+그리고 이것이 파형과 함께 기호의 일부처럼 보입니다:
+
+![](<../../.gitbook/assets/image (734).png>)
+
+#### Checking the Histogram
+
+정보가 있는 **전체 신호**를 선택하고 **진폭** 모드와 **선택**을 선택한 다음 **히스토그램**을 클릭할 수 있습니다. 2개의 명확한 수준만 발견할 수 있습니다.
+
+![](<../../.gitbook/assets/image (264).png>)
+
+예를 들어, 이 AM 신호에서 진폭 대신 주파수를 선택하면 단 1개의 주파수만 발견됩니다(주파수로 변조된 정보가 단 1개의 주파수만 사용하는 것은 불가능합니다).
+
+![](<../../.gitbook/assets/image (732).png>)
+
+많은 주파수를 발견하면 이는 FM이 아닐 가능성이 높으며, 아마도 신호 주파수가 채널 때문에 수정되었을 것입니다.
+
+#### With IQ
+
+이 예제에서는 **큰 원**이 있지만 **중앙에 많은 점**이 있는 것을 볼 수 있습니다.
+
+![](<../../.gitbook/assets/image (222).png>)
+
+### Get Symbol Rate
+
+#### With one symbol
+
+가장 작은 기호를 선택할 수 있습니다(그래서 1개만 확실히 있는지 확인) 및 "선택 주파수"를 확인하십시오. 이 경우 1.013kHz(즉, 1kHz)가 됩니다.
+
+![](<../../.gitbook/assets/image (78).png>)
+
+#### With a group of symbols
+
+선택할 기호의 수를 지정할 수도 있으며 SigDigger는 1 기호의 주파수를 계산합니다(선택한 기호가 많을수록 더 좋습니다). 이 시나리오에서는 10개의 기호를 선택했으며 "선택 주파수"는 1.004 Khz입니다:
+
+![](<../../.gitbook/assets/image (1008).png>)
+
+### Get Bits
+
+이것이 **AM 변조** 신호이고 **기호 주파수**를 찾았으며(이 경우 어떤 것이 위로 가면 1이고 어떤 것이 아래로 가면 0임을 알고 있음) 신호에 인코딩된 **비트를 얻는 것이 매우 쉽습니다**. 따라서 정보를 가진 신호를 선택하고 샘플링 및 결정을 구성한 다음 샘플을 누릅니다(확인: **진폭**이 선택되어 있고 발견된 **기호 주파수**가 구성되어 있으며 **Gadner 클록 복구**가 선택됨):
+
+![](<../../.gitbook/assets/image (965).png>)
+
+* **선택 간격에 동기화**는 이전에 기호 주파수를 찾기 위해 선택한 간격이 사용된다는 것을 의미합니다.
+* **수동**은 지정된 기호 주파수가 사용된다는 것을 의미합니다.
+* **고정 간격 선택**에서는 선택해야 할 간격의 수를 지정하고 그로부터 기호 주파수를 계산합니다.
+* **Gadner 클록 복구**는 일반적으로 가장 좋은 옵션이지만 여전히 대략적인 기호 주파수를 지정해야 합니다.
+
+샘플을 누르면 다음과 같은 결과가 나타납니다:
+
+![](<../../.gitbook/assets/image (644).png>)
+
+이제 SigDigger가 **정보를 전달하는 레벨의 범위**를 이해하도록 하려면 **하위 레벨**을 클릭하고 가장 큰 레벨까지 클릭을 유지해야 합니다:
+
+![](<../../.gitbook/assets/image (439).png>)
+
+예를 들어 **4개의 서로 다른 진폭 수준**이 있었다면, **기호당 비트를 2로 설정**하고 가장 작은 것에서 가장 큰 것까지 선택해야 했습니다.
+
+마지막으로 **줌을 증가시키고** **행 크기를 변경하면** 비트를 볼 수 있습니다(모두 선택하고 복사하여 모든 비트를 얻을 수 있습니다):
+
+![](<../../.gitbook/assets/image (276).png>)
+
+신호에 기호당 1비트 이상(예: 2비트)이 있는 경우, SigDigger는 **어떤 기호가** 00, 01, 10, 11인지 알 수 없으므로 서로 다른 **회색 음영**을 사용하여 각각을 나타냅니다(비트를 복사하면 **0에서 3까지의 숫자**를 사용하므로 처리해야 합니다).
+
+또한 **맨체스터**와 같은 **부호화**를 사용하고 **up+down**은 **1 또는 0**이 될 수 있으며, **down+up**은 1 또는 0이 될 수 있습니다. 이러한 경우에는 **얻은 업(1)과 다운(0)**을 처리하여 01 또는 10 쌍을 0 또는 1로 대체해야 합니다.
+
+## FM Example
+
+{% file src="../../.gitbook/assets/sigdigger_20220308_170858Z_2560000_433500000_float32_iq.raw" %}
+
+### Uncovering FM
+
+#### Checking the frequencies and waveform
+
+FM으로 변조된 정보를 전송하는 신호 예제:
+
+![](<../../.gitbook/assets/image (725).png>)
+
+이전 이미지에서 **2개의 주파수가 사용되고 있음을** 꽤 잘 관찰할 수 있지만, **파형**을 관찰하면 **2개의 서로 다른 주파수를 정확하게 식별하지 못할 수 있습니다**:
+
+![](<../../.gitbook/assets/image (717).png>)
+
+이는 내가 두 주파수에서 신호를 캡처했기 때문에 하나는 대략 다른 하나의 음수입니다:
+
+![](<../../.gitbook/assets/image (942).png>)
+
+동기화된 주파수가 **한 주파수에 더 가까운 경우** 두 개의 서로 다른 주파수를 쉽게 볼 수 있습니다:
+
+![](<../../.gitbook/assets/image (422).png>)
+
+![](<../../.gitbook/assets/image (488).png>)
+
+#### Checking the histogram
+
+정보가 있는 신호의 주파수 히스토그램을 확인하면 두 개의 서로 다른 신호를 쉽게 볼 수 있습니다:
+
+![](<../../.gitbook/assets/image (871).png>)
+
+이 경우 **진폭 히스토그램**을 확인하면 **단 하나의 진폭**만 발견되므로 **AM이 될 수 없습니다**(많은 진폭을 발견하면 신호가 채널을 따라 전력을 잃었을 가능성이 있습니다):
+
+![](<../../.gitbook/assets/image (817).png>)
+
+그리고 이것이 위상 히스토그램입니다(신호가 위상으로 변조되지 않았음을 매우 명확하게 보여줍니다):
+
+![](<../../.gitbook/assets/image (996).png>)
+
+#### With IQ
+
+IQ에는 주파수를 식별하는 필드가 없습니다(중심까지의 거리는 진폭이고 각도는 위상입니다).\
+따라서 FM을 식별하려면 이 그래프에서 **기본적으로 원만 보아야 합니다**.\
+또한, 다른 주파수는 IQ 그래프에서 **원 주위를 가로지르는 속도 가속**으로 "표현"됩니다(따라서 SysDigger에서 신호를 선택하면 IQ 그래프가 채워지며, 생성된 원에서 가속 또는 방향 변경을 찾으면 이는 FM일 수 있습니다):
+
+![](<../../.gitbook/assets/image (81).png>)
+
+### Get Symbol Rate
+
+주파수를 찾은 후 기호 주파수를 얻기 위해 **AM 예제에서 사용된 것과 동일한 기술**을 사용할 수 있습니다.
+
+### Get Bits
+
+주파수가 변조된 신호를 찾은 후 비트를 얻기 위해 **AM 예제에서 사용된 것과 동일한 기술**을 사용할 수 있습니다.
