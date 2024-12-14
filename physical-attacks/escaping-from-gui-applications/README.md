@@ -1,22 +1,6 @@
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
-
-
 # Verifique las posibles acciones dentro de la aplicación GUI
 
-**Diálogos Comunes** son aquellas opciones de **guardar un archivo**, **abrir un archivo**, seleccionar una fuente, un color... La mayoría de ellos **ofrecerán una funcionalidad completa de Explorador**. Esto significa que podrás acceder a las funcionalidades del Explorador si puedes acceder a estas opciones:
+**Diálogos Comunes** son esas opciones de **guardar un archivo**, **abrir un archivo**, seleccionar una fuente, un color... La mayoría de ellos **ofrecerán una funcionalidad completa de Explorador**. Esto significa que podrás acceder a las funcionalidades del Explorador si puedes acceder a estas opciones:
 
 * Cerrar/Cerrar como
 * Abrir/Abrir con
@@ -38,7 +22,7 @@ Quizás **usando una opción `Abrir con`** puedas abrir/ejecutar algún tipo de 
 
 ### Windows
 
-Por ejemplo _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ encuentra más binarios que pueden ser utilizados para ejecutar comandos (y realizar acciones inesperadas) aquí: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Por ejemplo _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ encuentra más binarios que se pueden usar para ejecutar comandos (y realizar acciones inesperadas) aquí: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
@@ -73,7 +57,7 @@ _bash, sh, zsh..._ Más aquí: [https://gtfobins.github.io/](https://gtfobins.gi
 
 Consola: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Explorador: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Editor del registro: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+Editor de registro: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
 ## Accediendo al sistema de archivos desde el navegador
 
@@ -181,11 +165,11 @@ Fuente: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811
 
 * Desliza hacia abajo con 1 dedo en la esquina superior derecha de la pantalla: Para ver el centro de control del iPad Pro
 
-* Desliza 1 dedo desde el lado izquierdo de la pantalla 1-2 pulgadas: Para ver la vista de Hoy
+* Desliza 1 dedo desde la izquierda de la pantalla 1-2 pulgadas: Para ver la vista de Hoy
 
 * Desliza rápido 1 dedo desde el centro de la pantalla hacia la derecha o hacia la izquierda: Para cambiar a la siguiente/última aplicación
 
-* Presiona y mantén el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad +** Mueve el control deslizante de **apagar** todo el camino hacia la derecha: Para apagar
+* Presiona y mantén presionado el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad +** Mueve el control deslizante para **apagar** todo el camino hacia la derecha: Para apagar
 
 * Presiona el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad y el botón de inicio durante unos segundos**: Para forzar un apagado duro
 
@@ -215,7 +199,7 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | Atajo | Acción                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | Atenuar pantalla                                                                    |
-| F2       | Aumentar brillo                                                                |
+| F2       | Aumentar brillo de pantalla                                                                |
 | F7       | Retroceder una canción                                                                  |
 | F8       | Reproducir/pausar                                                                     |
 | F9       | Saltar canción                                                                      |
@@ -231,7 +215,7 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | ⌘H                                                 | Ir a Inicio                                              |
 | ⌘⇧H (Comando-Shift-H)                              | Ir a Inicio                                              |
 | ⌘ (Espacio)                                          | Abrir Spotlight                                          |
-| ⌘⇥ (Comando-Tab)                                   | Listar las últimas diez aplicaciones utilizadas                                 |
+| ⌘⇥ (Comando-Tab)                                   | Listar las últimas diez aplicaciones usadas                                 |
 | ⌘\~                                                | Ir a la última aplicación                                       |
 | ⌘⇧3 (Comando-Shift-3)                              | Captura de pantalla (flota en la parte inferior izquierda para guardar o actuar sobre ella) |
 | ⌘⇧4                                                | Captura de pantalla y ábrela en el editor                    |
@@ -244,9 +228,9 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | → (Flecha derecha)                                    | Siguiente ítem                                               |
 | ← (Flecha izquierda)                                     | Ítem anterior                                           |
 | ↑↓ (Flecha arriba, Flecha abajo)                          | Toca simultáneamente el ítem seleccionado                        |
-| ⌥ ↓ (Opción-Flecha abajo)                            | Desplazarse hacia abajo                                             |
-| ⌥↑ (Opción-Flecha arriba)                               | Desplazarse hacia arriba                                               |
-| ⌥← o ⌥→ (Opción-Flecha izquierda o Opción-Flecha derecha) | Desplazarse a la izquierda o a la derecha                                    |
+| ⌥ ↓ (Flecha hacia abajo)                            | Desplazarse hacia abajo                                             |
+| ⌥↑ (Flecha hacia arriba)                               | Desplazarse hacia arriba                                               |
+| ⌥← o ⌥→ (Flecha izquierda o flecha derecha) | Desplazarse a la izquierda o a la derecha                                    |
 | ^⌥S (Control-Opción-S)                             | Activar o desactivar el habla de VoiceOver                         |
 | ⌘⇧⇥ (Comando-Shift-Tab)                            | Cambiar a la aplicación anterior                              |
 | ⌘⇥ (Comando-Tab)                                   | Volver a la aplicación original                         |
@@ -265,7 +249,7 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | ^⇧⇥ (Control-Shift-Tab) | Moverse a la pestaña anterior                         |
 | ⌘L                      | Seleccionar el campo de entrada de texto/URL para modificarlo     |
 | ⌘⇧T (Comando-Shift-T)   | Abrir la última pestaña cerrada (se puede usar varias veces) |
-| ⌘\[                     | Regresar una página en tu historial de navegación      |
+| ⌘\[                     | Retroceder una página en tu historial de navegación      |
 | ⌘]                      | Avanzar una página en tu historial de navegación   |
 | ⌘⇧R                     | Activar Modo Lector                             |
 
@@ -286,19 +270,3 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
-
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}

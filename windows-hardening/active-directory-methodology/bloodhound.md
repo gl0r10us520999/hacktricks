@@ -28,7 +28,7 @@ Se puede usar para descubrir vulnerabilidades sin conexión, o para comparar dif
 
 Se requerirá el nombre de usuario, la contraseña y la dirección para conectarse (se requiere cualquier usuario de AD).
 
-Para tomar una instantánea de AD, ve a `File` --> `Create Snapshot` y escribe un nombre para la instantánea.
+Para tomar una instantánea de AD, ve a `File` --> `Create Snapshot` y ingresa un nombre para la instantánea.
 
 ## ADRecon
 
@@ -47,7 +47,7 @@ BloodHound utiliza la teoría de grafos para revelar las relaciones ocultas y a 
 
 Así que, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) es una herramienta increíble que puede enumerar un dominio automáticamente, guardar toda la información, encontrar posibles rutas de escalada de privilegios y mostrar toda la información utilizando gráficos.
 
-BloodHound se compone de 2 partes principales: **ingestors** y la **aplicación de visualización**.
+Bloodhound se compone de 2 partes principales: **ingestors** y la **aplicación de visualización**.
 
 Los **ingestors** se utilizan para **enumerar el dominio y extraer toda la información** en un formato que la aplicación de visualización entenderá.
 

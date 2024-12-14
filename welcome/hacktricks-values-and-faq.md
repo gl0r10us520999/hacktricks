@@ -78,7 +78,7 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 * **¿Puedo copiar todos los HackTricks en mi blog?**
 {% endhint %}
 
-**Preferiría que no**. Eso **no beneficiará a nadie** ya que todo el **contenido ya está disponible públicamente** en los libros oficiales de HackTricks de forma gratuita.
+**Preferiría que no**. Eso **no beneficiará a nadie**, ya que todo el **contenido ya está disponible públicamente** en los libros oficiales de HackTricks de forma gratuita.
 
 Si temes que desaparezca, simplemente haz un fork en Github o descárgalo, como dije, ya es gratuito.
 
@@ -86,7 +86,7 @@ Si temes que desaparezca, simplemente haz un fork en Github o descárgalo, como 
 * **¿Por qué tienes patrocinadores? ¿Los libros de HackTricks son con fines comerciales?**
 {% endhint %}
 
-El primer **valor de HackTricks** es ofrecer recursos educativos de hacking **GRATIS** a **TODO** el mundo. El equipo de HackTricks ha **dedicado miles de horas** para ofrecer este contenido, nuevamente, de forma **GRATUITA**.
+El primer **valor de HackTricks** es ofrecer recursos educativos de hacking **GRATIS** a **TODO** el mundo. El equipo de HackTricks ha **dedicado miles de horas** para ofrecer este contenido, nuevamente, de forma **GRATIS**.
 
 Si piensas que los libros de HackTricks están hechos con **fines comerciales**, estás **COMPLETAMENTE EQUIVOCADO**.
 
@@ -108,15 +108,15 @@ Ten en cuenta que tener enlaces a tu página en HackTricks:
 
 * Mejora tu **SEO**
 * El contenido se **traduce a más de 15 idiomas**, lo que permite que más personas accedan a este contenido
-* **HackTricks anima** a las personas a **revisar tu página** (varias personas nos han mencionado que desde que alguna de sus páginas está en HackTricks reciben más visitas)
+* **HackTricks anima** a las personas a **visitar tu página** (varias personas nos han mencionado que desde que alguna de sus páginas está en HackTricks reciben más visitas)
 
 Sin embargo, si aún deseas que el contenido de tu blog sea eliminado de HackTricks, solo háznoslo saber y definitivamente **eliminaremos todos los enlaces a tu blog**, y cualquier contenido basado en él.
 
 {% hint style="danger" %}
-* **¿Qué debo hacer si encuentro contenido copiado y pegado en HackTricks?**
+* **¿Qué debo hacer si encuentro contenido copiado en HackTricks?**
 {% endhint %}
 
-Siempre **damos a los autores originales todos los créditos**. Si encuentras una página con contenido copiado y pegado sin la fuente original referenciada, háznoslo saber y **lo eliminaremos**, **agregaremos el enlace antes del texto**, o **lo reescribiremos añadiendo el enlace**.
+Siempre **damos a los autores originales todos los créditos**. Si encuentras una página con contenido copiado sin la fuente original referenciada, háznoslo saber y **lo eliminaremos**, **agregaremos el enlace antes del texto**, o **lo reescribiremos añadiendo el enlace**.
 
 ## LICENSE
 
@@ -131,7 +131,7 @@ Copyright © Todos los derechos reservados a menos que se especifique lo contrar
 #### Términos Adicionales:
 
 * Contenido de Terceros: Algunas partes de este blog/libro pueden incluir contenido de otras fuentes, como extractos de otros blogs o publicaciones. El uso de dicho contenido se realiza bajo los principios de uso justo o con permiso explícito de los respectivos titulares de derechos de autor. Por favor, consulta las fuentes originales para obtener información específica sobre la licencia relacionada con el contenido de terceros.
-* Autoría: El contenido original escrito por HackTricks está sujeto a los términos de esta licencia. Se te anima a atribuir este trabajo al autor al compartirlo o adaptarlo.
+* Autoría: El contenido original creado por HackTricks está sujeto a los términos de esta licencia. Se te anima a atribuir este trabajo al autor al compartirlo o adaptarlo.
 
 #### Exenciones:
 
@@ -141,14 +141,14 @@ Esta licencia no otorga ningún derecho de marca registrada o de branding en rel
 
 **Al acceder o utilizar HackTricks, aceptas cumplir con los términos de esta licencia. Si no estás de acuerdo con estos términos, por favor, no accedas a este sitio web.**
 
-## **Descargo de Responsabilidad**
+## **Descargo de responsabilidad**
 
 {% hint style="danger" %}
 Este libro, 'HackTricks', está destinado únicamente a fines educativos e informativos. El contenido dentro de este libro se proporciona "tal cual", y los autores y editores no hacen representaciones ni garantías de ningún tipo, expresas o implícitas, sobre la integridad, precisión, fiabilidad, idoneidad o disponibilidad de la información, productos, servicios o gráficos relacionados contenidos en este libro. Cualquier confianza que deposites en dicha información es, por lo tanto, estrictamente bajo tu propio riesgo.
 
 Los autores y editores no serán en ningún caso responsables de ninguna pérdida o daño, incluyendo, sin limitación, pérdida o daño indirecto o consecuente, o cualquier pérdida o daño que surja de la pérdida de datos o beneficios derivados de, o en conexión con, el uso de este libro.
 
-Además, las técnicas y consejos descritos en este libro se proporcionan únicamente con fines educativos e informativos, y no deben utilizarse para actividades ilegales o maliciosas. Los autores y editores no apoyan ni respaldan ninguna actividad ilegal o poco ética, y cualquier uso de la información contenida en este libro es bajo el propio riesgo y discreción del usuario.
+Además, las técnicas y consejos descritos en este libro se proporcionan únicamente con fines educativos e informativos, y no deben utilizarse para actividades ilegales o maliciosas. Los autores y editores no condenan ni apoyan ninguna actividad ilegal o poco ética, y cualquier uso de la información contenida en este libro es bajo el propio riesgo y discreción del usuario.
 
 El usuario es el único responsable de cualquier acción tomada en base a la información contenida en este libro, y siempre debe buscar asesoramiento y asistencia profesional al intentar implementar cualquiera de las técnicas o consejos descritos aquí.
 
@@ -163,7 +163,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <summary>Apoya a HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 

@@ -30,7 +30,7 @@ smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ### Ejecutando Comandos Sin Binarios
 
 - **Smbexec** permite la ejecución directa de comandos a través de binPaths de servicio, eliminando la necesidad de binarios físicos en el objetivo.
-- Este método es útil para ejecutar comandos únicos en un objetivo de Windows. Por ejemplo, emparejarlo con el módulo `web_delivery` de Metasploit permite la ejecución de una carga útil de Meterpreter inversa dirigida a PowerShell.
+- Este método es útil para ejecutar comandos únicos en un objetivo Windows. Por ejemplo, emparejarlo con el módulo `web_delivery` de Metasploit permite la ejecución de una carga útil de Meterpreter inversa dirigida a PowerShell.
 - Al crear un servicio remoto en la máquina del atacante con binPath configurado para ejecutar el comando proporcionado a través de cmd.exe, es posible ejecutar la carga útil con éxito, logrando la devolución de llamada y la ejecución de la carga útil con el listener de Metasploit, incluso si ocurren errores de respuesta del servicio.
 
 ### Ejemplo de Comandos

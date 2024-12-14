@@ -58,12 +58,12 @@ Definidas dentro de AD, estas plantillas describen la configuración y permisos 
 
 El proceso de inscripción para certificados es iniciado por un administrador que **crea una plantilla de certificado**, que luego es **publicada** por una Autoridad de Certificación Empresarial (CA). Esto hace que la plantilla esté disponible para la inscripción del cliente, un paso logrado al agregar el nombre de la plantilla al campo `certificatetemplates` de un objeto de Active Directory.
 
-Para que un cliente solicite un certificado, deben otorgarse **derechos de inscripción**. Estos derechos están definidos por descriptores de seguridad en la plantilla de certificado y en la propia CA empresarial. Los permisos deben otorgarse en ambos lugares para que una solicitud sea exitosa.
+Para que un cliente solicite un certificado, deben otorgarse **derechos de inscripción**. Estos derechos están definidos por descriptores de seguridad en la plantilla de certificado y en la propia CA empresarial. Los permisos deben otorgarse en ambas ubicaciones para que una solicitud sea exitosa.
 
 ### Derechos de Inscripción de Plantilla
 
 Estos derechos se especifican a través de Entradas de Control de Acceso (ACEs), detallando permisos como:
-- Derechos de **Inscripción de Certificado** y **AutoInscripción de Certificado**, cada uno asociado con GUIDs específicos.
+- Derechos de **Inscripción de Certificado** y **Autoinscripción de Certificado**, cada uno asociado con GUIDs específicos.
 - **Derechos Extendidos**, que permiten todos los permisos extendidos.
 - **ControlTotal/GenericAll**, proporcionando control completo sobre la plantilla.
 
@@ -82,7 +82,7 @@ Ciertos controles pueden aplicarse, como:
 Los certificados se pueden solicitar a través de:
 1. **Protocolo de Inscripción de Certificados de Cliente de Windows** (MS-WCCE), utilizando interfaces DCOM.
 2. **Protocolo Remoto ICertPassage** (MS-ICPR), a través de pipes nombrados o TCP/IP.
-3. La **interfaz web de inscripción de certificados**, con el rol de Inscripción Web de Autoridad de Certificación instalado.
+3. La **interfaz web de inscripción de certificados**, con el rol de Inscripción Web de la Autoridad de Certificación instalado.
 4. El **Servicio de Inscripción de Certificados** (CES), en conjunto con el servicio de Política de Inscripción de Certificados (CEP).
 5. El **Servicio de Inscripción de Dispositivos de Red** (NDES) para dispositivos de red, utilizando el Protocolo Simple de Inscripción de Certificados (SCEP).
 

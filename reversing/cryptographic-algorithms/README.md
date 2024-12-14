@@ -29,7 +29,7 @@ Si se utiliza esta función, puedes encontrar qué **algoritmo se está utilizan
 
 ![](<../../.gitbook/assets/image (375) (1) (1) (1) (1).png>)
 
-Revisa aquí la tabla de posibles algoritmos y sus valores asignados: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Consulta aquí la tabla de posibles algoritmos y sus valores asignados: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
@@ -46,7 +46,7 @@ Inicia el hashing de un flujo de datos. Si se utiliza esta función, puedes enco
 ![](<../../.gitbook/assets/image (376).png>)
 
 \
-Revisa aquí la tabla de posibles algoritmos y sus valores asignados: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Consulta aquí la tabla de posibles algoritmos y sus valores asignados: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 ### Constantes de código
 
@@ -59,9 +59,9 @@ Si buscas la primera constante en Google, esto es lo que obtienes:
 ![](<../../.gitbook/assets/image (371).png>)
 
 Por lo tanto, puedes asumir que la función decompilada es un **calculador de sha256.**\
-Puedes buscar cualquiera de las otras constantes y obtendrás (probablemente) el mismo resultado.
+Puedes buscar cualquiera de las otras constantes y probablemente obtendrás el mismo resultado.
 
-### información de datos
+### Información de datos
 
 Si el código no tiene ninguna constante significativa, puede estar **cargando información de la sección .data**.\
 Puedes acceder a esos datos, **agrupar el primer dword** y buscarlo en Google como hemos hecho en la sección anterior:
@@ -76,19 +76,19 @@ En este caso, si buscas **0xA56363C6** puedes encontrar que está relacionado co
 
 Está compuesto por 3 partes principales:
 
-* **Etapa de inicialización/**: Crea una **tabla de valores de 0x00 a 0xFF** (256bytes en total, 0x100). Esta tabla se llama comúnmente **Caja de Sustitución** (o SBox).
+* **Etapa de inicialización/**: Crea una **tabla de valores de 0x00 a 0xFF** (256 bytes en total, 0x100). Esta tabla se llama comúnmente **Caja de Sustitución** (o SBox).
 * **Etapa de mezcla**: **Recorrerá la tabla** creada antes (bucle de 0x100 iteraciones, nuevamente) modificando cada valor con bytes **semi-aleatorios**. Para crear estos bytes semi-aleatorios, se utiliza la **clave RC4**. Las **claves RC4** pueden tener **entre 1 y 256 bytes de longitud**, sin embargo, generalmente se recomienda que sea superior a 5 bytes. Comúnmente, las claves RC4 tienen 16 bytes de longitud.
-* **Etapa XOR**: Finalmente, el texto plano o el texto cifrado se **XORea con los valores creados antes**. La función para cifrar y descifrar es la misma. Para esto, se realizará un **bucle a través de los 256 bytes creados** tantas veces como sea necesario. Esto generalmente se reconoce en un código decompilado con un **%256 (mod 256)**.
+* **Etapa XOR**: Finalmente, el texto plano o el texto cifrado se **XORea con los valores creados anteriormente**. La función para cifrar y descifrar es la misma. Para esto, se realizará un **bucle a través de los 256 bytes creados** tantas veces como sea necesario. Esto generalmente se reconoce en un código decompilado con un **%256 (mod 256)**.
 
 {% hint style="info" %}
-**Para identificar un RC4 en un código desensamblado/decompilado, puedes buscar 2 bucles de tamaño 0x100 (con el uso de una clave) y luego un XOR de los datos de entrada con los 256 valores creados antes en los 2 bucles, probablemente usando un %256 (mod 256)**
+**Para identificar un RC4 en un código desensamblado/decompilado, puedes buscar 2 bucles de tamaño 0x100 (con el uso de una clave) y luego un XOR de los datos de entrada con los 256 valores creados anteriormente en los 2 bucles, probablemente usando un %256 (mod 256)**
 {% endhint %}
 
-### **Etapa de inicialización/Caja de Sustitución:** (Nota el número 256 usado como contador y cómo se escribe un 0 en cada lugar de los 256 caracteres)
+### **Etapa de Inicialización/Caja de Sustitución:** (Nota el número 256 usado como contador y cómo se escribe un 0 en cada lugar de los 256 caracteres)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
-### **Etapa de mezcla:**
+### **Etapa de Mezcla:**
 
 ![](<../../.gitbook/assets/image (378).png>)
 
@@ -117,7 +117,7 @@ Está compuesto por 3 partes principales:
 
 ### Identificación
 
-En la siguiente imagen nota cómo se utiliza la constante **0x9E3779B9** (nota que esta constante también es utilizada por otros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
+En la siguiente imagen, nota cómo se utiliza la constante **0x9E3779B9** (nota que esta constante también es utilizada por otros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
 También nota el **tamaño del bucle** (**132**) y el **número de operaciones XOR** en las **instrucciones de desensamblado** y en el **ejemplo de código**:
 
 ![](<../../.gitbook/assets/image (381).png>)
@@ -140,7 +140,7 @@ Por lo tanto, es posible identificar este algoritmo revisando el **número mági
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* En la línea 11 (izquierda) hay un `+7) >> 3` que es lo mismo que en la línea 35 (derecha): `+7) / 8`
+* En la línea 11 (izquierda) hay un `+7) >> 3` que es el mismo que en la línea 35 (derecha): `+7) / 8`
 * La línea 12 (izquierda) está verificando si `modulus_len < 0x040` y en la línea 36 (derecha) está verificando si `inputLen+11 > modulusLen`
 
 ## MD5 & SHA (hash)
@@ -150,7 +150,7 @@ Por lo tanto, es posible identificar este algoritmo revisando el **número mági
 * 3 funciones: Init, Update, Final
 * Funciones de inicialización similares
 
-### Identificar
+### Identificación
 
 **Init**
 
@@ -169,7 +169,7 @@ Nota el uso de más constantes
 * Más pequeño y eficiente ya que su función es encontrar cambios accidentales en los datos
 * Utiliza tablas de búsqueda (por lo que puedes identificar constantes)
 
-### Identificar
+### Identificación
 
 Revisa **constantes de tablas de búsqueda**:
 
@@ -186,7 +186,7 @@ Un algoritmo de hash CRC se ve como:
 * Constantes no reconocibles
 * Puedes intentar escribir el algoritmo en python y buscar cosas similares en línea
 
-### Identificar
+### Identificación
 
 El gráfico es bastante grande:
 

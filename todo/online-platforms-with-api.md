@@ -17,7 +17,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ## [ProjectHoneypot](https://www.projecthoneypot.org/)
 
-Puedes preguntar si una IP está relacionada con actividades sospechosas/maliciosas. Completamente gratis.
+Puedes preguntar si una IP está relacionada con actividades sospechosas/maliciosas. Totalmente gratis.
 
 ## [**BotScout**](http://botscout.com/api.htm)
 
@@ -117,7 +117,7 @@ Obtén la reputación de un correo. ¿Comercial?
 
 ## [ghostproject](https://ghostproject.fr/)
 
-Obtén contraseñas de correos filtrados. ¿Comercial?
+Obtén contraseñas de correos electrónicos filtrados. ¿Comercial?
 
 ## [Binaryedge](https://www.binaryedge.io/)
 

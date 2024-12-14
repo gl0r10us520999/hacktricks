@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -22,7 +22,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 ## **Enumeración / Descubrimiento de MSSQL**
 
 ### Python
-La herramienta [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) se basa en impacket, y también permite autenticarse usando tickets kerberos, y atacar a través de cadenas de enlace.
+La herramienta [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) se basa en impacket, y también permite autenticarse utilizando tickets kerberos, y atacar a través de cadenas de enlace.
 
 <figure><img src="https://raw.githubusercontent.com/ScorpionesLabs/MSSqlPwner/main/assets/interractive.png"></figure>
 ```shell
@@ -145,7 +145,7 @@ También podría ser posible **ejecutar comandos** dentro del host de MSSQL.
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Check in the page mentioned in the **siguiente sección cómo hacerlo manualmente.**
+Check in the page mentioned in the **siguiente sección cómo hacer esto manualmente.**
 
 ### MSSQL Trucos Básicos de Hacking
 
@@ -155,7 +155,7 @@ Check in the page mentioned in the **siguiente sección cómo hacerlo manualment
 
 ## Enlaces de Confianza de MSSQL
 
-Si una instancia de MSSQL es confiable (enlace de base de datos) por una instancia de MSSQL diferente. Si el usuario tiene privilegios sobre la base de datos confiable, podrá **utilizar la relación de confianza para ejecutar consultas también en la otra instancia**. Estas confianzas pueden encadenarse y en algún momento el usuario podría encontrar alguna base de datos mal configurada donde puede ejecutar comandos.
+Si una instancia de MSSQL es de confianza (enlace de base de datos) por otra instancia de MSSQL. Si el usuario tiene privilegios sobre la base de datos de confianza, podrá **utilizar la relación de confianza para ejecutar consultas también en la otra instancia**. Estas confianzas pueden encadenarse y en algún momento el usuario podría encontrar alguna base de datos mal configurada donde puede ejecutar comandos.
 
 **Los enlaces entre bases de datos funcionan incluso a través de confianzas de bosque.**
 
@@ -193,7 +193,7 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Puedes verificar fácilmente los enlaces de confianza utilizando metasploit.
+Puedes verificar fácilmente los enlaces de confianza usando metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
@@ -207,7 +207,7 @@ Desde **Linux** podrías obtener un shell de consola MSSQL con **sqsh** y **mssq
 
 Desde **Windows** también podrías encontrar los enlaces y ejecutar comandos manualmente usando un **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
 
-_Iniciar sesión usando autenticación de Windows:_
+_Inicia sesión usando autenticación de Windows:_
 
 ![](<../../.gitbook/assets/image (808).png>)
 

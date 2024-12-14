@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Cómo Funciona Explicado
 
-Los procesos pueden abrirse en hosts donde se conocen el nombre de usuario y la contraseña o el hash a través del uso de WMI. Los comandos se ejecutan utilizando WMI mediante Wmiexec, proporcionando una experiencia de shell semi-interactiva.
+Los procesos pueden abrirse en hosts donde se conoce el nombre de usuario y ya sea la contraseña o el hash a través del uso de WMI. Los comandos se ejecutan utilizando WMI mediante Wmiexec, proporcionando una experiencia de shell semi-interactiva.
 
 **dcomexec.py:** Utilizando diferentes puntos finales de DCOM, este script ofrece un shell semi-interactivo similar a wmiexec.py, aprovechando específicamente el objeto DCOM ShellBrowserWindow. Actualmente soporta objetos de Aplicación MMC20, Ventanas de Shell y Ventana del Navegador de Shell. (fuente: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 

@@ -52,13 +52,13 @@ Después de algunas pruebas, obtuvimos y probamos una lista extensa de [CLSID in
 JuicyPotato te permite:
 
 * **CLSID objetivo** _elige cualquier CLSID que desees._ [_Aquí_](http://ohpe.it/juicy-potato/CLSID/) _puedes encontrar la lista organizada por SO._
-* **Puerto de escucha COM** _define el puerto de escucha COM que prefieras (en lugar del 6666 codificado en duro)_
+* **Puerto de escucha COM** _define el puerto de escucha COM que prefieras (en lugar del 6666 codificado)_
 * **Dirección IP de escucha COM** _vincula el servidor a cualquier IP_
 * **Modo de creación de procesos** _dependiendo de los privilegios del usuario suplantado puedes elegir entre:_
 * `CreateProcessWithToken` (necesita `SeImpersonate`)
 * `CreateProcessAsUser` (necesita `SeAssignPrimaryToken`)
 * `ambos`
-* **Proceso a lanzar** _lanza un ejecutable o script si la explotación tiene éxito_
+* **Proceso a lanzar** _lanzar un ejecutable o script si la explotación tiene éxito_
 * **Argumento del proceso** _personaliza los argumentos del proceso lanzado_
 * **Dirección del servidor RPC** _para un enfoque sigiloso puedes autenticarte en un servidor RPC externo_
 * **Puerto del servidor RPC** _útil si deseas autenticarte en un servidor externo y el firewall está bloqueando el puerto `135`…_
@@ -87,7 +87,7 @@ Optional args:
 
 Si el usuario tiene privilegios `SeImpersonate` o `SeAssignPrimaryToken`, entonces eres **SYSTEM**.
 
-Es casi imposible prevenir el abuso de todos estos servidores COM. Podrías pensar en modificar los permisos de estos objetos a través de `DCOMCNFG`, pero buena suerte, esto va a ser un desafío.
+Es casi imposible prevenir el abuso de todos estos Servidores COM. Podrías pensar en modificar los permisos de estos objetos a través de `DCOMCNFG`, pero buena suerte, esto va a ser un desafío.
 
 La solución real es proteger cuentas y aplicaciones sensibles que se ejecutan bajo las cuentas `* SERVICE`. Detener `DCOM` ciertamente inhibiría este exploit, pero podría tener un impacto serio en el sistema operativo subyacente.
 

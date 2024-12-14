@@ -1,16 +1,16 @@
 # Stego Tricks
 
 {% hint style="success" %}
-Aprende y practica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Recupera archivos basados en sus encabezados y pies de página, útil para imágenes png. Se instala a través de `apt` con su fuente en [GitHub](https://github.com/korczis/foremost).
+Recupera archivos basados en sus encabezados y pies de página, útil para imágenes png. Instalado a través de `apt` con su fuente en [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -113,13 +113,13 @@ zsteg se especializa en descubrir datos ocultos en archivos PNG y BMP. La instal
 
 ### **StegoVeritas y Stegsolve**
 
-**stegoVeritas** verifica metadatos, realiza transformaciones de imágenes y aplica fuerza bruta LSB, entre otras características. Usa `stegoveritas.py -h` para una lista completa de opciones y `stegoveritas.py stego.jpg` para ejecutar todas las verificaciones.
+**stegoVeritas** verifica los metadatos, realiza transformaciones de imagen y aplica fuerza bruta LSB, entre otras características. Usa `stegoveritas.py -h` para una lista completa de opciones y `stegoveritas.py stego.jpg` para ejecutar todas las verificaciones.
 
 **Stegsolve** aplica varios filtros de color para revelar textos o mensajes ocultos dentro de las imágenes. Está disponible en [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
 ### **FFT para la detección de contenido oculto**
 
-Las técnicas de Transformada Rápida de Fourier (FFT) pueden revelar contenido oculto en imágenes. Los recursos útiles incluyen:
+Las técnicas de Transformada Rápida de Fourier (FFT) pueden desvelar contenido oculto en imágenes. Los recursos útiles incluyen:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -188,7 +188,7 @@ Detectar tonos DTMF en archivos de audio se puede lograr a través de herramient
 
 ### **Longitud Binaria SQRT - Código QR**
 
-Los datos binarios que se elevan al cuadrado para convertirse en un número entero podrían representar un código QR. Usa este fragmento para verificar:
+Los datos binarios que se elevan al cuadrado a un número entero podrían representar un código QR. Usa este fragmento para verificar:
 ```python
 import math
 math.sqrt(2500) #50

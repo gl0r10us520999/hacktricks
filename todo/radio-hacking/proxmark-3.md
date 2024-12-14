@@ -23,9 +23,9 @@ Lo primero que necesitas hacer es tener un [**Proxmark3**](https://proxmark.com)
 
 Tiene **16 sectores**, cada uno de ellos tiene **4 bloques** y cada bloque contiene **16B**. El UID está en el sector 0 bloque 0 (y no se puede alterar).\
 Para acceder a cada sector necesitas **2 claves** (**A** y **B**) que están almacenadas en **el bloque 3 de cada sector** (trailer del sector). El trailer del sector también almacena los **bits de acceso** que otorgan los permisos de **lectura y escritura** en **cada bloque** usando las 2 claves.\
-2 claves son útiles para otorgar permisos de lectura si conoces la primera y de escritura si conoces la segunda (por ejemplo).
+2 claves son útiles para dar permisos de lectura si conoces la primera y de escritura si conoces la segunda (por ejemplo).
 
-Se pueden realizar varios ataques.
+Se pueden realizar varios ataques
 ```bash
 proxmark3> hf mf #List attacks
 

@@ -69,8 +69,8 @@ Las oportunidades para la **persistencia** a través de **modificaciones del des
 
 - El objeto de computadora AD del **servidor CA**
 - El **servidor RPC/DCOM del servidor CA**
-- Cualquier **objeto o contenedor AD descendiente** en **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (por ejemplo, el contenedor de Plantillas de Certificado, el contenedor de Autoridades de Certificación, el objeto NTAuthCertificates, etc.)
-- **Grupos AD a los que se les delegaron derechos para controlar AD CS** por defecto o por la organización (como el grupo incorporado Cert Publishers y cualquiera de sus miembros)
+- Cualquier **objeto o contenedor AD descendiente** en **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (por ejemplo, el contenedor de Plantillas de Certificado, contenedor de Autoridades de Certificación, el objeto NTAuthCertificates, etc.)
+- **Grupos AD con derechos delegados para controlar AD CS** por defecto o por la organización (como el grupo incorporado Cert Publishers y cualquiera de sus miembros)
 
 Un ejemplo de implementación maliciosa implicaría a un atacante, que tiene **permisos elevados** en el dominio, agregando el permiso **`WriteOwner`** a la plantilla de certificado **`User`** por defecto, siendo el atacante el principal para el derecho. Para explotar esto, el atacante primero cambiaría la propiedad de la plantilla **`User`** a sí mismo. Después de esto, el **`mspki-certificate-name-flag`** se establecería en **1** en la plantilla para habilitar **`ENROLLEE_SUPPLIES_SUBJECT`**, permitiendo a un usuario proporcionar un Nombre Alternativo de Sujeto en la solicitud. Posteriormente, el atacante podría **inscribirse** usando la **plantilla**, eligiendo un nombre de **administrador de dominio** como nombre alternativo, y utilizar el certificado adquirido para autenticarse como el DA.
 

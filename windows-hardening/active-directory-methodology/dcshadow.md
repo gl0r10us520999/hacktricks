@@ -35,7 +35,7 @@ lsadump::dcshadow /push
 ```
 {% endcode %}
 
-Nota que **`elevate::token`** no funcionará en la sesión `mimikatz1` ya que eso elevó los privilegios del hilo, pero necesitamos elevar el **privilegio del proceso**.\
+Nota que **`elevate::token`** no funcionará en la sesión de `mimikatz1` ya que eso elevó los privilegios del hilo, pero necesitamos elevar el **privilegio del proceso**.\
 También puedes seleccionar un objeto "LDAP": `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
 Puedes enviar los cambios desde un DA o desde un usuario con estos permisos mínimos:

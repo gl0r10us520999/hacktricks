@@ -74,7 +74,7 @@ Flipper Zero puede **leer tarjetas NFC**, sin embargo, **no entiende todos los p
 
 En Flipper, la lectura de etiquetas de 13.56 MHz se puede dividir en dos partes:
 
-* **Lectura de bajo nivel** — solo lee el UID, SAK y ATQA. Flipper intenta adivinar el protocolo de alto nivel basado en estos datos leídos de la tarjeta. No puedes estar 100% seguro de esto, ya que es solo una suposición basada en ciertos factores.
+* **Lectura de bajo nivel** — lee solo el UID, SAK y ATQA. Flipper intenta adivinar el protocolo de alto nivel basado en estos datos leídos de la tarjeta. No puedes estar 100% seguro de esto, ya que es solo una suposición basada en ciertos factores.
 * **Lectura de alto nivel** — lee los datos de la memoria de la tarjeta utilizando un protocolo de alto nivel específico. Eso sería leer los datos en un Mifare Ultralight, leer los sectores de un Mifare Classic, o leer los atributos de la tarjeta de PayPass/Apple Pay.
 
 ### Leer Específico

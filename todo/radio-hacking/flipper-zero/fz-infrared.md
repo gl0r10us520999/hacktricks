@@ -27,7 +27,7 @@ Para más información sobre cómo funciona el infrarrojo, consulta:
 
 Flipper utiliza un receptor de señal IR digital TSOP, que **permite interceptar señales de controles remotos IR**. Hay algunos **smartphones** como Xiaomi, que también tienen un puerto IR, pero ten en cuenta que **la mayoría de ellos solo pueden transmitir** señales y son **incapaces de recibir**.
 
-El receptor infrarrojo de Flipper **es bastante sensible**. Incluso puedes **captar la señal** mientras te mantienes **en algún lugar entre** el control remoto y la TV. No es necesario apuntar el control remoto directamente al puerto IR de Flipper. Esto es útil cuando alguien está cambiando de canal mientras está cerca de la TV, y tanto tú como Flipper están a cierta distancia.
+El **receptor infrarrojo de Flipper es bastante sensible**. Incluso puedes **captar la señal** mientras te mantienes **en algún lugar entre** el control remoto y el televisor. No es necesario apuntar el control remoto directamente al puerto IR de Flipper. Esto es útil cuando alguien está cambiando de canal mientras está cerca del televisor, y tanto tú como Flipper están a cierta distancia.
 
 Como la **decodificación de la señal infrarroja** ocurre del lado del **software**, Flipper Zero potencialmente soporta la **recepción y transmisión de cualquier código de control remoto IR**. En el caso de protocolos **desconocidos** que no se pueden reconocer, **graba y reproduce** la señal en bruto exactamente como se recibió.
 
@@ -35,11 +35,11 @@ Como la **decodificación de la señal infrarroja** ocurre del lado del **softwa
 
 ### Controles Remotos Universales
 
-Flipper Zero puede ser utilizado como un **control remoto universal para controlar cualquier TV, aire acondicionado o centro de medios**. En este modo, Flipper **fuerza por prueba** todos los **códigos conocidos** de todos los fabricantes soportados **de acuerdo con el diccionario de la tarjeta SD**. No necesitas elegir un control remoto particular para apagar la TV de un restaurante.
+Flipper Zero puede ser utilizado como un **control remoto universal para controlar cualquier televisor, aire acondicionado o centro de medios**. En este modo, Flipper **fuerza por prueba** todos los **códigos conocidos** de todos los fabricantes soportados **de acuerdo con el diccionario de la tarjeta SD**. No necesitas elegir un control remoto particular para apagar un televisor de restaurante.
 
-Es suficiente con presionar el botón de encendido en el modo de Control Remoto Universal, y Flipper **enviará secuencialmente los comandos "Apagar"** de todas las TVs que conoce: Sony, Samsung, Panasonic... y así sucesivamente. Cuando la TV recibe su señal, reaccionará y se apagará.
+Es suficiente presionar el botón de encendido en el modo de Control Remoto Universal, y Flipper **enviará secuencialmente los comandos "Apagar"** de todos los televisores que conoce: Sony, Samsung, Panasonic... y así sucesivamente. Cuando el televisor recibe su señal, reaccionará y se apagará.
 
-Tal fuerza bruta toma tiempo. Cuanto más grande sea el diccionario, más tiempo tomará terminar. Es imposible averiguar qué señal exactamente reconoció la TV ya que no hay retroalimentación de la TV.
+Tal fuerza bruta toma tiempo. Cuanto más grande sea el diccionario, más tiempo tomará terminar. Es imposible averiguar qué señal exactamente reconoció el televisor ya que no hay retroalimentación del televisor.
 
 ### Aprender Nuevo Control Remoto
 

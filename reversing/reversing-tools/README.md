@@ -6,7 +6,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <summary>Apoya a HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
@@ -36,7 +36,7 @@ Decompilar ensamblados .Net se puede lograr con herramientas como:
 - Para tareas que involucran **decompilación**, **modificación** y **recompilación**, se recomienda encarecidamente [dnSpy](https://github.com/0xd4d/dnSpy/releases). **Hacer clic derecho** en un método y elegir **Modificar Método** permite cambios en el código.
 - [dotPeek de JetBrains](https://www.jetbrains.com/es-es/decompiler/) es otra alternativa para decompilar ensamblados .Net.
 
-## Mejorando la Depuración y Registro con DNSpy
+## Mejorando la Depuración y el Registro con DNSpy
 
 ### Registro de DNSpy
 Para registrar información en un archivo usando DNSpy, incorpora el siguiente fragmento de código .Net:
@@ -50,9 +50,9 @@ File.AppendAllText(path, "Contraseña: " + password + "\n");
 ### Depuración de DNSpy
 Para una depuración efectiva con DNSpy, se recomienda una secuencia de pasos para ajustar los **atributos de ensamblado** para la depuración, asegurando que las optimizaciones que podrían obstaculizar la depuración estén deshabilitadas. Este proceso incluye cambiar la configuración de `DebuggableAttribute`, recompilar el ensamblado y guardar los cambios.
 
-Además, para depurar una aplicación .Net ejecutada por **IIS**, ejecutar `iisreset /noforce` reinicia IIS. Para adjuntar DNSpy al proceso de IIS para depuración, la guía instruye sobre seleccionar el proceso **w3wp.exe** dentro de DNSpy y comenzar la sesión de depuración.
+Además, para depurar una aplicación .Net ejecutada por **IIS**, ejecutar `iisreset /noforce` reinicia IIS. Para adjuntar DNSpy al proceso de IIS para depuración, la guía instruye sobre la selección del proceso **w3wp.exe** dentro de DNSpy y el inicio de la sesión de depuración.
 
-Para una vista completa de los módulos cargados durante la depuración, se aconseja acceder a la ventana de **Módulos** en DNSpy, seguida de abrir todos los módulos y ordenar los ensamblados para facilitar la navegación y depuración.
+Para una vista completa de los módulos cargados durante la depuración, se aconseja acceder a la ventana de **Módulos** en DNSpy, seguido de abrir todos los módulos y ordenar los ensamblados para una navegación y depuración más fácil.
 
 Esta guía encapsula la esencia de la decompilación de WebAssembly y .Net, ofreciendo un camino para que los desarrolladores naveguen estas tareas con facilidad.
 
@@ -72,7 +72,7 @@ Para decompilar bytecode de Java, estas herramientas pueden ser muy útiles:
 - Se ajustan las configuraciones para romper en la entrada de la DLL, permitiendo establecer un punto de interrupción en el punto de entrada deseado de la DLL.
 
 ### Imágenes
-- Los puntos de detención de ejecución y configuraciones se ilustran a través de capturas de pantalla.
+- Los puntos de detención de ejecución y las configuraciones se ilustran a través de capturas de pantalla.
 
 ## **ARM & MIPS**
 - Para emulación, [arm_now](https://github.com/nongiach/arm_now) es un recurso útil.
@@ -121,7 +121,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <summary>Apoya a HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 

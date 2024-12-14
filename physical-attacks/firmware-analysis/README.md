@@ -43,7 +43,7 @@ Obtener firmware se puede abordar a través de varios medios, cada uno con su pr
 - **Descargando** de sitios de soporte oficiales
 - Utilizando consultas de **Google dork** para encontrar archivos de firmware alojados
 - Accediendo a **almacenamiento en la nube** directamente, con herramientas como [S3Scanner](https://github.com/sa7mon/S3Scanner)
-- Interceptando **actualizaciones** a través de técnicas de hombre en el medio
+- Interceptando **actualizaciones** a través de técnicas de man-in-the-middle
 - **Extrayendo** del dispositivo a través de conexiones como **UART**, **JTAG** o **PICit**
 - **Esnifando** solicitudes de actualización dentro de la comunicación del dispositivo
 - Identificando y utilizando **puntos finales de actualización codificados**
@@ -90,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Ejecute el siguiente **dd command** extrayendo el sistema de archivos Squashfs.
+Ejecute el siguiente **comando dd** para extraer el sistema de archivos Squashfs.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -144,7 +144,7 @@ Para evaluar el estado de cifrado de la imagen, se verifica la **entropía** con
 
 Para extraer **archivos incrustados**, se recomiendan herramientas y recursos como la documentación de **file-data-carving-recovery-tools** y **binvis.io** para la inspección de archivos.
 
-### Extrayendo el Sistema de Archivos
+### Extracción del Sistema de Archivos
 
 Usando `binwalk -ev <bin>`, generalmente se puede extraer el sistema de archivos, a menudo en un directorio nombrado según el tipo de sistema de archivos (por ejemplo, squashfs, ubifs). Sin embargo, cuando **binwalk** no puede reconocer el tipo de sistema de archivos debido a bytes mágicos faltantes, es necesaria la extracción manual. Esto implica usar `binwalk` para localizar el desplazamiento del sistema de archivos, seguido del comando `dd` para extraer el sistema de archivos:
 ```bash
@@ -182,7 +182,7 @@ El proceso de emular firmware permite un **análisis dinámico** ya sea del func
 
 ### Emulando Binarios Individuales
 
-Para examinar programas individuales, identificar el endianness y la arquitectura de la CPU del programa es crucial.
+Para examinar programas individuales, identificar el endianness y la arquitectura de CPU del programa es crucial.
 
 #### Ejemplo con Arquitectura MIPS
 
@@ -194,7 +194,7 @@ Y para instalar las herramientas de emulación necesarias:
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-Para MIPS (big-endian), se utiliza `qemu-mips`, y para binarios little-endian, `qemu-mipsel` sería la elección.
+Para MIPS (big-endian), se utiliza `qemu-mips`, y para binarios little-endian, `qemu-mipsel` sería la opción.
 
 #### Emulación de Arquitectura ARM
 

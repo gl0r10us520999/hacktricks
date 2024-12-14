@@ -1,16 +1,16 @@
 # Radio
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
@@ -46,14 +46,14 @@ Si te das cuenta de que tu PC no está capturando cosas, intenta deshabilitar Op
 
 ### Sincronizar con el canal de radio
 
-Con [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sincroniza con el canal que deseas escuchar, configura la opción "Baseband audio preview", configura el ancho de banda para obtener toda la información que se envía y luego ajusta el sintonizador al nivel antes de que el ruido comience a aumentar realmente:
+Con [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sincroniza con el canal que deseas escuchar, configura la opción "Vista previa de audio de banda base", configura el ancho de banda para obtener toda la información que se envía y luego ajusta el sintonizador al nivel antes de que el ruido comience a aumentar realmente:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
 ## Trucos interesantes
 
 * Cuando un dispositivo está enviando ráfagas de información, generalmente la **primera parte será un preámbulo**, así que **no** necesitas **preocuparte** si **no encuentras información** allí **o si hay algunos errores**.
-* En los tramos de información, generalmente deberías **encontrar diferentes tramos bien alineados entre ellos**:
+* En los tramas de información, generalmente deberías **encontrar diferentes tramas bien alineadas entre sí**:
 
 ![](<../../.gitbook/assets/image (1076).png>)
 
@@ -69,12 +69,12 @@ Si estás revisando una señal, hay diferentes formas de intentar averiguar qué
 
 ![](<../../.gitbook/assets/image (788).png>)
 
-* **Detectando AM**: Si en el gráfico IQ aparecen, por ejemplo, **2 círculos** (probablemente uno en 0 y otro en una amplitud diferente), podría significar que esta es una señal AM. Esto se debe a que en el gráfico IQ la distancia entre el 0 y el círculo es la amplitud de la señal, por lo que es fácil visualizar diferentes amplitudes que se están utilizando.
+* **Detectando AM**: Si en el gráfico IQ aparecen por ejemplo **2 círculos** (probablemente uno en 0 y otro en una amplitud diferente), podría significar que esta es una señal AM. Esto se debe a que en el gráfico IQ la distancia entre el 0 y el círculo es la amplitud de la señal, por lo que es fácil visualizar diferentes amplitudes siendo utilizadas.
 * **Detectando PM**: Al igual que en la imagen anterior, si encuentras pequeños círculos no relacionados entre sí, probablemente significa que se está utilizando una modulación de fase. Esto se debe a que en el gráfico IQ, el ángulo entre el punto y el 0,0 es la fase de la señal, lo que significa que se están utilizando 4 fases diferentes.
 * Ten en cuenta que si la información está oculta en el hecho de que se cambia una fase y no en la fase misma, no verás diferentes fases claramente diferenciadas.
 * **Detectando FM**: IQ no tiene un campo para identificar frecuencias (la distancia al centro es amplitud y el ángulo es fase).\
 Por lo tanto, para identificar FM, deberías **ver básicamente un círculo** en este gráfico.\
-Además, una frecuencia diferente es "representada" por el gráfico IQ mediante una **aceleración de velocidad a través del círculo** (así que en SysDigger, al seleccionar la señal, el gráfico IQ se llena; si encuentras una aceleración o cambio de dirección en el círculo creado, podría significar que esto es FM):
+Además, una frecuencia diferente es "representada" por el gráfico IQ mediante una **aceleración de velocidad a través del círculo** (así que en SysDigger, al seleccionar la señal, el gráfico IQ se poblará; si encuentras una aceleración o cambio de dirección en el círculo creado, podría significar que esto es FM):
 
 ## Ejemplo de AM
 
@@ -82,9 +82,9 @@ Además, una frecuencia diferente es "representada" por el gráfico IQ mediante 
 
 ### Descubriendo AM
 
-#### Revisando la envoltura
+#### Revisando el envolvente
 
-Revisando la información AM con [**SigDigger** ](https://github.com/BatchDrake/SigDigger)y solo mirando la **envoltura**, puedes ver diferentes niveles de amplitud claros. La señal utilizada está enviando pulsos con información en AM, así es como se ve un pulso:
+Revisando la información de AM con [**SigDigger** ](https://github.com/BatchDrake/SigDigger)y solo mirando el **envolvente**, puedes ver diferentes niveles de amplitud claros. La señal utilizada está enviando pulsos con información en AM, así es como se ve un pulso:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
@@ -102,7 +102,7 @@ Por ejemplo, si seleccionas Frecuencia en lugar de Amplitud en esta señal AM, s
 
 ![](<../../.gitbook/assets/image (732).png>)
 
-Si encuentras muchas frecuencias, potencialmente esto no será un FM, probablemente la frecuencia de la señal solo se modificó debido al canal.
+Si encuentras muchas frecuencias, probablemente esto no será un FM, probablemente la frecuencia de la señal solo se modificó debido al canal.
 
 #### Con IQ
 
@@ -126,13 +126,13 @@ También puedes indicar el número de símbolos que vas a seleccionar y SigDigge
 
 ### Obtener Bits
 
-Habiendo encontrado que esta es una señal **modulada en AM** y la **tasa de símbolos** (y sabiendo que en este caso algo arriba significa 1 y algo abajo significa 0), es muy fácil **obtener los bits** codificados en la señal. Así que, selecciona la señal con información y configura el muestreo y la decisión y presiona muestrear (verifica que **Amplitud** esté seleccionada, la **Tasa de símbolos** descubierta esté configurada y la **recuperación de reloj de Gardner** esté seleccionada):
+Habiendo encontrado que esta es una señal **modulada en AM** y la **tasa de símbolos** (y sabiendo que en este caso algo up significa 1 y algo down significa 0), es muy fácil **obtener los bits** codificados en la señal. Así que, selecciona la señal con información y configura el muestreo y la decisión y presiona muestrear (verifica que **Amplitud** esté seleccionada, la **Tasa de símbolos** descubierta esté configurada y la **recuperación de reloj de Gardner** esté seleccionada):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
-* **Sincronizar a intervalos de selección** significa que si previamente seleccionaste intervalos para encontrar la tasa de símbolos, esa tasa de símbolos se utilizará.
+* **Sincronizar con intervalos de selección** significa que si previamente seleccionaste intervalos para encontrar la tasa de símbolos, esa tasa de símbolos se utilizará.
 * **Manual** significa que se utilizará la tasa de símbolos indicada.
-* En **Selección de intervalo fijo**, indicas el número de intervalos que deben seleccionarse y calcula la tasa de símbolos a partir de ello.
+* En **Selección de intervalo fijo** indicas el número de intervalos que deben seleccionarse y calcula la tasa de símbolos a partir de ello.
 * **Recuperación de reloj de Gardner** suele ser la mejor opción, pero aún necesitas indicar alguna tasa de símbolos aproximada.
 
 Al presionar muestrear, esto aparece:
@@ -165,7 +165,7 @@ Ejemplo de señal enviando información modulada en FM:
 
 ![](<../../.gitbook/assets/image (725).png>)
 
-En la imagen anterior puedes observar bastante bien que **se utilizan 2 frecuencias**, pero si **observas** la **forma de onda**, es posible que **no puedas identificar correctamente las 2 frecuencias diferentes**:
+En la imagen anterior puedes observar bastante bien que **se utilizan 2 frecuencias**, pero si **observas** la **forma de onda**, podrías **no ser capaz de identificar correctamente las 2 frecuencias diferentes**:
 
 ![](<../../.gitbook/assets/image (717).png>)
 
@@ -197,7 +197,7 @@ Y este sería el histograma de fase (lo que deja muy claro que la señal no est�
 
 IQ no tiene un campo para identificar frecuencias (la distancia al centro es amplitud y el ángulo es fase).\
 Por lo tanto, para identificar FM, deberías **ver básicamente un círculo** en este gráfico.\
-Además, una frecuencia diferente es "representada" por el gráfico IQ mediante una **aceleración de velocidad a través del círculo** (así que en SysDigger, al seleccionar la señal, el gráfico IQ se llena; si encuentras una aceleración o cambio de dirección en el círculo creado, podría significar que esto es FM):
+Además, una frecuencia diferente es "representada" por el gráfico IQ mediante una **aceleración de velocidad a través del círculo** (así que en SysDigger, al seleccionar la señal, el gráfico IQ se poblará; si encuentras una aceleración o cambio de dirección en el círculo creado, podría significar que esto es FM):
 
 ![](<../../.gitbook/assets/image (81).png>)
 
@@ -210,16 +210,16 @@ Puedes usar la **misma técnica que la utilizada en el ejemplo de AM** para obte
 Puedes usar la **misma técnica que la utilizada en el ejemplo de AM** para obtener los bits una vez que hayas **encontrado que la señal está modulada en frecuencia** y la **tasa de símbolos**.
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

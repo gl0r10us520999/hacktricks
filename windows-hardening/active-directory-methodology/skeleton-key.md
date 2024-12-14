@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Ataque de Skeleton Key
 
-El **ataque de Skeleton Key** es una técnica sofisticada que permite a los atacantes **eludir la autenticación de Active Directory** al **inyectar una contraseña maestra** en el controlador de dominio. Esto permite al atacante **autenticarse como cualquier usuario** sin su contraseña, otorgándole **acceso sin restricciones** al dominio.
+El **ataque de Skeleton Key** es una técnica sofisticada que permite a los atacantes **eludir la autenticación de Active Directory** al **inyectar una contraseña maestra** en el controlador de dominio. Esto permite al atacante **autenticarse como cualquier usuario** sin su contraseña, otorgándoles efectivamente **acceso sin restricciones** al dominio.
 
 Se puede realizar utilizando [Mimikatz](https://github.com/gentilkiwi/mimikatz). Para llevar a cabo este ataque, **se requieren derechos de Administrador de Dominio**, y el atacante debe dirigirse a cada controlador de dominio para asegurar una violación completa. Sin embargo, el efecto del ataque es temporal, ya que **reiniciar el controlador de dominio erradica el malware**, lo que requiere una reimplementación para mantener el acceso.
 
@@ -25,7 +25,7 @@ Se puede realizar utilizando [Mimikatz](https://github.com/gentilkiwi/mimikatz).
 
 ## Mitigaciones
 
-Las estrategias de mitigación contra tales ataques incluyen la monitorización de IDs de eventos específicos que indican la instalación de servicios o el uso de privilegios sensibles. Específicamente, buscar el ID de Evento del Sistema 7045 o el ID de Evento de Seguridad 4673 puede revelar actividades sospechosas. Además, ejecutar `lsass.exe` como un proceso protegido puede dificultar significativamente los esfuerzos de los atacantes, ya que esto requiere que empleen un controlador en modo kernel, aumentando la complejidad del ataque.
+Las estrategias de mitigación contra tales ataques incluyen monitorear eventos específicos que indican la instalación de servicios o el uso de privilegios sensibles. Específicamente, buscar el ID de Evento del Sistema 7045 o el ID de Evento de Seguridad 4673 puede revelar actividades sospechosas. Además, ejecutar `lsass.exe` como un proceso protegido puede dificultar significativamente los esfuerzos de los atacantes, ya que esto requiere que empleen un controlador en modo kernel, aumentando la complejidad del ataque.
 
 Aquí están los comandos de PowerShell para mejorar las medidas de seguridad:
 

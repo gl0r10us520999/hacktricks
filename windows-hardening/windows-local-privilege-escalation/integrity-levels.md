@@ -22,11 +22,11 @@ En Windows Vista y versiones posteriores, todos los elementos protegidos vienen 
 Una regla clave es que los objetos no pueden ser modificados por procesos con un nivel de integridad más bajo que el nivel del objeto. Los niveles de integridad son:
 
 * **No confiable**: Este nivel es para procesos con inicios de sesión anónimos. %%%Ejemplo: Chrome%%%
-* **Bajo**: Principalmente para interacciones en internet, especialmente en el Modo Protegido de Internet Explorer, afectando archivos y procesos asociados, y ciertas carpetas como la **Carpeta Temporal de Internet**. Los procesos de baja integridad enfrentan restricciones significativas, incluyendo la falta de acceso para escribir en el registro y acceso limitado para escribir en el perfil de usuario.
+* **Bajo**: Principalmente para interacciones en internet, especialmente en el Modo Protegido de Internet Explorer, afectando archivos y procesos asociados, y ciertas carpetas como la **Carpeta Temporal de Internet**. Los procesos de baja integridad enfrentan restricciones significativas, incluyendo sin acceso de escritura al registro y acceso limitado de escritura al perfil de usuario.
 * **Medio**: El nivel predeterminado para la mayoría de las actividades, asignado a usuarios estándar y objetos sin niveles de integridad específicos. Incluso los miembros del grupo de Administradores operan a este nivel por defecto.
-* **Alto**: Reservado para administradores, permitiéndoles modificar objetos a niveles de integridad más bajos, incluyendo aquellos en el nivel alto mismo.
+* **Alto**: Reservado para administradores, permitiéndoles modificar objetos a niveles de integridad más bajos, incluyendo aquellos al nivel alto mismo.
 * **Sistema**: El nivel operativo más alto para el núcleo de Windows y servicios centrales, fuera del alcance incluso para administradores, asegurando la protección de funciones vitales del sistema.
-* **Instalador**: Un nivel único que se sitúa por encima de todos los demás, permitiendo a los objetos en este nivel desinstalar cualquier otro objeto.
+* **Instalador**: Un nivel único que se encuentra por encima de todos los demás, permitiendo a los objetos en este nivel desinstalar cualquier otro objeto.
 
 Puedes obtener el nivel de integridad de un proceso usando **Process Explorer** de **Sysinternals**, accediendo a las **propiedades** del proceso y viendo la pestaña "**Seguridad**":
 

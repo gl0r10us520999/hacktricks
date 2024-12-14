@@ -103,7 +103,7 @@ Agregar señales de una lista configurada de protocolos
 | Security+2.0\_315                                               | 315.00 | Dinámico |
 | Security+2.0\_390                                               | 390.00 | Dinámico |
 
-### Vendedores Sub-GHz soportados
+### Proveedores Sub-GHz soportados
 
 Revisa la lista en [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
 

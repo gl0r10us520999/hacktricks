@@ -94,10 +94,10 @@ Hay dos tipos de tokens disponibles:
 * **Token de Suplantación**: Permite a una aplicación de servidor adoptar temporalmente la identidad del cliente para acceder a objetos seguros. Este mecanismo se estratifica en cuatro niveles de operación:
 * **Anónimo**: Otorga acceso al servidor similar al de un usuario no identificado.
 * **Identificación**: Permite al servidor verificar la identidad del cliente sin utilizarla para el acceso a objetos.
-* **Suplantación**: Habilita al servidor para operar bajo la identidad del cliente.
+* **Suplantación**: Permite al servidor operar bajo la identidad del cliente.
 * **Delegación**: Similar a la Suplantación, pero incluye la capacidad de extender esta asunción de identidad a sistemas remotos con los que el servidor interactúa, asegurando la preservación de credenciales.
 
-#### Suplantar Tokens
+#### Tokens de Suplantación
 
 Usando el módulo _**incognito**_ de metasploit, si tienes suficientes privilegios, puedes fácilmente **listar** y **suplantar** otros **tokens**. Esto podría ser útil para realizar **acciones como si fueras el otro usuario**. También podrías **escalar privilegios** con esta técnica.
 

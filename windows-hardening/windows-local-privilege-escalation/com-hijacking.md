@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Dado que los valores de HKCU pueden ser modificados por los usuarios, **COM Hijacking** podría ser utilizado como un **mecanismo persistente**. Usando `procmon` es fácil encontrar registros COM buscados que no existen y que un atacante podría crear para persistir. Filtros:
 
-* Operaciones **RegOpenKey**.
+* Operaciones de **RegOpenKey**.
 * donde el _Resultado_ es **NOMBRE NO ENCONTRADO**.
 * y el _Path_ termina con **InprocServer32**.
 
@@ -58,7 +58,7 @@ Write-Host
 
 # Salida de ejemplo:
 <strong># Nombre de la tarea:  Ejemplo
-</strong># Ruta de la tarea:  \Microsoft\Windows\Example\
+</strong># Ruta de la tarea:  \Microsoft\Windows\Ejemplo\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [más como el anterior...]</code></pre>
 

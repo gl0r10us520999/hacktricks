@@ -87,7 +87,7 @@ Esta configuración ayuda de dos maneras importantes:
 * Asegura que si hay un **"no"** específico, se respete, sin importar qué otras reglas de **"sí"** existan.
 * Permite que el propietario de un elemento tenga la **última palabra** sobre quién puede entrar, antes de que se apliquen las reglas de carpetas padres o más lejanas.
 
-Al hacer las cosas de esta manera, el propietario de un archivo o carpeta puede ser muy preciso sobre quién obtiene acceso, asegurando que las personas adecuadas puedan entrar y las incorrectas no.
+Al hacer las cosas de esta manera, el propietario de un archivo o carpeta puede ser muy preciso sobre quién obtiene acceso, asegurando que las personas correctas puedan entrar y las incorrectas no.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
@@ -117,17 +117,17 @@ Y si agregas o editas un Principio de Seguridad:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-Y por último, tenemos el SACL en la pestaña de Auditoría:
+Y por último, tenemos la SACL en la pestaña de Auditoría:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
 ### Explicando el Control de Acceso de Manera Simplificada
 
-Al gestionar el acceso a recursos, como una carpeta, utilizamos listas y reglas conocidas como Listas de Control de Acceso (ACLs) y Entradas de Control de Acceso (ACEs). Estas definen quién puede o no acceder a ciertos datos.
+Al gestionar el acceso a recursos, como una carpeta, utilizamos listas y reglas conocidas como Listas de Control de Acceso (ACLs) y Entradas de Control de Acceso (ACEs). Estas definen quién puede o no puede acceder a ciertos datos.
 
 #### Denegando Acceso a un Grupo Específico
 
-Imagina que tienes una carpeta llamada Cost, y quieres que todos tengan acceso a ella excepto al equipo de marketing. Al configurar las reglas correctamente, podemos asegurarnos de que al equipo de marketing se le deniegue explícitamente el acceso antes de permitir a todos los demás. Esto se hace colocando la regla para denegar el acceso al equipo de marketing antes de la regla que permite el acceso a todos.
+Imagina que tienes una carpeta llamada Cost, y quieres que todos tengan acceso excepto al equipo de marketing. Al configurar las reglas correctamente, podemos asegurarnos de que al equipo de marketing se le deniegue explícitamente el acceso antes de permitir a todos los demás. Esto se hace colocando la regla para denegar el acceso al equipo de marketing antes de la regla que permite el acceso a todos.
 
 #### Permitiendo Acceso a un Miembro Específico de un Grupo Denegado
 
@@ -153,11 +153,11 @@ En resumen, las ACLs y ACEs ayudan a definir controles de acceso precisos, asegu
 
 | Campo ACE   | Descripción                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tipo        | Bandera que indica el tipo de ACE. Windows 2000 y Windows Server 2003 admiten seis tipos de ACE: Tres tipos de ACE genéricos que se adjuntan a todos los objetos asegurables. Tres tipos de ACE específicos de objeto que pueden ocurrir para objetos de Active Directory.                                                                                                                                                                                                                                                            |
+| Tipo        | Bandera que indica el tipo de ACE. Windows 2000 y Windows Server 2003 soportan seis tipos de ACE: Tres tipos de ACE genéricos que están adjuntos a todos los objetos asegurables. Tres tipos de ACE específicas de objeto que pueden ocurrir para objetos de Active Directory.                                                                                                                                                                                                                                                            |
 | Banderas    | Conjunto de banderas de bits que controlan la herencia y la auditoría.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Tamaño      | Número de bytes de memoria que se asignan para el ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Máscara de acceso | Valor de 32 bits cuyos bits corresponden a los derechos de acceso para el objeto. Los bits pueden estar activados o desactivados, pero el significado de la configuración depende del tipo de ACE. Por ejemplo, si el bit que corresponde al derecho a leer permisos está activado, y el tipo de ACE es Denegar, el ACE deniega el derecho a leer los permisos del objeto. Si el mismo bit está activado pero el tipo de ACE es Permitir, el ACE otorga el derecho a leer los permisos del objeto. Más detalles de la máscara de acceso aparecen en la siguiente tabla. |
-| SID         | Identifica a un usuario o grupo cuyo acceso es controlado o monitoreado por este ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Tamaño      | Número de bytes de memoria que se asignan para la ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Máscara de acceso | Valor de 32 bits cuyos bits corresponden a los derechos de acceso para el objeto. Los bits pueden estar activados o desactivados, pero el significado de la configuración depende del tipo de ACE. Por ejemplo, si el bit que corresponde al derecho a leer permisos está activado, y el tipo de ACE es Denegar, la ACE deniega el derecho a leer los permisos del objeto. Si el mismo bit está activado pero el tipo de ACE es Permitir, la ACE otorga el derecho a leer los permisos del objeto. Más detalles de la máscara de acceso aparecen en la siguiente tabla. |
+| SID         | Identifica a un usuario o grupo cuyo acceso es controlado o monitoreado por esta ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Diseño de la Máscara de Acceso
 

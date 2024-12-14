@@ -40,7 +40,7 @@ Este es un privilegio que posee cualquier proceso que permite la suplantación (
 ### SeAssignPrimaryPrivilege
 
 Es muy similar a **SeImpersonatePrivilege**, utilizará el **mismo método** para obtener un token privilegiado.\
-Luego, este privilegio permite **asignar un token primario** a un nuevo/proceso suspendido. Con el token de suplantación privilegiado puedes derivar un token primario (DuplicateTokenEx).\
+Luego, este privilegio permite **asignar un token primario** a un proceso nuevo/suspendido. Con el token de suplantación privilegiado puedes derivar un token primario (DuplicateTokenEx).\
 Con el token, puedes crear un **nuevo proceso** con 'CreateProcessAsUser' o crear un proceso suspendido y **establecer el token** (en general, no puedes modificar el token primario de un proceso en ejecución).
 
 ### SeTcbPrivilege
@@ -54,7 +54,7 @@ Puedes **abusar de este privilegio** con:
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
-* siguiendo **IppSec** en [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
+* siguiendo a **IppSec** en [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
 * O como se explica en la sección **escalando privilegios con Operadores de Respaldo** de:
 
 {% content-ref url="../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
@@ -63,7 +63,7 @@ Puedes **abusar de este privilegio** con:
 
 ### SeRestorePrivilege
 
-Este privilegio proporciona permiso para **acceso de escritura** a cualquier archivo del sistema, independientemente de la Lista de Control de Acceso (ACL) del archivo. Abre numerosas posibilidades para la escalada, incluyendo la capacidad de **modificar servicios**, realizar DLL Hijacking y establecer **depuradores** a través de Opciones de Ejecución de Archivos de Imagen, entre varias otras técnicas.
+Este privilegio proporciona permiso para **acceso de escritura** a cualquier archivo del sistema, independientemente de la Lista de Control de Acceso (ACL) del archivo. Abre numerosas posibilidades para la escalación, incluyendo la capacidad de **modificar servicios**, realizar DLL Hijacking y establecer **depuradores** a través de Opciones de Ejecución de Archivos de Imagen, entre varias otras técnicas.
 
 ### SeCreateTokenPrivilege
 
@@ -77,7 +77,7 @@ SeCreateTokenPrivilege es un permiso poderoso, especialmente útil cuando un usu
 
 ### SeLoadDriverPrivilege
 
-Este privilegio permite **cargar y descargar controladores de dispositivos** con la creación de una entrada de registro con valores específicos para `ImagePath` y `Type`. Dado que el acceso de escritura directo a `HKLM` (HKEY\_LOCAL\_MACHINE) está restringido, se debe utilizar `HKCU` (HKEY\_CURRENT\_USER) en su lugar. Sin embargo, para que `HKCU` sea reconocible por el núcleo para la configuración del controlador, se debe seguir una ruta específica.
+Este privilegio permite **cargar y descargar controladores de dispositivos** con la creación de una entrada en el registro con valores específicos para `ImagePath` y `Type`. Dado que el acceso de escritura directo a `HKLM` (HKEY\_LOCAL\_MACHINE) está restringido, se debe utilizar `HKCU` (HKEY\_CURRENT\_USER) en su lugar. Sin embargo, para que `HKCU` sea reconocible por el núcleo para la configuración del controlador, se debe seguir una ruta específica.
 
 Esta ruta es `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, donde `<RID>` es el Identificador Relativo del usuario actual. Dentro de `HKCU`, se debe crear toda esta ruta y establecer dos valores:
 
@@ -86,10 +86,10 @@ Esta ruta es `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`
 
 **Pasos a Seguir:**
 
-1. Accede a `HKCU` en lugar de `HKLM` debido al acceso de escritura restringido.
-2. Crea la ruta `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` dentro de `HKCU`, donde `<RID>` representa el Identificador Relativo del usuario actual.
-3. Establece el `ImagePath` a la ruta de ejecución del binario.
-4. Asigna el `Type` como `SERVICE_KERNEL_DRIVER` (`0x00000001`).
+1. Acceder a `HKCU` en lugar de `HKLM` debido al acceso de escritura restringido.
+2. Crear la ruta `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` dentro de `HKCU`, donde `<RID>` representa el Identificador Relativo del usuario actual.
+3. Establecer el `ImagePath` a la ruta de ejecución del binario.
+4. Asignar el `Type` como `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 ```python
 # Example Python code to set the registry values
 import winreg as reg
@@ -142,7 +142,7 @@ Si deseas obtener un shell de `NT SYSTEM`, podrías usar:
 
 * [**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)
 * [**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)
-* [**psgetsys.ps1 (Powershell Script)**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)
+* [**psgetsys.ps1 (Script de Powershell)**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)
 ```powershell
 # Get the PID of a process running as NT SYSTEM
 import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<command_to_execute>)
@@ -172,7 +172,7 @@ Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](http
 | **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Leer archivos sensibles con `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Puede ser más interesante si puedes leer %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (y robocopy) no son útiles cuando se trata de archivos abiertos.<br><br>- Robocopy requiere tanto SeBackup como SeRestore para trabajar con el parámetro /b.</p>                                                                      |
 | **`SeCreateToken`**        | _**Admin**_ | 3rd party tool          | Crear un token arbitrario que incluya derechos de administrador local con `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
 | **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplicar el token de `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script to be found at [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
-| **`SeLoadDriver`**         | _**Admin**_ | 3rd party tool          | <p>1. Cargar un controlador de kernel con errores como <code>szkg64.sys</code><br>2. Explotar la vulnerabilidad del controlador<br><br>Alternativamente, el privilegio puede usarse para descargar controladores relacionados con la seguridad con el comando incorporado <code>ftlMC</code>. es decir: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnerabilidad de <code>szkg64</code> está listada como <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. El <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">código de explotación</a> fue creado por <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
+| **`SeLoadDriver`**         | _**Admin**_ | 3rd party tool          | <p>1. Cargar un controlador de kernel con errores como <code>szkg64.sys</code><br>2. Explotar la vulnerabilidad del controlador<br><br>Alternativamente, el privilegio puede usarse para descargar controladores relacionados con la seguridad con el comando incorporado <code>ftlMC</code>. i.e.: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnerabilidad de <code>szkg64</code> está listada como <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. El <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">código de explotación</a> fue creado por <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
 | **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Iniciar PowerShell/ISE con el privilegio SeRestore presente.<br>2. Habilitar el privilegio con <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Renombrar utilman.exe a utilman.old<br>4. Renombrar cmd.exe a utilman.exe<br>5. Bloquear la consola y presionar Win+U</p> | <p>El ataque puede ser detectado por algún software antivirus.</p><p>El método alternativo se basa en reemplazar los binarios de servicio almacenados en "Program Files" utilizando el mismo privilegio</p>                                                                                                                                                            |
 | **`SeTakeOwnership`**      | _**Admin**_ | _**Built-in commands**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Renombrar cmd.exe a utilman.exe<br>4. Bloquear la consola y presionar Win+U</p>                                                                                                                                       | <p>El ataque puede ser detectado por algún software antivirus.</p><p>El método alternativo se basa en reemplazar los binarios de servicio almacenados en "Program Files" utilizando el mismo privilegio.</p>                                                                                                                                                           |
 | **`SeTcb`**                | _**Admin**_ | 3rd party tool          | <p>Manipular tokens para incluir derechos de administrador local. Puede requerir SeImpersonate.</p><p>Por verificar.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |

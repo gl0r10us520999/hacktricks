@@ -17,17 +17,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Diamond Ticket
 
-**Como un billete dorado**, un billete de diamante es un TGT que se puede usar para **acceder a cualquier servicio como cualquier usuario**. Un billete dorado se forja completamente fuera de línea, se cifra con el hash krbtgt de ese dominio y luego se pasa a una sesión de inicio de sesión para su uso. Debido a que los controladores de dominio no rastrean los TGT que han emitido legítimamente, aceptarán felizmente los TGT que están cifrados con su propio hash krbtgt.
+**Como un billete de oro**, un billete de diamante es un TGT que se puede usar para **acceder a cualquier servicio como cualquier usuario**. Un billete de oro se forja completamente fuera de línea, se cifra con el hash krbtgt de ese dominio y luego se pasa a una sesión de inicio de sesión para su uso. Debido a que los controladores de dominio no rastrean los TGT que han emitido legítimamente, aceptarán felizmente los TGT que están cifrados con su propio hash krbtgt.
 
-Hay dos técnicas comunes para detectar el uso de billetes dorados:
+Hay dos técnicas comunes para detectar el uso de billetes de oro:
 
 * Buscar TGS-REQs que no tengan un AS-REQ correspondiente.
 * Buscar TGTs que tengan valores absurdos, como la duración predeterminada de 10 años de Mimikatz.
 
-Un **billete de diamante** se crea **modificando los campos de un TGT legítimo que fue emitido por un DC**. Esto se logra **solicitando** un **TGT**, **descifrándolo** con el hash krbtgt del dominio, **modificando** los campos deseados del billete y luego **volviéndolo a cifrar**. Esto **supera las dos desventajas mencionadas anteriormente** de un billete dorado porque:
+Un **billete de diamante** se crea **modificando los campos de un TGT legítimo que fue emitido por un DC**. Esto se logra **solicitando** un **TGT**, **descifrándolo** con el hash krbtgt del dominio, **modificando** los campos deseados del billete y luego **volviéndolo a cifrar**. Esto **supera las dos desventajas mencionadas anteriormente** de un billete de oro porque:
 
 * Los TGS-REQs tendrán un AS-REQ anterior.
-* El TGT fue emitido por un DC, lo que significa que tendrá todos los detalles correctos de la política Kerberos del dominio. Aunque estos pueden ser forjados con precisión en un billete dorado, es más complejo y propenso a errores.
+* El TGT fue emitido por un DC, lo que significa que tendrá todos los detalles correctos de la política Kerberos del dominio. Aunque estos pueden ser forjados con precisión en un billete de oro, es más complejo y propenso a errores.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid

@@ -17,7 +17,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ### Código
 
-El siguiente código de [aquí](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Permite **indicar un ID de Proceso como argumento** y un CMD **ejecutándose como el usuario** del proceso indicado se ejecutará.\
+El siguiente código de [aquí](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Permite **indicar un ID de Proceso como argumento** y un CMD **se ejecutará como el usuario** del proceso indicado.\
 Ejecutándose en un proceso de Alta Integridad, puedes **indicar el PID de un proceso que se ejecute como Sistema** (como winlogon, wininit) y ejecutar un cmd.exe como sistema.
 ```cpp
 impersonateuser.exe 1234

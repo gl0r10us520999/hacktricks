@@ -1,6 +1,6 @@
 # LLM Training - Data Preparation
 
-**Estas son mis notas del libro muy recomendado** [**https://www.manning.com/books/build-a-large-language-model-from-scratch**](https://www.manning.com/books/build-a-large-language-model-from-scratch) **con algo de información extra.**
+**Estas son mis notas del libro muy recomendado** [**https://www.manning.com/books/build-a-large-language-model-from-scratch**](https://www.manning.com/books/build-a-large-language-model-from-scratch) **con información adicional.**
 
 ## Basic Information
 
@@ -69,7 +69,7 @@ Esta arquitectura se utilizará tanto para entrenar como para predecir texto des
 ## 6. Pre-training & Loading models
 
 {% hint style="success" %}
-El objetivo de esta sexta fase es muy simple: **Entrenar el modelo desde cero**. Para esto se utilizará la arquitectura LLM anterior con algunos bucles sobre los conjuntos de datos utilizando las funciones de pérdida y optimizador definidos para entrenar todos los parámetros del modelo.
+El objetivo de esta sexta fase es muy simple: **Entrenar el modelo desde cero**. Para esto se utilizará la arquitectura LLM anterior con algunos bucles que recorren los conjuntos de datos utilizando las funciones de pérdida y optimizador definidas para entrenar todos los parámetros del modelo.
 {% endhint %}
 
 {% content-ref url="6.-pre-training-and-loading-models.md" %}

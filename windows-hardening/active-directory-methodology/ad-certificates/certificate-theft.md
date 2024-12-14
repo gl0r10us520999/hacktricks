@@ -17,7 +17,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Este es un pequeño resumen de los capítulos de Robo de la increíble investigación de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
-
 ## Qué puedo hacer con un certificado
 
 Antes de verificar cómo robar los certificados, aquí tienes algo de información sobre cómo encontrar para qué es útil el certificado:
@@ -48,7 +47,7 @@ Más información sobre DPAPI en:
 [dpapi-extracting-passwords.md](../../windows-local-privilege-escalation/dpapi-extracting-passwords.md)
 {% endcontent-ref %}
 
-En Windows, **las claves privadas de los certificados están protegidas por DPAPI**. Es crucial reconocer que las **ubicaciones de almacenamiento para las claves privadas de usuario y de máquina** son distintas, y las estructuras de archivos varían dependiendo de la API criptográfica utilizada por el sistema operativo. **SharpDPAPI** es una herramienta que puede navegar estas diferencias automáticamente al descifrar los blobs de DPAPI.
+En Windows, **las claves privadas de los certificados están protegidas por DPAPI**. Es crucial reconocer que las **ubicaciones de almacenamiento para las claves privadas de usuario y máquina** son distintas, y las estructuras de archivos varían dependiendo de la API criptográfica utilizada por el sistema operativo. **SharpDPAPI** es una herramienta que puede navegar estas diferencias automáticamente al descifrar los blobs de DPAPI.
 
 **Los certificados de usuario** se encuentran predominantemente en el registro bajo `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, pero algunos también se pueden encontrar en el directorio `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. Las correspondientes **claves privadas** para estos certificados se almacenan típicamente en `%APPDATA%\Microsoft\Crypto\RSA\User SID\` para claves **CAPI** y `%APPDATA%\Microsoft\Crypto\Keys\` para claves **CNG**.
 
@@ -80,12 +79,12 @@ Los certificados de máquina almacenados por Windows en el registro en `HKEY_LOC
 
 La desencriptación manual se puede lograr ejecutando el comando `lsadump::secrets` en **Mimikatz** para extraer el secreto LSA DPAPI_SYSTEM, y posteriormente utilizando esta clave para desencriptar las claves maestras de la máquina. Alternativamente, se puede usar el comando `crypto::certificates /export /systemstore:LOCAL_MACHINE` de Mimikatz después de parchear CAPI/CNG como se describió anteriormente.
 
-**SharpDPAPI** ofrece un enfoque más automatizado con su comando de certificados. Cuando se utiliza la bandera `/machine` con permisos elevados, se eleva a SYSTEM, volcando el secreto LSA DPAPI_SYSTEM, lo utiliza para desencriptar las claves maestras DPAPI de la máquina y luego emplea estas claves en texto plano como una tabla de búsqueda para desencriptar cualquier clave privada de certificado de máquina.
+**SharpDPAPI** ofrece un enfoque más automatizado con su comando de certificados. Cuando se utiliza la bandera `/machine` con permisos elevados, se eleva a SYSTEM, extrae el secreto LSA DPAPI_SYSTEM, lo utiliza para desencriptar las claves maestras DPAPI de la máquina y luego emplea estas claves en texto plano como una tabla de búsqueda para desencriptar cualquier clave privada de certificado de máquina.
 
 
-## Encontrando Archivos de Certificados – THEFT4
+## Encontrar Archivos de Certificados – THEFT4
 
-Los certificados a veces se encuentran directamente dentro del sistema de archivos, como en comparticiones de archivos o en la carpeta de Descargas. Los tipos de archivos de certificados más comúnmente encontrados dirigidos a entornos de Windows son los archivos `.pfx` y `.p12`. Aunque con menos frecuencia, también aparecen archivos con extensiones `.pkcs12` y `.pem`. Otras extensiones de archivo relacionadas con certificados que son notables incluyen:
+Los certificados a veces se encuentran directamente dentro del sistema de archivos, como en recursos compartidos de archivos o en la carpeta de Descargas. Los tipos de archivos de certificados más comúnmente encontrados dirigidos a entornos de Windows son los archivos `.pfx` y `.p12`. Aunque con menos frecuencia, también aparecen archivos con extensiones `.pkcs12` y `.pem`. Otras extensiones de archivo relacionadas con certificados que son dignas de mención incluyen:
 - `.key` para claves privadas,
 - `.crt`/`.cer` solo para certificados,
 - `.csr` para Solicitudes de Firma de Certificado, que no contienen certificados ni claves privadas,
@@ -104,7 +103,7 @@ pfx2john.py certificate.pfx > hash.txt
 # Command to crack the hash with JohnTheRipper
 john --wordlist=passwords.txt hash.txt
 ```
-## NTLM Credential Theft via PKINIT – THEFT5
+## Robo de Credenciales NTLM a través de PKINIT – THEFT5
 
 El contenido dado explica un método para el robo de credenciales NTLM a través de PKINIT, específicamente mediante el método de robo etiquetado como THEFT5. Aquí hay una reexplicación en voz pasiva, con el contenido anonimizado y resumido donde sea aplicable:
 
@@ -114,7 +113,7 @@ La utilidad **Kekeo**, accesible en [https://github.com/gentilkiwi/kekeo](https:
 ```bash
 tgt::pac /caname:generic-DC-CA /subject:genericUser /castore:current_user /domain:domain.local
 ```
-Además, se señala que Kekeo puede procesar certificados protegidos por tarjeta inteligente, dado que se puede recuperar el pin, haciendo referencia a [https://github.com/CCob/PinSwipe](https://github.com/CCob/PinSwipe). La misma capacidad se indica que es soportada por **Rubeus**, disponible en [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus).
+Además, se señala que Kekeo puede procesar certificados protegidos por tarjeta inteligente, dado que se puede recuperar el pin, haciendo referencia a [https://github.com/CCob/PinSwipe](https://github.com/CCob/PinSwipe). La misma capacidad se indica que es compatible con **Rubeus**, disponible en [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus).
 
 Esta explicación encapsula el proceso y las herramientas involucradas en el robo de credenciales NTLM a través de PKINIT, centrándose en la recuperación de hashes NTLM a través de TGT obtenidos usando PKINIT, y las utilidades que facilitan este proceso.
 

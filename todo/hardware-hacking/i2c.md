@@ -56,7 +56,7 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Como puedes ver en la línea de comando anterior, decía que no encontró errores. Esto es muy útil para saber que está funcionando después de comprarlo o después de flashear un firmware.
+Como puedes ver en la línea de comando anterior, decía que encontró 0 errores. Esto es muy útil para saber que está funcionando después de comprarlo o después de flashear un firmware.
 
 Para conectarte con el bus pirate, puedes seguir la documentación:
 

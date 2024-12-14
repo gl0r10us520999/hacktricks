@@ -1,4 +1,4 @@
-# Robando la Divulgación de Información Sensible de una Web
+# Robando la Divulgación de Información Sensible desde una Web
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -15,7 +15,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-Si en algún momento encuentras una **página web que te presenta información sensible basada en tu sesión**: Tal vez esté reflejando cookies, o imprimiendo detalles de tarjetas de crédito o cualquier otra información sensible, puedes intentar robarla.\
+Si en algún momento encuentras una **página web que te presenta información sensible basada en tu sesión**: Tal vez esté reflejando cookies, o imprimiendo detalles de CC u otra información sensible, puedes intentar robarla.\
 Aquí te presento las principales formas en que puedes intentar lograrlo:
 
 * [**CORS bypass**](../pentesting-web/cors-bypass.md): Si puedes eludir los encabezados CORS, podrás robar la información realizando una solicitud Ajax para una página maliciosa.

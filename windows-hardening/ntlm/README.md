@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## Información Básica
 
-En entornos donde **Windows XP y Server 2003** están en operación, se utilizan hashes LM (Lan Manager), aunque se reconoce ampliamente que estos pueden ser fácilmente comprometidos. Un hash LM particular, `AAD3B435B51404EEAAD3B435B51404EE`, indica un escenario donde LM no se emplea, representando el hash para una cadena vacía.
+En entornos donde **Windows XP y Server 2003** están en operación, se utilizan hashes LM (Lan Manager), aunque se reconoce ampliamente que estos pueden ser fácilmente comprometidos. Un hash LM particular, `AAD3B435B51404EEAAD3B435B51404EE`, indica un escenario donde no se emplea LM, representando el hash para una cadena vacía.
 
-Por defecto, el protocolo de autenticación **Kerberos** es el método principal utilizado. NTLM (NT LAN Manager) interviene bajo circunstancias específicas: ausencia de Active Directory, inexistencia del dominio, mal funcionamiento de Kerberos debido a una configuración incorrecta, o cuando se intentan conexiones utilizando una dirección IP en lugar de un nombre de host válido.
+Por defecto, el protocolo de autenticación **Kerberos** es el método principal utilizado. NTLM (NT LAN Manager) entra en acción bajo circunstancias específicas: ausencia de Active Directory, inexistencia del dominio, mal funcionamiento de Kerberos debido a una configuración incorrecta, o cuando se intentan conexiones utilizando una dirección IP en lugar de un nombre de host válido.
 
 La presencia del encabezado **"NTLMSSP"** en los paquetes de red señala un proceso de autenticación NTLM.
 
@@ -91,14 +91,14 @@ El **hash NT (16bytes)** se divide en **3 partes de 7bytes cada una** (7B + 7B +
 Hoy en día es cada vez menos común encontrar entornos con Delegación No Restringida configurada, pero esto no significa que no puedas **abusar de un servicio de Print Spooler** configurado.
 
 Podrías abusar de algunas credenciales/sesiones que ya tienes en el AD para **pedir a la impresora que se autentique** contra algún **host bajo tu control**. Luego, usando `metasploit auxiliary/server/capture/smb` o `responder` puedes **establecer el reto de autenticación a 1122334455667788**, capturar el intento de autenticación, y si se realizó usando **NTLMv1** podrás **quebrarlo**.\
-Si estás usando `responder` podrías intentar \*\*usar la bandera `--lm` \*\* para intentar **reducir** la **autenticación**.\
+Si estás usando `responder` podrías intentar **usar la bandera `--lm`** para intentar **reducir** la **autenticación**.\
 &#xNAN;_&#x4E;ote que para esta técnica la autenticación debe realizarse usando NTLMv1 (NTLMv2 no es válido)._
 
 Recuerda que la impresora utilizará la cuenta de computadora durante la autenticación, y las cuentas de computadora utilizan **contraseñas largas y aleatorias** que **probablemente no podrás quebrar** usando diccionarios comunes. Pero la autenticación **NTLMv1** **usa DES** ([más información aquí](./#ntlmv1-challenge)), así que usando algunos servicios especialmente dedicados a quebrar DES podrás hacerlo (podrías usar [https://crack.sh/](https://crack.sh) o [https://ntlmv1.com/](https://ntlmv1.com) por ejemplo).
 
 ### Ataque NTLMv1 con hashcat
 
-NTLMv1 también puede ser quebrantado con la herramienta NTLMv1 Multi [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) que formatea los mensajes NTLMv1 de una manera que puede ser quebrantada con hashcat.
+NTLMv1 también puede ser quebrado con la herramienta NTLMv1 Multi [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) que formatea los mensajes NTLMv1 de una manera que puede ser quebrada con hashcat.
 
 El comando
 ```bash
@@ -133,36 +133,34 @@ NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```markdown
 # NTLM Hardening
 
-## Introducción
+NTLM (NT LAN Manager) is a suite of Microsoft security protocols that provides authentication, integrity, and confidentiality to users. However, NTLM has several vulnerabilities that can be exploited by attackers. This document outlines steps to harden NTLM in your environment.
 
-NTLM (NT LAN Manager) es un protocolo de autenticación que se utiliza en redes de Windows. Aunque ha sido reemplazado en gran medida por Kerberos, todavía se encuentra en uso en muchas organizaciones. Este documento proporciona recomendaciones para endurecer el uso de NTLM en su entorno.
+## Steps to Harden NTLM
 
-## Recomendaciones
+1. **Disable NTLM where possible**  
+   Desactive NTLM en todos los sistemas donde no sea necesario. Utilice Kerberos siempre que sea posible.
 
-1. **Deshabilitar NTLM donde sea posible**  
-   Siempre que sea posible, deshabilite NTLM y utilice Kerberos en su lugar.
+2. **Limit NTLM usage**  
+   Limite el uso de NTLM a aplicaciones y servicios que lo requieran. Revise las configuraciones de seguridad para asegurarse de que NTLM no se utilice innecesariamente.
 
-2. **Limitar el uso de NTLM**  
-   Si NTLM debe ser utilizado, limite su uso a los sistemas y aplicaciones que realmente lo necesiten.
+3. **Implement NTLM auditing**  
+   Implemente auditorías de NTLM para monitorear el uso y detectar posibles abusos. Esto puede ayudar a identificar intentos de ataque.
 
-3. **Monitorear el tráfico NTLM**  
-   Implemente herramientas de monitoreo para detectar el uso no autorizado de NTLM en su red.
+4. **Use strong passwords**  
+   Asegúrese de que se utilicen contraseñas fuertes y políticas de complejidad para las cuentas que utilizan NTLM.
 
-4. **Aplicar políticas de seguridad**  
-   Asegúrese de que las políticas de seguridad de su organización prohíban el uso de NTLM en situaciones innecesarias.
+5. **Regularly update systems**  
+   Mantenga todos los sistemas actualizados con los últimos parches de seguridad para protegerse contra vulnerabilidades conocidas.
 
-5. **Actualizar sistemas**  
-   Mantenga todos los sistemas actualizados con los últimos parches de seguridad para mitigar vulnerabilidades relacionadas con NTLM.
+## Conclusion
 
-## Conclusión
-
-Endurecer el uso de NTLM es crucial para proteger su red de posibles ataques. Siga estas recomendaciones para mejorar la seguridad de su entorno.
+Harden NTLM to reduce the risk of exploitation. Regularly review and update your security policies to ensure they are effective.
 ```
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-Ejecuta hashcat (distribuido es mejor a través de una herramienta como hashtopolis) ya que esto tomará varios días de otra manera.
+Ejecuta hashcat (distribuido es mejor a través de una herramienta como hashtopolis) ya que de lo contrario tomará varios días.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
@@ -206,7 +204,7 @@ Si tienes un **pcap que ha capturado un proceso de autenticación exitoso**, pue
 ## Pass-the-Hash
 
 **Una vez que tengas el hash de la víctima**, puedes usarlo para **suplantarla**.\
-Necesitas usar una **herramienta** que **realice** la **autenticación NTLM usando** ese **hash**, **o** podrías crear un nuevo **sessionlogon** e **inyectar** ese **hash** dentro de **LSASS**, de modo que cuando se realice cualquier **autenticación NTLM**, ese **hash será utilizado.** La última opción es lo que hace mimikatz.
+Necesitas usar una **herramienta** que **realice** la **autenticación NTLM usando** ese **hash**, **o** podrías crear un nuevo **sessionlogon** e **inyectar** ese **hash** dentro del **LSASS**, de modo que cuando se realice cualquier **autenticación NTLM**, ese **hash será utilizado.** La última opción es lo que hace mimikatz.
 
 **Por favor, recuerda que también puedes realizar ataques Pass-the-Hash usando cuentas de computadora.**
 
@@ -278,7 +276,7 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 
 **Para más información sobre** [**cómo obtener credenciales de un host de Windows, deberías leer esta página**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
 
-## Relevo NTLM y Responder
+## Reenvío NTLM y Responder
 
 **Lee una guía más detallada sobre cómo realizar esos ataques aquí:**
 

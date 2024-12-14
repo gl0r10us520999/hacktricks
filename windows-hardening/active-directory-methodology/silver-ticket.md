@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Silver ticket
 
-El ataque de **Silver Ticket** implica la explotación de tickets de servicio en entornos de Active Directory (AD). Este método se basa en **adquirir el hash NTLM de una cuenta de servicio**, como una cuenta de computadora, para falsificar un ticket de Servicio de Concesión de Tickets (TGS). Con este ticket falsificado, un atacante puede acceder a servicios específicos en la red, **suplantando a cualquier usuario**, generalmente con el objetivo de obtener privilegios administrativos. Se enfatiza que el uso de claves AES para falsificar tickets es más seguro y menos detectable.
+El ataque **Silver Ticket** implica la explotación de tickets de servicio en entornos de Active Directory (AD). Este método se basa en **adquirir el hash NTLM de una cuenta de servicio**, como una cuenta de computadora, para falsificar un ticket de Servicio de Concesión de Tickets (TGS). Con este ticket falsificado, un atacante puede acceder a servicios específicos en la red, **suplantando a cualquier usuario**, generalmente con el objetivo de obtener privilegios administrativos. Se enfatiza que el uso de claves AES para falsificar tickets es más seguro y menos detectable.
 
 Para la creación de tickets, se emplean diferentes herramientas según el sistema operativo:
 
@@ -54,11 +54,11 @@ El servicio CIFS se destaca como un objetivo común para acceder al sistema de a
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                 |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Dependiendo del SO también:</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>En algunas ocasiones solo puedes pedir: WINRM</p> |
-| Tareas Programadas                         | HOST                                                                    |
-| Compartición de Archivos de Windows, también psexec | CIFS                                                                    |
-| Operaciones LDAP, incluido DCSync        | LDAP                                                                    |
+| Tareas Programadas                         | HOST                                                                     |
+| Compartición de Archivos de Windows, también psexec | CIFS                                                                     |
+| Operaciones LDAP, incluido DCSync        | LDAP                                                                     |
 | Herramientas de Administración de Servidores Remotos de Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                      |
-| Golden Tickets                             | krbtgt                                                                |
+| Golden Tickets                             | krbtgt                                                                 |
 
 Usando **Rubeus** puedes **pedir todos** estos tickets usando el parámetro:
 
@@ -126,19 +126,19 @@ Con acceso winrm a una computadora puedes **acceder a ella** e incluso obtener u
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-Check the following page to learn **más formas de conectarse a un host remoto usando winrm**:
+Consulta la siguiente página para aprender **más formas de conectarte con un host remoto usando winrm**:
 
 {% content-ref url="../lateral-movement/winrm.md" %}
 [winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Note that **winrm debe estar activo y escuchando** en la computadora remota para acceder a ella.
+Ten en cuenta que **winrm debe estar activo y escuchando** en la computadora remota para acceder a ella.
 {% endhint %}
 
 ### LDAP
 
-With this privilege you can dump the DC database using **DCSync**:
+Con este privilegio puedes volcar la base de datos del DC usando **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
@@ -155,7 +155,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Consejo de bug bounty**: **regístrate** en **Intigriti**, una **plataforma de bug bounty premium creada por hackers, para hackers**! Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy, y comienza a ganar recompensas de hasta **$100,000**!
+**Consejo de recompensas por errores**: **regístrate** en **Intigriti**, una **plataforma de recompensas por errores premium creada por hackers, para hackers**! Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy, y comienza a ganar recompensas de hasta **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 

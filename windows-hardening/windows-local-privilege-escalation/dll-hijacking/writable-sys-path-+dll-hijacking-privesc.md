@@ -60,7 +60,7 @@ $newPath = "$envPath;$folderPath"
 
 <figure><img src="../../../.gitbook/assets/image (945).png" alt=""><figcaption></figcaption></figure>
 
-### Dlls Perdidos
+### Dlls Perdidas
 
 Ejecutando esto en una **máquina virtual (vmware) Windows 11** gratuita, obtuve estos resultados:
 
@@ -78,7 +78,7 @@ Después de encontrar esto, encontré esta interesante publicación de blog que 
 
 ### Explotación
 
-Entonces, para **escalar privilegios**, vamos a secuestrar la biblioteca **WptsExtensions.dll**. Teniendo el **ruta** y el **nombre**, solo necesitamos **generar el dll malicioso**.
+Entonces, para **escalar privilegios**, vamos a secuestrar la biblioteca **WptsExtensions.dll**. Teniendo la **ruta** y el **nombre**, solo necesitamos **generar el dll malicioso**.
 
 Puede [**intentar usar cualquiera de estos ejemplos**](./#creating-and-compiling-dlls). Podría ejecutar cargas útiles como: obtener un rev shell, agregar un usuario, ejecutar un beacon...
 
@@ -89,7 +89,7 @@ Sin embargo, ese usuario tiene el privilegio **`seImpersonate`**, por lo que pue
 
 En el momento de escribir, el servicio de **Programador de tareas** se ejecuta con **Nt AUTHORITY\SYSTEM**.
 
-Habiendo **generado el Dll malicioso** (_en mi caso usé un rev shell x64 y obtuve un shell de vuelta, pero defender lo eliminó porque era de msfvenom_), guárdelo en la ruta de sistema escribible con el nombre **WptsExtensions.dll** y **reinicie** la computadora (o reinicie el servicio o haga lo que sea necesario para volver a ejecutar el servicio/programa afectado).
+Habiendo **generado el Dll malicioso** (_en mi caso usé un rev shell x64 y obtuve un shell de vuelta, pero defender lo mató porque era de msfvenom_), guárdelo en la ruta de sistema escribible con el nombre **WptsExtensions.dll** y **reinicie** la computadora (o reinicie el servicio o haga lo que sea necesario para volver a ejecutar el servicio/programa afectado).
 
 Cuando el servicio se reinicie, el **dll debería ser cargado y ejecutado** (puede **reutilizar** el truco de **procmon** para verificar si la **biblioteca se cargó como se esperaba**).
 
@@ -101,7 +101,7 @@ Aprenda y practique Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" 
 
 <summary>Apoye a HackTricks</summary>
 
-* Consulte los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* ¡Revise los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únase al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síganos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Comparta trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 

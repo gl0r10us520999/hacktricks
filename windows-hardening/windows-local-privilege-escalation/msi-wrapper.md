@@ -15,7 +15,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-Descarga la versión gratuita de la aplicación desde [https://www.exemsi.com/documentation/getting-started/](https://www.exemsi.com/download/), ejecútala y envuelve el binario "malicioso" en ella.\
+Descarga la aplicación de versión gratuita desde [https://www.exemsi.com/documentation/getting-started/](https://www.exemsi.com/download/), ejecútala y envuelve el binario "malicioso" en ella.\
 Ten en cuenta que puedes envolver un "**.bat**" si **solo** deseas **ejecutar** **líneas de comando (en lugar de cmd.exe selecciona el archivo .bat)**
 
 ![](<../../.gitbook/assets/image (417).png>)

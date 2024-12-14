@@ -1,22 +1,22 @@
 # Angr - Ejemplos
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 {% hint style="info" %}
-Si el programa está usando `scanf` para obtener **varios valores a la vez desde stdin** necesitas generar un estado que comience después del **`scanf`**.
+Si el programa está utilizando `scanf` para obtener **varios valores a la vez desde stdin** necesitas generar un estado que comience después del **`scanf`**.
 {% endhint %}
 
 Códigos tomados de [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
@@ -153,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Valores de la pila
+### Valores de pila
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -219,7 +219,7 @@ En este escenario, la entrada se tomó con `scanf("%u %u")` y se dio el valor `"
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Valores de memoria estática (Variables globales)
+### Valores de memoria estática (variables globales)
 ```python
 import angr
 import claripy
@@ -502,10 +502,10 @@ En algunos escenarios, puedes activar **veritesting**, que fusionará estados si
 Otra cosa que puedes hacer en estos escenarios es **enganchar la función dándole a angr algo que pueda entender** más fácilmente.
 {% endhint %}
 
-### Simuladores de Gestión
+### Administradores de Simulación
 
-Algunos simuladores de gestión pueden ser más útiles que otros. En el ejemplo anterior, hubo un problema ya que se crearon muchas ramas útiles. Aquí, la técnica de **veritesting** fusionará esas y encontrará una solución.\
-Este simulador de gestión también se puede activar con: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Algunos administradores de simulación pueden ser más útiles que otros. En el ejemplo anterior, hubo un problema ya que se crearon muchas ramas útiles. Aquí, la técnica de **veritesting** fusionará esas y encontrará una solución.\
+Este administrador de simulación también se puede activar con: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy

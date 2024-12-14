@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -105,7 +105,7 @@ El acceso directo al sistema de archivos del Controlador de Dominio permite el r
 
 #### Using diskshadow.exe
 
-1. Crear una copia sombra de la unidad `C`:
+1. Crear una copia de sombra del disco `C`:
 ```cmd
 diskshadow.exe
 set verbose on
@@ -150,7 +150,7 @@ Para una demostración práctica, consulta [VIDEO DEMOSTRATIVO CON IPPSEC](https
 
 ## DnsAdmins
 
-Los miembros del grupo **DnsAdmins** pueden explotar sus privilegios para cargar un DLL arbitrario con privilegios de SYSTEM en un servidor DNS, a menudo alojado en Controladores de Dominio. Esta capacidad permite un potencial de explotación significativo.
+Los miembros del grupo **DnsAdmins** pueden explotar sus privilegios para cargar una DLL arbitraria con privilegios de SYSTEM en un servidor DNS, a menudo alojado en Controladores de Dominio. Esta capacidad permite un potencial de explotación significativo.
 
 Para listar los miembros del grupo DnsAdmins, usa:
 ```powershell
@@ -208,7 +208,7 @@ Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 Los Administradores de Hyper-V tienen acceso completo a Hyper-V, lo que puede ser explotado para obtener control sobre Controladores de Dominio virtualizados. Esto incluye clonar DCs en vivo y extraer hashes NTLM del archivo NTDS.dit.
 
 ### Ejemplo de Explotación
-El Servicio de Mantenimiento de Mozilla Firefox puede ser explotado por los Administradores de Hyper-V para ejecutar comandos como SYSTEM. Esto implica crear un enlace duro a un archivo protegido de SYSTEM y reemplazarlo con un ejecutable malicioso:
+El Servicio de Mantenimiento de Mozilla Firefox puede ser explotado por los Administradores de Hyper-V para ejecutar comandos como SYSTEM. Esto implica crear un enlace duro a un archivo protegido del SYSTEM y reemplazarlo con un ejecutable malicioso:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
@@ -218,7 +218,7 @@ Nota: La explotación de enlaces duros ha sido mitigada en las actualizaciones r
 
 ## Organización de Gestión
 
-En entornos donde se despliega **Microsoft Exchange**, un grupo especial conocido como **Organización de Gestión** posee capacidades significativas. Este grupo tiene privilegios para **acceder a los buzones de todos los usuarios del dominio** y mantiene **control total sobre la Unidad Organizativa (OU) 'Grupos de Seguridad de Microsoft Exchange'**. Este control incluye el grupo **`Exchange Windows Permissions`**, que puede ser explotado para la escalación de privilegios.
+En entornos donde se despliega **Microsoft Exchange**, un grupo especial conocido como **Organización de Gestión** tiene capacidades significativas. Este grupo tiene privilegios para **acceder a los buzones de todos los usuarios del dominio** y mantiene **control total sobre la Unidad Organizativa (OU) 'Grupos de Seguridad de Microsoft Exchange'**. Este control incluye el grupo **`Exchange Windows Permissions`**, que puede ser explotado para la escalación de privilegios.
 
 ### Explotación de Privilegios y Comandos
 
@@ -247,7 +247,7 @@ Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Us
 ```
 Para las técnicas de explotación relacionadas con **WinRM**, se debe consultar la documentación específica.
 
-#### Operadores de Servidor
+#### Servidores Operadores
 Este grupo tiene permisos para realizar varias configuraciones en los Controladores de Dominio, incluyendo privilegios de respaldo y restauración, cambio de hora del sistema y apagado del sistema. Para enumerar los miembros, el comando proporcionado es:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse

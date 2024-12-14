@@ -15,10 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Integridad del Firmware
 
-El **firmware personalizado y/o binarios compilados pueden ser subidos para explotar fallos de integridad o verificación de firma**. Se pueden seguir los siguientes pasos para la compilación de un shell de puerta trasera:
+El **firmware personalizado y/o binarios compilados pueden ser subidos para explotar fallos de integridad o verificación de firma**. Se pueden seguir los siguientes pasos para la compilación de un shell de enlace de puerta trasera:
 
 1. El firmware puede ser extraído usando firmware-mod-kit (FMK).
-2. Se debe identificar la arquitectura y el endianness del firmware objetivo.
+2. Se debe identificar la arquitectura del firmware objetivo y el orden de bytes.
 3. Se puede construir un compilador cruzado usando Buildroot u otros métodos adecuados para el entorno.
 4. La puerta trasera puede ser construida usando el compilador cruzado.
 5. La puerta trasera puede ser copiada al directorio /usr/bin del firmware extraído.
@@ -31,7 +31,7 @@ El **firmware personalizado y/o binarios compilados pueden ser subidos para expl
 
 Si ya se ha obtenido un shell root a través de análisis dinámico, manipulación del bootloader o pruebas de seguridad de hardware, se pueden ejecutar binarios maliciosos precompilados como implantes o shells reversos. Se pueden aprovechar herramientas automatizadas de carga útil/implante como el marco Metasploit y 'msfvenom' usando los siguientes pasos:
 
-1. Se debe identificar la arquitectura y el endianness del firmware objetivo.
+1. Se debe identificar la arquitectura del firmware objetivo y el orden de bytes.
 2. Msfvenom puede ser utilizado para especificar la carga útil objetivo, la IP del host atacante, el número de puerto de escucha, el tipo de archivo, la arquitectura, la plataforma y el archivo de salida.
 3. La carga útil puede ser transferida al dispositivo comprometido y asegurarse de que tenga permisos de ejecución.
 4. Metasploit puede ser preparado para manejar solicitudes entrantes iniciando msfconsole y configurando los ajustes de acuerdo con la carga útil.

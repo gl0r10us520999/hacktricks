@@ -107,7 +107,7 @@ block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x4016
 ```
 # Análisis Dinámico
 
-## Gestor de Simulación, Estados
+## Administrador de Simulación, Estados
 ```python
 #Live States
 #This is useful to modify content in a live analysis

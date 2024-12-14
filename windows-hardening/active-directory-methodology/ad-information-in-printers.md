@@ -27,7 +27,7 @@ Algunos blogs sobre el tema:
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
 ## Configuración de la Impresora
-- **Ubicación**: La lista de servidores LDAP se encuentra en: `Red > Configuración de LDAP > Configuración de LDAP`.
+- **Ubicación**: La lista de servidores LDAP se encuentra en: `Network > LDAP Setting > Setting Up LDAP`.
 - **Comportamiento**: La interfaz permite modificaciones del servidor LDAP sin volver a ingresar credenciales, buscando la conveniencia del usuario pero planteando riesgos de seguridad.
 - **Explotación**: La explotación implica redirigir la dirección del servidor LDAP a una máquina controlada y aprovechar la función "Probar Conexión" para capturar credenciales.
 

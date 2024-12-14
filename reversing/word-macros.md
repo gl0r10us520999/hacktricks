@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Código Basura
 
-Es muy común encontrar **código basura que nunca se usa** para dificultar la reversión de la macro.\
+Es muy común encontrar **código basura que nunca se utiliza** para dificultar la reversión de la macro.\
 Por ejemplo, en la siguiente imagen puedes ver que se utiliza un If que nunca va a ser verdadero para ejecutar algún código basura y inútil.
 
 ![](<../.gitbook/assets/image (369).png>)

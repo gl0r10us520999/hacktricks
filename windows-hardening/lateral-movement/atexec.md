@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Cómo Funciona
 
-At permite programar tareas en hosts donde conoces el nombre de usuario/(contraseña/Hash). Así que puedes usarlo para ejecutar comandos en otros hosts y obtener la salida.
+At permite programar tareas en hosts donde conoces el nombre de usuario/(contraseña/Hash). Así que, puedes usarlo para ejecutar comandos en otros hosts y obtener la salida.
 ```
 At \\victim 11:00:00PM shutdown -r
 ```
