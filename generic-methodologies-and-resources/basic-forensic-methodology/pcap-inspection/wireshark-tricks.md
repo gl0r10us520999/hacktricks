@@ -31,37 +31,37 @@ Die volgende tutorials is wonderlik om 'n paar koel basiese truuks te leer:
 
 **Deskundige Inligting**
 
-Deur te klik op _**Analiseer** --> **Deskundige Inligting**_ sal jy 'n **oorsig** hê van wat in die pakkette **geanaliseer** word:
+Deur op _**Analiseer** --> **Deskundige Inligting**_ te klik, sal jy 'n **oorsig** hê van wat in die pakkette **geanaliseer** word:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **Opgeloste Adresse**
 
-Onder _**Statistieke --> Opgeloste Adresse**_ kan jy verskeie **inligting** vind wat deur wireshark "**opgelos**" is soos poort/transport na protokol, MAC na die vervaardiger, ens. Dit is interessant om te weet wat betrokke is in die kommunikasie.
+Onder _**Statistieke --> Opgeloste Adresse**_ kan jy verskeie **inligting** vind wat deur wireshark "**opgelos**" is, soos poort/transport na protokol, MAC na die vervaardiger, ens. Dit is interessant om te weet wat betrokke is in die kommunikasie.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protokol Hiërargie**
 
-Onder _**Statistieke --> Protokol Hiërargie**_ kan jy die **protokolle** **betrokke** in die kommunikasie en data oor hulle vind.
+Onder _**Statistieke --> Protokol Hiërargie**_ kan jy die **protokolle** **betrokke** in die kommunikasie en data daaroor vind.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Gesprekke**
 
-Onder _**Statistieke --> Gesprekke**_ kan jy 'n **opsomming van die gesprekke** in die kommunikasie en data oor hulle vind.
+Onder _**Statistieke --> Gesprekke**_ kan jy 'n **opsomming van die gesprekke** in die kommunikasie en data daaroor vind.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Eindpunte**
 
-Onder _**Statistieke --> Eindpunte**_ kan jy 'n **opsomming van die eindpunte** in die kommunikasie en data oor elkeen van hulle vind.
+Onder _**Statistieke --> Eindpunte**_ kan jy 'n **opsomming van die eindpunte** in die kommunikasie en data oor elk van hulle vind.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS inligting**
 
-Onder _**Statistieke --> DNS**_ kan jy statistieke oor die DNS versoek wat gevang is vind.
+Onder _**Statistieke --> DNS**_ kan jy statistieke oor die DNS versoek wat gevang is, vind.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
@@ -85,7 +85,7 @@ Ander interessante filters:
 
 ### Soek
 
-As jy wil **soek** vir **inhoud** binne die **pakkette** van die sessies druk _CTRL+f_. Jy kan nuwe lae by die hoofinligtingbalk (No., Tyd, Bron, ens.) voeg deur die regterknoppie te druk en dan die kolom te redigeer.
+As jy wil **soek** vir **inhoud** binne die **pakkette** van die sessies, druk _CTRL+f_. Jy kan nuwe lae by die hoofinligtingbalk (No., Tyd, Bron, ens.) voeg deur die regterknoppie te druk en dan die kolom te redigeer.
 
 ### Gratis pcap laboratoriums
 
@@ -101,11 +101,11 @@ En 'n kolom wat die Bediener naam van 'n inisierende HTTPS verbinding byvoeg (**
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identifisering van plaaslike gasheurname
+## Identifisering van plaaslike gasheernames
 
 ### Van DHCP
 
-In die huidige Wireshark in plaas van `bootp` moet jy soek na `DHCP`
+In die huidige Wireshark moet jy in plaas van `bootp` soek na `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -115,25 +115,25 @@ In die huidige Wireshark in plaas van `bootp` moet jy soek na `DHCP`
 
 ## Ontsleuteling van TLS
 
-### Ontsleuteling van https verkeer met bediener se privaat sleutel
+### Ontsleuteling van https verkeer met bediener se private sleutel
 
 _edit>voorkeur>protokol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Druk _Edit_ en voeg al die data van die bediener en die privaat sleutel (_IP, Poort, Protokol, Sleutel lêer en wagwoord_)
+Druk _Edit_ en voeg al die data van die bediener en die private sleutel (_IP, Poort, Protokol, Sleutel lêer en wagwoord_)
 
 ### Ontsleuteling van https verkeer met simmetriese sessiesleutels
 
-Sowel Firefox as Chrome het die vermoë om TLS sessiesleutels te log, wat gebruik kan word met Wireshark om TLS verkeer te ontsleutel. Dit stel in staat tot diepgaande analise van veilige kommunikasies. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer kan gevind word in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Sowel Firefox as Chrome het die vermoë om TLS sessiesleutels te log, wat gebruik kan word met Wireshark om TLS verkeer te ontsleutel. Dit stel in staat tot diepgaande analise van veilige kommunikasies. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer, kan in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) gevind word.
 
-Om dit te detecteer soek binne die omgewing na die veranderlike `SSLKEYLOGFILE`
+Om dit te ontdek, soek binne die omgewing na die veranderlike `SSLKEYLOGFILE`
 
 'n Lêer van gedeelde sleutels sal soos volg lyk:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Om dit in wireshark te importeer gaan na \_edit > voorkeur > protokol > ssl > en importeer dit in (Pre)-Master-Secret log lêernaam:
+Om dit in wireshark te importeer, gaan na \_edit > voorkeur > protokol > ssl > en importeer dit in (Pre)-Master-Secret log lêernaam:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 

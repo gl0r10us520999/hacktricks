@@ -81,7 +81,7 @@ libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
 In hierdie geval, kom ons probeer om `/lib/x86_64-linux-gnu/libaudit.so.1` na te volg.\
-So, kyk vir funksies van hierdie biblioteek wat deur die **`su`** binêre gebruik word:
+So, kyk na die funksies van hierdie biblioteek wat deur die **`su`** binêre gebruik word:
 ```bash
 objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_open

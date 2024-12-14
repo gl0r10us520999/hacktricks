@@ -18,7 +18,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
@@ -29,17 +29,17 @@ Blaaier artefakte sluit verskeie tipes data in wat deur webblaaiers gestoor word
 
 Hier is 'n opsomming van die mees algemene blaaier artefakte:
 
-* **Navigasiegeskiedenis**: Hou gebruikersbesoeke aan webwerwe dop, nuttig om besoeke aan kwaadwillige webwerwe te identifiseer.
-* **Outomatiese Voltooiing Data**: Voorstelle gebaseer op gereelde soektogte, wat insigte bied wanneer dit saam met navigasiegeskiedenis gekombineer word.
+* **Navigasiegeskiedenis**: Volg gebruikersbesoeke aan webwerwe, nuttig om besoeke aan kwaadwillige webwerwe te identifiseer.
+* **Outomatiese Voltooiing Data**: Voorstelle gebaseer op gereelde soektogte, wat insigte bied wanneer dit gekombineer word met navigasiegeskiedenis.
 * **Boekmerke**: Webwerwe wat deur die gebruiker gestoor is vir vinnige toegang.
-* **Uitbreidings en Byvoegings**: Blaaieruitbreidings of byvoegings wat deur die gebruiker geïnstalleer is.
-* **Kas**: Stoor webinhoud (bv. beelde, JavaScript-lêers) om webwerf laai tye te verbeter, waardevol vir forensiese analise.
+* **Uitbreidings en Byvoegings**: Blaaier uitbreidings of byvoegings wat deur die gebruiker geïnstalleer is.
+* **Kas**: Stoor webinhoud (bv. beelde, JavaScript-lêers) om webwerf laaitye te verbeter, waardevol vir forensiese analise.
 * **Aanmeldings**: Gestoor aanmeldbesonderhede.
 * **Favicons**: Ikone wat met webwerwe geassosieer word, wat in oortjies en boekmerke verskyn, nuttig vir addisionele inligting oor gebruikersbesoeke.
 * **Blaaier Sessies**: Data verwant aan oop blaaier sessies.
 * **Aflaaie**: Rekords van lêers wat deur die blaaier afgelaai is.
 * **Vormdata**: Inligting wat in webvorms ingevoer is, gestoor vir toekomstige outomatiese voltooiingsvoorstelle.
-* **Miniatuurbeelde**: Voorskoubeelde van webwerwe.
+* **Miniatuurbeelde**: Voorvertoning beelde van webwerwe.
 * **Custom Dictionary.txt**: Woorde wat deur die gebruiker aan die blaaier se woordeskat bygevoeg is.
 
 ## Firefox
@@ -50,7 +50,7 @@ Firefox organiseer gebruikersdata binne profiele, gestoor in spesifieke plekke g
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-'n `profiles.ini` lêer binne hierdie gidse lys die gebruikersprofiele. Elke profiel se data word in 'n vouer gestoor wat in die `Path` veranderlike binne `profiles.ini` genoem word, geleë in dieselfde gids as `profiles.ini` self. As 'n profiel se vouer ontbreek, mag dit verwyder wees.
+'n `profiles.ini` lêer binne hierdie gidse lys die gebruikersprofiele. Elke profiel se data word in 'n vouer gestoor wat in die `Path` veranderlike binne `profiles.ini` genoem word, geleë in dieselfde gids as `profiles.ini` self. As 'n profiel se vouer ontbreek, mag dit verwyder gewees het.
 
 Binne elke profiel vouer, kan jy verskeie belangrike lêers vind:
 
@@ -59,12 +59,12 @@ Binne elke profiel vouer, kan jy verskeie belangrike lêers vind:
 * **bookmarkbackups**: Bevat rugsteun van boekmerke.
 * **formhistory.sqlite**: Stoor webvormdata.
 * **handlers.json**: Bestuur protokolhanterings.
-* **persdict.dat**: Aangepaste woordeskatwoorde.
+* **persdict.dat**: Aangepaste woordeskat woorde.
 * **addons.json** en **extensions.sqlite**: Inligting oor geïnstalleerde byvoegings en uitbreidings.
-* **cookies.sqlite**: Koekie berging, met [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) beskikbaar vir inspeksie op Windows.
+* **cookies.sqlite**: Koekie stoor, met [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) beskikbaar vir inspeksie op Windows.
 * **cache2/entries** of **startupCache**: Kasdata, toeganklik deur gereedskap soos [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Stoor favicons.
-* **prefs.js**: Gebruikersinstellings en voorkeure.
+* **prefs.js**: Gebruikerinstellings en voorkeure.
 * **downloads.sqlite**: Ouere aflaaie databasis, nou geïntegreer in places.sqlite.
 * **thumbnails**: Webwerf miniatuurbeelde.
 * **logins.json**: Geënkripteerde aanmeldinligting.
@@ -102,7 +102,7 @@ Binne hierdie gidse kan die meeste gebruikersdata in die **Default/** of **Chrom
 
 * **History**: Bevat URL's, aflaaie, en soek sleutelwoorde. Op Windows kan [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) gebruik word om die geskiedenis te lees. Die "Transition Type" kolom het verskeie betekenisse, insluitend gebruikersklieks op skakels, getypte URL's, vormindienings, en bladsy herlaai.
 * **Cookies**: Stoor koekies. Vir inspeksie is [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) beskikbaar.
-* **Cache**: Hou gekaapte data. Om te inspekteer, kan Windows gebruikers [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) gebruik.
+* **Cache**: Hou gekapte data. Om te inspekteer, kan Windows gebruikers [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) gebruik.
 * **Bookmarks**: Gebruikersboekmerke.
 * **Web Data**: Bevat vormgeskiedenis.
 * **Favicons**: Stoor webwerf favicons.
@@ -116,7 +116,7 @@ Binne hierdie gidse kan die meeste gebruikersdata in die **Default/** of **Chrom
 
 ## **SQLite DB Data Recovery**
 
-Soos jy in die vorige afdelings kan waarneem, gebruik beide Chrome en Firefox **SQLite** databasisse om die data te stoor. Dit is moontlik om **verwyderde inskrywings te herstel met die hulpmiddel** [**sqlparse**](https://github.com/padfoot999/sqlparse) **of** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Soos jy in die vorige afdelings kan sien, gebruik beide Chrome en Firefox **SQLite** databasisse om die data te stoor. Dit is moontlik om **verwyderde inskrywings te herstel met die hulpmiddel** [**sqlparse**](https://github.com/padfoot999/sqlparse) **of** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
@@ -124,31 +124,31 @@ Internet Explorer 11 bestuur sy data en metadata oor verskeie plekke, wat help o
 
 ### Metadata Storage
 
-Metadata vir Internet Explorer word gestoor in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (met VX wat V01, V16, of V24 is). Saam hiermee kan die `V01.log` lêer wys datums van verandering met `WebcacheVX.data`, wat 'n behoefte aan herstel aandui met `esentutl /r V01 /d`. Hierdie metadata, wat in 'n ESE-databasis gehuisves word, kan herstel en ondersoek word met hulpmiddels soos photorec en [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), onderskeidelik. Binne die **Containers** tabel kan 'n mens die spesifieke tabelle of houers waar elke datasegment gestoor word, onderskei, insluitend cache besonderhede vir ander Microsoft gereedskap soos Skype.
+Metadata vir Internet Explorer word gestoor in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (met VX wat V01, V16, of V24 is). Saam met hierdie, kan die `V01.log` lêer wys op wysigings tyd verskille met `WebcacheVX.data`, wat 'n behoefte aan herstel aandui met `esentutl /r V01 /d`. Hierdie metadata, wat in 'n ESE databasis gehuisves word, kan herstel en ondersoek word met hulpmiddels soos photorec en [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), onderskeidelik. Binne die **Containers** tabel, kan 'n mens die spesifieke tabelle of houers waar elke datasegment gestoor is, onderskei, insluitend cache besonderhede vir ander Microsoft gereedskap soos Skype.
 
 ### Cache Inspection
 
-Die [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) hulpmiddel laat vir cache inspeksie toe, wat die cache data ekstraksie vouer plek vereis. Metadata vir cache sluit lêernaam, gids, toegang telling, URL oorsprong, en tydstempels in wat die cache skepping, toegang, verandering, en vervaldatums aandui.
+Die [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) hulpmiddel laat vir cache inspeksie toe, wat die cache data ekstraksie vouer ligging vereis. Metadata vir cache sluit lêernaam, gids, toegang telling, URL oorsprong, en tydstempels in wat die cache skepping, toegang, wysiging, en vervaldatums aandui.
 
 ### Cookies Management
 
-Koekies kan ondersoek word met [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), met metadata wat name, URL's, toegang tellings, en verskeie tydverwante besonderhede insluit. Volhoubare koekies word gestoor in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, met sessie koekies wat in geheue woon.
+Koekies kan ondersoek word met [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), met metadata wat name, URL's, toegang tellings, en verskeie tyd-verwante besonderhede insluit. Volhoubare koekies word gestoor in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, met sessie koekies wat in geheue woon.
 
 ### Download Details
 
-Aflaai metadata is toeganklik via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), met spesifieke houers wat data soos URL, lêer tipe, en aflaai plek hou. Fisiese lêers kan onder `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` gevind word.
+Aflaai metadata is toeganklik via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), met spesifieke houers wat data soos URL, lêer tipe, en aflaai ligging hou. Fisiese lêers kan onder `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` gevind word.
 
 ### Browsing History
 
-Om blaai geskiedenis te hersien, kan [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) gebruik word, wat die plek van ekstrakte geskiedenis lêers en konfigurasie vir Internet Explorer vereis. Metadata hier sluit verandering en toegang tye in, saam met toegang tellings. Geskiedenis lêers is geleë in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Om blaai geskiedenis te hersien, kan [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) gebruik word, wat die ligging van ekstrakte geskiedenis lêers en konfigurasie vir Internet Explorer vereis. Metadata hier sluit wysigings en toegang tye in, saam met toegang tellings. Geskiedenis lêers is geleë in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### Typed URLs
 
-Getypte URL's en hul gebruik tydstippe word in die register onder `NTUSER.DAT` by `Software\Microsoft\InternetExplorer\TypedURLs` en `Software\Microsoft\InternetExplorer\TypedURLsTime` gestoor, wat die laaste 50 URL's wat deur die gebruiker ingevoer is en hul laaste invoer tye op spoor.
+Getypte URL's en hul gebruik tyds is gestoor binne die register onder `NTUSER.DAT` by `Software\Microsoft\InternetExplorer\TypedURLs` en `Software\Microsoft\InternetExplorer\TypedURLsTime`, wat die laaste 50 URL's wat deur die gebruiker ingevoer is en hul laaste invoer tye volg.
 
 ## Microsoft Edge
 
-Microsoft Edge stoor gebruikersdata in `%userprofile%\Appdata\Local\Packages`. Die paaie vir verskillende datatipes is:
+Microsoft Edge stoor gebruikersdata in `%userprofile%\Appdata\Local\Packages`. Die paaie vir verskeie datatipes is:
 
 * **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -164,7 +164,7 @@ Safari data word gestoor by `/Users/$User/Library/Safari`. Sleutel lêers sluit 
 * **Downloads.plist**: Inligting oor afgelaaide lêers.
 * **Bookmarks.plist**: Stoor geboekmerkte URL's.
 * **TopSites.plist**: Meest besoekte webwerwe.
-* **Extensions.plist**: Lys van Safari blaaiers uitbreidings. Gebruik `plutil` of `pluginkit` om te onttrek.
+* **Extensions.plist**: Lys van Safari blaaiers uitbreidings. Gebruik `plutil` of `pluginkit` om te verkry.
 * **UserNotificationPermissions.plist**: Domeine wat toegelaat word om kennisgewings te stuur. Gebruik `plutil` om te parse.
 * **LastSession.plist**: Oortjies van die laaste sessie. Gebruik `plutil` om te parse.
 * **Browser’s built-in anti-phishing**: Kontroleer met `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. 'n Antwoord van 1 dui aan dat die funksie aktief is.

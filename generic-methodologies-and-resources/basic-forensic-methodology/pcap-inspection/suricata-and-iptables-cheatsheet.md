@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Chains
 
-In iptables, lyste van reëls bekend as kettings word opeenvolgend verwerk. Onder hierdie is daar drie primêre kettings wat universeel teenwoordig is, met addisionele soos NAT wat moontlik ondersteun word, afhangende van die stelsel se vermoëns.
+In iptables, lyste van reëls bekend as kettings word opeenvolgend verwerk. Onder hierdie is daar drie primêre kettings wat universeel teenwoordig is, met addisionele soos NAT wat moontlik ondersteun word, afhangende van die stelsels se vermoëns.
 
-- **Input Chain**: Gebruik om die gedrag van inkomende verbindings te bestuur.
-- **Forward Chain**: Gebruik om inkomende verbindings te hanteer wat nie bestem is vir die plaaslike stelsel nie. Dit is tipies vir toestelle wat as routers optree, waar die data wat ontvang word bedoel is om na 'n ander bestemming gestuur te word. Hierdie ketting is hoofsaaklik relevant wanneer die stelsel betrokke is by routering, NATing, of soortgelyke aktiwiteite.
-- **Output Chain**: Toegewyd aan die regulering van uitgaande verbindings.
+- **Input Chain**: Word gebruik om die gedrag van inkomende verbindings te bestuur.
+- **Forward Chain**: Word gebruik om inkomende verbindings te hanteer wat nie bestem is vir die plaaslike stelsel nie. Dit is tipies vir toestelle wat as routers optree, waar die data wat ontvang word bedoel is om na 'n ander bestemming gestuur te word. Hierdie ketting is hoofsaaklik relevant wanneer die stelsel betrokke is by routering, NATing, of soortgelyke aktiwiteite.
+- **Output Chain**: Gewy aan die regulering van uitgaande verbindings.
 
 Hierdie kettings verseker die ordelike verwerking van netwerkverkeer, wat die spesifikasie van gedetailleerde reëls wat die vloei van data in, deur, en uit 'n stelsel regeer, moontlik maak.
 ```bash
@@ -132,7 +132,7 @@ systemctl daemon-reload
 ```
 ### Reëls Definisies
 
-[Uit die dokumentasie:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 'n reël/handtekening bestaan uit die volgende:
+[Uit die dokumentasie:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 'n Reël/handtekening bestaan uit die volgende:
 
 * Die **aksie**, bepaal wat gebeur wanneer die handtekening ooreenstem.
 * Die **kop**, definieer die protokol, IP adresse, poorte en rigting van die reël.
@@ -175,14 +175,14 @@ Dit ondersteun IP-reekse, ontkennings en 'n lys van adresse:
 Dit ondersteun poortreekse, ontkennings en lyste van poorte
 
 | Voorbeeld         | Betekenis                                |
-| ----------------- | ---------------------------------------- |
-| any               | enige adres                              |
-| \[80, 81, 82]     | poort 80, 81 en 82                      |
-| \[80: 82]         | Reeks van 80 tot 82                     |
-| \[1024: ]         | Van 1024 tot die hoogste poortnommer    |
-| !80               | Elke poort behalwe 80                    |
-| \[80:100,!99]     | Reeks van 80 tot 100 maar 99 uitgesluit  |
-| \[1:80,!\[2,4]]   | Reeks van 1-80, behalwe poorte 2 en 4   |
+| ---------------- | ---------------------------------------- |
+| any              | enige adres                              |
+| \[80, 81, 82]    | poort 80, 81 en 82                       |
+| \[80: 82]        | Reeks van 80 tot 82                      |
+| \[1024: ]        | Van 1024 tot die hoogste poortnommer    |
+| !80              | Elke poort behalwe 80                    |
+| \[80:100,!99]    | Reeks van 80 tot 100 maar 99 uitgesluit  |
+| \[1:80,!\[2,4]]  | Reeks van 1-80, behalwe poorte 2 en 4    |
 
 #### Rigting
 
@@ -191,7 +191,7 @@ Dit is moontlik om die rigting van die kommunikasie reël wat toegepas word aan 
 source -> destination
 source <> destination  (both directions)
 ```
-#### Keywords
+#### Sleutelwoorde
 
 Daar is **honderde opsies** beskikbaar in Suricata om te soek na die **spesifieke pakket** waarna jy op soek is, hier sal genoem word of iets interessant gevind word. Kyk na die [**dokumentasie** ](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)vir meer!
 ```bash
@@ -242,8 +242,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

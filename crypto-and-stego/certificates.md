@@ -18,7 +18,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **meest gevorderde** gemeenskap gereedskap aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
@@ -40,7 +40,7 @@ In x509 sertifikate speel verskeie **velde** kritieke rolle in die versekerings 
 * Die **Onderwerp** veld verteenwoordig die sertifikaat se eienaar, wat 'n masjien, 'n individu, of 'n organisasie kan wees. Dit sluit gedetailleerde identifikasie in soos:
 * **Algemene Naam (CN)**: Domeine wat deur die sertifikaat gedek word.
 * **Land (C)**, **Plaaslikeheid (L)**, **Staat of Provinsie (ST, S, of P)**, **Organisasie (O)**, en **Organisatoriese Eenheid (OU)** verskaf geografiese en organisatoriese besonderhede.
-* **Gekenneteerde Naam (DN)** sluit die volle onderwerp identifikasie in.
+* **Gekennede Naam (DN)** sluit die volle onderwerp identifikasie in.
 * **Uitreiker** gee besonderhede oor wie die sertifikaat geverifieer en onderteken het, insluitend soortgelyke subvelde soos die Onderwerp vir die CA.
 * **Geldigheidsperiode** word gemerk deur **Nie Voor** en **Nie Na** tydstempels, wat verseker dat die sertifikaat nie voor of na 'n sekere datum gebruik word nie.
 * Die **Publieke Sleutel** afdeling, wat van kardinale belang is vir die sertifikaat se sekuriteit, spesifiseer die algoritme, grootte, en ander tegniese besonderhede van die publieke sleutel.
@@ -85,11 +85,11 @@ Sertifikaat Deursigtigheid help om sertifikaatverwante bedreigings te bekamp deu
 
 * Om te voorkom dat CA's SSL-sertifikate vir 'n domein uitreik sonder die domeineienaar se kennis.
 * Om 'n oop ouditstelsel te vestig vir die opsporing van per ongeluk of kwaadwillig uitgereikte sertifikate.
-* Om gebruikers te beskerm teen bedrieglike sertifikate.
+* Om gebruikers te beskerm teen bedrogsertifikate.
 
 #### **Sertifikaat Logs**
 
-Sertifikaat logs is publiek ouditbaar, byvoeging-alleen rekords van sertifikate, wat deur netwerkdienste onderhou word. Hierdie logs bied kriptografiese bewysstukke vir ouditdoeleindes. Beide uitreikingsowerhede en die publiek kan sertifikate aan hierdie logs indien of dit raadpleeg vir verifikasie. Terwyl die presiese aantal logbedieners nie vasgestel is nie, word verwag dat dit minder as 'n duisend wêreldwyd sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belangstellende entiteit.
+Sertifikaat logs is publiek ouditbaar, byvoeging-alleen rekords van sertifikate, wat deur netwerkdienste onderhou word. Hierdie logs bied kriptografiese bewysstukke vir ouditdoeleindes. Beide uitreikowerhede en die publiek kan sertifikate aan hierdie logs indien of dit raadpleeg vir verifikasie. Terwyl die presiese aantal logbedieners nie vasgestel is nie, word verwag dat dit minder as 'n duisend wêreldwyd sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belangstellende entiteit.
 
 #### **Navraag**
 
@@ -109,7 +109,7 @@ Verskillende formate bestaan vir die stoor van sertifikate, elk met sy eie gebru
 ### **DER Formaat**
 
 * 'n Binaire formaat van sertifikate.
-* Ontbreek die "BEGIN/END CERTIFICATE" verklarings wat in PEM-lêers voorkom.
+* Ontbreek die "BEGIN/END CERTIFICATE" verklarings wat in PEM-lêers gevind word.
 * Algemene uitbreidings: .cer, .der.
 * Gereeld gebruik met Java platforms.
 
@@ -121,7 +121,7 @@ Verskillende formate bestaan vir die stoor van sertifikate, elk met sy eie gebru
 
 ### **PFX/P12/PKCS#12 Formaat**
 
-* 'n Binaire formaat wat bedienersertifikate, intermediêre sertifikate, en private sleutels in een lêer inkapsuleer.
+* 'n Binaire formaat wat bedienersertifikate, tussenliggende sertifikate, en private sleutels in een lêer inkapsuleer.
 * Uitbreidings: .pfx, .p12.
 * Hoofsaaklik gebruik op Windows vir sertifikaat invoer en uitvoer.
 
@@ -178,7 +178,7 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```bash
 git clone https://github.com/wllm-rbnt/asn1template.git
 ```
-2. Skakel DER/PEM na OpenSSL se generasieformaat om
+2. Skakel DER/PEM na OpenSSL se generasievormaat om
 ```bash
 asn1template/asn1template.pl certificatename.der > certificatename.tpl
 asn1template/asn1template.pl -p certificatename.pem > certificatename.tpl
@@ -203,8 +203,8 @@ Kry Toegang Vandag:
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

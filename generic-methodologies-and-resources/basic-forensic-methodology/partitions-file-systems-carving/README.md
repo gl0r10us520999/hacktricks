@@ -73,24 +73,24 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logiese blok adressering)**
 
-**Logiese blok adressering** (**LBA**) is 'n algemene skema wat gebruik word vir **die spesifisering van die ligging van blokke** data wat op rekenaaropbergingsapparate gestoor is, gewoonlik sekondêre opbergingsisteme soos hardeskyfskywe. LBA is 'n veral eenvoudige lineêre adresseringskema; **blokke word geleë deur 'n heelgetal indeks**, met die eerste blok wat LBA 0 is, die tweede LBA 1, en so aan.
+**Logiese blok adressering** (**LBA**) is 'n algemene skema wat gebruik word vir **die spesifisering van die ligging van blokke** data wat op rekenaaropbergings toestelle gestoor is, gewoonlik sekondêre opbergings stelsels soos hardeskyf stelsels. LBA is 'n veral eenvoudige lineêre adressering skema; **blokke word geleë deur 'n heelgetal indeks**, met die eerste blok wat LBA 0 is, die tweede LBA 1, en so aan.
 
 ### GPT (GUID Partisie Tabel)
 
-Die GUID Partisie Tabel, bekend as GPT, is verkies vir sy verbeterde vermoëns in vergelyking met MBR (Master Boot Record). Kenmerkend vir sy **globaal unieke identifiseerder** vir partities, val GPT op verskeie maniere uit:
+Die GUID Partisie Tabel, bekend as GPT, is verkies vir sy verbeterde vermoëns in vergelyking met MBR (Master Boot Record). Kenmerkend vir sy **globaal unieke identifiseerder** vir partities, val GPT op in verskeie opsigte:
 
 * **Ligging en Grootte**: Beide GPT en MBR begin by **sektor 0**. egter, GPT werk op **64-bits**, in teenstelling met MBR se 32-bits.
 * **Partisie Grense**: GPT ondersteun tot **128 partities** op Windows stelsels en akkommodeer tot **9.4ZB** data.
-* **Partisie Name**: Bied die vermoë om partities te benoem met tot 36 Unicode karakters.
+* **Partisie Nnames**: Bied die vermoë om partities te benoem met tot 36 Unicode karakters.
 
 **Data Veerkragtigheid en Herstel**:
 
-* **Redundansie**: Anders as MBR, beperk GPT nie partisie en opstartdata tot 'n enkele plek nie. Dit repliseer hierdie data oor die skyf, wat data integriteit en veerkragtigheid verbeter.
-* **Cyclic Redundancy Check (CRC)**: GPT gebruik CRC om data integriteit te verseker. Dit monitor aktief vir datakorruptie, en wanneer dit opgespoor word, probeer GPT om die gekorrupte data van 'n ander skyf ligging te herstel.
+* **Redundansie**: Anders as MBR, beperk GPT nie partisie en opstart data tot 'n enkele plek nie. Dit repliseer hierdie data oor die skyf, wat data integriteit en veerkragtigheid verbeter.
+* **Cyclic Redundancy Check (CRC)**: GPT gebruik CRC om data integriteit te verseker. Dit monitor aktief vir data korrupsie, en wanneer dit opgespoor word, probeer GPT om die gekorrupte data van 'n ander skyf ligging te herstel.
 
 **Beskermer MBR (LBA0)**:
 
-* GPT handhaaf agterwaartse kompatibiliteit deur 'n beskermer MBR. Hierdie kenmerk woon in die erfenis MBR ruimte, maar is ontwerp om te voorkom dat ouer MBR-gebaseerde nutsprogramme per ongeluk GPT skywe oorskryf, en so die data integriteit op GPT-geformatteerde skywe te beskerm.
+* GPT handhaaf agterwaartse kompatibiliteit deur 'n beskermer MBR. Hierdie kenmerk woon in die erflike MBR ruimte, maar is ontwerp om te voorkom dat ouer MBR-gebaseerde nutsprogramme per ongeluk GPT skywe oorskryf, en so die data integriteit op GPT-geformatteerde skywe te beskerm.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1062).png>)
 
@@ -110,8 +110,8 @@ Die partisie tabel kop definieer die bruikbare blokke op die skyf. Dit definieer
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 (0x00)  | 8 bytes  | Handtekening ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h of 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)op little-endian masjiene) |
 | 8 (0x08)  | 4 bytes  | Hersiening 1.0 (00h 00h 01h 00h) vir UEFI 2.8                                                                                                                                     |
-| 12 (0x0C) | 4 bytes  | Kopgrootte in little endian (in bytes, gewoonlik 5Ch 00h 00h 00h of 92 bytes)                                                                                                    |
-| 16 (0x10) | 4 bytes  | [CRC32](https://en.wikipedia.org/wiki/CRC32) van kop (offset +0 tot kopgrootte) in little endian, met hierdie veld op nul tydens berekening                                |
+| 12 (0x0C) | 4 bytes  | Kop grootte in little endian (in bytes, gewoonlik 5Ch 00h 00h 00h of 92 bytes)                                                                                                    |
+| 16 (0x10) | 4 bytes  | [CRC32](https://en.wikipedia.org/wiki/CRC32) van kop (offset +0 tot kop grootte) in little endian, met hierdie veld op nul tydens berekening                                |
 | 20 (0x14) | 4 bytes  | Gereserveer; moet nul wees                                                                                                                                                          |
 | 24 (0x18) | 8 bytes  | Huidige LBA (ligging van hierdie kopie van die kop)                                                                                                                                      |
 | 32 (0x20) | 8 bytes  | Rugsteun LBA (ligging van die ander kopie van die kop)                                                                                                                                  |
@@ -133,7 +133,7 @@ Die partisie tabel kop definieer die bruikbare blokke op die skyf. Dit definieer
 | 16 (0x10)                   | 16 bytes | Unieke partisie GUID (gemengde endian)                                                                              |
 | 32 (0x20)                   | 8 bytes  | Eerste LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                   | 8 bytes  | Laaste LBA (inclusief, gewoonlik onpare)                                                                                 |
-| 48 (0x30)                   | 8 bytes  | Kenmerkvlaggies (bv. bit 60 dui op lees-slegs)                                                                   |
+| 48 (0x30)                   | 8 bytes  | Kenmerk vlae (bv. bit 60 dui op lees-slegs)                                                                   |
 | 56 (0x38)                   | 72 bytes | Partisie naam (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE kode eenhede)                                   |
 
 **Partisie Tipes**
@@ -162,7 +162,7 @@ As dit 'n **GPT tabel in plaas van 'n MBR** was, moet die handtekening _EFI PART
 
 ### FAT
 
-Die **FAT (Lêer Toewysing Tabel)** lêerstelsel is ontwerp rondom sy kernkomponent, die lêer toewysing tabel, wat aan die begin van die volume geleë is. Hierdie stelsel beskerm data deur **twee kopieë** van die tabel te handhaaf, wat data integriteit verseker selfs as een gekorrupteer is. Die tabel, saam met die wortel gids, moet in 'n **vaste ligging** wees, wat noodsaaklik is vir die stelsel se opstartproses.
+Die **FAT (Lêer Toewysing Tabel)** lêerstelsel is ontwerp rondom sy kernkomponent, die lêer toewysing tabel, wat aan die begin van die volume geleë is. Hierdie stelsel beskerm data deur **twee kopieë** van die tabel te handhaaf, wat data integriteit verseker selfs as een gekorrupteer is. Die tabel, saam met die wortel gids, moet in 'n **vaste ligging** wees, wat noodsaaklik is vir die stelsel se opstart proses.
 
 Die basiese eenheid van opberging in die lêerstelsel is 'n **kluster, gewoonlik 512B**, wat uit verskeie sektore bestaan. FAT het deur weergawes ontwikkel:
 
@@ -176,17 +176,17 @@ Belangrike komponente van die wortel gids, veral vir FAT12 en FAT16, sluit in:
 
 * **Lêer/Gids Naam** (tot 8 karakters)
 * **Kenmerke**
-* **Skep-, Wysigings- en Laaste Toegang Datums**
+* **Skep, Wysiging, en Laaste Toegang Datums**
 * **FAT Tabel Adres** (wat die begin kluster van die lêer aandui)
-* **Lêergrootte**
+* **Lêer Grootte**
 
 ### EXT
 
-**Ext2** is die mees algemene lêerstelsel vir **nie-journaling** partities (**partities wat nie veel verander nie**) soos die opstartpartisie. **Ext3/4** is **journaling** en word gewoonlik gebruik vir die **oorige partities**.
+**Ext2** is die mees algemene lêerstelsel vir **nie-journaling** partities (**partities wat nie veel verander nie**) soos die opstart partisie. **Ext3/4** is **journaling** en word gewoonlik gebruik vir die **oorige partities**.
 
 ## **Metadata**
 
-Sommige lêers bevat metadata. Hierdie inligting is oor die inhoud van die lêer wat soms interessant vir 'n ontleder kan wees, aangesien dit afhang van die lêer tipe, dit mag inligting soos hê:
+Sommige lêers bevat metadata. Hierdie inligting is oor die inhoud van die lêer wat soms interessant kan wees vir 'n ontleder, aangesien dit afhang van die lêer tipe, dit kan inligting hê soos:
 
 * Titel
 * MS Office Weergawe gebruik
@@ -212,11 +212,11 @@ Ook, die OS stoor gewoonlik baie inligting oor lêerstelsel veranderinge en rugs
 
 ### **Lêer Karving**
 
-**Lêer karving** is 'n tegniek wat probeer om **lêers in die groot hoeveelheid data** te vind. Daar is 3 hoof maniere waarop hulpmiddels soos hierdie werk: **Gebaseer op lêer tipes koppe en voete**, gebaseer op lêer tipe **strukture** en gebaseer op die **inhoud** self.
+**Lêer karving** is 'n tegniek wat probeer om **lêers in die groot hoeveelheid data** te **vind**. Daar is 3 hoof maniere waarop hulpmiddels soos hierdie werk: **Gebaseer op lêer tipes koppe en voete**, gebaseer op lêer tipes **strukture** en gebaseer op die **inhoud** self.
 
 Let daarop dat hierdie tegniek **nie werk om gefragmenteerde lêers te herstel nie**. As 'n lêer **nie in aaneengeskakelde sektore gestoor is nie**, dan sal hierdie tegniek nie in staat wees om dit te vind of ten minste 'n deel daarvan nie.
 
-Daar is verskeie hulpmiddels wat jy kan gebruik vir lêer Karving wat die lêer tipes aandui wat jy wil soek.
+Daar is verskeie hulpmiddels wat jy kan gebruik vir lêer karving wat die lêer tipes aandui wat jy wil soek.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -233,8 +233,8 @@ Byvoorbeeld, in plaas daarvan om na 'n volledige lêer te soek wat geregistreerd
 
 ### Veilige Verwydering
 
-Natuurlik, daar is maniere om **"veilig" lêers en 'n deel van logs oor hulle te verwyder**. Byvoorbeeld, dit is moontlik om die **inhoud** van 'n lêer met rommeldata verskeie kere te oorskryf, en dan die **logs** van die **$MFT** en **$LOGFILE** oor die lêer te **verwyder**, en die **Volume Shadow Copies** te **verwyder**.\
-Jy mag opgemerk het dat selfs wanneer jy daardie aksie uitvoer, daar mag wees **ander dele waar die bestaan van die lêer steeds geregistreer is**, en dit is waar en deel van die forensiese professionele se werk is om hulle te vind.
+Natuurlik, daar is maniere om **"veilig" lêers en dele van logs oor hulle te verwyder**. Byvoorbeeld, dit is moontlik om die **inhoud** van 'n lêer met rommeldata verskeie kere te oorskryf, en dan die **logs** van die **$MFT** en **$LOGFILE** oor die lêer te **verwyder**, en die **Volume Shadow Copies** te **verwyder**.\
+Jy mag opgemerk het dat selfs wanneer jy daardie aksie uitvoer, daar dalk **ander dele is waar die bestaan van die lêer steeds geregistreer is**, en dit is waar en deel van die forensiese professionele se werk is om hulle te vind.
 
 ## Verwysings
 
@@ -242,7 +242,7 @@ Jy mag opgemerk het dat selfs wanneer jy daardie aksie uitvoer, daar mag wees **
 * [http://ntfs.com/ntfs-permissions.htm](http://ntfs.com/ntfs-permissions.htm)
 * [https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html](https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html)
 * [https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service](https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service)
-* **iHackLabs Gekwalifiseerde Digitale Forensiese Windows**
+* **iHackLabs Gecertifiseerde Digitale Forensiese Windows**
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

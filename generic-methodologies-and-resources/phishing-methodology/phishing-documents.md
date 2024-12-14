@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## Office Dokumente
 
-Microsoft Word voer lêerdata-validasie uit voordat 'n lêer geopen word. Data-validasie word uitgevoer in die vorm van data-struktuuridentifikasie, teen die OfficeOpenXML-standaard. As enige fout tydens die data-struktuuridentifikasie voorkom, sal die lêer wat geanaliseer word nie geopen word nie.
+Microsoft Word voer lêerdata validasie uit voordat dit 'n lêer oopmaak. Data validasie word uitgevoer in die vorm van data struktuur identifikasie, teen die OfficeOpenXML standaard. As enige fout tydens die data struktuur identifikasie voorkom, sal die lêer wat geanaliseer word nie oopgemaak word nie.
 
-Gewoonlik gebruik Word-lêers wat makros bevat die `.docm` uitbreiding. Dit is egter moontlik om die lêer te hernoem deur die lêeruitbreiding te verander en steeds hul makro-uitvoeringsvermoëns te behou.\
-Byvoorbeeld, 'n RTF-lêer ondersteun nie makros nie, volgens ontwerp, maar 'n DOCM-lêer wat na RTF hernoem is, sal deur Microsoft Word hanteer word en sal in staat wees tot makro-uitvoering.\
-Die dieselfde interne meganismes geld vir alle sagteware van die Microsoft Office Suite (Excel, PowerPoint, ens.).
+Gewoonlik gebruik Word-lêers wat makros bevat die `.docm` uitbreiding. Dit is egter moontlik om die lêer te hernoem deur die lêer uitbreiding te verander en steeds hul makro uitvoeringsvermoëns te behou.\
+Byvoorbeeld, 'n RTF-lêer ondersteun nie makros nie, volgens ontwerp, maar 'n DOCM-lêer wat na RTF hernoem is, sal deur Microsoft Word hanteer word en sal in staat wees tot makro uitvoer.\
+Die dieselfde interne meganismes geld vir alle sagteware van die Microsoft Office Suite (Excel, PowerPoint ens.).
 
-Jy kan die volgende opdrag gebruik om te kyk watter uitbreidings deur sommige Office-programme uitgevoer gaan word:
+Jy kan die volgende opdrag gebruik om te kyk watter uitbreidings deur sommige Office programme uitgevoer gaan word:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
@@ -31,7 +31,7 @@ DOCX-lêers wat 'n eksterne sjabloon verwys (Lêer – Opsies – Byvoegsels –
 
 ### Eksterne Beeld Laai
 
-Gaan na: _Invoeg --> Vinne Onderdeel --> Veld_\
+Gaan na: _Invoeg --> Vinne Onderdele --> Veld_\
 &#xNAN;_**Kategoriewe**: Skakels en Verwysings, **Veldname**: includePicture, en **Lêernaam of URL**:_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
@@ -42,7 +42,7 @@ Dit is moontlik om makros te gebruik om arbitrêre kode vanaf die dokument uit t
 
 #### Outomatiese laai funksies
 
-Hoe meer algemeen hulle is, hoe meer waarskynlik sal die AV hulle opspoor.
+Hoe meer algemeen hulle is, hoe groter is die waarskynlikheid dat die AV hulle sal opspoor.
 
 * AutoOpen()
 * Document\_Open()
@@ -96,7 +96,7 @@ Doen dit omdat jy **nie makro's binne 'n `.docx` kan stoor nie** en daar is 'n *
 
 'n HTA is 'n Windows-program wat **HTML en skriptaal (soos VBScript en JScript)** kombineer. Dit genereer die gebruikerskoppelvlak en voer uit as 'n "volledig vertroude" toepassing, sonder die beperkings van 'n blaaiers se sekuriteitsmodel.
 
-'n HTA word uitgevoer met **`mshta.exe`**, wat tipies **geïnstalleer** word saam met **Internet Explorer**, wat **`mshta` afhanklik van IE** maak. So as dit verwyder is, sal HTA's nie in staat wees om uit te voer nie.
+'n HTA word uitgevoer met **`mshta.exe`**, wat tipies **geïnstalleer** word saam met **Internet Explorer**, wat **`mshta` afhanklik maak van IE**. So as dit verwyder is, sal HTA's nie in staat wees om uit te voer nie.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -180,7 +180,7 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

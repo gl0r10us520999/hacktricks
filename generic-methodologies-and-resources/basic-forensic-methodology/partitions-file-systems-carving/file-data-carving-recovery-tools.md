@@ -44,7 +44,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** is 'n ander hulpmiddel wat gebruik kan word om **lêers wat in 'n lêer ingebed is** te vind en te onttrek. In hierdie geval sal jy die lêertipes wat jy wil hê dit moet onttrek, uit die konfigurasie-lêer (_/etc/scalpel/scalpel.conf_) moet ontkommentarieer.
+**Scalpel** is 'n ander hulpmiddel wat gebruik kan word om **lêers wat in 'n lêer ingebed is** te vind en te onttrek. In hierdie geval sal jy die lêertipes wat jy wil hê dit moet onttrek, uit die konfigurasie-lêer (_/etc/scalpel/scalpel.conf_) moet ontkommentaar.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -57,7 +57,7 @@ Hierdie hulpmiddel kan 'n beeld skandeer en sal **pcaps** daarin **onttrek**, **
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **alle die inligting** that the tool has gathered (wagwoorde?), **analiseer** the **pakkette** (lees[ **Pcaps analise**](../pcap-inspection/)), search for **vreemde domeine** (domeine verwant aan **malware** of **nie-bestaande**).
+Navigate through **alle die inligting** that the tool has gathered (passwords?), **analiseer** the **pakkette** (read[ **Pcaps analise**](../pcap-inspection/)), search for **vreemde domeine** (domeine related to **malware** or **nie-bestaande**).
 
 ### PhotoRec
 
@@ -69,26 +69,26 @@ It comes with GUI and CLI versions. You can select the **lêer-tipes** you want 
 
 ### binvis
 
-Check the [kode](https://code.google.com/archive/p/binvis/) and the [web blad gereedskap](https://binvis.io/#/).
+Check the [code](https://code.google.com/archive/p/binvis/) and the [web page tool](https://binvis.io/#/).
 
 #### Features of BinVis
 
-* Visuele en aktiewe **struktuurkyker**
-* Meerdere plotte vir verskillende fokuspunte
-* Fokusering op gedeeltes van 'n monster
-* **Sien stings en hulpbronne**, in PE of ELF uitvoerbare e. g.
-* Kry **patrone** vir kriptoanalise op lêers
-* **Identifiseer** pakker of kodering algoritmes
-* **Identifiseer** Steganografie deur patrone
+* Visual and active **struktuurkyker**
+* Multiple plots for different focus points
+* Focusing on portions of a sample
+* **Sien stings en hulpbronne**, in PE or ELF executables e. g.
+* Getting **patrone** for cryptanalise on files
+* **Identifiseer** packer or encoder algorithms
+* **Identifiseer** Steganografie by patrone
 * **Visuele** binêre-diffing
 
-BinVis is a great **beginpunt om bekend te raak met 'n onbekende teiken** in 'n swart-doos scenario.
+BinVis is a great **beginpunt om bekend te raak met 'n onbekende teiken** in 'n black-boxing scenario.
 
-## Spesifieke Data Carving Gereedskap
+## Spesifieke Data Carving Tools
 
 ### FindAES
 
-Searches for AES sleutels by searching for their key schedules. Able to find 128. 192, and 256 bit sleutels, such as those used by TrueCrypt and BitLocker.
+Searches for AES keys by searching for their key schedules. Able to find 128. 192, and 256 bit keys, such as those used by TrueCrypt and BitLocker.
 
 Download [hier](https://sourceforge.net/projects/findaes/).
 

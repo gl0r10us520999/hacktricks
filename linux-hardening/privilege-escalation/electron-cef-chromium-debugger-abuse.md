@@ -17,9 +17,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Basiese Inligting
 
-[Uit die dokumentasie](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Wanneer dit met die `--inspect` skakel begin word, luister 'n Node.js proses vir 'n debug kliënt. Deur **standaard** sal dit luister op gasheer en poort **`127.0.0.1:9229`**. Elke proses word ook aan 'n **unieke** **UUID** toegeken.
+[Uit die dokumentasie](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Wanneer dit met die `--inspect` skakelaar begin word, luister 'n Node.js proses vir 'n debug kliënt. Deur **standaard** sal dit luister op gasheer en poort **`127.0.0.1:9229`**. Elke proses word ook aan 'n **unieke** **UUID** toegeken.
 
-Inspector kliënte moet die gasheeradres, poort en UUID ken en spesifiseer om te verbind. 'n Volledige URL sal iets soos `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e` lyk.
+Inspector kliënte moet die gasheeradres, poort en UUID weet en spesifiseer om te verbind. 'n Volledige URL sal iets soos `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e` lyk.
 
 {% hint style="warning" %}
 Aangesien die **debugger volle toegang tot die Node.js uitvoeringsomgewing het**, mag 'n kwaadwillige akteur wat in staat is om met hierdie poort te verbind, in staat wees om arbitrêre kode namens die Node.js proses uit te voer (**potensiële privilige-eskalasie**).
@@ -43,7 +43,7 @@ For help, see: https://nodejs.org/en/docs/inspector
 ```
 Processes gebaseer op **CEF** (**Chromium Embedded Framework**) moet die param gebruik: `--remote-debugging-port=9222` om die **debugger** oop te maak (die SSRF beskermings bly baie soortgelyk). Hulle **in plaas daarvan** om 'n **NodeJS** **debug** sessie te verleen, sal met die blaaier kommunikeer deur die [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), dit is 'n koppelvlak om die blaaiers te beheer, maar daar is nie 'n direkte RCE nie.
 
-Wanneer jy 'n gedebugde blaaiers begin, sal iets soos hierdie verskyn:
+Wanneer jy 'n gedebugde blaaier begin, sal iets soos hierdie verskyn:
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
@@ -52,23 +52,23 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 Webwerwe wat in 'n web-blaaier oopgemaak word, kan WebSocket en HTTP versoeke maak onder die blaaiers se sekuriteitsmodel. 'n **Aanvanklike HTTP-verbinding** is nodig om **'n unieke debugger sessie id** te **verkry**. Die **dieselfde oorsprong beleid** **verhinder** webwerwe om **hierdie HTTP-verbinding** te maak. Vir addisionele sekuriteit teen [**DNS rebinding aanvalle**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** verifieer Node.js dat die **'Host' headers** vir die verbinding of 'n **IP adres** of **`localhost`** of **`localhost6`** presies spesifiseer.
 
 {% hint style="info" %}
-Hierdie **sekuriteitsmaatreëls verhinder die benutting van die inspekteur** om kode te loop deur **net 'n HTTP versoek te stuur** (wat gedoen kon word deur 'n SSRF kwesbaarheid te benut).
+Hierdie **sekuriteitsmaatreëls verhinder die benutting van die inspekteur** om kode te laat loop deur **net 'n HTTP versoek te stuur** (wat gedoen kan word deur 'n SSRF kwesbaarheid te benut).
 {% endhint %}
 
 ### Begin inspekteur in lopende prosesse
 
-Jy kan die **sein SIGUSR1** na 'n lopende nodejs-proses stuur om dit te **begin die inspekteur** in die standaardpoort. Let egter daarop dat jy genoeg voorregte moet hê, so dit mag jou **voorregte toegang tot inligting binne die proses** gee, maar nie 'n direkte voorregverhoging nie.
+Jy kan die **sein SIGUSR1** na 'n lopende nodejs-proses stuur om dit te **laat begin die inspekteur** in die standaardpoort. Let egter daarop dat jy genoeg voorregte moet hê, so dit mag jou **voorregte toegang tot inligting binne die proses** gee, maar nie 'n direkte voorregte-eskalasie nie.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Dit is nuttig in houers omdat **om die proses af te sluit en 'n nuwe een te begin** met `--inspect` **nie 'n opsie** is nie omdat die **houer** saam met die proses **gekill** sal word.
+Dit is nuttig in houers omdat **om die proses af te sluit en 'n nuwe een te begin** met `--inspect` **nie 'n opsie** is nie omdat die **houer** saam met die proses **vermoor** sal word.
 {% endhint %}
 
 ### Verbind met inspekteur/debugger
 
-Om met 'n **Chromium-gebaseerde blaaier** te verbind, kan die `chrome://inspect` of `edge://inspect` URL's vir Chrome of Edge, onderskeidelik, toeganklik gemaak word. Deur op die Konfigureer-knoppie te klik, moet verseker word dat die **teikenhost en poort** korrek gelys is. Die beeld toon 'n Afgeleide Kode Uitvoering (RCE) voorbeeld:
+Om met 'n **Chromium-gebaseerde blaaier** te verbind, kan die `chrome://inspect` of `edge://inspect` URL's vir Chrome of Edge, onderskeidelik, toeganklik gemaak word. Deur op die Konfigureer-knoppie te klik, moet verseker word dat die **teikenhost en poort** korrek gelys is. Die beeld toon 'n Voorbeeld van Afgeleide Kode-uitvoering (RCE):
 
 ![](<../../.gitbook/assets/image (674).png>)
 
@@ -114,9 +114,9 @@ In this section I will just list interesting things I find people have used to e
 
 In the [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino-sekuriteit het ontdek dat 'n toepassing gebaseer op CEF **'n persoonlike UR**I in die stelsel geregistreer het (workspaces://) wat die volle URI ontvang het en toe **die CEF-gebaseerde toepassing** met 'n konfigurasie wat gedeeltelik van daardie URI saamgestel is, begin het.
 
-Dit is ontdek dat die URI parameters URL-dekodeer is en gebruik is om die CEF-basis toepassing te begin, wat 'n gebruiker toelaat om die vlag **`--gpu-launcher`** in die **opdraglyn** in te **spuit** en arbitrêre dinge uit te voer.
+Dit is ontdek dat die URI parameters URL-decodeer is en gebruik is om die CEF-basis toepassing te begin, wat 'n gebruiker toelaat om die vlag **`--gpu-launcher`** in die **opdraglyn** in te **spuit** en arbitrêre dinge uit te voer.
 
-So, a payload like:
+So, 'n payload soos:
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
@@ -142,9 +142,9 @@ Volgens hierdie pos: [https://medium.com/@knownsec404team/counter-webdriver-from
 
 ### Post-Exploitatie
 
-In 'n werklike omgewing en **na die kompromittering** van 'n gebruiker se rekenaar wat 'n Chrome/Chromium-gebaseerde blaaiert gebruik, kan jy 'n Chrome-proses met die **ontfouting geaktiveer en die ontfoutingspoort** begin sodat jy toegang kan verkry. Op hierdie manier sal jy in staat wees om **alles wat die slagoffer met Chrome doen te inspekteer en sensitiewe inligting te steel**.
+In 'n werklike omgewing en **na die kompromittering** van 'n gebruiker se rekenaar wat 'n Chrome/Chromium-gebaseerde blaaiert gebruik, kan jy 'n Chrome-proses met die **foutopsporing geaktiveer en die foutopsporingpoort deurstuur** sodat jy toegang kan verkry. Op hierdie manier sal jy in staat wees om **alles wat die slagoffer met Chrome doen te inspekteer en sensitiewe inligting te steel**.
 
-Die stil manier is om **elke Chrome-proses te beëindig** en dan iets soos te bel
+Die stil manier is om **elke Chrome-proses te beëindig** en dan iets soos te noem
 ```bash
 Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 ```

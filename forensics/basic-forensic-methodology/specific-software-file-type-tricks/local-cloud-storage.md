@@ -32,7 +32,7 @@ In Windows kan jy die OneDrive-gids vind in `\Users\<username>\AppData\Local\Mic
 * Wysigingsdatum
 * Aantal lêers in die wolk
 * Aantal lêers in die gids
-* **CID**: Unieke ID van die OneDrive-gebruiker
+* **CID**: Unieke ID van die OneDrive gebruiker
 * Verslaggenerasietyd
 * Grootte van die HD van die OS
 
@@ -41,9 +41,9 @@ Sodra jy die CID gevind het, word dit aanbeveel om **lêers te soek wat hierdie 
 ## Google Drive
 
 In Windows kan jy die hoof Google Drive-gids vind in `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-Hierdie gids bevat 'n lêer genaamd Sync\_log.log met inligting soos die e-posadres van die rekening, lêernaam, tydstempels, MD5-hashes van die lêers, ens. Selfs verwyderde lêers verskyn in daardie loglêer met die ooreenstemmende MD5.
+Hierdie gids bevat 'n lêer genaamd Sync\_log.log met inligting soos die e-posadres van die rekening, lêernames, tydstempels, MD5-hashes van die lêers, ens. Selfs verwyderde lêers verskyn in daardie loglêer met die ooreenstemmende MD5.
 
-Die lêer **`Cloud_graph\Cloud_graph.db`** is 'n sqlite-databasis wat die tabel **`cloud_graph_entry`** bevat. In hierdie tabel kan jy die **naam** van die **gesinkroniseerde** **lêers**, gewysigde tyd, grootte, en die MD5-has van die lêers vind.
+Die lêer **`Cloud_graph\Cloud_graph.db`** is 'n sqlite-databasis wat die tabel **`cloud_graph_entry`** bevat. In hierdie tabel kan jy die **naam** van die **gesinkroniseerde** **lêers**, gewysigde tyd, grootte, en die MD5 kontrole som van die lêers vind.
 
 Die tabeldata van die databasis **`Sync_config.db`** bevat die e-posadres van die rekening, die pad van die gedeelde gidse en die Google Drive weergawe.
 
@@ -76,7 +76,7 @@ Tog, die hoofinligting is:
 
 Afgesien van daardie inligting, om die databasisse te ontsleutel, het jy steeds nodig:
 
-* Die **versleutelde DPAPI-sleutel**: Jy kan dit in die register vind binne `NTUSER.DAT\Software\Dropbox\ks\client` (eksporteer hierdie data as binêr)
+* Die **versleutelde DPAPI-sleutel**: Jy kan dit in die register vind binne `NTUSER.DAT\Software\Dropbox\ks\client` (voer hierdie data as binêr uit)
 * Die **`SYSTEM`** en **`SECURITY`** hives
 * Die **DPAPI meester sleutels**: Wat in `\Users\<username>\AppData\Roaming\Microsoft\Protect` gevind kan word
 * Die **gebruikersnaam** en **wagwoord** van die Windows-gebruiker
@@ -85,15 +85,15 @@ Dan kan jy die hulpmiddel [**DataProtectionDecryptor**](https://nirsoft.net/util
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-As alles volgens verwagting verloop, sal die hulpmiddel die **primêre sleutel** aandui wat jy moet **gebruik om die oorspronklike een te herstel**. Om die oorspronklike een te herstel, gebruik net hierdie [cyber\_chef resep](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) en plaas die primêre sleutel as die "wagfrase" binne die resep.
+As alles volgens verwagting verloop, sal die hulpmiddel die **primêre sleutel** aandui wat jy moet **gebruik om die oorspronklike een te herstel**. Om die oorspronklike een te herstel, gebruik eenvoudig hierdie [cyber\_chef resep](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) en plaas die primêre sleutel as die "wagwoord" binne die resep.
 
 Die resulterende hex is die finale sleutel wat gebruik word om die databasisse te versleutel wat ontsleuteld kan word met:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-The **`config.dbx`** databasis bevat:
+Die **`config.dbx`** databasis bevat:
 
-* **Email**: Die e-pos van die gebruiker
+* **E-pos**: Die e-pos van die gebruiker
 * **usernamedisplayname**: Die naam van die gebruiker
 * **dropbox\_path**: Pad waar die dropbox-gids geleë is
 * **Host\_id: Hash** wat gebruik word om aan die wolk te autentiseer. Dit kan slegs vanaf die web herroep word.
@@ -131,7 +131,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

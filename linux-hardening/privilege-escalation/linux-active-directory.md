@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 As jy toegang het oor 'n AD in linux (of bash in Windows) kan jy probeer [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) om die AD te enumerate.
 
-Jy kan ook die volgende bladsy nagaan om te leer **ander maniere om AD vanaf linux te enumerate**:
+Jy kan ook die volgende bladsy nagaan om **ander maniere te leer om AD vanaf linux te enumerate**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -53,7 +53,7 @@ Op hierdie bladsy gaan jy verskillende plekke vind waar jy **kerberos kaartjies 
 
 ### CCACHE kaartjie hergebruik vanaf /tmp
 
-CCACHE lêers is binêre formate vir **storing Kerberos akrediteer** en word tipies gestoor met 600 toestemmings in `/tmp`. Hierdie lêers kan geïdentifiseer word deur hul **naamformaat, `krb5cc_%{uid}`,** wat ooreenstem met die gebruiker se UID. Vir verifikasie van die verifikasieticket, moet die **omgewing veranderlike `KRB5CCNAME`** op die pad van die gewenste kaartjie lêer gestel word, wat hergebruik moontlik maak.
+CCACHE lêers is binêre formate vir **storing van Kerberos geloofsbriewe** wat tipies met 600 toestemmings in `/tmp` gestoor word. Hierdie lêers kan geïdentifiseer word deur hul **naamformaat, `krb5cc_%{uid}`,** wat ooreenstem met die gebruiker se UID. Vir verifikasie van die verifikasieticket, moet die **omgewing veranderlike `KRB5CCNAME`** op die pad van die gewenste kaartjie lêer gestel word, wat hergebruik daarvan moontlik maak.
 
 Lys die huidige kaartjie wat vir verifikasie gebruik word met `env | grep KRB5CCNAME`. Die formaat is draagbaar en die kaartjie kan **hergebruik word deur die omgewing veranderlike** met `export KRB5CCNAME=/tmp/ticket.ccache` te stel. Kerberos kaartjie naamformaat is `krb5cc_%{uid}` waar uid die gebruiker se UID is.
 ```bash
@@ -64,9 +64,9 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
-### CCACHE kaart hergebruik vanaf sleutelring
+### CCACHE kaartjie hergebruik vanaf sleutelring
 
-**Kerberos-kaarte wat in 'n proses se geheue gestoor is, kan onttrek word**, veral wanneer die masjien se ptrace-beskerming gedeaktiveer is (`/proc/sys/kernel/yama/ptrace_scope`). 'n Nuttige hulpmiddel vir hierdie doel is te vind by [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), wat die onttrekking vergemaklik deur in sessies in te spuit en kaarte in `/tmp` te dump.
+**Kerberos kaartjies wat in 'n proses se geheue gestoor is, kan onttrek word**, veral wanneer die masjien se ptrace beskerming gedeaktiveer is (`/proc/sys/kernel/yama/ptrace_scope`). 'n Nuttige hulpmiddel vir hierdie doel is te vind by [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), wat die onttrekking vergemaklik deur in sessies in te spuit en kaartjies in `/tmp` te dump.
 
 Om hierdie hulpmiddel te konfigureer en te gebruik, word die onderstaande stappe gevolg:
 ```bash
@@ -81,12 +81,12 @@ Hierdie prosedure sal probeer om in verskeie sessies in te spuit, wat sukses aan
 
 SSSD hou 'n kopie van die databasis by die pad `/var/lib/sss/secrets/secrets.ldb`. Die ooreenstemmende sleutel word as 'n verborge lêer by die pad `/var/lib/sss/secrets/.secrets.mkey` gestoor. Standaard is die sleutel slegs leesbaar as jy **root** regte het.
 
-Die **`SSSDKCMExtractor`** met die --database en --key parameters sal die databasis ontleed en **die geheime** dekripteer.
+Die aanroep van \*\*`SSSDKCMExtractor` \*\* met die --database en --key parameters sal die databasis ontleed en **die geheime ontcijfer**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-Die **akkrediteringskas Kerberos blob kan in 'n bruikbare Kerberos CCache** lêer omgeskakel word wat aan Mimikatz/Rubeus oorgedra kan word.
+Die **credential cache Kerberos blob kan omskep word in 'n bruikbare Kerberos CCache** lêer wat aan Mimikatz/Rubeus oorgedra kan word.
 
 ### CCACHE kaartjie hergebruik vanaf keytab
 ```bash
@@ -96,9 +96,9 @@ klist -k /etc/krb5.keytab
 ```
 ### Trek rekeninge uit /etc/krb5.keytab
 
-Diensrekening sleutels, wat noodsaaklik is vir dienste wat met wortelprivileges werk, word veilig gestoor in **`/etc/krb5.keytab`** lêers. Hierdie sleutels, soortgelyk aan wagwoorde vir dienste, vereis streng vertroulikheid.
+Diensrekening sleutels, wat noodsaaklik is vir dienste wat met root regte werk, word veilig gestoor in **`/etc/krb5.keytab`** lêers. Hierdie sleutels, soortgelyk aan wagwoorde vir dienste, vereis streng vertroulikheid.
 
-Om die inhoud van die keytab-lêer te ondersoek, kan **`klist`** gebruik word. Die hulpmiddel is ontwerp om sleuteldetails te vertoon, insluitend die **NT Hash** vir gebruikersverifikasie, veral wanneer die sleuteltipe as 23 geïdentifiseer word.
+Om die inhoud van die keytab-lêer te ondersoek, kan **`klist`** gebruik word. Die hulpmiddel is ontwerp om sleutelbesonderhede te vertoon, insluitend die **NT Hash** vir gebruikersverifikasie, veral wanneer die sleuteltipe as 23 geïdentifiseer word.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
@@ -108,11 +108,11 @@ Vir Linux gebruikers bied **`KeyTabExtract`** funksionaliteit om die RC4 HMAC-ha
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-Op macOS dien **`bifrost`** as 'n hulpmiddel vir sleuteltabelfilaanalyse.
+Op macOS dien **`bifrost`** as 'n hulpmiddel vir sleuteltabelfilaanalise.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-Met die onttrokken rekening- en hash-inligting kan verbindings met bedieners gevestig word met behulp van gereedskap soos **`crackmapexec`**.
+Deur die onttrokken rekening- en hash-inligting te gebruik, kan verbindings met bedieners gevestig word met behulp van gereedskap soos **`crackmapexec`**.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```

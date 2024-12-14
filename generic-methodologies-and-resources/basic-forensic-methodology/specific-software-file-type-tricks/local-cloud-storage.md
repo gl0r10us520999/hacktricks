@@ -1,8 +1,8 @@
-# Plaaslike Wolk Berging
+# Lokale Wolk Berging
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -32,7 +32,7 @@ In Windows kan jy die OneDrive-gids vind in `\Users\<username>\AppData\Local\Mic
 * Wysigingsdatum
 * Aantal lêers in die wolk
 * Aantal lêers in die gids
-* **CID**: Unieke ID van die OneDrive-gebruiker
+* **CID**: Unieke ID van die OneDrive gebruiker
 * Verslaggenerasietyd
 * Grootte van die HD van die OS
 
@@ -45,12 +45,12 @@ Hierdie gids bevat 'n lêer genaamd Sync\_log.log met inligting soos die e-posad
 
 Die lêer **`Cloud_graph\Cloud_graph.db`** is 'n sqlite-databasis wat die tabel **`cloud_graph_entry`** bevat. In hierdie tabel kan jy die **naam** van die **gesinkroniseerde** **lêers**, gewysigde tyd, grootte, en die MD5 kontrole som van die lêers vind.
 
-Die tabeldata van die databasis **`Sync_config.db`** bevat die e-posadres van die rekening, die pad van die gedeelde gidsen en die Google Drive weergawe.
+Die tabeldata van die databasis **`Sync_config.db`** bevat die e-posadres van die rekening, die pad van die gedeelde gidse en die Google Drive weergawe.
 
 ## Dropbox
 
 Dropbox gebruik **SQLite-databasisse** om die lêers te bestuur. In hierdie\
-Jy kan die databasisse in die gidsen vind:
+Jy kan die databasisse in die gidse vind:
 
 * `\Users\<username>\AppData\Local\Dropbox`
 * `\Users\<username>\AppData\Local\Dropbox\Instance1`
@@ -74,12 +74,12 @@ Tog, die hoofinligting is:
 * **Algoritme**: PBKDF2
 * **Herhalings**: 1066
 
-Afgesien van daardie inligting, om die databasisse te ontsleutel het jy steeds nodig:
+Afgesien van daardie inligting, om die databasisse te ontsleutel, het jy steeds nodig:
 
 * Die **versleutelde DPAPI-sleutel**: Jy kan dit in die register vind binne `NTUSER.DAT\Software\Dropbox\ks\client` (voer hierdie data as binêr uit)
 * Die **`SYSTEM`** en **`SECURITY`** hives
 * Die **DPAPI meester sleutels**: Wat in `\Users\<username>\AppData\Roaming\Microsoft\Protect` gevind kan word
-* Die **gebruikersnaam** en **wagwoord** van die Windows-gebruiker
+* Die **gebruikersnaam** en **wagwoord** van die Windows gebruiker
 
 Dan kan jy die hulpmiddel [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
@@ -93,7 +93,7 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 ```
 The **`config.dbx`** databasis bevat:
 
-* **E-pos**: Die e-pos van die gebruiker
+* **Email**: Die e-pos van die gebruiker
 * **usernamedisplayname**: Die naam van die gebruiker
 * **dropbox\_path**: Pad waar die dropbox-gids geleë is
 * **Host\_id: Hash** wat gebruik word om aan die wolk te autentiseer. Dit kan slegs vanaf die web herroep word.
@@ -117,7 +117,7 @@ Ander tabelle binne hierdie databasis bevat meer interessante inligting:
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **meest gevorderde** gemeenskap gereedskap aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}

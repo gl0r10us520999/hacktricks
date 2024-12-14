@@ -61,7 +61,7 @@ ewfacquire /dev/sdb
 
 ### Verskeie tipes
 
-In **Windows** kan jy probeer om die gratis weergawe van Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) te gebruik om die **forensiese beeld** te **mont**.
+In **Windows** kan jy probeer om die gratis weergawe van Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) te gebruik om die **forensiese beeld** te **montage**.
 
 ### Raw
 ```bash
@@ -107,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Let op dat die sektor grootte **512** is en begin by **2048**. Mount dan die beeld soos volg:
+Let op dat die sektor grootte **512** is en begin **2048** is. Monteer dan die beeld soos volg:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -123,8 +123,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

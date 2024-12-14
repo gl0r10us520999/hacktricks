@@ -8,8 +8,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -18,8 +18,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstoestelle aangedryf word.\
-Kry Toegang Vandag:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
+Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -40,17 +40,17 @@ In x509 sertifikate speel verskeie **velde** kritieke rolle in die versekerings 
 * Die **Onderwerp** veld verteenwoordig die sertifikaat se eienaar, wat 'n masjien, 'n individu, of 'n organisasie kan wees. Dit sluit gedetailleerde identifikasie in soos:
 * **Algemene Naam (CN)**: Domeine wat deur die sertifikaat gedek word.
 * **Land (C)**, **Plaaslikeheid (L)**, **Staat of Provinsie (ST, S, of P)**, **Organisasie (O)**, en **Organisatoriese Eenheid (OU)** verskaf geografiese en organisatoriese besonderhede.
-* **Gekenneteerde Naam (DN)** sluit die volle onderwerpidentifikasie in.
+* **Gekenneteerde Naam (DN)** kapsuleer die volle onderwerpidentifikasie.
 * **Uitreiker** gee besonderhede oor wie die sertifikaat geverifieer en onderteken het, insluitend soortgelyke subvelde soos die Onderwerp vir die CA.
 * **Geldigheidsperiode** word gemerk deur **Nie Voor** en **Nie Na** tydstempels, wat verseker dat die sertifikaat nie voor of na 'n sekere datum gebruik word nie.
 * Die **Publieke Sleutel** afdeling, wat van kardinale belang is vir die sertifikaat se sekuriteit, spesifiseer die algoritme, grootte, en ander tegniese besonderhede van die publieke sleutel.
-* **x509v3 uitbreidings** verbeter die sertifikaat se funksionaliteit, wat **Sleutel Gebruik**, **Verlengde Sleutel Gebruik**, **Onderwerp Alternatiewe Naam**, en ander eienskappe spesifiseer om die sertifikaat se toepassing te verfyn.
+* **x509v3 uitbreidings** verbeter die sertifikaat se funksionaliteit, wat **Sleutelgebruik**, **Verlengde Sleutelgebruik**, **Onderwerp Alternatiewe Naam**, en ander eienskappe spesifiseer om die sertifikaat se toepassing te verfyn.
 
-#### **Sleutel Gebruik en Uitbreidings**
+#### **Sleutelgebruik en Uitbreidings**
 
-* **Sleutel Gebruik** identifiseer kriptografiese toepassings van die publieke sleutel, soos digitale handtekening of sleutel versleuteling.
-* **Verlengde Sleutel Gebruik** beperk verder die sertifikaat se gebruiksgevalle, bv. vir TLS bedienerverifikasie.
-* **Onderwerp Alternatiewe Naam** en **Basiese Beperking** definieer addisionele gasheername wat deur die sertifikaat gedek word en of dit 'n CA of eindentiteit sertifikaat is, onderskeidelik.
+* **Sleutelgebruik** identifiseer kriptografiese toepassings van die publieke sleutel, soos digitale handtekening of sleutelversleuteling.
+* **Verlengde Sleutelgebruik** beperk verder die sertifikaat se gebruiksgevalle, bv. vir TLS bedienerverifikasie.
+* **Onderwerp Alternatiewe Naam** en **Basiese Beperking** definieer addisionele gasheername wat deur die sertifikaat gedek word en of dit 'n CA of eindentiteitsertifikaat is, onderskeidelik.
 * Identifiseerders soos **Onderwerp Sleutel Identifiseerder** en **Gesags Sleutel Identifiseerder** verseker uniekheid en opspoorbaarheid van sleutels.
 * **Gesags Inligting Toegang** en **CRL Verspreidingspunte** bied paaie om die uitreikende CA te verifieer en die sertifikaat se herroepingstatus te kontroleer.
 * **CT Precertificate SCTs** bied deursigtigheidlogs, wat van kardinale belang is vir publieke vertroue in die sertifikaat.
@@ -85,11 +85,11 @@ Sertifikaat Deursigtigheid help om sertifikaatverwante bedreigings te bekamp deu
 
 * Om te voorkom dat CA's SSL-sertifikate vir 'n domein uitreik sonder die domeineienaar se kennis.
 * Om 'n oop ouditstelsel te vestig vir die opsporing van per ongeluk of kwaadwillig uitgereikte sertifikate.
-* Om gebruikers te beskerm teen bedrieglike sertifikate.
+* Om gebruikers te beskerm teen bedrogsertifikate.
 
 #### **Sertifikaat Logs**
 
-Sertifikaat logs is publiek ouditbaar, byvoeging-slegs rekords van sertifikate, wat deur netwerkdienste onderhou word. Hierdie logs bied kriptografiese bewysstukke vir ouditdoeleindes. Beide uitreikowerhede en die publiek kan sertifikate aan hierdie logs indien of dit raadpleeg vir verifikasie. Terwyl die presiese aantal logbedieners nie vasgestel is nie, word verwag dat dit minder as 'n duisend wêreldwyd sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belangstellende entiteit.
+Sertifikaat logs is publiek ouditbaar, byvoeging-alleen rekords van sertifikate, wat deur netwerkdienste onderhou word. Hierdie logs bied kriptografiese bewysstukke vir ouditdoeleindes. Beide uitreikowerhede en die publiek kan sertifikate aan hierdie logs indien of dit raadpleeg vir verifikasie. Terwyl die presiese aantal logbedieners nie vasgestel is nie, word verwag dat dit minder as 'n duisend wêreldwyd sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belanghebbende entiteit.
 
 #### **Navraag**
 
@@ -104,12 +104,12 @@ Verskillende formate bestaan vir die stoor van sertifikate, elk met sy eie gebru
 * Meest gebruikte formaat vir sertifikate.
 * Vereis aparte lêers vir sertifikate en private sleutels, gekodeer in Base64 ASCII.
 * Algemene uitbreidings: .cer, .crt, .pem, .key.
-* Primêr gebruik deur Apache en soortgelyke bedieners.
+* Hoofsaaklik gebruik deur Apache en soortgelyke bedieners.
 
 ### **DER Formaat**
 
 * 'n Binaire formaat van sertifikate.
-* Ontbreek die "BEGIN/END CERTIFICATE" verklarings wat in PEM-lêers voorkom.
+* Ontbreek die "BEGIN/END CERTIFICATE" verklarings wat in PEM-lêers gevind word.
 * Algemene uitbreidings: .cer, .der.
 * Gereeld gebruik met Java platforms.
 
@@ -184,8 +184,8 @@ Kry Toegang Vandag:
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

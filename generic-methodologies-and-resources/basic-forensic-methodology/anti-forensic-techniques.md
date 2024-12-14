@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Timestamps
 
-'n Aanvaller mag belangstel om **die tydstempels van lêers** te verander om nie opgespoor te word nie.\
+'n Aanvaller mag belangstel in **die verandering van die tydstempels van lêers** om nie opgespoor te word nie.\
 Dit is moontlik om die tydstempels binne die MFT in die eienskappe `$STANDARD_INFORMATION` \_\_ en \_\_ `$FILE_NAME` te vind.
 
 Albei eienskappe het 4 tydstempels: **Wysiging**, **toegang**, **skepping**, en **MFT registrasie wysiging** (MACE of MACB).
@@ -30,7 +30,7 @@ Hierdie gereedskap **wysig** die tydstempel inligting binne **`$STANDARD_INFORMA
 
 ### Usnjrnl
 
-Die **USN Journal** (Update Sequence Number Journal) is 'n kenmerk van die NTFS (Windows NT lêerstelsel) wat volume veranderinge dop hou. Die [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) gereedskap maak dit moontlik om hierdie veranderinge te ondersoek.
+Die **USN Journal** (Update Sequence Number Journal) is 'n kenmerk van die NTFS (Windows NT lêerstelsel) wat volume veranderinge opneem. Die [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) gereedskap maak dit moontlik om hierdie veranderinge te ondersoek.
 
 ![](<../../.gitbook/assets/image (801).png>)
 
@@ -38,7 +38,7 @@ Die vorige beeld is die **uitset** wat deur die **gereedskap** gewys word waar d
 
 ### $LogFile
 
-**Alle metadata veranderinge aan 'n lêerstelsel word gelog** in 'n proses bekend as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead\_logging). Die gelogde metadata word in 'n lêer genaamd `**$LogFile**`, geleë in die wortelgids van 'n NTFS lêerstelsel, gehou. Gereedskap soos [LogFileParser](https://github.com/jschicht/LogFileParser) kan gebruik word om hierdie lêer te ontleed en veranderinge te identifiseer.
+**Alle metadata veranderinge aan 'n lêerstelsel word gelog** in 'n proses bekend as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Die gelogde metadata word in 'n lêer genaamd `**$LogFile**`, geleë in die wortelgids van 'n NTFS lêerstelsel, gehou. Gereedskap soos [LogFileParser](https://github.com/jschicht/LogFileParser) kan gebruik word om hierdie lêer te ontleed en veranderinge te identifiseer.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
@@ -59,7 +59,7 @@ Met dieselfde gereedskap is dit moontlik om te identifiseer **tot watter tyd die
 
 ### Nanoseconds
 
-**NTFS** tydstempels het 'n **presisie** van **100 nanosekondes**. Dan, om lêers met tydstempels soos 2010-10-10 10:10:**00.000:0000 te vind, is baie verdag**.
+**NTFS** tydstempels het 'n **presisie** van **100 nanosekondes**. Dan, om lêers met tydstempels soos 2010-10-10 10:10:**00.000:0000 te vind is baie verdag**.
 
 ### SetMace - Anti-forensic Tool
 
@@ -73,16 +73,16 @@ Daar is gereedskap soos slacker wat toelaat om data in hierdie "verborge" ruimte
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-Dan is dit moontlik om die slack ruimte te herwin met gereedskap soos FTK Imager. Let daarop dat hierdie tipe gereedskap die inhoud obfuskeer of selfs versleuteld kan stoor.
+Dan is dit moontlik om die slack ruimte te herstel met gereedskap soos FTK Imager. Let daarop dat hierdie tipe gereedskap die inhoud obfuskeer of selfs versleuteld kan stoor.
 
 ## UsbKill
 
 Dit is 'n gereedskap wat die **rekenaar sal afskakel as enige verandering in die USB** poorte opgespoor word.\
-'n Manier om dit te ontdek, sou wees om die lopende prosesse te inspekteer en **elke python skrip wat loop te hersien**.
+'n Manier om dit te ontdek sou wees om die lopende prosesse te inspekteer en **elke python skrip wat loop te hersien**.
 
 ## Live Linux Distributions
 
-Hierdie distros word **binne die RAM** geheue uitgevoer. Die enigste manier om hulle te ontdek, is **indien die NTFS lêerstelsel met skryf toestemmings gemonteer is**. As dit net met lees toestemmings gemonteer is, sal dit nie moontlik wees om die indringing te ontdek nie.
+Hierdie distros word **binne die RAM** geheue uitgevoer. Die enigste manier om hulle te ontdek is **in die geval dat die NTFS lêerstelsel met skryf regte gemonteer is**. As dit net met lees regte gemonteer is, sal dit nie moontlik wees om die indringing te ontdek nie.
 
 ## Secure Deletion
 
@@ -94,7 +94,7 @@ Dit is moontlik om verskeie Windows logging metodes te deaktiveer om die forensi
 
 ### Disable Timestamps - UserAssist
 
-Dit is 'n registriesleutel wat datums en ure behou wanneer elke eksekutabele deur die gebruiker uitgevoer is.
+Dit is 'n registriesleutel wat datums en ure behou wanneer elke eksekutabel deur die gebruiker uitgevoer is.
 
 Om UserAssist te deaktiveer, is twee stappe nodig:
 
@@ -108,14 +108,14 @@ Dit sal inligting oor die toepassings wat uitgevoer is, stoor met die doel om di
 * Voer `regedit` uit
 * Kies die lêer pad `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
 * Regsklik op beide `EnablePrefetcher` en `EnableSuperfetch`
-* Kies Wysig op elkeen van hierdie om die waarde van 1 (of 3) na 0 te verander
+* Kies Wysig op elk van hierdie om die waarde van 1 (of 3) na 0 te verander
 * Herbegin
 
 ### Disable Timestamps - Last Access Time
 
-Wanneer 'n gids vanaf 'n NTFS volume op 'n Windows NT bediener geopen word, neem die stelsel die tyd om **'n tydstempel veld op elke gelysde gids op te dateer**, genaamd die laaste toegangstyd. Op 'n intensief gebruikte NTFS volume kan dit die prestasie beïnvloed.
+Wanneer 'n gids vanaf 'n NTFS volume op 'n Windows NT bediener geopen word, neem die stelsel die tyd om **'n tydstempelveld op elke gelysde gids op te dateer**, genaamd die laaste toegangstyd. Op 'n intensief gebruikte NTFS volume kan dit die prestasie beïnvloed.
 
-1. Open die Registrie Redigeerder (Regedit.exe).
+1. Maak die Registrie Redigeerder (Regedit.exe) oop.
 2. Blaai na `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
 3. Soek na `NtfsDisableLastAccessUpdate`. As dit nie bestaan nie, voeg hierdie DWORD by en stel die waarde op 1, wat die proses sal deaktiveer.
 4. Sluit die Registrie Redigeerder, en herbegin die bediener.
@@ -123,24 +123,24 @@ Wanneer 'n gids vanaf 'n NTFS volume op 'n Windows NT bediener geopen word, neem
 ### Delete USB History
 
 Alle **USB Device Entries** word in die Windows Registrie onder die **USBSTOR** registriesleutel gestoor wat sub sleutels bevat wat geskep word wanneer jy 'n USB toestel in jou rekenaar of skootrekenaar inprop. Jy kan hierdie sleutel hier vind H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deletie hiervan** sal die USB geskiedenis verwyder.\
-Jy kan ook die gereedskap [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) gebruik om seker te maak jy het dit verwyder (en om dit te verwyder).
+Jy kan ook die gereedskap [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) gebruik om seker te maak jy het hulle verwyder (en om hulle te verwyder).
 
 'n Ander lêer wat inligting oor die USB's stoor, is die lêer `setupapi.dev.log` binne `C:\Windows\INF`. Dit moet ook verwyder word.
 
 ### Disable Shadow Copies
 
-**Lys** skaduwe copies met `vssadmin list shadowstorage`\
+**Lys** skaduweerkopieë met `vssadmin list shadowstorage`\
 **Verwyder** hulle deur `vssadmin delete shadow` te loop
 
 Jy kan hulle ook via GUI verwyder deur die stappe voor te stel in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Om skaduwe copies te deaktiveer [stappe van hier](https://support.waters.com/KB\_Inf/Other/WKB15560\_How\_to\_disable\_Volume\_Shadow\_Copy\_Service\_VSS\_in\_Windows):
+Om skaduweerkopieë te deaktiveer [stappe van hier](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. Open die Dienste program deur "dienste" in die teks soekboks te tik nadat jy op die Windows startknoppie geklik het.
+1. Maak die Dienste program oop deur "dienste" in die teks soekboks te tik nadat jy op die Windows begin knoppie geklik het.
 2. Vind "Volume Shadow Copy" in die lys, kies dit, en toegang eienskappe deur regsklik.
-3. Kies Gedeaktiveer van die "Startup type" keuselys, en bevestig die verandering deur Toepas en OK te klik.
+3. Kies Gedeaktiveer uit die "Opstart tipe" keuselys, en bevestig die verandering deur Toepas en OK te klik.
 
-Dit is ook moontlik om die konfigurasie van watter lêers in die skaduwe copy gekopieer gaan word in die registrie `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` te wysig.
+Dit is ook moontlik om die konfigurasie van watter lêers in die skaduweerkopie gaan gekopieer word in die registrasie `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` te wysig.
 
 ### Overwrite deleted files
 

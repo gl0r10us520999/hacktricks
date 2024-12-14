@@ -1,8 +1,8 @@
 # Fisiese Aanvalle
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -36,13 +36,13 @@ RAM hou data kortliks na die kragonderbreking, gewoonlik vir **1 tot 2 minute**.
 
 ### Direkte Geheue Toegang (DMA) Aanvalle
 
-**INCEPTION** is 'n gereedskap wat ontwerp is vir **fisiese geheue manipulasie** deur middel van DMA, wat versoenbaar is met interfaces soos **FireWire** en **Thunderbolt**. Dit maak dit moontlik om aanmeldprosedures te omseil deur geheue te patch om enige wagwoord te aanvaar. Dit is egter nie effektief teen **Windows 10** stelsels nie.
+**INCEPTION** is 'n gereedskap wat ontwerp is vir **fisiese geheue manipulasie** deur middel van DMA, wat versoenbaar is met interfaces soos **FireWire** en **Thunderbolt**. Dit stel gebruikers in staat om aanmeldprosedures te omseil deur geheue te patch om enige wagwoord te aanvaar. Dit is egter nie effektief teen **Windows 10** stelsels nie.
 
 ### Live CD/USB vir Stelseltoegang
 
 Om stelselbinaries soos **_sethc.exe_** of **_Utilman.exe_** met 'n kopie van **_cmd.exe_** te verander, kan 'n opdragprompt met stelselsprivileges bied. Gereedskap soos **chntpw** kan gebruik word om die **SAM** lêer van 'n Windows-installasie te redigeer, wat wagwoordveranderinge moontlik maak.
 
-**Kon-Boot** is 'n gereedskap wat dit vergemaklik om in Windows-stelsels in te teken sonder om die wagwoord te ken deur tydelik die Windows-kern of UEFI te wysig. Meer inligting kan gevind word by [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+**Kon-Boot** is 'n gereedskap wat die aanmelding in Windows-stelsels vergemaklik sonder om die wagwoord te ken deur tydelik die Windows-kern of UEFI te wysig. Meer inligting kan gevind word by [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
 ### Hantering van Windows Sekuriteitskenmerke
 
@@ -52,9 +52,9 @@ Om stelselbinaries soos **_sethc.exe_** of **_Utilman.exe_** met 'n kopie van **
 - **F8**: Gaan na Herstelmodus.
 - Deur **Shift** te druk na die Windows-banner kan outologon omseil.
 
-#### SLECHTE USB Toestelle
+#### BAD USB Toestelle
 
-Toestelle soos **Rubber Ducky** en **Teensyduino** dien as platforms om **slegte USB** toestelle te skep, wat in staat is om vooraf gedefinieerde payloads uit te voer wanneer dit aan 'n teikenrekenaar gekoppel word.
+Toestelle soos **Rubber Ducky** en **Teensyduino** dien as platforms om **bad USB** toestelle te skep, wat in staat is om vooraf gedefinieerde payloads uit te voer wanneer dit aan 'n teikenrekenaar gekoppel word.
 
 #### Volume Skadu Kopie
 

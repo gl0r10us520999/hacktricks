@@ -15,18 +15,18 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-Die doel van hierdie bladsy is om **platforms te noem wat dit moontlik maak om kode** (letterlik of regex) in duisende/miljoene repos op een of meer platforms te soek.
+Die doel van hierdie bladsy is om **platforms te noem wat dit moontlik maak om kode** (letterlik of regex) oor duisende/miljoene repos op een of meer platforms te soek.
 
-Dit help in verskeie gevalle om **inligting wat gelek het** of **kwesbaarhede** patrone te soek.
+Dit help in verskeie gevalle om **gelekte inligting** of **kwesbaarhede** patrone te **soek**.
 
 * [**SourceGraph**](https://sourcegraph.com/search): Soek in miljoene repos. Daar is 'n gratis weergawe en 'n ondernemingsweergawe (met 15 dae gratis). Dit ondersteun regexes.
 * [**Github Search**](https://github.com/search): Soek oor Github. Dit ondersteun regexes.
-* Miskien is dit ook nuttig om ook [**Github Code Search**](https://cs.github.com/) te kyk.
+* Miskien is dit ook nuttig om [**Github Code Search**](https://cs.github.com/) te kontroleer.
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Soek oor Gitlab projekte. Ondersteun regexes.
 * [**SearchCode**](https://searchcode.com/): Soek kode in miljoene projekte.
 
 {% hint style="warning" %}
-Wanneer jy soek na gelekke in 'n repo en iets soos `git log -p` uitvoer, moenie vergeet daar mag wees **ander takke met ander verbintenisse** wat geheime bevat nie!
+Wanneer jy soek na lekkasies in 'n repo en iets soos `git log -p` uitvoer, moenie vergeet daar mag wees **ander takke met ander verbintenisse** wat geheime bevat nie!
 {% endhint %}
 
 {% hint style="success" %}

@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hackingtruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -20,145 +20,146 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 # Tydstempels
 
-'n Aanvaller mag belangstel in **die verandering van die tydstempels van lêers** om opsporing te vermy.\
+'n Aanvaller mag belangstel om **die tydstempels van lêers te verander** om nie opgespoor te word nie.\
 Dit is moontlik om die tydstempels binne die MFT in eienskappe `$STANDARD_INFORMATION` __ en __ `$FILE_NAME` te vind.
 
-Beide eienskappe het 4 tydstempels: **Wysiging**, **toegang**, **skepping**, en **MFT-registerwysiging** (MACE of MACB).
+Albei eienskappe het 4 tydstempels: **Wysiging**, **toegang**, **skepping**, en **MFT registrasie wysiging** (MACE of MACB).
 
-**Windows verkenner** en ander gereedskap toon die inligting vanaf **`$STANDARD_INFORMATION`**.
+**Windows verkenner** en ander gereedskap wys die inligting van **`$STANDARD_INFORMATION`**.
 
 ## TimeStomp - Anti-forensiese Gereedskap
 
-Hierdie gereedskap **verander** die tydstempelinligting binne **`$STANDARD_INFORMATION`** **maar nie** die inligting binne **`$FILE_NAME`** nie. Daarom is dit moontlik om **verdagte aktiwiteit te identifiseer**.
+Hierdie gereedskap **wysig** die tydstempel inligting binne **`$STANDARD_INFORMATION`** **maar** **nie** die inligting binne **`$FILE_NAME`** nie. Daarom is dit moontlik om **verdagte** **aktiwiteit** te **identifiseer**.
 
 ## Usnjrnl
 
-Die **USN Joernaal** (Update Sequence Number Journal) is 'n kenmerk van die NTFS (Windows NT-lêersisteem) wat volume-veranderings byhou. Die [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) gereedskap maak dit moontlik om hierdie veranderings te ondersoek.
+Die **USN Journal** (Update Sequence Number Journal) is 'n kenmerk van die NTFS (Windows NT lêerstelsel) wat volume veranderinge opneem. Die [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) gereedskap maak dit moontlik om hierdie veranderinge te ondersoek.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-Die vorige beeld is die **uitset** wat deur die **gereedskap** getoon word waar dit waargeneem kan word dat sekere **veranderings aan die lêer gedoen is**.
+Die vorige beeld is die **uitset** wat deur die **gereedskap** gewys word waar dit waargeneem kan word dat sommige **veranderinge gemaak is** aan die lêer.
 
 ## $LogFile
 
-**Alle metadata-veranderings aan 'n lêersisteem word gelog** in 'n proses wat bekend staan as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Die gelogde metadata word in 'n lêer genaamd `**$LogFile**` gehou, wat in die hoofgids van 'n NTFS-lêersisteem geleë is. Gereedskap soos [LogFileParser](https://github.com/jschicht/LogFileParser) kan gebruik word om hierdie lêer te ontled en veranderings te identifiseer.
+**Alle metadata veranderinge aan 'n lêerstelsel word gelog** in 'n proses bekend as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Die gelogde metadata word in 'n lêer genaamd `**$LogFile**`, geleë in die wortelgids van 'n NTFS lêerstelsel, gehou. Gereedskap soos [LogFileParser](https://github.com/jschicht/LogFileParser) kan gebruik word om hierdie lêer te ontleed en veranderinge te identifiseer.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Weereens, in die uitset van die gereedskap is dit moontlik om te sien dat **sekere veranderings uitgevoer is**.
+Weer eens, in die uitset van die gereedskap is dit moontlik om te sien dat **sommige veranderinge gemaak is**.
 
-Met dieselfde gereedskap is dit moontlik om te identifiseer **wanneer die tydstempels verander is**:
+Met dieselfde gereedskap is dit moontlik om te identifiseer **tot watter tyd die tydstempels gewysig is**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
 * CTIME: Lêer se skeppingstyd
 * ATIME: Lêer se wysigingstyd
-* MTIME: Lêer se MFT-registerwysiging
+* MTIME: Lêer se MFT registrasie wysiging
 * RTIME: Lêer se toegangstyd
 
 ## `$STANDARD_INFORMATION` en `$FILE_NAME` vergelyking
 
-'n Ander manier om verdagte veranderde lêers te identifiseer sou wees om die tyd op beide eienskappe te vergelyk en te soek na **verskille**.
+'n Ander manier om verdagte gewysigde lêers te identifiseer, sou wees om die tyd op albei eienskappe te vergelyk en te soek na **ongelykhede**.
 
 ## Nanosekondes
 
-**NTFS**-tydstempels het 'n **presisie** van **100 nanosekondes**. Dan is dit baie verdag as lêers met tydstempels soos 2010-10-10 10:10:**00.000:0000 gevind word**.
+**NTFS** tydstempels het 'n **presisie** van **100 nanosekondes**. Dan, om lêers met tydstempels soos 2010-10-10 10:10:**00.000:0000 te vind is baie verdag**.
 
 ## SetMace - Anti-forensiese Gereedskap
 
-Hierdie gereedskap kan beide eienskappe `$STARNDAR_INFORMATION` en `$FILE_NAME` verander. Vanaf Windows Vista is dit egter nodig vir 'n lewende OS om hierdie inligting te verander.
+Hierdie gereedskap kan albei eienskappe `$STARNDAR_INFORMATION` en `$FILE_NAME` wysig. Dit is egter nodig vir 'n lewende OS om hierdie inligting te wysig vanaf Windows Vista.
 
 # Data Versteek
 
-NTFS gebruik 'n groep en die minimum inligtingsgrootte. Dit beteken dat as 'n lêer 'n groep en 'n half gebruik, die **oorskietende helfte nooit gebruik gaan word** totdat die lêer uitgevee word. Dan is dit moontlik om data in hierdie "verborge" spasie te **versteek**.
+NFTS gebruik 'n kluster en die minimum inligting grootte. Dit beteken dat as 'n lêer 'n kluster en 'n half gebruik, die **oorblywende half nooit gebruik gaan word** totdat die lêer verwyder word. Dan is dit moontlik om **data in hierdie slack ruimte te versteek**.
 
-Daar is gereedskap soos slacker wat dit moontlik maak om data in hierdie "verborge" spasie te versteek. 'n Ontleding van die `$logfile` en `$usnjrnl` kan egter wys dat sekere data bygevoeg is:
+Daar is gereedskap soos slacker wat toelaat om data in hierdie "versteekte" ruimte te versteek. 'n Analise van die `$logfile` en `$usnjrnl` kan egter wys dat sommige data bygevoeg is:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Dit is dan moontlik om die oorskietende spasie te herwin deur gereedskap soos FTK Imager te gebruik. Let daarop dat hierdie soort gereedskap die inhoud geobfuskeer of selfs versleutel kan stoor.
+Dan is dit moontlik om die slack ruimte te herwin met gereedskap soos FTK Imager. Let daarop dat hierdie soort gereedskap die inhoud obfuskeer of selfs versleuteld kan stoor.
 
 # UsbKill
 
-Dit is 'n gereedskap wat die rekenaar sal **afsluit as enige verandering in die USB**-poorte opgespoor word.\
-'n Manier om dit te ontdek sou wees om die lopende prosesse te ondersoek en **elke python-skrip wat loop te hersien**.
+Dit is 'n gereedskap wat die **rekenaar sal afskakel as enige verandering in die USB** poorte opgespoor word.\
+'n Manier om dit te ontdek, sou wees om die lopende prosesse te inspekteer en **elke python skrip wat loop te hersien**.
 
-# Lewende Linux-verspreidings
+# Lewende Linux Verspreidings
 
-Hierdie verspreidings word **uitgevoer binne die RAM**-geheue. Die enigste manier om hulle op te spoor is **as die NTFS-lêersisteem met skryfregte aangeheg is**. As dit net met leesregte aangeheg is, sal dit nie moontlik wees om die indringing op te spoor nie.
+Hierdie distros word **binne die RAM** geheue uitgevoer. Die enigste manier om hulle te ontdek is **in die geval dat die NTFS lêerstelsel met skryf toestemmings gemonteer is**. As dit net met lees toestemmings gemonteer is, sal dit nie moontlik wees om die indringing te ontdek nie.
 
-# Veilige Skrapping
+# Veilige Verwydering
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows-konfigurasie
+# Windows Konfigurasie
 
-Dit is moontlik om verskeie Windows-loggingsmetodes te deaktiveer om die forensiese ondersoek baie moeiliker te maak.
+Dit is moontlik om verskeie Windows logging metodes te deaktiveer om die forensiese ondersoek baie moeiliker te maak.
 
 ## Deaktiveer Tydstempels - UserAssist
 
-Dit is 'n register sleutel wat datums en ure behou wanneer elke uitvoerbare lêer deur die gebruiker uitgevoer is.
+Dit is 'n registriesleutel wat datums en ure behou wanneer elke uitvoerbare lêer deur die gebruiker uitgevoer is.
 
-Die deaktivering van UserAssist vereis twee stappe:
+Om UserAssist te deaktiveer, is twee stappe nodig:
 
-1. Stel twee register sleutels, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` en `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, albei na nul om aan te dui dat ons wil hê UserAssist gedeaktiveer moet word.
-2. Maak jou register-subbome skoon wat lyk soos `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. Stel twee registriesleutels in, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` en `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, albei op nul om aan te dui dat ons wil hê UserAssist moet gedeaktiveer word.
+2. Maak jou registriesubbome skoon wat lyk soos `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
 ## Deaktiveer Tydstempels - Prefetch
 
-Dit sal inligting oor die toepassings wat uitgevoer is, stoor met die doel om die werking van die Windows-stelsel te verbeter. Dit kan egter ook nuttig wees vir forensiese praktyke.
+Dit sal inligting oor die toepassings wat uitgevoer is, stoor met die doel om die prestasie van die Windows stelsel te verbeter. Dit kan egter ook nuttig wees vir forensiese praktyke.
 
 * Voer `regedit` uit
-* Kies die lêerpad `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
+* Kies die lêer pad `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
 * Regsklik op beide `EnablePrefetcher` en `EnableSuperfetch`
 * Kies Wysig op elkeen van hierdie om die waarde van 1 (of 3) na 0 te verander
-* Herlaai
+* Herbegin
 
 ## Deaktiveer Tydstempels - Laaste Toegangstyd
 
-Telkens wanneer 'n gids vanaf 'n NTFS-volume op 'n Windows NT-bediener geopen word, neem die stelsel die tyd om **'n tydstempelveld op elke gelysde gids by te werk**, genaamd die laaste toegangstyd. Op 'n baie gebruikte NTFS-volume kan dit die werking beïnvloed.
+Wanneer 'n gids vanaf 'n NTFS volume op 'n Windows NT bediener geopen word, neem die stelsel die tyd om **'n tydstempel veld op elke gelysde gids op te dateer**, wat die laaste toegangstyd genoem word. Op 'n intensief gebruikte NTFS volume kan dit die prestasie beïnvloed.
 
-1. Maak die Registerredakteur oop (Regedit.exe).
+1. Maak die Registrie Redigeerder (Regedit.exe) oop.
 2. Blaai na `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Soek na `NtfsDisableLastAccessUpdate`. As dit nie bestaan nie, voeg hierdie DWORD by en stel sy waarde op 1, wat die proses sal deaktiveer.
-4. Sluit die Registerredakteur en herlaai die bediener.
+3. Soek na `NtfsDisableLastAccessUpdate`. As dit nie bestaan nie, voeg hierdie DWORD by en stel die waarde op 1, wat die proses sal deaktiveer.
+4. Sluit die Registrie Redigeerder, en herbegin die bediener.
+
 ## Verwyder USB Geskiedenis
 
-Al die **USB-toestelinskrywings** word gestoor in die Windows-register onder die **USBSTOR** register sleutel wat sub sleutels bevat wat geskep word wanneer jy 'n USB-toestel in jou rekenaar of draagbare rekenaar insteek. Jy kan hierdie sleutel vind by `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deur hierdie** te verwyder, sal jy die USB-geskiedenis verwyder.\
-Jy kan ook die hulpmiddel [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) gebruik om seker te maak dat jy hulle verwyder het (en om hulle te verwyder).
+Alle **USB Toestel Inskrywings** word in die Windows Registrie onder die **USBSTOR** registriesleutel gestoor wat sub sleutels bevat wat geskep word wanneer jy 'n USB Toestel in jou PC of Laptop inprop. Jy kan hierdie sleutel hier vind H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deur dit te verwyder** sal jy die USB geskiedenis verwyder.\
+Jy kan ook die gereedskap [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) gebruik om seker te maak jy het dit verwyder (en om dit te verwyder).
 
-'n Ander lêer wat inligting oor die USB's stoor is die lêer `setupapi.dev.log` binne `C:\Windows\INF`. Dit moet ook verwyder word.
+'n Ander lêer wat inligting oor die USB's stoor, is die lêer `setupapi.dev.log` binne `C:\Windows\INF`. Dit moet ook verwyder word.
 
-## Deaktiveer Skadukopieë
+## Deaktiveer Skadu Kopieë
 
-**Lys** skadukopieë met `vssadmin list shadowstorage`\
-**Verwyder** hulle deur `vssadmin delete shadow` uit te voer
+**Lys** skadu kopieë met `vssadmin list shadowstorage`\
+**Verwyder** hulle deur `vssadmin delete shadow` te loop
 
-Jy kan hulle ook via die GUI verwyder deur die stappe te volg wat voorgestel word by [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+Jy kan hulle ook via GUI verwyder deur die stappe voor te stel in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Om skadukopieë te deaktiveer [stappe vanaf hier](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Om skadu kopieë te deaktiveer [stappe van hier](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. Maak die Dienste-program oop deur "dienste" in die tekssoekkas in te tik nadat jy op die Windows begin-knoppie geklik het.
-2. Vind "Volume Shadow Copy" in die lys, kies dit, en kry toegang tot Eienskappe deur regs te klik.
-3. Kies "Gedeaktiveer" vanaf die "Beginsoort" keuselys, en bevestig dan die verandering deur op Toepas en OK te klik.
+1. Maak die Dienste program oop deur "dienste" in die teks soekboks te tik nadat jy op die Windows begin knoppie geklik het.
+2. Vind "Volume Shadow Copy" in die lys, kies dit, en toegang eienskappe deur regsklik.
+3. Kies Deaktiveer van die "Opstart tipe" keuselys, en bevestig die verandering deur Toepas en OK te klik.
 
-Dit is ook moontlik om die konfigurasie te wysig van watter lêers in die skadukopie gekopieer gaan word in die register `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+Dit is ook moontlik om die konfigurasie van watter lêers in die skadu kopie gaan gekopieer word in die registrie `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` te wysig.
 
 ## Oorskryf verwyderde lêers
 
-* Jy kan 'n **Windows-hulpmiddel** gebruik: `cipher /w:C` Dit sal cipher aandui om enige data van die beskikbare ongebruikte skyfspasie binne die C-aandrywing te verwyder.
-* Jy kan ook hulpmiddels soos [**Eraser**](https://eraser.heidi.ie) gebruik
+* Jy kan 'n **Windows gereedskap** gebruik: `cipher /w:C` Dit sal cipher aanwys om enige data uit die beskikbare ongebruikte skyfspasie binne die C skyf te verwyder.
+* Jy kan ook gereedskap soos [**Eraser**](https://eraser.heidi.ie) gebruik.
 
-## Verwyder Windows gebeurtenislogboeke
+## Verwyder Windows gebeurtenis logs
 
-* Windows + R --> eventvwr.msc --> Brei "Windows-logboeke" uit --> Regsklik op elke kategorie en kies "Logboek skoonmaak"
+* Windows + R --> eventvwr.msc --> Brei "Windows Logs" uit --> Regsklik op elke kategorie en kies "Skoon Log"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Deaktiveer Windows gebeurtenislogboeke
+## Deaktiveer Windows gebeurtenis logs
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Binne die dienste-afdeling deaktiveer die diens "Windows-gebeurtenislogboek"
+* Binne die dienste afdeling deaktiveer die diens "Windows Event Log"
 * `WEvtUtil.exec clear-log` of `WEvtUtil.exe cl`
 
 ## Deaktiveer $UsnJrnl
@@ -171,16 +172,16 @@ Dit is ook moontlik om die konfigurasie te wysig van watter lêers in die skaduk
 
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

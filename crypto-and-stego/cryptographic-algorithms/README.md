@@ -1,27 +1,27 @@
-# Kriptografiese/Samepressingsalgoritmes
+# Cryptografiese/Kompressie Algoritmes
 
-## Kriptografiese/Samepressingsalgoritmes
+## Cryptografiese/Kompressie Algoritmes
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Identifisering van Algoritmes
 
-As jy eindig in 'n kode **wat skuifregs en -links, xors en verskeie rekenkundige bewerkings** gebruik, is dit baie moontlik dat dit die implementering van 'n **kriptografiese algoritme** is. Hier sal 'n paar maniere getoon word om die **algoritme wat gebruik word te identifiseer sonder om elke stap om te keer**.
+As jy eindig in 'n kode **wat regte en linkse skuif, xors en verskeie aritmetiese operasies gebruik**, is dit hoogs waarskynlik dat dit die implementering van 'n **cryptografiese algoritme** is. Hier gaan daar 'n paar maniere gewys word om die **algoritme wat gebruik word te identifiseer sonder om elke stap om te keer**.
 
-### API-funksies
+### API funksies
 
 **CryptDeriveKey**
 
@@ -29,116 +29,118 @@ As hierdie funksie gebruik word, kan jy vind watter **algoritme gebruik word** d
 
 ![](<../../.gitbook/assets/image (156).png>)
 
-Kyk hier na die tabel van moontlike algoritmes en hul toegewysde waardes: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Kyk hier na die tabel van moontlike algoritmes en hul toegewyde waardes: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Druk 'n gegewe buffer van data saam en maak dit los.
+Komprimeer en dekomprimeer 'n gegewe buffer van data.
 
 **CryptAcquireContext**
 
-Van [die dokumente](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Die **CryptAcquireContext**-funksie word gebruik om 'n handvatsel te bekom na 'n spesifieke sleutelhouer binne 'n spesifieke kriptografiese diensverskaffer (CSP). **Hierdie teruggekeerde handvatsel word gebruik in oproepe na CryptoAPI**-funksies wat die gekose CSP gebruik.
+Van [die dokumentasie](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Die **CryptAcquireContext** funksie word gebruik om 'n handvatsel te verkry na 'n spesifieke sleutelhouer binne 'n spesifieke cryptografiese diensverskaffer (CSP). **Hierdie teruggegee handvatsel word gebruik in oproepe na CryptoAPI** funksies wat die geselekteerde CSP gebruik.
 
 **CryptCreateHash**
 
-Begin die hasjing van 'n stroom data. As hierdie funksie gebruik word, kan jy vind watter **algoritme gebruik word** deur die waarde van die tweede parameter te kontroleer:
+Begin die hashing van 'n stroom data. As hierdie funksie gebruik word, kan jy vind watter **algoritme gebruik word** deur die waarde van die tweede parameter te kontroleer:
 
 ![](<../../.gitbook/assets/image (549).png>)
 
-Kyk hier na die tabel van moontlike algoritmes en hul toegewysde waardes: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+\
+Kyk hier na die tabel van moontlike algoritmes en hul toegewyde waardes: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
-### Kodekonstantes
+### Kode konstantes
 
-Dikwels is dit baie maklik om 'n algoritme te identifiseer danksy die feit dat dit 'n spesiale en unieke waarde moet gebruik.
+Soms is dit regtig maklik om 'n algoritme te identifiseer danksy die feit dat dit 'n spesiale en unieke waarde moet gebruik.
 
 ![](<../../.gitbook/assets/image (833).png>)
 
-As jy soek na die eerste konstante op Google, is dit wat jy kry:
+As jy die eerste konstante in Google soek, is dit wat jy kry:
 
 ![](<../../.gitbook/assets/image (529).png>)
 
-Daarom kan jy aanneem dat die gedekomponeerde funksie 'n **sha256-kalkulator** is.\
-Jy kan enige van die ander konstantes soek en jy sal (waarskynlik) dieselfde resultaat kry.
+Daarom kan jy aanvaar dat die gedecompileerde funksie 'n **sha256 sakrekenaar** is.\
+Jy kan enige van die ander konstantes soek en jy sal (waarskynlik) dieselfde resultaat verkry.
 
-### Data-inligting
+### data info
 
-As die kode nie enige beduidende konstante het nie, kan dit wees dat dit **inligting van die .data-afdeling laai**.\
-Jy kan daardie data **toegang** en die **eerste dword groepeer** en soek daarna op Google soos ons in die vorige afdeling gedoen het:
+As die kode geen betekenisvolle konstante het nie, kan dit **inligting laai vanaf die .data afdeling**.\
+Jy kan toegang tot daardie data verkry, **groepeer die eerste dword** en soek daarna in Google soos ons in die vorige afdeling gedoen het:
 
 ![](<../../.gitbook/assets/image (531).png>)
 
-In hierdie geval, as jy soek na **0xA56363C6** kan jy vind dat dit verband hou met die **tabelle van die AES-algoritme**.
+In hierdie geval, as jy soek na **0xA56363C6** kan jy vind dat dit verband hou met die **tabelle van die AES algoritme**.
 
-## RC4 **(Simmetriese Kript)**
+## RC4 **(Simmetriese Crypt)**
 
 ### Kenmerke
 
 Dit bestaan uit 3 hoofdele:
 
-* **Inisialiseringstadium/**: Skep 'n **tabel van waardes van 0x00 tot 0xFF** (256 byte in totaal, 0x100). Hierdie tabel word gewoonlik **Substitusieblok** (of SBox) genoem.
-* **Verwarringsstadium**: Sal deur die tabel **loop** wat voorheen geskep is (loop van 0x100 iterasies, weer) en elke waarde wysig met **semi-willekeurige** byte. Om hierdie semi-willekeurige byte te skep, word die RC4-**sleutel gebruik**. RC4-**sleutels** kan **tussen 1 en 256 byte lank** wees, maar dit word gewoonlik aanbeveel dat dit meer as 5 byte is. Gewoonlik is RC4-sleutels 16 byte lank.
-* **XOR-stadium**: Laastens word die platte teks of siferteks **XORed met die waardes wat voorheen geskep is**. Die funksie om te enkripteer en dekripteer is dieselfde. Hiervoor sal 'n **loop deur die geskepte 256 byte** uitgevoer word soveel keer as nodig. Dit word gewoonlik herken in 'n gedekomponeerde kode met 'n **%256 (mod 256)**.
+* **Inisialisering fase/**: Skep 'n **tabel van waardes van 0x00 tot 0xFF** (256bytes in totaal, 0x100). Hierdie tabel word algemeen die **Substitusie Boks** (of SBox) genoem.
+* **Scrambling fase**: Sal **deur die tabel** loop wat voorheen geskep is (lus van 0x100 herhalings, weer) en elke waarde met **semi-ewe** bytes aanpas. Ten einde hierdie semi-ewe bytes te skep, word die RC4 **sleutel gebruik**. RC4 **sleutels** kan **tussen 1 en 256 bytes in lengte** wees, maar dit word gewoonlik aanbeveel dat dit meer as 5 bytes is. Gewoonlik is RC4 sleutels 16 bytes in lengte.
+* **XOR fase**: Laastens, die plain-text of cyphertext word **XORed met die waardes wat voorheen geskep is**. Die funksie om te enkripteer en te dekripteer is dieselfde. Hiervoor sal 'n **lus deur die geskepte 256 bytes** uitgevoer word soveel keer as wat nodig is. Dit word gewoonlik in 'n gedecompileerde kode erken met 'n **%256 (mod 256)**.
 
 {% hint style="info" %}
-**Om 'n RC4 in 'n disassemblage/gedekomponeerde kode te identifiseer, kan jy kyk vir 2 lusse van grootte 0x100 (met die gebruik van 'n sleutel) en dan 'n XOR van die insetdata met die 256 waardes wat voorheen in die 2 lusse geskep is, waarskynlik met 'n %256 (mod 256)**
+**Om 'n RC4 in 'n disassembly/gedecompileerde kode te identifiseer, kan jy kyk vir 2 lusse van grootte 0x100 (met die gebruik van 'n sleutel) en dan 'n XOR van die invoerdata met die 256 waardes wat voorheen in die 2 lusse geskep is, waarskynlik met 'n %256 (mod 256)**
 {% endhint %}
 
-### **Inisialiseringstadium/Substitusieblok:** (Let op die nommer 256 wat as teller gebruik word en hoe 'n 0 in elke plek van die 256 karakters geskryf word)
+### **Inisialisering fase/Substitusie Boks:** (Let op die nommer 256 wat as teenwoordiger gebruik word en hoe 'n 0 in elke plek van die 256 karakters geskryf word)
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-### **Verwarringsstadium:**
+### **Scrambling Fase:**
 
 ![](<../../.gitbook/assets/image (835).png>)
 
-### **XOR-stadium:**
+### **XOR Fase:**
 
 ![](<../../.gitbook/assets/image (904).png>)
 
-## **AES (Simmetriese Kript)**
+## **AES (Simmetriese Crypt)**
 
 ### **Kenmerke**
 
-* Gebruik van **substitusieblokke en opsoektabelle**
-* Dit is moontlik om AES te **onderskei danksy die gebruik van spesifieke opsoektabelwaardes** (konstantes). _Let daarop dat die **konstante** in die binêre **gestoor kan word** of **dinamies geskep** kan word._
+* Gebruik van **substitusie bokse en opsoek tabelle**
+* Dit is moontlik om **AES te onderskei danksy die gebruik van spesifieke opsoek tabel waardes** (konstantes). _Let daarop dat die **konstante** in die binêre **of geskep** _**dynamies**._
 * Die **enkripsiesleutel** moet **deelbaar** wees deur **16** (gewoonlik 32B) en gewoonlik word 'n **IV** van 16B gebruik.
 
-### SBox-konstantes
+### SBox konstantes
 
 ![](<../../.gitbook/assets/image (208).png>)
 
-## Serpent **(Simmetriese Kript)**
+## Serpent **(Simmetriese Crypt)**
 
 ### Kenmerke
 
-* Dit is skaars om kwaadwillige sagteware te vind wat dit gebruik, maar daar is voorbeelde (Ursnif)
-* Dit is maklik om te bepaal of 'n algoritme Serpent is of nie gebaseer op sy lengte (uiters lang funksie)
+* Dit is selde om sekere malware wat dit gebruik te vind, maar daar is voorbeelde (Ursnif)
+* Eenvoudig om te bepaal of 'n algoritme Serpent is of nie gebaseer op sy lengte (uiters lang funksie)
 
 ### Identifisering
 
-Let in die volgende beeld op hoe die konstante **0x9E3779B9** gebruik word (let daarop dat hierdie konstante ook deur ander kripto-algoritmes soos **TEA** -Tiny Encryption Algorithm gebruik word).\
-Let ook op die **grootte van die lus** (**132**) en die **aantal XOR-operasies** in die **disassemblage-instruksies** en in die **kodevoorbeeld**:
+In die volgende beeld let op hoe die konstante **0x9E3779B9** gebruik word (let daarop dat hierdie konstante ook deur ander crypto algoritmes soos **TEA** -Tiny Encryption Algorithm gebruik word).\
+Let ook op die **grootte van die lus** (**132**) en die **aantal XOR operasies** in die **disassembly** instruksies en in die **kode** voorbeeld:
 
 ![](<../../.gitbook/assets/image (547).png>)
 
-Soos voorheen genoem is, kan hierdie kode binne enige dekompiler gesien word as 'n **baie lang funksie** omdat daar **geen spronge** binne-in is nie. Die gedekomponeerde kode kan lyk soos die volgende:
+Soos voorheen genoem, kan hierdie kode binne enige decompiler as 'n **baie lang funksie** gesien word aangesien daar **nie spronge** binne dit is nie. Die gedecompileerde kode kan soos volg lyk:
 
 ![](<../../.gitbook/assets/image (513).png>)
 
-Daarom is dit moontlik om hierdie algoritme te identifiseer deur die **sielkundige nommer** en die **aanvanklike XORs** te kontroleer, 'n **baie lang funksie** te sien en sommige **instruksies** van die lang funksie te **vergelyk met 'n implementering** (soos die skuif links met 7 en die draai links met 22).
-## RSA **(Asimmetriese Kriptografie)**
+Daarom is dit moontlik om hierdie algoritme te identifiseer deur die **magiese nommer** en die **begin XORs** te kontroleer, 'n **baie lang funksie** te sien en **instruksies** van die lang funksie **met 'n implementering** te vergelyk (soos die skuif links deur 7 en die rotasie links deur 22).
+
+## RSA **(Asimmetriese Crypt)**
 
 ### Kenmerke
 
 * Meer kompleks as simmetriese algoritmes
 * Daar is geen konstantes nie! (aangepaste implementasies is moeilik om te bepaal)
-* KANAL (‘n kripto-analiseerder) misluk om wenke oor RSA te toon aangesien dit op konstantes staatmaak.
+* KANAL (n crypto ontleder) misluk om leidrade oor RSA te wys aangesien dit op konstantes staatmaak.
 
 ### Identifisering deur vergelykings
 
 ![](<../../.gitbook/assets/image (1113).png>)
 
-* In lyn 11 (links) is daar ‘n `+7) >> 3` wat dieselfde is as in lyn 35 (regs): `+7) / 8`
+* In lyn 11 (links) is daar 'n `+7) >> 3` wat dieselfde is as in lyn 35 (regs): `+7) / 8`
 * Lyn 12 (links) kontroleer of `modulus_len < 0x040` en in lyn 36 (regs) kontroleer dit of `inputLen+11 > modulusLen`
 
 ## MD5 & SHA (hash)
@@ -146,17 +148,17 @@ Daarom is dit moontlik om hierdie algoritme te identifiseer deur die **sielkundi
 ### Kenmerke
 
 * 3 funksies: Init, Update, Final
-* Soortgelyke inisialiseerfunksies
+* Soortgelyke inisialisering funksies
 
 ### Identifiseer
 
 **Init**
 
-Jy kan albei identifiseer deur die konstantes te kontroleer. Let daarop dat die sha\_init 1 konstante het wat MD5 nie het nie:
+Jy kan albei identifiseer deur die konstantes te kontroleer. Let daarop dat die sha\_init 'n konstante het wat MD5 nie het nie:
 
 ![](<../../.gitbook/assets/image (406).png>)
 
-**MD5 Transformeer**
+**MD5 Transform**
 
 Let op die gebruik van meer konstantes
 
@@ -164,25 +166,25 @@ Let op die gebruik van meer konstantes
 
 ## CRC (hash)
 
-* Kleiner en meer doeltreffend aangesien dit ontworpe is om toevallige veranderinge in data te vind
-* Gebruik opsoektabelle (sodat jy konstantes kan identifiseer)
+* Kleiner en meer doeltreffend aangesien dit se funksie is om toevallige veranderinge in data te vind
+* Gebruik opsoek tabelle (sodat jy konstantes kan identifiseer)
 
 ### Identifiseer
 
-Kontroleer **opsoektabel konstantes**:
+Kyk na **opsoek tabel konstantes**:
 
 ![](<../../.gitbook/assets/image (508).png>)
 
-‘n CRC-hash-algoritme lyk soos:
+'n CRC hash algoritme lyk soos:
 
 ![](<../../.gitbook/assets/image (391).png>)
 
-## APLib (Kompresie)
+## APLib (Kompressie)
 
 ### Kenmerke
 
-* Nie-herkenbare konstantes
-* Jy kan probeer om die algoritme in Python te skryf en soek na soortgelyke dinge aanlyn
+* Nie herkenbare konstantes
+* Jy kan probeer om die algoritme in python te skryf en soortgelyke dinge aanlyn te soek
 
 ### Identifiseer
 
@@ -190,6 +192,21 @@ Die grafiek is redelik groot:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Kontroleer **3 vergelykings om dit te herken**:
+Kyk na **3 vergelykings om dit te herken**:
 
 ![](<../../.gitbook/assets/image (430).png>)
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Ondersteun HackTricks</summary>
+
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

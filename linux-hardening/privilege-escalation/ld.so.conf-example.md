@@ -8,11 +8,12 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 {% endhint %}
 {% endhint %}
 {% endhint %}
@@ -68,7 +69,7 @@ puts("Hi");
 
 ### Kontroleer die omgewing
 
-Kontroleer dat _libcustom.so_ vanaf _/usr/lib_ **gelaai** word en dat jy die binêre kan **uitvoer**.
+Kontroleer dat _libcustom.so_ **gelaai** word vanaf _/usr/lib_ en dat jy die binêre kan **uitvoer**.
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -87,7 +88,7 @@ In hierdie scenario gaan ons veronderstel dat **iemand 'n kwesbare invoer geskep
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
 Die kwesbare gids is _/home/ubuntu/lib_ (waar ons skrywe toegang het).\
-**Laai en kompileer** die volgende kode binne daardie pad:
+**Laai af en kompileer** die volgende kode binne daardie pad:
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -112,7 +113,7 @@ libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
 /lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-Soos jy kan sien, **laai dit dit vanaf `/home/ubuntu/lib`** en as enige gebruiker dit uitvoer, sal 'n shell uitgevoer word:
+Soos jy kan sien, **laai dit vanaf `/home/ubuntu/lib`** en as enige gebruiker dit uitvoer, sal 'n shell uitgevoer word:
 ```c
 $ ./sharedvuln
 Welcome to my amazing application!
@@ -121,18 +122,18 @@ $ whoami
 ubuntu
 ```
 {% hint style="info" %}
-Let daarop dat ons in hierdie voorbeeld nie privilige verhoog het nie, maar deur die opdragte wat uitgevoer word te verander en **te wag vir root of 'n ander bevoorregte gebruiker om die kwesbare binêre uit te voer** sal ons in staat wees om privilige te verhoog.
+Let daarop dat ons in hierdie voorbeeld nie privaathede verhoog het nie, maar deur die opdragte wat uitgevoer word te verander en **te wag vir root of 'n ander bevoorregte gebruiker om die kwesbare binêre uit te voer** sal ons in staat wees om privaathede te verhoog.
 {% endhint %}
 
 ### Ander miskonfigurasies - Dieselfde kwesbaarheid
 
 In die vorige voorbeeld het ons 'n miskonfigurasie gefak waar 'n administrateur **'n nie-bevoorregte gids binne 'n konfigurasie-lêer binne `/etc/ld.so.conf.d/`** gestel het.\
-Maar daar is ander miskonfigurasies wat dieselfde kwesbaarheid kan veroorsaak, as jy **skryfregte** in 'n **konfigurasie-lêer** binne `/etc/ld.so.conf.d`, in die gids `/etc/ld.so.conf.d` of in die lêer `/etc/ld.so.conf` het, kan jy dieselfde kwesbaarheid konfigureer en dit benut.
+Maar daar is ander miskonfigurasies wat dieselfde kwesbaarheid kan veroorsaak, as jy **skryfregte** in 'n of ander **konfigurasie-lêer** binne `/etc/ld.so.conf.d`, in die gids `/etc/ld.so.conf.d` of in die lêer `/etc/ld.so.conf` het, kan jy dieselfde kwesbaarheid konfigureer en dit benut.
 
 ## Exploit 2
 
-**Neem aan jy het sudo privilige oor `ldconfig`**.\
-Jy kan aan dui `ldconfig` **waar om die konfigurasie-lêers van te laai**, so ons kan dit benut om `ldconfig` te laat laai willekeurige gidse.\
+**Neem aan jy het sudo-regte oor `ldconfig`**.\
+Jy kan aan `ldconfig` **aanwys waar om die konfig-lêers te laai**, so ons kan dit benut om `ldconfig` te laat laai willekeurige gidse.\
 So, kom ons skep die lêers en gidse wat nodig is om "/tmp" te laai:
 ```bash
 cd /tmp
@@ -162,7 +163,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

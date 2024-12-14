@@ -33,8 +33,8 @@ Let daarop dat dit moontlik is dat jy nie eers hoef te wag vir die gebruiker om 
 
 ### Sessie booleans
 
-Soms wanneer jy 'n sekere verifikasie korrek voltooi, sal die agterkant **net 'n boolean met die waarde "Waar" by 'n sekuriteitsattribuut van jou sessie voeg**. Dan sal 'n ander eindpunt weet of jy suksesvol daardie toets geslaag het.\
-As jy egter **die toets slaag** en jou sessie daardie "Waar" waarde in die sekuriteitsattribuut toegeken word, kan jy probeer om **toegang te verkry tot ander hulpbronne** wat **afhang van dieselfde attribuut** maar waarvoor jy **nie toestemming behoort te hê** om toegang te verkry nie. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
+Soms wanneer jy 'n sekere verifikasie korrek voltooi, sal die agterkant **net 'n boolean met die waarde "Waar" by 'n sekuriteitsattribuut van jou sessie voeg**. Dan sal 'n ander eindpunt weet of jy daardie toets suksesvol geslaag het.\
+As jy egter **die toets slaag** en jou sessie daardie "Waar" waarde in die sekuriteitsattribuut toegeken word, kan jy probeer om **toegang te verkry tot ander hulpbronne** wat **afhang van dieselfde attribuut** maar waarvoor jy **nie toestemming behoort te hê nie**. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
 ### Registreer funksionaliteit
 
@@ -50,7 +50,7 @@ Registreer 'n e-pos, voordat jy dit bevestig, verander die e-pos, dan, as die nu
 
 ### TRACE metode
 
-Ontwikkelaars mag vergeet om verskeie foutopsporing opsies in die produksie-omgewing te deaktiveer. Byvoorbeeld, die HTTP `TRACE` metode is ontwerp vir diagnostiese doeleindes. As dit geaktiveer is, sal die webbediener op versoeke wat die `TRACE` metode gebruik, antwoordgee deur in die antwoord die presiese versoek wat ontvang is, te herhaal. Hierdie gedrag is dikwels onskadelik, maar lei soms tot inligtingsontsluiting, soos die naam van interne outentikasie koppe wat aan versoeke deur omgekeerde proxies bygevoeg mag word.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+Ontwikkelaars mag vergeet om verskeie foutopsporing opsies in die produksie-omgewing te deaktiveer. Byvoorbeeld, die HTTP `TRACE` metode is ontwerp vir diagnostiese doeleindes. As dit geaktiveer is, sal die webbediener op versoeke wat die `TRACE` metode gebruik, reageer deur die presiese versoek wat ontvang is in die antwoord te herhaal. Hierdie gedrag is dikwels onskadelik, maar lei soms tot inligtingsontsluiting, soos die naam van interne outentikasie koppe wat aan versoeke deur omgekeerde proxies bygevoeg mag word.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
 ![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 

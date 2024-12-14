@@ -1,10 +1,26 @@
-The following steps are recommended for modifying device startup configurations and bootloaders like U-boot:
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Ondersteun HackTricks</summary>
+
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+{% endhint %}
+
+Die volgende stappe word aanbeveel om toestel opstartkonfigurasies en bootloaders soos U-boot te wysig:
 
 1. **Toegang tot Bootloader se Interpreter Shell**:
-- Tydens opstart, druk "0", spasie, of ander geïdentifiseerde "magiese kodes" om toegang te verkry tot die bootloader se interpreter shell.
+- Gedurende opstart, druk "0", spasie, of ander geïdentifiseerde "magiese kodes" om toegang te verkry tot die bootloader se interpreter shell.
 
 2. **Wysig Boot Argumente**:
-- Voer die volgende opdragte uit om '`init=/bin/sh`' by die boot argumente te voeg, wat die uitvoering van 'n shell-opdrag toelaat:
+- Voer die volgende opdragte uit om '`init=/bin/sh`' by die boot argumente te voeg, wat die uitvoering van 'n shell opdrag moontlik maak:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -13,14 +29,14 @@ The following steps are recommended for modifying device startup configurations 
 %%%
 
 3. **Stel TFTP Bediening in**:
-- Konfigureer 'n TFTP-bediening om beelde oor 'n plaaslike netwerk te laai:
+- Konfigureer 'n TFTP bediener om beelde oor 'n plaaslike netwerk te laai:
 %%%
 #setenv ipaddr 192.168.2.2 #plaaslike IP van die toestel
 #setenv serverip 192.168.2.1 #TFTP bediener IP
 #saveenv
 #reset
 #ping 192.168.2.1 #kontroleer netwerktoegang
-#tftp ${loadaddr} uImage-3.6.35 #loadaddr neem die adres om die lêer in te laai en die lêernaam van die beeld op die TFTP-bediening
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr neem die adres om die lêer in te laai en die lêernaam van die beeld op die TFTP bediener
 %%%
 
 4. **Gebruik `ubootwrite.py`**:
@@ -30,13 +46,30 @@ The following steps are recommended for modifying device startup configurations 
 - Verifieer of debug kenmerke soos gedetailleerde logging, laai van arbitrêre kerne, of opstart vanaf onbetroubare bronne geaktiveer is.
 
 6. **Versigtigheid met Hardeware Interferensie**:
-- Wees versigtig wanneer jy een pen aan grond koppel en met SPI of NAND-flits skywe interaksie het tydens die toestel se opstartvolgorde, veral voordat die kern ontspan. Raadpleeg die NAND-flits skyf se datasheet voordat jy penne kortsluit.
+- Wees versigtig wanneer jy een pen aan grond verbind en met SPI of NAND flash skywe interaksie het tydens die toestel se opstartvolgorde, veral voordat die kern ontspan. Raadpleeg die NAND flash skyf se datasheet voordat jy penne kortsluit.
 
-7. **Konfigureer Rogue DHCP Bediening**:
-- Stel 'n rogue DHCP-bediening op met kwaadwillige parameters vir 'n toestel om in te neem tydens 'n PXE-opstart. Gebruik gereedskap soos Metasploit se (MSF) DHCP bystandbediening. Wysig die 'FILENAME' parameter met opdrag-inspuitingsopdragte soos `'a";/bin/sh;#'` om invoervalidasie vir toestel opstart prosedures te toets.
+7. **Stel Rogue DHCP Bediening in**:
+- Stel 'n rogue DHCP bediener op met kwaadwillige parameters vir 'n toestel om in te neem tydens 'n PXE opstart. Gebruik gereedskap soos Metasploit se (MSF) DHCP bystandbediener. Wysig die 'FILENAME' parameter met opdrag-inspuitingsopdragte soos `'a";/bin/sh;#'` om invoervalidasie vir toestel opstart prosedures te toets.
 
 **Let wel**: Die stappe wat fisiese interaksie met toestel penne behels (*gemerk met asterisks) moet met uiterste versigtigheid benader word om skade aan die toestel te voorkom.
 
 
 ## Verwysings
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Ondersteun HackTricks</summary>
+
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}

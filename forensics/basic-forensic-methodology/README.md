@@ -31,7 +31,7 @@ Dit **is nie noodwendig die eerste stap om uit te voer sodra jy die beeld het ni
 
 ## Inspekteer 'n Beeld
 
-As jy 'n **forensiese beeld** van 'n toestel ontvang, kan jy begin **die partisie, lêerstelsel** wat gebruik word en **herstel** potensieel **interessante lêers** (selfs verwyderde) analiseer. Leer hoe in:
+As jy 'n **forensiese beeld** van 'n toestel ontvang, kan jy begin **die partisie, lêerstelsel** wat gebruik word en **herstel** moontlik **interessante lêers** (selfs verwyderde) analiseer. Leer hoe in:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)

@@ -52,14 +52,14 @@ mkdir rootfs
 runc run demo
 ```
 {% hint style="danger" %}
-Dit sal nie altyd werk nie, aangesien die standaard werking van runc is om as root te loop, so om dit as 'n nie-bevoegde gebruiker te loop, kan eenvoudig nie werk nie (tenzij jy 'n rootless konfigurasie het). Om 'n rootless konfigurasie die standaard te maak, is oor die algemeen nie 'n goeie idee nie, omdat daar 'n paar beperkings binne rootless houers is wat nie buite rootless houers van toepassing is nie.
+Dit sal nie altyd werk nie, aangesien die standaard werking van runc is om as root te loop, so om dit as 'n nie-bevoegde gebruiker te loop kan eenvoudig nie werk nie (tenzij jy 'n rootless konfigurasie het). Om 'n rootless konfigurasie die standaard te maak is oor die algemeen nie 'n goeie idee nie, omdat daar 'n paar beperkings binne rootless houers is wat nie buite rootless houers van toepassing is nie.
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

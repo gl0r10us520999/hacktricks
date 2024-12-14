@@ -24,7 +24,7 @@ In CBC-modus word die **vorige versleutelde blok as IV** gebruik om met die volg
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Om CBC te ontsleutel, word die **teenoorgestelde** **operasies** gedoen:
+Om CBC te ontsleutel, word die **teenoorgestelde** **operasies** uitgevoer:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
@@ -50,7 +50,7 @@ Let op hoe in die laaste voorbeeld die **laaste blok vol was, so 'n ander een is
 
 Wanneer 'n toepassing versleutelde data ontsleutel, sal dit eers die data ontsleutel; dan sal dit die padding verwyder. Tydens die opruiming van die padding, as 'n **ongeldige padding 'n waarneembare gedrag veroorsaak**, het jy 'n **padding oracle kwesbaarheid**. Die waarneembare gedrag kan 'n **fout**, 'n **gebrek aan resultate**, of 'n **langsame reaksie** wees.
 
-As jy hierdie gedrag waarneem, kan jy die **versleutelde data ontsleutel** en selfs **enige duidelike teks versleutel**.
+As jy hierdie gedrag waarneem, kan jy die **versleutelde data ontsleutel** en selfs enige **duidelike teks** **versleutel**.
 
 ## Hoe om te ontgin
 
@@ -64,7 +64,7 @@ perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -e
 ```
 **Kodering 0** beteken dat **base64** gebruik word (maar ander is beskikbaar, kyk na die hulpmenu).
 
-Jy kan ook **misbruik maak van hierdie kwesbaarheid om nuwe data te enkripteer. Byvoorbeeld, stel jou voor dat die inhoud van die koekie is "**_**user=MyUsername**_**", dan kan jy dit verander na "\_user=administrator\_" en bevoegdhede binne die toepassing opgradeer. Jy kan dit ook doen met `paduster` deur die -plaintext** parameter te spesifiseer:
+Jy kan ook **misbruik maak van hierdie kwesbaarheid om nuwe data te enkripteer. Byvoorbeeld, stel jou voor dat die inhoud van die koekie is "**_**user=MyUsername**_**", dan kan jy dit verander na "\_user=administrator\_" en voorregte binne die aansoek opgradeer. Jy kan dit ook doen met `paduster` deur die -plaintext** parameter te spesifiseer:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
@@ -74,7 +74,7 @@ perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon
 ```
 ## Die teorie
 
-In **samevatting**, jy kan begin om die versleutelde data te ontsleutel deur die korrekte waardes te raai wat gebruik kan word om al die **verskillende opvullings** te skep. Dan sal die padding oracle aanval begin om bytes van die einde na die begin te ontsleutel deur te raai wat die korrekte waarde sal wees wat **'n opvulling van 1, 2, 3, ens.** skep.
+In **samevatting**, jy kan begin om die versleutelde data te ontsleutel deur die korrekte waardes te raai wat gebruik kan word om al die **verskillende opvullings** te skep. Dan sal die padding oracle aanval begin om bytes van die einde na die begin te ontsleutel deur te raai watter die korrekte waarde is wat **'n opvulling van 1, 2, 3, ens.** skep.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 

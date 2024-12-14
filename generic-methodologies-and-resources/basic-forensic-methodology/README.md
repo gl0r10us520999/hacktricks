@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -31,7 +31,7 @@ Dit **is nie noodsaaklik die eerste stap om uit te voer sodra jy die beeld het n
 
 ## Inspekteer 'n Beeld
 
-As jy 'n **forensiese beeld** van 'n toestel ontvang, kan jy begin **die partisie, lêerstelsel** wat gebruik word en **herstel** potensieel **interessante lêers** (selfs verwyderde) analiseer. Leer hoe in:
+As jy 'n **forensiese beeld** van 'n toestel ontvang, kan jy begin **die partisie, lêerstelsel** wat gebruik word en **herstel** moontlik **interessante lêers** (selfs verwyderde) analiseer. Leer hoe in:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
@@ -66,13 +66,13 @@ Ek wil 'n spesiale vermelding maak van die bladsy:
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Geheue Dump Inspekteer
+## Geheue Dump Inspeksie
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
 {% endcontent-ref %}
 
-## Pcap Inspekteer
+## Pcap Inspeksie
 
 {% content-ref url="pcap-inspection/" %}
 [pcap-inspection](pcap-inspection/)
@@ -102,7 +102,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

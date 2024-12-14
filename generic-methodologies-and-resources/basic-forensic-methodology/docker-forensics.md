@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -23,13 +23,13 @@ Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS
 
 ## Houer wysiging
 
-Daar is vermoedens dat 'n paar docker houer gecompromitteer was:
+Daar is vermoedens dat 'n paar docker houer gecompromitteer is:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-U kan maklik **die wysigings wat aan hierdie houer gemaak is ten opsigte van die beeld** vind met:
+U kan maklik **die wysigings wat aan hierdie houer gemaak is met betrekking tot die beeld** vind met:
 ```bash
 docker diff wordpress
 C /var
@@ -43,7 +43,7 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-In die vorige opdrag beteken **C** **Verander** en **A,** **Gevind**.\
+In die vorige opdrag beteken **C** **Verander** en **A,** **Bygevoeg**.\
 As jy vind dat 'n interessante lêer soos `/etc/shadow` gewysig is, kan jy dit van die houer aflaai om vir kwaadwillige aktiwiteit te kyk met:
 ```bash
 docker cp wordpress:/etc/shadow.
@@ -54,13 +54,13 @@ docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-As jy vind dat **'n paar verdagte lêer bygevoeg is** kan jy die houer betree en dit nagaan:
+As jy vind dat **'n paar verdagte lêer bygevoeg is** kan jy die houer toegang en dit nagaan:
 ```bash
 docker exec -it wordpress bash
 ```
 ## Beeld wysigings
 
-Wanneer jy 'n uitgevoerde docker beeld ontvang (waarskynlik in `.tar` formaat) kan jy [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) gebruik om **'n opsomming van die wysigings te onttrek**:
+Wanneer jy 'n uitgevoerde docker beeld ontvang (waarskynlik in `.tar` formaat) kan jy [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) gebruik om **'n opsomming van die wysigings** te **onttrek**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -97,9 +97,9 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Dit stel jou in staat om **deur die verskillende blobs van docker beelde te navigeer** en te kyk watter lêers gewysig/gevoeg is. **Rooi** beteken gevoeg en **geel** beteken gewysig. Gebruik **tab** om na die ander weergawe te beweeg en **spasie** om vouers in te klap/open.
+Dit stel jou in staat om te **navigeer deur die verskillende blobs van docker beelde** en te kyk watter lêers gewysig/gevoeg is. **Rooi** beteken gevoeg en **geel** beteken gewysig. Gebruik **tab** om na die ander weergawe te beweeg en **spasie** om vouers in te klap/open.
 
-Met dit sal jy nie toegang hê tot die inhoud van die verskillende fases van die beeld nie. Om dit te doen, sal jy **elke laag moet dekomprimeer en toegang verkry**.\
+Met dit sal jy nie toegang hê tot die inhoud van die verskillende fases van die beeld nie. Om dit te doen, sal jy **elke laag moet dekomprimeer en toegang kry**.\
 Jy kan al die lae van 'n beeld dekomprimeer vanaf die gids waar die beeld gedecomprimeer is deur die volgende uit te voer:
 ```bash
 tar -xf image.tar

@@ -37,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Die `confd_cli` program ondersteun nie opdraglynargumente nie, maar roep `/usr/bin/confd_cli_user` met argumente aan. So, ons kan direk `/usr/bin/confd_cli_user` met ons eie stel argumente aanroep. Dit is egter nie leesbaar met ons huidige voorregte nie, so ons moet dit van die rootfs af haal en dit met scp kopieer, die hulp lees, en dit gebruik om die shell te kry:
+Die `confd_cli` program ondersteun nie opdraglyn argumente nie, maar roep `/usr/bin/confd_cli_user` met argumente aan. So, ons kan direk `/usr/bin/confd_cli_user` met ons eie stel argumente aanroep. Dit is egter nie leesbaar met ons huidige voorregte nie, so ons moet dit van die rootfs onttrek en dit met scp kopieer, die hulp lees, en dit gebruik om die shell te kry:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 

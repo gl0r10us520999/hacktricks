@@ -1,23 +1,23 @@
-# Klasverontreiniging (Python se Prototipeverontreiniging)
+# Class Pollution (Python's Prototype Pollution)
 
 {% hint style="success" %}
-Leer en oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Basiese Voorbeeld
 
-Kyk hoe dit moontlik is om klasse van voorwerpe met strings te verontreinig:
+Kyk hoe dit moontlik is om klasse van objekten met strings te besoedel:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -41,7 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-## Basiese Swakheid Voorbeeld
+## Basiese Kwetsbaarheid Voorbeeld
 ```python
 # Initial state
 class Employee: pass
@@ -78,7 +78,7 @@ print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 
 <details>
 
-<summary>Skep klas eienskap standaard waarde na RCE (subprocess)</summary>
+<summary>Skep klas eiendom standaardwaarde na RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -129,7 +129,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Vervuiling van ander klasse en globale vars deur <code>globals</code></summary>
+<summary>Besmetting van ander klasse en globale veranderlikes deur <code>globals</code></summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Willekeurige subproses uitvoering</summary>
+<summary>Arbitraire subprocess-uitvoering</summary>
 ```python
 import subprocess, json
 
@@ -195,7 +195,7 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <summary>Oorskrywing van <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** is 'n spesiale eienskap van alle funksies, gebaseer op Python [dokumentasie](https://docs.python.org/3/library/inspect.html), dit is 'n "afbeelding van enige verstekwaardes vir **sleutelwoord-alleen** parameters". Om hierdie eienskap te besoedel, stel dit ons in staat om die verstekwaardes van sleutelwoord-alleen parameters van 'n funksie te beheer, dit is die funksie se parameters wat na \* of \*args kom.
+**`__kwdefaults__`** is 'n spesiale attribuut van alle funksies, gebaseer op Python [dokumentasie](https://docs.python.org/3/library/inspect.html), dit is 'n “kaart van enige standaardwaardes vir **sleutelwoord-slegs** parameters”. Besoedeling van hierdie attribuut stel ons in staat om die standaardwaardes van sleutelwoord-slegs parameters van 'n funksie te beheer, dit is die funksie se parameters wat na \* of \*args kom.
 ```python
 from os import system
 import json
@@ -236,17 +236,17 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Oorskryf Flask-geheim regoor lêers</summary>
+<summary>Oorskrywing van Flask geheim oor verskillende lêers</summary>
 
-Dus, as jy 'n klasvervuiling kan doen oor 'n voorwerp wat in die hoof Python-lêer van die web gedefinieer is, **maar waarvan die klas in 'n ander lêer as die hoof een gedefinieer is**. Omdat jy in die vorige ladinge \_\_globals\_\_ moet benader om toegang te verkry tot die klas van die voorwerp of metodes van die klas, sal jy in staat wees om **die globals in daardie lêer te benader, maar nie in die hoof een nie**. \
-Daarom sal jy **nie die Flask-program se globale voorwerp kan benader** wat die **geheime sleutel** in die hoofbladsy gedefinieer het nie:
+So, as jy 'n klasbesoedeling oor 'n objek wat in die hoof python-lêer van die web gedefinieer is kan doen, maar **waarvan die klas in 'n ander lêer gedefinieer is** as die hoof een. Want om toegang te verkry tot \_\_globals\_\_ in die vorige payloads, moet jy toegang verkry tot die klas van die objek of metodes van die klas, sal jy in staat wees om **die globals in daardie lêer te bekom, maar nie in die hoof een nie**. \
+Daarom, jy **sal nie in staat wees om toegang te verkry tot die Flask app globale objek** wat die **geheime sleutel** op die hoofblad gedefinieer het:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-In hierdie scenario het jy 'n toestel nodig om deur lêers te navigeer om by die hooflêer te kom om **toegang te verkry tot die globale voorwerp `app.secret_key`** om die Flask geheime sleutel te verander en in staat te wees om [**voorregte te eskaleer** deur hierdie sleutel te ken](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+In hierdie scenario het jy 'n toestel nodig om lêers te deurkruis om by die hoof een te kom om **toegang te verkry tot die globale objek `app.secret_key`** om die Flask geheime sleutel te verander en in staat te wees om [**privileges te verhoog** deur hierdie sleutel te ken](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-'n Nuttige lading soos hierdie een [van hierdie skryfstuk](https://ctftime.org/writeup/36082):
+'n Laai soos hierdie [uit hierdie skrywe](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -254,11 +254,11 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Gebruik hierdie lading om **`app.secret_key`** te **verander** (die naam in jou program mag verskil) om nuwe en meer bevoorregte flask koekies te kan teken.
+Gebruik hierdie payload om **`app.secret_key`** (die naam in jou app mag anders wees) te verander om nuwe en meer bevoegdheid flask koekies te kan teken.
 
 </details>
 
-Kyk ook na die volgende bladsy vir meer slegs lees-toestelle:
+Kyk ook na die volgende bladsy vir meer leesbare gadgets:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
@@ -269,16 +269,16 @@ Kyk ook na die volgende bladsy vir meer slegs lees-toestelle:
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

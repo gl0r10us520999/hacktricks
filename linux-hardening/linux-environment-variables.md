@@ -61,9 +61,9 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **MANPATH** – die lys van gidse om na handleidingsbladsye te soek.
 * **OSTYPE** – die tipe bedryfstelsel.
 * **PS1** – die standaardprompt in bash.
-* **PATH** – stoor die pad van al die gidse wat binêre lêers bevat wat jy wil uitvoer net deur die naam van die lêer te spesifiseer en nie deur relatiewe of absolute pad nie.
+* **PATH** – stoor die pad van al die gidse wat binaire lêers bevat wat jy wil uitvoer net deur die naam van die lêer te spesifiseer en nie deur relatiewe of absolute pad nie.
 * **PWD** – die huidige werkgids.
-* **SHELL** – die pad na die huidige opdrag-shel (byvoorbeeld, **/bin/bash**).
+* **SHELL** – die pad na die huidige opdragskel (byvoorbeeld, **/bin/bash**).
 * **TERM** – die huidige terminal tipe (byvoorbeeld, **xterm**).
 * **TZ** – jou tydsone.
 * **USER** – jou huidige gebruikersnaam.
@@ -91,7 +91,7 @@ export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Die prosesse sal die sertifikate vertrou wat in **hierdie omgewing veranderlikes** aangedui word.
+Die prosesse sal die sertifikate vertrou wat in **hierdie omgewingsveranderlikes** aangedui word.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates

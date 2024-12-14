@@ -3,7 +3,7 @@
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **outomatiese werksvloei** te skep wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik **werkvloei** te bou en te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -104,7 +104,7 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **werkvloei** te **automate** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskapstools.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **werkvloei** te **automate** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -161,7 +161,7 @@ legba ftp --username admin --password wordlists/passwords.txt --target localhost
 
 #### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
-### HTTP Basiese Auth
+### HTTP Basiese Outentisering
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst sizzle.htb.local http-get /certsrv/
 # Use https-get mode for https
@@ -424,11 +424,11 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Swak SSH sleutels / Debian voorspelbare PRNG
 
-Sommige stelsels het bekende gebreke in die willekeurige saad wat gebruik word om kriptografiese materiaal te genereer. Dit kan lei tot 'n dramaties verminderde sleutelruimte wat met gereedskap soos [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gebruteforce kan word. Voor-gegenererde stelle van swak sleutels is ook beskikbaar soos [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Sommige stelsels het bekende gebreke in die willekeurige saad wat gebruik word om kriptografiese materiaal te genereer. Dit kan lei tot 'n dramaties verminderde sleutelspektrum wat met gereedskap soos [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gebruteforce kan word. Voor-gegenererde stelle van swak sleutels is ook beskikbaar soos [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ en OpenMQ)
 
-Die STOMP teksprotokol is 'n wyd gebruikte boodskapprotokol wat **naatlose kommunikasie en interaksie met gewilde boodskapkwotasiedienste** soos RabbitMQ, ActiveMQ, HornetQ, en OpenMQ toelaat. Dit bied 'n gestandaardiseerde en doeltreffende benadering om boodskappe uit te ruil en verskeie boodskapoperasies uit te voer.
+Die STOMP teksprotokol is 'n wyd gebruikte boodskapprotokol wat **naatlose kommunikasie en interaksie met gewilde boodskapkuildienste** soos RabbitMQ, ActiveMQ, HornetQ, en OpenMQ toelaat. Dit bied 'n gestandaardiseerde en doeltreffende benadering om boodskappe uit te ruil en verskeie boodskapoperasies uit te voer.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -470,7 +470,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik **werkvloei** te bou en te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
-Kry Toegang Vandag:
+Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
@@ -490,7 +490,7 @@ Kry Toegang Vandag:
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Kyk hierna voordat jy probeer om 'n Hash te brute force.
+Kyk hierna voordat jy probeer om 'n Hash met brute force te kraak.
 
 ### ZIP
 ```bash
@@ -510,8 +510,8 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### Bekende platte teks zip aanval
 
-Jy moet die **platte teks** (of 'n deel van die platte teks) **van 'n lêer wat binne** die versleutelde zip bevat, weet. Jy kan **lêername en grootte van lêers wat binne** 'n versleutelde zip is, nagaan deur: **`7z l encrypted.zip`**\
-Laai [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) van die vrylating bladsy af.
+Jy moet die **platte teks** (of 'n deel van die platte teks) **van 'n lêer wat binne** die versleutelde zip bevat, weet. Jy kan **lêername en grootte van lêers wat binne** 'n versleutelde zip bevat, nagaan deur: **`7z l encrypted.zip`**\
+Laai [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)van die vrylating bladsy af.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -579,7 +579,7 @@ john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Lucks beeld
+### Luks beeld
 
 #### Metode 1
 
@@ -644,7 +644,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik **werkvloei** te bou en te **automate** wat deur die wêreld se **meest gevorderde** gemeenskapstools aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **outomatiese werksvloei** te skep wat deur die wêreld se **meest gevorderde** gemeenskapstools aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -665,7 +665,7 @@ hash-identifier
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
 * [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-### **Wordlist Generation Tools**
+### **Wordlist Generasie Hulpmiddels**
 
 * [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Gevorderde sleutelbord-wandelgenerator met konfigureerbare basis karakters, sleutelkaart en roetes.
 ```bash
@@ -746,14 +746,14 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-Kraak van Linux Hashes - /etc/shadow lêer
+Kraken van Linux Hashes - /etc/shadow lêer
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-Kraak Windows Hasse
+Kraak Windows Hashes
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
@@ -786,7 +786,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **werkvloei** te **automate** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskap gereedskap.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}

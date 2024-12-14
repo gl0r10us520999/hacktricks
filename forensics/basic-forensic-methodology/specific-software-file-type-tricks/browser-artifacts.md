@@ -18,7 +18,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskapstoestelle aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -29,17 +29,17 @@ Blaaier artefakte sluit verskeie tipes data in wat deur webblaaiers gestoor word
 
 Hier is 'n opsomming van die mees algemene blaaier artefakte:
 
-* **Navigasiegeskiedenis**: Volg gebruikersbesoeke aan webwerwe, nuttig om besoeke aan kwaadwillige webwerwe te identifiseer.
+* **Navigasiegeskiedenis**: Hou gebruikersbesoeke aan webwerwe dop, nuttig om besoeke aan kwaadwillige webwerwe te identifiseer.
 * **Outomatiese Voltooiing Data**: Voorstelle gebaseer op gereelde soektogte, wat insigte bied wanneer dit gekombineer word met navigasiegeskiedenis.
 * **Boekmerke**: Webwerwe wat deur die gebruiker gestoor is vir vinnige toegang.
 * **Uitbreidings en Byvoegings**: Blaaier uitbreidings of byvoegings wat deur die gebruiker geïnstalleer is.
-* **Kas**: Stoor webinhoud (bv. beelde, JavaScript-lêers) om webwerf laai tye te verbeter, waardevol vir forensiese analise.
+* **Kas**: Stoor webinhoud (bv. beelde, JavaScript-lêers) om webwerf laaitye te verbeter, waardevol vir forensiese analise.
 * **Aanmeldings**: Gestoor aanmeldbesonderhede.
 * **Favicons**: Ikone wat met webwerwe geassosieer word, wat in oortjies en boekmerke verskyn, nuttig vir addisionele inligting oor gebruikersbesoeke.
-* **Blaaier Sessies**: Data verwant aan oop blaaier sessies.
+* **Blaaier Sessies**: Data wat verband hou met oop blaaier sessies.
 * **Aflaaie**: Rekords van lêers wat deur die blaaier afgelaai is.
-* **Vormdata**: Inligting wat in webvorms ingevoer is, gestoor vir toekomstige outomatiese voltooiing voorstelle.
-* **Miniatuurbeelde**: Voorbeeldbeelde van webwerwe.
+* **Vormdata**: Inligting wat in webvorms ingevoer is, gestoor vir toekomstige outomatiese voltooiingsvoorstelle.
+* **Miniatuurbeelde**: Voorskoubeelde van webwerwe.
 * **Custom Dictionary.txt**: Woorde wat deur die gebruiker aan die blaaier se woordeskat bygevoeg is.
 
 ## Firefox
@@ -50,30 +50,30 @@ Firefox organiseer gebruikersdata binne profiele, gestoor in spesifieke plekke g
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-'n `profiles.ini` lêer binne hierdie gidse lys die gebruikersprofiele. Elke profiel se data word in 'n vouer gestoor wat in die `Path` veranderlike binne `profiles.ini` genoem word, geleë in dieselfde gids as `profiles.ini` self. As 'n profiel se vouer ontbreek, mag dit verwyder gewees het.
+'n `profiles.ini` lêer binne hierdie gidse lys die gebruikersprofiele. Elke profiel se data word in 'n vouer gestoor wat in die `Path` veranderlike binne `profiles.ini` genoem word, geleë in dieselfde gids as `profiles.ini` self. As 'n profiel se vouer ontbreek, mag dit verwyder wees.
 
-Binne elke profiel vouer, kan jy verskeie belangrike lêers vind:
+Binne elke profiel vouer kan jy verskeie belangrike lêers vind:
 
-* **places.sqlite**: Stoor geskiedenis, boekmerke, en aflaaie. Gereedskap soos [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) op Windows kan toegang tot die geskiedenisdata verkry.
+* **places.sqlite**: Stoor geskiedenis, boekmerke en aflaaie. Gereedskap soos [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) op Windows kan toegang tot die geskiedenisdata verkry.
 * Gebruik spesifieke SQL navrae om geskiedenis en aflaaie inligting te onttrek.
 * **bookmarkbackups**: Bevat rugsteun van boekmerke.
-* **formhistory.sqlite**: Stoor webvorm data.
-* **handlers.json**: Bestuur protokol handlers.
-* **persdict.dat**: Aangepaste woordeskat woorde.
+* **formhistory.sqlite**: Stoor webvormdata.
+* **handlers.json**: Bestuur protokolhanterings.
+* **persdict.dat**: Aangepaste woordeskatwoorde.
 * **addons.json** en **extensions.sqlite**: Inligting oor geïnstalleerde byvoegings en uitbreidings.
 * **cookies.sqlite**: Koekie stoor, met [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) beskikbaar vir inspeksie op Windows.
 * **cache2/entries** of **startupCache**: Kasdata, toeganklik deur gereedskap soos [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Stoor favicons.
-* **prefs.js**: Gebruikerinstellings en voorkeure.
+* **prefs.js**: Gebruikersinstellings en voorkeure.
 * **downloads.sqlite**: Ouere aflaaie databasis, nou geïntegreer in places.sqlite.
 * **thumbnails**: Webwerf miniatuurbeelde.
 * **logins.json**: Geënkripteerde aanmeldinligting.
-* **key4.db** of **key3.db**: Stoor enkripsiesleutels vir die beveiliging van sensitiewe inligting.
+* **key4.db** of **key3.db**: Stoor enkripsiesleutels om sensitiewe inligting te beveilig.
 
 Boonop kan jy die blaaier se anti-phishing instellings nagaan deur te soek na `browser.safebrowsing` inskrywings in `prefs.js`, wat aandui of veilige blaai funksies geaktiveer of gedeaktiveer is.
 
 Om te probeer om die meesterwagwoord te ontsleutel, kan jy [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) gebruik\
-Met die volgende skrip en oproep kan jy 'n wagwoord lêer spesifiseer om te brute force:
+Met die volgende skrip en oproep kan jy 'n wagwoordlêer spesifiseer om te brute force:
 
 {% code title="brute.sh" %}
 ```bash
@@ -100,18 +100,18 @@ Google Chrome stoor gebruikersprofiele in spesifieke plekke gebaseer op die bedr
 
 Binne hierdie gidse kan die meeste gebruikersdata in die **Default/** of **ChromeDefaultData/** vouers gevind word. Die volgende lêers hou belangrike data:
 
-* **History**: Bevat URL's, aflaaie, en soekwoorde. Op Windows kan [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) gebruik word om die geskiedenis te lees. Die "Transition Type" kolom het verskeie betekenisse, insluitend gebruikersklieks op skakels, getypte URL's, vormindienings, en bladsy herlaai.
+* **History**: Bevat URL's, aflaaie, en soekwoorde. Op Windows kan [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) gebruik word om die geskiedenis te lees. Die "Transition Type" kolom het verskeie betekenisse, insluitend gebruikersklicks op skakels, getypte URL's, vormindienings, en bladsy herlaai.
 * **Cookies**: Stoor koekies. Vir inspeksie is [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) beskikbaar.
 * **Cache**: Hou gekapte data. Om te inspekteer, kan Windows gebruikers [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) gebruik.
-* **Bookmarks**: Gebruikersboekmerke.
+* **Bookmarks**: Gebruikers se boekmerke.
 * **Web Data**: Bevat vormgeskiedenis.
 * **Favicons**: Stoor webwerf favicons.
 * **Login Data**: Sluit aanmeldbesonderhede soos gebruikersname en wagwoorde in.
 * **Current Session**/**Current Tabs**: Data oor die huidige blaai sessie en oop oortjies.
 * **Last Session**/**Last Tabs**: Inligting oor die webwerwe wat aktief was tydens die laaste sessie voordat Chrome gesluit is.
-* **Extensions**: Gidse vir blaaiers uitbreidings en addons.
+* **Extensions**: Gidse vir blaaiers extensies en addons.
 * **Thumbnails**: Stoor webwerf duimnaels.
-* **Preferences**: 'n Lêer ryk aan inligting, insluitend instellings vir plugins, uitbreidings, pop-ups, kennisgewings, en meer.
+* **Preferences**: 'n Lêer ryk aan inligting, insluitend instellings vir plugins, extensies, pop-ups, kennisgewings, en meer.
 * **Browser’s built-in anti-phishing**: Om te kontroleer of anti-phishing en malware beskerming geaktiveer is, voer `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences` uit. Soek na `{"enabled: true,"}` in die uitvoer.
 
 ## **SQLite DB Data Recovery**
@@ -124,11 +124,11 @@ Internet Explorer 11 bestuur sy data en metadata oor verskeie plekke, wat help o
 
 ### Metadata Storage
 
-Metadata vir Internet Explorer word gestoor in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (met VX wat V01, V16, of V24 is). Saam hiermee kan die `V01.log` lêer wys datums van verandering met `WebcacheVX.data`, wat 'n behoefte aan herstel aandui met `esentutl /r V01 /d`. Hierdie metadata, wat in 'n ESE-databasis gehuisves word, kan herstel en ondersoek word met hulpmiddels soos photorec en [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), onderskeidelik. Binne die **Containers** tabel kan 'n mens die spesifieke tabelle of houers waar elke datasegment gestoor word, onderskei, insluitend cache besonderhede vir ander Microsoft gereedskap soos Skype.
+Metadata vir Internet Explorer word gestoor in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (met VX wat V01, V16, of V24 is). Saam hiermee kan die `V01.log` lêer wys datums van wysigings wat nie ooreenstem met `WebcacheVX.data` nie, wat 'n behoefte aan herstel aandui met `esentutl /r V01 /d`. Hierdie metadata, wat in 'n ESE-databasis gehuisves word, kan herstel en ondersoek word met hulpmiddels soos photorec en [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), onderskeidelik. Binne die **Containers** tabel kan 'n mens die spesifieke tabelle of houers waar elke datasegment gestoor is, onderskei, insluitend cache besonderhede vir ander Microsoft gereedskap soos Skype.
 
 ### Cache Inspection
 
-Die [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) hulpmiddel laat vir cache inspeksie toe, wat die cache data ekstraksie vouer plek vereis. Metadata vir cache sluit lêernaam, gids, toegang telling, URL oorsprong, en tydstempels in wat die cache skepping, toegang, verandering, en vervaldatums aandui.
+Die [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) hulpmiddel laat vir cache inspeksie toe, wat die cache data ekstraksie vouer plek vereis. Metadata vir cache sluit lêernaam, gids, toegang telling, URL oorsprong, en tydstempels in wat die cache skepping, toegang, wysiging, en vervaldatums aandui.
 
 ### Cookies Management
 
@@ -136,19 +136,19 @@ Koekies kan ondersoek word met [IECookiesView](https://www.nirsoft.net/utils/iec
 
 ### Download Details
 
-Aflaai metadata is toeganklik via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), met spesifieke houers wat data soos URL, lêer tipe, en aflaai plek hou. Fisiese lêers kan onder `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` gevind word.
+Aflaai metadata is toeganklik via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), met spesifieke houers wat data soos URL, lêer tipe, en aflaai plek hou. Fisiese lêers kan gevind word onder `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Browsing History
 
-Om blaai geskiedenis te hersien, kan [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) gebruik word, wat die plek van ekstrakte geskiedenis lêers en konfigurasie vir Internet Explorer vereis. Metadata hier sluit verandering en toegang tye in, saam met toegang tellings. Geskiedenis lêers is geleë in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Om blaai geskiedenis te hersien, kan [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) gebruik word, wat die plek van ekstrakte geskiedenis lêers en konfigurasie vir Internet Explorer vereis. Metadata hier sluit wysigings- en toegangstye in, saam met toegang tellings. Geskiedenis lêers is geleë in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### Typed URLs
 
-Getypte URL's en hul gebruik tydstippe word in die register onder `NTUSER.DAT` gestoor by `Software\Microsoft\InternetExplorer\TypedURLs` en `Software\Microsoft\InternetExplorer\TypedURLsTime`, wat die laaste 50 URL's wat deur die gebruiker ingevoer is en hul laaste invoer tye opneem.
+Getypte URL's en hul gebruik tydstippe word in die register onder `NTUSER.DAT` gestoor by `Software\Microsoft\InternetExplorer\TypedURLs` en `Software\Microsoft\InternetExplorer\TypedURLsTime`, wat die laaste 50 URL's wat deur die gebruiker ingevoer is en hul laaste invoertye volg.
 
 ## Microsoft Edge
 
-Microsoft Edge stoor gebruikersdata in `%userprofile%\Appdata\Local\Packages`. Die paaie vir verskillende datatipes is:
+Microsoft Edge stoor gebruikersdata in `%userprofile%\Appdata\Local\Packages`. Die paaie vir verskeie datatipes is:
 
 * **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -164,7 +164,7 @@ Safari data word gestoor by `/Users/$User/Library/Safari`. Sleutellêers sluit i
 * **Downloads.plist**: Inligting oor afgelaaide lêers.
 * **Bookmarks.plist**: Stoor geboekmerkte URL's.
 * **TopSites.plist**: Meest besoekte webwerwe.
-* **Extensions.plist**: Lys van Safari blaaiers uitbreidings. Gebruik `plutil` of `pluginkit` om te onttrek.
+* **Extensions.plist**: Lys van Safari blaaiers extensies. Gebruik `plutil` of `pluginkit` om te onttrek.
 * **UserNotificationPermissions.plist**: Domeine wat toegelaat word om kennisgewings te stuur. Gebruik `plutil` om te parse.
 * **LastSession.plist**: Oortjies van die laaste sessie. Gebruik `plutil` om te parse.
 * **Browser’s built-in anti-phishing**: Kontroleer met `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. 'n Antwoord van 1 dui aan dat die funksie aktief is.
@@ -187,22 +187,22 @@ Hierdie paaie en opdragte is noodsaaklik vir toegang tot en begrip van die blaai
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
+Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kontroleer die [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -17,7 +17,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -26,28 +26,28 @@ Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS
 
 - **`ruid`**: Die **werklike gebruiker ID** dui die gebruiker aan wat die proses begin het.
 - **`euid`**: Bekend as die **effektiewe gebruiker ID**, dit verteenwoordig die gebruiker identiteit wat deur die stelsel gebruik word om proses bevoegdhede te bepaal. Gewoonlik spieël `euid` `ruid`, behalwe in gevalle soos 'n SetUID binêre uitvoering, waar `euid` die lêer eienaar se identiteit aanneem, wat spesifieke operasionele toestemmings toeken.
-- **`suid`**: Hierdie **gestoor gebruiker ID** is belangrik wanneer 'n hoë-bevoegdheid proses (gewoonlik wat as root loop) tydelik sy bevoegdhede moet prysgee om sekere take uit te voer, net om later sy aanvanklike verhoogde status te herwin.
+- **`suid`**: Hierdie **besparende gebruiker ID** is belangrik wanneer 'n hoë-bevoegdheid proses (tipies wat as root loop) tydelik sy bevoegdhede moet prysgee om sekere take uit te voer, net om later sy aanvanklike verhoogde status te herwin.
 
 #### Belangrike Nota
 'n Proses wat nie onder root werk nie, kan slegs sy `euid` aanpas om ooreen te stem met die huidige `ruid`, `euid`, of `suid`.
 
 ### Verstaan set*uid Funksies
 
-- **`setuid`**: Teen die aanvanklike aannames, `setuid` pas hoofsaaklik `euid` aan eerder as `ruid`. Spesifiek, vir bevoegde prosesse, dit belyn `ruid`, `euid`, en `suid` met die gespesifiseerde gebruiker, dikwels root, wat hierdie ID's effektief versterk as gevolg van die oorheersende `suid`. Gedetailleerde insigte kan gevind word in die [setuid man bladsy](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** en **`setresuid`**: Hierdie funksies stel in staat tot die nuanses van aanpassing van `ruid`, `euid`, en `suid`. Hulle vermoëns is egter afhanklik van die proses se bevoegdheidsvlak. Vir nie-root prosesse is aanpassings beperk tot die huidige waardes van `ruid`, `euid`, en `suid`. In teenstelling, root prosesse of dié met `CAP_SETUID` vermoë kan arbitrêre waardes aan hierdie ID's toeken. Meer inligting kan verkry word van die [setresuid man bladsy](https://man7.org/linux/man-pages/man2/setresuid.2.html) en die [setreuid man bladsy](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: Teen die aanvanklike aannames, `setuid` pas hoofsaaklik `euid` aan eerder as `ruid`. Spesifiek, vir bevoegde prosesse, dit stel `ruid`, `euid`, en `suid` in lyn met die gespesifiseerde gebruiker, dikwels root, wat hierdie ID's effektief versterk as gevolg van die oorheersende `suid`. Gedetailleerde insigte kan gevind word in die [setuid man bladsy](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** en **`setresuid`**: Hierdie funksies stel in staat tot die nuanses aanpassing van `ruid`, `euid`, en `suid`. egter, hul vermoëns is afhanklik van die proses se bevoegdheidsvlak. Vir nie-root prosesse, aanpassings is beperk tot die huidige waardes van `ruid`, `euid`, en `suid`. In teenstelling, root prosesse of dié met `CAP_SETUID` vermoë kan arbitrêre waardes aan hierdie ID's toeken. Meer inligting kan verkry word van die [setresuid man bladsy](https://man7.org/linux/man-pages/man2/setresuid.2.html) en die [setreuid man bladsy](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
 Hierdie funksies is nie ontwerp as 'n sekuriteitsmeganisme nie, maar om die beoogde operasionele vloei te fasiliteer, soos wanneer 'n program 'n ander gebruiker se identiteit aanneem deur sy effektiewe gebruiker ID te verander.
 
-Opmerklik, terwyl `setuid` 'n algemene keuse mag wees vir bevoegdheid verhoging na root (aangesien dit al die ID's na root belyn), is dit belangrik om te onderskei tussen hierdie funksies om gebruikers ID gedrag in verskillende scenario's te verstaan en te manipuleer.
+Opmerklik, terwyl `setuid` 'n algemene keuse mag wees vir bevoegdheid verhoging na root (aangesien dit al die ID's na root stel), is dit belangrik om te onderskei tussen hierdie funksies om gebruikers ID gedrag in verskillende scenario's te verstaan en te manipuleer.
 
-### Program Uitvoeringsmeganismes in Linux
+### Program Uitvoering Meganismes in Linux
 
 #### **`execve` Stelselsoproep**
 - **Funksionaliteit**: `execve` begin 'n program, bepaal deur die eerste argument. Dit neem twee array argumente, `argv` vir argumente en `envp` vir die omgewing.
 - **Gedrag**: Dit behou die geheue ruimte van die oproeper maar verfris die stapel, hoop, en data segmente. Die program se kode word vervang deur die nuwe program.
 - **Gebruiker ID Bewaring**:
 - `ruid`, `euid`, en aanvullende groep ID's bly onveranderd.
-- `euid` mag nuanses ondergaan as die nuwe program die SetUID bit ingestel het.
+- `euid` mag nuanses veranderinge hê as die nuwe program die SetUID bit ingestel het.
 - `suid` word opgedateer vanaf `euid` na uitvoering.
 - **Dokumentasie**: Gedetailleerde inligting kan gevind word op die [`execve` man bladsy](https://man7.org/linux/man-pages/man2/execve.2.html).
 
@@ -60,7 +60,7 @@ Opmerklik, terwyl `setuid` 'n algemene keuse mag wees vir bevoegdheid verhoging 
 #### **Gedrag van `bash` en `sh` met SUID**
 - **`bash`**:
 - Het 'n `-p` opsie wat beïnvloed hoe `euid` en `ruid` hanteer word.
-- Sonder `-p`, stel `bash` `euid` op `ruid` as hulle aanvanklik verskil.
+- Sonder `-p`, stel `bash` `euid` in op `ruid` as hulle aanvanklik verskil.
 - Met `-p`, word die aanvanklike `euid` behou.
 - Meer besonderhede kan gevind word op die [`bash` man bladsy](https://linux.die.net/man/1/bash).
 - **`sh`**:
@@ -105,9 +105,9 @@ uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconf
 * `ruid` en `euid` begin as 99 (nobody) en 1000 (frank) onderskeidelik.
 * `setuid` stel albei op 1000.
 * `system` voer `/bin/bash -c id` uit as gevolg van die symlink van sh na bash.
-* `bash`, sonder `-p`, pas `euid` aan om `ruid` te ooreenstem, wat lei tot albei wat 99 (nobody) is.
+* `bash`, sonder `-p`, pas `euid` aan om `ruid` te ooreenstem, wat daartoe lei dat albei 99 (nobody) is.
 
-#### Geval 2: Gebruik van setreuid met system
+#### Geval 2: Gebruik setreuid met system
 
 **C Kode**:
 ```c
@@ -204,7 +204,7 @@ uid=99(nobody) gid=99(nobody) euid=100
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
 
 {% embed url="https://academy.8ksec.io/" %}
 

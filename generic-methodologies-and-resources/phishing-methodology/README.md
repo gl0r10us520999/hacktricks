@@ -35,7 +35,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 ### Domeinnaam Variasie Tegnieke
 
 * **Sleutelwoord**: Die domeinnaam **bevat** 'n belangrike **sleutelwoord** van die oorspronklike domein (bv. zelster.com-management.com).
-* **gehipen subdomein**: Verander die **punt in 'n hipen** van 'n subdomein (bv. www-zelster.com).
+* **gehipen subdomein**: Verander die **punt in 'n koppelteken** van 'n subdomein (bv. www-zelster.com).
 * **Nuwe TLD**: Dieselfde domein met 'n **nuwe TLD** (bv. zelster.org)
 * **Homoglyph**: Dit **vervang** 'n letter in die domeinnaam met **letters wat soortgelyk lyk** (bv. zelfser.com).
 * **Transposisie:** Dit **ruil twee letters** binne die domeinnaam (bv. zelsetr.com).
@@ -86,7 +86,7 @@ Om seker te maak dat die vervalle domein wat jy gaan koop **alreeds 'n goeie SEO
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Om **meer** geldige e-posadresse te **ontdek** of **diegene wat jy reeds ontdek het te verifieer**, kan jy kyk of jy die slagoffer se smtp bedieners kan brute-force. [Leer hoe om e-posadres hier te verifieer/ontdek](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Om **meer** geldige e-posadresse te **ontdek** of **diegene wat jy reeds ontdek het** te **verifieer**, kan jy kyk of jy hulle smtp bedieners van die slagoffer kan brute-force. [Leer hoe om e-posadres hier te verifieer/ontdek](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
 Boonop, moenie vergeet dat as die gebruikers **enige webportaal gebruik om toegang tot hul e-posse te verkry**, jy kan kyk of dit kwesbaar is vir **gebruikersnaam brute force**, en die kwesbaarheid indien moontlik benut.
 
 ## Konfigureer GoPhish
@@ -95,7 +95,7 @@ Boonop, moenie vergeet dat as die gebruikers **enige webportaal gebruik om toega
 
 Jy kan dit aflaai van [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
-Laai dit af en ontbind dit binne `/opt/gophish` en voer `/opt/gophish/gophish` uit.\
+Laai dit af en ontspan dit binne `/opt/gophish` en voer `/opt/gophish/gophish` uit.\
 Jy sal 'n wagwoord vir die admin gebruiker in poort 3333 in die uitvoer ontvang. Daarom, toegang daartoe en gebruik daardie geloofsbriewe om die admin wagwoord te verander. Jy mag nodig hê om daardie poort na lokaal te tonnel:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
@@ -120,7 +120,7 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**Poskonfigurasie**
+**Pos konfigurasie**
 
 Begin met installasie: `apt-get install postfix`
 
@@ -238,7 +238,7 @@ service gophish stop
 
 Hoe ouer 'n domein is, hoe minder waarskynlik is dit dat dit as spam gevang gaan word. Dan moet jy so lank as moontlik wag (ten minste 1 week) voor die phishing assessering. Boonop, as jy 'n bladsy oor 'n reputasionele sektor plaas, sal die reputasie wat verkry word beter wees.
 
-Let daarop dat jy, selfs al moet jy 'n week wag, alles nou kan klaar konfigureer.
+Let daarop dat selfs al moet jy 'n week wag, jy alles nou kan klaar konfigureer.
 
 ### Konfigureer Omgekeerde DNS (rDNS) rekord
 
@@ -277,14 +277,14 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ```
 {% endhint %}
 
-### Toets jou e-poskonfigurasie telling
+### Toets jou e-pos konfigurasie telling
 
 Jy kan dit doen deur [https://www.mail-tester.com/](https://www.mail-tester.com)\
 Besoek net die bladsy en stuur 'n e-pos na die adres wat hulle jou gee:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-U kan ook **kontroleer u e-poskonfigurasie** deur 'n e-pos te stuur na `check-auth@verifier.port25.com` en **die antwoord te lees** (vir hierdie sal u moet **oopmaak** poort **25** en die antwoord in die lêer _/var/mail/root_ sien as u die e-pos as root stuur).\
+U kan ook **u e-poskonfigurasie** nagaan deur 'n e-pos te stuur na `check-auth@verifier.port25.com` en **die antwoord** te **lees** (vir hierdie sal u moet **oopmaak** poort **25** en die antwoord in die lêer _/var/mail/root_ sien as u die e-pos as root stuur).\
 Kontroleer dat u al die toetse slaag:
 ```bash
 ==========================================================
@@ -318,7 +318,7 @@ Die bladsy [www.mail-tester.com](https://www.mail-tester.com) kan jou aandui of 
 * Besluit vanaf watter rekening jy die phishing e-posse gaan stuur. Voorstelle: _noreply, support, servicedesk, salesforce..._
 * Jy kan die gebruikersnaam en wagwoord leeg laat, maar maak seker om die Ignore Certificate Errors te merk
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
 Dit word aanbeveel om die "**Stuur Toets E-pos**" funksionaliteit te gebruik om te toets of alles werk.\
@@ -376,7 +376,7 @@ Let daarop dat as jy **sommige statiese hulpbronne** vir die HTML benodig (miski
 {% endhint %}
 
 {% hint style="info" %}
-Vir die herleiding kan jy **die gebruikers na die wettige hoofwebblad** van die slagoffer herlei, of hulle na _/static/migration.html_ herlei, byvoorbeeld, 'n **draaiwiel** (**[**https://loading.io/**](https://loading.io)**) vir 5 sekondes plaas en dan aandui dat die proses suksesvol was**.
+Vir die herleiding kan jy **die gebruikers na die wettige hoofwebblad** van die slagoffer herlei, of hulle na _/static/migration.html_ herlei, byvoorbeeld, plaas 'n **draaiwiel** ([**https://loading.io/**](https://loading.io)**) vir 5 sekondes en dui dan aan dat die proses suksesvol was**.
 {% endhint %}
 
 ### Users & Groups
@@ -388,7 +388,7 @@ Vir die herleiding kan jy **die gebruikers na die wettige hoofwebblad** van die 
 
 ### Campaign
 
-Laastens, skep 'n veldtog deur 'n naam, die e-pos sjabloon, die landing page, die URL, die sending profiel en die groep te kies. Let daarop dat die URL die skakel sal wees wat aan die slagoffers gestuur word.
+Laastens, skep 'n veldtog deur 'n naam, die e-pos sjabloon, die landing bladsy, die URL, die sending profiel en die groep te kies. Let daarop dat die URL die skakel sal wees wat aan die slagoffers gestuur word.
 
 Let daarop dat die **Sending Profile toelaat om 'n toets e-pos te stuur om te sien hoe die finale phishing e-pos sal lyk**:
 
@@ -423,16 +423,16 @@ Kyk na die volgende bladsy vir 'n paar voorbeelde:
 
 Die vorige aanval is redelik slim aangesien jy 'n werklike webwerf naboots en die inligting wat deur die gebruiker ingestel is, versamel. Ongelukkig, as die gebruiker nie die korrekte wagwoord ingevoer het nie of as die toepassing wat jy naboots met 2FA geconfigureer is, **sal hierdie inligting jou nie toelaat om die misleide gebruiker na te boots nie**.
 
-Hier is waar gereedskap soos [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) en [**muraena**](https://github.com/muraenateam/muraena) nuttig is. Hierdie gereedskap sal jou toelaat om 'n MitM-agtige aanval te genereer. Basies werk die aanvalle soos volg:
+Hierdie is waar gereedskap soos [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) en [**muraena**](https://github.com/muraenateam/muraena) nuttig is. Hierdie gereedskap sal jou toelaat om 'n MitM-agtige aanval te genereer. Basies werk die aanvalle soos volg:
 
 1. Jy **naboots die aanmeld** vorm van die werklike webblad.
 2. Die gebruiker **stuur** sy **akkrediteer** na jou vals bladsy en die gereedskap stuur dit na die werklike webblad, **om te kyk of die akkrediteer werk**.
 3. As die rekening met **2FA** geconfigureer is, sal die MitM-bladsy daarna vra en sodra die **gebruiker dit invoer**, sal die gereedskap dit na die werklike webblad stuur.
-4. Sodra die gebruiker geverifieer is, sal jy (as aanvaller) **die akkrediteer, die 2FA, die koekie en enige inligting** van elke interaksie wat jy het, gevang het terwyl die gereedskap 'n MitM uitvoer.
+4. Sodra die gebruiker geverifieer is, sal jy (as aanvaller) **die akkrediteer, die 2FA, die koekie en enige inligting** van elke interaksie wat jy terwyl die gereedskap 'n MitM uitvoer, gevang het.
 
 ### Via VNC
 
-Wat as jy in plaas van **die slagoffer na 'n kwaadwillige bladsy** met dieselfde voorkoms as die oorspronklike, hom na 'n **VNC-sessie met 'n blaaiersessie wat aan die werklike webblad gekoppel is** stuur? Jy sal in staat wees om te sien wat hy doen, die wagwoord, die MFA wat gebruik word, die koekies...\
+Wat as jy in plaas van **die slagoffer na 'n kwaadwillige bladsy** met dieselfde voorkoms as die oorspronklike, hom na 'n **VNC-sessie met 'n blaaskans wat aan die werklike webblad gekoppel is** stuur? Jy sal in staat wees om te sien wat hy doen, die wagwoord, die MFA wat gebruik word, die koekies...\
 Jy kan dit doen met [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
 ## Detecting the detection
@@ -469,7 +469,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

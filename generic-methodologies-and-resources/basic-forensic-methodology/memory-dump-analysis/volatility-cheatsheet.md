@@ -60,11 +60,11 @@ Toegang tot die amptelike dokumentasie in [Volatility opdragverwysing](https://g
 
 ### 'n Nota oor “lys” teenoor “skandeer” plugins
 
-Volatility het twee hoofbenaderings tot plugins, wat soms in hul name weerspieël word. “lys” plugins sal probeer om deur Windows Kernel-strukture te navigeer om inligting soos prosesse (lokaliseer en loop deur die gekoppelde lys van `_EPROCESS` strukture in geheue), OS-handvatsels (lokaliseer en lys die handvatsel tabel, dereferensie enige punte wat gevind word, ens.). Hulle gedra meer of minder soos die Windows API sou as daar gevra word om, byvoorbeeld, prosesse te lys.
+Volatility het twee hoofbenaderings tot plugins, wat soms in hul name weerspieël word. “lys” plugins sal probeer om deur Windows Kernel-strukture te navigeer om inligting soos prosesse (lokaliseer en loop deur die gekoppelde lys van `_EPROCESS` strukture in geheue), OS-handvatsels (lokaliseer en lys die handvatsel tabel, dereferensie enige punte wat gevind word, ens.). Hulle gedra meer of minder soos die Windows API sou as dit versoek word om, byvoorbeeld, prosesse te lys.
 
 Dit maak “lys” plugins redelik vinnig, maar net so kwesbaar soos die Windows API vir manipulasie deur malware. Byvoorbeeld, as malware DKOM gebruik om 'n proses van die `_EPROCESS` gekoppelde lys te ontkoppel, sal dit nie in die Taakbestuurder verskyn nie en ook nie in die pslist nie.
 
-“skandeer” plugins, aan die ander kant, sal 'n benadering neem wat soortgelyk is aan die sny van die geheue vir dinge wat sinvol kan wees wanneer dit as spesifieke strukture gedereferensieer word. `psscan` byvoorbeeld sal die geheue lees en probeer om `_EPROCESS` objek te maak daaruit (dit gebruik poel-tag skandering, wat soek na 4-byte stringe wat die teenwoordigheid van 'n struktuur van belang aandui). Die voordeel is dat dit prosesse kan opgrawe wat verlaat het, en selfs al manipuleer malware met die `_EPROCESS` gekoppelde lys, sal die plugin steeds die struktuur in die geheue vind (aangesien dit steeds moet bestaan vir die proses om te loop). Die nadeel is dat “skandeer” plugins 'n bietjie stadiger is as “lys” plugins, en soms vals positiewe kan lewer (’n proses wat te lank gelede verlaat het en waarvan dele van sy struktuur deur ander operasies oorgeskryf is).
+“skandeer” plugins, aan die ander kant, sal 'n benadering neem wat soortgelyk is aan die sny van die geheue vir dinge wat sinvol kan wees wanneer dit as spesifieke strukture gedereferensieer word. `psscan` byvoorbeeld sal die geheue lees en probeer om `_EPROCESS` objek te maak daaruit (dit gebruik poel-tag skandering, wat soek na 4-byte stringe wat die teenwoordigheid van 'n struktuur van belang aandui). Die voordeel is dat dit prosesse kan opgrawe wat verlaat het, en selfs al manipuleer malware met die `_EPROCESS` gekoppelde lys, sal die plugin steeds die struktuur wat in geheue lê vind (aangesien dit steeds moet bestaan vir die proses om te loop). Die nadeel is dat “skandeer” plugins 'n bietjie stadiger is as “lys” plugins, en soms vals positiewe kan lewer (’n proses wat te lank gelede verlaat het en dele van sy struktuur deur ander operasies oorgeskryf is).
 
 Van: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -112,7 +112,7 @@ volatility kdbgscan -f file.dmp
 ```
 #### **Verskille tussen imageinfo en kdbgscan**
 
-[**Van hier**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): In teenstelling tot imageinfo wat eenvoudig profielvoorstelle bied, is **kdbgscan** ontwerp om die korrekte profiel en die korrekte KDBG adres (indien daar verskeie is) positief te identifiseer. Hierdie plugin skandeer vir die KDBGHeader handtekeninge wat aan Volatility profiele gekoppel is en pas sanity checks toe om vals positiewe te verminder. Die omvang van die uitvoer en die aantal sanity checks wat uitgevoer kan word, hang af van of Volatility 'n DTB kan vind, so as jy reeds die korrekte profiel weet (of as jy 'n profielvoorstel van imageinfo het), maak seker jy gebruik dit.
+[**Van hier**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): In teenstelling tot imageinfo wat eenvoudig profielvoorstelle bied, is **kdbgscan** ontwerp om die korrekte profiel en die korrekte KDBG adres (indien daar verskeie is) positief te identifiseer. Hierdie plugin skandeer vir die KDBGHeader-handtekeninge wat aan Volatility-profiele gekoppel is en pas sanity checks toe om vals positiewe te verminder. Die omvang van die uitvoer en die aantal sanity checks wat uitgevoer kan word, hang af van of Volatility 'n DTB kan vind, so as jy reeds die korrekte profiel weet (of as jy 'n profielvoorstel van imageinfo het), maak seker jy gebruik dit.
 
 Kyk altyd na die **aantal prosesse wat kdbgscan gevind het**. Soms kan imageinfo en kdbgscan **meer as een** geskikte **profiel** vind, maar slegs die **geldige een sal 'n paar prosesverwante** hê (Dit is omdat die korrekte KDBG adres nodig is om prosesse te onttrek).
 ```bash
@@ -128,7 +128,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
 #### KDBG
 
-Die **kernel debugger blok**, bekend as **KDBG** deur Volatility, is van kardinale belang vir forensiese take wat deur Volatility en verskeie debuggers uitgevoer word. Geïdentifiseer as `KdDebuggerDataBlock` en van die tipe `_KDDEBUGGER_DATA64`, bevat dit noodsaaklike verwysings soos `PsActiveProcessHead`. Hierdie spesifieke verwysing dui op die kop van die proseslys, wat die lys van alle prosesse moontlik maak, wat fundamenteel is vir deeglike geheueanalise.
+Die **kernel debugger block**, bekend as **KDBG** deur Volatility, is van kardinale belang vir forensiese take wat deur Volatility en verskeie debuggers uitgevoer word. Geïdentifiseer as `KdDebuggerDataBlock` en van die tipe `_KDDEBUGGER_DATA64`, bevat dit noodsaaklike verwysings soos `PsActiveProcessHead`. Hierdie spesifieke verwysing dui op die kop van die proseslys, wat die lysing van alle prosesse moontlik maak, wat fundamenteel is vir deeglike geheueanalise.
 
 ## OS Inligting
 ```bash
@@ -139,7 +139,7 @@ Die plugin `banners.Banners` kan gebruik word in **vol3 om te probeer om linux b
 
 ## Hashes/Wagwoorde
 
-Onttrek SAM hashes, [domein gekapte geloofsbriewe](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) en [lsa geheime](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
+Onttrek SAM hashes, [domein-gecacheerde geloofsbriewe](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) en [lsa geheime](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -176,7 +176,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ### Lys prosesse
 
 Probeer om **verdagte** prosesse (op naam) of **onverwagte** kind **prosesse** (byvoorbeeld 'n cmd.exe as 'n kind van iexplorer.exe) te vind.\
-Dit kan interessant wees om die resultaat van pslist te **vergelyk** met dié van psscan om verborge prosesse te identifiseer.
+Dit kan interessant wees om die resultaat van pslist te **vergelyk** met dié van psscan om versteekte prosesse te identifiseer.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -254,10 +254,10 @@ volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of proc
 {% endtab %}
 {% endtabs %}
 
-### Token bevoegdhede
+### Token voorregte
 
-Kyk vir bevoegdhede tokens in onverwagte dienste.\
-Dit kan interessant wees om die prosesse wat 'n paar bevoorregte tokens gebruik, op te lys.
+Kyk vir voorregte tokens in onverwagte dienste.\
+Dit kan interessant wees om die prosesse wat 'n paar voorregte token gebruik, op te lys.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -318,7 +318,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 {% endtab %}
 {% endtabs %}
 
-### DLL's
+### DLLs
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -338,7 +338,7 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 
 ### Strings per processes
 
-Volatility laat ons toe om te kyk na watter proses 'n string behoort. 
+Volatility laat ons toe om te kyk tot watter proses 'n string behoort.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -553,7 +553,7 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-Die **NTFS-lêerstelsel** gebruik 'n kritieke komponent bekend as die _meesterlêertabel_ (MFT). Hierdie tabel sluit ten minste een inskrywing in vir elke lêer op 'n volume, wat ook die MFT self dek. Belangrike besonderhede oor elke lêer, soos **grootte, tydstempels, toestemmings, en werklike data**, is ingesluit in die MFT-inskrywings of in areas buite die MFT maar waarna hierdie inskrywings verwys. Meer besonderhede kan gevind word in die [amptelike dokumentasie](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+Die **NTFS-lêerstelsel** gebruik 'n kritieke komponent bekend as die _meesterlêertabel_ (MFT). Hierdie tabel sluit ten minste een inskrywing vir elke lêer op 'n volume in, wat ook die MFT self dek. Belangrike besonderhede oor elke lêer, soos **grootte, tydstempels, toestemmings, en werklike data**, is ingesluit in die MFT-inskrywings of in areas buite die MFT maar waarna hierdie inskrywings verwys. Meer besonderhede kan gevind word in die [amptelike dokumentasie](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
 ### SSL Sleutels/sertifikate
 
@@ -770,7 +770,7 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-Die **Master Boot Record (MBR)** speel 'n belangrike rol in die bestuur van die logiese partisies van 'n stoor medium, wat gestruktureer is met verskillende [file systems](https://en.wikipedia.org/wiki/File\_system). Dit hou nie net partisie uitleg inligting nie, maar bevat ook uitvoerbare kode wat as 'n boot loader optree. Hierdie boot loader begin of die OS se tweede fase laai proses direk (sien [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) of werk in harmonie met die [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) van elke partisie. Vir 'n diepgaande kennis, verwys na die [MBR Wikipedia-bladsy](https://en.wikipedia.org/wiki/Master\_boot\_record).
+Die **Master Boot Record (MBR)** speel 'n belangrike rol in die bestuur van die logiese partities van 'n stoor medium, wat gestruktureer is met verskillende [file systems](https://en.wikipedia.org/wiki/File\_system). Dit hou nie net partisie uitleg inligting nie, maar bevat ook uitvoerbare kode wat as 'n boot loader optree. Hierdie boot loader begin of die OS se tweede fase laai proses direk (sien [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) of werk in harmonie met die [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) van elke partisie. Vir 'n diepgaande kennis, verwys na die [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master\_boot\_record).
 
 ## References
 
@@ -782,7 +782,7 @@ Die **Master Boot Record (MBR)** speel 'n belangrike rol in die bestuur van die 
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheid gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n bruisende ontmoetingspunt vir tegnologie en kuberveiligheid professionele in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) is die mees relevante cybersecurity gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n borrelende ontmoetingspunt vir tegnologie en cybersecurity professionele in elke dissipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -794,7 +794,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* Check die [**subscription plans**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

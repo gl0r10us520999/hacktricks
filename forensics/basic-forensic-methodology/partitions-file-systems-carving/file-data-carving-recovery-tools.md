@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -36,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Nog 'n algemene hulpmiddel om verborge lêers te vind, is **foremost**. Jy kan die konfigurasie-lêer van foremost in `/etc/foremost.conf` vind. As jy net vir 'n paar spesifieke lêers wil soek, ontkommentarieer hulle. As jy niks ontkommentarieer nie, sal foremost vir sy standaard geconfigureerde lêertipes soek.
+Nog 'n algemene hulpmiddel om verborge lêers te vind is **foremost**. Jy kan die konfigurasie-lêer van foremost in `/etc/foremost.conf` vind. As jy net vir 'n paar spesifieke lêers wil soek, ontkommentarieer hulle. As jy niks ontkommentarieer nie, sal foremost vir sy standaard geconfigureerde lêertipes soek.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -57,7 +57,7 @@ Hierdie hulpmiddel kan 'n beeld skandeer en sal **pcaps** daarin **onttrek**, **
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate deur **alle inligting** wat die hulpmiddel versamel het (wagwoorde?), **analiseer** die **pakkette** (lees[ **Pcaps analise**](../pcap-inspection/)), soek na **vreemde domeine** (domeine wat verband hou met **malware** of **nie-bestaande**).
+Navigate through **alle die inligting** wat die hulpmiddel versamel het (wagwoorde?), **analiseer** die **pakkette** (lees[ **Pcaps analise**](../pcap-inspection/)), soek vir **vreemde domeine** (domeine wat verband hou met **malware** of **nie-bestaande**).
 
 ### PhotoRec
 
@@ -78,7 +78,7 @@ Kyk na die [kode](https://code.google.com/archive/p/binvis/) en die [webblad hul
 * Fokus op gedeeltes van 'n monster
 * **Sien stings en hulpbronne**, in PE of ELF uitvoerbare lêers bv.
 * Kry **patrone** vir kriptoanalise op lêers
-* **Identifiseer** pakker of kodering algoritmes
+* **Identifiseer** pakkers of kodering algoritmes
 * **Identifiseer** Steganografie deur patrone
 * **Visuele** binêre-diffing
 
@@ -88,7 +88,7 @@ BinVis is 'n uitstekende **beginpunt om bekend te raak met 'n onbekende teiken**
 
 ### FindAES
 
-Soek na AES sleutels deur hul sleutel skedules te soek. In staat om 128, 192, en 256 bit sleutels te vind, soos dié wat deur TrueCrypt en BitLocker gebruik word.
+Soek vir AES sleutels deur hul sleutel skedules te soek. In staat om 128, 192, en 256 bit sleutels te vind, soos dié wat deur TrueCrypt en BitLocker gebruik word.
 
 Laai [hier](https://sourceforge.net/projects/findaes/) af.
 

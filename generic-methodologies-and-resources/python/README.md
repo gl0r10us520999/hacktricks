@@ -28,7 +28,7 @@ Kry Toegang Vandag:
 * [**Pyscript hacking truuks**](pyscript.md)
 * [**Python deserialisasies**](../../pentesting-web/deserialization/#python)
 * [**Truuks om python sandboxes te omseil**](bypass-python-sandboxes/)
-* [**Basiese python web versoek sintaksis**](web-requests.md)
+* [**Basiese python web versoeke sintaksis**](web-requests.md)
 * [**Basiese python sintaksis en biblioteke**](basic-python.md)
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>

