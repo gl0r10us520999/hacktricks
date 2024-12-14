@@ -18,18 +18,18 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
-지금 액세스하세요:
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
+오늘 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 ## 브라우저 아티팩트 <a href="#id-3def" id="id-3def"></a>
 
-브라우저 아티팩트는 탐색 기록, 북마크 및 캐시 데이터와 같은 웹 브라우저에 저장된 다양한 유형의 데이터를 포함합니다. 이러한 아티팩트는 운영 체제 내의 특정 폴더에 보관되며, 브라우저마다 위치와 이름이 다르지만 일반적으로 유사한 데이터 유형을 저장합니다.
+브라우저 아티팩트는 탐색 기록, 북마크 및 캐시 데이터와 같은 웹 브라우저에 의해 저장된 다양한 유형의 데이터를 포함합니다. 이러한 아티팩트는 운영 체제 내의 특정 폴더에 보관되며, 브라우저마다 위치와 이름이 다르지만 일반적으로 유사한 데이터 유형을 저장합니다.
 
 가장 일반적인 브라우저 아티팩트의 요약은 다음과 같습니다:
 
-* **탐색 기록**: 사용자가 방문한 웹사이트를 추적하며, 악성 사이트 방문을 식별하는 데 유용합니다.
+* **탐색 기록**: 사용자가 웹사이트를 방문한 기록을 추적하며, 악성 사이트 방문을 식별하는 데 유용합니다.
 * **자동 완성 데이터**: 자주 검색한 내용을 기반으로 한 제안으로, 탐색 기록과 결합할 때 통찰력을 제공합니다.
 * **북마크**: 사용자가 빠르게 접근하기 위해 저장한 사이트입니다.
 * **확장 프로그램 및 애드온**: 사용자가 설치한 브라우저 확장 프로그램 또는 애드온입니다.
@@ -50,11 +50,11 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **윈도우**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-이 디렉토리 내의 `profiles.ini` 파일은 사용자 프로필을 나열합니다. 각 프로필의 데이터는 `profiles.ini` 내의 `Path` 변수에 명시된 이름의 폴더에 저장되며, `profiles.ini`와 동일한 디렉토리에 위치합니다. 프로필 폴더가 없으면 삭제되었을 수 있습니다.
+이 디렉토리 내의 `profiles.ini` 파일은 사용자 프로필을 나열합니다. 각 프로필의 데이터는 `profiles.ini` 내의 `Path` 변수에 명시된 이름의 폴더에 저장되며, `profiles.ini`와 동일한 디렉토리에 위치합니다. 프로필 폴더가 누락된 경우 삭제되었을 수 있습니다.
 
 각 프로필 폴더 내에서 여러 중요한 파일을 찾을 수 있습니다:
 
-* **places.sqlite**: 기록, 북마크 및 다운로드를 저장합니다. Windows에서 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)와 같은 도구를 사용하여 기록 데이터를 접근할 수 있습니다.
+* **places.sqlite**: 기록, 북마크 및 다운로드를 저장합니다. Windows에서 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)와 같은 도구를 사용하여 기록 데이터에 접근할 수 있습니다.
 * 특정 SQL 쿼리를 사용하여 기록 및 다운로드 정보를 추출합니다.
 * **bookmarkbackups**: 북마크의 백업을 포함합니다.
 * **formhistory.sqlite**: 웹 양식 데이터를 저장합니다.
@@ -65,7 +65,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * **cache2/entries** 또는 **startupCache**: 캐시 데이터로, [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)와 같은 도구를 통해 접근할 수 있습니다.
 * **favicons.sqlite**: 파비콘을 저장합니다.
 * **prefs.js**: 사용자 설정 및 기본 설정입니다.
-* **downloads.sqlite**: 이전 다운로드 데이터베이스로, 현재 places.sqlite에 통합되어 있습니다.
+* **downloads.sqlite**: 이전 다운로드 데이터베이스로, 현재 places.sqlite에 통합되었습니다.
 * **thumbnails**: 웹사이트 썸네일입니다.
 * **logins.json**: 암호화된 로그인 정보입니다.
 * **key4.db** 또는 **key3.db**: 민감한 정보를 보호하기 위한 암호화 키를 저장합니다.
@@ -108,7 +108,7 @@ Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에
 * **Favicons**: 웹사이트 파비콘을 저장합니다.
 * **Login Data**: 사용자 이름 및 비밀번호와 같은 로그인 자격 증명을 포함합니다.
 * **Current Session**/**Current Tabs**: 현재 브라우징 세션 및 열린 탭에 대한 데이터.
-* **Last Session**/**Last Tabs**: Chrome이 닫히기 전 마지막 세션 동안 활성 상태였던 사이트에 대한 정보.
+* **Last Session**/**Last Tabs**: Chrome이 닫히기 전 마지막 세션 동안 활성화된 사이트에 대한 정보.
 * **Extensions**: 브라우저 확장 및 애드온을 위한 디렉토리.
 * **Thumbnails**: 웹사이트 썸네일을 저장합니다.
 * **Preferences**: 플러그인, 확장, 팝업, 알림 등에 대한 설정을 포함한 정보가 풍부한 파일입니다.
@@ -116,7 +116,7 @@ Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에
 
 ## **SQLite DB Data Recovery**
 
-앞서 언급한 바와 같이, Chrome과 Firefox는 데이터를 저장하기 위해 **SQLite** 데이터베이스를 사용합니다. **삭제된 항목을 복구하는 도구** [**sqlparse**](https://github.com/padfoot999/sqlparse) **또는** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)를 사용할 수 있습니다.
+앞서 언급한 섹션에서 볼 수 있듯이, Chrome과 Firefox는 데이터를 저장하기 위해 **SQLite** 데이터베이스를 사용합니다. **삭제된 항목을 복구하는 도구** [**sqlparse**](https://github.com/padfoot999/sqlparse) **또는** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)를 사용할 수 있습니다.
 
 ## **Internet Explorer 11**
 
@@ -124,7 +124,7 @@ Internet Explorer 11은 다양한 위치에서 데이터 및 메타데이터를 
 
 ### Metadata Storage
 
-Internet Explorer의 메타데이터는 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`에 저장됩니다(VX는 V01, V16 또는 V24). 이와 함께 `V01.log` 파일은 `WebcacheVX.data`와의 수정 시간 불일치를 보여줄 수 있으며, 이는 `esentutl /r V01 /d`를 사용하여 수리가 필요함을 나타냅니다. 이 메타데이터는 ESE 데이터베이스에 저장되어 있으며, photorec 및 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)와 같은 도구를 사용하여 복구하고 검사할 수 있습니다. **Containers** 테이블 내에서 각 데이터 세그먼트가 저장된 특정 테이블 또는 컨테이너를 식별할 수 있으며, Skype와 같은 다른 Microsoft 도구의 캐시 세부 정보도 포함됩니다.
+Internet Explorer의 메타데이터는 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`에 저장됩니다 (VX는 V01, V16 또는 V24입니다). 이와 함께 `V01.log` 파일은 `WebcacheVX.data`와의 수정 시간 불일치를 보여줄 수 있으며, 이는 `esentutl /r V01 /d`를 사용하여 수리가 필요함을 나타냅니다. 이 메타데이터는 ESE 데이터베이스에 저장되어 있으며, photorec 및 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)와 같은 도구를 사용하여 복구하고 검사할 수 있습니다. **Containers** 테이블 내에서 각 데이터 세그먼트가 저장된 특정 테이블 또는 컨테이너를 식별할 수 있으며, Skype와 같은 다른 Microsoft 도구의 캐시 세부 정보도 포함됩니다.
 
 ### Cache Inspection
 
@@ -136,7 +136,7 @@ Internet Explorer의 메타데이터는 `%userprofile%\Appdata\Local\Microsoft\W
 
 ### Download Details
 
-다운로드 메타데이터는 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)를 통해 접근할 수 있으며, 특정 컨테이너는 URL, 파일 유형 및 다운로드 위치와 같은 데이터를 보유합니다. 물리적 파일은 `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`에 있습니다.
+다운로드 메타데이터는 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)를 통해 접근할 수 있으며, 특정 컨테이너는 URL, 파일 유형 및 다운로드 위치와 같은 데이터를 보유합니다. 물리적 파일은 `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` 아래에서 찾을 수 있습니다.
 
 ### Browsing History
 
@@ -187,22 +187,22 @@ Opera의 데이터는 `/Users/$USER/Library/Application Support/com.operasoftwar
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우를 쉽게 구축하고 자동화**하세요.\
-지금 액세스하세요:
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 {% hint style="success" %}
-AWS 해킹을 배우고 연습하세요:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

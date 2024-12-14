@@ -68,7 +68,7 @@ return 0;
 
 ### 라이브러리 덮어쓰기
 
-이 경우 `/bin/su`와 같은 이진 파일에서 사용되는 라이브러리 확인:
+이 경우 `/bin/su`와 같은 이진 파일에서 사용되는 라이브러리를 확인하십시오:
 ```bash
 ldd /bin/su
 linux-vdso.so.1 (0x00007ffef06e9000)
@@ -89,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-The symbols `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` and `audit_fd`는 아마도 libaudit.so.1 라이브러리에서 온 것입니다. libaudit.so.1이 악성 공유 라이브러리에 의해 덮어씌워지기 때문에, 이러한 심볼은 새로운 공유 라이브러리에 존재해야 하며, 그렇지 않으면 프로그램이 심볼을 찾을 수 없고 종료됩니다.
+The symbols `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` 및 `audit_fd`는 아마도 libaudit.so.1 라이브러리에서 온 것입니다. libaudit.so.1이 악성 공유 라이브러리에 의해 덮어쓰여지기 때문에, 이러한 심볼은 새로운 공유 라이브러리에 존재해야 하며, 그렇지 않으면 프로그램이 심볼을 찾을 수 없고 종료됩니다.
 ```c
 #include<stdio.h>
 #include<stdlib.h>
@@ -115,7 +115,7 @@ system("/bin/bash");
 
 ## 스크립트
 
-루트가 무언가를 실행하게 할 수 있나요?
+루트가 무언가를 실행하도록 할 수 있나요?
 
 ### **www-data를 sudoers에 추가**
 ```bash
@@ -139,7 +139,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

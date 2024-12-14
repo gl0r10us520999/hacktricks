@@ -26,7 +26,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * [**SearchCode**](https://searchcode.com/): 수백만 개의 프로젝트에서 코드를 검색합니다.
 
 {% hint style="warning" %}
-리포지토리에서 유출을 찾고 `git log -p`와 같은 명령을 실행할 때, **비밀이 포함된 다른 커밋이 있는 다른 브랜치**가 있을 수 있음을 잊지 마세요!
+리포지토리에서 유출을 찾고 `git log -p`와 같은 명령을 실행할 때 **비밀이 포함된 다른 커밋이 있는 다른 브랜치**가 있을 수 있음을 잊지 마세요!
 {% endhint %}
 
 {% hint style="success" %}

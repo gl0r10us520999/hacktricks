@@ -1,31 +1,31 @@
-# Wifi Pcap Analysis
+# Wifi Pcap 분석
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
 
-## Check BSSIDs
+## BSSID 확인
 
-Wireshark를 사용하여 주된 트래픽이 Wifi인 캡처를 수신하면 _Wireless --> WLAN Traffic_을 통해 캡처의 모든 SSID를 조사할 수 있습니다:
+WireShark를 사용하여 주 트래픽이 Wifi인 캡처를 수신하면 _Wireless --> WLAN Traffic_을 통해 캡처의 모든 SSID를 조사할 수 있습니다:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
 ![](<../../../.gitbook/assets/image (492).png>)
 
-### Brute Force
+### 무차별 대입
 
-해당 화면의 열 중 하나는 **pcap 내에서 인증이 발견되었는지 여부**를 나타냅니다. 만약 그렇다면 `aircrack-ng`를 사용하여 Brute force를 시도할 수 있습니다:
+해당 화면의 열 중 하나는 **pcap 내에서 인증이 발견되었는지 여부**를 나타냅니다. 만약 그렇다면 `aircrack-ng`를 사용하여 무차별 대입을 시도할 수 있습니다:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
@@ -43,7 +43,7 @@ aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 
 이미 **MAC 주소를 알고 있다면 출력에서 제거할 수 있습니다** 다음과 같은 체크를 추가하여: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-네트워크 내에서 통신하는 **알 수 없는 MAC** 주소를 감지한 후, **필터**를 사용하여 다음과 같이 트래픽을 필터링할 수 있습니다: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` ftp/http/ssh/telnet 필터는 트래픽을 복호화한 경우에 유용합니다.
+네트워크 내에서 통신하는 **알 수 없는 MAC** 주소를 감지한 후에는 **필터**를 사용하여 다음과 같이 트래픽을 필터링할 수 있습니다: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` ftp/http/ssh/telnet 필터는 트래픽을 복호화한 경우에 유용합니다.
 
 ## 트래픽 복호화
 

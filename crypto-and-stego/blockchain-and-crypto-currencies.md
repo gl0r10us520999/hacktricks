@@ -1,14 +1,14 @@
 {% hint style="success" %}
-AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 해킹 트릭을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,160 +16,194 @@ GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 기본 개념
 
-- **스마트 계약**은 특정 조건이 충족될 때 블록체인에서 실행되는 프로그램으로 중개없이 합의 실행을 자동화합니다.
-- **탈중앙화 애플리케이션 (dApps)**은 스마트 계약을 기반으로 하며 사용자 친화적인 프론트엔드와 투명하고 감사 가능한 백엔드를 제공합니다.
-- **토큰 및 코인**은 코인이 디지털 화폐로 작용하는 반면 토큰은 특정 맥락에서 가치나 소유권을 나타냅니다.
-- **유틸리티 토큰**은 서비스 접근을 허용하며 **보안 토큰**은 자산 소유를 나타냅니다.
-- **DeFi**는 중앙 당국 없이 금융 서비스를 제공하는 Decentralized Finance의 약자입니다.
-- **DEX** 및 **DAO**는 각각 탈중앙화 거래소 플랫폼과 탈중앙화 자율 조직을 가리킵니다.
+- **스마트 계약**은 특정 조건이 충족될 때 블록체인에서 실행되는 프로그램으로, 중개자 없이 계약 실행을 자동화합니다.
+- **탈중앙화 애플리케이션 (dApps)**는 스마트 계약을 기반으로 하며, 사용자 친화적인 프론트 엔드와 투명하고 감사 가능한 백 엔드를 특징으로 합니다.
+- **토큰과 코인**은 구분되며, 코인은 디지털 화폐로 사용되고, 토큰은 특정 맥락에서 가치나 소유권을 나타냅니다.
+- **유틸리티 토큰**은 서비스에 대한 접근을 부여하고, **증권 토큰**은 자산 소유권을 나타냅니다.
+- **DeFi**는 탈중앙화 금융을 의미하며, 중앙 권한 없이 금융 서비스를 제공합니다.
+- **DEX**와 **DAO**는 각각 탈중앙화 거래 플랫폼과 탈중앙화 자율 조직을 의미합니다.
 
 ## 합의 메커니즘
 
-합의 메커니즘은 블록체인에서 안전하고 합의된 거래 유효성을 보장합니다:
-- **작업 증명 (PoW)**은 거래 확인을 위해 계산 능력을 사용합니다.
-- **지분 증명 (PoS)**은 유효성 검사자가 일정량의 토큰을 보유해야 하며 PoW에 비해 에너지 소비를 줄입니다.
+합의 메커니즘은 블록체인에서 안전하고 합의된 거래 검증을 보장합니다:
+- **작업 증명 (PoW)**은 거래 검증을 위해 계산 능력에 의존합니다.
+- **지분 증명 (PoS)**은 검증자가 일정량의 토큰을 보유해야 하며, PoW에 비해 에너지 소비를 줄입니다.
 
-## 비트코인 기본 사항
+## 비트코인 필수 사항
 
 ### 거래
 
-비트코인 거래는 주소 간 자금 이체를 포함합니다. 거래는 디지턀 서명을 통해 유효화되며 개인 키 소유자만 이체를 시작할 수 있습니다.
+비트코인 거래는 주소 간 자금을 전송하는 것을 포함합니다. 거래는 디지털 서명을 통해 검증되며, 개인 키의 소유자만이 전송을 시작할 수 있습니다.
 
 #### 주요 구성 요소:
 
 - **다중 서명 거래**는 거래를 승인하기 위해 여러 서명이 필요합니다.
-- 거래는 **입력** (자금 출처), **출력** (목적지), **수수료** (마이너에게 지불), 및 **스크립트** (거래 규칙)로 구성됩니다.
+- 거래는 **입력**(자금 출처), **출력**(목적지), **수수료**(채굴자에게 지급), **스크립트**(거래 규칙)로 구성됩니다.
 
 ### 라이트닝 네트워크
 
-여러 거래를 채널 내에서 수행하고 최종 상태만 블록체인에 브로드캐스트하여 비트코인의 확장성을 향상시키는 것을 목표로 합니다.
+비트코인의 확장성을 향상시키기 위해 여러 거래를 채널 내에서 허용하고, 최종 상태만 블록체인에 방송하는 것을 목표로 합니다.
 
-## 비트코인 개인 정보 보호 우려
+## 비트코인 프라이버시 문제
 
-**공통 입력 소유 가정** 및 **UTXO 변경 주소 감지**와 같은 개인 정보 공격은 거래 패턴을 악용합니다. **믹서** 및 **CoinJoin**과 같은 전략은 사용자 간 거래 링크를 숨겨 개인 정보 보호를 향상시킵니다.
+프라이버시 공격, 예를 들어 **공통 입력 소유권** 및 **UTXO 변경 주소 탐지**는 거래 패턴을 악용합니다. **믹서** 및 **코인조인**과 같은 전략은 사용자 간의 거래 링크를 모호하게 하여 익명성을 향상시킵니다.
 
-## 익명으로 비트코인 획득
+## 비트코인을 익명으로 획득하기
 
-현금 거래, 채굴, 및 믹서 사용이 포함됩니다. **CoinJoin**은 여러 거래를 혼합하여 추적을 복잡하게 하며 **PayJoin**은 더 높은 개인 정보 보호를 위해 CoinJoin을 일반 거래처럼 위장합니다.
+현금 거래, 채굴 및 믹서를 사용하는 방법이 있습니다. **코인조인**은 여러 거래를 혼합하여 추적 가능성을 복잡하게 만들고, **페이조인**은 코인조인을 일반 거래로 위장하여 프라이버시를 높입니다.
 
 
-# 비트코인 개인 정보 보호 공격
+# 비트코인 프라이버시 공격
 
-# 비트코인 개인 정보 보호 공격 요약
+# 비트코인 프라이버시 공격 요약
 
-비트코인 세계에서 거래의 개인 정보 보호와 사용자의 익명성은 종종 우려의 대상입니다. 여기에는 공격자가 비트코인 개인 정보를 침해할 수 있는 여러 일반적인 방법에 대한 간소화된 개요가 포함되어 있습니다.
+비트코인 세계에서 거래의 프라이버시와 사용자 익명성은 종종 우려의 대상입니다. 공격자가 비트코인 프라이버시를 침해할 수 있는 여러 일반적인 방법에 대한 간단한 개요입니다.
 
-## **공통 입력 소유 가정**
+## **공통 입력 소유권 가정**
 
-일반적으로 서로 다른 사용자의 입력이 하나의 거래에서 결합되는 것은 복잡성 때문에 드물기 때문에 **동일한 소유자에게 속한 것으로 가정되는 경우가 많습니다**.
+복잡성으로 인해 서로 다른 사용자의 입력이 단일 거래에 결합되는 경우는 일반적으로 드뭅니다. 따라서 **같은 거래의 두 입력 주소는 종종 동일한 소유자에게 속하는 것으로 가정됩니다**.
 
-## **UTXO 변경 주소 감지**
+## **UTXO 변경 주소 탐지**
 
-UTXO 또는 **사용되지 않은 거래 출력**은 거래에서 완전히 사용되어야 합니다. 일부만 다른 주소로 전송되면 나머지는 새로운 변경 주소로 이동합니다. 관찰자는 이 새 주소가 송신자에게 속한다고 가정하여 개인 정보를 침해할 수 있습니다.
+UTXO, 즉 **사용되지 않은 거래 출력**은 거래에서 완전히 소진되어야 합니다. 만약 그 일부만 다른 주소로 전송되면 나머지는 새로운 변경 주소로 가게 됩니다. 관찰자는 이 새로운 주소가 발신자에게 속한다고 가정하여 프라이버시를 침해할 수 있습니다.
 
 ### 예시
-이를 완화하기 위해 믹싱 서비스 또는 여러 주소 사용이 소유권을 숨기는 데 도움이 될 수 있습니다.
+이를 완화하기 위해 믹싱 서비스나 여러 주소를 사용하는 것이 소유권을 모호하게 하는 데 도움이 될 수 있습니다.
 
 ## **소셜 네트워크 및 포럼 노출**
 
-사용자는 때로 온라인에서 비트코인 주소를 공유하여 해당 주소를 소유자에게 링크하는 것이 **쉽습니다**.
+사용자들은 때때로 자신의 비트코인 주소를 온라인에 공유하여 **주소와 소유자를 쉽게 연결할 수 있게 합니다**.
 
 ## **거래 그래프 분석**
 
-거래는 그래프로 시각화될 수 있으며 자금의 흐름을 기반으로 사용자 간의 잠재적 연결을 보여줍니다.
+거래는 그래프로 시각화될 수 있으며, 자금 흐름에 따라 사용자 간의 잠재적 연결을 드러냅니다.
 
 ## **불필요한 입력 휴리스틱 (최적 변경 휴리스틱)**
 
-이 휴리스틱은 여러 입력과 출력을 갖는 거래를 분석하여 변경이 송신자에게 반환되는 것을 추측합니다.
+이 휴리스틱은 여러 입력과 출력을 가진 거래를 분석하여 어떤 출력이 발신자에게 돌아가는 변경인지 추측하는 데 기반합니다.
+
+### 예시
 ```bash
 2 btc --> 4 btc
 3 btc     1 btc
 ```
+If adding more inputs makes the change output larger than any single input, it can confuse the heuristic.
+
 ## **강제 주소 재사용**
 
-공격자는 이전에 사용된 주소로 소액을 송금하여 수신자가 이를 향후 거래에서 다른 입력과 결합하도록 하여 주소를 연결하는 것을 희망할 수 있습니다.
+공격자는 이전에 사용된 주소로 소량의 비트코인을 보내, 수신자가 향후 거래에서 이를 다른 입력과 결합하기를 희망하여 주소를 연결할 수 있습니다.
 
 ### 올바른 지갑 동작
-개인 정보 누출을 방지하기 위해 지갑은 이미 사용된 빈 주소에서 받은 코인을 사용하지 않아야 합니다.
+지갑은 이미 사용된 빈 주소에서 받은 코인을 사용하지 않아야 이 프라이버시 누수를 방지할 수 있습니다.
 
-## **기타 블록체인 분석 기술**
+## **기타 블록체인 분석 기법**
 
-- **정확한 지불 금액:** 거스름돈이 없는 거래는 동일한 사용자가 소유한 두 주소 간에 이루어졌을 가능성이 높습니다.
-- **둥근 숫자:** 거래에서 둥근 숫자는 지불을 나타내며, 비둥근 출력은 거스름돈일 가능성이 높습니다.
-- **지갑 지문:** 서로 다른 지갑은 고유한 거래 생성 패턴을 가지고 있어 분석가가 사용된 소프트웨어와 잠재적으로 거스름돈 주소를 식별할 수 있습니다.
-- **금액 및 시간 상관 관계:** 거래 시간이나 금액을 공개하면 거래를 추적할 수 있습니다.
+- **정확한 지불 금액:** 잔돈이 없는 거래는 동일한 사용자가 소유한 두 주소 간의 거래일 가능성이 높습니다.
+- **정수 금액:** 거래에서 정수 금액은 지불을 나타내며, 비정수 출력은 잔돈일 가능성이 높습니다.
+- **지갑 지문 인식:** 서로 다른 지갑은 고유한 거래 생성 패턴을 가지고 있어 분석가가 사용된 소프트웨어와 잠재적으로 잔돈 주소를 식별할 수 있습니다.
+- **금액 및 시간 상관관계:** 거래 시간이나 금액을 공개하면 거래를 추적할 수 있습니다.
 
 ## **트래픽 분석**
 
-네트워크 트래픽을 모니터링함으로써 공격자는 IP 주소를 통해 거래나 블록을 연결할 수 있어 사용자의 개인 정보를 침해할 수 있습니다. 특히 한 엔티티가 많은 비트코인 노드를 운영하는 경우, 거래를 모니터링하는 능력이 향상됩니다.
+네트워크 트래픽을 모니터링함으로써 공격자는 거래나 블록을 IP 주소에 연결할 수 있어 사용자 프라이버시를 침해할 수 있습니다. 이는 특히 한 기관이 많은 비트코인 노드를 운영하는 경우에 해당하여 거래 모니터링 능력이 향상됩니다.
 
 ## 더 알아보기
-개인 정보 공격 및 방어에 대한 포괄적인 목록은 [비트코인 위키의 비트코인 개인 정보](https://en.bitcoin.it/wiki/Privacy)를 방문하십시오.
-
+프라이버시 공격 및 방어에 대한 포괄적인 목록은 [Bitcoin Privacy on Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy)에서 확인하세요.
 
 # 익명 비트코인 거래
 
-## 익명으로 비트코인 획득하는 방법
+## 비트코인을 익명으로 얻는 방법
 
-- **현금 거래**: 현금으로 비트코인을 획득하는 것.
-- **현금 대체 수단**: 상품권을 구매하고 온라인에서 비트코인으로 교환하는 것.
-- **채굴**: 비트코인을 획득하는 가장 개인 정보 보호 수준이 높은 방법은 채굴을 통해 하는 것이며, 특히 혼자 하는 경우에는 채굴 풀이 채굴자의 IP 주소를 알 수 있을 수 있습니다. [채굴 풀 정보](https://en.bitcoin.it/wiki/Pooled_mining)
-- **도난**: 이론적으로 비트코인을 훔치는 것이 익명으로 획득하는 또 다른 방법일 수 있지만, 불법이며 권장되지 않습니다.
+- **현금 거래**: 현금을 통해 비트코인을 획득합니다.
+- **현금 대안**: 기프트 카드를 구매하고 이를 온라인에서 비트코인으로 교환합니다.
+- **채굴**: 비트코인을 얻는 가장 프라이빗한 방법은 채굴이며, 특히 혼자서 할 때 그렇습니다. 채굴 풀은 채굴자의 IP 주소를 알 수 있기 때문입니다. [채굴 풀 정보](https://en.bitcoin.it/wiki/Pooled_mining)
+- **도난**: 이론적으로 비트코인을 훔치는 것도 익명으로 획득하는 방법이 될 수 있지만, 이는 불법이며 권장되지 않습니다.
 
-## 혼합 서비스
+## 믹싱 서비스
 
-혼합 서비스를 사용하면 사용자는 **비트코인을 보내고** 다른 **비트코인을 반환** 받아 원래 소유자를 추적하기 어렵게 만들 수 있습니다. 그러나 이를 위해서는 서비스가 로그를 보관하지 않고 실제로 비트코인을 반환하는 것에 대한 신뢰가 필요합니다. 대체 혼합 옵션으로는 비트코인 카지노가 있습니다.
+믹싱 서비스를 사용하면 사용자가 **비트코인을 보내고** **다른 비트코인을 받는** 방식으로 원래 소유자를 추적하기 어렵게 만듭니다. 그러나 이는 로그를 보관하지 않고 실제로 비트코인을 반환할 서비스에 대한 신뢰가 필요합니다. 대안 믹싱 옵션으로는 비트코인 카지노가 있습니다.
 
-## 코인조인
+## CoinJoin
 
-**코인조인**은 여러 사용자의 다양한 거래를 하나로 병합하여 입력과 출력을 매칭하려는 누군가의 과정을 복잡하게 만듭니다. 그러나 고유한 입력과 출력 크기를 가진 거래는 여전히 추적될 수 있습니다.
+**CoinJoin**은 서로 다른 사용자의 여러 거래를 하나로 병합하여 입력과 출력을 일치시키려는 사람에게 복잡하게 만듭니다. 그 효과에도 불구하고 고유한 입력 및 출력 크기를 가진 거래는 여전히 추적될 수 있습니다.
 
-코인조인을 사용한 예시 거래에는 `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a`와 `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`가 있습니다.
+CoinJoin을 사용했을 가능성이 있는 예시 거래는 `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a`와 `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`입니다.
 
-더 많은 정보는 [코인조인](https://coinjoin.io/en)을 방문하십시오. 이더리움에서 유사한 서비스를 찾으려면 [토네이도 캐시](https://tornado.cash)를 확인하십시오. 이 서비스는 채굴자의 자금으로 거래를 익명화합니다.
+자세한 정보는 [CoinJoin](https://coinjoin.io/en)에서 확인하세요. 이더리움에서 유사한 서비스는 [Tornado Cash](https://tornado.cash)로, 이는 채굴자의 자금으로 거래를 익명화합니다.
 
-## 페이조인
+## PayJoin
 
-코인조인의 변형인 **페이조인** (또는 P2EP)은 두 당사자(예: 고객 및 상인) 사이의 거래를 일반 거래로 위장시키며, 코인조인의 특징적인 동일한 출력을 갖지 않아 감지하기 매우 어렵고 거래 감시 엔티티가 사용하는 공통 입력 소유 추론을 무효화할 수 있습니다.
+CoinJoin의 변형인 **PayJoin**(또는 P2EP)은 두 당사자(예: 고객과 상인) 간의 거래를 일반 거래처럼 위장하여 CoinJoin의 고유한 동등 출력 특성이 없습니다. 이는 탐지하기 매우 어렵게 만들며 거래 감시 기관에서 사용하는 일반 입력 소유권 휴리스틱을 무효화할 수 있습니다.
 ```plaintext
 2 btc --> 3 btc
 5 btc     4 btc
 ```
-## **암호화폐에서 개인 정보 보호를 위한 최상의 실천 방법**
+Transactions like the above could be PayJoin, enhancing privacy while remaining indistinguishable from standard bitcoin transactions.
 
-### **지갑 동기화 기술**
+**PayJoin의 활용은 전통적인 감시 방법을 크게 방해할 수 있으며**, 거래 프라이버시를 추구하는 데 있어 유망한 발전입니다.
 
-개인 정보 보호와 보안을 유지하기 위해 블록체인과 지갑을 동기화하는 것이 중요합니다. 두 가지 주요 방법이 있습니다:
 
-- **풀 노드**: 전체 블록체인을 다운로드하여 최대한의 개인 정보 보호를 보장합니다. 사용자가 관심을 가지는 거래나 주소를 식별하는 것을 불가능하게 합니다.
-- **클라이언트 측 블록 필터링**: 이 방법은 블록체인의 각 블록에 대한 필터를 생성하여 관련 거래를 식별할 수 있게 합니다. 가벼운 지갑은 이러한 필터를 다운로드하며 사용자의 주소와 일치하는 경우에만 전체 블록을 가져옵니다.
+# Best Practices for Privacy in Cryptocurrencies
 
-### **익명성을 위한 Tor 활용**
+## **Wallet Synchronization Techniques**
 
-비트코인이 피어 투 피어 네트워크에서 작동하기 때문에 Tor를 사용하여 IP 주소를 숨기는 것이 권장됩니다. 네트워크와 상호 작용할 때 개인 정보 보호를 강화할 수 있습니다.
+프라이버시와 보안을 유지하기 위해 블록체인과 지갑을 동기화하는 것이 중요합니다. 두 가지 방법이 두드러집니다:
 
-### **주소 재사용 방지**
+- **Full node**: 전체 블록체인을 다운로드함으로써, 풀 노드는 최대한의 프라이버시를 보장합니다. 모든 거래가 로컬에 저장되어 있어 적들이 사용자가 관심 있는 거래나 주소를 식별할 수 없게 만듭니다.
+- **Client-side block filtering**: 이 방법은 블록체인의 모든 블록에 대한 필터를 생성하여 지갑이 네트워크 관찰자에게 특정 관심사를 노출하지 않고 관련 거래를 식별할 수 있게 합니다. 경량 지갑은 이러한 필터를 다운로드하고, 사용자의 주소와 일치하는 경우에만 전체 블록을 가져옵니다.
 
-개인 정보 보호를 보호하기 위해 매 거래마다 새 주소를 사용하는 것이 중요합니다. 주소를 재사용하면 거래가 동일한 엔터티에 연결되어 개인 정보 보호가 손상될 수 있습니다. 현대적인 지갑은 주소 재사용을 방지하기 위한 설계를 통해 사용자를 격려합니다.
+## **Utilizing Tor for Anonymity**
 
-### **거래 개인 정보 보호를 위한 전략**
+비트코인이 P2P 네트워크에서 운영되기 때문에, Tor를 사용하여 IP 주소를 숨기는 것이 권장되며, 네트워크와 상호작용할 때 프라이버시를 향상시킵니다.
 
-- **여러 거래**: 지불을 여러 거래로 분할하면 거래 금액을 숨기는 데 도움이 됩니다.
-- **거스름돈 회피**: 거스름돈이 필요 없는 거래를 선택하면 거스름돈 감지 방법을 방해하여 개인 정보 보호를 강화할 수 있습니다.
-- **여러 거스름돈 출력**: 거스름돈 회피가 불가능한 경우 여러 거스름돈 출력을 생성하면 여전히 개인 정보 보호가 향상될 수 있습니다.
+## **Preventing Address Reuse**
 
-# **모네로: 익명성의 상징**
+프라이버시를 보호하기 위해서는 모든 거래에 대해 새로운 주소를 사용하는 것이 중요합니다. 주소를 재사용하면 거래가 동일한 주체와 연결되어 프라이버시가 손상될 수 있습니다. 현대 지갑은 디자인을 통해 주소 재사용을 권장하지 않습니다.
 
-디지털 거래에서 절대적인 익명성의 필요를 다루는 모네로는 개인 정보 보호에 높은 기준을 설정합니다.
+## **Strategies for Transaction Privacy**
 
-# **이더리움: 가스와 거래**
+- **Multiple transactions**: 결제를 여러 거래로 나누면 거래 금액을 모호하게 만들어 프라이버시 공격을 저지할 수 있습니다.
+- **Change avoidance**: 잔돈 출력을 필요로 하지 않는 거래를 선택하면 잔돈 탐지 방법을 방해하여 프라이버시를 향상시킵니다.
+- **Multiple change outputs**: 잔돈을 피할 수 없는 경우, 여러 잔돈 출력을 생성하는 것도 여전히 프라이버시를 개선할 수 있습니다.
 
-### **가스 이해**
+# **Monero: A Beacon of Anonymity**
 
-가스는 이더리움에서 작업을 실행하는 데 필요한 계산 노력을 측정하며 **gwei**로 가격이 매겨집니다. 예를 들어, 2,310,000 gwei(또는 0.00231 ETH)가 드는 거래에는 가스 한도와 기본 수수료, 채굴자를 동기화하기 위한 팁이 포함됩니다. 사용자는 과다 지불을 방지하기 위해 최대 수수료를 설정하고 초과분은 환불됩니다.
+모네로는 디지털 거래에서 절대적인 익명성의 필요성을 다루며, 프라이버시의 높은 기준을 설정합니다.
 
-### **거래 실행**
+# **Ethereum: Gas and Transactions**
 
-이더리움의 거래에는 송신자와 수신자가 포함되며, 사용자 또는 스마트 계약 주소가 될 수 있습니다. 수수료가 필요하며 채굴되어야 합니다. 거래에 필요한 주요 정보는 수신자, 송신자의 서명, 가치, 선택적 데이터, 가스 한도 및 수수료를 포함합니다. 특히, 송신자의 주소는 서명에서 유추되어 거래 데이터에 필요하지 않습니다.
+## **Understanding Gas**
 
-이러한 실천 방법과 메커니즘은 개인 정보 보호와 보안을 우선시하는 사람들에게 필수적입니다.
+가스는 이더리움에서 작업을 실행하는 데 필요한 계산 노력을 측정하며, **gwei**로 가격이 책정됩니다. 예를 들어, 2,310,000 gwei(또는 0.00231 ETH)의 비용이 드는 거래는 가스 한도와 기본 수수료가 있으며, 채굴자를 유인하기 위한 팁이 포함됩니다. 사용자는 초과 지불하지 않도록 최대 수수료를 설정할 수 있으며, 초과분은 환불됩니다.
+
+## **Executing Transactions**
+
+이더리움의 거래는 발신자와 수신자가 포함되며, 이는 사용자 또는 스마트 계약 주소일 수 있습니다. 거래는 수수료가 필요하며 채굴되어야 합니다. 거래의 필수 정보에는 수신자, 발신자의 서명, 값, 선택적 데이터, 가스 한도 및 수수료가 포함됩니다. 특히, 발신자의 주소는 서명에서 유추되므로 거래 데이터에 필요하지 않습니다.
+
+이러한 관행과 메커니즘은 프라이버시와 보안을 우선시하며 암호화폐에 참여하고자 하는 모든 사람에게 기본적입니다.
+
+
+## References
+
+* [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
+* [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
+* [https://bitcoin.stackexchange.com/questions/3718/what-are-multi-signature-transactions](https://bitcoin.stackexchange.com/questions/3718/what-are-multi-signature-transactions)
+* [https://ethereum.org/en/developers/docs/transactions/](https://ethereum.org/en/developers/docs/transactions/)
+* [https://ethereum.org/en/developers/docs/gas/](https://ethereum.org/en/developers/docs/gas/)
+* [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy#Forced\_address\_reuse)
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

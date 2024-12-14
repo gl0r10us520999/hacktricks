@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 {% embed url="https://www.rootedcon.com/" %}
 
-여러 Volatility 플러그인을 병렬로 실행할 수 있는 **빠르고 미친** 것을 원하신다면 다음을 사용할 수 있습니다: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
+**빠르고 미친** 것을 원한다면 여러 Volatility 플러그인을 병렬로 실행할 수 있는: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility) 를 사용할 수 있습니다.
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
@@ -54,25 +54,25 @@ python setup.py install
 {% endtab %}
 {% endtabs %}
 
-## Volatility Commands
+## Volatility 명령어
 
-Access the official doc in [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
+[Volatility 명령어 참조](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)에서 공식 문서에 접근하세요.
 
-### “list” 플러그인과 “scan” 플러그인에 대한 주의 사항
+### “list”와 “scan” 플러그인에 대한 주의사항
 
-Volatility는 플러그인에 대해 두 가지 주요 접근 방식을 가지고 있으며, 이는 때때로 이름에 반영됩니다. “list” 플러그인은 Windows Kernel 구조를 탐색하여 프로세스(메모리에서 `_EPROCESS` 구조의 연결 리스트를 찾고 탐색)와 OS 핸들(핸들 테이블을 찾고 나열하며, 발견된 포인터를 역참조 등)과 같은 정보를 검색하려고 합니다. 이들은 요청 시 Windows API가 프로세스를 나열하는 것처럼 행동합니다.
+Volatility는 플러그인에 대해 두 가지 주요 접근 방식을 가지고 있으며, 이는 때때로 이름에 반영됩니다. “list” 플러그인은 Windows 커널 구조를 탐색하여 프로세스(메모리에서 `_EPROCESS` 구조의 연결 리스트를 찾고 탐색), OS 핸들(핸들 테이블을 찾고 나열하며, 발견된 포인터를 역참조 등)과 같은 정보를 검색하려고 합니다. 이들은 요청 시 Windows API가 프로세스를 나열하는 것처럼 행동합니다.
 
 이로 인해 “list” 플러그인은 꽤 빠르지만, 악성 소프트웨어에 의해 조작될 수 있는 Windows API와 마찬가지로 취약합니다. 예를 들어, 악성 소프트웨어가 DKOM을 사용하여 프로세스를 `_EPROCESS` 연결 리스트에서 분리하면, 이는 작업 관리자에 나타나지 않으며 pslist에서도 나타나지 않습니다.
 
-반면에 “scan” 플러그인은 특정 구조로 역참조될 때 의미가 있을 수 있는 것들을 메모리에서 조각내는 접근 방식을 취합니다. 예를 들어, `psscan`은 메모리를 읽고 이를 기반으로 `_EPROCESS` 객체를 만들려고 합니다(이는 관심 있는 구조의 존재를 나타내는 4바이트 문자열을 검색하는 풀 태그 스캐닝을 사용합니다). 장점은 종료된 프로세스를 찾아낼 수 있으며, 악성 소프트웨어가 `_EPROCESS` 연결 리스트를 조작하더라도 플러그인은 여전히 메모리에서 구조를 찾을 수 있습니다(프로세스가 실행되기 위해서는 여전히 존재해야 하므로). 단점은 “scan” 플러그인이 “list” 플러그인보다 약간 느리며, 때때로 잘못된 긍정 결과(너무 오래 전에 종료되어 다른 작업에 의해 구조의 일부가 덮어씌워진 프로세스)를 생성할 수 있다는 것입니다.
+반면에 “scan” 플러그인은 특정 구조로 역참조될 때 의미가 있을 수 있는 것들을 메모리에서 조각내는 접근 방식을 취합니다. 예를 들어, `psscan`은 메모리를 읽고 이를 기반으로 `_EPROCESS` 객체를 만들려고 합니다(이는 관심 있는 구조의 존재를 나타내는 4바이트 문자열을 검색하는 풀 태그 스캐닝을 사용합니다). 장점은 종료된 프로세스를 찾아낼 수 있으며, 악성 소프트웨어가 `_EPROCESS` 연결 리스트를 조작하더라도 플러그인은 여전히 메모리에서 구조를 찾아낼 수 있습니다(프로세스가 실행되기 위해서는 여전히 존재해야 하므로). 단점은 “scan” 플러그인이 “list” 플러그인보다 약간 느리며, 때때로 잘못된 긍정 결과를 낼 수 있다는 것입니다(너무 오래 전에 종료된 프로세스가 다른 작업에 의해 구조의 일부가 덮어씌워진 경우).
 
-From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
+출처: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
-## OS Profiles
+## OS 프로파일
 
 ### Volatility3
 
-readme에 설명된 바와 같이 지원하려는 **OS의 심볼 테이블**을 _volatility3/volatility/symbols_에 넣어야 합니다.\
+readme에 설명된 대로 지원하려는 **OS의 심볼 테이블**을 _volatility3/volatility/symbols_에 넣어야 합니다.\
 다양한 운영 체제에 대한 심볼 테이블 팩은 **다운로드**를 위해 다음에서 사용할 수 있습니다:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
@@ -81,9 +81,9 @@ readme에 설명된 바와 같이 지원하려는 **OS의 심볼 테이블**을 
 
 ### Volatility2
 
-#### 외부 프로필
+#### 외부 프로파일
 
-지원되는 프로필 목록을 얻으려면 다음을 수행할 수 있습니다:
+지원되는 프로파일 목록을 얻으려면 다음을 수행하세요:
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
@@ -105,7 +105,7 @@ In the previous chunk you can see that the profile is called `LinuxCentOS7_3_10_
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
-#### 프로필 발견
+#### 프로파일 발견
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
@@ -135,7 +135,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
-The plugin `banners.Banners`는 **vol3에서 덤프에서 리눅스 배너를 찾기 위해 사용할 수 있습니다**.
+The plugin `banners.Banners`는 **vol3에서 리눅스 배너를 찾기 위해 사용할 수 있습니다**.
 
 ## 해시/비밀번호
 
@@ -159,7 +159,7 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 {% endtab %}
 {% endtabs %}
 
-## Memory Dump
+## 메모리 덤프
 
 프로세스의 메모리 덤프는 프로세스의 현재 상태를 **모두 추출**합니다. **procdump** 모듈은 **코드**만 **추출**합니다.
 ```
@@ -176,7 +176,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ### 프로세스 목록
 
 **의심스러운** 프로세스(이름으로) 또는 **예상치 못한** 자식 **프로세스**(예: iexplorer.exe의 자식으로 cmd.exe)를 찾으려고 시도하십시오.\
-pslist의 결과와 psscan의 결과를 **비교**하여 숨겨진 프로세스를 식별하는 것이 흥미로울 수 있습니다.
+pslist의 결과와 psscan의 결과를 비교하여 숨겨진 프로세스를 식별하는 것이 흥미로울 수 있습니다.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -232,7 +232,7 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-`cmd.exe`에서 실행된 명령은 **`conhost.exe`** (또는 Windows 7 이전 시스템의 경우 **`csrss.exe`**)에 의해 관리됩니다. 이는 공격자가 메모리 덤프가 얻어지기 전에 **`cmd.exe`**를 종료하더라도 **`conhost.exe`**의 메모리에서 세션의 명령 기록을 복구할 수 있음을 의미합니다. 이를 위해 콘솔의 모듈 내에서 비정상적인 활동이 감지되면 관련된 **`conhost.exe`** 프로세스의 메모리를 덤프해야 합니다. 그런 다음 이 덤프 내에서 **strings**를 검색하여 세션에서 사용된 명령줄을 추출할 수 있습니다.
+`cmd.exe`에서 실행된 명령은 **`conhost.exe`** (Windows 7 이전 시스템에서는 `csrss.exe`)에 의해 관리됩니다. 이는 공격자가 메모리 덤프를 얻기 전에 **`cmd.exe`**를 종료하더라도 **`conhost.exe`**의 메모리에서 세션의 명령 기록을 복구할 수 있음을 의미합니다. 이를 위해 콘솔 모듈 내에서 비정상적인 활동이 감지되면 관련된 **`conhost.exe`** 프로세스의 메모리를 덤프해야 합니다. 그런 다음 이 덤프 내에서 **strings**를 검색하여 세션에서 사용된 명령줄을 추출할 수 있습니다.
 
 ### 환경
 
@@ -359,7 +359,7 @@ strings 3532.dmp > strings_file
 {% endtab %}
 {% endtabs %}
 
-또한 yarascan 모듈을 사용하여 프로세스 내에서 문자열을 검색할 수 있습니다:
+프로세스 내에서 문자열을 검색할 수 있는 yarascan 모듈을 사용합니다:
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -398,7 +398,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진하는 사명**을 가지고, 이 컨그레스는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
+​​​​[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식 증진**이라는 사명을 가지고, 이 컨그레스는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -471,9 +471,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 {% endtabs %}
 
 ### 값을 가져오기
-
-{% tabs %}
-{% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
@@ -553,7 +550,7 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-**NTFS 파일 시스템**은 _마스터 파일 테이블_ (MFT)이라는 중요한 구성 요소를 사용합니다. 이 테이블은 볼륨의 모든 파일에 대해 최소한 하나의 항목을 포함하며, MFT 자체도 포함됩니다. 각 파일에 대한 중요한 세부정보, 예를 들어 **크기, 타임스탬프, 권한 및 실제 데이터**는 MFT 항목 내 또는 MFT 외부의 영역에 캡슐화되어 있으며, 이러한 항목에 의해 참조됩니다. 더 많은 세부정보는 [공식 문서](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table)에서 확인할 수 있습니다.
+**NTFS 파일 시스템**은 _마스터 파일 테이블_ (MFT)로 알려진 중요한 구성 요소를 사용합니다. 이 테이블은 볼륨의 모든 파일에 대해 최소한 하나의 항목을 포함하며, MFT 자체도 포함됩니다. 각 파일에 대한 중요한 세부정보, 예를 들어 **크기, 타임스탬프, 권한 및 실제 데이터**는 MFT 항목 내 또는 MFT 외부의 영역에 캡슐화되어 있으며, 이러한 항목에 의해 참조됩니다. 더 많은 세부정보는 [공식 문서](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table)에서 확인할 수 있습니다.
 
 ### SSL 키/인증서
 
@@ -615,7 +612,7 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 ### Yara로 스캔하기
 
 이 스크립트를 사용하여 github에서 모든 yara 악성코드 규칙을 다운로드하고 병합하세요: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-_**rules**_ 디렉토리를 만들고 실행하세요. 이렇게 하면 악성코드에 대한 모든 yara 규칙이 포함된 _**malware\_rules.yar**_라는 파일이 생성됩니다.
+_**rules**_ 디렉토리를 만들고 실행하세요. 그러면 악성코드에 대한 모든 yara 규칙이 포함된 _**malware\_rules.yar**_라는 파일이 생성됩니다.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -701,7 +698,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-**메모리에서 bash 기록을 읽는 것이 가능합니다.** _.bash\_history_ 파일을 덤프할 수도 있지만, 비활성화되어 있다면 이 volatility 모듈을 사용할 수 있어 기쁠 것입니다.
+**메모리에서 bash 기록을 읽는 것이 가능합니다.** _.bash\_history_ 파일을 덤프할 수도 있지만, 비활성화되어 있으므로 이 volatility 모듈을 사용할 수 있어 기쁠 것입니다.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -773,7 +770,7 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-The **Master Boot Record (MBR)**는 다양한 [파일 시스템](https://en.wikipedia.org/wiki/File\_system)으로 구조화된 저장 매체의 논리적 파티션을 관리하는 데 중요한 역할을 합니다. MBR은 파티션 레이아웃 정보뿐만 아니라 부트 로더 역할을 하는 실행 가능한 코드를 포함하고 있습니다. 이 부트 로더는 OS의 2단계 로딩 프로세스를 직접 시작하거나 (자세한 내용은 [2단계 부트 로더](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader) 참조) 각 파티션의 [볼륨 부트 레코드](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR)와 조화를 이루어 작동합니다. 자세한 내용은 [MBR 위키 페이지](https://en.wikipedia.org/wiki/Master\_boot\_record)를 참조하십시오.
+The **Master Boot Record (MBR)**는 다양한 [파일 시스템](https://en.wikipedia.org/wiki/File\_system)으로 구조화된 저장 매체의 논리적 파티션을 관리하는 데 중요한 역할을 합니다. MBR은 파티션 레이아웃 정보뿐만 아니라 부트 로더 역할을 하는 실행 가능한 코드를 포함하고 있습니다. 이 부트 로더는 OS의 2단계 로딩 프로세스를 직접 시작하거나 (자세한 내용은 [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader) 참조) 각 파티션의 [볼륨 부트 레코드](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR)와 조화를 이루어 작동합니다. 자세한 내용은 [MBR 위키 페이지](https://en.wikipedia.org/wiki/Master\_boot\_record)를 참조하십시오.
 
 ## References
 

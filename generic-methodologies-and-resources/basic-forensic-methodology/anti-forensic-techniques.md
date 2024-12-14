@@ -10,7 +10,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 기법을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 기법을 공유하세요.**
 
 </details>
 {% endhint %}
@@ -38,7 +38,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ### $LogFile
 
-**파일 시스템에 대한 모든 메타데이터 변경 사항은** [쓰기 선행 로깅](https://en.wikipedia.org/wiki/Write-ahead_logging)이라는 프로세스에 기록됩니다. 기록된 메타데이터는 NTFS 파일 시스템의 루트 디렉토리에 위치한 `**$LogFile**`이라는 파일에 저장됩니다. [LogFileParser](https://github.com/jschicht/LogFileParser)와 같은 도구를 사용하여 이 파일을 구문 분석하고 변경 사항을 식별할 수 있습니다.
+**파일 시스템에 대한 모든 메타데이터 변경 사항은** [쓰기 선행 로깅](https://en.wikipedia.org/wiki/Write-ahead_logging)이라는 프로세스에서 기록됩니다. 기록된 메타데이터는 NTFS 파일 시스템의 루트 디렉토리에 위치한 `**$LogFile**`이라는 파일에 저장됩니다. [LogFileParser](https://github.com/jschicht/LogFileParser)와 같은 도구를 사용하여 이 파일을 구문 분석하고 변경 사항을 식별할 수 있습니다.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
@@ -48,10 +48,10 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ![](<../../.gitbook/assets/image (1089).png>)
 
-* CTIME: 파일 생성 시간
-* ATIME: 파일 수정 시간
+* CTIME: 파일의 생성 시간
+* ATIME: 파일의 수정 시간
 * MTIME: 파일의 MFT 레지스트리 수정
-* RTIME: 파일 접근 시간
+* RTIME: 파일의 접근 시간
 
 ### `$STANDARD_INFORMATION` 및 `$FILE_NAME` 비교
 
@@ -59,7 +59,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ### 나노초
 
-**NTFS** 타임스탬프는 **100 나노초**의 **정밀도**를 가집니다. 따라서 2010-10-10 10:10:**00.000:0000와 같은 타임스탬프를 가진 파일을 찾는 것은 매우 의심스럽습니다.
+**NTFS** 타임스탬프는 **100 나노초**의 **정밀도**를 가집니다. 따라서 2010-10-10 10:10:**00.000:0000와 같은 타임스탬프를 가진 파일을 찾는 것은 **매우 의심스럽습니다**.
 
 ### SetMace - 안티 포렌식 도구
 
@@ -67,17 +67,17 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ## 데이터 숨기기
 
-NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 클러스터와 반 개를 차지하면, **남은 반 개는 파일이 삭제될 때까지 절대 사용되지 않습니다**. 따라서 이 슬랙 공간에 **데이터를 숨길 수 있습니다**.
+NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 클러스터와 반 개를 사용하면, **남은 반은 파일이 삭제될 때까지 절대 사용되지 않습니다**. 따라서 이 슬랙 공간에 **데이터를 숨길 수 있습니다**.
 
 슬래커와 같은 도구를 사용하면 이 "숨겨진" 공간에 데이터를 숨길 수 있습니다. 그러나 `$logfile` 및 `$usnjrnl` 분석을 통해 일부 데이터가 추가되었음을 보여줄 수 있습니다:
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-그런 다음 FTK Imager와 같은 도구를 사용하여 슬랙 공간을 복구할 수 있습니다. 이러한 종류의 도구는 내용을 난독화하거나 심지어 암호화된 상태로 저장할 수 있습니다.
+따라서 FTK Imager와 같은 도구를 사용하여 슬랙 공간을 복구할 수 있습니다. 이러한 종류의 도구는 내용을 난독화하거나 심지어 암호화된 상태로 저장할 수 있습니다.
 
 ## UsbKill
 
-이 도구는 **USB** 포트에서 변경 사항이 감지되면 컴퓨터를 **꺼**는 도구입니다.\
+이 도구는 **USB** 포트에서 변경 사항이 감지되면 컴퓨터를 **꺼버립니다**.\
 이를 발견하는 방법은 실행 중인 프로세스를 검사하고 **실행 중인 각 파이썬 스크립트를 검토하는 것**입니다.
 
 ## 라이브 리눅스 배포판
@@ -98,12 +98,12 @@ NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 
 
 UserAssist를 비활성화하려면 두 단계를 수행해야 합니다:
 
-1. 두 개의 레지스트리 키, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` 및 `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`를 모두 0으로 설정하여 UserAssist를 비활성화하려고 한다는 신호를 보냅니다.
+1. 두 개의 레지스트리 키, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` 및 `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`를 모두 0으로 설정하여 UserAssist를 비활성화하겠다는 신호를 보냅니다.
 2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`와 같은 레지스트리 하위 트리를 지웁니다.
 
 ### 타임스탬프 비활성화 - Prefetch
 
-이것은 Windows 시스템의 성능을 향상시키기 위해 실행된 애플리케이션에 대한 정보를 저장합니다. 그러나 이것은 포렌식 관행에도 유용할 수 있습니다.
+이것은 Windows 시스템의 성능을 향상시키기 위해 실행된 응용 프로그램에 대한 정보를 저장합니다. 그러나 이것은 포렌식 관행에도 유용할 수 있습니다.
 
 * `regedit` 실행
 * 파일 경로 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters` 선택
@@ -113,7 +113,7 @@ UserAssist를 비활성화하려면 두 단계를 수행해야 합니다:
 
 ### 타임스탬프 비활성화 - 마지막 접근 시간
 
-Windows NT 서버의 NTFS 볼륨에서 폴더가 열릴 때마다 시스템은 각 나열된 폴더에 대한 타임스탬프 필드를 **업데이트하는 데 시간을 소요합니다**, 이를 마지막 접근 시간이라고 합니다. 사용량이 많은 NTFS 볼륨에서는 성능에 영향을 줄 수 있습니다.
+NTFS 볼륨에서 폴더가 열릴 때마다 시스템은 각 나열된 폴더에 대해 **타임스탬프 필드를 업데이트하는 데 시간을 소요합니다**, 이를 마지막 접근 시간이라고 합니다. 사용량이 많은 NTFS 볼륨에서는 성능에 영향을 줄 수 있습니다.
 
 1. 레지스트리 편집기(Regedit.exe)를 엽니다.
 2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`으로 이동합니다.
@@ -134,11 +134,11 @@ USB에 대한 정보를 저장하는 또 다른 파일은 `C:\Windows\INF` 내�
 
 [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)에서 제안된 단계를 따라 GUI를 통해 삭제할 수도 있습니다.
 
-섀도우 복사를 비활성화하려면 [여기에서 단계](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+섀도우 복사를 비활성화하려면 [여기에서 단계](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows)를 참조하세요:
 
 1. Windows 시작 버튼을 클릭한 후 텍스트 검색 상자에 "services"를 입력하여 서비스 프로그램을 엽니다.
 2. 목록에서 "Volume Shadow Copy"를 찾아 선택한 후 마우스 오른쪽 버튼을 클릭하여 속성에 접근합니다.
-3. "시작 유형" 드롭다운 메뉴에서 비활성화를 선택하고, 변경 사항을 적용하고 확인을 클릭하여 변경을 확인합니다.
+3. "시작 유형" 드롭다운 메뉴에서 비활성화를 선택하고, 변경 사항을 적용하고 확인하려면 적용 및 확인을 클릭합니다.
 
 어떤 파일이 섀도우 복사에 복사될지를 레지스트리 `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`에서 수정할 수도 있습니다.
 
@@ -149,14 +149,14 @@ USB에 대한 정보를 저장하는 또 다른 파일은 `C:\Windows\INF` 내�
 
 ### Windows 이벤트 로그 삭제
 
-* Windows + R --> eventvwr.msc --> "Windows 로그" 확장 --> 각 카테고리를 마우스 오른쪽 버튼으로 클릭하고 "로그 지우기" 선택
+* Windows + R --> eventvwr.msc --> "Windows Logs" 확장 --> 각 카테고리를 마우스 오른쪽 버튼으로 클릭하고 "로그 지우기" 선택
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
 ### Windows 이벤트 로그 비활성화
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* 서비스 섹션 내에서 "Windows 이벤트 로그" 서비스를 비활성화합니다.
+* 서비스 섹션 내에서 "Windows Event Log" 서비스를 비활성화합니다.
 * `WEvtUtil.exec clear-log` 또는 `WEvtUtil.exe cl`
 
 ### $UsnJrnl 비활성화
@@ -173,7 +173,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 기법을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 기법을 공유하세요.**
 
 </details>
 {% endhint %}

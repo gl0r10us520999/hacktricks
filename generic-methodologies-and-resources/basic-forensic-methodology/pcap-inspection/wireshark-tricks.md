@@ -37,7 +37,7 @@ _**Analyze** --> **Expert Information**_을 클릭하면 패킷 **분석**에서
 
 **Resolved Addresses**
 
-_**Statistics --> Resolved Addresses**_ 아래에서 Wireshark에 의해 "**해결된**" 여러 **정보**를 찾을 수 있습니다. 예를 들어 포트/전송 프로토콜, MAC에서 제조업체까지 등입니다. 통신에 관련된 내용을 아는 것은 흥미롭습니다.
+_**Statistics --> Resolved Addresses**_ 아래에서 wireshark에 의해 "**해결된**" 여러 **정보**를 찾을 수 있습니다. 예를 들어 포트/전송 프로토콜, MAC에서 제조업체 등입니다. 통신에 관련된 내용을 아는 것은 흥미롭습니다.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
@@ -67,13 +67,13 @@ _**Statistics --> DNS**_ 아래에서 캡처된 DNS 요청에 대한 통계를 �
 
 **I/O Graph**
 
-_**Statistics --> I/O Graph**_ 아래에서 통신의 **그래프**를 찾을 수 있습니다.
+_**Statistics --> I/O Graph**_ 아래에서 **통신 그래프**를 찾을 수 있습니다.
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
 ### Filters
 
-여기에서 프로토콜에 따라 Wireshark 필터를 찾을 수 있습니다: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+여기에서 프로토콜에 따라 wireshark 필터를 찾을 수 있습니다: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 기타 흥미로운 필터:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -85,7 +85,7 @@ _**Statistics --> I/O Graph**_ 아래에서 통신의 **그래프**를 찾을 �
 
 ### Search
 
-세션의 **패킷** 내에서 **내용**을 **검색**하려면 _CTRL+f_를 누르십시오. 오른쪽 버튼을 클릭한 후 열 편집을 통해 기본 정보 바(No., Time, Source 등)에 새 레이어를 추가할 수 있습니다.
+세션의 **패킷** 내에서 **내용**을 **검색**하려면 _CTRL+f_를 누르십시오. 오른쪽 버튼을 눌러 새 레이어를 주 정보 바(No., Time, Source 등)에 추가할 수 있습니다.
 
 ### Free pcap labs
 
@@ -97,7 +97,7 @@ Host HTTP 헤더를 보여주는 열을 추가할 수 있습니다:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-그리고 시작 HTTPS 연결에서 서버 이름을 추가하는 열(**ssl.handshake.type == 1**)을 추가할 수 있습니다:
+그리고 시작하는 HTTPS 연결에서 서버 이름을 추가하는 열(**ssl.handshake.type == 1**)을 추가할 수 있습니다:
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -121,11 +121,11 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-_서버의 모든 데이터와 개인 키(_IP, Port, Protocol, Key file 및 password_)를 추가하려면 _Edit_를 누르십시오._
+서버의 모든 데이터와 개인 키(_IP, Port, Protocol, Key file 및 password_)를 추가하려면 _Edit_를 누르십시오.
 
 ### Decrypting https traffic with symmetric session keys
 
-Firefox와 Chrome 모두 TLS 세션 키를 기록할 수 있는 기능이 있으며, 이를 Wireshark와 함께 사용하여 TLS 트래픽을 복호화할 수 있습니다. 이를 통해 보안 통신에 대한 심층 분석이 가능합니다. 이 복호화를 수행하는 방법에 대한 자세한 내용은 [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)의 가이드에서 확인할 수 있습니다.
+Firefox와 Chrome 모두 TLS 세션 키를 기록할 수 있는 기능이 있으며, 이를 사용하여 Wireshark에서 TLS 트래픽을 복호화할 수 있습니다. 이를 통해 보안 통신에 대한 심층 분석이 가능합니다. 이 복호화를 수행하는 방법에 대한 자세한 내용은 [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)의 가이드에서 확인할 수 있습니다.
 
 이를 감지하려면 환경 내에서 변수 `SSLKEYLOGFILE`을 검색하십시오.
 
@@ -133,7 +133,7 @@ Firefox와 Chrome 모두 TLS 세션 키를 기록할 수 있는 기능이 있으
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Wireshark에 이를 가져오려면 \_edit > preference > protocol > ssl > (Pre)-Master-Secret 로그 파일 이름에 가져오십시오:
+이것을 wireshark에 가져오려면 \_edit > preference > protocol > ssl > 및 (Pre)-Master-Secret 로그 파일 이름에 가져오십시오:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -167,16 +167,16 @@ f.write(all_bytes)
 f.close()
 ```
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

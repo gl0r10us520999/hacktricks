@@ -27,9 +27,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Online tools for pcaps
 
-* pcap의 헤더가 **손상된** 경우: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)를 사용하여 **수정**해 보세요.
-* [**PacketTotal**](https://packettotal.com)에서 pcap 내의 **정보**를 추출하고 **악성코드**를 검색하세요.
-* [**www.virustotal.com**](https://www.virustotal.com) 및 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)에서 **악의적인 활동**을 검색하세요.
+* pcap의 헤더가 **손상된** 경우 다음을 사용하여 **수정**해 보십시오: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* [**PacketTotal**](https://packettotal.com)에서 pcap 내의 **정보**를 추출하고 **악성 소프트웨어**를 검색하십시오.
+* [**www.virustotal.com**](https://www.virustotal.com) 및 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)에서 **악의적인 활동**을 검색하십시오.
 * [**https://apackets.com/**](https://apackets.com/)에서 브라우저를 통한 **전체 pcap 분석**.
 
 ## Extract Information
@@ -39,10 +39,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ### Wireshark
 
 {% hint style="info" %}
-**PCAP을 분석하려면 기본적으로 Wireshark를 사용하는 방법을 알아야 합니다.**
+**PCAP을 분석할 예정이라면 Wireshark를 사용하는 방법을 기본적으로 알아야 합니다.**
 {% endhint %}
 
-Wireshark 팁은 다음에서 찾을 수 있습니다:
+Wireshark 팁을 찾을 수 있습니다:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -74,13 +74,13 @@ Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
 
 ### NetworkMiner
 
-Xplico와 마찬가지로 **pcaps**에서 객체를 **분석하고 추출하는** 도구입니다. **여기서** [**다운로드**](https://www.netresec.com/?page=NetworkMiner)할 수 있는 무료 버전이 있습니다. **Windows**에서 작동합니다.\
-이 도구는 패킷에서 **분석된 다른 정보**를 얻는 데도 유용하여 **더 빠르게** 무슨 일이 일어나고 있는지 알 수 있습니다.
+Xplico와 마찬가지로 **pcap에서 객체를 분석하고 추출하는** 도구입니다. 무료 버전이 있으며 [**여기서 다운로드**](https://www.netresec.com/?page=NetworkMiner)할 수 있습니다. **Windows**에서 작동합니다.\
+이 도구는 패킷에서 **분석된 다른 정보를 얻는 데** 유용하여 **더 빠르게** 무슨 일이 일어나고 있는지 알 수 있습니다.
 
 ### NetWitness Investigator
 
-[**여기서 NetWitness Investigator를 다운로드**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware)할 수 있습니다. **(Windows에서 작동합니다)**.\
-이것은 패킷을 **분석하고** 정보를 유용한 방식으로 정리하여 **내부에서 무슨 일이 일어나고 있는지 알 수 있는** 또 다른 유용한 도구입니다.
+[**여기서 NetWitness Investigator를 다운로드**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware)할 수 있습니다 **(Windows에서 작동합니다)**.\
+이것은 패킷을 **분석하고 정보를 유용한 방식으로 정리하여 내부에서 무슨 일이 일어나고 있는지 알 수 있는** 또 다른 유용한 도구입니다.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
@@ -97,7 +97,7 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-pcap 안에서 **무언가**를 **찾고** 있다면 **ngrep**을 사용할 수 있습니다. 다음은 주요 필터를 사용하는 예입니다:
+pcap 안에서 **무언가**를 **찾고** 있다면 **ngrep**을 사용할 수 있습니다. 다음은 주요 필터를 사용한 예입니다:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
@@ -257,7 +257,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

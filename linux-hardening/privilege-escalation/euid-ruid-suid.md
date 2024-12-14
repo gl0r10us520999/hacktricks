@@ -26,7 +26,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 - **`ruid`**: **실제 사용자 ID**는 프로세스를 시작한 사용자를 나타냅니다.
 - **`euid`**: **유효 사용자 ID**로 알려져 있으며, 시스템이 프로세스 권한을 확인하는 데 사용하는 사용자 ID를 나타냅니다. 일반적으로 `euid`는 `ruid`와 동일하지만, SetUID 바이너리 실행과 같은 경우에는 `euid`가 파일 소유자의 ID를 취하여 특정 작업 권한을 부여합니다.
-- **`suid`**: 이 **저장된 사용자 ID**는 높은 권한의 프로세스(일반적으로 root로 실행)가 특정 작업을 수행하기 위해 일시적으로 권한을 포기해야 할 때 중요하며, 이후 다시 초기의 높은 상태를 회복합니다.
+- **`suid`**: 이 **저장된 사용자 ID**는 높은 권한의 프로세스(일반적으로 root로 실행됨)가 특정 작업을 수행하기 위해 일시적으로 권한을 포기해야 할 때 중요하며, 이후 다시 초기 상승된 상태를 회복합니다.
 
 #### 중요 참고 사항
 root로 실행되지 않는 프로세스는 현재 `ruid`, `euid` 또는 `suid`와 일치하도록 `euid`를 수정할 수 있습니다.
@@ -40,7 +40,7 @@ root로 실행되지 않는 프로세스는 현재 `ruid`, `euid` 또는 `suid`�
 
 특히, `setuid`는 root로의 권한 상승을 위한 일반적인 방법일 수 있지만(모든 ID를 root로 정렬하므로), 이러한 함수 간의 차이를 이해하고 다양한 시나리오에서 사용자 ID 동작을 조작하는 것이 중요합니다.
 
-### 리눅스에서 프로그램 실행 메커니즘
+### 리눅스에서의 프로그램 실행 메커니즘
 
 #### **`execve` 시스템 호출**
 - **기능**: `execve`는 첫 번째 인수에 의해 결정된 프로그램을 시작합니다. 두 개의 배열 인수, `argv`(인수용)와 `envp`(환경용)를 사용합니다.
@@ -57,7 +57,7 @@ root로 실행되지 않는 프로세스는 현재 `ruid`, `euid` 또는 `suid`�
 - **동작**: `execl`은 `execve`의 한 형태로, 새로운 자식 프로세스의 맥락에서 유사하게 작동합니다.
 - **문서화**: 추가 정보는 [`system` 매뉴얼 페이지](https://man7.org/linux/man-pages/man3/system.3.html)에서 확인할 수 있습니다.
 
-#### **SUID가 있는 `bash` 및 `sh`의 동작**
+#### **SUID와 함께하는 `bash` 및 `sh`의 동작**
 - **`bash`**:
 - `euid`와 `ruid`의 처리 방식에 영향을 미치는 `-p` 옵션이 있습니다.
 - `-p` 없이 `bash`는 `euid`가 `ruid`와 다를 경우 `euid`를 `ruid`로 설정합니다.
@@ -210,8 +210,8 @@ uid=99(nobody) gid=99(nobody) euid=100
 
 
 {% hint style="success" %}
-AWS 해킹을 배우고 연습하세요:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

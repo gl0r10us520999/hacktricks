@@ -17,7 +17,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입하거나** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 **팔로우하세요.**
 * [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
 
 </details>
@@ -27,7 +27,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ### 기본 정보
 
-우선, **잘 알려진 바이너리와 라이브러리가 있는 USB**를 준비하는 것이 좋습니다(우분투를 다운로드하고 _/bin_, _/sbin_, _/lib,_ 및 _/lib64_ 폴더를 복사하면 됩니다). 그런 다음 USB를 마운트하고 환경 변수를 수정하여 해당 바이너리를 사용하세요:
+우선, **잘 알려진 바이너리와 라이브러리가 있는** **USB**를 준비하는 것이 좋습니다(우분투를 다운로드하고 _/bin_, _/sbin_, _/lib,_ 및 _/lib64_ 폴더를 복사하면 됩니다). 그런 다음 USB를 마운트하고 해당 바이너리를 사용하도록 환경 변수를 수정하세요:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -68,7 +68,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 {% endhint %}
 
 따라서 동일한 버전의 Ubuntu가 있다면 `apt-get install lime-forensics-dkms`를 사용할 수 있습니다.\
-다른 경우에는 [**LiME**](https://github.com/504ensicsLabs/LiME)를 github에서 다운로드하고 올바른 커널 헤더로 컴파일해야 합니다. 피해자 머신의 **정확한 커널 헤더**를 얻으려면 `/lib/modules/<kernel version>` 디렉토리를 귀하의 머신으로 **복사**한 다음, 이를 사용하여 LiME를 **컴파일**하십시오:
+다른 경우에는 [**LiME**](https://github.com/504ensicsLabs/LiME)를 github에서 다운로드하고 올바른 커널 헤더로 컴파일해야 합니다. 피해자 머신의 **정확한 커널 헤더**를 얻으려면 `/lib/modules/<kernel version>` 디렉토리를 귀하의 머신으로 **복사**한 다음, 이를 사용하여 LiME를 **컴파일**하면 됩니다:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -79,14 +79,14 @@ LiME는 3가지 **형식**을 지원합니다:
 * Padded (raw와 동일하지만 오른쪽 비트에 제로 추가)
 * Lime (메타데이터가 포함된 추천 형식)
 
-LiME는 또한 **네트워크를 통해 덤프를 전송**하는 데 사용할 수 있습니다. 예를 들어: `path=tcp:4444`
+LiME는 또한 **덤프를 네트워크를 통해 전송**하는 데 사용할 수 있습니다. 예: `path=tcp:4444`
 
 ### 디스크 이미징
 
 #### 시스템 종료
 
 우선, **시스템을 종료**해야 합니다. 이는 항상 가능한 옵션이 아니며, 때때로 시스템이 회사가 종료할 수 없는 프로덕션 서버일 수 있습니다.\
-시스템을 종료하는 **2가지 방법**이 있습니다: **정상 종료**와 **"플러그를 뽑는" 종료**. 첫 번째 방법은 **프로세스가 정상적으로 종료**되고 **파일 시스템**이 **동기화**되도록 허용하지만, 가능한 **악성코드**가 **증거를 파괴**할 수 있게 합니다. "플러그를 뽑는" 접근 방식은 **일부 정보 손실**을 초래할 수 있습니다(메모리 이미지를 이미 가져왔기 때문에 많은 정보가 손실되지 않을 것입니다) 그리고 **악성코드가 아무것도 할 기회**가 없습니다. 따라서 **악성코드**가 있을 것으로 **의심**되는 경우, 시스템에서 **`sync`** **명령**을 실행하고 플러그를 뽑으십시오.
+시스템을 종료하는 **2가지 방법**이 있습니다: **정상 종료**와 **"플러그를 뽑는" 종료**. 첫 번째 방법은 **프로세스가 정상적으로 종료**되고 **파일 시스템**이 **동기화**되도록 허용하지만, **악성코드**가 **증거를 파괴**할 가능성도 있습니다. "플러그를 뽑는" 접근 방식은 **일부 정보 손실**을 초래할 수 있습니다(메모리 이미지를 이미 가져왔기 때문에 많은 정보가 손실되지 않음) 그리고 **악성코드가 아무것도 할 기회**가 없습니다. 따라서 **악성코드**가 있을 것으로 **의심**되는 경우, 시스템에서 **`sync`** **명령**을 실행하고 플러그를 뽑으십시오.
 
 #### 디스크 이미지 가져오기
 
@@ -166,14 +166,14 @@ ThisisTheMasterSecret
 
 ### 수정된 시스템 파일
 
-Linux는 시스템 구성 요소의 무결성을 보장하는 도구를 제공하여 잠재적으로 문제를 일으킬 수 있는 파일을 발견하는 데 중요합니다.
+Linux는 시스템 구성 요소의 무결성을 보장하는 도구를 제공하여 잠재적으로 문제가 있는 파일을 발견하는 데 중요합니다.
 
 * **RedHat 기반 시스템**: 포괄적인 검사를 위해 `rpm -Va`를 사용하세요.
 * **Debian 기반 시스템**: 초기 검증을 위해 `dpkg --verify`를 사용한 후, `debsums | grep -v "OK$"` (먼저 `apt-get install debsums`로 `debsums`를 설치한 후)로 문제를 식별하세요.
 
 ### 악성코드/루트킷 탐지기
 
-악성코드를 찾는 데 유용할 수 있는 도구에 대해 알아보려면 다음 페이지를 읽어보세요:
+악성코드를 찾는 데 유용한 도구에 대해 알아보려면 다음 페이지를 읽어보세요:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -285,7 +285,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 * **/var/log/**: 여기에서 예상치 못한 로그를 항상 확인하십시오.
 
 {% hint style="info" %}
-리눅스 시스템 로그 및 감사 하위 시스템은 침입 또는 악성코드 사건에서 비활성화되거나 삭제될 수 있습니다. 리눅스 시스템의 로그는 일반적으로 악의적인 활동에 대한 가장 유용한 정보를 포함하므로, 침입자는 이를 정기적으로 삭제합니다. 따라서 사용 가능한 로그 파일을 검사할 때는 삭제 또는 변조의 징후일 수 있는 간격이나 순서가 어긋난 항목을 찾는 것이 중요합니다.
+리눅스 시스템 로그 및 감사 하위 시스템은 침입 또는 악성코드 사건에서 비활성화되거나 삭제될 수 있습니다. 리눅스 시스템의 로그는 일반적으로 악성 활동에 대한 가장 유용한 정보를 포함하므로, 침입자는 이를 정기적으로 삭제합니다. 따라서 사용 가능한 로그 파일을 검사할 때는 삭제 또는 변조의 징후일 수 있는 간격이나 순서가 어긋난 항목을 찾는 것이 중요합니다.
 {% endhint %}
 
 **리눅스는 각 사용자의 명령 기록을 유지합니다**, 저장 위치는 다음과 같습니다:
@@ -319,9 +319,9 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 ### USB Logs
 
-[**usbrip**](https://github.com/snovvcrash/usbrip)는 리눅스 로그 파일(`/var/log/syslog*` 또는 `/var/log/messages*`, 배포판에 따라 다름)을 파싱하여 USB 이벤트 기록 테이블을 구성하는 순수 Python 3로 작성된 작은 소프트웨어입니다.
+[**usbrip**](https://github.com/snovvcrash/usbrip)는 리눅스 로그 파일(`/var/log/syslog*` 또는 `/var/log/messages*`, 배포판에 따라 다름)을 파싱하여 USB 이벤트 이력 테이블을 구성하는 순수 Python 3로 작성된 작은 소프트웨어입니다.
 
-모든 USB 사용 내역을 아는 것은 흥미롭고, "위반 사건"(목록에 없는 USB 사용)을 찾기 위해 승인된 USB 목록이 있다면 더욱 유용할 것입니다.
+모든 USB가 사용된 것을 아는 것은 흥미롭고, "위반 사건"(목록에 없는 USB 사용)을 찾기 위해 승인된 USB 목록이 있다면 더 유용할 것입니다.
 
 ### Installation
 ```bash
@@ -356,18 +356,18 @@ _**/etc/passwd**_, _**/etc/shadow**_ 및 **보안 로그**에서 비정상적인
 
 ### 악성 코드 조사에서 파일 시스템 구조 분석
 
-악성 코드 사건을 조사할 때, 파일 시스템의 구조는 사건의 순서와 악성 코드의 내용을 드러내는 중요한 정보 출처입니다. 그러나 악성 코드 작성자들은 파일 타임스탬프를 수정하거나 데이터 저장을 위해 파일 시스템을 피하는 등의 분석을 방해하는 기술을 개발하고 있습니다.
+악성 코드 사건을 조사할 때, 파일 시스템의 구조는 사건의 순서와 악성 코드의 내용을 드러내는 중요한 정보 출처입니다. 그러나 악성 코드 작성자들은 파일 타임스탬프를 수정하거나 데이터 저장을 위해 파일 시스템을 회피하는 등의 분석을 방해하는 기술을 개발하고 있습니다.
 
-이러한 반법의 방법에 대응하기 위해서는:
+이러한 반법의 방법에 대응하기 위해서는 다음이 필수적입니다:
 
 * **Autopsy**와 같은 도구를 사용하여 사건 타임라인을 시각화하거나 **Sleuth Kit의** `mactime`을 사용하여 상세한 타임라인 데이터를 통해 철저한 타임라인 분석을 수행합니다.
 * 공격자가 사용할 수 있는 셸 또는 PHP 스크립트를 포함할 수 있는 시스템의 $PATH에서 예상치 못한 스크립트를 조사합니다.
 * 전통적으로 특수 파일을 포함하는 `/dev`에서 비정상적인 파일을 검사합니다. 그러나 악성 코드 관련 파일이 있을 수 있습니다.
 * ".. " (점 점 공백) 또는 "..^G" (점 점 제어-G)와 같은 이름을 가진 숨겨진 파일이나 디렉토리를 검색하여 악성 콘텐츠를 숨길 수 있습니다.
-* 명령어 `find / -user root -perm -04000 -print`를 사용하여 setuid root 파일을 식별합니다. 이는 공격자가 악용할 수 있는 권한이 상승된 파일을 찾습니다.
-* 루트킷이나 트로이 목마의 존재를 나타낼 수 있는 대량 파일 삭제를 감지하기 위해 inode 테이블의 삭제 타임스탬프를 검토합니다.
+* 다음 명령어를 사용하여 setuid root 파일을 식별합니다: `find / -user root -perm -04000 -print` 이 명령은 공격자가 악용할 수 있는 권한이 상승된 파일을 찾습니다.
+* 루트킷이나 트로이 목마의 존재를 나타낼 수 있는 대량 파일 삭제를 감지하기 위해 inode 테이블에서 삭제 타임스탬프를 검토합니다.
 * 하나의 악성 파일을 식별한 후 인접한 inode를 검사하여 근처에 악성 파일이 있을 수 있습니다.
-* 최근에 수정된 파일이 있을 수 있는 일반 바이너리 디렉토리 (_/bin_, _/sbin_)를 확인합니다. 이는 악성 코드에 의해 변경되었을 수 있습니다.
+* 최근에 수정된 파일이 있을 수 있는 일반 바이너리 디렉토리 (_/bin_, _/sbin_)를 확인합니다.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -385,11 +385,11 @@ ls -lai /bin | sort -n```
 
 파일 시스템 버전을 비교하고 변경 사항을 파악하기 위해 간소화된 `git diff` 명령을 사용합니다:
 
-* **새로운 파일을 찾으려면**, 두 디렉토리를 비교하십시오:
+* **새 파일을 찾으려면**, 두 디렉토리를 비교하십시오:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **수정된 콘텐츠**: 특정 라인을 무시하면서 변경 사항을 나열합니다:
+* **수정된 내용에 대해**, 특정 줄을 무시하고 변경 사항을 나열하십시오:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -413,7 +413,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **책: Linux 시스템을 위한 악성코드 포렌식 필드 가이드: 디지털 포렌식 필드 가이드**
+* **책: 리눅스 시스템을 위한 악성코드 포렌식 필드 가이드: 디지털 포렌식 필드 가이드**
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -433,7 +433,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
 오늘 바로 접근하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

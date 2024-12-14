@@ -25,9 +25,9 @@ Get Access Today:
 
 ## What is a Certificate
 
-A **public key certificate**는 암호학에서 누군가가 공개 키를 소유하고 있음을 증명하는 디지털 ID입니다. 여기에는 키의 세부정보, 소유자의 신원(주체), 그리고 신뢰할 수 있는 기관(발급자)의 디지털 서명이 포함됩니다. 소프트웨어가 발급자를 신뢰하고 서명이 유효하면 키 소유자와의 안전한 통신이 가능합니다.
+A **public key certificate**는 암호학에서 누군가가 공개 키를 소유하고 있음을 증명하는 디지털 ID입니다. 여기에는 키의 세부정보, 소유자의 신원(주체) 및 신뢰할 수 있는 기관(발급자)의 디지털 서명이 포함됩니다. 소프트웨어가 발급자를 신뢰하고 서명이 유효하면 키 소유자와의 안전한 통신이 가능합니다.
 
-인증서는 주로 [인증 기관](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs)에서 [공개 키 인프라](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) 설정으로 발급됩니다. 또 다른 방법은 [신뢰의 웹](https://en.wikipedia.org/wiki/Web\_of\_trust)으로, 사용자가 서로의 키를 직접 검증하는 방식입니다. 인증서의 일반적인 형식은 [X.509](https://en.wikipedia.org/wiki/X.509)이며, RFC 5280에 설명된 대로 특정 요구에 맞게 조정될 수 있습니다.
+인증서는 주로 [인증 기관](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs)에서 [공개 키 인프라](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) 설정으로 발급됩니다. 또 다른 방법은 사용자가 서로의 키를 직접 검증하는 [신뢰의 웹](https://en.wikipedia.org/wiki/Web\_of\_trust)입니다. 인증서의 일반적인 형식은 [X.509](https://en.wikipedia.org/wiki/X.509)이며, RFC 5280에 설명된 대로 특정 요구에 맞게 조정할 수 있습니다.
 
 ## x509 Common Fields
 
@@ -49,7 +49,7 @@ x509 인증서에서 여러 **필드**는 인증서의 유효성과 보안을 �
 #### **Key Usage and Extensions**
 
 * **Key Usage**는 공개 키의 암호화 응용 프로그램을 식별하며, 디지털 서명 또는 키 암호화와 같은 용도로 사용됩니다.
-* **Extended Key Usage**는 인증서의 사용 사례를 더욱 좁혀 TLS 서버 인증과 같은 특정 용도로 사용됩니다.
+* **Extended Key Usage**는 인증서의 사용 사례를 더욱 좁히며, 예를 들어 TLS 서버 인증을 위한 것입니다.
 * **Subject Alternative Name** 및 **Basic Constraint**는 인증서가 적용되는 추가 호스트 이름과 인증서가 CA인지 최종 엔티티 인증서인지를 정의합니다.
 * **Subject Key Identifier** 및 **Authority Key Identifier**와 같은 식별자는 키의 고유성과 추적 가능성을 보장합니다.
 * **Authority Information Access** 및 **CRL Distribution Points**는 발급 CA를 검증하고 인증서 폐기 상태를 확인하는 경로를 제공합니다.
@@ -165,7 +165,7 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
 * **P7B to PFX** 또한 두 개의 명령이 필요합니다:
-1. P7B를 CER로 변환
+1. P7B를 CER로 변환합니다.
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
@@ -173,7 +173,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```bash
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
-* **ASN.1 (DER/PEM) 편집** (인증서 또는 거의 모든 다른 ASN.1 구조와 함께 작동):
+* **ASN.1 (DER/PEM) 편집** (인증서 또는 거의 모든 다른 ASN.1 구조와 작동):
 1. [asn1template](https://github.com/wllm-rbnt/asn1template/) 복제
 ```bash
 git clone https://github.com/wllm-rbnt/asn1template.git
@@ -187,7 +187,7 @@ asn1template/asn1template.pl -p certificatename.pem > certificatename.tpl
 ```bash
 vim certificatename.tpl
 ```
-4. 수정된 인증서 재구성
+4. 수정된 인증서를 재구성합니다.
 ```bash
 openssl asn1parse -genconf certificatename.tpl -out certificatename_new.der
 openssl asn1parse -genconf certificatename.tpl -outform PEM -out certificatename_new.pem

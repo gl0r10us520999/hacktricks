@@ -138,7 +138,7 @@ pngcheck stego.png
 ```
 ### **이미지 분석을 위한 추가 도구**
 
-더 많은 탐색을 원하시면 다음을 방문해 보세요:
+더 많은 탐색을 원하신다면 다음을 방문해 보세요:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -166,7 +166,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg는 가장 낮은 유의 비트 전략을 사용하여 WAV 파일 내에서 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 접근할 수 있습니다. 명령어는 다음과 같습니다:
+WavSteg는 가장 덜 중요한 비트 전략을 사용하여 WAV 파일 내에서 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 접근할 수 있습니다. 명령어는 다음과 같습니다:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 

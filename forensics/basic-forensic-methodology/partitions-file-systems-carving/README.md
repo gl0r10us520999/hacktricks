@@ -42,7 +42,7 @@ MBR의 **440에서 443 바이트**에서 **Windows 디스크 서명**을 찾을 
 | 446 (0x1BE) | 16 (0x10)  | 첫 번째 파티션     |
 | 462 (0x1CE) | 16 (0x10)  | 두 번째 파티션    |
 | 478 (0x1DE) | 16 (0x10)  | 세 번째 파티션     |
-| 494 (0x1EE) | 16 (0x10)  | 네 번째 파티션     |
+| 494 (0x1EE) | 16 (0x10)  | 네 번째 파티션    |
 | 510 (0x1FE) | 2 (0x2)    | 서명 0x55 0xAA |
 
 **파티션 레코드 형식**
@@ -52,19 +52,19 @@ MBR의 **440에서 443 바이트**에서 **Windows 디스크 서명**을 찾을 
 | 0 (0x00)  | 1 (0x01) | 활성 플래그 (0x80 = 부팅 가능)                          |
 | 1 (0x01)  | 1 (0x01) | 시작 헤드                                             |
 | 2 (0x02)  | 1 (0x01) | 시작 섹터 (비트 0-5); 실린더의 상위 비트 (6-7) |
-| 3 (0x03)  | 1 (0x01) | 시작 실린더의 최하위 8비트                           |
-| 4 (0x04)  | 1 (0x01) | 파티션 유형 코드 (0x83 = Linux)                     |
+| 3 (0x03)  | 1 (0x01) | 시작 실린더 최하위 8 비트                           |
+| 4 (0x04)  | 1 (0x01) | 파티션 유형 코드 (0x83 = 리눅스)                     |
 | 5 (0x05)  | 1 (0x01) | 종료 헤드                                               |
 | 6 (0x06)  | 1 (0x01) | 종료 섹터 (비트 0-5); 실린더의 상위 비트 (6-7)   |
-| 7 (0x07)  | 1 (0x01) | 종료 실린더의 최하위 8비트                             |
+| 7 (0x07)  | 1 (0x01) | 종료 실린더 최하위 8 비트                             |
 | 8 (0x08)  | 4 (0x04) | 파티션 이전의 섹터 (리틀 엔디안)            |
 | 12 (0x0C) | 4 (0x04) | 파티션 내의 섹터                                   |
 
-Linux에서 MBR을 마운트하려면 먼저 시작 오프셋을 가져와야 합니다( `fdisk`와 `p` 명령을 사용할 수 있습니다).
+Linux에서 MBR을 마운트하려면 먼저 시작 오프셋을 가져와야 합니다( `fdisk`와 `p` 명령을 사용할 수 있습니다)
 
 ![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
-그런 다음 다음 코드를 사용하십시오.
+그리고 다음 코드를 사용하세요.
 ```bash
 #Mount MBR in Linux
 mount -o ro,loop,offset=<Bytes>
@@ -73,24 +73,24 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (논리 블록 주소 지정)**
 
-**논리 블록 주소 지정** (**LBA**)는 컴퓨터 저장 장치에 저장된 데이터 블록의 위치를 지정하는 데 사용되는 일반적인 방식으로, 일반적으로 하드 디스크 드라이브와 같은 보조 저장 시스템에서 사용됩니다. LBA는 특히 간단한 선형 주소 지정 방식으로, **블록은 정수 인덱스로 위치가 지정되며**, 첫 번째 블록은 LBA 0, 두 번째 블록은 LBA 1 등으로 지정됩니다.
+**논리 블록 주소 지정** (**LBA**)는 컴퓨터 저장 장치에 저장된 데이터 블록의 위치를 지정하는 데 사용되는 일반적인 방식으로, 일반적으로 하드 디스크 드라이브와 같은 보조 저장 시스템에서 사용됩니다. LBA는 특히 간단한 선형 주소 지정 방식으로, **블록은 정수 인덱스로 위치가 지정되며**, 첫 번째 블록은 LBA 0, 두 번째는 LBA 1 등으로 이어집니다.
 
 ### GPT (GUID 파티션 테이블)
 
 GUID 파티션 테이블, 즉 GPT는 MBR (마스터 부트 레코드)와 비교하여 향상된 기능으로 선호됩니다. 파티션에 대한 **전 세계적으로 고유한 식별자**로 독특한 GPT는 여러 면에서 두드러집니다:
 
-* **위치 및 크기**: GPT와 MBR은 모두 **섹터 0**에서 시작합니다. 그러나 GPT는 **64비트**로 작동하며, MBR은 32비트입니다.
+* **위치 및 크기**: GPT와 MBR 모두 **섹터 0**에서 시작합니다. 그러나 GPT는 **64비트**로 작동하며, MBR의 32비트와 대조됩니다.
 * **파티션 한계**: GPT는 Windows 시스템에서 최대 **128개의 파티션**을 지원하며, 최대 **9.4ZB**의 데이터를 수용할 수 있습니다.
-* **파티션 이름**: 최대 36개의 유니코드 문자로 파티션 이름을 지정할 수 있습니다.
+* **파티션 이름**: 최대 36개의 유니코드 문자로 파티션 이름을 지정할 수 있는 기능을 제공합니다.
 
 **데이터 복원력 및 복구**:
 
-* **중복성**: MBR과 달리 GPT는 파티션 및 부트 데이터를 단일 위치에 제한하지 않습니다. 이 데이터를 디스크 전반에 복제하여 데이터 무결성과 복원력을 향상시킵니다.
+* **중복성**: MBR과 달리 GPT는 파티션 및 부트 데이터를 단일 위치에 국한하지 않습니다. 이 데이터를 디스크 전반에 복제하여 데이터 무결성과 복원력을 향상시킵니다.
 * **순환 중복 검사 (CRC)**: GPT는 데이터 무결성을 보장하기 위해 CRC를 사용합니다. 데이터 손상을 적극적으로 모니터링하며, 손상이 감지되면 GPT는 다른 디스크 위치에서 손상된 데이터를 복구하려고 시도합니다.
 
 **보호 MBR (LBA0)**:
 
-* GPT는 보호 MBR을 통해 하위 호환성을 유지합니다. 이 기능은 레거시 MBR 공간에 존재하지만, 이전 MBR 기반 유틸리티가 실수로 GPT 디스크를 덮어쓰지 않도록 설계되어 GPT 형식의 디스크에서 데이터 무결성을 보호합니다.
+* GPT는 보호 MBR을 통해 하위 호환성을 유지합니다. 이 기능은 레거시 MBR 공간에 존재하지만, 이전 MBR 기반 유틸리티가 GPT 디스크를 실수로 덮어쓰지 않도록 설계되어 GPT 형식의 디스크에서 데이터 무결성을 보호합니다.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
 
@@ -98,7 +98,7 @@ GUID 파티션 테이블, 즉 GPT는 MBR (마스터 부트 레코드)와 비교�
 
 [위키백과에서](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-**EFI**가 아닌 **BIOS** 서비스를 통해 **GPT 기반 부팅**을 지원하는 운영 체제에서는 첫 번째 섹터가 **부트로더** 코드의 첫 번째 단계를 저장하는 데 여전히 사용될 수 있지만, **GPT** **파티션**을 인식하도록 **수정**됩니다. MBR의 부트로더는 섹터 크기가 512바이트라고 가정해서는 안 됩니다.
+**EFI**가 아닌 **BIOS** 서비스를 통해 **GPT 기반 부팅**을 지원하는 운영 체제에서는 첫 번째 섹터가 **부트로더** 코드의 첫 번째 단계를 저장하는 데 여전히 사용될 수 있지만, **GPT** **파티션**을 인식하도록 **수정**됩니다. MBR의 부트로더는 512바이트의 섹터 크기를 가정해서는 안 됩니다.
 
 **파티션 테이블 헤더 (LBA 1)**
 
@@ -108,7 +108,7 @@ GUID 파티션 테이블, 즉 GPT는 MBR (마스터 부트 레코드)와 비교�
 
 | 오프셋    | 길이   | 내용                                                                                                                                                                        |
 | --------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 (0x00)  | 8 바이트  | 서명 ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h 또는 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8) 리틀 엔디안 기계에서) |
+| 0 (0x00)  | 8 바이트  | 서명 ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h 또는 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)리틀 엔디안 기계에서) |
 | 8 (0x08)  | 4 바이트  | UEFI 2.8에 대한 수정 1.0 (00h 00h 01h 00h)                                                                                                                                     |
 | 12 (0x0C) | 4 바이트  | 리틀 엔디안의 헤더 크기 (바이트 단위, 일반적으로 5Ch 00h 00h 00h 또는 92 바이트)                                                                                                    |
 | 16 (0x10) | 4 바이트  | 헤더의 [CRC32](https://en.wikipedia.org/wiki/CRC32) (오프셋 +0에서 헤더 크기까지) 리틀 엔디안, 이 필드는 계산 중에 0으로 설정됨                                                                 |
@@ -122,7 +122,7 @@ GUID 파티션 테이블, 즉 GPT는 MBR (마스터 부트 레코드)와 비교�
 | 80 (0x50) | 4 바이트  | 배열의 파티션 항목 수                                                                                                                                            |
 | 84 (0x54) | 4 바이트  | 단일 파티션 항목의 크기 (일반적으로 80h 또는 128)                                                                                                                           |
 | 88 (0x58) | 4 바이트  | 리틀 엔디안의 파티션 항목 배열의 CRC32                                                                                                                               |
-| 92 (0x5C) | \*       | 예약; 나머지 블록에 대해 0이어야 함 (512바이트의 섹터 크기에 대해 420바이트; 그러나 더 큰 섹터 크기로 더 많을 수 있음)                                         |
+| 92 (0x5C) | \*       | 예약; 나머지 블록에 대해 0이어야 함 (512바이트 섹터 크기의 경우 420바이트; 그러나 더 큰 섹터 크기로 더 많을 수 있음)                                         |
 
 **파티션 항목 (LBA 2–33)**
 
@@ -168,7 +168,7 @@ GUID 파티션 테이블, 즉 GPT는 MBR (마스터 부트 레코드)와 비교�
 
 * **FAT12**, 12비트 클러스터 주소를 지원하며 최대 4078 클러스터를 처리합니다 (UNIX와 함께 4084).
 * **FAT16**, 16비트 주소로 향상되어 최대 65,517 클러스터를 수용합니다.
-* **FAT32**, 32비트 주소로 더욱 발전하여 볼륨당 최대 268,435,456 클러스터를 허용합니다.
+* **FAT32**, 32비트 주소로 더욱 발전하여 볼륨당 인상적인 268,435,456 클러스터를 허용합니다.
 
 FAT 버전 전반에 걸쳐 중요한 제한 사항은 **4GB 최대 파일 크기**로, 이는 파일 크기 저장에 사용되는 32비트 필드에 의해 부과됩니다.
 
@@ -202,7 +202,7 @@ FAT 버전 전반에 걸쳐 중요한 제한 사항은 **4GB 최대 파일 크�
 
 ### 기록된 삭제된 파일
 
-이전에 보았듯이 파일이 "삭제"된 후에도 여러 장소에 여전히 저장되어 있습니다. 이는 일반적으로 파일 시스템에서 파일을 삭제하는 것이 단순히 삭제로 표시할 뿐 데이터는 건드리지 않기 때문입니다. 따라서 파일의 레지스트리(예: MFT)를 검사하고 삭제된 파일을 찾는 것이 가능합니다.
+이전에 보았듯이, 파일이 "삭제"된 후에도 여러 장소에 여전히 저장됩니다. 이는 일반적으로 파일 시스템에서 파일을 삭제하는 것이 단순히 삭제로 표시할 뿐 데이터는 건드리지 않기 때문입니다. 따라서 파일의 레지스트리(예: MFT)를 검사하고 삭제된 파일을 찾는 것이 가능합니다.
 
 또한, OS는 일반적으로 파일 시스템 변경 및 백업에 대한 많은 정보를 저장하므로, 이를 사용하여 파일이나 가능한 한 많은 정보를 복구하려고 시도할 수 있습니다.
 
@@ -225,7 +225,7 @@ FAT 버전 전반에 걸쳐 중요한 제한 사항은 **4GB 최대 파일 크�
 ### 데이터 스트림 **C**arving
 
 데이터 스트림 카빙은 파일 카빙과 유사하지만 **완전한 파일을 찾는 대신 흥미로운 정보 조각을 찾습니다**.\
-예를 들어, 기록된 URL을 포함하는 완전한 파일을 찾는 대신 이 기술은 URL을 검색합니다.
+예를 들어, 기록된 URL을 포함하는 완전한 파일을 찾는 대신, 이 기술은 URL을 검색합니다.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -233,7 +233,7 @@ FAT 버전 전반에 걸쳐 중요한 제한 사항은 **4GB 최대 파일 크�
 
 ### 안전한 삭제
 
-명백히, **파일과 그에 대한 로그의 일부를 "안전하게" 삭제하는 방법이 있습니다**. 예를 들어, 파일의 내용을 여러 번 쓰레기 데이터로 덮어쓰고, **$MFT** 및 **$LOGFILE**에서 파일에 대한 **로그**를 제거하고, **볼륨 섀도 복사본**을 제거할 수 있습니다.\
+물론, 파일 및 해당 로그의 일부를 **"안전하게" 삭제하는 방법이 있습니다**. 예를 들어, 파일의 내용을 여러 번 쓰레기 데이터로 **덮어쓰고**, 그런 다음 파일에 대한 **$MFT** 및 **$LOGFILE**의 **로그**를 **제거**하고, **볼륨 섀도 복사본**을 **제거**할 수 있습니다.\
 이 작업을 수행하더라도 **파일의 존재가 여전히 기록된 다른 부분이 있을 수 있습니다**. 이는 사실이며, 포렌식 전문가의 작업 중 일부는 이를 찾는 것입니다.
 
 ## 참고 문헌
@@ -245,16 +245,16 @@ FAT 버전 전반에 걸쳐 중요한 제한 사항은 **4GB 최대 파일 크�
 * **iHackLabs 인증 디지털 포렌식 Windows**
 
 {% hint style="success" %}
-AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter**에서 **팔로우**하세요** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

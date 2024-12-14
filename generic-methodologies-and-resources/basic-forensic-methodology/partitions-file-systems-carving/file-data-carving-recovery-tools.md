@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Carving & Recovery tools
 
-더 많은 도구는 [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)에서 확인하세요.
+More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-파일을 이미지에서 추출하는 데 가장 일반적으로 사용되는 포렌식 도구는 [**Autopsy**](https://www.autopsy.com/download/)입니다. 다운로드하여 설치한 후 파일을 가져와 "숨겨진" 파일을 찾으세요. Autopsy는 디스크 이미지 및 기타 종류의 이미지를 지원하도록 설계되었지만 단순 파일은 지원하지 않습니다.
+포렌식에서 이미지를 통해 파일을 추출하는 데 가장 일반적으로 사용되는 도구는 [**Autopsy**](https://www.autopsy.com/download/)입니다. 다운로드하여 설치한 후 파일을 가져와 "숨겨진" 파일을 찾으세요. Autopsy는 디스크 이미지 및 기타 종류의 이미지를 지원하도록 설계되었지만 단순 파일은 지원하지 않습니다.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk**는 이진 파일을 분석하여 내장된 콘텐츠를 찾는 도구입니다. `apt`를 통해 설치할 수 있으며 소스는 [GitHub](https://github.com/ReFirmLabs/binwalk)에 있습니다.
+**Binwalk**는 임베디드 콘텐츠를 찾기 위해 이진 파일을 분석하는 도구입니다. `apt`를 통해 설치할 수 있으며 소스는 [GitHub](https://github.com/ReFirmLabs/binwalk)에 있습니다.
 
 **유용한 명령어**:
 ```bash
@@ -53,15 +53,15 @@ scalpel file.img -o output
 
 이 도구는 칼리 안에 포함되어 있지만 여기에서 찾을 수 있습니다: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-이 도구는 이미지를 스캔하고 그 안에서 **pcap**을 **추출**하며, **네트워크 정보 (URL, 도메인, IP, MAC, 메일)** 및 더 많은 **파일**을 추출할 수 있습니다. 당신이 해야 할 일은:
+이 도구는 이미지를 스캔하고 그 안에서 **pcap**을 **추출**하며, **네트워크 정보 (URL, 도메인, IP, MAC, 메일)** 및 기타 **파일**을 추출할 수 있습니다. 당신이 해야 할 일은:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-모든 정보를 탐색하세요 (비밀번호?), 패킷을 분석하세요 (읽기: [**Pcaps 분석**](../pcap-inspection/)), 이상한 도메인을 검색하세요 (악성코드 또는 존재하지 않는 도메인과 관련된 도메인).
+모든 정보를 탐색하세요 **도구가 수집한** (비밀번호?), **패킷을 분석**하세요 (읽기 [**Pcaps 분석**](../pcap-inspection/)), **이상한 도메인**을 검색하세요 ( **악성코드** 또는 **존재하지 않는** 도메인과 관련된).
 
 ### PhotoRec
 
-[여기서 찾을 수 있습니다](https://www.cgsecurity.org/wiki/TestDisk\_Download).
+[https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)에서 찾을 수 있습니다.
 
 GUI 및 CLI 버전이 제공됩니다. PhotoRec이 검색할 **파일 유형**을 선택할 수 있습니다.
 
@@ -78,11 +78,11 @@ GUI 및 CLI 버전이 제공됩니다. PhotoRec이 검색할 **파일 유형**�
 * 샘플의 일부에 집중
 * PE 또는 ELF 실행 파일에서 **문자열 및 리소스 보기**
 * 파일에 대한 암호 분석을 위한 **패턴** 얻기
-* 패커 또는 인코더 알고리즘 **발견**
+* **패커** 또는 인코더 알고리즘 **발견**
 * 패턴으로 스테가노그래피 **식별**
 * **시각적** 바이너리 차이 비교
 
-BinVis는 블랙박스 시나리오에서 **알 수 없는 대상에 익숙해지기 위한 훌륭한 시작점**입니다.
+BinVis는 블랙박스 시나리오에서 **알 수 없는 대상에 익숙해지기 위한 좋은 출발점**입니다.
 
 ## 특정 데이터 카빙 도구
 
@@ -90,7 +90,7 @@ BinVis는 블랙박스 시나리오에서 **알 수 없는 대상에 익숙해�
 
 키 스케줄을 검색하여 AES 키를 검색합니다. TrueCrypt 및 BitLocker에서 사용하는 128, 192 및 256 비트 키를 찾을 수 있습니다.
 
-[여기서 다운로드](https://sourceforge.net/projects/findaes/).
+[여기에서 다운로드](https://sourceforge.net/projects/findaes/).
 
 ## 보조 도구
 
@@ -105,8 +105,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>HackTricks 지원하기</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하세요!
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.
 
 </details>

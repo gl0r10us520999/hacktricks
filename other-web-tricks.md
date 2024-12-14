@@ -38,11 +38,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Register functionality
 
-이미 존재하는 사용자로 등록해 보세요. 동등한 문자(점, 많은 공백 및 유니코드)를 사용해 보세요.
+이미 존재하는 사용자로 등록해 보세요. 또한 동등한 문자(점, 많은 공백 및 유니코드)를 사용해 보세요.
 
 ### Takeover emails
 
-이메일을 등록한 후, 확인하기 전에 이메일을 변경하세요. 그런 다음, 새로운 확인 이메일이 첫 번째 등록된 이메일로 전송되면, 어떤 이메일도 인수할 수 있습니다. 또는 두 번째 이메일이 첫 번째 이메일을 확인하도록 활성화할 수 있다면, 어떤 계정도 인수할 수 있습니다.
+이메일을 등록한 후, 확인하기 전에 이메일을 변경하세요. 그런 다음, 새 확인 이메일이 첫 번째 등록된 이메일로 전송되면, 어떤 이메일도 인수할 수 있습니다. 또는 두 번째 이메일이 첫 번째 이메일을 확인하도록 활성화할 수 있다면, 어떤 계정도 인수할 수 있습니다.
 
 ### Access Internal servicedesk of companies using atlassian
 
@@ -50,7 +50,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### TRACE method
 
-개발자는 프로덕션 환경에서 다양한 디버깅 옵션을 비활성화하는 것을 잊을 수 있습니다. 예를 들어, HTTP `TRACE` 메서드는 진단 목적으로 설계되었습니다. 활성화되면 웹 서버는 `TRACE` 메서드를 사용하는 요청에 대해 수신된 정확한 요청을 응답에 에코하여 응답합니다. 이 동작은 종종 무해하지만 때때로 내부 인증 헤더의 이름과 같은 정보 유출로 이어질 수 있습니다.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+개발자는 프로덕션 환경에서 다양한 디버깅 옵션을 비활성화하는 것을 잊을 수 있습니다. 예를 들어, HTTP `TRACE` 메서드는 진단 목적으로 설계되었습니다. 활성화되면 웹 서버는 `TRACE` 메서드를 사용하는 요청에 대해 수신된 정확한 요청을 응답에 에코하여 응답합니다. 이 동작은 종종 무해하지만, 때때로 내부 인증 헤더의 이름과 같은 정보 유출로 이어질 수 있습니다.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
 ![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 

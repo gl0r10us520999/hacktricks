@@ -10,7 +10,7 @@ GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" al
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" al
 
 * [**Pyscript 해킹 트릭**](pyscript.md)
 * [**Python 역직렬화**](../../pentesting-web/deserialization/#python)
-* [**Python 샌드박스를 우회하는 트릭**](bypass-python-sandboxes/)
+* [**Python 샌드박스 우회 트릭**](bypass-python-sandboxes/)
 * [**기본 Python 웹 요청 구문**](web-requests.md)
 * [**기본 Python 구문 및 라이브러리**](basic-python.md)
 
@@ -49,7 +49,7 @@ GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" al
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

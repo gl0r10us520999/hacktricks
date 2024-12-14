@@ -31,13 +31,13 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ## 이미지 검사
 
-장치의 **포렌식 이미지**를 받으면 **파티션, 파일 시스템**을 분석하고 **잠재적으로 흥미로운 파일**(삭제된 파일 포함)을 **복구**할 수 있습니다. 방법은 다음에서 확인하세요:
+장치의 **포렌식 이미지**를 받으면 **파티션, 사용된 파일 시스템**을 **분석하고** 잠재적으로 **흥미로운 파일**(삭제된 파일 포함)을 **복구**할 수 있습니다. 방법은 다음에서 확인하세요:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-사용된 OS 및 플랫폼에 따라 다양한 흥미로운 아티팩트를 검색해야 합니다:
+사용된 OS 및 플랫폼에 따라 검색해야 할 흥미로운 아티팩트가 다를 수 있습니다:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -51,9 +51,9 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## 특정 파일 유형 및 소프트웨어의 심층 검사
+## 특정 파일 유형 및 소프트웨어에 대한 심층 검사
 
-매우 **의심스러운** **파일**이 있는 경우, **파일 유형 및 소프트웨어**에 따라 여러 **트릭**이 유용할 수 있습니다.\
+매우 **의심스러운** **파일**이 있는 경우, **파일 유형 및 이를 생성한 소프트웨어**에 따라 여러 **트릭**이 유용할 수 있습니다.\
 다음 페이지를 읽어 흥미로운 트릭을 배워보세요:
 
 {% content-ref url="specific-software-file-type-tricks/" %}

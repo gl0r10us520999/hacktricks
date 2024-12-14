@@ -47,7 +47,7 @@ Vista/Win7/Win8/Win10에서 **Recycle Bin**은 드라이브의 루트에 있는 
 
 ![](<../../../.gitbook/assets/image (1029).png>)
 
-이 파일들이 있으면 도구 [**Rifiuti**](https://github.com/abelcheung/rifiuti2)를 사용하여 삭제된 파일의 원래 주소와 삭제된 날짜를 확인할 수 있습니다 (Vista – Win10의 경우 `rifiuti-vista.exe` 사용).
+이 파일들이 있으면 도구 [**Rifiuti**](https://github.com/abelcheung/rifiuti2)를 사용하여 삭제된 파일의 원래 주소와 삭제된 날짜를 얻을 수 있습니다 (Vista – Win10의 경우 `rifiuti-vista.exe` 사용).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
@@ -61,19 +61,19 @@ Vista/Win7/Win8/Win10에서 **Recycle Bin**은 드라이브의 루트에 있는 
 
 ![](<../../../.gitbook/assets/image (94).png>)
 
-**ArsenalImageMounter**로 포렌식 이미지를 마운트하면, 도구 [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html)를 사용하여 섀도 복사를 검사하고 심지어 **파일을 추출**할 수 있습니다.
+**ArsenalImageMounter**로 포렌식 이미지를 마운트하면, 도구 [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html)를 사용하여 섀도 복사를 검사하고 **파일을 추출**할 수 있습니다.
 
 ![](<../../../.gitbook/assets/image (576).png>)
 
-레지스트리 항목 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore`는 **백업하지 않을** 파일과 키를 포함합니다:
+레지스트리 항목 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore`에는 **백업하지 않을** 파일과 키가 포함되어 있습니다:
 
 ![](<../../../.gitbook/assets/image (254).png>)
 
-레지스트리 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS`는 `볼륨 섀도 복사본`에 대한 구성 정보도 포함합니다.
+레지스트리 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS`에도 `볼륨 섀도 복사본`에 대한 구성 정보가 포함되어 있습니다.
 
 ### Office 자동 저장 파일
 
-Office 자동 저장 파일은 다음 위치에서 찾을 수 있습니다: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+자동 저장된 Office 파일은 다음 위치에서 찾을 수 있습니다: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
 ## 셸 항목
 
@@ -88,7 +88,7 @@ Windows는 사용자가 다음 위치에서 **파일을 열거나, 사용하거�
 
 폴더가 생성되면, 해당 폴더, 상위 폴더 및 조상 폴더에 대한 링크도 생성됩니다.
 
-이 자동 생성된 링크 파일은 **원본에 대한 정보**를 **포함**합니다. 예를 들어, **파일** **인지** **폴더**인지, 해당 파일의 **MAC** **시간**, 파일이 저장된 **볼륨 정보**, 및 **대상 파일의 폴더** 등이 있습니다. 이 정보는 파일이 삭제된 경우 복구하는 데 유용할 수 있습니다.
+이 자동 생성된 링크 파일은 **원본에 대한 정보**를 **포함**하고 있습니다. 예를 들어, **파일**인지 **폴더**인지, 해당 파일의 **MAC 시간**, 파일이 저장된 **볼륨 정보**, **대상 파일의 폴더** 등이 포함됩니다. 이 정보는 파일이 삭제된 경우 복구하는 데 유용할 수 있습니다.
 
 또한, 링크 파일의 **생성 날짜**는 원본 파일이 **처음 사용된** **시간**이며, 링크 파일의 **수정 날짜**는 원본 파일이 **마지막으로 사용된** **시간**입니다.
 
@@ -121,7 +121,7 @@ In this case, the information is going to be saved inside a CSV file.
 
 사용자 정의 jumplists는 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\`에 저장되며, 일반적으로 파일과 관련하여 **중요한** 일이 발생했기 때문에 애플리케이션에 의해 생성됩니다(아마도 즐겨찾기로 표시됨).
 
-어떤 jumplist의 **생성 시간**은 **파일이 처음 접근된 시간**을 나타내며, **수정 시간은 마지막 시간**을 나타냅니다.
+어떤 jumplist의 **생성 시간**은 **파일에 처음 접근한 시간**을 나타내며, **수정 시간은 마지막 접근 시간**을 나타냅니다.
 
 jumplists를 검사하려면 [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md)를 사용할 수 있습니다.
 
@@ -135,13 +135,13 @@ jumplists를 검사하려면 [**JumplistExplorer**](https://ericzimmerman.github
 
 ## Use of Windows USBs
 
-USB 장치가 사용되었음을 식별할 수 있는 방법은 다음과 같습니다:
+USB 장치가 사용되었음을 확인할 수 있는 방법은 다음과 같은 생성 덕분입니다:
 
 * Windows Recent Folder
 * Microsoft Office Recent Folder
 * Jumplists
 
-일부 LNK 파일이 원래 경로를 가리키는 대신 WPDNSE 폴더를 가리키는 점에 유의하세요:
+일부 LNK 파일은 원래 경로를 가리키는 대신 WPDNSE 폴더를 가리킵니다:
 
 ![](<../../../.gitbook/assets/image (218).png>)
 
@@ -149,11 +149,11 @@ WPDNSE 폴더의 파일은 원본 파일의 복사본이므로 PC를 재시작�
 
 ### Registry Information
 
-[이 페이지를 확인하여](interesting-windows-registry-keys.md#usb-information) USB 연결 장치에 대한 흥미로운 정보를 포함하는 레지스트리 키를 배워보세요.
+[이 페이지를 확인하여](interesting-windows-registry-keys.md#usb-information) USB 연결 장치에 대한 흥미로운 정보를 포함하는 레지스트리 키를 배울 수 있습니다.
 
 ### setupapi
 
-USB 연결이 발생한 시간을 알기 위해 `C:\Windows\inf\setupapi.dev.log` 파일을 확인하세요( `Section start`를 검색하세요).
+USB 연결이 발생한 시간을 확인하려면 `C:\Windows\inf\setupapi.dev.log` 파일을 확인하세요( `Section start`를 검색하세요).
 
 ![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
 
@@ -165,7 +165,7 @@ USB 연결이 발생한 시간을 알기 위해 `C:\Windows\inf\setupapi.dev.log
 
 ### Plug and Play Cleanup
 
-'Plug and Play Cleanup'으로 알려진 예약 작업은 주로 구식 드라이버 버전을 제거하기 위해 설계되었습니다. 최신 드라이버 패키지 버전을 유지하는 지정된 목적과는 달리, 온라인 소스에 따르면 30일 동안 비활성 상태인 드라이버도 대상으로 삼습니다. 따라서 지난 30일 동안 연결되지 않은 이동식 장치의 드라이버는 삭제될 수 있습니다.
+'Plug and Play Cleanup'으로 알려진 예약 작업은 주로 구식 드라이버 버전을 제거하기 위해 설계되었습니다. 최신 드라이버 패키지 버전을 유지하는 지정된 목적과는 달리, 온라인 소스는 30일 동안 비활성 상태인 드라이버도 대상으로 한다고 제안합니다. 따라서 지난 30일 동안 연결되지 않은 이동식 장치의 드라이버는 삭제될 수 있습니다.
 
 작업은 다음 경로에 위치합니다: `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
@@ -173,19 +173,19 @@ USB 연결이 발생한 시간을 알기 위해 `C:\Windows\inf\setupapi.dev.log
 
 **작업의 주요 구성 요소 및 설정:**
 
-* **pnpclean.dll**: 실제 정리 프로세스를 담당하는 DLL입니다.
+* **pnpclean.dll**: 이 DLL은 실제 정리 프로세스를 담당합니다.
 * **UseUnifiedSchedulingEngine**: `TRUE`로 설정되어 있으며, 일반 작업 스케줄링 엔진을 사용함을 나타냅니다.
 * **MaintenanceSettings**:
 * **Period ('P1M')**: 작업 스케줄러에 정기적인 자동 유지 관리 중 매월 정리 작업을 시작하도록 지시합니다.
-* **Deadline ('P2M')**: 작업이 두 달 연속 실패할 경우 작업 스케줄러에 비상 자동 유지 관리 중 작업을 실행하도록 지시합니다.
+* **Deadline ('P2M')**: 작업이 두 달 연속 실패할 경우, 작업 스케줄러에 비상 자동 유지 관리 중 작업을 실행하도록 지시합니다.
 
-이 구성은 드라이버의 정기적인 유지 관리 및 정리를 보장하며, 연속 실패 시 작업을 재시도할 수 있는 조항을 포함합니다.
+이 구성은 정기적인 유지 관리 및 드라이버 정리를 보장하며, 연속 실패 시 작업을 재시도할 수 있는 조항을 포함합니다.
 
 **자세한 정보는 다음을 확인하세요:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## Emails
 
-이메일에는 **2개의 흥미로운 부분: 헤더와 이메일의 내용**이 포함되어 있습니다. **헤더**에서는 다음과 같은 정보를 찾을 수 있습니다:
+이메일은 **2개의 흥미로운 부분: 헤더와 이메일의 내용**을 포함합니다. **헤더**에서는 다음과 같은 정보를 찾을 수 있습니다:
 
 * **누가** 이메일을 보냈는지 (이메일 주소, IP, 이메일을 리디렉션한 메일 서버)
 * **언제** 이메일이 전송되었는지
@@ -200,11 +200,11 @@ USB 연결이 발생한 시간을 알기 위해 `C:\Windows\inf\setupapi.dev.log
 
 이메일의 **메타데이터**와 **연락처**는 **EDB 데이터베이스** 내에서 찾을 수 있습니다: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
 
-**파일의 확장자를** `.vol`에서 `.edb`로 변경하면 [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html) 도구를 사용하여 열 수 있습니다. `Message` 테이블 내에서 이메일을 볼 수 있습니다.
+**파일의 확장자를** `.vol`에서 `.edb`로 변경하면 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) 도구를 사용하여 열 수 있습니다. `Message` 테이블 내에서 이메일을 볼 수 있습니다.
 
 ### Microsoft Outlook
 
-Exchange 서버 또는 Outlook 클라이언트를 사용할 때 MAPI 헤더가 생성됩니다:
+Exchange 서버 또는 Outlook 클라이언트를 사용할 때는 몇 가지 MAPI 헤더가 생성됩니다:
 
 * `Mapi-Client-Submit-Time`: 이메일이 전송된 시스템의 시간
 * `Mapi-Conversation-Index`: 스레드의 자식 메시지 수 및 각 메시지의 타임스탬프
@@ -224,14 +224,14 @@ PST 파일은 [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/vis
 
 ### Microsoft Outlook OST Files
 
-**OST 파일**은 Microsoft Outlook이 **IMAP** 또는 **Exchange** 서버로 구성될 때 생성되며, PST 파일과 유사한 정보를 저장합니다. 이 파일은 서버와 동기화되며, **지난 12개월** 동안의 데이터를 유지하고 **최대 50GB**의 크기를 가지며, PST 파일과 동일한 디렉토리에 위치합니다. OST 파일을 보려면 [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html)를 사용할 수 있습니다.
+**OST 파일**은 Microsoft Outlook이 **IMAP** 또는 **Exchange** 서버로 구성될 때 생성되며, PST 파일과 유사한 정보를 저장합니다. 이 파일은 서버와 동기화되며, **지난 12개월** 동안의 데이터를 유지하고 **최대 50GB**의 크기를 가지며 PST 파일과 동일한 디렉토리에 위치합니다. OST 파일을 보려면 [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html)를 사용할 수 있습니다.
 
 ### Retrieving Attachments
 
 잃어버린 첨부 파일은 다음에서 복구할 수 있습니다:
 
-* **IE10**의 경우: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
-* **IE11 및 그 이상**의 경우: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
+* **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
+* **IE11 및 그 이상**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
 
 ### Thunderbird MBOX Files
 
@@ -241,29 +241,29 @@ PST 파일은 [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/vis
 
 * **Windows XP 및 8-8.1**: 썸네일이 있는 폴더에 접근하면 이미지 미리보기를 저장하는 `thumbs.db` 파일이 생성되며, 삭제 후에도 남아 있습니다.
 * **Windows 7/10**: UNC 경로를 통해 네트워크에서 접근할 때 `thumbs.db`가 생성됩니다.
-* **Windows Vista 및 이후 버전**: 썸네일 미리보기는 `%userprofile%\AppData\Local\Microsoft\Windows\Explorer`에 중앙 집중화되어 있으며, 파일 이름은 **thumbcache\_xxx.db**입니다. [**Thumbsviewer**](https://thumbsviewer.github.io) 및 [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) 도구를 사용하여 이러한 파일을 볼 수 있습니다.
+* **Windows Vista 및 이후 버전**: 썸네일 미리보기는 `%userprofile%\AppData\Local\Microsoft\Windows\Explorer`에 중앙 집중화되어 있으며, 파일 이름은 **thumbcache\_xxx.db**입니다. [**Thumbsviewer**](https://thumbsviewer.github.io) 및 [**ThumbCache Viewer**](https://thumbcacheviewer.github.io)는 이러한 파일을 보기 위한 도구입니다.
 
 ### Windows Registry Information
 
 Windows 레지스트리는 방대한 시스템 및 사용자 활동 데이터를 저장하며, 다음 파일에 포함되어 있습니다:
 
-* `%windir%\System32\Config`에서 다양한 `HKEY_LOCAL_MACHINE` 하위 키에 대한 파일.
+* `%windir%\System32\Config`에서 다양한 `HKEY_LOCAL_MACHINE` 하위 키.
 * `%UserProfile%{User}\NTUSER.DAT`에서 `HKEY_CURRENT_USER`.
 * Windows Vista 및 이후 버전에서는 `%Windir%\System32\Config\RegBack\`에 `HKEY_LOCAL_MACHINE` 레지스트리 파일을 백업합니다.
 * 또한, 프로그램 실행 정보는 Windows Vista 및 Windows 2008 Server 이후부터 `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`에 저장됩니다.
 
 ### Tools
 
-레지스트리 파일을 분석하는 데 유용한 도구가 있습니다:
+레지스트리 파일을 분석하는 데 유용한 몇 가지 도구가 있습니다:
 
 * **Registry Editor**: Windows에 설치되어 있습니다. 현재 세션의 Windows 레지스트리를 탐색하는 GUI입니다.
-* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): 레지스트리 파일을 로드하고 GUI를 통해 탐색할 수 있습니다. 흥미로운 정보가 있는 키를 강조하는 북마크도 포함되어 있습니다.
-* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): 로드된 레지스트리를 탐색할 수 있는 GUI가 있으며, 로드된 레지스트리 내의 흥미로운 정보를 강조하는 플러그인도 포함되어 있습니다.
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): 레지스트리 파일을 로드하고 GUI를 통해 탐색할 수 있습니다. 흥미로운 정보를 가진 키를 강조하는 북마크도 포함되어 있습니다.
+* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): 다시 GUI를 통해 로드된 레지스트리를 탐색할 수 있으며, 로드된 레지스트리 내의 흥미로운 정보를 강조하는 플러그인도 포함되어 있습니다.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): 로드된 레지스트리에서 중요한 정보를 추출할 수 있는 또 다른 GUI 애플리케이션입니다.
 
 ### Recovering Deleted Element
 
-키가 삭제되면 그렇게 표시되지만, 차지하고 있는 공간이 필요해질 때까지 제거되지 않습니다. 따라서 **Registry Explorer**와 같은 도구를 사용하면 이러한 삭제된 키를 복구할 수 있습니다.
+키가 삭제되면 그렇게 표시되지만, 해당 키가 차지하는 공간이 필요해질 때까지 제거되지 않습니다. 따라서 **Registry Explorer**와 같은 도구를 사용하면 이러한 삭제된 키를 복구할 수 있습니다.
 
 ### Last Write Time
 
@@ -289,7 +289,7 @@ Windows 레지스트리는 방대한 시스템 및 사용자 활동 데이터를
 
 ### Windows Recent APPs
 
-레지스트리 `NTUSER.DAT`의 경로 `Software\Microsoft\Current Version\Search\RecentApps` 내에서 **실행된 애플리케이션**, **마지막 실행 시간**, **실행 횟수**에 대한 정보를 포함하는 하위 키를 찾을 수 있습니다.
+레지스트리 `NTUSER.DAT`의 경로 `Software\Microsoft\Current Version\Search\RecentApps` 내에서 **실행된 애플리케이션**, **마지막 실행 시간**, **실행 횟수**에 대한 정보를 가진 하위 키를 찾을 수 있습니다.
 
 ### BAM (Background Activity Moderator)
 
@@ -303,7 +303,7 @@ Windows 프리패치는 **실행된 프로그램의 캐시를 생성**하여 더
 
 파일 이름은 `{program_name}-{hash}.pf` 형식으로 생성됩니다(해시는 실행 파일의 경로와 인수에 기반합니다). W10에서는 이러한 파일이 압축됩니다. 파일의 존재만으로도 **프로그램이 실행되었음을** 나타냅니다.
 
-파일 `C:\Windows\Prefetch\Layout.ini`는 **프리패치된 파일의 폴더 이름**을 포함합니다. 이 파일은 **실행 횟수**, **실행 날짜** 및 **프로그램이 연 파일**에 대한 정보를 포함합니다.
+파일 `C:\Windows\Prefetch\Layout.ini`는 **프리패치된 파일의 폴더 이름**을 포함합니다. 이 파일은 **실행 횟수**, **실행 날짜** 및 **프로그램에 의해 열린 파일**에 대한 정보를 포함합니다.
 
 이 파일을 검사하려면 도구 [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd)를 사용할 수 있습니다:
 ```bash
@@ -313,16 +313,16 @@ Windows 프리패치는 **실행된 프로그램의 캐시를 생성**하여 더
 
 ### Superprefetch
 
-**Superprefetch**는 **다음에 로드될 프로그램**을 예측하여 **프로그램을 더 빠르게 로드**하는 것과 같은 목표를 가지고 있습니다. 그러나, prefetch 서비스를 대체하지는 않습니다.\
+**Superprefetch**는 **다음에 로드될 프로그램**을 예측하여 **프로그램을 더 빠르게 로드**하는 것과 같은 목표를 가지고 있습니다. 그러나, 이는 prefetch 서비스를 대체하지 않습니다.\
 이 서비스는 `C:\Windows\Prefetch\Ag*.db`에 데이터베이스 파일을 생성합니다.
 
-이 데이터베이스에서는 **프로그램**의 **이름**, **실행** **횟수**, **열린** **파일**, **접근한** **볼륨**, **전체** **경로**, **시간대** 및 **타임스탬프**를 찾을 수 있습니다.
+이 데이터베이스에서는 **프로그램의 이름**, **실행 횟수**, **열린 파일**, **접근한 볼륨**, **전체 경로**, **시간대** 및 **타임스탬프**를 찾을 수 있습니다.
 
 이 정보를 얻으려면 [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/) 도구를 사용할 수 있습니다.
 
 ### SRUM
 
-**시스템 리소스 사용 모니터**(SRUM)는 **프로세스**에 의해 **소비된** **리소스**를 **모니터링**합니다. W8에서 나타났으며, `C:\Windows\System32\sru\SRUDB.dat`에 ESE 데이터베이스로 데이터를 저장합니다.
+**시스템 리소스 사용 모니터**(SRUM)는 **프로세스에 의해 소비된 리소스**를 **모니터링**합니다. W8에서 등장했으며, `C:\Windows\System32\sru\SRUDB.dat`에 ESE 데이터베이스로 데이터를 저장합니다.
 
 다음 정보를 제공합니다:
 
@@ -409,7 +409,7 @@ Windows 이벤트 내에 나타나는 정보는 다음과 같습니다:
 
 이벤트 파일의 위치는 **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`** 레지스트리에서 찾을 수 있습니다.
 
-Windows 이벤트 뷰어 (**`eventvwr.msc`**) 또는 [**Event Log Explorer**](https://eventlogxp.com) **또는** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**와 같은 다른 도구를 사용하여 시각화할 수 있습니다.
+이벤트 뷰어 (**`eventvwr.msc`**) 또는 [**Event Log Explorer**](https://eventlogxp.com) **또는** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**와 같은 다른 도구를 사용하여 시각화할 수 있습니다. 
 
 ## Understanding Windows Security Event Logging
 
@@ -441,16 +441,16 @@ Windows 이벤트 뷰어 (**`eventvwr.msc`**) 또는 [**Event Log Explorer**](ht
 
 * **0xC0000064**: 사용자 이름이 존재하지 않음 - 사용자 이름 열거 공격을 나타낼 수 있습니다.
 * **0xC000006A**: 올바른 사용자 이름이지만 잘못된 비밀번호 - 비밀번호 추측 또는 무차별 대입 시도를 나타낼 수 있습니다.
-* **0xC0000234**: 사용자 계정이 잠김 - 여러 번의 로그인 실패로 인해 무차별 대입 공격이 발생했을 수 있습니다.
+* **0xC0000234**: 사용자 계정이 잠김 - 여러 번의 로그인 실패로 인한 무차별 대입 공격 후 발생할 수 있습니다.
 * **0xC0000072**: 계정 비활성화 - 비활성 계정에 대한 무단 접근 시도.
 * **0xC000006F**: 허용된 시간 외 로그인 - 설정된 로그인 시간 외 접근 시도, 무단 접근의 가능성을 나타냅니다.
 * **0xC0000070**: 워크스테이션 제한 위반 - 무단 위치에서 로그인 시도.
 * **0xC0000193**: 계정 만료 - 만료된 사용자 계정으로 접근 시도.
-* **0xC0000071**: 비밀번호 만료 - 만료된 비밀번호로 로그인 시도.
+* **0xC0000071**: 비밀번호 만료 - 오래된 비밀번호로 로그인 시도.
 * **0xC0000133**: 시간 동기화 문제 - 클라이언트와 서버 간의 큰 시간 차이는 패스-더-티켓과 같은 더 정교한 공격을 나타낼 수 있습니다.
 * **0xC0000224**: 필수 비밀번호 변경 필요 - 빈번한 필수 변경은 계정 보안을 불안정하게 하려는 시도를 나타낼 수 있습니다.
 * **0xC0000225**: 보안 문제보다는 시스템 버그를 나타냅니다.
-* **0xC000015b**: 거부된 로그인 유형 - 사용자가 서비스 로그온을 시도하는 등 무단 로그인 유형으로 접근 시도.
+* **0xC000015b**: 거부된 로그인 유형 - 서비스 로그온을 시도하는 사용자와 같은 무단 로그인 유형으로 접근 시도.
 
 #### EventID 4616:
 
@@ -488,11 +488,11 @@ Windows 이벤트 뷰어 (**`eventvwr.msc`**) 또는 [**Event Log Explorer**](ht
 
 #### 시간 변경
 
-EventID 4616에 기록되며, 시스템 시간의 변경은 포렌식 분석을 복잡하게 만들 수 있습니다.
+EventID 4616에 기록되며, 시스템 시간 변경은 포렌식 분석을 복잡하게 만들 수 있습니다.
 
 #### USB 장치 추적
 
-USB 장치 추적에 유용한 시스템 이벤트 ID는 초기 사용을 위한 20001/20003/10000, 드라이버 업데이트를 위한 10100, 삽입 타임스탬프를 위한 DeviceSetupManager의 EventID 112가 포함됩니다.
+USB 장치 추적을 위한 유용한 시스템 이벤트 ID는 초기 사용을 위한 20001/20003/10000, 드라이버 업데이트를 위한 10100, 삽입 타임스탬프를 위한 DeviceSetupManager의 EventID 112가 포함됩니다.
 
 #### 시스템 전원 이벤트
 

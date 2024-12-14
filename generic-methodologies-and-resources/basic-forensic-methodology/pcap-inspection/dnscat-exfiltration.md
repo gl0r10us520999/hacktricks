@@ -17,7 +17,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 
 
-DNSCat에 의해 **유출된 데이터**가 포함된 pcap 파일이 있다면 (암호화를 사용하지 않고), 유출된 내용을 찾을 수 있습니다.
+DNSCat에 의해 **유출된 데이터**가 포함된 pcap 파일이 있다면(암호화를 사용하지 않고), 유출된 내용을 찾을 수 있습니다.
 
 **첫 9 바이트**는 실제 데이터가 아니라 **C\&C 통신**과 관련이 있다는 것만 알면 됩니다:
 ```python
@@ -55,7 +55,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

@@ -52,7 +52,7 @@ mkdir rootfs
 runc run demo
 ```
 {% hint style="danger" %}
-이것은 항상 작동하지 않을 수 있습니다. runc의 기본 동작은 root로 실행하는 것이기 때문에 비특권 사용자로 실행하는 것은 단순히 작동할 수 없습니다(루트리스 구성 없이는). 루트리스 구성을 기본값으로 만드는 것은 일반적으로 좋은 생각이 아닙니다. 루트리스 컨테이너 내부에는 루트리스 컨테이너 외부에는 적용되지 않는 몇 가지 제한이 있기 때문입니다.
+이것은 항상 작동하지 않을 수 있습니다. runc의 기본 동작은 root로 실행하는 것이므로, 비특권 사용자로 실행하는 것은 단순히 작동할 수 없습니다(루트리스 구성 없이는). 루트리스 구성을 기본값으로 만드는 것은 일반적으로 좋은 생각이 아닙니다. 루트리스 컨테이너 내부에는 루트리스 컨테이너 외부에는 적용되지 않는 몇 가지 제한이 있기 때문입니다.
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

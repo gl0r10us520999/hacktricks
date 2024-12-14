@@ -10,14 +10,14 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식 증진**을 목표로 하는 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
+[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식 증진**이라는 사명을 가지고 이 컨그레스는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -27,7 +27,7 @@ pcap 내에서 **악성코드**를 **검색**하기 시작하세요. [**악성�
 
 ## [볼라틸리티](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)
 
-**볼라틸리티는 메모리 덤프 분석을 위한 주요 오픈 소스 프레임워크입니다**. 이 Python 도구는 외부 소스 또는 VMware VM에서 덤프를 분석하여 덤프의 OS 프로필에 따라 프로세스 및 비밀번호와 같은 데이터를 식별합니다. 플러그인으로 확장 가능하여 포렌식 조사에 매우 유용합니다.
+**볼라틸리티는 메모리 덤프 분석을 위한 주요 오픈 소스 프레임워크입니다**. 이 Python 도구는 외부 소스 또는 VMware VM에서 덤프를 분석하여 프로세스 및 비밀번호와 같은 데이터를 덤프의 OS 프로필에 따라 식별합니다. 플러그인으로 확장 가능하여 포렌식 조사에 매우 다재다능합니다.
 
 **[여기에서 치트시트를 찾으세요](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
 

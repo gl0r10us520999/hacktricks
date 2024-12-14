@@ -18,7 +18,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우를 쉽게 구축하고 자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우를 쉽게 구축하고 자동화**하세요.\
 오늘 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -42,19 +42,19 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * **썸네일**: 웹사이트의 미리보기 이미지입니다.
 * **Custom Dictionary.txt**: 사용자가 브라우저 사전에 추가한 단어입니다.
 
-## Firefox
+## 파이어폭스
 
-Firefox는 사용자 데이터를 프로필 내에서 구성하며, 운영 체제에 따라 특정 위치에 저장됩니다:
+파이어폭스는 사용자 데이터를 프로필 내에서 구성하며, 운영 체제에 따라 특정 위치에 저장됩니다:
 
-* **Linux**: `~/.mozilla/firefox/`
+* **리눅스**: `~/.mozilla/firefox/`
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
-* **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
+* **윈도우**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
 이 디렉토리 내의 `profiles.ini` 파일은 사용자 프로필을 나열합니다. 각 프로필의 데이터는 `profiles.ini` 내의 `Path` 변수에 명시된 이름의 폴더에 저장되며, `profiles.ini`와 동일한 디렉토리에 위치합니다. 프로필 폴더가 누락된 경우 삭제되었을 수 있습니다.
 
 각 프로필 폴더 내에서 여러 중요한 파일을 찾을 수 있습니다:
 
-* **places.sqlite**: 기록, 북마크 및 다운로드를 저장합니다. Windows에서 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)와 같은 도구를 사용하여 기록 데이터를 접근할 수 있습니다.
+* **places.sqlite**: 기록, 북마크 및 다운로드를 저장합니다. Windows에서 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html)와 같은 도구를 사용하여 기록 데이터를 접근할 수 있습니다.
 * 특정 SQL 쿼리를 사용하여 기록 및 다운로드 정보를 추출합니다.
 * **bookmarkbackups**: 북마크의 백업을 포함합니다.
 * **formhistory.sqlite**: 웹 양식 데이터를 저장합니다.
@@ -62,7 +62,7 @@ Firefox는 사용자 데이터를 프로필 내에서 구성하며, 운영 체�
 * **persdict.dat**: 사용자 정의 사전 단어입니다.
 * **addons.json** 및 **extensions.sqlite**: 설치된 애드온 및 확장 프로그램에 대한 정보입니다.
 * **cookies.sqlite**: 쿠키 저장소로, Windows에서 [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)를 사용하여 검사할 수 있습니다.
-* **cache2/entries** 또는 **startupCache**: 캐시 데이터로, [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)와 같은 도구를 통해 접근할 수 있습니다.
+* **cache2/entries** 또는 **startupCache**: 캐시 데이터로, [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html)와 같은 도구를 통해 접근할 수 있습니다.
 * **favicons.sqlite**: 파비콘을 저장합니다.
 * **prefs.js**: 사용자 설정 및 기본 설정입니다.
 * **downloads.sqlite**: 이전 다운로드 데이터베이스로, 현재 places.sqlite에 통합되었습니다.
@@ -72,8 +72,8 @@ Firefox는 사용자 데이터를 프로필 내에서 구성하며, 운영 체�
 
 또한, 브라우저의 피싱 방지 설정을 확인하려면 `prefs.js`에서 `browser.safebrowsing` 항목을 검색하여 안전한 탐색 기능이 활성화되었는지 비활성화되었는지 확인할 수 있습니다.
 
-마스터 비밀번호를 복호화하려고 시도하려면 [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)를 사용할 수 있습니다.\
-다음 스크립트와 호출을 사용하여 비밀번호 파일을 지정하여 무차별 대입 공격을 수행할 수 있습니다:
+마스터 비밀번호를 복호화하려면 [https://github.com/unode/firefox_decrypt](https://github.com/unode/firefox_decrypt)를 사용할 수 있습니다.\
+다음 스크립트와 호출을 사용하여 비밀번호 파일을 지정하여 무차별 대입할 수 있습니다:
 
 {% code title="brute.sh" %}
 ```bash
@@ -92,7 +92,7 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에 저장합니다:
+Google Chrome은 운영 체제에 따라 특정 위치에 사용자 프로필을 저장합니다:
 
 * **Linux**: `~/.config/google-chrome/`
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
@@ -108,7 +108,7 @@ Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에
 * **Favicons**: 웹사이트 파비콘을 저장합니다.
 * **Login Data**: 사용자 이름 및 비밀번호와 같은 로그인 자격 증명을 포함합니다.
 * **Current Session**/**Current Tabs**: 현재 브라우징 세션 및 열린 탭에 대한 데이터입니다.
-* **Last Session**/**Last Tabs**: Chrome이 닫히기 전 마지막 세션 동안 활성 상태였던 사이트에 대한 정보입니다.
+* **Last Session**/**Last Tabs**: Chrome이 닫히기 전 마지막 세션 동안 활성화된 사이트에 대한 정보입니다.
 * **Extensions**: 브라우저 확장 및 애드온을 위한 디렉토리입니다.
 * **Thumbnails**: 웹사이트 썸네일을 저장합니다.
 * **Preferences**: 플러그인, 확장, 팝업, 알림 등에 대한 설정을 포함한 정보가 풍부한 파일입니다.
@@ -116,7 +116,7 @@ Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에
 
 ## **SQLite DB Data Recovery**
 
-앞서 언급한 바와 같이 Chrome과 Firefox는 **SQLite** 데이터베이스를 사용하여 데이터를 저장합니다. **삭제된 항목을 복구하는 도구** [**sqlparse**](https://github.com/padfoot999/sqlparse) **또는** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)를 사용할 수 있습니다.
+앞서 언급한 바와 같이 Chrome과 Firefox는 데이터를 저장하기 위해 **SQLite** 데이터베이스를 사용합니다. **삭제된 항목을 복구하는 도구** [**sqlparse**](https://github.com/padfoot999/sqlparse) **또는** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)를 사용할 수 있습니다.
 
 ## **Internet Explorer 11**
 
@@ -165,7 +165,7 @@ Safari 데이터는 `/Users/$User/Library/Safari`에 저장됩니다. 주요 파
 * **Bookmarks.plist**: 북마크된 URL을 저장합니다.
 * **TopSites.plist**: 가장 자주 방문한 사이트입니다.
 * **Extensions.plist**: Safari 브라우저 확장 목록입니다. `plutil` 또는 `pluginkit`을 사용하여 검색합니다.
-* **UserNotificationPermissions.plist**: 푸시 알림을 허용하는 도메인입니다. `plutil`을 사용하여 구문 분석합니다.
+* **UserNotificationPermissions.plist**: 푸시 알림을 허용된 도메인입니다. `plutil`을 사용하여 구문 분석합니다.
 * **LastSession.plist**: 마지막 세션의 탭입니다. `plutil`을 사용하여 구문 분석합니다.
 * **Browser’s built-in anti-phishing**: `defaults read com.apple.Safari WarnAboutFraudulentWebsites`를 사용하여 확인합니다. 1의 응답은 기능이 활성화되어 있음을 나타냅니다.
 
@@ -173,9 +173,9 @@ Safari 데이터는 `/Users/$User/Library/Safari`에 저장됩니다. 주요 파
 
 Opera의 데이터는 `/Users/$USER/Library/Application Support/com.operasoftware.Opera`에 위치하며, 기록 및 다운로드에 대한 Chrome의 형식을 공유합니다.
 
-* **Browser’s built-in anti-phishing**: `Preferences` 파일에서 `fraud_protection_enabled`가 `true`로 설정되어 있는지 확인하여 검증합니다.
+* **Browser’s built-in anti-phishing**: Preferences 파일에서 `fraud_protection_enabled`가 `true`로 설정되어 있는지 확인하여 검증합니다.
 
-이 경로와 명령은 다양한 웹 브라우저에 저장된 브라우징 데이터에 접근하고 이해하는 데 중요합니다.
+이 경로와 명령은 다양한 웹 브라우저에 의해 저장된 브라우징 데이터에 접근하고 이해하는 데 중요합니다.
 
 ## References
 
