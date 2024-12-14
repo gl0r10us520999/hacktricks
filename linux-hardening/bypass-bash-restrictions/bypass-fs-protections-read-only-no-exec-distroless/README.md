@@ -9,15 +9,15 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 <summary>Support HackTricks</summary>
 
 * Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_wymagana biegła znajomość języka polskiego w mowie i piśmie_).
+If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_wymagana biegła znajomość polskiego w mowie i piśmie_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -112,10 +112,10 @@ Celem kontenerów distroless jest **zmniejszenie powierzchni ataku kontenerów p
 
 ### Odwrócona powłoka
 
-W kontenerze distroless możesz **nawet nie znaleźć `sh` lub `bash`**, aby uzyskać zwykłą powłokę. Nie znajdziesz również plików binarnych takich jak `ls`, `whoami`, `id`... wszystko, co zwykle uruchamiasz w systemie.
+W kontenerze distroless możesz **nawet nie znaleźć `sh` ani `bash`**, aby uzyskać zwykłą powłokę. Nie znajdziesz również plików binarnych takich jak `ls`, `whoami`, `id`... wszystko, co zwykle uruchamiasz w systemie.
 
 {% hint style="warning" %}
-Dlatego **nie będziesz** w stanie uzyskać **odwróconej powłoki** ani **enumerować** systemu, jak zwykle.
+Dlatego **nie będziesz** w stanie uzyskać **odwróconej powłoki** ani **enumerować** systemu, jak zwykle to robisz.
 {% endhint %}
 
 Jednak jeśli skompromitowany kontener uruchamia na przykład aplikację flask, to python jest zainstalowany, a zatem możesz uzyskać **odwróconą powłokę Pythona**. Jeśli uruchamia node, możesz uzyskać odwróconą powłokę Node, i to samo z większością **języków skryptowych**.
@@ -127,7 +127,7 @@ Używając języka skryptowego, możesz **enumerować system** korzystając z mo
 Jeśli nie ma **ochron `read-only/no-exec`**, możesz wykorzystać swoją odwróconą powłokę do **zapisywania w systemie plików swoich plików binarnych** i **wykonywania** ich.
 
 {% hint style="success" %}
-Jednak w tego rodzaju kontenerach te zabezpieczenia zazwyczaj istnieją, ale możesz użyć **wcześniejszych technik wykonania w pamięci, aby je obejść**.
+Jednak w tego rodzaju kontenerach te zabezpieczenia zazwyczaj będą istnieć, ale możesz użyć **wcześniejszych technik wykonania w pamięci, aby je obejść**.
 {% endhint %}
 
 Możesz znaleźć **przykłady** na to, jak **wykorzystać niektóre podatności RCE**, aby uzyskać odwrócone powłoki języków skryptowych i wykonywać pliki binarne z pamięci w [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).

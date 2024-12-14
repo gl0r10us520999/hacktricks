@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-**Celem tej strony jest zaproponowanie alternatyw, które pozwalają przynajmniej na wystawienie lokalnych surowych portów TCP i lokalnych stron (HTTP) do internetu BEZ potrzeby instalowania czegokolwiek na innym serwerze (tylko lokalnie, jeśli to konieczne).**
+**Celem tej strony jest zaproponowanie alternatyw, które pozwalają przynajmniej na wystawienie lokalnych surowych portów TCP i lokalnych stron (HTTP) do internetu bez potrzeby instalowania czegokolwiek na innym serwerze (tylko lokalnie, jeśli to konieczne).**
 
 ## **Serveo**
 
-Z [https://serveo.net/](https://serveo.net/) umożliwia kilka funkcji przekazywania http i portów **za darmo**.
+Z [https://serveo.net/](https://serveo.net/) pozwala na kilka funkcji przekazywania http i portów **za darmo**.
 ```bash
 # Get a random port from serveo.net to expose local port 4444
 ssh -R 0:localhost:4444 serveo.net
@@ -59,7 +59,7 @@ Z [https://telebit.cloud/](https://telebit.cloud/) pozwala na wystawienie portó
 ```
 ## LocalXpose
 
-Z [https://localxpose.io/](https://localxpose.io/) umożliwia kilka funkcji przekazywania http i portów **za darmo**.
+Z [https://localxpose.io/](https://localxpose.io/) oferuje kilka funkcji przekazywania http i portów **za darmo**.
 ```bash
 # Expose web in port 8989
 loclx tunnel http -t 8989
@@ -94,7 +94,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

@@ -9,8 +9,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -24,7 +24,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 |   Komponent   | Akcja                                                               |
 | ------------- | -------------------------------------------------------------------- |
 | Przycisk zasilania  | Wyłączenie i ponowne włączenie urządzenia może ujawnić ekran startowy      |
-| Kabel zasilający   | Sprawdź, czy urządzenie uruchamia się ponownie po krótkim odcięciu zasilania   |
+| Kabel zasilający   | Sprawdź, czy urządzenie uruchamia się ponownie, gdy zasilanie jest chwilowo odcięte   |
 | Porty USB     | Podłącz fizyczną klawiaturę z dodatkowymi skrótami                        |
 | Ethernet      | Skanowanie sieci lub sniffing może umożliwić dalszą eksploatację             |
 
@@ -53,7 +53,7 @@ Możliwe, że **używając opcji `Otwórz za pomocą`** możesz otworzyć/wykona
 
 #### Windows
 
-Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdź więcej binarek, które mogą być używane do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdź więcej binarnych plików, które mogą być używane do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 #### \*NIX \_\_
 
@@ -84,7 +84,7 @@ _bash, sh, zsh..._ Więcej tutaj: [https://gtfobins.github.io/](https://gtfobins
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-### Pobierz swoje binarki
+### Pobierz swoje binaria
 
 Konsola: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Eksplorator: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
@@ -129,8 +129,8 @@ Edytor rejestru: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 
 ### Przesunięcia
 
-* Przesuń od lewej do prawej, aby zobaczyć wszystkie otwarte okna, minimalizując aplikację KIOSK i uzyskując dostęp do całego systemu operacyjnego bezpośrednio;
-* Przesuń od prawej do lewej, aby otworzyć Centrum akcji, minimalizując aplikację KIOSK i uzyskując dostęp do całego systemu operacyjnego bezpośrednio;
+* Przesuń od lewej do prawej, aby zobaczyć wszystkie otwarte okna, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
+* Przesuń od prawej do lewej, aby otworzyć Centrum akcji, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
 * Przesuń w dół z górnej krawędzi, aby uczynić pasek tytułowy widocznym dla aplikacji otwartej w trybie pełnoekranowym;
 * Przesuń w górę od dołu, aby pokazać pasek zadań w aplikacji pełnoekranowej.
 
@@ -163,7 +163,7 @@ Wpisz te adresy URL, aby uzyskać widok Eksploratora:
 * `Shell:Windows`
 * `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Panel sterowania
 * `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mój komputer
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Moje miejsca w sieci
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Moje miejsca sieciowe
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
 ### Pokaż rozszerzenia plików
@@ -172,7 +172,7 @@ Sprawdź tę stronę, aby uzyskać więcej informacji: [https://www.howtohaven.c
 
 ## Sztuczki przeglądarek
 
-Kopie zapasowe wersji iKat:
+Kopia zapasowa wersji iKat:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\\
@@ -185,13 +185,13 @@ Utwórz wspólne okno dialogowe za pomocą JavaScript i uzyskaj dostęp do ekspl
 ### Gesty i przyciski
 
 * Przesuń w górę czterema (lub pięcioma) palcami / Podwójne naciśnięcie przycisku Home: Aby wyświetlić widok multitaskingu i zmienić aplikację
-* Przesuń w jedną lub drugą stronę czterema lub pięcioma palcami: Aby przejść do następnej/ostatniej aplikacji
+* Przesuń w jedną lub drugą stronę czterema lub pięcioma palcami: Aby przełączyć się na następną/ostatnią aplikację
 * Złap ekran pięcioma palcami / Dotknij przycisku Home / Przesuń w górę jednym palcem z dolnej części ekranu w szybkim ruchu do góry: Aby uzyskać dostęp do ekranu głównego
 * Przesuń jednym palcem z dolnej części ekranu tylko 1-2 cale (wolno): Pojawi się dock
 * Przesuń w dół z górnej części wyświetlacza jednym palcem: Aby wyświetlić powiadomienia
 * Przesuń w dół jednym palcem w prawym górnym rogu ekranu: Aby zobaczyć centrum sterowania iPada Pro
 * Przesuń jednym palcem z lewej strony ekranu 1-2 cale: Aby zobaczyć widok Dzisiaj
-* Szybko przesuń jednym palcem z centrum ekranu w prawo lub w lewo: Aby przejść do następnej/ostatniej aplikacji
+* Szybko przesuń jednym palcem z centrum ekranu w prawo lub w lewo: Aby przełączyć się na następną/ostatnią aplikację
 * Naciśnij i przytrzymaj przycisk Włącz/**Wyłącz**/Uśpienie w prawym górnym rogu **iPada +** Przesuń suwak **wyłączania** całkowicie w prawo: Aby wyłączyć
 * Naciśnij przycisk Włącz/**Wyłącz**/Uśpienie w prawym górnym rogu **iPada i przycisk Home przez kilka sekund**: Aby wymusić twarde wyłączenie
 * Naciśnij przycisk Włącz/**Wyłącz**/Uśpienie w prawym górnym rogu **iPada i przycisk Home szybko**: Aby zrobić zrzut ekranu, który pojawi się w lewym dolnym rogu wyświetlacza. Naciśnij oba przyciski jednocześnie bardzo krótko, ponieważ jeśli przytrzymasz je przez kilka sekund, zostanie wykonane twarde wyłączenie.
@@ -303,8 +303,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

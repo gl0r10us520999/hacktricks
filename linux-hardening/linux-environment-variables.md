@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -32,7 +32,7 @@ unset MYGLOBAL
 ```
 ## Zmienne lokalne
 
-**Zmienne lokalne** mogą być **dostępne** tylko przez **bieżącą powłokę/skrypt**.
+**Zmienne lokalne** mogą być **uzyskiwane** tylko przez **bieżącą powłokę/skrypt**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
@@ -84,7 +84,7 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesy będą używać zadeklarowanego **proxy** do łączenia się z internetem przez **http lub https**.
+Procesy będą używać **proxy** zadeklarowanego tutaj, aby połączyć się z internetem przez **http lub https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"

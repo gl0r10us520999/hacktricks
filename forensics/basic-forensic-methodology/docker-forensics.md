@@ -67,7 +67,7 @@ container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-Następnie możesz **rozpakować** obraz i **uzyskać dostęp do blobów**, aby przeszukać podejrzane pliki, które mogłeś znaleźć w historii zmian:
+Następnie możesz **dekompresować** obraz i **uzyskać dostęp do blobów**, aby przeszukać podejrzane pliki, które mogłeś znaleźć w historii zmian:
 ```bash
 tar -xf image.tar
 ```
@@ -88,7 +88,7 @@ dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dive
 
-Aby znaleźć dodane/zmodyfikowane pliki w obrazach dockera, możesz również użyć narzędzia [**dive**](https://github.com/wagoodman/dive) (pobierz je z [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)):
+Aby znaleźć dodane/zmodyfikowane pliki w obrazach docker, możesz również użyć narzędzia [**dive**](https://github.com/wagoodman/dive) (pobierz je z [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)):
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -97,7 +97,7 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-To pozwala na **nawigację przez różne bloby obrazów dockera** i sprawdzenie, które pliki zostały zmodyfikowane/dodane. **Czerwony** oznacza dodany, a **żółty** oznacza zmodyfikowany. Użyj **tab** aby przejść do innego widoku i **spacji** aby zwinąć/otworzyć foldery.
+To pozwala ci **nawigować przez różne bloby obrazów dockera** i sprawdzić, które pliki zostały zmodyfikowane/dodane. **Czerwony** oznacza dodany, a **żółty** oznacza zmodyfikowany. Użyj **tab** aby przejść do innego widoku i **spacja** aby zwinąć/otworzyć foldery.
 
 Z die nie będziesz w stanie uzyskać dostępu do zawartości różnych etapów obrazu. Aby to zrobić, musisz **dekompresować każdą warstwę i uzyskać do niej dostęp**.\
 Możesz dekompresować wszystkie warstwy z obrazu z katalogu, w którym obraz został dekompresowany, wykonując:
@@ -109,7 +109,7 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 
 Zauważ, że gdy uruchamiasz kontener docker na hoście **możesz zobaczyć procesy działające w kontenerze z hosta** po prostu uruchamiając `ps -ef`
 
-Dlatego (jako root) możesz **zrzucić pamięć procesów** z hosta i wyszukać **credentials** po prostu [**jak w następującym przykładzie**](../../linux-hardening/privilege-escalation/#process-memory).
+Dlatego (jako root) możesz **zrzucić pamięć procesów** z hosta i wyszukać **credentials** po prostu [**jak w poniższym przykładzie**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 

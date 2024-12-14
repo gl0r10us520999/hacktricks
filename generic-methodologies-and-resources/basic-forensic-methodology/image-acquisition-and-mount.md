@@ -89,12 +89,12 @@ mount output/ewf1 -o ro,norecovery /mnt
 ```
 ### ArsenalImageMounter
 
-To aplikacja Windows do montowania woluminów. Możesz ją pobrać tutaj [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
+To aplikacja Windows do montowania wolumenów. Możesz ją pobrać tutaj [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### Errors
+### Błędy
 
 * **`cannot mount /dev/loop0 read-only`** w tym przypadku musisz użyć flag **`-o ro,norecovery`**
-* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** w tym przypadku montowanie nie powiodło się, ponieważ offset systemu plików jest inny niż ten w obrazie dysku. Musisz znaleźć rozmiar sektora i sektor początkowy:
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** w tym przypadku montowanie nie powiodło się, ponieważ offset systemu plików różni się od offsetu obrazu dysku. Musisz znaleźć rozmiar sektora i sektor początkowy:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -124,7 +124,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

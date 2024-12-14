@@ -6,10 +6,10 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
@@ -43,7 +43,7 @@ Gdy znajdziesz CID, zaleca się **wyszukiwanie plików zawierających ten identy
 W systemie Windows możesz znaleźć główny folder Google Drive w `\Users\<username>\AppData\Local\Google\Drive\user_default`\
 Ten folder zawiera plik o nazwie Sync\_log.log z informacjami takimi jak adres e-mail konta, nazwy plików, znaczniki czasu, hashe MD5 plików itp. Nawet usunięte pliki pojawiają się w tym pliku dziennika z odpowiadającym im MD5.
 
-Plik **`Cloud_graph\Cloud_graph.db`** to baza danych sqlite, która zawiera tabelę **`cloud_graph_entry`**. W tej tabeli można znaleźć **nazwy** **zsynchronizowanych** **plików**, czas modyfikacji, rozmiar i sumę kontrolną MD5 plików.
+Plik **`Cloud_graph\Cloud_graph.db`** to baza danych sqlite, która zawiera tabelę **`cloud_graph_entry`**. W tej tabeli można znaleźć **nazwę** **zsynchronizowanych** **plików**, czas modyfikacji, rozmiar i sumę kontrolną MD5 plików.
 
 Dane tabeli bazy danych **`Sync_config.db`** zawierają adres e-mail konta, ścieżkę do udostępnionych folderów oraz wersję Google Drive.
 
@@ -85,9 +85,9 @@ Następnie możesz użyć narzędzia [**DataProtectionDecryptor**](https://nirso
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-Jeśli wszystko pójdzie zgodnie z planem, narzędzie wskaże **klucz główny**, który musisz **użyć, aby odzyskać oryginalny**. Aby odzyskać oryginalny klucz, po prostu użyj tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)), wstawiając klucz główny jako "hasło" w przepisie.
+Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć, aby odzyskać oryginalny**. Aby odzyskać oryginalny klucz, wystarczy użyć tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)), wstawiając klucz główny jako "hasło" w przepisie.
 
-Ostateczny hex to klucz użyty do szyfrowania baz danych, który można odszyfrować za pomocą:
+Ostateczny hex to klucz końcowy użyty do szyfrowania baz danych, który można odszyfrować za pomocą:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
@@ -99,7 +99,7 @@ The **`config.dbx`** baza danych zawiera:
 * **Host\_id: Hash** używany do uwierzytelniania w chmurze. Może być odwołany tylko z poziomu sieci.
 * **Root\_ns**: Identyfikator użytkownika
 
-The **`filecache.db`** baza danych zawiera informacje o wszystkich plikach i folderach synchronizowanych z Dropbox. Tabela `File_journal` zawiera najwięcej przydatnych informacji:
+Baza danych **`filecache.db`** zawiera informacje o wszystkich plikach i folderach synchronizowanych z Dropbox. Tabela `File_journal` zawiera najwięcej przydatnych informacji:
 
 * **Server\_path**: Ścieżka, w której plik znajduje się na serwerze (ta ścieżka jest poprzedzona `host_id` klienta).
 * **local\_sjid**: Wersja pliku
@@ -131,8 +131,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

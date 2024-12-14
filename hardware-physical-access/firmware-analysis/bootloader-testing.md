@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 Zalecane kroki do modyfikacji konfiguracji uruchamiania urządzenia i bootloaderów, takich jak U-boot:
 
 1. **Dostęp do powłoki interpretera bootloadera**:
-- Podczas uruchamiania naciśnij "0", spację lub inne zidentyfikowane "kody magiczne", aby uzyskać dostęp do powłoki interpretera bootloadera.
+- Podczas uruchamiania naciśnij "0", spację lub inne zidentyfikowane "magiczne kody", aby uzyskać dostęp do powłoki interpretera bootloadera.
 
 2. **Modyfikacja argumentów uruchamiania**:
 - Wykonaj następujące polecenia, aby dodać '`init=/bin/sh`' do argumentów uruchamiania, co pozwoli na wykonanie polecenia powłoki:
@@ -43,18 +43,18 @@ Zalecane kroki do modyfikacji konfiguracji uruchamiania urządzenia i bootloader
 - Użyj `ubootwrite.py`, aby zapisać obraz U-boot i wprowadzić zmodyfikowane oprogramowanie układowe, aby uzyskać dostęp root.
 
 5. **Sprawdzenie funkcji debugowania**:
-- Zweryfikuj, czy funkcje debugowania, takie jak szczegółowe logowanie, ładowanie dowolnych rdzeni lub uruchamianie z nieufnych źródeł, są włączone.
+- Zweryfikuj, czy funkcje debugowania, takie jak szczegółowe logowanie, ładowanie dowolnych rdzeni lub uruchamianie z nieznanych źródeł, są włączone.
 
 6. **Ostrożność przy ingerencji w sprzęt**:
 - Bądź ostrożny podczas łączenia jednego pinu z masą i interakcji z chipami SPI lub NAND flash podczas sekwencji uruchamiania urządzenia, szczególnie przed dekompresją jądra. Skonsultuj się z kartą katalogową chipu NAND flash przed skracaniem pinów.
 
 7. **Konfiguracja fałszywego serwera DHCP**:
-- Skonfiguruj fałszywy serwer DHCP z złośliwymi parametrami, które urządzenie ma przyjąć podczas uruchamiania PXE. Wykorzystaj narzędzia, takie jak pomocniczy serwer DHCP Metasploit (MSF). Zmodyfikuj parametr 'FILENAME' za pomocą poleceń wstrzykiwania, takich jak `'a";/bin/sh;#'`, aby przetestować walidację wejścia dla procedur uruchamiania urządzenia.
+- Skonfiguruj fałszywy serwer DHCP z złośliwymi parametrami, które urządzenie ma przyjąć podczas uruchamiania PXE. Wykorzystaj narzędzia, takie jak serwer pomocniczy DHCP Metasploit (MSF). Zmodyfikuj parametr 'FILENAME' za pomocą poleceń wstrzykiwania, takich jak `'a";/bin/sh;#'`, aby przetestować walidację wejścia dla procedur uruchamiania urządzenia.
 
 **Uwaga**: Kroki związane z fizyczną interakcją z pinami urządzenia (*oznaczone gwiazdkami) powinny być podejmowane z ekstremalną ostrożnością, aby uniknąć uszkodzenia urządzenia.
 
 
-## Referencje
+## References
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 {% hint style="success" %}

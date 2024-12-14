@@ -1,23 +1,23 @@
-# Zanieczyszczenie klasy (Prototypowe zanieczyszczenie w Pythonie)
+# Class Pollution (Python's Prototype Pollution)
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępnij sztuczki hackingu, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) oraz [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Podstawowy przykład
+## Basic Example
 
-Sprawdź, jak możliwe jest zanieczyszczenie klas obiektów za pomocą ciągów znaków:
+Sprawdź, jak można zanieczyścić klasy obiektów za pomocą ciągów:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -74,11 +74,11 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-## Przykłady Gadżetów
+## Przykłady gadżetów
 
 <details>
 
-<summary>Tworzenie domyślnej wartości właściwości klasy dla RCE (subprocess)</summary>
+<summary>Tworzenie domyślnej wartości właściwości klasy do RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Arbitrary subprocess execution</summary>
+<summary>Arbitralne wykonywanie podprocesów</summary>
 ```python
 import subprocess, json
 
@@ -195,7 +195,7 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <summary>Nadpisywanie <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** to specjalny atrybut wszystkich funkcji, zgodnie z [dokumentacją Pythona](https://docs.python.org/3/library/inspect.html), jest to "mapowanie wartości domyślnych dla parametrów **tylko-słów-kluczowych**". Zanieczyszczanie tego atrybutu pozwala nam kontrolować wartości domyślne parametrów tylko-słów-kluczowych funkcji, które są parametrami funkcji po \* lub \*args.
+**`__kwdefaults__`** jest specjalnym atrybutem wszystkich funkcji, opartym na dokumentacji Pythona [documentation](https://docs.python.org/3/library/inspect.html), jest to „mapowanie wszelkich wartości domyślnych dla **tylko-słownikowych** parametrów”. Zanieczyszczanie tego atrybutu pozwala nam kontrolować domyślne wartości parametrów tylko-słownikowych funkcji, są to parametry funkcji, które pojawiają się po \* lub \*args.
 ```python
 from os import system
 import json
@@ -236,15 +236,15 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Nadpisywanie tajemnicy Flask w różnych plikach</summary>
+<summary>Przeciążanie sekretu Flask w różnych plikach</summary>
 
-Więc, jeśli możesz dokonać zanieczyszczenia klasy nad obiektem zdefiniowanym w głównym pliku Pythona witryny, **którego klasa jest zdefiniowana w innym pliku** niż główny. Ponieważ aby uzyskać dostęp do \_\_globals\_\_ w poprzednich ładunkach, musisz uzyskać dostęp do klasy obiektu lub metod klasy, będziesz mógł **uzyskać dostęp do globalnych z tego pliku, ale nie z głównego**. \
-Dlatego **nie będziesz mógł uzyskać dostępu do globalnego obiektu aplikacji Flask**, który zdefiniował **klucz tajny** na stronie głównej:
+Więc, jeśli możesz zrobić zanieczyszczenie klasy nad obiektem zdefiniowanym w głównym pliku pythona strony, ale **której klasa jest zdefiniowana w innym pliku** niż główny. Ponieważ aby uzyskać dostęp do \_\_globals\_\_ w poprzednich ładunkach, musisz uzyskać dostęp do klasy obiektu lub metod klasy, będziesz mógł **uzyskać dostęp do globalnych w tym pliku, ale nie w głównym**. \
+Dlatego **nie będziesz mógł uzyskać dostępu do globalnego obiektu aplikacji Flask**, który zdefiniował **klucz sekretu** na głównej stronie:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-W tym scenariuszu potrzebujesz urządzenia do przeglądania plików, aby dotrzeć do głównego pliku i **uzyskać dostęp do obiektu globalnego `app.secret_key`** w celu zmiany klucza sekretnego Flask i możliwości [**eskalacji uprawnień** znając ten klucz](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+W tym scenariuszu potrzebujesz gadżetu do przeszukiwania plików, aby dotrzeć do głównego, aby **uzyskać dostęp do globalnego obiektu `app.secret_key`**, aby zmienić klucz tajny Flask i móc [**eskalować uprawnienia** znając ten klucz](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
 Payload taki jak ten [z tego opisu](https://ctftime.org/writeup/36082):
 
@@ -254,31 +254,31 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Użyj tego payloadu, aby **zmienić `app.secret_key`** (nazwa w Twojej aplikacji może być inna), aby móc podpisywać nowe i bardziej uprzywilejowane pliki cookie w Flask.
+Użyj tego ładunku, aby **zmienić `app.secret_key`** (nazwa w twojej aplikacji może być inna), aby móc podpisywać nowe i bardziej uprzywilejowane ciasteczka flask.
 
 </details>
 
-Sprawdź również następną stronę, aby uzyskać więcej gadżetów tylko do odczytu:
+Sprawdź również następującą stronę, aby uzyskać więcej gadżetów tylko do odczytu:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-## References
+## Odniesienia
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 {% hint style="success" %}
-Naucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

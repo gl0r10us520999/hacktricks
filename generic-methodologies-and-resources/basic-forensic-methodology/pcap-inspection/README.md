@@ -1,23 +1,23 @@
 # Pcap Inspection
 
 {% hint style="success" %}
-Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z technologii i cyberbezpieczeństwa w każdej dziedzinie.
+[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z dziedziny technologii i cyberbezpieczeństwa w każdej dyscyplinie.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -25,24 +25,24 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 Uwaga na temat **PCAP** vs **PCAPNG**: istnieją dwie wersje formatu pliku PCAP; **PCAPNG jest nowszy i nie jest obsługiwany przez wszystkie narzędzia**. Może być konieczne przekształcenie pliku z PCAPNG na PCAP za pomocą Wireshark lub innego kompatybilnego narzędzia, aby móc z nim pracować w niektórych innych narzędziach.
 {% endhint %}
 
-## Narzędzia online do pcapów
+## Online tools for pcaps
 
 * Jeśli nagłówek twojego pcap jest **uszkodzony**, powinieneś spróbować go **naprawić** używając: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
 * Wyciągnij **informacje** i szukaj **złośliwego oprogramowania** w pcap w [**PacketTotal**](https://packettotal.com)
 * Szukaj **złośliwej aktywności** używając [**www.virustotal.com**](https://www.virustotal.com) i [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
 * **Pełna analiza pcap z przeglądarki w** [**https://apackets.com/**](https://apackets.com/)
 
-## Wyciąganie informacji
+## Extract Information
 
 Następujące narzędzia są przydatne do wyciągania statystyk, plików itp.
 
 ### Wireshark
 
 {% hint style="info" %}
-**Jeśli zamierzasz analizować PCAP, musisz znać podstawy korzystania z Wireshark**
+**Jeśli zamierzasz analizować PCAP, musisz zasadniczo wiedzieć, jak używać Wireshark**
 {% endhint %}
 
-Możesz znaleźć kilka trików Wireshark w:
+Możesz znaleźć kilka sztuczek Wireshark w:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -75,7 +75,7 @@ Następnie utwórz **nową sprawę**, utwórz **nową sesję** w ramach sprawy i
 ### NetworkMiner
 
 Podobnie jak Xplico, jest to narzędzie do **analizowania i wyodrębniania obiektów z pcapów**. Ma darmową edycję, którą możesz **pobrać** [**tutaj**](https://www.netresec.com/?page=NetworkMiner). Działa na **Windows**.\
-To narzędzie jest również przydatne do uzyskiwania **innych analizowanych informacji** z pakietów, aby móc szybciej zrozumieć, co się działo.
+To narzędzie jest również przydatne do uzyskania **innych analizowanych informacji** z pakietów, aby móc szybciej zrozumieć, co się działo.
 
 ### NetWitness Investigator
 
@@ -85,10 +85,10 @@ To kolejne przydatne narzędzie, które **analizuje pakiety** i sortuje informac
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
 * Wyodrębnianie i kodowanie nazw użytkowników i haseł (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Wyodrębnij hashe uwierzytelniające i złam je za pomocą Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Zbuduj wizualny diagram sieci (Węzły i użytkownicy sieci)
-* Wyodrębnij zapytania DNS
-* Odtwórz wszystkie sesje TCP i UDP
+* Wyodrębnianie hashy uwierzytelniających i łamanie ich za pomocą Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Budowanie wizualnego diagramu sieci (Węzły i użytkownicy sieci)
+* Wyodrębnianie zapytań DNS
+* Rekonstrukcja wszystkich sesji TCP i UDP
 * File Carving
 
 ### Capinfos
@@ -97,7 +97,7 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-Jeśli **szukasz** **czegoś** w pcap, możesz użyć **ngrep**. Oto przykład użycia głównych filtrów:
+Jeśli **szukasz** **czegoś** wewnątrz pcap, możesz użyć **ngrep**. Oto przykład użycia głównych filtrów:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
@@ -139,10 +139,10 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 [**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) to narzędzie, które
 
 * Odczytuje plik PCAP i wyodrębnia strumienie Http.
-* Rozpakowuje wszelkie skompresowane strumienie gzip.
-* Skanuje każdy plik za pomocą yara.
-* Pisze report.txt.
-* Opcjonalnie zapisuje pasujące pliki do katalogu.
+* Rozpakowuje wszelkie skompresowane strumienie gzip
+* Skanuje każdy plik za pomocą yara
+* Pisze report.txt
+* Opcjonalnie zapisuje pasujące pliki do katalogu
 
 ### Analiza złośliwego oprogramowania
 
@@ -154,7 +154,7 @@ Sprawdź, czy możesz znaleźć jakiekolwiek odciski palców znanego złośliweg
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) to pasywny, otwartoźródłowy analizator ruchu sieciowego. Wielu operatorów używa Zeeka jako Monitor Bezpieczeństwa Sieci (NSM) do wspierania dochodzeń w sprawie podejrzanej lub złośliwej aktywności. Zeek wspiera również szeroki zakres zadań analizy ruchu poza domeną bezpieczeństwa, w tym pomiar wydajności i rozwiązywanie problemów.
+> [Zeek](https://docs.zeek.org/en/master/about.html) to pasywny, otwartoźródłowy analizator ruchu sieciowego. Wielu operatorów używa Zeeka jako Monitor Sieciowy (NSM) do wspierania dochodzeń w sprawie podejrzanej lub złośliwej aktywności. Zeek wspiera również szeroki zakres zadań analizy ruchu poza domeną bezpieczeństwa, w tym pomiar wydajności i rozwiązywanie problemów.
 
 Zasadniczo, logi tworzone przez `zeek` nie są **pcapami**. Dlatego będziesz musiał użyć **innych narzędzi**, aby analizować logi, w których znajdują się **informacje** o pcapach.
 
@@ -253,11 +253,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

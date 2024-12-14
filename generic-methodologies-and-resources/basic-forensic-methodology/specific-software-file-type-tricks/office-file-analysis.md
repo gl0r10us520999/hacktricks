@@ -1,4 +1,4 @@
-# Analiza plików Office
+# Analiza plików biurowych
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -6,11 +6,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ Uzyskaj dostęp już dziś:
 
 Aby uzyskać więcej informacji, sprawdź [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). To tylko podsumowanie:
 
-Microsoft stworzył wiele formatów dokumentów biurowych, z dwoma głównymi typami będącymi **formatami OLE** (takimi jak RTF, DOC, XLS, PPT) oraz **formatami Office Open XML (OOXML)** (takimi jak DOCX, XLSX, PPTX). Te formaty mogą zawierać makra, co czyni je celem dla phishingu i złośliwego oprogramowania. Pliki OOXML są strukturalnie zorganizowane jako kontenery zip, co umożliwia inspekcję poprzez rozpakowanie, ujawniając hierarchię plików i folderów oraz zawartość plików XML.
+Microsoft stworzył wiele formatów dokumentów biurowych, z dwoma głównymi typami będącymi **formatami OLE** (takimi jak RTF, DOC, XLS, PPT) oraz **formatami Office Open XML (OOXML)** (takimi jak DOCX, XLSX, PPTX). Te formaty mogą zawierać makra, co czyni je celem dla phishingu i złośliwego oprogramowania. Pliki OOXML są strukturalnie zorganizowane jako kontenery zip, co pozwala na inspekcję poprzez rozpakowanie, ujawniając hierarchię plików i folderów oraz zawartość plików XML.
 
 Aby zbadać struktury plików OOXML, podano polecenie do rozpakowania dokumentu oraz strukturę wyjściową. Udokumentowano techniki ukrywania danych w tych plikach, co wskazuje na ciągłą innowację w ukrywaniu danych w ramach wyzwań CTF.
 

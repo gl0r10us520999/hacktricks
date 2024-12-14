@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społeczności.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
 Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
@@ -18,7 +18,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -32,7 +32,7 @@ Przede wszystkim zaleca się posiadanie **USB** z **dobrze znanymi binariami i b
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-Gdy skonfigurujesz system do używania dobrych i znanych binarek, możesz zacząć **ekstrahować podstawowe informacje**:
+Gdy skonfigurujesz system do używania dobrych i znanych binariów, możesz zacząć **ekstrahować podstawowe informacje**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -86,7 +86,7 @@ LiME może być również używany do **wysyłania zrzutu przez sieć** zamiast 
 #### Wyłączanie
 
 Przede wszystkim musisz **wyłączyć system**. Nie zawsze jest to opcja, ponieważ czasami system będzie serwerem produkcyjnym, którego firma nie może sobie pozwolić na wyłączenie.\
-Istnieją **2 sposoby** na wyłączenie systemu, **normalne wyłączenie** i **wyłączenie "wyciągnięciem wtyczki"**. Pierwsze pozwoli na **normalne zakończenie procesów** i **synchronizację systemu plików**, ale również umożliwi potencjalnemu **złośliwemu oprogramowaniu** **zniszczenie dowodów**. Podejście "wyciągnięcia wtyczki" może wiązać się z **pewną utratą informacji** (nie wiele informacji zostanie utraconych, ponieważ już zrobiliśmy obraz pamięci) i **złośliwe oprogramowanie nie będzie miało żadnej możliwości** działania w tej sprawie. Dlatego, jeśli **podejrzewasz**, że może być **złośliwe oprogramowanie**, po prostu wykonaj **komendę** **`sync`** w systemie i wyciągnij wtyczkę.
+Istnieją **2 sposoby** na wyłączenie systemu, **normalne wyłączenie** i **wyłączenie "wyciągnięcia wtyczki"**. Pierwsze pozwoli **procesom zakończyć się jak zwykle** i **system plików** będzie **zsynchronizowany**, ale pozwoli również potencjalnemu **złośliwemu oprogramowaniu** na **zniszczenie dowodów**. Podejście "wyciągnięcia wtyczki" może wiązać się z **pewną utratą informacji** (nie wiele informacji zostanie utraconych, ponieważ już zrobiliśmy obraz pamięci) i **złośliwe oprogramowanie nie będzie miało żadnej możliwości** działania w tej sprawie. Dlatego, jeśli **podejrzewasz**, że może być **złośliwe oprogramowanie**, po prostu wykonaj **komendę** **`sync`** w systemie i wyciągnij wtyczkę.
 
 #### Robienie obrazu dysku
 
@@ -162,13 +162,13 @@ Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Wyszukiwanie znanego złośliwego oprogramowania
+## Szukaj znanego złośliwego oprogramowania
 
 ### Zmodyfikowane pliki systemowe
 
 Linux oferuje narzędzia do zapewnienia integralności komponentów systemowych, co jest kluczowe dla wykrywania potencjalnie problematycznych plików.
 
-* **Systemy oparte na RedHat**: Użyj `rpm -Va`, aby przeprowadzić kompleksowe sprawdzenie.
+* **Systemy oparte na RedHat**: Użyj `rpm -Va` do kompleksowego sprawdzenia.
 * **Systemy oparte na Debianie**: `dpkg --verify` do wstępnej weryfikacji, a następnie `debsums | grep -v "OK$"` (po zainstalowaniu `debsums` za pomocą `apt-get install debsums`), aby zidentyfikować wszelkie problemy.
 
 ### Detektory złośliwego oprogramowania/rootkitów
@@ -179,11 +179,11 @@ Przeczytaj następującą stronę, aby dowiedzieć się o narzędziach, które m
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Wyszukiwanie zainstalowanych programów
+## Szukaj zainstalowanych programów
 
-Aby skutecznie wyszukiwać zainstalowane programy zarówno w systemach Debian, jak i RedHat, rozważ wykorzystanie dzienników systemowych i baz danych obok ręcznych sprawdzeń w typowych katalogach.
+Aby skutecznie wyszukiwać zainstalowane programy zarówno w systemach Debian, jak i RedHat, rozważ wykorzystanie dzienników systemowych i baz danych obok ręcznych kontroli w typowych katalogach.
 
-* Dla Debiana sprawdź _**`/var/lib/dpkg/status`**_ i _**`/var/log/dpkg.log`**_, aby uzyskać szczegóły dotyczące instalacji pakietów, używając `grep`, aby filtrować konkretne informacje.
+* Dla Debiana sprawdź _**`/var/lib/dpkg/status`**_ i _**`/var/log/dpkg.log`**_, aby uzyskać szczegóły dotyczące instalacji pakietów, używając `grep` do filtrowania konkretnych informacji.
 * Użytkownicy RedHat mogą zapytać bazę danych RPM za pomocą `rpm -qa --root=/mntpath/var/lib/rpm`, aby wylistować zainstalowane pakiety.
 
 Aby odkryć oprogramowanie zainstalowane ręcznie lub poza tymi menedżerami pakietów, przeszukaj katalogi takie jak _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ i _**`/sbin`**_. Połącz listy katalogów z poleceniami specyficznymi dla systemu, aby zidentyfikować pliki wykonywalne, które nie są związane z znanymi pakietami, co zwiększy twoje możliwości wyszukiwania wszystkich zainstalowanych programów.
@@ -210,15 +210,15 @@ Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Przywracanie usuniętych działających binariów
+## Przywracanie usuniętych działających binarek
 
-Wyobraź sobie proces, który został uruchomiony z /tmp/exec, a następnie usunięty. Możliwe jest jego wyodrębnienie
+Wyobraź sobie proces, który został uruchomiony z /tmp/exec, a następnie usunięty. Możliwe jest jego wydobycie
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## Inspekcja lokalizacji autostartowych
+## Inspekcja lokalizacji autostartu
 
 ### Zaplanowane zadania
 ```bash
@@ -258,10 +258,10 @@ Moduły jądra Linuksa, często wykorzystywane przez złośliwe oprogramowanie j
 
 ### Inne lokalizacje autostartu
 
-Linux wykorzystuje różne pliki do automatycznego uruchamiania programów po zalogowaniu użytkownika, co może sprzyjać ukrywaniu złośliwego oprogramowania:
+Linux wykorzystuje różne pliki do automatycznego uruchamiania programów po zalogowaniu użytkownika, co może sprzyjać złośliwemu oprogramowaniu:
 
-* **/etc/profile.d/**\*, **/etc/profile**, i **/etc/bash.bashrc**: Wykonywane dla każdego logowania użytkownika.
-* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, i **\~/.config/autostart**: Pliki specyficzne dla użytkownika, które uruchamiają się po jego logowaniu.
+* **/etc/profile.d/**\*, **/etc/profile**, i **/etc/bash.bashrc**: Wykonywane przy każdym logowaniu użytkownika.
+* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, i **\~/.config/autostart**: Pliki specyficzne dla użytkownika, które uruchamiają się po ich logowaniu.
 * **/etc/rc.local**: Uruchamia się po uruchomieniu wszystkich usług systemowych, oznaczając koniec przejścia do środowiska wieloużytkownikowego.
 
 ## Sprawdź logi
@@ -282,7 +282,7 @@ Systemy Linux śledzą aktywności użytkowników i zdarzenia systemowe za pomoc
 * **/var/log/httpd/**: Zawiera logi błędów i dostępu Apache HTTPD.
 * **/var/log/mysqld.log** lub **/var/log/mysql.log**: Rejestrują aktywności bazy danych MySQL.
 * **/var/log/xferlog**: Rejestruje transfery plików FTP.
-* **/var/log/**: Zawsze sprawdzaj nieoczekiwane logi tutaj.
+* **/var/log/**: Zawsze sprawdzaj, czy nie ma niespodziewanych logów.
 
 {% hint style="info" %}
 Logi systemowe Linuksa i podsystemy audytu mogą być wyłączone lub usunięte w przypadku incydentu włamania lub złośliwego oprogramowania. Ponieważ logi w systemach Linux zazwyczaj zawierają jedne z najbardziej użytecznych informacji o złośliwych działaniach, intruzi rutynowo je usuwają. Dlatego, przeglądając dostępne pliki logów, ważne jest, aby szukać luk lub nieuporządkowanych wpisów, które mogą wskazywać na usunięcie lub manipulację.
@@ -296,14 +296,14 @@ Logi systemowe Linuksa i podsystemy audytu mogą być wyłączone lub usunięte 
 * \~/.python\_history
 * \~/.\*\_history
 
-Ponadto, polecenie `last -Faiwx` dostarcza listę logowań użytkowników. Sprawdź je pod kątem nieznanych lub nieoczekiwanych logowań.
+Ponadto, polecenie `last -Faiwx` dostarcza listę logowań użytkowników. Sprawdź je pod kątem nieznanych lub niespodziewanych logowań.
 
 Sprawdź pliki, które mogą przyznać dodatkowe uprawnienia:
 
-* Przejrzyj `/etc/sudoers` w poszukiwaniu nieoczekiwanych uprawnień użytkowników, które mogły zostać przyznane.
-* Przejrzyj `/etc/sudoers.d/` w poszukiwaniu nieoczekiwanych uprawnień użytkowników, które mogły zostać przyznane.
-* Zbadaj `/etc/groups`, aby zidentyfikować wszelkie nietypowe członkostwa grupowe lub uprawnienia.
-* Zbadaj `/etc/passwd`, aby zidentyfikować wszelkie nietypowe członkostwa grupowe lub uprawnienia.
+* Przejrzyj `/etc/sudoers` w poszukiwaniu nieprzewidzianych uprawnień użytkowników, które mogły zostać przyznane.
+* Przejrzyj `/etc/sudoers.d/` w poszukiwaniu nieprzewidzianych uprawnień użytkowników, które mogły zostać przyznane.
+* Zbadaj `/etc/groups`, aby zidentyfikować wszelkie nietypowe członkostwa w grupach lub uprawnienia.
+* Zbadaj `/etc/passwd`, aby zidentyfikować wszelkie nietypowe członkostwa w grupach lub uprawnienia.
 
 Niektóre aplikacje również generują własne logi:
 
@@ -321,7 +321,7 @@ Niektóre aplikacje również generują własne logi:
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) to mały program napisany w czystym Pythonie 3, który analizuje pliki logów Linuksa (`/var/log/syslog*` lub `/var/log/messages*` w zależności od dystrybucji) w celu skonstruowania tabel historii zdarzeń USB.
 
-Interesujące jest **znalezienie wszystkich używanych USB** i będzie to bardziej przydatne, jeśli masz autoryzowaną listę USB, aby znaleźć "zdarzenia naruszenia" (użycie USB, które nie znajduje się na tej liście).
+Interesujące jest **znalezienie wszystkich używanych USB** i będzie to bardziej przydatne, jeśli masz autoryzowaną listę USB, aby znaleźć "zdarzenia naruszenia" (użycie USB, które nie znajdują się na tej liście).
 
 ### Instalacja
 ```bash
@@ -348,8 +348,8 @@ Uzyskaj dostęp już dziś:
 
 ## Przeglądaj konta użytkowników i aktywności logowania
 
-Zbadaj _**/etc/passwd**_, _**/etc/shadow**_ i **dzienniki zabezpieczeń** w poszukiwaniu nietypowych nazw lub kont utworzonych i/lub używanych w bliskiej odległości od znanych nieautoryzowanych zdarzeń. Sprawdź również możliwe ataki brute-force na sudo.\
-Ponadto sprawdź pliki takie jak _**/etc/sudoers**_ i _**/etc/groups**_ pod kątem nieoczekiwanych uprawnień przyznanych użytkownikom.\
+Sprawdź _**/etc/passwd**_, _**/etc/shadow**_ oraz **dzienniki zabezpieczeń** w poszukiwaniu nietypowych nazw lub kont utworzonych i/lub używanych w bliskiej odległości od znanych nieautoryzowanych zdarzeń. Sprawdź również możliwe ataki brute-force na sudo.\
+Ponadto sprawdź pliki takie jak _**/etc/sudoers**_ i _**/etc/groups**_ w poszukiwaniu nieoczekiwanych uprawnień przyznanych użytkownikom.\
 Na koniec poszukaj kont z **brakującymi hasłami** lub **łatwymi do odgadnięcia** hasłami.
 
 ## Zbadaj system plików
@@ -360,8 +360,8 @@ Podczas badania incydentów związanych z złośliwym oprogramowaniem, struktura
 
 Aby przeciwdziałać tym metodom antyforensycznym, istotne jest:
 
-* **Przeprowadzenie dokładnej analizy osi czasu** przy użyciu narzędzi takich jak **Autopsy** do wizualizacji osi czasu zdarzeń lub `mactime` z **Sleuth Kit** do szczegółowych danych osi czasu.
-* **Zbadanie nieoczekiwanych skryptów** w $PATH systemu, które mogą obejmować skrypty shell lub PHP używane przez atakujących.
+* **Przeprowadzenie dokładnej analizy chronologicznej** przy użyciu narzędzi takich jak **Autopsy** do wizualizacji chronologii zdarzeń lub `mactime` z **Sleuth Kit** do szczegółowych danych chronologicznych.
+* **Zbadanie nieoczekiwanych skryptów** w $PATH systemu, które mogą obejmować skrypty powłoki lub PHP używane przez atakujących.
 * **Sprawdzenie `/dev` pod kątem nietypowych plików**, ponieważ tradycyjnie zawiera pliki specjalne, ale może zawierać pliki związane z złośliwym oprogramowaniem.
 * **Wyszukiwanie ukrytych plików lub katalogów** o nazwach takich jak ".. " (kropka kropka spacja) lub "..^G" (kropka kropka kontrola-G), które mogą ukrywać złośliwą zawartość.
 * **Identyfikacja plików setuid root** za pomocą polecenia: `find / -user root -perm -04000 -print` To znajduje pliki z podwyższonymi uprawnieniami, które mogą być nadużywane przez atakujących.
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Zauważ, że **atakujący** może **zmodyfikować** **czas**, aby **pliki wyglądały** **na legalne**, ale **nie może** zmienić **inode**. Jeśli odkryjesz, że **plik** wskazuje, że został utworzony i zmodyfikowany w **tym samym czasie** co reszta plików w tym samym folderze, ale **inode** jest **niespodziewanie większy**, to **czasy tego pliku zostały zmodyfikowane**.
+Zauważ, że **atakujący** może **zmodyfikować** **czas**, aby **pliki wyglądały** **na legalne**, ale **nie może** zmodyfikować **inode**. Jeśli odkryjesz, że **plik** wskazuje, że został utworzony i zmodyfikowany w **tym samym czasie** co reszta plików w tym samym folderze, ale **inode** jest **niespodziewanie większy**, to **znaczniki czasu tego pliku zostały zmodyfikowane**.
 {% endhint %}
 
 ## Porównaj pliki różnych wersji systemu plików
@@ -397,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Opcje filtrowania** (`--diff-filter`) pomagają zawęzić zmiany do konkretnych, takich jak dodane (`A`), usunięte (`D`) lub zmodyfikowane (`M`) pliki.
+* **Opcje filtru** (`--diff-filter`) pomagają zawęzić do konkretnych zmian, takich jak dodane (`A`), usunięte (`D`) lub zmodyfikowane (`M`) pliki.
 * `A`: Dodane pliki
 * `C`: Skopiowane pliki
 * `D`: Usunięte pliki
@@ -421,7 +421,7 @@ Ucz się i ćwicz GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -433,7 +433,7 @@ Ucz się i ćwicz GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społeczności.\
 Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

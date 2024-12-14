@@ -57,9 +57,9 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 ## Path 2
 
-(Example from [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
+(Przykład z [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Blog¹ zespołu synacktiv opisał elegancki sposób na uzyskanie powłoki root, ale wadą jest to, że wymaga uzyskania kopii `/usr/bin/confd_cli_user`, która jest czytelna tylko przez root. Znalazłem inny sposób na eskalację do roota bez takiego kłopotu.
+Blog¹ zespołu synacktiv opisał elegancki sposób na uzyskanie powłoki root, ale wadą jest to, że wymaga uzyskania kopii `/usr/bin/confd_cli_user`, która jest czytelna tylko dla roota. Znalazłem inny sposób na eskalację do roota bez takiego kłopotu.
 
 Kiedy rozebrałem binarny plik `/usr/bin/confd_cli`, zaobserwowałem następujące:
 ```
@@ -123,7 +123,7 @@ root
 end
 run
 ```
-Konsola Wyjście:
+Konsola Output:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1

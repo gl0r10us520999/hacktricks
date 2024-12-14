@@ -19,7 +19,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 **Uzyskaj perspektywę hakera na swoje aplikacje internetowe, sieć i chmurę**
 
-**Znajdź i zgłoś krytyczne, wykorzystywalne luki w zabezpieczeniach, które mają rzeczywisty wpływ na biznes.** Użyj naszych 20+ niestandardowych narzędzi do mapowania powierzchni ataku, znajdowania problemów z bezpieczeństwem, które pozwalają na eskalację uprawnień, oraz użyj zautomatyzowanych exploitów do zbierania niezbędnych dowodów, przekształcając swoją ciężką pracę w przekonujące raporty.
+**Znajdź i zgłoś krytyczne, wykorzystywalne luki w zabezpieczeniach, które mają rzeczywisty wpływ na biznes.** Użyj naszych 20+ niestandardowych narzędzi do mapowania powierzchni ataku, znajdowania problemów z bezpieczeństwem, które pozwalają na eskalację uprawnień, oraz użyj automatycznych exploitów do zbierania niezbędnych dowodów, przekształcając swoją ciężką pracę w przekonujące raporty.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -33,7 +33,7 @@ Zauważ, że możliwe jest, że nie musisz nawet czekać, aż użytkownik klikni
 
 ### Booleany sesji
 
-Czasami, gdy poprawnie zakończysz weryfikację, backend **po prostu doda boolean z wartością "True" do atrybutu bezpieczeństwa twojej sesji**. Następnie inny punkt końcowy będzie wiedział, czy pomyślnie przeszedłeś tę kontrolę.\
+Czasami, gdy poprawnie zakończysz weryfikację, backend **po prostu dodaje boolean o wartości "True" do atrybutu bezpieczeństwa twojej sesji**. Następnie inny punkt końcowy będzie wiedział, czy pomyślnie przeszedłeś tę kontrolę.\
 Jednak jeśli **przejdziesz kontrolę** i twoja sesja otrzyma tę wartość "True" w atrybucie bezpieczeństwa, możesz spróbować **uzyskać dostęp do innych zasobów**, które **zależą od tego samego atrybutu**, ale do których **nie powinieneś mieć uprawnień** do dostępu. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
 ### Funkcjonalność rejestracji
@@ -50,7 +50,7 @@ Zarejestruj e-mail, przed potwierdzeniem zmień e-mail, a następnie, jeśli now
 
 ### Metoda TRACE
 
-Programiści mogą zapomnieć wyłączyć różne opcje debugowania w środowisku produkcyjnym. Na przykład, metoda HTTP `TRACE` jest zaprojektowana do celów diagnostycznych. Jeśli jest włączona, serwer internetowy odpowie na żądania, które używają metody `TRACE`, echoując w odpowiedzi dokładne żądanie, które zostało odebrane. To zachowanie jest często nieszkodliwe, ale czasami prowadzi do ujawnienia informacji, takich jak nazwy wewnętrznych nagłówków uwierzytelniających, które mogą być dołączane do żądań przez odwrotne proxy.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+Programiści mogą zapomnieć wyłączyć różne opcje debugowania w środowisku produkcyjnym. Na przykład metoda HTTP `TRACE` jest zaprojektowana do celów diagnostycznych. Jeśli jest włączona, serwer internetowy odpowiada na żądania, które używają metody `TRACE`, echoując w odpowiedzi dokładne żądanie, które zostało odebrane. To zachowanie jest często nieszkodliwe, ale czasami prowadzi do ujawnienia informacji, takich jak nazwy wewnętrznych nagłówków uwierzytelniających, które mogą być dołączane do żądań przez odwrotne proxy.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
 ![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 
@@ -59,7 +59,7 @@ Programiści mogą zapomnieć wyłączyć różne opcje debugowania w środowisk
 
 **Uzyskaj perspektywę hakera na swoje aplikacje internetowe, sieć i chmurę**
 
-**Znajdź i zgłoś krytyczne, wykorzystywalne luki w zabezpieczeniach, które mają rzeczywisty wpływ na biznes.** Użyj naszych 20+ niestandardowych narzędzi do mapowania powierzchni ataku, znajdowania problemów z bezpieczeństwem, które pozwalają na eskalację uprawnień, oraz użyj zautomatyzowanych exploitów do zbierania niezbędnych dowodów, przekształcając swoją ciężką pracę w przekonujące raporty.
+**Znajdź i zgłoś krytyczne, wykorzystywalne luki w zabezpieczeniach, które mają rzeczywisty wpływ na biznes.** Użyj naszych 20+ niestandardowych narzędzi do mapowania powierzchni ataku, znajdowania problemów z bezpieczeństwem, które pozwalają na eskalację uprawnień, oraz użyj automatycznych exploitów do zbierania niezbędnych dowodów, przekształcając swoją ciężką pracę w przekonujące raporty.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 

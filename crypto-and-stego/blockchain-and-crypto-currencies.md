@@ -1,188 +1,189 @@
 {% hint style="success" %}
-Ucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Szkolenie AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Szkolenie GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-## Podstawowe Pojęcia
+## Podstawowe pojęcia
 
-- **Smart Contracts** są programami działającymi na blockchainie, które wykonują się, gdy spełnione są określone warunki, automatyzując wykonanie umów bez pośredników.
-- **Zdecentralizowane Aplikacje (dApps)** opierają się na smart contractach, posiadając przyjazny interfejs użytkownika oraz transparentne, audytowalne zaplecze.
-- **Tokeny i Monety** różnią się tym, że monety służą jako cyfrowe pieniądze, podczas gdy tokeny reprezentują wartość lub własność w określonych kontekstach.
-- **Tokeny Użytkowe** umożliwiają dostęp do usług, a **Tokeny Bezpieczeństwa** oznaczają posiadanie aktywów.
-- **DeFi** oznacza Dezentralizowaną Finansów, oferując usługi finansowe bez centralnych władz.
-- **DEX** i **DAOs** odnoszą się odpowiednio do Platform Wymiany Zdecentralizowanej i Zdecentralizowanych Organizacji Autonomicznych.
+- **Smart Contracts** są definiowane jako programy, które wykonują się na blockchainie, gdy spełnione są określone warunki, automatyzując realizację umów bez pośredników.
+- **Decentralized Applications (dApps)** opierają się na smart contracts, oferując przyjazny interfejs użytkownika oraz przejrzysty, audytowalny backend.
+- **Tokens & Coins** różnią się tym, że monety służą jako cyfrowe pieniądze, podczas gdy tokeny reprezentują wartość lub własność w określonych kontekstach.
+- **Utility Tokens** dają dostęp do usług, a **Security Tokens** oznaczają własność aktywów.
+- **DeFi** oznacza Decentralized Finance, oferując usługi finansowe bez centralnych władz.
+- **DEX** i **DAOs** odnoszą się odpowiednio do Decentralized Exchange Platforms i Decentralized Autonomous Organizations.
 
-## Mechanizmy Konsensusu
+## Mechanizmy konsensusu
 
 Mechanizmy konsensusu zapewniają bezpieczne i uzgodnione walidacje transakcji na blockchainie:
-- **Proof of Work (PoW)** polega na mocy obliczeniowej do weryfikacji transakcji.
-- **Proof of Stake (PoS)** wymaga, aby walidatorzy posiadalii określoną ilość tokenów, zmniejszając zużycie energii w porównaniu do PoW.
+- **Proof of Work (PoW)** opiera się na mocy obliczeniowej do weryfikacji transakcji.
+- **Proof of Stake (PoS)** wymaga, aby walidatorzy posiadali określoną ilość tokenów, co zmniejsza zużycie energii w porównaniu do PoW.
 
 ## Podstawy Bitcoina
 
 ### Transakcje
 
-Transakcje Bitcoina polegają na przesyłaniu środków między adresami. Transakcje są walidowane za pomocą podpisów cyfrowych, zapewniając, że tylko właściciel klucza prywatnego może inicjować transfery.
+Transakcje Bitcoinowe polegają na transferze środków między adresami. Transakcje są weryfikowane za pomocą podpisów cyfrowych, co zapewnia, że tylko właściciel klucza prywatnego może inicjować transfery.
 
-#### Główne Składniki:
+#### Kluczowe komponenty:
 
-- **Transakcje Multisygnaturowe** wymagają wielu podpisów do autoryzacji transakcji.
-- Transakcje składają się z **wejść** (źródła środków), **wyjść** (celu), **opłat** (płaconych górnikom) oraz **skryptów** (reguł transakcji).
+- **Multisignature Transactions** wymagają wielu podpisów do autoryzacji transakcji.
+- Transakcje składają się z **inputs** (źródło funduszy), **outputs** (cel), **fees** (płatne górnikom) oraz **scripts** (zasady transakcji).
 
-### Sieć Błyskawiczna
+### Lightning Network
 
-Ma na celu zwiększenie skalowalności Bitcoina, pozwalając na wiele transakcji w kanale, a następnie nadając tylko ostateczny stan na blockchainie.
+Ma na celu zwiększenie skalowalności Bitcoina, pozwalając na wiele transakcji w ramach jednego kanału, transmitując tylko końcowy stan do blockchaina.
 
-## Problemy Prywatności Bitcoina
+## Problemy z prywatnością Bitcoina
 
-Ataki na prywatność, takie jak **Wspólne Posiadanie Wejścia** i **Wykrywanie Adresu Zmiany UTXO**, wykorzystują wzorce transakcji. Strategie takie jak **Miksery** i **CoinJoin** poprawiają anonimowość, zacieniając połączenia transakcyjne między użytkownikami.
+Ataki na prywatność, takie jak **Common Input Ownership** i **UTXO Change Address Detection**, wykorzystują wzorce transakcji. Strategie takie jak **Mixers** i **CoinJoin** poprawiają anonimowość, zaciemniając powiązania transakcji między użytkownikami.
 
-## Nabywanie Bitcoinów Anonimowo
+## Nabywanie Bitcoinów anonimowo
 
-Metody obejmują handel gotówką, kopanie oraz korzystanie z miksów. **CoinJoin** miesza wiele transakcji, komplikując śledzenie, podczas gdy **PayJoin** maskuje CoinJoiny jako zwykłe transakcje dla zwiększonej prywatności.
+Metody obejmują transakcje gotówkowe, kopanie oraz korzystanie z mixerów. **CoinJoin** łączy wiele transakcji, aby skomplikować śledzenie, podczas gdy **PayJoin** maskuje CoinJoins jako zwykłe transakcje dla zwiększonej prywatności.
 
 
-# Ataki na Prywatność Bitcoina
+# Ataki na prywatność Bitcoina
 
-# Podsumowanie Ataków na Prywatność Bitcoina
+# Podsumowanie ataków na prywatność Bitcoina
 
-W świecie Bitcoina prywatność transakcji i anonimowość użytkowników często budzą obawy. Oto uproszczony przegląd kilku powszechnych metod, za pomocą których atakujący mogą naruszyć prywatność Bitcoina.
+W świecie Bitcoina prywatność transakcji i anonimowość użytkowników są często przedmiotem zmartwień. Oto uproszczony przegląd kilku powszechnych metod, za pomocą których atakujący mogą naruszyć prywatność Bitcoina.
 
-## **Założenie Wspólnego Posiadania Wejścia**
+## **Założenie wspólnej własności wejść**
 
-Zazwyczaj rzadko zdarza się, że wejścia od różnych użytkowników są łączone w jednej transakcji ze względu na złożoność. Dlatego **dwa adresy wejściowe w tej samej transakcji są często uważane za należące do tego samego właściciela**.
+Zazwyczaj rzadko zdarza się, aby wejścia od różnych użytkowników były łączone w jednej transakcji z powodu związanej z tym złożoności. Dlatego **dwa adresy wejściowe w tej samej transakcji często zakłada się, że należą do tego samego właściciela**.
 
-## **Wykrywanie Adresu Zmiany UTXO**
+## **Wykrywanie adresu zmiany UTXO**
 
-UTXO, czyli **Niewykorzystany Wynik Transakcji**, musi być całkowicie wydany w transakcji. Jeśli tylko część z niego jest wysyłana na inny adres, reszta trafia na nowy adres zmiany. Obserwatorzy mogą założyć, że ten nowy adres należy do nadawcy, naruszając prywatność.
+UTXO, czyli **Unspent Transaction Output**, musi być całkowicie wydany w transakcji. Jeśli tylko część z niego jest wysyłana na inny adres, reszta trafia na nowy adres zmiany. Obserwatorzy mogą założyć, że ten nowy adres należy do nadawcy, co narusza prywatność.
 
 ### Przykład
-Aby temu zapobiec, usługi miksowania lub korzystanie z wielu adresów może pomóc zaciemnić właściciela.
+Aby to złagodzić, usługi mieszania lub korzystanie z wielu adresów mogą pomóc w zaciemnieniu własności.
 
-## **Ekspozycja w Sieciach Społecznościowych i Forach**
+## **Ekspozycja w sieciach społecznościowych i forach**
 
-Użytkownicy czasami udostępniają swoje adresy Bitcoin online, co sprawia, że jest **łatwo powiązać adres z jego właścicielem**.
+Użytkownicy czasami dzielą się swoimi adresami Bitcoinowymi w Internecie, co sprawia, że **łatwo jest powiązać adres z jego właścicielem**.
 
-## **Analiza Grafu Transakcji**
+## **Analiza grafów transakcji**
 
-Transakcje można wizualizować jako grafy, ujawniając potencjalne połączenia między użytkownikami na podstawie przepływu środków.
+Transakcje można wizualizować jako grafy, ujawniające potencjalne powiązania między użytkownikami na podstawie przepływu funduszy.
 
-## **Heurystyka Niepotrzebnego Wejścia (Optymalna Heurystyka Zmiany)**
+## **Heurystyka niepotrzebnych wejść (Heurystyka optymalnej zmiany)**
 
-Ta heurystyka opiera się na analizie transakcji z wieloma wejściami i wyjściami, aby zgadywać, które wyjście to zmiana wracająca do nadawcy.
+Ta heurystyka opiera się na analizie transakcji z wieloma wejściami i wyjściami, aby zgadnąć, które wyjście jest zmianą wracającą do nadawcy.
 
 ### Przykład
 ```bash
 2 btc --> 4 btc
 3 btc     1 btc
 ```
-## **Wymuszony Powrót do Adresu**
+If adding more inputs makes the change output larger than any single input, it can confuse the heuristic.
 
-Atakujący mogą wysyłać niewielkie kwoty na wcześniej używane adresy, mając nadzieję, że odbiorca połączy je z innymi wejściami w przyszłych transakcjach, co pozwoli na powiązanie adresów.
+## **Wymuszone ponowne użycie adresu**
 
-### Poprawne Zachowanie Portfela
-Portfele powinny unikać używania monet otrzymanych na już używanych, pustych adresach, aby zapobiec wyciekowi prywatności.
+Atakujący mogą wysyłać małe kwoty na wcześniej używane adresy, mając nadzieję, że odbiorca połączy je z innymi wejściami w przyszłych transakcjach, łącząc w ten sposób adresy.
 
-## **Inne Techniki Analizy Blockchain**
+### Poprawne zachowanie portfela
+Portfele powinny unikać używania monet otrzymanych na już używanych, pustych adresach, aby zapobiec temu wyciekowi prywatności.
 
-- **Dokładne Kwoty Płatności:** Transakcje bez reszty są prawdopodobnie między dwoma adresami należącymi do tego samego użytkownika.
-- **Kwoty Zaokrąglone:** Kwota zaokrąglona w transakcji sugeruje, że jest to płatność, a niezaokrąglony wynik prawdopodobnie jest resztą.
-- **Identyfikacja Portfela:** Różne portfele mają unikalne wzorce tworzenia transakcji, pozwalając analitykom zidentyfikować użyte oprogramowanie i potencjalnie adres reszty.
-- **Korelacje Kwot i Czasu:** Ujawnienie czasów lub kwot transakcji może uczynić je śledzalnymi.
+## **Inne techniki analizy blockchaina**
 
-## **Analiza Ruchu**
+- **Dokładne kwoty płatności:** Transakcje bez reszty prawdopodobnie odbywają się między dwoma adresami należącymi do tego samego użytkownika.
+- **Okrągłe liczby:** Okrągła liczba w transakcji sugeruje, że jest to płatność, a nieokrągły wynik prawdopodobnie jest resztą.
+- **Odcisk portfela:** Różne portfele mają unikalne wzorce tworzenia transakcji, co pozwala analitykom zidentyfikować używane oprogramowanie i potencjalnie adres zmiany.
+- **Korelacje kwoty i czasu:** Ujawnienie czasów lub kwot transakcji może sprawić, że transakcje będą śledzone.
 
-Poprzez monitorowanie ruchu sieciowego, atakujący mogą potencjalnie powiązać transakcje lub bloki z adresami IP, naruszając prywatność użytkowników. Szczególnie dotyczy to sytuacji, gdy podmiot obsługuje wiele węzłów Bitcoin, zwiększając zdolność monitorowania transakcji.
+## **Analiza ruchu**
+
+Monitorując ruch w sieci, atakujący mogą potencjalnie powiązać transakcje lub bloki z adresami IP, naruszając prywatność użytkowników. Jest to szczególnie prawdziwe, jeśli podmiot obsługuje wiele węzłów Bitcoin, co zwiększa ich zdolność do monitorowania transakcji.
 
 ## Więcej
-Aby uzyskać kompletną listę ataków i obrony prywatności, odwiedź [Prywatność Bitcoin na Wiki Bitcoin](https://en.bitcoin.it/wiki/Privacy).
+Aby uzyskać pełną listę ataków na prywatność i obrony, odwiedź [Prywatność Bitcoin na Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy).
 
+# Anonimowe transakcje Bitcoin
 
-# Anonimowe Transakcje Bitcoin
+## Sposoby na zdobycie Bitcoinów anonimowo
 
-## Sposoby na Uzyskanie Bitcoinów Anonimowo
+- **Transakcje gotówkowe**: Nabywanie bitcoinów za gotówkę.
+- **Alternatywy gotówkowe**: Zakup kart podarunkowych i wymiana ich online na bitcoiny.
+- **Kopanie**: Najbardziej prywatną metodą zdobywania bitcoinów jest kopanie, szczególnie gdy jest wykonywane samodzielnie, ponieważ pule wydobywcze mogą znać adres IP górnika. [Informacje o pulach wydobywczych](https://en.bitcoin.it/wiki/Pooled_mining)
+- **Kradzież**: Teoretycznie kradzież bitcoinów mogłaby być inną metodą na ich anonimowe zdobycie, chociaż jest to nielegalne i niezalecane.
 
-- **Transakcje Gotówkowe**: Pozyskiwanie bitcoinów za gotówkę.
-- **Alternatywy Gotówkowe**: Zakup kart podarunkowych i wymiana ich online na bitcoiny.
-- **Kopanie**: Najbardziej prywatny sposób zdobycia bitcoinów to kopanie, zwłaszcza gdy jest wykonywane samodzielnie, ponieważ pule wydobywcze mogą znać adres IP kopacza. [Informacje o Pulach Wydobywczych](https://en.bitcoin.it/wiki/Pooled_mining)
-- **Kradzież**: Teoretycznie kradzież bitcoinów mógłby być kolejnym sposobem na ich anonimowe pozyskanie, chociaż jest to nielegalne i niezalecane.
+## Usługi mieszania
 
-## Usługi Mieszania
-
-Poprzez korzystanie z usługi mieszania, użytkownik może **wysłać bitcoiny** i otrzymać **inne bitcoiny w zamian**, co utrudnia śledzenie pierwotnego właściciela. Jednak wymaga to zaufania do usługi, aby nie przechowywała logów i faktycznie zwróciła bitcoiny. Alternatywne opcje mieszania obejmują kasyna Bitcoin.
+Korzystając z usługi mieszania, użytkownik może **wysłać bitcoiny** i otrzymać **inne bitcoiny w zamian**, co utrudnia śledzenie oryginalnego właściciela. Jednak wymaga to zaufania do usługi, aby nie prowadziła logów i rzeczywiście zwróciła bitcoiny. Alternatywne opcje mieszania obejmują kasyna Bitcoin.
 
 ## CoinJoin
 
-**CoinJoin** łączy wiele transakcji od różnych użytkowników w jedną, komplikując proces dla osób próbujących dopasować wejścia do wyjść. Pomimo swojej skuteczności, transakcje z unikalnymi rozmiarami wejść i wyjść wciąż mogą potencjalnie być śledzone.
+**CoinJoin** łączy wiele transakcji od różnych użytkowników w jedną, co komplikuje proces dla każdego, kto próbuje dopasować wejścia do wyjść. Mimo swojej skuteczności, transakcje z unikalnymi rozmiarami wejść i wyjść mogą nadal być potencjalnie śledzone.
 
-Przykładowe transakcje, które mogły zostać wykonane za pomocą CoinJoin, to `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` i `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
+Przykładowe transakcje, które mogły używać CoinJoin, to `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` i `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
 
-Aby uzyskać więcej informacji, odwiedź [CoinJoin](https://coinjoin.io/en). Dla podobnej usługi na Ethereum, sprawdź [Tornado Cash](https://tornado.cash), która anonimizuje transakcje z funduszy od górników.
+Aby uzyskać więcej informacji, odwiedź [CoinJoin](https://coinjoin.io/en). Dla podobnej usługi na Ethereum, sprawdź [Tornado Cash](https://tornado.cash), które anonimizuje transakcje z funduszami od górników.
 
 ## PayJoin
 
-Wariant CoinJoin, **PayJoin** (lub P2EP), maskuje transakcję między dwiema stronami (np. klientem i handlowcem) jako zwykłą transakcję, bez charakterystycznych równych wyjść charakterystycznych dla CoinJoin. Sprawia to, że jest to bardzo trudne do wykrycia i może unieważnić heurystykę wspólnego posiadania wejścia używaną przez podmioty monitorujące transakcje.
+Wariant CoinJoin, **PayJoin** (lub P2EP), ukrywa transakcję między dwiema stronami (np. klientem i sprzedawcą) jako zwykłą transakcję, bez charakterystycznych równych wyjść typowych dla CoinJoin. To sprawia, że jest niezwykle trudne do wykrycia i może unieważnić heurystykę wspólnego posiadania wejść używaną przez podmioty nadzorujące transakcje.
 ```plaintext
 2 btc --> 3 btc
 5 btc     4 btc
 ```
-Transakcje jak powyższa mogą być PayJoin, zwiększając prywatność, pozostając jednocześnie nie do odróżnienia od standardowych transakcji bitcoinowych.
+Transakcje takie jak powyższe mogą być PayJoin, co zwiększa prywatność, pozostając nieodróżnialnymi od standardowych transakcji bitcoinowych.
 
-**Wykorzystanie PayJoin może znacząco zakłócić tradycyjne metody nadzoru**, co czyni go obiecującym rozwojem w dążeniu do prywatności transakcyjnej.
+**Wykorzystanie PayJoin może znacząco zakłócić tradycyjne metody nadzoru**, co czyni to obiecującym rozwojem w dążeniu do prywatności transakcyjnej.
 
 
 # Najlepsze praktyki dotyczące prywatności w kryptowalutach
 
-## **Techniki synchronizacji portfela**
+## **Techniki synchronizacji portfeli**
 
-Aby zachować prywatność i bezpieczeństwo, synchronizacja portfeli z blockchainem jest kluczowa. Wyróżniają się dwie metody:
+Aby zachować prywatność i bezpieczeństwo, synchronizacja portfeli z blockchainem jest kluczowa. Dwie metody wyróżniają się:
 
-- **Pełny węzeł**: Pobierając cały blockchain, pełny węzeł zapewnia maksymalną prywatność. Wszystkie dokonane transakcje są przechowywane lokalnie, co uniemożliwia przeciwnikom zidentyfikowanie, które transakcje lub adresy użytkownik interesują.
-- **Filtrowanie bloków po stronie klienta**: Ta metoda polega na tworzeniu filtrów dla każdego bloku w blockchainie, pozwalając portfelom identyfikować istotne transakcje bez ujawniania konkretnych zainteresowań obserwatorom sieci. Lekkie portfele pobierają te filtry, pobierając pełne bloki tylko wtedy, gdy zostanie znalezione dopasowanie do adresów użytkownika.
+- **Pełny węzeł**: Pobierając cały blockchain, pełny węzeł zapewnia maksymalną prywatność. Wszystkie transakcje kiedykolwiek dokonane są przechowywane lokalnie, co uniemożliwia przeciwnikom zidentyfikowanie, które transakcje lub adresy interesują użytkownika.
+- **Filtrowanie bloków po stronie klienta**: Ta metoda polega na tworzeniu filtrów dla każdego bloku w blockchainie, co pozwala portfelom identyfikować odpowiednie transakcje bez ujawniania konkretnych zainteresowań obserwatorom sieci. Lekkie portfele pobierają te filtry, ściągając pełne bloki tylko wtedy, gdy znajdą dopasowanie z adresami użytkownika.
 
-## **Wykorzystanie Tor dla Anonimowości**
+## **Wykorzystanie Tora dla anonimowości**
 
-Ponieważ Bitcoin działa w sieci peer-to-peer, zaleca się korzystanie z Tor, aby zasłonić swój adres IP, zwiększając prywatność podczas interakcji z siecią.
+Biorąc pod uwagę, że Bitcoin działa w sieci peer-to-peer, zaleca się korzystanie z Tora, aby ukryć swój adres IP, co zwiększa prywatność podczas interakcji z siecią.
 
-## **Zapobieganie Ponownemu Używaniu Adresów**
+## **Zapobieganie ponownemu używaniu adresów**
 
-Aby chronić prywatność, ważne jest używanie nowego adresu dla każdej transakcji. Ponowne użycie adresów może naruszyć prywatność, łącząc transakcje z tą samą jednostką. Nowoczesne portfele zniechęcają do ponownego używania adresów poprzez swoje projekty.
+Aby chronić prywatność, ważne jest, aby używać nowego adresu do każdej transakcji. Ponowne używanie adresów może narazić prywatność, łącząc transakcje z tą samą jednostką. Nowoczesne portfele zniechęcają do ponownego używania adresów poprzez swój design.
 
-## **Strategie dla Prywatności Transakcji**
+## **Strategie dla prywatności transakcji**
 
-- **Wiele transakcji**: Podzielenie płatności na kilka transakcji może zaciemnić kwotę transakcji, udaremniając ataki na prywatność.
-- **Unikanie reszty**: Wybieranie transakcji, które nie wymagają reszty, zwiększa prywatność poprzez zakłócenie metod wykrywania reszty.
-- **Wiele reszt**: Jeśli unikanie reszty nie jest możliwe, generowanie wielu reszt nadal może poprawić prywatność.
+- **Wiele transakcji**: Podzielenie płatności na kilka transakcji może zaciemnić kwotę transakcji, utrudniając ataki na prywatność.
+- **Unikanie reszty**: Wybieranie transakcji, które nie wymagają zwrotu reszty, zwiększa prywatność, zakłócając metody wykrywania reszty.
+- **Wiele zwrotów reszty**: Jeśli unikanie reszty nie jest możliwe, generowanie wielu zwrotów reszty może nadal poprawić prywatność.
 
-# **Monero: Latarnia Anonimowości**
+# **Monero: Latarnia anonimowości**
 
 Monero odpowiada na potrzebę absolutnej anonimowości w transakcjach cyfrowych, ustanawiając wysoki standard prywatności.
 
-# **Ethereum: Gas i Transakcje**
+# **Ethereum: Gaz i transakcje**
 
-## **Zrozumienie Gazu**
+## **Zrozumienie gazu**
 
-Gas mierzy wysiłek obliczeniowy potrzebny do wykonania operacji na Ethereum, wyceniany w **gwei**. Na przykład transakcja kosztująca 2 310 000 gwei (lub 0,00231 ETH) obejmuje limit gazu, opłatę podstawową oraz napiwek dla zachęty dla górników. Użytkownicy mogą ustawić maksymalną opłatę, aby upewnić się, że nie przepłacają, a nadwyżka zostanie zwrócona.
+Gaz mierzy wysiłek obliczeniowy potrzebny do wykonania operacji na Ethereum, wyceniany w **gwei**. Na przykład, transakcja kosztująca 2,310,000 gwei (lub 0.00231 ETH) wiąże się z limitem gazu i opłatą podstawową, z napiwkiem dla zachęcenia górników. Użytkownicy mogą ustawić maksymalną opłatę, aby upewnić się, że nie przepłacają, a nadwyżka jest zwracana.
 
-## **Wykonywanie Transakcji**
+## **Wykonywanie transakcji**
 
-Transakcje w Ethereum obejmują nadawcę i odbiorcę, którzy mogą być adresami użytkownika lub inteligentnych kontraktów. Wymagają one opłaty i muszą być wydobywane. Istotne informacje w transakcji obejmują odbiorcę, podpis nadawcy, wartość, opcjonalne dane, limit gazu i opłaty. Warto zauważyć, że adres nadawcy jest wydedukowany z podpisu, eliminując potrzebę jego zawarcia w danych transakcji.
+Transakcje w Ethereum obejmują nadawcę i odbiorcę, którymi mogą być adresy użytkowników lub smart kontraktów. Wymagają one opłaty i muszą być wydobywane. Kluczowe informacje w transakcji obejmują odbiorcę, podpis nadawcy, wartość, opcjonalne dane, limit gazu i opłaty. Co ważne, adres nadawcy jest dedukowany z podpisu, co eliminuje potrzebę jego umieszczania w danych transakcji.
 
-Te praktyki i mechanizmy stanowią fundament dla każdego, kto chce zaangażować się w kryptowaluty, priorytetyzując prywatność i bezpieczeństwo.
+Te praktyki i mechanizmy są podstawowe dla każdego, kto chce angażować się w kryptowaluty, priorytetowo traktując prywatność i bezpieczeństwo.
 
 
-## Referencje
+## Źródła
 
 * [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
 * [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
@@ -190,3 +191,19 @@ Te praktyki i mechanizmy stanowią fundament dla każdego, kto chce zaangażowa�
 * [https://ethereum.org/en/developers/docs/transactions/](https://ethereum.org/en/developers/docs/transactions/)
 * [https://ethereum.org/en/developers/docs/gas/](https://ethereum.org/en/developers/docs/gas/)
 * [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy#Forced\_address\_reuse)
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

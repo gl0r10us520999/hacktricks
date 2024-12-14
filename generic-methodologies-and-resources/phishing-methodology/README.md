@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -22,7 +22,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 2. Wykonaj podstawową enumerację sieciową **szukając portali logowania** używanych przez ofiarę i **zdecyduj**, który z nich będziesz **podrabiać**.
 3. Użyj **OSINT**, aby **znaleźć e-maile**.
 2. Przygotowanie środowiska
-1. **Kup domenę**, której zamierzasz użyć do oceny phishingowej.
+1. **Kup domenę**, którą zamierzasz użyć do oceny phishingowej.
 2. **Skonfiguruj usługi e-mailowe** związane z rekordami (SPF, DMARC, DKIM, rDNS).
 3. Skonfiguruj VPS z **gophish**.
 3. Przygotowanie kampanii
@@ -39,13 +39,13 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * **Nowe TLD**: Ta sama domena używająca **nowego TLD** (np. zelster.org).
 * **Homoglif**: **Zastępuje** literę w nazwie domeny **literami, które wyglądają podobnie** (np. zelfser.com).
 * **Transpozycja:** **Zamienia dwie litery** w nazwie domeny (np. zelsetr.com).
-* **Singularizacja/Pluralizacja**: Dodaje lub usuwa „s” na końcu nazwy domeny (np. zeltsers.com).
+* **Liczba pojedyncza/mnoga**: Dodaje lub usuwa „s” na końcu nazwy domeny (np. zeltsers.com).
 * **Ominięcie**: **Usuwa jedną** z liter z nazwy domeny (np. zelser.com).
 * **Powtórzenie:** **Powtarza jedną** z liter w nazwie domeny (np. zeltsser.com).
-* **Zamiana**: Jak homoglif, ale mniej dyskretny. Zastępuje jedną z liter w nazwie domeny, być może literą bliską oryginalnej literze na klawiaturze (np. zektser.com).
+* **Zamiana**: Jak homoglif, ale mniej dyskretny. Zastępuje jedną z liter w nazwie domeny, być może literą w pobliżu oryginalnej litery na klawiaturze (np. zektser.com).
 * **Poddomenowanie**: Wprowadza **kropkę** wewnątrz nazwy domeny (np. ze.lster.com).
 * **Wstawienie**: **Wstawia literę** do nazwy domeny (np. zerltser.com).
-* **Brakująca kropka**: Dołącz TLD do nazwy domeny. (np. zelstercom.com)
+* **Brak kropki**: Dołącza TLD do nazwy domeny. (np. zelstercom.com)
 
 **Narzędzia automatyczne**
 
@@ -60,7 +60,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 ### Bitflipping
 
-Istnieje **możliwość, że jeden z bitów przechowywanych lub w komunikacji może zostać automatycznie odwrócony** z powodu różnych czynników, takich jak burze słoneczne, promieniowanie kosmiczne lub błędy sprzętowe.
+Istnieje **możliwość, że jeden z bitów przechowywanych lub w komunikacji może zostać automatycznie odwrócony** z powodu różnych czynników, takich jak wybuchy słoneczne, promieniowanie kosmiczne lub błędy sprzętowe.
 
 Gdy ten koncept jest **stosowany do zapytań DNS**, możliwe jest, że **domena odebrana przez serwer DNS** nie jest taka sama jak domena pierwotnie żądana.
 
@@ -72,8 +72,8 @@ Aby uzyskać więcej informacji, przeczytaj [https://www.bleepingcomputer.com/ne
 
 ### Kup zaufaną domenę
 
-Możesz poszukać na [https://www.expireddomains.net/](https://www.expireddomains.net) wygasłej domeny, której możesz użyć.\
-Aby upewnić się, że wygasła domena, którą zamierzasz kupić **ma już dobrą SEO**, możesz sprawdzić, jak jest klasyfikowana w:
+Możesz poszukać na [https://www.expireddomains.net/](https://www.expireddomains.net) wygasłej domeny, którą mógłbyś użyć.\
+Aby upewnić się, że wygasła domena, którą zamierzasz kupić **ma już dobrą SEO**, możesz sprawdzić, jak jest sklasyfikowana w:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
@@ -86,14 +86,14 @@ Aby upewnić się, że wygasła domena, którą zamierzasz kupić **ma już dobr
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Aby **odkryć więcej** ważnych adresów e-mail lub **zweryfikować te, które** już odkryłeś, możesz sprawdzić, czy możesz przeprowadzić brute-force na serwerach smtp ofiary. [Dowiedz się, jak zweryfikować/odkryć adres e-mail tutaj](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Aby **odkryć więcej** ważnych adresów e-mail lub **zweryfikować te, które już odkryłeś**, możesz sprawdzić, czy możesz przeprowadzić brute-force na serwerach smtp ofiary. [Dowiedz się, jak zweryfikować/odkryć adres e-mail tutaj](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
 Ponadto nie zapomnij, że jeśli użytkownicy korzystają z **jakiegokolwiek portalu internetowego do dostępu do swoich e-maili**, możesz sprawdzić, czy jest on podatny na **brute force nazwy użytkownika** i wykorzystać tę podatność, jeśli to możliwe.
 
 ## Konfigurowanie GoPhish
 
 ### Instalacja
 
-Możesz pobrać go z [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+Możesz go pobrać z [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Pobierz i rozpakuj go w `/opt/gophish` i uruchom `/opt/gophish/gophish`\
 Otrzymasz hasło dla użytkownika admin na porcie 3333 w wyjściu. Dlatego uzyskaj dostęp do tego portu i użyj tych danych logowania, aby zmienić hasło administratora. Może być konieczne tunelowanie tego portu do lokalnego:
@@ -104,7 +104,7 @@ ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 
 **Konfiguracja certyfikatu TLS**
 
-Przed tym krokiem powinieneś **już kupić domenę**, której zamierzasz użyć, i musi ona **wskazywać** na **IP VPS**, na którym konfigurujesz **gophish**.
+Przed tym krokiem powinieneś **już kupić domenę**, którą zamierzasz użyć, i musi ona **wskazywać** na **IP VPS**, na którym konfigurujesz **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -139,7 +139,7 @@ Na koniec zmodyfikuj pliki **`/etc/hostname`** i **`/etc/mailname`** na swoją n
 
 Teraz stwórz **rekord A DNS** dla `mail.<domena>` wskazujący na **adres IP** VPS oraz **rekord MX DNS** wskazujący na `mail.<domena>`
 
-Teraz przetestujmy wysyłanie e-maila:
+Teraz przetestuj wysyłanie e-maila:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
@@ -232,13 +232,13 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Konfigurowanie serwera pocztowego i domeny
+## Konfiguracja serwera pocztowego i domeny
 
 ### Czekaj i bądź legitny
 
 Im starsza domena, tym mniej prawdopodobne, że zostanie uznana za spam. Dlatego powinieneś czekać jak najdłużej (przynajmniej 1 tydzień) przed oceną phishingu. Co więcej, jeśli umieścisz stronę o reputacyjnym sektorze, uzyskana reputacja będzie lepsza.
 
-Zauważ, że nawet jeśli musisz czekać tydzień, możesz teraz zakończyć konfigurowanie wszystkiego.
+Zauważ, że nawet jeśli musisz czekać tydzień, możesz teraz zakończyć konfigurację wszystkiego.
 
 ### Skonfiguruj rekord odwrotnego DNS (rDNS)
 
@@ -246,7 +246,7 @@ Ustaw rekord rDNS (PTR), który rozwiązuje adres IP VPS na nazwę domeny.
 
 ### Rekord Sender Policy Framework (SPF)
 
-Musisz **skonfigurować rekord SPF dla nowej domeny**. Jeśli nie wiesz, czym jest rekord SPF, [**przeczytaj tę stronę**](../../network-services-pentesting/pentesting-smtp/#spf).
+Musisz **skonfigurować rekord SPF dla nowej domeny**. Jeśli nie wiesz, czym jest rekord SPF [**przeczytaj tę stronę**](../../network-services-pentesting/pentesting-smtp/#spf).
 
 Możesz użyć [https://www.spfwizard.net/](https://www.spfwizard.net), aby wygenerować swoją politykę SPF (użyj adresu IP maszyny VPS)
 
@@ -256,7 +256,7 @@ To jest zawartość, która musi być ustawiona w rekordzie TXT w domenie:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Rekord uwierzytelniania wiadomości oparty na domenie, raportowania i zgodności (DMARC)
+### Rekord uwierzytelniania wiadomości oparty na domenie, raportowanie i zgodność (DMARC)
 
 Musisz **skonfigurować rekord DMARC dla nowej domeny**. Jeśli nie wiesz, czym jest rekord DMARC [**przeczytaj tę stronę**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
@@ -266,7 +266,7 @@ v=DMARC1; p=none
 ```
 ### DomainKeys Identified Mail (DKIM)
 
-Musisz **skonfigurować DKIM dla nowej domeny**. Jeśli nie wiesz, co to jest rekord DMARC [**przeczytaj tę stronę**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Musisz **skonfigurować DKIM dla nowej domeny**. Jeśli nie wiesz, czym jest rekord DMARC [**przeczytaj tę stronę**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
 Ten samouczek oparty jest na: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
@@ -277,7 +277,7 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ```
 {% endhint %}
 
-### Przetestuj swój wynik konfiguracji e-mail
+### Sprawdź wynik konfiguracji swojego e-maila
 
 Możesz to zrobić, korzystając z [https://www.mail-tester.com/](https://www.mail-tester.com)\
 Po prostu wejdź na stronę i wyślij e-mail na adres, który ci podają:
@@ -315,10 +315,10 @@ Strona [www.mail-tester.com](https://www.mail-tester.com) może wskazać, czy Tw
 ### Profil wysyłania
 
 * Ustaw **nazwę identyfikującą** profil nadawcy
-* Zdecyduj, z którego konta będziesz wysyłać e-maile phishingowe. Sugestie: _noreply, support, servicedesk, salesforce..._
+* Zdecyduj, z którego konta będziesz wysyłać phishingowe e-maile. Sugestie: _noreply, support, servicedesk, salesforce..._
 * Możesz pozostawić puste nazwę użytkownika i hasło, ale upewnij się, że zaznaczyłeś Ignoruj błędy certyfikatu
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
 Zaleca się korzystanie z funkcji "**Wyślij e-mail testowy**", aby sprawdzić, czy wszystko działa.\
@@ -349,16 +349,16 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-Note that **w celu zwiększenia wiarygodności e-maila**, zaleca się użycie jakiegoś podpisu z e-maila od klienta. Sugestie:
+Zauważ, że **aby zwiększyć wiarygodność e-maila**, zaleca się użycie jakiegoś podpisu z e-maila od klienta. Sugestie:
 
-* Wyślij e-mail na **nieistniejący adres** i sprawdź, czy odpowiedź ma jakiś podpis.
-* Szukaj **publicznych e-maili** jak info@ex.com lub press@ex.com lub public@ex.com i wyślij im e-mail, a następnie czekaj na odpowiedź.
+* Wyślij e-mail na **nieistniejący adres** i sprawdź, czy odpowiedź zawiera jakiś podpis.
+* Szukaj **publicznych e-maili** takich jak info@ex.com lub press@ex.com lub public@ex.com i wyślij im e-mail, a następnie czekaj na odpowiedź.
 * Spróbuj skontaktować się z **jakimś ważnym odkrytym** e-mailem i czekaj na odpowiedź.
 
 ![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-Szablon e-maila pozwala również na **załączenie plików do wysłania**. Jeśli chcesz również ukraść wyzwania NTLM za pomocą specjalnie przygotowanych plików/dokumentów [przeczytaj tę stronę](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Szablon e-maila pozwala również na **załączanie plików do wysłania**. Jeśli chcesz również ukraść wyzwania NTLM za pomocą specjalnie przygotowanych plików/dokumentów [przeczytaj tę stronę](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
 ### Strona docelowa
@@ -376,7 +376,7 @@ Zauważ, że jeśli musisz **użyć jakichś statycznych zasobów** dla HTML (mo
 {% endhint %}
 
 {% hint style="info" %}
-Dla przekierowania możesz **przekierować użytkowników na legalną główną stronę internetową** ofiary lub przekierować ich na _/static/migration.html_, na przykład, umieścić jakiś **kręcący się kółko (**[**https://loading.io/**](https://loading.io)**) przez 5 sekund, a następnie wskazać, że proces zakończył się sukcesem**.
+Dla przekierowania możesz **przekierować użytkowników na legitną główną stronę internetową** ofiary lub przekierować ich na _/static/migration.html_, na przykład, umieścić jakiś **kręcący się kółko (**[**https://loading.io/**](https://loading.io)**) przez 5 sekund, a następnie wskazać, że proces zakończył się sukcesem**.
 {% endhint %}
 
 ### Użytkownicy i grupy
@@ -419,9 +419,9 @@ Sprawdź następującą stronę w celu uzyskania przykładów:
 
 ## Phishing MFA
 
-### Przez Proxy MitM
+### Poprzez Proxy MitM
 
-Poprzedni atak jest dość sprytny, ponieważ fałszuje prawdziwą stronę internetową i zbiera informacje podane przez użytkownika. Niestety, jeśli użytkownik nie wpisał poprawnego hasła lub jeśli aplikacja, którą sfałszowałeś, jest skonfigurowana z 2FA, **te informacje nie pozwolą ci na podszywanie się pod oszukanego użytkownika**.
+Poprzedni atak jest dość sprytny, ponieważ podszywasz się pod prawdziwą stronę internetową i zbierasz informacje podane przez użytkownika. Niestety, jeśli użytkownik nie wpisał poprawnego hasła lub jeśli aplikacja, którą podrobiłeś, jest skonfigurowana z 2FA, **te informacje nie pozwolą ci na podszywanie się pod oszukanego użytkownika**.
 
 Tutaj przydatne są narzędzia takie jak [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) i [**muraena**](https://github.com/muraenateam/muraena). To narzędzie pozwoli ci wygenerować atak typu MitM. Zasadniczo atak działa w następujący sposób:
 
@@ -430,9 +430,9 @@ Tutaj przydatne są narzędzia takie jak [**evilginx2**](https://github.com/kgre
 3. Jeśli konto jest skonfigurowane z **2FA**, strona MitM poprosi o to, a gdy **użytkownik wprowadzi** to, narzędzie wyśle to na prawdziwą stronę internetową.
 4. Gdy użytkownik zostanie uwierzytelniony, ty (jako atakujący) będziesz miał **przechwycone dane logowania, 2FA, ciasteczka i wszelkie informacje** z każdej interakcji, podczas gdy narzędzie wykonuje atak MitM.
 
-### Przez VNC
+### Poprzez VNC
 
-Co jeśli zamiast **wysyłać ofiarę na złośliwą stronę** o takim samym wyglądzie jak oryginalna, wyślesz go do **sesji VNC z przeglądarką połączoną z prawdziwą stroną internetową**? Będziesz mógł zobaczyć, co robi, ukraść hasło, używane MFA, ciasteczka...\
+Co jeśli zamiast **wysyłać ofiarę na złośliwą stronę** o takim samym wyglądzie jak oryginalna, wyślesz go na **sesję VNC z przeglądarką połączoną z prawdziwą stroną internetową**? Będziesz mógł zobaczyć, co robi, ukraść hasło, używaną MFA, ciasteczka...\
 Możesz to zrobić za pomocą [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
 ## Wykrywanie wykrycia
@@ -469,7 +469,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

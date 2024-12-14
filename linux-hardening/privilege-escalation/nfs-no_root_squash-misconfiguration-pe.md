@@ -31,7 +31,7 @@ Przeczytaj plik _ **/etc/exports** _ , jeśli znajdziesz jakiś katalog skonfigu
 
 Jeśli znalazłeś tę lukę, możesz ją wykorzystać:
 
-* **Zamontowanie tego katalogu** na maszynie klienckiej, a następnie **jako root skopiowanie** do zamontowanego folderu binarnego **/bin/bash** i nadanie mu praw **SUID**, a następnie **wykonanie z maszyny ofiary** tego binarnego bash.
+* **Zamontuj ten katalog** na maszynie klienckiej, a **jako root skopiuj** do zamontowanego folderu binarkę **/bin/bash** i nadaj jej prawa **SUID**, a następnie **wykonaj z maszyny ofiary** tę binarkę bash.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -69,7 +69,7 @@ Innym wymaganym warunkiem, aby eksploatacja działała, jest to, że **eksport w
 
 ## Basic Information
 
-Scenariusz polega na wykorzystaniu zamontowanego udziału NFS na lokalnej maszynie, wykorzystując lukę w specyfikacji NFSv3, która pozwala klientowi określić swój uid/gid, co potencjalnie umożliwia nieautoryzowany dostęp. Eksploatacja polega na użyciu [libnfs](https://github.com/sahlberg/libnfs), biblioteki, która umożliwia fałszowanie wywołań RPC NFS.
+Scenariusz polega na wykorzystaniu zamontowanego udziału NFS na lokalnej maszynie, wykorzystując błąd w specyfikacji NFSv3, który pozwala klientowi określić swój uid/gid, co potencjalnie umożliwia nieautoryzowany dostęp. Eksploatacja polega na użyciu [libnfs](https://github.com/sahlberg/libnfs), biblioteki, która umożliwia fałszowanie wywołań RPC NFS.
 
 ### Compiling the Library
 
@@ -80,7 +80,7 @@ Kroki kompilacji biblioteki mogą wymagać dostosowań w zależności od wersji 
 make
 gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib/.libs/
 ```
-### Przeprowadzanie Eksploitu
+### Przeprowadzenie Eksploitu
 
 Eksploit polega na stworzeniu prostego programu C (`pwn.c`), który podnosi uprawnienia do roota, a następnie uruchamia powłokę. Program jest kompilowany, a wynikowy plik binarny (`a.out`) jest umieszczany na udostępnieniu z suid root, używając `ld_nfs.so` do fałszowania uid w wywołaniach RPC:
 
@@ -105,7 +105,7 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs:/
 #root
 ```
 
-## Bonus: NFShell dla Dyskretnego Dostępu do Plików
+## Bonus: NFShell do Dyskretnego Dostępu do Plików
 Gdy uzyskano dostęp roota, aby interagować z udostępnieniem NFS bez zmiany właściciela (aby uniknąć pozostawiania śladów), używany jest skrypt Pythona (nfsh.py). Skrypt ten dostosowuje uid, aby odpowiadał uid pliku, do którego uzyskuje się dostęp, co pozwala na interakcję z plikami na udostępnieniu bez problemów z uprawnieniami:
 ```python
 #!/usr/bin/env python
@@ -136,7 +136,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

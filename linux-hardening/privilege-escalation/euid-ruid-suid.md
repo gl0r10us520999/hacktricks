@@ -1,31 +1,31 @@
 # euid, ruid, suid
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and Android security through our self-paced courses and get certified:
+Zgłębiaj swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i uzyskaj certyfikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 
-### Zmienne identyfikacji użytkownika
+### Zmienne Identyfikacji Użytkownika
 
 - **`ruid`**: **rzeczywisty identyfikator użytkownika** oznacza użytkownika, który zainicjował proces.
-- **`euid`**: Znany jako **efektywny identyfikator użytkownika**, reprezentuje tożsamość użytkownika wykorzystywaną przez system do ustalenia uprawnień procesu. Zazwyczaj `euid` odzwierciedla `ruid`, z wyjątkiem przypadków takich jak wykonanie binarnego pliku SetUID, gdzie `euid` przyjmuje tożsamość właściciela pliku, co przyznaje określone uprawnienia operacyjne.
+- **`euid`**: Znany jako **efektywny identyfikator użytkownika**, reprezentuje tożsamość użytkownika wykorzystywaną przez system do ustalania uprawnień procesu. Zazwyczaj `euid` odzwierciedla `ruid`, z wyjątkiem przypadków takich jak wykonanie binarnego pliku SetUID, gdzie `euid` przyjmuje tożsamość właściciela pliku, co przyznaje określone uprawnienia operacyjne.
 - **`suid`**: Ten **zapisany identyfikator użytkownika** jest kluczowy, gdy proces o wysokich uprawnieniach (zwykle działający jako root) musi tymczasowo zrezygnować ze swoich uprawnień, aby wykonać określone zadania, a następnie odzyskać swój początkowy podwyższony status.
 
 #### Ważna uwaga
@@ -33,14 +33,14 @@ Proces, który nie działa jako root, może zmienić swój `euid` tylko na warto
 
 ### Zrozumienie funkcji set*uid
 
-- **`setuid`**: W przeciwieństwie do początkowych założeń, `setuid` głównie modyfikuje `euid`, a nie `ruid`. W szczególności dla procesów z uprawnieniami, synchronizuje `ruid`, `euid` i `suid` z określonym użytkownikiem, często root, skutecznie utrwalając te identyfikatory z powodu dominującego `suid`. Szczegółowe informacje można znaleźć na [stronie podręcznika setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setuid`**: W przeciwieństwie do początkowych założeń, `setuid` głównie modyfikuje `euid`, a nie `ruid`. Konkretnie, dla procesów z uprawnieniami, synchronizuje `ruid`, `euid` i `suid` z określonym użytkownikiem, często root, skutecznie utrwalając te identyfikatory z powodu dominującego `suid`. Szczegółowe informacje można znaleźć na [stronie podręcznika setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
 - **`setreuid`** i **`setresuid`**: Te funkcje pozwalają na subtelną regulację `ruid`, `euid` i `suid`. Jednak ich możliwości są uzależnione od poziomu uprawnień procesu. Dla procesów niebędących root, modyfikacje są ograniczone do bieżących wartości `ruid`, `euid` i `suid`. W przeciwieństwie do tego, procesy root lub te z uprawnieniem `CAP_SETUID` mogą przypisywać dowolne wartości tym identyfikatorom. Więcej informacji można znaleźć na [stronie podręcznika setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) i [stronie podręcznika setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
 Te funkcjonalności nie są zaprojektowane jako mechanizm zabezpieczający, ale mają na celu ułatwienie zamierzonego przepływu operacyjnego, na przykład, gdy program przyjmuje tożsamość innego użytkownika, zmieniając swój efektywny identyfikator użytkownika.
 
-Warto zauważyć, że podczas gdy `setuid` może być powszechnie stosowane do podnoszenia uprawnień do roota (ponieważ synchronizuje wszystkie identyfikatory z root), rozróżnienie między tymi funkcjami jest kluczowe dla zrozumienia i manipulowania zachowaniami identyfikatorów użytkowników w różnych scenariuszach.
+Warto zauważyć, że chociaż `setuid` może być powszechnie stosowane do podnoszenia uprawnień do roota (ponieważ synchronizuje wszystkie identyfikatory z root), rozróżnienie między tymi funkcjami jest kluczowe dla zrozumienia i manipulowania zachowaniami identyfikatorów użytkowników w różnych scenariuszach.
 
-### Mechanizmy wykonywania programów w Linuxie
+### Mechanizmy Wykonywania Programów w Linuxie
 
 #### **Wywołanie systemowe `execve`**
 - **Funkcjonalność**: `execve` inicjuje program, określony przez pierwszy argument. Przyjmuje dwa argumenty tablicowe, `argv` dla argumentów i `envp` dla środowiska.
@@ -61,14 +61,14 @@ Warto zauważyć, że podczas gdy `setuid` może być powszechnie stosowane do p
 - **`bash`**:
 - Ma opcję `-p`, która wpływa na to, jak traktowane są `euid` i `ruid`.
 - Bez `-p`, `bash` ustawia `euid` na `ruid`, jeśli początkowo się różnią.
-- Z `-p`, początkowe `euid` jest zachowywane.
+- Z `-p`, początkowy `euid` jest zachowywany.
 - Więcej szczegółów można znaleźć na [stronie podręcznika `bash`](https://linux.die.net/man/1/bash).
 - **`sh`**:
 - Nie ma mechanizmu podobnego do `-p` w `bash`.
 - Zachowanie dotyczące identyfikatorów użytkowników nie jest wyraźnie wspomniane, z wyjątkiem opcji `-i`, podkreślającej zachowanie równości `euid` i `ruid`.
 - Dodatkowe informacje są dostępne na [stronie podręcznika `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-Te mechanizmy, różniące się w swoim działaniu, oferują wszechstronny zakres opcji do wykonywania i przechodzenia między programami, z określonymi niuansami w zarządzaniu i zachowywaniu identyfikatorów użytkowników.
+Te mechanizmy, różniące się w działaniu, oferują wszechstronny zakres opcji do wykonywania i przechodzenia między programami, z określonymi niuansami w zarządzaniu i zachowywaniu identyfikatorów użytkowników.
 
 ### Testowanie zachowań identyfikatorów użytkowników w wykonaniach
 
@@ -218,8 +218,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

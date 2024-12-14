@@ -17,7 +17,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" dat
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Dołącz do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serwera, aby komunikować się z doświadczonymi hackerami i łowcami bugów!
+Dołącz do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hackerami i łowcami bugów!
 
 **Wgląd w hacking**\
 Zaangażuj się w treści, które zagłębiają się w emocje i wyzwania związane z hackingiem
@@ -26,22 +26,22 @@ Zaangażuj się w treści, które zagłębiają się w emocje i wyzwania związa
 Bądź na bieżąco z dynamicznym światem hackingu dzięki aktualnym wiadomościom i wglądom
 
 **Najnowsze ogłoszenia**\
-Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualizacjach platformy
+Bądź informowany o najnowszych nagrodach za błędy oraz istotnych aktualizacjach platformy
 
 **Dołącz do nas na** [**Discord**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hackerami już dziś!
 
-### **Najlepsze narzędzie do wyszukiwania wektorów lokalnej eskalacji uprawnień w systemie Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **Najlepsze narzędzie do wyszukiwania wektorów eskalacji uprawnień lokalnych w systemie Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
 ### [Informacje o systemie](privilege-escalation/#system-information)
 
 * [ ] Uzyskaj **informacje o systemie operacyjnym**
 * [ ] Sprawdź [**PATH**](privilege-escalation/#path), czy jest jakaś **zapisywalna folder**?
 * [ ] Sprawdź [**zmienne środowiskowe**](privilege-escalation/#env-info), czy są jakieś wrażliwe dane?
-* [ ] Szukaj [**eksploitów jądra**](privilege-escalation/#kernel-exploits) **używając skryptów** (DirtyCow?)
+* [ ] Szukaj [**eksploatacji jądra**](privilege-escalation/#kernel-exploits) **za pomocą skryptów** (DirtyCow?)
 * [ ] **Sprawdź**, czy [**wersja sudo** jest podatna](privilege-escalation/#sudo-version)
-* [ ] [**Weryfikacja podpisu Dmesg** nie powiodła się](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] Więcej enumeracji systemu ([data, statystyki systemu, informacje o CPU, drukarki](privilege-escalation/#more-system-enumeration))
-* [ ] [**Enumeruj więcej zabezpieczeń**](privilege-escalation/#enumerate-possible-defenses)
+* [ ] [**Weryfikacja podpisu Dmesg nie powiodła się**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] Więcej informacji o systemie ([data, statystyki systemu, informacje o CPU, drukarki](privilege-escalation/#more-system-enumeration))
+* [ ] [**Wymień więcej zabezpieczeń**](privilege-escalation/#enumerate-possible-defenses)
 
 ### [Dyski](privilege-escalation/#drives)
 
@@ -58,10 +58,10 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 
 * [ ] Czy jakieś **nieznane oprogramowanie działa**?
 * [ ] Czy jakieś oprogramowanie działa z **większymi uprawnieniami niż powinno**?
-* [ ] Szukaj **eksploitów działających procesów** (szczególnie wersji działającej).
-* [ ] Czy możesz **zmodyfikować binarny** plik jakiegokolwiek działającego procesu?
+* [ ] Szukaj **eksploatacji działających procesów** (szczególnie wersji działającej).
+* [ ] Czy możesz **zmodyfikować binarny** plik jakiegoś działającego procesu?
 * [ ] **Monitoruj procesy** i sprawdź, czy jakiś interesujący proces działa często.
-* [ ] Czy możesz **odczytać** jakąś interesującą **pamięć procesu** (gdzie mogą być zapisane hasła)?
+* [ ] Czy możesz **odczytać** pamięć **procesu** (gdzie mogą być zapisane hasła)?
 
 ### [Zadania zaplanowane/Cron?](privilege-escalation/#scheduled-jobs)
 
@@ -83,18 +83,18 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 ### [Gniazda](privilege-escalation/#sockets)
 
 * [ ] Czy jest jakiś **zapisywalny plik .socket**?
-* [ ] Czy możesz **komunikować się z jakimkolwiek gniazdem**?
+* [ ] Czy możesz **komunikować się z jakimś gniazdem**?
 * [ ] **Gniazda HTTP** z interesującymi informacjami?
 
 ### [D-Bus](privilege-escalation/#d-bus)
 
-* [ ] Czy możesz **komunikować się z jakimkolwiek D-Bus**?
+* [ ] Czy możesz **komunikować się z jakimś D-Bus**?
 
 ### [Sieć](privilege-escalation/#network)
 
-* [ ] Enumeruj sieć, aby wiedzieć, gdzie jesteś
+* [ ] Wymień sieć, aby wiedzieć, gdzie jesteś
 * [ ] **Otwarte porty, do których nie mogłeś uzyskać dostępu** przed uzyskaniem powłoki wewnątrz maszyny?
-* [ ] Czy możesz **przechwytywać ruch** używając `tcpdump`?
+* [ ] Czy możesz **podsłuchiwać ruch** za pomocą `tcpdump`?
 
 ### [Użytkownicy](privilege-escalation/#users)
 
@@ -117,7 +117,7 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 * [ ] [**Sudo/SUID binarny bez wskazanej ścieżki**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
 * [ ] [**SUID binarny z określoną ścieżką**](privilege-escalation/#suid-binary-with-command-path)? Obejście
 * [ ] [**Vuln LD\_PRELOAD**](privilege-escalation/#ld_preload)
-* [ ] [**Brak biblioteki .so w binarnym SUID**](privilege-escalation/#suid-binary-so-injection) z zapisywalnego folderu?
+* [ ] [**Brak biblioteki .so w pliku binarnym SUID**](privilege-escalation/#suid-binary-so-injection) z zapisywalnego folderu?
 * [ ] [**Dostępne tokeny SUDO**](privilege-escalation/#reusing-sudo-tokens)? [**Czy możesz stworzyć token SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
 * [ ] Czy możesz [**czytać lub modyfikować pliki sudoers**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
 * [ ] Czy możesz [**zmodyfikować /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
@@ -125,7 +125,7 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 
 ### [Uprawnienia](privilege-escalation/#capabilities)
 
-* [ ] Czy jakaś binarka ma jakąś **nieoczekiwaną zdolność**?
+* [ ] Czy jakiś plik binarny ma jakąś **nieoczekiwaną zdolność**?
 
 ### [ACL](privilege-escalation/#acls)
 
@@ -143,14 +143,14 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 
 ### [Interesujące pliki](privilege-escalation/#interesting-files)
 
-* [ ] **Pliki profilu** - Czytaj wrażliwe dane? Zapisz do privesc?
-* [ ] **Pliki passwd/shadow** - Czytaj wrażliwe dane? Zapisz do privesc?
+* [ ] **Pliki profilu** - Odczytaj wrażliwe dane? Zapisz do privesc?
+* [ ] **Pliki passwd/shadow** - Odczytaj wrażliwe dane? Zapisz do privesc?
 * [ ] **Sprawdź powszechnie interesujące foldery** pod kątem wrażliwych danych
-* [ ] **Dziwne lokalizacje/Pliki własnościowe,** do których możesz mieć dostęp lub zmieniać pliki wykonywalne
+* [ ] **Dziwne lokalizacje/Pliki własnościowe**, do których możesz mieć dostęp lub zmieniać pliki wykonywalne
 * [ ] **Zmodyfikowane** w ostatnich minutach
 * [ ] **Pliki bazy danych Sqlite**
 * [ ] **Ukryte pliki**
-* [ ] **Skrypty/Binarki w PATH**
+* [ ] **Skrypty/Binaria w PATH**
 * [ ] **Pliki webowe** (hasła?)
 * [ ] **Kopie zapasowe**?
 * [ ] **Znane pliki, które zawierają hasła**: Użyj **Linpeas** i **LaZagne**
@@ -158,9 +158,9 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 
 ### [**Zapisywalne pliki**](privilege-escalation/#writable-files)
 
-* [ ] **Modyfikuj bibliotekę python** aby wykonywać dowolne polecenia?
-* [ ] Czy możesz **modyfikować pliki dziennika**? **Eksploit Logtotten**
-* [ ] Czy możesz **modyfikować /etc/sysconfig/network-scripts/**? Eksploit Centos/Redhat
+* [ ] **Modyfikuj bibliotekę Pythona** w celu wykonania dowolnych poleceń?
+* [ ] Czy możesz **modyfikować pliki dziennika**? **Eksploatacja Logtotten**
+* [ ] Czy możesz **modyfikować /etc/sysconfig/network-scripts/**? Eksploatacja Centos/Redhat
 * [ ] Czy możesz [**zapisać w plikach ini, int.d, systemd lub rc.d**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
 
 ### [**Inne triki**](privilege-escalation/#other-tricks)
@@ -170,7 +170,7 @@ Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualiza
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Dołącz do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serwera, aby komunikować się z doświadczonymi hackerami i łowcami bugów!
+Dołącz do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hackerami i łowcami bugów!
 
 **Wgląd w hacking**\
 Zaangażuj się w treści, które zagłębiają się w emocje i wyzwania związane z hackingiem
@@ -179,7 +179,7 @@ Zaangażuj się w treści, które zagłębiają się w emocje i wyzwania związa
 Bądź na bieżąco z dynamicznym światem hackingu dzięki aktualnym wiadomościom i wglądom
 
 **Najnowsze ogłoszenia**\
-Bądź informowany o najnowszych programach bug bounty oraz kluczowych aktualizacjach platformy
+Bądź informowany o najnowszych nagrodach za błędy oraz istotnych aktualizacjach platformy
 
 **Dołącz do nas na** [**Discord**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hackerami już dziś!
 

@@ -10,25 +10,25 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
 
 ## Wprowadzenie
 
-Aby wykryć próbę phishingu, ważne jest, aby **zrozumieć techniki phishingowe, które są obecnie stosowane**. Na stronie głównej tego wpisu możesz znaleźć te informacje, więc jeśli nie wiesz, jakie techniki są obecnie używane, polecam przejść do strony głównej i przeczytać przynajmniej tę sekcję.
+Aby wykryć próbę phishingu, ważne jest, aby **zrozumieć techniki phishingowe, które są obecnie stosowane**. Na stronie głównej tego wpisu można znaleźć te informacje, więc jeśli nie wiesz, jakie techniki są obecnie używane, zalecam przejście do strony głównej i przeczytanie przynajmniej tej sekcji.
 
-Ten wpis opiera się na założeniu, że **napastnicy będą próbowali w jakiś sposób naśladować lub używać nazwy domeny ofiary**. Jeśli Twoja domena nazywa się `example.com` i jesteś ofiarą phishingu przy użyciu zupełnie innej nazwy domeny, na przykład `youwonthelottery.com`, te techniki nie ujawnią tego.
+Ten wpis opiera się na pomyśle, że **napastnicy będą próbowali w jakiś sposób naśladować lub używać nazwy domeny ofiary**. Jeśli Twoja domena nazywa się `example.com` i jesteś ofiarą phishingu przy użyciu zupełnie innej nazwy domeny, na przykład `youwonthelottery.com`, te techniki nie ujawnią tego.
 
 ## Wariacje nazw domen
 
-Jest dość **łatwo** **ujawnić** te **próby phishingu**, które będą używać **podobnej nazwy domeny** w e-mailu.\
-Wystarczy **wygenerować listę najbardziej prawdopodobnych nazw phishingowych**, które może użyć napastnik, i **sprawdzić**, czy są **zarejestrowane**, lub po prostu sprawdzić, czy jest jakiś **adres IP** używający tej nazwy.
+Jest to dość **łatwe** do **ujawnienia** tych **prób phishingowych**, które będą używać **podobnej nazwy domeny** w e-mailu.\
+Wystarczy **wygenerować listę najbardziej prawdopodobnych nazw phishingowych**, które może użyć napastnik, i **sprawdzić**, czy są **zarejestrowane**, lub po prostu sprawdzić, czy jest jakiś **IP** używający ich.
 
 ### Znajdowanie podejrzanych domen
 
-W tym celu możesz użyć dowolnego z następujących narzędzi. Zauważ, że te narzędzia automatycznie wykonają zapytania DNS, aby sprawdzić, czy domena ma przypisany jakiś adres IP:
+W tym celu możesz użyć dowolnego z następujących narzędzi. Zauważ, że te narzędzia automatycznie wykonają również zapytania DNS, aby sprawdzić, czy domena ma przypisany jakiś IP:
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
@@ -51,17 +51,17 @@ Możesz również uzyskać **zrzuty ekranu** podejrzanej strony HTTP i/lub HTTPS
 
 ### Zaawansowane kontrole
 
-Jeśli chcesz pójść o krok dalej, polecam **monitorować te podejrzane domeny i co jakiś czas szukać więcej** (codziennie? to zajmuje tylko kilka sekund/minut). Powinieneś również **sprawdzić** otwarte **porty** powiązanych adresów IP i **szukać instancji `gophish` lub podobnych narzędzi** (tak, napastnicy również popełniają błędy) oraz **monitorować strony HTTP i HTTPS podejrzanych domen i subdomen**, aby zobaczyć, czy skopiowały jakikolwiek formularz logowania z stron internetowych ofiary.\
-Aby **zautomatyzować to**, polecam mieć listę formularzy logowania domen ofiary, przeszukać podejrzane strony internetowe i porównać każdy znaleziony formularz logowania w podejrzanych domenach z każdym formularzem logowania domeny ofiary, używając czegoś takiego jak `ssdeep`.\
-Jeśli zlokalizujesz formularze logowania podejrzanych domen, możesz spróbować **wysłać fałszywe dane logowania** i **sprawdzić, czy przekierowuje cię do domeny ofiary**.
+Jeśli chcesz pójść o krok dalej, zalecałbym **monitorowanie tych podejrzanych domen i co jakiś czas szukać więcej** (codziennie? to zajmuje tylko kilka sekund/minut). Powinieneś również **sprawdzić** otwarte **porty** powiązanych IP i **szukać instancji `gophish` lub podobnych narzędzi** (tak, napastnicy również popełniają błędy) oraz **monitorować strony HTTP i HTTPS podejrzanych domen i subdomen**, aby zobaczyć, czy skopiowały jakikolwiek formularz logowania z stron internetowych ofiary.\
+Aby **zautomatyzować to**, zalecałbym posiadanie listy formularzy logowania domen ofiary, przeszukiwanie podejrzanych stron internetowych i porównywanie każdego formularza logowania znalezionego w podejrzanych domenach z każdym formularzem logowania domeny ofiary przy użyciu czegoś takiego jak `ssdeep`.\
+Jeśli zlokalizowałeś formularze logowania podejrzanych domen, możesz spróbować **wysłać fałszywe dane logowania** i **sprawdzić, czy przekierowuje cię do domeny ofiary**.
 
 ## Nazwy domen używające słów kluczowych
 
-Strona główna wspomina również o technice wariacji nazw domen, która polega na umieszczaniu **nazwy domeny ofiary w większej domenie** (np. paypal-financial.com dla paypal.com).
+Strona główna również wspomina o technice wariacji nazw domen, która polega na umieszczaniu **nazwy domeny ofiary w większej domenie** (np. paypal-financial.com dla paypal.com).
 
 ### Przejrzystość certyfikatów
 
-Nie można zastosować poprzedniego podejścia "Brute-Force", ale w rzeczywistości **możliwe jest ujawnienie takich prób phishingu** również dzięki przejrzystości certyfikatów. Za każdym razem, gdy certyfikat jest wydawany przez CA, szczegóły są publikowane. Oznacza to, że czytając przejrzystość certyfikatów lub nawet ją monitorując, **możliwe jest znalezienie domen, które używają słowa kluczowego w swojej nazwie**. Na przykład, jeśli napastnik generuje certyfikat dla [https://paypal-financial.com](https://paypal-financial.com), przeglądając certyfikat, można znaleźć słowo kluczowe "paypal" i wiedzieć, że podejrzany e-mail jest używany.
+Nie jest możliwe zastosowanie wcześniejszego podejścia "Brute-Force", ale w rzeczywistości **możliwe jest ujawnienie takich prób phishingowych** również dzięki przejrzystości certyfikatów. Za każdym razem, gdy certyfikat jest wydawany przez CA, szczegóły są publikowane. Oznacza to, że czytając przejrzystość certyfikatów lub nawet monitorując ją, **możliwe jest znalezienie domen, które używają słowa kluczowego w swojej nazwie**. Na przykład, jeśli napastnik generuje certyfikat dla [https://paypal-financial.com](https://paypal-financial.com), przeglądając certyfikat, można znaleźć słowo kluczowe "paypal" i wiedzieć, że podejrzany e-mail jest używany.
 
 Wpis [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) sugeruje, że możesz użyć Censys do wyszukiwania certyfikatów dotyczących konkretnego słowa kluczowego i filtrować według daty (tylko "nowe" certyfikaty) oraz według wydawcy CA "Let's Encrypt":
 
@@ -89,7 +89,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

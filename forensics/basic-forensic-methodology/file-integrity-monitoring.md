@@ -1,54 +1,54 @@
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plan abonamentowy**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# Bazowa linia
+# Podstawa
 
-Bazowa linia składa się z wykonania migawki określonych części systemu w celu **porównania jej z przyszłym stanem w celu wyróżnienia zmian**.
+Podstawa polega na zrobieniu zrzutu niektórych części systemu, aby **porównać go z przyszłym stanem w celu uwydatnienia zmian**.
 
-Na przykład można obliczyć i przechowywać skrót każdego pliku systemu plików, aby dowiedzieć się, które pliki zostały zmodyfikowane.\
-Można to również zrobić z utworzonymi kontami użytkowników, uruchomionymi procesami, uruchomionymi usługami i wszystkim innym, co nie powinno się zbyt wiele zmieniać lub w ogóle.
+Na przykład, możesz obliczyć i przechować hash każdego pliku w systemie plików, aby móc ustalić, które pliki zostały zmodyfikowane.\
+Można to również zrobić z kontami użytkowników, procesami działającymi, usługami działającymi i innymi rzeczami, które nie powinny się zbytnio zmieniać lub wcale.
 
 ## Monitorowanie integralności plików
 
-Monitorowanie integralności plików (FIM) to krytyczna technika zabezpieczeń, która chroni środowiska IT i dane poprzez śledzenie zmian w plikach. Obejmuje ona dwie kluczowe kroki:
+Monitorowanie integralności plików (FIM) to kluczowa technika zabezpieczeń, która chroni środowiska IT i dane, śledząc zmiany w plikach. Obejmuje dwa kluczowe kroki:
 
-1. **Porównanie z bazową linią:** Ustalenie bazowej linii za pomocą atrybutów plików lub sum kontrolnych kryptograficznych (takich jak MD5 lub SHA-2) do przyszłych porównań w celu wykrycia modyfikacji.
-2. **Powiadomienie o zmianach w czasie rzeczywistym:** Otrzymuj natychmiastowe alerty, gdy pliki są otwierane lub zmieniane, zazwyczaj za pomocą rozszerzeń jądra systemu operacyjnego.
+1. **Porównanie podstawowe:** Ustal podstawę, używając atrybutów plików lub kryptograficznych sum kontrolnych (takich jak MD5 lub SHA-2) do przyszłych porównań w celu wykrycia modyfikacji.
+2. **Powiadomienie o zmianach w czasie rzeczywistym:** Otrzymuj natychmiastowe powiadomienia, gdy pliki są otwierane lub zmieniane, zazwyczaj za pomocą rozszerzeń jądra systemu operacyjnego.
 
 ## Narzędzia
 
 * [https://github.com/topics/file-integrity-monitoring](https://github.com/topics/file-integrity-monitoring)
 * [https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software](https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software)
 
-## Referencje
+## Odniesienia
 
 * [https://cybersecurity.att.com/blogs/security-essentials/what-is-file-integrity-monitoring-and-why-you-need-it](https://cybersecurity.att.com/blogs/security-essentials/what-is-file-integrity-monitoring-and-why-you-need-it)
 
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plan abonamentowy**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

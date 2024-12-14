@@ -30,7 +30,7 @@ MBR pozwala na **maks. 2.2TB**.
 
 ![](<../../../.gitbook/assets/image (490).png>)
 
-W **bajtach od 440 do 443** MBR możesz znaleźć **Sygnaturę Dysku Windows** (jeśli używany jest Windows). Litera logicznego dysku twardego zależy od Sygnatury Dysku Windows. Zmiana tej sygnatury może uniemożliwić uruchomienie Windows (narzędzie: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+Od **bajtów 440 do 443** MBR możesz znaleźć **Sygnaturę Dysku Windows** (jeśli używany jest Windows). Litera logicznego dysku twardego zależy od Sygnatury Dysku Windows. Zmiana tej sygnatury może uniemożliwić uruchomienie systemu Windows (narzędzie: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
 ![](<../../../.gitbook/assets/image (493).png>)
 
@@ -62,7 +62,7 @@ W **bajtach od 440 do 443** MBR możesz znaleźć **Sygnaturę Dysku Windows** (
 
 Aby zamontować MBR w systemie Linux, najpierw musisz uzyskać offset startowy (możesz użyć `fdisk` i polecenia `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
 A następnie użyj następującego kodu
 ```bash
@@ -73,7 +73,7 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logical block addressing)**
 
-**Logical block addressing** (**LBA**) to powszechnie stosowany schemat do **określania lokalizacji bloków** danych przechowywanych na urządzeniach pamięci masowej komputerów, zazwyczaj w systemach pamięci wtórnej, takich jak dyski twarde. LBA jest szczególnie prostym liniowym schematem adresowania; **bloki są lokalizowane za pomocą indeksu całkowitego**, przy czym pierwszy blok to LBA 0, drugi LBA 1, i tak dalej.
+**Logical block addressing** (**LBA**) to powszechnie stosowany schemat do **określania lokalizacji bloków** danych przechowywanych na urządzeniach pamięci komputerowej, zazwyczaj w systemach pamięci wtórnej, takich jak dyski twarde. LBA jest szczególnie prostym liniowym schematem adresowania; **bloki są zlokalizowane za pomocą indeksu całkowitego**, przy czym pierwszy blok to LBA 0, drugi LBA 1, i tak dalej.
 
 ### GPT (GUID Partition Table)
 
@@ -94,11 +94,11 @@ Tabela partycji GUID, znana jako GPT, jest preferowana ze względu na swoje ulep
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
 
-**Hybrid MBR (LBA 0 + GPT)**
+**Hybrdowy MBR (LBA 0 + GPT)**
 
 [Z Wikipedii](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-W systemach operacyjnych, które obsługują **rozruch oparty na GPT przez usługi BIOS** zamiast EFI, pierwszy sektor może być również używany do przechowywania pierwszej fazy kodu **bootloadera**, ale **zmodyfikowanego** w celu rozpoznawania **partycji GPT**. Bootloader w MBR nie powinien zakładać rozmiaru sektora wynoszącego 512 bajtów.
+W systemach operacyjnych, które obsługują **rozruch oparty na GPT przez usługi BIOS** zamiast EFI, pierwszy sektor może być również używany do przechowywania pierwszej fazy kodu **bootloadera**, ale **zmodyfikowanego** w celu rozpoznania **partycji GPT**. Bootloader w MBR nie może zakładać rozmiaru sektora wynoszącego 512 bajtów.
 
 **Nagłówek tabeli partycji (LBA 1)**
 
@@ -117,7 +117,7 @@ Nagłówek tabeli partycji definiuje użyteczne bloki na dysku. Definiuje równi
 | 32 (0x20) | 8 bajtów | Kopia zapasowa LBA (lokalizacja drugiej kopii nagłówka)                                                                                                                                  |
 | 40 (0x28) | 8 bajtów | Pierwsze użyteczne LBA dla partycji (ostatnie LBA głównej tabeli partycji + 1)                                                                                                          |
 | 48 (0x30) | 8 bajtów | Ostatnie użyteczne LBA (pierwsze LBA drugiej tabeli partycji − 1)                                                                                                                       |
-| 56 (0x38) | 16 bajtów| GUID dysku w mieszanym porządku bajtów                                                                                                                                                       |
+| 56 (0x38) | 16 bajtów| GUID dysku w mieszanym porządku endian                                                                                                                                                       |
 | 72 (0x48) | 8 bajtów | Początkowe LBA tablicy wpisów partycji (zawsze 2 w kopii głównej)                                                                                                        |
 | 80 (0x50) | 4 bajty  | Liczba wpisów partycji w tablicy                                                                                                                                            |
 | 84 (0x54) | 4 bajty  | Rozmiar pojedynczego wpisu partycji (zazwyczaj 80h lub 128)                                                                                                                           |
@@ -129,8 +129,8 @@ Nagłówek tabeli partycji definiuje użyteczne bloki na dysku. Definiuje równi
 | Format wpisu partycji GUID |          |                                                                                                                   |
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Offset                      | Długość  | Zawartość                                                                                                          |
-| 0 (0x00)                    | 16 bajtów| [Typ GUID partycji](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mieszany porządek bajtów) |
-| 16 (0x10)                   | 16 bajtów| Unikalny GUID partycji (mieszany porządek bajtów)                                                                              |
+| 0 (0x00)                    | 16 bajtów| [Typ GUID partycji](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mieszany porządek endian) |
+| 16 (0x10)                   | 16 bajtów| Unikalny GUID partycji (mieszany porządek endian)                                                                              |
 | 32 (0x20)                   | 8 bajtów | Pierwsze LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                   | 8 bajtów | Ostatnie LBA (włącznie, zazwyczaj nieparzyste)                                                                                 |
 | 48 (0x30)                   | 8 bajtów | Flagi atrybutów (np. bit 60 oznacza tylko do odczytu)                                                                   |
@@ -167,8 +167,8 @@ System plików **FAT (File Allocation Table)** jest zaprojektowany wokół swoje
 Podstawową jednostką przechowywania w systemie plików jest **klaster, zazwyczaj 512B**, składający się z wielu sektorów. FAT ewoluował przez wersje:
 
 * **FAT12**, obsługujący 12-bitowe adresy klastrów i obsługujący do 4078 klastrów (4084 z UNIX).
-* **FAT16**, rozwijający się do 16-bitowych adresów, co pozwala na obsługę do 65 517 klastrów.
-* **FAT32**, dalej rozwijający się z 32-bitowymi adresami, pozwalający na imponującą liczbę 268 435 456 klastrów na wolumin.
+* **FAT16**, rozwijający się do 16-bitowych adresów, co pozwala na obsługę do 65,517 klastrów.
+* **FAT32**, dalej rozwijający się z 32-bitowymi adresami, pozwalając na imponujące 268,435,456 klastrów na wolumin.
 
 Znaczącym ograniczeniem we wszystkich wersjach FAT jest **maksymalny rozmiar pliku wynoszący 4GB**, narzucony przez 32-bitowe pole używane do przechowywania rozmiaru pliku.
 
@@ -182,7 +182,7 @@ Kluczowe komponenty katalogu głównego, szczególnie dla FAT12 i FAT16, obejmuj
 
 ### EXT
 
-**Ext2** jest najczęściej używanym systemem plików dla **partycji bez dziennika** (**partycji, które nie zmieniają się zbyt często**) jak partycja rozruchowa. **Ext3/4** są **z dziennikiem** i są zazwyczaj używane dla **pozostałych partycji**.
+**Ext2** jest najczęściej stosowanym systemem plików dla **partycji bez dziennika** (**partycji, które nie zmieniają się zbyt często**) jak partycja rozruchowa. **Ext3/4** są **z dziennikiem** i są zazwyczaj używane dla **pozostałych partycji**.
 
 ## **Metadane**
 
@@ -202,9 +202,9 @@ Możesz użyć narzędzi takich jak [**exiftool**](https://exiftool.org) i [**Me
 
 ### Zarejestrowane usunięte pliki
 
-Jak wcześniej wspomniano, istnieje kilka miejsc, w których plik jest nadal zapisany po jego "usunięciu". Dzieje się tak, ponieważ zazwyczaj usunięcie pliku z systemu plików po prostu oznacza go jako usunięty, ale dane nie są dotykane. Następnie możliwe jest zbadanie rejestrów plików (takich jak MFT) i znalezienie usuniętych plików.
+Jak wcześniej wspomniano, istnieje kilka miejsc, w których plik jest nadal zapisany po jego "usunięciu". Dzieje się tak, ponieważ zazwyczaj usunięcie pliku z systemu plików po prostu oznacza go jako usunięty, ale dane nie są dotykane. Wtedy możliwe jest zbadanie rejestrów plików (takich jak MFT) i znalezienie usuniętych plików.
 
-Ponadto system operacyjny zazwyczaj zapisuje wiele informacji o zmianach w systemie plików i kopiach zapasowych, więc możliwe jest próbowanie ich użycia do odzyskania pliku lub jak największej ilości informacji.
+Ponadto, system operacyjny zazwyczaj zapisuje wiele informacji o zmianach w systemie plików i kopiach zapasowych, więc możliwe jest próbowanie ich użycia do odzyskania pliku lub jak największej ilości informacji.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -222,7 +222,7 @@ Istnieje wiele narzędzi, które możesz użyć do carvingu plików, wskazując 
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Carving strumieni danych
+### Carving strumieni danych **C**
 
 Carving strumieni danych jest podobny do carvingu plików, ale **zamiast szukać kompletnych plików, szuka interesujących fragmentów** informacji.\
 Na przykład, zamiast szukać kompletnego pliku zawierającego zarejestrowane adresy URL, ta technika będzie szukać adresów URL.
@@ -233,7 +233,7 @@ Na przykład, zamiast szukać kompletnego pliku zawierającego zarejestrowane ad
 
 ### Bezpieczne usuwanie
 
-Oczywiście istnieją sposoby na **"bezpieczne" usunięcie plików i części logów o nich**. Na przykład, możliwe jest **nadpisanie zawartości** pliku danymi śmieciowymi kilka razy, a następnie **usunięcie** **logów** z **$MFT** i **$LOGFILE** dotyczących pliku oraz **usunięcie kopii zapasowych woluminu**.\
+Oczywiście istnieją sposoby na **"bezpieczne" usunięcie plików i części logów o nich**. Na przykład, możliwe jest **nadpisanie zawartości** pliku danymi śmieciowymi kilka razy, a następnie **usunięcie** **logów** z **$MFT** i **$LOGFILE** dotyczących pliku oraz **usunięcie kopii cieni woluminu**.\
 Możesz zauważyć, że nawet wykonując tę akcję, mogą istnieć **inne części, w których istnienie pliku jest nadal zarejestrowane**, i to prawda, a częścią pracy profesjonalisty w dziedzinie forensyki jest ich znalezienie.
 
 ## Referencje
@@ -242,19 +242,19 @@ Możesz zauważyć, że nawet wykonując tę akcję, mogą istnieć **inne czę�
 * [http://ntfs.com/ntfs-permissions.htm](http://ntfs.com/ntfs-permissions.htm)
 * [https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html](https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html)
 * [https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service](https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service)
-* **iHackLabs Certified Digital Forensics Windows**
+* **iHackLabs Certyfikowany Digital Forensics Windows**
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

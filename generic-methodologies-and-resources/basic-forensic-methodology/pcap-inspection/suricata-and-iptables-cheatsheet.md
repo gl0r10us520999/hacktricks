@@ -21,9 +21,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 W iptables listy reguł znane jako łańcuchy są przetwarzane sekwencyjnie. Wśród nich trzy podstawowe łańcuchy są powszechnie obecne, a dodatkowe, takie jak NAT, mogą być wspierane w zależności od możliwości systemu.
 
-- **Input Chain**: Wykorzystywany do zarządzania zachowaniem przychodzących połączeń.
-- **Forward Chain**: Używany do obsługi przychodzących połączeń, które nie są przeznaczone dla lokalnego systemu. Jest to typowe dla urządzeń działających jako routery, gdzie odebrane dane mają być przekazywane do innego miejsca. Ten łańcuch jest istotny głównie, gdy system jest zaangażowany w routowanie, NATowanie lub podobne działania.
-- **Output Chain**: Poświęcony regulacji wychodzących połączeń.
+- **Input Chain**: Używany do zarządzania zachowaniem połączeń przychodzących.
+- **Forward Chain**: Wykorzystywany do obsługi połączeń przychodzących, które nie są przeznaczone dla lokalnego systemu. Jest to typowe dla urządzeń działających jako routery, gdzie odebrane dane mają być przekazywane do innego miejsca. Ten łańcuch jest istotny głównie, gdy system jest zaangażowany w routowanie, NATowanie lub podobne działania.
+- **Output Chain**: Poświęcony regulacji połączeń wychodzących.
 
 Te łańcuchy zapewniają uporządkowane przetwarzanie ruchu sieciowego, umożliwiając określenie szczegółowych reguł regulujących przepływ danych do, przez i z systemu.
 ```bash
@@ -156,7 +156,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * udp
 * icmp
 * ip (ip oznacza 'wszystkie' lub 'jakiekolwiek')
-* _protokoły warstwy 7_: http, ftp, tls, smb, dns, ssh... (więcej w [**dokumentacji**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* _protokoły warstwy 7_: http, ftp, tls, smb, dns, ssh... (więcej w [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
 #### Adresy źródłowe i docelowe
 
@@ -179,9 +179,9 @@ Obsługuje zakresy portów, negacje i listy portów
 | any              | dowolny adres                            |
 | \[80, 81, 82]    | port 80, 81 i 82                        |
 | \[80: 82]        | Zakres od 80 do 82                      |
-| \[1024: ]        | Od 1024 do najwyższego numeru portu     |
+| \[1024: ]        | Od 1024 do najwyższego numeru portu    |
 | !80              | Każdy port oprócz 80                    |
-| \[80:100,!99]    | Zakres od 80 do 100, ale 99 wykluczony  |
+| \[80:100,!99]    | Zakres od 80 do 100, ale 99 wykluczony |
 | \[1:80,!\[2,4]]  | Zakres od 1-80, z wyjątkiem portów 2 i 4|
 
 #### Kierunek
@@ -240,7 +240,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

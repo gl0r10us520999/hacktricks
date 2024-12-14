@@ -25,7 +25,7 @@ If you are interested in **hacking career** and hack the unhackable - **we are h
 
 > Powiedziano ci, że wszystko, co należy do jakiejś firmy, jest w zakresie, a ty chcesz dowiedzieć się, co ta firma faktycznie posiada.
 
-Celem tej fazy jest uzyskanie wszystkich **firm należących do głównej firmy** oraz wszystkich **zasobów** tych firm. Aby to zrobić, zamierzamy:
+Celem tej fazy jest uzyskanie wszystkich **firm należących do głównej firmy** oraz następnie wszystkich **zasobów** tych firm. Aby to zrobić, zamierzamy:
 
 1. Znaleźć przejęcia głównej firmy, co da nam firmy w zakresie.
 2. Znaleźć ASN (jeśli istnieje) każdej firmy, co da nam zakresy IP należące do każdej firmy.
@@ -77,7 +77,7 @@ Możesz znaleźć IP i ASN domeny używając [http://ipv4info.com/](http://ipv4i
 
 Na tym etapie znamy **wszystkie zasoby w zakresie**, więc jeśli masz na to pozwolenie, możesz uruchomić jakiś **skaner luk** (Nessus, OpenVAS) na wszystkich hostach.\
 Możesz również przeprowadzić [**skany portów**](../pentesting-network/#discovering-hosts-from-the-outside) **lub użyć usług takich jak** shodan **aby znaleźć** otwarte porty **i w zależności od tego, co znajdziesz, powinieneś** zajrzeć do tej książki, aby dowiedzieć się, jak przeprowadzić pentesting różnych możliwych usług.\
-**Warto również wspomnieć, że możesz przygotować kilka** domyślnych nazw użytkowników **i** haseł **i spróbować** brute force'ować usługi za pomocą [https://github.com/x90skysn3k/brutespray](https://github.com/x90skysn3k/brutespray).
+**Warto również wspomnieć, że możesz przygotować kilka** domyślnych nazw użytkowników **i** haseł **i spróbować** bruteforce'ować usługi za pomocą [https://github.com/x90skysn3k/brutespray](https://github.com/x90skysn3k/brutespray).
 
 ## Domeny
 
@@ -85,7 +85,7 @@ Możesz również przeprowadzić [**skany portów**](../pentesting-network/#disc
 
 _Proszę zauważyć, że w poniższych proponowanych technikach możesz również znaleźć subdomeny i ta informacja nie powinna być niedoceniana._
 
-Przede wszystkim powinieneś poszukać **głównej domeny**(s) każdej firmy. Na przykład, dla _Tesla Inc._ będzie to _tesla.com_.
+Przede wszystkim powinieneś poszukać **głównej domeny**(y) każdej firmy. Na przykład, dla _Tesla Inc._ będzie to _tesla.com_.
 
 ### **Reverse DNS**
 
@@ -101,7 +101,7 @@ Możesz również użyć narzędzia online do uzyskania tych informacji: [http:/
 
 ### **Reverse Whois (loop)**
 
-W **whois** możesz znaleźć wiele interesujących **informacji**, takich jak **nazwa organizacji**, **adres**, **emaile**, numery telefonów... Ale co jest jeszcze bardziej interesujące, to że możesz znaleźć **więcej zasobów związanych z firmą**, jeśli wykonasz **odwrócone zapytania whois według dowolnego z tych pól** (na przykład inne rejestry whois, w których pojawia się ten sam email).\
+W **whois** możesz znaleźć wiele interesujących **informacji**, takich jak **nazwa organizacji**, **adres**, **emaile**, numery telefonów... Ale co jest jeszcze bardziej interesujące, to to, że możesz znaleźć **więcej zasobów związanych z firmą**, jeśli wykonasz **odwrócone zapytania whois według dowolnego z tych pól** (na przykład inne rejestry whois, w których pojawia się ten sam email).\
 Możesz użyć narzędzi online, takich jak:
 
 * [https://viewdns.info/reversewhois/](https://viewdns.info/reversewhois/) - **Darmowe**
@@ -164,7 +164,7 @@ Szukaj na stronach internetowych **ciągów, które mogą być wspólne dla ró�
 
 ### **CRT Time**
 
-To powszechne, aby mieć zadanie cron, takie jak
+To powszechne, aby mieć zadanie cron takie jak
 ```bash
 # /etc/crontab
 37 13 */10 * * certbot renew --post-hook "systemctl reload nginx"
@@ -178,9 +178,9 @@ You can use a web such as [https://dmarc.live/info/google.com](https://dmarc.liv
 
 ### **Passive Takeover**
 
-Apparently is common for people to assign subdomains to IPs that belongs to cloud providers and at some point **stracić ten adres IP, ale zapomnieć o usunięciu rekordu DNS**. Therefore, just **uruchamiając VM** in a cloud (like Digital Ocean) you will be actually **przejmować niektóre subdomeny**.
+Apparently is common for people to assign subdomains to IPs that belongs to cloud providers and at some point **lose that IP address but forget about removing the DNS record**. Therefore, just **spawning a VM** in a cloud (like Digital Ocean) you will be actually **taking over some subdomains(s)**.
 
-[**This post**](https://kmsec.uk/blog/passive-takeover/) explains a store about it and propose a script that **uruchamia VM w DigitalOcean**, **pobiera** the **IPv4** of the new machine, and **szuka w Virustotal rekordów subdomen** wskazujących na nią.
+[**This post**](https://kmsec.uk/blog/passive-takeover/) explains a store about it and propose a script that **spawns a VM in DigitalOcean**, **gets** the **IPv4** of the new machine, and **searches in Virustotal for subdomain records** pointing to it.
 
 ### **Other ways**
 
@@ -190,21 +190,21 @@ Apparently is common for people to assign subdomains to IPs that belongs to clou
 
 As you already know the name of the organisation owning the IP space. You can search by that data in shodan using: `org:"Tesla, Inc."` Check the found hosts for new unexpected domains in the TLS certificate.
 
-You could access the **TLS certificate** of the main web page, obtain the **Nazwa organizacji** and then search for that name inside the **TLS certificates** of all the web pages known by **shodan** with the filter : `ssl:"Tesla Motors"` or use a tool like [**sslsearch**](https://github.com/HarshVaragiya/sslsearch).
+You could access the **TLS certificate** of the main web page, obtain the **Organisation name** and then search for that name inside the **TLS certificates** of all the web pages known by **shodan** with the filter : `ssl:"Tesla Motors"` or use a tool like [**sslsearch**](https://github.com/HarshVaragiya/sslsearch).
 
 **Assetfinder**
 
-[**Assetfinder** ](https://github.com/tomnomnom/assetfinder) is a tool that look for **domeny związane** with a main domain and **subdomeny** of them, pretty amazing.
+[**Assetfinder** ](https://github.com/tomnomnom/assetfinder)to narzędzie, które szuka **domen związanych** z główną domeną i **subdomenami** z nimi, całkiem niesamowite.
 
 ### **Looking for vulnerabilities**
 
-Check for some [domain takeover](../../pentesting-web/domain-subdomain-takeover.md#domain-takeover). Maybe some company is **używa jakiejś domeny**, but they **stracili własność**. Just register it (if cheap enough) and let know the company.
+Check for some [domain takeover](../../pentesting-web/domain-subdomain-takeover.md#domain-takeover). Maybe some company is **using some a domain** but they **lost the ownership**. Just register it (if cheap enough) and let know the company.
 
-If you find any **domenę z adresem IP różnym** from the ones you already found in the assets discovery, you should perform a **podstawowe skanowanie podatności** (using Nessus or OpenVAS) and some [**skanowanie portów**](../pentesting-network/#discovering-hosts-from-the-outside) with **nmap/masscan/shodan**. Depending on which services are running you can find in **this book some tricks to "attack" them**.\
+If you find any **domain with an IP different** from the ones you already found in the assets discovery, you should perform a **basic vulnerability scan** (using Nessus or OpenVAS) and some [**port scan**](../pentesting-network/#discovering-hosts-from-the-outside) with **nmap/masscan/shodan**. Depending on which services are running you can find in **this book some tricks to "attack" them**.\
 &#xNAN;_&#x4E;ote that sometimes the domain is hosted inside an IP that is not controlled by the client, so it's not in the scope, be careful._
 
 <img src="../../.gitbook/assets/i3.png" alt="" data-size="original">\
-**Bug bounty tip**: **zarejestruj się** for **Intigriti**, a premium **platforma bug bounty stworzona przez hackerów, dla hackerów**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
+**Bug bounty tip**: **zarejestruj się** w **Intigriti**, premium **platformie bug bounty stworzonej przez hakerów, dla hakerów**! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 USD**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -220,13 +220,13 @@ Note that some of the tools and techniques to find domains can also help to find
 
 ### **DNS**
 
-Let's try to get **subdomeny** from the **rekordów DNS**. We should also try for **Transfer Strefy** (If vulnerable, you should report it).
+Let's try to get **subdomains** from the **DNS** records. We should also try for **Zone Transfer** (If vulnerable, you should report it).
 ```bash
 dnsrecon -a -d tesla.com
 ```
 ### **OSINT**
 
-Naj szybszym sposobem na uzyskanie wielu subdomen jest przeszukiwanie zewnętrznych źródeł. Najczęściej używane **narzędzia** to następujące (dla lepszych wyników skonfiguruj klucze API):
+Naj szybszym sposobem na uzyskanie wielu subdomen jest przeszukiwanie zewnętrznych źródeł. Najczęściej używane **narzędzia** to:
 
 * [**BBOT**](https://github.com/blacklanternsecurity/bbot)
 ```bash
@@ -275,7 +275,7 @@ vita -d tesla.com
 ```bash
 theHarvester -d tesla.com -b "anubis, baidu, bing, binaryedge, bingapi, bufferoverun, censys, certspotter, crtsh, dnsdumpster, duckduckgo, fullhunt, github-code, google, hackertarget, hunter, intelx, linkedin, linkedin_links, n45ht, omnisint, otx, pentesttools, projectdiscovery, qwant, rapiddns, rocketreach, securityTrails, spyse, sublist3r, threatcrowd, threatminer, trello, twitter, urlscan, virustotal, yahoo, zoomeye"
 ```
-Są **inne interesujące narzędzia/API**, które, nawet jeśli nie są bezpośrednio wyspecjalizowane w znajdowaniu subdomen, mogą być przydatne do ich znalezienia, takie jak:
+Są **inne interesujące narzędzia/API**, które, nawet jeśli nie są bezpośrednio wyspecjalizowane w znajdowaniu subdomen, mogą być przydatne do ich znajdowania, takie jak:
 
 * [**Crobat**](https://github.com/cgboal/sonarsearch)**:** Używa API [https://sonar.omnisint.io](https://sonar.omnisint.io) do uzyskiwania subdomen
 ```bash
@@ -307,7 +307,7 @@ curl -s "https://crt.sh/?q=%25.$1" \
 }
 crt tesla.com
 ```
-* [**gau**](https://github.com/lc/gau)**:** pobiera znane URL-e z Open Threat Exchange AlienVault, Wayback Machine i Common Crawl dla dowolnej domeny.
+* [**gau**](https://github.com/lc/gau)**:** pobiera znane adresy URL z Open Threat Exchange AlienVault, Wayback Machine i Common Crawl dla dowolnej domeny.
 ```bash
 # Get subdomains from GAUs found URLs
 gau --subs tesla.com | cut -d "/" -f 3 | sort -u
@@ -390,12 +390,12 @@ Po znalezieniu subdomen za pomocą otwartych źródeł i brute-forcingu, możesz
 ```bash
 cat subdomains.txt | dnsgen -
 ```
-* [**goaltdns**](https://github.com/subfinder/goaltdns): Dla domen i subdomen generuj permutacje.
+* [**goaltdns**](https://github.com/subfinder/goaltdns): Dla domen i subdomen generuje permutacje.
 * Możesz uzyskać permutacje goaltdns **wordlist** [**tutaj**](https://github.com/subfinder/goaltdns/blob/master/words.txt).
 ```bash
 goaltdns -l subdomains.txt -w /tmp/words-permutations.txt -o /tmp/final-words-s3.txt
 ```
-* [**gotator**](https://github.com/Josue87/gotator)**:** Dla podanych domen i subdomen generuje permutacje. Jeśli nie wskazano pliku z permutacjami, gotator użyje swojego własnego.
+* [**gotator**](https://github.com/Josue87/gotator)**:** Podane domeny i subdomeny generują permutacje. Jeśli nie wskazano pliku z permutacjami, gotator użyje swojego własnego.
 ```
 gotator -sub subdomains.txt -silent [-perm /tmp/words-permutations.txt]
 ```
@@ -414,7 +414,7 @@ cat subdomains.txt | dmut -d /tmp/words-permutations.txt -w 100 \
 
 #### Generowanie inteligentnych permutacji
 
-* [**regulator**](https://github.com/cramppet/regulator): Aby uzyskać więcej informacji, przeczytaj ten [**post**](https://cramppet.github.io/regulator/index.html), ale zasadniczo wyciągnie on **główne części** z **odkrytych subdomen** i wymiesza je, aby znaleźć więcej subdomen.
+* [**regulator**](https://github.com/cramppet/regulator): Aby uzyskać więcej informacji, przeczytaj ten [**post**](https://cramppet.github.io/regulator/index.html), ale zasadniczo pobierze on **główne części** z **odkrytych subdomen** i wymiesza je, aby znaleźć więcej subdomen.
 ```bash
 python3 main.py adobe.com adobe adobe.rules
 make_brute_list.sh adobe.rules adobe.brute
@@ -468,14 +468,14 @@ ffuf -w subdomains-top1million-5000.txt -u http://10.10.10.208 -H 'Origin: http:
 ```
 ### **Buckets Brute Force**
 
-Podczas szukania **subdomen** zwróć uwagę, czy wskazują one na jakikolwiek typ **bucket**, a w takim przypadku [**sprawdź uprawnienia**](../../network-services-pentesting/pentesting-web/buckets/)**.**\
+Podczas szukania **subdomen** zwróć uwagę, czy wskazują one na jakiegoś rodzaju **bucket**, a w takim przypadku [**sprawdź uprawnienia**](../../network-services-pentesting/pentesting-web/buckets/)**.**\
 Również, w tym momencie, gdy będziesz znać wszystkie domeny w zakresie, spróbuj [**brute force'ować możliwe nazwy bucketów i sprawdzić uprawnienia**](../../network-services-pentesting/pentesting-web/buckets/).
 
 ### **Monitorowanie**
 
 Możesz **monitorować**, czy **nowe subdomeny** danej domeny są tworzone, monitorując **logi przejrzystości certyfikatów** [**sublert** ](https://github.com/yassineaboukir/sublert/blob/master/sublert.py).
 
-### **Szukając luk**
+### **Szukając luk w zabezpieczeniach**
 
 Sprawdź możliwe [**przejęcia subdomen**](../../pentesting-web/domain-subdomain-takeover.md#subdomain-takeover).\
 Jeśli **subdomena** wskazuje na jakiś **S3 bucket**, [**sprawdź uprawnienia**](../../network-services-pentesting/pentesting-web/buckets/).
@@ -488,17 +488,17 @@ Jeśli znajdziesz jakąkolwiek **subdomenę z adresem IP różnym** od tych, kt�
 W początkowych krokach mogłeś **znaleźć pewne zakresy IP, domeny i subdomeny**.\
 Czas na **zebranie wszystkich IP z tych zakresów** oraz dla **domen/subdomen (zapytania DNS).**
 
-Korzystając z usług następujących **darmowych API**, możesz również znaleźć **wcześniejsze IP używane przez domeny i subdomeny**. Te IP mogą nadal być własnością klienta (i mogą pozwolić Ci znaleźć [**obejścia CloudFlare**](../../network-services-pentesting/pentesting-web/uncovering-cloudflare.md))
+Korzystając z usług z poniższych **darmowych API**, możesz również znaleźć **wcześniejsze IP używane przez domeny i subdomeny**. Te IP mogą nadal być własnością klienta (i mogą pozwolić Ci znaleźć [**obejścia CloudFlare**](../../network-services-pentesting/pentesting-web/uncovering-cloudflare.md))
 
 * [**https://securitytrails.com/**](https://securitytrails.com/)
 
 Możesz również sprawdzić, które domeny wskazują na konkretny adres IP, używając narzędzia [**hakip2host**](https://github.com/hakluke/hakip2host)
 
-### **Szukając luk**
+### **Szukając luk w zabezpieczeniach**
 
-**Skanuj porty wszystkich IP, które nie należą do CDN** (ponieważ prawdopodobnie nie znajdziesz tam nic interesującego). W odkrytych usługach możesz **znaleźć luki**.
+**Skanuj porty wszystkich IP, które nie należą do CDN** (ponieważ prawdopodobnie nie znajdziesz tam nic interesującego). W odkrytych usługach możesz **znaleźć luki w zabezpieczeniach**.
 
-**Znajdź** [**przewodnik**](../pentesting-network/) **o tym, jak skanować hosty.**
+**Znajdź** [**przewodnik**](../pentesting-network/) **na temat skanowania hostów.**
 
 ## Polowanie na serwery WWW
 
@@ -516,7 +516,7 @@ cat /tmp/domains.txt | httprobe -p http:8080 -p https:8443 #Check port 80, 443 a
 ```
 ### **Zrzuty ekranu**
 
-Teraz, gdy odkryłeś **wszystkie serwery internetowe** znajdujące się w zakresie (wśród **adresów IP** firmy oraz wszystkich **domen** i **subdomen**) prawdopodobnie **nie wiesz, od czego zacząć**. Zróbmy to prosto i zacznijmy od robienia zrzutów ekranu wszystkich z nich. Już tylko **rzucając okiem** na **stronę główną** możesz znaleźć **dziwne** punkty końcowe, które są bardziej **podatne** na bycie **wrażliwymi**.
+Teraz, gdy odkryłeś **wszystkie serwery internetowe** znajdujące się w zakresie (wśród **adresów IP** firmy oraz wszystkich **domen** i **subdomen**) prawdopodobnie **nie wiesz, od czego zacząć**. Zróbmy to prosto i zacznijmy od robienia zrzutów ekranu wszystkich z nich. Już po **rzuceniu okiem** na **stronę główną** możesz znaleźć **dziwne** punkty końcowe, które są bardziej **podatne** na bycie **wrażliwymi**.
 
 Aby zrealizować zaproponowany pomysł, możesz użyć [**EyeWitness**](https://github.com/FortyNorthSecurity/EyeWitness), [**HttpScreenshot**](https://github.com/breenmachine/httpscreenshot), [**Aquatone**](https://github.com/michenriksen/aquatone), [**Shutter**](https://shutter-project.org/downloads/third-party-packages/), [**Gowitness**](https://github.com/sensepost/gowitness) lub [**webscreenshot**](https://github.com/maaaaz/webscreenshot)**.**
 
@@ -532,7 +532,7 @@ Będziesz również potrzebować list słów **powszechnie używanych w bucketac
 * [https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt](https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt)
 * [https://raw.githubusercontent.com/jordanpotti/AWSBucketDump/master/BucketNames.txt](https://raw.githubusercontent.com/jordanpotti/AWSBucketDump/master/BucketNames.txt)
 
-Następnie, z tymi słowami powinieneś wygenerować **permutacje** (sprawdź [**Drugą Rundę DNS Brute-Force**](./#second-dns-bruteforce-round) po więcej informacji).
+Następnie, z tymi słowami powinieneś wygenerować **permutacje** (sprawdź [**Drugą rundę DNS Brute-Force**](./#second-dns-bruteforce-round) po więcej informacji).
 
 Z uzyskanymi listami słów możesz użyć narzędzi takich jak [**cloud\_enum**](https://github.com/initstring/cloud_enum)**,** [**CloudScraper**](https://github.com/jordanpotti/CloudScraper)**,** [**cloudlist**](https://github.com/projectdiscovery/cloudlist) **lub** [**S3Scanner**](https://github.com/sa7mon/S3Scanner)**.**
 
@@ -553,7 +553,7 @@ Z **domenami** i **subdomenami** w zakresie masz zasadniczo wszystko, co **potrz
 
 ### **Szukając luk**
 
-E-maile będą przydatne później do **brute-force logowania do stron internetowych i usług autoryzacyjnych** (takich jak SSH). Ponadto są potrzebne do **phishingu**. Co więcej, te API dadzą ci jeszcze więcej **informacji o osobie** stojącej za e-mailem, co jest przydatne w kampanii phishingowej.
+E-maile będą przydatne później do **brute-force'owania logowania do stron internetowych i usług autoryzacyjnych** (takich jak SSH). Ponadto są potrzebne do **phishingu**. Co więcej, te API dadzą ci jeszcze więcej **informacji o osobie** stojącej za e-mailem, co jest przydatne w kampanii phishingowej.
 
 ## Wycieki poświadczeń
 
@@ -575,7 +575,7 @@ Wyciek poświadczeń jest związany z hackami firm, w których **wrażliwe infor
 Poświadczenia i API mogą być wyciekane w **publicznych repozytoriach** **firmy** lub **użytkowników** pracujących dla tej firmy na GitHubie.\
 Możesz użyć **narzędzia** [**Leakos**](https://github.com/carlospolop/Leakos), aby **pobrać** wszystkie **publiczne repozytoria** **organizacji** i jej **deweloperów** oraz automatycznie uruchomić [**gitleaks**](https://github.com/zricethezav/gitleaks) na nich.
 
-**Leakos** może być również używane do uruchamiania **gitleaks** przeciwko wszystkim **tekstom** dostarczonym **URL-om przekazanym** do niego, ponieważ czasami **strony internetowe również zawierają sekrety**.
+**Leakos** może być również używane do uruchamiania **gitleaks** przeciwko wszystkim **tekstom** dostarczonym **URL-om**, które mu przekazano, ponieważ czasami **strony internetowe również zawierają sekrety**.
 
 #### Dorki GitHub
 
@@ -588,11 +588,11 @@ Sprawdź również tę **stronę** w poszukiwaniu potencjalnych **dorków GitHub
 ### Wyciek Paste
 
 Czasami atakujący lub po prostu pracownicy **publikują treści firmy na stronie paste**. Może to zawierać lub nie **wrażliwe informacje**, ale bardzo interesujące jest ich wyszukiwanie.\
-Możesz użyć narzędzia [**Pastos**](https://github.com/carlospolop/Pastos), aby przeszukać więcej niż 80 stron paste w tym samym czasie.
+Możesz użyć narzędzia [**Pastos**](https://github.com/carlospolop/Pastos), aby przeszukać więcej niż 80 stron paste jednocześnie.
 
 ### Dorki Google
 
-Stare, ale złote dorki Google są zawsze przydatne do znajdowania **ujawnionych informacji, które nie powinny tam być**. Jedynym problemem jest to, że [**google-hacking-database**](https://www.exploit-db.com/google-hacking-database) zawiera kilka **tysięcy** możliwych zapytań, których nie możesz uruchomić ręcznie. Możesz więc wziąć swoje ulubione 10 lub możesz użyć **narzędzia takiego jak** [**Gorks**](https://github.com/carlospolop/Gorks) **do ich uruchomienia**.
+Stare, ale złote dorki Google zawsze są przydatne do znajdowania **ujawnionych informacji, które nie powinny tam być**. Jedynym problemem jest to, że [**google-hacking-database**](https://www.exploit-db.com/google-hacking-database) zawiera kilka **tysięcy** możliwych zapytań, których nie możesz uruchomić ręcznie. Możesz więc wziąć swoje ulubione 10 lub możesz użyć **narzędzia takiego jak** [**Gorks**](https://github.com/carlospolop/Gorks), **aby uruchomić je wszystkie**.
 
 _Uwaga, że narzędzia, które oczekują uruchomienia całej bazy danych za pomocą standardowej przeglądarki Google, nigdy się nie skończą, ponieważ Google zablokuje cię bardzo, bardzo szybko._
 
@@ -602,7 +602,7 @@ Jeśli znajdziesz **ważne wyciekłe** poświadczenia lub tokeny API, to bardzo 
 
 ## Publiczne luki w kodzie
 
-Jeśli odkryłeś, że firma ma **kod open-source**, możesz go **analizować** i szukać **luk** w nim.
+Jeśli odkryłeś, że firma ma **kod open-source**, możesz **analizować** go i szukać **luk** w nim.
 
 **W zależności od języka** istnieją różne **narzędzia**, które możesz użyć:
 
@@ -616,13 +616,13 @@ Istnieją również darmowe usługi, które pozwalają na **skanowanie publiczny
 
 ## [**Metodologia Pentestingu Web**](../../network-services-pentesting/pentesting-web/)
 
-**Większość luk** znajdowanych przez łowców błędów znajduje się w **aplikacjach internetowych**, więc w tym momencie chciałbym porozmawiać o **metodologii testowania aplikacji internetowych**, a możesz [**znaleźć te informacje tutaj**](../../network-services-pentesting/pentesting-web/).
+**Większość luk** znalezionych przez łowców błędów znajduje się w **aplikacjach internetowych**, więc w tym momencie chciałbym porozmawiać o **metodologii testowania aplikacji internetowych**, a możesz [**znaleźć te informacje tutaj**](../../network-services-pentesting/pentesting-web/).
 
-Chcę również szczególnie wspomnieć o sekcji [**Narzędzia do automatycznego skanowania open source**](../../network-services-pentesting/pentesting-web/#automatic-scanners), ponieważ, jeśli nie powinieneś oczekiwać, że znajdą ci bardzo wrażliwe luki, są przydatne do wdrażania ich w **workflow, aby uzyskać pewne początkowe informacje o sieci.**
+Chcę również szczególnie wspomnieć o sekcji [**Narzędzia do automatycznego skanowania aplikacji webowych open source**](../../network-services-pentesting/pentesting-web/#automatic-scanners), ponieważ, jeśli nie powinieneś oczekiwać, że znajdą ci bardzo wrażliwe luki, są przydatne do wdrażania ich w **workflow, aby uzyskać pewne początkowe informacje o sieci.**
 
 ## Rekapitulacja
 
-> Gratulacje! W tym momencie wykonałeś już **wszystkie podstawowe enumeracje**. Tak, to podstawowe, ponieważ można wykonać znacznie więcej enumeracji (zobaczymy więcej sztuczek później).
+> Gratulacje! W tym momencie już wykonałeś **wszystkie podstawowe enumeracje**. Tak, to podstawowe, ponieważ można wykonać znacznie więcej enumeracji (zobaczymy więcej sztuczek później).
 
 Więc już:
 
@@ -636,7 +636,7 @@ Więc już:
 8. **E-maile**, **wycieki poświadczeń** i **wycieki sekretów**, które mogą dać ci **duże zwycięstwo bardzo łatwo**.
 9. **Pentesting wszystkich stron, które znalazłeś**
 
-## **Pełne narzędzia automatycznego rekonesansu**
+## **Pełne narzędzia do automatycznego rekonesansu**
 
 Istnieje kilka narzędzi, które wykonają część zaproponowanych działań przeciwko danemu zakresowi.
 
@@ -664,8 +664,8 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów GitHub.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}

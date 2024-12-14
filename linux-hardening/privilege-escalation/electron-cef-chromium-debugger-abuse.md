@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Podstawowe informacje
 
-[From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Gdy uruchomiony z przełącznikiem `--inspect`, proces Node.js nasłuchuje na klienta debugowania. Domyślnie nasłuchuje na hoście i porcie **`127.0.0.1:9229`**. Każdemu procesowi przypisany jest również **unikalny** **UUID**.
+[Z dokumentacji](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Po uruchomieniu z przełącznikiem `--inspect`, proces Node.js nasłuchuje na klienta debugowania. **Domyślnie** będzie nasłuchiwać na hoście i porcie **`127.0.0.1:9229`**. Każdemu procesowi przypisany jest również **unikalny** **UUID**.
 
 Klienci inspektora muszą znać i określić adres hosta, port i UUID, aby się połączyć. Pełny adres URL będzie wyglądał mniej więcej tak: `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
@@ -36,23 +36,23 @@ node --inspect-brk=0.0.0.0:4444 app.js #Will run the inspector all ifaces and po
 node --inspect --inspect-port=0 app.js #Will run the inspector in a random port
 # Note that using "--inspect-port" without "--inspect" or "--inspect-brk" won't run the inspector
 ```
-Kiedy uruchomisz proces do inspekcji, coś takiego się pojawi:
+Kiedy uruchomisz proces inspekcji, coś takiego się pojawi:
 ```
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
 Procesy oparte na **CEF** (**Chromium Embedded Framework**) muszą używać parametru: `--remote-debugging-port=9222`, aby otworzyć **debugger** (ochrony SSRF pozostają bardzo podobne). Jednak **zamiast** przyznawania sesji **debug** **NodeJS**, będą komunikować się z przeglądarką za pomocą [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), jest to interfejs do kontrolowania przeglądarki, ale nie ma bezpośredniego RCE.
 
-Kiedy uruchomisz debugowaną przeglądarkę, coś takiego się pojawi:
+Kiedy uruchomisz przeglądarkę w trybie debugowania, pojawi się coś takiego:
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
 ### Browsers, WebSockets and same-origin policy <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-Strony internetowe otwarte w przeglądarce mogą wysyłać żądania WebSocket i HTTP zgodnie z modelem bezpieczeństwa przeglądarki. **Początkowe połączenie HTTP** jest konieczne do **uzyskania unikalnego identyfikatora sesji debuggera**. **Polityka same-origin** **zapobiega** stronom internetowym w nawiązywaniu **tego połączenia HTTP**. Dla dodatkowego bezpieczeństwa przed [**atakami DNS rebinding**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js weryfikuje, że **nagłówki 'Host'** dla połączenia albo określają **adres IP**, albo **`localhost`**, albo **`localhost6`** dokładnie.
+Strony internetowe otwarte w przeglądarce mogą wysyłać żądania WebSocket i HTTP zgodnie z modelem bezpieczeństwa przeglądarki. **Początkowe połączenie HTTP** jest konieczne, aby **uzyskać unikalny identyfikator sesji debuggera**. **Polityka same-origin** **zapobiega** stronom internetowym w nawiązywaniu **tego połączenia HTTP**. Dla dodatkowego bezpieczeństwa przed [**atakami DNS rebinding**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js weryfikuje, że **nagłówki 'Host'** dla połączenia albo określają **adres IP**, albo **`localhost`**, albo **`localhost6`** dokładnie.
 
 {% hint style="info" %}
-Te **środki bezpieczeństwa zapobiegają wykorzystaniu inspektora** do uruchamiania kodu poprzez **wysłanie żądania HTTP** (co mogłoby być zrealizowane poprzez wykorzystanie luki SSRF).
+Te **środki bezpieczeństwa zapobiegają wykorzystaniu inspektora** do uruchamiania kodu poprzez **wysłanie tylko żądania HTTP** (co mogłoby być zrealizowane poprzez wykorzystanie luki SSRF).
 {% endhint %}
 
 ### Starting inspector in running processes
@@ -63,7 +63,7 @@ kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-To przydatne w kontenerach, ponieważ **zamknięcie procesu i uruchomienie nowego** z `--inspect` **nie jest opcją**, ponieważ **kontener** zostanie **zabity** razem z procesem.
+To jest przydatne w kontenerach, ponieważ **zamknięcie procesu i uruchomienie nowego** z `--inspect` **nie jest opcją**, ponieważ **kontener** zostanie **zabity** wraz z procesem.
 {% endhint %}
 
 ### Połączenie z inspektorem/debuggerem
@@ -89,7 +89,7 @@ Narzędzie [**https://github.com/taviso/cefdebug**](https://github.com/taviso/ce
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-Zauważ, że **eksploity RCE w NodeJS nie będą działać**, jeśli są połączone z przeglądarką za pomocą [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (musisz sprawdzić API, aby znaleźć interesujące rzeczy do zrobienia z tym).
+Zauważ, że **eksploity RCE NodeJS nie będą działać**, jeśli są połączone z przeglądarką za pomocą [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (musisz sprawdzić API, aby znaleźć interesujące rzeczy do zrobienia z tym).
 {% endhint %}
 
 ## RCE w Debuggerze/Inspektorze NodeJS
@@ -114,7 +114,7 @@ W tej sekcji po prostu wymienię interesujące rzeczy, które znalazłem, a któ
 
 W [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) firma Rhino Security odkryła, że aplikacja oparta na CEF **zarejestrowała niestandardowy URI** w systemie (workspaces://), który odbierał pełny URI, a następnie **uruchamiał aplikację opartą na CEF** z konfiguracją, która była częściowo konstruowana z tego URI.
 
-Odkryto, że parametry URI były dekodowane URL i używane do uruchomienia podstawowej aplikacji CEF, co pozwalało użytkownikowi **wstrzyknąć** flagę **`--gpu-launcher`** w **wierszu poleceń** i wykonywać dowolne rzeczy.
+Odkryto, że parametry URI były dekodowane URL i używane do uruchamiania podstawowej aplikacji CEF, co pozwalało użytkownikowi **wstrzykiwać** flagę **`--gpu-launcher`** w **linii poleceń** i wykonywać dowolne rzeczy.
 
 Więc, ładunek taki jak:
 ```
@@ -170,8 +170,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

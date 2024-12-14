@@ -27,7 +27,7 @@ Najczęściej używane narzędzie w forensyce do ekstrakcji plików z obrazów t
 
 **Binwalk** to narzędzie do analizy plików binarnych w celu znalezienia osadzonych treści. Można je zainstalować za pomocą `apt`, a jego źródło znajduje się na [GitHub](https://github.com/ReFirmLabs/binwalk).
 
-**Przydatne komendy**:
+**Przydatne polecenia**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -44,7 +44,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** to kolejne narzędzie, które można wykorzystać do znajdowania i wyodrębniania **plików osadzonych w pliku**. W tym przypadku będziesz musiał odkomentować w pliku konfiguracyjnym (_/etc/scalpel/scalpel.conf_) typy plików, które chcesz, aby zostały wyodrębnione.
+**Scalpel** to kolejne narzędzie, które można wykorzystać do znajdowania i wydobywania **plików osadzonych w pliku**. W tym przypadku będziesz musiał odkomentować w pliku konfiguracyjnym (_/etc/scalpel/scalpel.conf_) typy plików, które chcesz, aby zostały wydobyte.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -53,11 +53,11 @@ scalpel file.img -o output
 
 To narzędzie znajduje się w Kali, ale możesz je znaleźć tutaj: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-To narzędzie może skanować obraz i **wyodrębnić pcaps** w nim, **informacje o sieci (URL, domeny, IP, MAC, maile)** i więcej **plików**. Musisz tylko zrobić:
+To narzędzie może skanować obraz i **wyodrębniać pcaps** w nim, **informacje o sieci (URL, domeny, IP, MAC, maile)** i więcej **plików**. Musisz tylko zrobić:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Przejrzyj **wszystkie informacje**, które narzędzie zgromadziło (hasła?), **analizuj** **pakiety** (przeczytaj [**analizę Pcaps**](../pcap-inspection/)), szukaj **dziwnych domen** (domen związanych z **złośliwym oprogramowaniem** lub **nieistniejących**).
+Przejrzyj **wszystkie informacje**, które narzędzie zgromadziło (hasła?), **analizuj** **pakiety** (przeczytaj [**analizę Pcaps**](../pcap-inspection/)), szukaj **dziwnych domen** (domen związanych z **złośliwym oprogramowaniem** lub **nieistniejącymi**).
 
 ### PhotoRec
 
@@ -69,14 +69,14 @@ Dostępna jest wersja z interfejsem graficznym i wiersza poleceń. Możesz wybra
 
 ### binvis
 
-Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [stronę narzędzia](https://binvis.io/#/).
+Sprawdź [kod](https://code.google.com/archive/p/binvis/) i [stronę narzędzia](https://binvis.io/#/).
 
 #### Cechy BinVis
 
 * Wizualny i aktywny **podgląd struktury**
 * Wiele wykresów dla różnych punktów skupienia
 * Skupienie na częściach próbki
-* **Widzenie ciągów i zasobów**, w plikach PE lub ELF, np.
+* **Widzenie ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
 * Uzyskiwanie **wzorców** do kryptanalizy plików
 * **Wykrywanie** algorytmów pakujących lub kodujących
 * **Identyfikacja** steganografii na podstawie wzorców
@@ -84,7 +84,7 @@ Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [stronę narzędz
 
 BinVis to świetny **punkt wyjścia, aby zapoznać się z nieznanym celem** w scenariuszu black-box.
 
-## Specyficzne narzędzia do odzyskiwania danych
+## Specyficzne narzędzia do carvingu danych
 
 ### FindAES
 
@@ -107,7 +107,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) oraz [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

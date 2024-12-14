@@ -15,7 +15,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Zgłębiaj swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i zdobądź certyfikat:
+Zgłębiaj swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i uzyskaj certyfikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -25,7 +25,7 @@ W przypadku wyzwań audio, **[Audacity](http://www.audacityteam.org/)** wyróżn
 
 Manipulacja **najmniej znaczącymi bitami (LSB)** jest powszechną techniką w steganografii audio i wideo, wykorzystującą stałe rozmiary fragmentów plików multimedialnych do dyskretnego osadzania danych. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)** jest przydatne do dekodowania wiadomości ukrytych jako **tony DTMF** lub **kod Morse'a**.
 
-Wyzwania wideo często obejmują formaty kontenerowe, które łączą strumienie audio i wideo. **[FFmpeg](http://ffmpeg.org/)** jest narzędziem do analizy i manipulacji tymi formatami, zdolnym do demultipleksowania i odtwarzania zawartości. Dla programistów, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** integruje możliwości FFmpeg z Pythonem dla zaawansowanych interakcji skryptowych.
+Wyzwania wideo często obejmują formaty kontenerów, które łączą strumienie audio i wideo. **[FFmpeg](http://ffmpeg.org/)** jest narzędziem do analizy i manipulacji tymi formatami, zdolnym do demultipleksowania i odtwarzania zawartości. Dla programistów, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** integruje możliwości FFmpeg w Pythonie dla zaawansowanych interakcji skryptowych.
 
 Ta gama narzędzi podkreśla wszechstronność wymaganą w wyzwaniach CTF, gdzie uczestnicy muszą stosować szeroki wachlarz technik analizy i manipulacji, aby odkryć ukryte dane w plikach audio i wideo.
 
@@ -35,7 +35,7 @@ Ta gama narzędzi podkreśla wszechstronność wymaganą w wyzwaniach CTF, gdzie
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Zgłębiaj swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i zdobądź certyfikat:
+Zgłębiaj swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i uzyskaj certyfikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 

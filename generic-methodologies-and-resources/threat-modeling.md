@@ -22,11 +22,11 @@ Triada CIA to powszechnie uznawany model w dziedzinie bezpieczeństwa informacji
 
 1. **Poufność**: Zapewnienie, że dane lub system nie są dostępne dla nieautoryzowanych osób. To centralny aspekt bezpieczeństwa, wymagający odpowiednich kontroli dostępu, szyfrowania i innych środków zapobiegających naruszeniom danych.
 2. **Integralność**: Dokładność, spójność i wiarygodność danych w całym ich cyklu życia. Ta zasada zapewnia, że dane nie są zmieniane ani manipulowane przez nieautoryzowane strony. Często obejmuje sumy kontrolne, haszowanie i inne metody weryfikacji danych.
-3. **Dostępność**: Zapewnia, że dane i usługi są dostępne dla autoryzowanych użytkowników w razie potrzeby. Często obejmuje redundancję, odporność na awarie i konfiguracje wysokiej dostępności, aby systemy działały nawet w obliczu zakłóceń.
+3. **Dostępność**: Zapewnia, że dane i usługi są dostępne dla autoryzowanych użytkowników w razie potrzeby. Często obejmuje redundancję, odporność na błędy i konfiguracje wysokiej dostępności, aby systemy działały nawet w obliczu zakłóceń.
 
 ### Threat Modeling Methodlogies
 
-1. **STRIDE**: Opracowane przez Microsoft, STRIDE to akronim od **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Każda kategoria reprezentuje rodzaj zagrożenia, a ta metodologia jest powszechnie stosowana w fazie projektowania programu lub systemu w celu identyfikacji potencjalnych zagrożeń.
+1. **STRIDE**: Opracowane przez Microsoft, STRIDE to akronim od **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Każda kategoria reprezentuje typ zagrożenia, a ta metodologia jest powszechnie stosowana w fazie projektowania programu lub systemu w celu identyfikacji potencjalnych zagrożeń.
 2. **DREAD**: To kolejna metodologia od Microsoftu używana do oceny ryzyka zidentyfikowanych zagrożeń. DREAD oznacza **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Każdy z tych czynników jest oceniany, a wynik jest używany do priorytetyzacji zidentyfikowanych zagrożeń.
 3. **PASTA** (Process for Attack Simulation and Threat Analysis): To siedmiostopniowa, **zorientowana na ryzyko** metodologia. Obejmuje definiowanie i identyfikowanie celów bezpieczeństwa, tworzenie zakresu technicznego, dekompozycję aplikacji, analizę zagrożeń, analizę luk oraz ocenę ryzyka/triage.
 4. **Trike**: To metodologia oparta na ryzyku, która koncentruje się na obronie aktywów. Zaczyna się od perspektywy **zarządzania ryzykiem** i analizuje zagrożenia oraz luki w tym kontekście.
@@ -39,7 +39,7 @@ Istnieje kilka narzędzi i rozwiązań programowych, które mogą **pomóc** w t
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Zaawansowany, wieloplatformowy i wielofunkcyjny interfejs graficzny dla profesjonalistów w dziedzinie cyberbezpieczeństwa. Spider Suite może być używany do mapowania i analizy powierzchni ataku.
+Zaawansowany, wieloplatformowy i wielofunkcyjny interfejs graficzny web spider/crawler dla profesjonalistów w dziedzinie cyberbezpieczeństwa. Spider Suite może być używany do mapowania i analizy powierzchni ataku.
 
 **Usage**
 
@@ -103,7 +103,7 @@ Pamiętaj, że istnieje różnica między zagrożeniami aktorów a zagrożeniami
 
 6. Gotowe
 
-Teraz twój ukończony model powinien wyglądać mniej więcej tak. I tak tworzy się prosty model zagrożeń za pomocą OWASP Threat Dragon.
+Teraz twój ukończony model powinien wyglądać mniej więcej tak. I tak tworzy się prosty model zagrożeń z OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 

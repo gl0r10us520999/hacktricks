@@ -6,11 +6,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}
@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Przygotuj środowisko
+## Przygotowanie środowiska
 
 W poniższej sekcji znajdziesz kod plików, które zamierzamy użyć do przygotowania środowiska
 
@@ -64,7 +64,7 @@ puts("Hi");
 
 1. **Utwórz** te pliki na swoim komputerze w tym samym folderze
 2. **Skompiluj** **bibliotekę**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
-3. **Skopiuj** `libcustom.so` do `/usr/lib`: `sudo cp libcustom.so /usr/lib` (uprawnienia roota)
+3. **Skopiuj** `libcustom.so` do `/usr/lib`: `sudo cp libcustom.so /usr/lib` (uprawnienia root)
 4. **Skompiluj** **wykonywalny**: `gcc sharedvuln.c -o sharedvuln -lcustom`
 
 ### Sprawdź środowisko
@@ -83,11 +83,11 @@ Hi
 ```
 ## Exploit
 
-W tym scenariuszu założymy, że **ktoś stworzył podatny wpis** w pliku _/etc/ld.so.conf/_:
+W tym scenariuszu zakładamy, że **ktoś stworzył podatny wpis** w pliku _/etc/ld.so.conf/_:
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-Wrażliwy folder to _/home/ubuntu/lib_ (gdzie mamy dostęp do zapisu).\
+The vulnerable folder is _/home/ubuntu/lib_ (gdzie mamy dostęp do zapisu).\
 **Pobierz i skompiluj** następujący kod w tym katalogu:
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
@@ -160,11 +160,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

@@ -9,7 +9,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
@@ -17,7 +17,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Zgłębiaj swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i zdobądź certyfikat:
+Pogłęb swoją wiedzę w **Bezpieczeństwie Mobilnym** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i zdobądź certyfikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -77,7 +77,7 @@ Wygodny sposób na **interaktywny dostęp do powłoki**, a także **transfer pli
 
 Poniżej znajduje się przykład dla `x86` z binariami skompresowanymi za pomocą upx. Dla innych binariów sprawdź [stronę wydań](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
-1. Przygotuj lokalnie, aby przechwycić żądanie przekierowywania portu ssh:
+1. Przygotuj lokalnie, aby przechwycić żądanie przekierowania portu ssh:
 
 {% code overflow="wrap" %}
 ```bash

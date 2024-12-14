@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-Jeśli masz pcap zawierający komunikację przez USB klawiatury, taką jak ta poniżej:
+Jeśli masz pcap zawierający komunikację przez USB klawiatury, jak ta poniżej:
 
 ![](<../../../.gitbook/assets/image (962).png>)
 

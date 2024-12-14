@@ -21,11 +21,11 @@ Maszyna linuxowa może również znajdować się w środowisku Active Directory.
 
 Maszyna linuxowa w AD może **przechowywać różne bilety CCACHE w plikach. Te bilety mogą być używane i nadużywane jak każdy inny bilet kerberosowy**. Aby odczytać te bilety, musisz być właścicielem biletu lub **rootem** na maszynie.
 
-## Enumeracja
+## Enumeration
 
-### Enumeracja AD z linuxa
+### AD enumeration from linux
 
-Jeśli masz dostęp do AD w linuxie (lub bash w Windows), możesz spróbować [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn), aby enumerować AD.
+Jeśli masz dostęp do AD w linuxie (lub bash w Windows), możesz spróbować [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn), aby zenumerować AD.
 
 Możesz również sprawdzić następującą stronę, aby dowiedzieć się o **innych sposobach enumeracji AD z linuxa**:
 
@@ -35,13 +35,13 @@ Możesz również sprawdzić następującą stronę, aby dowiedzieć się o **in
 
 ### FreeIPA
 
-FreeIPA to otwartoźródłowa **alternatywa** dla Microsoft Windows **Active Directory**, głównie dla środowisk **Unix**. Łączy kompletny **katalog LDAP** z MIT **Kerberos** Key Distribution Center do zarządzania podobnego do Active Directory. Wykorzystując system **certyfikatów Dogtag** do zarządzania certyfikatami CA i RA, wspiera **uwierzytelnianie wieloskładnikowe**, w tym karty inteligentne. SSSD jest zintegrowany z procesami uwierzytelniania Unix. Dowiedz się więcej o tym w:
+FreeIPA to otwartoźródłowa **alternatywa** dla Microsoft Windows **Active Directory**, głównie dla środowisk **Unix**. Łączy kompletny **katalog LDAP** z MIT **Kerberos** Key Distribution Center do zarządzania podobnego do Active Directory. Wykorzystując system certyfikatów Dogtag do zarządzania certyfikatami CA i RA, wspiera **uwierzytelnianie wieloskładnikowe**, w tym karty inteligentne. SSSD jest zintegrowany z procesami uwierzytelniania Unix. Dowiedz się więcej o tym w:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Zabawa z biletami
+## Playing with tickets
 
 ### Pass The Ticket
 
@@ -51,7 +51,7 @@ Na tej stronie znajdziesz różne miejsca, w których możesz **znaleźć bilety
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### Ponowne użycie biletu CCACHE z /tmp
+### CCACHE ticket reuse from /tmp
 
 Pliki CCACHE to binarne formaty do **przechowywania poświadczeń Kerberos**, które zazwyczaj są przechowywane z uprawnieniami 600 w `/tmp`. Pliki te można zidentyfikować po ich **formacie nazwy, `krb5cc_%{uid}`,** odpowiadającym UID użytkownika. Aby zweryfikować bilet uwierzytelniający, **zmienna środowiskowa `KRB5CCNAME`** powinna być ustawiona na ścieżkę do pożądanego pliku biletu, co umożliwia jego ponowne użycie.
 
@@ -66,9 +66,9 @@ export KRB5CCNAME=/tmp/krb5cc_1000
 ```
 ### CCACHE ticket reuse from keyring
 
-**Bilety Kerberos przechowywane w pamięci procesu mogą być wyodrębnione**, szczególnie gdy ochrona ptrace maszyny jest wyłączona (`/proc/sys/kernel/yama/ptrace_scope`). Przydatnym narzędziem do tego celu jest dostępne pod adresem [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), które ułatwia wyodrębnianie poprzez wstrzykiwanie do sesji i zrzucanie biletów do `/tmp`.
+**Bilety Kerberos przechowywane w pamięci procesu mogą być wyodrębniane**, szczególnie gdy ochrona ptrace maszyny jest wyłączona (`/proc/sys/kernel/yama/ptrace_scope`). Przydatnym narzędziem do tego celu jest dostępne pod adresem [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), które ułatwia wyodrębnianie poprzez wstrzykiwanie do sesji i zrzucanie biletów do `/tmp`.
 
-Aby skonfigurować i użyć tego narzędzia, należy postępować zgodnie z poniższymi krokami:
+Aby skonfigurować i używać tego narzędzia, należy wykonać poniższe kroki:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
@@ -86,7 +86,7 @@ Wywołanie \*\*`SSSDKCMExtractor` \*\* z parametrami --database i --key zanalizu
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-**Blob pamięci podręcznej poświadczeń Kerberos może być przekształcony w użyteczny plik CCache Kerberos**, który można przekazać do Mimikatz/Rubeus.
+**Blob pamięci podręcznej poświadczeń Kerberos można przekształcić w użyteczny plik CCache Kerberos**, który można przekazać do Mimikatz/Rubeus.
 
 ### Ponowne użycie biletu CCACHE z keytab
 ```bash
@@ -130,11 +130,11 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

@@ -44,7 +44,7 @@ A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
 W poprzedniej komendzie **C** oznacza **Zmienione**, a **A** oznacza **Dodane**.\
-Jeśli znajdziesz, że jakiś interesujący plik, taki jak `/etc/shadow`, został zmodyfikowany, możesz go pobrać z kontenera, aby sprawdzić działalność złośliwą za pomocą:
+Jeśli znajdziesz, że jakiś interesujący plik, taki jak `/etc/shadow`, został zmodyfikowany, możesz go pobrać z kontenera, aby sprawdzić aktywność złośliwą za pomocą:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
@@ -60,7 +60,7 @@ docker exec -it wordpress bash
 ```
 ## Modyfikacje obrazów
 
-Kiedy otrzymasz wyeksportowany obraz dockera (prawdopodobnie w formacie `.tar`), możesz użyć [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases), aby **wyodrębnić podsumowanie modyfikacji**:
+Gdy otrzymasz wyeksportowany obraz dockera (prawdopodobnie w formacie `.tar`), możesz użyć [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases), aby **wyodrębnić podsumowanie modyfikacji**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -71,7 +71,7 @@ Następnie możesz **rozpakować** obraz i **uzyskać dostęp do blobów**, aby 
 ```bash
 tar -xf image.tar
 ```
-### Podstawowa analiza
+### Podstawowa Analiza
 
 Możesz uzyskać **podstawowe informacje** z obrazu, uruchamiając:
 ```bash
@@ -97,7 +97,7 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-To pozwala na **nawigację przez różne bloby obrazów dockera** i sprawdzenie, które pliki zostały zmodyfikowane/dodane. **Czerwony** oznacza dodane, a **żółty** oznacza zmodyfikowane. Użyj **tab** aby przejść do innego widoku i **spacji** aby zwinąć/otworzyć foldery.
+To pozwala na **nawigację przez różne bloby obrazów dockera** i sprawdzenie, które pliki zostały zmodyfikowane/dodane. **Czerwony** oznacza dodane, a **żółty** oznacza zmodyfikowane. Użyj **tab** aby przejść do innego widoku i **spacja** aby zwinąć/otworzyć foldery.
 
 Z die nie będziesz w stanie uzyskać dostępu do zawartości różnych etapów obrazu. Aby to zrobić, musisz **dekompresować każdą warstwę i uzyskać do niej dostęp**.\
 Możesz dekompresować wszystkie warstwy z obrazu z katalogu, w którym obraz został dekompresowany, wykonując:
@@ -107,9 +107,9 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 ```
 ## Credentials from memory
 
-Zauważ, że gdy uruchamiasz kontener docker na hoście **możesz zobaczyć procesy działające w kontenerze z hosta** po prostu uruchamiając `ps -ef`
+Zauważ, że gdy uruchamiasz kontener docker na hoście, **możesz zobaczyć procesy działające w kontenerze z poziomu hosta** po prostu uruchamiając `ps -ef`.
 
-Dlatego (jako root) możesz **zrzucić pamięć procesów** z hosta i wyszukać **credentials** po prostu [**jak w następującym przykładzie**](../../linux-hardening/privilege-escalation/#process-memory).
+Dlatego (jako root) możesz **zrzucić pamięć procesów** z hosta i wyszukiwać **credentials** tak [**jak w poniższym przykładzie**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -118,8 +118,8 @@ Pogłęb swoją wiedzę w **Mobile Security** z 8kSec Academy. Opanuj bezpiecze�
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Ucz się i ćwicz AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -127,7 +127,7 @@ Ucz się i ćwicz GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

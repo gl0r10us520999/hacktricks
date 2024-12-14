@@ -21,7 +21,7 @@ Pomaga to w kilku sytuacjach w **wyszukiwaniu wycieków informacji** lub wzorcó
 
 * [**SourceGraph**](https://sourcegraph.com/search): Wyszukiwanie w milionach repozytoriów. Istnieje wersja darmowa i wersja enterprise (z 15 dniami za darmo). Obsługuje regexy.
 * [**Github Search**](https://github.com/search): Wyszukiwanie w Githubie. Obsługuje regexy.
-* Może również warto sprawdzić [**Github Code Search**](https://cs.github.com/).
+* Może warto również sprawdzić [**Github Code Search**](https://cs.github.com/).
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Wyszukiwanie w projektach Gitlab. Obsługuje regexy.
 * [**SearchCode**](https://searchcode.com/): Wyszukiwanie kodu w milionach projektów.
 

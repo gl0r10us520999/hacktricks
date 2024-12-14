@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Tutorials
 
-The following tutorials are amazing to learn some cool basic tricks:
+Następujące samouczki są świetne do nauki kilku podstawowych trików:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -43,19 +43,19 @@ Pod _**Statistics --> Resolved Addresses**_ możesz znaleźć kilka **informacji
 
 **Protocol Hierarchy**
 
-Pod _**Statistics --> Protocol Hierarchy**_ możesz znaleźć **protokoły** **zaangażowane** w komunikację oraz dane na ich temat.
+Pod _**Statistics --> Protocol Hierarchy**_ możesz znaleźć **protokoły** **zaangażowane** w komunikację oraz dane o nich.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-Pod _**Statistics --> Conversations**_ możesz znaleźć **podsumowanie rozmów** w komunikacji oraz dane na ich temat.
+Pod _**Statistics --> Conversations**_ możesz znaleźć **podsumowanie rozmów** w komunikacji oraz dane o nich.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-Pod _**Statistics --> Endpoints**_ możesz znaleźć **podsumowanie punktów końcowych** w komunikacji oraz dane na ich temat.
+Pod _**Statistics --> Endpoints**_ możesz znaleźć **podsumowanie punktów końcowych** w komunikacji oraz dane o każdym z nich.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
@@ -85,7 +85,7 @@ Inne interesujące filtry:
 
 ### Search
 
-Jeśli chcesz **wyszukiwać** **treść** wewnątrz **pakietów** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacyjnego (Nr, Czas, Źródło itp.) naciskając prawy przycisk i następnie edytując kolumnę.
+Jeśli chcesz **wyszukiwać** **treść** wewnątrz **pakietów** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacji (Nr, Czas, Źródło itp.) naciskając prawy przycisk i następnie edytując kolumnę.
 
 ### Free pcap labs
 
@@ -127,7 +127,7 @@ Naciśnij _Edit_ i dodaj wszystkie dane serwera oraz klucz prywatny (_IP, Port, 
 
 Zarówno Firefox, jak i Chrome mają możliwość rejestrowania kluczy sesji TLS, które można wykorzystać z Wireshark do odszyfrowania ruchu TLS. Umożliwia to szczegółową analizę zabezpieczonej komunikacji. Więcej informacji na temat tego, jak przeprowadzić to odszyfrowanie, można znaleźć w przewodniku na stronie [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Aby to wykryć, przeszukaj środowisko w poszukiwaniu zmiennej `SSLKEYLOGFILE`
+Aby to wykryć, przeszukaj środowisko pod kątem zmiennej `SSLKEYLOGFILE`
 
 Plik z kluczami współdzielonymi będzie wyglądał tak:
 
@@ -175,7 +175,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

@@ -1,25 +1,25 @@
 # Stego Tricks
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}
 
-## **Extracting Data from Files**
+## **Ekstrakcja danych z plików**
 
 ### **Binwalk**
 
-Narzędzie do wyszukiwania plików binarnych w poszukiwaniu osadzonych ukrytych plików i danych. Jest instalowane za pomocą `apt`, a jego źródło jest dostępne na [GitHubie](https://github.com/ReFirmLabs/binwalk).
+Narzędzie do wyszukiwania w plikach binarnych osadzonych ukrytych plików i danych. Jest instalowane za pomocą `apt`, a jego źródło jest dostępne na [GitHubie](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -27,7 +27,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Odzyskuje pliki na podstawie ich nagłówków i stóp, przydatne dla obrazów png. Zainstalowane za pomocą `apt` z jego źródłem na [GitHub](https://github.com/korczis/foremost).
+Odzyskuje pliki na podstawie ich nagłówków i stopek, przydatne dla obrazów png. Zainstalowane za pomocą `apt` z jego źródłem na [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -108,12 +108,12 @@ zsteg specjalizuje się w odkrywaniu ukrytych danych w plikach PNG i BMP. Instal
 
 **Polecenia:**
 
-* `zsteg -a file` stosuje wszystkie metody detekcji na pliku.
-* `zsteg -E file` określa ładunek do ekstrakcji danych.
+* `zsteg -a plik` stosuje wszystkie metody detekcji na pliku.
+* `zsteg -E plik` określa ładunek do ekstrakcji danych.
 
 ### **StegoVeritas i Stegsolve**
 
-**stegoVeritas** sprawdza metadane, wykonuje transformacje obrazów i stosuje brutalne siłowe ataki LSB, między innymi. Użyj `stegoveritas.py -h`, aby uzyskać pełną listę opcji, oraz `stegoveritas.py stego.jpg`, aby wykonać wszystkie kontrole.
+**stegoVeritas** sprawdza metadane, wykonuje transformacje obrazów i stosuje brutalne wymuszanie LSB, między innymi. Użyj `stegoveritas.py -h`, aby uzyskać pełną listę opcji, oraz `stegoveritas.py stego.jpg`, aby wykonać wszystkie kontrole.
 
 **Stegsolve** stosuje różne filtry kolorów, aby ujawnić ukryte teksty lub wiadomości w obrazach. Jest dostępny na [GitHubie](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
@@ -138,7 +138,7 @@ pngcheck stego.png
 ```
 ### **Dodatkowe narzędzia do analizy obrazów**
 
-Aby dalej eksplorować, rozważ odwiedzenie:
+Aby uzyskać dalsze informacje, rozważ odwiedzenie:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Analiza poziomu błędów obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -146,7 +146,7 @@ Aby dalej eksplorować, rozważ odwiedzenie:
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Ekstrakcja danych z audio**
+## **Ekstrakcja danych z dźwięków**
 
 **Steganografia audio** oferuje unikalną metodę ukrywania informacji w plikach dźwiękowych. Różne narzędzia są wykorzystywane do osadzania lub odzyskiwania ukrytej zawartości.
 
@@ -178,7 +178,7 @@ Deepsound pozwala na szyfrowanie i wykrywanie informacji w plikach dźwiękowych
 
 ### **Sonic Visualizer**
 
-Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików audio, Sonic Visualizer może ujawniać ukryte elementy niewykrywalne innymi metodami. Odwiedź [oficjalną stronę](https://www.sonicvisualiser.org/), aby dowiedzieć się więcej.
+Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików audio, Sonic Visualizer może ujawniać ukryte elementy, które są niewykrywalne innymi metodami. Odwiedź [oficjalną stronę](https://www.sonicvisualiser.org/), aby dowiedzieć się więcej.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -193,11 +193,11 @@ Dane binarne, które są kwadratem liczby całkowitej, mogą reprezentować kod 
 import math
 math.sqrt(2500) #50
 ```
-For binary to image conversion, check [dcode](https://www.dcode.fr/binary-image). To read QR codes, use [this online barcode reader](https://online-barcode-reader.inliteresearch.com/).
+Aby przekonwertować binarne na obraz, sprawdź [dcode](https://www.dcode.fr/binary-image). Aby odczytać kody QR, użyj [tego internetowego czytnika kodów kreskowych](https://online-barcode-reader.inliteresearch.com/).
 
 ### **Tłumaczenie Braille'a**
 
-For translating Braille, the [Branah Braille Translator](https://www.branah.com/braille-translator) is an excellent resource.
+Aby przetłumaczyć Braille'a, [Branah Braille Translator](https://www.branah.com/braille-translator) jest doskonałym źródłem.
 
 ## **Referencje**
 
@@ -205,16 +205,16 @@ For translating Braille, the [Branah Braille Translator](https://www.branah.com/
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

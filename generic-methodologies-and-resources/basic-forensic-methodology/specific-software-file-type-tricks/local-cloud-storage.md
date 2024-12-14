@@ -85,13 +85,13 @@ Następnie możesz użyć narzędzia [**DataProtectionDecryptor**](https://nirso
 
 ![](<../../../.gitbook/assets/image (443).png>)
 
-Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć do odzyskania oryginalnego**. Aby odzyskać oryginalny klucz, wystarczy użyć tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)), wstawiając klucz główny jako "hasło" w przepisie.
+Jeśli wszystko pójdzie zgodnie z planem, narzędzie wskaże **klucz główny**, który musisz **użyć, aby odzyskać oryginalny**. Aby odzyskać oryginalny klucz, wystarczy użyć tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)), wstawiając klucz główny jako "hasło" w przepisie.
 
-Ostateczny hex to klucz końcowy użyty do szyfrowania baz danych, który można odszyfrować za pomocą:
+Ostateczny hex to klucz końcowy używany do szyfrowania baz danych, który można odszyfrować za pomocą:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-The **`config.dbx`** database contains:
+The **`config.dbx`** baza danych zawiera:
 
 * **Email**: Email użytkownika
 * **usernamedisplayname**: Nazwa użytkownika
@@ -99,14 +99,14 @@ The **`config.dbx`** database contains:
 * **Host\_id: Hash** używany do uwierzytelniania w chmurze. Może być odwołany tylko z poziomu sieci.
 * **Root\_ns**: Identyfikator użytkownika
 
-The **`filecache.db`** database contains information about all the files and folders synchronized with Dropbox. The table `File_journal` is the one with more useful information:
+The **`filecache.db`** baza danych zawiera informacje o wszystkich plikach i folderach synchronizowanych z Dropbox. Tabela `File_journal` zawiera najwięcej przydatnych informacji:
 
-* **Server\_path**: Ścieżka, w której znajduje się plik na serwerze (ta ścieżka jest poprzedzona `host_id` klienta).
+* **Server\_path**: Ścieżka, w której plik znajduje się na serwerze (ta ścieżka jest poprzedzona `host_id` klienta).
 * **local\_sjid**: Wersja pliku
 * **local\_mtime**: Data modyfikacji
 * **local\_ctime**: Data utworzenia
 
-Other tables inside this database contain more interesting information:
+Inne tabele w tej bazie danych zawierają bardziej interesujące informacje:
 
 * **block\_cache**: hash wszystkich plików i folderów Dropbox
 * **block\_ref**: Powiązanie identyfikatora hash z tabeli `block_cache` z identyfikatorem pliku w tabeli `file_journal`
@@ -117,22 +117,22 @@ Other tables inside this database contain more interesting information:
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
+Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

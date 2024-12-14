@@ -15,19 +15,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Carving & Recovery tools
+## Narzędzia do Carvingu i Odzyskiwania
 
 Więcej narzędzi w [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Najczęściej używane narzędzie w forensyce do ekstrakcji plików z obrazów to [**Autopsy**](https://www.autopsy.com/download/). Pobierz je, zainstaluj i spraw, aby przetworzyło plik, aby znaleźć "ukryte" pliki. Zauważ, że Autopsy jest zaprojektowane do obsługi obrazów dysków i innych rodzajów obrazów, ale nie prostych plików.
+Najczęściej używane narzędzie w forensyce do ekstrakcji plików z obrazów to [**Autopsy**](https://www.autopsy.com/download/). Pobierz je, zainstaluj i spraw, aby przetworzyło plik w celu znalezienia "ukrytych" plików. Zauważ, że Autopsy jest zaprojektowane do obsługi obrazów dysków i innych rodzajów obrazów, ale nie prostych plików.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** to narzędzie do analizy plików binarnych w celu znalezienia osadzonych treści. Można je zainstalować za pomocą `apt`, a jego źródło znajduje się na [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** to narzędzie do analizy plików binarnych w celu znalezienia osadzonych treści. Można je zainstalować za pomocą `apt`, a jego źródło znajduje się na [GitHubie](https://github.com/ReFirmLabs/binwalk).
 
-**Przydatne polecenia**:
+**Przydatne komendy**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -53,11 +53,11 @@ scalpel file.img -o output
 
 To narzędzie znajduje się w Kali, ale możesz je znaleźć tutaj: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-To narzędzie może skanować obraz i **wyodrębniać pcaps** w nim, **informacje o sieci (URL, domeny, IP, MAC, maile)** i więcej **plików**. Musisz tylko zrobić:
+To narzędzie może przeskanować obraz i **wyodrębnić pcaps** w nim, **informacje o sieci (URL-e, domeny, IP, MAC, maile)** i więcej **plików**. Musisz tylko zrobić:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Przejrzyj **wszystkie informacje**, które narzędzie zebrało (hasła?), **analizuj** **pakiety** (przeczytaj [**analizę Pcaps**](../pcap-inspection/)), szukaj **dziwnych domen** (domen związanych z **złośliwym oprogramowaniem** lub **nieistniejącymi**).
+Przejrzyj **wszystkie informacje**, które narzędzie zebrało (hasła?), **analizuj** **pakiety** (przeczytaj [**analizę Pcaps**](../pcap-inspection/)), szukaj **dziwnych domen** (domen związanych z **złośliwym oprogramowaniem** lub **nieistniejących**).
 
 ### PhotoRec
 
@@ -69,20 +69,20 @@ Dostępna jest wersja z interfejsem graficznym i wiersza poleceń. Możesz wybra
 
 ### binvis
 
-Sprawdź [kod](https://code.google.com/archive/p/binvis/) i [stronę narzędzia](https://binvis.io/#/).
+Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [stronę narzędzia](https://binvis.io/#/).
 
 #### Cechy BinVis
 
 * Wizualny i aktywny **podgląd struktury**
 * Wiele wykresów dla różnych punktów skupienia
 * Skupienie na częściach próbki
-* **Widzenie ciągów i zasobów**, w plikach PE lub ELF, np.
+* **Widzenie ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
 * Uzyskiwanie **wzorców** do kryptanalizy plików
 * **Wykrywanie** algorytmów pakujących lub kodujących
 * **Identyfikacja** steganografii na podstawie wzorców
 * **Wizualna** różnica binarna
 
-BinVis to świetny **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-box.
+BinVis to świetny **punkt wyjścia, aby zapoznać się z nieznanym celem** w scenariuszu black-box.
 
 ## Specyficzne narzędzia do wydobywania danych
 
@@ -107,7 +107,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) oraz [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

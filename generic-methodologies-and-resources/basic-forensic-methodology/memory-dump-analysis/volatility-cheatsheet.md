@@ -9,8 +9,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 <summary>Support HackTricks</summary>
 
 * Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z dziedziny technologii i cyberbezpieczeństwa w każdej dyscyplinie.
+​​[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z technologii i cyberbezpieczeństwa w każdej dziedzinie.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -64,7 +64,7 @@ Volatility ma dwa główne podejścia do wtyczek, które czasami są odzwiercied
 
 To sprawia, że wtyczki „list” są dość szybkie, ale równie podatne na manipulacje przez złośliwe oprogramowanie, jak API Windows. Na przykład, jeśli złośliwe oprogramowanie użyje DKOM, aby odłączyć proces od powiązanej listy `_EPROCESS`, nie pojawi się on w Menedżerze zadań, ani w pslist.
 
-Z drugiej strony, wtyczki „scan” przyjmą podejście podobne do wydobywania z pamięci rzeczy, które mogą mieć sens, gdy zostaną dereferencjonowane jako konkretne struktury. `psscan` na przykład odczyta pamięć i spróbuje stworzyć obiekty `_EPROCESS` z niej (używa skanowania tagów puli, które polega na wyszukiwaniu 4-bajtowych ciągów wskazujących na obecność interesującej struktury). Zaletą jest to, że może wykryć procesy, które zakończyły działanie, a nawet jeśli złośliwe oprogramowanie manipuluje powiązaną listą `_EPROCESS`, wtyczka nadal znajdzie strukturę leżącą w pamięci (ponieważ nadal musi istnieć, aby proces mógł działać). Wadą jest to, że wtyczki „scan” są nieco wolniejsze niż wtyczki „list” i czasami mogą dawać fałszywe pozytywy (proces, który zakończył działanie zbyt dawno i miał części swojej struktury nadpisane przez inne operacje).
+Z drugiej strony, wtyczki „scan” przyjmą podejście podobne do wydobywania z pamięci rzeczy, które mogą mieć sens, gdy są dereferencjonowane jako konkretne struktury. `psscan` na przykład odczyta pamięć i spróbuje stworzyć obiekty `_EPROCESS` z niej (używa skanowania tagów puli, które polega na wyszukiwaniu 4-bajtowych ciągów wskazujących na obecność interesującej struktury). Zaletą jest to, że może wykryć procesy, które zakończyły działanie, a nawet jeśli złośliwe oprogramowanie manipuluje powiązaną listą `_EPROCESS`, wtyczka nadal znajdzie strukturę leżącą w pamięci (ponieważ nadal musi istnieć, aby proces mógł działać). Wadą jest to, że wtyczki „scan” są nieco wolniejsze niż wtyczki „list” i czasami mogą dawać fałszywe pozytywy (proces, który zakończył działanie zbyt dawno i miał części swojej struktury nadpisane przez inne operacje).
 
 Z: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -73,7 +73,7 @@ Z: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](
 ### Volatility3
 
 Jak wyjaśniono w readme, musisz umieścić **tabelę symboli systemu operacyjnego**, który chcesz obsługiwać, w _volatility3/volatility/symbols_.\
-Pakiety tabel symboli dla różnych systemów operacyjnych są dostępne do **pobrania** pod adresem:
+Pakiety tabel symboli dla różnych systemów operacyjnych są dostępne do **pobrania** pod:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -114,7 +114,7 @@ volatility kdbgscan -f file.dmp
 
 [**Stąd**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): W przeciwieństwie do imageinfo, które po prostu sugeruje profile, **kdbgscan** jest zaprojektowane do pozytywnej identyfikacji poprawnego profilu i poprawnego adresu KDBG (jeśli występuje ich wiele). Ten plugin skanuje sygnatury KDBGHeader powiązane z profilami Volatility i stosuje kontrole sanity, aby zredukować fałszywe pozytywy. Szczegółowość wyników i liczba kontroli sanity, które można przeprowadzić, zależy od tego, czy Volatility może znaleźć DTB, więc jeśli już znasz poprawny profil (lub jeśli masz sugestię profilu z imageinfo), upewnij się, że go używasz.
 
-Zawsze zwracaj uwagę na **liczbę procesów, które znalazł kdbgscan**. Czasami imageinfo i kdbgscan mogą znaleźć **więcej niż jeden** odpowiedni **profil**, ale tylko **ważny będzie miał jakieś powiązane procesy** (Dzieje się tak, ponieważ do wyodrębnienia procesów potrzebny jest poprawny adres KDBG).
+Zawsze zwracaj uwagę na **liczbę procesów, które znalazł kdbgscan**. Czasami imageinfo i kdbgscan mogą znaleźć **więcej niż jeden** odpowiedni **profil**, ale tylko **ważny będzie miał jakieś procesy związane** (To dlatego, że do wyodrębnienia procesów potrzebny jest poprawny adres KDBG).
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -135,11 +135,11 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
-The plugin `banners.Banners` może być użyty w **vol3, aby spróbować znaleźć bannery linuxowe** w zrzucie.
+Plugin `banners.Banners` może być użyty w **vol3, aby spróbować znaleźć bannery linuxowe** w zrzucie.
 
 ## Hashe/Hasła
 
-Wyodrębnij hashe SAM, [pamiętane poświadczenia domeny](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) i [sekrety lsa](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
+Wyodrębnij hashe SAM, [pamiętane poświadczenia domeny](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) oraz [sekrety lsa](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -167,7 +167,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z dziedziny technologii i cyberbezpieczeństwa w każdej dyscyplinie.
+​​​[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z technologii i cyberbezpieczeństwa w każdej dziedzinie.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -213,7 +213,7 @@ volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f fil
 {% endtab %}
 {% endtabs %}
 
-### Wiersz poleceń
+### Linia poleceń
 
 Czy wykonano coś podejrzanego?
 
@@ -257,7 +257,7 @@ volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of proc
 ### Uprawnienia tokenów
 
 Sprawdź tokeny uprawnień w niespodziewanych usługach.\
-Może być interesujące, aby wymienić procesy korzystające z niektórego tokena z uprawnieniami.
+Może być interesujące, aby wymienić procesy korzystające z niektórego z tokenów uprzywilejowanych.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -282,7 +282,7 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 ### SIDs
 
 Sprawdź każdy SSID posiadany przez proces.\
-Może być interesujące, aby wymienić procesy używające SID z uprawnieniami (oraz procesy używające SID jakiejś usługi).
+Może być interesujące, aby wymienić procesy korzystające z SID z uprawnieniami (oraz procesy korzystające z SID usługi). 
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -338,7 +338,7 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 
 ### Ciągi per procesy
 
-Volatility pozwala nam sprawdzić, do którego procesu należy ciąg. 
+Volatility pozwala nam sprawdzić, do którego procesu należy ciąg.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -378,7 +378,7 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 
 ### UserAssist
 
-**Windows** śledzi programy, które uruchamiasz, za pomocą funkcji w rejestrze zwanej **kluczami UserAssist**. Te klucze rejestrują, ile razy każdy program został uruchomiony i kiedy był ostatnio uruchamiany.
+**Windows** śledzi programy, które uruchamiasz, za pomocą funkcji w rejestrze zwanej **UserAssist keys**. Te klucze rejestru zapisują, ile razy każdy program został uruchomiony i kiedy był ostatnio uruchamiany.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -553,7 +553,7 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-System plików **NTFS** używa krytycznego komponentu znanego jako _master file table_ (MFT). Ta tabela zawiera przynajmniej jeden wpis dla każdego pliku na woluminie, obejmując również samą MFT. Kluczowe szczegóły dotyczące każdego pliku, takie jak **rozmiar, znaczniki czasu, uprawnienia i rzeczywiste dane**, są zawarte w wpisach MFT lub w obszarach zewnętrznych do MFT, ale odniesionych przez te wpisy. Więcej szczegółów można znaleźć w [oficjalnej dokumentacji](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+System plików **NTFS** używa krytycznego komponentu znanego jako _master file table_ (MFT). Ta tabela zawiera przynajmniej jeden wpis dla każdego pliku na woluminie, obejmując również samą MFT. Kluczowe szczegóły dotyczące każdego pliku, takie jak **rozmiar, znaczniki czasowe, uprawnienia i rzeczywiste dane**, są zawarte w wpisach MFT lub w obszarach zewnętrznych do MFT, ale odniesionych przez te wpisy. Więcej szczegółów można znaleźć w [oficjalnej dokumentacji](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
 ### Klucze/Certyfikaty SSL
 
@@ -612,10 +612,10 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Skanowanie za pomocą yara
+### Skanowanie z yara
 
 Użyj tego skryptu, aby pobrać i połączyć wszystkie zasady malware yara z github: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-Utwórz katalog _**rules**_ i uruchom go. To stworzy plik o nazwie _**malware\_rules.yar**_, który zawiera wszystkie zasady yara dla malware.
+Utwórz katalog _**rules**_ i uruchom go. To stworzy plik o nazwie _**malware\_rules.yar**_, który zawiera wszystkie zasady yara dla malware. 
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -769,11 +769,11 @@ volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
-### Mistrzowski Rekord Rozruchowy (MBR)
+### Mistrzowski rekord rozruchowy (MBR)
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-**Master Boot Record (MBR)** odgrywa kluczową rolę w zarządzaniu logicznymi partycjami nośnika, które są zorganizowane w różne [systemy plików](https://en.wikipedia.org/wiki/File\_system). Nie tylko przechowuje informacje o układzie partycji, ale także zawiera kod wykonywalny działający jako program rozruchowy. Ten program rozruchowy albo bezpośrednio inicjuje proces ładowania drugiego etapu systemu operacyjnego (zobacz [program rozruchowy drugiego etapu](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)), albo współpracuje z [rekordem rozruchowym woluminu](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) każdej partycji. Aby uzyskać szczegółowe informacje, zapoznaj się z [stroną MBR na Wikipedii](https://en.wikipedia.org/wiki/Master\_boot\_record).
+**Master Boot Record (MBR)** odgrywa kluczową rolę w zarządzaniu logicznymi partycjami nośnika danych, które są zorganizowane w różne [systemy plików](https://en.wikipedia.org/wiki/File\_system). Nie tylko przechowuje informacje o układzie partycji, ale także zawiera kod wykonywalny działający jako program rozruchowy. Ten program rozruchowy albo bezpośrednio inicjuje proces ładowania drugiego etapu systemu operacyjnego (zobacz [drugi program rozruchowy](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)), albo współpracuje z [rekordem rozruchowym woluminu](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) każdej partycji. Aby uzyskać szczegółowe informacje, zapoznaj się z [stroną MBR na Wikipedii](https://en.wikipedia.org/wiki/Master\_boot\_record).
 
 ## References
 
@@ -798,8 +798,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}
