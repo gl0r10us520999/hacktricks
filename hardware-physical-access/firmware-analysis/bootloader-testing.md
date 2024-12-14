@@ -40,21 +40,21 @@ I seguenti passaggi sono raccomandati per modificare le configurazioni di avvio 
 %%%
 
 4. **Utilizza `ubootwrite.py`**:
-- Usa `ubootwrite.py` per scrivere l'immagine U-boot e caricare un firmware modificato per ottenere accesso root.
+- Usa `ubootwrite.py` per scrivere l'immagine U-boot e spingere un firmware modificato per ottenere accesso root.
 
 5. **Controlla le Funzionalità di Debug**:
 - Verifica se le funzionalità di debug come il logging dettagliato, il caricamento di kernel arbitrari o l'avvio da fonti non affidabili sono abilitate.
 
 6. **Interferenza Hardware Cautelativa**:
-- Fai attenzione quando colleghi un pin a terra e interagisci con chip SPI o NAND flash durante la sequenza di avvio del dispositivo, in particolare prima che il kernel si decomprima. Consulta il datasheet del chip NAND flash prima di cortocircuitare i pin.
+- Fai attenzione quando colleghi un pin a terra e interagisci con chip SPI o NAND flash durante la sequenza di avvio del dispositivo, in particolare prima che il kernel venga decompresso. Consulta il datasheet del chip NAND flash prima di cortocircuitare i pin.
 
 7. **Configura un Server DHCP Maligno**:
 - Imposta un server DHCP maligno con parametri dannosi per un dispositivo da acquisire durante un avvio PXE. Utilizza strumenti come il server ausiliario DHCP di Metasploit (MSF). Modifica il parametro 'FILENAME' con comandi di iniezione di comandi come `'a";/bin/sh;#'` per testare la validazione dell'input per le procedure di avvio del dispositivo.
 
-**Nota**: I passaggi che comportano interazione fisica con i pin del dispositivo (*contrassegnati con asterischi) devono essere affrontati con estrema cautela per evitare di danneggiare il dispositivo.
+**Nota**: I passaggi che coinvolgono l'interazione fisica con i pin del dispositivo (*contrassegnati con asterischi) devono essere affrontati con estrema cautela per evitare di danneggiare il dispositivo.
 
 
-## References
+## Riferimenti
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 {% hint style="success" %}

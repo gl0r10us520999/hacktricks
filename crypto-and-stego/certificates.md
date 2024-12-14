@@ -1,8 +1,8 @@
 # Certificati
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ Accedi oggi:
 
 ## Cos'è un Certificato
 
-Un **certificato a chiave pubblica** è un ID digitale utilizzato nella crittografia per dimostrare che qualcuno possiede una chiave pubblica. Include i dettagli della chiave, l'identità del proprietario (il soggetto) e una firma digitale da un'autorità fidata (l'emittente). Se il software si fida dell'emittente e la firma è valida, è possibile una comunicazione sicura con il proprietario della chiave.
+Un **certificato di chiave pubblica** è un ID digitale utilizzato nella crittografia per dimostrare che qualcuno possiede una chiave pubblica. Include i dettagli della chiave, l'identità del proprietario (il soggetto) e una firma digitale da un'autorità fidata (l'emittente). Se il software si fida dell'emittente e la firma è valida, è possibile una comunicazione sicura con il proprietario della chiave.
 
 I certificati sono principalmente emessi da [autorità di certificazione](https://en.wikipedia.org/wiki/Certificate\_authority) (CA) in un'architettura di [infrastruttura a chiave pubblica](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Un altro metodo è il [web of trust](https://en.wikipedia.org/wiki/Web\_of\_trust), dove gli utenti verificano direttamente le chiavi degli altri. Il formato comune per i certificati è [X.509](https://en.wikipedia.org/wiki/X.509), che può essere adattato per esigenze specifiche come delineato nell'RFC 5280.
 
@@ -33,7 +33,7 @@ I certificati sono principalmente emessi da [autorità di certificazione](https:
 
 ### **Campi Comuni nei Certificati x509**
 
-Nei certificati x509, diversi **campi** svolgono ruoli critici nel garantire la validità e la sicurezza del certificato. Ecco una panoramica di questi campi:
+Nei certificati x509, diversi **campi** svolgono ruoli critici nel garantire la validità e la sicurezza del certificato. Ecco una suddivisione di questi campi:
 
 * **Numero di Versione** indica la versione del formato x509.
 * **Numero di Serie** identifica univocamente il certificato all'interno del sistema di un'Autorità di Certificazione (CA), principalmente per il tracciamento delle revoche.
@@ -41,7 +41,7 @@ Nei certificati x509, diversi **campi** svolgono ruoli critici nel garantire la 
 * **Nome Comune (CN)**: Domini coperti dal certificato.
 * **Paese (C)**, **Località (L)**, **Stato o Provincia (ST, S, o P)**, **Organizzazione (O)** e **Unità Organizzativa (OU)** forniscono dettagli geografici e organizzativi.
 * **Nome Distinto (DN)** racchiude l'intera identificazione del soggetto.
-* **Emittente** dettaglia chi ha verificato e firmato il certificato, includendo sottocampi simili a quelli del Soggetto per la CA.
+* **Emittente** dettaglia chi ha verificato e firmato il certificato, inclusi campi simili a quelli del Soggetto per la CA.
 * Il **Periodo di Validità** è contrassegnato dai timestamp **Non Prima** e **Non Dopo**, assicurando che il certificato non venga utilizzato prima o dopo una certa data.
 * La sezione **Chiave Pubblica**, cruciale per la sicurezza del certificato, specifica l'algoritmo, la dimensione e altri dettagli tecnici della chiave pubblica.
 * Le **estensioni x509v3** migliorano la funzionalità del certificato, specificando **Utilizzo della Chiave**, **Utilizzo Esteso della Chiave**, **Nome Alternativo del Soggetto** e altre proprietà per affinare l'applicazione del certificato.
@@ -53,7 +53,7 @@ Nei certificati x509, diversi **campi** svolgono ruoli critici nel garantire la 
 * **Nome Alternativo del Soggetto** e **Vincolo di Base** definiscono nomi host aggiuntivi coperti dal certificato e se si tratta di un certificato CA o di entità finale, rispettivamente.
 * Identificatori come **Identificatore della Chiave del Soggetto** e **Identificatore della Chiave dell'Autorità** garantiscono l'unicità e la tracciabilità delle chiavi.
 * **Accesso alle Informazioni dell'Autorità** e **Punti di Distribuzione CRL** forniscono percorsi per verificare la CA emittente e controllare lo stato di revoca del certificato.
-* **SCTs Precertificate CT** offrono registri di trasparenza, cruciali per la fiducia pubblica nel certificato.
+* **SCT Precertificate CT** offrono registri di trasparenza, cruciali per la fiducia pubblica nel certificato.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -84,7 +84,7 @@ print(f"Public Key: {public_key}")
 La Trasparenza dei Certificati aiuta a combattere le minacce legate ai certificati garantendo che l'emissione e l'esistenza dei certificati SSL siano visibili ai proprietari di domini, CA e utenti. I suoi obiettivi sono:
 
 * Prevenire che le CA emettano certificati SSL per un dominio senza la conoscenza del proprietario del dominio.
-* Stabilire un sistema di auditing aperto per tracciare certificati emessi per errore o in modo malevolo.
+* Stabilire un sistema di auditing aperto per tracciare certificati emessi erroneamente o in modo malevolo.
 * Proteggere gli utenti contro certificati fraudolenti.
 
 #### **Log dei Certificati**
@@ -121,7 +121,7 @@ Esistono diversi formati per memorizzare i certificati, ognuno con i propri casi
 
 ### **Formato PFX/P12/PKCS#12**
 
-* Un formato binario che racchiude certificati del server, certificati intermedi e chiavi private in un unico file.
+* Un formato binario che incapsula certificati server, certificati intermedi e chiavi private in un unico file.
 * Estensioni: .pfx, .p12.
 * Utilizzato principalmente su Windows per l'importazione e l'esportazione dei certificati.
 
@@ -198,7 +198,7 @@ openssl asn1parse -genconf certificatename.tpl -outform PEM -out certificatename
 
 \
 Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
-Ottieni accesso oggi:
+Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
@@ -212,7 +212,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

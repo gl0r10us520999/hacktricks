@@ -10,7 +10,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -129,9 +129,9 @@ Editor del registro: [https://sourceforge.net/projects/uberregedit/](https://sou
 
 ### Swipe
 
-* Scorri dal lato sinistro verso destra per vedere tutte le finestre aperte, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
-* Scorri dal lato destro verso sinistra per aprire il Centro operativo, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
-* Scorri dal bordo superiore per rendere visibile la barra del titolo per un'app aperta in modalità schermo intero;
+* Scorri da sinistra a destra per vedere tutte le finestre aperte, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
+* Scorri da destra a sinistra per aprire il Centro operativo, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
+* Scorri verso il basso dal bordo superiore per rendere visibile la barra del titolo per un'app aperta in modalità schermo intero;
 * Scorri verso l'alto dal basso per mostrare la barra delle applicazioni in un'app a schermo intero.
 
 ### Trucchi di Internet Explorer
@@ -192,13 +192,13 @@ Fonte: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de19811
 * Scorri verso il basso con 1 dito nell'angolo in alto a destra dello schermo: Per vedere il centro di controllo dell'iPad Pro
 * Scorri 1 dito dal lato sinistro dello schermo per 1-2 pollici: Per vedere la vista Oggi
 * Scorri rapidamente 1 dito dal centro dello schermo verso destra o sinistra: Per cambiare all'app successiva/precedente
-* Premi e tieni premuto il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad +** Sposta il cursore per **spegnere** tutto a destra: Per spegnere
-* Premi il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home per alcuni secondi**: Per forzare uno spegnimento completo
-* Premi rapidamente il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home**: Per fare uno screenshot che apparirà in basso a sinistra del display. Premi entrambi i pulsanti contemporaneamente molto brevemente, poiché se li tieni premuti per alcuni secondi verrà eseguito uno spegnimento completo.
+* Premi e tieni premuto il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad +** Sposta il cursore di **spegnimento** tutto a destra: Per spegnere
+* Premi il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home per alcuni secondi**: Per forzare uno spegnimento duro
+* Premi rapidamente il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home**: Per fare uno screenshot che apparirà in basso a sinistra del display. Premi entrambi i pulsanti contemporaneamente molto brevemente, poiché se li tieni premuti per alcuni secondi verrà eseguito uno spegnimento duro.
 
 ### Scorciatoie
 
-Dovresti avere una tastiera per iPad o un adattatore per tastiera USB. Solo le scorciatoie che potrebbero aiutare a uscire dall'applicazione saranno mostrate qui.
+Dovresti avere una tastiera iPad o un adattatore per tastiera USB. Solo le scorciatoie che potrebbero aiutare a uscire dall'applicazione saranno mostrate qui.
 
 | Tasto | Nome         |
 | --- | ------------ |
@@ -229,18 +229,18 @@ Queste scorciatoie sono per le impostazioni visive e sonore, a seconda dell'uso 
 | F12         | Aumenta il volume                                                              |
 | ⌘ Spazio    | Mostra un elenco delle lingue disponibili; per sceglierne una, tocca di nuovo la barra spaziatrice. |
 
-#### Navigazione su iPad
+#### Navigazione iPad
 
 | Scorciatoia                                           | Azione                                                  |
 | ----------------------------------------------------- | ------------------------------------------------------- |
 | ⌘H                                                  | Vai alla Home                                           |
 | ⌘⇧H (Comando-Shift-H)                               | Vai alla Home                                           |
 | ⌘ (Spazio)                                          | Apri Spotlight                                          |
-| ⌘⇥ (Comando-Tab)                                   | Elenca le ultime dieci app utilizzate                   |
+| ⌘⇥ (Comando-Tab)                                    | Elenca le ultime dieci app utilizzate                   |
 | ⌘\~                                                | Vai all'ultima app                                      |
 | ⌘⇧3 (Comando-Shift-3)                              | Screenshot (si ferma in basso a sinistra per salvare o agire su di esso) |
 | ⌘⇧4                                                | Screenshot e aprilo nell'editor                         |
-| Tieni premuto ⌘                                     | Elenco delle scorciatoie disponibili per l'app          |
+| Premi e tieni premuto ⌘                             | Elenco delle scorciatoie disponibili per l'app          |
 | ⌘⌥D (Comando-Opzione/Alt-D)                         | Mostra il dock                                          |
 | ^⌥H (Controllo-Opzione-H)                           | Pulsante Home                                           |
 | ^⌥H H (Controllo-Opzione-H-H)                       | Mostra la barra multitasking                             |
@@ -304,7 +304,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

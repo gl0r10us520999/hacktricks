@@ -36,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Un altro strumento comune per trovare file nascosti è **foremost**. Puoi trovare il file di configurazione di foremost in `/etc/foremost.conf`. Se desideri cercare alcuni file specifici, decommentali. Se non decommenti nulla, foremost cercherà i suoi tipi di file configurati per impostazione predefinita.
+Un altro strumento comune per trovare file nascosti è **foremost**. Puoi trovare il file di configurazione di foremost in `/etc/foremost.conf`. Se vuoi cercare solo alcuni file specifici, decommentali. Se non decommenti nulla, foremost cercherà i suoi tipi di file configurati per impostazione predefinita.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output

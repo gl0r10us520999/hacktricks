@@ -1,8 +1,8 @@
 # Bypass FS protections: read-only / no-exec / Distroless
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Impara e pratica il hacking GCP: <img src="../../../.gitbook/assets/grte.png" al
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -61,9 +61,9 @@ Tuttavia, questo non è sufficiente per eseguire la tua backdoor binaria o altri
 
 Se vuoi eseguire un binario ma il file system non lo consente, il modo migliore per farlo è **eseguirlo dalla memoria**, poiché le **protezioni non si applicano lì**.
 
-### Bypass FD + exec syscall
+### Bypass syscall FD + exec
 
-Se hai alcuni potenti motori di script all'interno della macchina, come **Python**, **Perl** o **Ruby**, potresti scaricare il binario da eseguire dalla memoria, memorizzarlo in un descrittore di file in memoria (`create_memfd` syscall), che non sarà protetto da quelle protezioni e poi chiamare una **`exec` syscall** indicando il **fd come file da eseguire**.
+Se hai alcuni potenti motori di script all'interno della macchina, come **Python**, **Perl** o **Ruby**, potresti scaricare il binario da eseguire dalla memoria, memorizzarlo in un descrittore di file in memoria (`create_memfd` syscall), che non sarà protetto da quelle protezioni e poi chiamare una **syscall `exec`** indicando il **fd come file da eseguire**.
 
 Per questo puoi facilmente usare il progetto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Puoi passargli un binario e genererà uno script nel linguaggio indicato con il **binario compresso e codificato in b64** con le istruzioni per **decodificarlo e decomprimerlo** in un **fd** creato chiamando la syscall `create_memfd` e una chiamata alla syscall **exec** per eseguirlo.
 
@@ -94,7 +94,7 @@ Per ulteriori informazioni su questa tecnica controlla il Github o:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) è il passo naturale successivo di DDexec. È un **DDexec shellcode demonizzato**, quindi ogni volta che vuoi **eseguire un binario diverso** non è necessario rilanciare DDexec, puoi semplicemente eseguire il shellcode di memexec tramite la tecnica DDexec e poi **comunicare con questo demone per passare nuovi binari da caricare ed eseguire**.
+[**Memexec**](https://github.com/arget13/memexec) è il passo successivo naturale di DDexec. È un **DDexec shellcode demonizzato**, quindi ogni volta che vuoi **eseguire un binario diverso** non è necessario rilanciare DDexec, puoi semplicemente eseguire il shellcode di memexec tramite la tecnica DDexec e poi **comunicare con questo demone per passare nuovi binari da caricare ed eseguire**.
 
 Puoi trovare un esempio su come usare **memexec per eseguire binari da una reverse shell PHP** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
@@ -148,7 +148,7 @@ Impara e pratica Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

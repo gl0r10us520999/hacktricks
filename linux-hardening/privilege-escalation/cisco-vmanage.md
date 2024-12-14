@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 (Esempio da [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Dopo aver esaminato un po' di [documentazione](http://66.218.245.39/doc/html/rn03re18.html) relativa a `confd` e ai diversi binari (accessibili con un account sul sito Cisco), abbiamo scoperto che per autenticare il socket IPC, utilizza un segreto situato in `/etc/confd/confd_ipc_secret`:
+Dopo aver esaminato un po' di [documentazione](http://66.218.245.39/doc/html/rn03re18.html) relativa a `confd` e ai diversi binari (accessibili con un account sul sito web Cisco), abbiamo scoperto che per autenticare il socket IPC, utilizza un segreto situato in `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -90,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Quando eseguo “ps aux”, ho osservato quanto segue (_nota -g 100 -u 107_)
+Quando eseguo "ps aux", ho osservato quanto segue (_nota -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Ho ipotizzato che il programma “confd\_cli” passi l'ID utente e l'ID gruppo raccolti dall'utente connesso all'applicazione “cmdptywrapper”.
+I hypothesized the “confd\_cli” program passes the user ID and group ID it collected from the logged in user to the “cmdptywrapper” application.
 
-Il mio primo tentativo è stato eseguire “cmdptywrapper” direttamente e fornirgli `-g 0 -u 0`, ma è fallito. Sembra che un descrittore di file (-i 1015) sia stato creato lungo il percorso e non riesco a falsificarlo.
+My first attempt was to run the “cmdptywrapper” directly and supplying it with `-g 0 -u 0`, but it failed. It appears a file descriptor (-i 1015) was created somewhere along the way and I cannot fake it.
 
-Come menzionato nel blog di synacktiv (ultimo esempio), il programma `confd_cli` non supporta argomenti da riga di comando, ma posso influenzarlo con un debugger e fortunatamente GDB è incluso nel sistema.
+As mentioned in synacktiv’s blog(last example), the `confd_cli` program does not support command line argument, but I can influence it with a debugger and fortunately GDB is included on the system.
 
-Ho creato uno script GDB in cui ho forzato l'API `getuid` e `getgid` a restituire 0. Poiché ho già il privilegio “vmanage” attraverso la deserializzazione RCE, ho il permesso di leggere direttamente il file `/etc/confd/confd_ipc_secret`.
+I created a GDB script where I forced the API `getuid` and `getgid` to return 0. Since I already have “vmanage” privilege through the deserialization RCE, I have permission to read the `/etc/confd/confd_ipc_secret` directly.
 
 root.gdb:
 ```

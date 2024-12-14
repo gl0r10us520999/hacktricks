@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # CBC - Cipher Block Chaining
 
-In modalità CBC, il **blocco crittografato precedente viene utilizzato come IV** per XOR con il blocco successivo:
+In modalità CBC, il **blocco crittografato precedente viene utilizzato come IV** per XORare con il blocco successivo:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
@@ -35,7 +35,7 @@ Nota come sia necessario utilizzare una **chiave di crittografia** e un **IV**.
 Poiché la crittografia viene eseguita in **blocchi** di **dimensione** **fissa**, è solitamente necessario un **padding** nell'**ultimo** **blocco** per completarne la lunghezza.\
 Di solito si utilizza **PKCS7**, che genera un padding **ripetendo** il **numero** di **byte** **necessari** per **completare** il blocco. Ad esempio, se l'ultimo blocco manca di 3 byte, il padding sarà `\x03\x03\x03`.
 
-Esaminiamo ulteriori esempi con **2 blocchi di lunghezza 8byte**:
+Esaminiamo più esempi con **2 blocchi di lunghezza 8byte**:
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -92,19 +92,19 @@ Ora, è possibile **modificare `E7` fino a quando `C15` è `0x01`**, che sarà a
 
 Quindi, trovando E'7, è **possibile calcolare I15**: `I15 = 0x01 ^ E'7`
 
-Il che ci consente di **calcolare C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Il che ci permette di **calcolare C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
 Sapendo **C15**, ora è possibile **calcolare C14**, ma questa volta forzando il padding `\x02\x02`.
 
 Questo BF è complesso quanto il precedente poiché è possibile calcolare il `E''15` il cui valore è 0x02: `E''7 = \x02 ^ I15` quindi è solo necessario trovare il **`E'14`** che genera un **`C14` uguale a `0x02`**.\
-Poi, segui gli stessi passaggi per decrittare C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Poi, fare gli stessi passaggi per decrittare C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
 **Segui questa catena fino a decrittare l'intero testo crittografato.**
 
 ## Rilevamento della vulnerabilità
 
 Registrati e accedi con questo account.\
-Se **accedi molte volte** e ricevi sempre la **stessa cookie**, probabilmente c'è **qualcosa** **sbagliato** nell'applicazione. La **cookie restituita dovrebbe essere unica** ogni volta che accedi. Se la cookie è **sempre** la **stessa**, probabilmente sarà sempre valida e non **ci sarà modo di invalidarla**.
+Se **accedi molte volte** e ricevi sempre la **stessa cookie**, probabilmente c'è **qualcosa** **sbagliato** nell'applicazione. La **cookie restituita dovrebbe essere unica** ogni volta che accedi. Se la cookie è **sempre** la **stessa**, probabilmente sarà sempre valida e non ci **sarà modo di invalidarla**.
 
 Ora, se provi a **modificare** la **cookie**, puoi vedere che ricevi un **errore** dall'applicazione.\
 Ma se forzi il padding (usando padbuster per esempio) riesci a ottenere un'altra cookie valida per un utente diverso. Questo scenario è altamente probabile che sia vulnerabile a padbuster.

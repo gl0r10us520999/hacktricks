@@ -23,7 +23,7 @@ Leggi il _ **/etc/exports** _ file, se trovi qualche directory configurata come 
 
 **no\_root\_squash**: Questa opzione dà fondamentalmente autorità all'utente root sul client di accedere ai file sul server NFS come root. E questo può portare a gravi implicazioni di sicurezza.
 
-**no\_all\_squash:** Questa è simile all'opzione **no\_root\_squash** ma si applica agli **utenti non-root**. Immagina di avere una shell come utente nobody; controlla il file /etc/exports; l'opzione no\_all\_squash è presente; controlla il file /etc/passwd; emula un utente non-root; crea un file suid come quell'utente (montando usando nfs). Esegui il suid come utente nobody e diventa un utente diverso.
+**no\_all\_squash:** Questa è simile all'opzione **no\_root\_squash** ma si applica agli **utenti non root**. Immagina di avere una shell come utente nobody; controlla il file /etc/exports; l'opzione no\_all\_squash è presente; controlla il file /etc/passwd; emula un utente non root; crea un file suid come quell'utente (montando usando nfs). Esegui il suid come utente nobody e diventa un utente diverso.
 
 # Privilege Escalation
 
@@ -62,7 +62,7 @@ cd <SHAREDD_FOLDER>
 
 {% hint style="info" %}
 Nota che se puoi creare un **tunnel dalla tua macchina alla macchina vittima, puoi comunque utilizzare la versione Remota per sfruttare questa escalation di privilegi tunnelando le porte richieste**.\
-Il trucco seguente è nel caso in cui il file `/etc/exports` **indichi un IP**. In questo caso **non sarai in grado di utilizzare** in alcun modo il **remote exploit** e dovrai **sfruttare questo trucco**.\
+Il seguente trucco è nel caso in cui il file `/etc/exports` **indichi un IP**. In questo caso **non sarai in grado di utilizzare** in alcun modo il **remote exploit** e dovrai **sfruttare questo trucco**.\
 Un altro requisito necessario affinché l'exploit funzioni è che **l'export all'interno di `/etc/export`** **deve utilizzare il flag `insecure`**.\
 \--_Non sono sicuro che se `/etc/export` indica un indirizzo IP questo trucco funzionerà_--
 {% endhint %}
@@ -80,7 +80,7 @@ I passaggi per la compilazione della libreria potrebbero richiedere aggiustament
 make
 gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib/.libs/
 ```
-### Esecuzione dell'Exploit
+### Eseguire l'Exploit
 
 L'exploit prevede la creazione di un semplice programma C (`pwn.c`) che eleva i privilegi a root e poi esegue una shell. Il programma viene compilato e il binario risultante (`a.out`) viene posizionato sulla condivisione con suid root, utilizzando `ld_nfs.so` per falsificare l'uid nelle chiamate RPC:
 
@@ -140,7 +140,7 @@ Impara e pratica il hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" 
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
 {% endhint %}

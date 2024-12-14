@@ -1,16 +1,16 @@
 # Stego Tricks
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **Binwalk**
 
-Uno strumento per cercare file binari per file e dati nascosti incorporati. È installato tramite `apt` e il suo codice sorgente è disponibile su [GitHub](https://github.com/ReFirmLabs/binwalk).
+Uno strumento per cercare file binari per file e dati nascosti incorporati. È installato tramite `apt` e il suo sorgente è disponibile su [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -96,7 +96,7 @@ Steghide facilita la nascita di dati all'interno di file `JPEG, BMP, WAV e AU`, 
 
 Per l'estrazione basata sul web, visita [questo sito](https://futureboy.us/stegano/decinput.html).
 
-**Attacco Bruteforce con Stegcracker:**
+**Attacco di Bruteforce con Stegcracker:**
 
 * Per tentare di decifrare la password su Steghide, utilizza [stegcracker](https://github.com/Paradoxis/StegCracker.git) come segue:
 ```bash
@@ -146,13 +146,13 @@ Per ulteriori esplorazioni, considera di visitare:
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Estrazione di Dati da Audio**
+## **Estrazione di Dati dagli Audio**
 
-**Steganografia audio** offre un metodo unico per nascondere informazioni all'interno di file audio. Vengono utilizzati diversi strumenti per incorporare o recuperare contenuti nascosti.
+**La steganografia audio** offre un metodo unico per nascondere informazioni all'interno di file audio. Vengono utilizzati diversi strumenti per incorporare o recuperare contenuti nascosti.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide è uno strumento versatile progettato per nascondere dati in file JPEG, BMP, WAV e AU. I dettagli sono forniti nella [documentazione sui trucchi stego](stego-tricks.md#steghide).
+Steghide è uno strumento versatile progettato per nascondere dati in file JPEG, BMP, WAV e AU. Istruzioni dettagliate sono fornite nella [documentazione sui trucchi stego](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
@@ -197,7 +197,7 @@ Per la conversione da binario a immagine, controlla [dcode](https://www.dcode.fr
 
 ### **Traduzione in Braille**
 
-Per tradurre il Braille, il [Branah Braille Translator](https://www.branah.com/braille-translator) è una risorsa eccellente.
+Per tradurre il Braille, il [Branah Braille Translator](https://www.branah.com/braille-translator) è un'ottima risorsa.
 
 ## **Riferimenti**
 
@@ -214,7 +214,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

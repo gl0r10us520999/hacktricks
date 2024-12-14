@@ -33,21 +33,21 @@ Un processo che non opera sotto root può modificare il proprio `euid` solo per 
 
 ### Comprendere le Funzioni set*uid
 
-- **`setuid`**: Contrariamente alle assunzioni iniziali, `setuid` modifica principalmente `euid` piuttosto che `ruid`. Specificamente, per i processi privilegiati, allinea `ruid`, `euid` e `suid` con l'utente specificato, spesso root, consolidando efficacemente questi ID a causa del `suid` sovrascritto. Informazioni dettagliate possono essere trovate nella [pagina man di setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setuid`**: Contrariamente alle assunzioni iniziali, `setuid` modifica principalmente `euid` piuttosto che `ruid`. In particolare, per i processi privilegiati, allinea `ruid`, `euid` e `suid` con l'utente specificato, spesso root, consolidando efficacemente questi ID a causa del `suid` sovrascritto. Informazioni dettagliate possono essere trovate nella [pagina man di setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
 - **`setreuid`** e **`setresuid`**: Queste funzioni consentono un aggiustamento sfumato di `ruid`, `euid` e `suid`. Tuttavia, le loro capacità dipendono dal livello di privilegio del processo. Per i processi non root, le modifiche sono limitate ai valori attuali di `ruid`, `euid` e `suid`. Al contrario, i processi root o quelli con la capacità `CAP_SETUID` possono assegnare valori arbitrari a questi ID. Maggiori informazioni possono essere ottenute dalla [pagina man di setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) e dalla [pagina man di setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
 Queste funzionalità non sono progettate come un meccanismo di sicurezza, ma per facilitare il flusso operativo previsto, come quando un programma adotta l'identità di un altro utente modificando il proprio effective user ID.
 
-È importante notare che, sebbene `setuid` possa essere una scelta comune per l'elevazione dei privilegi a root (poiché allinea tutti gli ID a root), differenziare tra queste funzioni è cruciale per comprendere e manipolare i comportamenti degli ID utente in vari scenari.
+È importante notare che, sebbene `setuid` possa essere una scelta comune per l'elevazione dei privilegi a root (poiché allinea tutti gli ID a root), è cruciale differenziare tra queste funzioni per comprendere e manipolare i comportamenti degli ID utente in vari scenari.
 
 ### Meccanismi di Esecuzione dei Programmi in Linux
 
 #### **Chiamata di Sistema `execve`**
 - **Funzionalità**: `execve` avvia un programma, determinato dal primo argomento. Prende due argomenti array, `argv` per gli argomenti e `envp` per l'ambiente.
 - **Comportamento**: Mantiene lo spazio di memoria del chiamante ma aggiorna lo stack, l'heap e i segmenti di dati. Il codice del programma viene sostituito dal nuovo programma.
-- **Preservazione dell'ID Utente**:
+- **Preservazione degli ID Utente**:
 - `ruid`, `euid` e gli ID di gruppo supplementari rimangono invariati.
-- `euid` potrebbe subire cambiamenti sfumati se il nuovo programma ha impostato il bit SetUID.
+- `euid` potrebbe subire modifiche sfumate se il nuovo programma ha impostato il bit SetUID.
 - `suid` viene aggiornato da `euid` dopo l'esecuzione.
 - **Documentazione**: Informazioni dettagliate possono essere trovate nella [pagina man di `execve`](https://man7.org/linux/man-pages/man2/execve.2.html).
 
@@ -55,7 +55,7 @@ Queste funzionalità non sono progettate come un meccanismo di sicurezza, ma per
 - **Funzionalità**: A differenza di `execve`, `system` crea un processo figlio utilizzando `fork` ed esegue un comando all'interno di quel processo figlio utilizzando `execl`.
 - **Esecuzione del Comando**: Esegue il comando tramite `sh` con `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
 - **Comportamento**: Poiché `execl` è una forma di `execve`, opera in modo simile ma nel contesto di un nuovo processo figlio.
-- **Documentazione**: Ulteriori informazioni possono essere ottenute dalla [pagina man di `system`](https://man7.org/linux/man-pages/man3/system.3.html).
+- **Documentazione**: Ulteriori approfondimenti possono essere ottenuti dalla [pagina man di `system`](https://man7.org/linux/man-pages/man3/system.3.html).
 
 #### **Comportamento di `bash` e `sh` con SUID**
 - **`bash`**:
@@ -219,7 +219,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

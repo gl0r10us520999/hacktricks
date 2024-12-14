@@ -34,7 +34,7 @@ Allora, è possibile per un **attaccante** **aggiungere** **dati** e **generare*
 Fondamentalmente, gli algoritmi vulnerabili generano gli hash prima **hashando un blocco di dati**, e poi, **dallo** **hash** (stato) **precedentemente** creato, **aggiungono il prossimo blocco di dati** e **lo hashano**.
 
 Poi, immagina che il segreto sia "segreto" e i dati siano "dati", l'MD5 di "segreto dati" è 6036708eba0d11f6ef52ad44e8b74d5b.\
-Se un attaccante vuole aggiungere la stringa "append" può:
+Se un attaccante vuole aggiungere la stringa "append", può:
 
 * Generare un MD5 di 64 "A"
 * Cambiare lo stato dell'hash precedentemente inizializzato a 6036708eba0d11f6ef52ad44e8b74d5b

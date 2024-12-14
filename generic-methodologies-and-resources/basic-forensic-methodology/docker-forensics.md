@@ -88,7 +88,7 @@ dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dive
 
-Per trovare file aggiunti/modificati nelle immagini docker, puoi anche utilizzare il [**dive**](https://github.com/wagoodman/dive) (scaricalo da [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) utility:
+Per trovare file aggiunti/modificati nelle immagini docker, puoi anche utilizzare il [**dive**](https://github.com/wagoodman/dive) (scaricalo da [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)):
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -97,7 +97,7 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Questo ti consente di **navigare tra i diversi blob delle immagini docker** e controllare quali file sono stati modificati/aggiunti. **Rosso** significa aggiunto e **giallo** significa modificato. Usa **tab** per passare alla vista successiva e **space** per comprimere/aprire le cartelle.
+Questo ti consente di **navigare attraverso i diversi blob delle immagini docker** e controllare quali file sono stati modificati/aggiunti. **Rosso** significa aggiunto e **giallo** significa modificato. Usa **tab** per passare alla vista successiva e **space** per comprimere/aprire le cartelle.
 
 Con die non sarai in grado di accedere al contenuto dei diversi stadi dell'immagine. Per farlo, dovrai **decomprimere ogni strato e accedervi**.\
 Puoi decomprimere tutti gli strati di un'immagine dalla directory in cui l'immagine è stata decompressa eseguendo:

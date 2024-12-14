@@ -17,7 +17,7 @@ Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 ## Introduzione
 
-Per rilevare un tentativo di phishing è importante **comprendere le tecniche di phishing che vengono utilizzate al giorno d'oggi**. Nella pagina principale di questo post, puoi trovare queste informazioni, quindi se non sei a conoscenza delle tecniche utilizzate oggi ti consiglio di andare alla pagina principale e leggere almeno quella sezione.
+Per rilevare un tentativo di phishing è importante **comprendere le tecniche di phishing che vengono utilizzate oggigiorno**. Nella pagina principale di questo post, puoi trovare queste informazioni, quindi se non sei a conoscenza delle tecniche utilizzate oggi ti consiglio di andare alla pagina principale e leggere almeno quella sezione.
 
 Questo post si basa sull'idea che gli **attaccanti cercheranno in qualche modo di imitare o utilizzare il nome di dominio della vittima**. Se il tuo dominio si chiama `example.com` e sei stato vittima di phishing utilizzando un nome di dominio completamente diverso per qualche motivo come `youwonthelottery.com`, queste tecniche non lo scopriranno.
 
@@ -46,13 +46,13 @@ Ad esempio, una modifica di 1 bit nel dominio microsoft.com può trasformarlo in
 
 Una volta che hai un elenco di potenziali nomi di dominio sospetti dovresti **controllarli** (principalmente le porte HTTP e HTTPS) per **vedere se stanno utilizzando qualche modulo di accesso simile** a quello di uno dei domini della vittima.\
 Potresti anche controllare la porta 3333 per vedere se è aperta e sta eseguendo un'istanza di `gophish`.\
-È anche interessante sapere **quanto è vecchio ciascun dominio sospetto scoperto**, più è giovane più è rischioso.\
+È anche interessante sapere **quanti anni ha ciascun dominio sospetto scoperto**, più è giovane più è rischioso.\
 Puoi anche ottenere **screenshot** della pagina web sospetta HTTP e/o HTTPS per vedere se è sospetta e in tal caso **accedervi per dare un'occhiata più approfondita**.
 
 ### Controlli avanzati
 
-Se vuoi fare un passo in più ti consiglio di **monitorare quei domini sospetti e cercarne di più** di tanto in tanto (ogni giorno? ci vogliono solo pochi secondi/minuti). Dovresti anche **controllare** le **porte** aperte degli IP correlati e **cercare istanze di `gophish` o strumenti simili** (sì, anche gli attaccanti commettono errori) e **monitorare le pagine web HTTP e HTTPS dei domini e sottodomini sospetti** per vedere se hanno copiato qualche modulo di accesso dalle pagine web della vittima.\
-Per **automatizzare questo** ti consiglio di avere un elenco di moduli di accesso dei domini della vittima, eseguire lo spidering delle pagine web sospette e confrontare ciascun modulo di accesso trovato all'interno dei domini sospetti con ciascun modulo di accesso del dominio della vittima utilizzando qualcosa come `ssdeep`.\
+Se vuoi fare un passo avanti ti consiglio di **monitorare quei domini sospetti e cercarne di più** di tanto in tanto (ogni giorno? ci vogliono solo pochi secondi/minuti). Dovresti anche **controllare** le **porte** aperte degli IP correlati e **cercare istanze di `gophish` o strumenti simili** (sì, anche gli attaccanti commettono errori) e **monitorare le pagine web HTTP e HTTPS dei domini e sottodomini sospetti** per vedere se hanno copiato qualche modulo di accesso dalle pagine web della vittima.\
+Per **automatizzare questo** ti consiglio di avere un elenco di moduli di accesso dei domini della vittima, esplorare le pagine web sospette e confrontare ciascun modulo di accesso trovato all'interno dei domini sospetti con ciascun modulo di accesso del dominio della vittima utilizzando qualcosa come `ssdeep`.\
 Se hai localizzato i moduli di accesso dei domini sospetti, puoi provare a **inviare credenziali spazzatura** e **controllare se ti reindirizza al dominio della vittima**.
 
 ## Nomi di dominio che utilizzano parole chiave
@@ -61,7 +61,7 @@ La pagina principale menziona anche una tecnica di variazione del nome di domini
 
 ### Trasparenza del certificato
 
-Non è possibile adottare il precedente approccio "Brute-Force", ma è effettivamente **possibile scoprire tali tentativi di phishing** anche grazie alla trasparenza del certificato. Ogni volta che un certificato viene emesso da un CA, i dettagli vengono resi pubblici. Questo significa che leggendo la trasparenza del certificato o anche monitorandola, è **possibile trovare domini che utilizzano una parola chiave all'interno del loro nome**. Ad esempio, se un attaccante genera un certificato per [https://paypal-financial.com](https://paypal-financial.com), vedendo il certificato è possibile trovare la parola chiave "paypal" e sapere che un'email sospetta viene utilizzata.
+Non è possibile adottare il precedente approccio "Brute-Force", ma è effettivamente **possibile scoprire tali tentativi di phishing** anche grazie alla trasparenza del certificato. Ogni volta che un certificato viene emesso da un CA, i dettagli vengono resi pubblici. Questo significa che leggendo la trasparenza del certificato o anche monitorandola, è **possibile trovare domini che utilizzano una parola chiave all'interno del loro nome**. Ad esempio, se un attaccante genera un certificato di [https://paypal-financial.com](https://paypal-financial.com), vedendo il certificato è possibile trovare la parola chiave "paypal" e sapere che un'email sospetta viene utilizzata.
 
 Il post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggerisce che puoi utilizzare Censys per cercare certificati che riguardano una parola chiave specifica e filtrare per data (solo certificati "nuovi") e per l'emittente CA "Let's Encrypt":
 
@@ -71,7 +71,7 @@ Tuttavia, puoi fare "la stessa cosa" utilizzando il web gratuito [**crt.sh**](ht
 
 ![](<../../.gitbook/assets/image (519).png>)
 
-Utilizzando quest'ultima opzione puoi persino utilizzare il campo Identità corrispondenti per vedere se qualche identità del dominio reale corrisponde a uno dei domini sospetti (nota che un dominio sospetto può essere un falso positivo).
+Utilizzando quest'ultima opzione puoi persino utilizzare il campo Matching Identities per vedere se qualche identità del dominio reale corrisponde a uno dei domini sospetti (nota che un dominio sospetto può essere un falso positivo).
 
 **Un'altra alternativa** è il fantastico progetto chiamato [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream fornisce un flusso in tempo reale di certificati appena generati che puoi utilizzare per rilevare parole chiave specificate in tempo (quasi) reale. Infatti, c'è un progetto chiamato [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) che fa proprio questo.
 

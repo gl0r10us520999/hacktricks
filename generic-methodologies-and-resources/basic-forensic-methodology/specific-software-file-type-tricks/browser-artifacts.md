@@ -25,9 +25,9 @@ Get Access Today:
 
 ## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
 
-I dati degli artefatti del browser includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi artefatti sono conservati in cartelle specifiche all'interno del sistema operativo, che differiscono per posizione e nome tra i browser, ma generalmente memorizzano tipi di dati simili.
+Gli artefatti del browser includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi artefatti sono conservati in cartelle specifiche all'interno del sistema operativo, che differiscono per posizione e nome tra i browser, ma generalmente memorizzano tipi di dati simili.
 
-Ecco un riepilogo dei più comuni artefatti del browser:
+Ecco un riepilogo degli artefatti del browser più comuni:
 
 * **Cronologia di Navigazione**: Tiene traccia delle visite degli utenti ai siti web, utile per identificare le visite a siti dannosi.
 * **Dati di Autocompletamento**: Suggerimenti basati su ricerche frequenti, offrendo informazioni quando combinati con la cronologia di navigazione.
@@ -70,7 +70,7 @@ All'interno di ciascuna cartella del profilo, puoi trovare diversi file importan
 * **logins.json**: Informazioni di accesso crittografate.
 * **key4.db** o **key3.db**: Memorizza le chiavi di crittografia per proteggere informazioni sensibili.
 
-Inoltre, il controllo delle impostazioni anti-phishing del browser può essere effettuato cercando le voci `browser.safebrowsing` in `prefs.js`, che indicano se le funzionalità di navigazione sicura sono abilitate o disabilitate.
+Inoltre, controllare le impostazioni anti-phishing del browser può essere fatto cercando le voci `browser.safebrowsing` in `prefs.js`, che indicano se le funzionalità di navigazione sicura sono abilitate o disabilitate.
 
 Per provare a decrittare la password principale, puoi usare [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Con il seguente script e chiamata puoi specificare un file di password da forzare:
@@ -187,7 +187,7 @@ Questi percorsi e comandi sono cruciali per accedere e comprendere i dati di nav
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) per costruire e **automatizzare flussi di lavoro** facilmente alimentati dagli **strumenti** della **comunità più avanzata**.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** del mondo.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
@@ -202,7 +202,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

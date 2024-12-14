@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Linux Capabilities
 
-Le capacità di Linux dividono **i privilegi di root in unità più piccole e distinte**, consentendo ai processi di avere un sottoinsieme di privilegi. Questo riduce i rischi non concedendo privilegi di root completi inutilmente.
+Le capacità di Linux dividono **i privilegi di root in unità più piccole e distinte**, consentendo ai processi di avere un sottoinsieme di privilegi. Questo riduce i rischi non concedendo inutilmente privilegi di root completi.
 
 ### Il Problema:
 - Gli utenti normali hanno permessi limitati, influenzando compiti come l'apertura di un socket di rete che richiede accesso root.
@@ -159,7 +159,7 @@ capsh --drop=cap_net_raw --print -- -c "tcpdump"
 ```
 Oltre all'output di _capsh_ stesso, anche il comando _tcpdump_ dovrebbe sollevare un errore.
 
-> /bin/bash: /usr/sbin/tcpdump: Operazione non permessa
+> /bin/bash: /usr/sbin/tcpdump: Operazione non consentita
 
 L'errore mostra chiaramente che il comando ping non è autorizzato ad aprire un socket ICMP. Ora sappiamo con certezza che questo funziona come previsto.
 
@@ -187,9 +187,9 @@ cap_net_admin,cap_net_raw    jrnetadmin
 # Combining names and numerics
 cap_sys_admin,22,25          jrsysadmin
 ```
-## Capacità dell'Ambiente
+## Capacità Ambientali
 
-Compilando il seguente programma è possibile **creare una shell bash all'interno di un ambiente che fornisce capacità**.
+Compilando il seguente programma è possibile **generare una shell bash all'interno di un ambiente che fornisce capacità**.
 
 {% code title="ambient.c" %}
 ```c
@@ -287,7 +287,7 @@ gcc -Wl,--no-as-needed -lcap-ng -o ambient ambient.c
 sudo setcap cap_setpcap,cap_net_raw,cap_net_admin,cap_sys_nice+eip ambient
 ./ambient /bin/bash
 ```
-All'interno del **bash eseguito dal binario ambientale compilato** è possibile osservare le **nuove capacità** (un utente normale non avrà alcuna capacità nella sezione "corrente").
+Dentro il **bash eseguito dal binario ambientale compilato** è possibile osservare le **nuove capacità** (un utente normale non avrà alcuna capacità nella sezione "corrente").
 ```bash
 capsh --print
 Current: = cap_net_admin,cap_net_raw,cap_sys_nice+eip
@@ -302,7 +302,7 @@ I **binaries consapevoli delle capacità non utilizzeranno le nuove capacità** 
 
 ## Capacità del servizio
 
-Per impostazione predefinita, un **servizio in esecuzione come root avrà assegnate tutte le capacità**, e in alcune occasioni questo può essere pericoloso.\
+Per impostazione predefinita, un **servizio in esecuzione come root avrà assegnate tutte le capacità**, e in alcune occasioni questo potrebbe essere pericoloso.\
 Pertanto, un file di **configurazione del servizio** consente di **specificare** le **capacità** che si desidera che abbia, **e** l'**utente** che dovrebbe eseguire il servizio per evitare di eseguire un servizio con privilegi non necessari:
 ```bash
 [Service]
@@ -334,7 +334,7 @@ docker run --rm -it  --cap-drop=ALL --cap-add=SYS_PTRACE r.j3ss.co/amicontained 
 
 ## Privesc/Container Escape
 
-Le capacità sono utili quando **vuoi limitare i tuoi processi dopo aver eseguito operazioni privilegiate** (ad es. dopo aver impostato chroot e collegato a un socket). Tuttavia, possono essere sfruttate passando loro comandi o argomenti malevoli che vengono poi eseguiti come root.
+Le capacità sono utili quando **vuoi limitare i tuoi stessi processi dopo aver eseguito operazioni privilegiate** (ad es. dopo aver impostato chroot e collegato a un socket). Tuttavia, possono essere sfruttate passando loro comandi o argomenti malevoli che vengono poi eseguiti come root.
 
 Puoi forzare le capacità sui programmi usando `setcap`, e interrogarle usando `getcap`:
 ```bash
@@ -369,19 +369,19 @@ getcap /usr/sbin/tcpdump
 ```
 ### Il caso speciale delle capacità "vuote"
 
-[From the docs](https://man7.org/linux/man-pages/man7/capabilities.7.html): Nota che è possibile assegnare set di capacità vuoti a un file di programma, e quindi è possibile creare un programma set-user-ID-root che cambia il set-user-ID effettivo e salvato del processo che esegue il programma a 0, ma non conferisce alcuna capacità a quel processo. O, per dirla semplicemente, se hai un binario che:
+[From the docs](https://man7.org/linux/man-pages/man7/capabilities.7.html): Nota che si possono assegnare set di capacità vuoti a un file di programma, e quindi è possibile creare un programma set-user-ID-root che cambia il set-user-ID effettivo e salvato del processo che esegue il programma a 0, ma non conferisce alcuna capacità a quel processo. O, in altre parole, se hai un binario che:
 
 1. non è di proprietà di root
 2. non ha bit `SUID`/`SGID` impostati
-3. ha set di capacità vuoti (ad es.: `getcap myelf` restituisce `myelf =ep`)
+3. ha set di capacità vuote (ad es.: `getcap myelf` restituisce `myelf =ep`)
 
 allora **quel binario verrà eseguito come root**.
 
 ## CAP\_SYS\_ADMIN
 
-**[`CAP_SYS_ADMIN`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** è una capacità Linux altamente potente, spesso equiparata a un livello quasi root a causa dei suoi ampi **privilegi amministrativi**, come il montaggio di dispositivi o la manipolazione delle funzionalità del kernel. Sebbene sia indispensabile per i container che simulano interi sistemi, **`CAP_SYS_ADMIN` presenta sfide di sicurezza significative**, specialmente negli ambienti containerizzati, a causa del suo potenziale per l'escalation dei privilegi e il compromesso del sistema. Pertanto, il suo utilizzo richiede valutazioni di sicurezza rigorose e una gestione cauta, con una forte preferenza per la rimozione di questa capacità nei container specifici per le applicazioni per aderire al **principio del minimo privilegio** e ridurre al minimo la superficie di attacco.
+**[`CAP_SYS_ADMIN`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** è una capacità Linux altamente potente, spesso equiparata a un livello quasi root a causa dei suoi ampi **privilegi amministrativi**, come il montaggio di dispositivi o la manipolazione delle funzionalità del kernel. Sebbene sia indispensabile per i container che simulano interi sistemi, **`CAP_SYS_ADMIN` presenta sfide di sicurezza significative**, specialmente negli ambienti containerizzati, a causa del suo potenziale per l'escalation dei privilegi e il compromesso del sistema. Pertanto, il suo utilizzo richiede valutazioni di sicurezza rigorose e una gestione cauta, con una forte preferenza per la rimozione di questa capacità nei container specifici per le applicazioni per aderire al **principio del minimo privilegio** e ridurre la superficie di attacco.
 
-**Esempio con binario**
+**Example with binary**
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_admin+ep
@@ -426,7 +426,7 @@ Dentro l'output precedente puoi vedere che la capacità SYS\_ADMIN è abilitata.
 
 * **Mount**
 
-Questo consente al contenitore docker di **montare il disco host e accedervi liberamente**:
+Questo consente al container docker di **montare il disco host e accedervi liberamente**:
 ```bash
 fdisk -l #Get disk name
 Disk /dev/sda: 4 GiB, 4294967296 bytes, 8388608 sectors
@@ -457,9 +457,9 @@ ssh john@172.17.0.1 -p 2222
 ```
 ## CAP\_SYS\_PTRACE
 
-**Questo significa che puoi sfuggire al container iniettando un shellcode all'interno di qualche processo in esecuzione all'interno dell'host.** Per accedere ai processi in esecuzione all'interno dell'host, il container deve essere eseguito almeno con **`--pid=host`**.
+**Questo significa che puoi uscire dal container iniettando un shellcode all'interno di un processo in esecuzione all'interno dell'host.** Per accedere ai processi in esecuzione all'interno dell'host, il container deve essere eseguito almeno con **`--pid=host`**.
 
-**[`CAP_SYS_PTRACE`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** concede la possibilità di utilizzare funzionalità di debug e tracciamento delle chiamate di sistema fornite da `ptrace(2)` e chiamate di attacco incrociato della memoria come `process_vm_readv(2)` e `process_vm_writev(2)`. Sebbene sia potente per scopi diagnostici e di monitoraggio, se `CAP_SYS_PTRACE` è abilitato senza misure restrittive come un filtro seccomp su `ptrace(2)`, può compromettere significativamente la sicurezza del sistema. In particolare, può essere sfruttato per eludere altre restrizioni di sicurezza, in particolare quelle imposte da seccomp, come dimostrato da [prove di concetto (PoC) come questa](https://gist.github.com/thejh/8346f47e359adecd1d53).
+**[`CAP_SYS_PTRACE`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** concede la possibilità di utilizzare le funzionalità di debug e tracciamento delle chiamate di sistema fornite da `ptrace(2)` e chiamate di attacco alla memoria incrociata come `process_vm_readv(2)` e `process_vm_writev(2)`. Sebbene sia potente per scopi diagnostici e di monitoraggio, se `CAP_SYS_PTRACE` è abilitato senza misure restrittive come un filtro seccomp su `ptrace(2)`, può compromettere significativamente la sicurezza del sistema. In particolare, può essere sfruttato per eludere altre restrizioni di sicurezza, in particolare quelle imposte da seccomp, come dimostrato da [prove di concetto (PoC) come questa](https://gist.github.com/thejh/8346f47e359adecd1d53).
 
 **Esempio con binario (python)**
 ```bash
@@ -608,7 +608,7 @@ process 207009 is executing new program: /usr/bin/dash
 ```
 **Esempio con ambiente (Docker breakout) - Un altro abuso di gdb**
 
-Se **GDB** è installato (o puoi installarlo con `apk add gdb` o `apt install gdb`, ad esempio) puoi **debuggare un processo dall'host** e farlo chiamare la funzione `system`. (Questa tecnica richiede anche la capacità `SYS_ADMIN`)**.**
+Se **GDB** è installato (o puoi installarlo con `apk add gdb` o `apt install gdb` per esempio) puoi **debuggare un processo dall'host** e farlo chiamare la funzione `system`. (Questa tecnica richiede anche la capacità `SYS_ADMIN`)**.**
 ```bash
 gdb -p 1234
 (gdb) call (void)system("ls")
@@ -623,7 +623,7 @@ Se ricevi l'errore "No symbol "system" in current context.", controlla l'esempio
 
 **Esempio con ambiente (Docker breakout) - Iniezione di Shellcode**
 
-Puoi controllare le capacità abilitate all'interno del container docker usando:
+Puoi controllare le capacità abilitate all'interno del contenitore docker usando:
 ```bash
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_sys_ptrace,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -636,7 +636,7 @@ uid=0(root)
 gid=0(root)
 groups=0(root
 ```
-Elenca i **processi** in esecuzione nell'**host** `ps -eaf`
+List **processi** in esecuzione nell'**host** `ps -eaf`
 
 1. Ottieni l'**architettura** `uname -m`
 2. Trova un **shellcode** per l'architettura ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
@@ -651,7 +651,7 @@ Elenca i **processi** in esecuzione nell'**host** `ps -eaf`
 
 **Esempio con binario**
 
-Nell'esempio seguente, il binario **`python`** ha questa capacità.
+Nell'esempio seguente il binario **`python`** ha questa capacità.
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_module+ep
@@ -764,7 +764,7 @@ Un altro esempio di questa tecnica può essere trovato in [https://www.cyberark.
 
 ## CAP\_DAC\_READ\_SEARCH
 
-[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) consente a un processo di **bypassare i permessi per la lettura dei file e per la lettura e l'esecuzione delle directory**. Il suo utilizzo principale è per la ricerca o la lettura di file. Tuttavia, consente anche a un processo di utilizzare la funzione `open_by_handle_at(2)`, che può accedere a qualsiasi file, inclusi quelli al di fuori dello spazio dei nomi di montaggio del processo. L'identificatore utilizzato in `open_by_handle_at(2)` dovrebbe essere un identificatore non trasparente ottenuto tramite `name_to_handle_at(2)`, ma può includere informazioni sensibili come i numeri degli inode che sono vulnerabili a manomissioni. Il potenziale di sfruttamento di questa capacità, in particolare nel contesto dei contenitori Docker, è stato dimostrato da Sebastian Krahmer con l'exploit shocker, come analizzato [qui](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3).
+[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) consente a un processo di **bypassare i permessi per la lettura dei file e per la lettura e l'esecuzione delle directory**. Il suo utilizzo principale è per la ricerca o la lettura di file. Tuttavia, consente anche a un processo di utilizzare la funzione `open_by_handle_at(2)`, che può accedere a qualsiasi file, inclusi quelli al di fuori dello spazio dei nomi di montaggio del processo. L'identificatore utilizzato in `open_by_handle_at(2)` dovrebbe essere un identificatore non trasparente ottenuto tramite `name_to_handle_at(2)`, ma può includere informazioni sensibili come i numeri degli inode che sono vulnerabili a manomissioni. Il potenziale di sfruttamento di questa capacità, in particolare nel contesto dei container Docker, è stato dimostrato da Sebastian Krahmer con l'exploit shocker, come analizzato [qui](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3).
 **Questo significa che puoi** **bypassare i controlli dei permessi di lettura dei file e i controlli dei permessi di lettura/esecuzione delle directory.**
 
 **Esempio con binario**
@@ -804,7 +804,7 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-Dentro l'output precedente puoi vedere che la capacità **DAC\_READ\_SEARCH** è abilitata. Di conseguenza, il container può **debuggare i processi**.
+Dentro l'output precedente puoi vedere che la capacità **DAC\_READ\_SEARCH** è abilitata. Di conseguenza, il contenitore può **debuggare i processi**.
 
 Puoi imparare come funziona il seguente exploit in [https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) ma in sintesi **CAP\_DAC\_READ\_SEARCH** non solo ci consente di attraversare il file system senza controlli di autorizzazione, ma rimuove anche esplicitamente eventuali controlli su _**open\_by\_handle\_at(2)**_ e **potrebbe consentire al nostro processo di accedere a file sensibili aperti da altri processi**.
 
@@ -978,7 +978,7 @@ L'exploit deve trovare un puntatore a qualcosa montato sull'host. L'exploit orig
 
 **Questo significa che puoi bypassare i controlli dei permessi di scrittura su qualsiasi file, quindi puoi scrivere qualsiasi file.**
 
-Ci sono molti file che puoi **sovrascrivere per escalare i privilegi,** [**puoi prendere spunti da qui**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
+Ci sono molti file che puoi **sovrascrivere per elevare i privilegi,** [**puoi prendere spunti da qui**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
 
 **Esempio con binario**
 
@@ -991,15 +991,15 @@ vim /etc/sudoers #To overwrite it
 ```
 **Esempio con il binario 2**
 
-In questo esempio, il binario **`python`** avrà questa capacità. Potresti usare python per sovrascrivere qualsiasi file:
+In questo esempio il binario **`python`** avrà questa capacità. Potresti usare python per sovrascrivere qualsiasi file:
 ```python
 file=open("/etc/sudoers","a")
 file.write("yourusername ALL=(ALL) NOPASSWD:ALL")
 file.close()
 ```
-**Esempio con ambiente + CAP\_DAC\_READ\_SEARCH (Docker breakout)**
+**Esempio con ambiente + CAP\_DAC\_READ\_SEARCH (uscita da Docker)**
 
-Puoi controllare le capacità abilitate all'interno del container docker usando:
+Puoi controllare le capacità abilitate all'interno del contenitore docker usando:
 ```bash
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -1203,9 +1203,9 @@ os.system("/bin/bash")
 ```
 ## CAP\_SETGID
 
-**Questo significa che è possibile impostare l'ID di gruppo efficace del processo creato.**
+**Questo significa che è possibile impostare l'id di gruppo efficace del processo creato.**
 
-Ci sono molti file che puoi **sovrascrivere per aumentare i privilegi,** [**puoi prendere spunti da qui**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
+Ci sono molti file che puoi **sovrascrivere per elevare i privilegi,** [**puoi prendere spunti da qui**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
 
 **Esempio con binario**
 
@@ -1228,7 +1228,7 @@ In questo caso il gruppo shadow è stato impersonato, quindi puoi leggere il fil
 ```bash
 cat /etc/shadow
 ```
-Se **docker** è installato, puoi **impostare** il **gruppo docker** e abusarne per comunicare con il [**docker socket** e aumentare i privilegi](./#writable-docker-socket).
+Se **docker** è installato, potresti **impostare** il **gruppo docker** e abusarne per comunicare con il [**docker socket** e aumentare i privilegi](./#writable-docker-socket).
 
 ## CAP\_SETFCAP
 
@@ -1304,7 +1304,7 @@ Sembra che possiamo solo aggiungere al set ereditabile capacità dal set di boun
 
 ## CAP\_SYS\_RAWIO
 
-[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) fornisce una serie di operazioni sensibili tra cui l'accesso a `/dev/mem`, `/dev/kmem` o `/proc/kcore`, modificare `mmap_min_addr`, accedere alle chiamate di sistema `ioperm(2)` e `iopl(2)`, e vari comandi del disco. L'`FIBMAP ioctl(2)` è anche abilitato tramite questa capacità, il che ha causato problemi in [passato](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html). Secondo la pagina man, questo consente anche al detentore di descrittivamente `eseguire una serie di operazioni specifiche per dispositivo su altri dispositivi`.
+[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) fornisce una serie di operazioni sensibili tra cui accesso a `/dev/mem`, `/dev/kmem` o `/proc/kcore`, modifica di `mmap_min_addr`, accesso alle chiamate di sistema `ioperm(2)` e `iopl(2)`, e vari comandi del disco. L'`FIBMAP ioctl(2)` è anche abilitato tramite questa capacità, il che ha causato problemi in [passato](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html). Come indicato nella pagina man, questo consente anche al detentore di descrittivamente `eseguire una serie di operazioni specifiche per dispositivo su altri dispositivi`.
 
 Questo può essere utile per **l'escalation dei privilegi** e **il breakout di Docker.**
 
@@ -1314,7 +1314,7 @@ Questo può essere utile per **l'escalation dei privilegi** e **il breakout di D
 
 **Esempio con binario**
 
-Supponiamo che il **`python`** binario abbia questa capacità. Se potessi **anche modificare alcune configurazioni di servizio o socket** (o qualsiasi file di configurazione relativo a un servizio), potresti inserire una backdoor, e poi uccidere il processo relativo a quel servizio e aspettare che il nuovo file di configurazione venga eseguito con la tua backdoor.
+Supponiamo che il **`python`** binario abbia questa capacità. Se potessi **anche modificare qualche servizio o configurazione di socket** (o qualsiasi file di configurazione relativo a un servizio), potresti inserire una backdoor, e poi uccidere il processo relativo a quel servizio e aspettare che il nuovo file di configurazione venga eseguito con la tua backdoor.
 ```python
 #Use this python code to kill arbitrary processes
 import os
@@ -1337,17 +1337,17 @@ kill -s SIGUSR1 <nodejs-ps>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) è l'evento di cybersecurity più rilevante in **Spagna** e uno dei più importanti in **Europa**. Con **la missione di promuovere la conoscenza tecnica**, questo congresso è un punto di incontro fervente per professionisti della tecnologia e della cybersecurity in ogni disciplina.
+​​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) è l'evento di cybersecurity più rilevante in **Spagna** e uno dei più importanti in **Europa**. Con **la missione di promuovere la conoscenza tecnica**, questo congresso è un punto di incontro vivace per professionisti della tecnologia e della cybersecurity in ogni disciplina.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## CAP\_NET\_BIND\_SERVICE
 
-**Questo significa che è possibile ascoltare su qualsiasi porta (anche su quelle privilegiate).** Non è possibile elevare i privilegi direttamente con questa capacità.
+**Questo significa che è possibile ascoltare su qualsiasi porta (anche su quelle privilegiate).** Non puoi elevare i privilegi direttamente con questa capacità.
 
 **Esempio con binario**
 
-Se **`python`** ha questa capacità, sarà in grado di ascoltare su qualsiasi porta e persino connettersi da essa a qualsiasi altra porta (alcuni servizi richiedono connessioni da porte privilegiate specifiche)
+Se **`python`** ha questa capacità, sarà in grado di ascoltare su qualsiasi porta e persino connettersi da essa a qualsiasi altra porta (alcuni servizi richiedono connessioni da porte con privilegi specifici)
 
 {% tabs %}
 {% tab title="Listen" %}
@@ -1375,7 +1375,7 @@ s.connect(('10.10.10.10',500))
 
 ## CAP\_NET\_RAW
 
-[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) la capacità consente ai processi di **creare socket RAW e PACKET**, permettendo loro di generare e inviare pacchetti di rete arbitrari. Questo può portare a rischi per la sicurezza in ambienti containerizzati, come spoofing dei pacchetti, iniezione di traffico e bypass dei controlli di accesso alla rete. Attori malintenzionati potrebbero sfruttare questo per interferire con il routing dei container o compromettere la sicurezza della rete host, specialmente senza adeguate protezioni del firewall. Inoltre, **CAP_NET_RAW** è cruciale per i container privilegiati per supportare operazioni come ping tramite richieste ICMP RAW.
+[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) la capacità consente ai processi di **creare socket RAW e PACKET**, permettendo loro di generare e inviare pacchetti di rete arbitrari. Questo può portare a rischi per la sicurezza in ambienti containerizzati, come spoofing dei pacchetti, iniezione di traffico e bypass dei controlli di accesso alla rete. Attori malintenzionati potrebbero sfruttare questo per interferire con il routing dei container o compromettere la sicurezza della rete host, specialmente senza adeguate protezioni del firewall. Inoltre, **CAP_NET_RAW** è cruciale per i container privilegiati per supportare operazioni come ping tramite richieste RAW ICMP.
 
 **Questo significa che è possibile sniffare il traffico.** Non puoi elevare i privilegi direttamente con questa capacità.
 
@@ -1436,7 +1436,7 @@ count=count+1
 ```
 ## CAP\_NET\_ADMIN + CAP\_NET\_RAW
 
-[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) la capacità concede al titolare il potere di **modificare le configurazioni di rete**, inclusi le impostazioni del firewall, le tabelle di routing, i permessi dei socket e le impostazioni delle interfacce di rete all'interno degli spazi dei nomi di rete esposti. Abilita anche l'attivazione della **modalità promiscuo** sulle interfacce di rete, consentendo l'analisi dei pacchetti attraverso gli spazi dei nomi.
+[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) la capacità concede al detentore il potere di **modificare le configurazioni di rete**, inclusi le impostazioni del firewall, le tabelle di routing, i permessi dei socket e le impostazioni delle interfacce di rete all'interno degli spazi dei nomi di rete esposti. Abilita anche l'attivazione della **modalità promiscuo** sulle interfacce di rete, consentendo l'analisi dei pacchetti attraverso gli spazi dei nomi.
 
 **Esempio con binario**
 
@@ -1502,9 +1502,9 @@ sudo chattr -i file.txt
 
 ## CAP\_SYSLOG
 
-[**CAP\_SYSLOG**](https://man7.org/linux/man-pages/man7/capabilities.7.html) è stato separato dal più ampio **CAP_SYS_ADMIN** in Linux 2.6.37, concedendo specificamente la possibilità di utilizzare la chiamata `syslog(2)`. Questa capacità consente la visualizzazione degli indirizzi del kernel tramite `/proc` e interfacce simili quando l'impostazione `kptr_restrict` è a 1, che controlla l'esposizione degli indirizzi del kernel. Dalla versione 2.6.39 di Linux, il valore predefinito per `kptr_restrict` è 0, il che significa che gli indirizzi del kernel sono esposti, anche se molte distribuzioni impostano questo valore a 1 (nascondere gli indirizzi tranne che per uid 0) o 2 (nascondere sempre gli indirizzi) per motivi di sicurezza.
+[**CAP\_SYSLOG**](https://man7.org/linux/man-pages/man7/capabilities.7.html) è stato separato dal più ampio **CAP_SYS_ADMIN** in Linux 2.6.37, concedendo specificamente la possibilità di utilizzare la chiamata `syslog(2)`. Questa capacità consente la visualizzazione degli indirizzi del kernel tramite `/proc` e interfacce simili quando l'impostazione `kptr_restrict` è a 1, che controlla l'esposizione degli indirizzi del kernel. Dalla versione Linux 2.6.39, il valore predefinito per `kptr_restrict` è 0, il che significa che gli indirizzi del kernel sono esposti, anche se molte distribuzioni impostano questo a 1 (nascondere gli indirizzi tranne che per uid 0) o 2 (nascondere sempre gli indirizzi) per motivi di sicurezza.
 
-Inoltre, **CAP_SYSLOG** consente l'accesso all'output di `dmesg` quando `dmesg_restrict` è impostato a 1. Nonostante questi cambiamenti, **CAP_SYS_ADMIN** mantiene la capacità di eseguire operazioni `syslog` a causa di precedenti storici.
+Inoltre, **CAP_SYSLOG** consente l'accesso all'output di `dmesg` quando `dmesg_restrict` è impostato a 1. Nonostante queste modifiche, **CAP_SYS_ADMIN** mantiene la capacità di eseguire operazioni `syslog` a causa di precedenti storici.
 
 ## CAP\_MKNOD
 
@@ -1515,7 +1515,7 @@ Inoltre, **CAP_SYSLOG** consente l'accesso all'output di `dmesg` quando `dmesg_r
 
 Questa capacità è essenziale per i processi che richiedono la possibilità di creare file di dispositivo, facilitando l'interazione diretta con l'hardware tramite dispositivi a carattere o a blocchi.
 
-È una capacità docker predefinita ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)).
+È una capacità predefinita di docker ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)).
 
 Questa capacità consente di effettuare escalation di privilegi (attraverso la lettura completa del disco) sull'host, a queste condizioni:
 
@@ -1526,7 +1526,7 @@ Questa capacità consente di effettuare escalation di privilegi (attraverso la l
 **Passaggi per creare e accedere a un dispositivo a blocchi in un container:**
 
 1. **Sull'Host come Utente Standard:**
-- Determina il tuo attuale ID utente con `id`, ad esempio, `uid=1000(standarduser)`.
+- Determina il tuo ID utente attuale con `id`, ad esempio, `uid=1000(standarduser)`.
 - Identifica il dispositivo target, ad esempio, `/dev/sdb`.
 
 2. **Dentro il Container come `root`:**
@@ -1553,9 +1553,9 @@ Questo approccio consente all'utente standard di accedere e potenzialmente legge
 
 ### CAP\_SETPCAP
 
-**CAP_SETPCAP** consente a un processo di **modificare i set di capacità** di un altro processo, permettendo l'aggiunta o la rimozione di capacità dai set effettivi, ereditabili e permessi. Tuttavia, un processo può modificare solo le capacità che possiede nel proprio set permesso, garantendo che non possa elevare i privilegi di un altro processo oltre il proprio. Aggiornamenti recenti del kernel hanno inasprito queste regole, limitando `CAP_SETPCAP` a ridurre solo le capacità all'interno del proprio set permesso o di quello dei suoi discendenti, con l'obiettivo di mitigare i rischi per la sicurezza. L'uso richiede di avere `CAP_SETPCAP` nel set effettivo e le capacità target nel set permesso, utilizzando `capset()` per le modifiche. Questo riassume la funzione principale e le limitazioni di `CAP_SETPCAP`, evidenziando il suo ruolo nella gestione dei privilegi e nel miglioramento della sicurezza.
+**CAP_SETPCAP** consente a un processo di **modificare i set di capacità** di un altro processo, permettendo l'aggiunta o la rimozione di capacità dai set effettivi, ereditabili e permessi. Tuttavia, un processo può modificare solo le capacità che possiede nel proprio set permesso, garantendo che non possa elevare i privilegi di un altro processo oltre il proprio. Gli aggiornamenti recenti del kernel hanno inasprito queste regole, limitando `CAP_SETPCAP` a ridurre solo le capacità all'interno del proprio set permesso o di quello dei suoi discendenti, con l'obiettivo di mitigare i rischi per la sicurezza. L'uso richiede di avere `CAP_SETPCAP` nel set effettivo e le capacità target nel set permesso, utilizzando `capset()` per le modifiche. Questo riassume la funzione principale e le limitazioni di `CAP_SETPCAP`, evidenziando il suo ruolo nella gestione dei privilegi e nel miglioramento della sicurezza.
 
-**`CAP_SETPCAP`** è una capacità di Linux che consente a un processo di **modificare i set di capacità di un altro processo**. Concede la possibilità di aggiungere o rimuovere capacità dai set di capacità effettivi, ereditabili e permessi di altri processi. Tuttavia, ci sono alcune restrizioni su come questa capacità può essere utilizzata.
+**`CAP_SETPCAP`** è una capacità di Linux che consente a un processo di **modificare i set di capacità di un altro processo**. Consente di aggiungere o rimuovere capacità dai set di capacità effettivi, ereditabili e permessi di altri processi. Tuttavia, ci sono alcune restrizioni su come questa capacità può essere utilizzata.
 
 Un processo con `CAP_SETPCAP` **può solo concedere o rimuovere capacità che sono nel proprio set di capacità permesso**. In altre parole, un processo non può concedere una capacità a un altro processo se non possiede quella capacità. Questa restrizione impedisce a un processo di elevare i privilegi di un altro processo oltre il proprio livello di privilegio.
 
@@ -1563,7 +1563,7 @@ Inoltre, nelle versioni recenti del kernel, la capacità `CAP_SETPCAP` è stata 
 
 Per utilizzare `CAP_SETPCAP` in modo efficace, è necessario avere la capacità nel proprio set di capacità effettivo e le capacità target nel proprio set di capacità permesso. È quindi possibile utilizzare la chiamata di sistema `capset()` per modificare i set di capacità di altri processi.
 
-In sintesi, `CAP_SETPCAP` consente a un processo di modificare i set di capacità di altri processi, ma non può concedere capacità che non possiede. Inoltre, a causa di preoccupazioni per la sicurezza, la sua funzionalità è stata limitata nelle versioni recenti del kernel per consentire solo la riduzione delle capacità nel proprio set di capacità permesso o nei set di capacità permesso dei suoi discendenti.
+In sintesi, `CAP_SETPCAP` consente a un processo di modificare i set di capacità di altri processi, ma non può concedere capacità che non possiede. Inoltre, a causa di preoccupazioni per la sicurezza, la sua funzionalità è stata limitata nelle versioni recenti del kernel per consentire solo la riduzione delle capacità nel proprio set di capacità permesso o nei set di capacità permessi dei suoi discendenti.
 
 ## Riferimenti
 
@@ -1586,16 +1586,16 @@ In sintesi, `CAP_SETPCAP` consente a un processo di modificare i set di capacit�
 
 {% embed url="https://www.rootedcon.com/" %}
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository GitHub.
 
 </details>
 {% endhint %}

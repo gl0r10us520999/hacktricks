@@ -1,8 +1,8 @@
-# Checklist - Escalation dei privilegi in Linux
+# Checklist - Escalazione dei privilegi in Linux
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -19,20 +19,20 @@ Impara e pratica Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data
 
 Unisciti al [**Discord di HackenProof**](https://discord.com/invite/N3FrSbmwdy) per comunicare con hacker esperti e cacciatori di bug bounty!
 
-**Approfondimenti sull'Hacking**\
+**Approfondimenti sul hacking**\
 Interagisci con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 
-**Notizie di Hacking in Tempo Reale**\
-Rimani aggiornato con il mondo dell'hacking in rapida evoluzione attraverso notizie e approfondimenti in tempo reale
+**Notizie di hacking in tempo reale**\
+Rimani aggiornato con il mondo frenetico dell'hacking attraverso notizie e approfondimenti in tempo reale
 
-**Ultimi Annunci**\
+**Ultimi annunci**\
 Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della piattaforma
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi stesso!
 
 ### **Miglior strumento per cercare vettori di escalation dei privilegi locali in Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-### [Informazioni di Sistema](privilege-escalation/#system-information)
+### [Informazioni di sistema](privilege-escalation/#system-information)
 
 * [ ] Ottieni **informazioni sul sistema operativo**
 * [ ] Controlla il [**PATH**](privilege-escalation/#path), ci sono **cartelle scrivibili**?
@@ -45,11 +45,11 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 
 ### [Dischi](privilege-escalation/#drives)
 
-* [ ] **Elenca i dischi montati**
-* [ ] **Ci sono dischi smontati?**
-* [ ] **Ci sono credenziali in fstab?**
+* [ ] **Elenca i dischi** montati
+* [ ] **Qualche disco non montato?**
+* [ ] **Qualche credenziale in fstab?**
 
-### [**Software Installato**](privilege-escalation/#installed-software)
+### [**Software installato**](privilege-escalation/#installed-software)
 
 * [ ] **Controlla se ci sono** [**software utili**](privilege-escalation/#useful-software) **installati**
 * [ ] **Controlla se ci sono** [**software vulnerabili**](privilege-escalation/#vulnerable-software-installed) **installati**
@@ -63,11 +63,11 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 * [ ] **Monitora i processi** e controlla se qualche processo interessante è in esecuzione frequentemente.
 * [ ] Puoi **leggere** qualche **memoria di processo** interessante (dove potrebbero essere salvate le password)?
 
-### [Lavori Pianificati/Cron?](privilege-escalation/#scheduled-jobs)
+### [Lavori programmati/Cron?](privilege-escalation/#scheduled-jobs)
 
 * [ ] Il [**PATH**](privilege-escalation/#cron-path) viene modificato da qualche cron e puoi **scrivere** in esso?
 * [ ] Qualche [**carattere jolly**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) in un lavoro cron?
-* [ ] Qualche [**script modificabile**](privilege-escalation/#cron-script-overwriting-and-symlink) viene **eseguito** o si trova in una **cartella modificabile**?
+* [ ] Qualche [**script modificabile**](privilege-escalation/#cron-script-overwriting-and-symlink) è in fase di **esecuzione** o si trova in una **cartella modificabile**?
 * [ ] Hai rilevato che qualche **script** potrebbe essere o viene [**eseguito** molto **frequentemente**](privilege-escalation/#frequent-cron-jobs)? (ogni 1, 2 o 5 minuti)
 
 ### [Servizi](privilege-escalation/#services)
@@ -101,11 +101,11 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 * [ ] Enumerazione di utenti/gruppi **generici**
 * [ ] Hai un **UID molto grande**? La **macchina** è **vulnerabile**?
 * [ ] Puoi [**escalare i privilegi grazie a un gruppo**](privilege-escalation/interesting-groups-linux-pe/) a cui appartieni?
-* [ ] Dati **Clipboard**?
+* [ ] Dati negli **appunti**?
 * [ ] Politica delle password?
-* [ ] Prova a **usare** ogni **password conosciuta** che hai scoperto in precedenza per accedere **con ciascun** possibile **utente**. Prova ad accedere anche senza password.
+* [ ] Prova a **usare** ogni **password conosciuta** che hai scoperto in precedenza per accedere **con ciascun** possibile **utente**. Prova a effettuare il login anche senza password.
 
-### [PATH Scrivibile](privilege-escalation/#writable-path-abuses)
+### [PATH scrivibile](privilege-escalation/#writable-path-abuses)
 
 * [ ] Se hai **privilegi di scrittura su qualche cartella nel PATH** potresti essere in grado di escalare i privilegi
 
@@ -114,7 +114,7 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 * [ ] Puoi eseguire **qualunque comando con sudo**? Puoi usarlo per LEGGERE, SCRIVERE o ESEGUIRE qualsiasi cosa come root? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] C'è qualche **binario SUID sfruttabile**? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] I [**comandi sudo** sono **limitati** dal **path**? Puoi **bypassare** le restrizioni](privilege-escalation/#sudo-execution-bypassing-paths)?
-* [ ] [**Comando Sudo/SUID senza path indicato**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [ ] [**Binario Sudo/SUID senza path indicato**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
 * [ ] [**Binario SUID specificando il path**](privilege-escalation/#suid-binary-with-command-path)? Bypass
 * [ ] [**Vuln LD\_PRELOAD**](privilege-escalation/#ld_preload)
 * [ ] [**Mancanza di libreria .so in binario SUID**](privilege-escalation/#suid-binary-so-injection) da una cartella scrivibile?
@@ -131,7 +131,7 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 
 * [ ] Qualche file ha qualche **ACL inaspettata**?
 
-### [Sessioni Shell Aperte](privilege-escalation/#open-shell-sessions)
+### [Sessioni di shell aperte](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
@@ -141,7 +141,7 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 * [ ] **Debian** [**OpenSSL Predictable PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
 * [ ] [**Valori di configurazione SSH interessanti**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [File Interessanti](privilege-escalation/#interesting-files)
+### [File interessanti](privilege-escalation/#interesting-files)
 
 * [ ] **File di profilo** - Leggi dati sensibili? Scrivi per privesc?
 * [ ] **File passwd/shadow** - Leggi dati sensibili? Scrivi per privesc?
@@ -149,14 +149,14 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 * [ ] **File di posizione/possesso strani,** a cui potresti avere accesso o alterare file eseguibili
 * [ ] **Modificati** negli ultimi minuti
 * [ ] **File DB Sqlite**
-* [ ] **File Nascosti**
+* [ ] **File nascosti**
 * [ ] **Script/Binari nel PATH**
-* [ ] **File Web** (password?)
+* [ ] **File web** (password?)
 * [ ] **Backup**?
 * [ ] **File noti che contengono password**: Usa **Linpeas** e **LaZagne**
 * [ ] **Ricerca generica**
 
-### [**File Scrivibili**](privilege-escalation/#writable-files)
+### [**File scrivibili**](privilege-escalation/#writable-files)
 
 * [ ] **Modifica la libreria python** per eseguire comandi arbitrari?
 * [ ] Puoi **modificare i file di log**? **Logtotten** exploit
@@ -165,27 +165,27 @@ Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della
 
 ### [**Altri trucchi**](privilege-escalation/#other-tricks)
 
-* [ ] Puoi [**sfruttare NFS per escalare i privilegi**](privilege-escalation/#nfs-privilege-escalation)?
-* [ ] Hai bisogno di [**fuggire da una shell restrittiva**](privilege-escalation/#escaping-from-restricted-shells)?
+* [ ] Puoi [**abuse NFS per escalare privilegi**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] Hai bisogno di [**uscire da una shell restrittiva**](privilege-escalation/#escaping-from-restricted-shells)?
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 Unisciti al [**Discord di HackenProof**](https://discord.com/invite/N3FrSbmwdy) per comunicare con hacker esperti e cacciatori di bug bounty!
 
-**Approfondimenti sull'Hacking**\
+**Approfondimenti sul hacking**\
 Interagisci con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 
-**Notizie di Hacking in Tempo Reale**\
-Rimani aggiornato con il mondo dell'hacking in rapida evoluzione attraverso notizie e approfondimenti in tempo reale
+**Notizie di hacking in tempo reale**\
+Rimani aggiornato con il mondo frenetico dell'hacking attraverso notizie e approfondimenti in tempo reale
 
-**Ultimi Annunci**\
+**Ultimi annunci**\
 Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della piattaforma
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi stesso!
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

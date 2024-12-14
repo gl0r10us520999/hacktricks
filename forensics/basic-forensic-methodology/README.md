@@ -1,8 +1,8 @@
-# Metodologia di Base per la Forense
+# Metodologia Forense di Base
 
 {% hint style="success" %}
-Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -21,9 +21,9 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 [image-acquisition-and-mount.md](../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md)
 {% endcontent-ref %}
 
-## Analisi del Malware
+## Analisi Malware
 
-Questo **non è necessariamente il primo passo da eseguire una volta ottenuta l'immagine**. Ma puoi utilizzare queste tecniche di analisi del malware in modo indipendente se hai un file, un'immagine del file system, un'immagine di memoria, pcap... quindi è utile **tenere a mente queste azioni**:
+Questo **non è necessariamente il primo passo da eseguire una volta ottenuta l'immagine**. Ma puoi utilizzare queste tecniche di analisi malware in modo indipendente se hai un file, un'immagine del file system, un'immagine della memoria, pcap... quindi è bene **tenere a mente queste azioni**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -31,7 +31,7 @@ Questo **non è necessariamente il primo passo da eseguire una volta ottenuta l'
 
 ## Ispezione di un'Immagine
 
-Se ti viene fornita un'**immagine forense** di un dispositivo, puoi iniziare **ad analizzare le partizioni, il file-system** utilizzato e **recuperare** potenzialmente **file interessanti** (anche quelli eliminati). Scopri come in:
+Se ti viene fornita un'**immagine forense** di un dispositivo puoi iniziare **ad analizzare le partizioni, il file-system** utilizzato e **recuperare** potenzialmente **file interessanti** (anche quelli eliminati). Scopri come in:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
@@ -53,7 +53,7 @@ A seconda dei sistemi operativi utilizzati e persino della piattaforma, dovrebbe
 
 ## Ispezione Approfondita di Tipi di File e Software Specifici
 
-Se hai un **file** molto **sospetto**, allora **a seconda del tipo di file e del software** che lo ha creato, potrebbero essere utili diversi **trucchi**.\
+Se hai un **file** molto **sospetto**, allora **a seconda del tipo di file e del software** che lo ha creato, diversi **trucchi** potrebbero essere utili.\
 Leggi la pagina seguente per scoprire alcuni trucchi interessanti:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -66,7 +66,7 @@ Voglio fare una menzione speciale alla pagina:
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Ispezione del Dump di Memoria
+## Ispezione di Dump di Memoria
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
@@ -93,8 +93,8 @@ Tieni presente il possibile utilizzo di tecniche anti-forensi:
 {% endcontent-ref %}
 
 {% hint style="success" %}
-Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -102,7 +102,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

@@ -40,14 +40,14 @@ I file scaricati possono contenere l'**ADS Zone.Identifier** che indica **come**
 ### Recycle Bin
 
 In Vista/Win7/Win8/Win10 il **Cestino** può essere trovato nella cartella **`$Recycle.bin`** nella radice dell'unità (`C:\$Recycle.bin`).\
-Quando un file viene eliminato in questa cartella vengono creati 2 file specifici:
+Quando un file viene eliminato in questa cartella, vengono creati 2 file specifici:
 
 * `$I{id}`: Informazioni sul file (data di quando è stato eliminato)
 * `$R{id}`: Contenuto del file
 
 ![](<../../../.gitbook/assets/image (1029).png>)
 
-Avendo questi file puoi utilizzare lo strumento [**Rifiuti**](https://github.com/abelcheung/rifiuti2) per ottenere l'indirizzo originale dei file eliminati e la data in cui è stato eliminato (usa `rifiuti-vista.exe` per Vista – Win10).
+Avendo questi file, puoi utilizzare lo strumento [**Rifiuti**](https://github.com/abelcheung/rifiuti2) per ottenere l'indirizzo originale dei file eliminati e la data in cui è stato eliminato (usa `rifiuti-vista.exe` per Vista – Win10).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
@@ -65,7 +65,7 @@ Montando l'immagine forense con **ArsenalImageMounter**, lo strumento [**ShadowC
 
 ![](<../../../.gitbook/assets/image (576).png>)
 
-L'entry del registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` contiene i file e le chiavi **da non eseguire il backup**:
+L'entry del registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` contiene i file e le chiavi **da non fare il backup**:
 
 ![](<../../../.gitbook/assets/image (254).png>)
 
@@ -86,11 +86,11 @@ Windows **crea automaticamente** questi **collegamenti** quando l'utente **apre,
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Quando viene creata una cartella, viene creato anche un collegamento alla cartella, alla cartella padre e alla cartella nonna.
+Quando viene creata una cartella, viene anche creato un collegamento alla cartella, alla cartella padre e alla cartella nonna.
 
 Questi file di collegamento creati automaticamente **contengono informazioni sull'origine** come se è un **file** **o** una **cartella**, **tempi MAC** di quel file, **informazioni sul volume** di dove è memorizzato il file e **cartella del file di destinazione**. Queste informazioni possono essere utili per recuperare quei file nel caso siano stati rimossi.
 
-Inoltre, la **data di creazione del collegamento** è il primo **tempo** in cui il file originale è stato **utilizzato per la prima volta** e la **data** **modificata** del file di collegamento è l'**ultima** **volta** in cui il file di origine è stato utilizzato.
+Inoltre, la **data di creazione del collegamento** è il primo **tempo** in cui il file originale è stato **utilizzato** e la **data** **modificata** del file di collegamento è l'**ultima** **volta** in cui il file di origine è stato utilizzato.
 
 Per ispezionare questi file puoi utilizzare [**LinkParser**](http://4discovery.com/our-tools/).
 
@@ -145,7 +145,7 @@ Nota che alcuni file LNK invece di puntare al percorso originale, puntano alla c
 
 ![](<../../../.gitbook/assets/image (218).png>)
 
-I file nella cartella WPDNSE sono una copia di quelli originali, quindi non sopravvivranno a un riavvio del PC e il GUID è preso da un shellbag.
+I file nella cartella WPDNSE sono una copia degli originali, quindi non sopravvivranno a un riavvio del PC e il GUID è preso da un shellbag.
 
 ### Informazioni sul Registro
 
@@ -155,7 +155,7 @@ I file nella cartella WPDNSE sono una copia di quelli originali, quindi non sopr
 
 Controlla il file `C:\Windows\inf\setupapi.dev.log` per ottenere i timestamp su quando è stata effettuata la connessione USB (cerca `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
 
 ### USB Detective
 
@@ -165,7 +165,7 @@ Controlla il file `C:\Windows\inf\setupapi.dev.log` per ottenere i timestamp su 
 
 ### Pulizia Plug and Play
 
-Il compito pianificato noto come 'Pulizia Plug and Play' è principalmente progettato per la rimozione di versioni di driver obsolete. Contrariamente al suo scopo specificato di mantenere l'ultima versione del pacchetto driver, fonti online suggeriscono che miri anche a driver che sono stati inattivi per 30 giorni. Di conseguenza, i driver per dispositivi rimovibili non connessi negli ultimi 30 giorni potrebbero essere soggetti a eliminazione.
+Il compito programmato noto come 'Pulizia Plug and Play' è principalmente progettato per la rimozione di versioni di driver obsolete. Contrariamente al suo scopo specificato di mantenere l'ultima versione del pacchetto driver, fonti online suggeriscono che miri anche a driver che sono stati inattivi per 30 giorni. Di conseguenza, i driver per dispositivi rimovibili non connessi negli ultimi 30 giorni potrebbero essere soggetti a eliminazione.
 
 Il compito si trova al seguente percorso: `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
@@ -254,10 +254,10 @@ Il Registro di Windows, che memorizza un'ampia gamma di dati sulle attività di 
 
 ### Strumenti
 
-Al alcuni strumenti sono utili per analizzare i file di registro:
+Alcuni strumenti sono utili per analizzare i file di registro:
 
 * **Editor del Registro**: È installato in Windows. È un'interfaccia grafica per navigare attraverso il registro di Windows della sessione corrente.
-* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): Ti consente di caricare il file di registro e navigare attraverso di esso con un'interfaccia grafica. Contiene anche segnalibri che evidenziano le chiavi con informazioni interessanti.
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): Ti consente di caricare il file di registro e navigare attraverso di esso con un'interfaccia grafica. Contiene anche segnalibri che evidenziano chiavi con informazioni interessanti.
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Ancora, ha un'interfaccia grafica che consente di navigare attraverso il registro caricato e contiene anche plugin che evidenziano informazioni interessanti all'interno del registro caricato.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Un'altra applicazione GUI in grado di estrarre le informazioni importanti dal registro caricato.
 
@@ -273,7 +273,7 @@ Ogni Chiave-Valore contiene un **timestamp** che indica l'ultima volta che è st
 
 Il file/hive **SAM** contiene gli **hash delle password degli utenti, dei gruppi e degli utenti** del sistema.
 
-In `SAM\Domains\Account\Users` puoi ottenere il nome utente, il RID, l'ultimo accesso, l'ultimo accesso fallito, il contatore di accesso, la politica delle password e quando è stato creato l'account. Per ottenere gli **hash** hai anche **bisogno** del file/hive **SYSTEM**.
+In `SAM\Domains\Account\Users` puoi ottenere il nome utente, il RID, l'ultimo accesso, l'ultimo accesso non riuscito, il contatore di accesso, la politica delle password e quando è stato creato l'account. Per ottenere gli **hash** hai anche **bisogno** del file/hive **SYSTEM**.
 
 ### Voci Interessanti nel Registro di Windows
 
@@ -295,11 +295,11 @@ All'interno del registro `NTUSER.DAT` nel percorso `Software\Microsoft\Current V
 
 Puoi aprire il file `SYSTEM` con un editor di registro e all'interno del percorso `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` puoi trovare informazioni sulle **applicazioni eseguite da ciascun utente** (nota il `{SID}` nel percorso) e **a che ora** sono state eseguite (l'ora è all'interno del valore Data del registro).
 
-### Windows Prefetch
+### Prefetch di Windows
 
 Il prefetching è una tecnica che consente a un computer di **recuperare silenziosamente le risorse necessarie per visualizzare contenuti** a cui un utente **potrebbe accedere nel prossimo futuro** in modo che le risorse possano essere accessibili più rapidamente.
 
-Il prefetch di Windows consiste nella creazione di **cache dei programmi eseguiti** per poterli caricare più velocemente. Queste cache vengono create come file `.pf` all'interno del percorso: `C:\Windows\Prefetch`. C'è un limite di 128 file in XP/VISTA/WIN7 e 1024 file in Win8/Win10.
+Il prefetch di Windows consiste nel creare **cache dei programmi eseguiti** per poterli caricare più velocemente. Queste cache vengono create come file `.pf` all'interno del percorso: `C:\Windows\Prefetch`. C'è un limite di 128 file in XP/VISTA/WIN7 e 1024 file in Win8/Win10.
 
 Il nome del file è creato come `{program_name}-{hash}.pf` (l'hash è basato sul percorso e sugli argomenti dell'eseguibile). In W10 questi file sono compressi. Nota che la sola presenza del file indica che **il programma è stato eseguito** a un certo punto.
 
@@ -361,11 +361,11 @@ Per analizzare le informazioni memorizzate, si consiglia di utilizzare lo strume
 
 ### Amcache
 
-Il file **Amcache.hve** è essenzialmente un hive di registro che registra dettagli sulle applicazioni che sono state eseguite su un sistema. Si trova tipicamente in `C:\Windows\AppCompat\Programas\Amcache.hve`.
+Il file **Amcache.hve** è essenzialmente un hive del registro che registra dettagli sulle applicazioni che sono state eseguite su un sistema. Si trova tipicamente in `C:\Windows\AppCompat\Programas\Amcache.hve`.
 
 Questo file è notevole per memorizzare registrazioni di processi eseguiti di recente, inclusi i percorsi ai file eseguibili e i loro hash SHA1. Queste informazioni sono inestimabili per tracciare l'attività delle applicazioni su un sistema.
 
-Per estrarre e analizzare i dati da **Amcache.hve**, è possibile utilizzare lo strumento [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser). Il seguente comando è un esempio di come utilizzare AmcacheParser per analizzare i contenuti del file **Amcache.hve** e restituire i risultati in formato CSV:
+Per estrarre e analizzare i dati da **Amcache.hve**, si può utilizzare lo strumento [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser). Il seguente comando è un esempio di come utilizzare AmcacheParser per analizzare i contenuti del file **Amcache.hve** e restituire i risultati in formato CSV:
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
@@ -434,7 +434,7 @@ Gli eventi di accesso sono registrati nel file di configurazione della sicurezza
 * **Sblocco (7)**: Schermo sbloccato con una password.
 * **Rete in chiaro (8)**: Trasmissione di password in chiaro, spesso da IIS.
 * **Nuove credenziali (9)**: Utilizzo di credenziali diverse per l'accesso.
-* **Interattivo remoto (10)**: Accesso remoto tramite desktop o servizi terminali.
+* **Interattivo remoto (10)**: Accesso remoto desktop o servizi terminali.
 * **Cache interattivo (11)**: Accesso con credenziali memorizzate senza contatto con il controller di dominio.
 * **Cache interattivo remoto (12)**: Accesso remoto con credenziali memorizzate.
 * **Sblocco memorizzato (13)**: Sblocco con credenziali memorizzate.
@@ -449,7 +449,7 @@ Gli eventi di accesso sono registrati nel file di configurazione della sicurezza
 * **0xC0000070**: Violazione delle restrizioni della workstation - Potrebbe essere un tentativo di accesso da una posizione non autorizzata.
 * **0xC0000193**: Scadenza dell'account - Tentativi di accesso con account utente scaduti.
 * **0xC0000071**: Password scaduta - Tentativi di accesso con password obsolete.
-* **0xC0000133**: Problemi di sincronizzazione dell'ora - Grandi discrepanze di tempo tra client e server possono indicare attacchi più sofisticati come pass-the-ticket.
+* **0xC0000133**: Problemi di sincronizzazione temporale - Grandi discrepanze temporali tra client e server possono indicare attacchi più sofisticati come pass-the-ticket.
 * **0xC0000224**: Cambio di password obbligatorio richiesto - Cambi frequenti obbligatori potrebbero suggerire un tentativo di destabilizzare la sicurezza dell'account.
 * **0xC0000225**: Indica un bug di sistema piuttosto che un problema di sicurezza.
 * **0xC000015b**: Tipo di accesso negato - Tentativo di accesso con tipo di accesso non autorizzato, come un utente che cerca di eseguire un accesso di servizio.
@@ -505,16 +505,16 @@ L'EventID 6005 indica l'avvio del sistema, mentre l'EventID 6006 segna lo spegni
 L'EventID di sicurezza 1102 segnala la cancellazione dei log, un evento critico per l'analisi forense.
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

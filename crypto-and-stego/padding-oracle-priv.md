@@ -96,13 +96,13 @@ Il che ci consente di **calcolare C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 Sapendo **C15**, ora è possibile **calcolare C14**, ma questa volta forzando il padding `\x02\x02`.
 
 Questo BF è complesso quanto il precedente poiché è possibile calcolare il `E''15` il cui valore è 0x02: `E''7 = \x02 ^ I15` quindi è solo necessario trovare il **`E'14`** che genera un **`C14` uguale a `0x02`**.\
-Poi, eseguire gli stessi passaggi per decrittare C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Poi, fare gli stessi passaggi per decrittare C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
 **Segui questa catena fino a decrittare l'intero testo crittografato.**
 
 ### Rilevamento della vulnerabilità
 
-Registrati e accedi con questo account.\
+Registrati e crea un account e accedi con questo account.\
 Se **accedi molte volte** e ottieni sempre la **stessa cookie**, probabilmente c'è **qualcosa** **sbagliato** nell'applicazione. La **cookie restituita dovrebbe essere unica** ogni volta che accedi. Se la cookie è **sempre** la **stessa**, probabilmente sarà sempre valida e non ci **sarà modo di invalidarla**.
 
 Ora, se provi a **modificare** la **cookie**, puoi vedere che ricevi un **errore** dall'applicazione.\

@@ -97,7 +97,7 @@ Puoi aggiungere una colonna che mostra l'intestazione Host HTTP:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-E una colonna che aggiunge il nome del server da una connessione HTTPS iniziale (**ssl.handshake.type == 1**):
+E una colonna che aggiunge il nome del server da una connessione HTTPS iniziante (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 

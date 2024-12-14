@@ -33,7 +33,7 @@ Inizia a **cercare** **malware** all'interno del pcap. Usa gli **strumenti** men
 
 ## Rapporto di crash mini dump
 
-Quando il dump è piccolo (solo alcuni KB, forse qualche MB) allora probabilmente è un rapporto di crash mini dump e non un dump di memoria.
+Quando il dump è piccolo (solo alcuni KB, forse qualche MB) allora probabilmente si tratta di un rapporto di crash mini dump e non di un dump di memoria.
 
 ![](<../../../.gitbook/assets/image (532).png>)
 

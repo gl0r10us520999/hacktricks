@@ -1,8 +1,8 @@
 # Shells - Linux
 
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -102,7 +102,7 @@ Devi solo modificare:
 * Il prefisso e il suffisso del tuo payload (se presente)
 * Il modo in cui il payload viene inviato (header? dati? informazioni extra?)
 
-Poi, puoi semplicemente **inviare comandi** o persino **utilizzare il comando `upgrade`** per ottenere un PTY completo (nota che le pipe vengono lette e scritte con un ritardo approssimativo di 1,3 secondi).
+Poi, puoi semplicemente **inviare comandi** o persino **usare il comando `upgrade`** per ottenere un PTY completo (nota che le pipe vengono lette e scritte con un ritardo approssimativo di 1,3 secondi).
 
 ## Netcat
 ```bash

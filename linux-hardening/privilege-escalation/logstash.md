@@ -68,7 +68,7 @@ codec => rubydebug
 ```
 Qui, **interval** determina la frequenza di esecuzione in secondi. Nell'esempio fornito, il comando **whoami** viene eseguito ogni 120 secondi, con il suo output diretto a **/tmp/output.log**.
 
-Con **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, Logstash rileverà e applicherà automaticamente nuove o modificate configurazioni della pipeline senza necessità di riavvio. Se non c'è un carattere jolly, le modifiche possono comunque essere apportate alle configurazioni esistenti, ma si consiglia cautela per evitare interruzioni.
+Con **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, Logstash rileverà automaticamente e applicherà nuove o modificate configurazioni della pipeline senza necessità di un riavvio. Se non c'è un carattere jolly, le modifiche possono comunque essere apportate alle configurazioni esistenti, ma si consiglia cautela per evitare interruzioni.
 
 
 ## Riferimenti
@@ -82,7 +82,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

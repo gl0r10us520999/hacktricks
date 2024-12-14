@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 [From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Quando avviato con l'opzione `--inspect`, un processo Node.js ascolta per un client di debug. Per **default**, ascolterà all'indirizzo host e alla porta **`127.0.0.1:9229`**. Ogni processo è anche assegnato a un **UUID** **unico**.
 
-I client dell'inspector devono conoscere e specificare l'indirizzo host, la porta e il UUID per connettersi. Un URL completo apparirà simile a `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
+I client dell'inspector devono conoscere e specificare l'indirizzo host, la porta e l'UUID per connettersi. Un URL completo apparirà simile a `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
 {% hint style="warning" %}
 Poiché il **debugger ha accesso completo all'ambiente di esecuzione di Node.js**, un attore malintenzionato in grado di connettersi a questa porta potrebbe essere in grado di eseguire codice arbitrario per conto del processo Node.js (**potenziale escalation dei privilegi**).
@@ -52,23 +52,23 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 I siti web aperti in un browser possono effettuare richieste WebSocket e HTTP secondo il modello di sicurezza del browser. Una **connessione HTTP iniziale** è necessaria per **ottenere un id di sessione del debugger unico**. La **politica di stessa origine** **impedisce** ai siti web di poter effettuare **questa connessione HTTP**. Per ulteriore sicurezza contro gli [**attacchi di DNS rebinding**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js verifica che gli **header 'Host'** per la connessione specifichino un **indirizzo IP** o **`localhost`** o **`localhost6`** precisamente.
 
 {% hint style="info" %}
-Queste **misure di sicurezza impediscono di sfruttare l'inspector** per eseguire codice **inviando semplicemente una richiesta HTTP** (che potrebbe essere fatto sfruttando una vulnerabilità SSRF).
+Queste **misure di sicurezza impediscono di sfruttare l'inspector** per eseguire codice **semplicemente inviando una richiesta HTTP** (che potrebbe essere fatto sfruttando una vulnerabilità SSRF).
 {% endhint %}
 
 ### Avviare l'inspector nei processi in esecuzione
 
-Puoi inviare il **segnale SIGUSR1** a un processo nodejs in esecuzione per farlo **avviare l'inspector** nella porta predefinita. Tuttavia, nota che devi avere privilegi sufficienti, quindi questo potrebbe concederti **accesso privilegiato alle informazioni all'interno del processo** ma non una diretta escalation di privilegi.
+Puoi inviare il **segnale SIGUSR1** a un processo nodejs in esecuzione per farlo **avviare l'inspector** nella porta predefinita. Tuttavia, nota che devi avere privilegi sufficienti, quindi questo potrebbe concederti **accesso privilegiato alle informazioni all'interno del processo** ma non un'escalation di privilegi diretta.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Questo è utile nei contenitori perché **arrestare il processo e avviarne uno nuovo** con `--inspect` **non è un'opzione** perché il **contenitore** verrà **terminato** con il processo.
+Questo è utile nei contenitori perché **arrestare il processo e avviarne uno nuovo** con `--inspect` **non è un'opzione** perché il **contenitore** verrà **terminato** insieme al processo.
 {% endhint %}
 
 ### Connettersi all'inspector/debugger
 
-Per connettersi a un **browser basato su Chromium**, è possibile accedere agli URL `chrome://inspect` o `edge://inspect` per Chrome o Edge, rispettivamente. Cliccando sul pulsante Configura, si dovrebbe assicurare che l'**host e la porta di destinazione** siano elencati correttamente. L'immagine mostra un esempio di Esecuzione Remota di Codice (RCE):
+Per connettersi a un **browser basato su Chromium**, è possibile accedere agli URL `chrome://inspect` o `edge://inspect` per Chrome o Edge, rispettivamente. Cliccando sul pulsante Configura, si dovrebbe assicurarsi che l'**host e la porta di destinazione** siano elencati correttamente. L'immagine mostra un esempio di Esecuzione Remota di Codice (RCE):
 
 ![](<../../.gitbook/assets/image (674).png>)
 
@@ -79,7 +79,7 @@ node inspect 127.0.0.1:9229
 # RCE example from debug console
 debug> exec("process.mainModule.require('child_process').exec('/Applications/iTerm.app/Contents/MacOS/iTerm2')")
 ```
-Lo strumento [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug) consente di **trovare ispezionatori** in esecuzione localmente e **iniettare codice** in essi.
+Lo strumento [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug) consente di **trovare gli ispettori** in esecuzione localmente e **iniettare codice** in essi.
 ```bash
 #List possible vulnerable sockets
 ./cefdebug.exe
@@ -89,7 +89,7 @@ Lo strumento [**https://github.com/taviso/cefdebug**](https://github.com/taviso/
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-Nota che gli **exploit RCE di NodeJS non funzioneranno** se connessi a un browser tramite il [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (devi controllare l'API per trovare cose interessanti da fare con esso).
+Nota che **gli exploit RCE di NodeJS non funzioneranno** se connessi a un browser tramite [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (devi controllare l'API per trovare cose interessanti da fare con essa).
 {% endhint %}
 
 ## RCE nel Debugger/Inspector di NodeJS
@@ -138,7 +138,7 @@ downloadPath: '/code/'
 ```
 ### Webdriver RCE e esfiltrazione
 
-Secondo questo post: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) è possibile ottenere RCE ed esfiltrare pagine interne da theriver.
+Secondo questo post: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) è possibile ottenere RCE e esfiltrare pagine interne da theriver.
 
 ### Post-Exploitation
 

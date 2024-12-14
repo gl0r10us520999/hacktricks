@@ -75,7 +75,7 @@ Poi crea un **nuovo caso**, crea una **nuova sessione** all'interno del caso e *
 ### NetworkMiner
 
 Come Xplico, è uno strumento per **analizzare ed estrarre oggetti dai pcap**. Ha un'edizione gratuita che puoi **scaricare** [**qui**](https://www.netresec.com/?page=NetworkMiner). Funziona con **Windows**.\
-Questo strumento è anche utile per ottenere **ulteriori informazioni analizzate** dai pacchetti per poter sapere cosa stava succedendo in modo **più veloce**.
+Questo strumento è anche utile per ottenere **altre informazioni analizzate** dai pacchetti per poter sapere cosa stava succedendo in modo **più veloce**.
 
 ### NetWitness Investigator
 
@@ -119,7 +119,7 @@ Puoi utilizzare strumenti come [https://github.com/lgandx/PCredz](https://github
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Controlla Exploits/Malware
+## Controlla Exploit/Malware
 
 ### Suricata
 
@@ -257,7 +257,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

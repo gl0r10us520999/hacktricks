@@ -32,11 +32,11 @@ Per i sistemi moderni che utilizzano **UEFI** invece del tradizionale BIOS, lo s
 
 ### Analisi della RAM e Attacchi Cold Boot
 
-La RAM conserva i dati brevemente dopo che l'alimentazione è stata interrotta, di solito per **1-2 minuti**. Questa persistenza può essere estesa a **10 minuti** applicando sostanze fredde, come l'azoto liquido. Durante questo periodo prolungato, può essere creato un **dump di memoria** utilizzando strumenti come **dd.exe** e **volatility** per l'analisi.
+La RAM conserva i dati brevemente dopo che l'alimentazione è stata interrotta, di solito per **1-2 minuti**. Questa persistenza può essere estesa a **10 minuti** applicando sostanze fredde, come l'azoto liquido. Durante questo periodo prolungato, è possibile creare un **dump di memoria** utilizzando strumenti come **dd.exe** e **volatility** per l'analisi.
 
 ### Attacchi Direct Memory Access (DMA)
 
-**INCEPTION** è uno strumento progettato per la **manipolazione della memoria fisica** tramite DMA, compatibile con interfacce come **FireWire** e **Thunderbolt**. Permette di bypassare le procedure di accesso patchando la memoria per accettare qualsiasi password. Tuttavia, è inefficace contro i sistemi **Windows 10**.
+**INCEPTION** è uno strumento progettato per la **manipolazione della memoria fisica** tramite DMA, compatibile con interfacce come **FireWire** e **Thunderbolt**. Consente di bypassare le procedure di accesso patchando la memoria per accettare qualsiasi password. Tuttavia, non è efficace contro i sistemi **Windows 10**.
 
 ### Live CD/USB per Accesso al Sistema
 

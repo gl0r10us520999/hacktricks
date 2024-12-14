@@ -1,21 +1,21 @@
-# Trucchi Crypto CTFs
+# Crypto CTFs Tricks
 
 {% hint style="success" %}
-Impara e pratica l'Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
 
-## Database Hash Online
+## Online Hashes DBs
 
 * _**Cercalo su Google**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
@@ -29,34 +29,34 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Magici Risolutori Automatici
+## Magic Autosolvers
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Modulo Magico)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (modulo Magico)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Codificatori
+## Encoders
 
 La maggior parte dei dati codificati può essere decodificata con queste 2 risorse:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Risolutori Automatici di Sostituzione
+### Substitution Autosolvers
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-* [https://quipqiup.com/](https://quipqiup.com) - Molto buono !
+* [https://quipqiup.com/](https://quipqiup.com) - Molto buono!
 
-#### Risolutori Automatici di Caesar - ROTx
+#### Caesar - ROTx Autosolvers
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Cifratura Atbash
+#### Atbash Cipher
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Risolutore Automatico di Codifiche Base
+### Base Encodings Autosolver
 
 Controlla tutte queste basi con: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
@@ -133,13 +133,13 @@ Controlla tutte queste basi con: [https://github.com/dhondta/python-codext](http
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Non trovato: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Morto: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### Morse
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Non trovato: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Morto: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -187,7 +187,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=it\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=it\&page=dvorakKeyboard)
 
 ### A1Z26
 
@@ -195,44 +195,44 @@ Lettere al loro valore numerico
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Codifica Cifrario Affine
+### Affine Cipher Encode
 
-Lettera a numero `(ax+b)%26` (_a_ e _b_ sono le chiavi e _x_ è la lettera) e il risultato ritorna a lettera
+Lettera a num `(ax+b)%26` (_a_ e _b_ sono le chiavi e _x_ è la lettera) e il risultato di nuovo in lettera
 ```
 krodfdudfrod
 ```
-### Codice SMS
+### SMS Code
 
-**Multitap** [sostituisce una lettera](https://www.dcode.fr/word-letter-change) con cifre ripetute definite dal codice chiave corrispondente su una tastiera di un [telefono cellulare](https://www.dcode.fr/phone-keypad-cipher) (Questo modo è utilizzato nella scrittura di SMS).\
-Per esempio: 2=A, 22=B, 222=C, 3=D...\
+**Multitap** [sostituisce una lettera](https://www.dcode.fr/word-letter-change) con cifre ripetute definite dal corrispondente codice chiave su una [tastiera del telefono](https://www.dcode.fr/phone-keypad-cipher) (Questa modalità è utilizzata quando si scrivono SMS).\
+Ad esempio: 2=A, 22=B, 222=C, 3=D...\
 Puoi identificare questo codice perché vedrai\*\* diversi numeri ripetuti\*\*.
 
-Puoi decodificare questo codice su: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+Puoi decodificare questo codice in: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
-### Codice Bacon
+### Bacon Code
 
 Sostituisci ogni lettera con 4 A o B (o 1 e 0)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Rune
+### Runes
 
 ![](../.gitbook/assets/runes.jpg)
 
-## Compressione
+## Compression
 
 **Raw Deflate** e **Raw Inflate** (puoi trovarli entrambi in Cyberchef) possono comprimere e decomprimere dati senza intestazioni.
 
-## Crittografia Semplice
+## Easy Crypto
 
-### XOR - Risolutore automatico
+### XOR - Autosolver
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
 ### Bifid
 
-È necessaria una parola chiave
+È necessaria una parola chiave.
 ```
 fgaargaamnlunesuneoa
 ```
@@ -246,7 +246,7 @@ wodsyoidrods
 * [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
 * [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
 
-## Crittografia Forte
+## Crypto Forte
 
 ### Fernet
 
@@ -260,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Condivisione segreta di Samir
+### Condivisione Segreta di Samir
 
-Un segreto viene diviso in X parti e per recuperarlo sono necessarie Y parti (_Y <=X_).
+Un segreto è suddiviso in X parti e per recuperarlo hai bisogno di Y parti (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -270,7 +270,7 @@ Un segreto viene diviso in X parti e per recuperarlo sono necessarie Y parti (_Y
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Forza bruta di OpenSSL
+### OpenSSL brute-force
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -282,8 +282,8 @@ Un segreto viene diviso in X parti e per recuperarlo sono necessarie Y parti (_Y
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 {% hint style="success" %}
-Impara e pratica l'hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -291,7 +291,7 @@ Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

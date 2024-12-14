@@ -3,14 +3,14 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 {% hint style="success" %}
-Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -18,7 +18,7 @@ Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -32,7 +32,7 @@ Prima di tutto, è consigliato avere una **USB** con **binaries e librerie ben n
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-Una volta configurato il sistema per utilizzare binari buoni e noti, puoi iniziare a **estrarre alcune informazioni di base**:
+Una volta che hai configurato il sistema per utilizzare binari buoni e noti, puoi iniziare **a estrarre alcune informazioni di base**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -68,7 +68,7 @@ Ricorda che **non puoi installare LiME o qualsiasi altra cosa** nella macchina v
 {% endhint %}
 
 Quindi, se hai una versione identica di Ubuntu puoi usare `apt-get install lime-forensics-dkms`\
-In altri casi, devi scaricare [**LiME**](https://github.com/504ensicsLabs/LiME) da github e compilarlo con gli header del kernel corretti. Per **ottenere gli header del kernel esatti** della macchina vittima, puoi semplicemente **copiare la directory** `/lib/modules/<versione del kernel>` sulla tua macchina, e poi **compilare** LiME utilizzandoli:
+In altri casi, devi scaricare [**LiME**](https://github.com/504ensicsLabs/LiME) da github e compilarlo con le intestazioni del kernel corrette. Per **ottenere le intestazioni esatte del kernel** della macchina vittima, puoi semplicemente **copiare la directory** `/lib/modules/<versione del kernel>` sulla tua macchina, e poi **compilare** LiME utilizzando quelle:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -166,7 +166,7 @@ Accedi oggi:
 
 ### File di sistema modificati
 
-Linux offre strumenti per garantire l'integrità dei componenti di sistema, cruciali per individuare file potenzialmente problematici.
+Linux offre strumenti per garantire l'integrità dei componenti di sistema, fondamentali per individuare file potenzialmente problematici.
 
 * **Sistemi basati su RedHat**: Usa `rpm -Va` per un controllo completo.
 * **Sistemi basati su Debian**: `dpkg --verify` per una verifica iniziale, seguita da `debsums | grep -v "OK$"` (dopo aver installato `debsums` con `apt-get install debsums`) per identificare eventuali problemi.
@@ -245,12 +245,12 @@ Percorsi in cui un malware potrebbe essere installato come servizio:
 * **/etc/systemd/system**: Una directory per gli script del gestore di sistema e servizi.
 * **/etc/systemd/system/multi-user.target.wants/**: Contiene collegamenti ai servizi che dovrebbero essere avviati in un livello di esecuzione multi-utente.
 * **/usr/local/etc/rc.d/**: Per servizi personalizzati o di terze parti.
-* **\~/.config/autostart/**: Per applicazioni di avvio automatico specifiche dell'utente, che possono essere un nascondiglio per malware mirati all'utente.
+* **\~/.config/autostart/**: Per applicazioni di avvio automatico specifiche per l'utente, che possono essere un nascondiglio per malware mirati all'utente.
 * **/lib/systemd/system/**: File di unità predefiniti a livello di sistema forniti dai pacchetti installati.
 
 ### Moduli del Kernel
 
-I moduli del kernel Linux, spesso utilizzati dal malware come componenti rootkit, vengono caricati all'avvio del sistema. Le directory e i file critici per questi moduli includono:
+I moduli del kernel Linux, spesso utilizzati dai malware come componenti rootkit, vengono caricati all'avvio del sistema. Le directory e i file critici per questi moduli includono:
 
 * **/lib/modules/$(uname -r)**: Contiene moduli per la versione del kernel in esecuzione.
 * **/etc/modprobe.d**: Contiene file di configurazione per controllare il caricamento dei moduli.
@@ -261,7 +261,7 @@ I moduli del kernel Linux, spesso utilizzati dal malware come componenti rootkit
 Linux utilizza vari file per eseguire automaticamente programmi al login dell'utente, potenzialmente ospitando malware:
 
 * **/etc/profile.d/**\*, **/etc/profile**, e **/etc/bash.bashrc**: Eseguiti per qualsiasi login utente.
-* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, e **\~/.config/autostart**: File specifici dell'utente che vengono eseguiti al loro login.
+* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, e **\~/.config/autostart**: File specifici per l'utente che vengono eseguiti al loro login.
 * **/etc/rc.local**: Viene eseguito dopo che tutti i servizi di sistema sono stati avviati, segnando la fine della transizione a un ambiente multiutente.
 
 ## Esaminare i Log
@@ -269,13 +269,13 @@ Linux utilizza vari file per eseguire automaticamente programmi al login dell'ut
 I sistemi Linux tracciano le attività degli utenti e gli eventi di sistema attraverso vari file di log. Questi log sono fondamentali per identificare accessi non autorizzati, infezioni da malware e altri incidenti di sicurezza. I file di log chiave includono:
 
 * **/var/log/syslog** (Debian) o **/var/log/messages** (RedHat): Catturano messaggi e attività a livello di sistema.
-* **/var/log/auth.log** (Debian) o **/var/log/secure** (RedHat): Registrano i tentativi di autenticazione, accessi riusciti e falliti.
+* **/var/log/auth.log** (Debian) o **/var/log/secure** (RedHat): Registrano tentativi di autenticazione, accessi riusciti e falliti.
 * Usa `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` per filtrare eventi di autenticazione rilevanti.
 * **/var/log/boot.log**: Contiene messaggi di avvio del sistema.
-* **/var/log/maillog** o **/var/log/mail.log**: Registra le attività del server di posta, utile per tracciare i servizi legati alla posta elettronica.
+* **/var/log/maillog** o **/var/log/mail.log**: Registra le attività del server di posta, utile per tracciare servizi legati alla posta elettronica.
 * **/var/log/kern.log**: Memorizza messaggi del kernel, inclusi errori e avvisi.
 * **/var/log/dmesg**: Contiene messaggi del driver del dispositivo.
-* **/var/log/faillog**: Registra i tentativi di accesso falliti, utile per le indagini su violazioni della sicurezza.
+* **/var/log/faillog**: Registra i tentativi di accesso falliti, utile per indagini su violazioni della sicurezza.
 * **/var/log/cron**: Registra le esecuzioni dei job cron.
 * **/var/log/daemon.log**: Traccia le attività dei servizi in background.
 * **/var/log/btmp**: Documenta i tentativi di accesso falliti.
@@ -341,20 +341,20 @@ More examples and info inside the github: [https://github.com/snovvcrash/usbrip]
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti comunitari più avanzati** al mondo.\
-Get Access Today:
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Review User Accounts and Logon Activities
+## Rivedi gli Account Utente e le Attività di Accesso
 
-Esaminare il _**/etc/passwd**_, _**/etc/shadow**_ e i **log di sicurezza** per nomi o account insoliti creati e/o utilizzati in prossimità di eventi non autorizzati noti. Inoltre, controllare possibili attacchi di brute-force sudo.\
-Inoltre, controllare file come _**/etc/sudoers**_ e _**/etc/groups**_ per privilegi inaspettati concessi agli utenti.\
-Infine, cercare account con **nessuna password** o password **facilmente indovinabili**.
+Esamina il _**/etc/passwd**_, _**/etc/shadow**_ e i **log di sicurezza** per nomi o account insoliti creati e/o utilizzati in prossimità di eventi non autorizzati noti. Controlla anche possibili attacchi di brute-force su sudo.\
+Inoltre, controlla file come _**/etc/sudoers**_ e _**/etc/groups**_ per privilegi inaspettati concessi agli utenti.\
+Infine, cerca account con **nessuna password** o password **facilmente indovinabili**.
 
-## Examine File System
+## Esamina il File System
 
-### Analyzing File System Structures in Malware Investigation
+### Analisi delle Strutture del File System nell'Investigazione di Malware
 
 Quando si indagano incidenti di malware, la struttura del file system è una fonte cruciale di informazioni, rivelando sia la sequenza degli eventi che il contenuto del malware. Tuttavia, gli autori di malware stanno sviluppando tecniche per ostacolare questa analisi, come modificare i timestamp dei file o evitare il file system per l'archiviazione dei dati.
 
@@ -365,8 +365,8 @@ Per contrastare questi metodi anti-forensi, è essenziale:
 * **Esaminare `/dev` per file atipici**, poiché tradizionalmente contiene file speciali, ma potrebbe ospitare file relativi al malware.
 * **Cercare file o directory nascosti** con nomi come ".. " (punto punto spazio) o "..^G" (punto punto controllo-G), che potrebbero nascondere contenuti dannosi.
 * **Identificare file setuid root** utilizzando il comando: `find / -user root -perm -04000 -print` Questo trova file con permessi elevati, che potrebbero essere abusati dagli attaccanti.
-* **Esaminare i timestamp di cancellazione** nelle tabelle inode per individuare cancellazioni di massa di file, che potrebbero indicare la presenza di rootkit o trojan.
-* **Ispezionare inodes consecutivi** per file dannosi vicini dopo averne identificato uno, poiché potrebbero essere stati collocati insieme.
+* **Rivedere i timestamp di cancellazione** nelle tabelle inode per individuare cancellazioni di massa di file, che potrebbero indicare la presenza di rootkit o trojan.
+* **Ispezionare inode consecutivi** per file dannosi vicini dopo averne identificato uno, poiché potrebbero essere stati collocati insieme.
 * **Controllare le directory binarie comuni** (_/bin_, _/sbin_) per file recentemente modificati, poiché questi potrebbero essere stati alterati da malware.
 ````bash
 # List recent files in a directory:
@@ -406,7 +406,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `T`: Cambiamenti di tipo (ad es., file a symlink)
 * `U`: File non uniti
 * `X`: File sconosciuti
-* `B`: File danneggiati
+* `B`: File rotti
 
 ## Riferimenti
 
@@ -416,8 +416,8 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * **Libro: Guida sul campo per la forense dei malware per sistemi Linux: Guide di forense digitale**
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -425,7 +425,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -433,7 +433,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
 Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

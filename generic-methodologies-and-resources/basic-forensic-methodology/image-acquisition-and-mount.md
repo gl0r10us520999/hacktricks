@@ -1,8 +1,8 @@
 # Acquisizione e Montaggio
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -40,7 +40,7 @@ ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --descript
 ```
 ### EWF
 
-Puoi generare un'immagine del disco utilizzando gli [**ewf tools**](https://github.com/libyal/libewf).
+Puoi generare un'immagine del disco utilizzando i [**tool ewf**](https://github.com/libyal/libewf).
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -91,10 +91,10 @@ mount output/ewf1 -o ro,norecovery /mnt
 
 È un'applicazione Windows per montare volumi. Puoi scaricarla qui [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### Errors
+### Errori
 
 * **`cannot mount /dev/loop0 read-only`** in questo caso è necessario utilizzare i flag **`-o ro,norecovery`**
-* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** in questo caso il montaggio è fallito poiché l'offset del filesystem è diverso da quello dell'immagine del disco. Devi trovare la dimensione del Settore e il Settore di Avvio:
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** in questo caso il montaggio è fallito poiché l'offset del filesystem è diverso da quello dell'immagine del disco. È necessario trovare la dimensione del Settore e il Settore di avvio:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -116,8 +116,8 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -125,7 +125,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

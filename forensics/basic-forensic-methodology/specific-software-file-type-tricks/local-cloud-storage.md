@@ -56,16 +56,16 @@ Puoi trovare i database nelle cartelle:
 * `\Users\<username>\AppData\Local\Dropbox\Instance1`
 * `\Users\<username>\AppData\Roaming\Dropbox`
 
-E i database principali sono:
+E i principali database sono:
 
 * Sigstore.dbx
 * Filecache.dbx
 * Deleted.dbx
 * Config.dbx
 
-L'estensione ".dbx" significa che i **database** sono **criptati**. Dropbox utilizza **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+L'estensione ".dbx" significa che i **database** sono **crittografati**. Dropbox utilizza **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-Per comprendere meglio la crittografia utilizzata da Dropbox, puoi leggere [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+Per comprendere meglio la crittografia che utilizza Dropbox, puoi leggere [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
 
 Tuttavia, le informazioni principali sono:
 
@@ -74,10 +74,10 @@ Tuttavia, le informazioni principali sono:
 * **Algorithm**: PBKDF2
 * **Iterations**: 1066
 
-Oltre a queste informazioni, per decriptare i database hai ancora bisogno di:
+Oltre a queste informazioni, per decrittografare i database hai ancora bisogno di:
 
-* La **chiave DPAPI criptata**: Puoi trovarla nel registro all'interno di `NTUSER.DAT\Software\Dropbox\ks\client` (esporta questi dati come binari)
-* I **hive** **`SYSTEM`** e **`SECURITY`**
+* La **chiave DPAPI crittografata**: Puoi trovarla nel registro all'interno di `NTUSER.DAT\Software\Dropbox\ks\client` (esporta questi dati come binari)
+* I rami **`SYSTEM`** e **`SECURITY`**
 * Le **chiavi master DPAPI**: Che possono essere trovate in `\Users\<username>\AppData\Roaming\Microsoft\Protect`
 * Il **nome utente** e la **password** dell'utente Windows
 
@@ -87,21 +87,21 @@ Poi puoi usare lo strumento [**DataProtectionDecryptor**](https://nirsoft.net/ut
 
 Se tutto va come previsto, lo strumento indicherà la **chiave primaria** che devi **usare per recuperare quella originale**. Per recuperare quella originale, usa semplicemente questa [ricetta cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) mettendo la chiave primaria come "passphrase" all'interno della ricetta.
 
-L'hex risultante è la chiave finale utilizzata per criptare i database che può essere decriptata con:
+L'hex risultante è la chiave finale utilizzata per crittografare i database che può essere decrittografata con:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-Il database **`config.dbx`** contiene:
+Il **`config.dbx`** database contiene:
 
 * **Email**: L'email dell'utente
 * **usernamedisplayname**: Il nome dell'utente
-* **dropbox\_path**: Percorso in cui si trova la cartella di dropbox
+* **dropbox\_path**: Percorso dove si trova la cartella di dropbox
 * **Host\_id: Hash** utilizzato per autenticarsi nel cloud. Questo può essere revocato solo dal web.
 * **Root\_ns**: Identificatore dell'utente
 
-Il database **`filecache.db`** contiene informazioni su tutti i file e le cartelle sincronizzati con Dropbox. La tabella `File_journal` è quella con più informazioni utili:
+Il **`filecache.db`** database contiene informazioni su tutti i file e le cartelle sincronizzati con Dropbox. La tabella `File_journal` è quella con più informazioni utili:
 
-* **Server\_path**: Percorso in cui si trova il file all'interno del server (questo percorso è preceduto dall'`host_id` del client).
+* **Server\_path**: Percorso dove si trova il file all'interno del server (questo percorso è preceduto dall'`host_id` del client).
 * **local\_sjid**: Versione del file
 * **local\_mtime**: Data di modifica
 * **local\_ctime**: Data di creazione
@@ -132,7 +132,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

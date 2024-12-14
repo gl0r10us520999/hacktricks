@@ -18,14 +18,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) per costruire e **automatizzare i flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 ## OneDrive
 
-In Windows, puoi trovare la cartella OneDrive in `\Users\<username>\AppData\Local\Microsoft\OneDrive`. E all'interno di `logs\Personal` è possibile trovare il file `SyncDiagnostics.log` che contiene alcuni dati interessanti riguardanti i file sincronizzati:
+In Windows, puoi trovare la cartella OneDrive in `\Users\<username>\AppData\Local\Microsoft\OneDrive`. E all'interno di `logs\Personal` è possibile trovare il file `SyncDiagnostics.log` che contiene alcuni dati interessanti riguardo ai file sincronizzati:
 
 * Dimensione in byte
 * Data di creazione
@@ -77,15 +77,15 @@ Tuttavia, le informazioni principali sono:
 Oltre a queste informazioni, per decriptare i database hai ancora bisogno di:
 
 * La **chiave DPAPI criptata**: Puoi trovarla nel registro all'interno di `NTUSER.DAT\Software\Dropbox\ks\client` (esporta questi dati come binari)
-* I **hive** **`SYSTEM`** e **`SECURITY`**
+* I rami **`SYSTEM`** e **`SECURITY`**
 * Le **chiavi master DPAPI**: Che possono essere trovate in `\Users\<username>\AppData\Roaming\Microsoft\Protect`
 * Il **nome utente** e la **password** dell'utente Windows
 
-Poi puoi utilizzare lo strumento [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
+Poi puoi usare lo strumento [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
 ![](<../../../.gitbook/assets/image (443).png>)
 
-Se tutto va come previsto, lo strumento indicherà la **chiave primaria** che devi **utilizzare per recuperare quella originale**. Per recuperare quella originale, utilizza semplicemente questa [ricetta cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) mettendo la chiave primaria come "passphrase" all'interno della ricetta.
+Se tutto va come previsto, lo strumento indicherà la **chiave primaria** che devi **usare per recuperare quella originale**. Per recuperare quella originale, usa semplicemente questa [ricetta cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) mettendo la chiave primaria come "passphrase" all'interno della ricetta.
 
 L'hex risultante è la chiave finale utilizzata per criptare i database che può essere decriptata con:
 ```bash
@@ -117,7 +117,7 @@ Altre tabelle all'interno di questo database contengono informazioni più intere
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) per costruire e **automatizzare flussi di lavoro** facilmente alimentati dagli **strumenti** della comunità **più avanzati** del mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}

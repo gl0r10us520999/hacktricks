@@ -1,8 +1,8 @@
-# Variabili di Ambiente Linux
+# Variabili di ambiente Linux
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -57,13 +57,13 @@ Da: [https://geek-university.com/linux/common-environment-variables/](https://ge
 * **HOME** – la tua directory home.
 * **HOSTNAME** – il nome host del computer.
 * **LANG** – la tua lingua attuale.
-* **MAIL** – la posizione della cassetta postale dell'utente. Di solito **/var/spool/mail/USER**.
-* **MANPATH** – l'elenco delle directory da cercare per le pagine di manuale.
+* **MAIL** – la posizione della spool di posta dell'utente. Di solito **/var/spool/mail/USER**.
+* **MANPATH** – l'elenco delle directory da cercare per le pagine manuali.
 * **OSTYPE** – il tipo di sistema operativo.
 * **PS1** – il prompt predefinito in bash.
 * **PATH** – memorizza il percorso di tutte le directory che contengono file binari che desideri eseguire semplicemente specificando il nome del file e non il percorso relativo o assoluto.
 * **PWD** – la directory di lavoro attuale.
-* **SHELL** – il percorso della shell di comando attuale (ad esempio, **/bin/bash**).
+* **SHELL** – il percorso della shell dei comandi attuale (ad esempio, **/bin/bash**).
 * **TERM** – il tipo di terminale attuale (ad esempio, **xterm**).
 * **TZ** – il tuo fuso orario.
 * **USER** – il tuo nome utente attuale.
@@ -78,7 +78,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Cambia il **valore di questa variabile a 0**, così quando **termini la tua sessione** nessun comando verrà aggiunto al **file di cronologia** (\~/.bash\_history).
+Cambia il **valore di questa variabile a 0**, così quando **termini la tua sessione** qualsiasi comando sarà aggiunto al **file di cronologia** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -129,7 +129,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

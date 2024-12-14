@@ -29,7 +29,7 @@ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-Puoi facilmente **trovare le modifiche apportate a questo contenitore rispetto all'immagine** con:
+Puoi facilmente **trovare le modifiche apportate a questo container rispetto all'immagine** con:
 ```bash
 docker diff wordpress
 C /var

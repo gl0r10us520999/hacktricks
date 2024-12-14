@@ -17,20 +17,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Partizioni
 
-Un hard disk o un **SSD possono contenere diverse partizioni** con l'obiettivo di separare fisicamente i dati.\
-L'unità **minima** di un disco è il **settore** (normalmente composto da 512B). Quindi, ogni dimensione di partizione deve essere un multiplo di quella dimensione.
+Un hard disk o un **SSD può contenere diverse partizioni** con l'obiettivo di separare fisicamente i dati.\
+L'unità **minima** di un disco è il **settore** (normalmente composto da 512B). Quindi, la dimensione di ogni partizione deve essere un multiplo di quella dimensione.
 
 ### MBR (master Boot Record)
 
 È allocato nel **primo settore del disco dopo i 446B del codice di avvio**. Questo settore è essenziale per indicare al PC cosa e da dove una partizione dovrebbe essere montata.\
-Permette fino a **4 partizioni** (al massimo **solo 1** può essere attiva/**avviabile**). Tuttavia, se hai bisogno di più partizioni, puoi utilizzare **partizioni estese**. L'**ultimo byte** di questo primo settore è la firma del record di avvio **0x55AA**. Solo una partizione può essere contrassegnata come attiva.\
+Permette fino a **4 partizioni** (al massimo **solo 1** può essere attiva/**avviabile**). Tuttavia, se hai bisogno di più partizioni, puoi utilizzare **partizioni estese**. L'**ultimo byte** di questo primo settore è la firma del boot record **0x55AA**. Solo una partizione può essere contrassegnata come attiva.\
 MBR consente **max 2.2TB**.
 
 ![](<../../../.gitbook/assets/image (489).png>)
 
 ![](<../../../.gitbook/assets/image (490).png>)
 
-Dai **byte 440 ai 443** dell'MBR puoi trovare la **Firma del Disco di Windows** (se viene utilizzato Windows). La lettera dell'unità logica del disco rigido dipende dalla Firma del Disco di Windows. Cambiare questa firma potrebbe impedire a Windows di avviarsi (tool: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+Dai **byte 440 ai 443** dell'MBR puoi trovare la **Windows Disk Signature** (se viene utilizzato Windows). La lettera dell'unità logica del disco rigido dipende dalla Windows Disk Signature. Cambiare questa firma potrebbe impedire a Windows di avviarsi (tool: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
 ![](<../../../.gitbook/assets/image (493).png>)
 
@@ -50,11 +50,11 @@ Dai **byte 440 ai 443** dell'MBR puoi trovare la **Firma del Disco di Windows** 
 | Offset    | Lunghezza   | Voce                                                   |
 | --------- | ----------- | ------------------------------------------------------ |
 | 0 (0x00)  | 1 (0x01)   | Flag attivo (0x80 = avviabile)                         |
-| 1 (0x01)  | 1 (0x01)   | Testa di inizio                                         |
+| 1 (0x01)  | 1 (0x01)   | Testa di inizio                                        |
 | 2 (0x02)  | 1 (0x01)   | Settore di inizio (bit 0-5); bit superiori del cilindro (6- 7) |
 | 3 (0x03)  | 1 (0x01)   | Cilindro di inizio 8 bit più bassi                     |
-| 4 (0x04)  | 1 (0x01)   | Codice di tipo di partizione (0x83 = Linux)            |
-| 5 (0x05)  | 1 (0x01)   | Testa di fine                                           |
+| 4 (0x04)  | 1 (0x01)   | Codice tipo partizione (0x83 = Linux)                  |
+| 5 (0x05)  | 1 (0x01)   | Testa di fine                                          |
 | 6 (0x06)  | 1 (0x01)   | Settore di fine (bit 0-5); bit superiori del cilindro (6- 7)   |
 | 7 (0x07)  | 1 (0x01)   | Cilindro di fine 8 bit più bassi                       |
 | 8 (0x08)  | 4 (0x04)   | Settori precedenti la partizione (little endian)      |
@@ -62,7 +62,7 @@ Dai **byte 440 ai 443** dell'MBR puoi trovare la **Firma del Disco di Windows** 
 
 Per montare un MBR in Linux, devi prima ottenere l'offset di inizio (puoi usare `fdisk` e il comando `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
 E poi usa il seguente codice
 ```bash
@@ -85,7 +85,7 @@ La GUID Partition Table, nota come GPT, è preferita per le sue capacità avanza
 
 **Resilienza e Recupero dei Dati**:
 
-* **Ridondanza**: A differenza di MBR, GPT non limita la partizione e i dati di avvio a un solo luogo. Replica questi dati su tutto il disco, migliorando l'integrità e la resilienza dei dati.
+* **Ridondanza**: A differenza di MBR, GPT non limita i dati di partizionamento e avvio a un solo luogo. Replica questi dati su tutto il disco, migliorando l'integrità e la resilienza dei dati.
 * **Controllo di Ridondanza Ciclata (CRC)**: GPT utilizza il CRC per garantire l'integrità dei dati. Monitora attivamente la corruzione dei dati e, quando viene rilevata, GPT tenta di recuperare i dati corrotti da un'altra posizione del disco.
 
 **MBR Protettivo (LBA0)**:
@@ -118,7 +118,7 @@ L'intestazione della tabella delle partizioni definisce i blocchi utilizzabili s
 | 40 (0x28) | 8 byte    | Primo LBA utilizzabile per le partizioni (LBA dell'ultima tabella di partizione primaria + 1)                                                                                                          |
 | 48 (0x30) | 8 byte    | Ultimo LBA utilizzabile (primo LBA della tabella di partizione secondaria − 1)                                                                                                                       |
 | 56 (0x38) | 16 byte   | GUID del disco in endian misto                                                                                                                                                       |
-| 72 (0x48) | 8 byte    | LBA di partenza di un array di voci di partizione (sempre 2 nella copia primaria)                                                                                                        |
+| 72 (0x48) | 8 byte    | LBA iniziale di un array di voci di partizione (sempre 2 nella copia primaria)                                                                                                        |
 | 80 (0x50) | 4 byte    | Numero di voci di partizione nell'array                                                                                                                                            |
 | 84 (0x54) | 4 byte    | Dimensione di una singola voce di partizione (di solito 80h o 128)                                                                                                                           |
 | 88 (0x58) | 4 byte    | CRC32 dell'array delle voci di partizione in little endian                                                                                                                               |
@@ -129,8 +129,8 @@ L'intestazione della tabella delle partizioni definisce i blocchi utilizzabili s
 | Formato della voce di partizione GUID |          |                                                                                                                   |
 | ------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Offset                                | Lunghezza | Contenuti                                                                                                          |
-| 0 (0x00)                              | 16 byte  | [Tipo di GUID della partizione](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
-| 16 (0x10)                             | 16 byte  | GUID univoco della partizione (endian misto)                                                                              |
+| 0 (0x00)                              | 16 byte  | [Tipo di partizione GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
+| 16 (0x10)                             | 16 byte  | GUID di partizione unico (endian misto)                                                                              |
 | 32 (0x20)                             | 8 byte   | Primo LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                             | 8 byte   | Ultimo LBA (inclusivo, di solito dispari)                                                                                 |
 | 48 (0x30)                             | 8 byte   | Flag di attributo (ad es. il bit 60 denota di sola lettura)                                                                   |
@@ -177,12 +177,12 @@ I componenti chiave della directory radice, in particolare per FAT12 e FAT16, in
 * **Nome del File/Cartella** (fino a 8 caratteri)
 * **Attributi**
 * **Date di Creazione, Modifica e Ultimo Accesso**
-* **Indirizzo della Tabella FAT** (che indica il cluster di partenza del file)
+* **Indirizzo della Tabella FAT** (che indica il cluster iniziale del file)
 * **Dimensione del File**
 
 ### EXT
 
-**Ext2** è il file system più comune per **partizioni non journaling** (**partizioni che non cambiano molto**) come la partizione di avvio. **Ext3/4** sono **journaling** e vengono solitamente utilizzati per le **altre partizioni**.
+**Ext2** è il file system più comune per **partizioni non journaling** (**partizioni che non cambiano molto**) come la partizione di avvio. **Ext3/4** sono **journaling** e vengono utilizzati solitamente per le **altre partizioni**.
 
 ## **Metadata**
 

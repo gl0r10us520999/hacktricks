@@ -104,7 +104,7 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -424,11 +424,11 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Chiavi SSH deboli / PRNG prevedibile di Debian
 
-Alcuni sistemi presentano difetti noti nel seme casuale utilizzato per generare materiale crittografico. Questo può portare a uno spazio delle chiavi notevolmente ridotto che può essere bruteforced con strumenti come [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Sono disponibili anche set pre-generati di chiavi deboli come [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Alcuni sistemi presentano difetti noti nel seme casuale utilizzato per generare materiale crittografico. Questo può portare a uno spazio di chiavi notevolmente ridotto che può essere bruteforced con strumenti come [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Sono disponibili anche set pre-generati di chiavi deboli come [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ e OpenMQ)
 
-Il protocollo di testo STOMP è un protocollo di messaggistica ampiamente utilizzato che **consente comunicazioni e interazioni senza soluzione di continuità con i popolari servizi di messaggistica** come RabbitMQ, ActiveMQ, HornetQ e OpenMQ. Fornisce un approccio standardizzato ed efficiente per scambiare messaggi e svolgere varie operazioni di messaggistica.
+Il protocollo di testo STOMP è un protocollo di messaggistica ampiamente utilizzato che **consente comunicazioni e interazioni senza soluzione di continuità con i popolari servizi di messaggistica in coda** come RabbitMQ, ActiveMQ, HornetQ e OpenMQ. Fornisce un approccio standardizzato ed efficiente per scambiare messaggi e svolgere varie operazioni di messaggistica.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -469,7 +469,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -508,9 +508,9 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Known plaintext zip attack
+#### Attacco zip con testo in chiaro noto
 
-Devi conoscere il **plaintext** (o parte del plaintext) **di un file contenuto all'interno** dello zip crittografato. Puoi controllare **i nomi dei file e le dimensioni dei file contenuti all'interno** di uno zip crittografato eseguendo: **`7z l encrypted.zip`**\
+Devi conoscere il **testo in chiaro** (o parte del testo in chiaro) **di un file contenuto all'interno** dello zip crittografato. Puoi controllare **i nomi dei file e le dimensioni dei file contenuti all'interno** di uno zip crittografato eseguendo: **`7z l encrypted.zip`**\
 Scarica [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) dalla pagina delle release.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -645,7 +645,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 
 \
 Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
-Accedi oggi:
+Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
@@ -653,7 +653,7 @@ Accedi oggi:
 
 **Esempi di hash:** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-### Identificatore di hash
+### Hash-identifier
 ```bash
 hash-identifier
 > <HASH>
@@ -665,7 +665,7 @@ hash-identifier
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
 * [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-### **Strumenti per la Generazione di Wordlist**
+### **Strumenti per la generazione di wordlist**
 
 * [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Generatore avanzato di keyboard-walk con caratteri di base configurabili, mappatura dei tasti e percorsi.
 ```bash
@@ -769,8 +769,8 @@ Cracking Common Application Hashes
 1700 | SHA-512                                          | Raw Hash
 ```
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -778,7 +778,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

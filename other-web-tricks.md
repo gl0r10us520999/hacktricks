@@ -23,12 +23,12 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
-### Intestazione host
+### Intestazione Host
 
 Diverse volte il back-end si fida dell'**intestazione Host** per eseguire alcune azioni. Ad esempio, potrebbe utilizzare il suo valore come **dominio per inviare un ripristino della password**. Quindi, quando ricevi un'email con un link per ripristinare la tua password, il dominio utilizzato è quello che hai inserito nell'intestazione Host. Poi, puoi richiedere il ripristino della password di altri utenti e cambiare il dominio in uno controllato da te per rubare i loro codici di ripristino della password. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
 
 {% hint style="warning" %}
-Nota che è possibile che tu non debba nemmeno aspettare che l'utente clicchi sul link per ripristinare la password per ottenere il token, poiché anche **i filtri antispam o altri dispositivi/bot intermedi potrebbero cliccarci sopra per analizzarlo**.
+Nota che è possibile che tu non debba nemmeno aspettare che l'utente clicchi sul link per il ripristino della password per ottenere il token, poiché anche **i filtri antispam o altri dispositivi/bot intermedi potrebbero cliccarci sopra per analizzarlo**.
 {% endhint %}
 
 ### Booleani di sessione
@@ -38,7 +38,7 @@ Tuttavia, se **superi il controllo** e la tua sessione riceve quel valore "True"
 
 ### Funzionalità di registrazione
 
-Prova a registrarti come un utente già esistente. Prova anche a utilizzare caratteri equivalenti (punti, molti spazi e Unicode).
+Prova a registrarti come un utente già esistente. Prova anche a utilizzare caratteri equivalenti (punti, molte spaziature e Unicode).
 
 ### Prendere il controllo delle email
 
@@ -50,9 +50,9 @@ Registrati con un'email, prima di confermarla cambia l'email, poi, se la nuova e
 
 ### Metodo TRACE
 
-Gli sviluppatori potrebbero dimenticare di disabilitare varie opzioni di debug nell'ambiente di produzione. Ad esempio, il metodo HTTP `TRACE` è progettato per scopi diagnostici. Se abilitato, il server web risponderà alle richieste che utilizzano il metodo `TRACE` ripetendo nella risposta la richiesta esatta ricevuta. Questo comportamento è spesso innocuo, ma occasionalmente porta a divulgazione di informazioni, come il nome delle intestazioni di autenticazione interne che potrebbero essere aggiunte alle richieste da proxy inversi.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+Gli sviluppatori potrebbero dimenticare di disabilitare varie opzioni di debug nell'ambiente di produzione. Ad esempio, il metodo HTTP `TRACE` è progettato per scopi diagnostici. Se abilitato, il server web risponderà alle richieste che utilizzano il metodo `TRACE` ripetendo nella risposta la richiesta esatta ricevuta. Questo comportamento è spesso innocuo, ma occasionalmente porta a divulgazione di informazioni, come il nome delle intestazioni di autenticazione interne che potrebbero essere aggiunte alle richieste da proxy inversi.![Immagine per il post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
-![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
+![Immagine per il post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 
 
 <figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>

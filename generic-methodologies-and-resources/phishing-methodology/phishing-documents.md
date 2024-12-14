@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-## Office Documents
+## Documenti di Office
 
 Microsoft Word esegue la convalida dei dati del file prima di aprirlo. La convalida dei dati viene eseguita sotto forma di identificazione della struttura dei dati, rispetto allo standard OfficeOpenXML. Se si verifica un errore durante l'identificazione della struttura dei dati, il file in analisi non verrà aperto.
 
@@ -23,7 +23,7 @@ Di solito, i file Word contenenti macro utilizzano l'estensione `.docm`. Tuttavi
 Ad esempio, un file RTF non supporta le macro, per design, ma un file DOCM rinominato in RTF sarà gestito da Microsoft Word e sarà in grado di eseguire macro.\
 Gli stessi interni e meccanismi si applicano a tutto il software della Microsoft Office Suite (Excel, PowerPoint, ecc.).
 
-Puoi utilizzare il seguente comando per controllare quali estensioni verranno eseguite da alcuni programmi Office:
+Puoi utilizzare il seguente comando per controllare quali estensioni verranno eseguite da alcuni programmi di Office:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
@@ -96,7 +96,7 @@ Fallo perché **non puoi salvare macro all'interno di un `.docx`** e c'è uno **
 
 Un HTA è un programma Windows che **combina HTML e linguaggi di scripting (come VBScript e JScript)**. Genera l'interfaccia utente ed esegue come un'applicazione "completamente fidata", senza i vincoli del modello di sicurezza di un browser.
 
-Un HTA viene eseguito utilizzando **`mshta.exe`**, che è tipicamente **installato** insieme a **Internet Explorer**, rendendo **`mshta` dipendente da IE**. Quindi, se è stato disinstallato, gli HTA non saranno in grado di eseguire.
+Un HTA viene eseguito utilizzando **`mshta.exe`**, che è tipicamente **installato** insieme a **Internet Explorer**, rendendo **`mshta` dipendente da IE**. Quindi, se è stato disinstallato, gli HTA non saranno in grado di essere eseguiti.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -155,7 +155,7 @@ self.close
 
 Ci sono diversi modi per **forzare l'autenticazione NTLM "remotamente"**, ad esempio, potresti aggiungere **immagini invisibili** a email o HTML che l'utente accederà (anche HTTP MitM?). Oppure inviare alla vittima l'**indirizzo di file** che attiveranno un'**autenticazione** solo per **aprire la cartella.**
 
-**Controlla queste idee e altro nelle pagine seguenti:**
+**Controlla queste idee e altro nelle seguenti pagine:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -170,7 +170,7 @@ Ci sono diversi modi per **forzare l'autenticazione NTLM "remotamente"**, ad ese
 Non dimenticare che non puoi solo rubare l'hash o l'autenticazione ma anche **eseguire attacchi di relay NTLM**:
 
 * [**Attacchi di Relay NTLM**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (relay NTLM ai certificati)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**AD CS ESC8 (relay NTLM a certificati)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -182,7 +182,7 @@ Impara e pratica il hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

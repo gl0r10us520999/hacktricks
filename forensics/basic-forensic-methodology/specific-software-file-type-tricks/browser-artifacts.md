@@ -23,13 +23,13 @@ Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
+## Browser Artifacts <a href="#id-3def" id="id-3def"></a>
 
-I reperti del browser includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi reperti sono conservati in cartelle specifiche all'interno del sistema operativo, differendo per posizione e nome tra i browser, ma generalmente memorizzano tipi di dati simili.
+Gli artefatti del browser includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi artefatti sono conservati in cartelle specifiche all'interno del sistema operativo, differendo per posizione e nome tra i browser, ma generalmente memorizzano tipi di dati simili.
 
-Ecco un riepilogo dei reperti del browser più comuni:
+Ecco un riepilogo degli artefatti del browser più comuni:
 
-* **Cronologia di Navigazione**: Tiene traccia delle visite dell'utente ai siti web, utile per identificare le visite a siti dannosi.
+* **Cronologia di Navigazione**: Tiene traccia delle visite degli utenti ai siti web, utile per identificare le visite a siti dannosi.
 * **Dati di Autocompletamento**: Suggerimenti basati su ricerche frequenti, offrendo informazioni quando combinati con la cronologia di navigazione.
 * **Segnalibri**: Siti salvati dall'utente per un accesso rapido.
 * **Estensioni e Componenti Aggiuntivi**: Estensioni del browser o componenti aggiuntivi installati dall'utente.
@@ -50,7 +50,7 @@ Firefox organizza i dati degli utenti all'interno dei profili, memorizzati in po
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Un file `profiles.ini` all'interno di queste directory elenca i profili utente. I dati di ciascun profilo sono memorizzati in una cartella nominata nella variabile `Path` all'interno di `profiles.ini`, situata nella stessa directory di `profiles.ini` stesso. Se la cartella di un profilo è mancante, potrebbe essere stata eliminata.
+Un file `profiles.ini` all'interno di queste directory elenca i profili utente. I dati di ciascun profilo sono memorizzati in una cartella denominata nella variabile `Path` all'interno di `profiles.ini`, situata nella stessa directory di `profiles.ini` stesso. Se la cartella di un profilo è mancante, potrebbe essere stata eliminata.
 
 All'interno di ciascuna cartella del profilo, puoi trovare diversi file importanti:
 
@@ -120,7 +120,7 @@ Come puoi osservare nelle sezioni precedenti, sia Chrome che Firefox utilizzano 
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 gestisce i propri dati e metadati in diverse posizioni, aiutando a separare le informazioni memorizzate e i relativi dettagli per un facile accesso e gestione.
+Internet Explorer 11 gestisce i suoi dati e metadati in diverse posizioni, aiutando a separare le informazioni memorizzate e i relativi dettagli per un facile accesso e gestione.
 
 ### Archiviazione dei Metadati
 
@@ -128,7 +128,7 @@ I metadati per Internet Explorer sono memorizzati in `%userprofile%\Appdata\Loca
 
 ### Ispezione della Cache
 
-Lo strumento [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) consente l'ispezione della cache, richiedendo la posizione della cartella di estrazione dei dati della cache. I metadati per la cache includono nome file, directory, conteggio degli accessi, origine URL e timestamp che indicano i tempi di creazione, accesso, modifica e scadenza della cache.
+Lo strumento [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) consente l'ispezione della cache, richiedendo la posizione della cartella di estrazione dei dati della cache. I metadati per la cache includono nome del file, directory, conteggio degli accessi, origine URL e timestamp che indicano i tempi di creazione, accesso, modifica e scadenza della cache.
 
 ### Gestione dei Cookie
 
@@ -187,14 +187,14 @@ Questi percorsi e comandi sono cruciali per accedere e comprendere i dati di nav
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** del mondo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti più avanzati** della comunità.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Impara e pratica il Pentesting AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Pentesting GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -202,7 +202,7 @@ Impara e pratica il Pentesting GCP: <img src="/.gitbook/assets/grte.png" alt="" 
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
 {% endhint %}

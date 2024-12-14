@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 In iptables, le liste di regole conosciute come catene vengono elaborate in modo sequenziale. Tra queste, tre catene principali sono universalmente presenti, con altre come NAT che possono essere supportate a seconda delle capacità del sistema.
 
 - **Catena di Input**: Utilizzata per gestire il comportamento delle connessioni in entrata.
-- **Catena di Forward**: Impiegata per gestire le connessioni in entrata che non sono destinate al sistema locale. Questo è tipico per i dispositivi che fungono da router, dove i dati ricevuti devono essere inoltrati a un'altra destinazione. Questa catena è rilevante principalmente quando il sistema è coinvolto nel routing, NATing o attività simili.
+- **Catena di Forward**: Impiegata per gestire le connessioni in entrata che non sono destinate al sistema locale. Questo è tipico per i dispositivi che fungono da router, dove i dati ricevuti sono destinati a essere inoltrati a un'altra destinazione. Questa catena è rilevante principalmente quando il sistema è coinvolto nel routing, NATing o attività simili.
 - **Catena di Output**: Dedicata alla regolazione delle connessioni in uscita.
 
 Queste catene garantiscono l'elaborazione ordinata del traffico di rete, consentendo la specifica di regole dettagliate che governano il flusso di dati dentro, attraverso e fuori da un sistema.
@@ -145,7 +145,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * alert - genera un avviso
 * pass - interrompe l'ispezione ulteriore del pacchetto
 * **drop** - scarta il pacchetto e genera un avviso
-* **reject** - invia un errore RST/ICMP non raggiungibile al mittente del pacchetto corrispondente.
+* **reject** - invia un errore RST/ICMP irraggiungibile al mittente del pacchetto corrispondente.
 * rejectsrc - stesso di _reject_
 * rejectdst - invia un pacchetto di errore RST/ICMP al destinatario del pacchetto corrispondente.
 * rejectboth - invia pacchetti di errore RST/ICMP a entrambe le parti della conversazione.
@@ -182,7 +182,7 @@ Supporta intervalli di porte, negazioni e elenchi di porte
 | \[1024: ]       | Da 1024 fino al numero di porta più alto   |
 | !80             | Ogni porta tranne 80                       |
 | \[80:100,!99]   | Intervallo da 80 a 100 ma 99 escluso      |
-| \[1:80,!\[2,4]] | Intervallo da 1-80, eccetto le porte 2 e 4 |
+| \[1:80,!\[2,4]] | Intervallo da 1-80, tranne le porte 2 e 4  |
 
 #### Direzione
 
@@ -235,8 +235,8 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

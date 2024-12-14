@@ -10,7 +10,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -23,7 +23,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Malware Analysis
 
-Questo **non è necessariamente il primo passo da eseguire una volta che hai l'immagine**. Ma puoi utilizzare queste tecniche di analisi malware in modo indipendente se hai un file, un'immagine del file system, un'immagine di memoria, pcap... quindi è utile **tenere a mente queste azioni**:
+Questo **non è necessariamente il primo passo da eseguire una volta che hai l'immagine**. Ma puoi utilizzare queste tecniche di analisi malware in modo indipendente se hai un file, un'immagine del file system, un'immagine di memoria, pcap... quindi è bene **tenere a mente queste azioni**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -53,7 +53,7 @@ A seconda dei sistemi operativi utilizzati e persino della piattaforma, dovrebbe
 
 ## Deep inspection of specific file-types and Software
 
-Se hai un **file** molto **sospetto**, allora **a seconda del tipo di file e del software** che lo ha creato, diversi **trucchi** potrebbero essere utili.\
+Se hai un **file** molto **sospetto**, allora **a seconda del tipo di file e del software** che lo ha creato, potrebbero essere utili diversi **trucchi**.\
 Leggi la pagina seguente per scoprire alcuni trucchi interessanti:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -80,7 +80,7 @@ Voglio fare una menzione speciale alla pagina:
 
 ## **Anti-Forensic Techniques**
 
-Tieni a mente il possibile uso di tecniche anti-forensi:
+Tieni a mente il possibile utilizzo di tecniche anti-forensi:
 
 {% content-ref url="anti-forensic-techniques.md" %}
 [anti-forensic-techniques.md](anti-forensic-techniques.md)
@@ -102,7 +102,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

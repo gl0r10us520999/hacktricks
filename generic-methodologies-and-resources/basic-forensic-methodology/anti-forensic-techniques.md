@@ -1,8 +1,8 @@
 # Tecniche Anti-Forensi
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -30,7 +30,7 @@ Questo strumento **modifica** le informazioni sui timestamp all'interno di **`$S
 
 ### Usnjrnl
 
-Il **Registro USN** (Registro del Numero di Sequenza di Aggiornamento) è una funzionalità del NTFS (sistema di file Windows NT) che tiene traccia delle modifiche al volume. Lo strumento [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) consente di esaminare queste modifiche.
+Il **Registro USN** (Update Sequence Number Journal) è una funzionalità del NTFS (sistema di file Windows NT) che tiene traccia delle modifiche al volume. Lo strumento [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) consente di esaminare queste modifiche.
 
 ![](<../../.gitbook/assets/image (801).png>)
 
@@ -38,13 +38,13 @@ L'immagine precedente è l'**output** mostrato dallo **strumento** dove si può 
 
 ### $LogFile
 
-**Tutte le modifiche ai metadati di un file system sono registrate** in un processo noto come [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead\_logging). I metadati registrati sono conservati in un file chiamato `**$LogFile**`, situato nella directory radice di un file system NTFS. Strumenti come [LogFileParser](https://github.com/jschicht/LogFileParser) possono essere utilizzati per analizzare questo file e identificare le modifiche.
+**Tutte le modifiche ai metadati di un file system sono registrate** in un processo noto come [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). I metadati registrati sono conservati in un file chiamato `**$LogFile**`, situato nella directory radice di un file system NTFS. Strumenti come [LogFileParser](https://github.com/jschicht/LogFileParser) possono essere utilizzati per analizzare questo file e identificare le modifiche.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
 Ancora una volta, nell'output dello strumento è possibile vedere che **alcune modifiche sono state effettuate**.
 
-Utilizzando lo stesso strumento è possibile identificare **a quale ora sono stati modificati i timestamp**:
+Utilizzando lo stesso strumento è possibile identificare **a quale ora i timestamp sono stati modificati**:
 
 ![](<../../.gitbook/assets/image (1089).png>)
 
@@ -55,7 +55,7 @@ Utilizzando lo stesso strumento è possibile identificare **a quale ora sono sta
 
 ### Confronto tra `$STANDARD_INFORMATION` e `$FILE_NAME`
 
-Un altro modo per identificare file modificati sospetti sarebbe confrontare il tempo su entrambi gli attributi cercando **disallineamenti**.
+Un altro modo per identificare file sospetti modificati sarebbe confrontare il tempo su entrambi gli attributi cercando **discrepanze**.
 
 ### Nanosecondi
 
@@ -94,7 +94,7 @@ Queste distro sono **eseguite all'interno della memoria RAM**. L'unico modo per 
 
 ### Disabilita Timestamp - UserAssist
 
-Questa è una chiave di registro che mantiene date e ore in cui ciascun eseguibile è stato eseguito dall'utente.
+Questa è una chiave di registro che mantiene date e ore in cui ogni eseguibile è stato eseguito dall'utente.
 
 Disabilitare UserAssist richiede due passaggi:
 
@@ -107,13 +107,13 @@ Questo salverà informazioni sulle applicazioni eseguite con l'obiettivo di migl
 
 * Esegui `regedit`
 * Seleziona il percorso del file `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Fai clic destro su `EnablePrefetcher` e `EnableSuperfetch`
+* Fai clic con il tasto destro su `EnablePrefetcher` e `EnableSuperfetch`
 * Seleziona Modifica su ciascuno di questi per cambiare il valore da 1 (o 3) a 0
 * Riavvia
 
 ### Disabilita Timestamp - Ultimo Tempo di Accesso
 
-Ogni volta che una cartella viene aperta da un volume NTFS su un server Windows NT, il sistema prende il tempo per **aggiornare un campo di timestamp su ciascuna cartella elencata**, chiamato ultimo tempo di accesso. Su un volume NTFS molto utilizzato, questo può influenzare le prestazioni.
+Ogni volta che una cartella viene aperta da un volume NTFS su un server Windows NT, il sistema impiega tempo per **aggiornare un campo di timestamp su ciascuna cartella elencata**, chiamato ultimo tempo di accesso. Su un volume NTFS molto utilizzato, questo può influire sulle prestazioni.
 
 1. Apri l'Editor del Registro (Regedit.exe).
 2. Naviga a `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
@@ -123,9 +123,9 @@ Ogni volta che una cartella viene aperta da un volume NTFS su un server Windows 
 ### Elimina la Cronologia USB
 
 Tutti gli **USB Device Entries** sono memorizzati nel Registro di Windows sotto la chiave di registro **USBSTOR** che contiene sottochiavi create ogni volta che colleghi un dispositivo USB al tuo PC o Laptop. Puoi trovare questa chiave qui `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Eliminando questo** eliminerai la cronologia USB.\
-Puoi anche utilizzare lo strumento [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) per essere sicuro di averle eliminate (e per eliminarle).
+Puoi anche utilizzare lo strumento [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) per essere sicuro di averle eliminate (e per eliminarle).
 
-Un altro file che salva informazioni sugli USB è il file `setupapi.dev.log` all'interno di `C:\Windows\INF`. Questo dovrebbe essere eliminato.
+Un altro file che salva informazioni sugli USB è il file `setupapi.dev.log` all'interno di `C:\Windows\INF`. Questo dovrebbe essere eliminato anche.
 
 ### Disabilita le Copie Shadow
 
@@ -134,22 +134,22 @@ Un altro file che salva informazioni sugli USB è il file `setupapi.dev.log` all
 
 Puoi anche eliminarle tramite GUI seguendo i passaggi proposti in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Per disabilitare le copie shadow [passaggi da qui](https://support.waters.com/KB\_Inf/Other/WKB15560\_How\_to\_disable\_Volume\_Shadow\_Copy\_Service\_VSS\_in\_Windows):
+Per disabilitare le copie shadow [passaggi da qui](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Apri il programma Servizi digitando "servizi" nella casella di ricerca dopo aver cliccato sul pulsante di avvio di Windows.
-2. Dall'elenco, trova "Volume Shadow Copy", selezionalo e poi accedi alle Proprietà facendo clic destro.
+2. Dalla lista, trova "Volume Shadow Copy", selezionalo e poi accedi alle Proprietà facendo clic con il tasto destro.
 3. Scegli Disabilitato dal menu a discesa "Tipo di avvio", e poi conferma la modifica facendo clic su Applica e OK.
 
 È anche possibile modificare la configurazione di quali file verranno copiati nella copia shadow nel registro `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
-### Sovrascrivi i file eliminati
+### Sovrascrivi file eliminati
 
 * Puoi utilizzare uno **strumento di Windows**: `cipher /w:C` Questo indicherà a cipher di rimuovere qualsiasi dato dallo spazio su disco inutilizzato disponibile all'interno dell'unità C.
 * Puoi anche utilizzare strumenti come [**Eraser**](https://eraser.heidi.ie)
 
 ### Elimina i registri eventi di Windows
 
-* Windows + R --> eventvwr.msc --> Espandi "Registri di Windows" --> Fai clic destro su ciascuna categoria e seleziona "Cancella registro"
+* Windows + R --> eventvwr.msc --> Espandi "Registri di Windows" --> Fai clic con il tasto destro su ciascuna categoria e seleziona "Cancella registro"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
@@ -164,8 +164,8 @@ Per disabilitare le copie shadow [passaggi da qui](https://support.waters.com/KB
 * `fsutil usn deletejournal /d c:`
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
