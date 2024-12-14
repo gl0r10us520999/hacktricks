@@ -1,90 +1,108 @@
-# インタレスティングなWindowsレジストリキー
+# Interesting Windows Registry Keys
 
-### インタレスティングなWindowsレジストリキー
+### Interesting Windows Registry Keys
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **ハッキングトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-### **Windowsバージョンと所有者情報**
-- **`Software\Microsoft\Windows NT\CurrentVersion`**に位置し、Windowsバージョン、Service Pack、インストール時間、登録所有者の名前がわかりやすく記載されています。
 
-### **コンピュータ名**
-- ホスト名は**`System\ControlSet001\Control\ComputerName\ComputerName`**の下にあります。
+### **Windows Version and Owner Info**
+- **`Software\Microsoft\Windows NT\CurrentVersion`** に位置し、Windowsのバージョン、サービスパック、インストール時間、登録された所有者の名前が簡潔に表示されます。
 
-### **タイムゾーン設定**
-- システムのタイムゾーンは**`System\ControlSet001\Control\TimeZoneInformation`**に保存されています。
+### **Computer Name**
+- ホスト名は **`System\ControlSet001\Control\ComputerName\ComputerName`** にあります。
 
-### **アクセス時間の追跡**
-- デフォルトでは、最終アクセス時間の追跡はオフになっています（**`NtfsDisableLastAccessUpdate=1`**）。有効にするには、次のコマンドを使用します：
+### **Time Zone Setting**
+- システムのタイムゾーンは **`System\ControlSet001\Control\TimeZoneInformation`** に保存されています。
+
+### **Access Time Tracking**
+- デフォルトでは、最終アクセス時間の追跡はオフになっています (**`NtfsDisableLastAccessUpdate=1`**)。これを有効にするには、次のコマンドを使用します：
 `fsutil behavior set disablelastaccess 0`
 
-### WindowsバージョンとService Pack
-- **Windowsバージョン**はエディション（Home、Proなど）とリリース（Windows 10、Windows 11など）を示し、**Service Pack**は修正と時に新機能を含む更新です。
+### Windows Versions and Service Packs
+- **Windowsのバージョン** はエディション（例：Home、Pro）とそのリリース（例：Windows 10、Windows 11）を示し、**サービスパック** は修正や時には新機能を含む更新です。
 
-### 最終アクセス時間の有効化
-- 最終アクセス時間の追跡を有効にすると、ファイルが最後に開かれた時刻がわかり、フォレンジック分析やシステムモニタリングに重要です。
+### Enabling Last Access Time
+- 最終アクセス時間の追跡を有効にすると、ファイルが最後に開かれた時刻を確認でき、法医学的分析やシステム監視にとって重要です。
 
-### ネットワーク情報の詳細
-- レジストリには、ネットワーク構成に関する包括的なデータが保存されており、**ネットワークの種類（ワイヤレス、ケーブル、3G）**や**ネットワークのカテゴリ（Public、Private/Home、Domain/Work）**などが含まれており、ネットワークセキュリティ設定と権限を理解する上で重要です。
+### Network Information Details
+- レジストリには、**ネットワークの種類（無線、ケーブル、3G）** や **ネットワークカテゴリ（パブリック、プライベート/ホーム、ドメイン/ワーク）** など、ネットワーク構成に関する詳細なデータが保存されており、ネットワークセキュリティ設定や権限を理解するために重要です。
 
-### クライアントサイドキャッシュ（CSC）
-- **CSC**は共有ファイルのオフラインアクセスを向上させるために、共有ファイルのコピーをキャッシュします。異なる**CSCFlags**設定は、どのファイルがどのようにキャッシュされるかを制御し、一時的な接続がある環境ではパフォーマンスやユーザーエクスペリエンスに影響を与えます。
+### Client Side Caching (CSC)
+- **CSC** は共有ファイルのコピーをキャッシュすることでオフラインファイルアクセスを向上させます。異なる **CSCFlags** 設定は、どのファイルがどのようにキャッシュされるかを制御し、特に接続が不安定な環境でのパフォーマンスやユーザー体験に影響を与えます。
 
-### 自動起動プログラム
-- `Run`および`RunOnce`レジストリキーにリストされたプログラムは、自動的に起動され、システムの起動時間に影響を与え、マルウェアや不要なソフトウェアの特定に興味を持つポイントとなる可能性があります。
+### AutoStart Programs
+- 様々な `Run` および `RunOnce` レジストリキーにリストされているプログラムは、起動時に自動的に起動され、システムのブート時間に影響を与え、マルウェアや不要なソフトウェアを特定するための興味深いポイントとなる可能性があります。
 
 ### Shellbags
-- **Shellbags**はフォルダビューの設定だけでなく、フォルダへのアクセスのフォレンジック証拠を提供します。フォルダがもはや存在しなくても、ユーザーの活動を明らかにするために他の手段では明らかにならない情報を提供します。
+- **Shellbags** はフォルダビューの設定を保存するだけでなく、フォルダが存在しなくてもフォルダアクセスの法医学的証拠を提供します。これは調査にとって非常に貴重で、他の手段では明らかでないユーザーの活動を明らかにします。
 
-### USB情報とフォレンジック
-- USBデバイスに関するレジストリに保存された詳細情報は、コンピュータに接続されたデバイスを追跡し、機密ファイルの転送や不正アクセスのインシデントにデバイスを関連付けるのに役立ちます。
+### USB Information and Forensics
+- レジストリに保存されたUSBデバイスに関する詳細は、どのデバイスがコンピュータに接続されていたかを追跡するのに役立ち、機密ファイルの転送や不正アクセスの事件にデバイスを関連付ける可能性があります。
 
-### ボリュームシリアル番号
-- **ボリュームシリアル番号**は、ファイルシステムの特定のインスタンスを追跡するために重要であり、ファイルの起源を異なるデバイス間で確立する必要があるフォレンジックシナリオで役立ちます。
+### Volume Serial Number
+- **ボリュームシリアル番号** は、ファイルシステムの特定のインスタンスを追跡するのに重要であり、異なるデバイス間でファイルの起源を確立する必要がある法医学的シナリオで役立ちます。
 
-### **シャットダウンの詳細**
-- シャットダウン時刻とカウント（XPの場合のみ）は、**`System\ControlSet001\Control\Windows`**および**`System\ControlSet001\Control\Watchdog\Display`**に保存されています。
+### **Shutdown Details**
+- シャットダウン時間とカウント（後者はXPのみ）は **`System\ControlSet001\Control\Windows`** および **`System\ControlSet001\Control\Watchdog\Display`** に保存されています。
 
-### **ネットワーク構成**
-- 詳細なネットワークインターフェース情報については、**`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**を参照してください。
-- VPN接続を含む最初と最後のネットワーク接続時刻は、**`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**内のさまざまなパスにログが記録されます。
+### **Network Configuration**
+- 詳細なネットワークインターフェース情報は **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`** を参照してください。
+- VPN接続を含む最初と最後のネットワーク接続時間は、**`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`** のさまざまなパスに記録されています。
 
-### **共有フォルダ**
-- 共有フォルダと設定は**`System\ControlSet001\Services\lanmanserver\Shares`**にあります。クライアントサイドキャッシュ（CSC）の設定は、オフラインファイルの利用可能性を決定します。
+### **Shared Folders**
+- 共有フォルダと設定は **`System\ControlSet001\Services\lanmanserver\Shares`** にあります。クライアントサイドキャッシング（CSC）設定はオフラインファイルの可用性を決定します。
 
-### **自動的に起動するプログラム**
-- **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`**などのパスや`Software\Microsoft\Windows\CurrentVersion`の類似エントリには、起動時に実行されるプログラムの詳細が記載されています。
+### **Programs that Start Automatically**
+- **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** のようなパスや、`Software\Microsoft\Windows\CurrentVersion` の下の類似のエントリは、起動時に実行されるプログラムを詳細に示します。
 
-### **検索と入力されたパス**
-- エクスプローラの検索と入力されたパスは、WordwheelQueryとTypedPathsのそれぞれについて、**`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`**の下にレジストリで追跡されます。
+### **Searches and Typed Paths**
+- エクスプローラーの検索と入力されたパスは、**`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** の下で WordwheelQuery と TypedPaths に記録されています。
 
-### **最近使用したドキュメントとOfficeファイル**
-- アクセスした最近のドキュメントとOfficeファイルは、`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs`および特定のOfficeバージョンのパスに記録されます。
+### **Recent Documents and Office Files**
+- 最近アクセスされた文書やOfficeファイルは、`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` および特定のOfficeバージョンのパスに記録されています。
 
-### **最近使用したアイテム（MRU）**
-- 最近のファイルパスとコマンドを示すMRUリストは、`NTUSER.DAT`のさまざまな`ComDlg32`および`Explorer`のサブキーに保存されています。
+### **Most Recently Used (MRU) Items**
+- 最近使用されたファイルパスやコマンドを示すMRUリストは、`NTUSER.DAT` のさまざまな `ComDlg32` および `Explorer` サブキーに保存されています。
 
-### **ユーザーのアクティビティ追跡**
-- ユーザーアシスト機能は、**`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**で、実行回数や最終実行時刻などの詳細なアプリケーション使用統計を記録します。
+### **User Activity Tracking**
+- User Assist機能は、実行回数や最終実行時間を含む詳細なアプリケーション使用統計を **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`** に記録します。
 
-### **Shellbags分析**
-- フォルダアクセスの詳細を示すShellbagsは、`USRCLASS.DAT`および`NTUSER.DAT`の`Software\Microsoft\Windows\Shell`の下に保存されています。分析には**[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)**を使用してください。
+### **Shellbags Analysis**
+- フォルダアクセスの詳細を明らかにするShellbagsは、`USRCLASS.DAT` および `NTUSER.DAT` の下の `Software\Microsoft\Windows\Shell` に保存されています。分析には **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** を使用してください。
 
-### **USBデバイス履歴**
-- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`**および**`HKLM\SYSTEM\ControlSet001\Enum\USB`**には、接続されたUSBデバイスに関する詳細情報が含まれており、製造元、製品名、接続時刻などが記載されています。
-- 特定のUSBデバイスに関連付けられたユーザーは、デバイスの**{GUID}**を検索して`NTUSER.DAT`ハイブから特定できます。
-- 最後にマウントされたデバイスとそのボリュームシリアル番号は、それぞれ`System\MountedDevices`および`Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`を通じて追跡できます。
+### **USB Device History**
+- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** および **`HKLM\SYSTEM\ControlSet001\Enum\USB`** には、接続されたUSBデバイスに関する豊富な詳細が含まれており、製造元、製品名、接続タイムスタンプが含まれます。
+- 特定のUSBデバイスに関連付けられたユーザーは、デバイスの **{GUID}** を検索することで特定できます。
+- 最後にマウントされたデバイスとそのボリュームシリアル番号は、それぞれ `System\MountedDevices` および `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt` を通じて追跡できます。
 
-このガイドは、Windowsシステムでの詳細なシステム、ネットワーク、およびユーザーアクティビティ情報にアクセスするための重要なパスと方法を簡潔かつ使いやすくまとめたものです。
+このガイドは、Windowsシステム上の詳細なシステム、ネットワーク、およびユーザー活動情報にアクセスするための重要なパスと方法を要約し、明確さと使いやすさを目指しています。
+
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

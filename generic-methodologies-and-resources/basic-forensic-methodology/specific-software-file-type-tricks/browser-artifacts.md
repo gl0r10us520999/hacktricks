@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 ## ブラウザのアーティファクト <a href="#id-3def" id="id-3def"></a>
 
-ブラウザのアーティファクトには、ナビゲーション履歴、ブックマーク、キャッシュデータなど、ウェブブラウザによって保存されるさまざまな種類のデータが含まれます。これらのアーティファクトは、オペレーティングシステム内の特定のフォルダーに保存され、ブラウザごとに場所と名前が異なりますが、一般的には同様のデータタイプを保存しています。
+ブラウザのアーティファクトには、ナビゲーション履歴、ブックマーク、キャッシュデータなど、ウェブブラウザによって保存されるさまざまな種類のデータが含まれます。これらのアーティファクトは、オペレーティングシステム内の特定のフォルダーに保存され、ブラウザごとに場所や名前が異なりますが、一般的には同様のデータタイプを保存しています。
 
 最も一般的なブラウザのアーティファクトの概要は次のとおりです：
 
@@ -98,7 +98,7 @@ Google Chromeは、オペレーティングシステムに基づいて特定の�
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 * **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-これらのディレクトリ内で、ほとんどのユーザーデータは**Default/**または**ChromeDefaultData/**フォルダーにあります。以下のファイルには重要なデータが含まれています：
+これらのディレクトリ内で、ほとんどのユーザーデータは**Default/**または**ChromeDefaultData/**フォルダーに見つかります。以下のファイルは重要なデータを保持しています：
 
 * **History**: URL、ダウンロード、検索キーワードを含みます。Windowsでは、[ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html)を使用して履歴を読むことができます。「Transition Type」列には、リンクのクリック、入力されたURL、フォームの送信、ページの再読み込みなど、さまざまな意味があります。
 * **Cookies**: クッキーを保存します。検査には、[ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html)が利用可能です。
@@ -112,11 +112,11 @@ Google Chromeは、オペレーティングシステムに基づいて特定の�
 * **Extensions**: ブラウザ拡張機能やアドオンのディレクトリ。
 * **Thumbnails**: ウェブサイトのサムネイルを保存します。
 * **Preferences**: プラグイン、拡張機能、ポップアップ、通知などの設定を含む情報が豊富なファイル。
-* **Browser’s built-in anti-phishing**: フィッシング対策とマルウェア保護が有効かどうかを確認するには、`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`を実行します。出力に`{"enabled: true,"}`があるか確認します。
+* **Browser’s built-in anti-phishing**: 反フィッシングとマルウェア保護が有効かどうかを確認するには、`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`を実行します。出力に`{"enabled: true,"}`を探します。
 
 ## **SQLite DB Data Recovery**
 
-前のセクションで観察できるように、ChromeとFirefoxの両方はデータを保存するために**SQLite**データベースを使用しています。**削除されたエントリを回復することが可能です** [**sqlparse**](https://github.com/padfoot999/sqlparse) **または** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)を使用して。
+前のセクションで観察できるように、ChromeとFirefoxの両方はデータを保存するために**SQLite**データベースを使用しています。**削除されたエントリを回復することが可能です** [**sqlparse**](https://github.com/padfoot999/sqlparse) **または** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)を使用します。
 
 ## **Internet Explorer 11**
 
@@ -124,7 +124,7 @@ Internet Explorer 11は、データとメタデータをさまざまな場所で
 
 ### メタデータストレージ
 
-Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`に保存されます（VXはV01、V16、またはV24です）。これに伴い、`V01.log`ファイルは`WebcacheVX.data`との修正時間の不一致を示すことがあり、`esentutl /r V01 /d`を使用して修復が必要です。このメタデータはESEデータベースに格納されており、photorecや[**ESEDatabaseView**](https://www.nirsoft.net/utils/ese\_database\_view.html)などのツールを使用して回復および検査できます。**Containers**テーブル内では、各データセグメントが保存されている特定のテーブルやコンテナを識別でき、Skypeなどの他のMicrosoftツールのキャッシュ詳細も含まれています。
+Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`に保存されます（VXはV01、V16、またはV24です）。これに伴い、`V01.log`ファイルは`WebcacheVX.data`との修正時間の不一致を示す可能性があり、`esentutl /r V01 /d`を使用して修復が必要です。このメタデータはESEデータベースに格納されており、photorecや[**ESEDatabaseView**](https://www.nirsoft.net/utils/ese\_database\_view.html)などのツールを使用して回復および検査できます。**Containers**テーブル内では、各データセグメントが保存されている特定のテーブルやコンテナを識別でき、Skypeなどの他のMicrosoftツールのキャッシュ詳細も含まれています。
 
 ### キャッシュ検査
 
@@ -132,11 +132,11 @@ Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\
 
 ### クッキー管理
 
-クッキーは[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)を使用して調査でき、メタデータには名前、URL、アクセス回数、さまざまな時間関連の詳細が含まれます。永続的なクッキーは`%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`に保存され、セッションクッキーはメモリに存在します。
+クッキーは[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)を使用して探索でき、メタデータには名前、URL、アクセス回数、さまざまな時間関連の詳細が含まれます。永続的なクッキーは`%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`に保存され、セッションクッキーはメモリに存在します。
 
 ### ダウンロード詳細
 
-ダウンロードのメタデータは[**ESEDatabaseView**](https://www.nirsoft.net/utils/ese\_database\_view.html)を介してアクセス可能で、特定のコンテナにはURL、ファイルタイプ、ダウンロード場所などのデータが保持されています。物理ファイルは`%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`にあります。
+ダウンロードのメタデータは[**ESEDatabaseView**](https://www.nirsoft.net/utils/ese\_database\_view.html)を介してアクセス可能で、特定のコンテナにはURL、ファイルタイプ、ダウンロード場所などのデータが保持されています。物理ファイルは`%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`に見つかります。
 
 ### ブラウジング履歴
 
@@ -144,7 +144,7 @@ Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\
 
 ### 入力されたURL
 
-入力されたURLとその使用時間は、`NTUSER.DAT`の`Software\Microsoft\InternetExplorer\TypedURLs`および`Software\Microsoft\InternetExplorer\TypedURLsTime`のレジストリに保存され、ユーザーが入力した最後の50のURLとその最後の入力時間を追跡します。
+入力されたURLとその使用時間は、レジストリの`NTUSER.DAT`内の`Software\Microsoft\InternetExplorer\TypedURLs`および`Software\Microsoft\InternetExplorer\TypedURLsTime`に保存され、ユーザーが入力した最後の50のURLとその最後の入力時間を追跡します。
 
 ## Microsoft Edge
 
@@ -173,7 +173,7 @@ Safariデータは`/Users/$User/Library/Safari`に保存されます。主なフ
 
 Operaのデータは`/Users/$USER/Library/Application Support/com.operasoftware.Opera`にあり、履歴とダウンロードの形式はChromeと共有されています。
 
-* **Browser’s built-in anti-phishing**: `Preferences`ファイル内の`fraud_protection_enabled`が`true`に設定されているか確認することで検証します。`grep`を使用します。
+* **Browser’s built-in anti-phishing**: `grep`を使用してPreferencesファイル内の`fraud_protection_enabled`が`true`に設定されているか確認します。
 
 これらのパスとコマンドは、さまざまなウェブブラウザによって保存されたブラウジングデータにアクセスし、理解するために重要です。
 

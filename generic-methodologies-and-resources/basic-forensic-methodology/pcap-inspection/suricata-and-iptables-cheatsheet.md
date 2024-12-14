@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Chains
 
-iptablesでは、チェーンとして知られるルールのリストが順次処理されます。これらの中で、3つの主要なチェーンは普遍的に存在し、NATのような追加のチェーンはシステムの能力に応じてサポートされる可能性があります。
+iptablesでは、チェーンとして知られるルールのリストが順次処理されます。これらの中で、普遍的に存在する3つの主要なチェーンがあり、システムの能力に応じてNATのような追加のものがサポートされる可能性があります。
 
 - **Input Chain**: 受信接続の動作を管理するために使用されます。
-- **Forward Chain**: ローカルシステムに向けられていない受信接続を処理するために使用されます。これは、受信したデータが別の宛先に転送されることを目的とするルーターとして機能するデバイスに典型的です。このチェーンは、システムがルーティング、NAT、または類似の活動に関与している場合に主に関連します。
+- **Forward Chain**: ローカルシステムに向けられていない受信接続を処理するために使用されます。これは、受信したデータが別の宛先に転送されることを意図しているルーターとして機能するデバイスに典型的です。このチェーンは、システムがルーティング、NAT、または類似の活動に関与している場合に主に関連します。
 - **Output Chain**: 送信接続の規制に専念しています。
 
-これらのチェーンは、ネットワークトラフィックの秩序ある処理を確保し、システムへのデータの流れ、通過、及び出力に関する詳細なルールを指定できるようにします。
+これらのチェーンは、ネットワークトラフィックの秩序ある処理を確保し、システムへのデータの流れ、通過、そして出力に関する詳細なルールを指定できるようにします。
 ```bash
 # Delete all rules
 iptables -F
@@ -134,9 +134,9 @@ systemctl daemon-reload
 
 [ドキュメントから:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) ルール/シグネチャは以下で構成されています:
 
-* **アクション**は、シグネチャが一致したときに何が起こるかを決定します。
-* **ヘッダー**は、プロトコル、IPアドレス、ポート、およびルールの方向を定義します。
-* **ルールオプション**は、ルールの詳細を定義します。
+* **アクション**、シグネチャが一致したときに何が起こるかを決定します。
+* **ヘッダー**、ルールのプロトコル、IPアドレス、ポート、および方向を定義します。
+* **ルールオプション**、ルールの詳細を定義します。
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
@@ -145,10 +145,10 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * alert - アラートを生成する
 * pass - パケットのさらなる検査を停止する
 * **drop** - パケットをドロップし、アラートを生成する
-* **reject** - 一致するパケットの送信者にRST/ICMP到達不能エラーを送信する。
+* **reject** - 一致するパケットの送信者にRST/ICMP到達不能エラーを送信する
 * rejectsrc - _reject_ と同じ
-* rejectdst - 一致するパケットの受信者にRST/ICMPエラーパケットを送信する。
-* rejectboth - 会話の両側にRST/ICMPエラーパケットを送信する。
+* rejectdst - 一致するパケットの受信者にRST/ICMPエラーパケットを送信する
+* rejectboth - 会話の両側にRST/ICMPエラーパケットを送信する
 
 #### **プロトコル**
 
@@ -177,9 +177,9 @@ IP範囲、否定、およびアドレスのリストをサポートしていま
 | 例               | 意味                                   |
 | ---------------- | -------------------------------------- |
 | any              | すべてのアドレス                       |
-| \[80, 81, 82]    | ポート80、81、および82                  |
-| \[80: 82]        | 80から82までの範囲                     |
-| \[1024: ]        | 1024から最高ポート番号まで            |
+| \[80, 81, 82]    | ポート80、81、および82                 |
+| \[80: 82]        | 80から82までの範囲                    |
+| \[1024: ]        | 1024から最高ポート番号まで           |
 | !80              | 80以外のすべてのポート                 |
 | \[80:100,!99]    | 80から100までの範囲、99を除外         |
 | \[1:80,!\[2,4]]  | 1-80の範囲、ポート2と4を除外          |
@@ -193,7 +193,7 @@ source <> destination  (both directions)
 ```
 #### キーワード
 
-Suricataには、探している**特定のパケット**を検索するための**数百のオプション**があります。興味深いものが見つかった場合はここに記載されます。詳細については[**ドキュメント**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)を確認してください！
+Suricataには、探している**特定のパケット**を検索するための**数百のオプション**が用意されています。興味深いものが見つかった場合はここに記載されます。詳細については[**ドキュメント**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)を確認してください！
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -244,7 +244,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

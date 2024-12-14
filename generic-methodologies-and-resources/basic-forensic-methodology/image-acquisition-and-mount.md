@@ -9,8 +9,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -34,7 +34,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### FTK Imager
 
-[**ここからFTKイメージャーをダウンロードできます**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1)。
+[**こちらからFTKイメージャーをダウンロードできます**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1)。
 ```bash
 ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --description 'A description' --examiner 'Your name'
 ```
@@ -61,7 +61,7 @@ ewfacquire /dev/sdb
 
 ### Several types
 
-**Windows**では、無料版のArsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/))を使用して**フォレンジックイメージをマウント**することができます。
+**Windows**では、Arsenal Image Mounterの無料版を使用して（[https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)）、**フォレンジックイメージをマウント**することができます。
 
 ### Raw
 ```bash
@@ -91,7 +91,7 @@ mount output/ewf1 -o ro,norecovery /mnt
 
 これはボリュームをマウントするためのWindowsアプリケーションです。ここからダウンロードできます [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### エラー
+### Errors
 
 * **`cannot mount /dev/loop0 read-only`** この場合、フラグ **`-o ro,norecovery`** を使用する必要があります。
 * **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** この場合、マウントはファイルシステムのオフセットがディスクイメージのそれと異なるために失敗しました。セクターサイズと開始セクターを見つける必要があります。
@@ -124,8 +124,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

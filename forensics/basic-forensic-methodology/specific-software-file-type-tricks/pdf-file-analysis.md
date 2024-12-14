@@ -19,15 +19,15 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 \
 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
-今すぐアクセスを取得：
+今すぐアクセス：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 **詳細については、次を確認してください：** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
-PDF形式は、その複雑さとデータを隠す可能性で知られており、CTFフォレンジックチャレンジの焦点となっています。これは、プレーンテキスト要素とバイナリオブジェクトを組み合わせており、圧縮または暗号化される可能性があり、JavaScriptやFlashなどの言語でスクリプトを含むことがあります。PDF構造を理解するには、Didier Stevensの[入門資料](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/)を参照するか、テキストエディタやOrigamiなどのPDF専用エディタを使用できます。
+PDF形式は、その複雑さとデータを隠す可能性から知られており、CTFフォレンジックチャレンジの焦点となっています。これは、プレーンテキスト要素とバイナリオブジェクトを組み合わせており、圧縮または暗号化されている可能性があり、JavaScriptやFlashなどの言語でスクリプトを含むことがあります。PDF構造を理解するには、Didier Stevensの[入門資料](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/)を参照するか、テキストエディタやOrigamiのようなPDF専用エディタを使用できます。
 
-PDFの詳細な探索や操作には、[qpdf](https://github.com/qpdf/qpdf)や[Origami](https://github.com/mobmewireless/origami-pdf)などのツールが利用可能です。PDF内の隠されたデータは、以下の場所に隠されている可能性があります：
+PDFの詳細な探索や操作には、[qpdf](https://github.com/qpdf/qpdf)や[Origami](https://github.com/mobmewireless/origami-pdf)のようなツールが利用可能です。PDF内の隠されたデータは、以下の場所に隠されている可能性があります：
 
 * 見えないレイヤー
 * AdobeのXMPメタデータ形式
@@ -36,7 +36,7 @@ PDFの詳細な探索や操作には、[qpdf](https://github.com/qpdf/qpdf)や[O
 * 画像の背後にあるテキストや重なり合った画像
 * 表示されていないコメント
 
-カスタムPDF分析には、[PeepDF](https://github.com/jesparza/peepdf)のようなPythonライブラリを使用して、特注のパーススクリプトを作成できます。さらに、PDFの隠されたデータストレージの可能性は非常に広範であり、NSAのPDFリスクと対策に関するガイドのようなリソースは、もはや元の場所にホストされていませんが、貴重な洞察を提供します。[ガイドのコピー](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)や、Ange Albertiniによる[PDF形式のトリックのコレクション](https://github.com/corkami/docs/blob/master/PDF/PDF.md)は、このテーマに関するさらなる読み物を提供します。
+カスタムPDF分析には、[PeepDF](https://github.com/jesparza/peepdf)のようなPythonライブラリを使用して、特注のパーススクリプトを作成できます。さらに、PDFの隠されたデータストレージの可能性は非常に広範であり、元の場所ではもはやホストされていないNSAのPDFリスクと対策に関するガイドのようなリソースは、依然として貴重な洞察を提供します。[ガイドのコピー](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)や、Ange Albertiniによる[PDF形式のトリックのコレクション](https://github.com/corkami/docs/blob/master/PDF/PDF.md)は、このテーマに関するさらなる読み物を提供します。
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

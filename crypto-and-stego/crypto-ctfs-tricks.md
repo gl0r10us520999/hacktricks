@@ -1,23 +1,23 @@
 # Crypto CTFs Tricks
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## オンラインハッシュDB
+## Online Hashes DBs
 
-* _**Googleで検索**_
+* _**グーグルで検索**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
 * [https://crackstation.net/](https://crackstation.net)
@@ -29,36 +29,36 @@ GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## マジックオートソルバー
+## Magic Autosolvers
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (マジックモジュール)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Magic module)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## エンコーダ
+## Encoders
 
-ほとんどのエンコードされたデータは、次の2つのリソースでデコードできます:
+Most of encoded data can be decoded with these 2 ressources:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### 代入オートソルバー
+### Substitution Autosolvers
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-* [https://quipqiup.com/](https://quipqiup.com) - 非常に優れています！
+* [https://quipqiup.com/](https://quipqiup.com) - とても良い！
 
-#### シーザー - ROTxオートソルバー
+#### Caesar - ROTx Autosolvers
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### アットバッシュ暗号
+#### Atbash Cipher
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### ベースエンコーディングオートソルバー
+### Base Encodings Autosolver
 
-これらのベースをすべてチェック: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+Check all these bases with: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -133,15 +133,15 @@ GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Not Found: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 デッド: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### モールス
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Not Found: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 デッド: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### UUエンコーダ
+### UUencoder
 ```
 begin 644 webutils_pl
 M2$],04A/3$%(3TQ!2$],04A/3$%(3TQ!2$],04A/3$%(3TQ!2$],04A/3$%(
@@ -152,7 +152,7 @@ end
 ```
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
-### XXエンコーダ
+### XXEncoder
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
@@ -169,7 +169,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 * [http://www.webutils.pl/index.php?idx=yenc](http://www.webutils.pl/index.php?idx=yenc)
 
-### ビンヘックス
+### BinHex
 ```
 (This file must be converted with BinHex 4.0)
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
@@ -183,7 +183,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 * [http://www.webutils.pl/index.php?idx=ascii85](http://www.webutils.pl/index.php?idx=ascii85)
 
-### Dvorak キーボード
+### ドボラックキーボード
 ```
 drnajapajrna
 ```
@@ -191,23 +191,23 @@ drnajapajrna
 
 ### A1Z26
 
-文字を数値に変換
+文字をその数値に変換する
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
 ### アフィン暗号エンコード
 
-文字を数値に変換する `(ax+b)%26` (_a_ と _b_ はキーで、_x_ は文字) し、その結果を再び文字に戻す
+文字を数に `(ax+b)%26` (_a_ と _b_ はキーで、_x_ は文字) そして結果を文字に戻す
 ```
 krodfdudfrod
 ```
 ### SMSコード
 
-**Multitap**は、モバイル[電話のキーパッド](https://www.dcode.fr/phone-keypad-cipher)上の対応するキーコードによって定義された繰り返し数字によって文字を置き換える[こと](https://www.dcode.fr/word-letter-change)です（このモードはSMSを書くときに使用されます）。\
-例: 2=A, 22=B, 222=C, 3=D...\
-このコードを識別することができます、なぜなら\*\*複数の数字が繰り返される\*\*からです。
+**Multitap** [は文字を置き換えます](https://www.dcode.fr/word-letter-change) それぞれのキーコードによって定義された繰り返し数字で、モバイル [電話のキーパッド](https://www.dcode.fr/phone-keypad-cipher) 上で（このモードはSMSを書くときに使用されます）。\
+例えば: 2=A, 22=B, 222=C, 3=D...\
+このコードは、\*\*いくつかの数字が繰り返されているのが見えるので\*\*識別できます。
 
-このコードをデコードすることができます: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+このコードをデコードするには: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### ベーコンコード
 
@@ -222,15 +222,15 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ## 圧縮
 
-**Raw Deflate** と **Raw Inflate**（どちらもCyberchefで見つけることができます）は、ヘッダーなしでデータを圧縮および展開できます。
+**Raw Deflate** と **Raw Inflate**（どちらもCyberchefで見つけることができます）は、ヘッダーなしでデータを圧縮および解凍できます。
 
 ## 簡単な暗号
 
-### XOR - 自動解読
+### XOR - オートソルバー
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
-### Bifid
+### ビフィド
 
 キーワードが必要です
 ```
@@ -248,7 +248,7 @@ wodsyoidrods
 
 ## 強力な暗号
 
-### Fernet
+### フェルネット
 
 2つのbase64文字列（トークンとキー）
 ```
@@ -260,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Samirの秘密共有
+### サミールの秘密分散
 
-秘密はX個の部分に分割され、それを回復するにはY個の部分が必要です（_Y <=X_）。
+秘密はX部分に分割され、回復するにはY部分が必要です（_Y <=X_）。
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -270,28 +270,28 @@ Key:
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### OpenSSL brute-force
+### OpenSSLブルートフォース
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
 
-## Tools
+## ツール
 
 * [https://github.com/Ganapati/RsaCtfTool](https://github.com/Ganapati/RsaCtfTool)
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

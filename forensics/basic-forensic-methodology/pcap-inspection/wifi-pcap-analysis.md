@@ -1,22 +1,22 @@
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# BSSIDの確認
+# BSSIDを確認する
 
-WireSharkを使用してWifiの主要トラフィックを含むキャプチャを受信した場合、_Wireless --> WLAN Traffic_でキャプチャのすべてのSSIDを調査を開始できます:
+WireSharkを使用してWifiの主要なトラフィックをキャプチャした場合、_Wireless --> WLAN Traffic_を使用してキャプチャ内のすべてのSSIDを調査し始めることができます：
 
 ![](<../../../.gitbook/assets/image (424).png>)
 
@@ -24,26 +24,47 @@ WireSharkを使用してWifiの主要トラフィックを含むキャプチャ�
 
 ## ブルートフォース
 
-その画面の列の1つは、**pcap内で認証情報が見つかったかどうか**を示します。その場合、`aircrack-ng`を使用してブルートフォース攻撃を試みることができます:
+その画面の列の1つは、**pcap内に認証が見つかったかどうか**を示しています。もしそうであれば、`aircrack-ng`を使用してブルートフォースを試みることができます：
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
-# ビーコン/サイドチャネル内のデータ
+例えば、PSK（事前共有キー）を保護するWPAパスフレーズを取得し、後でトラフィックを復号化するために必要です。
 
-**Wifiネットワークのビーコン内でデータが漏洩している**と疑う場合は、次のようなフィルタを使用してネットワークのビーコンをチェックできます：`wlan contains <NAMEofNETWORK>`、または`wlan.ssid == "NAMEofNETWORK"`。フィルタされたパケット内で疑わしい文字列を検索します。
+# ビーコン内のデータ / サイドチャネル
+
+**Wifiネットワークのビーコン内でデータが漏洩していると疑う場合**、次のようなフィルターを使用してネットワークのビーコンを確認できます：`wlan contains <NAMEofNETWORK>`、または`wlan.ssid == "NAMEofNETWORK"`フィルタリングされたパケット内で疑わしい文字列を検索します。
 
 # Wifiネットワーク内の不明なMACアドレスを見つける
 
-次のリンクは、**Wifiネットワーク内でデータを送信している機器を見つける**のに役立ちます：
+次のリンクは、**Wifiネットワーク内でデータを送信しているマシンを見つける**のに役立ちます：
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-すでに知っている**MACアドレスを出力から削除**する場合は、次のようなチェックを追加します：`&& !(wlan.addr==5c:51:88:31:a0:3b)`
+**MACアドレスをすでに知っている場合は、出力からそれらを削除できます**。次のようなチェックを追加します：`&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-ネットワーク内で通信している**不明なMAC**アドレスを検出したら、次のような**フィルタ**を使用できます：`wlan.addr==<MAC address> && (ftp || http || ssh || telnet)`。ftp/http/ssh/telnetフィルタは、トラフィックを復号化している場合に有用です。
+ネットワーク内で通信している**不明なMAC**アドレスを検出したら、次のような**フィルター**を使用できます：`wlan.addr==<MAC address> && (ftp || http || ssh || telnet)`トラフィックをフィルタリングします。ftp/http/ssh/telnetフィルターは、トラフィックを復号化した場合に便利です。
 
-# トラフィックの復号化
+# トラフィックを復号化する
 
-編集 --> 設定 --> プロトコル --> IEEE 802.11 --> 編集
+Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 
 ![](<../../../.gitbook/assets/image (426).png>)
+
+
+
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

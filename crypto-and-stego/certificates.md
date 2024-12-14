@@ -41,7 +41,7 @@ x509証明書では、いくつかの**フィールド**が証明書の有効性
 * **共通名（CN）**：証明書でカバーされるドメイン。
 * **国（C）**、**地域（L）**、**州または省（ST、S、またはP）**、**組織（O）**、および**組織単位（OU）**は、地理的および組織的な詳細を提供します。
 * **識別名（DN）**は、完全なサブジェクト識別をカプセル化します。
-* **発行者**は、証明書を検証し署名した人物を示し、CAのサブジェクトと同様のサブフィールドを含みます。
+* **発行者**は、証明書を検証し署名した者を示し、CAのサブジェクトと同様のサブフィールドを含みます。
 * **有効期間**は、**Not Before**および**Not After**のタイムスタンプで示され、証明書が特定の日付の前または後に使用されないことを保証します。
 * **公開鍵**セクションは、証明書のセキュリティにとって重要で、公開鍵のアルゴリズム、サイズ、およびその他の技術的詳細を指定します。
 * **x509v3拡張**は、証明書の機能を強化し、**鍵の使用**、**拡張鍵の使用**、**サブジェクト代替名**、および証明書の適用を微調整するためのその他のプロパティを指定します。
@@ -77,7 +77,7 @@ print(f"Public Key: {public_key}")
 ```
 ### **OCSPとCRL配布ポイントの違い**
 
-**OCSP** (**RFC 2560**) は、クライアントとレスポンダーが協力してデジタル公開鍵証明書が取り消されたかどうかを確認する方法で、フルの**CRL**をダウンロードする必要がありません。この方法は、取り消された証明書のシリアル番号のリストを提供する従来の**CRL**よりも効率的であり、潜在的に大きなファイルをダウンロードする必要があります。CRLには最大512件のエントリが含まれることがあります。詳細は[こちら](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm)で確認できます。
+**OCSP** (**RFC 2560**) は、クライアントとレスポンダーが協力してデジタル公開鍵証明書が取り消されたかどうかを確認する方法で、完全な**CRL**をダウンロードする必要がありません。この方法は、取り消された証明書のシリアル番号のリストを提供する従来の**CRL**よりも効率的であり、潜在的に大きなファイルをダウンロードする必要があります。CRLには最大512件のエントリが含まれることがあります。詳細は[こちら](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm)で確認できます。
 
 ### **証明書の透明性とは**
 
@@ -91,9 +91,9 @@ print(f"Public Key: {public_key}")
 
 証明書ログは、ネットワークサービスによって維持される公開監査可能な追加専用の証明書記録です。これらのログは監査目的のための暗号的証明を提供します。発行機関と一般の人々は、これらのログに証明書を提出したり、検証のために照会したりできます。ログサーバーの正確な数は固定されていませんが、世界中で千未満であると予想されています。これらのサーバーは、CA、ISP、または関心のある任意の団体によって独立して管理されることがあります。
 
-#### **照会**
+#### **クエリ**
 
-任意のドメインの証明書透明性ログを探索するには、[https://crt.sh/](https://crt.sh)を訪問してください。
+任意のドメインの証明書透明性ログを探索するには、[https://crt.sh/](https://crt.sh)にアクセスしてください。
 
 証明書を保存するための異なるフォーマットが存在し、それぞれに独自の使用ケースと互換性があります。この要約では、主要なフォーマットをカバーし、それらの間の変換に関するガイダンスを提供します。
 
@@ -115,7 +115,7 @@ print(f"Public Key: {public_key}")
 
 ### **P7B/PKCS#7フォーマット**
 
-* Base64 ASCIIで保存され、拡張子は.p7bまたは.p7cです。
+* Base64 ASCIIで保存され、拡張子は.p7bまたは.p7c。
 * 秘密鍵を除く証明書とチェーン証明書のみを含みます。
 * Microsoft WindowsおよびJava Tomcatでサポートされています。
 
@@ -164,7 +164,7 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-* **P7B to PFX** には、2つのコマンドが必要です：
+* **P7B to PFX** には2つのコマンドが必要です：
 1. P7BをCERに変換する
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
@@ -211,8 +211,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

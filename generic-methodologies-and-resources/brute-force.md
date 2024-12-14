@@ -1,9 +1,9 @@
-# ブルートフォース - チートシート
+# Brute Force - CheatSheet
 
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
 今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -17,15 +17,15 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
-## デフォルトの資格情報
+## Default Credentials
 
-使用されている技術のデフォルトの資格情報を**Googleで検索**するか、**これらのリンクを試してください**：
+**使用されている技術のデフォルトの資格情報をGoogleで検索するか、**これらのリンクを試してください**：
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -40,9 +40,9 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * [**https://many-passwords.github.io/**](https://many-passwords.github.io)
 * [**https://theinfocentric.com/**](https://theinfocentric.com/)
 
-## **独自の辞書を作成する**
+## **自分の辞書を作成する**
 
-ターゲットに関する情報をできるだけ多く集め、カスタム辞書を生成します。役立つツール：
+ターゲットに関する情報をできるだけ多く集めて、カスタム辞書を生成します。役立つツール：
 
 ### Crunch
 ```bash
@@ -67,7 +67,7 @@ python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-単語のリストを生成するツールで、単語のセットを提供することができ、指定された単語から複数のバリエーションを作成し、特定のターゲットに関して使用するためのユニークで理想的な単語リストを作成することができます。
+特定のターゲットに関して使用するためのユニークで理想的なワードリストを作成するために、単語のセットを提供することができるワードリストジェネレーターツールです。与えられた単語から複数のバリエーションを作成することができます。
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -180,7 +180,7 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 ```
 For http**s**は「http-post-form」から「**https-post-form」に変更する必要があります。
 
-### **HTTP - CMS --** (W)ordpress、(J)oomla、(D)rupal、または(M)oodle
+### **HTTP - CMS --** (W)ordpress, (J)oomlaまたは(D)rupalまたは(M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
@@ -300,7 +300,7 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-**oracle\_login**を**patator**で使用するには、**インストール**する必要があります：
+**oracle\_login**を**patator**で使用するには、**インストール**する必要があります:
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
@@ -424,7 +424,7 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### 弱いSSHキー / Debianの予測可能なPRNG
 
-一部のシステムには、暗号材料を生成するために使用されるランダムシードに既知の欠陥があります。これにより、[snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)のようなツールでブルートフォース攻撃が可能な大幅に減少したキー空間が生じる可能性があります。弱いキーの事前生成されたセットも利用可能であり、例えば[g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)があります。
+一部のシステムには、暗号材料を生成するために使用されるランダムシードに既知の欠陥があります。これにより、 dramatically reduced keyspaceが発生し、[snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)のようなツールでブルートフォース攻撃が可能になります。弱いキーの事前生成セットも利用可能で、[g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)のようなものがあります。
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ および OpenMQ)
 
@@ -469,7 +469,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)を使用して、世界で最も**高度な**コミュニティツールによって**ワークフローを簡単に構築し、自動化**します。\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
 今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -508,10 +508,10 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### 既知平文zip攻撃
+#### Known plaintext zip attack
 
-暗号化されたzip内に含まれる**ファイルの** **平文**（または平文の一部）を知っている必要があります。暗号化されたzip内に含まれる**ファイル名とファイルのサイズ**を確認するには、次のコマンドを実行します: **`7z l encrypted.zip`**\
-リリースページから[**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)をダウンロードしてください。
+暗号化されたzip内に含まれるファイルの**平文**（または平文の一部）を知っている必要があります。暗号化されたzip内に含まれる**ファイル名とファイルのサイズ**を確認するには、次のコマンドを実行します: **`7z l encrypted.zip`**\
+[**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)をリリースページからダウンロードしてください。
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -545,7 +545,7 @@ qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
 ### PDFオーナーパスワード
 
-PDFオーナーパスワードを解除するには、これを確認してください: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+PDFオーナーパスワードを解除するには、こちらを確認してください: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -565,7 +565,7 @@ Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
 hashcat -a 0 -m 1000 --username file_NTLM.hashes /usr/share/wordlists/rockyou.txt --potfile-path salida_NT.pot
 ```
-### Keepass
+### キーパス
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
 keepass2john file.kdbx > hash #The keepass is only using password
@@ -573,7 +573,7 @@ keepass2john -k <file-password> file.kdbx > hash # The keepass is also using a f
 #The keepass can use a password and/or a file as credentials, if it is using both you need to provide them to keepass2john
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
-### Keberoasting
+### ケベロースティング
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -622,7 +622,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 ### Open Office パスワード保護された列
 
-パスワードで保護された列を持つ xlsx ファイルがある場合、次のようにして保護を解除できます：
+パスワードで保護された列を持つ xlsx ファイルがある場合、次の方法で保護を解除できます：
 
 * **Google ドライブにアップロード**すると、パスワードが自動的に削除されます。
 * **手動で**それを**削除**するには：
@@ -667,7 +667,7 @@ hash-identifier
 
 ### **Wordlist Generation Tools**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** 高度なキーボードウォークジェネレーターで、設定可能なベース文字、キーマップ、ルートを持っています。
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** 高度なキーボードウォークジェネレーターで、ベース文字、キーマップ、ルートを設定可能。
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -777,8 +777,8 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

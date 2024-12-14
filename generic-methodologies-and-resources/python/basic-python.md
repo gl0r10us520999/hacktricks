@@ -1,31 +1,31 @@
 # 基本的なPython
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
-## Pythonの基礎
+## Pythonの基本
 
-### 便利な情報
+### 有用な情報
 
-list(xrange()) == range() --> Python3ではrangeはPython2のxrangeに相当する（リストではなくジェネレーター）\
-タプルとリストの違いは、タプル内の値の位置が意味を持つが、リストは単なる順序付けられた値であることです。タプルには構造がありますが、リストには順序があります。
+list(xrange()) == range() --> Python3ではrangeはPython2のxrangeです（リストではなくジェネレーターです）\
+タプルとリストの違いは、タプル内の値の位置が意味を持つのに対し、リストは単に順序付けられた値であることです。タプルには構造がありますが、リストには順序があります。
 
 ### 主な操作
 
-数を累乗するには: 3\*\*2（3の2乗）を使用します（3^2ではありません）\
-2/3を行うと1が返されます。これは2つの整数（integers）を割っているためです。小数点以下を取得するには浮動小数点数で割る必要があります（2.0/3.0）。\
+数を上げるには：3\*\*2（3^2ではありません）\
+2/3を実行すると1が返されます。なぜなら、2つの整数（int）を割っているからです。小数が必要な場合は浮動小数点数（2.0/3.0）で割る必要があります。\
 i >= j\
 i <= j\
 i == j\
@@ -48,14 +48,14 @@ isinstance(1, int) = True\
 "abc\n".strip() = "abc"\
 "apbc".replace("p","") = "abc"\
 dir(str) = 利用可能なすべてのメソッドのリスト\
-help(str) = クラスstrの定義\
+help(str) = strクラスの定義\
 "a".upper() = "A"\
 "A".lower() = "a"\
 "abc".capitalize() = "Abc"\
 sum(\[1,2,3]) = 6\
 sorted(\[1,43,5,3,21,4])
 
-**文字を結合する**\
+**文字の結合**\
 3 \* ’a’ = ‘aaa’\
 ‘a’ + ‘b’ = ‘ab’\
 ‘a’ + str(3) = ‘a3’\
@@ -64,14 +64,14 @@ sorted(\[1,43,5,3,21,4])
 **リストの部分**\
 ‘abc’\[0] = ‘a’\
 'abc’\[-1] = ‘c’\
-'abc’\[1:3] = ‘bc’ from \[1] to \[2]\
+'abc’\[1:3] = ‘bc’（\[1]から\[2]まで）\
 "qwertyuiop"\[:-1] = 'qwertyuio'
 
 **コメント**\
-\# 1行コメント\
+\# 一行コメント\
 """\
 複数行コメント\
-もう一つ\
+別のコメント\
 """
 
 **ループ**
@@ -94,56 +94,60 @@ for letter in "hola":
 ```
 ### タプル
 
-t1 = (1, '2', 'three')\
-t2 = (5, 6)\
+t1 = (1,'2,'three')\
+t2 = (5,6)\
 t3 = t1 + t2 = (1, '2', 'three', 5, 6)\
 (4,) = シングルトン\
 d = () 空のタプル\
 d += (4,) --> タプルに追加\
-CANT! --> t1\[1] == 'New value'\
-list(t2) = \[5, 6] --> タプルからリストへ
+CANT! --> t1\[1] == '新しい値'\
+list(t2) = \[5,6] --> タプルからリストへ
 
-### リスト（配列）
+### リスト (配列)
 
 d = \[] 空\
-a = \[1, 2, 3]\
-b = \[4, 5]\
-a + b = \[1, 2, 3, 4, 5]\
-b.append(6) = \[4, 5, 6]\
-tuple(a) = (1, 2, 3) --> リストからタプルへ
+a = \[1,2,3]\
+b = \[4,5]\
+a + b = \[1,2,3,4,5]\
+b.append(6) = \[4,5,6]\
+tuple(a) = (1,2,3) --> リストからタプルへ
 
 ### 辞書
 
 d = {} 空\
-monthNumbers={1:'Jan', 2: 'feb','feb':2}—> monthNumbers ->{1:'Jan', 2: 'feb','feb':2}\
-monthNumbers\[1] = 'Jan'\
-monthNumbers\['feb'] = 2\
-list(monthNumbers) = \[1, 2, 'feb']\
-monthNumbers.values() = \['Jan', 'feb', 2]\
+monthNumbers={1:’Jan’, 2: ‘feb’,’feb’:2}—> monthNumbers ->{1:’Jan’, 2: ‘feb’,’feb’:2}\
+monthNumbers\[1] = ‘Jan’\
+monthNumbers\[‘feb’] = 2\
+list(monthNumbers) = \[1,2,’feb’]\
+monthNumbers.values() = \[‘Jan’,’feb’,2]\
 keys = \[k for k in monthNumbers]\
 a={'9':9}\
-monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
+monthNumbers.update(a) = {'9':9, 1:’Jan’, 2: ‘feb’,’feb’:2}\
 mN = monthNumbers.copy() #独立したコピー\
-monthNumbers.get('key',0) #キーが存在するかどうかを確認し、monthNumbers\["key"]の値を返す。存在しない場合は0を返す
+monthNumbers.get('key',0) #キーが存在するか確認し、monthNumbers\["key"]の値を返す。存在しない場合は0を返す
 
-### 集合
+### セット
 
-集合には重複がありません\
+セットには重複はない\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
 myset.add('a') = {'a', 'b', 'c'} #重複なし\
-myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
+myset.update(\[1,2,3]) = set(\['a', 1, 2, 'b', 'c', 3])\
 myset.discard(10) #存在する場合は削除、存在しない場合は何もしない\
 myset.remove(10) #存在する場合は削除、存在しない場合は例外を発生\
 myset2 = set(\[1, 2, 3, 4])\
 myset.union(myset2) #mysetまたはmyset2の値\
-myset.intersection(myset2) #mysetとmyset2の値\
-myset.difference(myset2) #mysetにあってmyset2にない値\
+myset.intersection(myset2) #mysetとmyset2の両方にある値\
+myset.difference(myset2) #mysetにあるがmyset2にはない値\
 myset.symmetric\_difference(myset2) #mysetとmyset2の両方にない値\
-myset.pop() #集合の最初の要素を取得して削除\
-myset.intersection\_update(myset2) #myset = mysetとmyset2の両方の要素\
-myset.difference\_update(myset2) #myset = mysetにあってmyset2にない要素\
+myset.pop() #セットの最初の要素を取得して削除\
+myset.intersection\_update(myset2) #myset = mysetとmyset2の両方にある要素\
+myset.difference\_update(myset2) #myset = mysetにあるがmyset2にはない要素\
 myset.symmetric\_difference\_update(myset2) #myset = 両方にない要素
+
+### クラス
+
+\_\_It\_\_のメソッドは、このクラスのオブジェクトが他のオブジェクトより大きいかどうかを比較するためにsortによって使用される。
 ```python
 class Person(name):
 def __init__(self,name):
@@ -171,20 +175,20 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted およびワンライナー
+### map, zip, filter, lambda, sorted and one-liners
 
 **Map** は次のようになります: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** は、foo または bar のうち短い方が停止します:
+**zip** は foo または bar の短い方が停止すると停止します:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
 ```
 **Lambda**は関数を定義するために使用されます\
-(lambda x,y: x+y)(5,3) = 8 --> Lambdaを単純な**関数**として使用する\
-**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> リストをソートするためにLambdaを使用する\
-m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> フィルタリングするためにLambdaを使用する\
+(lambda x,y: x+y)(5,3) = 8 --> lambdaを単純な**関数**として使用\
+**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> lambdaを使用してリストをソート\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> lambdaを使用してフィルタリング\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
 ```
 def make_adder(n):
@@ -196,11 +200,9 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-```html
-<h2>例外</h2>
-```
-
 mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
+
+### 例外
 ```
 def divide(x,y):
 try:
@@ -216,21 +218,20 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-条件がfalseの場合、文字列が画面に表示されます
+条件が偽の場合、文字列が画面に表示されます。
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
 assert len(grades) == 'wrong number grades'
 ```
-### ジェネレータ、yield
+### ジェネレーター、yield
 
-ジェネレータは、何かを返す代わりに、何かを「yield（提供）」します。アクセスすると、最初に生成された値を「返し」、その後、再度アクセスすると次に生成された値を返します。つまり、すべての値が同時に生成されるのではなく、すべての値を持つリストよりもこれを使用することで多くのメモリを節約できます。
+ジェネレーターは、何かを返す代わりに「yield」します。アクセスすると、最初に生成された値を「返し」、その後再度アクセスすると次に生成された値を返します。したがって、すべての値が同時に生成されるわけではなく、すべての値を含むリストの代わりにこれを使用することで多くのメモリを節約できます。
 ```
 def myGen(n):
 yield n
 yield n + 1
 ```
-```markdown
 g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> エラー
@@ -242,50 +243,49 @@ re.search("\w","hola").group() = "h"\
 re.findall("\w","hola") = \['h', 'o', 'l', 'a']\
 re.findall("\w+(la)","hola caracola") = \['la', 'la']
 
-**特殊な意味:**\
+**特別な意味:**\
 . --> すべて\
 \w --> \[a-zA-Z0-9\_]\
 \d --> 数字\
 \s --> 空白文字\[ \n\r\t\f]\
-\S --> 空白以外の文字\
-^ --> で始まる\
-$ --> で終わる\
-\+ --> 1つ以上\
-\* --> 0個以上\
-? --> 0または1回
+\S --> 非空白文字\
+^ --> 先頭\
+$ --> 終端\
+\+ --> 1回以上\
+\* --> 0回以上\
+? --> 0回または1回の出現
 
 **オプション:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> ドットが改行に一致するようにする\
-MULTILINE --> ^ および $ が異なる行で一致するようにする
+DOTALL --> ドットが改行にマッチすることを許可\
+MULTILINE --> ^ と $ が異なる行にマッチすることを許可
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
 **product**\
-from **itertools** import product --> 1つ以上のリスト間の組み合わせを生成し、値を繰り返すことがある、直積（分配特性）\
+from **itertools** import product --> 1つ以上のリスト間の組み合わせを生成し、値を繰り返すこともあり、直積（分配法則）\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
 **permutations**\
-from **itertools** import **permutations** --> 各位置のすべての文字の組み合わせを生成する\
+from **itertools** import **permutations** --> すべての位置におけるすべての文字の組み合わせを生成\
 print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... すべての可能な組み合わせ\
 print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] 長さ2のすべての可能な組み合わせ
 
 **combinations**\
-from itertools import **combinations** --> 文字を繰り返さずにすべての可能な組み合わせを生成する（"ab"が存在する場合、"ba"は生成されない）\
+from itertools import **combinations** --> 文字を繰り返さずにすべての可能な組み合わせを生成（"ab"が存在する場合、"ba"は生成しない）\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> 文字以降のすべての可能な組み合わせを生成する（たとえば、3番目は3番目以降から混合されますが、2番目や1番目とは混合されません）\
-print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3)']
+from itertools import **combinations\_with\_replacement** --> 文字以降のすべての可能な組み合わせを生成（例えば、3番目は3番目以降から混合されるが、2番目や1番目とは混合されない）\
+print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
-### デコレータ
+### デコレーター
 
-関数の実行に必要な時間を計測するデコレータ（[こちら](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)から）
-```
+関数が実行されるのに必要な時間を計測するデコレーター（[こちら](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)から）:
 ```python
 from functools import wraps
 import time
@@ -303,23 +303,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-もし実行すると、以下のようなものが表示されます:
+実行すると、次のようなものが表示されます：
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

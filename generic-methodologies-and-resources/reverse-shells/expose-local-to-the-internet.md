@@ -15,7 +15,7 @@ GCPハッキングを学び、実践する：<img src="../../.gitbook/assets/grt
 </details>
 {% endhint %}
 
-**このページの目的は、他のサーバーに何もインストールすることなく（必要に応じてローカルにのみ）、少なくともローカルの生TCPポートとローカルウェブ（HTTP）をインターネットに公開する代替手段を提案することです。**
+**このページの目的は、他のサーバーに何もインストールすることなく、少なくともローカルの生TCPポートとローカルウェブ（HTTP）をインターネットに公開する代替手段を提案することです。**
 
 ## **Serveo**
 
@@ -39,7 +39,7 @@ socketxp connect http://localhost:8080
 ```
 ## Ngrok
 
-[https://ngrok.com/](https://ngrok.com/) から、http および tcp ポートを公開することができます:
+[https://ngrok.com/](https://ngrok.com/) から、http および tcp ポートを公開することができます：
 ```bash
 # Expose web in 3000
 ngrok http 8000
@@ -49,7 +49,7 @@ ngrok tcp 9000
 ```
 ## Telebit
 
-[https://telebit.cloud/](https://telebit.cloud/) から、http および tcp ポートを公開することができます:
+[https://telebit.cloud/](https://telebit.cloud/) から、http および tcp ポートを公開することができます：
 ```bash
 # Expose web in 3000
 /Users/username/Applications/telebit/bin/telebit http 3000
@@ -69,7 +69,7 @@ loclx tunnel tcp --port 4545
 ```
 ## Expose
 
-[https://expose.dev/](https://expose.dev/) から、http および tcp ポートを公開することができます:
+[https://expose.dev/](https://expose.dev/) から、http および tcp ポートを公開することができます：
 ```bash
 # Expose web in 3000
 ./expose share http://localhost:3000
@@ -79,7 +79,7 @@ loclx tunnel tcp --port 4545
 ```
 ## Localtunnel
 
-[https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel) から、無料でhttpを公開することができます：
+[https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel) から、無料でhttpを公開することができます:
 ```bash
 # Expose web in port 8000
 npx localtunnel --port 8000
@@ -93,7 +93,7 @@ GCPハッキングを学び、実践する：<img src="../../.gitbook/assets/grt
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>

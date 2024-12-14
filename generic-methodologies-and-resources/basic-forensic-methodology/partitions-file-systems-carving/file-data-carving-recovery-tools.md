@@ -21,7 +21,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ### Autopsy
 
-画像からファイルを抽出するためにフォレンジックで最も一般的に使用されるツールは[**Autopsy**](https://www.autopsy.com/download/)です。ダウンロードしてインストールし、ファイルを取り込んで「隠れた」ファイルを見つけます。Autopsyはディスクイメージや他の種類のイメージをサポートするように構築されていますが、単純なファイルには対応していないことに注意してください。
+画像からファイルを抽出するために法医学で最も一般的に使用されるツールは[**Autopsy**](https://www.autopsy.com/download/)です。ダウンロードしてインストールし、ファイルを取り込んで「隠れた」ファイルを見つけます。Autopsyはディスクイメージや他の種類のイメージをサポートするように構築されていますが、単純なファイルには対応していないことに注意してください。
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -51,7 +51,7 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-このツールはKaliに含まれていますが、こちらでも見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+このツールはKaliに含まれていますが、ここでも見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
 このツールはイメージをスキャンし、その中にある**pcaps**、**ネットワーク情報（URL、ドメイン、IP、MAC、メール）**、およびその他の**ファイル**を**抽出**します。あなたがする必要があるのは:
 ```
@@ -78,7 +78,7 @@ GUIとCLIのバージョンがあります。PhotoRecが検索する**ファイ�
 * サンプルの一部に焦点を当てる
 * PEまたはELF実行可能ファイルの**文字列とリソース**を見る
 * ファイルの暗号解析のための**パターン**を取得
-* パッカーやエンコーダアルゴリズムを**特定**
+* パッカーまたはエンコーダアルゴリズムを**特定**
 * パターンによるステガノグラフィの**識別**
 * **視覚的**なバイナリ差分
 
@@ -103,7 +103,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>HackTricksをサポート</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**

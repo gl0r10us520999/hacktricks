@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も重要なサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術的知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
+​​[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も重要なサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。 **技術的知識の促進** を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
-もし、いくつかのVolatilityプラグインを並行して起動する**速くてクレイジーな**ものが必要であれば、次のリンクを使用できます: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
+もし、いくつかのVolatilityプラグインを並行して起動する **速くてクレイジーな** ものが必要であれば、次を使用できます: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
@@ -60,11 +60,11 @@ python setup.py install
 
 ### “list” プラグインと “scan” プラグインについての注意
 
-Volatility には、プラグインに対する2つの主要なアプローチがあり、時にはその名前に反映されています。“list” プラグインは、プロセス（メモリ内の `_EPROCESS` 構造のリンクリストを見つけて歩く）や OS ハンドル（ハンドルテーブルを見つけてリストし、見つかったポインタを解参照するなど）の情報を取得するために、Windows カーネル構造をナビゲートしようとします。これらは、例えばプロセスをリストするように要求された場合、Windows API のように振る舞います。
+Volatility には、プラグインに対する2つの主要なアプローチがあり、時にはその名前に反映されています。“list” プラグインは、プロセス（メモリ内の `_EPROCESS` 構造のリンクリストを見つけて歩く）や OS ハンドル（ハンドルテーブルを見つけてリストし、見つかったポインタを解決するなど）のような情報を取得するために、Windows カーネル構造をナビゲートしようとします。これらは、例えばプロセスをリストするように要求された場合、Windows API のように振る舞います。
 
-そのため、“list” プラグインは非常に速いですが、マルウェアによる操作に対して Windows API と同様に脆弱です。例えば、マルウェアが DKOM を使用してプロセスを `_EPROCESS` リンクリストから切り離すと、タスクマネージャーにも pslist にも表示されません。
+そのため、“list” プラグインは非常に速いですが、マルウェアによる操作に対して Windows API と同様に脆弱です。例えば、マルウェアが DKOM を使用してプロセスを `_EPROCESS` リンクリストからリンク解除すると、タスクマネージャーにも pslist にも表示されません。
 
-一方、“scan” プラグインは、特定の構造として解参照されたときに意味を持つ可能性のあるものをメモリから彫り出すアプローチを取ります。例えば `psscan` はメモリを読み取り、そこから `_EPROCESS` オブジェクトを作成しようとします（これは、関心のある構造の存在を示す4バイトの文字列を検索するプールタグスキャンを使用します）。利点は、終了したプロセスを掘り起こすことができ、マルウェアが `_EPROCESS` リンクリストを改ざんしても、プラグインはメモリ内に残っている構造を見つけることができることです（プロセスが実行されるためには、まだ存在する必要があります）。欠点は、“scan” プラグインは “list” プラグインよりも少し遅く、時には偽陽性を生じることがある（終了してから長い時間が経過し、他の操作によってその構造の一部が上書きされたプロセス）ことです。
+一方、“scan” プラグインは、特定の構造として解決されたときに意味を持つ可能性のあるものをメモリから彫り出すアプローチを取ります。例えば `psscan` はメモリを読み取り、そこから `_EPROCESS` オブジェクトを作成しようとします（これは、関心のある構造の存在を示す4バイトの文字列を検索するプールタグスキャンを使用します）。利点は、終了したプロセスを掘り起こすことができ、マルウェアが `_EPROCESS` リンクリストを改ざんしても、プラグインはメモリ内に残っている構造を見つけることができることです（プロセスが実行されるためには、構造が存在する必要があります）。欠点は、“scan” プラグインは “list” プラグインよりも少し遅く、時には誤検知を生じることがある（終了してから長い時間が経過し、他の操作によって構造の一部が上書きされたプロセス）ことです。
 
 出典: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -73,7 +73,7 @@ Volatility には、プラグインに対する2つの主要なアプローチ�
 ### Volatility3
 
 readme 内で説明されているように、サポートしたい **OS のシンボルテーブル** を _volatility3/volatility/symbols_ 内に置く必要があります。\
-さまざまなオペレーティングシステムのシンボルテーブルパックは **ダウンロード** 可能です：
+さまざまなオペレーティングシステム用のシンボルテーブルパックは **ダウンロード** 可能です：
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -87,7 +87,7 @@ readme 内で説明されているように、サポートしたい **OS のシ�
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-もし**ダウンロードした新しいプロファイル**（例えば、Linux用のもの）を使用したい場合は、次のフォルダー構造をどこかに作成する必要があります: _plugins/overlays/linux_ そして、そのフォルダーの中にプロファイルを含むzipファイルを置きます。次に、次のコマンドを使用してプロファイルの番号を取得します:
+もし**ダウンロードした新しいプロファイル**（例えば、Linuxのもの）を使用したい場合は、次のフォルダー構造をどこかに作成する必要があります: _plugins/overlays/linux_ そして、このフォルダーの中にプロファイルを含むzipファイルを置いてください。次に、次のコマンドを使用してプロファイルの番号を取得します:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -114,7 +114,7 @@ volatility kdbgscan -f file.dmp
 
 [**こちらから**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): imageinfoが単にプロファイルの提案を提供するのに対し、**kdbgscan**は正しいプロファイルと正しいKDBGアドレス（複数ある場合）を正確に特定するように設計されています。このプラグインは、Volatilityプロファイルに関連するKDBGHeaderシグネチャをスキャンし、偽陽性を減らすためのサニティチェックを適用します。出力の詳細度と実行できるサニティチェックの数は、VolatilityがDTBを見つけられるかどうかに依存するため、正しいプロファイルをすでに知っている場合（またはimageinfoからプロファイルの提案を受けている場合）は、それを使用することを確認してください。
 
-常に**kdbgscanが見つけたプロセスの数**を確認してください。時々、imageinfoとkdbgscanは**複数の**適切な**プロファイル**を見つけることができますが、**有効なものだけがいくつかのプロセスに関連している**ことになります（これは、プロセスを抽出するためには正しいKDBGアドレスが必要だからです）。
+常に**kdbgscanが見つけたプロセスの数**を確認してください。時々、imageinfoとkdbgscanは**複数の**適切な**プロファイル**を見つけることがありますが、**有効なものだけがいくつかのプロセスに関連している**ことになります（これは、プロセスを抽出するためには正しいKDBGアドレスが必要だからです）。
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -135,7 +135,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
-The plugin `banners.Banners` は **vol3 でダンプ内の Linux バナーを探すために使用できます**。
+プラグイン `banners.Banners` は **vol3 でダンプ内の Linux バナーを探すために使用できます**。
 
 ## ハッシュ/パスワード
 
@@ -232,7 +232,7 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-`cmd.exe` で実行されたコマンドは **`conhost.exe`** (または Windows 7 より前のシステムでは `csrss.exe`) によって管理されます。これは、攻撃者によって **`cmd.exe`** が終了された場合でも、メモリダンプが取得される前にセッションのコマンド履歴を **`conhost.exe`** のメモリから回復することが可能であることを意味します。これを行うには、コンソールのモジュール内で異常な活動が検出された場合、関連する **`conhost.exe`** プロセスのメモリをダンプする必要があります。その後、このダンプ内で **strings** を検索することにより、セッションで使用されたコマンドラインを抽出できる可能性があります。
+`cmd.exe` で実行されたコマンドは **`conhost.exe`** (または Windows 7 より前のシステムでは `csrss.exe`) によって管理されます。これは、攻撃者によって **`cmd.exe`** がメモリダンプが取得される前に終了された場合でも、**`conhost.exe`** のメモリからセッションのコマンド履歴を回復することが可能であることを意味します。これを行うには、コンソールのモジュール内で異常な活動が検出された場合、関連する **`conhost.exe`** プロセスのメモリをダンプする必要があります。その後、このダンプ内で **strings** を検索することにより、セッションで使用されたコマンドラインを抽出できる可能性があります。
 
 ### 環境
 
@@ -398,7 +398,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。 **技術的知識の促進** を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
+​​​​[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術的知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -615,7 +615,7 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 ### Yaraを使ったスキャン
 
 このスクリプトを使用して、githubからすべてのyaraマルウェアルールをダウンロードしてマージします: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-_**rules**_ ディレクトリを作成し、実行します。これにより、すべてのマルウェア用のyaraルールを含む _**malware\_rules.yar**_ というファイルが作成されます。
+_**rules**_ディレクトリを作成し、実行します。これにより、すべてのマルウェア用のyaraルールを含む_**malware\_rules.yar**_というファイルが作成されます。
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -644,7 +644,7 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 
 ### 外部プラグイン
 
-外部プラグインを使用したい場合は、プラグインに関連するフォルダが最初のパラメータとして使用されていることを確認してください。
+外部プラグインを使用したい場合は、プラグインに関連するフォルダーが最初のパラメーターとして使用されていることを確認してください。
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -701,7 +701,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-**メモリからbashの履歴を読み取ることが可能です。** _.bash\_history_ファイルをダンプすることもできますが、無効になっている場合は、このvolatilityモジュールを使用できることを喜ぶでしょう。
+**メモリからbashの履歴を読み取ることができます。** _.bash\_history_ファイルをダンプすることもできますが、無効になっているため、このvolatilityモジュールを使用できることを嬉しく思うでしょう。
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -785,21 +785,21 @@ The **マスターブートレコード (MBR)** は、異なる [ファイルシ
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) は、**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**で最も重要なイベントの一つです。**技術知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
+[**RootedCON**](https://www.rootedcon.com/) は、**スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術知識の促進**を使命とし、この会議はあらゆる分野の技術およびサイバーセキュリティ専門家の熱い交流の場となっています。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**Telegramグループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

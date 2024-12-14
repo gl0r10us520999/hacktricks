@@ -23,7 +23,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## コンテナの改変
 
-いくつかのdockerコンテナが侵害された疑いがあります：
+いくつかのdockerコンテナが侵害された疑いがあります:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -48,7 +48,7 @@ A /var/lib/mysql/mysql/general_log.CSV
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-あなたは新しいコンテナを実行し、そのファイルを抽出することで**元のものと比較することもできます**:
+新しいコンテナを実行し、そこからファイルを抽出することで、**元のものと比較することもできます**:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
@@ -77,11 +77,11 @@ tar -xf image.tar
 ```bash
 docker inspect <image>
 ```
-変更履歴の要約を取得することもできます:
+変更の**履歴の要約**を取得することもできます:
 ```bash
 docker history --no-trunc <image>
 ```
-あなたは次のコマンドで**イメージからdockerfileを生成**することもできます:
+あなたは次のコマンドを使用して、**イメージからdockerfileを生成**することもできます:
 ```bash
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
@@ -97,19 +97,19 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-これにより、**dockerイメージの異なるblobをナビゲート**し、どのファイルが変更されたか/追加されたかを確認できます。**赤**は追加されたことを意味し、**黄色**は変更されたことを意味します。**tab**を使用して他のビューに移動し、**space**を使用してフォルダーを折りたたむ/開くことができます。
+これにより、**dockerイメージの異なるblobをナビゲート**し、どのファイルが変更/追加されたかを確認できます。**赤**は追加されたことを意味し、**黄色**は変更されたことを意味します。**tab**を使用して他のビューに移動し、**space**を使用してフォルダーを折りたたむ/開くことができます。
 
 dieを使用すると、イメージの異なるステージの内容にアクセスすることはできません。そうするには、**各レイヤーを解凍してアクセスする必要があります**。\
-イメージが解凍されたディレクトリから、次のコマンドを実行してイメージのすべてのレイヤーを解凍できます:
+イメージが解凍されたディレクトリから、イメージのすべてのレイヤーを解凍することができます。
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
-## メモリからの認証情報
+## メモリからの資格情報
 
 ホスト内でdockerコンテナを実行するとき、**ホストからコンテナ上で実行されているプロセスを見ることができます**。単に`ps -ef`を実行するだけです。
 
-したがって（rootとして）、**ホストからプロセスのメモリをダンプし**、**認証情報**を検索することができます。これは[**次の例のように**](../../linux-hardening/privilege-escalation/#process-memory)行います。
+したがって（rootとして）、**ホストからプロセスのメモリをダンプし**、**資格情報**を検索することができます。これは[**次の例のように**](../../linux-hardening/privilege-escalation/#process-memory)行います。
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -118,8 +118,8 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-AWSハッキングを学び、実践しましょう：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践しましょう：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -127,7 +127,7 @@ GCPハッキングを学び、実践しましょう：<img src="/.gitbook/assets
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

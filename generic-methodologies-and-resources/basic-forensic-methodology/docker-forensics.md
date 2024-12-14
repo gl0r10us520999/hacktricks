@@ -29,7 +29,7 @@ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-このコンテナに対して行われた**イメージに関する変更を簡単に見つけることができます**:
+このコンテナに対する**イメージに関する変更を簡単に見つけることができます**:
 ```bash
 docker diff wordpress
 C /var
@@ -44,11 +44,11 @@ A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
 前のコマンドで **C** は **Changed** を意味し、**A** は **Added** を意味します。\
-もし `/etc/shadow` のような興味深いファイルが変更されていることがわかった場合、悪意のある活動を確認するために、次のコマンドでコンテナからダウンロードできます：
+もし `/etc/shadow` のような興味深いファイルが変更されたことがわかった場合、悪意のある活動を確認するために、コンテナからそれをダウンロードすることができます：
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-あなたは新しいコンテナを実行し、その中からファイルを抽出することで、**元のものと比較することもできます**:
+新しいコンテナを実行し、そこからファイルを抽出することで、**元のものと比較することもできます**:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
@@ -60,7 +60,7 @@ docker exec -it wordpress bash
 ```
 ## Images modifications
 
-エクスポートされたdockerイメージ（おそらく`.tar`形式）を受け取った場合、[**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases)を使用して**変更の要約を抽出**できます：
+エクスポートされたdockerイメージ（おそらく`.tar`形式）を受け取った場合、[**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases)を使用して**変更の概要を抽出**できます：
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -99,21 +99,21 @@ sudo dive flask:latest
 ```
 これにより、**dockerイメージの異なるblobをナビゲート**し、どのファイルが変更/追加されたかを確認できます。**赤**は追加されたことを意味し、**黄色**は変更されたことを意味します。**tab**を使用して他のビューに移動し、**space**を使用してフォルダーを折りたたむ/開くことができます。
 
-dieを使用すると、イメージの異なるステージの内容にアクセスすることはできません。そうするには、**各レイヤーを解凍してアクセスする必要があります**。\
-イメージが解凍されたディレクトリから、次のコマンドを実行してすべてのレイヤーを解凍できます：
+dieを使用すると、イメージの異なるステージの内容にアクセスすることはできません。そのためには、**各レイヤーを解凍してアクセスする**必要があります。\
+イメージが解凍されたディレクトリから、次のコマンドを実行してイメージのすべてのレイヤーを解凍できます：
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
-## メモリからの資格情報
+## メモリからの認証情報
 
-ホスト内でdockerコンテナを実行するとき、**ホストからコンテナ上で実行されているプロセスを見ることができます**。単に`ps -ef`を実行するだけです。
+ホスト内でdockerコンテナを実行するとき、**ホストからコンテナ上で実行されているプロセスを見ることができます**。`ps -ef`を実行するだけです。
 
-したがって（rootとして）、**ホストからプロセスのメモリをダンプし**、**資格情報**を検索することができます。これは[**次の例のように**](../../linux-hardening/privilege-escalation/#process-memory)行います。
+したがって（rootとして）、**ホストからプロセスのメモリをダンプし**、**認証情報**を検索することができます。これは[**次の例のように**](../../linux-hardening/privilege-escalation/#process-memory)行います。
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-8kSec Academyで**モバイルセキュリティ**の専門知識を深めましょう。自己ペースのコースを通じてiOSとAndroidのセキュリティをマスターし、認定を取得しましょう：
+**モバイルセキュリティ**の専門知識を深めるために、8kSec Academyで学びましょう。自己ペースのコースを通じてiOSとAndroidのセキュリティをマスターし、認定を取得しましょう：
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -127,7 +127,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

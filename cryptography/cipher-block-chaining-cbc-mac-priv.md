@@ -1,14 +1,14 @@
 {% hint style="success" %}
-**AWSハッキングの学習と練習:**<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-**GCPハッキングの学習と練習:** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のGitHubリポジトリにPRを提出して、ハッキングテクニックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,68 +16,68 @@
 
 # CBC
 
-もし**クッキー**が**ユーザー名**だけである場合（またはクッキーの最初の部分がユーザー名である場合）で、ユーザー名を "**admin**" に偽装したい場合、ユーザー名 **"bdmin"** を作成し、クッキーの**最初のバイト**を**ブルートフォース**します。
+もし**クッキー**が**ユーザー名**だけで（またはクッキーの最初の部分がユーザー名で）、「**admin**」というユーザー名を偽装したい場合、ユーザー名**"bdmin"**を作成し、**最初のバイト**を**ブルートフォース**することができます。
 
 # CBC-MAC
 
-**Cipher block chaining message authentication code**（**CBC-MAC**）は、暗号学で使用される方法です。メッセージをブロックごとに暗号化し、各ブロックの暗号化が前のブロックにリンクされるように機能します。このプロセスにより、元のメッセージの1ビットでも変更すると、暗号化されたデータの最後のブロックに予測不可能な変更が生じます。この変更を行うか逆にするには、暗号化キーが必要であり、セキュリティが確保されます。
+**暗号ブロック連鎖メッセージ認証コード**（**CBC-MAC**）は、暗号学で使用される方法です。これは、メッセージをブロックごとに暗号化し、各ブロックの暗号化が前のブロックにリンクされることで機能します。このプロセスは**ブロックの連鎖**を作成し、元のメッセージのビットを1つ変更するだけでも、暗号化されたデータの最後のブロックに予測不可能な変化をもたらすことを保証します。このような変更を行うためには、暗号化キーが必要であり、セキュリティが確保されます。
 
-メッセージ m の CBC-MAC を計算するには、m をゼロ初期化ベクトルで CBC モードで暗号化し、最後のブロックを保持します。次の図は、秘密鍵 k とブロック暗号 E を使用して、メッセージをブロックで構成する CBC-MAC の計算をスケッチアップします：![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5)
+メッセージmのCBC-MACを計算するには、ゼロ初期化ベクトルでCBCモードでmを暗号化し、最後のブロックを保持します。以下の図は、秘密鍵kとブロック暗号Eを使用して、ブロックからなるメッセージのCBC-MACの計算を概略しています！[https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) 
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
-# 脆弱性
+# Vulnerability
 
-通常、CBC-MAC では使用される**IV は 0**です。\
-これは、2つの既知のメッセージ（`m1` と `m2`）が独立していると、2つの署名（`s1` と `s2`）が生成されるという問題があります。つまり：
+CBC-MACでは通常**使用されるIVは0**です。\
+これは問題です。なぜなら、2つの既知のメッセージ（`m1`と`m2`）が独立して2つの署名（`s1`と`s2`）を生成するからです。したがって：
 
 * `E(m1 XOR 0) = s1`
 * `E(m2 XOR 0) = s2`
 
-その後、m1 と m2 を連結したメッセージ（m3）は、2つの署名（s31 と s32）を生成します：
+次に、m1とm2を連結したメッセージ（m3）は2つの署名（s31とs32）を生成します：
 
 * `E(m1 XOR 0) = s31 = s1`
 * `E(m2 XOR s1) = s32`
 
-**これは、暗号化の鍵を知らなくても計算可能です。**
+**これは暗号化のキーを知らなくても計算可能です。**
 
-8バイトのブロックで名前 **Administrator** を暗号化していると想像してください：
+あなたが**Administrator**という名前を**8バイト**のブロックで暗号化していると想像してください：
 
 * `Administ`
 * `rator\00\00\00`
 
-**Administ**（m1）というユーザー名を作成し、署名（s1）を取得できます。\
-次に、`rator\00\00\00 XOR s1` の結果となるユーザー名を作成できます。これにより `E(m2 XOR s1 XOR 0)` が生成され、s32 が得られます。\
-これで、s32 を **Administrator** のフルネームの署名として使用できます。
+ユーザー名**Administ**（m1）を作成し、署名（s1）を取得できます。\
+次に、`rator\00\00\00 XOR s1`の結果を持つユーザー名を作成できます。これにより、`E(m2 XOR s1 XOR 0)`が生成され、これはs32になります。\
+今、s32を**Administrator**というフルネームの署名として使用できます。
 
-### 要約
+### Summary
 
-1. ユーザー名 **Administ**（m1）の署名である s1 を取得します。
-2. ユーザー名 **rator\x00\x00\x00 XOR s1 XOR 0** の署名である s32 を取得します。
-3. クッキーを s32 に設定すると、ユーザー **Administrator** の有効なクッキーになります。
+1. ユーザー名**Administ**（m1）の署名を取得し、それがs1です。
+2. ユーザー名**rator\x00\x00\x00 XOR s1 XOR 0**の署名を取得し、それがs32です。**
+3. クッキーをs32に設定すると、ユーザー**Administrator**の有効なクッキーになります。
 
-# IV の制御による攻撃
+# Attack Controlling IV
 
-使用される IV を制御できる場合、攻撃は非常に簡単になります。\
-クッキーが単に暗号化されたユーザー名である場合、ユーザー "**administrator**" を偽装するためにユーザー "**Administrator**" を作成し、そのクッキーを取得できます。\
-そして、IV を制御できる場合、IV の最初のバイトを変更して **IV\[0] XOR "A" == IV'\[0] XOR "a"** とし、ユーザー **Administrator** のクッキーを再生成できます。このクッキーは、初期の **IV** で **administrator** ユーザーを **偽装**するために有効です。
+使用されるIVを制御できる場合、攻撃は非常に簡単になる可能性があります。\
+クッキーが単に暗号化されたユーザー名である場合、ユーザー「**administrator**」を偽装するために、ユーザー「**Administrator**」を作成し、そのクッキーを取得できます。\
+今、IVを制御できる場合、IVの最初のバイトを変更することができ、**IV\[0] XOR "A" == IV'\[0] XOR "a"**となり、ユーザー**Administrator**のクッキーを再生成できます。このクッキーは、初期**IV**を使用してユーザー**administrator**を**偽装する**のに有効です。
 
-## 参考文献
+## References
 
-詳細は[https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)を参照してください。
+詳細情報は[https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)を参照してください。
 
 
 {% hint style="success" %}
-**AWSハッキングの学習と練習:**<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-**GCPハッキングの学習と練習:** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のGitHubリポジトリにPRを提出して、ハッキングテクニックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

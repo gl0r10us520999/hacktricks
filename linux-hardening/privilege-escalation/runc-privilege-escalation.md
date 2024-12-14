@@ -9,8 +9,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -52,7 +52,7 @@ mkdir rootfs
 runc run demo
 ```
 {% hint style="danger" %}
-これは常に機能するわけではありません。なぜなら、runcのデフォルトの動作はrootとして実行することであり、特権のないユーザーとして実行することは単純に機能しないからです（ルートレス構成がない限り）。ルートレス構成をデフォルトにすることは一般的には良いアイデアではありません。なぜなら、ルートレスコンテナ内には、ルートレスコンテナの外には適用されないいくつかの制限があるからです。
+これは常に機能するわけではありません。なぜなら、runcのデフォルトの動作はrootとして実行することであり、特権のないユーザーとして実行することは単純に機能しないからです（ルートレス構成がない限り）。ルートレス構成をデフォルトにすることは一般的には良いアイデアではありません。なぜなら、ルートレスコンテナ内には、ルートレスコンテナ外には適用されないいくつかの制限があるからです。
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

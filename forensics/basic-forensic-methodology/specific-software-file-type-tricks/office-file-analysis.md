@@ -27,9 +27,9 @@ For further information check [https://trailofbits.github.io/ctf/forensics/](htt
 
 Microsoftは多くのオフィス文書フォーマットを作成しており、主に**OLEフォーマット**（RTF、DOC、XLS、PPTなど）と**Office Open XML（OOXML）フォーマット**（DOCX、XLSX、PPTXなど）の2種類があります。これらのフォーマットにはマクロが含まれることがあり、フィッシングやマルウェアの標的となります。OOXMLファイルはzipコンテナとして構造化されており、解凍することでファイルとフォルダの階層やXMLファイルの内容を確認できます。
 
-OOXMLファイル構造を探るための文書を解凍するコマンドと出力構造が示されています。これらのファイルにデータを隠す技術が文書化されており、CTFチャレンジ内でのデータ隠蔽の革新が続いていることを示しています。
+OOXMLファイル構造を探るための文書を解凍するコマンドと出力構造が示されています。これらのファイルにデータを隠す技術が文書化されており、CTFチャレンジ内でのデータ隠蔽の革新が進行中であることを示しています。
 
-分析のために、**oletools**と**OfficeDissector**はOLEおよびOOXML文書を調査するための包括的なツールセットを提供します。これらのツールは、マルウェア配信のベクターとして機能することが多い埋め込まれたマクロを特定し、分析するのに役立ちます。VBAマクロの分析は、Libre Officeを利用することでMicrosoft Officeなしで行うことができ、ブレークポイントやウォッチ変数を使ってデバッグが可能です。
+分析のために、**oletools**と**OfficeDissector**はOLEおよびOOXML文書を調査するための包括的なツールセットを提供します。これらのツールは、しばしばマルウェア配信のベクターとして機能する埋め込まれたマクロを特定し分析するのに役立ちます。VBAマクロの分析は、Libre Officeを利用することでMicrosoft Officeなしで行うことができ、ブレークポイントやウォッチ変数を使ってデバッグが可能です。
 
 **oletools**のインストールと使用は簡単で、pipを介してインストールし、文書からマクロを抽出するためのコマンドが提供されています。マクロの自動実行は、`AutoOpen`、`AutoExec`、または`Document_Open`のような関数によってトリガーされます。
 ```bash
@@ -54,7 +54,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

@@ -19,7 +19,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 \
 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=pdf-file-analysis)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
-今すぐアクセスを取得：
+今すぐアクセス：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pdf-file-analysis" %}
 
@@ -36,7 +36,7 @@ PDFの詳細な探索や操作には、[qpdf](https://github.com/qpdf/qpdf)や[O
 * 画像の背後にあるテキストや重なり合った画像
 * 表示されていないコメント
 
-カスタムPDF分析には、[PeepDF](https://github.com/jesparza/peepdf)のようなPythonライブラリを使用して、特注のパーススクリプトを作成できます。さらに、PDFの隠されたデータストレージの可能性は非常に広範であり、NSAのPDFリスクと対策に関するガイドのようなリソースは、もはや元の場所にホストされていませんが、貴重な洞察を提供します。[ガイドのコピー](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%Bútmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)や、Ange Albertiniによる[PDF形式のトリックのコレクション](https://github.com/corkami/docs/blob/master/PDF/PDF.md)は、このテーマに関するさらなる読み物を提供します。
+カスタムPDF分析には、[PeepDF](https://github.com/jesparza/peepdf)のようなPythonライブラリを使用して、特注のパーススクリプトを作成できます。さらに、PDFの隠されたデータストレージの可能性は非常に広範であり、NSAのPDFリスクと対策に関するガイドのようなリソースは、もはや元の場所にホストされていませんが、貴重な洞察を提供します。[ガイドのコピー](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)や、Ange Albertiniによる[PDF形式のトリックのコレクション](https://github.com/corkami/docs/blob/master/PDF/PDF.md)は、このテーマに関するさらなる読み物を提供します。
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

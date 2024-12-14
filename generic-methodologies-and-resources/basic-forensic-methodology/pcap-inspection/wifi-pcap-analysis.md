@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## BSSIDを確認する
+## BSSIDの確認
 
 WireSharkを使用してWifiの主要なトラフィックをキャプチャした場合、_Wireless --> WLAN Traffic_を使用してキャプチャのすべてのSSIDを調査し始めることができます：
 
@@ -29,9 +29,9 @@ WireSharkを使用してWifiの主要なトラフィックをキャプチャし�
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
-例えば、PSK（事前共有キー）を保護するWPAパスフレーズを取得し、後でトラフィックを復号化するために必要です。
+例えば、トラフィックを後で復号化するために必要なPSK（事前共有キー）を保護するWPAパスフレーズを取得します。
 
-## ビーコン / サイドチャネルのデータ
+## ビーコン内のデータ / サイドチャネル
 
 **Wifiネットワークのビーコン内でデータが漏洩していると疑う場合**、次のようなフィルターを使用してネットワークのビーコンを確認できます：`wlan contains <NAMEofNETWORK>`、または`wlan.ssid == "NAMEofNETWORK"`フィルタリングされたパケット内で疑わしい文字列を検索します。
 
@@ -41,7 +41,7 @@ aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-すでに**MACアドレスを知っている場合は、出力からそれらを削除**するために、次のようなチェックを追加できます：`&& !(wlan.addr==5c:51:88:31:a0:3b)`
+**MACアドレスをすでに知っている場合は、出力からそれらを削除できます**。次のようなチェックを追加します：`&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
 ネットワーク内で通信している**不明なMAC**アドレスを検出したら、次のような**フィルター**を使用できます：`wlan.addr==<MAC address> && (ftp || http || ssh || telnet)`トラフィックをフィルタリングします。ftp/http/ssh/telnetフィルターは、トラフィックを復号化した場合に便利です。
 

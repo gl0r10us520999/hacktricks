@@ -1,8 +1,8 @@
 # ブラウザのアーティファクト
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -18,57 +18,57 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も先進的なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も先進的なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
 今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## ブラウザのアーティファクト <a href="#id-3def" id="id-3def"></a>
 
-ブラウザのアーティファクトには、ナビゲーション履歴、ブックマーク、キャッシュデータなど、ウェブブラウザによって保存されるさまざまな種類のデータが含まれます。これらのアーティファクトは、オペレーティングシステム内の特定のフォルダーに保存され、ブラウザごとに場所や名前が異なりますが、一般的には同様のデータタイプを保存しています。
+ブラウザのアーティファクトには、ナビゲーション履歴、ブックマーク、キャッシュデータなど、ウェブブラウザによって保存されるさまざまな種類のデータが含まれます。これらのアーティファクトは、オペレーティングシステム内の特定のフォルダーに保存され、ブラウザごとに場所と名前が異なりますが、一般的には同様のデータタイプを保存しています。
 
 最も一般的なブラウザのアーティファクトの概要は次のとおりです：
 
-* **ナビゲーション履歴**: ユーザーのウェブサイト訪問を追跡し、悪意のあるサイトへの訪問を特定するのに役立ちます。
-* **オートコンプリートデータ**: 頻繁な検索に基づく提案で、ナビゲーション履歴と組み合わせることで洞察を提供します。
-* **ブックマーク**: ユーザーが迅速にアクセスするために保存したサイト。
-* **拡張機能とアドオン**: ユーザーがインストールしたブラウザの拡張機能やアドオン。
-* **キャッシュ**: ウェブコンテンツ（例：画像、JavaScriptファイル）を保存し、ウェブサイトの読み込み時間を改善します。法医学的分析にとって貴重です。
-* **ログイン情報**: 保存されたログイン資格情報。
-* **ファビコン**: ウェブサイトに関連付けられたアイコンで、タブやブックマークに表示され、ユーザーの訪問に関する追加情報に役立ちます。
-* **ブラウザセッション**: 開いているブラウザセッションに関連するデータ。
-* **ダウンロード**: ブラウザを通じてダウンロードされたファイルの記録。
-* **フォームデータ**: ウェブフォームに入力された情報で、将来のオートフィル提案のために保存されます。
-* **サムネイル**: ウェブサイトのプレビュー画像。
-* **Custom Dictionary.txt**: ユーザーがブラウザの辞書に追加した単語。
+* **ナビゲーション履歴**：ユーザーが訪れたウェブサイトを追跡し、悪意のあるサイトへの訪問を特定するのに役立ちます。
+* **オートコンプリートデータ**：頻繁に検索された内容に基づく提案で、ナビゲーション履歴と組み合わせることで洞察を提供します。
+* **ブックマーク**：ユーザーが迅速にアクセスするために保存したサイト。
+* **拡張機能とアドオン**：ユーザーがインストールしたブラウザの拡張機能やアドオン。
+* **キャッシュ**：ウェブコンテンツ（例：画像、JavaScriptファイル）を保存し、ウェブサイトの読み込み時間を改善します。法医学的分析にとって貴重です。
+* **ログイン情報**：保存されたログイン資格情報。
+* **ファビコン**：ウェブサイトに関連付けられたアイコンで、タブやブックマークに表示され、ユーザーの訪問に関する追加情報に役立ちます。
+* **ブラウザセッション**：開いているブラウザセッションに関連するデータ。
+* **ダウンロード**：ブラウザを通じてダウンロードされたファイルの記録。
+* **フォームデータ**：ウェブフォームに入力された情報で、将来のオートフィル提案のために保存されます。
+* **サムネイル**：ウェブサイトのプレビュー画像。
+* **Custom Dictionary.txt**：ユーザーがブラウザの辞書に追加した単語。
 
 ## Firefox
 
 Firefoxは、ユーザーデータをプロファイル内に整理し、オペレーティングシステムに基づいて特定の場所に保存します：
 
-* **Linux**: `~/.mozilla/firefox/`
-* **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
-* **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
+* **Linux**：`~/.mozilla/firefox/`
+* **MacOS**：`/Users/$USER/Library/Application Support/Firefox/Profiles/`
+* **Windows**：`%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
 これらのディレクトリ内の`profiles.ini`ファイルには、ユーザープロファイルがリストされています。各プロファイルのデータは、`profiles.ini`内の`Path`変数に名前が付けられたフォルダーに保存され、`profiles.ini`自体と同じディレクトリにあります。プロファイルのフォルダーが欠けている場合は、削除された可能性があります。
 
 各プロファイルフォルダー内には、いくつかの重要なファイルがあります：
 
-* **places.sqlite**: 履歴、ブックマーク、ダウンロードを保存します。Windows上の[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)のようなツールで履歴データにアクセスできます。
+* **places.sqlite**：履歴、ブックマーク、ダウンロードを保存します。Windows上の[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)のようなツールで履歴データにアクセスできます。
 * 特定のSQLクエリを使用して、履歴とダウンロード情報を抽出します。
-* **bookmarkbackups**: ブックマークのバックアップを含みます。
-* **formhistory.sqlite**: ウェブフォームデータを保存します。
-* **handlers.json**: プロトコルハンドラーを管理します。
-* **persdict.dat**: カスタム辞書の単語。
-* **addons.json**および**extensions.sqlite**: インストールされたアドオンと拡張機能に関する情報。
-* **cookies.sqlite**: クッキーの保存、Windows上での検査には[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)が利用可能です。
-* **cache2/entries**または**startupCache**: キャッシュデータで、[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)のようなツールを通じてアクセスできます。
-* **favicons.sqlite**: ファビコンを保存します。
-* **prefs.js**: ユーザー設定と好み。
-* **downloads.sqlite**: 古いダウンロードデータベースで、現在はplaces.sqliteに統合されています。
-* **thumbnails**: ウェブサイトのサムネイル。
-* **logins.json**: 暗号化されたログイン情報。
-* **key4.db**または**key3.db**: 機密情報を保護するための暗号化キーを保存します。
+* **bookmarkbackups**：ブックマークのバックアップを含みます。
+* **formhistory.sqlite**：ウェブフォームデータを保存します。
+* **handlers.json**：プロトコルハンドラーを管理します。
+* **persdict.dat**：カスタム辞書の単語。
+* **addons.json**および**extensions.sqlite**：インストールされたアドオンと拡張機能に関する情報。
+* **cookies.sqlite**：クッキーの保存、Windows上での検査には[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)が利用可能です。
+* **cache2/entries**または**startupCache**：キャッシュデータで、[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)のようなツールを通じてアクセスできます。
+* **favicons.sqlite**：ファビコンを保存します。
+* **prefs.js**：ユーザー設定と好み。
+* **downloads.sqlite**：古いダウンロードデータベースで、現在はplaces.sqliteに統合されています。
+* **thumbnails**：ウェブサイトのサムネイル。
+* **logins.json**：暗号化されたログイン情報。
+* **key4.db**または**key3.db**：機密情報を保護するための暗号化キーを保存します。
 
 さらに、ブラウザのフィッシング対策設定を確認するには、`prefs.js`内の`browser.safebrowsing`エントリを検索し、安全なブラウジング機能が有効または無効になっているかを示します。
 
@@ -92,39 +92,39 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chromeは、オペレーティングシステムに基づいて特定の場所にユーザープロファイルを保存します。
+Google Chromeは、オペレーティングシステムに基づいて特定の場所にユーザープロファイルを保存します：
 
 * **Linux**: `~/.config/google-chrome/`
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 * **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-これらのディレクトリ内で、ほとんどのユーザーデータは**Default/**または**ChromeDefaultData/**フォルダーに見つかります。以下のファイルは重要なデータを保持しています。
+これらのディレクトリ内で、ほとんどのユーザーデータは**Default/**または**ChromeDefaultData/**フォルダーに見つかります。以下のファイルは重要なデータを保持しています：
 
 * **History**: URL、ダウンロード、検索キーワードを含みます。Windowsでは、[ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html)を使用して履歴を読むことができます。「Transition Type」列には、リンクのクリック、入力されたURL、フォームの送信、ページの再読み込みなど、さまざまな意味があります。
 * **Cookies**: クッキーを保存します。検査には、[ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html)が利用可能です。
-* **Cache**: キャッシュデータを保持します。検査には、Windowsユーザーは[ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html)を利用できます。
+* **Cache**: キャッシュデータを保持します。検査するには、Windowsユーザーは[ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html)を利用できます。
 * **Bookmarks**: ユーザーのブックマーク。
 * **Web Data**: フォーム履歴を含みます。
 * **Favicons**: ウェブサイトのファビコンを保存します。
 * **Login Data**: ユーザー名やパスワードなどのログイン資格情報を含みます。
-* **Current Session**/**Current Tabs**: 現在のブラウジングセッションとオープンタブに関するデータ。
+* **Current Session**/**Current Tabs**: 現在のブラウジングセッションと開いているタブに関するデータ。
 * **Last Session**/**Last Tabs**: Chromeが閉じられる前の最後のセッション中にアクティブだったサイトに関する情報。
-* **Extensions**: ブラウザ拡張機能とアドオンのディレクトリ。
+* **Extensions**: ブラウザ拡張機能やアドオンのディレクトリ。
 * **Thumbnails**: ウェブサイトのサムネイルを保存します。
-* **Preferences**: プラグイン、拡張機能、ポップアップ、通知などの設定を含む情報が豊富なファイルです。
+* **Preferences**: プラグイン、拡張機能、ポップアップ、通知などの設定を含む情報が豊富なファイル。
 * **Browser’s built-in anti-phishing**: フィッシング対策とマルウェア保護が有効かどうかを確認するには、`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`を実行します。出力に`{"enabled: true,"}`があるか探します。
 
 ## **SQLite DB Data Recovery**
 
-前のセクションで観察できるように、ChromeとFirefoxはデータを保存するために**SQLite**データベースを使用しています。**削除されたエントリを回復することが可能です** [**sqlparse**](https://github.com/padfoot999/sqlparse) **または** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)を使用します。
+前のセクションで観察できるように、ChromeとFirefoxの両方は**SQLite**データベースを使用してデータを保存しています。**削除されたエントリを回復することが可能です** [**sqlparse**](https://github.com/padfoot999/sqlparse) **または** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)を使用して。
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11は、さまざまな場所でデータとメタデータを管理し、保存された情報とその対応する詳細を分離して簡単にアクセスおよび管理できるようにします。
+Internet Explorer 11は、データとメタデータをさまざまな場所で管理し、保存された情報とその対応する詳細を分離して簡単にアクセスおよび管理できるようにします。
 
 ### メタデータストレージ
 
-Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`に保存されます（VXはV01、V16、またはV24です）。これに伴い、`V01.log`ファイルは`WebcacheVX.data`との修正時間の不一致を示す場合があり、`esentutl /r V01 /d`を使用して修復が必要です。このメタデータはESEデータベースに格納されており、photorecや[**ESEDatabaseView**](https://www.nirsoft.net/utils/ese\_database\_view.html)などのツールを使用して回復および検査できます。**Containers**テーブル内では、各データセグメントが保存されている特定のテーブルやコンテナを識別でき、Skypeなどの他のMicrosoftツールのキャッシュ詳細も含まれています。
+Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`に保存されます（VXはV01、V16、またはV24です）。これに伴い、`V01.log`ファイルは`WebcacheVX.data`との修正時間の不一致を示すことがあり、`esentutl /r V01 /d`を使用して修復が必要です。このメタデータはESEデータベースに格納されており、photorecや[**ESEDatabaseView**](https://www.nirsoft.net/utils/ese\_database\_view.html)などのツールを使用して回復および検査できます。**Containers**テーブル内では、各データセグメントが保存されている特定のテーブルやコンテナを識別でき、Skypeなどの他のMicrosoftツールのキャッシュ詳細も含まれています。
 
 ### キャッシュ検査
 
@@ -148,7 +148,7 @@ Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\
 
 ## Microsoft Edge
 
-Microsoft Edgeは、`%userprofile%\Appdata\Local\Packages`にユーザーデータを保存します。さまざまなデータタイプのパスは次のとおりです。
+Microsoft Edgeは、`%userprofile%\Appdata\Local\Packages`にユーザーデータを保存します。さまざまなデータタイプのパスは次のとおりです：
 
 * **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -158,7 +158,7 @@ Microsoft Edgeは、`%userprofile%\Appdata\Local\Packages`にユーザーデー�
 
 ## Safari
 
-Safariデータは`/Users/$User/Library/Safari`に保存されます。主なファイルは次のとおりです。
+Safariデータは`/Users/$User/Library/Safari`に保存されます。主なファイルは次のとおりです：
 
 * **History.db**: `history_visits`および`history_items`テーブルにURLと訪問タイムスタンプが含まれています。`sqlite3`を使用してクエリを実行します。
 * **Downloads.plist**: ダウンロードされたファイルに関する情報。

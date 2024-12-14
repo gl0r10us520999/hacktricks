@@ -1,16 +1,16 @@
-# Linux Environment Variables
+# Linux 環境変数
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS ハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP ハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricksをサポートする</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 グローバル変数は**子プロセス**によって**継承されます**。
 
-現在のセッションのためにグローバル変数を作成するには、次のようにします:
+現在のセッションのためにグローバル変数を作成するには、次のようにします：
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
@@ -38,7 +38,7 @@ LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## 現在の変数のリスト
+## 現在の変数をリストする
 ```bash
 set
 env
@@ -56,17 +56,17 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **HISTSIZE** – ユーザーがセッションを終了したときに履歴ファイルに追加される行数。
 * **HOME** – あなたのホームディレクトリ。
 * **HOSTNAME** – コンピュータのホスト名。
-* **LANG** – 現在の言語。
+* **LANG** – あなたの現在の言語。
 * **MAIL** – ユーザーのメールスプールの場所。通常は**/var/spool/mail/USER**。
 * **MANPATH** – マニュアルページを検索するためのディレクトリのリスト。
 * **OSTYPE** – オペレーティングシステムの種類。
 * **PS1** – bashのデフォルトプロンプト。
-* **PATH** – バイナリファイルを実行するためのすべてのディレクトリのパスを格納します。ファイル名を指定するだけで、相対パスや絶対パスを使わずに実行できます。
+* **PATH** – バイナリファイルを実行するためにファイル名を指定するだけで済むすべてのディレクトリのパスを格納します。
 * **PWD** – 現在の作業ディレクトリ。
 * **SHELL** – 現在のコマンドシェルへのパス（例：**/bin/bash**）。
 * **TERM** – 現在の端末タイプ（例：**xterm**）。
 * **TZ** – あなたのタイムゾーン。
-* **USER** – 現在のユーザー名。
+* **USER** – あなたの現在のユーザー名。
 
 ## Interesting variables for hacking
 
@@ -127,7 +127,7 @@ GCPハッキングを学び、練習する: <img src="/.gitbook/assets/grte.png"
 
 <summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 

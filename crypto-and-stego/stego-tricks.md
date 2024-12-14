@@ -39,7 +39,7 @@ exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-exiftoolと同様に、メタデータの表示に使用されます。`apt`を介してインストール可能で、[GitHub](https://github.com/Exiv2/exiv2)にソースがあります。また、[公式ウェブサイト](http://www.exiv2.org/)もあります。
+exiftoolと同様に、メタデータの表示に使用されます。`apt`を介してインストール可能で、[GitHub](https://github.com/Exiv2/exiv2)にソースがあり、[公式ウェブサイト](http://www.exiv2.org/)があります。
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -77,11 +77,11 @@ cmp original.jpg stego.jpg -b -l
 
 ### **GraphicMagickを使用した画像詳細の特定**
 
-[GraphicMagick](https://imagemagick.org/script/download.php)は、画像ファイルの種類を特定し、潜在的な破損を識別するために使用されます。画像を検査するには、以下のコマンドを実行してください：
+[GraphicMagick](https://imagemagick.org/script/download.php)は、画像ファイルの種類を特定し、潜在的な破損を識別するために使用されます。以下のコマンドを実行して画像を検査します：
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-損傷した画像の修復を試みるために、メタデータコメントを追加することが役立つかもしれません：
+損傷した画像の修復を試みるために、メタデータコメントを追加することが役立つかもしれません:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
@@ -98,7 +98,7 @@ Steghideは、`JPEG、BMP、WAV、AU`ファイル内にデータを隠すこと�
 
 **Stegcrackerによるブルートフォース攻撃:**
 
-* Steghideのパスワードクラッキングを試みるには、次のように[stegcracker](https://github.com/Paradoxis/StegCracker.git)を使用します:
+* Steghideのパスワードクラッキングを試みるには、[stegcracker](https://github.com/Paradoxis/StegCracker.git)を次のように使用します:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
@@ -166,7 +166,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavStegは、最下位ビット戦略を使用してWAVファイル内にデータを隠蔽し、抽出するのに優れています。これは[GitHub](https://github.com/ragibson/Steganography#WavSteg)で入手可能です。コマンドには次のものが含まれます:
+WavStegは、最下位ビット戦略を使用してWAVファイル内にデータを隠蔽および抽出するのに優れています。これは[GitHub](https://github.com/ragibson/Steganography#WavSteg)で入手可能です。コマンドには次のものが含まれます：
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -193,7 +193,7 @@ Deepsoundは、AES-256を使用して音声ファイル内の情報を暗号化�
 import math
 math.sqrt(2500) #50
 ```
-バイナリから画像への変換については、[dcode](https://www.dcode.fr/binary-image)を確認してください。QRコードを読み取るには、[このオンラインバーコードリーダー](https://online-barcode-reader.inliteresearch.com/)を使用してください。
+バイナリから画像への変換については、[dcode](https://www.dcode.fr/binary-image)を確認してください。QRコードを読むには、[このオンラインバーコードリーダー](https://online-barcode-reader.inliteresearch.com/)を使用してください。
 
 ### **点字翻訳**
 
@@ -214,7 +214,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 (Example from [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-少し掘り下げて、`confd`およびさまざまなバイナリに関連する[ドキュメント](http://66.218.245.39/doc/html/rn03re18.html)を調べたところ、IPCソケットを認証するために、`/etc/confd/confd_ipc_secret`にある秘密を使用していることがわかりました。
+少し掘り下げて、`confd`およびさまざまなバイナリに関連する[ドキュメント](http://66.218.245.39/doc/html/rn03re18.html)を調べた後、IPCソケットを認証するために、`/etc/confd/confd_ipc_secret`にある秘密を使用していることがわかりました。
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -59,7 +59,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 (Example from [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-synacktivチームによるブログ¹は、rootシェルを取得するための洗練された方法を説明しましたが、その注意点は、rootのみが読み取れる`/usr/bin/confd_cli_user`のコピーを取得する必要があることです。私は、そのような手間をかけずにrootに昇格する別の方法を見つけました。
+synacktivチームによるブログ¹は、rootシェルを取得するためのエレガントな方法を説明しましたが、注意点は、rootのみが読み取れる`/usr/bin/confd_cli_user`のコピーを取得する必要があることです。私は、そのような手間なしにrootに昇格する別の方法を見つけました。
 
 `/usr/bin/confd_cli`バイナリを逆アセンブルしたとき、私は以下のことを観察しました：
 ```
@@ -168,7 +168,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

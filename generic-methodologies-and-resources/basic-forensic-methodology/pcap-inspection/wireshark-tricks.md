@@ -37,37 +37,37 @@ _**Analyze** --> **Expert Information**_をクリックすると、**分析さ�
 
 **Resolved Addresses**
 
-_**Statistics --> Resolved Addresses**_の下には、wiresharkによって「**解決された**」いくつかの**情報**（ポート/トランスポートからプロトコル、MACから製造元など）を見つけることができます。通信に関与しているものを知ることは興味深いです。
+_**Statistics --> Resolved Addresses**_の下には、wiresharkによって「**解決された**」いくつかの**情報**（ポート/トランスポートからプロトコル、MACから製造元など）を見つけることができます。通信に何が関与しているかを知るのは興味深いです。
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protocol Hierarchy**
 
-_**Statistics --> Protocol Hierarchy**_の下には、通信に関与する**プロトコル**とそれに関するデータがあります。
+_**Statistics --> Protocol Hierarchy**_の下には、通信に関与する**プロトコル**とそれに関するデータを見つけることができます。
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-_**Statistics --> Conversations**_の下には、通信の**会話の概要**とそれに関するデータがあります。
+_**Statistics --> Conversations**_の下には、通信の**会話の概要**とそれに関するデータを見つけることができます。
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-_**Statistics --> Endpoints**_の下には、通信の**エンドポイントの概要**とそれぞれに関するデータがあります。
+_**Statistics --> Endpoints**_の下には、通信の**エンドポイントの概要**とそれぞれに関するデータを見つけることができます。
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS info**
 
-_**Statistics --> DNS**_の下には、キャプチャされたDNSリクエストに関する統計があります。
+_**Statistics --> DNS**_の下には、キャプチャされたDNSリクエストに関する統計を見つけることができます。
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
 **I/O Graph**
 
-_**Statistics --> I/O Graph**_の下には、**通信のグラフ**があります。
+_**Statistics --> I/O Graph**_の下には、**通信のグラフ**を見つけることができます。
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
@@ -85,7 +85,7 @@ _**Statistics --> I/O Graph**_の下には、**通信のグラフ**がありま�
 
 ### Search
 
-セッションの**パケット**内の**コンテンツ**を**検索**したい場合は、_CTRL+f_を押します。メイン情報バー（No.、Time、Sourceなど）に新しいレイヤーを追加するには、右ボタンを押してから列を編集します。
+セッションの**パケット**内の**コンテンツ**を**検索**したい場合は、_CTRL+f_を押します。右ボタンを押してから列を編集することで、メイン情報バー（No.、Time、Sourceなど）に新しいレイヤーを追加できます。
 
 ### Free pcap labs
 
@@ -121,11 +121,11 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-_サーバーとプライベートキーのすべてのデータを追加するには、_Edit_を押します（_IP、Port、Protocol、Key fileおよびpassword_）
+サーバーとプライベートキーのすべてのデータを追加するために_Edit_を押します（_IP、Port、Protocol、Key fileおよびpassword_）
 
 ### Decrypting https traffic with symmetric session keys
 
-FirefoxとChromeの両方は、TLSセッションキーをログに記録する機能があり、これを使用してWiresharkでTLSトラフィックを復号化できます。これにより、安全な通信の詳細な分析が可能になります。この復号化を実行する方法の詳細は、[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)のガイドにあります。
+FirefoxとChromeの両方には、TLSセッションキーをログに記録する機能があり、これをWiresharkで使用してTLSトラフィックを復号化できます。これにより、安全な通信の詳細な分析が可能になります。この復号化を実行する方法の詳細は、[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)のガイドにあります。
 
 これを検出するには、環境内で変数`SSLKEYLOGFILE`を検索します。
 
@@ -176,7 +176,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

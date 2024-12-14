@@ -10,14 +10,14 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングのトリックを共有してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}
 
 ## タイムスタンプ
 
-攻撃者は、**ファイルのタイムスタンプを変更すること**に興味があるかもしれません。\
+攻撃者は**ファイルのタイムスタンプを変更すること**に興味があるかもしれません。\
 タイムスタンプは、MFT内の属性`$STANDARD_INFORMATION` \_\_ と \_\_ `$FILE_NAME`に見つけることができます。
 
 両方の属性には4つのタイムスタンプがあります：**変更**、**アクセス**、**作成**、および**MFTレジストリ変更**（MACEまたはMACB）。
@@ -26,7 +26,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ### TimeStomp - アンチフォレンジックツール
 
-このツールは、**`$STANDARD_INFORMATION`**内のタイムスタンプ情報を**変更**しますが、**`$FILE_NAME`**内の情報は**変更しません**。したがって、**疑わしい** **活動を特定することが可能です**。
+このツールは**`$STANDARD_INFORMATION`**内のタイムスタンプ情報を**変更**しますが、**`$FILE_NAME`**内の情報は**変更しません**。したがって、**疑わしい** **活動を特定することが可能です**。
 
 ### Usnjrnl
 
@@ -44,7 +44,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 再び、ツールの出力では、**いくつかの変更が行われた**ことが確認できます。
 
-同じツールを使用して、**タイムスタンプが変更された時刻を特定することが可能です**：
+同じツールを使用して、**タイムスタンプが変更された時刻を特定する**ことが可能です：
 
 ![](<../../.gitbook/assets/image (1089).png>)
 
@@ -90,15 +90,15 @@ slackerのようなツールを使用すると、この「隠された」スペ�
 
 ## Windows設定
 
-フォレンジック調査を非常に困難にするために、いくつかのWindowsログ記録方法を無効にすることが可能です。
+フォレンジック調査をはるかに困難にするために、いくつかのWindowsログ記録方法を無効にすることが可能です。
 
 ### タイムスタンプの無効化 - UserAssist
 
-これは、ユーザーによって各実行可能ファイルが実行された日時を保持するレジストリキーです。
+これは、ユーザーが実行した各実行可能ファイルの日時を保持するレジストリキーです。
 
 UserAssistを無効にするには、2つのステップが必要です：
 
-1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs`と`HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`の2つのレジストリキーをゼロに設定して、UserAssistを無効にすることを示します。
+1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs`と`HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`の2つのレジストリキーをゼロに設定して、UserAssistを無効にしたいことを示します。
 2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`のようなレジストリサブツリーをクリアします。
 
 ### タイムスタンプの無効化 - Prefetch
@@ -113,7 +113,7 @@ UserAssistを無効にするには、2つのステップが必要です：
 
 ### タイムスタンプの無効化 - 最終アクセス時刻
 
-NTFSボリュームからフォルダーが開かれるたびに、システムは**各リストされたフォルダーのタイムスタンプフィールドを更新するための時間を取ります**。これは、最終アクセス時刻と呼ばれます。NTFSボリュームが頻繁に使用される場合、これがパフォーマンスに影響を与える可能性があります。
+NTFSボリュームからフォルダーが開かれるたびに、システムは**各リストされたフォルダーのタイムスタンプフィールドを更新するための時間を取ります**。これを最終アクセス時刻と呼びます。NTFSボリュームが頻繁に使用される場合、これがパフォーマンスに影響を与える可能性があります。
 
 1. レジストリエディタ（Regedit.exe）を開きます。
 2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`に移動します。
@@ -140,7 +140,7 @@ GUIを介して削除することも可能で、[https://www.ubackup.com/windows
 2. リストから「Volume Shadow Copy」を見つけて選択し、右クリックしてプロパティにアクセスします。
 3. 「スタートアップの種類」ドロップダウンメニューから「無効」を選択し、変更を適用してOKをクリックします。
 
-シャドウコピーでコピーされるファイルの構成を変更することも、レジストリ`HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`で可能です。
+シャドウコピーでコピーされるファイルの構成を変更することも可能で、レジストリ`HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`で設定できます。
 
 ### 削除されたファイルの上書き
 
@@ -149,7 +149,7 @@ GUIを介して削除することも可能で、[https://www.ubackup.com/windows
 
 ### Windowsイベントログの削除
 
-* Windows + R --> eventvwr.msc --> 「Windowsログ」を展開 --> 各カテゴリを右クリックして「ログをクリア」を選択
+* Windows + R --> eventvwr.msc --> 「Windowsログ」を展開 --> 各カテゴリを右クリックして「ログのクリア」を選択
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
@@ -173,7 +173,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングのトリックを共有してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

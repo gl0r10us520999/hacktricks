@@ -17,17 +17,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家の熱い交流の場です。
+[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-**PCAP** と **PCAPNG** に関する注意: PCAPファイル形式には2つのバージョンがあります; **PCAPNGは新しく、すべてのツールでサポートされているわけではありません**。他のツールで作業するために、Wiresharkや他の互換性のあるツールを使用してPCAPNGからPCAPにファイルを変換する必要があるかもしれません。
+**PCAP** と **PCAPNG** に関する注意: PCAPファイル形式には2つのバージョンがあり、**PCAPNGは新しく、すべてのツールでサポートされているわけではありません**。他のツールで作業するために、Wiresharkや他の互換性のあるツールを使用してPCAPNGからPCAPにファイルを変換する必要があるかもしれません。
 {% endhint %}
 
 ## Online tools for pcaps
 
-* pcapのヘッダーが**壊れている**場合は、[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)を使用して**修正**を試みてください。
+* pcapのヘッダーが**壊れている**場合は、[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)を使用して**修正**を試みるべきです。
 * [**PacketTotal**](https://packettotal.com)でpcap内の**情報**を抽出し、**マルウェア**を検索します。
 * [**www.virustotal.com**](https://www.virustotal.com)および[**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)を使用して**悪意のある活動**を検索します。
 * [**https://apackets.com/**](https://apackets.com/)でブラウザから**完全なpcap分析**を行います。
@@ -75,18 +75,18 @@ _**127.0.0.1:9876**_ に _**xplico:xplico**_ の資格情報でアクセスし�
 ### NetworkMiner
 
 Xplicoと同様に、**pcapsからオブジェクトを分析および抽出する**ツールです。無料版があり、[**こちらからダウンロード**](https://www.netresec.com/?page=NetworkMiner)できます。**Windows**で動作します。\
-このツールは、**パケットから分析された他の情報**を取得するのにも役立ち、**より迅速**に何が起こっているかを知ることができます。
+このツールは、パケットから**他の情報を分析**するのにも役立ち、**より迅速**に何が起こっているかを知ることができます。
 
 ### NetWitness Investigator
 
-[**こちらからNetWitness Investigatorをダウンロード**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware)できます。**(Windowsで動作します)**\
-これは、**パケットを分析**し、情報を有用な方法で整理して、**内部で何が起こっているかを知る**のに役立つ別の便利なツールです。
+[**こちらからNetWitness Investigatorをダウンロード**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware)できます**（Windowsで動作します）**。\
+これは、**パケットを分析**し、内部で何が起こっているかを**知るために役立つ方法で情報を整理する**別の便利なツールです。
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* ユーザー名とパスワードを抽出およびエンコード (HTTP, FTP, Telnet, IMAP, SMTP...)
-* 認証ハッシュを抽出し、Hashcatを使用してクラックします (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* ビジュアルネットワークダイアグラムを作成 (ネットワークノードとユーザー)
+* ユーザー名とパスワードを抽出およびエンコード（HTTP、FTP、Telnet、IMAP、SMTP...）
+* 認証ハッシュを抽出し、Hashcatを使用してそれらをクラッキング（Kerberos、NTLM、CRAM-MD5、HTTP-Digest...）
+* ビジュアルネットワークダイアグラムを構築（ネットワークノードとユーザー）
 * DNSクエリを抽出
 * すべてのTCPおよびUDPセッションを再構築
 * ファイルカービング
@@ -97,7 +97,7 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-pcap内で**何か**を**探している**場合は、**ngrep**を使用できます。以下は、主要なフィルターを使用した例です：
+pcap内で**何か**を**探している**場合は、**ngrep**を使用できます。主なフィルターを使用した例を以下に示します:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
@@ -115,11 +115,11 @@ ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)は、**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**で最も重要なイベントの一つです。**技術的知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
+[**RootedCON**](https://www.rootedcon.com/)は、**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**で最も重要なイベントの一つです。**技術知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## 脆弱性/マルウェアの確認
+## エクスプロイト/マルウェアの確認
 
 ### Suricata
 
@@ -243,7 +243,7 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
+[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** で最も重要なイベントの一つです。**技術的知識の促進**を使命とし、この会議はあらゆる分野の技術とサイバーセキュリティの専門家が集まる熱い交流の場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 

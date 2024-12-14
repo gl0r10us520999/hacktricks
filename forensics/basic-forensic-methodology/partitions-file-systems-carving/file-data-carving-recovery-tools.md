@@ -10,14 +10,14 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
 ## カービングと回復ツール
 
-[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)にもっと多くのツールがあります
+[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)にもっと多くのツールがあります。
 
 ### Autopsy
 
@@ -42,22 +42,22 @@ sudo apt-get install foremost
 foremost -v -i file.img -o output
 #Discovered files will appear inside the folder "output"
 ```
-### **スカルペル**
+### **Scalpel**
 
-**スカルペル**は、**ファイルに埋め込まれたファイル**を見つけて抽出するために使用できる別のツールです。この場合、抽出したいファイルタイプを設定ファイル（_/etc/scalpel/scalpel.conf_）からコメント解除する必要があります。
+**Scalpel**は、**ファイルに埋め込まれたファイル**を見つけて抽出するために使用できる別のツールです。この場合、抽出したいファイルタイプを設定ファイル（_/etc/scalpel/scalpel.conf_）からコメント解除する必要があります。
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-このツールはkaliに含まれていますが、ここでも見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+このツールはkaliに含まれていますが、こちらでも見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
 このツールはイメージをスキャンし、その中にある**pcaps**、**ネットワーク情報（URL、ドメイン、IP、MAC、メール）**、およびその他の**ファイル**を**抽出**します。あなたがする必要があるのは:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-すべての情報をナビゲートします（パスワード？）、パケットを分析します（[**Pcaps分析**](../pcap-inspection/)を参照）、奇妙なドメインを検索します（**マルウェア**や**存在しない**ドメインに関連する）。
+すべての情報をナビゲートします（パスワード？）、パケットを分析します（[**Pcaps分析**](../pcap-inspection/)を読む）、奇妙なドメインを検索します（**マルウェア**や**存在しない**ドメインに関連する）。
 
 ### PhotoRec
 
@@ -103,11 +103,11 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>HackTricksをサポート</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するために、**[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
 
 </details>
 {% endhint %}

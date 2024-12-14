@@ -34,9 +34,9 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 ### [システム情報](privilege-escalation/#system-information)
 
-* [ ] **OS情報**を取得
-* [ ] [**PATH**](privilege-escalation/#path)を確認し、**書き込み可能なフォルダー**はありますか？
-* [ ] [**env変数**](privilege-escalation/#env-info)を確認し、機密情報はありますか？
+* [ ] **OS情報を取得**
+* [ ] [**PATH**](privilege-escalation/#path)を確認、**書き込み可能なフォルダー**はありますか？
+* [ ] [**env変数**](privilege-escalation/#env-info)を確認、機密情報はありますか？
 * [ ] [**カーネルエクスプロイト**](privilege-escalation/#kernel-exploits)を**スクリプトを使用して**検索（DirtyCow？）
 * [ ] [**sudoバージョン**が脆弱かどうかを確認](privilege-escalation/#sudo-version)
 * [ ] [**Dmesg**署名検証に失敗しました](privilege-escalation/#dmesg-signature-verification-failed)
@@ -67,8 +67,8 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 * [ ] [**PATH**](privilege-escalation/#cron-path)がcronによって変更されており、**書き込み**できるか？
 * [ ] cronジョブに[**ワイルドカード**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)はありますか？
-* [ ] **変更可能なスクリプト**（[**cronスクリプトの上書きとシンボリックリンク**](privilege-escalation/#cron-script-overwriting-and-symlink)）が**実行されている**か、**変更可能なフォルダー**内にありますか？
-* [ ] **スクリプトが非常に頻繁に実行されている**ことを検出しましたか？（1、2、または5分ごと）
+* [ ] [**変更可能なスクリプト**](privilege-escalation/#cron-script-overwriting-and-symlink)が**実行されている**か、**変更可能なフォルダー**内にありますか？
+* [ ] **スクリプトが非常に頻繁に実行されている**ことを検出しましたか？（毎分1回、2回、または5回）
 
 ### [サービス](privilege-escalation/#services)
 
@@ -100,10 +100,10 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 * [ ] 一般的なユーザー/グループの**列挙**
 * [ ] **非常に大きなUID**を持っていますか？ **マシンは脆弱ですか？**
-* あなたが属する[**グループのおかげで特権を昇格できますか？**](privilege-escalation/interesting-groups-linux-pe/)
+* **所属するグループのおかげで**[**特権を昇格できますか？**](privilege-escalation/interesting-groups-linux-pe/)
 * [ ] **クリップボード**データは？
 * [ ] パスワードポリシーは？
-* **以前に発見したすべての**[**既知のパスワードを使用して、各**ユーザー**でログインを試みてください。パスワードなしでのログインも試みてください。**
+* **以前に発見したすべての**[**既知のパスワードを使用して、各**ユーザーでログインを試みてください。**パスワードなしでもログインを試みてください。**
 
 ### [書き込み可能なPATH](privilege-escalation/#writable-path-abuses)
 
@@ -111,15 +111,15 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 ### [SUDOおよびSUIDコマンド](privilege-escalation/#sudo-and-suid)
 
-* [ ] **sudoで任意のコマンドを実行できますか？** rootとして何かをREAD、WRITE、またはEXECUTEできますか？（[**GTFOBins**](https://gtfobins.github.io)）
-* [ ] **エクスプロイト可能なSUIDバイナリはありますか？**（[**GTFOBins**](https://gtfobins.github.io)）
-* [ ] [**sudoコマンドは**パスによって**制限されていますか？制限を**バイパス**できますか？](privilege-escalation/#sudo-execution-bypassing-paths)
+* [ ] **sudoで任意のコマンドを実行できますか？** rootとして何かをREAD、WRITE、またはEXECUTEできますか？ ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] **エクスプロイト可能なSUIDバイナリはありますか？** ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] [**sudoコマンドは**パスによって**制限されていますか？** 制限を**バイパス**できますか？](privilege-escalation/#sudo-execution-bypassing-paths)
 * [ ] [**パスが指定されていないSudo/SUIDバイナリ**](privilege-escalation/#sudo-command-suid-binary-without-command-path)はありますか？
 * [ ] [**パスを指定したSUIDバイナリ**](privilege-escalation/#suid-binary-with-command-path)？ バイパス
 * [ ] [**LD\_PRELOAD脆弱性**](privilege-escalation/#ld_preload)
 * [ ] **書き込み可能なフォルダーからのSUIDバイナリにおける**[**.soライブラリの欠如**](privilege-escalation/#suid-binary-so-injection)はありますか？
-* [ ] [**SUDOトークンが利用可能**](privilege-escalation/#reusing-sudo-tokens)ですか？ [**SUDOトークンを作成できますか？**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)
-* [ ] [**sudoersファイルを読み取るまたは変更できますか？**](privilege-escalation/#etc-sudoers-etc-sudoers-d)
+* [ ] [**利用可能なSUDOトークン**](privilege-escalation/#reusing-sudo-tokens)はありますか？ [**SUDOトークンを作成できますか？**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)
+* [ ] [**sudoersファイルを読み取ったり変更したりできますか？**](privilege-escalation/#etc-sudoers-etc-sudoers-d)
 * [ ] [**/etc/ld.so.conf.d/**を**変更できますか？**](privilege-escalation/#etc-ld-so-conf-d)
 * [ ] [**OpenBSD DOAS**](privilege-escalation/#doas)コマンド
 
@@ -143,11 +143,11 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 ### [興味深いファイル](privilege-escalation/#interesting-files)
 
-* [ ] **プロファイルファイル** - 機密データを読み取る？ プライバシー昇格のために書き込む？
-* [ ] **passwd/shadowファイル** - 機密データを読み取る？ プライバシー昇格のために書き込む？
+* [ ] **プロファイルファイル** - 機密データを読み取る？ プリベスカに書き込む？
+* [ ] **passwd/shadowファイル** - 機密データを読み取る？ プリベスカに書き込む？
 * [ ] 機密データのために**一般的に興味深いフォルダーを確認**
 * [ ] **奇妙な場所/所有ファイル、**アクセスできるか、実行可能ファイルを変更できるかもしれません
-* [ ] **最近の分で変更された**
+* [ ] **最後の数分で変更された**
 * [ ] **Sqlite DBファイル**
 * [ ] **隠しファイル**
 * [ ] **PATH内のスクリプト/バイナリ**
@@ -158,10 +158,10 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 ### [**書き込み可能なファイル**](privilege-escalation/#writable-files)
 
-* [ ] **任意のコマンドを実行するためにpythonライブラリを変更できますか？**
+* [ ] **任意のコマンドを実行するためにPythonライブラリを変更できますか？**
 * [ ] **ログファイルを変更できますか？** **Logtotten**エクスプロイト
 * [ ] **/etc/sysconfig/network-scripts/**を変更できますか？ Centos/Redhatエクスプロイト
-* [ ] [**ini、int.d、systemdまたはrc.dファイルに書き込むことができますか？**](privilege-escalation/#init-init-d-systemd-and-rc-d)
+* [ ] [**ini、int.d、systemd、またはrc.dファイルに書き込むことができますか？**](privilege-escalation/#init-init-d-systemd-and-rc-d)
 
 ### [**その他のトリック**](privilege-escalation/#other-tricks)
 

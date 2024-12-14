@@ -1,54 +1,58 @@
 # ファームウェア分析
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出することで、ハッキングテクニックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
 ## **はじめに**
 
-ファームウェアは、デバイスが正しく動作するためにハードウェアコンポーネントとユーザーがやり取りするソフトウェアとの間の通信を管理し、促進することで、デバイスが電源を入れた瞬間から重要な命令にアクセスできるようにするための不可欠なソフトウェアです。ファームウェアの調査および可能な変更は、セキュリティの脆弱性を特定するための重要なステップです。
+ファームウェアは、デバイスが正しく動作するために必要なソフトウェアであり、ハードウェアコンポーネントとユーザーが対話するソフトウェア間の通信を管理し、促進します。これは永続メモリに保存されており、デバイスが電源を入れた瞬間から重要な指示にアクセスできるようにし、オペレーティングシステムの起動につながります。ファームウェアを調査し、潜在的に修正することは、セキュリティの脆弱性を特定するための重要なステップです。
 
 ## **情報収集**
 
-**情報収集**は、デバイスの構成と使用されているテクノロジーを理解するための重要な初期ステップです。このプロセスには、以下のデータの収集が含まれます:
+**情報収集**は、デバイスの構成や使用されている技術を理解するための重要な初期ステップです。このプロセスには、以下のデータを収集することが含まれます：
 
 * CPUアーキテクチャと実行されているオペレーティングシステム
 * ブートローダーの詳細
 * ハードウェアレイアウトとデータシート
 * コードベースのメトリクスとソースの場所
-* 外部ライブラリとライセンスタイプ
+* 外部ライブラリとライセンスの種類
 * 更新履歴と規制認証
-* アーキテクチャとフローダイアグラム
-* セキュリティアセスメントと特定された脆弱性
+* アーキテクチャ図とフローダイアグラム
+* セキュリティ評価と特定された脆弱性
 
-この目的のために、**オープンソースインテリジェンス（OSINT）**ツールが非常に有用であり、利用可能なオープンソースソフトウェアコンポーネントの手動および自動レビュープロセスを通じた分析も重要です。[Coverity Scan](https://scan.coverity.com)や[Semmle’s LGTM](https://lgtm.com/#explore)のようなツールは、潜在的な問題を見つけるために活用できる無料の静的解析を提供しています。
+この目的のために、**オープンソースインテリジェンス（OSINT）**ツールは非常に貴重であり、手動および自動レビュープロセスを通じて利用可能なオープンソースソフトウェアコンポーネントの分析も重要です。[Coverity Scan](https://scan.coverity.com)や[SemmleのLGTM](https://lgtm.com/#explore)のようなツールは、潜在的な問題を見つけるために活用できる無料の静的分析を提供します。
 
 ## **ファームウェアの取得**
 
-ファームウェアの取得は、それぞれ異なる複雑さレベルを持つさまざまな手段を通じてアプローチできます:
+ファームウェアを取得する方法はいくつかあり、それぞれ異なる複雑さがあります：
 
-* **直接**ソース（開発者、製造業者）から
-* 提供された手順に従って**ビルド**する
-* 公式サポートサイトから**ダウンロード**
-* ホストされているファームウェアファイルを見つけるための**Googleドーク**クエリを利用する
-* [S3Scanner](https://github.com/sa7mon/S3Scanner)などのツールを使用して、**クラウドストレージ**に直接アクセスする
-* 中間者攻撃技術を使用して**更新**を傍受する
-* **UART**、**JTAG**、または**PICit**などの接続を介してデバイスから**抽出**
-* デバイス通信内での更新リクエストを**スニッフィング**
-* **ハードコードされた更新エンドポイント**の特定と使用
-* ブートローダーまたはネットワークからの**ダンプ**
-* 適切なハードウェアツールを使用して、すべてが失敗した場合に**ストレージチップを取り外して読み取る**
+* **ソースから直接**（開発者、製造業者）
+* **提供された指示から構築**する
+* **公式サポートサイトからダウンロード**する
+* ホストされたファームウェアファイルを見つけるために**Google dork**クエリを利用する
+* [S3Scanner](https://github.com/sa7mon/S3Scanner)のようなツールを使用して**クラウドストレージ**に直接アクセスする
+* 中間者攻撃技術を介して**更新を傍受**する
+* **UART**、**JTAG**、または**PICit**のような接続を通じてデバイスから**抽出**する
+* デバイス通信内での更新要求を**スニッフィング**する
+* **ハードコーディングされた更新エンドポイント**を特定して使用する
+* ブートローダーまたはネットワークから**ダンプ**する
+* すべてが失敗した場合、適切なハードウェアツールを使用してストレージチップを**取り外して読み取る**
+
+## ファームウェアの分析
+
+ファームウェアを**取得した**ので、それに関する情報を抽出してどのように扱うかを知る必要があります。そのために使用できるさまざまなツールがあります：
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -57,24 +61,24 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-もし、それらのツールであまり情報が見つからない場合は、`binwalk -E <bin>`を使用して画像の**エントロピー**をチェックしてください。エントロピーが低い場合、それはおそらく暗号化されていない可能性があります。エントロピーが高い場合、それはおそらく暗号化されています（または何らかの方法で圧縮されています）。
+もしこれらのツールであまり見つからない場合は、`binwalk -E <bin>`を使って画像の**エントロピー**を確認してください。エントロピーが低い場合、暗号化されている可能性は低いです。エントロピーが高い場合、暗号化されている（または何らかの方法で圧縮されている）可能性があります。
 
-さらに、これらのツールを使用してファームウェアに埋め込まれた**ファイルを抽出**することができます:
+さらに、これらのツールを使用して**ファームウェア内に埋め込まれたファイル**を抽出できます：
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../generic-methodologies-and-resources/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-または[**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) を使用してファイルを検査できます。
+または、[**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/))を使用してファイルを検査します。
 
 ### ファイルシステムの取得
 
-以前にコメントアウトされた`binwalk -ev <bin>`のようなツールを使用すると、**ファイルシステムを抽出**できるはずです。\
-通常、Binwalkは**ファイルシステムの種類と同じ名前のフォルダ**内にそれを抽出します。これは通常、次のいずれかです: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs。
+前述のツール、例えば`binwalk -ev <bin>`を使用することで、**ファイルシステムを抽出**できるはずです。\
+Binwalkは通常、**ファイルシステムのタイプに名前を付けたフォルダー**内に抽出します。通常、これは以下のいずれかです：squashfs、ubifs、romfs、rootfs、jffs2、yaffs2、cramfs、initramfs。
 
-#### 手動ファイルシステムの抽出
+#### 手動ファイルシステム抽出
 
-時々、binwalkはそのシグネチャにファイルシステムのマジックバイトを持っていないかもしれません。そのような場合は、binwalkを使用して**ファイルシステムのオフセットを見つけ、バイナリから圧縮されたファイルシステムを切り出し**、以下の手順に従ってファイルシステムを**手動で抽出**してください。
+場合によっては、binwalkが**ファイルシステムのマジックバイトをシグネチャに持っていない**ことがあります。このような場合は、binwalkを使用して**ファイルシステムのオフセットを見つけ、バイナリから圧縮されたファイルシステムを切り出し、以下の手順に従って**ファイルシステムを手動で抽出します。
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -86,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-以下の**ddコマンド**を実行して、Squashfsファイルシステムを彫刻してください。
+次の**ddコマンド**を実行して、Squashfsファイルシステムを切り出します。
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -96,13 +100,37 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-## ファームウェアの解析
+代わりに、次のコマンドを実行することもできます。
 
-ファームウェアを取得したら、その構造と潜在的な脆弱性を理解するために解析することが不可欠です。このプロセスには、ファームウェアイメージから価値あるデータを抽出し分析するためのさまざまなツールを利用します。
+`$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-### 初期解析ツール
+* squashfs（上記の例で使用）
 
-バイナリファイル（`<bin>`と呼ばれる）の初期検査のために、以下のコマンドセットが提供されています。これらのコマンドは、ファイルタイプの識別、文字列の抽出、バイナリデータの解析、およびパーティションやファイルシステムの詳細の理解に役立ちます。
+`$ unsquashfs dir.squashfs`
+
+ファイルはその後「`squashfs-root`」ディレクトリにあります。
+
+* CPIOアーカイブファイル
+
+`$ cpio -ivd --no-absolute-filenames -F <bin>`
+
+* jffs2ファイルシステムの場合
+
+`$ jefferson rootfsfile.jffs2`
+
+* NANDフラッシュを使用したubifsファイルシステムの場合
+
+`$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
+
+`$ ubidump.py <bin>`
+
+## ファームウェアの分析
+
+ファームウェアが取得されたら、その構造と潜在的な脆弱性を理解するために解剖することが重要です。このプロセスでは、さまざまなツールを利用してファームウェアイメージから貴重なデータを分析および抽出します。
+
+### 初期分析ツール
+
+バイナリファイル（`<bin>`と呼ばれる）の初期検査のためのコマンドセットが提供されています。これらのコマンドは、ファイルタイプの特定、文字列の抽出、バイナリデータの分析、パーティションおよびファイルシステムの詳細の理解に役立ちます：
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -111,94 +139,94 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-画像の暗号化状態を評価するために、**エントロピー**は`binwalk -E <bin>`でチェックされます。低いエントロピーは暗号化の不足を示し、高いエントロピーは暗号化や圧縮の可能性を示します。
+画像の暗号化状態を評価するために、**エントロピー**は`binwalk -E <bin>`でチェックされます。低エントロピーは暗号化の欠如を示唆し、高エントロピーは暗号化または圧縮の可能性を示します。
 
-**埋め込まれたファイル**を抽出するためには、**file-data-carving-recovery-tools**のドキュメントやファイル検査のための**binvis.io**などのツールやリソースが推奨されます。
+**埋め込まれたファイル**を抽出するために、**file-data-carving-recovery-tools**のドキュメントやファイル検査のための**binvis.io**などのツールとリソースが推奨されます。
 
 ### ファイルシステムの抽出
 
-`binwalk -ev <bin>`を使用すると、通常ファイルシステムを抽出でき、しばしばファイルシステムの種類（例：squashfs、ubifs）に基づいたディレクトリに抽出されます。ただし、**binwalk**がマジックバイトが不足しているためにファイルシステムの種類を認識できない場合は、手動での抽出が必要です。これには、`binwalk`を使用してファイルシステムのオフセットを特定し、その後`dd`コマンドを使用してファイルシステムを切り出す作業が含まれます。
+`binwalk -ev <bin>`を使用することで、通常はファイルシステムを抽出でき、しばしばファイルシステムタイプ（例：squashfs、ubifs）にちなんだ名前のディレクトリに抽出されます。しかし、**binwalk**がマジックバイトの欠如によりファイルシステムタイプを認識できない場合、手動抽出が必要です。これには、`binwalk`を使用してファイルシステムのオフセットを特定し、その後`dd`コマンドを使用してファイルシステムを切り出します：
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-### ファイルシステムの解析
+その後、ファイルシステムのタイプ（例：squashfs、cpio、jffs2、ubifs）に応じて、異なるコマンドを使用して手動で内容を抽出します。
 
-ファイルシステムを抽出した後、セキュリティの脆弱性を探す作業が始まります。セキュリティの脆弱性に関しては、セキュリティの脆弱性があるネットワークデーモン、ハードコードされた資格情報、APIエンドポイント、更新サーバー機能、未コンパイルのコード、起動スクリプト、オフライン解析用のコンパイルされたバイナリに注意が払われます。
+### ファイルシステム分析
 
-**検査する**主な**場所**と**アイテム**は次のとおりです:
+ファイルシステムが抽出されると、セキュリティの欠陥を探す作業が始まります。注意が払われるのは、安全でないネットワークデーモン、ハードコーディングされた認証情報、APIエンドポイント、アップデートサーバーの機能、未コンパイルのコード、スタートアップスクリプト、およびオフライン分析のためのコンパイル済みバイナリです。
 
-- ユーザーの資格情報のための**etc/shadow**と**etc/passwd**
-- **etc/ssl**内のSSL証明書とキー
-- 潜在的な脆弱性のための構成およびスクリプトファイル
-- 追加の解析用の埋め込みバイナリ
-- 一般的なIoTデバイスのWebサーバーとバイナリ
+**確認すべき主要な場所**と**項目**には以下が含まれます：
 
-ファイルシステム内の機密情報や脆弱性を明らかにするのに役立ついくつかのツールがあります:
+* ユーザー認証情報のための**etc/shadow**と**etc/passwd**
+* **etc/ssl**内のSSL証明書と鍵
+* 潜在的な脆弱性のための設定ファイルとスクリプトファイル
+* さらなる分析のための埋め込まれたバイナリ
+* 一般的なIoTデバイスのウェブサーバーとバイナリ
 
-- 機密情報の検索のための[**LinPEAS**](https://github.com/carlospolop/PEASS-ng)と[**Firmwalker**](https://github.com/craigz28/firmwalker)
-- 包括的なファームウェア解析のための[**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core)
-- 静的および動的解析のための[**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer)、[**ByteSweep**](https://gitlab.com/bytesweep/bytesweep)、[**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go)、および[**EMBA**](https://github.com/e-m-b-a/emba)
+いくつかのツールがファイルシステム内の機密情報や脆弱性を明らかにするのを助けます：
 
-### コンパイルされたバイナリのセキュリティチェック
+* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng)と[**Firmwalker**](https://github.com/craigz28/firmwalker)による機密情報の検索
+* [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core)による包括的なファームウェア分析
+* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer)、[**ByteSweep**](https://gitlab.com/bytesweep/bytesweep)、[**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go)、および[**EMBA**](https://github.com/e-m-b-a/emba)による静的および動的分析
 
-ファイルシステム内で見つかったソースコードとコンパイルされたバイナリの両方について、脆弱性を検証する必要があります。Unixバイナリ用の**checksec.sh**やWindowsバイナリ用の**PESecurity**などのツールを使用して、悪用される可能性のある保護されていないバイナリを特定するのに役立ちます。
+### コンパイル済みバイナリのセキュリティチェック
 
-## ダイナミック解析のためのファームウェアのエミュレート
+ファイルシステム内で見つかったソースコードとコンパイル済みバイナリは、脆弱性のために精査されなければなりません。Unixバイナリ用の**checksec.sh**やWindowsバイナリ用の**PESecurity**のようなツールは、悪用される可能性のある保護されていないバイナリを特定するのに役立ちます。
 
-ファームウェアをエミュレートするプロセスは、デバイスの動作または個々のプログラムの**ダイナミック解析**を可能にします。このアプローチは、ハードウェアやアーキテクチャの依存関係に関する課題に直面する可能性がありますが、ルートファイルシステムや特定のバイナリを、Raspberry Piなどのアーキテクチャとエンディアンが一致するデバイスや、事前に構築された仮想マシンに転送することで、さらなるテストを容易にすることができます。
+## 動的分析のためのファームウェアのエミュレーション
 
-### 個々のバイナリのエミュレート
+ファームウェアをエミュレートするプロセスは、デバイスの動作または個々のプログラムの**動的分析**を可能にします。このアプローチは、ハードウェアやアーキテクチャの依存関係に関して課題に直面することがありますが、ルートファイルシステムや特定のバイナリを、Raspberry Piのような一致するアーキテクチャとエンディアンネスを持つデバイスや、事前構築された仮想マシンに転送することで、さらなるテストを促進できます。
 
-単一のプログラムを調査する場合、プログラムのエンディアンとCPUアーキテクチャを特定することが重要です。
+### 個々のバイナリのエミュレーション
+
+単一のプログラムを調査するためには、プログラムのエンディアンネスとCPUアーキテクチャを特定することが重要です。
 
 #### MIPSアーキテクチャの例
 
-MIPSアーキテクチャのバイナリをエミュレートするには、次のコマンドを使用できます:
+MIPSアーキテクチャのバイナリをエミュレートするには、次のコマンドを使用できます：
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-そして、必要なエミュレーションツールをインストールします:
+必要なエミュレーションツールをインストールするには：
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-### MIPSアーキテクチャエミュレーション
+For MIPS (big-endian), `qemu-mips`が使用され、リトルエンディアンバイナリの場合は`qemu-mipsel`が選択されます。
 
-MIPS（ビッグエンディアン）の場合、`qemu-mips`が使用され、リトルエンディアンバイナリの場合は`qemu-mipsel`が選択されます。
+#### ARMアーキテクチャエミュレーション
 
-### ARMアーキテクチャエミュレーション
-
-ARMバイナリの場合、`qemu-arm`エミュレータが使用され、エミュレーションが行われます。
+ARMバイナリの場合、プロセスは似ており、エミュレーションには`qemu-arm`エミュレーターが利用されます。
 
 ### フルシステムエミュレーション
 
-[Firmadyne](https://github.com/firmadyne/firmadyne)、[Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit)などのツールは、完全なファームウェアエミュレーションを容易にし、プロセスを自動化し、ダイナミック分析を支援します。
+[Firmadyne](https://github.com/firmadyne/firmadyne)、[Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit)などのツールは、フルファームウェアエミュレーションを容易にし、プロセスを自動化し、動的分析を支援します。
 
-### 実践的なダイナミック分析
+## 実践における動的分析
 
-この段階では、分析のために実際のデバイス環境またはエミュレートされた環境が使用されます。 OSとファイルシステムへのシェルアクセスを維持することが重要です。エミュレーションはハードウェアの相互作用を完璧に模倣しない場合があり、時折エミュレーションを再起動する必要があります。分析では、ファイルシステムを再訪し、公開されたWebページやネットワークサービスを悪用し、ブートローダの脆弱性を調査する必要があります。ファームウェアの整合性テストは、潜在的なバックドアの脆弱性を特定するために重要です。
+この段階では、実際のデバイス環境またはエミュレートされたデバイス環境が分析に使用されます。OSとファイルシステムへのシェルアクセスを維持することが重要です。エミュレーションはハードウェアの相互作用を完全に模倣できない場合があるため、時折エミュレーションを再起動する必要があります。分析はファイルシステムを再訪し、公開されたウェブページやネットワークサービスを利用し、ブートローダーの脆弱性を探るべきです。ファームウェアの整合性テストは、潜在的なバックドア脆弱性を特定するために重要です。
 
-### ランタイム分析技術
+## 実行時分析技術
 
-ランタイム分析には、gdb-multiarch、Frida、Ghidraなどのツールを使用して、プロセスやバイナリとその運用環境とのやり取りが含まれます。ブレークポイントの設定やファジングなどのテクニックを使用して脆弱性を特定します。
+実行時分析は、gdb-multiarch、Frida、Ghidraなどのツールを使用して、プロセスまたはバイナリとその動作環境で相互作用し、ブレークポイントを設定し、ファジングやその他の技術を通じて脆弱性を特定します。
 
-### バイナリの悪用と概念の証明
+## バイナリの悪用と概念実証
 
-特定の脆弱性のPoCを開発するには、対象アーキテクチャの深い理解と低レベル言語でのプログラミングが必要です。組み込みシステムのバイナリランタイム保護は稀ですが、存在する場合はReturn Oriented Programming（ROP）などのテクニックが必要になる場合があります。
+特定された脆弱性のPoCを開発するには、ターゲットアーキテクチャの深い理解と低レベル言語でのプログラミングが必要です。組み込みシステムにおけるバイナリ実行時保護は稀ですが、存在する場合は、リターンオリエンテッドプログラミング（ROP）などの技術が必要になることがあります。
 
-### ファームウェア分析用の準備が整ったオペレーティングシステム
+## ファームウェア分析のための準備されたオペレーティングシステム
 
-[AttifyOS](https://github.com/adi0x90/attifyos)や[EmbedOS](https://github.com/scriptingxss/EmbedOS)などのオペレーティングシステムは、ファームウェアセキュリティテスト用に事前に構成された環境を提供し、必要なツールが装備されています。
+[AttifyOS](https://github.com/adi0x90/attifyos)や[EmbedOS](https://github.com/scriptingxss/EmbedOS)などのオペレーティングシステムは、必要なツールを備えたファームウェアセキュリティテストのための事前構成された環境を提供します。
 
-### ファームウェアを分析するための準備が整ったOS
+## ファームウェアを分析するための準備されたOS
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOSは、インターネット・オブ・シングス（IoT）デバイスのセキュリティアセスメントとペネトレーションテストを支援するために設計されたディストリビューションです。必要なツールがすべてロードされた事前に構成された環境を提供することで、多くの時間を節約します。
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Ubuntu 18.04ベースの組み込みセキュリティテストオペレーティングシステムで、ファームウェアセキュリティテストツールがプリロードされています。
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOSは、IoTデバイスのセキュリティ評価とペネトレーションテストを行うためのディストリビューションです。必要なツールがすべてロードされた事前構成された環境を提供することで、多くの時間を節約します。
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): ファームウェアセキュリティテストツールがプリロードされたUbuntu 18.04に基づく組み込みセキュリティテストオペレーティングシステムです。
 
-### 練習用の脆弱なファームウェア
+## 脆弱なファームウェアの練習
 
-ファームウェアの脆弱性を発見するための練習として、以下の脆弱なファームウェアプロジェクトを使用できます。
+ファームウェアの脆弱性を発見する練習をするために、以下の脆弱なファームウェアプロジェクトを出発点として使用してください。
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
@@ -213,11 +241,26 @@ ARMバイナリの場合、`qemu-arm`エミュレータが使用され、エミ�
 * Damn Vulnerable IoT Device (DVID)
 * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-### 参考文献
+## 参考文献
 
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-### トレーニングと認定
+## トレーニングと認証
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

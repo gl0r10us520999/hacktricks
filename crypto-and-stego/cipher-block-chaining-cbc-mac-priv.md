@@ -16,55 +16,55 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # CBC
 
-もし**cookie**が**ユーザー名**だけである場合（またはcookieの最初の部分がユーザー名である場合）で、ユーザー名を**"admin"**に偽装したい場合、ユーザー名**"bdmin"**を作成し、cookieの**最初のバイト**を**ブルートフォース**することができます。
+もし**クッキー**が**ユーザー名**だけ（またはクッキーの最初の部分がユーザー名）で、ユーザー名「**admin**」を偽装したい場合、ユーザー名「**bdmin**」を作成し、クッキーの**最初のバイト**を**ブルートフォース**することができます。
 
 # CBC-MAC
 
-**Cipher block chaining message authentication code**（**CBC-MAC**）は、暗号学で使用される方法です。メッセージをブロックごとに暗号化し、各ブロックの暗号化が前のブロックにリンクされるように機能します。このプロセスにより、元のメッセージの1ビットでも変更すると、暗号化されたデータの最後のブロックに予測不可能な変更が生じます。この変更を行うか逆にするには、暗号化キーが必要であり、セキュリティが確保されます。
+**暗号ブロック連鎖メッセージ認証コード**（**CBC-MAC**）は、暗号学で使用される方法です。これは、メッセージをブロックごとに暗号化し、各ブロックの暗号化が前のブロックにリンクされることで機能します。このプロセスは**ブロックの連鎖**を作成し、元のメッセージのビットを1つ変更するだけで、暗号化されたデータの最後のブロックに予測不可能な変化をもたらします。このような変更を行うためには、暗号化キーが必要であり、これによりセキュリティが確保されます。
 
-メッセージmのCBC-MACを計算するには、mをゼロ初期化ベクトルでCBCモードで暗号化し、最後のブロックを保持します。次の図は、秘密鍵kとブロック暗号Eを使用して、メッセージをブロック![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5)でCBC-MACを計算する過程を示しています。
+メッセージmのCBC-MACを計算するには、ゼロ初期化ベクトルでCBCモードでmを暗号化し、最後のブロックを保持します。以下の図は、秘密鍵kとブロック暗号Eを使用して、ブロックからなるメッセージのCBC-MACの計算を示しています！[https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) 
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
-# 脆弱性
+# Vulnerability
 
-通常、CBC-MACでは使用される**IVは0**です。\
-これは、2つの既知のメッセージ（`m1`と`m2`）が独立して2つの署名（`s1`と`s2`）を生成するという問題があります。つまり：
+CBC-MACでは通常**使用されるIVは0**です。\
+これは問題です。なぜなら、2つの既知のメッセージ（`m1`と`m2`）が独立して2つの署名（`s1`と`s2`）を生成するからです。したがって：
 
 * `E(m1 XOR 0) = s1`
 * `E(m2 XOR 0) = s2`
 
-その後、m1とm2を連結したメッセージ（m3）は、2つの署名（s31とs32）を生成します：
+次に、m1とm2を連結したメッセージ（m3）は2つの署名（s31とs32）を生成します：
 
 * `E(m1 XOR 0) = s31 = s1`
 * `E(m2 XOR s1) = s32`
 
-**これは、暗号化の鍵を知らなくても計算可能です。**
+**これは暗号化のキーを知らなくても計算可能です。**
 
-8バイトのブロックで名前**Administrator**を暗号化していると想像してください：
+あなたが**Administrator**という名前を**8バイト**のブロックで暗号化していると想像してください：
 
 * `Administ`
 * `rator\00\00\00`
 
-ユーザー名**Administ**（m1）の署名（s1）を取得できます。\
-次に、`rator\00\00\00 XOR s1`の結果となるユーザー名を作成できます。これにより、`E(m2 XOR s1 XOR 0)`が生成され、s32が得られます。\
-これで、s32をフルネーム**Administrator**の署名として使用できます。
+ユーザー名「**Administ**」（m1）を作成し、署名（s1）を取得できます。\
+次に、`rator\00\00\00 XOR s1`の結果を持つユーザー名を作成できます。これにより、`E(m2 XOR s1 XOR 0)`がs32を生成します。\
+今、s32を**Administrator**というフルネームの署名として使用できます。
 
-### 要約
+### Summary
 
-1. ユーザー名**Administ**（m1）の署名であるs1を取得します。
-2. ユーザー名**rator\x00\x00\x00 XOR s1 XOR 0**の署名であるs32を取得します。
-3. cookieをs32に設定すると、ユーザー**Administrator**の有効なcookieになります。
+1. ユーザー名「**Administ**」（m1）の署名を取得し、それがs1です。
+2. ユーザー名「**rator\x00\x00\x00 XOR s1 XOR 0**」の署名はs32です。**
+3. クッキーをs32に設定すると、ユーザー「**Administrator**」の有効なクッキーになります。
 
-# IVの制御攻撃
+# Attack Controlling IV
 
-使用されるIVを制御できる場合、攻撃は非常に簡単になります。\
-cookieが単に暗号化されたユーザー名である場合、ユーザー**"administrator"**を作成し、そのcookieを取得できます。\
-そして、IVを制御できる場合、IVの最初のバイトを変更して**IV\[0] XOR "A" == IV'\[0] XOR "a"**とし、ユーザー**Administrator**のcookieを再生成できます。このcookieは、初期の**IV**で**administrator**ユーザーを**偽装**するために有効です。
+使用されるIVを制御できる場合、攻撃は非常に簡単になる可能性があります。\
+クッキーが単に暗号化されたユーザー名である場合、ユーザー「**administrator**」を偽装するために、ユーザー「**Administrator**」を作成し、そのクッキーを取得できます。\
+今、IVを制御できる場合、IVの最初のバイトを変更することができ、**IV\[0] XOR "A" == IV'\[0] XOR "a"**となり、ユーザー「**Administrator**」のクッキーを再生成できます。このクッキーは、初期**IV**を使用してユーザー「**administrator**」を**偽装**するのに有効です。
 
-## 参考文献
+## References
 
-詳細は[https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)を参照してください。
+詳細情報は[https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)を参照してください。
 
 
 {% hint style="success" %}

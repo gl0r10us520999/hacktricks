@@ -45,7 +45,7 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, now you have everything you need to execute all the Salseo thing: the **encoded EvilDalsa.dll** and the **binary of SalseoLoader.**
+わかりました。Salseoのすべてを実行するために必要なものは揃っています: **エンコードされた EvilDalsa.dll** と **SalseoLoader のバイナリ**。
 
 **SalseoLoader.exe バイナリをマシンにアップロードします。どのAVにも検出されないはずです...**
 
@@ -96,7 +96,7 @@ Visual Studioを使用してSalseoLoaderプロジェクトを開きます。
 
 ![](<../.gitbook/assets/image (881).png>)
 
-#### **DllExportパッケージを検索（ブラウズタブを使用）し、インストールを押す（ポップアップを受け入れる）**
+#### **DllExportパッケージを検索（ブラウザタブを使用）し、インストールを押す（ポップアップを受け入れる）**
 
 ![](<../.gitbook/assets/image (100).png>)
 
@@ -177,8 +177,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}
