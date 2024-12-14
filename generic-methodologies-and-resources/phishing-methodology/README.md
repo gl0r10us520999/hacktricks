@@ -8,7 +8,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
@@ -35,14 +35,14 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 ### Techniques de Variation de Noms de Domaine
 
 * **Mot-clé** : Le nom de domaine **contient** un **mot-clé** important du domaine original (par exemple, zelster.com-management.com).
-* **sous-domaine hyphéné** : Remplacer le **point par un tiret** d'un sous-domaine (par exemple, www-zelster.com).
+* **sous-domaine hyphéné** : Remplacer le **point par un tiret** dans un sous-domaine (par exemple, www-zelster.com).
 * **Nouveau TLD** : Même domaine utilisant un **nouveau TLD** (par exemple, zelster.org).
-* **Homoglyphes** : Il **remplace** une lettre dans le nom de domaine par des **lettres qui se ressemblent** (par exemple, zelfser.com).
+* **Homoglyph** : Il **remplace** une lettre dans le nom de domaine par des **lettres qui se ressemblent** (par exemple, zelfser.com).
 * **Transposition :** Il **échange deux lettres** dans le nom de domaine (par exemple, zelsetr.com).
-* **Singularisation/Pluralisation** : Ajoute ou supprime un "s" à la fin du nom de domaine (par exemple, zeltsers.com).
+* **Singularisation/Pluralisation** : Ajoute ou enlève un “s” à la fin du nom de domaine (par exemple, zeltsers.com).
 * **Omission** : Il **supprime une** des lettres du nom de domaine (par exemple, zelser.com).
 * **Répétition :** Il **répète une** des lettres dans le nom de domaine (par exemple, zeltsser.com).
-* **Remplacement** : Comme homoglyphes mais moins furtif. Il remplace une des lettres dans le nom de domaine, peut-être par une lettre proche de la lettre originale sur le clavier (par exemple, zektser.com).
+* **Remplacement** : Comme homoglyph mais moins furtif. Il remplace une des lettres dans le nom de domaine, peut-être par une lettre proche de la lettre originale sur le clavier (par exemple, zektser.com).
 * **Sous-domaine** : Introduire un **point** à l'intérieur du nom de domaine (par exemple, ze.lster.com).
 * **Insertion** : Il **insère une lettre** dans le nom de domaine (par exemple, zerltser.com).
 * **Point manquant** : Ajouter le TLD au nom de domaine. (par exemple, zelstercom.com)
@@ -64,9 +64,9 @@ Il y a une **possibilité qu'un des bits stockés ou en communication puisse êt
 
 Lorsque ce concept est **appliqué aux requêtes DNS**, il est possible que le **domaine reçu par le serveur DNS** ne soit pas le même que le domaine initialement demandé.
 
-Par exemple, une seule modification de bit dans le domaine "windows.com" peut le changer en "windnws.com".
+Par exemple, une seule modification de bit dans le domaine "windows.com" peut le changer en "windnws.com."
 
-Les attaquants peuvent **profiter de cela en enregistrant plusieurs domaines à inversion de bits** qui sont similaires au domaine de la victime. Leur intention est de rediriger les utilisateurs légitimes vers leur propre infrastructure.
+Les attaquants peuvent **profiter de cela en enregistrant plusieurs domaines à bit-flipping** qui sont similaires au domaine de la victime. Leur intention est de rediriger les utilisateurs légitimes vers leur propre infrastructure.
 
 Pour plus d'informations, lisez [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
@@ -284,7 +284,7 @@ Il vous suffit d'accéder à la page et d'envoyer un email à l'adresse qu'ils v
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Vous pouvez également **vérifier votre configuration email** en envoyant un email à `check-auth@verifier.port25.com` et **en lisant la réponse** (pour cela, vous devrez **ouvrir** le port **25** et voir la réponse dans le fichier _/var/mail/root_ si vous envoyez l'email en tant que root).\
+Vous pouvez également **vérifier votre configuration de messagerie** en envoyant un e-mail à `check-auth@verifier.port25.com` et **en lisant la réponse** (pour cela, vous devrez **ouvrir** le port **25** et voir la réponse dans le fichier _/var/mail/root_ si vous envoyez l'e-mail en tant que root).\
 Vérifiez que vous réussissez tous les tests :
 ```bash
 ==========================================================
@@ -318,7 +318,7 @@ La page [www.mail-tester.com](https://www.mail-tester.com) peut vous indiquer si
 * Décidez de quel compte vous allez envoyer les emails de phishing. Suggestions : _noreply, support, servicedesk, salesforce..._
 * Vous pouvez laisser le nom d'utilisateur et le mot de passe vides, mais assurez-vous de cocher l'option Ignorer les erreurs de certificat
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
 Il est recommandé d'utiliser la fonctionnalité "**Envoyer un email de test**" pour vérifier que tout fonctionne.\
@@ -330,7 +330,7 @@ Je vous recommande d'**envoyer les emails de test à des adresses 10min** afin d
 * Définissez un **nom pour identifier** le modèle
 * Ensuite, écrivez un **sujet** (rien d'étrange, juste quelque chose que vous pourriez vous attendre à lire dans un email régulier)
 * Assurez-vous d'avoir coché "**Ajouter une image de suivi**"
-* Rédigez le **modèle d'email** (vous pouvez utiliser des variables comme dans l'exemple suivant) :
+* Écrivez le **modèle d'email** (vous pouvez utiliser des variables comme dans l'exemple suivant) :
 ```markup
 <html>
 <head>
@@ -361,7 +361,7 @@ Notez que **pour augmenter la crédibilité de l'email**, il est recommandé d'u
 Le modèle d'email permet également de **joindre des fichiers à envoyer**. Si vous souhaitez également voler des défis NTLM en utilisant des fichiers/documents spécialement conçus [lisez cette page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### Page de destination
+### Page d'atterrissage
 
 * Écrivez un **nom**
 * **Écrivez le code HTML** de la page web. Notez que vous pouvez **importer** des pages web.
@@ -376,7 +376,7 @@ Notez que si vous avez besoin d'**utiliser des ressources statiques** pour le HT
 {% endhint %}
 
 {% hint style="info" %}
-Pour la redirection, vous pourriez **rediriger les utilisateurs vers la véritable page web principale** de la victime, ou les rediriger vers _/static/migration.html_ par exemple, mettre une **roue tournante** ([**https://loading.io/**](https://loading.io)**) pendant 5 secondes et ensuite indiquer que le processus a été réussi**.
+Pour la redirection, vous pourriez **rediriger les utilisateurs vers la vraie page web principale** de la victime, ou les rediriger vers _/static/migration.html_ par exemple, mettre une **roue tournante** ([**https://loading.io/**](https://loading.io)**) pendant 5 secondes et ensuite indiquer que le processus a été réussi**.
 {% endhint %}
 
 ### Utilisateurs & Groupes
@@ -388,7 +388,7 @@ Pour la redirection, vous pourriez **rediriger les utilisateurs vers la véritab
 
 ### Campagne
 
-Enfin, créez une campagne en sélectionnant un nom, le modèle d'email, la page de destination, l'URL, le profil d'envoi et le groupe. Notez que l'URL sera le lien envoyé aux victimes.
+Enfin, créez une campagne en sélectionnant un nom, le modèle d'email, la page d'atterrissage, l'URL, le profil d'envoi et le groupe. Notez que l'URL sera le lien envoyé aux victimes.
 
 Notez que le **profil d'envoi permet d'envoyer un email de test pour voir à quoi ressemblera le phishing final** :
 
@@ -426,7 +426,7 @@ L'attaque précédente est assez astucieuse car vous simulez un vrai site web et
 C'est là que des outils comme [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) et [**muraena**](https://github.com/muraenateam/muraena) sont utiles. Cet outil vous permettra de générer une attaque de type MitM. En gros, les attaques fonctionnent de la manière suivante :
 
 1. Vous **usurpez le formulaire de connexion** de la vraie page web.
-2. L'utilisateur **envoie** ses **identifiants** à votre page factice et l'outil envoie ceux-ci à la vraie page web, **vérifiant si les identifiants fonctionnent**.
+2. L'utilisateur **envoie** ses **identifiants** à votre page factice et l'outil les envoie à la vraie page web, **vérifiant si les identifiants fonctionnent**.
 3. Si le compte est configuré avec **2FA**, la page MitM demandera cela et une fois que l'**utilisateur l'introduit**, l'outil l'enverra à la vraie page web.
 4. Une fois que l'utilisateur est authentifié, vous (en tant qu'attaquant) aurez **capturé les identifiants, le 2FA, le cookie et toute information** de chaque interaction pendant que l'outil effectue un MitM.
 
@@ -469,7 +469,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos GitHub.
 
 </details>
 {% endhint %}

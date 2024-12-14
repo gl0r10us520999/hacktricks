@@ -52,7 +52,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Informations suspectes
 
-Lors de l'obtention des informations de base, vous devez vérifier des éléments étranges tels que :
+Lors de l'obtention des informations de base, vous devez vérifier des choses étranges comme :
 
 * **Les processus root** s'exécutent généralement avec de faibles PIDS, donc si vous trouvez un processus root avec un grand PID, vous pouvez suspecter
 * Vérifiez les **connexions enregistrées** des utilisateurs sans shell dans `/etc/passwd`
@@ -64,7 +64,7 @@ Pour obtenir la mémoire du système en cours d'exécution, il est recommandé d
 Pour **compiler** cela, vous devez utiliser le **même noyau** que celui utilisé par la machine victime.
 
 {% hint style="info" %}
-Rappelez-vous que vous **ne pouvez pas installer LiME ou quoi que ce soit d'autre** sur la machine victime car cela apportera plusieurs modifications.
+N'oubliez pas que vous **ne pouvez pas installer LiME ou quoi que ce soit d'autre** sur la machine victime car cela apportera plusieurs modifications.
 {% endhint %}
 
 Donc, si vous avez une version identique d'Ubuntu, vous pouvez utiliser `apt-get install lime-forensics-dkms`\
@@ -76,7 +76,7 @@ sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 LiME prend en charge 3 **formats** :
 
 * Brut (chaque segment concaténé ensemble)
-* Padded (même que brut, mais avec des zéros dans les bits de droite)
+* Rembourré (même que brut, mais avec des zéros dans les bits de droite)
 * Lime (format recommandé avec des métadonnées)
 
 LiME peut également être utilisé pour **envoyer le dump via le réseau** au lieu de le stocker sur le système en utilisant quelque chose comme : `path=tcp:4444`
@@ -86,7 +86,7 @@ LiME peut également être utilisé pour **envoyer le dump via le réseau** au l
 #### Arrêt
 
 Tout d'abord, vous devrez **éteindre le système**. Ce n'est pas toujours une option car parfois le système sera un serveur de production que l'entreprise ne peut pas se permettre d'éteindre.\
-Il existe **2 façons** d'éteindre le système, un **arrêt normal** et un **arrêt "débrancher le câble"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également au **malware** de **détruire des preuves**. L'approche "débrancher le câble" peut entraîner **une certaine perte d'informations** (pas beaucoup d'infos ne seront perdues car nous avons déjà pris une image de la mémoire) et le **malware n'aura aucune opportunité** d'agir. Par conséquent, si vous **soupçonnez** qu'il pourrait y avoir un **malware**, exécutez simplement la **commande** **`sync`** sur le système et débranchez le câble.
+Il existe **2 façons** d'éteindre le système, un **arrêt normal** et un **arrêt "débrancher le câble"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également au **malware** de **détruire des preuves**. L'approche "débrancher le câble" peut entraîner **une certaine perte d'informations** (pas beaucoup d'infos vont être perdues car nous avons déjà pris une image de la mémoire) et le **malware n'aura aucune opportunité** d'agir. Par conséquent, si vous **soupçonnez** qu'il pourrait y avoir un **malware**, exécutez simplement la **commande** **`sync`** sur le système et débranchez le câble.
 
 #### Prendre une image du disque
 
@@ -99,7 +99,7 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### Pré-analyse de l'image disque
+### Analyse préliminaire de l'image disque
 
 Imager une image disque sans plus de données.
 ```bash
@@ -162,18 +162,18 @@ Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Recherche de Malware connu
+## Recherche de logiciels malveillants connus
 
 ### Fichiers système modifiés
 
 Linux offre des outils pour garantir l'intégrité des composants système, ce qui est crucial pour repérer les fichiers potentiellement problématiques.
 
 * **Systèmes basés sur RedHat** : Utilisez `rpm -Va` pour un contrôle complet.
-* **Systèmes basés sur Debian** : `dpkg --verify` pour une vérification initiale, suivi de `debsums | grep -v "OK$"` (après avoir installé `debsums` avec `apt-get install debsums`) pour identifier d'éventuels problèmes.
+* **Systèmes basés sur Debian** : `dpkg --verify` pour une vérification initiale, suivie de `debsums | grep -v "OK$"` (après avoir installé `debsums` avec `apt-get install debsums`) pour identifier d'éventuels problèmes.
 
-### Détecteurs de Malware/Rootkit
+### Détecteurs de logiciels malveillants/Rootkits
 
-Lisez la page suivante pour en savoir plus sur les outils qui peuvent être utiles pour trouver des malwares :
+Lisez la page suivante pour en savoir plus sur les outils qui peuvent être utiles pour trouver des logiciels malveillants :
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -274,9 +274,9 @@ Les systèmes Linux suivent les activités des utilisateurs et les événements 
 * **/var/log/boot.log** : Contient des messages de démarrage du système.
 * **/var/log/maillog** ou **/var/log/mail.log** : Journalise les activités du serveur de messagerie, utile pour suivre les services liés aux e-mails.
 * **/var/log/kern.log** : Stocke les messages du noyau, y compris les erreurs et les avertissements.
-* **/var/log/dmesg** : Contient des messages de pilotes de périphériques.
+* **/var/log/dmesg** : Contient les messages des pilotes de périphériques.
 * **/var/log/faillog** : Enregistre les tentatives de connexion échouées, aidant dans les enquêtes sur les violations de sécurité.
-* **/var/log/cron** : Journalise les exécutions de tâches cron.
+* **/var/log/cron** : Journalise les exécutions des tâches cron.
 * **/var/log/daemon.log** : Suit les activités des services en arrière-plan.
 * **/var/log/btmp** : Documente les tentatives de connexion échouées.
 * **/var/log/httpd/** : Contient les journaux d'erreurs et d'accès d'Apache HTTPD.
@@ -319,7 +319,7 @@ Certaines applications génèrent également leurs propres journaux :
 
 ### USB Logs
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) est un petit logiciel écrit en pur Python 3 qui analyse les fichiers journaux Linux (`/var/log/syslog*` ou `/var/log/messages*` selon la distribution) pour construire des tableaux d'historique des événements USB.
+[**usbrip**](https://github.com/snovvcrash/usbrip) est un petit logiciel écrit en pur Python 3 qui analyse les fichiers journaux Linux (`/var/log/syslog*` ou `/var/log/messages*` selon la distribution) pour construire des tables d'historique des événements USB.
 
 Il est intéressant de **savoir tous les USB qui ont été utilisés** et cela sera plus utile si vous avez une liste autorisée d'USB pour trouver des "événements de violation" (l'utilisation d'USB qui ne figurent pas dans cette liste).
 
@@ -360,12 +360,12 @@ Lors de l'enquête sur des incidents de logiciels malveillants, la structure du 
 
 Pour contrer ces méthodes anti-forensiques, il est essentiel de :
 
-* **Effectuer une analyse de chronologie approfondie** en utilisant des outils comme **Autopsy** pour visualiser les chronologies des événements ou **Sleuth Kit's** `mactime` pour des données de chronologie détaillées.
-* **Enquêter sur des scripts inattendus** dans le $PATH du système, qui pourraient inclure des scripts shell ou PHP utilisés par les attaquants.
+* **Effectuer une analyse approfondie de la chronologie** en utilisant des outils comme **Autopsy** pour visualiser les chronologies des événements ou `mactime` de **Sleuth Kit** pour des données de chronologie détaillées.
+* **Enquêter sur des scripts inattendus** dans le $PATH du système, qui pourraient inclure des scripts shell ou PHP utilisés par des attaquants.
 * **Examiner `/dev` pour des fichiers atypiques**, car il contient traditionnellement des fichiers spéciaux, mais peut abriter des fichiers liés aux logiciels malveillants.
 * **Rechercher des fichiers ou des répertoires cachés** avec des noms comme ".. " (point point espace) ou "..^G" (point point contrôle-G), qui pourraient dissimuler un contenu malveillant.
-* **Identifier les fichiers setuid root** en utilisant la commande : `find / -user root -perm -04000 -print` Cela trouve des fichiers avec des permissions élevées, qui pourraient être abusés par des attaquants.
-* **Examiner les horodatages de suppression** dans les tables d'inodes pour repérer des suppressions massives de fichiers, ce qui pourrait indiquer la présence de rootkits ou de trojans.
+* **Identifier les fichiers setuid root** en utilisant la commande : `find / -user root -perm -04000 -print` Cela trouve des fichiers avec des permissions élevées, qui pourraient être abusées par des attaquants.
+* **Examiner les horodatages de suppression** dans les tables d'inodes pour repérer des suppressions massives de fichiers, ce qui pourrait indiquer la présence de rootkits ou de chevaux de Troie.
 * **Inspecter les inodes consécutifs** pour des fichiers malveillants à proximité après en avoir identifié un, car ils peuvent avoir été placés ensemble.
 * **Vérifier les répertoires binaires courants** (_/bin_, _/sbin_) pour des fichiers récemment modifiés, car ceux-ci pourraient avoir été altérés par des logiciels malveillants.
 ````bash
@@ -425,7 +425,7 @@ Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -433,7 +433,7 @@ Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
-Obtenez un accès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

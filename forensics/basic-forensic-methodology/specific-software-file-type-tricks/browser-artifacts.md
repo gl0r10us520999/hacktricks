@@ -18,7 +18,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -30,7 +30,7 @@ Les artefacts des navigateurs incluent divers types de données stockées par le
 Voici un résumé des artefacts de navigateur les plus courants :
 
 * **Historique de Navigation** : Suit les visites des utilisateurs sur les sites web, utile pour identifier les visites sur des sites malveillants.
-* **Données de Complétion Automatique** : Suggestions basées sur des recherches fréquentes, offrant des aperçus lorsqu'elles sont combinées avec l'historique de navigation.
+* **Données de Complétion Automatique** : Suggestions basées sur des recherches fréquentes, offrant des informations lorsqu'elles sont combinées avec l'historique de navigation.
 * **Signets** : Sites enregistrés par l'utilisateur pour un accès rapide.
 * **Extensions et Modules Complémentaires** : Extensions de navigateur ou modules installés par l'utilisateur.
 * **Cache** : Stocke le contenu web (par exemple, images, fichiers JavaScript) pour améliorer les temps de chargement des sites, précieux pour l'analyse judiciaire.
@@ -50,7 +50,7 @@ Firefox organise les données utilisateur dans des profils, stockés à des empl
 * **MacOS** : `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows** : `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Un fichier `profiles.ini` dans ces répertoires liste les profils utilisateurs. Les données de chaque profil sont stockées dans un dossier nommé dans la variable `Path` au sein de `profiles.ini`, situé dans le même répertoire que `profiles.ini` lui-même. Si le dossier d'un profil est manquant, il a peut-être été supprimé.
+Un fichier `profiles.ini` dans ces répertoires liste les profils utilisateur. Les données de chaque profil sont stockées dans un dossier nommé dans la variable `Path` au sein de `profiles.ini`, situé dans le même répertoire que `profiles.ini` lui-même. Si le dossier d'un profil est manquant, il a peut-être été supprimé.
 
 Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants :
 
@@ -64,7 +64,7 @@ Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants
 * **cookies.sqlite** : Stockage des cookies, avec [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) disponible pour inspection sur Windows.
 * **cache2/entries** ou **startupCache** : Données de cache, accessibles via des outils comme [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite** : Stocke les favicons.
-* **prefs.js** : Paramètres et préférences de l'utilisateur.
+* **prefs.js** : Paramètres et préférences utilisateur.
 * **downloads.sqlite** : Base de données des téléchargements plus anciens, maintenant intégrée dans places.sqlite.
 * **thumbnails** : Vignettes de sites web.
 * **logins.json** : Informations de connexion chiffrées.
@@ -73,7 +73,7 @@ Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants
 De plus, vérifier les paramètres anti-phishing du navigateur peut être fait en recherchant les entrées `browser.safebrowsing` dans `prefs.js`, indiquant si les fonctionnalités de navigation sécurisée sont activées ou désactivées.
 
 Pour essayer de déchiffrer le mot de passe principal, vous pouvez utiliser [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Avec le script et l'appel suivants, vous pouvez spécifier un fichier de mot de passe à forcer :
+Avec le script et l'appel suivants, vous pouvez spécifier un fichier de mot de passe à brute-forcer :
 
 {% code title="brute.sh" %}
 ```bash
@@ -100,16 +100,16 @@ Google Chrome stocke les profils utilisateurs à des emplacements spécifiques e
 
 Dans ces répertoires, la plupart des données utilisateur peuvent être trouvées dans les dossiers **Default/** ou **ChromeDefaultData/**. Les fichiers suivants contiennent des données significatives :
 
-* **History** : Contient des URL, des téléchargements et des mots-clés de recherche. Sur Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) peut être utilisé pour lire l'historique. La colonne "Transition Type" a diverses significations, y compris les clics de l'utilisateur sur des liens, les URL tapées, les soumissions de formulaires et les rechargements de pages.
+* **History** : Contient des URL, des téléchargements et des mots-clés de recherche. Sur Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) peut être utilisé pour lire l'historique. La colonne "Transition Type" a diverses significations, y compris les clics des utilisateurs sur des liens, les URL tapées, les soumissions de formulaires et les rechargements de pages.
 * **Cookies** : Stocke les cookies. Pour inspection, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) est disponible.
-* **Cache** : Contient des données mises en cache. Pour inspecter, les utilisateurs Windows peuvent utiliser [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
-* **Bookmarks** : Favoris de l'utilisateur.
+* **Cache** : Contient des données mises en cache. Pour inspecter, les utilisateurs de Windows peuvent utiliser [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
+* **Bookmarks** : Signets de l'utilisateur.
 * **Web Data** : Contient l'historique des formulaires.
 * **Favicons** : Stocke les favicons des sites web.
 * **Login Data** : Inclut les identifiants de connexion comme les noms d'utilisateur et les mots de passe.
 * **Current Session**/**Current Tabs** : Données sur la session de navigation actuelle et les onglets ouverts.
 * **Last Session**/**Last Tabs** : Informations sur les sites actifs lors de la dernière session avant la fermeture de Chrome.
-* **Extensions** : Répertoires pour les extensions et les addons du navigateur.
+* **Extensions** : Répertoires pour les extensions et addons du navigateur.
 * **Thumbnails** : Stocke les vignettes des sites web.
 * **Preferences** : Un fichier riche en informations, y compris les paramètres pour les plugins, les extensions, les pop-ups, les notifications, et plus encore.
 * **Browser’s built-in anti-phishing** : Pour vérifier si la protection anti-phishing et contre les logiciels malveillants est activée, exécutez `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Recherchez `{"enabled: true,"}` dans la sortie.
@@ -162,7 +162,7 @@ Les données de Safari sont stockées à `/Users/$User/Library/Safari`. Les fich
 
 * **History.db** : Contient les tables `history_visits` et `history_items` avec des URL et des horodatages de visite. Utilisez `sqlite3` pour interroger.
 * **Downloads.plist** : Informations sur les fichiers téléchargés.
-* **Bookmarks.plist** : Stocke les URL mises en favori.
+* **Bookmarks.plist** : Stocke les URL des signets.
 * **TopSites.plist** : Sites les plus fréquemment visités.
 * **Extensions.plist** : Liste des extensions du navigateur Safari. Utilisez `plutil` ou `pluginkit` pour récupérer.
 * **UserNotificationPermissions.plist** : Domaines autorisés à envoyer des notifications. Utilisez `plutil` pour analyser.
@@ -198,11 +198,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

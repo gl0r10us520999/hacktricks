@@ -8,9 +8,9 @@ Apprenez et pratiquez le hacking GCP : <img src="../.gitbook/assets/grte.png" al
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
@@ -19,27 +19,27 @@ Apprenez et pratiquez le hacking GCP : <img src="../.gitbook/assets/grte.png" al
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
 
-**Aperçus du hacking**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du hacking
+**Aperçus de Hacking**\
+Engagez-vous avec du contenu qui plonge dans le frisson et les défis du hacking
 
-**Actualités de hacking en temps réel**\
+**Actualités de Hacking en Temps Réel**\
 Restez à jour avec le monde du hacking en rapide évolution grâce à des nouvelles et des aperçus en temps réel
 
-**Dernières annonces**\
-Restez informé des nouveaux programmes de bug bounty lancés et des mises à jour cruciales de la plateforme
+**Dernières Annonces**\
+Restez informé des nouveaux programmes de bug bounty lancés et des mises à jour cruciales des plateformes
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers aujourd'hui !
 
 ### **Meilleur outil pour rechercher des vecteurs d'élévation de privilèges locaux Linux :** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-### [Informations système](privilege-escalation/#system-information)
+### [Informations Système](privilege-escalation/#system-information)
 
 * [ ] Obtenez des **informations sur le système d'exploitation**
 * [ ] Vérifiez le [**PATH**](privilege-escalation/#path), un **dossier modifiable** ?
 * [ ] Vérifiez les [**variables d'environnement**](privilege-escalation/#env-info), des détails sensibles ?
 * [ ] Recherchez des [**exploits de noyau**](privilege-escalation/#kernel-exploits) **en utilisant des scripts** (DirtyCow ?)
 * [ ] **Vérifiez** si la [**version de sudo** est vulnérable](privilege-escalation/#sudo-version)
-* [ ] [**La vérification de signature Dmesg a échoué**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] [**Dmesg** échec de la vérification de signature](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Plus d'énumération système ([date, statistiques système, informations CPU, imprimantes](privilege-escalation/#more-system-enumeration))
 * [ ] [**Énumérer plus de défenses**](privilege-escalation/#enumerate-possible-defenses)
 
@@ -49,7 +49,7 @@ Restez informé des nouveaux programmes de bug bounty lancés et des mises à jo
 * [ ] **Un disque non monté ?**
 * [ ] **Des identifiants dans fstab ?**
 
-### [**Logiciels installés**](privilege-escalation/#installed-software)
+### [**Logiciels Installés**](privilege-escalation/#installed-software)
 
 * [ ] **Vérifiez les** [**logiciels utiles**](privilege-escalation/#useful-software) **installés**
 * [ ] **Vérifiez les** [**logiciels vulnérables**](privilege-escalation/#vulnerable-software-installed) **installés**
@@ -61,9 +61,9 @@ Restez informé des nouveaux programmes de bug bounty lancés et des mises à jo
 * [ ] Recherchez des **exploits de processus en cours d'exécution** (en particulier la version en cours d'exécution).
 * [ ] Pouvez-vous **modifier le binaire** de tout processus en cours d'exécution ?
 * [ ] **Surveillez les processus** et vérifiez si un processus intéressant s'exécute fréquemment.
-* [ ] Pouvez-vous **lire** la **mémoire d'un processus** intéressant (où des mots de passe pourraient être sauvegardés) ?
+* [ ] Pouvez-vous **lire** la **mémoire d'un processus** intéressant (où des mots de passe pourraient être enregistrés) ?
 
-### [Tâches planifiées/Cron ?](privilege-escalation/#scheduled-jobs)
+### [Tâches Planifiées/Cron ?](privilege-escalation/#scheduled-jobs)
 
 * [ ] Le [**PATH**](privilege-escalation/#cron-path) est-il modifié par un cron et pouvez-vous **écrire** dedans ?
 * [ ] Un [**wildcard**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) dans une tâche cron ?
@@ -100,14 +100,14 @@ Restez informé des nouveaux programmes de bug bounty lancés et des mises à jo
 
 * [ ] Énumération des utilisateurs/groupes **génériques**
 * [ ] Avez-vous un **UID très élevé** ? La **machine** est-elle **vulnérable** ?
-* [ ] Pouvez-vous [**escalader les privilèges grâce à un groupe**](privilege-escalation/interesting-groups-linux-pe/) auquel vous appartenez ?
+* [ ] Pouvez-vous [**élever les privilèges grâce à un groupe**](privilege-escalation/interesting-groups-linux-pe/) auquel vous appartenez ?
 * [ ] Données du **presse-papiers** ?
 * [ ] Politique de mot de passe ?
 * [ ] Essayez d'**utiliser** chaque **mot de passe connu** que vous avez découvert précédemment pour vous connecter **avec chaque** utilisateur possible. Essayez également de vous connecter sans mot de passe.
 
-### [PATH modifiable](privilege-escalation/#writable-path-abuses)
+### [PATH Modifiable](privilege-escalation/#writable-path-abuses)
 
-* [ ] Si vous avez **des privilèges d'écriture sur un dossier dans le PATH**, vous pourriez être en mesure d'escalader les privilèges
+* [ ] Si vous avez **des privilèges d'écriture sur un dossier dans le PATH**, vous pourriez être en mesure d'élever les privilèges
 
 ### [Commandes SUDO et SUID](privilege-escalation/#sudo-and-suid)
 
@@ -131,22 +131,22 @@ Restez informé des nouveaux programmes de bug bounty lancés et des mises à jo
 
 * [ ] Un fichier a-t-il une **ACL inattendue** ?
 
-### [Sessions de shell ouvertes](privilege-escalation/#open-shell-sessions)
+### [Sessions Shell Ouvertes](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
 
 ### [SSH](privilege-escalation/#ssh)
 
-* [ ] **Debian** [**OpenSSL PRNG prévisible - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
+* [ ] **Debian** [**OpenSSL PRNG Prévisible - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
 * [ ] [**Valeurs de configuration SSH intéressantes**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [Fichiers intéressants](privilege-escalation/#interesting-files)
+### [Fichiers Intéressants](privilege-escalation/#interesting-files)
 
 * [ ] **Fichiers de profil** - Lire des données sensibles ? Écrire pour privesc ?
 * [ ] **Fichiers passwd/shadow** - Lire des données sensibles ? Écrire pour privesc ?
 * [ ] **Vérifiez les dossiers couramment intéressants** pour des données sensibles
-* [ ] **Emplacement étrange/Fichiers possédés,** vous pourriez avoir accès ou modifier des fichiers exécutables
+* [ ] **Emplacement/Propriétés de fichiers étranges,** vous pourriez avoir accès ou modifier des fichiers exécutables
 * [ ] **Modifié** dans les dernières minutes
 * [ ] **Fichiers de base de données Sqlite**
 * [ ] **Fichiers cachés**
@@ -156,7 +156,7 @@ Restez informé des nouveaux programmes de bug bounty lancés et des mises à jo
 * [ ] **Fichiers connus contenant des mots de passe** : Utilisez **Linpeas** et **LaZagne**
 * [ ] **Recherche générique**
 
-### [**Fichiers modifiables**](privilege-escalation/#writable-files)
+### [**Fichiers Modifiables**](privilege-escalation/#writable-files)
 
 * [ ] **Modifier la bibliothèque python** pour exécuter des commandes arbitraires ?
 * [ ] Pouvez-vous **modifier les fichiers journaux** ? Exploit **Logtotten**
@@ -165,21 +165,21 @@ Restez informé des nouveaux programmes de bug bounty lancés et des mises à jo
 
 ### [**Autres astuces**](privilege-escalation/#other-tricks)
 
-* [ ] Pouvez-vous [**abuser de NFS pour escalader les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
+* [ ] Pouvez-vous [**abuser de NFS pour élever les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
 * [ ] Avez-vous besoin de [**vous échapper d'un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ?
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
 
-**Aperçus du hacking**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du hacking
+**Aperçus de Hacking**\
+Engagez-vous avec du contenu qui plonge dans le frisson et les défis du hacking
 
-**Actualités de hacking en temps réel**\
+**Actualités de Hacking en Temps Réel**\
 Restez à jour avec le monde du hacking en rapide évolution grâce à des nouvelles et des aperçus en temps réel
 
-**Dernières annonces**\
-Restez informé des nouveaux programmes de bug bounty lancés et des mises à jour cruciales de la plateforme
+**Dernières Annonces**\
+Restez informé des nouveaux programmes de bug bounty lancés et des mises à jour cruciales des plateformes
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers aujourd'hui !
 
@@ -191,9 +191,9 @@ Apprenez et pratiquez le hacking GCP : <img src="../.gitbook/assets/grte.png" al
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

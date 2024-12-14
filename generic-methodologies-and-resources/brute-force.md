@@ -67,7 +67,7 @@ python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-Un outil de génération de listes de mots, qui vous permet de fournir un ensemble de mots, vous donnant la possibilité de créer plusieurs variations à partir des mots donnés, créant ainsi une liste de mots unique et idéale à utiliser concernant une cible spécifique.
+Un outil de génération de listes de mots, qui vous permet de fournir un ensemble de mots, vous donnant la possibilité de créer plusieurs variations à partir des mots donnés, créant une liste de mots unique et idéale à utiliser concernant une cible spécifique.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -653,7 +653,7 @@ Accédez dès aujourd'hui :
 
 **Exemples de hachage :** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-### Identificateur de hachage
+### Hash-identifier
 ```bash
 hash-identifier
 > <HASH>
@@ -746,7 +746,7 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-Casser les hachages Linux - fichier /etc/shadow
+Cracking Linux Hashes - fichier /etc/shadow
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
@@ -787,6 +787,6 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) pour construire et **automatiser des workflows** facilement grâce aux **outils communautaires les plus avancés** au monde.\
-Obtenez l'accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}

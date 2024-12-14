@@ -14,11 +14,11 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -52,13 +52,13 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Informations suspectes
 
-Lors de l'obtention des informations de base, vous devez vérifier des éléments étranges tels que :
+Lors de l'obtention des informations de base, vous devez vérifier des choses étranges comme :
 
 * **Les processus root** s'exécutent généralement avec de faibles PIDS, donc si vous trouvez un processus root avec un grand PID, vous pouvez suspecter
 * Vérifiez les **connexions enregistrées** des utilisateurs sans shell dans `/etc/passwd`
 * Vérifiez les **hashs de mot de passe** dans `/etc/shadow` pour les utilisateurs sans shell
 
-### Vidage de mémoire
+### Dump de mémoire
 
 Pour obtenir la mémoire du système en cours d'exécution, il est recommandé d'utiliser [**LiME**](https://github.com/504ensicsLabs/LiME).\
 Pour **compiler** cela, vous devez utiliser le **même noyau** que celui utilisé par la machine victime.
@@ -76,7 +76,7 @@ sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 LiME prend en charge 3 **formats** :
 
 * Brut (chaque segment concaténé ensemble)
-* Rembourré (même que brut, mais avec des zéros dans les bits de droite)
+* Padded (même que brut, mais avec des zéros dans les bits de droite)
 * Lime (format recommandé avec des métadonnées)
 
 LiME peut également être utilisé pour **envoyer le dump via le réseau** au lieu de le stocker sur le système en utilisant quelque chose comme : `path=tcp:4444`
@@ -99,7 +99,7 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### Analyse préliminaire de l'image disque
+### Pré-analyse de l'image disque
 
 Imager une image disque sans plus de données.
 ```bash
@@ -169,7 +169,7 @@ Accédez dès aujourd'hui :
 Linux offre des outils pour garantir l'intégrité des composants système, ce qui est crucial pour repérer les fichiers potentiellement problématiques.
 
 * **Systèmes basés sur RedHat** : Utilisez `rpm -Va` pour un contrôle complet.
-* **Systèmes basés sur Debian** : `dpkg --verify` pour une vérification initiale, suivi de `debsums | grep -v "OK$"` (après avoir installé `debsums` avec `apt-get install debsums`) pour identifier d'éventuels problèmes.
+* **Systèmes basés sur Debian** : `dpkg --verify` pour une vérification initiale, suivie de `debsums | grep -v "OK$"` (après avoir installé `debsums` avec `apt-get install debsums`) pour identifier d'éventuels problèmes.
 
 ### Détecteurs de Malware/Rootkit
 
@@ -314,14 +314,14 @@ Certaines applications génèrent également leurs propres journaux :
 * **Open Office** : Vérifiez l'accès récent aux documents qui pourrait indiquer des fichiers compromis.
 * **FTP/SFTP** : Examinez les journaux dans _\~/.ftp\_history_ ou _\~/.sftp\_history_ pour des transferts de fichiers qui pourraient être non autorisés.
 * **MySQL** : Enquêtez sur _\~/.mysql\_history_ pour des requêtes MySQL exécutées, révélant potentiellement des activités de base de données non autorisées.
-* **Less** : Analysez _\~/.lesshst_ pour l'historique d'utilisation, y compris les fichiers consultés et les commandes exécutées.
+* **Less** : Analysez _\~/.lesshst_ pour l'historique d'utilisation, y compris les fichiers vus et les commandes exécutées.
 * **Git** : Examinez _\~/.gitconfig_ et le projet _.git/logs_ pour des modifications des dépôts.
 
 ### USB Logs
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) est un petit logiciel écrit en pur Python 3 qui analyse les fichiers journaux Linux (`/var/log/syslog*` ou `/var/log/messages*` selon la distribution) pour construire des tables d'historique des événements USB.
 
-Il est intéressant de **savoir tous les USB qui ont été utilisés** et cela sera plus utile si vous avez une liste autorisée d'USB pour trouver des "événements de violation" (l'utilisation d'USB qui ne sont pas dans cette liste).
+Il est intéressant de **savoir tous les USB qui ont été utilisés** et cela sera plus utile si vous avez une liste autorisée d'USB pour trouver des "événements de violation" (l'utilisation d'USB qui ne figurent pas dans cette liste).
 
 ### Installation
 ```bash
@@ -336,12 +336,12 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-More examples and info inside the github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+Plus d'exemples et d'informations dans le github : [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour construire et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour créer et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
@@ -350,13 +350,13 @@ Accédez dès aujourd'hui :
 
 Examinez le _**/etc/passwd**_, _**/etc/shadow**_ et les **journaux de sécurité** pour des noms ou des comptes inhabituels créés et ou utilisés à proximité d'événements non autorisés connus. Vérifiez également les possibles attaques par force brute sur sudo.\
 De plus, vérifiez des fichiers comme _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
-Enfin, recherchez des comptes avec **aucun mot de passe** ou des **mots de passe facilement devinables**.
+Enfin, recherchez des comptes avec **aucun mot de passe** ou des mots de passe **facilement devinables**.
 
 ## Examiner le système de fichiers
 
-### Analyser les structures de système de fichiers dans l'enquête sur les logiciels malveillants
+### Analyser les structures du système de fichiers dans l'enquête sur les logiciels malveillants
 
-Lors de l'enquête sur des incidents de logiciels malveillants, la structure du système de fichiers est une source d'information cruciale, révélant à la fois la séquence des événements et le contenu des logiciels malveillants. Cependant, les auteurs de logiciels malveillants développent des techniques pour entraver cette analyse, comme la modification des horodatages de fichiers ou l'évitement du système de fichiers pour le stockage de données.
+Lors de l'enquête sur des incidents de logiciels malveillants, la structure du système de fichiers est une source d'information cruciale, révélant à la fois la séquence des événements et le contenu des logiciels malveillants. Cependant, les auteurs de logiciels malveillants développent des techniques pour entraver cette analyse, comme la modification des horodatages des fichiers ou l'évitement du système de fichiers pour le stockage de données.
 
 Pour contrer ces méthodes anti-forensiques, il est essentiel de :
 
@@ -379,7 +379,7 @@ ls -lai /bin | sort -n```
 Notez qu'un **attaquant** peut **modifier** le **temps** pour faire en sorte que des **fichiers apparaissent** **légitimes**, mais il **ne peut pas** modifier l'**inode**. Si vous constatez qu'un **fichier** indique qu'il a été créé et modifié en même temps que le reste des fichiers dans le même dossier, mais que l'**inode** est **inattendu plus grand**, alors les **horodatages de ce fichier ont été modifiés**.
 {% endhint %}
 
-## Comparer les fichiers de différentes versions de système de fichiers
+## Comparer des fichiers de différentes versions de système de fichiers
 
 ### Résumé de la comparaison des versions de système de fichiers
 
@@ -397,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Les options de filtre** (`--diff-filter`) aident à se concentrer sur des changements spécifiques comme les fichiers ajoutés (`A`), supprimés (`D`) ou modifiés (`M`).
+* **Options de filtre** (`--diff-filter`) aident à se concentrer sur des changements spécifiques comme ajoutés (`A`), supprimés (`D`), ou modifiés (`M`) fichiers.
 * `A`: Fichiers ajoutés
 * `C`: Fichiers copiés
 * `D`: Fichiers supprimés
@@ -406,7 +406,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `T`: Changements de type (par exemple, fichier à symlink)
 * `U`: Fichiers non fusionnés
 * `X`: Fichiers inconnus
-* `B`: Fichiers corrompus
+* `B`: Fichiers cassés
 
 ## Références
 
@@ -424,8 +424,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

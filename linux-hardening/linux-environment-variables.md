@@ -61,7 +61,7 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **MANPATH** – la liste des répertoires à rechercher pour les pages de manuel.
 * **OSTYPE** – le type de système d'exploitation.
 * **PS1** – l'invite par défaut dans bash.
-* **PATH** – stocke le chemin de tous les répertoires contenant des fichiers binaires que vous souhaitez exécuter simplement en spécifiant le nom du fichier et non par un chemin relatif ou absolu.
+* **PATH** – stocke le chemin de tous les répertoires contenant des fichiers binaires que vous souhaitez exécuter simplement en spécifiant le nom du fichier et non par chemin relatif ou absolu.
 * **PWD** – le répertoire de travail actuel.
 * **SHELL** – le chemin vers le shell de commande actuel (par exemple, **/bin/bash**).
 * **TERM** – le type de terminal actuel (par exemple, **xterm**).

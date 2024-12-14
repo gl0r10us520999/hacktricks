@@ -8,9 +8,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <summary>Support HackTricks</summary>
 
-* Check the [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -69,7 +69,7 @@ puts("Hi");
 
 ### Vérifiez l'environnement
 
-Vérifiez que _libcustom.so_ est en train d'être **chargé** depuis _/usr/lib_ et que vous pouvez **exécuter** le binaire.
+Vérifiez que _libcustom.so_ est bien **chargé** depuis _/usr/lib_ et que vous pouvez **exécuter** le binaire.
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -127,14 +127,14 @@ Notez que dans cet exemple, nous n'avons pas élevé les privilèges, mais en mo
 
 ### Autres erreurs de configuration - Même vulnérabilité
 
-Dans l'exemple précédent, nous avons simulé une erreur de configuration où un administrateur **a défini un dossier non privilégié dans un fichier de configuration dans `/etc/ld.so.conf.d/`**.\
+Dans l'exemple précédent, nous avons simulé une erreur de configuration où un administrateur **a défini un dossier non privilégié dans un fichier de configuration à l'intérieur de `/etc/ld.so.conf.d/`**.\
 Mais il existe d'autres erreurs de configuration qui peuvent causer la même vulnérabilité. Si vous avez **des permissions d'écriture** dans un **fichier de configuration** à l'intérieur de `/etc/ld.so.conf.d`, dans le dossier `/etc/ld.so.conf.d` ou dans le fichier `/etc/ld.so.conf`, vous pouvez configurer la même vulnérabilité et l'exploiter.
 
 ## Exploit 2
 
 **Supposons que vous ayez des privilèges sudo sur `ldconfig`**.\
 Vous pouvez indiquer à `ldconfig` **où charger les fichiers de configuration**, donc nous pouvons en profiter pour faire en sorte que `ldconfig` charge des dossiers arbitraires.\
-Alors, créons les fichiers et dossiers nécessaires pour charger "/tmp":
+Alors, créons les fichiers et dossiers nécessaires pour charger "/tmp" :
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
@@ -162,8 +162,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

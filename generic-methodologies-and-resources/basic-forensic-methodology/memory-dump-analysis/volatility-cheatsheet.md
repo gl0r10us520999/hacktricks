@@ -62,9 +62,9 @@ Accédez à la documentation officielle dans [référence de commande Volatility
 
 Volatility a deux approches principales pour les plugins, qui se reflètent parfois dans leurs noms. Les plugins “list” essaieront de naviguer à travers les structures du noyau Windows pour récupérer des informations comme les processus (localiser et parcourir la liste chaînée des structures `_EPROCESS` en mémoire), les poignées du système d'exploitation (localiser et lister la table des poignées, déréférencer les pointeurs trouvés, etc.). Ils se comportent plus ou moins comme le ferait l'API Windows si on lui demandait, par exemple, de lister les processus.
 
-Cela rend les plugins “list” assez rapides, mais tout aussi vulnérables que l'API Windows à la manipulation par des logiciels malveillants. Par exemple, si un logiciel malveillant utilise DKOM pour dissocier un processus de la liste chaînée `_EPROCESS`, il n'apparaîtra pas dans le Gestionnaire des tâches et ne sera pas non plus dans le pslist.
+Cela rend les plugins “list” assez rapides, mais tout aussi vulnérables que l'API Windows à la manipulation par des logiciels malveillants. Par exemple, si un logiciel malveillant utilise DKOM pour dissocier un processus de la liste chaînée `_EPROCESS`, il n'apparaîtra pas dans le Gestionnaire des tâches et ne sera pas non plus dans pslist.
 
-Les plugins “scan”, en revanche, adopteront une approche similaire à l'extraction de la mémoire pour des éléments qui pourraient avoir du sens lorsqu'ils sont déréférencés en tant que structures spécifiques. `psscan`, par exemple, lira la mémoire et essaiera de créer des objets `_EPROCESS` à partir de celle-ci (il utilise le balayage de balises de pool, qui recherche des chaînes de 4 octets indiquant la présence d'une structure d'intérêt). L'avantage est qu'il peut déterrer des processus qui ont quitté, et même si un logiciel malveillant altère la liste chaînée `_EPROCESS`, le plugin trouvera toujours la structure traînant en mémoire (puisqu'elle doit encore exister pour que le processus fonctionne). Le désavantage est que les plugins “scan” sont un peu plus lents que les plugins “list”, et peuvent parfois donner des faux positifs (un processus qui a quitté trop longtemps et dont des parties de la structure ont été écrasées par d'autres opérations).
+Les plugins “scan”, en revanche, adopteront une approche similaire à l'extraction de la mémoire pour des éléments qui pourraient avoir du sens lorsqu'ils sont déréférencés en tant que structures spécifiques. `psscan`, par exemple, lira la mémoire et essaiera de créer des objets `_EPROCESS` à partir de celle-ci (il utilise le balayage de balises de pool, qui recherche des chaînes de 4 octets indiquant la présence d'une structure d'intérêt). L'avantage est qu'il peut déterrer des processus qui ont quitté, et même si un logiciel malveillant altère la liste chaînée `_EPROCESS`, le plugin trouvera toujours la structure laissée en mémoire (puisqu'elle doit encore exister pour que le processus fonctionne). Le désavantage est que les plugins “scan” sont un peu plus lents que les plugins “list”, et peuvent parfois donner des faux positifs (un processus qui a quitté trop longtemps et dont des parties de la structure ont été écrasées par d'autres opérations).
 
 De : [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -112,9 +112,9 @@ volatility kdbgscan -f file.dmp
 ```
 #### **Différences entre imageinfo et kdbgscan**
 
-[**D'ici**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/) : Contrairement à imageinfo qui fournit simplement des suggestions de profil, **kdbgscan** est conçu pour identifier positivement le bon profil et la bonne adresse KDBG (s'il y en a plusieurs). Ce plugin recherche les signatures KDBGHeader liées aux profils Volatility et applique des vérifications de validité pour réduire les faux positifs. La verbosité de la sortie et le nombre de vérifications de validité qui peuvent être effectuées dépendent de la capacité de Volatility à trouver un DTB, donc si vous connaissez déjà le bon profil (ou si vous avez une suggestion de profil d'imageinfo), assurez-vous de l'utiliser.
+[**D'ici**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Contrairement à imageinfo qui fournit simplement des suggestions de profil, **kdbgscan** est conçu pour identifier positivement le bon profil et la bonne adresse KDBG (s'il y a plusieurs adresses). Ce plugin recherche les signatures KDBGHeader liées aux profils Volatility et applique des vérifications de validité pour réduire les faux positifs. La verbosité de la sortie et le nombre de vérifications de validité qui peuvent être effectuées dépendent de la capacité de Volatility à trouver un DTB, donc si vous connaissez déjà le bon profil (ou si vous avez une suggestion de profil d'imageinfo), assurez-vous de l'utiliser.
 
-Vérifiez toujours le **nombre de processus que kdbgscan a trouvés**. Parfois, imageinfo et kdbgscan peuvent trouver **plus d'un** **profil** approprié mais seul le **valide aura des processus associés** (C'est parce que pour extraire des processus, la bonne adresse KDBG est nécessaire).
+Vérifiez toujours le **nombre de processus que kdbgscan a trouvés**. Parfois, imageinfo et kdbgscan peuvent trouver **plus d'un** **profil** approprié, mais seul le **valide aura des processus associés** (C'est parce que pour extraire des processus, la bonne adresse KDBG est nécessaire).
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -303,6 +303,9 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 ### Handles
 
 Utile de savoir à quels autres fichiers, clés, threads, processus... un **processus a un handle** (a ouvert)
+
+{% tabs %}
+{% tab title="vol3" %}
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
@@ -511,7 +514,7 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 {% endtab %}
 {% endtabs %}
 
-### Analyse/dump
+### Analyse/vidage
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -751,7 +754,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
-### Obtenir l'historique IE
+### Obtenir l'historique d'IE
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
@@ -796,7 +799,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

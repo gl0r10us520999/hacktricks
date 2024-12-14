@@ -49,20 +49,20 @@ Des **octets 440 à 443** du MBR, vous pouvez trouver la **signature de disque W
 
 | Décalage    | Longueur   | Élément                                                  |
 | ----------- | ---------- | ------------------------------------------------------- |
-| 0 (0x00)    | 1 (0x01)   | Drapeau actif (0x80 = démarrable)                       |
-| 1 (0x01)    | 1 (0x01)   | Tête de départ                                          |
-| 2 (0x02)    | 1 (0x01)   | Secteur de départ (bits 0-5) ; bits supérieurs du cylindre (6-7) |
-| 3 (0x03)    | 1 (0x01)   | Cylindre de départ 8 bits les plus bas                  |
-| 4 (0x04)    | 1 (0x01)   | Code de type de partition (0x83 = Linux)                |
-| 5 (0x05)    | 1 (0x01)   | Tête de fin                                            |
-| 6 (0x06)    | 1 (0x01)   | Secteur de fin (bits 0-5) ; bits supérieurs du cylindre (6-7) |
-| 7 (0x07)    | 1 (0x01)   | Cylindre de fin 8 bits les plus bas                     |
-| 8 (0x08)    | 4 (0x04)   | Secteurs précédant la partition (little endian)         |
-| 12 (0x0C)   | 4 (0x04)   | Secteurs dans la partition                               |
+| 0 (0x00)    | 1 (0x01)  | Drapeau actif (0x80 = démarrable)                       |
+| 1 (0x01)    | 1 (0x01)  | Tête de départ                                          |
+| 2 (0x02)    | 1 (0x01)  | Secteur de départ (bits 0-5) ; bits supérieurs du cylindre (6-7) |
+| 3 (0x03)    | 1 (0x01)  | Cylindre de départ 8 bits les plus bas                  |
+| 4 (0x04)    | 1 (0x01)  | Code de type de partition (0x83 = Linux)                |
+| 5 (0x05)    | 1 (0x01)  | Tête de fin                                            |
+| 6 (0x06)    | 1 (0x01)  | Secteur de fin (bits 0-5) ; bits supérieurs du cylindre (6-7) |
+| 7 (0x07)    | 1 (0x01)  | Cylindre de fin 8 bits les plus bas                     |
+| 8 (0x08)    | 4 (0x04)  | Secteurs précédant la partition (little endian)         |
+| 12 (0x0C)   | 4 (0x04)  | Secteurs dans la partition                               |
 
 Pour monter un MBR sous Linux, vous devez d'abord obtenir le décalage de départ (vous pouvez utiliser `fdisk` et la commande `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
 Et ensuite, utilisez le code suivant
 ```bash
@@ -71,16 +71,16 @@ mount -o ro,loop,offset=<Bytes>
 #63x512 = 32256Bytes
 mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
-**LBA (Logical block addressing)**
+**LBA (Addressage de blocs logiques)**
 
-**L'adressage de blocs logiques** (**LBA**) est un schéma courant utilisé pour **spécifier l'emplacement des blocs** de données stockées sur des dispositifs de stockage informatique, généralement des systèmes de stockage secondaires tels que les disques durs. LBA est un schéma d'adressage linéaire particulièrement simple ; **les blocs sont localisés par un index entier**, le premier bloc étant LBA 0, le deuxième LBA 1, et ainsi de suite.
+**L'adresse de blocs logiques** (**LBA**) est un schéma courant utilisé pour **spécifier l'emplacement des blocs** de données stockées sur des dispositifs de stockage informatique, généralement des systèmes de stockage secondaires tels que les disques durs. LBA est un schéma d'adressage linéaire particulièrement simple ; **les blocs sont localisés par un index entier**, le premier bloc étant LBA 0, le deuxième LBA 1, et ainsi de suite.
 
-### GPT (GUID Partition Table)
+### GPT (Table de partition GUID)
 
-La table de partition GUID, connue sous le nom de GPT, est privilégiée pour ses capacités améliorées par rapport à MBR (Master Boot Record). Distinctive pour son **identifiant unique global** pour les partitions, GPT se distingue de plusieurs manières :
+La Table de partition GUID, connue sous le nom de GPT, est privilégiée pour ses capacités améliorées par rapport à MBR (Master Boot Record). Distinctive pour son **identifiant unique global** pour les partitions, GPT se distingue de plusieurs manières :
 
 * **Emplacement et taille** : À la fois GPT et MBR commencent au **secteur 0**. Cependant, GPT fonctionne sur **64 bits**, contrairement aux 32 bits de MBR.
-* **Limites de partition** : GPT prend en charge jusqu'à **128 partitions** sur les systèmes Windows et peut accueillir jusqu'à **9,4 ZB** de données.
+* **Limites de partition** : GPT prend en charge jusqu'à **128 partitions** sur les systèmes Windows et peut accueillir jusqu'à **9,4ZB** de données.
 * **Noms de partition** : Offre la possibilité de nommer les partitions avec jusqu'à 36 caractères Unicode.
 
 **Résilience et récupération des données** :
@@ -100,7 +100,7 @@ La table de partition GUID, connue sous le nom de GPT, est privilégiée pour se
 
 Dans les systèmes d'exploitation qui prennent en charge le **démarrage basé sur GPT via les services BIOS** plutôt que EFI, le premier secteur peut également être utilisé pour stocker la première étape du code du **bootloader**, mais **modifié** pour reconnaître les **partitions GPT**. Le bootloader dans le MBR ne doit pas supposer une taille de secteur de 512 octets.
 
-**En-tête de la table de partition (LBA 1)**
+**En-tête de table de partition (LBA 1)**
 
 [De Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
@@ -111,7 +111,7 @@ L'en-tête de la table de partition définit les blocs utilisables sur le disque
 | 0 (0x00)  | 8 octets | Signature ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h ou 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)sur les machines little-endian) |
 | 8 (0x08)  | 4 octets | Révision 1.0 (00h 00h 01h 00h) pour UEFI 2.8                                                                                                                                     |
 | 12 (0x0C) | 4 octets | Taille de l'en-tête en little endian (en octets, généralement 5Ch 00h 00h 00h ou 92 octets)                                                                                                    |
-| 16 (0x10) | 4 octets | [CRC32](https://en.wikipedia.org/wiki/CRC32) de l'en-tête (offset +0 jusqu'à la taille de l'en-tête) en little endian, avec ce champ mis à zéro pendant le calcul                                |
+| 16 (0x10) | 4 octets | [CRC32](https://en.wikipedia.org/wiki/CRC32) de l'en-tête (offset +0 jusqu'à la taille de l'en-tête) en little endian, avec ce champ mis à zéro lors du calcul                                |
 | 20 (0x14) | 4 octets | Réservé ; doit être zéro                                                                                                                                                          |
 | 24 (0x18) | 8 octets | LBA actuel (emplacement de cette copie d'en-tête)                                                                                                                                      |
 | 32 (0x20) | 8 octets | LBA de sauvegarde (emplacement de l'autre copie d'en-tête)                                                                                                                                  |
@@ -162,7 +162,7 @@ S'il s'agissait d'une **table GPT au lieu d'un MBR**, la signature _EFI PART_ de
 
 ### FAT
 
-Le système de fichiers **FAT (File Allocation Table)** est conçu autour de son composant principal, la table d'allocation de fichiers, positionnée au début du volume. Ce système protège les données en maintenant **deux copies** de la table, garantissant l'intégrité des données même si l'une est corrompue. La table, ainsi que le dossier racine, doit être à un **emplacement fixe**, crucial pour le processus de démarrage du système.
+Le système de fichiers **FAT (Table d'allocation de fichiers)** est conçu autour de son composant principal, la table d'allocation de fichiers, positionnée au début du volume. Ce système protège les données en maintenant **deux copies** de la table, garantissant l'intégrité des données même si l'une est corrompue. La table, ainsi que le dossier racine, doit être dans un **emplacement fixe**, crucial pour le processus de démarrage du système.
 
 L'unité de stockage de base du système de fichiers est un **cluster, généralement 512B**, comprenant plusieurs secteurs. FAT a évolué à travers des versions :
 
@@ -182,7 +182,7 @@ Les composants clés du répertoire racine, en particulier pour FAT12 et FAT16, 
 
 ### EXT
 
-**Ext2** est le système de fichiers le plus courant pour les **partitions non journalières** (**partitions qui ne changent pas beaucoup**) comme la partition de démarrage. **Ext3/4** sont **journalières** et sont généralement utilisées pour le **reste des partitions**.
+**Ext2** est le système de fichiers le plus courant pour les **partitions non journaling** (**partitions qui ne changent pas beaucoup**) comme la partition de démarrage. **Ext3/4** sont **journaling** et sont généralement utilisés pour le **reste des partitions**.
 
 ## **Métadonnées**
 
@@ -202,7 +202,7 @@ Vous pouvez utiliser des outils comme [**exiftool**](https://exiftool.org) et [*
 
 ### Fichiers supprimés enregistrés
 
-Comme vu précédemment, il existe plusieurs endroits où le fichier est encore sauvegardé après avoir été "supprimé". Cela est dû au fait que généralement, la suppression d'un fichier d'un système de fichiers le marque simplement comme supprimé, mais les données ne sont pas touchées. Il est donc possible d'inspecter les registres des fichiers (comme le MFT) et de trouver les fichiers supprimés.
+Comme vu précédemment, il existe plusieurs endroits où le fichier est encore sauvegardé après avoir été "supprimé". Cela est dû au fait que, généralement, la suppression d'un fichier d'un système de fichiers le marque simplement comme supprimé mais les données ne sont pas touchées. Il est donc possible d'inspecter les registres des fichiers (comme le MFT) et de trouver les fichiers supprimés.
 
 De plus, le système d'exploitation enregistre généralement beaucoup d'informations sur les modifications du système de fichiers et les sauvegardes, il est donc possible d'essayer de les utiliser pour récupérer le fichier ou autant d'informations que possible.
 
@@ -224,8 +224,8 @@ Il existe plusieurs outils que vous pouvez utiliser pour le file carving en indi
 
 ### Carving de flux de données **C**
 
-Le carving de flux de données est similaire au file carving mais **au lieu de rechercher des fichiers complets, il recherche des fragments intéressants** d'informations.\
-Par exemple, au lieu de rechercher un fichier complet contenant des URL enregistrées, cette technique recherchera des URL.
+Le carving de flux de données est similaire au file carving mais **au lieu de chercher des fichiers complets, il recherche des fragments intéressants** d'informations.\
+Par exemple, au lieu de chercher un fichier complet contenant des URL enregistrées, cette technique recherchera des URL.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)

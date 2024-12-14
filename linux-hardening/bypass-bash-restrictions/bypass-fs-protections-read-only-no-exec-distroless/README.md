@@ -10,14 +10,14 @@ Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.p
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière de hacking** et par le fait de hacker l'inhackable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
+Si vous êtes intéressé par une **carrière en hacking** et par le fait de hacker l'inhackable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -25,10 +25,10 @@ Si vous êtes intéressé par une **carrière de hacking** et par le fait de hac
 
 Dans les vidéos suivantes, vous pouvez trouver les techniques mentionnées sur cette page expliquées plus en profondeur :
 
-* [**DEF CON 31 - Explorer la manipulation de la mémoire Linux pour la furtivité et l'évasion**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Intrusions furtives avec DDexec-ng & dlopen() en mémoire - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM_gjjiARaU)
+* [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM_gjjiARaU)
 
-## Scénario read-only / no-exec
+## scénario read-only / no-exec
 
 Il est de plus en plus courant de trouver des machines linux montées avec une **protection du système de fichiers en lecture seule (ro)**, en particulier dans les conteneurs. Cela est dû au fait qu'exécuter un conteneur avec un système de fichiers ro est aussi simple que de définir **`readOnlyRootFilesystem: true`** dans le `securitycontext` :
 
@@ -45,7 +45,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Cependant, même si le système de fichiers est monté en tant que ro, **`/dev/shm`** sera toujours inscriptible, donc c'est faux de dire que nous ne pouvons rien écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
+Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** sera toujours inscriptible, donc c'est faux de dire que nous ne pouvons rien écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
 
 {% hint style="warning" %}
 D'un point de vue red team, cela rend **compliqué de télécharger et d'exécuter** des binaires qui ne sont pas déjà dans le système (comme des portes dérobées ou des énumérateurs comme `kubectl`).
@@ -147,7 +147,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.p
 <summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

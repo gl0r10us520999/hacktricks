@@ -73,11 +73,11 @@ tar -xf image.tar
 ```
 ### Analyse de base
 
-Vous pouvez obtenir des **informations de base** à partir de l'image en exécutant :
+Vous pouvez obtenir **des informations de base** à partir de l'image en exécutant :
 ```bash
 docker inspect <image>
 ```
-Vous pouvez également obtenir un résumé **historique des changements** avec :
+Vous pouvez également obtenir un résumé **de l'historique des modifications** avec :
 ```bash
 docker history --no-trunc <image>
 ```
@@ -107,13 +107,13 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 ```
 ## Identifiants depuis la mémoire
 
-Notez que lorsque vous exécutez un conteneur docker à l'intérieur d'un hôte **vous pouvez voir les processus en cours d'exécution sur le conteneur depuis l'hôte** en exécutant simplement `ps -ef`
+Notez que lorsque vous exécutez un conteneur docker à l'intérieur d'un hôte **vous pouvez voir les processus en cours d'exécution sur le conteneur depuis l'hôte** simplement en exécutant `ps -ef`
 
 Par conséquent (en tant que root) vous pouvez **extraire la mémoire des processus** depuis l'hôte et rechercher des **identifiants** juste [**comme dans l'exemple suivant**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Approfondissez votre expertise en **Sécurité Mobile** avec 8kSec Academy. Maîtrisez la sécurité iOS et Android grâce à nos cours à votre rythme et obtenez une certification :
+Approfondissez votre expertise en **Mobile Security** avec 8kSec Academy. Maîtrisez la sécurité iOS et Android grâce à nos cours à votre rythme et obtenez une certification :
 
 {% embed url="https://academy.8ksec.io/" %}
 

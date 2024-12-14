@@ -1,8 +1,8 @@
-# Artéfacts du Navigateur
+# Artefacts du Navigateur
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -18,16 +18,16 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour créer et **automatiser des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour créer et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
-## Artéfacts des Navigateurs <a href="#id-3def" id="id-3def"></a>
+## Artefacts des Navigateurs <a href="#id-3def" id="id-3def"></a>
 
-Les artéfacts des navigateurs incluent divers types de données stockées par les navigateurs web, telles que l'historique de navigation, les signets et les données de cache. Ces artéfacts sont conservés dans des dossiers spécifiques au sein du système d'exploitation, variant en emplacement et en nom selon les navigateurs, mais stockant généralement des types de données similaires.
+Les artefacts du navigateur incluent divers types de données stockées par les navigateurs web, telles que l'historique de navigation, les signets et les données de cache. Ces artefacts sont conservés dans des dossiers spécifiques au sein du système d'exploitation, variant en emplacement et en nom selon les navigateurs, mais stockant généralement des types de données similaires.
 
-Voici un résumé des artéfacts de navigateur les plus courants :
+Voici un résumé des artefacts de navigateur les plus courants :
 
 * **Historique de Navigation** : Suit les visites des utilisateurs sur les sites web, utile pour identifier les visites sur des sites malveillants.
 * **Données de Complétion Automatique** : Suggestions basées sur des recherches fréquentes, offrant des informations lorsqu'elles sont combinées avec l'historique de navigation.
@@ -50,12 +50,12 @@ Firefox organise les données utilisateur dans des profils, stockés à des empl
 * **MacOS** : `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows** : `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Un fichier `profiles.ini` dans ces répertoires liste les profils utilisateur. Les données de chaque profil sont stockées dans un dossier nommé dans la variable `Path` au sein de `profiles.ini`, situé dans le même répertoire que `profiles.ini` lui-même. Si le dossier d'un profil est manquant, il a peut-être été supprimé.
+Un fichier `profiles.ini` dans ces répertoires liste les profils utilisateurs. Les données de chaque profil sont stockées dans un dossier nommé dans la variable `Path` au sein de `profiles.ini`, situé dans le même répertoire que `profiles.ini` lui-même. Si le dossier d'un profil est manquant, il a peut-être été supprimé.
 
 Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants :
 
 * **places.sqlite** : Stocke l'historique, les signets et les téléchargements. Des outils comme [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) sur Windows peuvent accéder aux données d'historique.
-* Utilisez des requêtes SQL spécifiques pour extraire des informations sur l'historique et les téléchargements.
+* Utilisez des requêtes SQL spécifiques pour extraire les informations d'historique et de téléchargements.
 * **bookmarkbackups** : Contient des sauvegardes de signets.
 * **formhistory.sqlite** : Stocke les données des formulaires web.
 * **handlers.json** : Gère les gestionnaires de protocoles.
@@ -102,8 +102,8 @@ Dans ces répertoires, la plupart des données utilisateur peuvent être trouvé
 
 * **History** : Contient des URL, des téléchargements et des mots-clés de recherche. Sur Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) peut être utilisé pour lire l'historique. La colonne "Transition Type" a diverses significations, y compris les clics des utilisateurs sur des liens, les URL tapées, les soumissions de formulaires et les rechargements de pages.
 * **Cookies** : Stocke les cookies. Pour inspection, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) est disponible.
-* **Cache** : Contient des données mises en cache. Pour inspecter, les utilisateurs de Windows peuvent utiliser [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
-* **Bookmarks** : Favoris de l'utilisateur.
+* **Cache** : Contient des données mises en cache. Pour inspecter, les utilisateurs Windows peuvent utiliser [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
+* **Bookmarks** : Signets de l'utilisateur.
 * **Web Data** : Contient l'historique des formulaires.
 * **Favicons** : Stocke les favicons des sites web.
 * **Login Data** : Inclut les identifiants de connexion comme les noms d'utilisateur et les mots de passe.
@@ -162,7 +162,7 @@ Les données de Safari sont stockées à `/Users/$User/Library/Safari`. Les fich
 
 * **History.db** : Contient les tables `history_visits` et `history_items` avec des URL et des horodatages de visite. Utilisez `sqlite3` pour interroger.
 * **Downloads.plist** : Informations sur les fichiers téléchargés.
-* **Bookmarks.plist** : Stocke les URL mises en favori.
+* **Bookmarks.plist** : Stocke les URL mises en signet.
 * **TopSites.plist** : Sites les plus fréquemment visités.
 * **Extensions.plist** : Liste des extensions du navigateur Safari. Utilisez `plutil` ou `pluginkit` pour récupérer.
 * **UserNotificationPermissions.plist** : Domaines autorisés à envoyer des notifications. Utilisez `plutil` pour analyser.
@@ -182,19 +182,19 @@ Ces chemins et commandes sont cruciaux pour accéder et comprendre les données 
 * [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
 * [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
-* **Livre : OS X Incident Response: Scripting and Analysis par Jaron Bradley pag 123**
+* **Livre : OS X Incident Response: Scripting and Analysis par Jaron Bradley page 123**
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour construire et **automatiser des flux de travail** facilement alimentés par les **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour construire et **automatiser facilement des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -202,7 +202,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

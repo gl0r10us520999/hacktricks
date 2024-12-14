@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 (Exemple de [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Après avoir creusé un peu dans la [documentation](http://66.218.245.39/doc/html/rn03re18.html) liée à `confd` et aux différents binaires (accessibles avec un compte sur le site Web de Cisco), nous avons découvert que pour authentifier le socket IPC, il utilise un secret situé dans `/etc/confd/confd_ipc_secret`:
+Après avoir fouillé un peu dans la [documentation](http://66.218.245.39/doc/html/rn03re18.html) liée à `confd` et aux différents binaires (accessibles avec un compte sur le site Web de Cisco), nous avons découvert que pour authentifier le socket IPC, il utilise un secret situé dans `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -59,7 +59,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 (Exemple de [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Le blog¹ de l'équipe synacktiv a décrit une manière élégante d'obtenir un shell root, mais le problème est que cela nécessite d'obtenir une copie de `/usr/bin/confd_cli_user` qui n'est lisible que par root. J'ai trouvé une autre façon d'escalader vers root sans ce tracas.
+Le blog¹ de l'équipe synacktiv a décrit une manière élégante d'obtenir un shell root, mais le problème est qu'il nécessite d'obtenir une copie de `/usr/bin/confd_cli_user` qui n'est lisible que par root. J'ai trouvé une autre façon d'escalader vers root sans ce tracas.
 
 Lorsque j'ai désassemblé le binaire `/usr/bin/confd_cli`, j'ai observé ce qui suit :
 ```
@@ -97,7 +97,7 @@ vmanage:~$ ps aux
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Je suppose que le programme “confd\_cli” passe l'ID utilisateur et l'ID de groupe qu'il a collectés auprès de l'utilisateur connecté à l'application “cmdptywrapper”.
+J'ai émis l'hypothèse que le programme “confd\_cli” passe l'ID utilisateur et l'ID de groupe qu'il a collectés auprès de l'utilisateur connecté à l'application “cmdptywrapper”.
 
 Ma première tentative a été de lancer “cmdptywrapper” directement en lui fournissant `-g 0 -u 0`, mais cela a échoué. Il semble qu'un descripteur de fichier (-i 1015) ait été créé quelque part en cours de route et je ne peux pas le falsifier.
 

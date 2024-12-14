@@ -133,7 +133,7 @@ Un fichier de clés partagées ressemblera à ceci :
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Pour l'importer dans Wireshark, allez à \_modifier > préférences > protocole > ssl > et importez-le dans le nom de fichier du journal (Pre)-Master-Secret :
+Pour l'importer dans Wireshark, allez à _modifier > préférences > protocole > ssl > et importez-le dans le nom de fichier du journal (Pre)-Master-Secret :
 
 ![](<../../../.gitbook/assets/image (989).png>)
 

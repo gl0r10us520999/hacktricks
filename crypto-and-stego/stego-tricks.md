@@ -10,7 +10,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Check the [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
@@ -81,7 +81,7 @@ Des caractères invisibles dans des espaces apparemment vides peuvent cacher des
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Pour tenter de réparer une image endommagée, ajouter un commentaire de métadonnées pourrait aider :
+Pour tenter de réparer une image endommagée, ajouter un commentaire dans les métadonnées pourrait aider :
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
@@ -94,7 +94,7 @@ Steghide facilite la dissimulation de données dans des fichiers `JPEG, BMP, WAV
 * `steghide info file` révèle si un fichier contient des données cachées.
 * `steghide extract -sf file [--passphrase password]` extrait les données cachées, le mot de passe est optionnel.
 
-Pour l'extraction basée sur le web, visitez [ce site](https://futureboy.us/stegano/decinput.html).
+Pour l'extraction basée sur le web, visitez [ce site web](https://futureboy.us/stegano/decinput.html).
 
 **Attaque par bruteforce avec Stegcracker :**
 
@@ -182,13 +182,13 @@ Un outil inestimable pour l'inspection visuelle et analytique des fichiers audio
 
 ### **DTMF Tones - Dial Tones**
 
-La détection des tons DTMF dans les fichiers audio peut être réalisée grâce à des outils en ligne tels que [ce détecteur DTMF](https://unframework.github.io/dtmf-detect/) et [DialABC](http://dialabc.com/sound/detect/index.html).
+La détection des tons DTMF dans des fichiers audio peut être réalisée grâce à des outils en ligne tels que [ce détecteur DTMF](https://unframework.github.io/dtmf-detect/) et [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Other Techniques**
 
 ### **Binary Length SQRT - QR Code**
 
-Les données binaires qui se carrent pour donner un nombre entier pourraient représenter un code QR. Utilisez ce snippet pour vérifier :
+Les données binaires qui s'élèvent au carré pour donner un nombre entier pourraient représenter un code QR. Utilisez ce snippet pour vérifier :
 ```python
 import math
 math.sqrt(2500) #50

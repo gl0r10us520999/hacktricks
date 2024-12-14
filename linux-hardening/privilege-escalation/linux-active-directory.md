@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 Une machine linux peut également être présente dans un environnement Active Directory.
 
-Une machine linux dans un AD pourrait **stocker différents tickets CCACHE dans des fichiers. Ces tickets peuvent être utilisés et abusés comme tout autre ticket kerberos**. Pour lire ces tickets, vous devez être le propriétaire du ticket ou **root** sur la machine.
+Une machine linux dans un AD pourrait **stocker différents tickets CCACHE à l'intérieur de fichiers. Ces tickets peuvent être utilisés et abusés comme tout autre ticket kerberos**. Pour lire ces tickets, vous devrez être le propriétaire du ticket ou **root** sur la machine.
 
-## Énumération
+## Enumeration
 
-### Énumération AD depuis linux
+### Enumeration AD depuis linux
 
 Si vous avez accès à un AD sous linux (ou bash sous Windows), vous pouvez essayer [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) pour énumérer l'AD.
 
@@ -35,7 +35,7 @@ Vous pouvez également consulter la page suivante pour apprendre **d'autres faç
 
 ### FreeIPA
 
-FreeIPA est une **alternative** open-source à Microsoft Windows **Active Directory**, principalement pour les environnements **Unix**. Il combine un **annuaire LDAP** complet avec un Centre de Distribution de Clés **Kerberos** MIT pour une gestion similaire à Active Directory. Utilisant le système de certificats **Dogtag** pour la gestion des certificats CA & RA, il prend en charge l'authentification **multi-facteurs**, y compris les cartes à puce. SSSD est intégré pour les processus d'authentification Unix. En savoir plus à ce sujet dans :
+FreeIPA est une **alternative** open-source à Microsoft Windows **Active Directory**, principalement pour les environnements **Unix**. Il combine un **annuaire LDAP** complet avec un Centre de Distribution de Clés **Kerberos** MIT pour une gestion similaire à Active Directory. Utilisant le système de certificats **Dogtag** pour la gestion des certificats CA & RA, il prend en charge l'authentification **multi-facteurs**, y compris les cartes intelligentes. SSSD est intégré pour les processus d'authentification Unix. En savoir plus à ce sujet dans :
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -53,9 +53,9 @@ Sur cette page, vous allez trouver différents endroits où vous pourriez **trou
 
 ### Réutilisation des tickets CCACHE depuis /tmp
 
-Les fichiers CCACHE sont des formats binaires pour **stocker les identifiants Kerberos** et sont généralement stockés avec des permissions 600 dans `/tmp`. Ces fichiers peuvent être identifiés par leur **format de nom, `krb5cc_%{uid}`,** correspondant à l'UID de l'utilisateur. Pour la vérification des tickets d'authentification, la **variable d'environnement `KRB5CCNAME`** doit être définie sur le chemin du fichier de ticket souhaité, permettant sa réutilisation.
+Les fichiers CCACHE sont des formats binaires pour **stocker des identifiants Kerberos** et sont généralement stockés avec des permissions 600 dans `/tmp`. Ces fichiers peuvent être identifiés par leur **format de nom, `krb5cc_%{uid}`,** correspondant à l'UID de l'utilisateur. Pour la vérification des tickets d'authentification, la **variable d'environnement `KRB5CCNAME`** doit être définie sur le chemin du fichier de ticket souhaité, permettant sa réutilisation.
 
-Listez le ticket actuel utilisé pour l'authentification avec `env | grep KRB5CCNAME`. Le format est portable et le ticket peut être **réutilisé en définissant la variable d'environnement** avec `export KRB5CCNAME=/tmp/ticket.ccache`. Le format de nom du ticket Kerberos est `krb5cc_%{uid}` où uid est l'UID de l'utilisateur.
+Listez le ticket actuel utilisé pour l'authentification avec `env | grep KRB5CCNAME`. Le format est portable et le ticket peut être **réutilisé en définissant la variable d'environnement** avec `export KRB5CCNAME=/tmp/ticket.ccache`. Le format de nom de ticket Kerberos est `krb5cc_%{uid}` où uid est l'UID de l'utilisateur.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -79,9 +79,9 @@ Cette procédure tentera d'injecter dans diverses sessions, indiquant le succès
 
 ### Réutilisation des tickets CCACHE à partir de SSSD KCM
 
-SSSD maintient une copie de la base de données au chemin `/var/lib/sss/secrets/secrets.ldb`. La clé correspondante est stockée en tant que fichier caché au chemin `/var/lib/sss/secrets/.secrets.mkey`. Par défaut, la clé n'est lisible que si vous avez des permissions **root**.
+SSSD maintient une copie de la base de données à l'emplacement `/var/lib/sss/secrets/secrets.ldb`. La clé correspondante est stockée en tant que fichier caché à l'emplacement `/var/lib/sss/secrets/.secrets.mkey`. Par défaut, la clé n'est lisible que si vous avez des permissions **root**.
 
-L'invocation de \*\*`SSSDKCMExtractor` \*\* avec les paramètres --database et --key analysera la base de données et **décrypta les secrets**.
+L'invocation de \*\*`SSSDKCMExtractor` \*\* avec les paramètres --database et --key analysera la base de données et **décryptera les secrets**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
@@ -96,7 +96,7 @@ klist -k /etc/krb5.keytab
 ```
 ### Extraire des comptes de /etc/krb5.keytab
 
-Les clés des comptes de service, essentielles pour les services fonctionnant avec des privilèges root, sont stockées en toute sécurité dans les fichiers **`/etc/krb5.keytab`**. Ces clés, semblables à des mots de passe pour les services, nécessitent une stricte confidentialité.
+Les clés des comptes de service, essentielles pour les services fonctionnant avec des privilèges root, sont stockées en toute sécurité dans les fichiers **`/etc/krb5.keytab`**. Ces clés, semblables à des mots de passe pour les services, nécessitent une confidentialité stricte.
 
 Pour inspecter le contenu du fichier keytab, **`klist`** peut être utilisé. L'outil est conçu pour afficher les détails des clés, y compris le **NT Hash** pour l'authentification des utilisateurs, en particulier lorsque le type de clé est identifié comme 23.
 ```bash
@@ -112,7 +112,7 @@ Sur macOS, **`bifrost`** sert d'outil pour l'analyse des fichiers keytab.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-En utilisant les informations de compte et de hachage extraites, des connexions aux serveurs peuvent être établies en utilisant des outils comme **`crackmapexec`**.
+En utilisant les informations de compte et de hachage extraites, des connexions aux serveurs peuvent être établies à l'aide d'outils comme **`crackmapexec`**.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
@@ -133,8 +133,8 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

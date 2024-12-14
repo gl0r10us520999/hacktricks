@@ -156,7 +156,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * udp
 * icmp
 * ip (ip signifie 'tout' ou 'n'importe quel')
-* _protocoles de couche 7_: http, ftp, tls, smb, dns, ssh... (plus dans les [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* _protocoles de couche 7_: http, ftp, tls, smb, dns, ssh... (plus dans la [**documentation**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
 #### Adresses Source et Destination
 
@@ -167,22 +167,22 @@ Il prend en charge les plages d'IP, les négations et une liste d'adresses :
 | ! 1.1.1.1                      | Chaque adresse IP sauf 1.1.1.1                 |
 | !\[1.1.1.1, 1.1.1.2]           | Chaque adresse IP sauf 1.1.1.1 et 1.1.1.2     |
 | $HOME\_NET                     | Votre paramètre de HOME\_NET dans yaml        |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET et non HOME\_NET                |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET et pas HOME\_NET                |
 | \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 sauf pour 10.0.0.5                |
 
 #### Ports Source et Destination
 
 Il prend en charge les plages de ports, les négations et les listes de ports
 
-| Exemple         | Signification                            |
-| --------------- | ---------------------------------------- |
-| any             | n'importe quelle adresse                 |
-| \[80, 81, 82]   | port 80, 81 et 82                       |
-| \[80: 82]       | Plage de 80 à 82                        |
+| Exemple         | Signification                                |
+| --------------- | -------------------------------------------- |
+| any             | n'importe quelle adresse                     |
+| \[80, 81, 82]   | port 80, 81 et 82                            |
+| \[80: 82]       | Plage de 80 à 82                             |
 | \[1024: ]       | De 1024 jusqu'au numéro de port le plus élevé |
-| !80             | Chaque port sauf 80                      |
-| \[80:100,!99]   | Plage de 80 à 100 mais 99 exclu         |
-| \[1:80,!\[2,4]] | Plage de 1 à 80, sauf les ports 2 et 4  |
+| !80             | Chaque port sauf 80                          |
+| \[80:100,!99]   | Plage de 80 à 100 mais 99 exclu             |
+| \[1:80,!\[2,4]] | Plage de 1 à 80, sauf les ports 2 et 4      |
 
 #### Direction
 
@@ -243,7 +243,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

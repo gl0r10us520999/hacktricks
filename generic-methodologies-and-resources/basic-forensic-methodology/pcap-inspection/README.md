@@ -30,7 +30,7 @@ Une note sur **PCAP** vs **PCAPNG** : il existe deux versions du format de fichi
 * Si l'en-tête de votre pcap est **cassé**, vous devriez essayer de le **réparer** en utilisant : [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
 * Extraire des **informations** et rechercher des **malwares** à l'intérieur d'un pcap dans [**PacketTotal**](https://packettotal.com)
 * Rechercher des **activités malveillantes** en utilisant [**www.virustotal.com**](https://www.virustotal.com) et [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
-* **Analyse complète de pcap depuis le navigateur sur** [**https://apackets.com/**](https://apackets.com/)
+* **Analyse complète de pcap depuis le navigateur dans** [**https://apackets.com/**](https://apackets.com/)
 
 ## Extraire des informations
 
@@ -79,15 +79,15 @@ Cet outil est également utile pour obtenir **d'autres informations analysées**
 
 ### NetWitness Investigator
 
-Vous pouvez télécharger [**NetWitness Investigator d'ici**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Il fonctionne sous Windows)**.\
+Vous pouvez télécharger [**NetWitness Investigator ici**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Il fonctionne sous Windows)**.\
 C'est un autre outil utile qui **analyse les paquets** et trie les informations de manière utile pour **savoir ce qui se passe à l'intérieur**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Extraire et encoder les noms d'utilisateur et les mots de passe (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Extraire les hachages d'authentification et les casser en utilisant Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Extraire et encoder des noms d'utilisateur et des mots de passe (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Extraire des hachages d'authentification et les craquer en utilisant Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
 * Construire un diagramme de réseau visuel (Nœuds et utilisateurs du réseau)
-* Extraire les requêtes DNS
+* Extraire des requêtes DNS
 * Reconstruire toutes les sessions TCP et UDP
 * File Carving
 
@@ -156,7 +156,7 @@ Vérifiez si vous pouvez trouver une empreinte d'un malware connu :
 
 > [Zeek](https://docs.zeek.org/en/master/about.html) est un analyseur de trafic réseau passif et open-source. De nombreux opérateurs utilisent Zeek comme Moniteur de Sécurité Réseau (NSM) pour soutenir les enquêtes sur des activités suspectes ou malveillantes. Zeek prend également en charge un large éventail de tâches d'analyse de trafic au-delà du domaine de la sécurité, y compris la mesure de performance et le dépannage.
 
-En gros, les journaux créés par `zeek` ne sont pas des **pcaps**. Par conséquent, vous devrez utiliser **d'autres outils** pour analyser les journaux où se trouvent les **informations** sur les pcaps.
+Fondamentalement, les journaux créés par `zeek` ne sont pas des **pcaps**. Par conséquent, vous devrez utiliser **d'autres outils** pour analyser les journaux où se trouvent les **informations** sur les pcaps.
 
 ### Informations sur les connexions
 ```bash
@@ -255,7 +255,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

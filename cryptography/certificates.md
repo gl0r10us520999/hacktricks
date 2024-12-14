@@ -89,7 +89,7 @@ La transparence des certificats aide à lutter contre les menaces liées aux cer
 
 #### **Journaux de certificats**
 
-Les journaux de certificats sont des enregistrements publics audités, en ajout uniquement, de certificats, maintenus par des services réseau. Ces journaux fournissent des preuves cryptographiques à des fins d'audit. Les autorités d'émission et le public peuvent soumettre des certificats à ces journaux ou les interroger pour vérification. Bien que le nombre exact de serveurs de journaux ne soit pas fixe, il est prévu qu'il soit inférieur à mille dans le monde. Ces serveurs peuvent être gérés indépendamment par des CA, des FAI ou toute entité intéressée.
+Les journaux de certificats sont des enregistrements audités publiquement, en ajout uniquement, de certificats, maintenus par des services réseau. Ces journaux fournissent des preuves cryptographiques à des fins d'audit. Les autorités d'émission et le public peuvent soumettre des certificats à ces journaux ou les interroger pour vérification. Bien que le nombre exact de serveurs de journaux ne soit pas fixe, on s'attend à ce qu'il soit inférieur à mille dans le monde. Ces serveurs peuvent être gérés indépendamment par des CA, des FAI ou toute entité intéressée.
 
 #### **Interrogation**
 

@@ -7,21 +7,21 @@ Bienvenue dans le guide complet de HackTricks sur la Modélisation des Menaces !
 ### Scénarios Couramment Utilisés
 
 1. **Développement de Logiciels** : Dans le cadre du Cycle de Vie de Développement de Logiciels Sécurisés (SSDLC), la modélisation des menaces aide à **identifier les sources potentielles de vulnérabilités** dès les premières étapes du développement.
-2. **Tests de Pénétration** : Le cadre du Standard d'Exécution des Tests de Pénétration (PTES) exige **la modélisation des menaces pour comprendre les vulnérabilités du système** avant de réaliser le test.
+2. **Tests de Pénétration** : Le cadre de la Norme d'Exécution des Tests de Pénétration (PTES) exige **la modélisation des menaces pour comprendre les vulnérabilités du système** avant de réaliser le test.
 
 ### Modèle de Menace en Bref
 
 Un Modèle de Menace est généralement représenté sous la forme d'un diagramme, d'une image ou d'une autre forme d'illustration visuelle qui décrit l'architecture prévue ou la construction existante d'une application. Il ressemble à un **diagramme de flux de données**, mais la distinction clé réside dans son design orienté sécurité.
 
-Les modèles de menaces présentent souvent des éléments marqués en rouge, symbolisant des vulnérabilités, des risques ou des barrières potentielles. Pour rationaliser le processus d'identification des risques, le triade CIA (Confidentialité, Intégrité, Disponibilité) est utilisée, formant la base de nombreuses méthodologies de modélisation des menaces, STRIDE étant l'une des plus courantes. Cependant, la méthodologie choisie peut varier en fonction du contexte et des exigences spécifiques.
+Les modèles de menaces comportent souvent des éléments marqués en rouge, symbolisant des vulnérabilités potentielles, des risques ou des barrières. Pour rationaliser le processus d'identification des risques, le triade CIA (Confidentialité, Intégrité, Disponibilité) est utilisée, formant la base de nombreuses méthodologies de modélisation des menaces, STRIDE étant l'une des plus courantes. Cependant, la méthodologie choisie peut varier en fonction du contexte et des exigences spécifiques.
 
 ### La Triade CIA
 
 La Triade CIA est un modèle largement reconnu dans le domaine de la sécurité de l'information, représentant la Confidentialité, l'Intégrité et la Disponibilité. Ces trois piliers forment la base sur laquelle de nombreuses mesures et politiques de sécurité sont construites, y compris les méthodologies de modélisation des menaces.
 
-1. **Confidentialité** : Assurer que les données ou le système ne soient pas accessibles par des individus non autorisés. C'est un aspect central de la sécurité, nécessitant des contrôles d'accès appropriés, du chiffrement et d'autres mesures pour prévenir les violations de données.
+1. **Confidentialité** : Assurer que les données ou le système ne soient pas accessibles par des individus non autorisés. C'est un aspect central de la sécurité, nécessitant des contrôles d'accès appropriés, le chiffrement et d'autres mesures pour prévenir les violations de données.
 2. **Intégrité** : L'exactitude, la cohérence et la fiabilité des données tout au long de leur cycle de vie. Ce principe garantit que les données ne sont pas modifiées ou altérées par des parties non autorisées. Il implique souvent des sommes de contrôle, du hachage et d'autres méthodes de vérification des données.
-3. **Disponibilité** : Cela garantit que les données et les services sont accessibles aux utilisateurs autorisés lorsque cela est nécessaire. Cela implique souvent de la redondance, de la tolérance aux pannes et des configurations de haute disponibilité pour maintenir les systèmes opérationnels même en cas de perturbations.
+3. **Disponibilité** : Cela garantit que les données et les services sont accessibles aux utilisateurs autorisés lorsque cela est nécessaire. Cela implique souvent de la redondance, de la tolérance aux pannes et des configurations de haute disponibilité pour maintenir les systèmes en fonctionnement même en cas de perturbations.
 
 ### Méthodologies de Modélisation des Menaces
 
@@ -38,7 +38,7 @@ Il existe plusieurs outils et solutions logicielles disponibles qui peuvent **ai
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Un outil avancé multiplateforme et multi-fonction pour les professionnels de la cybersécurité. Spider Suite peut être utilisé pour la cartographie et l'analyse de la surface d'attaque.
+Un outil GUI avancé, multiplateforme et multifonction pour les professionnels de la cybersécurité. Spider Suite peut être utilisé pour la cartographie et l'analyse de la surface d'attaque.
 
 **Utilisation**
 

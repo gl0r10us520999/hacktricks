@@ -17,14 +17,14 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ## Introduction
 
-Pour détecter une tentative de phishing, il est important de **comprendre les techniques de phishing qui sont utilisées de nos jours**. Sur la page principale de ce post, vous pouvez trouver cette information, donc si vous n'êtes pas au courant des techniques utilisées aujourd'hui, je vous recommande d'aller sur la page principale et de lire au moins cette section.
+Pour détecter une tentative de phishing, il est important de **comprendre les techniques de phishing qui sont utilisées de nos jours**. Sur la page principale de ce post, vous pouvez trouver cette information, donc si vous n'êtes pas au courant des techniques utilisées aujourd'hui, je vous recommande d'aller à la page principale et de lire au moins cette section.
 
 Ce post est basé sur l'idée que les **attaquants essaieront d'une manière ou d'une autre de mimer ou d'utiliser le nom de domaine de la victime**. Si votre domaine s'appelle `example.com` et que vous êtes phished en utilisant un nom de domaine complètement différent pour une raison quelconque comme `youwonthelottery.com`, ces techniques ne vont pas le découvrir.
 
 ## Variations de noms de domaine
 
 Il est assez **facile** de **dévoiler** ces **tentatives de phishing** qui utiliseront un **nom de domaine similaire** à l'intérieur de l'email.\
-Il suffit de **générer une liste des noms de phishing les plus probables** qu'un attaquant pourrait utiliser et de **vérifier** s'ils sont **enregistrés** ou simplement vérifier s'il y a une **IP** l'utilisant.
+Il suffit de **générer une liste des noms de phishing les plus probables** que pourrait utiliser un attaquant et de **vérifier** s'ils sont **enregistrés** ou simplement vérifier s'il y a une **IP** l'utilisant.
 
 ### Trouver des domaines suspects
 
@@ -40,11 +40,11 @@ Il suffit de **générer une liste des noms de phishing les plus probables** qu'
 Par exemple, une modification de 1 bit dans le domaine microsoft.com peut le transformer en _windnws.com._\
 **Les attaquants peuvent enregistrer autant de domaines de bit-flipping que possible liés à la victime pour rediriger les utilisateurs légitimes vers leur infrastructure**.
 
-**Tous les noms de domaine de bit-flipping possibles devraient également être surveillés.**
+**Tous les noms de domaine de bit-flipping possibles doivent également être surveillés.**
 
 ### Vérifications de base
 
-Une fois que vous avez une liste de noms de domaine potentiellement suspects, vous devriez **les vérifier** (principalement les ports HTTP et HTTPS) pour **voir s'ils utilisent un formulaire de connexion similaire** à celui du domaine de la victime.\
+Une fois que vous avez une liste de noms de domaine potentiellement suspects, vous devez **les vérifier** (principalement les ports HTTP et HTTPS) pour **voir s'ils utilisent un formulaire de connexion similaire** à celui du domaine de la victime.\
 Vous pourriez également vérifier le port 3333 pour voir s'il est ouvert et exécute une instance de `gophish`.\
 Il est également intéressant de savoir **quel âge a chaque domaine suspect découvert**, plus il est jeune, plus il est risqué.\
 Vous pouvez également obtenir des **captures d'écran** de la page web suspecte HTTP et/ou HTTPS pour voir si elle est suspecte et dans ce cas **y accéder pour examiner plus en profondeur**.
@@ -52,8 +52,8 @@ Vous pouvez également obtenir des **captures d'écran** de la page web suspecte
 ### Vérifications avancées
 
 Si vous souhaitez aller un peu plus loin, je vous recommande de **surveiller ces domaines suspects et de rechercher d'autres** de temps en temps (tous les jours ? cela ne prend que quelques secondes/minutes). Vous devriez également **vérifier** les **ports** ouverts des IPs associées et **rechercher des instances de `gophish` ou d'outils similaires** (oui, les attaquants font aussi des erreurs) et **surveiller les pages web HTTP et HTTPS des domaines et sous-domaines suspects** pour voir s'ils ont copié un formulaire de connexion des pages web de la victime.\
-Pour **automatiser cela**, je vous recommande d'avoir une liste de formulaires de connexion des domaines de la victime, d'explorer les pages web suspectes et de comparer chaque formulaire de connexion trouvé à l'intérieur des domaines suspects avec chaque formulaire de connexion du domaine de la victime en utilisant quelque chose comme `ssdeep`.\
-Si vous avez localisé les formulaires de connexion des domaines suspects, vous pouvez essayer d'**envoyer des identifiants bidon** et **vérifier s'il vous redirige vers le domaine de la victime**.
+Pour **automatiser cela**, je recommanderais d'avoir une liste de formulaires de connexion des domaines de la victime, d'explorer les pages web suspectes et de comparer chaque formulaire de connexion trouvé à l'intérieur des domaines suspects avec chaque formulaire de connexion du domaine de la victime en utilisant quelque chose comme `ssdeep`.\
+Si vous avez localisé les formulaires de connexion des domaines suspects, vous pouvez essayer d'**envoyer des identifiants bidon** et **vérifier si cela vous redirige vers le domaine de la victime**.
 
 ## Noms de domaine utilisant des mots-clés
 
@@ -73,7 +73,7 @@ Cependant, vous pouvez faire "la même chose" en utilisant le web gratuit [**crt
 
 En utilisant cette dernière option, vous pouvez même utiliser le champ Matching Identities pour voir si une identité du domaine réel correspond à l'un des domaines suspects (notez qu'un domaine suspect peut être un faux positif).
 
-**Une autre alternative** est le fantastique projet appelé [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream fournit un flux en temps réel de certificats nouvellement générés que vous pouvez utiliser pour détecter des mots-clés spécifiés en (quasi) temps réel. En fait, il existe un projet appelé [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) qui fait exactement cela.
+**Une autre alternative** est le projet fantastique appelé [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream fournit un flux en temps réel de certificats nouvellement générés que vous pouvez utiliser pour détecter des mots-clés spécifiés en (quasi) temps réel. En fait, il existe un projet appelé [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) qui fait exactement cela.
 
 ### **Nouveaux domaines**
 

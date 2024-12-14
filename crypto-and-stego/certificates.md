@@ -27,7 +27,7 @@ Get Access Today:
 
 Un **certificat de clé publique** est une ID numérique utilisée en cryptographie pour prouver qu'une personne possède une clé publique. Il inclut les détails de la clé, l'identité du propriétaire (le sujet) et une signature numérique d'une autorité de confiance (l'émetteur). Si le logiciel fait confiance à l'émetteur et que la signature est valide, une communication sécurisée avec le propriétaire de la clé est possible.
 
-Les certificats sont principalement émis par des [autorités de certification](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) dans une configuration d'[infrastructure à clé publique](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Une autre méthode est le [web de confiance](https://en.wikipedia.org/wiki/Web\_of\_trust), où les utilisateurs vérifient directement les clés des autres. Le format commun pour les certificats est [X.509](https://en.wikipedia.org/wiki/X.509), qui peut être adapté à des besoins spécifiques comme décrit dans la RFC 5280.
+Les certificats sont principalement émis par des [autorités de certification](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) dans une [infrastructure à clé publique](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Une autre méthode est le [web de confiance](https://en.wikipedia.org/wiki/Web\_of\_trust), où les utilisateurs vérifient directement les clés des autres. Le format commun pour les certificats est [X.509](https://en.wikipedia.org/wiki/X.509), qui peut être adapté à des besoins spécifiques comme décrit dans la RFC 5280.
 
 ## x509 Common Fields
 
@@ -89,7 +89,7 @@ La transparence des certificats aide à lutter contre les menaces liées aux cer
 
 #### **Journaux de certificats**
 
-Les journaux de certificats sont des enregistrements audités publiquement, en mode ajout uniquement, de certificats, maintenus par des services réseau. Ces journaux fournissent des preuves cryptographiques à des fins d'audit. Les autorités d'émission et le public peuvent soumettre des certificats à ces journaux ou les interroger pour vérification. Bien que le nombre exact de serveurs de journaux ne soit pas fixe, il est prévu qu'il soit inférieur à mille dans le monde. Ces serveurs peuvent être gérés indépendamment par des CA, des FAI ou toute entité intéressée.
+Les journaux de certificats sont des enregistrements audités publiquement, en mode ajout uniquement, de certificats, maintenus par des services réseau. Ces journaux fournissent des preuves cryptographiques à des fins d'audit. Tant les autorités d'émission que le public peuvent soumettre des certificats à ces journaux ou les interroger pour vérification. Bien que le nombre exact de serveurs de journaux ne soit pas fixe, on s'attend à ce qu'il soit inférieur à mille dans le monde. Ces serveurs peuvent être gérés indépendamment par des CA, des FAI ou toute entité intéressée.
 
 #### **Interrogation**
 

@@ -44,7 +44,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** est un autre outil qui peut être utilisé pour trouver et extraire **des fichiers intégrés dans un fichier**. Dans ce cas, vous devrez décommenter dans le fichier de configuration (_/etc/scalpel/scalpel.conf_) les types de fichiers que vous souhaitez extraire.
+**Scalpel** est un autre outil qui peut être utilisé pour trouver et extraire des **fichiers intégrés dans un fichier**. Dans ce cas, vous devrez décommenter dans le fichier de configuration (_/etc/scalpel/scalpel.conf_) les types de fichiers que vous souhaitez extraire.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -57,7 +57,7 @@ Cet outil peut analyser une image et **extraire des pcaps** à l'intérieur, **d
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Naviguez à travers **toutes les informations** que l'outil a rassemblées (mots de passe ?), **analysez** les **paquets** (lisez[ **Analyse des Pcaps**](../pcap-inspection/)), recherchez des **domaines étranges** (domaines liés à **malware** ou **non existants**).
+Naviguez à travers **toutes les informations** que l'outil a rassemblées (mots de passe ?), **analysez** les **paquets** (lisez[ **Analyse des Pcaps**](../pcap-inspection/)), recherchez des **domaines étranges** (domaines liés à **malware** ou **inexistants**).
 
 ### PhotoRec
 
@@ -74,7 +74,7 @@ Vérifiez le [code](https://code.google.com/archive/p/binvis/) et la [page web d
 #### Fonctionnalités de BinVis
 
 * Visualiseur de **structure** visuel et actif
-* Plusieurs graphiques pour différents points de focalisation
+* Plusieurs graphiques pour différents points de focus
 * Focalisation sur des portions d'un échantillon
 * **Voir les chaînes et ressources**, dans des exécutables PE ou ELF par exemple
 * Obtenir des **modèles** pour la cryptanalyse sur des fichiers

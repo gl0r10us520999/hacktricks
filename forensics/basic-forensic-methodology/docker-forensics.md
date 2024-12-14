@@ -77,7 +77,7 @@ Vous pouvez obtenir des **informations de base** à partir de l'image en exécut
 ```bash
 docker inspect <image>
 ```
-Vous pouvez également obtenir un résumé **historique des modifications** avec :
+Vous pouvez également obtenir un résumé **de l'historique des modifications** avec :
 ```bash
 docker history --no-trunc <image>
 ```
@@ -107,9 +107,9 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 ```
 ## Identifiants depuis la mémoire
 
-Notez que lorsque vous exécutez un conteneur docker à l'intérieur d'un hôte, **vous pouvez voir les processus en cours d'exécution sur le conteneur depuis l'hôte** en exécutant simplement `ps -ef`.
+Notez que lorsque vous exécutez un conteneur docker à l'intérieur d'un hôte **vous pouvez voir les processus en cours d'exécution sur le conteneur depuis l'hôte** simplement en exécutant `ps -ef`
 
-Par conséquent (en tant que root), vous pouvez **extraire la mémoire des processus** depuis l'hôte et rechercher des **identifiants** juste [**comme dans l'exemple suivant**](../../linux-hardening/privilege-escalation/#process-memory).
+Par conséquent (en tant que root) vous pouvez **extraire la mémoire des processus** depuis l'hôte et rechercher des **identifiants** juste [**comme dans l'exemple suivant**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -125,7 +125,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

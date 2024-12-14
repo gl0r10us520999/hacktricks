@@ -60,7 +60,7 @@ Lisez la page suivante pour apprendre quelques astuces intéressantes :
 [specific-software-file-type-tricks](specific-software-file-type-tricks/)
 {% endcontent-ref %}
 
-Je veux faire une mention spéciale à la page :
+Je tiens à faire une mention spéciale à la page :
 
 {% content-ref url="specific-software-file-type-tricks/browser-artifacts.md" %}
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)

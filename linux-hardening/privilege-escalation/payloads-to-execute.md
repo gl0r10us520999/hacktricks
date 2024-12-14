@@ -89,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-Les symboles `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` et `audit_fd` proviennent probablement de la bibliothèque libaudit.so.1. Comme la libaudit.so.1 sera écrasée par la bibliothèque partagée malveillante, ces symboles devraient être présents dans la nouvelle bibliothèque partagée, sinon le programme ne pourra pas trouver le symbole et se terminera.
+Les symboles `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` et `audit_fd` proviennent probablement de la bibliothèque libaudit.so.1. Comme la libaudit.so.1 sera écrasée par la bibliothèque partagée malveillante, ces symboles doivent être présents dans la nouvelle bibliothèque partagée, sinon le programme ne pourra pas trouver le symbole et se terminera.
 ```c
 #include<stdio.h>
 #include<stdlib.h>

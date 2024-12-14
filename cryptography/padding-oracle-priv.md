@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -35,7 +35,7 @@ Remarquez qu'il est nécessaire d'utiliser une **clé de chiffrement** et un **I
 Comme le chiffrement est effectué en **blocs** de **taille** **fixe**, un **remplissage** est généralement nécessaire dans le **dernier** **bloc** pour compléter sa longueur.\
 Généralement, **PKCS7** est utilisé, ce qui génère un remplissage **répétant** le **nombre** de **bytes** **nécessaires** pour **compléter** le bloc. Par exemple, si le dernier bloc manque de 3 bytes, le remplissage sera `\x03\x03\x03`.
 
-Voyons plus d'exemples avec **2 blocs de longueur 8bytes** :
+Examinons plus d'exemples avec **2 blocs de longueur 8bytes** :
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -74,7 +74,7 @@ perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon
 ```
 ## La théorie
 
-En **résumé**, vous pouvez commencer à déchiffrer les données chiffrées en devinant les valeurs correctes qui peuvent être utilisées pour créer tous les **différents paddings**. Ensuite, l'attaque de l'oracle de padding commencera à déchiffrer les octets de la fin au début en devinant quelle sera la valeur correcte qui **crée un padding de 1, 2, 3, etc**.
+En **résumé**, vous pouvez commencer à déchiffrer les données chiffrées en devinant les valeurs correctes qui peuvent être utilisées pour créer tous les **différents paddings**. Ensuite, l'attaque du padding oracle commencera à déchiffrer les octets de la fin au début en devinant quelle sera la valeur correcte qui **crée un padding de 1, 2, 3, etc**.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 

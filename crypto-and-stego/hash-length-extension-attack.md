@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Imaginez un serveur qui **signe** certaines **données** en **ajoutant** un **secret** à des données en clair connues, puis en hachant ces données. Si vous savez :
 
-* **La longueur du secret** (cela peut également être bruteforcé à partir d'une plage de longueurs donnée)
+* **La longueur du secret** (cela peut également être bruteforced à partir d'une plage de longueurs donnée)
 * **Les données en clair**
 * **L'algorithme (et il est vulnérable à cette attaque)**
 * **Le remplissage est connu**

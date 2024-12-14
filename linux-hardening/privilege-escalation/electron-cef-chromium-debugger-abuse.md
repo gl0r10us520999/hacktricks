@@ -1,23 +1,23 @@
-# Node inspector/CEF debug abuse
+# Abus de l'inspecteur Node/CEF
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
-## Basic Information
+## Informations de base
 
-[From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Lorsqu'il est démarré avec l'option `--inspect`, un processus Node.js écoute un client de débogage. Par **défaut**, il écoutera à l'adresse hôte et au port **`127.0.0.1:9229`**. Chaque processus se voit également attribuer un **UUID** **unique**.
+[Selon la documentation](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started) : Lorsqu'il est démarré avec l'option `--inspect`, un processus Node.js écoute un client de débogage. Par **défaut**, il écoutera à l'adresse hôte et au port **`127.0.0.1:9229`**. Chaque processus se voit également attribuer un **UUID** **unique**.
 
 Les clients de l'inspecteur doivent connaître et spécifier l'adresse hôte, le port et l'UUID pour se connecter. Une URL complète ressemblera à `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
@@ -49,7 +49,7 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 ```
 ### Navigateurs, WebSockets et politique de même origine <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-Les sites Web ouverts dans un navigateur peuvent effectuer des requêtes WebSocket et HTTP selon le modèle de sécurité du navigateur. Une **connexion HTTP initiale** est nécessaire pour **obtenir un identifiant de session de débogage unique**. La **politique de même origine** **empêche** les sites Web de pouvoir établir **cette connexion HTTP**. Pour une sécurité supplémentaire contre les [**attaques de réaffectation DNS**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js vérifie que les **en-têtes 'Host'** pour la connexion spécifient soit une **adresse IP**, soit **`localhost`** ou **`localhost6`** précisément.
+Les sites Web ouverts dans un navigateur peuvent effectuer des requêtes WebSocket et HTTP selon le modèle de sécurité du navigateur. Une **connexion HTTP initiale** est nécessaire pour **obtenir un identifiant de session de débogage unique**. La **politique de même origine** **empêche** les sites Web de pouvoir établir **cette connexion HTTP**. Pour une sécurité supplémentaire contre les [**attaques de rebinding DNS**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js vérifie que les **en-têtes 'Host'** pour la connexion spécifient soit une **adresse IP**, soit **`localhost`** ou **`localhost6`** précisément.
 
 {% hint style="info" %}
 Ces **mesures de sécurité empêchent l'exploitation de l'inspecteur** pour exécuter du code en **envoyant simplement une requête HTTP** (ce qui pourrait être fait en exploitant une vulnérabilité SSRF).
@@ -57,7 +57,7 @@ Ces **mesures de sécurité empêchent l'exploitation de l'inspecteur** pour ex�
 
 ### Démarrer l'inspecteur dans les processus en cours
 
-Vous pouvez envoyer le **signal SIGUSR1** à un processus nodejs en cours d'exécution pour le faire **démarrer l'inspecteur** sur le port par défaut. Cependant, notez que vous devez avoir suffisamment de privilèges, donc cela pourrait vous accorder **un accès privilégié aux informations à l'intérieur du processus** mais pas une élévation de privilèges directe.
+Vous pouvez envoyer le **signal SIGUSR1** à un processus nodejs en cours d'exécution pour le faire **démarrer l'inspecteur** sur le port par défaut. Cependant, notez que vous devez avoir suffisamment de privilèges, donc cela pourrait vous accorder **un accès privilégié à des informations à l'intérieur du processus** mais pas une élévation de privilèges directe.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
@@ -112,7 +112,7 @@ Dans cette section, je vais simplement lister des choses intéressantes que j'ai
 
 ### Injection de Paramètres via Deep Links
 
-Dans le [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/), Rhino security a découvert qu'une application basée sur CEF **avait enregistré un URI personnalisé** dans le système (workspaces://) qui recevait l'URI complet et ensuite **lancait l'application basée sur CEF** avec une configuration qui était partiellement construite à partir de cet URI.
+Dans le [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/), Rhino security a découvert qu'une application basée sur CEF **enregistrait un URI personnalisé** dans le système (workspaces://) qui recevait l'URI complet et ensuite **lancait l'application basée sur CEF** avec une configuration qui était partiellement construite à partir de cet URI.
 
 Il a été découvert que les paramètres URI étaient décodés en URL et utilisés pour lancer l'application de base CEF, permettant à un utilisateur d'**injecter** le drapeau **`--gpu-launcher`** dans la **ligne de commande** et d'exécuter des choses arbitraires.
 
@@ -138,11 +138,11 @@ downloadPath: '/code/'
 ```
 ### Webdriver RCE et exfiltration
 
-Selon ce post : [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148), il est possible d'obtenir RCE et d'exfiltrer des pages internes depuis theriver.
+Selon ce post : [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148), il est possible d'obtenir RCE et d'exfiltrer des pages internes de theriver.
 
 ### Post-Exploitation
 
-Dans un environnement réel et **après avoir compromis** un PC utilisateur qui utilise un navigateur basé sur Chrome/Chromium, vous pourriez lancer un processus Chrome avec le **débogage activé et rediriger le port de débogage** afin de pouvoir y accéder. De cette manière, vous serez en mesure de **inspecter tout ce que la victime fait avec Chrome et de voler des informations sensibles**.
+Dans un environnement réel et **après avoir compromis** un PC utilisateur utilisant un navigateur basé sur Chrome/Chromium, vous pourriez lancer un processus Chrome avec le **débogage activé et rediriger le port de débogage** afin d'y accéder. De cette manière, vous serez en mesure de **inspecter tout ce que la victime fait avec Chrome et de voler des informations sensibles**.
 
 La méthode discrète consiste à **terminer chaque processus Chrome** et ensuite appeler quelque chose comme
 ```bash
@@ -171,7 +171,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

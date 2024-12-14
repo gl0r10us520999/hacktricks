@@ -39,7 +39,7 @@ Les fichiers téléchargés peuvent contenir l'**ADS Zone.Identifier** indiquant
 
 ### Recycle Bin
 
-Dans Vista/Win7/Win8/Win10, la **Corbeille** peut être trouvée dans le dossier **`$Recycle.bin`** à la racine du lecteur (`C:\$Recycle.bin`).\
+Dans Vista/Win7/Win8/Win10, la **Corbeille** peut être trouvée dans le dossier **`$Recycle.bin`** à la racine du disque (`C:\$Recycle.bin`).\
 Lorsqu'un fichier est supprimé dans ce dossier, 2 fichiers spécifiques sont créés :
 
 * `$I{id}`: Informations sur le fichier (date de sa suppression)
@@ -53,15 +53,15 @@ Avec ces fichiers, vous pouvez utiliser l'outil [**Rifiuti**](https://github.com
 ```
 ![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
 
-### Copies de sécurité des volumes
+### Copies de Volume Shadow
 
-La copie de sécurité est une technologie incluse dans Microsoft Windows qui peut créer des **copies de sauvegarde** ou des instantanés de fichiers ou de volumes d'ordinateur, même lorsqu'ils sont en cours d'utilisation.
+La copie Shadow est une technologie incluse dans Microsoft Windows qui peut créer des **copies de sauvegarde** ou des instantanés de fichiers ou de volumes d'ordinateur, même lorsqu'ils sont en cours d'utilisation.
 
 Ces sauvegardes se trouvent généralement dans le `\System Volume Information` à la racine du système de fichiers et le nom est composé de **UIDs** montrés dans l'image suivante :
 
 ![](<../../../.gitbook/assets/image (94).png>)
 
-En montant l'image d'analyse avec **ArsenalImageMounter**, l'outil [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) peut être utilisé pour inspecter une copie de sécurité et même **extraire les fichiers** des sauvegardes de copies de sécurité.
+En montant l'image d'analyse avec **ArsenalImageMounter**, l'outil [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) peut être utilisé pour inspecter une copie shadow et même **extraire les fichiers** des sauvegardes de copies shadow.
 
 ![](<../../../.gitbook/assets/image (576).png>)
 
@@ -69,17 +69,17 @@ L'entrée de registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Backu
 
 ![](<../../../.gitbook/assets/image (254).png>)
 
-Le registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` contient également des informations de configuration sur les `Copies de sécurité des volumes`.
+Le registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` contient également des informations de configuration sur les `Copies de Volume Shadow`.
 
-### Fichiers auto-enregistrés d'Office
+### Fichiers AutoEnregistrés d'Office
 
-Vous pouvez trouver les fichiers auto-enregistrés d'Office dans : `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+Vous pouvez trouver les fichiers autoenregistrés d'Office dans : `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
 ## Éléments Shell
 
 Un élément shell est un élément qui contient des informations sur la façon d'accéder à un autre fichier.
 
-### Documents récents (LNK)
+### Documents Récents (LNK)
 
 Windows **crée automatiquement** ces **raccourcis** lorsque l'utilisateur **ouvre, utilise ou crée un fichier** dans :
 
@@ -88,24 +88,24 @@ Windows **crée automatiquement** ces **raccourcis** lorsque l'utilisateur **ouv
 
 Lorsqu'un dossier est créé, un lien vers le dossier, vers le dossier parent et le dossier grand-parent est également créé.
 
-Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** **ou** d'un **dossier**, les **horodatages MAC** de ce fichier, les **informations de volume** où le fichier est stocké et le **dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers en cas de suppression.
+Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** **ou** d'un **dossier**, les **temps MAC** de ce fichier, les **informations de volume** où le fichier est stocké et le **dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers en cas de suppression.
 
 De plus, la **date de création du lien** est le premier **moment** où le fichier original a été **utilisé pour la première fois** et la **date modifiée** du fichier de lien est le **dernier moment** où le fichier d'origine a été utilisé.
 
 Pour inspecter ces fichiers, vous pouvez utiliser [**LinkParser**](http://4discovery.com/our-tools/).
 
-Dans cet outil, vous trouverez **2 ensembles** d'horodatages :
+Dans cet outil, vous trouverez **2 ensembles** de timestamps :
 
-* **Premier ensemble :**
+* **Premier Ensemble :**
 1. FileModifiedDate
 2. FileAccessDate
 3. FileCreationDate
-* **Deuxième ensemble :**
+* **Deuxième Ensemble :**
 1. LinkModifiedDate
 2. LinkAccessDate
 3. LinkCreationDate.
 
-Le premier ensemble d'horodatages fait référence aux **horodatages du fichier lui-même**. Le deuxième ensemble fait référence aux **horodatages du fichier lié**.
+Le premier ensemble de timestamps fait référence aux **timestamps du fichier lui-même**. Le deuxième ensemble fait référence aux **timestamps du fichier lié**.
 
 Vous pouvez obtenir les mêmes informations en exécutant l'outil CLI Windows : [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
@@ -155,7 +155,7 @@ Les fichiers dans le dossier WPDNSE sont une copie des originaux, donc ne surviv
 
 Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodatages concernant le moment où la connexion USB a été produite (recherchez `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
 
 ### USB Detective
 
@@ -167,7 +167,7 @@ Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodata
 
 La tâche planifiée connue sous le nom de 'Nettoyage Plug and Play' est principalement conçue pour la suppression des versions de pilotes obsolètes. Contrairement à son objectif spécifié de conserver la dernière version du package de pilotes, des sources en ligne suggèrent qu'elle cible également les pilotes qui ont été inactifs pendant 30 jours. Par conséquent, les pilotes pour les appareils amovibles non connectés au cours des 30 derniers jours peuvent être sujets à suppression.
 
-La tâche se trouve au chemin suivant : `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
+La tâche est située au chemin suivant : `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
 Une capture d'écran montrant le contenu de la tâche est fournie : ![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
@@ -228,7 +228,7 @@ Un **fichier OST** est généré par Microsoft Outlook lorsqu'il est configuré 
 
 ### Récupération des Pièces Jointes
 
-Les pièces jointes perdues peuvent être récupérables à partir de :
+Les pièces jointes perdues pourraient être récupérables à partir de :
 
 * Pour **IE10** : `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
 * Pour **IE11 et supérieur** : `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
@@ -240,7 +240,7 @@ Les pièces jointes perdues peuvent être récupérables à partir de :
 ### Vignettes d'Image
 
 * **Windows XP et 8-8.1** : Accéder à un dossier avec des vignettes génère un fichier `thumbs.db` stockant des aperçus d'images, même après suppression.
-* **Windows 7/10** : `thumbs.db` est créé lorsqu'il est accédé via un réseau par un chemin UNC.
+* **Windows 7/10** : `thumbs.db` est créé lorsqu'il est accédé via un réseau par le chemin UNC.
 * **Windows Vista et versions ultérieures** : Les aperçus de vignettes sont centralisés dans `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` avec des fichiers nommés **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) et [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) sont des outils pour visualiser ces fichiers.
 
 ### Informations sur le Registre Windows
@@ -249,7 +249,7 @@ Le Registre Windows, stockant d'importantes données sur l'activité système et
 
 * `%windir%\System32\Config` pour divers sous-clés `HKEY_LOCAL_MACHINE`.
 * `%UserProfile%{User}\NTUSER.DAT` pour `HKEY_CURRENT_USER`.
-* Windows Vista et les versions ultérieures sauvegardent les fichiers de registre `HKEY_LOCAL_MACHINE` dans `%Windir%\System32\Config\RegBack\`.
+* Les versions Vista et ultérieures sauvegardent les fichiers de registre `HKEY_LOCAL_MACHINE` dans `%Windir%\System32\Config\RegBack\`.
 * De plus, les informations sur l'exécution des programmes sont stockées dans `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` à partir de Windows Vista et Windows 2008 Server.
 
 ### Outils
@@ -273,7 +273,7 @@ Chaque clé-valeur contient un **horodatage** indiquant la dernière fois qu'ell
 
 Le fichier/hive **SAM** contient les **utilisateurs, groupes et hachages de mots de passe des utilisateurs** du système.
 
-Dans `SAM\Domains\Account\Users`, vous pouvez obtenir le nom d'utilisateur, le RID, le dernier login, le dernier échec de connexion, le compteur de connexion, la politique de mot de passe et quand le compte a été créé. Pour obtenir les **hachages**, vous avez également **besoin** du fichier/hive **SYSTEM**.
+Dans `SAM\Domains\Account\Users`, vous pouvez obtenir le nom d'utilisateur, le RID, la dernière connexion, la dernière tentative de connexion échouée, le compteur de connexion, la politique de mot de passe et quand le compte a été créé. Pour obtenir les **hachages**, vous avez également **besoin** du fichier/hive **SYSTEM**.
 
 ### Entrées Intéressantes dans le Registre Windows
 
@@ -363,7 +363,7 @@ Pour analyser les informations stockées, l'outil [**AppCompatCacheParser**](htt
 
 Le fichier **Amcache.hve** est essentiellement une ruche de registre qui enregistre des détails sur les applications qui ont été exécutées sur un système. Il se trouve généralement à `C:\Windows\AppCompat\Programas\Amcache.hve`.
 
-Ce fichier est notable pour stocker des enregistrements de processus récemment exécutés, y compris les chemins vers les fichiers exécutables et leurs hachages SHA1. Cette information est inestimable pour suivre l'activité des applications sur un système.
+Ce fichier est notable pour stocker des enregistrements de processus récemment exécutés, y compris les chemins vers les fichiers exécutables et leurs hachages SHA1. Ces informations sont inestimables pour suivre l'activité des applications sur un système.
 
 Pour extraire et analyser les données de **Amcache.hve**, l'outil [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) peut être utilisé. La commande suivante est un exemple de la façon d'utiliser AmcacheParser pour analyser le contenu du fichier **Amcache.hve** et afficher les résultats au format CSV :
 ```bash
@@ -381,7 +381,7 @@ Vous pouvez utiliser l'outil [**RecentFileCacheParse**](https://github.com/EricZ
 
 ### Tâches planifiées
 
-Vous pouvez les extraire de `C:\Windows\Tasks` ou `C:\Windows\System32\Tasks` et les lire au format XML.
+Vous pouvez les extraire de `C:\Windows\Tasks` ou `C:\Windows\System32\Tasks` et les lire en tant que XML.
 
 ### Services
 
@@ -433,13 +433,13 @@ Les événements d'accès sont enregistrés dans le fichier de configuration de 
 * **Proxy (6)** : Authentification par proxy.
 * **Déverrouillage (7)** : Écran déverrouillé avec un mot de passe.
 * **Réseau en clair (8)** : Transmission de mot de passe en clair, souvent depuis IIS.
-* **Nouveaux identifiants (9)** : Utilisation de différents identifiants pour l'accès.
+* **Nouveaux identifiants (9)** : Utilisation d'identifiants différents pour l'accès.
 * **Interactif à distance (10)** : Connexion à distance ou services de terminal.
 * **Cache interactif (11)** : Connexion avec des identifiants mis en cache sans contact avec le contrôleur de domaine.
 * **Cache à distance interactif (12)** : Connexion à distance avec des identifiants mis en cache.
 * **Déverrouillage mis en cache (13)** : Déverrouillage avec des identifiants mis en cache.
 
-#### Codes d'état et sous-codes pour EventID 4625 :
+#### Codes d'état et sous-état pour EventID 4625 :
 
 * **0xC0000064** : Le nom d'utilisateur n'existe pas - Pourrait indiquer une attaque d'énumération de noms d'utilisateur.
 * **0xC000006A** : Nom d'utilisateur correct mais mot de passe incorrect - Tentative de devinette de mot de passe ou de force brute possible.
@@ -449,7 +449,7 @@ Les événements d'accès sont enregistrés dans le fichier de configuration de 
 * **0xC0000070** : Violation des restrictions de station de travail - Pourrait être une tentative de connexion depuis un emplacement non autorisé.
 * **0xC0000193** : Expiration du compte - Tentatives d'accès avec des comptes utilisateurs expirés.
 * **0xC0000071** : Mot de passe expiré - Tentatives de connexion avec des mots de passe obsolètes.
-* **0xC0000133** : Problèmes de synchronisation horaire - De grandes différences de temps entre le client et le serveur peuvent indiquer des attaques plus sophistiquées comme le pass-the-ticket.
+* **0xC0000133** : Problèmes de synchronisation horaire - De grandes divergences de temps entre le client et le serveur peuvent indiquer des attaques plus sophistiquées comme le pass-the-ticket.
 * **0xC0000224** : Changement de mot de passe obligatoire requis - Des changements obligatoires fréquents pourraient suggérer une tentative de déstabiliser la sécurité du compte.
 * **0xC0000225** : Indique un bug système plutôt qu'un problème de sécurité.
 * **0xC000015b** : Type de connexion refusé - Tentative d'accès avec un type de connexion non autorisé, comme un utilisateur essayant d'exécuter une connexion de service.
@@ -505,16 +505,16 @@ L'EventID 6005 indique le démarrage du système, tandis que l'EventID 6006 marq
 L'EventID de sécurité 1102 signale la suppression de journaux, un événement critique pour l'analyse judiciaire.
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

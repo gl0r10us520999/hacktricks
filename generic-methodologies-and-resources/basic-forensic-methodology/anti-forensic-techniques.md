@@ -1,8 +1,8 @@
 # Techniques Anti-Forensiques
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -38,7 +38,7 @@ L'image précédente est la **sortie** affichée par l'**outil** où l'on peut o
 
 ### $LogFile
 
-**Tous les changements de métadonnées d'un système de fichiers sont enregistrés** dans un processus connu sous le nom de [journalisation anticipée](https://en.wikipedia.org/wiki/Write-ahead_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils tels que [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
+**Tous les changements de métadonnées d'un système de fichiers sont enregistrés** dans un processus connu sous le nom de [journalisation anticipée](https://en.wikipedia.org/wiki/Write-ahead_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils comme [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
@@ -67,13 +67,13 @@ Cet outil peut modifier les deux attributs `$STARNDAR_INFORMATION` et `$FILE_NAM
 
 ## Masquage de Données
 
-NFTS utilise un cluster et la taille minimale d'information. Cela signifie que si un fichier utilise un cluster et demi, la **moitié restante ne sera jamais utilisée** jusqu'à ce que le fichier soit supprimé. Ensuite, il est possible de **cacher des données dans cet espace de remplissage**.
+NFTS utilise un cluster et la taille minimale d'information. Cela signifie que si un fichier utilise un cluster et demi, la **moitié restante ne sera jamais utilisée** jusqu'à ce que le fichier soit supprimé. Ainsi, il est possible de **cacher des données dans cet espace de réserve**.
 
 Il existe des outils comme slacker qui permettent de cacher des données dans cet espace "caché". Cependant, une analyse du `$logfile` et du `$usnjrnl` peut montrer que certaines données ont été ajoutées :
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-Ensuite, il est possible de récupérer l'espace de remplissage en utilisant des outils comme FTK Imager. Notez que ce type d'outil peut sauvegarder le contenu obfusqué ou même chiffré.
+Il est alors possible de récupérer l'espace de réserve en utilisant des outils comme FTK Imager. Notez que ce type d'outil peut sauvegarder le contenu obfusqué ou même chiffré.
 
 ## UsbKill
 
@@ -90,7 +90,7 @@ Ces distributions sont **exécutées dans la mémoire RAM**. La seule façon de 
 
 ## Configuration de Windows
 
-Il est possible de désactiver plusieurs méthodes de journalisation de Windows pour rendre l'enquête forensique beaucoup plus difficile.
+Il est possible de désactiver plusieurs méthodes de journalisation de Windows pour rendre l'enquête d'analyse forensique beaucoup plus difficile.
 
 ### Désactiver les Horodatages - UserAssist
 
@@ -103,7 +103,7 @@ Désactiver UserAssist nécessite deux étapes :
 
 ### Désactiver les Horodatages - Prefetch
 
-Cela enregistrera des informations sur les applications exécutées dans le but d'améliorer les performances du système Windows. Cependant, cela peut également être utile pour les pratiques forensiques.
+Cela enregistrera des informations sur les applications exécutées dans le but d'améliorer les performances du système Windows. Cependant, cela peut également être utile pour les pratiques d'analyse forensique.
 
 * Exécutez `regedit`
 * Sélectionnez le chemin de fichier `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
@@ -113,7 +113,7 @@ Cela enregistrera des informations sur les applications exécutées dans le but 
 
 ### Désactiver les Horodatages - Dernière Heure d'Accès
 
-Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur Windows NT, le système prend le temps de **mettre à jour un champ d'horodatage sur chaque dossier répertorié**, appelé la dernière heure d'accès. Sur un volume NTFS très utilisé, cela peut affecter les performances.
+Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur Windows NT, le système prend le temps de **mettre à jour un champ d'horodatage sur chaque dossier répertorié**, appelé l'heure de dernier accès. Sur un volume NTFS très utilisé, cela peut affecter les performances.
 
 1. Ouvrez l'Éditeur de Registre (Regedit.exe).
 2. Parcourez `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
@@ -122,25 +122,25 @@ Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur W
 
 ### Supprimer l'Historique USB
 
-Tous les **Entrées de Dispositif USB** sont stockées dans le Registre Windows sous la clé de registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un dispositif USB dans votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **En supprimant cela**, vous supprimerez l'historique USB.\
+Tous les **Entrées de Dispositifs USB** sont stockées dans le Registre Windows sous la clé de registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un dispositif USB dans votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **En supprimant cela**, vous supprimerez l'historique USB.\
 Vous pouvez également utiliser l'outil [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) pour vous assurer que vous les avez supprimés (et pour les supprimer).
 
 Un autre fichier qui sauvegarde des informations sur les USB est le fichier `setupapi.dev.log` à l'intérieur de `C:\Windows\INF`. Cela devrait également être supprimé.
 
-### Désactiver les Copies de Sauvegarde
+### Désactiver les Copies de Sécurité
 
-**Lister** les copies de sauvegarde avec `vssadmin list shadowstorage`\
+**Lister** les copies de sécurité avec `vssadmin list shadowstorage`\
 **Les supprimer** en exécutant `vssadmin delete shadow`
 
 Vous pouvez également les supprimer via l'interface graphique en suivant les étapes proposées dans [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Pour désactiver les copies de sauvegarde [étapes à partir d'ici](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows) :
+Pour désactiver les copies de sécurité [étapes à partir d'ici](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows) :
 
 1. Ouvrez le programme Services en tapant "services" dans la zone de recherche après avoir cliqué sur le bouton de démarrage Windows.
 2. Dans la liste, trouvez "Volume Shadow Copy", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
 3. Choisissez Désactivé dans le menu déroulant "Type de démarrage", puis confirmez le changement en cliquant sur Appliquer et OK.
 
-Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie de sauvegarde dans le registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie de sécurité dans le registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ### Écraser les fichiers supprimés
 
@@ -164,8 +164,8 @@ Il est également possible de modifier la configuration des fichiers qui vont ê
 * `fsutil usn deletejournal /d c:`
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

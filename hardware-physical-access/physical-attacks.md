@@ -22,7 +22,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 Pour les situations où des ajustements matériels ne sont pas possibles ou pratiques, des **outils logiciels** offrent une solution. Exécuter un système à partir d'un **Live CD/USB** avec des distributions comme **Kali Linux** permet d'accéder à des outils comme **_killCmos_** et **_CmosPWD_**, qui peuvent aider à la récupération du mot de passe BIOS.
 
-Dans les cas où le mot de passe BIOS est inconnu, entrer incorrectement le mot de passe **trois fois** entraînera généralement un code d'erreur. Ce code peut être utilisé sur des sites comme [https://bios-pw.org](https://bios-pw.org) pour potentiellement récupérer un mot de passe utilisable.
+Dans les cas où le mot de passe BIOS est inconnu, entrer incorrectement **trois fois** entraînera généralement un code d'erreur. Ce code peut être utilisé sur des sites comme [https://bios-pw.org](https://bios-pw.org) pour potentiellement récupérer un mot de passe utilisable.
 
 ### Sécurité UEFI
 
@@ -30,7 +30,7 @@ Pour les systèmes modernes utilisant **UEFI** au lieu du BIOS traditionnel, l'o
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### Analyse de RAM et Attaques Cold Boot
+### Analyse de RAM et Attaques de Cold Boot
 
 La RAM conserve des données brièvement après la coupure de l'alimentation, généralement pendant **1 à 2 minutes**. Cette persistance peut être prolongée jusqu'à **10 minutes** en appliquant des substances froides, comme de l'azote liquide. Pendant cette période prolongée, un **dump mémoire** peut être créé à l'aide d'outils comme **dd.exe** et **volatility** pour analyse.
 
@@ -66,20 +66,4 @@ Le chiffrement BitLocker peut potentiellement être contourné si le **mot de pa
 
 ### Ingénierie Sociale pour l'Ajout de Clé de Récupération
 
-Une nouvelle clé de récupération BitLocker peut être ajoutée par le biais de tactiques d'ingénierie sociale, convainquant un utilisateur d'exécuter une commande qui ajoute une nouvelle clé de récupération composée de zéros, simplifiant ainsi le processus de déchiffrement.
-{% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Soutenir HackTricks</summary>
-
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
-
-</details>
-{% endhint %}
-</details>
-{% endhint %}
+Une nouvelle clé de récupération BitLocker peut être ajoutée par des tactiques d'ingénierie sociale, convainquant un utilisateur d'exécuter une commande qui ajoute une nouvelle clé de récupération composée de zéros, simplifiant ainsi le processus de déchiffrement.
