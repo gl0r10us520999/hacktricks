@@ -131,13 +131,13 @@ E questi sono i **requisiti** per poter **esportare un segreto senza un prompt**
 {% hint style="danger" %}
 Pertanto, se c'è **1 applicazione elencata**, è necessario **iniettare codice in quell'applicazione**.
 
-Se **apple** è indicato nel **partitionID**, potresti accedervi con **`osascript`** quindi qualsiasi cosa che stia fidando tutte le applicazioni con apple nel partitionID. **`Python`** potrebbe anche essere utilizzato per questo.
+Se **apple** è indicato nel **partitionID**, potresti accedervi con **`osascript`** quindi qualsiasi cosa che stia fidando a tutte le applicazioni con apple nel partitionID. **`Python`** potrebbe essere utilizzato anche per questo.
 {% endhint %}
 
 ### Due attributi aggiuntivi
 
 * **Invisible**: È un flag booleano per **nascondere** l'elemento dall'app Keychain **UI**
-* **General**: Serve a memorizzare **metadati** (quindi NON È CRIPTATO)
+* **General**: Serve a memorizzare **metadati** (quindi NON È CRITTOGRAFATO)
 * Microsoft memorizzava in testo chiaro tutti i token di aggiornamento per accedere a endpoint sensibili.
 
 ## References
@@ -154,7 +154,7 @@ Impara e pratica il hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

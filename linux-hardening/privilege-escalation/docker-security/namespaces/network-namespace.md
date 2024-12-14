@@ -17,12 +17,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Uno spazio dei nomi di rete è una funzionalità del kernel Linux che fornisce isolamento dello stack di rete, consentendo **a ciascuno spazio dei nomi di rete di avere la propria configurazione di rete indipendente**, interfacce, indirizzi IP, tabelle di routing e regole del firewall. Questo isolamento è utile in vari scenari, come la containerizzazione, dove ogni contenitore dovrebbe avere la propria configurazione di rete, indipendente dagli altri contenitori e dal sistema host.
+Uno spazio dei nomi di rete è una funzionalità del kernel Linux che fornisce isolamento dello stack di rete, consentendo **a ciascuno spazio dei nomi di rete di avere la propria configurazione di rete indipendente**, interfacce, indirizzi IP, tabelle di routing e regole del firewall. Questo isolamento è utile in vari scenari, come la containerizzazione, dove ciascun container dovrebbe avere la propria configurazione di rete, indipendente dagli altri container e dal sistema host.
 
 ### How it works:
 
 1. Quando viene creato un nuovo spazio dei nomi di rete, inizia con uno **stack di rete completamente isolato**, con **nessuna interfaccia di rete** tranne l'interfaccia di loopback (lo). Ciò significa che i processi in esecuzione nel nuovo spazio dei nomi di rete non possono comunicare con i processi in altri spazi dei nomi o con il sistema host per impostazione predefinita.
-2. **Interfacce di rete virtuali**, come le coppie veth, possono essere create e spostate tra gli spazi dei nomi di rete. Questo consente di stabilire connettività di rete tra gli spazi dei nomi o tra uno spazio dei nomi e il sistema host. Ad esempio, un'estremità di una coppia veth può essere posizionata nello spazio dei nomi di rete di un contenitore, e l'altra estremità può essere collegata a un **bridge** o a un'altra interfaccia di rete nello spazio dei nomi host, fornendo connettività di rete al contenitore.
+2. **Interfacce di rete virtuali**, come le coppie veth, possono essere create e spostate tra gli spazi dei nomi di rete. Questo consente di stabilire connettività di rete tra gli spazi dei nomi o tra uno spazio dei nomi e il sistema host. Ad esempio, un'estremità di una coppia veth può essere posizionata nello spazio dei nomi di rete di un container, e l'altra estremità può essere collegata a un **bridge** o a un'altra interfaccia di rete nello spazio dei nomi host, fornendo connettività di rete al container.
 3. Le interfacce di rete all'interno di uno spazio dei nomi possono avere i propri **indirizzi IP, tabelle di routing e regole del firewall**, indipendenti dagli altri spazi dei nomi. Questo consente ai processi in diversi spazi dei nomi di rete di avere configurazioni di rete diverse e operare come se stessero funzionando su sistemi di rete separati.
 4. I processi possono spostarsi tra gli spazi dei nomi utilizzando la chiamata di sistema `setns()`, o creare nuovi spazi dei nomi utilizzando le chiamate di sistema `unshare()` o `clone()` con il flag `CLONE_NEWNET`. Quando un processo si sposta in un nuovo spazio dei nomi o ne crea uno, inizierà a utilizzare la configurazione di rete e le interfacce associate a quello spazio dei nomi.
 
@@ -49,7 +49,7 @@ Quando `unshare` viene eseguito senza l'opzione `-f`, si incontra un errore a ca
 - Il primo processo figlio di `/bin/bash` nel nuovo namespace diventa PID 1. Quando questo processo termina, attiva la pulizia del namespace se non ci sono altri processi, poiché PID 1 ha il ruolo speciale di adottare processi orfani. Il kernel Linux disabiliterà quindi l'allocazione PID in quel namespace.
 
 2. **Conseguenza**:
-- L'uscita di PID 1 in un nuovo namespace porta alla pulizia del flag `PIDNS_HASH_ADDING`. Questo provoca il fallimento della funzione `alloc_pid` nell'allocare un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
+- L'uscita di PID 1 in un nuovo namespace porta alla pulizia del flag `PIDNS_HASH_ADDING`. Questo porta al fallimento della funzione `alloc_pid` nell'allocare un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
 
 3. **Soluzione**:
 - Il problema può essere risolto utilizzando l'opzione `-f` con `unshare`. Questa opzione fa sì che `unshare` fork un nuovo processo dopo aver creato il nuovo namespace PID.

@@ -28,7 +28,7 @@ Quando viene stabilita una connessione a un servizio XPC, il server verificherà
 4. (4 o 5) Controlla se il processo di connessione ha un **numero di versione software appropriato**.
 * Se questo **non è verificato**, un client vecchio e insicuro, vulnerabile all'iniezione di processi, potrebbe essere utilizzato per connettersi al servizio XPC anche con gli altri controlli in atto.
 5. (4 o 5) Controlla se il processo di connessione ha un runtime rinforzato senza diritti pericolosi (come quelli che consentono di caricare librerie arbitrarie o utilizzare variabili d'ambiente DYLD).
-1. Se questo **non è verificato**, il client potrebbe essere **vulnerabile all'iniezione di codice**.
+* Se questo **non è verificato**, il client potrebbe essere **vulnerabile all'iniezione di codice**.
 6. Controlla se il processo di connessione ha un **diritto** che gli consente di connettersi al servizio. Questo è applicabile per i binari Apple.
 7. La **verifica** deve essere **basata** sul **token di audit del client di connessione** **invece** che sul suo ID processo (**PID**) poiché il primo previene **attacchi di riutilizzo del PID**.
 * Gli sviluppatori **raramente utilizzano la chiamata API del token di audit** poiché è **privata**, quindi Apple potrebbe **cambiarla** in qualsiasi momento. Inoltre, l'uso di API private non è consentito nelle app del Mac App Store.
@@ -92,7 +92,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-Se un sviluppatore non vuole controllare la versione del client, potrebbe verificare che il client non sia vulnerabile all'iniezione di processi almeno:
+Se un sviluppatore non vuole controllare la versione del client, potrebbe almeno verificare che il client non sia vulnerabile all'iniezione di processi:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -112,8 +112,8 @@ return Yes; // Accept connection
 {% endcode %}
 
 {% hint style="success" %}
-Impara e pratica il hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

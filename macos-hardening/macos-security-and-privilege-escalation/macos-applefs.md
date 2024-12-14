@@ -28,12 +28,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Apple File System (APFS)** è un file system moderno progettato per sostituire l'Hierarchical File System Plus (HFS+). Il suo sviluppo è stato guidato dalla necessità di **migliorare le prestazioni, la sicurezza e l'efficienza**.
 
-Al alcune caratteristiche notevoli di APFS includono:
+Alcune caratteristiche notevoli di APFS includono:
 
-1. **Condivisione dello spazio**: APFS consente a più volumi di **condividere lo stesso spazio di archiviazione libero sottostante** su un singolo dispositivo fisico. Questo consente un utilizzo più efficiente dello spazio, poiché i volumi possono crescere e ridursi dinamicamente senza la necessità di ridimensionamenti manuali o ripartizionamenti.
+1. **Condivisione dello spazio**: APFS consente a più volumi di **condividere lo stesso spazio di archiviazione libero sottostante** su un singolo dispositivo fisico. Questo consente un utilizzo più efficiente dello spazio, poiché i volumi possono crescere e ridursi dinamicamente senza la necessità di ridimensionamenti o ripartizionamenti manuali.
 1. Ciò significa, rispetto alle partizioni tradizionali nei dischi file, **che in APFS diverse partizioni (volumi) condividono tutto lo spazio su disco**, mentre una partizione normale aveva solitamente una dimensione fissa.
-2. **Snapshot**: APFS supporta **la creazione di snapshot**, che sono istanze **sola lettura** e puntuali del file system. Gli snapshot consentono backup efficienti e facili rollback di sistema, poiché consumano spazio di archiviazione aggiuntivo minimo e possono essere creati o ripristinati rapidamente.
-3. **Cloni**: APFS può **creare cloni di file o directory che condividono lo stesso spazio di archiviazione** dell'originale fino a quando il clone o il file originale non vengono modificati. Questa funzione fornisce un modo efficiente per creare copie di file o directory senza duplicare lo spazio di archiviazione.
+2. **Snapshot**: APFS supporta **la creazione di snapshot**, che sono istanze **sola lettura** e puntuali del file system. Gli snapshot consentono backup efficienti e facili ripristini di sistema, poiché consumano uno spazio di archiviazione aggiuntivo minimo e possono essere creati o ripristinati rapidamente.
+3. **Cloni**: APFS può **creare cloni di file o directory che condividono lo stesso spazio di archiviazione** dell'originale fino a quando non viene modificato né il clone né il file originale. Questa funzione fornisce un modo efficiente per creare copie di file o directory senza duplicare lo spazio di archiviazione.
 4. **Crittografia**: APFS **supporta nativamente la crittografia dell'intero disco** così come la crittografia per file e per directory, migliorando la sicurezza dei dati in diversi casi d'uso.
 5. **Protezione da crash**: APFS utilizza uno **schema di metadati copy-on-write che garantisce la coerenza del file system** anche in caso di improvvisi blackout o crash di sistema, riducendo il rischio di corruzione dei dati.
 

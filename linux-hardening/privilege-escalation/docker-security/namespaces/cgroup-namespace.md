@@ -24,10 +24,10 @@ Sebbene i namespace cgroup non siano un tipo di namespace separato come gli altr
 ### How it works:
 
 1. Quando viene creato un nuovo namespace cgroup, **inizia con una vista della gerarchia cgroup basata sul cgroup del processo creatore**. Ciò significa che i processi in esecuzione nel nuovo namespace cgroup vedranno solo un sottoinsieme dell'intera gerarchia cgroup, limitato al sottoalbero cgroup radicato nel cgroup del processo creatore.
-2. I processi all'interno di un namespace cgroup **vedranno il proprio cgroup come la radice della gerarchia**. Ciò significa che, dalla prospettiva dei processi all'interno del namespace, il proprio cgroup appare come la radice e non possono vedere o accedere ai cgroup al di fuori del proprio sottoalbero.
-3. I namespace cgroup non forniscono direttamente isolamento delle risorse; **forniscono solo isolamento della vista della gerarchia cgroup**. **Il controllo e l'isolamento delle risorse sono ancora applicati dai sottosistemi cgroup** (ad es., cpu, memoria, ecc.) stessi.
+2. I processi all'interno di un namespace cgroup **vedranno il proprio cgroup come la radice della gerarchia**. Ciò significa che, dalla prospettiva dei processi all'interno del namespace, il proprio cgroup appare come la radice, e non possono vedere o accedere ai cgroup al di fuori del proprio sottoalbero.
+3. I namespace cgroup non forniscono direttamente isolamento delle risorse; **forniscono solo isolamento della vista della gerarchia cgroup**. **Il controllo e l'isolamento delle risorse sono ancora applicati dai** sottosistemi cgroup (ad es., cpu, memoria, ecc.) stessi.
 
-For more information about CGroups check:
+Per ulteriori informazioni sui CGroups controlla:
 
 {% content-ref url="../cgroups.md" %}
 [cgroups.md](../cgroups.md)
@@ -50,12 +50,12 @@ Montando una nuova istanza del filesystem `/proc` se utilizzi il parametro `--mo
 Quando `unshare` viene eseguito senza l'opzione `-f`, si incontra un errore a causa del modo in cui Linux gestisce i nuovi namespace PID (Process ID). I dettagli chiave e la soluzione sono delineati di seguito:
 
 1. **Spiegazione del Problema**:
-- Il kernel Linux consente a un processo di creare nuovi namespace utilizzando la chiamata di sistema `unshare`. Tuttavia, il processo che avvia la creazione di un nuovo namespace PID (denominato "processo unshare") non entra nel nuovo namespace; solo i suoi processi figli lo fanno.
+- Il kernel Linux consente a un processo di creare nuovi namespace utilizzando la chiamata di sistema `unshare`. Tuttavia, il processo che avvia la creazione di un nuovo namespace PID (denominato processo "unshare") non entra nel nuovo namespace; solo i suoi processi figli lo fanno.
 - Eseguendo `%unshare -p /bin/bash%` si avvia `/bin/bash` nello stesso processo di `unshare`. Di conseguenza, `/bin/bash` e i suoi processi figli si trovano nel namespace PID originale.
 - Il primo processo figlio di `/bin/bash` nel nuovo namespace diventa PID 1. Quando questo processo termina, attiva la pulizia del namespace se non ci sono altri processi, poiché PID 1 ha il ruolo speciale di adottare processi orfani. Il kernel Linux disabiliterà quindi l'allocazione PID in quel namespace.
 
 2. **Conseguenza**:
-- L'uscita di PID 1 in un nuovo namespace porta alla pulizia del flag `PIDNS_HASH_ADDING`. Questo provoca il fallimento della funzione `alloc_pid` nell'allocare un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
+- L'uscita di PID 1 in un nuovo namespace porta alla pulizia del flag `PIDNS_HASH_ADDING`. Questo porta al fallimento della funzione `alloc_pid` nell'allocare un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
 
 3. **Soluzione**:
 - Il problema può essere risolto utilizzando l'opzione `-f` con `unshare`. Questa opzione fa sì che `unshare` fork un nuovo processo dopo aver creato il nuovo namespace PID.
@@ -88,9 +88,9 @@ sudo find /proc -maxdepth 3 -type l -name cgroup -exec ls -l  {} \; 2>/dev/null 
 ```bash
 nsenter -C TARGET_PID --pid /bin/bash
 ```
-Also, you can only **entrare in un altro namespace di processo se sei root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/cgroup`).
+Puoi **entrare in un altro namespace di processo solo se sei root**. E **non puoi** **entrare** in un altro namespace **senza un descrittore** che punti ad esso (come `/proc/self/ns/cgroup`).
 
-## References
+## Riferimenti
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 {% hint style="success" %}

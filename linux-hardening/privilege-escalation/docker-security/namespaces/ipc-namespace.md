@@ -18,12 +18,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Informazioni di base
 
-Un namespace IPC (Inter-Process Communication) è una funzionalità del kernel Linux che fornisce **isolamento** degli oggetti IPC di System V, come code di messaggi, segmenti di memoria condivisa e semafori. Questo isolamento garantisce che i processi in **diversi namespace IPC non possano accedere o modificare direttamente gli oggetti IPC degli altri**, fornendo un ulteriore livello di sicurezza e privacy tra i gruppi di processi.
+Un namespace IPC (Inter-Process Communication) è una funzionalità del kernel Linux che fornisce **isolamento** degli oggetti IPC di System V, come code di messaggi, segmenti di memoria condivisa e semafori. Questo isolamento garantisce che i processi in **diversi namespace IPC non possano accedere direttamente o modificare gli oggetti IPC degli altri**, fornendo un ulteriore livello di sicurezza e privacy tra i gruppi di processi.
 
 ### Come funziona:
 
 1. Quando viene creato un nuovo namespace IPC, inizia con un **set completamente isolato di oggetti IPC di System V**. Ciò significa che i processi in esecuzione nel nuovo namespace IPC non possono accedere o interferire con gli oggetti IPC in altri namespace o nel sistema host per impostazione predefinita.
-2. Gli oggetti IPC creati all'interno di un namespace sono visibili e **accessibili solo ai processi all'interno di quel namespace**. Ogni oggetto IPC è identificato da una chiave unica all'interno del suo namespace. Sebbene la chiave possa essere identica in diversi namespace, gli oggetti stessi sono isolati e non possono essere accessibili tra i namespace.
+2. Gli oggetti IPC creati all'interno di un namespace sono visibili e **accessibili solo ai processi all'interno di quel namespace**. Ogni oggetto IPC è identificato da una chiave unica all'interno del proprio namespace. Sebbene la chiave possa essere identica in diversi namespace, gli oggetti stessi sono isolati e non possono essere accessibili tra i namespace.
 3. I processi possono spostarsi tra i namespace utilizzando la chiamata di sistema `setns()` o creare nuovi namespace utilizzando le chiamate di sistema `unshare()` o `clone()` con il flag `CLONE_NEWIPC`. Quando un processo si sposta in un nuovo namespace o ne crea uno, inizierà a utilizzare gli oggetti IPC associati a quel namespace.
 
 ## Lab:
@@ -42,7 +42,7 @@ Montando una nuova istanza del filesystem `/proc` se utilizzi il parametro `--mo
 
 Quando `unshare` viene eseguito senza l'opzione `-f`, si incontra un errore a causa del modo in cui Linux gestisce i nuovi namespace PID (Process ID). I dettagli chiave e la soluzione sono delineati di seguito:
 
-1. **Spiegazione del Problema**:
+1. **Spiegazione del problema**:
 - Il kernel Linux consente a un processo di creare nuovi namespace utilizzando la chiamata di sistema `unshare`. Tuttavia, il processo che avvia la creazione di un nuovo namespace PID (denominato processo "unshare") non entra nel nuovo namespace; solo i suoi processi figli lo fanno.
 - Eseguire `%unshare -p /bin/bash%` avvia `/bin/bash` nello stesso processo di `unshare`. Di conseguenza, `/bin/bash` e i suoi processi figli si trovano nel namespace PID originale.
 - Il primo processo figlio di `/bin/bash` nel nuovo namespace diventa PID 1. Quando questo processo termina, attiva la pulizia del namespace se non ci sono altri processi, poiché PID 1 ha il ruolo speciale di adottare processi orfani. Il kernel Linux disabiliterà quindi l'allocazione PID in quel namespace.

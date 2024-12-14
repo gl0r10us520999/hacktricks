@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **TCC (Trasparenza, Consenso e Controllo)** è un protocollo di sicurezza che si concentra sulla regolamentazione delle autorizzazioni delle applicazioni. Il suo ruolo principale è quello di proteggere funzionalità sensibili come **servizi di localizzazione, contatti, foto, microfono, fotocamera, accessibilità e accesso completo al disco**. Richiedendo il consenso esplicito dell'utente prima di concedere l'accesso dell'app a questi elementi, TCC migliora la privacy e il controllo dell'utente sui propri dati.
 
-Gli utenti incontrano TCC quando le applicazioni richiedono l'accesso a funzionalità protette. Questo è visibile attraverso un prompt che consente agli utenti di **approvare o negare l'accesso**. Inoltre, TCC consente azioni dirette dell'utente, come **trascinare e rilasciare file in un'applicazione**, per concedere accesso a file specifici, garantendo che le applicazioni abbiano accesso solo a ciò che è esplicitamente consentito.
+Gli utenti incontrano TCC quando le applicazioni richiedono accesso a funzionalità protette. Questo è visibile attraverso un prompt che consente agli utenti di **approvare o negare l'accesso**. Inoltre, TCC accoglie azioni dirette dell'utente, come **trascinare e rilasciare file in un'applicazione**, per concedere accesso a file specifici, garantendo che le applicazioni abbiano accesso solo a ciò che è esplicitamente consentito.
 
 ![Un esempio di un prompt TCC](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
@@ -33,9 +33,9 @@ ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-Permissions are **ereditate dall'applicazione padre** e le **permissi** sono **tracciate** in base al **Bundle ID** e al **Developer ID**.
+Permissions sono **ereditate dall'applicazione padre** e le **permisssioni** sono **tracciate** in base al **Bundle ID** e al **Developer ID**.
 
-### TCC Databases
+### Database TCC
 
 Le autorizzazioni/negazioni sono quindi memorizzate in alcuni database TCC:
 
@@ -194,7 +194,7 @@ echo "X'$REQ_HEX'"
 ```
 * Per ulteriori informazioni sui **altri campi** della tabella [**controlla questo post del blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
-Puoi anche controllare le **autorizzazioni già concesse** alle app in `Preferenze di Sistema --> Sicurezza e Privacy --> Privacy --> File e cartelle`.
+Puoi anche controllare le **autorizzazioni già concesse** alle app in `Preferenze di Sistema --> Sicurezza e Privacy --> Privacy --> File e Cartelle`.
 
 {% hint style="success" %}
 Gli utenti _possono_ **eliminare o interrogare le regole** utilizzando **`tccutil`**.
@@ -208,9 +208,9 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
-### Controlli delle firme TCC
+### Controlli di Firma TCC
 
-Il **database** TCC memorizza il **Bundle ID** dell'applicazione, ma **memorizza** anche **informazioni** sulla **firma** per **assicurarsi** che l'App che richiede di utilizzare un permesso sia quella corretta.
+Il **database** TCC memorizza il **Bundle ID** dell'applicazione, ma memorizza anche **informazioni** sulla **firma** per **assicurarsi** che l'App che richiede di utilizzare un permesso sia quella corretta.
 
 {% code overflow="wrap" %}
 ```bash
@@ -232,12 +232,12 @@ Pertanto, altre applicazioni che utilizzano lo stesso nome e ID del pacchetto no
 
 ### Diritti e Permessi TCC
 
-Le app **non hanno solo bisogno** di **richiedere** e di avere **accesso** a determinate risorse, ma devono anche **avere i diritti pertinenti**.\
-Ad esempio, **Telegram** ha il diritto `com.apple.security.device.camera` per richiedere **accesso alla fotocamera**. Un **app** che **non ha** questo **diritto non potrà** accedere alla fotocamera (e all'utente non verrà nemmeno chiesto il permesso).
+Le app **non hanno solo bisogno** di **richiedere** e di avere **accesso** a alcune risorse, ma devono anche **avere i diritti pertinenti**.\
+Ad esempio, **Telegram** ha il diritto `com.apple.security.device.camera` per richiedere **accesso alla fotocamera**. Un **app** che **non ha** questo **diritto non potrà** accedere alla fotocamera (e l'utente non verrà nemmeno chiesto per i permessi).
 
-Tuttavia, per le app che devono **accedere** a **determinate cartelle utente**, come `~/Desktop`, `~/Downloads` e `~/Documents`, **non è necessario** avere diritti specifici. Il sistema gestirà l'accesso in modo trasparente e **chiederà all'utente** se necessario.
+Tuttavia, per le app che devono **accedere** a **determinate cartelle utente**, come `~/Desktop`, `~/Downloads` e `~/Documents`, **non hanno bisogno** di avere diritti specifici. Il sistema gestirà l'accesso in modo trasparente e **chiederà all'utente** secondo necessità.
 
-Le app di Apple **non genereranno richieste**. Contengono **diritti pre-concessi** nella loro lista di **diritti**, il che significa che **non genereranno mai un popup**, **né** appariranno in nessuna delle **banche dati TCC**. Ad esempio:
+Le app di Apple **non genereranno richieste**. Contengono **diritti pre-concessi** nella loro lista di **diritti**, il che significa che **non genereranno mai un popup**, **né** appariranno in nessuno dei **database TCC**. Ad esempio:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -251,7 +251,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 Questo eviterà che Calendar chieda all'utente di accedere a promemoria, calendario e rubrica.
 
 {% hint style="success" %}
-Oltre ad alcune documentazioni ufficiali sugli entitlement, è anche possibile trovare informazioni **interessanti non ufficiali sugli entitlement in** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
+Oltre ad alcune documentazioni ufficiali sugli entitlement, è anche possibile trovare **informazioni interessanti non ufficiali sugli entitlement in** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
 {% endhint %}
 
 Alcuni permessi TCC sono: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Non esiste un elenco pubblico che definisca tutti, ma puoi controllare questo [**elenco di quelli noti**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
@@ -264,7 +264,7 @@ Alcuni permessi TCC sono: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServi
 
 ### Intento dell'utente / com.apple.macl
 
-Come accennato in precedenza, è possibile **concedere accesso a un'app a un file trascinandolo e rilasciandolo su di essa**. Questo accesso non sarà specificato in alcun database TCC ma come un **attributo esteso** **del file**. Questo attributo **memorizzerà l'UUID** dell'app autorizzata:
+Come accennato in precedenza, è possibile **concedere accesso a un'app a un file trascinandolo e rilasciandolo su di essa**. Questo accesso non sarà specificato in alcun database TCC ma come un **attributo esteso** **del file**. Questo attributo **memorizzerà l'UUID** dell'app consentita:
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -282,10 +282,10 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 {% hint style="info" %}
 È curioso che l'attributo **`com.apple.macl`** sia gestito dal **Sandbox**, non da tccd.
 
-Nota anche che se sposti un file che consente l'UUID di un'app nel tuo computer a un computer diverso, poiché la stessa app avrà UIDs diversi, non concederà accesso a quell'app.
+Nota anche che se sposti un file che consente l'UUID di un'app nel tuo computer a un altro computer, poiché la stessa app avrà UIDs diversi, non concederà accesso a quell'app.
 {% endhint %}
 
-L'attributo esteso `com.apple.macl` **non può essere cancellato** come altri attributi estesi perché è **protetto da SIP**. Tuttavia, come [**spiegato in questo post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), è possibile disabilitarlo **zippando** il file, **eliminandolo** e **decomprendendolo**.
+L'attributo esteso `com.apple.macl` **non può essere cancellato** come altri attributi estesi perché è **protetto da SIP**. Tuttavia, come [**spiegato in questo post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), è possibile disabilitarlo **zippando** il file, **eliminandolo** e **de-zippandolo**.
 
 ## TCC Privesc & Bypasses
 
@@ -376,7 +376,7 @@ EOD
 ```
 {% endtab %}
 
-{% tab title="Rubare il database TCC.db del sistema" %}
+{% tab title="Rubare il database TCC.db dei sistemi" %}
 ```applescript
 osascript<<EOD
 tell application "Finder"
@@ -525,19 +525,19 @@ keystroke "v" using {command down}
 end tell
 EOF
 ```
-### `kTCCServiceAccessibility` a FDA\*
+### `kTCCServiceAccessibility` per FDA\*
 
 Controlla questa pagina per alcuni [**payload per abusare delle autorizzazioni di Accessibilità**](macos-tcc-payloads.md#accessibility) per privesc a FDA\* o eseguire un keylogger, ad esempio.
 
-### **Endpoint Security Client a FDA**
+### **Endpoint Security Client per FDA**
 
 Se hai **`kTCCServiceEndpointSecurityClient`**, hai FDA. Fine.
 
-### File SysAdmin della Politica di Sistema a FDA
+### File di Politica di Sistema SysAdmin per FDA
 
 **`kTCCServiceSystemPolicySysAdminFiles`** consente di **cambiare** l'attributo **`NFSHomeDirectory`** di un utente che cambia la sua cartella home e quindi consente di **bypassare TCC**.
 
-### DB TCC Utente a FDA
+### DB TCC Utente per FDA
 
 Ottenendo **autorizzazioni di scrittura** sul database **TCC utente** non puoi concederti **`FDA`** autorizzazioni, solo chi vive nel database di sistema può concedere ciò.
 
@@ -549,7 +549,7 @@ Ma puoi **darti** **`diritti di automazione a Finder`**, e abusare della tecnica
 
 Non penso che questo sia un vero privesc, ma giusto nel caso lo trovi utile: Se controlli un programma con FDA puoi **modificare il database TCC degli utenti e darti qualsiasi accesso**. Questo può essere utile come tecnica di persistenza nel caso tu possa perdere le tue autorizzazioni FDA.
 
-### **SIP Bypass a TCC Bypass**
+### **SIP Bypass per TCC Bypass**
 
 Il **database TCC di sistema** è protetto da **SIP**, ecco perché solo i processi con le **autorizzazioni indicate potranno modificarlo**. Pertanto, se un attaccante trova un **bypass SIP** su un **file** (essere in grado di modificare un file ristretto da SIP), sarà in grado di:
 
@@ -558,7 +558,7 @@ Il **database TCC di sistema** è protetto da **SIP**, ecco perché solo i proce
 * REG.db
 * MDMOverrides.plist
 
-Tuttavia, c'è un'altra opzione per abusare di questo **bypass SIP per bypassare TCC**, il file `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` è un elenco di autorizzazione delle applicazioni che richiedono un'eccezione TCC. Pertanto, se un attaccante può **rimuovere la protezione SIP** da questo file e aggiungere la **propria applicazione**, l'applicazione sarà in grado di bypassare TCC.\
+Tuttavia, c'è un'altra opzione per abusare di questo **bypass SIP per bypassare TCC**, il file `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` è un elenco di autorizzazione delle applicazioni che richiedono un'eccezione TCC. Pertanto, se un attaccante può **rimuovere la protezione SIP** da questo file e aggiungere la sua **applicazione**, l'applicazione sarà in grado di bypassare TCC.\
 Ad esempio, per aggiungere il terminale:
 ```bash
 # Get needed info
@@ -610,7 +610,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

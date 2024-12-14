@@ -98,14 +98,14 @@ Il POC associato è disponibile [qui](https://gist.github.com/xpn/7c3040a7398808
 
 ## Esecuzione di Codice .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-Per eseguire codice, è necessario identificare una regione di memoria con permessi rwx, il che può essere fatto usando vmmap -pages:
+Per eseguire codice, è necessario identificare una regione di memoria con permessi rwx, cosa che può essere fatta usando vmmap -pages:
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
 Trovare un luogo per sovrascrivere un puntatore di funzione è necessario, e in .NET Core, questo può essere fatto mirato alla **Dynamic Function Table (DFT)**. Questa tabella, dettagliata in [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), è utilizzata dal runtime per le funzioni di aiuto della compilazione JIT.
 
-Per i sistemi x64, la ricerca delle firme può essere utilizzata per trovare un riferimento al simbolo `_hlpDynamicFuncTable` in `libcorclr.dll`.
+Per i sistemi x64, la ricerca della firma può essere utilizzata per trovare un riferimento al simbolo `_hlpDynamicFuncTable` in `libcorclr.dll`.
 
 La funzione di debug `MT_GetDCB` fornisce informazioni utili, incluso l'indirizzo di una funzione di aiuto, `m_helperRemoteStartAddr`, che indica la posizione di `libcorclr.dll` nella memoria del processo. Questo indirizzo viene quindi utilizzato per avviare una ricerca per la DFT e sovrascrivere un puntatore di funzione con l'indirizzo del shellcode.
 

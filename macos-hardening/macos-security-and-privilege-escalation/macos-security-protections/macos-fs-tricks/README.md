@@ -19,18 +19,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Permessi in una **directory**:
 
-* **read** - puoi **enumerare** le voci della directory
-* **write** - puoi **eliminare/scrivere** **file** nella directory e puoi **eliminare cartelle vuote**.
-* Ma non puoi **eliminare/modificare cartelle non vuote** a meno che tu non abbia permessi di scrittura su di esse.
+* **lettura** - puoi **enumerare** le voci della directory
+* **scrittura** - puoi **cancellare/scrivere** **file** nella directory e puoi **cancellare cartelle vuote**.
+* Ma non puoi **cancellare/modificare cartelle non vuote** a meno che tu non abbia permessi di scrittura su di essa.
 * Non puoi **modificare il nome di una cartella** a meno che tu non ne sia il proprietario.
-* **execute** - ti è **consentito di attraversare** la directory - se non hai questo diritto, non puoi accedere a nessun file al suo interno, né in alcuna sottodirectory.
+* **esecuzione** - ti è **consentito di attraversare** la directory - se non hai questo diritto, non puoi accedere a nessun file al suo interno, né in alcuna sottodirectory.
 
 ### Combinazioni pericolose
 
 **Come sovrascrivere un file/cartella di proprietà di root**, ma:
 
-* Un **proprietario** della **directory** nel percorso è l'utente
-* Un **proprietario** della **directory** nel percorso è un **gruppo di utenti** con **accesso in scrittura**
+* Un **proprietario** della **directory** padre nel percorso è l'utente
+* Un **proprietario** della **directory** padre nel percorso è un **gruppo di utenti** con **accesso in scrittura**
 * Un **gruppo** di utenti ha **accesso in scrittura** al **file**
 
 Con una delle combinazioni precedenti, un attaccante potrebbe **iniettare** un **link simbolico/duro** nel percorso previsto per ottenere una scrittura arbitraria privilegiata.
@@ -125,7 +125,7 @@ ls -le /tmp/test
 
 Il formato di file **AppleDouble** copia un file inclusi i suoi ACE.
 
-Nel [**codice sorgente**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) è possibile vedere che la rappresentazione testuale dell'ACL memorizzata all'interno dell'xattr chiamato **`com.apple.acl.text`** verrà impostata come ACL nel file decompresso. Quindi, se hai compresso un'applicazione in un file zip con formato di file **AppleDouble** con un ACL che impedisce ad altri xattr di essere scritti... l'xattr di quarantena non è stato impostato nell'applicazione:
+Nel [**codice sorgente**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) è possibile vedere che la rappresentazione testuale dell'ACL memorizzata all'interno dell'xattr chiamato **`com.apple.acl.text`** verrà impostata come ACL nel file decompresso. Quindi, se hai compresso un'applicazione in un file zip con formato di file **AppleDouble** con un ACL che impedisce ad altri xattrs di essere scritti... l'xattr di quarantena non è stato impostato nell'applicazione:
 
 Controlla il [**report originale**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) per ulteriori informazioni.
 
@@ -213,7 +213,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 
 ## Montare dmgs
 
-Un utente può montare un dmg personalizzato creato anche sopra alcune cartelle esistenti. Questo è il modo in cui puoi creare un pacchetto dmg personalizzato con contenuti personalizzati:
+Un utente può montare un dmg personalizzato creato anche sopra alcune cartelle esistenti. Questo è il modo in cui puoi creare un pacchetto dmg personalizzato con contenuto personalizzato:
 
 {% code overflow="wrap" %}
 ```bash
@@ -398,7 +398,7 @@ Questa funzionalità è particolarmente utile per prevenire determinate classi d
 
 * `guarded_open_np`: Apre un FD con una guardia
 * `guarded_close_np`: Chiude
-* `change_fdguard_np`: Cambia le bandiere di guardia su un descrittore (anche rimuovendo la protezione della guardia)
+* `change_fdguard_np`: Cambia i flag di guardia su un descrittore (anche rimuovendo la protezione della guardia)
 
 ## References
 

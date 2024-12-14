@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## PID Reuse
 
-Quando un **servizio XPC** di macOS controlla il processo chiamato in base al **PID** e non al **token di audit**, è vulnerabile a un attacco di riutilizzo del PID. Questo attacco si basa su una **condizione di gara** in cui un **exploit** invierà messaggi al servizio **XPC** **abusando** della funzionalità e solo **dopo** eseguirà **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** con il **binary** **consentito**.
+Quando un **servizio XPC** di macOS controlla il processo chiamato in base al **PID** e non al **token di audit**, è vulnerabile a un attacco di riutilizzo del PID. Questo attacco si basa su una **condizione di gara** in cui un **exploit** invierà **messaggi al servizio XPC** **abusando** della funzionalità e solo **dopo** eseguirà **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** con il **binary** **consentito**.
 
-Questa funzione farà in modo che il **binary** **consentito possieda il PID**, ma il **messaggio XPC malevolo sarebbe stato inviato** poco prima. Quindi, se il servizio **XPC** **usa** il **PID** per **autenticare** il mittente e lo controlla **DOPO** l'esecuzione di **`posix_spawn`**, penserà che provenga da un processo **autorizzato**.
+Questa funzione farà in modo che il **binary consentito possieda il PID**, ma il **messaggio XPC malevolo sarebbe stato inviato** poco prima. Quindi, se il servizio **XPC** **usa** il **PID** per **autenticare** il mittente e lo controlla **DOPO** l'esecuzione di **`posix_spawn`**, penserà che provenga da un processo **autorizzato**.
 
 ### Esempio di exploit
 
@@ -153,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Questo esempio utilizza un **`fork`** raw per lanciare **figli che sfrutteranno la condizione di gara PID** e poi sfruttare **un'altra condizione di gara tramite un Hard link:**
+Questo esempio utilizza un **`fork`** raw per lanciare **figli che sfrutteranno la condizione di gara PID** e poi sfrutteranno **un'altra condizione di gara tramite un Hard link:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -308,7 +308,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Servizi di Accesso Remoto
 
-Questi sono i servizi macOS comuni per accedervi da remoto.\
+Questi sono i comuni servizi macOS per accedervi da remoto.\
 Puoi abilitare/disabilitare questi servizi in `Impostazioni di Sistema` --> `Condivisione`
 
 * **VNC**, conosciuto come “Condivisione Schermo” (tcp:5900)
@@ -41,7 +41,7 @@ Apple Remote Desktop (ARD) è una versione avanzata di [Virtual Network Computin
 
 Le istanze vulnerabili possono essere identificate utilizzando lo script `vnc-info` di **nmap**. I servizi che supportano `VNC Authentication (2)` sono particolarmente suscettibili agli attacchi di forza bruta a causa della troncatura della password a 8 caratteri.
 
-Per abilitare ARD per vari compiti amministrativi come l'escalation dei privilegi, l'accesso GUI o il monitoraggio degli utenti, usa il seguente comando:
+Per abilitare ARD per vari compiti amministrativi come l'escalation dei privilegi, l'accesso GUI o il monitoraggio degli utenti, utilizzare il seguente comando:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
@@ -51,7 +51,7 @@ ARD fornisce livelli di controllo versatili, inclusi osservazione, controllo con
 
 Bonjour, una tecnologia progettata da Apple, consente **ai dispositivi sulla stessa rete di rilevare i servizi offerti l'uno dall'altro**. Conosciuto anche come Rendezvous, **Zero Configuration** o Zeroconf, consente a un dispositivo di unirsi a una rete TCP/IP, **scegliere automaticamente un indirizzo IP** e trasmettere i propri servizi ad altri dispositivi di rete.
 
-La rete Zero Configuration, fornita da Bonjour, garantisce che i dispositivi possano:
+La Rete Zero Configuration, fornita da Bonjour, garantisce che i dispositivi possano:
 * **Ottenere automaticamente un indirizzo IP** anche in assenza di un server DHCP.
 * Eseguire **la traduzione nome-indirizzo** senza richiedere un server DNS.
 * **Scoprire i servizi** disponibili sulla rete.
@@ -60,7 +60,7 @@ I dispositivi che utilizzano Bonjour si assegneranno un **indirizzo IP dall'inte
 
 Per DNS, Bonjour utilizza il **protocollo Multicast DNS (mDNS)**. mDNS opera su **porta 5353/UDP**, impiegando **query DNS standard** ma mirate all'**indirizzo multicast 224.0.0.251**. Questo approccio garantisce che tutti i dispositivi in ascolto sulla rete possano ricevere e rispondere alle query, facilitando l'aggiornamento dei loro record.
 
-All'unirsi alla rete, ogni dispositivo seleziona autonomamente un nome, che di solito termina con **.local**, il quale può derivare dal nome host o essere generato casualmente.
+All'unirsi alla rete, ogni dispositivo seleziona autonomamente un nome, che di solito termina in **.local**, il quale può derivare dal nome host o essere generato casualmente.
 
 La scoperta dei servizi all'interno della rete è facilitata da **DNS Service Discovery (DNS-SD)**. Sfruttando il formato dei record DNS SRV, DNS-SD utilizza **record DNS PTR** per abilitare l'elenco di più servizi. Un client che cerca un servizio specifico richiederà un record PTR per `<Service>.<Domain>`, ricevendo in cambio un elenco di record PTR formattati come `<Instance>.<Service>.<Domain>` se il servizio è disponibile da più host.
 

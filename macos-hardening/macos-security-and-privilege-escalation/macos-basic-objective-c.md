@@ -38,7 +38,7 @@ Nota che i programmi scritti in Objective-C **mantengono** le loro dichiarazioni
 * I metodi della classe
 * Le variabili di istanza della classe
 
-Puoi ottenere queste informazioni utilizzando [**class-dump**](https://github.com/nygard/class-dump):
+Puoi ottenere queste informazioni usando [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
@@ -77,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Oggetto & Chiamata Metodo**
+### **Oggetto e Chiamata del Metodo**
 
-Per creare un'istanza di una classe viene chiamato il metodo **`alloc`** che **alloca memoria** per ogni **proprietà** e **azzera** quelle allocazioni. Poi viene chiamato **`init`**, che **inizializza le proprietà** ai **valori richiesti**.
+Per creare un'istanza di una classe, viene chiamato il metodo **`alloc`**, che **alloca memoria** per ogni **proprietà** e **azzera** quelle allocazioni. Poi viene chiamato **`init`**, che **inizializza le proprietà** ai **valori richiesti**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -122,7 +122,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 
 I protocolli sono insiemi di dichiarazioni di metodo (senza proprietà). Una classe che implementa un protocollo implementa i metodi dichiarati.
 
-Ci sono 2 tipi di metodi: **obbligatori** e **opzionali**. Per **default**, un metodo è **obbligatorio** (ma puoi anche indicarlo con un tag **`@required`**). Per indicare che un metodo è opzionale usa **`@optional`**.
+Ci sono 2 tipi di metodi: **obbligatori** e **opzionali**. Per **default** un metodo è **obbligatorio** (ma puoi anche indicarlo con un tag **`@required`**). Per indicare che un metodo è opzionale usa **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -195,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Le classi di base sono **immutabili**, quindi per aggiungere una stringa a una esistente è **necessario creare un nuovo NSString**.
+Le classi di base sono **immutabili**, quindi per aggiungere una stringa a una esistente è necessario **creare un nuovo NSString**.
 
 {% code overflow="wrap" %}
 ```objectivec

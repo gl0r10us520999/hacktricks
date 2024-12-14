@@ -23,16 +23,16 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Un namespace utente è una funzionalità del kernel Linux che **fornisce isolamento delle mappature degli ID utente e gruppo**, consentendo a ciascun namespace utente di avere il **proprio insieme di ID utente e gruppo**. Questo isolamento consente ai processi in esecuzione in diversi namespace utente di **avere privilegi e proprietà diversi**, anche se condividono gli stessi ID utente e gruppo numericamente.
+Un namespace utente è una funzionalità del kernel Linux che **fornisce isolamento delle mappature degli ID utente e di gruppo**, consentendo a ciascun namespace utente di avere il **proprio insieme di ID utente e di gruppo**. Questo isolamento consente ai processi in esecuzione in diversi namespace utente di **avere privilegi e proprietà diversi**, anche se condividono gli stessi ID utente e di gruppo numericamente.
 
-I namespace utente sono particolarmente utili nella containerizzazione, dove ogni container dovrebbe avere il proprio insieme indipendente di ID utente e gruppo, consentendo una migliore sicurezza e isolamento tra i container e il sistema host.
+I namespace utente sono particolarmente utili nella containerizzazione, dove ogni container dovrebbe avere il proprio insieme indipendente di ID utente e di gruppo, consentendo una migliore sicurezza e isolamento tra i container e il sistema host.
 
 ### How it works:
 
-1. Quando viene creato un nuovo namespace utente, **inizia con un insieme vuoto di mappature degli ID utente e gruppo**. Ciò significa che qualsiasi processo in esecuzione nel nuovo namespace utente avrà **inizialmente nessun privilegio al di fuori del namespace**.
-2. Le mappature degli ID possono essere stabilite tra gli ID utente e gruppo nel nuovo namespace e quelli nel namespace genitore (o host). Questo **consente ai processi nel nuovo namespace di avere privilegi e proprietà corrispondenti agli ID utente e gruppo nel namespace genitore**. Tuttavia, le mappature degli ID possono essere limitate a intervalli e sottoinsiemi specifici di ID, consentendo un controllo dettagliato sui privilegi concessi ai processi nel nuovo namespace.
-3. All'interno di un namespace utente, **i processi possono avere pieni privilegi di root (UID 0) per le operazioni all'interno del namespace**, pur avendo privilegi limitati al di fuori del namespace. Questo consente **ai container di funzionare con capacità simili a root all'interno del proprio namespace senza avere pieni privilegi di root sul sistema host**.
-4. I processi possono spostarsi tra i namespace utilizzando la chiamata di sistema `setns()` o creare nuovi namespace utilizzando le chiamate di sistema `unshare()` o `clone()` con il flag `CLONE_NEWUSER`. Quando un processo si sposta in un nuovo namespace o ne crea uno, inizierà a utilizzare le mappature degli ID utente e gruppo associate a quel namespace.
+1. Quando viene creato un nuovo namespace utente, **inizia con un insieme vuoto di mappature degli ID utente e di gruppo**. Ciò significa che qualsiasi processo in esecuzione nel nuovo namespace utente avrà **inizialmente nessun privilegio al di fuori del namespace**.
+2. Le mappature degli ID possono essere stabilite tra gli ID utente e di gruppo nel nuovo namespace e quelli nel namespace genitore (o host). Questo **consente ai processi nel nuovo namespace di avere privilegi e proprietà corrispondenti agli ID utente e di gruppo nel namespace genitore**. Tuttavia, le mappature degli ID possono essere limitate a intervalli e sottoinsiemi specifici di ID, consentendo un controllo dettagliato sui privilegi concessi ai processi nel nuovo namespace.
+3. All'interno di un namespace utente, **i processi possono avere pieni privilegi di root (UID 0) per operazioni all'interno del namespace**, pur avendo privilegi limitati al di fuori del namespace. Questo consente **ai container di funzionare con capacità simili a root all'interno del proprio namespace senza avere pieni privilegi di root sul sistema host**.
+4. I processi possono spostarsi tra i namespace utilizzando la chiamata di sistema `setns()` o creare nuovi namespace utilizzando le chiamate di sistema `unshare()` o `clone()` con il flag `CLONE_NEWUSER`. Quando un processo si sposta in un nuovo namespace o ne crea uno, inizierà a utilizzare le mappature degli ID utente e di gruppo associate a quel namespace.
 
 ## Lab:
 
@@ -48,19 +48,19 @@ Montando una nuova istanza del filesystem `/proc` se utilizzi il parametro `--mo
 
 <summary>Errore: bash: fork: Impossibile allocare memoria</summary>
 
-Quando `unshare` viene eseguito senza l'opzione `-f`, si verifica un errore a causa del modo in cui Linux gestisce i nuovi namespace PID (Process ID). I dettagli chiave e la soluzione sono delineati di seguito:
+Quando `unshare` viene eseguito senza l'opzione `-f`, si incontra un errore a causa del modo in cui Linux gestisce i nuovi namespace PID (Process ID). I dettagli chiave e la soluzione sono delineati di seguito:
 
-1. **Spiegazione del problema**:
+1. **Spiegazione del Problema**:
 - Il kernel Linux consente a un processo di creare nuovi namespace utilizzando la chiamata di sistema `unshare`. Tuttavia, il processo che avvia la creazione di un nuovo namespace PID (denominato processo "unshare") non entra nel nuovo namespace; solo i suoi processi figli lo fanno.
 - Eseguire `%unshare -p /bin/bash%` avvia `/bin/bash` nello stesso processo di `unshare`. Di conseguenza, `/bin/bash` e i suoi processi figli si trovano nel namespace PID originale.
 - Il primo processo figlio di `/bin/bash` nel nuovo namespace diventa PID 1. Quando questo processo termina, attiva la pulizia del namespace se non ci sono altri processi, poiché PID 1 ha il ruolo speciale di adottare processi orfani. Il kernel Linux disabiliterà quindi l'allocazione PID in quel namespace.
 
 2. **Conseguenza**:
-- L'uscita di PID 1 in un nuovo namespace porta alla pulizia del flag `PIDNS_HASH_ADDING`. Questo porta al fallimento della funzione `alloc_pid` nell'allocare un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
+- L'uscita di PID 1 in un nuovo namespace porta alla pulizia del flag `PIDNS_HASH_ADDING`. Questo porta alla funzione `alloc_pid` a non riuscire ad allocare un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
 
 3. **Soluzione**:
 - Il problema può essere risolto utilizzando l'opzione `-f` con `unshare`. Questa opzione fa sì che `unshare` fork un nuovo processo dopo aver creato il nuovo namespace PID.
-- Eseguire `%unshare -fp /bin/bash%` garantisce che il comando `unshare` stesso diventi PID 1 nel nuovo namespace. `/bin/bash` e i suoi processi figli sono quindi contenuti in modo sicuro all'interno di questo nuovo namespace, prevenendo l'uscita prematura di PID 1 e consentendo l'allocazione normale dei PID.
+- Eseguire `%unshare -fp /bin/bash%` garantisce che il comando `unshare` stesso diventi PID 1 nel nuovo namespace. `/bin/bash` e i suoi processi figli sono quindi contenuti in modo sicuro all'interno di questo nuovo namespace, prevenendo l'uscita prematura di PID 1 e consentendo l'allocazione normale di PID.
 
 Assicurandoti che `unshare` venga eseguito con il flag `-f`, il nuovo namespace PID viene mantenuto correttamente, consentendo a `/bin/bash` e ai suoi subprocessi di operare senza incontrare l'errore di allocazione della memoria.
 
@@ -123,10 +123,10 @@ root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 
 Nel caso degli user namespaces, **quando viene creato un nuovo user namespace, il processo che entra nello namespace riceve un insieme completo di capacità all'interno di quello namespace**. Queste capacità consentono al processo di eseguire operazioni privilegiate come **montare** **filesystem**, creare dispositivi o cambiare la proprietà dei file, ma **solo nel contesto del proprio user namespace**.
 
-Ad esempio, quando hai la capacità `CAP_SYS_ADMIN` all'interno di un user namespace, puoi eseguire operazioni che normalmente richiedono questa capacità, come montare filesystem, ma solo nel contesto del tuo user namespace. Qualsiasi operazione che esegui con questa capacità non influenzerà il sistema host o altri namespace.
+Ad esempio, quando hai la capacità `CAP_SYS_ADMIN` all'interno di un user namespace, puoi eseguire operazioni che normalmente richiedono questa capacità, come montare filesystem, ma solo nel contesto del tuo user namespace. Qualsiasi operazione che esegui con questa capacità non influenzerà il sistema host o altri namespaces.
 
 {% hint style="warning" %}
-Pertanto, anche se ottenere un nuovo processo all'interno di un nuovo User namespace **ti restituirà tutte le capacità** (CapEff: 000001ffffffffff), in realtà puoi **utilizzare solo quelle relative allo namespace** (montaggio ad esempio) ma non tutte. Quindi, questo da solo non è sufficiente per sfuggire a un container Docker.
+Pertanto, anche se ottenere un nuovo processo all'interno di un nuovo User namespace **ti restituirà tutte le capacità** (CapEff: 000001ffffffffff), in realtà puoi **utilizzare solo quelle relative allo namespace** (montare ad esempio) ma non tutte. Quindi, questo da solo non è sufficiente per sfuggire a un container Docker.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:
@@ -161,10 +161,10 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos github.
 
 </details>
-{% endhint %}trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 {% endhint %}
 </details>

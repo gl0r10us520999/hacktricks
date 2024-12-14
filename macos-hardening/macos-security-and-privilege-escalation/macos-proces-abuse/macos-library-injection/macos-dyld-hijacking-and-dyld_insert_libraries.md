@@ -127,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Il percorso di riesportazione creato nella libreria è relativo al caricatore, cambiamo in un percorso assoluto alla libreria da esportare:
+Il percorso di riesportazione creato nella libreria è relativo al caricatore, cambiamo in un percorso assoluto per la libreria da esportare:
 
 {% code overflow="wrap" %}
 ```bash
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Infine, copialo nella **posizione hijacked**:
+Infine, copialo nella **posizione compromessa**:
 
 {% code overflow="wrap" %}
 ```bash

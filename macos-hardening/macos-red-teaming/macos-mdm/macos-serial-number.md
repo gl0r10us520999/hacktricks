@@ -23,6 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
+{% endhint %}
 
 
 ## Informazioni di base
@@ -54,7 +55,7 @@ Alcuni codici rappresentano fabbriche specifiche:
 Questo carattere varia da 'C' (che rappresenta la prima metà del 2010) a 'Z' (seconda metà del 2019), con lettere diverse che indicano diversi periodi di sei mesi.
 
 ### **Settimana di produzione (5° carattere)**
-Le cifre 1-9 corrispondono alle settimane 1-9. Le lettere C-Y (escludendo le vocali e 'S') rappresentano le settimane 10-27. Per la seconda metà dell'anno, a questo numero si aggiungono 26.
+Le cifre 1-9 corrispondono alle settimane 1-9. Le lettere C-Y (escludendo le vocali e 'S') rappresentano le settimane 10-27. Per la seconda metà dell'anno, a questo numero viene aggiunto 26.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -82,6 +83,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 </details>
 {% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
 {% endhint %}
 </details>
 {% endhint %}

@@ -1,33 +1,33 @@
-# macOS MIG - Generatore di Interfacce Mach
+# macOS MIG - Mach Interface Generator
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Informazioni di Base
+## Informazioni di base
 
-MIG è stato creato per **semplificare il processo di creazione del codice Mach IPC**. Fondamentalmente **genera il codice necessario** per far comunicare server e client con una definizione data. Anche se il codice generato è brutto, uno sviluppatore dovrà solo importarlo e il suo codice sarà molto più semplice rispetto a prima.
+MIG è stato creato per **semplificare il processo di creazione del codice Mach IPC**. Fondamentalmente **genera il codice necessario** affinché il server e il client comunichino con una definizione data. Anche se il codice generato è brutto, uno sviluppatore dovrà solo importarlo e il suo codice sarà molto più semplice di prima.
 
-La definizione è specificata nel Linguaggio di Definizione dell'Interfaccia (IDL) utilizzando l'estensione `.defs`.
+La definizione è specificata in Interface Definition Language (IDL) utilizzando l'estensione `.defs`.
 
 Queste definizioni hanno 5 sezioni:
 
-* **Dichiarazione del sottosistema**: La parola chiave sottosistema è utilizzata per indicare il **nome** e l'**id**. È anche possibile contrassegnarlo come **`KernelServer`** se il server deve essere eseguito nel kernel.
-* **Inclusioni e importazioni**: MIG utilizza il C-preprocessore, quindi è in grado di utilizzare le importazioni. Inoltre, è possibile utilizzare `uimport` e `simport` per il codice generato dall'utente o dal server.
+* **Dichiarazione del sottosistema**: La parola chiave sottosistema è usata per indicare il **nome** e l'**id**. È anche possibile contrassegnarlo come **`KernelServer`** se il server deve essere eseguito nel kernel.
+* **Inclusioni e importazioni**: MIG utilizza il preprocessore C, quindi è in grado di utilizzare importazioni. Inoltre, è possibile utilizzare `uimport` e `simport` per il codice generato dall'utente o dal server.
 * **Dichiarazioni di tipo**: È possibile definire tipi di dati anche se di solito importerà `mach_types.defs` e `std_types.defs`. Per quelli personalizzati si può utilizzare una certa sintassi:
-* \[i`n/out]tran`: Funzione che deve essere tradotta da un messaggio in ingresso o verso un messaggio in uscita
-* `c[user/server]type`: Mappatura verso un altro tipo di C.
+* \[i`n/out]tran`: Funzione che deve essere tradotta da un messaggio in arrivo o a un messaggio in uscita
+* `c[user/server]type`: Mappatura a un altro tipo C.
 * `destructor`: Chiama questa funzione quando il tipo viene rilasciato.
 * **Operazioni**: Queste sono le definizioni dei metodi RPC. Ci sono 5 tipi diversi:
 * `routine`: Si aspetta una risposta
@@ -57,20 +57,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Si noti che il primo **argomento è la porta da associare** e MIG gestirà **automaticamente la porta di risposta** (a meno che non venga chiamato `mig_get_reply_port()` nel codice client). Inoltre, l'**ID delle operazioni** sarà **sequenziale** a partire dall'ID del sottosistema indicato (quindi se un'operazione è deprecata, viene eliminata e viene utilizzato `skip` per continuare a utilizzare il suo ID).
+Nota che il primo **argomento è la porta da associare** e MIG gestirà **automaticamente la porta di risposta** (a meno che non venga chiamato `mig_get_reply_port()` nel codice del client). Inoltre, l'**ID delle operazioni** sarà **sequenziale** a partire dall'ID del sottosistema indicato (quindi se un'operazione è deprecata viene eliminata e `skip` viene utilizzato per continuare a usare il suo ID).
 
-Ora utilizzare MIG per generare il codice server e client che saranno in grado di comunicare tra loro per chiamare la funzione Sottrai:
+Ora usa MIG per generare il codice del server e del client che sarà in grado di comunicare tra loro per chiamare la funzione Subtract:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Saranno creati diversi nuovi file nella directory corrente.
+Diversi nuovi file verranno creati nella directory corrente.
 
 {% hint style="success" %}
 Puoi trovare un esempio più complesso nel tuo sistema con: `mdfind mach_port.defs`\
 E puoi compilarlo dalla stessa cartella del file con: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
 {% endhint %}
 
-Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che definisce essenzialmente la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
+Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struct **`SERVERPREFmyipc_subsystem`**, che definisce fondamentalmente la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -91,7 +91,7 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}Traduzione in corso...{% endtab %}
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -107,7 +107,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Basandosi sulla struttura precedente, la funzione **`myipc_server_routine`** otterrà l'**ID del messaggio** e restituirà la funzione corretta da chiamare:
+Basato sulla struttura precedente, la funzione **`myipc_server_routine`** otterrà il **ID del messaggio** e restituirà la funzione appropriata da chiamare:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -124,16 +124,16 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 ```
 In questo esempio abbiamo definito solo 1 funzione nelle definizioni, ma se avessimo definito più funzioni, sarebbero state all'interno dell'array di **`SERVERPREFmyipc_subsystem`** e la prima sarebbe stata assegnata all'ID **500**, la seconda all'ID **501**...
 
-Se ci si aspettasse che la funzione inviasse una **risposta**, esisterebbe anche la funzione `mig_internal kern_return_t __MIG_check__Reply__<name>`.
+Se ci si aspettava che la funzione inviasse una **reply**, la funzione `mig_internal kern_return_t __MIG_check__Reply__<name>` esisterebbe anche.
 
-Attualmente è possibile identificare questa relazione nella struttura **`subsystem_to_name_map_myipc`** da **`myipcServer.h`** (**`subsystem_to_name_map_***`** in altri file):
+In realtà è possibile identificare questa relazione nella struct **`subsystem_to_name_map_myipc`** da **`myipcServer.h`** (**`subsystem_to_name_map_***`** in altri file):
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Infine, un'altra funzione importante per far funzionare il server sarà **`myipc_server`**, che è quella che effettivamente **chiama la funzione** relativa all'id ricevuto:
+Finalmente, un'altra funzione importante per far funzionare il server sarà **`myipc_server`**, che è quella che effettivamente **chiama la funzione** relativa all'id ricevuto:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -167,9 +167,9 @@ return FALSE;
 }
 </code></pre>
 
-Controlla le righe evidenziate in precedenza accedendo alla funzione da chiamare tramite ID.
+Controlla le righe precedentemente evidenziate che accedono alla funzione da chiamare per ID.
 
-Il seguente è il codice per creare un semplice **server** e **client** in cui il client può chiamare le funzioni Sottrai dal server:
+Il seguente è il codice per creare un semplice **server** e **client** dove il client può chiamare le funzioni Sottrai dal server:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -233,40 +233,40 @@ USERPREFSubtract(port, 40, 2);
 {% endtab %}
 {% endtabs %}
 
-### Il record NDR
+### The NDR\_record
 
-Il record NDR è esportato da `libsystem_kernel.dylib` ed è una struttura che consente a MIG di **trasformare i dati in modo che siano agnostici del sistema** in cui vengono utilizzati poiché MIG è stato pensato per essere utilizzato tra sistemi diversi (e non solo sulla stessa macchina).
+Il NDR\_record è esportato da `libsystem_kernel.dylib`, ed è una struct che consente a MIG di **trasformare i dati in modo che siano agnostici rispetto al sistema** in cui viene utilizzato, poiché MIG è stato pensato per essere utilizzato tra diversi sistemi (e non solo nella stessa macchina).
 
-Questo è interessante perché se `_NDR_record` viene trovato in un binario come dipendenza (`jtool2 -S <binary> | grep NDR` o `nm`), significa che il binario è un cliente o un server MIG.
+Questo è interessante perché se `_NDR_record` viene trovato in un binario come dipendenza (`jtool2 -S <binary> | grep NDR` o `nm`), significa che il binario è un client o server MIG.
 
-Inoltre, i **server MIG** hanno la tabella di dispatch in `__DATA.__const` (o in `__CONST.__constdata` nel kernel macOS e in `__DATA_CONST.__const` in altri kernel \*OS). Questo può essere dumpato con **`jtool2`**.
+Inoltre, i **server MIG** hanno la tabella di dispatch in `__DATA.__const` (o in `__CONST.__constdata` nel kernel macOS e `__DATA_CONST.__const` in altri kernel \*OS). Questo può essere estratto con **`jtool2`**.
 
 E i **client MIG** utilizzeranno il `__NDR_record` per inviare con `__mach_msg` ai server.
 
-## Analisi del Binario
+## Binary Analysis
 
 ### jtool
 
-Poiché molti binari ora utilizzano MIG per esporre le porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID del messaggio.
+Poiché molti binari ora utilizzano MIG per esporre porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID messaggio.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) può analizzare le informazioni MIG da un binario Mach-O indicando l'ID del messaggio e identificando la funzione da eseguire:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) può analizzare le informazioni MIG da un binario Mach-O indicando l'ID messaggio e identificando la funzione da eseguire:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Inoltre, le funzioni MIG sono solo wrapper della funzione effettiva che viene chiamata, il che significa che ottenendo il suo disassemblaggio e cercando BL potresti essere in grado di trovare la funzione effettiva chiamata:
+Inoltre, le funzioni MIG sono semplicemente wrapper della funzione reale che viene chiamata, il che significa che ottenendo la sua disassemblaggio e cercando BL potresti essere in grado di trovare la funzione effettiva che viene chiamata:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep BL
 ```
 ### Assembly
 
-È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non si avranno i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato** poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
+È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non avrai i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato** poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Istruzioni iniziali per trovare i puntatori di funzione corretti
+// Istruzioni iniziali per trovare i puntatori delle funzioni appropriati
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -276,19 +276,19 @@ var_18 = arg1;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Chiamata a sign_extend_64 che può aiutare a identificare questa funzione
-// Questo memorizza in rax il puntatore alla chiamata che deve essere effettuata
+// Questo memorizza in rax il puntatore alla chiamata che deve essere chiamata
 // Controlla l'uso dell'indirizzo 0x100004040 (array degli indirizzi delle funzioni)
 // 0x1f4 = 500 (l'ID di partenza)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Se - altrimenti, l'if restituisce false, mentre l'else chiama la funzione corretta e restituisce true
+// Se - else, l'if restituisce falso, mentre l'else chiama la funzione corretta e restituisce vero
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
 var_4 = 0x0;
 }
 else {
-// Indirizzo calcolato che chiama la funzione corretta con 2 argomenti
+// Indirizzo calcolato che chiama la funzione appropriata con 2 argomenti
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -313,7 +313,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Istruzioni iniziali per trovare i puntatori di funzione corretti
+// Istruzioni iniziali per trovare i puntatori delle funzioni appropriati
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -348,7 +348,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Stesso if else della versione precedente
+// Stessa logica if else della versione precedente
 // Controlla l'uso dell'indirizzo 0x100004040 (array degli indirizzi delle funzioni)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -380,32 +380,33 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Attualmente, se si accede alla funzione **`0x100004000`**, si troverà l'array di strutture **`routine_descriptor`**. Il primo elemento della struttura è l'**indirizzo** in cui la **funzione** è implementata, e la **struttura occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) è possibile ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamato:
+In realtà, se vai alla funzione **`0x100004000`** troverai l'array di **`routine_descriptor`** struct. Il primo elemento della struct è l'**indirizzo** dove la **funzione** è implementata, e la **struct occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) puoi ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamata:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Questi dati possono essere estratti [**utilizzando questo script di Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+
 ### Debug
 
-Il codice generato da MIG chiama anche `kernel_debug` per generare log sulle operazioni in ingresso e in uscita. È possibile controllarli usando **`trace`** o **`kdv`**: `kdv all | grep MIG`
+Il codice generato da MIG chiama anche `kernel_debug` per generare log sulle operazioni di ingresso e uscita. È possibile controllarli utilizzando **`trace`** o **`kdv`**: `kdv all | grep MIG`
 
 ## References
 
 * [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporta HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

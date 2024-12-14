@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Informazioni di base
 
-L'IO Kit è un **framework per driver di dispositivo** open-source e orientato agli oggetti nel kernel XNU, gestisce **driver di dispositivo caricati dinamicamente**. Consente di aggiungere codice modulare al kernel al volo, supportando hardware diversificato.
+L'IO Kit è un **framework per driver di dispositivo** open-source e orientato agli oggetti nel kernel XNU, gestisce **driver di dispositivo caricati dinamicamente**. Permette di aggiungere codice modulare al kernel al volo, supportando hardware diversificato.
 
 I driver IOKit **esporteranno fondamentalmente funzioni dal kernel**. Questi parametri di funzione **tipi** sono **predefiniti** e vengono verificati. Inoltre, simile a XPC, IOKit è solo un altro strato **sopra i messaggi Mach**.
 
@@ -96,8 +96,8 @@ Puoi scaricare **`IORegistryExplorer`** da **Xcode Additional Tools** da [**http
 
 In IORegistryExplorer, i "piani" sono utilizzati per organizzare e visualizzare le relazioni tra diversi oggetti nell'IORegistry. Ogni piano rappresenta un tipo specifico di relazione o una particolare vista della configurazione hardware e dei driver del sistema. Ecco alcuni dei piani comuni che potresti incontrare in IORegistryExplorer:
 
-1. **IOService Plane**: Questo è il piano più generale, che visualizza gli oggetti di servizio che rappresentano driver e nubs (canali di comunicazione tra driver). Mostra le relazioni provider-client tra questi oggetti.
-2. **IODeviceTree Plane**: Questo piano rappresenta le connessioni fisiche tra i dispositivi mentre sono collegati al sistema. Viene spesso utilizzato per visualizzare la gerarchia dei dispositivi collegati tramite bus come USB o PCI.
+1. **IOService Plane**: Questo è il piano più generale, che visualizza gli oggetti di servizio che rappresentano driver e nubs (canali di comunicazione tra driver). Mostra le relazioni fornitore-cliente tra questi oggetti.
+2. **IODeviceTree Plane**: Questo piano rappresenta le connessioni fisiche tra i dispositivi man mano che sono collegati al sistema. Viene spesso utilizzato per visualizzare la gerarchia dei dispositivi connessi tramite bus come USB o PCI.
 3. **IOPower Plane**: Visualizza oggetti e le loro relazioni in termini di gestione dell'energia. Può mostrare quali oggetti stanno influenzando lo stato di alimentazione di altri, utile per il debug di problemi legati all'energia.
 4. **IOUSB Plane**: Focalizzato specificamente sui dispositivi USB e le loro relazioni, mostrando la gerarchia degli hub USB e dei dispositivi connessi.
 5. **IOAudio Plane**: Questo piano è per rappresentare i dispositivi audio e le loro relazioni all'interno del sistema.
@@ -168,7 +168,7 @@ Ci sono **altre** funzioni che possono essere utilizzate per chiamare le funzion
 
 ## Inversione del punto di ingresso del driver
 
-Puoi ottenere questi ad esempio da un [**firmware image (ipsw)**](./#ipsw). Poi, caricalo nel tuo decompilatore preferito.
+Puoi ottenerli, ad esempio, da un [**firmware image (ipsw)**](./#ipsw). Poi, caricalo nel tuo decompilatore preferito.
 
 Puoi iniziare a decompilare la funzione **`externalMethod`** poiché questa è la funzione del driver che riceverà la chiamata e chiamerà la funzione corretta:
 
@@ -222,7 +222,7 @@ dopo la modifica:
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-E come sappiamo, lì abbiamo un **array di 7 elementi** (controlla il codice decompilato finale), clicca per creare un array di 7 elementi:
+E come sappiamo qui abbiamo un **array di 7 elementi** (controlla il codice decompilato finale), clicca per creare un array di 7 elementi:
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -244,7 +244,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
 
 </details>
 {% endhint %}

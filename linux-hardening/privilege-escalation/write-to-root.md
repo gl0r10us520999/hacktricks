@@ -1,26 +1,26 @@
-# Scrittura di File Arbitrari nella Directory Root
+# Scrittura di File Arbitrari come Root
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-Questo file funziona come la variabile d'ambiente **`LD_PRELOAD`** ma funziona anche nei **binari SUID**.\
+Questo file si comporta come la variabile di ambiente **`LD_PRELOAD`** ma funziona anche nei **binaries SUID**.\
 Se puoi crearlo o modificarlo, puoi semplicemente aggiungere un **percorso a una libreria che verrà caricata** con ogni binario eseguito.
 
-Per esempio: `echo "/tmp/pe.so" > /etc/ld.so.preload`
+Ad esempio: `echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -37,7 +37,7 @@ system("/bin/bash");
 ```
 ### Git hooks
 
-[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) sono **script** che vengono **eseguiti** in vari **eventi** in un repository git come quando viene creato un commit, un merge... Quindi se uno **script o utente privilegiato** sta eseguendo queste azioni frequentemente ed è possibile **scrivere nella cartella `.git`**, questo può essere utilizzato per **escalation dei privilegi**.
+[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) sono **script** che vengono **eseguiti** su vari **eventi** in un repository git, come quando viene creato un commit, un merge... Quindi, se uno **script o utente privilegiato** sta eseguendo queste azioni frequentemente ed è possibile **scrivere nella cartella `.git`**, questo può essere utilizzato per **privesc**.
 
 Ad esempio, è possibile **generare uno script** in un repo git in **`.git/hooks`** in modo che venga sempre eseguito quando viene creato un nuovo commit:
 
@@ -48,29 +48,29 @@ chmod +x pre-commit
 ```
 {% endcode %}
 
-### File Cron & Time
+### Cron & Time files
 
 TODO
 
-### File di Servizio & Socket
+### Service & Socket files
 
 TODO
 
 ### binfmt\_misc
 
-Il file situato in `/proc/sys/fs/binfmt_misc` indica quale binario dovrebbe eseguire quale tipo di file. TODO: controllare i requisiti per sfruttare questo per eseguire una reverse shell quando viene aperto un tipo di file comune.
+Il file situato in `/proc/sys/fs/binfmt_misc` indica quale binario dovrebbe eseguire quale tipo di file. TODO: controlla i requisiti per abusare di questo per eseguire una rev shell quando un tipo di file comune è aperto.
 
 {% hint style="success" %}
-Impara & pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara & pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporta HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

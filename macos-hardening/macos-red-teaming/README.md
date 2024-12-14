@@ -1,12 +1,12 @@
 # macOS Red Teaming
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 **Ottieni la prospettiva di un hacker sulle tue app web, rete e cloud**
 
-**Trova e segnala vulnerabilità critiche ed esploitabili con un reale impatto sul business.** Usa i nostri oltre 20 strumenti personalizzati per mappare la superficie di attacco, trovare problemi di sicurezza che ti consentono di elevare i privilegi e utilizzare exploit automatizzati per raccogliere prove essenziali, trasformando il tuo duro lavoro in report persuasivi.
+**Trova e segnala vulnerabilità critiche ed esploitabili con un reale impatto sul business.** Usa i nostri oltre 20 strumenti personalizzati per mappare la superficie di attacco, trovare problemi di sicurezza che ti permettano di elevare i privilegi e utilizzare exploit automatizzati per raccogliere prove essenziali, trasformando il tuo duro lavoro in report persuasivi.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -30,7 +30,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 Se riesci a **compromettere le credenziali di amministratore** per accedere alla piattaforma di gestione, puoi **potenzialmente compromettere tutti i computer** distribuendo il tuo malware nelle macchine.
 
-Per il red teaming negli ambienti MacOS è altamente raccomandato avere una certa comprensione di come funzionano gli MDM:
+Per il red teaming in ambienti MacOS è altamente raccomandato avere una certa comprensione di come funzionano gli MDM:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -38,13 +38,13 @@ Per il red teaming negli ambienti MacOS è altamente raccomandato avere una cert
 
 ### Utilizzare MDM come C2
 
-Un MDM avrà il permesso di installare, interrogare o rimuovere profili, installare applicazioni, creare account admin locali, impostare password firmware, cambiare la chiave FileVault...
+Un MDM avrà il permesso di installare, interrogare o rimuovere profili, installare applicazioni, creare account amministrativi locali, impostare password firmware, cambiare la chiave FileVault...
 
 Per eseguire il tuo MDM devi **far firmare il tuo CSR da un fornitore** che potresti provare a ottenere con [**https://mdmcert.download/**](https://mdmcert.download/). E per eseguire il tuo MDM per dispositivi Apple potresti usare [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 Tuttavia, per installare un'applicazione in un dispositivo registrato, hai ancora bisogno che sia firmata da un account sviluppatore... tuttavia, al momento della registrazione MDM, il **dispositivo aggiunge il certificato SSL dell'MDM come CA fidata**, quindi ora puoi firmare qualsiasi cosa.
 
-Per registrare il dispositivo in un MDM, devi installare un file **`mobileconfig`** come root, che potrebbe essere consegnato tramite un file **pkg** (puoi comprimerlo in zip e quando viene scaricato da safari verrà decompresso).
+Per registrare il dispositivo in un MDM, devi installare un file **`mobileconfig`** come root, che potrebbe essere consegnato tramite un file **pkg** (puoi comprimerlo in zip e quando scaricato da safari verrà decompresso).
 
 **L'agente Mythic Orthrus** utilizza questa tecnica.
 
@@ -54,11 +54,11 @@ JAMF può eseguire **script personalizzati** (script sviluppati dall'amministrat
 
 #### Auto-registrazione JAMF
 
-Vai a una pagina come `https://<company-name>.jamfcloud.com/enroll/` per vedere se hanno **l'auto-registrazione abilitata**. Se ce l'hanno, potrebbe **richiedere credenziali per accedere**.
+Vai su una pagina come `https://<company-name>.jamfcloud.com/enroll/` per vedere se hanno **l'auto-registrazione abilitata**. Se ce l'hanno, potrebbe **richiedere credenziali per accedere**.
 
 Potresti usare lo script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) per eseguire un attacco di password spraying.
 
-Inoltre, dopo aver trovato le credenziali corrette, potresti essere in grado di forzare altri nomi utente con il modulo successivo:
+Inoltre, dopo aver trovato le credenziali corrette, potresti essere in grado di forzare altri nomi utente con il seguente modulo:
 
 ![](<../../.gitbook/assets/image (107).png>)
 
@@ -147,13 +147,13 @@ Alcuni **strumenti locali MacOS** che potrebbero anche aiutarti sono `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Also there are some tools prepared for MacOS to automatically enumerate the AD and play with kerberos:
+Anche ci sono alcuni strumenti preparati per MacOS per enumerare automaticamente l'AD e interagire con kerberos:
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound è un'estensione dello strumento di auditing Bloodhound che consente di raccogliere e ingerire le relazioni di Active Directory su host MacOS.
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound è un'estensione dello strumento di auditing Bloodhound che consente di raccogliere e ingerire le relazioni di Active Directory sugli host MacOS.
 * [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost è un progetto Objective-C progettato per interagire con le API Heimdal krb5 su macOS. L'obiettivo del progetto è abilitare test di sicurezza migliori attorno a Kerberos sui dispositivi macOS utilizzando API native senza richiedere alcun altro framework o pacchetti sul target.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): Strumento JavaScript for Automation (JXA) per eseguire l'enumerazione di Active Directory.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): Strumento JavaScript per l'automazione (JXA) per fare enumerazione di Active Directory.
 
-### Domain Information
+### Informazioni sul Dominio
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -170,9 +170,9 @@ Ad esempio, le informazioni sull'utente chiamato _mark_ sono memorizzate in _/va
 
 Oltre a utilizzare i bordi HasSession e AdminTo, **MacHound aggiunge tre nuovi bordi** al database Bloodhound:
 
-* **CanSSH** - entità autorizzata a SSH al host
-* **CanVNC** - entità autorizzata a VNC al host
-* **CanAE** - entità autorizzata a eseguire script AppleEvent sul host
+* **CanSSH** - entità autorizzata a SSH verso l'host
+* **CanVNC** - entità autorizzata a VNC verso l'host
+* **CanAE** - entità autorizzata a eseguire script AppleEvent sull'host
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -222,14 +222,14 @@ bifrost --action asktgt --username test_lab_admin \
 bifrost --action asktgs --spn [service] --domain [domain.com] \
 --username [user] --hash [hash] --enctype [enctype]
 ```
-Con i ticket di servizio ottenuti è possibile provare ad accedere alle condivisioni in altri computer:
+Con i ticket di servizio ottenuti, è possibile provare ad accedere alle condivisioni in altri computer:
 ```bash
 smbutil view //computer.fqdn
 mount -t smbfs //server/folder /local/mount/point
 ```
 ## Accessing the Keychain
 
-Il Keychain contiene molto probabilmente informazioni sensibili che, se accessibili senza generare un prompt, potrebbero aiutare a portare avanti un esercizio di red team:
+Il Keychain contiene probabilmente informazioni sensibili che, se accessibili senza generare un prompt, potrebbero aiutare a portare avanti un esercizio di red team:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -237,7 +237,7 @@ Il Keychain contiene molto probabilmente informazioni sensibili che, se accessib
 
 ## External Services
 
-Il Red Teaming su MacOS è diverso dal Red Teaming su Windows, poiché di solito **MacOS è integrato con diverse piattaforme esterne direttamente**. Una configurazione comune di MacOS è accedere al computer utilizzando **credenziali sincronizzate di OneLogin e accedere a diversi servizi esterni** (come github, aws...) tramite OneLogin.
+Il MacOS Red Teaming è diverso dal regolare Windows Red Teaming poiché di solito **MacOS è integrato con diverse piattaforme esterne direttamente**. Una configurazione comune di MacOS è accedere al computer utilizzando **credenziali sincronizzate OneLogin e accedere a diversi servizi esterni** (come github, aws...) tramite OneLogin.
 
 ## Misc Red Team techniques
 

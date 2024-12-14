@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## Gatekeeper
 
-Gatekeeper è solitamente usato per riferirsi alla combinazione di **Quarantine + Gatekeeper + XProtect**, 3 moduli di sicurezza di macOS che cercheranno di **prevenire gli utenti dall'eseguire software potenzialmente dannoso scaricato**.
+Gatekeeper è solitamente usato per riferirsi alla combinazione di **Quarantine + Gatekeeper + XProtect**, 3 moduli di sicurezza di macOS che tenteranno di **prevenire gli utenti dall'eseguire software potenzialmente dannoso scaricato**.
 
-More information in:
+Maggiore informazione in:
 
 {% content-ref url="macos-gatekeeper.md" %}
 [macos-gatekeeper.md](macos-gatekeeper.md)
@@ -39,7 +39,7 @@ More information in:
 
 ### Sandbox
 
-La Sandbox di macOS **limita le applicazioni** in esecuzione all'interno della sandbox alle **azioni consentite specificate nel profilo Sandbox** con cui l'app è in esecuzione. Questo aiuta a garantire che **l'applicazione accederà solo alle risorse previste**.
+La Sandbox di macOS **limita le applicazioni** in esecuzione all'interno della sandbox alle **azioni consentite specificate nel profilo della Sandbox** con cui l'app è in esecuzione. Questo aiuta a garantire che **l'applicazione accederà solo alle risorse previste**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
@@ -47,7 +47,7 @@ La Sandbox di macOS **limita le applicazioni** in esecuzione all'interno della s
 
 ### TCC - **Transparency, Consent, and Control**
 
-**TCC (Transparency, Consent, and Control)** è un framework di sicurezza. È progettato per **gestire le autorizzazioni** delle applicazioni, regolando specificamente il loro accesso a funzionalità sensibili. Questo include elementi come **servizi di localizzazione, contatti, foto, microfono, fotocamera, accessibilità e accesso completo al disco**. TCC garantisce che le app possano accedere a queste funzionalità solo dopo aver ottenuto il consenso esplicito dell'utente, rafforzando così la privacy e il controllo sui dati personali.
+**TCC (Trasparenza, Consenso e Controllo)** è un framework di sicurezza. È progettato per **gestire i permessi** delle applicazioni, regolando specificamente il loro accesso a funzionalità sensibili. Questo include elementi come **servizi di localizzazione, contatti, foto, microfono, fotocamera, accessibilità e accesso completo al disco**. TCC garantisce che le app possano accedere a queste funzionalità solo dopo aver ottenuto il consenso esplicito dell'utente, rafforzando così la privacy e il controllo sui dati personali.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
@@ -55,7 +55,7 @@ La Sandbox di macOS **limita le applicazioni** in esecuzione all'interno della s
 
 ### Launch/Environment Constraints & Trust Cache
 
-I vincoli di avvio in macOS sono una funzionalità di sicurezza per **regolare l'inizio dei processi** definendo **chi può avviare** un processo, **come** e **da dove**. Introdotti in macOS Ventura, categorizzano i binari di sistema in categorie di vincolo all'interno di un **trust cache**. Ogni binario eseguibile ha **regole** stabilite per il suo **avvio**, inclusi vincoli **self**, **parent** e **responsible**. Estesi alle app di terze parti come **Environment** Constraints in macOS Sonoma, queste funzionalità aiutano a mitigare potenziali sfruttamenti del sistema regolando le condizioni di avvio dei processi.
+I vincoli di avvio in macOS sono una funzionalità di sicurezza per **regolare l'inizio dei processi** definendo **chi può avviare** un processo, **come** e **da dove**. Introdotti in macOS Ventura, categorizzano i binari di sistema in categorie di vincolo all'interno di una **cache di fiducia**. Ogni binario eseguibile ha **regole** stabilite per il suo **avvio**, inclusi vincoli di **se stesso**, **genitore** e **responsabile**. Estesi alle app di terze parti come **Vincoli di Ambiente** in macOS Sonoma, queste funzionalità aiutano a mitigare potenziali sfruttamenti del sistema regolando le condizioni di avvio dei processi.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -80,7 +80,7 @@ L'applicazione MRT si trova in **`/Library/Apple/System/Library/CoreServices/MRT
 
 <figure><img src="../../../.gitbook/assets/image (1183).png" alt=""><figcaption></figcaption></figure>
 
-Questo funziona con un **daemon** situato in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` e l'**agent** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Questo funziona con un **daemon** situato in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` e l'**agente** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
 Il modo in cui **`backgroundtaskmanagementd`** sa che qualcosa è installato in una cartella persistente è **ottenendo gli FSEvents** e creando alcuni **handler** per quelli.
 
@@ -116,7 +116,7 @@ xattr -rc dumpBTM # Remove quarantine attr
 ```
 Queste informazioni vengono memorizzate in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** e il Terminale necessita di FDA.
 
-### Manipolazione di BTM
+### Manipolare BTM
 
 Quando viene trovata una nuova persistenza, si verifica un evento di tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Quindi, qualsiasi modo per **prevenire** che questo **evento** venga inviato o che l'**agente avvisi** l'utente aiuterà un attaccante a _**bypassare**_ BTM.
 

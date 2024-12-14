@@ -29,7 +29,7 @@ Se questo linker contiene vulnerabilità, poiché viene eseguito prima di esegui
 
 ### Flow
 
-Dyld verrà caricato da **`dyldboostrap::start`**, che caricherà anche cose come il **stack canary**. Questo perché questa funzione riceverà nel suo vettore di argomenti **`apple`** questo e altri **valori** **sensibili**.
+Dyld verrà caricato da **`dyldboostrap::start`**, che caricherà anche cose come il **stack canary**. Questo perché questa funzione riceverà nel suo vettore di argomenti **`apple`** questi e altri **valori** **sensibili**.
 
 **`dyls::_main()`** è il punto di ingresso di dyld e il suo primo compito è eseguire `configureProcessRestrictions()`, che di solito limita le variabili ambientali **`DYLD_*`** spiegate in:
 
@@ -56,8 +56,8 @@ Alcune sezioni di stub nel binario:
 
 * **`__TEXT.__[auth_]stubs`**: Puntatori dalle sezioni `__DATA`
 * **`__TEXT.__stub_helper`**: Piccolo codice che invoca il linking dinamico con informazioni sulla funzione da chiamare
-* **`__DATA.__[auth_]got`**: Global Offset Table (indirizzi delle funzioni importate, quando risolte, (collegate durante il tempo di caricamento poiché contrassegnate con il flag `S_NON_LAZY_SYMBOL_POINTERS`)
-* **`__DATA.__nl_symbol_ptr`**: Puntatori a simboli non pigri (collegati durante il tempo di caricamento poiché contrassegnati con il flag `S_NON_LAZY_SYMBOL_POINTERS`)
+* **`__DATA.__[auth_]got`**: Tabella degli offset globale (indirizzi delle funzioni importate, quando risolte, (collegate durante il tempo di caricamento poiché è contrassegnata con il flag `S_NON_LAZY_SYMBOL_POINTERS`)
+* **`__DATA.__nl_symbol_ptr`**: Puntatori a simboli non pigri (collegati durante il tempo di caricamento poiché è contrassegnata con il flag `S_NON_LAZY_SYMBOL_POINTERS`)
 * **`__DATA.__la_symbol_ptr`**: Puntatori a simboli pigri (collegati al primo accesso)
 
 {% hint style="warning" %}
@@ -97,7 +97,7 @@ Idx Name          Size     VMA              Type
 3 __unwind_info 00000058 0000000100003fa8 DATA
 4 __got         00000008 0000000100004000 DATA
 ```
-Nella disassemblaggio della sezione **`__stubs`**:
+Nell'assemblaggio della sezione **`__stubs`**:
 ```bash
 objdump -d --section=__stubs ./load
 
@@ -123,7 +123,7 @@ Tuttavia, nota che le versioni attuali di dyld caricano tutto come non pigro.
 
 Infine, **`dyld_stub_binder`** deve trovare la funzione indicata e scriverla nell'indirizzo corretto per non cercarla di nuovo. Per farlo utilizza codici operativi (una macchina a stati finiti) all'interno di dyld.
 
-## vettore di argomenti apple\[] 
+## vettore di argomenti apple\[]
 
 In macOS la funzione principale riceve effettivamente 4 argomenti invece di 3. Il quarto si chiama apple e ogni voce è nella forma `key=value`. Ad esempio:
 ```c
@@ -197,7 +197,7 @@ Quando questi valori raggiungono la funzione principale, le informazioni sensibi
 
 ## dyld\_all\_image\_infos
 
-Questa è una struttura esportata da dyld con informazioni sullo stato di dyld che può essere trovata nel [**codice sorgente**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) con informazioni come la versione, puntatore all'array dyld\_image\_info, al dyld\_image\_notifier, se il proc è staccato dalla cache condivisa, se l'inizializzatore di libSystem è stato chiamato, puntatore all'intestazione Mach di dyls, puntatore alla stringa di versione di dyld...
+Questa è una struttura esportata da dyld con informazioni sullo stato di dyld che può essere trovata nel [**codice sorgente**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) con informazioni come la versione, puntatore all'array dyld\_image\_info, al dyld\_image\_notifier, se il processo è staccato dalla cache condivisa, se l'inizializzatore di libSystem è stato chiamato, puntatore all'intestazione Mach di dyls, puntatore alla stringa di versione di dyld...
 
 ## variabili ambientali dyld
 
@@ -278,8 +278,8 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 * `DYLD_PRINT_TO_FILE`: Scrivi il debug di dyld in un file
 * `DYLD_PRINT_APIS`: Stampa le chiamate API di libdyld
 * `DYLD_PRINT_APIS_APP`: Stampa le chiamate API di libdyld effettuate da main
-* `DYLD_PRINT_BINDINGS`: Stampa i simboli quando sono legati
-* `DYLD_WEAK_BINDINGS`: Stampa solo simboli deboli quando sono legati
+* `DYLD_PRINT_BINDINGS`: Stampa i simboli quando vengono legati
+* `DYLD_WEAK_BINDINGS`: Stampa solo simboli deboli quando vengono legati
 * `DYLD_PRINT_CODE_SIGNATURES`: Stampa le operazioni di registrazione della firma del codice
 * `DYLD_PRINT_DOFS`: Stampa le sezioni del formato oggetto D-Trace come caricate
 * `DYLD_PRINT_ENV`: Stampa l'ambiente visto da dyld

@@ -103,7 +103,7 @@ Ad esempio, il **`Sandbox.kext`** utilizza molto questo.
 
 Controllando il **`__DATA.__const*`** del kext è possibile identificare la struttura `mac_policy_ops` utilizzata durante la registrazione della policy. È possibile trovarla perché il suo puntatore si trova a un offset all'interno di `mpo_policy_conf` e anche a causa della quantità di puntatori NULL che saranno in quell'area.
 
-Inoltre, è anche possibile ottenere l'elenco dei kext che hanno configurato una policy dumpando dalla memoria la struct **`_mac_policy_list`** che viene aggiornata con ogni policy registrata.
+Inoltre, è anche possibile ottenere l'elenco dei kext che hanno configurato una policy eseguendo il dump dalla memoria della struttura **`_mac_policy_list`** che viene aggiornata con ogni policy registrata.
 
 ## Inizializzazione di MACF
 
@@ -174,7 +174,7 @@ error = mac_error_select(__step_err, error);         \
 Quale passerà in rassegna tutte le politiche mac registrate chiamando le loro funzioni e memorizzando l'output all'interno della variabile error, che sarà sovrascrivibile solo da `mac_error_select` tramite codici di successo, quindi se un controllo fallisce, il controllo completo fallirà e l'azione non sarà consentita.
 
 {% hint style="success" %}
-Tuttavia, ricorda che non tutte le chiamate MACF vengono utilizzate solo per negare azioni. Ad esempio, `mac_priv_grant` chiama il macro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac_internal.h#L274), che concederà il privilegio richiesto se qualche politica risponde con uno 0:
+Tuttavia, ricorda che non tutte le chiamate MACF vengono utilizzate solo per negare azioni. Ad esempio, `mac_priv_grant` chiama il macro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274), che concederà il privilegio richiesto se qualche politica risponde con un 0:
 ```c
 /*
 * MAC_GRANT performs the designated check by walking the policy
@@ -202,7 +202,7 @@ DTRACE_MACF2(mac__rslt__ ## check, void *, mpc, int, __step_res); \
 ### priv\_check & priv\_grant
 
 Queste chiamate sono destinate a controllare e fornire (decine di) **privilegi** definiti in [**bsd/sys/priv.h**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/priv.h).\
-Alcuni codici del kernel chiamerebbero `priv_check_cred()` da [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) con le credenziali KAuth del processo e uno dei codici di privilegio che chiamerà `mac_priv_check` per vedere se qualche politica **nega** il rilascio del privilegio e poi chiama `mac_priv_grant` per vedere se qualche politica concede il `privilegio`.
+Alcuni codici del kernel chiamerebbero `priv_check_cred()` da [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) con le credenziali KAuth del processo e uno dei codici di privilegio che chiamerà `mac_priv_check` per vedere se qualche politica **nega** il conferimento del privilegio e poi chiama `mac_priv_grant` per vedere se qualche politica concede il `privilegio`.
 
 ### proc\_check\_syscall\_unix
 
@@ -253,8 +253,8 @@ __END_DECLS
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -17,22 +17,22 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Informazioni di base
 
-I vincoli di avvio in macOS sono stati introdotti per migliorare la sicurezza **regolando come, chi e da dove un processo può essere avviato**. Introdotti in macOS Ventura, forniscono un framework che categorizza **ogni binario di sistema in distinte categorie di vincolo**, definite all'interno della **trust cache**, un elenco contenente i binari di sistema e i loro rispettivi hash. Questi vincoli si estendono a ogni binario eseguibile all'interno del sistema, comportando un insieme di **regole** che delineano i requisiti per **l'avvio di un particolare binario**. Le regole comprendono vincoli autoimposti che un binario deve soddisfare, vincoli parentali che devono essere soddisfatti dal suo processo padre e vincoli di responsabilità a cui devono attenersi altre entità rilevanti.
+Le restrizioni di avvio in macOS sono state introdotte per migliorare la sicurezza **regolando come, chi e da dove un processo può essere avviato**. Iniziato in macOS Ventura, forniscono un framework che categorizza **ogni binario di sistema in distinte categorie di restrizione**, definite all'interno della **trust cache**, un elenco contenente i binari di sistema e i loro rispettivi hash. Queste restrizioni si estendono a ogni binario eseguibile all'interno del sistema, comportando un insieme di **regole** che delineano i requisiti per **l'avvio di un particolare binario**. Le regole comprendono le auto-restrizioni che un binario deve soddisfare, le restrizioni parentali che devono essere soddisfatte dal suo processo genitore e le restrizioni responsabili a cui devono attenersi altre entità rilevanti.
 
-Il meccanismo si estende alle app di terze parti attraverso i **Vincoli di Ambiente**, a partire da macOS Sonoma, consentendo agli sviluppatori di proteggere le loro app specificando un **insieme di chiavi e valori per i vincoli di ambiente.**
+Il meccanismo si estende alle app di terze parti attraverso le **Environment Constraints**, a partire da macOS Sonoma, consentendo agli sviluppatori di proteggere le loro app specificando un **insieme di chiavi e valori per le restrizioni ambientali.**
 
-Definisci **vincoli di ambiente e libreria di avvio** in dizionari di vincoli che salvi in **file di elenco di proprietà `launchd`**, o in **file di elenco di proprietà separati** che utilizzi nella firma del codice.
+Definisci **le restrizioni dell'ambiente di avvio e della libreria** in dizionari di restrizione che salvi in **file di elenco di proprietà `launchd`**, o in **file di elenco di proprietà separati** che utilizzi nella firma del codice.
 
-Ci sono 4 tipi di vincoli:
+Ci sono 4 tipi di restrizioni:
 
-* **Vincoli Autoimposti**: Vincoli applicati al **binario in esecuzione**.
-* **Processo Padre**: Vincoli applicati al **genitore del processo** (ad esempio **`launchd`** che esegue un servizio XP)
-* **Vincoli di Responsabilità**: Vincoli applicati al **processo che chiama il servizio** in una comunicazione XPC
-* **Vincoli di caricamento della libreria**: Usa i vincoli di caricamento della libreria per descrivere selettivamente il codice che può essere caricato
+* **Auto-restrizioni**: restrizioni applicate al **binario in esecuzione**.
+* **Processo genitore**: restrizioni applicate al **genitore del processo** (ad esempio **`launchd`** che esegue un servizio XP)
+* **Restrizioni responsabili**: restrizioni applicate al **processo che chiama il servizio** in una comunicazione XPC
+* **Restrizioni di caricamento della libreria**: utilizza le restrizioni di caricamento della libreria per descrivere selettivamente il codice che può essere caricato
 
-Quindi, quando un processo cerca di avviare un altro processo — chiamando `execve(_:_:_:)` o `posix_spawn(_:_:_:_:_:_:)` — il sistema operativo verifica che il file **eseguibile** **soddisfi** il proprio **vincolo autoimposto**. Controlla anche che l'eseguibile del **processo padre** **soddisfi** il **vincolo parentale** dell'eseguibile e che l'eseguibile del **processo responsabile** **soddisfi il vincolo di responsabilità** dell'eseguibile. Se uno di questi vincoli di avvio non è soddisfatto, il sistema operativo non esegue il programma.
+Quindi, quando un processo cerca di avviare un altro processo — chiamando `execve(_:_:_:)` o `posix_spawn(_:_:_:_:_:_:)` — il sistema operativo verifica che il file **eseguibile** **soddisfi** la sua **propria auto-restrizione**. Controlla anche che l'eseguibile del **processo genitore** **soddisfi** la **restrizione parentale** dell'eseguibile e che l'eseguibile del **processo responsabile** **soddisfi la restrizione del processo responsabile** dell'eseguibile. Se una di queste restrizioni di avvio non è soddisfatta, il sistema operativo non esegue il programma.
 
-Se durante il caricamento di una libreria qualsiasi parte del **vincolo della libreria non è vera**, il tuo processo **non carica** la libreria.
+Se durante il caricamento di una libreria qualsiasi parte della **restrizione della libreria non è vera**, il tuo processo **non carica** la libreria.
 
 ## Categorie LC
 
@@ -71,9 +71,9 @@ Hai ulteriori informazioni [**a riguardo qui**](https://theevilbit.github.io/pos
 
 ## Environment Constraints
 
-Questi sono i Launch Constraints impostati configurati in **applicazioni di terze parti**. Lo sviluppatore può selezionare i **fatti** e **operatori logici da utilizzare** nella sua applicazione per limitare l'accesso a se stesso.
+Questi sono i Launch Constraints impostati configurati in **applicazioni di terze parti**. Lo sviluppatore può selezionare i **fatti** e **gli operatori logici da utilizzare** nella sua applicazione per limitare l'accesso a se stesso.
 
-È possibile enumerare i Environment Constraints di un'applicazione con:
+È possibile enumerare gli Environment Constraints di un'applicazione con:
 ```bash
 codesign -d -vvvv app.app
 ```
@@ -115,7 +115,7 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Un'altra opzione potrebbe essere utilizzare lo strumento [**img4tool**](https://github.com/tihmstar/img4tool), che funzionerà anche su M1 anche se il rilascio è vecchio e per x86\_64 se lo installi nelle posizioni appropriate).
+(Un'altra opzione potrebbe essere quella di utilizzare lo strumento [**img4tool**](https://github.com/tihmstar/img4tool), che funzionerà anche su M1 anche se il rilascio è vecchio e per x86\_64 se lo installi nelle posizioni appropriate).
 
 Ora puoi utilizzare lo strumento [**trustcache**](https://github.com/CRKatri/trustcache) per ottenere le informazioni in un formato leggibile:
 ```bash
@@ -141,7 +141,7 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-La cache di fiducia segue la seguente struttura, quindi la **categoria LC è la quarta colonna**
+La cache di fiducia segue la seguente struttura, quindi **la categoria LC è la quarta colonna**
 ```c
 struct trust_cache_entry2 {
 uint8_t cdhash[CS_CDHASH_LEN];

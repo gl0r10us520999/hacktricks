@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-**Per ulteriori dettagli, fare riferimento al** [**post originale del blog**](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)**.** Questo è solo un riepilogo:
+**Per ulteriori dettagli, fare riferimento al** [**post originale del blog**](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)**.** Questo è solo un riassunto:
 
 Original PoC:
 ```shell

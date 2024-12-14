@@ -315,7 +315,7 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="ObjetiveC - Registrare" %}
+{% tab title="ObjetiveC - Registrazione" %}
 Registra un video di 3 secondi e salvalo in **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -586,7 +586,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Posizione
 
 {% hint style="success" %}
-Affinché un'app possa ottenere la posizione, **i Servizi di Posizione** (da Privacy e Sicurezza) **devono essere abilitati,** altrimenti non sarà in grado di accedervi.
+Per un'app per ottenere la posizione, **i Servizi di Posizione** (da Privacy e Sicurezza) **devono essere abilitati,** altrimenti non sarà in grado di accedervi.
 {% endhint %}
 
 * **Autorizzazione**: `com.apple.security.personal-information.location`

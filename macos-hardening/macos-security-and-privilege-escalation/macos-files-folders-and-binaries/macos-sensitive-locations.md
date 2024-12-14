@@ -46,7 +46,7 @@ Questo file è **utilizzato solo** quando il sistema è in **modalità utente si
 
 ### Keychain Dump
 
-Nota che quando si utilizza il binario di sicurezza per **estrarre le password decrittografate**, verranno visualizzati diversi prompt che chiederanno all'utente di consentire questa operazione.
+Nota che quando si utilizza il binario di sicurezza per **estrarre le password decrittografate**, verranno richieste all'utente diverse autorizzazioni per consentire questa operazione.
 ```bash
 #security
 security dump-trust-settings [-s] [-d] #List certificates
@@ -112,9 +112,9 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dump delle chiavi del portachiavi (con password) tramite dump di memoria**
+#### **Dump delle chiavi del portachiavi (con password) con il dump della memoria**
 
-[Segui questi passaggi](../#dumping-memory-with-osxpmem) per eseguire un **dump di memoria**
+[Segui questi passaggi](../#dumping-memory-with-osxpmem) per eseguire un **dump della memoria**
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -179,7 +179,7 @@ In macOS, le preferenze delle app si trovano in **`$HOME/Library/Preferences`** 
 
 In macOS, lo strumento cli **`defaults`** può essere utilizzato per **modificare il file delle Preferenze**.
 
-**`/usr/sbin/cfprefsd`** gestisce i servizi XPC `com.apple.cfprefsd.daemon` e `com.apple.cfprefsd.agent` e può essere chiamato per eseguire azioni come modificare le preferenze.
+**`/usr/sbin/cfprefsd`** rivendica i servizi XPC `com.apple.cfprefsd.daemon` e `com.apple.cfprefsd.agent` e può essere chiamato per eseguire azioni come modificare le preferenze.
 
 ## OpenDirectory permissions.plist
 
@@ -221,7 +221,7 @@ Questo file concede autorizzazioni a utenti specifici tramite UUID (e non uid) i
 
 ### Notifiche Darwin
 
-Il demone principale per le notifiche è **`/usr/sbin/notifyd`**. Per ricevere notifiche, i client devono registrarsi tramite il Mach port `com.apple.system.notification_center` (controllali con `sudo lsmp -p <pid notifyd>`). Il demone è configurabile con il file `/etc/notify.conf`.
+Il demone principale per le notifiche è **`/usr/sbin/notifyd`**. Per ricevere notifiche, i client devono registrarsi attraverso il port Mach `com.apple.system.notification_center` (controllali con `sudo lsmp -p <pid notifyd>`). Il demone è configurabile con il file `/etc/notify.conf`.
 
 I nomi utilizzati per le notifiche sono notazioni DNS inverse uniche e quando una notifica viene inviata a uno di essi, il/i client che hanno indicato di poterla gestire la riceveranno.
 

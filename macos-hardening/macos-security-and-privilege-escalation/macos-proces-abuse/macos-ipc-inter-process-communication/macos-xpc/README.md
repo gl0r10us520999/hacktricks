@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Informazioni di base
 
-XPC, che sta per XNU (il kernel utilizzato da macOS) inter-Process Communication, è un framework per **la comunicazione tra processi** su macOS e iOS. XPC fornisce un meccanismo per effettuare **chiamate di metodo sicure e asincrone tra diversi processi** sul sistema. Fa parte del paradigma di sicurezza di Apple, consentendo la **creazione di applicazioni separate per privilegi** in cui ogni **componente** viene eseguito con **solo i permessi necessari** per svolgere il proprio lavoro, limitando così il potenziale danno derivante da un processo compromesso.
+XPC, che sta per comunicazione inter-processo XNU (il kernel utilizzato da macOS), è un framework per **la comunicazione tra processi** su macOS e iOS. XPC fornisce un meccanismo per effettuare **chiamate di metodo sicure e asincrone tra diversi processi** sul sistema. Fa parte del paradigma di sicurezza di Apple, consentendo la **creazione di applicazioni separate per privilegi** in cui ogni **componente** viene eseguito con **solo i permessi necessari** per svolgere il proprio lavoro, limitando così il potenziale danno derivante da un processo compromesso.
 
-XPC utilizza una forma di Inter-Process Communication (IPC), che è un insieme di metodi per diversi programmi in esecuzione sullo stesso sistema per inviare dati avanti e indietro.
+XPC utilizza una forma di comunicazione inter-processo (IPC), che è un insieme di metodi per diversi programmi in esecuzione sullo stesso sistema per inviare dati avanti e indietro.
 
 I principali vantaggi di XPC includono:
 
@@ -29,15 +29,15 @@ I principali vantaggi di XPC includono:
 
 L'unico **svantaggio** è che **separare un'applicazione in più processi** facendoli comunicare tramite XPC è **meno efficiente**. Ma nei sistemi odierni questo non è quasi percepibile e i benefici sono maggiori.
 
-## Application Specific XPC services
+## Servizi XPC specifici per l'applicazione
 
 I componenti XPC di un'applicazione sono **all'interno dell'applicazione stessa.** Ad esempio, in Safari puoi trovarli in **`/Applications/Safari.app/Contents/XPCServices`**. Hanno estensione **`.xpc`** (come **`com.apple.Safari.SandboxBroker.xpc`**) e sono **anche pacchetti** con il binario principale all'interno: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` e un `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Come potresti pensare, un **componente XPC avrà diritti e privilegi diversi** rispetto agli altri componenti XPC o al binario principale dell'app. ECCETTO se un servizio XPC è configurato con [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) impostato su “True” nel suo **Info.plist**. In questo caso, il servizio XPC verrà eseguito nella **stessa sessione di sicurezza dell'applicazione** che lo ha chiamato.
+Come potresti pensare, un **componente XPC avrà diritti e privilegi diversi** rispetto agli altri componenti XPC o al binario principale dell'app. ECCETTO se un servizio XPC è configurato con [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) impostato su “True” nel suo **file Info.plist**. In questo caso, il servizio XPC verrà eseguito nella **stessa sessione di sicurezza dell'applicazione** che lo ha chiamato.
 
-I servizi XPC sono **avviati** da **launchd** quando necessario e **spenti** una volta completati tutti i compiti per liberare risorse di sistema. **I componenti XPC specifici dell'applicazione possono essere utilizzati solo dall'applicazione**, riducendo così il rischio associato a potenziali vulnerabilità.
+I servizi XPC vengono **avviati** da **launchd** quando necessario e **spenti** una volta completati tutti i compiti per liberare risorse di sistema. **I componenti XPC specifici per l'applicazione possono essere utilizzati solo dall'applicazione**, riducendo così il rischio associato a potenziali vulnerabilità.
 
-## System Wide XPC services
+## Servizi XPC a livello di sistema
 
 I servizi XPC a livello di sistema sono accessibili a tutti gli utenti. Questi servizi, sia launchd che di tipo Mach, devono essere **definiti in file plist** situati in directory specifiche come **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, o **`/Library/LaunchAgents`**.
 
@@ -85,7 +85,7 @@ Ogni messaggio XPC è un oggetto dizionario che semplifica la serializzazione e 
 Inoltre, la funzione `xpc_copy_description(object)` può essere utilizzata per ottenere una rappresentazione stringa dell'oggetto che può essere utile per scopi di debug.\
 Questi oggetti hanno anche alcuni metodi da chiamare come `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
 
-Gli `xpc_object_t` vengono creati chiamando la funzione `xpc_<objetType>_create`, che chiama internamente `_xpc_base_create(Class, Size)` dove viene indicato il tipo della classe dell'oggetto (uno di `XPC_TYPE_*`) e la sua dimensione (alcuni extra 40B verranno aggiunti alla dimensione per i metadati). Ciò significa che i dati dell'oggetto inizieranno all'offset di 40B.\
+Gli `xpc_object_t` vengono creati chiamando la funzione `xpc_<objetType>_create`, che internamente chiama `_xpc_base_create(Class, Size)` dove viene indicato il tipo della classe dell'oggetto (uno di `XPC_TYPE_*`) e la sua dimensione (alcuni extra 40B verranno aggiunti alla dimensione per i metadati). Ciò significa che i dati dell'oggetto inizieranno all'offset di 40B.\
 Pertanto, il `xpc_<objectType>_t` è una sorta di sottoclasse di `xpc_object_t` che sarebbe una sottoclasse di `os_object_t*`.
 
 {% hint style="warning" %}
@@ -99,7 +99,7 @@ Un **`xpc_pipe`** è un tubo FIFO che i processi possono utilizzare per comunica
 
 Nota che l'oggetto **`xpc_pipe`** è un **`xpc_object_t`** con informazioni nella sua struct riguardo le due porte Mach utilizzate e il nome (se presente). Il nome, ad esempio, il demone `secinitd` nel suo plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` configura il tubo chiamato `com.apple.secinitd`.
 
-Un esempio di **`xpc_pipe`** è il **bootstrap pipe** creato da **`launchd`** che rende possibile la condivisione delle porte Mach.
+Un esempio di un **`xpc_pipe`** è il **bootstrap pipe** creato da **`launchd`** che rende possibile la condivisione delle porte Mach.
 
 * **`NSXPC*`**
 
@@ -113,7 +113,7 @@ XPC utilizza GCD per inviare messaggi, inoltre genera alcune code di dispatch co
 ## Servizi XPC
 
 Questi sono **bundle con estensione `.xpc`** situati all'interno della cartella **`XPCServices`** di altri progetti e nel `Info.plist` hanno il `CFBundlePackageType` impostato su **`XPC!`**.\
-Questo file ha altre chiavi di configurazione come `ServiceType` che può essere Application, User, System o `_SandboxProfile` che può definire un sandbox o `_AllowedClients` che potrebbe indicare diritti o ID richiesti per contattare il servizio. Queste e altre opzioni di configurazione saranno utili per configurare il servizio al momento del lancio.
+Questo file ha altre chiavi di configurazione come `ServiceType` che possono essere Application, User, System o `_SandboxProfile` che può definire un sandbox o `_AllowedClients` che potrebbe indicare diritti o ID richiesti per contattare il servizio. Queste e altre opzioni di configurazione saranno utili per configurare il servizio al momento del lancio.
 
 ### Avviare un Servizio
 
@@ -130,7 +130,7 @@ L'utilità `xpcproxy` utilizza il prefisso `0x22`, ad esempio: `0x2200001c: xpcp
 
 ## Messaggi di Evento XPC
 
-Le applicazioni possono **iscriversi** a diversi **messaggi di evento**, consentendo loro di essere **iniziati su richiesta** quando si verificano tali eventi. La **configurazione** per questi servizi è effettuata nei file **plist di launchd**, situati nelle **stesse directory di quelli precedenti** e contenenti una chiave extra **`LaunchEvent`**.
+Le applicazioni possono **iscriversi** a diversi **messaggi di evento**, consentendo loro di essere **iniziati su richiesta** quando si verificano tali eventi. La **configurazione** per questi servizi è effettuata nei **file plist di launchd**, situati nelle **stesse directory di quelli precedenti** e contenenti una chiave extra **`LaunchEvent`**.
 
 ### Controllo del Processo di Connessione XPC
 
@@ -472,8 +472,8 @@ La comunicazione tra BridgeOS e l'host avviene attraverso un'interfaccia IPv6 de
 È possibile trovare queste comunicazioni utilizzando `netstat`, `nettop` o l'opzione open source, `netbottom`.
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il pentesting su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il pentesting su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

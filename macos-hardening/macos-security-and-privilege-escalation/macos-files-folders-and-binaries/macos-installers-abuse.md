@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 Un **pacchetto di installazione** macOS (noto anche come file `.pkg`) è un formato di file utilizzato da macOS per **distribuire software**. Questi file sono come una **scatola che contiene tutto ciò di cui un software** ha bisogno per installarsi e funzionare correttamente.
 
-Il file del pacchetto stesso è un archivio che contiene una **gerarchia di file e directory che verranno installati sul computer di destinazione**. Può anche includere **script** per eseguire operazioni prima e dopo l'installazione, come la configurazione di file di configurazione o la pulizia di versioni obsolete del software.
+Il file del pacchetto stesso è un archivio che contiene una **gerarchia di file e directory che verranno installati sul computer di destinazione**. Può anche includere **script** per eseguire operazioni prima e dopo l'installazione, come la configurazione di file di configurazione o la pulizia di versioni precedenti del software.
 
 ### Hierarchy
 
@@ -81,13 +81,13 @@ Questa è una [funzione pubblica](https://developer.apple.com/documentation/secu
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Per ulteriori informazioni, controlla questo intervento: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
 ### Esecuzione tramite montaggio
 
 Se un installer scrive in `/tmp/fixedname/bla/bla`, è possibile **creare un mount** su `/tmp/fixedname` senza proprietari in modo da poter **modificare qualsiasi file durante l'installazione** per abusare del processo di installazione.
 
-Un esempio di questo è **CVE-2021-26089** che è riuscito a **sovrascrivere uno script periodico** per ottenere l'esecuzione come root. Per ulteriori informazioni, dai un'occhiata all'intervento: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Un esempio di questo è **CVE-2021-26089** che è riuscito a **sovrascrivere uno script periodico** per ottenere l'esecuzione come root. Per ulteriori informazioni dai un'occhiata alla conferenza: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg come malware
 

@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## AppleMobileFileIntegrity.kext e amfid
 
-Si concentra sull'applicazione dell'integrità del codice in esecuzione sul sistema fornendo la logica dietro la verifica della firma del codice di XNU. È anche in grado di controllare i diritti e gestire altre operazioni sensibili come consentire il debug o ottenere porte di task.
+Si concentra sull'applicazione dell'integrità del codice in esecuzione sul sistema fornendo la logica dietro la verifica della firma del codice di XNU. È anche in grado di controllare i diritti e gestire altre attività sensibili come consentire il debug o ottenere porte di task.
 
 Inoltre, per alcune operazioni, il kext preferisce contattare il demone in user space `/usr/libexec/amfid`. Questa relazione di fiducia è stata abusata in diversi jailbreak.
 
@@ -85,9 +85,9 @@ Per consentire a `AMFI.kext` di comunicare con il demone, utilizza messaggi mach
 
 Si noti che in macOS non è più possibile per i processi root di dirottare porte speciali poiché sono protette da `SIP` e solo launchd può accedervi. In iOS viene verificato che il processo che invia la risposta abbia il CDHash hardcoded di `amfid`.
 
-È possibile vedere quando `amfid` viene richiesto di controllare un binario e la sua risposta eseguendo il debug e impostando un breakpoint in `mach_msg`.
+È possibile vedere quando `amfid` viene richiesto di controllare un binario e la sua risposta debuggandolo e impostando un breakpoint in `mach_msg`.
 
-Una volta ricevuto un messaggio tramite la porta speciale, **MIG** viene utilizzato per inviare ogni funzione alla funzione che sta chiamando. Le funzioni principali sono state analizzate e spiegate all'interno del libro.
+Una volta ricevuto un messaggio tramite la porta speciale, **MIG** viene utilizzato per inviare ogni funzione alla funzione che sta chiamando. Le funzioni principali sono state invertite e spiegate all'interno del libro.
 
 ## Provisioning Profiles
 
@@ -115,7 +115,7 @@ Sebbene a volte siano chiamati certificati, questi profili di provisioning hanno
 * **Name**: Il Nome dell'Applicazione, lo stesso di AppIDName
 * **ProvisionedDevices**: Un array (per certificati di sviluppatore) di UDID per cui questo profilo è valido
 * **ProvisionsAllDevices**: Un booleano (true per certificati aziendali)
-* **TeamIdentifier**: Un array di (di solito uno) stringhe alfanumeriche utilizzate per identificare lo sviluppatore per scopi di interazione tra app
+* **TeamIdentifier**: Un array di (di solito uno) stringa alfanumerica utilizzata per identificare lo sviluppatore per scopi di interazione tra app
 * **TeamName**: Un nome leggibile dall'uomo utilizzato per identificare lo sviluppatore
 * **TimeToLive**: Validità (in giorni) del certificato
 * **UUID**: Un Identificatore Universale Unico per questo profilo

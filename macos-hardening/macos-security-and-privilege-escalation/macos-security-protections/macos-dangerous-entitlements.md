@@ -43,7 +43,7 @@ Le app con l'autorizzazione Debugging Tool possono chiamare `task_for_pid()` per
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Questa autorizzazione consente di **caricare framework, plug-in o librerie senza essere firmati da Apple o firmati con lo stesso Team ID** dell'eseguibile principale, quindi un attaccante potrebbe abusare di un caricamento arbitrario di librerie per iniettare codice. Controlla [**questo per maggiori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Questa autorizzazione consente di **caricare framework, plug-in o librerie senza essere né firmati da Apple né firmati con lo stesso Team ID** dell'eseguibile principale, quindi un attaccante potrebbe abusare di un caricamento arbitrario di librerie per iniettare codice. Controlla [**questo per maggiori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -80,11 +80,11 @@ TODO: Non so cosa consenta di fare
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: In [**questo report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **si menziona che questo potrebbe essere utilizzato per** aggiornare i contenuti protetti da SSV dopo un riavvio. Se sai come farlo invia un PR per favore!
+TODO: In [**questo report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **si menziona che questo potrebbe essere utilizzato per** aggiornare i contenuti protetti da SSV dopo un riavvio. Se sai come farlo invia una PR per favore!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: In [**questo report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **si menziona che questo potrebbe essere utilizzato per** aggiornare i contenuti protetti da SSV dopo un riavvio. Se sai come farlo invia un PR per favore!
+TODO: In [**questo report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **si menziona che questo potrebbe essere utilizzato per** aggiornare i contenuti protetti da SSV dopo un riavvio. Se sai come farlo invia una PR per favore!
 
 ### `keychain-access-groups`
 
@@ -119,11 +119,11 @@ O farli eseguire **azioni arbitrarie**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Consente, tra le altre autorizzazioni, di **scrivere nel database TCC degli utenti**.
+Consente, tra le altre autorizzazioni, di **scrivere il database TCC degli utenti**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Consente di **cambiare** l'attributo **`NFSHomeDirectory`** di un utente che modifica il percorso della sua cartella home e quindi consente di **bypassare TCC**.
+Consente di **cambiare** l'attributo **`NFSHomeDirectory`** di un utente che cambia il percorso della sua cartella home e quindi consente di **bypassare TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
@@ -145,10 +145,10 @@ Questa autorizzazione consente di **creare memoria che è scrivibile ed eseguibi
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Questa autorizzazione consente di **sovrascrivere o patchare codice C**, utilizzare il **`NSCreateObjectFileImageFromMemory`** ormai obsoleto (che è fondamentalmente insicuro), o utilizzare il framework **DVDPlayback**. Controlla [**questo per maggiori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Questa autorizzazione consente di **sovrascrivere o patchare codice C**, utilizzare il deprecato **`NSCreateObjectFileImageFromMemory`** (che è fondamentalmente insicuro) o utilizzare il framework **DVDPlayback**. Controlla [**questo per maggiori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Includere questa autorizzazione espone la tua app a vulnerabilità comuni nei linguaggi di codice non sicuri in memoria. Considera attentamente se la tua app ha bisogno di questa eccezione.
+Includere questa autorizzazione espone la tua app a vulnerabilità comuni nei linguaggi di programmazione non sicuri in memoria. Considera attentamente se la tua app ha bisogno di questa eccezione.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -169,7 +169,7 @@ Questa autorizzazione consente di montare un file system nullfs (vietato per imp
 
 ### `kTCCServiceAll`
 
-Secondo questo post del blog, questo permesso TCC di solito si trova nella forma:
+Secondo questo post del blog, questo permesso TCC si trova solitamente nella forma:
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]

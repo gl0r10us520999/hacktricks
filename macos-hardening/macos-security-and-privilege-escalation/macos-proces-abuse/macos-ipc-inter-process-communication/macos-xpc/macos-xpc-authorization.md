@@ -50,7 +50,7 @@ Per ulteriori informazioni su come configurare correttamente questo controllo:
 
 Tuttavia, c'è una **autorizzazione in corso quando viene chiamato un metodo dal HelperTool**.
 
-La funzione **`applicationDidFinishLaunching`** da `App/AppDelegate.m` creerà un riferimento di autorizzazione vuoto dopo che l'app è stata avviata. Questo dovrebbe sempre funzionare.\
+La funzione **`applicationDidFinishLaunching`** di `App/AppDelegate.m` creerà un riferimento di autorizzazione vuoto dopo che l'app è stata avviata. Questo dovrebbe sempre funzionare.\
 Poi, cercherà di **aggiungere alcuni diritti** a quel riferimento di autorizzazione chiamando `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -193,7 +193,7 @@ Ci sono diversi ambiti per indicare chi può accedere a un diritto. Alcuni di es
 
 ### Verifica dei Diritti
 
-In `HelperTool/HelperTool.m` la funzione **`readLicenseKeyAuthorization`** controlla se il chiamante è autorizzato a **eseguire tale metodo** chiamando la funzione **`checkAuthorization`**. Questa funzione verificherà che i **authData** inviati dal processo chiamante abbiano un **formato corretto** e poi controllerà **cosa è necessario per ottenere il diritto** di chiamare il metodo specifico. Se tutto va bene, l'**errore restituito sarà `nil`**:
+In `HelperTool/HelperTool.m` la funzione **`readLicenseKeyAuthorization`** controlla se il chiamante è autorizzato a **eseguire tale metodo** chiamando la funzione **`checkAuthorization`**. Questa funzione verificherà che i **authData** inviati dal processo chiamante abbiano un **formato corretto** e poi controllerà **cosa è necessario per ottenere il diritto** di chiamare il metodo specifico. Se tutto va bene, l'**`errore` restituito sarà `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -262,10 +262,10 @@ security authorizationdb read com.apple.safaridriver.allow
 Puoi trovare **tutte le configurazioni dei permessi** [**qui**](https://www.dssw.co.uk/reference/authorization-rights/), ma le combinazioni che non richiederanno interazione da parte dell'utente sarebbero:
 
 1. **'authenticate-user': 'false'**
-* Questa è la chiave più diretta. Se impostata su `false`, specifica che un utente non ha bisogno di fornire autenticazione per ottenere questo diritto.
-* Questo viene utilizzato in **combinazione con una delle 2 sotto o indicando un gruppo** a cui l'utente deve appartenere.
+* Questa è la chiave più diretta. Se impostata su `false`, specifica che un utente non deve fornire autenticazione per ottenere questo diritto.
+* Questo viene utilizzato **in combinazione con una delle 2 sotto o indicando un gruppo** a cui l'utente deve appartenere.
 2. **'allow-root': 'true'**
-* Se un utente opera come utente root (che ha permessi elevati), e questa chiave è impostata su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, ottenere lo stato di utente root richiede già autenticazione, quindi questo non è uno scenario di "nessuna autenticazione" per la maggior parte degli utenti.
+* Se un utente opera come utente root (che ha permessi elevati), e questa chiave è impostata su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, in genere, ottenere lo stato di utente root richiede già autenticazione, quindi questo non è uno scenario di "nessuna autenticazione" per la maggior parte degli utenti.
 3. **'session-owner': 'true'**
 * Se impostata su `true`, il proprietario della sessione (l'utente attualmente connesso) otterrebbe automaticamente questo diritto. Questo potrebbe bypassare ulteriori autenticazioni se l'utente è già connesso.
 4. **'shared': 'true'**
@@ -431,8 +431,8 @@ NSLog(@"Finished!");
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -440,7 +440,7 @@ Impara e pratica GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png"
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

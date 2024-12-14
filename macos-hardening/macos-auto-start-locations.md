@@ -20,7 +20,7 @@ Questa sezione si basa fortemente sulla serie di blog [**Beyond the good ol' Lau
 ## Sandbox Bypass
 
 {% hint style="success" %}
-Qui puoi trovare posizioni di avvio utili per **sandbox bypass** che ti consentono di eseguire semplicemente qualcosa **scrivendolo in un file** e **aspettando** un'azione **molto comune**, un **determinato intervallo di tempo** o un'**azione che di solito puoi eseguire** dall'interno di una sandbox senza necessitare di permessi di root.
+Qui puoi trovare posizioni di avvio utili per il **sandbox bypass** che ti consente di eseguire semplicemente qualcosa **scrivendolo in un file** e **aspettando** un'azione **molto comune**, una **determinata quantità di tempo** o un'**azione che di solito puoi eseguire** dall'interno di una sandbox senza necessitare di permessi di root.
 {% endhint %}
 
 ### Launchd
@@ -87,13 +87,13 @@ La **principale differenza tra agenti e demoni è che gli agenti vengono caricat
 </dict>
 </plist>
 ```
-Ci sono casi in cui un **agente deve essere eseguito prima che l'utente acceda**, questi sono chiamati **PreLoginAgents**. Ad esempio, questo è utile per fornire tecnologia assistiva al login. Possono essere trovati anche in `/Library/LaunchAgents` (vedi [**qui**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un esempio).
+Ci sono casi in cui un **agente deve essere eseguito prima che l'utente effettui il login**, questi sono chiamati **PreLoginAgents**. Ad esempio, questo è utile per fornire tecnologia assistiva al login. Possono essere trovati anche in `/Library/LaunchAgents` (vedi [**qui**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un esempio).
 
 {% hint style="info" %}
 Nuovi file di configurazione Daemons o Agents saranno **caricati dopo il prossimo riavvio o usando** `launchctl load <target.plist>` È **anche possibile caricare file .plist senza quell'estensione** con `launchctl -F <file>` (tuttavia quei file plist non verranno caricati automaticamente dopo il riavvio).\
-È anche possibile **scaricare** con `launchctl unload <target.plist>` (il processo indicato da esso verrà terminato),
+È anche possibile **scaricare** con `launchctl unload <target.plist>` (il processo indicato da esso sarà terminato),
 
-Per **assicurarti** che non ci sia **niente** (come un override) **che impedisca** a un **Agente** o **Daemon** **di** **funzionare**, esegui: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
+Per **assicurarsi** che non ci sia **niente** (come un override) **che impedisca** a un **Agente** o **Daemon** **di** **funzionare** eseguire: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
 {% endhint %}
 
 Elenca tutti gli agenti e i demoni caricati dall'utente corrente:
@@ -106,7 +106,7 @@ Se un plist è di proprietà di un utente, anche se si trova in una cartella di 
 
 #### Maggiori informazioni su launchd
 
-**`launchd`** è il **primo** processo in modalità utente che viene avviato dal **kernel**. L'avvio del processo deve essere **riuscito** e **non può uscire o andare in crash**. È anche **protetto** contro alcuni **segnali di terminazione**.
+**`launchd`** è il **primo** processo in modalità utente che viene avviato dal **kernel**. L'avvio del processo deve essere **riuscito** e **non può uscire o bloccarsi**. È anche **protetto** contro alcuni **segnali di terminazione**.
 
 Una delle prime cose che `launchd` farebbe è **avviare** tutti i **daemon** come:
 
@@ -172,7 +172,7 @@ Configurare lo sfruttamento indicato e disconnettersi e riconnettersi o anche ri
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
 
-* Utile per bypassare il sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile per bypassare la sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Posizione
@@ -254,20 +254,20 @@ Puoi aggiungere questo dalla cli con:
 ```
 {% endcode %}
 
-### Terminal Scripts / Altre estensioni di file
+### Script di Terminale / Altre estensioni di file
 
 * Utile per bypassare il sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Bypass TCC: [✅](https://emojipedia.org/check-mark-button)
-* Uso del Terminal per avere i permessi FDA dell'utente che lo utilizza
+* Uso del Terminal per avere permessi FDA dell'utente che lo utilizza
 
 #### Posizione
 
 * **Ovunque**
-* **Attivatore**: Apri Terminal
+* **Attivatore**: Apri Terminale
 
 #### Descrizione & Sfruttamento
 
-Se crei uno [**`.terminal`** script](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) e lo apri, l'**applicazione Terminal** verrà automaticamente invocata per eseguire i comandi indicati lì. Se l'app Terminal ha alcuni privilegi speciali (come TCC), il tuo comando verrà eseguito con quei privilegi speciali.
+Se crei uno [**`.terminal`** script](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) e lo apri, l'**applicazione Terminale** verrà automaticamente invocata per eseguire i comandi indicati lì. Se l'app Terminale ha alcuni privilegi speciali (come TCC), il tuo comando verrà eseguito con quei privilegi speciali.
 
 Provalo con:
 ```bash
@@ -534,11 +534,11 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 #### Posizione
 
 * **`~/Library/Application\ Support/xbar/plugins/`**
-* **Attivazione**: Una volta eseguito xbar
+* **Attivazione**: Una volta che xbar è eseguito
 
 #### Descrizione
 
-Se il popolare programma [**xbar**](https://github.com/matryer/xbar) è installato, è possibile scrivere uno script shell in **`~/Library/Application\ Support/xbar/plugins/`** che verrà eseguito all'avvio di xbar:
+Se il popolare programma [**xbar**](https://github.com/matryer/xbar) è installato, è possibile scrivere uno script shell in **`~/Library/Application\ Support/xbar/plugins/`** che verrà eseguito quando xbar viene avviato:
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -748,7 +748,7 @@ Il nome del file contiene la coda, il numero del lavoro e l'orario programmato p
 * `0001a` - numero del lavoro in esadecimale, `0x1a = 26`
 * `019bdcd2` - tempo in esadecimale. Rappresenta i minuti trascorsi dall'epoca. `0x019bdcd2` è `26991826` in decimale. Se lo moltiplichiamo per 60 otteniamo `1619509560`, che è `GMT: 27 aprile 2021, martedì 7:46:00`.
 
-Se stampiamo il file del lavoro, scopriamo che contiene le stesse informazioni ottenute usando `at -c`.
+Se stampiamo il file del lavoro, scopriamo che contiene le stesse informazioni ottenute utilizzando `at -c`.
 
 ### Azioni della cartella
 
@@ -763,12 +763,12 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 #### Posizione
 
 * **`/Library/Scripts/Folder Action Scripts`**
-* Richiesta root
+* Richiesta di root
 * **Attivazione**: Accesso alla cartella specificata
 * **`~/Library/Scripts/Folder Action Scripts`**
 * **Attivazione**: Accesso alla cartella specificata
 
-#### Descrizione e sfruttamento
+#### Descrizione & Sfruttamento
 
 Le Azioni della cartella sono script attivati automaticamente da modifiche in una cartella, come l'aggiunta, la rimozione di elementi o altre azioni come l'apertura o il ridimensionamento della finestra della cartella. Queste azioni possono essere utilizzate per vari compiti e possono essere attivate in modi diversi, come utilizzando l'interfaccia Finder o comandi del terminale.
 
@@ -776,10 +776,10 @@ Per impostare le Azioni della cartella, hai opzioni come:
 
 1. Creare un flusso di lavoro per le Azioni della cartella con [Automator](https://support.apple.com/guide/automator/welcome/mac) e installarlo come servizio.
 2. Allegare uno script manualmente tramite la Configurazione delle Azioni della cartella nel menu contestuale di una cartella.
-3. Utilizzare OSAScript per inviare messaggi Apple Event all'`System Events.app` per impostare programmaticamente un'Azioni della cartella.
+3. Utilizzare OSAScript per inviare messaggi Apple Event a `System Events.app` per impostare programmaticamente un'Azione della cartella.
 * Questo metodo è particolarmente utile per incorporare l'azione nel sistema, offrendo un livello di persistenza.
 
-Il seguente script è un esempio di ciò che può essere eseguito da un'Azioni della cartella:
+Il seguente script è un esempio di ciò che può essere eseguito da un'Azione della cartella:
 ```applescript
 // source.js
 var app = Application.currentApplication();
@@ -848,7 +848,7 @@ Ora, proviamo a preparare questa persistenza senza accesso GUI:
 Ora che abbiamo un ambiente vuoto
 
 3. Copia il file di backup: `cp /tmp/com.apple.FolderActionsDispatcher.plist ~/Library/Preferences/`
-4. Apri Folder Actions Setup.app per consumare questa configurazione: `open "/System/Library/CoreServices/Applications/Folder Actions Setup.app/"`
+4. Apri l'app Folder Actions Setup.app per consumare questa configurazione: `open "/System/Library/CoreServices/Applications/Folder Actions Setup.app/"`
 
 {% hint style="danger" %}
 E questo non ha funzionato per me, ma queste sono le istruzioni del documento:(
@@ -883,7 +883,7 @@ killall Dock
 ```
 {% endcode %}
 
-Utilizzando un po' di **social engineering** potresti **fingere ad esempio Google Chrome** all'interno del dock ed eseguire effettivamente il tuo script:
+Utilizzando un po' di **ingegneria sociale** potresti **fingere ad esempio Google Chrome** all'interno del dock ed eseguire effettivamente il tuo script:
 ```bash
 #!/bin/sh
 
@@ -1033,7 +1033,7 @@ Timestamp                       (process)[PID]
 {% endcode %}
 
 {% hint style="danger" %}
-Nota che, poiché all'interno dei diritti del binario che carica questo codice (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) puoi trovare **`com.apple.security.app-sandbox`**, sarai **all'interno del comune sandbox dell'applicazione**.
+Nota che all'interno dei diritti del binario che carica questo codice (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) puoi trovare **`com.apple.security.app-sandbox`** quindi sarai **all'interno del comune sandbox dell'applicazione**.
 {% endhint %}
 
 Saver code:
@@ -1130,7 +1130,7 @@ writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.
 Spotlight è la funzione di ricerca integrata di macOS, progettata per fornire agli utenti **accesso rapido e completo ai dati sui loro computer**.\
 Per facilitare questa capacità di ricerca rapida, Spotlight mantiene un **database proprietario** e crea un indice **analizzando la maggior parte dei file**, consentendo ricerche rapide sia attraverso i nomi dei file che il loro contenuto.
 
-Il meccanismo sottostante di Spotlight coinvolge un processo centrale chiamato 'mds', che sta per **'metadata server'.** Questo processo orchestra l'intero servizio Spotlight. A complemento di questo, ci sono più demoni 'mdworker' che eseguono una varietà di compiti di manutenzione, come indicizzare diversi tipi di file (`ps -ef | grep mdworker`). Questi compiti sono resi possibili attraverso i plugin importatori di Spotlight, o **".mdimporter bundles**", che consentono a Spotlight di comprendere e indicizzare contenuti attraverso una vasta gamma di formati di file.
+Il meccanismo sottostante di Spotlight coinvolge un processo centrale chiamato 'mds', che sta per **'metadata server'.** Questo processo orchestra l'intero servizio Spotlight. A complemento di questo, ci sono più demoni 'mdworker' che eseguono una varietà di compiti di manutenzione, come indicizzare diversi tipi di file (`ps -ef | grep mdworker`). Questi compiti sono resi possibili attraverso i plugin importatori di Spotlight, o **".mdimporter bundles"**, che consentono a Spotlight di comprendere e indicizzare contenuti attraverso una vasta gamma di formati di file.
 
 I plugin o **`.mdimporter`** bundles si trovano nei luoghi menzionati in precedenza e se appare un nuovo bundle viene caricato in un minuto (non è necessario riavviare alcun servizio). Questi bundle devono indicare quali **tipi di file e estensioni possono gestire**, in questo modo, Spotlight li utilizzerà quando viene creato un nuovo file con l'estensione indicata.
 
@@ -1143,7 +1143,7 @@ Paths: id(501) (
 "/System/Library/Spotlight/PDF.mdimporter",
 [...]
 ```
-E per esempio **/Library/Spotlight/iBooksAuthor.mdimporter** è utilizzato per analizzare questi tipi di file (estensioni `.iba` e `.book` tra gli altri):
+E per esempio **/Library/Spotlight/iBooksAuthor.mdimporter** è usato per analizzare questi tipi di file (estensioni `.iba` e `.book` tra gli altri):
 ```json
 plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 
@@ -1215,7 +1215,7 @@ Non sembra che questo funzioni più.
 ## Bypass del Sandbox di Root
 
 {% hint style="success" %}
-Qui puoi trovare posizioni di avvio utili per il **bypass del sandbox** che ti consente di eseguire semplicemente qualcosa **scrivendolo in un file** essendo **root** e/o richiedendo altre **condizioni strane.**
+Qui puoi trovare le posizioni di avvio utili per il **bypass del sandbox** che ti consente di eseguire semplicemente qualcosa **scrivendolo in un file** essendo **root** e/o richiedendo altre **condizioni strane.**
 {% endhint %}
 
 ### Periodico
@@ -1287,8 +1287,8 @@ Nota che lo script periodico verrà **eseguito come il proprietario dello script
 
 ### PAM
 
-Writeup: [Linux Hacktricks PAM](../linux-hardening/linux-post-exploitation/pam-pluggable-authentication-modules.md)\
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.github.io/beyond/beyond\_0005/)
+Scrittura: [Linux Hacktricks PAM](../linux-hardening/linux-post-exploitation/pam-pluggable-authentication-modules.md)\
+Scrittura: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.github.io/beyond/beyond\_0005/)
 
 * Utile per bypassare la sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Ma devi essere root
@@ -1300,7 +1300,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.
 
 #### Descrizione & Sfruttamento
 
-Poiché PAM è più focalizzato sulla **persistenza** e sul malware che su una facile esecuzione all'interno di macOS, questo blog non fornirà una spiegazione dettagliata, **leggi i writeup per comprendere meglio questa tecnica**.
+Poiché PAM è più focalizzato su **persistenza** e malware che su una facile esecuzione all'interno di macOS, questo blog non fornirà una spiegazione dettagliata, **leggi le scritture per comprendere meglio questa tecnica**.
 
 Controlla i moduli PAM con:
 ```bash
@@ -1417,7 +1417,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.
 
 #### Descrizione & Exploit
 
-Il file di configurazione **`/private/etc/man.conf`** indica il binario/script da utilizzare quando si aprono i file di documentazione man. Quindi il percorso dell'eseguibile potrebbe essere modificato in modo che ogni volta che l'utente usa man per leggere della documentazione, venga eseguita una backdoor.
+Il file di configurazione **`/private/etc/man.conf`** indica il binario/script da utilizzare quando si aprono i file di documentazione man. Quindi il percorso dell'eseguibile potrebbe essere modificato in modo che ogni volta che l'utente usa man per leggere della documentazione venga eseguita una backdoor.
 
 Ad esempio impostato in **`/private/etc/man.conf`**:
 ```
@@ -1478,14 +1478,14 @@ syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.github.io/beyond/beyond\_0031/)
 
-* Utile per bypassare la sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-* Ma è necessario essere root, auditd deve essere in esecuzione e causare un avviso
+* Utile per bypassare il sandbox: [🟠](https://emojipedia.org/large-orange-circle)
+* Ma hai bisogno di essere root, auditd deve essere in esecuzione e causare un avviso
 * Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Location
 
 * **`/etc/security/audit_warn`**
-* Richiesta di root
+* Richiesta root
 * **Trigger**: Quando auditd rileva un avviso
 
 #### Description & Exploit
@@ -1561,7 +1561,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.
 
 Introdotto da Apple, **emond** è un meccanismo di registrazione che sembra essere poco sviluppato o possibilmente abbandonato, eppure rimane accessibile. Sebbene non sia particolarmente utile per un amministratore Mac, questo servizio oscuro potrebbe servire come un metodo di persistenza sottile per gli attori delle minacce, probabilmente inosservato dalla maggior parte degli amministratori macOS.
 
-Per coloro che sono a conoscenza della sua esistenza, identificare qualsiasi uso malevolo di **emond** è semplice. Il LaunchDaemon del sistema per questo servizio cerca script da eseguire in una singola directory. Per ispezionare questo, si può utilizzare il seguente comando:
+Per coloro che sono a conoscenza della sua esistenza, identificare qualsiasi uso malevolo di **emond** è semplice. Il LaunchDaemon di sistema per questo servizio cerca script da eseguire in una singola directory. Per ispezionare questo, si può utilizzare il seguente comando:
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1582,7 +1582,7 @@ XQuartz **non è più installato in macOS**, quindi se vuoi ulteriori informazio
 ### ~~kext~~
 
 {% hint style="danger" %}
-È così complicato installare kext anche come root che non lo considererò per sfuggire dalle sandbox o anche per la persistenza (a meno che tu non abbia un exploit)
+È così complicato installare kext anche come root che non lo considererò per sfuggire alle sandbox o anche per la persistenza (a meno che tu non abbia un exploit)
 {% endhint %}
 
 #### Location
@@ -1613,9 +1613,9 @@ Scrittura: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbi
 * **`/usr/local/bin/amstoold`**
 * Richiesta di root
 
-#### Descrizione e sfruttamento
+#### Descrizione & Sfruttamento
 
-A quanto pare il `plist` di `/System/Library/LaunchAgents/com.apple.amstoold.plist` stava utilizzando questo binario mentre esponeva un servizio XPC... il problema è che il binario non esisteva, quindi potevi posizionare qualcosa lì e quando il servizio XPC veniva chiamato, il tuo binario sarebbe stato chiamato.
+A quanto pare il `plist` di `/System/Library/LaunchAgents/com.apple.amstoold.plist` stava usando questo binario mentre esponeva un servizio XPC... il problema è che il binario non esisteva, quindi potevi posizionare qualcosa lì e quando il servizio XPC veniva chiamato, il tuo binario sarebbe stato chiamato.
 
 Non riesco più a trovare questo nel mio macOS.
 
@@ -1629,7 +1629,7 @@ Scrittura: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbi
 * Richiesta di root
 * **Attivazione**: Quando il servizio viene eseguito (raramente)
 
-#### Descrizione e sfruttamento
+#### Descrizione & sfruttamento
 
 A quanto pare non è molto comune eseguire questo script e non sono riuscito nemmeno a trovarlo nel mio macOS, quindi se vuoi ulteriori informazioni controlla la scrittura.
 
@@ -1738,8 +1738,8 @@ esac
 * [https://github.com/D00MFist/PersistentJXA](https://github.com/D00MFist/PersistentJXA)
 
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

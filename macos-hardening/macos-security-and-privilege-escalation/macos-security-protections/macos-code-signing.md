@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## Basic Information
 
-I file Mach-o contengono un comando di caricamento chiamato **`LC_CODE_SIGNATURE`** che indica l'**offset** e la **dimensione** delle firme all'interno del binario. In realtà, utilizzando lo strumento GUI MachOView, è possibile trovare alla fine del binario una sezione chiamata **Code Signature** con queste informazioni:
+I file Mach-o contengono un comando di caricamento chiamato **`LC_CODE_SIGNATURE`** che indica l'**offset** e la **dimensione** delle firme all'interno del file binario. In realtà, utilizzando lo strumento GUI MachOView, è possibile trovare alla fine del file binario una sezione chiamata **Code Signature** con queste informazioni:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="431"><figcaption></figcaption></figure>
 
@@ -118,8 +118,8 @@ Nota che ci sono diverse versioni di questa struct dove quelle vecchie potrebber
 
 ## Pagine di Firma del Codice
 
-Hashare il binario completo sarebbe inefficiente e persino inutile se viene caricato in memoria solo parzialmente. Pertanto, la firma del codice è in realtà un hash di hash dove ogni pagina binaria è hashata individualmente.\
-In effetti, nel precedente codice **Code Directory** puoi vedere che **la dimensione della pagina è specificata** in uno dei suoi campi. Inoltre, se la dimensione del binario non è un multiplo della dimensione di una pagina, il campo **CodeLimit** specifica dove si trova la fine della firma.
+Hashare l'intero binario sarebbe inefficiente e persino inutile se viene caricato in memoria solo parzialmente. Pertanto, la firma del codice è in realtà un hash di hash dove ogni pagina binaria è hashata individualmente.\
+In realtà, nel precedente codice **Code Directory** puoi vedere che la **dimensione della pagina è specificata** in uno dei suoi campi. Inoltre, se la dimensione del binario non è un multiplo della dimensione di una pagina, il campo **CodeLimit** specifica dove si trova la fine della firma.
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -157,7 +157,7 @@ openssl sha256 /tmp/*.page.*
 ```
 ## Entitlements Blob
 
-Nota che le applicazioni potrebbero contenere anche un **entitlement blob** dove sono definiti tutti i diritti. Inoltre, alcuni binari iOS potrebbero avere i loro diritti specifici nello slot speciale -7 (invece che nello slot speciale -5 dei diritti).
+Nota che le applicazioni potrebbero contenere anche un **entitlement blob** dove sono definiti tutti gli entitlement. Inoltre, alcuni binari iOS potrebbero avere i loro entitlement specifici nello slot speciale -7 (invece che nello slot speciale -5 degli entitlement).
 
 ## Special Slots
 
@@ -169,9 +169,9 @@ In realtà, è possibile vedere nelle strutture del Code Directory un parametro 
 * Hash dei Requisiti
 * Hash della Directory delle Risorse (hash del file `_CodeSignature/CodeResources` all'interno del bundle).
 * Specifico per l'applicazione (non utilizzato)
-* Hash dei diritti
+* Hash degli entitlement
 * Solo firme di codice DMG
-* Diritti DER
+* Entitlements DER
 
 ## Code Signing Flags
 
@@ -220,7 +220,7 @@ CS_RESTRICT | CS_ENFORCEMENT | CS_REQUIRE_LV | CS_RUNTIME | CS_LINKER_SIGNED)
 
 #define CS_ENTITLEMENT_FLAGS        (CS_GET_TASK_ALLOW | CS_INSTALLER | CS_DATAVAULT_CONTROLLER | CS_NVRAM_UNRESTRICTED)
 ```
-Nota che la funzione [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) può anche aggiungere i flag `CS_EXEC_*` dinamicamente all'avvio dell'esecuzione.
+Nota che la funzione [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) può anche aggiungere dinamicamente i flag `CS_EXEC_*` all'avvio dell'esecuzione.
 
 ## Requisiti di Firma del Codice
 
@@ -273,9 +273,9 @@ od -A x -t x1 /tmp/output.csreq
 #### **Creazione e Gestione dei Requisiti di Codice**
 
 * **`SecRequirementCreateWithData`:** Crea un `SecRequirementRef` da dati binari che rappresentano il requisito.
-* **`SecRequirementCreateWithString`:** Crea un `SecRequirementRef` da un'espressione stringa del requisito.
+* **`SecRequirementCreateWithString`:** Crea un `SecRequirementRef` da un'espressione di stringa del requisito.
 * **`SecRequirementCopy[Data/String]`**: Recupera la rappresentazione dei dati binari di un `SecRequirementRef`.
-* **`SecRequirementCreateGroup`**: Crea un requisito per l'appartenenza a un gruppo di app.
+* **`SecRequirementCreateGroup`**: Crea un requisito per l'appartenenza al gruppo di app.
 
 #### **Accesso alle Informazioni di Firma del Codice**
 
@@ -312,7 +312,7 @@ Il **kernel** è quello che **controlla la firma del codice** prima di consentir
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) la struct contiene le informazioni sui diritti dell'entitlement del processo in esecuzione su di esso. `csb_platform_binary` informa anche se l'applicazione è un binario di piattaforma (che viene controllato in momenti diversi dal sistema operativo per applicare meccanismi di sicurezza come proteggere i diritti SEND alle porte di task di questi processi).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) la struttura contiene le informazioni sui diritti dell'entitlement del processo in esecuzione su di esso. `csb_platform_binary` informa anche se l'applicazione è un binario di piattaforma (che viene controllato in momenti diversi dal sistema operativo per applicare meccanismi di sicurezza come proteggere i diritti SEND ai porti di task di questi processi).
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;
@@ -376,8 +376,8 @@ bool csb_csm_managed;
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -385,7 +385,7 @@ Impara e pratica Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
 {% endhint %}

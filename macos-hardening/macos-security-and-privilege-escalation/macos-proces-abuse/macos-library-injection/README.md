@@ -1,8 +1,8 @@
 # macOS Library Injection
 
 {% hint style="success" %}
-Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
@@ -72,15 +72,15 @@ Trova un esempio su come (ab)usare questo e controlla le restrizioni in:
 ## Dylib Hijacking
 
 {% hint style="danger" %}
-Ricorda che **le restrizioni di Validazione della Libreria precedenti si applicano anche** per eseguire attacchi di Dylib hijacking.
+Ricorda che **le precedenti restrizioni sulla validazione delle librerie si applicano anche** per eseguire attacchi di Dylib hijacking.
 {% endhint %}
 
 Come in Windows, anche in MacOS puoi **hijackare dylibs** per far **eseguire** **codice** **arbitrario** alle **applicazioni** (beh, in realtà da un utente normale questo potrebbe non essere possibile poiché potresti aver bisogno di un permesso TCC per scrivere all'interno di un pacchetto `.app` e hijackare una libreria).\
 Tuttavia, il modo in cui le applicazioni **MacOS** **caricano** le librerie è **più ristretto** rispetto a Windows. Questo implica che gli sviluppatori di **malware** possono comunque utilizzare questa tecnica per **furtività**, ma la probabilità di poter **abusare di questo per elevare i privilegi è molto più bassa**.
 
-Prima di tutto, è **più comune** trovare che i **binari MacOS indicano il percorso completo** alle librerie da caricare. E in secondo luogo, **MacOS non cerca mai** nelle cartelle del **$PATH** per le librerie.
+Prima di tutto, è **più comune** trovare che i **binari MacOS indicano il percorso completo** alle librerie da caricare. E secondo, **MacOS non cerca mai** nelle cartelle del **$PATH** per le librerie.
 
-La parte **principale** del **codice** relativa a questa funzionalità si trova in **`ImageLoader::recursiveLoadLibraries`** in `ImageLoader.cpp`.
+La **parte principale** del **codice** relativa a questa funzionalità si trova in **`ImageLoader::recursiveLoadLibraries`** in `ImageLoader.cpp`.
 
 Ci sono **4 diversi comandi header** che un binario macho può utilizzare per caricare librerie:
 
@@ -106,8 +106,8 @@ compatibility version 1.0.0
 * **Configurato con @rpath**: I binari Mach-O possono avere i comandi **`LC_RPATH`** e **`LC_LOAD_DYLIB`**. Basato sui **valori** di quei comandi, le **librerie** verranno **caricate** da **diverse directory**.
 * **`LC_RPATH`** contiene i percorsi di alcune cartelle utilizzate per caricare librerie dal binario.
 * **`LC_LOAD_DYLIB`** contiene il percorso a librerie specifiche da caricare. Questi percorsi possono contenere **`@rpath`**, che verrà **sostituito** dai valori in **`LC_RPATH`**. Se ci sono più percorsi in **`LC_RPATH`**, tutti verranno utilizzati per cercare la libreria da caricare. Esempio:
-* Se **`LC_LOAD_DYLIB`** contiene `@rpath/library.dylib` e **`LC_RPATH`** contiene `/application/app.app/Contents/Framework/v1/` e `/application/app.app/Contents/Framework/v2/`. Entrambe le cartelle verranno utilizzate per caricare `library.dylib`**.** Se la libreria non esiste in `[...]/v1/` e l'attaccante potrebbe posizionarla lì per hijackare il caricamento della libreria in `[...]/v2/` poiché l'ordine dei percorsi in **`LC_LOAD_DYLIB`** è seguito.
-* **Trova percorsi e librerie rpath** nei binari con: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
+* Se **`LC_LOAD_DYLIB`** contiene `@rpath/library.dylib` e **`LC_RPATH`** contiene `/application/app.app/Contents/Framework/v1/` e `/application/app.app/Contents/Framework/v2/`. Entrambe le cartelle verranno utilizzate per caricare `library.dylib`**.** Se la libreria non esiste in `[...]/v1/` e l'attaccante potrebbe posizionarla lì per hijackare il caricamento della libreria in `[...]/v2/` poiché l'ordine dei percorsi in **`LC_LOAD_DYLIB`** viene seguito.
+* **Trova percorsi rpath e librerie** nei binari con: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
 **`@executable_path`**: È il **percorso** alla directory contenente il **file eseguibile principale**.
@@ -134,12 +134,12 @@ Un bel **report con dettagli tecnici** su questa tecnica può essere trovato [**
 ## Dlopen Hijacking
 
 {% hint style="danger" %}
-Ricorda che **le restrizioni di Validazione della Libreria precedenti si applicano anche** per eseguire attacchi di Dlopen hijacking.
+Ricorda che **le precedenti restrizioni sulla validazione delle librerie si applicano anche** per eseguire attacchi di Dlopen hijacking.
 {% endhint %}
 
 Da **`man dlopen`**:
 
-* Quando il percorso **non contiene un carattere slash** (cioè è solo un nome foglia), **dlopen() cercherà**. Se **`$DYLD_LIBRARY_PATH`** è stato impostato all'avvio, dyld cercherà prima **in quella directory**. Successivamente, se il file mach-o chiamante o l'eseguibile principale specificano un **`LC_RPATH`**, allora dyld cercherà **in quelle** directory. Successivamente, se il processo è **non ristretto**, dyld cercherà nella **directory di lavoro corrente**. Infine, per i vecchi binari, dyld proverà alcuni fallback. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** è stato impostato all'avvio, dyld cercherà in **quelle directory**, altrimenti, dyld cercherà in **`/usr/local/lib/`** (se il processo è non ristretto), e poi in **`/usr/lib/`** (queste informazioni sono state prese da **`man dlopen`**).
+* Quando il percorso **non contiene un carattere slash** (cioè è solo un nome foglia), **dlopen() cercherà**. Se **`$DYLD_LIBRARY_PATH`** è stato impostato all'avvio, dyld cercherà prima **in quella directory**. Successivamente, se il file mach-o chiamante o l'eseguibile principale specificano un **`LC_RPATH`**, allora dyld cercherà in quelle **directory**. Successivamente, se il processo è **non ristretto**, dyld cercherà nella **directory di lavoro corrente**. Infine, per i vecchi binari, dyld proverà alcuni fallback. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** è stato impostato all'avvio, dyld cercherà in **quelle directory**, altrimenti, dyld cercherà in **`/usr/local/lib/`** (se il processo è non ristretto), e poi in **`/usr/lib/`** (queste informazioni sono state prese da **`man dlopen`**).
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`(se non ristretto)
@@ -167,7 +167,7 @@ Se un percorso di framework, il modo per hijackarlo sarebbe:
 * Se il processo è **non ristretto**, abusando del **percorso relativo dalla CWD** le variabili di ambiente menzionate (anche se non è detto nei documenti se il processo è ristretto le variabili di ambiente DYLD\_\* vengono rimosse)
 {% endhint %}
 
-* Quando il percorso **contiene uno slash ma non è un percorso di framework** (cioè un percorso completo o un percorso parziale a un dylib), dlopen() prima cerca (se impostato) in **`$DYLD_LIBRARY_PATH`** (con la parte foglia dal percorso). Successivamente, dyld **prova il percorso fornito** (utilizzando la directory di lavoro corrente per i percorsi relativi (ma solo per i processi non ristretti)). Infine, per i vecchi binari, dyld proverà fallback. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** è stato impostato all'avvio, dyld cercherà in quelle directory, altrimenti, dyld cercherà in **`/usr/local/lib/`** (se il processo è non ristretto), e poi in **`/usr/lib/`**.
+* Quando il percorso **contiene uno slash ma non è un percorso di framework** (cioè un percorso completo o un percorso parziale a un dylib), dlopen() prima cerca in (se impostato) in **`$DYLD_LIBRARY_PATH`** (con la parte foglia dal percorso). Successivamente, dyld **prova il percorso fornito** (utilizzando la directory di lavoro corrente per i percorsi relativi (ma solo per i processi non ristretti)). Infine, per i vecchi binari, dyld proverà fallback. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** è stato impostato all'avvio, dyld cercherà in quelle directory, altrimenti, dyld cercherà in **`/usr/local/lib/`** (se il processo è non ristretto), e poi in **`/usr/lib/`**.
 1. `$DYLD_LIBRARY_PATH`
 2. percorso fornito (utilizzando la directory di lavoro corrente per i percorsi relativi se non ristretto)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -187,7 +187,7 @@ Nota: Se l'eseguibile principale è un **binario set\[ug]id o firmato con diritt
 
 Nota: Le piattaforme Apple utilizzano file "universali" per combinare librerie a 32 bit e 64 bit. Questo significa che non ci sono **percorsi di ricerca separati per 32 bit e 64 bit**.
 
-Nota: Su piattaforme Apple, la maggior parte dei dylib di sistema sono **combinati nel cache di dyld** e non esistono su disco. Pertanto, chiamare **`stat()`** per preflight se un dylib di sistema esiste **non funzionerà**. Tuttavia, **`dlopen_preflight()`** utilizza gli stessi passaggi di **`dlopen()`** per trovare un file mach-o compatibile.
+Nota: Su piattaforme Apple, la maggior parte dei dylib di sistema sono **combinati nel cache di dyld** e non esistono su disco. Pertanto, chiamare **`stat()`** per verificare se un dylib di sistema esiste **non funzionerà**. Tuttavia, **`dlopen_preflight()`** utilizza gli stessi passaggi di **`dlopen()`** per trovare un file mach-o compatibile.
 {% endhint %}
 
 **Controlla i percorsi**
@@ -288,7 +288,7 @@ gLinkContext.allowInterposing         	 = true;
 ```
 Che significa fondamentalmente che se il binario è **suid** o **sgid**, o ha un segmento **RESTRICT** negli header o è stato firmato con il flag **CS\_RESTRICT**, allora **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** è vero e le variabili di ambiente vengono potate.
 
-Nota che se CS\_REQUIRE\_LV è vero, allora le variabili non verranno potate ma la validazione della libreria controllerà che stiano usando lo stesso certificato del binario originale.
+Nota che se CS\_REQUIRE\_LV è vero, allora le variabili non verranno potate ma la validazione della libreria controllerà che stiano utilizzando lo stesso certificato del binario originale.
 
 ## Controlla le Restrizioni
 

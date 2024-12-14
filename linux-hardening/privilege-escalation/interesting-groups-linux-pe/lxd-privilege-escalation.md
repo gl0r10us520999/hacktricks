@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 Se appartieni al gruppo _**lxd**_ **o** _**lxc**_, puoi diventare root
 
-## Sfruttare senza internet
+## Exploiting senza internet
 
 ### Metodo 1
 
-Puoi installare sulla tua macchina questo costruttore di distribuzioni: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(segui le istruzioni del github):
+Puoi installare sulla tua macchina questo distro builder: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(segui le istruzioni del github):
 ```bash
 sudo su
 # Install requirements
@@ -63,7 +63,7 @@ lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=t
 ```
 {% hint style="danger" %}
 Se trovi questo errore _**Errore: Nessun pool di archiviazione trovato. Si prega di creare un nuovo pool di archiviazione**_\
-Esegui **`lxd init`** e **ripeti** il precedente blocco di comandi
+Esegui **`lxd init`** e **ripeti** il blocco di comandi precedente
 {% endhint %}
 
 Infine puoi eseguire il contenitore e ottenere root:
@@ -104,7 +104,7 @@ Impara e pratica il hacking GCP: <img src="../../../.gitbook/assets/grte.png" al
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
 
 </details>
 {% endhint %}

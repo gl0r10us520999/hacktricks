@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-**Apple Events** sono una funzionalità nel macOS di Apple che consente alle applicazioni di comunicare tra loro. Fanno parte del **Apple Event Manager**, che è un componente del sistema operativo macOS responsabile della gestione della comunicazione interprocesso. Questo sistema consente a un'applicazione di inviare un messaggio a un'altra applicazione per richiedere di eseguire un'operazione particolare, come aprire un file, recuperare dati o eseguire un comando.
+**Apple Events** sono una funzionalità del macOS di Apple che consente alle applicazioni di comunicare tra loro. Fanno parte del **Apple Event Manager**, che è un componente del sistema operativo macOS responsabile della gestione della comunicazione interprocesso. Questo sistema consente a un'applicazione di inviare un messaggio a un'altra applicazione per richiedere di eseguire un'operazione particolare, come aprire un file, recuperare dati o eseguire un comando.
 
-Il daemon mina è `/System/Library/CoreServices/appleeventsd` che registra il servizio `com.apple.coreservices.appleevents`.
+Il daemon principale è `/System/Library/CoreServices/appleeventsd` che registra il servizio `com.apple.coreservices.appleevents`.
 
 Ogni applicazione che può ricevere eventi verificherà con questo daemon fornendo il suo Apple Event Mach Port. E quando un'app vuole inviare un evento a essa, l'app richiederà questo port dal daemon.
 
-Le applicazioni sandboxed richiedono privilegi come `allow appleevent-send` e `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` per poter inviare eventi. Si noti che le autorizzazioni come `com.apple.security.temporary-exception.apple-events` potrebbero limitare chi ha accesso per inviare eventi, il che richiederà autorizzazioni come `com.apple.private.appleevents`.
+Le applicazioni in sandbox richiedono privilegi come `allow appleevent-send` e `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` per poter inviare eventi. Si noti che i diritti come `com.apple.security.temporary-exception.apple-events` potrebbero limitare chi ha accesso per inviare eventi, il che richiederà diritti come `com.apple.private.appleevents`.
 
 {% hint style="success" %}
 It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:

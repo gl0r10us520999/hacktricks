@@ -17,14 +17,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Cosa Influisce
 
-Quando esegui un container come privilegiato, queste sono le protezioni che stai disabilitando:
+Quando esegui un contenitore come privilegiato, queste sono le protezioni che stai disabilitando:
 
 ### Monta /dev
 
-In un container privilegiato, tutti i **dispositivi possono essere accessibili in `/dev/`**. Pertanto puoi **uscire** montando il disco dell'host.
+In un contenitore privilegiato, tutti i **dispositivi possono essere accessibili in `/dev/`**. Pertanto puoi **uscire** montando il disco dell'host.
 
 {% tabs %}
-{% tab title="Dentro il container predefinito" %}
+{% tab title="Dentro il contenitore predefinito" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -33,7 +33,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="Dentro il Contenitore Privilegiato" %}
+{% tab title="Dentro il Container Privilegiato" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -89,7 +89,7 @@ tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
 {% endtab %}
 
-{% tab title="Dentro il Container Privilegiato" %}
+{% tab title="Dentro il Contenitore Privilegiato" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -99,7 +99,7 @@ mount  | grep /proc.*tmpfs
 
 ### Capacità Linux
 
-I motori dei container avviano i container con un **numero limitato di capacità** per controllare cosa avviene all'interno del container per impostazione predefinita. I container **privilegiati** hanno **tutte** le **capacità** accessibili. Per saperne di più sulle capacità, leggi:
+I motori dei container avviano i container con un **numero limitato di capacità** per controllare cosa avviene all'interno del container per impostazione predefinita. I **privilegiati** hanno **tutte** le **capacità** accessibili. Per saperne di più sulle capacità, leggi:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
@@ -149,7 +149,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Dentro il Container Privilegiato" %}
+{% tab title="Dentro il Contenitore Privilegiato" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -162,7 +162,7 @@ Seccomp_filters:	0
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-Inoltre, nota che quando Docker (o altri CRI) vengono utilizzati in un **Kubernetes** cluster, il **seccomp filter è disabilitato per impostazione predefinita**.
+Also, note that when Docker (or other CRIs) are used in a **Kubernetes** cluster, the **seccomp filter is disabled by default**
 
 ### AppArmor
 
@@ -177,7 +177,7 @@ Inoltre, nota che quando Docker (o altri CRI) vengono utilizzati in un **Kuberne
 ```
 ### SELinux
 
-Eseguire un container con il flag `--privileged` disabilita le **etichette SELinux**, facendogli ereditare l'etichetta del motore del container, tipicamente `unconfined`, concedendo accesso completo simile a quello del motore del container. In modalità senza root, utilizza `container_runtime_t`, mentre in modalità root, viene applicato `spc_t`.
+Eseguire un container con il flag `--privileged` disabilita le **etichette SELinux**, causando l'ereditarietà dell'etichetta del motore del container, tipicamente `unconfined`, concedendo accesso completo simile a quello del motore del container. In modalità rootless, utilizza `container_runtime_t`, mentre in modalità root, viene applicato `spc_t`.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -203,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="Contenitore Inside --pid=host" %}
+{% tab title="Contenitore --pid=host" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
@@ -216,11 +216,11 @@ PID   USER     TIME  COMMAND
 {% endtab %}
 {% endtabs %}
 
-### User namespace
+### Spazio dei nomi utente
 
-**Per impostazione predefinita, i motori dei container non utilizzano i namespace utente, tranne che per i container senza root**, che li richiedono per il montaggio del file system e per l'uso di più UID. I namespace utente, fondamentali per i container senza root, non possono essere disabilitati e migliorano significativamente la sicurezza limitando i privilegi.
+**Per impostazione predefinita, i motori dei container non utilizzano gli spazi dei nomi utente, tranne per i container senza privilegi**, che li richiedono per il montaggio del file system e l'uso di più UID. Gli spazi dei nomi utente, fondamentali per i container senza privilegi, non possono essere disabilitati e migliorano significativamente la sicurezza limitando i privilegi.
 
-## References
+## Riferimenti
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 

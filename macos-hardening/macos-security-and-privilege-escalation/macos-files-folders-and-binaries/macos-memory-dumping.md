@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Swap Files
 
-I file di swap, come `/private/var/vm/swapfile0`, servono come **cache quando la memoria fisica è piena**. Quando non c'è più spazio nella memoria fisica, i suoi dati vengono trasferiti a un file di swap e poi riportati nella memoria fisica secondo necessità. Possono essere presenti più file di swap, con nomi come swapfile0, swapfile1, e così via.
+I file di swap, come `/private/var/vm/swapfile0`, servono come **cache quando la memoria fisica è piena**. Quando non c'è più spazio nella memoria fisica, i suoi dati vengono trasferiti in un file di swap e poi riportati nella memoria fisica secondo necessità. Possono essere presenti più file di swap, con nomi come swapfile0, swapfile1, e così via.
 
 ### Hibernate Image
 

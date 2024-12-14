@@ -23,7 +23,7 @@ I file Nib (abbreviazione di NeXT Interface Builder), parte dell'ecosistema di s
 
 Il file Nib principale è referenziato nel valore **`NSMainNibFile`** all'interno del file `Info.plist` dell'applicazione ed è caricato dalla funzione **`NSApplicationMain`** eseguita nella funzione `main` dell'applicazione.
 
-### Processo di Iniezione Dirty Nib
+### Processo di Iniezione del Nib Sporco
 
 #### Creazione e Configurazione di un File NIB
 
@@ -49,7 +49,7 @@ display dialog theDialogText
 * Copia l'app target (ad es., Pages) in una directory separata (ad es., `/tmp/`).
 * Avvia l'app per evitare problemi con Gatekeeper e memorizzarla nella cache.
 2. **Sovrascrittura del File NIB**:
-* Sostituisci un file NIB esistente (ad es., il NIB del Pannello Informazioni) con il file DirtyNIB creato.
+* Sostituisci un file NIB esistente (ad es., NIB del Pannello Informazioni) con il file DirtyNIB creato.
 3. **Esecuzione**:
 * Attiva l'esecuzione interagendo con l'app (ad es., selezionando l'elemento di menu `Informazioni`).
 
@@ -63,7 +63,7 @@ display dialog theDialogText
 
 ### Altro Esempio
 
-Nel post [https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) puoi trovare un tutorial su come creare un dirty nib.&#x20;
+Nel post [https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) puoi trovare un tutorial su come creare un nib sporco.&#x20;
 
 ### Affrontare i Vincoli di Avvio
 
@@ -75,9 +75,9 @@ Nel post [https://sector7.computest.nl/post/2024-04-bringing-process-injection-i
 A partire da macOS Sonoma, le modifiche all'interno dei pacchetti delle app sono limitate. Tuttavia, i metodi precedenti prevedevano:
 
 1. Copiare l'app in un'altra posizione (ad es., `/tmp/`).
-2. Rinominare le directory all'interno del pacchetto dell'app per bypassare le protezioni iniziali.
-3. Dopo aver eseguito l'app per registrarsi con Gatekeeper, modificare il pacchetto dell'app (ad es., sostituendo MainMenu.nib con Dirty.nib).
-4. Rinominare di nuovo le directory e rieseguire l'app per eseguire il file NIB iniettato.
+2. Rinomina le directory all'interno del pacchetto dell'app per bypassare le protezioni iniziali.
+3. Dopo aver eseguito l'app per registrarsi con Gatekeeper, modifica il pacchetto dell'app (ad es., sostituendo MainMenu.nib con Dirty.nib).
+4. Rinomina le directory e riesegui l'app per eseguire il file NIB iniettato.
 
 **Nota**: Gli aggiornamenti recenti di macOS hanno mitigato questo exploit impedendo le modifiche ai file all'interno dei pacchetti delle app dopo la memorizzazione nella cache di Gatekeeper, rendendo l'exploit inefficace.
 

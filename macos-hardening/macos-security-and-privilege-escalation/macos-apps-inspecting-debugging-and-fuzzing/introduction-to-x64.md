@@ -10,14 +10,14 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
 
 ## **Introduzione a x64**
 
-x64, noto anche come x86-64, è un'architettura di processore a 64 bit utilizzata prevalentemente nel computing desktop e server. Originata dall'architettura x86 prodotta da Intel e successivamente adottata da AMD con il nome AMD64, è l'architettura prevalente nei computer personali e nei server oggi.
+x64, noto anche come x86-64, è un'architettura di processore a 64 bit utilizzata prevalentemente nel computing desktop e server. Originato dall'architettura x86 prodotta da Intel e successivamente adottata da AMD con il nome AMD64, è l'architettura prevalente nei computer personali e nei server oggi.
 
 ### **Registri**
 
@@ -29,15 +29,15 @@ x64 si espande sull'architettura x86, presentando **16 registri a uso generale**
 4. **`rdx`** - Usato in vari ruoli, comprese le operazioni aritmetiche estese.
 5. **`rbp`** - **Puntatore base** per il frame dello stack.
 6. **`rsp`** - **Puntatore dello stack**, tiene traccia della cima dello stack.
-7. **`rsi`** e **`rdi`** - Usati per gli **indici di sorgente** e **destinazione** nelle operazioni su stringhe/memoria.
+7. **`rsi`** e **`rdi`** - Usati per gli **indici di origine** e **destinazione** nelle operazioni su stringhe/memoria.
 8. **`r8`** a **`r15`** - Registri a uso generale aggiuntivi introdotti in x64.
 
 ### **Convenzione di Chiamata**
 
 La convenzione di chiamata x64 varia tra i sistemi operativi. Ad esempio:
 
-* **Windows**: I primi **quattro parametri** sono passati nei registri **`rcx`**, **`rdx`**, **`r8`**, e **`r9`**. Ulteriori parametri sono spinti nello stack. Il valore di ritorno è in **`rax`**.
-* **System V (comunemente usato nei sistemi simili a UNIX)**: I primi **sei parametri interi o puntatori** sono passati nei registri **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, e **`r9`**. Il valore di ritorno è anch'esso in **`rax`**.
+* **Windows**: I primi **quattro parametri** vengono passati nei registri **`rcx`**, **`rdx`**, **`r8`** e **`r9`**. Ulteriori parametri vengono spinti nello stack. Il valore di ritorno è in **`rax`**.
+* **System V (comunemente usato nei sistemi simili a UNIX)**: I primi **sei parametri interi o puntatori** vengono passati nei registri **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** e **`r9`**. Il valore di ritorno è anch'esso in **`rax`**.
 
 Se la funzione ha più di sei input, il **resto sarà passato nello stack**. **RSP**, il puntatore dello stack, deve essere **allineato a 16 byte**, il che significa che l'indirizzo a cui punta deve essere divisibile per 16 prima che avvenga qualsiasi chiamata. Questo significa che normalmente dovremmo assicurarci che RSP sia correttamente allineato nel nostro shellcode prima di effettuare una chiamata a funzione. Tuttavia, in pratica, le chiamate di sistema funzionano molte volte anche se questo requisito non è soddisfatto.
 
@@ -47,7 +47,7 @@ Swift ha la sua **convenzione di chiamata** che può essere trovata in [**https:
 
 ### **Istruzioni Comuni**
 
-Le istruzioni x64 hanno un set ricco, mantenendo la compatibilità con le istruzioni x86 precedenti e introducendo nuove.
+Le istruzioni x64 hanno un set ricco, mantenendo la compatibilità con le istruzioni x86 precedenti e introducendo nuove istruzioni.
 
 * **`mov`**: **Sposta** un valore da un **registro** o **posizione di memoria** a un altro.
 * Esempio: `mov rax, rbx` — Sposta il valore da `rbx` a `rax`.
@@ -69,12 +69,12 @@ Le istruzioni x64 hanno un set ricco, mantenendo la compatibilità con le istruz
 ### **Prologo della Funzione**
 
 1. **Spingi il vecchio puntatore base**: `push rbp` (salva il puntatore base del chiamante)
-2. **Sposta il puntatore dello stack corrente al puntatore base**: `mov rbp, rsp` (imposta il nuovo puntatore base per la funzione corrente)
+2. **Sposta il puntatore dello stack corrente nel puntatore base**: `mov rbp, rsp` (imposta il nuovo puntatore base per la funzione corrente)
 3. **Alloca spazio nello stack per le variabili locali**: `sub rsp, <size>` (dove `<size>` è il numero di byte necessari)
 
 ### **Epilogo della Funzione**
 
-1. **Sposta il puntatore base corrente al puntatore dello stack**: `mov rsp, rbp` (dealloca le variabili locali)
+1. **Sposta il puntatore base corrente nel puntatore dello stack**: `mov rsp, rbp` (dealloca le variabili locali)
 2. **Estrai il vecchio puntatore base dallo stack**: `pop rbp` (ripristina il puntatore base del chiamante)
 3. **Ritorna**: `ret` (restituisce il controllo al chiamante)
 
@@ -261,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Esegui comando con sh
+#### Invoca il comando con sh
 ```armasm
 bits 64
 section .text
@@ -441,8 +441,8 @@ mov  al, 0x3b
 syscall
 ```
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

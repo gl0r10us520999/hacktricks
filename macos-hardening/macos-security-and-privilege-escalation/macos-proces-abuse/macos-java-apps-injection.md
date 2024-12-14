@@ -86,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Tuttavia, ciò genererà un errore nell'app eseguita, un modo più furtivo è creare un agente java e utilizzare:
+Tuttavia, ciò genererà un errore nell'app eseguita, un altro modo più furtivo è creare un agente Java e utilizzare:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"

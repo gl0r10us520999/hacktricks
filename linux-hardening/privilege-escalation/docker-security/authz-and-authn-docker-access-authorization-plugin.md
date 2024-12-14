@@ -18,13 +18,13 @@ Il modello di **autorizzazione** di **Docker** è **tutto o niente**. Qualsiasi 
 
 # Architettura di base
 
-I plugin di autorizzazione Docker sono **plugin esterni** che puoi utilizzare per **consentire/nnegare** **azioni** richieste al demone Docker **a seconda** dell'**utente** che le ha richieste e dell'**azione** **richiesta**.
+I plugin Auth di Docker sono **plugin esterni** che puoi utilizzare per **consentire/nnegare** **azioni** richieste al demone Docker **a seconda** dell'**utente** che le ha richieste e dell'**azione** **richiesta**.
 
 **[Le seguenti informazioni provengono dalla documentazione](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
 Quando viene effettuata una **richiesta HTTP** al **demone** Docker tramite la CLI o tramite l'API Engine, il **sottosistema di autenticazione** **trasmette** la richiesta ai **plugin di autenticazione** installati. La richiesta contiene l'utente (chiamante) e il contesto del comando. Il **plugin** è responsabile della decisione di **consentire** o **negare** la richiesta.
 
-I diagrammi di sequenza qui sotto mostrano un flusso di autorizzazione di consenso e di negazione:
+I diagrammi di sequenza qui sotto mostrano un flusso di autorizzazione di consentire e negare:
 
 ![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
@@ -32,9 +32,9 @@ I diagrammi di sequenza qui sotto mostrano un flusso di autorizzazione di consen
 
 Ogni richiesta inviata al plugin **include l'utente autenticato, le intestazioni HTTP e il corpo della richiesta/risposta**. Solo il **nome utente** e il **metodo di autenticazione** utilizzato vengono passati al plugin. È importante notare che **nessuna** credenziale o token dell'utente vengono passati. Infine, **non tutti i corpi di richiesta/risposta vengono inviati** al plugin di autorizzazione. Solo quei corpi di richiesta/risposta in cui il `Content-Type` è `text/*` o `application/json` vengono inviati.
 
-Per i comandi che possono potenzialmente dirottare la connessione HTTP (`HTTP Upgrade`), come `exec`, il plugin di autorizzazione viene chiamato solo per le richieste HTTP iniziali. Una volta che il plugin approva il comando, l'autorizzazione non viene applicata al resto del flusso. In particolare, i dati in streaming non vengono passati ai plugin di autorizzazione. Per i comandi che restituiscono risposte HTTP a chunk, come `logs` ed `events`, solo la richiesta HTTP viene inviata ai plugin di autorizzazione.
+Per i comandi che possono potenzialmente dirottare la connessione HTTP (`HTTP Upgrade`), come `exec`, il plugin di autorizzazione viene chiamato solo per le richieste HTTP iniziali. Una volta che il plugin approva il comando, l'autorizzazione non viene applicata al resto del flusso. In particolare, i dati di streaming non vengono passati ai plugin di autorizzazione. Per i comandi che restituiscono risposte HTTP a chunk, come `logs` ed `events`, solo la richiesta HTTP viene inviata ai plugin di autorizzazione.
 
-Durante l'elaborazione della richiesta/risposta, alcuni flussi di autorizzazione potrebbero aver bisogno di eseguire query aggiuntive al demone Docker. Per completare tali flussi, i plugin possono chiamare l'API del demone in modo simile a un utente normale. Per abilitare queste query aggiuntive, il plugin deve fornire i mezzi per un amministratore per configurare politiche di autenticazione e sicurezza adeguate.
+Durante l'elaborazione della richiesta/risposta, alcuni flussi di autorizzazione potrebbero aver bisogno di eseguire query aggiuntive al demone Docker. Per completare tali flussi, i plugin possono chiamare l'API del demone in modo simile a un utente normale. Per abilitare queste query aggiuntive, il plugin deve fornire i mezzi per un amministratore per configurare politiche di autenticazione e sicurezza appropriate.
 
 ## Diversi Plugin
 
@@ -50,7 +50,7 @@ Questo è un esempio che consentirà ad Alice e Bob di creare nuovi contenitori:
 
 Nella pagina [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) puoi trovare la relazione tra l'URL richiesto e l'azione. Nella pagina [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) puoi trovare la relazione tra il nome dell'azione e l'azione.
 
-## Tutorial Plugin Semplice
+## Tutorial semplice sui Plugin
 
 Puoi trovare un **plugin facile da capire** con informazioni dettagliate su installazione e debug qui: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
@@ -66,7 +66,7 @@ Per eseguire questa enumerazione puoi **utilizzare lo strumento** [**https://git
 
 ## `run --privileged` non consentito
 
-### Privilegi Minimi
+### Privilegi minimi
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
@@ -90,11 +90,11 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
-Ora, l'utente può uscire dal container utilizzando una delle [**tecniche precedentemente discusse**](./#privileged-flag) e **escalare i privilegi** all'interno dell'host.
+Ora, l'utente può uscire dal contenitore utilizzando una delle [**tecniche precedentemente discusse**](./#privileged-flag) e **escalare i privilegi** all'interno dell'host.
 
 ## Montare una Cartella Scrivibile
 
-In questo caso, l'amministratore di sistema **ha vietato agli utenti di eseguire container con il flag `--privileged`** o di dare qualsiasi capacità extra al container, e ha solo consentito di montare la cartella `/tmp`:
+In questo caso, l'amministratore di sistema **ha vietato agli utenti di eseguire contenitori con il flag `--privileged`** o di dare qualsiasi capacità extra al contenitore, e ha solo consentito di montare la cartella `/tmp`:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -104,11 +104,11 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-Nota che forse non puoi montare la cartella `/tmp`, ma puoi montare una **cartella scrivibile diversa**. Puoi trovare directory scrivibili usando: `find / -writable -type d 2>/dev/null`
+Nota che forse non puoi montare la cartella `/tmp`, ma puoi montare una **differente cartella scrivibile**. Puoi trovare directory scrivibili usando: `find / -writable -type d 2>/dev/null`
 
 **Nota che non tutte le directory in una macchina linux supporteranno il bit suid!** Per controllare quali directory supportano il bit suid esegui `mount | grep -v "nosuid"` Ad esempio, di solito `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` e `/var/lib/lxcfs` non supportano il bit suid.
 
-Nota anche che se puoi **montare `/etc`** o qualsiasi altra cartella **contenente file di configurazione**, puoi modificarli dal container docker come root per **abusarne nell'host** e aumentare i privilegi (magari modificando `/etc/shadow`)
+Nota anche che se puoi **montare `/etc`** o qualsiasi altra cartella **contenente file di configurazione**, puoi modificarli dal container docker come root per **abusarne nell'host** e ottenere privilegi elevati (magari modificando `/etc/shadow`)
 {% endhint %}
 
 ## Endpoint API non controllato
@@ -121,7 +121,7 @@ Puoi controllare l'API docker in [https://docs.docker.com/engine/api/v1.40/#](ht
 
 ### Binds in root
 
-È possibile che quando l'amministratore di sistema ha configurato il firewall docker, abbia **dimenticato qualche parametro importante** dell'[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) come "**Binds**".\
+È possibile che quando l'amministratore di sistema ha configurato il firewall docker, **si sia dimenticato di qualche parametro importante** dell'[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) come "**Binds**".\
 Nell'esempio seguente è possibile abusare di questa misconfigurazione per creare ed eseguire un container che monta la cartella root (/) dell'host:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
@@ -167,12 +167,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-Il **`HostConfig`** è la chiave che di solito contiene i **privilegi** **interessanti** per uscire dal container. Tuttavia, come abbiamo discusso in precedenza, nota come l'uso di Binds al di fuori di esso funzioni anche e possa permetterti di aggirare le restrizioni.
+Il **`HostConfig`** è la chiave che di solito contiene i **privilegi** **interessanti** per sfuggire al container. Tuttavia, come abbiamo discusso in precedenza, nota come l'uso di Binds al di fuori di esso funzioni anche e possa permetterti di aggirare le restrizioni.
 {% endhint %}
 
 ## Disabilitare il Plugin
 
-Se il **sysadmin** si è **dimenticato** di **vietare** la possibilità di **disabilitare** il **plugin**, puoi approfittarne per disabilitarlo completamente!
+Se il **sysadmin** ha **dimenticato** di **vietare** la possibilità di **disabilitare** il **plugin**, puoi approfittarne per disabilitarlo completamente!
 ```bash
 docker plugin list #Enumerate plugins
 

@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## Informazioni di base
+## Basic Information
 
-Le estensioni del kernel (Kext) sono **pacchetti** con un'estensione **`.kext`** che vengono **caricati direttamente nello spazio del kernel di macOS**, fornendo funzionalità aggiuntive al sistema operativo principale.
+Le estensioni del kernel (Kexts) sono **pacchetti** con un'estensione **`.kext`** che vengono **caricati direttamente nello spazio del kernel di macOS**, fornendo funzionalità aggiuntive al sistema operativo principale.
 
-### Requisiti
+### Requirements
 
 Ovviamente, questo è così potente che è **complicato caricare un'estensione del kernel**. Questi sono i **requisiti** che un'estensione del kernel deve soddisfare per essere caricata:
 
@@ -33,7 +33,7 @@ Ovviamente, questo è così potente che è **complicato caricare un'estensione d
 * Durante il processo di caricamento, il pacchetto deve essere preparato in una **posizione protetta non-root**: `/Library/StagedExtensions` (richiede il grant `com.apple.rootless.storage.KernelExtensionManagement`).
 * Infine, quando si tenta di caricarlo, l'utente riceverà una [**richiesta di conferma**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) e, se accettata, il computer deve essere **riavviato** per caricarlo.
 
-### Processo di caricamento
+### Loading process
 
 In Catalina era così: È interessante notare che il processo di **verifica** avviene in **userland**. Tuttavia, solo le applicazioni con il grant **`com.apple.private.security.kext-management`** possono **richiedere al kernel di caricare un'estensione**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
@@ -47,7 +47,7 @@ In Catalina era così: È interessante notare che il processo di **verifica** av
 
 Se **`kextd`** non è disponibile, **`kextutil`** può eseguire gli stessi controlli.
 
-### Enumerazione (kext caricati)
+### Enumeration (loaded kexts)
 ```bash
 # Get loaded kernel extensions
 kextstat
@@ -58,10 +58,10 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 ## Kernelcache
 
 {% hint style="danger" %}
-Anche se ci si aspetta che le estensioni del kernel siano in `/System/Library/Extensions/`, se si va in questa cartella **non si troverà alcun binario**. Questo è dovuto al **kernelcache** e per fare il reverse di un `.kext` è necessario trovare un modo per ottenerlo.
+Anche se ci si aspetta che le estensioni del kernel siano in `/System/Library/Extensions/`, se vai in questa cartella **non troverai alcun binario**. Questo è dovuto al **kernelcache** e per invertire un `.kext` devi trovare un modo per ottenerlo.
 {% endhint %}
 
-Il **kernelcache** è una **versione pre-compilata e pre-collegata del kernel XNU**, insieme a **driver** e **estensioni del kernel** essenziali. È memorizzato in un formato **compresso** e viene decompresso in memoria durante il processo di avvio. Il kernelcache facilita un **tempo di avvio più veloce** avendo una versione pronta all'uso del kernel e dei driver cruciali disponibili, riducendo il tempo e le risorse che altrimenti verrebbero spese per caricare e collegare dinamicamente questi componenti al momento dell'avvio.
+Il **kernelcache** è una **versione precompilata e precollegata del kernel XNU**, insieme a **driver** e **estensioni del kernel** essenziali. È memorizzato in un formato **compresso** e viene decompresso in memoria durante il processo di avvio. Il kernelcache facilita un **tempo di avvio più veloce** avendo una versione pronta all'uso del kernel e dei driver cruciali disponibili, riducendo il tempo e le risorse che altrimenti verrebbero spese per caricare e collegare dinamicamente questi componenti all'avvio.
 
 ### Local Kerlnelcache
 
@@ -99,7 +99,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 
 * [**KernelDebugKit Github**](https://github.com/dortania/KdkSupportPkg/releases)
 
-In [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) è possibile trovare tutti i kit di debug del kernel. Puoi scaricarlo, montarlo, aprirlo con lo strumento [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html), accedere alla cartella **`.kext`** e **estrarlo**.
+In [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) è possibile trovare tutti i kernel debug kit. Puoi scaricarlo, montarlo, aprirlo con lo strumento [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html), accedere alla cartella **`.kext`** e **estrarlo**.
 
 Controllalo per simboli con:
 ```bash
@@ -113,7 +113,7 @@ Per **estrarre** i file inizia cambiando l'estensione da `.ipsw` a `.zip` e **de
 
 Dopo aver estratto il firmware otterrai un file come: **`kernelcache.release.iphone14`**. È in formato **IMG4**, puoi estrarre le informazioni interessanti con:
 
-[**pyimg4**](https://github.com/m1stadev/PyIMG4)**:** 
+[**pyimg4**](https://github.com/m1stadev/PyIMG4)**:**
 
 {% code overflow="wrap" %}
 ```bash
@@ -163,7 +163,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

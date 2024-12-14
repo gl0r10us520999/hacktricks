@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Un mount namespace è una funzionalità del kernel Linux che fornisce isolamento dei punti di montaggio del file system visti da un gruppo di processi. Ogni mount namespace ha il proprio insieme di punti di montaggio del file system, e **le modifiche ai punti di montaggio in un namespace non influenzano altri namespace**. Questo significa che i processi in esecuzione in diversi mount namespace possono avere visioni diverse della gerarchia del file system.
+Un mount namespace è una funzionalità del kernel Linux che fornisce isolamento dei punti di montaggio del file system visti da un gruppo di processi. Ogni mount namespace ha il proprio insieme di punti di montaggio del file system e **le modifiche ai punti di montaggio in un namespace non influenzano altri namespace**. Questo significa che i processi in esecuzione in diversi mount namespace possono avere visioni diverse della gerarchia del file system.
 
 I mount namespace sono particolarmente utili nella containerizzazione, dove ogni container dovrebbe avere il proprio file system e configurazione, isolati dagli altri container e dal sistema host.
 
@@ -54,7 +54,7 @@ Quando `unshare` viene eseguito senza l'opzione `-f`, si incontra un errore a ca
 
 3. **Soluzione**:
 - Il problema può essere risolto utilizzando l'opzione `-f` con `unshare`. Questa opzione fa sì che `unshare` fork un nuovo processo dopo aver creato il nuovo namespace PID.
-- Eseguendo `%unshare -fp /bin/bash%` si garantisce che il comando `unshare` stesso diventi PID 1 nel nuovo namespace. `/bin/bash` e i suoi processi figli sono quindi contenuti in modo sicuro all'interno di questo nuovo namespace, prevenendo l'uscita prematura di PID 1 e consentendo una normale allocazione PID.
+- Eseguendo `%unshare -fp /bin/bash%` si garantisce che il comando `unshare` stesso diventi PID 1 nel nuovo namespace. `/bin/bash` e i suoi processi figli sono quindi contenuti in modo sicuro all'interno di questo nuovo namespace, prevenendo l'uscita prematura di PID 1 e consentendo l'allocazione normale dei PID.
 
 Assicurandoti che `unshare` venga eseguito con il flag `-f`, il nuovo namespace PID viene mantenuto correttamente, consentendo a `/bin/bash` e ai suoi subprocessi di operare senza incontrare l'errore di allocazione della memoria.
 
@@ -69,7 +69,7 @@ docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-### Trova tutti i namespace di mount
+### Trova tutti i Mount namespaces
 
 {% code overflow="wrap" %}
 ```bash
@@ -139,8 +139,8 @@ vmware-root_662-2689143848
 
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -148,7 +148,7 @@ Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos github.
 
 </details>
 {% endhint %}

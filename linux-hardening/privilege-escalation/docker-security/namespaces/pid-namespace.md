@@ -22,14 +22,14 @@ Il namespace PID (Process IDentifier) è una funzionalità nel kernel Linux che 
 
 Quando viene creato un nuovo namespace PID, il primo processo in quel namespace viene assegnato il PID 1. Questo processo diventa il processo "init" del nuovo namespace ed è responsabile della gestione degli altri processi all'interno del namespace. Ogni processo successivo creato all'interno del namespace avrà un PID unico all'interno di quel namespace, e questi PID saranno indipendenti dai PID in altri namespace.
 
-Dal punto di vista di un processo all'interno di un namespace PID, può vedere solo altri processi nello stesso namespace. Non è a conoscenza dei processi in altri namespace e non può interagire con essi utilizzando strumenti di gestione dei processi tradizionali (ad es., `kill`, `wait`, ecc.). Questo fornisce un livello di isolamento che aiuta a prevenire l'interferenza tra i processi.
+Dal punto di vista di un processo all'interno di un namespace PID, può vedere solo altri processi nello stesso namespace. Non è a conoscenza dei processi in altri namespace e non può interagire con essi utilizzando strumenti di gestione dei processi tradizionali (ad es., `kill`, `wait`, ecc.). Questo fornisce un livello di isolamento che aiuta a prevenire che i processi interferiscano l'uno con l'altro.
 
 ### Come funziona:
 
 1. Quando viene creato un nuovo processo (ad es., utilizzando la chiamata di sistema `clone()`), il processo può essere assegnato a un nuovo namespace PID o a uno esistente. **Se viene creato un nuovo namespace, il processo diventa il processo "init" di quel namespace**.
-2. Il **kernel** mantiene una **mappatura tra i PID nel nuovo namespace e i PID corrispondenti** nel namespace padre (cioè, il namespace da cui è stato creato il nuovo namespace). Questa mappatura **consente al kernel di tradurre i PID quando necessario**, ad esempio quando invia segnali tra processi in diversi namespace.
+2. Il **kernel** mantiene una **mappatura tra i PID nel nuovo namespace e i PID corrispondenti** nel namespace padre (cioè, il namespace da cui è stato creato il nuovo namespace). Questa mappatura **consente al kernel di tradurre i PID quando necessario**, ad esempio quando si inviano segnali tra processi in namespace diversi.
 3. **I processi all'interno di un namespace PID possono vedere e interagire solo con altri processi nello stesso namespace**. Non sono a conoscenza dei processi in altri namespace e i loro PID sono unici all'interno del loro namespace.
-4. Quando un **namespace PID viene distrutto** (ad es., quando il processo "init" del namespace termina), **tutti i processi all'interno di quel namespace vengono terminati**. Questo garantisce che tutte le risorse associate al namespace siano correttamente liberate.
+4. Quando un **namespace PID viene distrutto** (ad es., quando il processo "init" del namespace termina), **tutti i processi all'interno di quel namespace vengono terminati**. Questo garantisce che tutte le risorse associate al namespace vengano pulite correttamente.
 
 ## Lab:
 
@@ -86,7 +86,7 @@ Nota che l'utente root dal namespace PID iniziale (predefinito) può vedere tutt
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
-Quando entri in un namespace PID dal namespace predefinito, sarai comunque in grado di vedere tutti i processi. E il processo di quel namespace PID sarà in grado di vedere il nuovo bash nel namespace PID.
+Quando entri in un namespace PID dal namespace predefinito, sarai ancora in grado di vedere tutti i processi. E il processo di quel namespace PID sarà in grado di vedere il nuovo bash nel namespace PID.
 
 Inoltre, puoi **entrare in un altro namespace PID di processo solo se sei root**. E **non puoi** **entrare** in un altro namespace **senza un descrittore** che punti ad esso (come `/proc/self/ns/pid`)
 

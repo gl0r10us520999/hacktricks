@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-AppArmor è un **miglioramento del kernel progettato per limitare le risorse disponibili ai programmi attraverso profili per programma**, implementando efficacemente il Controllo di Accesso Obbligatorio (MAC) legando gli attributi di controllo accesso direttamente ai programmi invece che agli utenti. Questo sistema opera **caricando profili nel kernel**, di solito durante l'avvio, e questi profili determinano quali risorse un programma può accedere, come connessioni di rete, accesso a socket raw e permessi di file.
+AppArmor è un **miglioramento del kernel progettato per limitare le risorse disponibili ai programmi attraverso profili per programma**, implementando efficacemente il Controllo di Accesso Obbligatorio (MAC) legando gli attributi di controllo accessi direttamente ai programmi invece che agli utenti. Questo sistema opera **caricando profili nel kernel**, di solito durante l'avvio, e questi profili determinano quali risorse un programma può accedere, come connessioni di rete, accesso a socket raw e permessi di file.
 
 Ci sono due modalità operative per i profili di AppArmor:
 
@@ -54,7 +54,7 @@ aa-mergeprof  #used to merge the policies
 * Per indicare l'accesso che il binario avrà su **file**, possono essere utilizzati i seguenti **controlli di accesso**:
 * **r** (lettura)
 * **w** (scrittura)
-* **m** (mappatura della memoria come eseguibile)
+* **m** (mappa di memoria come eseguibile)
 * **k** (blocco file)
 * **l** (creazione di hard link)
 * **ix** (eseguire un altro programma con la nuova politica ereditata)
@@ -66,7 +66,7 @@ aa-mergeprof  #used to merge the policies
 
 ### aa-genprof
 
-Per iniziare facilmente a creare un profilo, apparmor può aiutarti. È possibile far sì che **apparmor ispezioni le azioni eseguite da un binario e poi ti consenta di decidere quali azioni vuoi consentire o negare**.\
+Per iniziare facilmente a creare un profilo, apparmor può aiutarti. È possibile far **ispezionare ad apparmor le azioni eseguite da un binario e poi decidere quali azioni vuoi consentire o negare**.\
 Devi solo eseguire:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -116,7 +116,7 @@ Puoi quindi **applicare** il nuovo profilo con
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
-### Modifica di un profilo dai log
+### Modificare un profilo dai log
 
 Il seguente strumento leggerà i log e chiederà all'utente se desidera consentire alcune delle azioni vietate rilevate:
 ```bash
@@ -177,15 +177,15 @@ apparmor module is loaded.
 /usr/lib/connman/scripts/dhclient-script
 docker-default
 ```
-Di default, il **profilo docker-default di Apparmor** è generato da [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+Per impostazione predefinita, il **profilo docker-default di Apparmor** è generato da [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
 **Riepilogo del profilo docker-default**:
 
 * **Accesso** a tutte le **reti**
 * **Nessuna capacità** è definita (Tuttavia, alcune capacità deriveranno dall'inclusione di regole di base, ad es. #include \<abstractions/base>)
-* **Scrivere** in qualsiasi file di **/proc** **non è consentito**
-* Altre **sottodirectory**/**file** di /**proc** e /**sys** hanno accesso in lettura/scrittura/blocco/link/esecuzione **negato**
-* **Montaggio** **non è consentito**
+* **Scrivere** in qualsiasi file di **/proc** è **non consentito**
+* Altre **sottodirectory**/**file** di /**proc** e /**sys** hanno accesso **negato** in lettura/scrittura/blocco/link/esecuzione
+* **Montaggio** è **non consentito**
 * **Ptrace** può essere eseguito solo su un processo che è confinato dallo **stesso profilo apparmor**
 
 Una volta che **esegui un container docker**, dovresti vedere il seguente output:
@@ -212,7 +212,7 @@ Nota che puoi **aggiungere/rimuovere** **capacità** al container docker (questo
 * `--cap-drop=ALL --cap-add=SYS_PTRACE` rimuove tutte le capacità e dà solo `SYS_PTRACE`
 
 {% hint style="info" %}
-Di solito, quando **scopri** di avere una **capacità privilegiata** disponibile **all'interno** di un **container** **docker** **ma** che alcune parti dell'**exploit non funzionano**, questo sarà perché **apparmor di docker lo impedirà**.
+Di solito, quando **scopri** di avere una **capacità privilegiata** disponibile **all'interno** di un **container** **docker** **ma** che una parte dell'**exploit non funziona**, questo sarà perché **apparmor di docker lo impedirà**.
 {% endhint %}
 
 ### Esempio
@@ -253,11 +253,11 @@ In the weird case you can **modificare il profilo docker di apparmor e ricaricar
 
 ### AppArmor Docker Bypass2
 
-**AppArmor è basato su percorso**, questo significa che anche se potrebbe **proteggere** file all'interno di una directory come **`/proc`**, se puoi **configurare come verrà eseguito il container**, potresti **montare** la directory proc dell'host all'interno di **`/host/proc`** e non **sarà più protetta da AppArmor**.
+**AppArmor è basato su percorso**, questo significa che anche se potrebbe essere **protetto** file all'interno di una directory come **`/proc`**, se puoi **configurare come il container verrà eseguito**, potresti **montare** la directory proc dell'host all'interno di **`/host/proc`** e non **sarà più protetta da AppArmor**.
 
 ### AppArmor Shebang Bypass
 
-In [**questo bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) puoi vedere un esempio di come **anche se stai impedendo l'esecuzione di perl con determinate risorse**, se crei semplicemente uno script shell **specificando** nella prima riga **`#!/usr/bin/perl`** e **esegui il file direttamente**, sarai in grado di eseguire qualsiasi cosa tu voglia. E.g.:
+In [**questo bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) puoi vedere un esempio di come **anche se stai impedendo a perl di essere eseguito con determinate risorse**, se crei semplicemente uno script shell **specificando** nella prima riga **`#!/usr/bin/perl`** e **esegui il file direttamente**, sarai in grado di eseguire qualsiasi cosa tu voglia. E.g.:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -277,7 +277,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

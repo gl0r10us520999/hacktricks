@@ -40,13 +40,13 @@ I check-in DEP utilizzano le funzioni `CPFetchActivationRecord` e `CPGetActivati
 
 ## Ingegneria Inversa del Protocollo Tesla e dello Schema Absinthe
 
-Il check-in DEP comporta `cloudconfigurationd` che invia un payload JSON firmato e crittografato a _iprofiles.apple.com/macProfile_. Il payload include il numero di serie del dispositivo e l'azione "RequestProfileConfiguration". Lo schema di crittografia utilizzato è internamente denominato "Absinthe". Svelare questo schema è complesso e comporta numerosi passaggi, il che ha portato a esplorare metodi alternativi per inserire numeri di serie arbitrari nella richiesta del Record di Attivazione.
+Il check-in DEP comporta l'invio da parte di `cloudconfigurationd` di un payload JSON firmato e crittografato a _iprofiles.apple.com/macProfile_. Il payload include il numero di serie del dispositivo e l'azione "RequestProfileConfiguration". Lo schema di crittografia utilizzato è internamente denominato "Absinthe". Svelare questo schema è complesso e comporta numerosi passaggi, il che ha portato a esplorare metodi alternativi per inserire numeri di serie arbitrari nella richiesta del Record di Attivazione.
 
 ## Proxying delle Richieste DEP
 
 I tentativi di intercettare e modificare le richieste DEP a _iprofiles.apple.com_ utilizzando strumenti come Charles Proxy sono stati ostacolati dalla crittografia del payload e dalle misure di sicurezza SSL/TLS. Tuttavia, abilitare la configurazione `MCCloudConfigAcceptAnyHTTPSCertificate` consente di bypassare la validazione del certificato del server, sebbene la natura crittografata del payload impedisca ancora la modifica del numero di serie senza la chiave di decrittazione.
 
-## Strumentazione dei Binaries di Sistema che Interagiscono con DEP
+## Strumentazione dei Binari di Sistema che Interagiscono con DEP
 
 L'istrumentazione dei binari di sistema come `cloudconfigurationd` richiede di disabilitare la Protezione dell'Integrità di Sistema (SIP) su macOS. Con SIP disabilitato, strumenti come LLDB possono essere utilizzati per attaccarsi ai processi di sistema e potenzialmente modificare il numero di serie utilizzato nelle interazioni API DEP. Questo metodo è preferibile poiché evita le complessità delle autorizzazioni e della firma del codice.
 

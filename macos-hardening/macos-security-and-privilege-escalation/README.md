@@ -26,7 +26,7 @@ Interagisci con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 Rimani aggiornato con il mondo dell'hacking in rapida evoluzione attraverso notizie e approfondimenti in tempo reale
 
 **Ultimi Annunci**\
-Rimani informato sui nuovi bug bounty in arrivo e aggiornamenti cruciali della piattaforma
+Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della piattaforma
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi stesso!
 
@@ -52,13 +52,13 @@ Se non sei familiare con macOS, dovresti iniziare a imparare le basi di macOS:
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* L'**architettura** del **kernel**
+* L'**architettura** del k**ernel**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Servizi e **protocolli di rete** comuni di macOS
+* Servizi e **protocolli di rete comuni di macOS**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
@@ -139,7 +139,7 @@ Certo, dal punto di vista di un red team, dovresti essere anche interessato a es
 
 ## Riferimenti
 
-* [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**Risposta agli Incidenti OS X: Scripting e Analisi**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://github.com/NicolasGrimonpont/Cheatsheet**](https://github.com/NicolasGrimonpont/Cheatsheet)
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
@@ -156,7 +156,7 @@ Interagisci con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 Rimani aggiornato con il mondo dell'hacking in rapida evoluzione attraverso notizie e approfondimenti in tempo reale
 
 **Ultimi Annunci**\
-Rimani informato sui nuovi bug bounty in arrivo e aggiornamenti cruciali della piattaforma
+Rimani informato sui nuovi bug bounty in partenza e aggiornamenti cruciali della piattaforma
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi stesso!
 

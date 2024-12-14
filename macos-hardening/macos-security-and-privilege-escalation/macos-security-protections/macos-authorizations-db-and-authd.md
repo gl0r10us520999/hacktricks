@@ -25,7 +25,7 @@ Inizialmente, questo database viene creato dal contenuto di `/System/Library/Sec
 
 Le regole sono memorizzate nella tabella `rules` all'interno del database e contengono le seguenti colonne:
 
-* **id**: Un identificatore unico per ogni regola, automaticamente incrementato e che funge da chiave primaria.
+* **id**: Un identificatore unico per ogni regola, incrementato automaticamente e che funge da chiave primaria.
 * **name**: Il nome unico della regola utilizzato per identificarla e fare riferimento ad essa all'interno del sistema di autorizzazione.
 * **type**: Specifica il tipo di regola, limitato ai valori 1 o 2 per definire la sua logica di autorizzazione.
 * **class**: Categorizza la regola in una classe specifica, assicurandosi che sia un intero positivo.

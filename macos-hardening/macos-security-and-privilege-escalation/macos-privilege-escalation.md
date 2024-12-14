@@ -37,7 +37,7 @@ Si prega di notare che **la maggior parte dei trucchi sull'escalation dei privil
 
 Puoi trovare la tecnica originale [Sudo Hijacking all'interno del post sull'escalation dei privilegi di Linux](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-Tuttavia, macOS **mantiene** il **`PATH`** dell'utente quando esegue **`sudo`**. Ciò significa che un altro modo per ottenere questo attacco sarebbe **di dirottare altri binari** che la vittima eseguirà quando **esegue sudo:**
+Tuttavia, macOS **mantiene** il **`PATH`** dell'utente quando esegue **`sudo`**. Ciò significa che un altro modo per realizzare questo attacco sarebbe **di dirottare altri binari** che la vittima eseguirà quando **esegue sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -137,7 +137,7 @@ killall Dock
 {% tab title="Impersonificazione del Finder" %}
 Alcuni suggerimenti:
 
-* Non **puoi rimuovere il Finder dal Dock**, quindi se intendi aggiungerlo al Dock, potresti posizionare il Finder falso proprio accanto a quello reale. Per questo devi **aggiungere l'entrata del Finder falso all'inizio dell'array del Dock**.
+* Non **puoi rimuovere il Finder dal Dock**, quindi se intendi aggiungerlo al Dock, potresti mettere il Finder falso proprio accanto a quello reale. Per questo devi **aggiungere l'entrata del Finder falso all'inizio dell'array del Dock**.
 * Un'altra opzione è non posizionarlo nel Dock e semplicemente aprirlo, "Finder che chiede di controllare Finder" non è così strano.
 * Un'altra opzione per **escalare a root senza chiedere** la password con una brutta finestra, è far sì che il Finder chieda realmente la password per eseguire un'azione privilegiata:
 * Chiedi al Finder di copiare in **`/etc/pam.d`** un nuovo file **`sudo`** (Il prompt che chiede la password indicherà che "Finder vuole copiare sudo")
