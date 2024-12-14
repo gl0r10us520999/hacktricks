@@ -1,152 +1,152 @@
-# macOS xpc\_connection\_get\_audit\_token Aanval
+# macOS xpc\_connection\_get\_audit\_token Angriff
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-**Vir verdere inligting, kyk na die oorspronklike pos:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). Dit is 'n opsomming:
+**Für weitere Informationen siehe den Originalbeitrag:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). Dies ist eine Zusammenfassung:
 
-## Mach Berigte Basiese Inligting
+## Mach Nachrichten Grundlegende Informationen
 
-As jy nie weet wat Mach Berigte is nie, begin om hierdie bladsy te kyk:
+Wenn du nicht weißt, was Mach Nachrichten sind, beginne mit dieser Seite:
 
 {% content-ref url="../../" %}
 [..](../../)
 {% endcontent-ref %}
 
-Vir die oomblik onthou dat ([definisie hier vandaan](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
-Mach berigte word oor 'n _mach poort_ gestuur, wat 'n **enkele ontvanger, meerdere sender kommunikasie** kanaal is wat in die mach kernel ingebou is. **Meerdere prosesse kan berigte** na 'n mach poort stuur, maar op enige punt **kan slegs 'n enkele proses dit lees**. Net soos lêer beskrywings en sokke, word mach poorte toegeken en bestuur deur die kernel en prosesse sien slegs 'n heelgetal, wat hulle kan gebruik om aan die kernel aan te dui watter van hul mach poorte hulle wil gebruik.
+Für den Moment erinnere dich daran, dass ([Definition von hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
+Mach Nachrichten werden über einen _mach port_ gesendet, der ein **einzelner Empfänger, mehrere Sender Kommunikations** Kanal ist, der im Mach-Kernel eingebaut ist. **Mehrere Prozesse können Nachrichten** an einen Mach-Port senden, aber zu jedem Zeitpunkt **kann nur ein einzelner Prozess davon lesen**. Genau wie Dateideskriptoren und Sockets werden Mach-Ports vom Kernel zugewiesen und verwaltet, und Prozesse sehen nur eine Ganzzahl, die sie verwenden können, um dem Kernel anzuzeigen, welchen ihrer Mach-Ports sie verwenden möchten.
 
-## XPC Verbinding
+## XPC Verbindung
 
-As jy nie weet hoe 'n XPC verbinding gevestig word nie, kyk:
+Wenn du nicht weißt, wie eine XPC-Verbindung hergestellt wird, überprüfe:
 
 {% content-ref url="../" %}
 [..](../)
 {% endcontent-ref %}
 
-## Kwetsbaarheid Opsomming
+## Schwachstellen Zusammenfassung
 
-Wat interessant is om te weet, is dat **XPC se abstraksie 'n een-tot-een verbinding is**, maar dit is gebaseer op 'n tegnologie wat **meerdere senders kan hê, so:**
+Was für dich interessant zu wissen ist, dass **XPCs Abstraktion eine Eins-zu-Eins-Verbindung ist**, aber sie basiert auf einer Technologie, die **mehrere Sender haben kann, also:**
 
-* Mach poorte is enkele ontvanger, **meerdere sender**.
-* 'n XPC verbinding se audit token is die audit token van **gekopieer van die mees onlangs ontvangde boodskap**.
-* Om die **audit token** van 'n XPC verbinding te verkry, is krities vir baie **veiligheidskontroles**.
+* Mach-Ports sind einzelner Empfänger, **mehrere Sender**.
+* Das Audit-Token einer XPC-Verbindung ist das Audit-Token von **kopiert aus der zuletzt empfangenen Nachricht**.
+* Das Erlangen des **Audit-Tokens** einer XPC-Verbindung ist entscheidend für viele **Sicherheitsprüfungen**.
 
-Alhoewel die vorige situasie belowend klink, is daar sommige scenario's waar dit nie probleme gaan veroorsaak nie ([hier vandaan](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
+Obwohl die vorherige Situation vielversprechend klingt, gibt es einige Szenarien, in denen dies keine Probleme verursachen wird ([von hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
 
-* Audit tokens word dikwels gebruik vir 'n outorisering kontrole om te besluit of 'n verbinding aanvaar moet word. Aangesien dit gebeur deur 'n boodskap na die dienspoort te stuur, is daar **nog geen verbinding gevestig nie**. Meer boodskappe op hierdie poort sal net hanteer word as addisionele verbindingsversoeke. So enige **kontroles voordat 'n verbinding aanvaar word, is nie kwesbaar nie** (dit beteken ook dat binne `-listener:shouldAcceptNewConnection:` die audit token veilig is). Ons is dus **op soek na XPC verbindings wat spesifieke aksies verifieer**.
-* XPC gebeurtenis hanteerders word sinchronies hanteer. Dit beteken dat die gebeurtenis hanteerder vir een boodskap voltooi moet wees voordat dit vir die volgende een aangeroep kan word, selfs op gelyktydige afleweringsqueues. So binne 'n **XPC gebeurtenis hanteerder kan die audit token nie oorgeskryf word** deur ander normale (nie-antwoorde!) boodskappe nie.
+* Audit-Tokens werden oft für eine Autorisierungsprüfung verwendet, um zu entscheiden, ob eine Verbindung akzeptiert werden soll. Da dies über eine Nachricht an den Dienstport geschieht, ist **noch keine Verbindung hergestellt**. Weitere Nachrichten auf diesem Port werden einfach als zusätzliche Verbindungsanfragen behandelt. Daher sind alle **Überprüfungen vor der Annahme einer Verbindung nicht anfällig** (das bedeutet auch, dass innerhalb von `-listener:shouldAcceptNewConnection:` das Audit-Token sicher ist). Wir suchen daher **nach XPC-Verbindungen, die spezifische Aktionen überprüfen**.
+* XPC-Ereignis-Handler werden synchron behandelt. Das bedeutet, dass der Ereignis-Handler für eine Nachricht abgeschlossen sein muss, bevor er für die nächste aufgerufen wird, selbst bei gleichzeitigen Dispatch-Warteschlangen. Daher kann innerhalb eines **XPC-Ereignis-Handlers das Audit-Token nicht von anderen normalen (nicht-Antwort!) Nachrichten überschrieben werden.
 
-Twee verskillende metodes wat dalk uitgebuit kan word:
+Zwei verschiedene Methoden, wie dies ausgenutzt werden könnte:
 
-1. Variant1:
-* **Eksploiteer** **verbinde** na diens **A** en diens **B**
-* Diens **B** kan 'n **bevoorregte funksionaliteit** in diens A aanroep wat die gebruiker nie kan nie
-* Diens **A** roep **`xpc_connection_get_audit_token`** aan terwyl _**nie**_ binne die **gebeurtenis hanteerder** vir 'n verbinding in 'n **`dispatch_async`**.
-* So 'n **ander** boodskap kan die **Audit Token oorgeskryf** omdat dit asynchrone gestuur word buite die gebeurtenis hanteerder.
-* Die eksploiteer gee aan **diens B die SEND reg na diens A**.
-* So diens **B** sal eintlik **boodskappe** na diens **A** **stuur**.
-* Die **eksploiteer** probeer om die **bevoorregte aksie aan te roep.** In 'n RC diens **A** **kontroleer** die outorisering van hierdie **aksie** terwyl **diens B die Audit token oorgeskryf het** (wat die eksploiteer toegang gee om die bevoorregte aksie aan te roep).
-2. Variant 2:
-* Diens **B** kan 'n **bevoorregte funksionaliteit** in diens A aanroep wat die gebruiker nie kan nie
-* Eksploiteer verbind met **diens A** wat **stuur** die eksploiteer 'n **boodskap wat 'n antwoord verwag** in 'n spesifieke **herhalings** **poort**.
-* Eksploiteer stuur **diens** B 'n boodskap wat **daardie antwoordpoort** oorhandig.
-* Wanneer diens **B antwoord**, dit **stuur die boodskap na diens A**, **terwyl** die **eksploiteer** 'n ander **boodskap na diens A** stuur wat probeer om 'n **bevoorregte funksionaliteit** te bereik en verwag dat die antwoord van diens B die Audit token op die perfekte oomblik sal oorgeskryf (Race Condition).
+1. Variante 1:
+* **Exploits** **verbinden** sich mit Dienst **A** und Dienst **B**
+* Dienst **B** kann eine **privilegierte Funktionalität** in Dienst A aufrufen, die der Benutzer nicht kann
+* Dienst **A** ruft **`xpc_connection_get_audit_token`** auf, während _**nicht**_ innerhalb des **Ereignis-Handlers** für eine Verbindung in einem **`dispatch_async`**.
+* So könnte eine **andere** Nachricht das **Audit-Token überschreiben**, weil es asynchron außerhalb des Ereignis-Handlers dispatcht wird.
+* Der Exploit übergibt an **Dienst B das SEND-Recht an Dienst A**.
+* So wird Dienst **B** tatsächlich **Nachrichten** an Dienst **A** **senden**.
+* Der **Exploit** versucht, die **privilegierte Aktion** **aufzurufen**. In einem RC prüft Dienst **A** die Autorisierung dieser **Aktion**, während **Dienst B das Audit-Token überschreibt** (was dem Exploit Zugriff auf die privilegierte Aktion gibt).
+2. Variante 2:
+* Dienst **B** kann eine **privilegierte Funktionalität** in Dienst A aufrufen, die der Benutzer nicht kann
+* Der Exploit verbindet sich mit **Dienst A**, der dem Exploit eine **Nachricht sendet, die eine Antwort** in einem bestimmten **Antwortport** erwartet.
+* Der Exploit sendet **Dienst** B eine Nachricht, die **diesen Antwortport** übergibt.
+* Wenn Dienst **B antwortet**, **sendet** er die Nachricht an Dienst A, **während** der **Exploit** eine andere **Nachricht an Dienst A** sendet, die versucht, eine **privilegierte Funktionalität** zu erreichen und erwartet, dass die Antwort von Dienst B das Audit-Token im perfekten Moment überschreibt (Race Condition).
 
-## Variant 1: aanroep xpc\_connection\_get\_audit\_token buite 'n gebeurtenis hanteerder <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
+## Variante 1: Aufruf von xpc\_connection\_get\_audit\_token außerhalb eines Ereignis-Handlers <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
-Scenario:
+Szenario:
 
-* Twee mach dienste **`A`** en **`B`** waartoe ons albei kan verbind (gebaseer op die sandbox profiel en die outorisering kontroles voordat die verbinding aanvaar word).
-* _**A**_ moet 'n **outorisering kontrole** hê vir 'n spesifieke aksie wat **`B`** kan oorhandig (maar ons app kan nie).
-* Byvoorbeeld, as B sekere **regte** het of as **root** loop, kan dit hom toelaat om A te vra om 'n bevoorregte aksie uit te voer.
-* Vir hierdie outorisering kontrole, **`A`** verkry die audit token asynchrone, byvoorbeeld deur `xpc_connection_get_audit_token` aan te roep vanaf **`dispatch_async`**.
+* Zwei Mach-Dienste **`A`** und **`B`**, mit denen wir uns beide verbinden können (basierend auf dem Sandbox-Profil und den Autorisierungsprüfungen vor der Annahme der Verbindung).
+* _**A**_ muss eine **Autorisierungsprüfung** für eine spezifische Aktion haben, die **`B`** übergeben kann (aber unsere App kann das nicht).
+* Zum Beispiel, wenn B einige **Berechtigungen** hat oder als **root** läuft, könnte es ihm erlauben, A zu bitten, eine privilegierte Aktion auszuführen.
+* Für diese Autorisierungsprüfung erhält **`A`** das Audit-Token asynchron, indem es beispielsweise `xpc_connection_get_audit_token` von **`dispatch_async`** aufruft.
 
 {% hint style="danger" %}
-In hierdie geval kan 'n aanvaller 'n **Race Condition** aktiveer wat 'n **eksploiteer** maak wat **A vra om 'n aksie** verskeie kere uit te voer terwyl hy **B boodskappe na `A`** laat stuur. Wanneer die RC **suksesvol** is, sal die **audit token** van **B** in geheue **gekopieer** word **terwyl** die versoek van ons **eksploiteer** deur A **hanteer** word, wat dit **toegang gee tot die bevoorregte aksie wat slegs B kon aanvra**.
+In diesem Fall könnte ein Angreifer eine **Race Condition** auslösen, indem er einen **Exploit** erstellt, der **A auffordert, eine Aktion** mehrmals auszuführen, während er **B Nachrichten an `A`** senden lässt. Wenn die RC **erfolgreich** ist, wird das **Audit-Token** von **B** im Speicher kopiert, **während** die Anfrage unseres **Exploits** von A **bearbeitet** wird, was ihm **Zugriff auf die privilegierte Aktion gibt, die nur B anfordern konnte**.
 {% endhint %}
 
-Dit het gebeur met **`A`** as `smd` en **`B`** as `diagnosticd`. Die funksie [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) van smb kan gebruik word om 'n nuwe bevoorregte helper gereedskap te installeer (as **root**). As 'n **proses wat as root loop** **smd** kontak, sal geen ander kontroles uitgevoer word nie.
+Dies geschah mit **`A`** als `smd` und **`B`** als `diagnosticd`. Die Funktion [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) von smb kann verwendet werden, um ein neues privilegiertes Hilfsprogramm (als **root**) zu installieren. Wenn ein **Prozess, der als root läuft,** **smd** kontaktiert, werden keine weiteren Überprüfungen durchgeführt.
 
-Daarom is die diens **B** **`diagnosticd`** omdat dit as **root** loop en gebruik kan word om 'n proses te **monitor**, so sodra monitering begin het, sal dit **meerdere boodskappe per sekonde stuur.**
+Daher ist der Dienst **B** **`diagnosticd`**, weil er als **root** läuft und verwendet werden kann, um einen Prozess zu **überwachen**, sodass, sobald die Überwachung begonnen hat, er **mehrere Nachrichten pro Sekunde sendet.**
 
-Om die aanval uit te voer:
+Um den Angriff durchzuführen:
 
-1. Begin 'n **verbinding** na die diens genaamd `smd` met behulp van die standaard XPC protokol.
-2. Vorm 'n sekondêre **verbinding** na `diagnosticd`. In teenstelling met die normale prosedure, eerder as om twee nuwe mach poorte te skep en te stuur, word die kliëntpoort stuurreg vervang met 'n duplikaat van die **stuurreg** geassosieer met die `smd` verbinding.
-3. As gevolg hiervan kan XPC boodskappe na `diagnosticd` gestuur word, maar antwoorde van `diagnosticd` word hergeroute na `smd`. Vir `smd` lyk dit asof die boodskappe van beide die gebruiker en `diagnosticd` van dieselfde verbinding afkomstig is.
+1. Stelle eine **Verbindung** zum Dienst mit dem Namen `smd` unter Verwendung des standardmäßigen XPC-Protokolls her.
+2. Stelle eine sekundäre **Verbindung** zu `diagnosticd` her. Im Gegensatz zum normalen Verfahren wird anstelle der Erstellung und des Sendens von zwei neuen Mach-Ports das Senderecht des Client-Ports durch eine Duplikation des **Senderechts** ersetzt, das mit der `smd`-Verbindung verbunden ist.
+3. Infolgedessen können XPC-Nachrichten an `diagnosticd` gesendet werden, aber Antworten von `diagnosticd` werden an `smd` umgeleitet. Für `smd` scheint es, als ob die Nachrichten sowohl vom Benutzer als auch von `diagnosticd` von derselben Verbindung stammen.
 
-![Beeld wat die eksploiteer proses uitbeeld](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+![Bild, das den Exploit-Prozess darstellt](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 
-4. Die volgende stap behels om `diagnosticd` te instrueer om monitering van 'n gekose proses (potensieel die gebruiker se eie) te begin. Gelyktydig word 'n vloed van roetine 1004 boodskappe na `smd` gestuur. Die bedoeling hier is om 'n gereedskap met verhoogde regte te installeer.
-5. Hierdie aksie aktiveer 'n race condition binne die `handle_bless` funksie. Die tydsberekening is krities: die `xpc_connection_get_pid` funksie aanroep moet die PID van die gebruiker se proses teruggee (aangesien die bevoorregte gereedskap in die gebruiker se app bundel is). Maar die `xpc_connection_get_audit_token` funksie, spesifiek binne die `connection_is_authorized` subroutine, moet die audit token wat aan `diagnosticd` behoort, verwys.
+4. Der nächste Schritt besteht darin, `diagnosticd` anzuweisen, die Überwachung eines ausgewählten Prozesses (möglicherweise des eigenen Benutzers) zu starten. Gleichzeitig wird eine Flut von routinemäßigen 1004-Nachrichten an `smd` gesendet. Das Ziel hier ist es, ein Tool mit erhöhten Rechten zu installieren.
+5. Diese Aktion löst eine Race Condition innerhalb der Funktion `handle_bless` aus. Das Timing ist entscheidend: Der Aufruf der Funktion `xpc_connection_get_pid` muss die PID des Benutzerprozesses zurückgeben (da das privilegierte Tool im App-Bundle des Benutzers enthalten ist). Das Audit-Token muss jedoch in der Funktion `xpc_connection_get_audit_token`, insbesondere innerhalb der Unterroutine `connection_is_authorized`, auf das Audit-Token von `diagnosticd` verweisen.
 
-## Variant 2: antwoord herleiding
+## Variante 2: Antwortweiterleitung
 
-In 'n XPC (Cross-Process Communication) omgewing, alhoewel gebeurtenis hanteerders nie gelyktydig uitvoer nie, het die hantering van antwoord boodskappe 'n unieke gedrag. Spesifiek bestaan daar twee verskillende metodes om boodskappe te stuur wat 'n antwoord verwag:
+In einer XPC (Inter-Prozess-Kommunikation) Umgebung, obwohl Ereignis-Handler nicht gleichzeitig ausgeführt werden, hat die Behandlung von Antwortnachrichten ein einzigartiges Verhalten. Insbesondere gibt es zwei verschiedene Methoden zum Senden von Nachrichten, die eine Antwort erwarten:
 
-1. **`xpc_connection_send_message_with_reply`**: Hier word die XPC boodskap ontvang en verwerk op 'n aangewese queue.
-2. **`xpc_connection_send_message_with_reply_sync`**: Omgekeerd, in hierdie metode, word die XPC boodskap ontvang en verwerk op die huidige afleweringsqueue.
+1. **`xpc_connection_send_message_with_reply`**: Hier wird die XPC-Nachricht empfangen und auf einer bestimmten Warteschlange verarbeitet.
+2. **`xpc_connection_send_message_with_reply_sync`**: Im Gegensatz dazu wird in dieser Methode die XPC-Nachricht auf der aktuellen Dispatch-Warteschlange empfangen und verarbeitet.
 
-Hierdie onderskeid is belangrik omdat dit die moontlikheid toelaat van **antwoord pakkette wat gelyktydig geparseer word met die uitvoering van 'n XPC gebeurtenis hanteerder**. Opmerklik is dat terwyl `_xpc_connection_set_creds` wel vergrendeling implementeer om teen die gedeeltelike oorgeskryf van die audit token te beskerm, strek dit nie hierdie beskerming na die hele verbinding objek nie. Gevolglik skep dit 'n kwesbaarheid waar die audit token vervang kan word gedurende die interval tussen die parsing van 'n pakket en die uitvoering van sy gebeurtenis hanteerder.
+Diese Unterscheidung ist entscheidend, da sie die Möglichkeit eröffnet, dass **Antwortpakete gleichzeitig mit der Ausführung eines XPC-Ereignis-Handlers analysiert werden**. Bemerkenswerterweise implementiert `_xpc_connection_set_creds` zwar eine Sperre, um gegen die teilweise Überschreibung des Audit-Tokens zu schützen, jedoch erstreckt sich dieser Schutz nicht auf das gesamte Verbindungsobjekt. Dies schafft eine Schwachstelle, bei der das Audit-Token während des Zeitraums zwischen der Analyse eines Pakets und der Ausführung seines Ereignis-Handlers ersetzt werden kann.
 
-Om hierdie kwesbaarheid uit te buit, is die volgende opstelling nodig:
+Um diese Schwachstelle auszunutzen, ist die folgende Einrichtung erforderlich:
 
-* Twee mach dienste, genoem **`A`** en **`B`**, wat albei 'n verbinding kan vestig.
-* Diens **`A`** moet 'n outorisering kontrole insluit vir 'n spesifieke aksie wat slegs **`B`** kan uitvoer (die gebruiker se toepassing kan nie).
-* Diens **`A`** moet 'n boodskap stuur wat 'n antwoord verwag.
-* Die gebruiker kan 'n boodskap na **`B`** stuur wat dit sal antwoord.
+* Zwei Mach-Dienste, bezeichnet als **`A`** und **`B`**, die beide eine Verbindung herstellen können.
+* Dienst **`A`** sollte eine Autorisierungsprüfung für eine spezifische Aktion enthalten, die nur **`B`** ausführen kann (die Anwendung des Benutzers kann dies nicht).
+* Dienst **`A`** sollte eine Nachricht senden, die eine Antwort erwartet.
+* Der Benutzer kann eine Nachricht an **`B`** senden, auf die er antworten wird.
 
-Die eksploitasie proses behels die volgende stappe:
+Der Ausbeutungsprozess umfasst die folgenden Schritte:
 
-1. Wag vir diens **`A`** om 'n boodskap te stuur wat 'n antwoord verwag.
-2. In plaas daarvan om direk aan **`A`** te antwoord, word die antwoordpoort gekaap en gebruik om 'n boodskap na diens **`B`** te stuur.
-3. Vervolgens word 'n boodskap wat die verbode aksie behels, gestuur, met die verwagting dat dit gelyktydig verwerk sal word met die antwoord van **`B`**.
+1. Warte darauf, dass Dienst **`A`** eine Nachricht sendet, die eine Antwort erwartet.
+2. Anstatt direkt an **`A`** zu antworten, wird der Antwortport entführt und verwendet, um eine Nachricht an Dienst **`B`** zu senden.
+3. Anschließend wird eine Nachricht mit der verbotenen Aktion gesendet, in der Erwartung, dass sie gleichzeitig mit der Antwort von **`B`** verarbeitet wird.
 
-Hieronder is 'n visuele voorstelling van die beskryfde aanval scenario:
+Unten ist eine visuelle Darstellung des beschriebenen Angriffszenarios:
 
 !\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (33).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
-## Ontdekking Probleme
+## Entdeckungsprobleme
 
-* **Moeilikhede om Voorbeelde te Vind**: Soek na voorbeelde van `xpc_connection_get_audit_token` gebruik was uitdagend, beide staties en dinamies.
-* **Metodologie**: Frida is gebruik om die `xpc_connection_get_audit_token` funksie te haak, wat oproepe gefilter het wat nie van gebeurtenis hanteerders afkomstig was nie. Hierdie metode was egter beperk tot die gehaakte proses en het aktiewe gebruik vereis.
-* **Analise Gereedskap**: Gereedskap soos IDA/Ghidra is gebruik om bereikbare mach dienste te ondersoek, maar die proses was tydrowend, bemoeilik deur oproepe wat die dyld gedeelde kas betrek.
-* **Scripting Beperkings**: Pogings om die analise te script vir oproepe na `xpc_connection_get_audit_token` van `dispatch_async` blokke was belemmer deur kompleksiteite in die parsing van blokke en interaksies met die dyld gedeelde kas.
+* **Schwierigkeiten beim Auffinden von Instanzen**: Die Suche nach Instanzen der Verwendung von `xpc_connection_get_audit_token` war sowohl statisch als auch dynamisch herausfordernd.
+* **Methodik**: Frida wurde verwendet, um die Funktion `xpc_connection_get_audit_token` zu hooken und Aufrufe zu filtern, die nicht von Ereignis-Handlern stammen. Diese Methode war jedoch auf den gehookten Prozess beschränkt und erforderte eine aktive Nutzung.
+* **Analysetools**: Tools wie IDA/Ghidra wurden verwendet, um erreichbare Mach-Dienste zu untersuchen, aber der Prozess war zeitaufwendig und kompliziert durch Aufrufe, die den dyld Shared Cache betreffen.
+* **Scripting-Einschränkungen**: Versuche, die Analyse für Aufrufe von `xpc_connection_get_audit_token` aus `dispatch_async`-Blöcken zu skripten, wurden durch Komplexitäten beim Parsen von Blöcken und Interaktionen mit dem dyld Shared Cache behindert.
 
-## Die oplossing <a href="#the-fix" id="the-fix"></a>
+## Die Lösung <a href="#the-fix" id="the-fix"></a>
 
-* **Gerapporteerde Probleme**: 'n Verslag is aan Apple ingedien wat die algemene en spesifieke probleme wat in `smd` gevind is, uiteengesit het.
-* **Apple se Antwoord**: Apple het die probleem in `smd` aangespreek deur `xpc_connection_get_audit_token` met `xpc_dictionary_get_audit_token` te vervang.
-* **Natuur van die Oplossing**: Die `xpc_dictionary_get_audit_token` funksie word beskou as veilig aangesien dit die audit token direk van die mach boodskap wat aan die ontvangde XPC boodskap gekoppel is, verkry. Dit is egter nie deel van die publieke API nie, soortgelyk aan `xpc_connection_get_audit_token`.
-* **Afwesigheid van 'n Breër Oplossing**: Dit bly onduidelik waarom Apple nie 'n meer omvattende oplossing geïmplementeer het nie, soos om boodskappe wat nie ooreenstem met die gespaarde audit token van die verbinding nie, te verwerp. Die moontlikheid van legitieme audit token veranderinge in sekere scenario's (bv. `setuid` gebruik) mag 'n faktor wees.
-* **Huidige Status**: Die probleem bestaan voort in iOS 17 en macOS 14, wat 'n uitdaging vir diegene wat dit wil identifiseer en verstaan.
+* **Gemeldete Probleme**: Ein Bericht wurde an Apple eingereicht, der die allgemeinen und spezifischen Probleme innerhalb von `smd` detailliert.
+* **Apples Antwort**: Apple hat das Problem in `smd` behoben, indem es `xpc_connection_get_audit_token` durch `xpc_dictionary_get_audit_token` ersetzt hat.
+* **Art der Lösung**: Die Funktion `xpc_dictionary_get_audit_token` gilt als sicher, da sie das Audit-Token direkt aus der Mach-Nachricht abruft, die mit der empfangenen XPC-Nachricht verbunden ist. Sie ist jedoch nicht Teil der öffentlichen API, ähnlich wie `xpc_connection_get_audit_token`.
+* **Fehlen einer umfassenderen Lösung**: Es bleibt unklar, warum Apple keine umfassendere Lösung implementiert hat, wie das Verwerfen von Nachrichten, die nicht mit dem gespeicherten Audit-Token der Verbindung übereinstimmen. Die Möglichkeit legitimer Änderungen des Audit-Tokens in bestimmten Szenarien (z. B. Verwendung von `setuid`) könnte ein Faktor sein.
+* **Aktueller Status**: Das Problem besteht weiterhin in iOS 17 und macOS 14 und stellt eine Herausforderung für diejenigen dar, die versuchen, es zu identifizieren und zu verstehen.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

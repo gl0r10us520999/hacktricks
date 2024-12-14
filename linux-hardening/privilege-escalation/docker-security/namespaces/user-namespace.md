@@ -1,16 +1,16 @@
-# User Namespace
+# Benutzer-Namespace
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -21,48 +21,48 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-'n Gebruiker namespace is 'n Linux-kernfunksie wat **isolasie van gebruiker- en groep-ID-kaartings verskaf**, wat elke gebruiker namespace toelaat om sy **eie stel gebruiker- en groep-ID's** te hê. Hierdie isolasie stel prosesse wat in verskillende gebruiker namespaces loop in staat om **verskillende voorregte en eienaarskap te hê**, selfs al deel hulle dieselfde gebruiker- en groep-ID's numeries.
+Ein Benutzer-Namespace ist eine Funktion des Linux-Kernels, die **die Isolation von Benutzer- und Gruppen-ID-Zuordnungen bereitstellt**, sodass jeder Benutzer-Namespace **sein eigenes Set von Benutzer- und Gruppen-IDs** haben kann. Diese Isolation ermöglicht es Prozessen, die in verschiedenen Benutzer-Namespaces ausgeführt werden, **unterschiedliche Berechtigungen und Eigentum zu haben**, selbst wenn sie numerisch dieselben Benutzer- und Gruppen-IDs teilen.
 
-Gebruiker namespaces is veral nuttig in containerisering, waar elke houer sy eie onafhanklike stel gebruiker- en groep-ID's moet hê, wat beter sekuriteit en isolasie tussen houers en die gasheerstelsel moontlik maak.
+Benutzer-Namespaces sind besonders nützlich in der Containerisierung, wo jeder Container sein eigenes unabhängiges Set von Benutzer- und Gruppen-IDs haben sollte, was eine bessere Sicherheit und Isolation zwischen Containern und dem Host-System ermöglicht.
 
-### How it works:
+### So funktioniert es:
 
-1. Wanneer 'n nuwe gebruiker namespace geskep word, **begin dit met 'n leë stel van gebruiker- en groep-ID-kaartings**. Dit beteken dat enige proses wat in die nuwe gebruiker namespace loop, **aanvanklik geen voorregte buite die namespace sal hê**.
-2. ID-kaartings kan gevestig word tussen die gebruiker- en groep-ID's in die nuwe namespace en dié in die ouer (of gasheer) namespace. Dit **laat prosesse in die nuwe namespace toe om voorregte en eienaarskap te hê wat ooreenstem met gebruiker- en groep-ID's in die ouer namespace**. Die ID-kaartings kan egter beperk word tot spesifieke reekse en substelle van ID's, wat fyn beheer oor die voorregte wat aan prosesse in die nuwe namespace toegeken word, moontlik maak.
-3. Binne 'n gebruiker namespace kan **prosesse volle wortelvoorregte (UID 0) hê vir operasies binne die namespace**, terwyl hulle steeds beperkte voorregte buite die namespace het. Dit laat **houers toe om met wortelagtige vermoëns binne hul eie namespace te loop sonder om volle wortelvoorregte op die gasheerstelsel te hê**.
-4. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselskakel of nuwe namespaces te skep met die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWUSER` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die gebruiker- en groep-ID-kaartings wat met daardie namespace geassosieer is, te gebruik.
+1. Wenn ein neuer Benutzer-Namespace erstellt wird, **beginnt er mit einem leeren Set von Benutzer- und Gruppen-ID-Zuordnungen**. Das bedeutet, dass jeder Prozess, der im neuen Benutzer-Namespace ausgeführt wird, **anfänglich keine Berechtigungen außerhalb des Namespaces hat**.
+2. ID-Zuordnungen können zwischen den Benutzer- und Gruppen-IDs im neuen Namespace und denen im übergeordneten (oder Host-) Namespace hergestellt werden. Dies **ermöglicht es Prozessen im neuen Namespace, Berechtigungen und Eigentum zu haben, die den Benutzer- und Gruppen-IDs im übergeordneten Namespace entsprechen**. Die ID-Zuordnungen können jedoch auf bestimmte Bereiche und Teilmengen von IDs beschränkt werden, was eine feinkörnige Kontrolle über die Berechtigungen ermöglicht, die Prozessen im neuen Namespace gewährt werden.
+3. Innerhalb eines Benutzer-Namespace können **Prozesse volle Root-Berechtigungen (UID 0) für Operationen innerhalb des Namespaces haben**, während sie außerhalb des Namespaces weiterhin eingeschränkte Berechtigungen haben. Dies ermöglicht es, **Container mit root-ähnlichen Fähigkeiten innerhalb ihres eigenen Namespaces auszuführen, ohne volle Root-Berechtigungen auf dem Host-System zu haben**.
+4. Prozesse können zwischen Namespaces mit dem Systemaufruf `setns()` wechseln oder neue Namespaces mit den Systemaufrufen `unshare()` oder `clone()` mit dem `CLONE_NEWUSER`-Flag erstellen. Wenn ein Prozess zu einem neuen Namespace wechselt oder einen erstellt, beginnt er, die Benutzer- und Gruppen-ID-Zuordnungen zu verwenden, die mit diesem Namespace verbunden sind.
 
-## Lab:
+## Labor:
 
-### Create different Namespaces
+### Erstellen Sie verschiedene Namespaces
 
 #### CLI
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
-Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteernaamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
+Durch das Einhängen einer neuen Instanz des `/proc`-Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Sicht auf die prozessspezifischen Informationen dieses Namensraums** hat.
 
 <details>
 
-<summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
+<summary>Fehler: bash: fork: Kann Speicher nicht zuweisen</summary>
 
-Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler auf, der auf die Art und Weise zurückzuführen ist, wie Linux neue PID (Prozess-ID) Namensräume behandelt. Die wichtigsten Details und die Lösung sind unten aufgeführt:
 
-1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan egter nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
-- Om `%unshare -p /bin/bash%` te loop, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
+1. **Problemerklärung**:
+- Der Linux-Kernel erlaubt es einem Prozess, neue Namensräume mit dem Systemaufruf `unshare` zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namensraums initiiert (als "unshare"-Prozess bezeichnet), tritt jedoch nicht in den neuen Namensraum ein; nur seine Kindprozesse tun dies.
+- Das Ausführen von `%unshare -p /bin/bash%` startet `/bin/bash` im selben Prozess wie `unshare`. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namensraum.
+- Der erste Kindprozess von `/bin/bash` im neuen Namensraum wird PID 1. Wenn dieser Prozess beendet wird, wird die Bereinigung des Namensraums ausgelöst, wenn keine anderen Prozesse vorhanden sind, da PID 1 die besondere Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namensraum.
 
-2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout produseer.
+2. **Folge**:
+- Das Beenden von PID 1 in einem neuen Namensraum führt zur Bereinigung des `PIDNS_HASH_ADDING`-Flags. Dies führt dazu, dass die Funktion `alloc_pid` fehlschlägt, wenn versucht wird, eine neue PID zuzuweisen, was den Fehler "Kann Speicher nicht zuweisen" erzeugt.
 
-3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
+3. **Lösung**:
+- Das Problem kann gelöst werden, indem die Option `-f` mit `unshare` verwendet wird. Diese Option bewirkt, dass `unshare` einen neuen Prozess nach der Erstellung des neuen PID-Namensraums forked.
+- Das Ausführen von `%unshare -fp /bin/bash%` stellt sicher, dass der `unshare`-Befehl selbst PID 1 im neuen Namensraum wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namensraum enthalten, wodurch das vorzeitige Beenden von PID 1 verhindert wird und eine normale PID-Zuweisung ermöglicht wird.
 
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse kan werk sonder om die geheue toewysing fout te ondervind.
+Durch die Sicherstellung, dass `unshare` mit dem `-f`-Flag ausgeführt wird, wird der neue PID-Namensraum korrekt aufrechterhalten, sodass `/bin/bash` und seine Unterprozesse ohne den Speicherzuweisungsfehler arbeiten können.
 
 </details>
 
@@ -70,24 +70,24 @@ Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamrui
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-Om gebruikersnaamruimte te gebruik, moet die Docker-daemon begin word met **`--userns-remap=default`** (In ubuntu 14.04 kan dit gedoen word deur `/etc/default/docker` te wysig en dan `sudo service docker restart` uit te voer)
+Um den Benutzernamespace zu verwenden, muss der Docker-Daemon mit **`--userns-remap=default`** gestartet werden (In Ubuntu 14.04 kann dies durch Ändern von `/etc/default/docker` und anschließendes Ausführen von `sudo service docker restart` erfolgen)
 
-### &#x20;Kontroleer in watter naamruimte jou proses is
+### &#x20;Überprüfen, in welchem Namespace sich Ihr Prozess befindet
 ```bash
 ls -l /proc/self/ns/user
 lrwxrwxrwx 1 root root 0 Apr  4 20:57 /proc/self/ns/user -> 'user:[4026531837]'
 ```
-Dit is moontlik om die gebruikerskaart vanaf die docker-container te kontroleer met:
+Es ist möglich, die Benutzerzuordnung aus dem Docker-Container mit folgendem Befehl zu überprüfen:
 ```bash
 cat /proc/self/uid_map
 0          0 4294967295  --> Root is root in host
 0     231072      65536  --> Root is 231072 userid in host
 ```
-Of van die gasheer met:
+Oder vom Host mit:
 ```bash
 cat /proc/<pid>/uid_map
 ```
-### Vind alle gebruikersname ruimtes
+### Finde alle Benutzer-Namensräume
 
 {% code overflow="wrap" %}
 ```bash
@@ -97,13 +97,13 @@ sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | 
 ```
 {% endcode %}
 
-### Gaan binne 'n Gebruiker-namespace in
+### Betreten Sie einen Benutzer-Namespace
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
-Ook, jy kan slegs **in 'n ander prosesnaamruimte ingaan as jy root is**. En jy **kan nie** **ingaan** in 'n ander naamruimte **sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/user`).
+Außerdem können Sie **nur in einen anderen Prozess-Namespace eintreten, wenn Sie root sind**. Und Sie **können** **nicht** **in einen anderen Namespace eintreten** **ohne einen Deskriptor**, der darauf verweist (wie `/proc/self/ns/user`).
 
-### Skep nuwe Gebruiker naamruimte (met kaarte)
+### Erstellen Sie einen neuen Benutzer-Namespace (mit Zuordnungen)
 
 {% code overflow="wrap" %}
 ```bash
@@ -119,14 +119,14 @@ nobody@ip-172-31-28-169:/home/ubuntu$ #Check how the user is nobody
 ps -ef | grep bash # The user inside the host is still root, not nobody
 root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
-### Herwinning van Vermoëns
+### Wiederherstellung von Berechtigungen
 
-In die geval van gebruikersname ruimtes, **wanneer 'n nuwe gebruikersnaam ruimte geskep word, word die proses wat in die naamruimte ingaan 'n volle stel vermoëns binne daardie naamruimte toegeken**. Hierdie vermoëns stel die proses in staat om bevoorregte operasies uit te voer soos **montage** **lêerstelsels**, die skep van toestelle, of die verandering van eienaarskap van lêers, maar **slegs binne die konteks van sy gebruikersnaam ruimte**.
+Im Fall von Benutzer-Namensräumen gilt: **Wenn ein neuer Benutzer-Namensraum erstellt wird, erhält der Prozess, der in den Namensraum eintritt, ein vollständiges Set von Berechtigungen innerhalb dieses Namensraums**. Diese Berechtigungen ermöglichen es dem Prozess, privilegierte Operationen wie **das Einhängen von** **Dateisystemen**, das Erstellen von Geräten oder das Ändern des Eigentums von Dateien durchzuführen, jedoch **nur im Kontext seines Benutzer-Namensraums**.
 
-Byvoorbeeld, wanneer jy die `CAP_SYS_ADMIN` vermoë binne 'n gebruikersnaam ruimte het, kan jy operasies uitvoer wat tipies hierdie vermoë vereis, soos die montage van lêerstelsels, maar slegs binne die konteks van jou gebruikersnaam ruimte. Enige operasies wat jy met hierdie vermoë uitvoer, sal nie die gasheerstelsel of ander naamruimtes beïnvloed nie.
+Zum Beispiel, wenn Sie die Berechtigung `CAP_SYS_ADMIN` innerhalb eines Benutzer-Namensraums haben, können Sie Operationen durchführen, die normalerweise diese Berechtigung erfordern, wie das Einhängen von Dateisystemen, jedoch nur im Kontext Ihres Benutzer-Namensraums. Alle Operationen, die Sie mit dieser Berechtigung durchführen, haben keine Auswirkungen auf das Host-System oder andere Namensräume.
 
 {% hint style="warning" %}
-Daarom, selfs al sal die verkryging van 'n nuwe proses binne 'n nuwe gebruikersnaam ruimte **jou al die vermoëns teruggee** (CapEff: 000001ffffffffff), kan jy eintlik **slegs diegene wat met die naamruimte verband hou** gebruik (montage byvoorbeeld) maar nie elkeen nie. So, dit op sigself is nie genoeg om uit 'n Docker houer te ontsnap nie.
+Daher, selbst wenn das Erhalten eines neuen Prozesses in einem neuen Benutzer-Namensraum **Ihnen alle Berechtigungen zurückgibt** (CapEff: 000001ffffffffff), können Sie tatsächlich **nur die verwenden, die mit dem Namensraum verbunden sind** (zum Beispiel Einhängen), aber nicht jede. Daher ist dies für sich genommen nicht ausreichend, um aus einem Docker-Container zu entkommen.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:
@@ -152,19 +152,19 @@ Probando: 0x140 . . . Error
 Probando: 0x141 . . . Error
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
-{% endhint %}hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 {% endhint %}
 </details>

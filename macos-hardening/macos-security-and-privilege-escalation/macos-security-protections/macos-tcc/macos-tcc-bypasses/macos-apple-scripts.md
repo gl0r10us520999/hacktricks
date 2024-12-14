@@ -17,40 +17,40 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Apple Scripts
 
-Dit is 'n skriptaal wat gebruik word vir taakautomatisering **wat met afstandsprosesse interaksie het**. Dit maak dit redelik maklik om **ander prosesse te vra om sekere aksies uit te voer**. **Malware** kan hierdie funksies misbruik om funksies wat deur ander prosesse uitgevoer word, te misbruik.\
-Byvoorbeeld, 'n malware kan **arbitraire JS-kode in blaaiers wat geopen is, inspuit**. Of **outomaties op** sekere toestemmings wat aan die gebruiker gevra word, te klik;
+Es ist eine Skriptsprache, die zur Automatisierung von Aufgaben **mit der Interaktion mit Remote-Prozessen** verwendet wird. Es macht es ziemlich einfach, **andere Prozesse zu bitten, einige Aktionen auszuführen**. **Malware** kann diese Funktionen missbrauchen, um Funktionen zu missbrauchen, die von anderen Prozessen exportiert werden.\
+Zum Beispiel könnte eine Malware **willkürlichen JS-Code in geöffneten Browserseiten injizieren**. Oder **automatisch auf** einige vom Benutzer angeforderte Berechtigungen klicken;
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
 end tell
 ```
-Hier is 'n paar voorbeelde: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
-Vind meer inligting oor malware wat AppleScripts gebruik [**hier**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
+Hier sind einige Beispiele: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
+Weitere Informationen über Malware, die AppleScripts verwendet, finden Sie [**hier**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
 
-Apple-skripte kan maklik "**gecompileer**" word. Hierdie weergawes kan maklik "**gedecompileer**" word met `osadecompile`
+Apple-Skripte können leicht "**kompiliert**" werden. Diese Versionen können leicht "**dekompiliert**" werden mit `osadecompile`
 
-However, this scripts can also be **exported as "Read only"** (via the "Export..." option):
+Diese Skripte können auch **als "Nur lesen" exportiert** werden (über die Option "Exportieren..."):
 
 <figure><img src="https://github.com/carlospolop/hacktricks/raw/master/.gitbook/assets/image%20(556).png" alt=""><figcaption></figcaption></figure>
 ```
 file mal.scpt
 mal.scpt: AppleScript compiled
 ```
-en in hierdie geval kan die inhoud nie gedekomplileer word nie, selfs nie met `osadecompile` nie.
+und in diesem Fall kann der Inhalt selbst mit `osadecompile` nicht dekompiliert werden.
 
-Daar is egter steeds 'n paar gereedskap wat gebruik kan word om hierdie soort uitvoerbare lêers te verstaan, [**lees hierdie navorsing vir meer inligting**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Die gereedskap [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) met [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) sal baie nuttig wees om te verstaan hoe die skrip werk.
+Es gibt jedoch immer noch einige Tools, die verwendet werden können, um diese Art von ausführbaren Dateien zu verstehen, [**lesen Sie diese Forschung für weitere Informationen**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Das Tool [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) mit [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) wird sehr nützlich sein, um zu verstehen, wie das Skript funktioniert.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

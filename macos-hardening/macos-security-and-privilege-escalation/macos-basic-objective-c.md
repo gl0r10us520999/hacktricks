@@ -1,19 +1,18 @@
 # macOS Objective-C
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
-{% endhint %}
 {% endhint %}
 {% endhint %}
 {% endhint %}
@@ -32,22 +31,22 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 ## Objective-C
 
 {% hint style="danger" %}
-Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklarings **wanneer** **gecompileer** word in [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van:
+Beachte, dass Programme, die in Objective-C geschrieben sind, **ihre** Klassendeklarationen **beibehalten**, **wenn** sie in [Mach-O-Binärdateien](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) **kompiliert** werden. Solche Klassendeklarationen **beinhaltet** den Namen und Typ von:
 {% endhint %}
 
-* Die klas
-* Die klas metodes
-* Die klas instansie veranderlikes
+* Der Klasse
+* Den Klassenmethoden
+* Den Instanzvariablen der Klasse
 
-Jy kan hierdie inligting verkry deur [**class-dump**](https://github.com/nygard/class-dump):
+Du kannst diese Informationen mit [**class-dump**](https://github.com/nygard/class-dump) erhalten:
 ```bash
 class-dump Kindle.app
 ```
-Let daarop dat hierdie name obfuskeer kan word om die omkering van die binêre meer moeilik te maak.
+Beachten Sie, dass diese Namen obfuskiert werden könnten, um das Reverse Engineering der Binärdatei zu erschweren.
 
-## Klasse, Metodes & Objekte
+## Klassen, Methoden & Objekte
 
-### Koppelvlak, Eienskappe & Metodes
+### Schnittstelle, Eigenschaften & Methoden
 ```objectivec
 // Declare the interface of the class
 @interface MyVehicle : NSObject
@@ -62,7 +61,7 @@ Let daarop dat hierdie name obfuskeer kan word om die omkering van die binêre m
 
 @end
 ```
-### **Klas**
+### **Klasse**
 ```objectivec
 @implementation MyVehicle : NSObject
 
@@ -78,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Object & Call Method**
+### **Objekt & Methodenaufruf**
 
-Om 'n instansie van 'n klas te skep, word die **`alloc`** metode aangeroep wat **geheue toewys** vir elke **eienskap** en **nul** daardie toewysings. Dan word **`init`** aangeroep, wat die **eienskappe** tot die **vereiste waardes** **initaliseer**.
+Um eine Instanz einer Klasse zu erstellen, wird die **`alloc`**-Methode aufgerufen, die **Speicher** für jede **Eigenschaft** **zuweist** und diese Zuweisungen **nullt**. Dann wird **`init`** aufgerufen, das die **Eigenschaften** auf die **erforderlichen Werte** **initialisiert**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -92,15 +91,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
-### **Klas Metodes**
+### **Klassenmethoden**
 
-Klas metodes word gedefinieer met die **plusteken** (+) en nie die koppelteken (-) wat met instansiemetodes gebruik word nie. Soos die **NSString** klas metode **`stringWithString`**:
+Klassenmethoden werden mit dem **Pluszeichen** (+) definiert, nicht mit dem Bindestrich (-), der bei Instanzmethoden verwendet wird. Wie die **NSString** Klassenmethode **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-Om **te stel** & **te kry** eienskappe, kan jy dit doen met 'n **puntnotasie** of soos asof jy 'n **metode aanroep**:
+Um Eigenschaften zu **setzen** und **abzurufen**, können Sie dies mit einer **Punktnotation** oder so tun, als ob Sie **eine Methode aufrufen**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -110,9 +109,9 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Instansie Veranderlikes**
+### **Instanzvariablen**
 
-Alternatiewelik tot setter & getter metodes kan jy instansie veranderlikes gebruik. Hierdie veranderlikes het dieselfde naam as die eienskappe, maar begin met 'n "\_":
+Alternativ zu Setter- und Getter-Methoden können Sie Instanzvariablen verwenden. Diese Variablen haben denselben Namen wie die Eigenschaften, beginnen jedoch mit einem "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
@@ -121,9 +120,9 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 ```
 ### Protokolle
 
-Protokolle is 'n stel metodeverklarings (sonder eienskappe). 'n Klas wat 'n protokol implementeer, implementeer die verklaarde metodes.
+Protokolle sind eine Reihe von Methodendeklarationen (ohne Eigenschaften). Eine Klasse, die ein Protokoll implementiert, implementiert die deklarierten Methoden.
 
-Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **default** is 'n metode **verpligtend** (maar jy kan dit ook met 'n **`@required`** etiket aandui). Om aan te dui dat 'n metode opsioneel is, gebruik **`@optional`**.
+Es gibt 2 Arten von Methoden: **verpflichtend** und **optional**. Standardmäßig ist eine Methode **verpflichtend** (aber Sie können dies auch mit einem **`@required`** Tag angeben). Um anzugeben, dass eine Methode optional ist, verwenden Sie **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -133,7 +132,7 @@ Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **default** is '
 - (void) method3; //optional
 @end
 ```
-### Alles saam
+### Alles zusammen
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -183,9 +182,9 @@ NSLog(@"Number of wheels: %i", mySuperCar.numberOfWheels);
 [mySuperCar makeLongTruck];
 }
 ```
-### Basiese Klasse
+### Grundlegende Klassen
 
-#### String
+#### Zeichenfolge
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -196,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Basiese klasse is **onveranderlik**, so om 'n string aan 'n bestaande een toe te voeg, moet 'n **nuwe NSString geskep word**.
+Basis-Klassen sind **unveränderlich**, daher muss eine **neue NSString erstellt werden**, um einen String an einen bestehenden anzuhängen.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -204,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Of jy kan ook 'n **mutable** string klas gebruik:
+Oder Sie könnten auch eine **veränderbare** Zeichenfolgenklasse verwenden:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -215,7 +214,9 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-#### Nommer
+{% endcode %}
+
+#### Nummer
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -237,6 +238,8 @@ NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
 #### Array, Sets & Dictionary
+
+{% code overflow="wrap" %}
 ```objectivec
 // Inmutable arrays
 NSArray *colorsArray1 = [NSArray arrayWithObjects:@"red", @"green", @"blue", nil];
@@ -284,9 +287,9 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 {% endcode %}
 
-### Blokke
+### Blöcke
 
-Blokke is **funksies wat as objekte optree** sodat hulle aan funksies oorgedra kan word of **gestoor** kan word in **arrays** of **woordeboeke**. Ook, hulle kan **'n waarde verteenwoordig as hulle waardes gegee word** so dit is soortgelyk aan lambdas.
+Blöcke sind **Funktionen, die sich wie Objekte verhalten**, sodass sie an Funktionen übergeben oder in **Arrays** oder **Wörterbüchern** **gespeichert** werden können. Außerdem können sie **einen Wert darstellen, wenn ihnen Werte gegeben werden**, sodass sie ähnlich wie Lambdas sind.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -303,7 +306,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-Dit is ook moontlik om **'n bloktipe te definieer wat as 'n parameter** in funksies gebruik kan word:
+Es ist auch möglich, **einen Blocktyp zu definieren, der als Parameter** in Funktionen verwendet wird:
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -325,7 +328,7 @@ genericLogger(^{
 NSLog(@"%@", @"This is my second block");
 });
 ```
-### Lêers
+### Dateien
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -354,7 +357,7 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Dit is ook moontlik om lêers **te bestuur met `NSURL`-objekte in plaas van `NSString`**-objekte. Die metode name is soortgelyk, maar **met `URL` in plaas van `Path`**.
+Es ist auch möglich, Dateien **mit `NSURL`-Objekten anstelle von `NSString`-Objekten** zu verwalten. Die Methodennamen sind ähnlich, aber **mit `URL` anstelle von `Path`**.
 ```objectivec
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

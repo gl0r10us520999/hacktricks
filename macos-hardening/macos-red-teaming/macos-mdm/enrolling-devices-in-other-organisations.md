@@ -1,16 +1,16 @@
-# Enrolling Devices in Other Organisations
+# Geräte in anderen Organisationen anmelden
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -21,50 +21,76 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Intro
+## Einführung
 
-Soos [**voorheen kommentaar**](./#what-is-mdm-mobile-device-management)**,** om 'n toestel in 'n organisasie te probeer registreer, **is slegs 'n Serienommer wat aan daardie Organisasie behoort, nodig**. Sodra die toestel geregistreer is, sal verskeie organisasies sensitiewe data op die nuwe toestel installeer: sertifikate, toepassings, WiFi wagwoorde, VPN konfigurasies [en so aan](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Daarom kan dit 'n gevaarlike toegangspunt vir aanvallers wees as die registrasieproses nie korrek beskerm word nie.
+Wie [**bereits erwähnt**](./#what-is-mdm-mobile-device-management)**,** um ein Gerät in eine Organisation einzuschreiben, **wird nur eine Seriennummer benötigt, die zu dieser Organisation gehört**. Sobald das Gerät eingeschrieben ist, installieren mehrere Organisationen sensible Daten auf dem neuen Gerät: Zertifikate, Anwendungen, WLAN-Passwörter, VPN-Konfigurationen [und so weiter](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Daher könnte dies ein gefährlicher Einstiegspunkt für Angreifer sein, wenn der Einschreibungsprozess nicht korrekt geschützt ist.
 
-**Die volgende is 'n opsomming van die navorsing [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Kyk daarna vir verdere tegniese besonderhede!**
+**Die folgende Zusammenfassung basiert auf der Forschung [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Überprüfen Sie sie für weitere technische Details!**
 
-## Oorsig van DEP en MDM Binaire Analise
+## Übersicht über DEP und MDM Binäranalyse
 
-Hierdie navorsing delf in die binaire wat geassosieer word met die Toestel Registrasie Program (DEP) en Mobiele Toestel Bestuur (MDM) op macOS. Sleutelkomponente sluit in:
+Diese Forschung befasst sich mit den Binärdateien, die mit dem Device Enrollment Program (DEP) und Mobile Device Management (MDM) auf macOS verbunden sind. Wichtige Komponenten sind:
 
-- **`mdmclient`**: Kommunikeer met MDM bedieners en aktiveer DEP aanmeldings op macOS weergawes voor 10.13.4.
-- **`profiles`**: Bestuur Konfigurasie Profiele, en aktiveer DEP aanmeldings op macOS weergawes 10.13.4 en later.
-- **`cloudconfigurationd`**: Bestuur DEP API kommunikasies en haal Toestel Registrasie profiele op.
+- **`mdmclient`**: Kommuniziert mit MDM-Servern und löst DEP-Check-ins auf macOS-Versionen vor 10.13.4 aus.
+- **`profiles`**: Verwaltet Konfigurationsprofile und löst DEP-Check-ins auf macOS-Versionen 10.13.4 und später aus.
+- **`cloudconfigurationd`**: Verwaltet DEP-API-Kommunikationen und ruft Geräteanmeldungsprofile ab.
 
-DEP aanmeldings gebruik die `CPFetchActivationRecord` en `CPGetActivationRecord` funksies van die private Konfigurasie Profiele raamwerk om die Aktivering Rekord op te haal, met `CPFetchActivationRecord` wat saamwerk met `cloudconfigurationd` deur XPC.
+DEP-Check-ins nutzen die Funktionen `CPFetchActivationRecord` und `CPGetActivationRecord` aus dem privaten Konfigurationsprofil-Framework, um den Aktivierungsdatensatz abzurufen, wobei `CPFetchActivationRecord` mit `cloudconfigurationd` über XPC koordiniert.
 
-## Tesla Protokol en Absinthe Skema Omgekeerde Ingenieurswese
+## Tesla-Protokoll und Absinthe-Schema Reverse Engineering
 
-Die DEP aanmelding behels `cloudconfigurationd` wat 'n geënkripteerde, geskrewe JSON payload na _iprofiles.apple.com/macProfile_ stuur. Die payload sluit die toestel se serienommer en die aksie "RequestProfileConfiguration" in. Die enkripsieskema wat gebruik word, word intern as "Absinthe" verwys. Om hierdie skema te ontrafel is kompleks en behels verskeie stappe, wat gelei het tot die verkenning van alternatiewe metodes om arbitrêre serienommers in die Aktivering Rekord versoek in te voeg.
+Der DEP-Check-in umfasst, dass `cloudconfigurationd` eine verschlüsselte, signierte JSON-Nutzlast an _iprofiles.apple.com/macProfile_ sendet. Die Nutzlast enthält die Seriennummer des Geräts und die Aktion "RequestProfileConfiguration". Das verwendete Verschlüsselungsschema wird intern als "Absinthe" bezeichnet. Das Entschlüsseln dieses Schemas ist komplex und umfasst zahlreiche Schritte, was zur Erkundung alternativer Methoden führte, um beliebige Seriennummern in die Anfrage des Aktivierungsdatensatzes einzufügen.
 
-## Proxying DEP Versoeke
+## Proxying von DEP-Anfragen
 
-Pogings om DEP versoeke na _iprofiles.apple.com_ te onderskep en te wysig met behulp van gereedskap soos Charles Proxy is belemmer deur payload enkripsie en SSL/TLS sekuriteitsmaatreëls. Dit is egter moontlik om die `MCCloudConfigAcceptAnyHTTPSCertificate` konfigurasie in te skakel, wat die bediener sertifikaat validasie omseil, alhoewel die geënkripteerde aard van die payload steeds die wysiging van die serienommer sonder die dekripsiesleutel verhinder.
+Versuche, DEP-Anfragen an _iprofiles.apple.com_ mit Tools wie Charles Proxy abzufangen und zu modifizieren, wurden durch die Verschlüsselung der Nutzlast und SSL/TLS-Sicherheitsmaßnahmen behindert. Das Aktivieren der Konfiguration `MCCloudConfigAcceptAnyHTTPSCertificate` ermöglicht jedoch das Umgehen der Serverzertifikatsvalidierung, obwohl die verschlüsselte Natur der Nutzlast weiterhin eine Modifikation der Seriennummer ohne den Entschlüsselungsschlüssel verhindert.
 
-## Instrumentering van Stelsels Binaries wat met DEP Interaksie het
+## Instrumentierung von System-Binärdateien, die mit DEP interagieren
 
-Instrumentering van stelsels binaries soos `cloudconfigurationd` vereis die deaktivering van Stelsel Integriteit Beskerming (SIP) op macOS. Met SIP gedeaktiveer, kan gereedskap soos LLDB gebruik word om aan stelsels prosesse te koppel en moontlik die serienommer wat in DEP API interaksies gebruik word, te wysig. Hierdie metode is verkieslik aangesien dit die kompleksiteite van regte en kode ondertekening vermy.
+Die Instrumentierung von System-Binärdateien wie `cloudconfigurationd` erfordert das Deaktivieren des System Integrity Protection (SIP) auf macOS. Mit deaktiviertem SIP können Tools wie LLDB verwendet werden, um sich an Systemprozesse anzuhängen und möglicherweise die in DEP-API-Interaktionen verwendete Seriennummer zu modifizieren. Diese Methode ist vorzuziehen, da sie die Komplexität von Berechtigungen und Code-Signierung vermeidet.
 
-**Eksploitering van Binaire Instrumentasie:**
-Die wysiging van die DEP versoek payload voor JSON serialisering in `cloudconfigurationd` het effektief geblyk. Die proses het behels:
+**Ausnutzung der Binärinstrumentierung:**
+Die Modifikation der DEP-Anfrage-Nutzlast vor der JSON-Serialisierung in `cloudconfigurationd` erwies sich als effektiv. Der Prozess umfasste:
 
-1. Koppel LLDB aan `cloudconfigurationd`.
-2. Vind die punt waar die stelsels serienommer opgevraag word.
-3. Spuit 'n arbitrêre serienommer in die geheue in voordat die payload geënkripteer en gestuur word.
+1. Anheften von LLDB an `cloudconfigurationd`.
+2. Lokalisierung des Punktes, an dem die Systemseriennummer abgerufen wird.
+3. Einspeisung einer beliebigen Seriennummer in den Speicher, bevor die Nutzlast verschlüsselt und gesendet wird.
 
-Hierdie metode het toegelaat om volledige DEP profiele vir arbitrêre serienommers te verkry, wat 'n potensiële kwesbaarheid demonstreer.
+Diese Methode ermöglichte das Abrufen vollständiger DEP-Profile für beliebige Seriennummern und demonstrierte eine potenzielle Schwachstelle.
 
-### Outomatisering van Instrumentasie met Python
+### Automatisierung der Instrumentierung mit Python
 
-Die eksploitasiestap is geoutomatiseer met behulp van Python met die LLDB API, wat dit haalbaar maak om programmaties arbitrêre serienommers in te spuit en ooreenstemmende DEP profiele op te haal.
+Der Ausnutzungsprozess wurde mit Python unter Verwendung der LLDB-API automatisiert, was es ermöglichte, programmgesteuert beliebige Seriennummern einzuspeisen und die entsprechenden DEP-Profile abzurufen.
 
-### Potensiële Impakte van DEP en MDM Kwesbaarhede
+### Potenzielle Auswirkungen von DEP- und MDM-Schwachstellen
 
-Die navorsing het beduidende sekuriteitskwessies beklemtoon:
+Die Forschung hob erhebliche Sicherheitsbedenken hervor:
 
-1. **Inligting Ontsluiting**: Deur 'n DEP-geregistreerde serienommer te verskaf, kan sensitiewe organisatoriese inligting wat in die DEP profiel bevat is, verkry word.
+1. **Informationsoffenlegung**: Durch die Bereitstellung einer DEP-registrierten Seriennummer können sensible organisatorische Informationen, die im DEP-Profil enthalten sind, abgerufen werden.
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks unterstützen</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

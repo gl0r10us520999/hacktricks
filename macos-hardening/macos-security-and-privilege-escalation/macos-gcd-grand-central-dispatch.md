@@ -1,109 +1,109 @@
 # macOS GCD - Grand Central Dispatch
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-**Grand Central Dispatch (GCD),** ook bekend as **libdispatch** (`libdispatch.dyld`), is beskikbaar op beide macOS en iOS. Dit is 'n tegnologie ontwikkel deur Apple om programondersteuning te optimaliseer vir gelyktydige (multidraad) uitvoering op multikern hardeware.
+**Grand Central Dispatch (GCD),** auch bekannt als **libdispatch** (`libdispatch.dyld`), ist sowohl in macOS als auch in iOS verfügbar. Es ist eine von Apple entwickelte Technologie zur Optimierung der Anwendungsunterstützung für parallele (multithreaded) Ausführung auf Multicore-Hardware.
 
-**GCD** voorsien en bestuur **FIFO-rye** waar jou program kan **take indien** in die vorm van **blokvoorwerpe**. Blokke wat na verspreidingsrye gestuur word, word **uitgevoer op 'n poel van drade** wat volledig deur die stelsel bestuur word. GCD skep outomaties drade vir die uitvoering van die take in die verspreidingsrye en skeduleer daardie take om op die beskikbare kerne uit te voer.
+**GCD** stellt **FIFO-Warteschlangen** bereit und verwaltet diese, in die Ihre Anwendung **Aufgaben** in Form von **Blockobjekten** **einreichen** kann. Blöcke, die an Dispatch-Warteschlangen übergeben werden, werden **auf einem Pool von Threads** ausgeführt, die vollständig vom System verwaltet werden. GCD erstellt automatisch Threads zur Ausführung der Aufgaben in den Dispatch-Warteschlangen und plant diese Aufgaben zur Ausführung auf den verfügbaren Kernen.
 
 {% hint style="success" %}
-Kortliks, om kode **gelyktydig** uit te voer, kan prosesse **blokke kode na GCD stuur**, wat sal sorg vir hul uitvoering. Daarom skep prosesse nie nuwe drade nie; **GCD voer die gegewe kode uit met sy eie poel van drade** (wat moontlik vermeerder of verminder soos nodig).
+Zusammenfassend lässt sich sagen, dass Prozesse **Code parallel** ausführen können, indem sie **Codeblöcke an GCD senden**, das sich um deren Ausführung kümmert. Daher erstellen Prozesse keine neuen Threads; **GCD führt den gegebenen Code mit seinem eigenen Pool von Threads aus** (der nach Bedarf erhöht oder verringert werden kann).
 {% endhint %}
 
-Dit is baie nuttig om parallelle uitvoering suksesvol te bestuur, wat die aantal drade wat prosesse skep aansienlik verminder en die parallelle uitvoering optimaliseer. Dit is ideaal vir take wat **groot parallelisme** vereis (brute-forcing?) of vir take wat nie die hoofdraad moet blokkeer nie: Byvoorbeeld, die hoofdraad op iOS hanteer UI-interaksies, dus enige ander funksionaliteit wat die program kan laat vashang (soek, 'n web besoek, 'n lêer lees...) word op hierdie manier hanteer.
+Dies ist sehr hilfreich, um die parallele Ausführung erfolgreich zu verwalten, da die Anzahl der Threads, die Prozesse erstellen, erheblich reduziert und die parallele Ausführung optimiert wird. Dies ist ideal für Aufgaben, die **großen Parallelismus** erfordern (Brute-Forcing?) oder für Aufgaben, die den Hauptthread nicht blockieren sollten: Zum Beispiel verarbeitet der Hauptthread in iOS UI-Interaktionen, sodass jede andere Funktionalität, die die App zum Hängen bringen könnte (Suchen, Zugriff auf das Web, Lesen einer Datei...), auf diese Weise verwaltet wird.
 
-### Blokke
+### Blöcke
 
-'n Blok is 'n **selfstandige afdeling kode** (soos 'n funksie met argumente wat 'n waarde teruggee) en kan ook gebonde veranderlikes spesifiseer.\
-Tog, op kompilervlak bestaan blokke nie, hulle is `os_object`s. Elkeen van hierdie voorwerpe word gevorm deur twee strukture:
+Ein Block ist ein **selbstenthaltener Abschnitt von Code** (wie eine Funktion mit Argumenten, die einen Wert zurückgibt) und kann auch gebundene Variablen angeben.\
+Auf Compiler-Ebene existieren Blöcke jedoch nicht, sie sind `os_object`s. Jedes dieser Objekte besteht aus zwei Strukturen:
 
-* **blokliteraal**:&#x20;
-* Dit begin met die **`isa`** veld, wat na die blok se klas wys:
-* `NSConcreteGlobalBlock` (blokke van `__DATA.__const`)
-* `NSConcreteMallocBlock` (blokke in die hoop)
-* `NSConcreateStackBlock` (blokke in stapel)
-* Dit het **`vlaggies`** (wat velde aandui wat teenwoordig is in die blokbeskrywing) en 'n paar gereserveerde byte
-* Die funksie-aanwysers om te roep
-* 'n aanwyser na die blokbeskrywing
-* Ingevoerde blokveranderlikes (indien enige)
-* **blokbeskrywing**: Dit se grootte hang af van die data wat teenwoordig is (soos aangedui in die vorige vlaggies)
-* Dit het 'n paar gereserveerde byte
-* Die grootte daarvan
-* Dit sal gewoonlik 'n aanwyser na 'n Objective-C-stylhandtekening hê om te weet hoeveel spasie nodig is vir die parameters (vlag `BLOCK_HAS_SIGNATURE`)
-* As veranderlikes verwys word, sal hierdie blok ook aanwysers hê na 'n kopiehulpprogram (wat die waarde aan die begin kopieer) en 'n verwyderhulpprogram (wat dit vrymaak).
+* **Blockliteral**:&#x20;
+* Es beginnt mit dem **`isa`**-Feld, das auf die Klasse des Blocks zeigt:
+* `NSConcreteGlobalBlock` (Blöcke aus `__DATA.__const`)
+* `NSConcreteMallocBlock` (Blöcke im Heap)
+* `NSConcreateStackBlock` (Blöcke im Stack)
+* Es hat **`flags`** (die Felder im Block-Descriptor anzeigen) und einige reservierte Bytes
+* Der Funktionszeiger zum Aufrufen
+* Ein Zeiger auf den Block-Descriptor
+* Importierte Blockvariablen (falls vorhanden)
+* **Block-Descriptor**: Die Größe hängt von den vorhandenen Daten ab (wie in den vorherigen Flags angegeben)
+* Es hat einige reservierte Bytes
+* Die Größe davon
+* Es wird normalerweise einen Zeiger auf eine Objective-C-Stil-Signatur haben, um zu wissen, wie viel Platz für die Parameter benötigt wird (Flag `BLOCK_HAS_SIGNATURE`)
+* Wenn Variablen referenziert werden, hat dieser Block auch Zeiger auf einen Kopierhelfer (der den Wert zu Beginn kopiert) und einen Entsorgungshelfer (der ihn freigibt).
 
-### Ryke
+### Warteschlangen
 
-'n Verspreidingsry is 'n benoemde voorwerp wat FIFO-orden van blokke vir uitvoering voorsien.
+Eine Dispatch-Warteschlange ist ein benanntes Objekt, das FIFO-Anordnung von Blöcken für die Ausführung bereitstellt.
 
-Blokke word in rye geplaas om uitgevoer te word, en hierdie ondersteun 2 modusse: `DISPATCH_QUEUE_SERIAL` en `DISPATCH_QUEUE_CONCURRENT`. Natuurlik sal die **seriële** een **geen wedstrydkondisieprobleme hê** nie aangesien 'n blok nie uitgevoer sal word totdat die vorige een klaar is nie. Maar **die ander tipe ry mag dit hê**.
+Blöcke werden in Warteschlangen gesetzt, um ausgeführt zu werden, und diese unterstützen 2 Modi: `DISPATCH_QUEUE_SERIAL` und `DISPATCH_QUEUE_CONCURRENT`. Natürlich hat die **serielle** Warteschlange **keine Probleme mit Race Conditions**, da ein Block nicht ausgeführt wird, bis der vorherige abgeschlossen ist. Aber **der andere Warteschlangentyp könnte dies haben**.
 
-Verstekrye:
+Standardwarteschlangen:
 
-* `.main-thread`: Vanaf `dispatch_get_main_queue()`
-* `.libdispatch-manager`: GCD se rybestuurder
-* `.root.libdispatch-manager`: GCD se rybestuurder
-* `.root.maintenance-qos`: Laagste prioriteitstake
+* `.main-thread`: Von `dispatch_get_main_queue()`
+* `.libdispatch-manager`: GCDs Warteschlangenmanager
+* `.root.libdispatch-manager`: GCDs Warteschlangenmanager
+* `.root.maintenance-qos`: Aufgaben mit der niedrigsten Priorität
 * `.root.maintenance-qos.overcommit`
-* `.root.background-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
+* `.root.background-qos`: Verfügbar als `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
 * `.root.background-qos.overcommit`
-* `.root.utility-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
+* `.root.utility-qos`: Verfügbar als `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
 * `.root.utility-qos.overcommit`
-* `.root.default-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_DEFAULT`
+* `.root.default-qos`: Verfügbar als `DISPATCH_QUEUE_PRIORITY_DEFAULT`
 * `.root.background-qos.overcommit`
-* `.root.user-initiated-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_HIGH`
+* `.root.user-initiated-qos`: Verfügbar als `DISPATCH_QUEUE_PRIORITY_HIGH`
 * `.root.background-qos.overcommit`
-* `.root.user-interactive-qos`: Hoogste prioriteit
+* `.root.user-interactive-qos`: Höchste Priorität
 * `.root.background-qos.overcommit`
 
-Let daarop dat dit die stelsel sal wees wat besluit **watter drade watter rye op enige tyd hanteer** (veral drade kan in dieselfde ry werk of dieselfde draad kan op 'n stadium in verskillende rye werk)
+Beachten Sie, dass das System entscheidet, **welche Threads zu welchem Zeitpunkt welche Warteschlangen bearbeiten** (mehrere Threads können in derselben Warteschlange arbeiten oder derselbe Thread kann zu einem bestimmten Zeitpunkt in verschiedenen Warteschlangen arbeiten).
 
-#### Eienskappe
+#### Attribute
 
-Wanneer 'n ry geskep word met **`dispatch_queue_create`** is die derde argument 'n `dispatch_queue_attr_t`, wat gewoonlik ofwel `DISPATCH_QUEUE_SERIAL` (wat eintlik NULL is) of `DISPATCH_QUEUE_CONCURRENT` is wat 'n aanwyser na 'n `dispatch_queue_attr_t` struktuur is wat toelaat om sekere parameters van die ry te beheer.
+Beim Erstellen einer Warteschlange mit **`dispatch_queue_create`** ist das dritte Argument ein `dispatch_queue_attr_t`, das normalerweise entweder `DISPATCH_QUEUE_SERIAL` (was tatsächlich NULL ist) oder `DISPATCH_QUEUE_CONCURRENT` ist, was ein Zeiger auf eine `dispatch_queue_attr_t`-Struktur ist, die es ermöglicht, einige Parameter der Warteschlange zu steuern.
 
-### Verspreidingsvoorwerpe
+### Dispatch-Objekte
 
-Daar is verskeie voorwerpe wat libdispatch gebruik en rye en blokke is net 2 van hulle. Dit is moontlik om hierdie voorwerpe te skep met `dispatch_object_create`:
+Es gibt mehrere Objekte, die libdispatch verwendet, und Warteschlangen und Blöcke sind nur 2 davon. Es ist möglich, diese Objekte mit `dispatch_object_create` zu erstellen:
 
-* `blok`
-* `data`: Datablokke
-* `groep`: Groep van blokke
-* `io`: Asyns I/O-versoeke
-* `mach`: Mach-poorte
-* `mach_msg`: Mach-boodskappe
-* `pthread_root_queue`: 'n Ry met 'n pthread-draadpoel en nie werkrye nie
-* `ry`
+* `block`
+* `data`: Datenblöcke
+* `group`: Gruppe von Blöcken
+* `io`: Asynchrone I/O-Anfragen
+* `mach`: Mach-Ports
+* `mach_msg`: Mach-Nachrichten
+* `pthread_root_queue`: Eine Warteschlange mit einem pthread-Thread-Pool und nicht Arbeitswarteschlangen
+* `queue`
 * `semaphore`
-* `bron`: Gebeurtenisbron
+* `source`: Ereignisquelle
 
 ## Objective-C
 
-In Objective-C is daar verskillende funksies om 'n blok te stuur om parallel uitgevoer te word:
+In Objective-C gibt es verschiedene Funktionen, um einen Block zur parallelen Ausführung zu senden:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Stuur 'n blok vir asynchrone uitvoering na 'n verspreidingsry en keer dadelik terug.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Stuur 'n blokvoorwerp vir uitvoering en keer terug nadat daardie blok klaar is met uitvoer.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Voer 'n blokvoorwerp net een keer uit vir die leeftyd van 'n aansoek.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Stuur 'n werkeenheid vir uitvoering en keer slegs terug nadat dit klaar is met uitvoer. Anders as [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), respekteer hierdie funksie alle eienskappe van die ry wanneer dit die blok uitvoer.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Reicht einen Block zur asynchronen Ausführung in einer Dispatch-Warteschlange ein und gibt sofort zurück.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Reicht ein Blockobjekt zur Ausführung ein und gibt zurück, nachdem dieser Block die Ausführung abgeschlossen hat.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Führt ein Blockobjekt nur einmal während der Lebensdauer einer Anwendung aus.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Reicht ein Arbeitsobjekt zur Ausführung ein und gibt nur zurück, nachdem es die Ausführung abgeschlossen hat. Im Gegensatz zu [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) respektiert diese Funktion alle Attribute der Warteschlange, wenn sie den Block ausführt.
 
-Hierdie funksies verwag hierdie parameters: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`ry,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`blok`**
+Diese Funktionen erwarten diese Parameter: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Dit is die **struktuur van 'n Blok**:
+Dies ist die **Struktur eines Blocks**:
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -114,7 +114,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-En hierdie is 'n voorbeeld om **parallelisme** te gebruik met **`dispatch_async`**:
+Und dies ist ein Beispiel, um **Parallelismus** mit **`dispatch_async`** zu verwenden:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -146,8 +146,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** is 'n biblioteek wat **Swift-bindings** aan die Grand Central Dispatch (GCD) raamwerk voorsien wat oorspronklik in C geskryf is.\
-Die **`libswiftDispatch`** biblioteek omhul die C GCD API's in 'n meer Swift-vriendelike koppelvlak, wat dit makliker en meer intuïtief maak vir Swift-ontwikkelaars om met GCD te werk.
+**`libswiftDispatch`** ist eine Bibliothek, die **Swift-Bindings** für das Grand Central Dispatch (GCD) Framework bereitstellt, das ursprünglich in C geschrieben wurde.\
+Die **`libswiftDispatch`**-Bibliothek umschließt die C GCD-APIs in einer benutzerfreundlicheren Swift-Schnittstelle, was es für Swift-Entwickler einfacher und intuitiver macht, mit GCD zu arbeiten.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -155,7 +155,7 @@ Die **`libswiftDispatch`** biblioteek omhul die C GCD API's in 'n meer Swift-vri
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Kodevoorbeeld**:
+**Codebeispiel**:
 ```swift
 import Foundation
 
@@ -184,7 +184,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Die volgende Frida-skrip kan gebruik word om in verskeie `dispatch`-funksies in te hake en die tou-naam, die agtervolging en die blok te onttrek: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Das folgende Frida-Skript kann verwendet werden, um **in mehrere `dispatch`** Funktionen einzuhaken und den Warteschafennamen, den Backtrace und den Block zu extrahieren: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -199,9 +199,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Tans het Ghidra nie die ObjectiveC **`dispatch_block_t`** struktuur nie, ook nie die **`swift_dispatch_block`** een nie verstaan nie.
+Derzeit versteht Ghidra weder die ObjectiveC **`dispatch_block_t`** Struktur noch die **`swift_dispatch_block`** Struktur.
 
-So as jy wil hê dit moet hulle verstaan, kan jy hulle net **declare**:
+Wenn Sie möchten, dass es sie versteht, könnten Sie sie einfach **deklarieren**:
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -209,37 +209,37 @@ So as jy wil hê dit moet hulle verstaan, kan jy hulle net **declare**:
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Vind dan 'n plek in die kode waar hulle **gebruik** word:
+Suchen Sie dann einen Ort im Code, an dem sie **verwendet** werden:
 
 {% hint style="success" %}
-Merk alle verwysings na "block" op om te verstaan hoe jy kan uitvind dat die struktuur gebruik word.
+Notieren Sie alle Verweise auf "block", um zu verstehen, wie Sie herausfinden könnten, dass die Struktur verwendet wird.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Regsklik op die veranderlike -> Herklassifiseer Veranderlike en kies in hierdie geval **`swift_dispatch_block`**:
+Rechtsklick auf die Variable -> Variable umbenennen und in diesem Fall **`swift_dispatch_block`** auswählen:
 
 <figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra sal outomaties alles herskryf:
+Ghidra wird automatisch alles umschreiben:
 
 <figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Verwysings
+## References
 
-* [**\*OS Internals, Volume I: User Mode. Deur Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

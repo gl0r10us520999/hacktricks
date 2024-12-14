@@ -29,45 +29,45 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-'n UTS (UNIX Time-Sharing System) namespace is 'n Linux-kernkenmerk wat i**solasie van twee stelselnommers** bied: die **hostname** en die **NIS** (Network Information Service) domeinnaam. Hierdie isolasie laat elke UTS namespace toe om sy **eie onafhanklike hostname en NIS domeinnaam** te hê, wat veral nuttig is in kontenerisasiescenario's waar elke kontener as 'n aparte stelsel met sy eie hostname moet verskyn.
+Ein UTS (UNIX Time-Sharing System) Namespace ist eine Funktion des Linux-Kernels, die die **Isolation von zwei Systemidentifikatoren** bereitstellt: dem **Hostname** und dem **NIS** (Network Information Service) Domänennamen. Diese Isolation ermöglicht es jedem UTS-Namespace, seinen **eigenen unabhängigen Hostnamen und NIS-Domänennamen** zu haben, was besonders nützlich in Containerisierungsszenarien ist, in denen jeder Container als separates System mit eigenem Hostnamen erscheinen sollte.
 
-### How it works:
+### So funktioniert es:
 
-1. Wanneer 'n nuwe UTS namespace geskep word, begin dit met 'n **kopie van die hostname en NIS domeinnaam van sy ouer namespace**. Dit beteken dat, by skepping, die nuwe namespace s**elf dieselfde identifiseerders as sy ouer deel**. egter, enige daaropvolgende veranderinge aan die hostname of NIS domeinnaam binne die namespace sal nie ander namespaces beïnvloed nie.
-2. Prosesse binne 'n UTS namespace **kan die hostname en NIS domeinnaam verander** deur die `sethostname()` en `setdomainname()` stelselaanroepe, onderskeidelik. Hierdie veranderinge is plaaslik vir die namespace en beïnvloed nie ander namespaces of die gasheerstelsel nie.
-3. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselaanroep of nuwe namespaces skep deur die `unshare()` of `clone()` stelselaanroepe met die `CLONE_NEWUTS` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die hostname en NIS domeinnaam wat met daardie namespace geassosieer word, te gebruik.
+1. Wenn ein neuer UTS-Namespace erstellt wird, beginnt er mit einer **Kopie des Hostnamens und des NIS-Domänennamens aus seinem übergeordneten Namespace**. Das bedeutet, dass der neue Namespace bei der Erstellung **die gleichen Identifikatoren wie sein übergeordneter Namespace teilt**. Änderungen am Hostnamen oder NIS-Domänennamen innerhalb des Namespaces wirken sich jedoch nicht auf andere Namespaces aus.
+2. Prozesse innerhalb eines UTS-Namespace **können den Hostnamen und den NIS-Domänennamen** mithilfe der Systemaufrufe `sethostname()` und `setdomainname()` ändern. Diese Änderungen sind lokal für den Namespace und wirken sich nicht auf andere Namespaces oder das Hostsystem aus.
+3. Prozesse können zwischen Namespaces mithilfe des Systemaufrufs `setns()` wechseln oder neue Namespaces mit den Systemaufrufen `unshare()` oder `clone()` mit dem `CLONE_NEWUTS`-Flag erstellen. Wenn ein Prozess in einen neuen Namespace wechselt oder einen erstellt, beginnt er, den Hostnamen und den NIS-Domänennamen zu verwenden, die mit diesem Namespace verbunden sind.
 
-## Lab:
+## Labor:
 
-### Create different Namespaces
+### Erstellen verschiedener Namespaces
 
 #### CLI
 ```bash
 sudo unshare -u [--mount-proc] /bin/bash
 ```
-Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteernaamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
+Durch das Einhängen einer neuen Instanz des `/proc`-Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Sicht auf die prozessspezifischen Informationen dieses Namespaces** hat.
 
 <details>
 
-<summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
+<summary>Fehler: bash: fork: Kann Speicher nicht zuweisen</summary>
 
-Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler auf, der auf die Art und Weise zurückzuführen ist, wie Linux neue PID (Prozess-ID) Namespaces behandelt. Die wichtigsten Details und die Lösung sind unten aufgeführt:
 
-1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) betree egter nie die nuwe naamruimte nie; slegs sy kindproses doen.
-- Om `%unshare -p /bin/bash%` te loop, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weesprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
+1. **Problemerklärung**:
+- Der Linux-Kernel erlaubt es einem Prozess, neue Namespaces mit dem Systemaufruf `unshare` zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namespace initiiert (als "unshare"-Prozess bezeichnet), tritt jedoch nicht in den neuen Namespace ein; nur seine Kindprozesse tun dies.
+- Das Ausführen von `%unshare -p /bin/bash%` startet `/bin/bash` im selben Prozess wie `unshare`. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namespace.
+- Der erste Kindprozess von `/bin/bash` im neuen Namespace wird zu PID 1. Wenn dieser Prozess beendet wird, wird die Bereinigung des Namespaces ausgelöst, wenn keine anderen Prozesse vorhanden sind, da PID 1 die besondere Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namespace.
 
-2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
+2. **Folge**:
+- Das Beenden von PID 1 in einem neuen Namespace führt zur Bereinigung des `PIDNS_HASH_ADDING`-Flags. Dies führt dazu, dass die Funktion `alloc_pid` fehlschlägt, wenn sie versucht, eine neue PID zuzuweisen, was den Fehler "Kann Speicher nicht zuweisen" erzeugt.
 
-3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
+3. **Lösung**:
+- Das Problem kann gelöst werden, indem die Option `-f` mit `unshare` verwendet wird. Diese Option bewirkt, dass `unshare` einen neuen Prozess nach der Erstellung des neuen PID-Namespace forked.
+- Das Ausführen von `%unshare -fp /bin/bash%` stellt sicher, dass der `unshare`-Befehl selbst PID 1 im neuen Namespace wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namespace enthalten, wodurch das vorzeitige Beenden von PID 1 verhindert wird und eine normale PID-Zuweisung ermöglicht wird.
 
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse kan werk sonder om die geheue toewysing fout te ondervind.
+Durch die Sicherstellung, dass `unshare` mit dem `-f`-Flag ausgeführt wird, wird der neue PID-Namespace korrekt aufrechterhalten, sodass `/bin/bash` und seine Unterprozesse ohne den Speicherzuweisungsfehler arbeiten können.
 
 </details>
 
@@ -75,12 +75,12 @@ Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamrui
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Kontroleer in watter naamruimte jou proses is
+### &#x20;Überprüfen, in welchem Namespace sich Ihr Prozess befindet
 ```bash
 ls -l /proc/self/ns/uts
 lrwxrwxrwx 1 root root 0 Apr  4 20:49 /proc/self/ns/uts -> 'uts:[4026531838]'
 ```
-### Vind alle UTS-namespaces
+### Alle UTS-Namensräume finden
 
 {% code overflow="wrap" %}
 ```bash
@@ -90,21 +90,21 @@ sudo find /proc -maxdepth 3 -type l -name uts -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
-### Gaan binne 'n UTS-namespaces in
+### Betreten Sie einen UTS-Namespace
 ```bash
 nsenter -u TARGET_PID --pid /bin/bash
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

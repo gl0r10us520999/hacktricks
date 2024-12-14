@@ -1,16 +1,16 @@
-# Misbruik van Docker Socket vir Privilege Escalation
+# Missbrauch des Docker-Sockets zur Privilegieneskalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -19,15 +19,15 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 {% endhint %}
 
-Daar is 'n paar geleenthede waar jy net **toegang tot die docker socket** het en jy dit wil gebruik om **privileges te verhoog**. Sommige aksies mag baie verdag wees en jy mag dit wil vermy, so hier kan jy verskillende vlae vind wat nuttig kan wees om privileges te verhoog:
+Es gibt einige Gelegenheiten, bei denen Sie **Zugriff auf den Docker-Socket** haben und ihn verwenden möchten, um **Privilegien zu eskalieren**. Einige Aktionen könnten sehr verdächtig sein und Sie möchten sie möglicherweise vermeiden, daher finden Sie hier verschiedene Flags, die nützlich sein können, um Privilegien zu eskalieren:
 
-### Via mount
+### Über Mount
 
-Jy kan **mount** verskillende dele van die **filesystem** in 'n container wat as root loop en dit **toegang** gee.\
-Jy kan ook 'n **mount misbruik om privileges** binne die container te verhoog.
+Sie können verschiedene Teile des **Dateisystems** in einem als Root laufenden Container **einbinden** und auf sie **zugreifen**.\
+Sie könnten auch **einen Mount missbrauchen, um Privilegien** innerhalb des Containers zu eskalieren.
 
-* **`-v /:/host`** -> Mount die host filesystem in die container sodat jy die **host filesystem kan lees.**
-* As jy wil **voel soos jy in die host is** maar in die container is, kan jy ander verdedigingsmeganismes deaktiveer met vlae soos:
+* **`-v /:/host`** -> Binden Sie das Host-Dateisystem im Container ein, damit Sie **das Host-Dateisystem lesen können.**
+* Wenn Sie **das Gefühl haben möchten, dass Sie sich im Host** befinden, aber im Container sind, könnten Sie andere Abwehrmechanismen mit Flags wie deaktivieren:
 * `--privileged`
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -37,38 +37,38 @@ Jy kan ook 'n **mount misbruik om privileges** binne die container te verhoog.
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Dit is soortgelyk aan die vorige metode, maar hier **mount ons die toestel skyf**. Dan, binne die container, hardloop `mount /dev/sda1 /mnt` en jy kan die **host filesystem** in `/mnt` **toegang**.
-* Hardloop `fdisk -l` in die host om die `</dev/sda1>` toestel te vind om te mount.
-* **`-v /tmp:/host`** -> As jy om een of ander rede **net 'n gids** van die host kan **mount** en jy het toegang binne die host. Mount dit en skep 'n **`/bin/bash`** met **suid** in die gemounte gids sodat jy dit **van die host kan uitvoer en na root kan verhoog**.
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Dies ist ähnlich wie die vorherige Methode, aber hier binden wir **das Gerätedisk** ein. Führen Sie dann im Container `mount /dev/sda1 /mnt` aus und Sie können auf das **Host-Dateisystem** in `/mnt` **zugreifen**.
+* Führen Sie `fdisk -l` im Host aus, um das `</dev/sda1>`-Gerät zu finden, das Sie einbinden möchten.
+* **`-v /tmp:/host`** -> Wenn Sie aus irgendeinem Grund **nur ein Verzeichnis** vom Host einbinden können und Sie Zugriff innerhalb des Hosts haben. Binden Sie es ein und erstellen Sie eine **`/bin/bash`** mit **suid** im eingebundenen Verzeichnis, damit Sie **es vom Host aus ausführen und zu root eskalieren** können.
 
 {% hint style="info" %}
-Let daarop dat jy dalk nie die gids `/tmp` kan mount nie, maar jy kan 'n **ander skryfbare gids** mount. Jy kan skryfbare gidse vind met: `find / -writable -type d 2>/dev/null`
+Beachten Sie, dass Sie möglicherweise den Ordner `/tmp` nicht einbinden können, aber Sie können ein **anderes beschreibbares Verzeichnis** einbinden. Sie können beschreibbare Verzeichnisse mit `find / -writable -type d 2>/dev/null` finden.
 
-**Let daarop dat nie al die gidse in 'n linux masjien die suid bit sal ondersteun nie!** Om te kyk watter gidse die suid bit ondersteun, hardloop `mount | grep -v "nosuid"` Byvoorbeeld, gewoonlik ondersteun `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` en `/var/lib/lxcfs` nie die suid bit nie.
+**Beachten Sie, dass nicht alle Verzeichnisse auf einer Linux-Maschine das suid-Bit unterstützen!** Um zu überprüfen, welche Verzeichnisse das suid-Bit unterstützen, führen Sie `mount | grep -v "nosuid"` aus. Zum Beispiel unterstützen normalerweise `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` und `/var/lib/lxcfs` nicht das suid-Bit.
 
-Let ook daarop dat as jy **`/etc`** of enige ander gids **wat konfigurasie lêers bevat**, kan mount, jy dit mag verander vanuit die docker container as root om dit te **misbruik in die host** en privileges te verhoog (miskien deur `/etc/shadow` te verander).
+Beachten Sie auch, dass, wenn Sie **`/etc`** oder einen anderen Ordner **mit Konfigurationsdateien** einbinden können, Sie diese vom Docker-Container aus als Root ändern können, um sie **im Host zu missbrauchen** und Privilegien zu eskalieren (vielleicht durch Modifizieren von `/etc/shadow`).
 {% endhint %}
 
-### Ontsnap uit die container
+### Aus dem Container entkommen
 
-* **`--privileged`** -> Met hierdie vlag [verwyder jy al die isolasie van die container](docker-privileged.md#what-affects). Kyk tegnieke om [uit priviligeerde containers as root te ontsnap](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
-* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> Om [privileges te verhoog deur capabilities te misbruik](../linux-capabilities.md), **gee daardie vermoë aan die container** en deaktiveer ander beskermingsmetodes wat die uitbuiting mag verhinder om te werk.
+* **`--privileged`** -> Mit diesem Flag [entfernen Sie alle Isolationen vom Container](docker-privileged.md#what-affects). Überprüfen Sie Techniken, um [aus privilegierten Containern als Root zu entkommen](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
+* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> Um [Privilegien durch Missbrauch von Fähigkeiten zu eskalieren](../linux-capabilities.md), **gewähren Sie diese Fähigkeit dem Container** und deaktivieren Sie andere Schutzmethoden, die möglicherweise verhindern, dass der Exploit funktioniert.
 
 ### Curl
 
-Op hierdie bladsy het ons maniere bespreek om privileges te verhoog met behulp van docker vlae, jy kan **maniere vind om hierdie metodes met die curl** opdrag te misbruik op die bladsy:
+Auf dieser Seite haben wir Möglichkeiten zur Eskalation von Privilegien unter Verwendung von Docker-Flags diskutiert, Sie finden **Möglichkeiten, diese Methoden mit dem Curl**-Befehl zu missbrauchen, auf der Seite:
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

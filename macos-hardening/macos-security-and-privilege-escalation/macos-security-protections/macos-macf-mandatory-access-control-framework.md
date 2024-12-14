@@ -1,48 +1,48 @@
 # macOS MACF
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-**MACF** staan vir **Verpligte Toegang Beheer Raamwerk**, wat 'n sekuriteitstelsel is wat in die bedryfstelsel ingebou is om jou rekenaar te help beskerm. Dit werk deur **strenge reëls op te stel oor wie of wat toegang tot sekere dele van die stelsel kan hê**, soos lêers, toepassings en stelselhulpbronne. Deur hierdie reëls outomaties af te dwing, verseker MACF dat slegs gemagtigde gebruikers en prosesse spesifieke aksies kan uitvoer, wat die risiko van ongemagtigde toegang of kwaadwillige aktiwiteite verminder.
+**MACF** steht für **Mandatory Access Control Framework**, ein Sicherheitssystem, das in das Betriebssystem integriert ist, um Ihren Computer zu schützen. Es funktioniert, indem es **strenge Regeln festlegt, wer oder was auf bestimmte Teile des Systems zugreifen kann**, wie Dateien, Anwendungen und Systemressourcen. Durch die automatische Durchsetzung dieser Regeln stellt MACF sicher, dass nur autorisierte Benutzer und Prozesse bestimmte Aktionen ausführen können, wodurch das Risiko unbefugten Zugriffs oder böswilliger Aktivitäten verringert wird.
 
-Let daarop dat MACF nie werklik enige besluite neem nie, aangesien dit net **aksies onderskep**, dit laat die besluite aan die **beleidsmodules** (kernuitbreidings) wat dit aanroep soos `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext`, `TMSafetyNet.kext` en `mcxalr.kext`.
+Beachten Sie, dass MACF keine Entscheidungen trifft, da es lediglich **Aktionen abfängt**; die Entscheidungen überlässt es den **Richtlinienmodulen** (Kernel-Erweiterungen), die es aufruft, wie `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext`, `TMSafetyNet.kext` und `mcxalr.kext`.
 
-### Stroom
+### Ablauf
 
-1. Proses voer 'n syscall/mach trap uit
-2. Die relevante funksie word binne die kern aangeroep
-3. Funksie roep MACF aan
-4. MACF kontroleer beleidsmodules wat versoek het om daardie funksie in hul beleid te haak
-5. MACF roep die relevante beleids aan
-6. Beleide dui aan of hulle die aksie toelaat of weier
+1. Prozess führt einen syscall/mach trap aus
+2. Die relevante Funktion wird im Kernel aufgerufen
+3. Funktion ruft MACF auf
+4. MACF überprüft die Richtlinienmodule, die angefordert haben, diese Funktion in ihrer Richtlinie zu hooken
+5. MACF ruft die relevanten Richtlinien auf
+6. Richtlinien geben an, ob sie die Aktion erlauben oder ablehnen
 
 {% hint style="danger" %}
-Apple is die enigste wat die MAC Framework KPI kan gebruik.
+Apple ist der einzige, der das MAC Framework KPI verwenden kann.
 {% endhint %}
 
-### Etikette
+### Labels
 
-MACF gebruik **etikette** wat dan deur die beleide gebruik sal word om te kontroleer of hulle sekere toegang moet toestaan of nie. Die kode van die etikette struktuurdeklarasie kan [hier gevind word](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), wat dan binne die **`struct ucred`** in [**hier**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) in die **`cr_label`** deel gebruik word. Die etiket bevat vlae en 'n aantal **slots** wat deur **MACF beleide gebruik kan word om wysigers toe te ken**. Byvoorbeeld, Sanbox sal na die houerprofiel verwys.
+MACF verwendet **Labels**, die dann von den Richtlinien überprüft werden, um zu entscheiden, ob sie den Zugriff gewähren sollen oder nicht. Der Code der Label-Strukturdeklaration kann [hier](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h) gefunden werden, der dann innerhalb der **`struct ucred`** [**hier**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) im **`cr_label`**-Teil verwendet wird. Das Label enthält Flags und eine Anzahl von **Slots**, die von **MACF-Richtlinien zur Zuweisung von Zeigern** verwendet werden können. Zum Beispiel wird Sandbox auf das Containerprofil verweisen.
 
-## MACF Beleide
+## MACF-Richtlinien
 
-'n MACF Beleid definieer **reëls en voorwaardes wat in sekere kernoperasies toegepas moet word**.&#x20;
+Eine MACF-Richtlinie definiert **Regeln und Bedingungen, die auf bestimmte Kerneloperationen angewendet werden**.&#x20;
 
-'n Kernuitbreiding kan 'n `mac_policy_conf` struktuur konfigureer en dit dan registreer deur `mac_policy_register` aan te roep. Van [hier](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html):
+Eine Kernel-Erweiterung könnte eine `mac_policy_conf`-Struktur konfigurieren und sie dann registrieren, indem sie `mac_policy_register` aufruft. Von [hier](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html):
 ```c
 #define mpc_t	struct mac_policy_conf *
 
@@ -79,11 +79,11 @@ mpc_t			 mpc_list;		/** List reference */
 void			*mpc_data;		/** module data */
 };
 ```
-Dit is maklik om die kernuitbreidings wat hierdie beleide konfigureer te identifiseer deur oproepe na `mac_policy_register` te kontroleer. Boonop, deur die ontbinding van die uitbreiding te kontroleer, is dit ook moontlik om die gebruikte `mac_policy_conf` struktuur te vind.
+Es ist einfach, die Kernel-Erweiterungen, die diese Richtlinien konfigurieren, zu identifizieren, indem man die Aufrufe von `mac_policy_register` überprüft. Darüber hinaus ist es auch möglich, beim Disassemblieren der Erweiterung die verwendete `mac_policy_conf`-Struktur zu finden.
 
-Let daarop dat MACF beleide ook **dynamies** geregistreer en ongeregistreer kan word.
+Beachten Sie, dass MACF-Richtlinien auch **dynamisch** registriert und deregistriert werden können.
 
-Een van die hoofvelde van die `mac_policy_conf` is die **`mpc_ops`**. Hierdie veld spesifiseer watter operasies die beleid belangrik vind. Let daarop dat daar honderde daarvan is, so dit is moontlik om al hulle op nul te stel en dan net diegene te kies waarin die beleid belangstel. Van [hier](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
+Eines der Hauptfelder der `mac_policy_conf` ist das **`mpc_ops`**. Dieses Feld gibt an, an welchen Operationen die Richtlinie interessiert ist. Beachten Sie, dass es Hunderte davon gibt, sodass es möglich ist, alle auf Null zu setzen und dann nur die auszuwählen, an denen die Richtlinie interessiert ist. Von [hier](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
 ```c
 struct mac_policy_ops {
 mpo_audit_check_postselect_t		*mpo_audit_check_postselect;
@@ -96,27 +96,27 @@ mpo_cred_check_label_update_execve_t	*mpo_cred_check_label_update_execve;
 mpo_cred_check_label_update_t		*mpo_cred_check_label_update;
 [...]
 ```
-Almost all the hooks will be called back by MACF when one of those operations are intercepted. However, **`mpo_policy_*`** hooks are an exception because `mpo_hook_policy_init()` is a callback called upon registration (so after `mac_policy_register()`) and `mpo_hook_policy_initbsd()` is called during late registration once the BSD subsystem has initialised properly.
+Fast alle Hooks werden von MACF zurückgerufen, wenn eine dieser Operationen abgefangen wird. Die **`mpo_policy_*`** Hooks sind jedoch eine Ausnahme, da `mpo_hook_policy_init()` ein Callback ist, das bei der Registrierung aufgerufen wird (also nach `mac_policy_register()`) und `mpo_hook_policy_initbsd()` während der späten Registrierung aufgerufen wird, sobald das BSD-Subsystem ordnungsgemäß initialisiert wurde.
 
-Moreover, the **`mpo_policy_syscall`** hook can be registered by any kext to expose a private **ioctl** style call **interface**. Then, a user client will be able to call `mac_syscall` (#381) specifying as parameters the **policy name** with an integer **code** and optional **arguments**.\
-For example, the **`Sandbox.kext`** uses this a lot.
+Darüber hinaus kann der **`mpo_policy_syscall`** Hook von jedem Kext registriert werden, um einen privaten **ioctl**-ähnlichen **Schnittstellen**-Aufruf bereitzustellen. Dann kann ein Benutzer-Client `mac_syscall` (#381) aufrufen und als Parameter den **Policy-Namen** mit einem ganzzahligen **Code** und optionalen **Argumenten** angeben.\
+Zum Beispiel verwendet **`Sandbox.kext`** dies häufig.
 
-Checking the kext's **`__DATA.__const*`** is possible to identify the `mac_policy_ops` structure used when registering the policy. It's possible to find it because its pointer is at an offset inside `mpo_policy_conf` and also because the amount of NULL pointers that will be in that area.
+Durch Überprüfung des **`__DATA.__const*`** des Kexts ist es möglich, die `mac_policy_ops`-Struktur zu identifizieren, die bei der Registrierung der Policy verwendet wird. Es ist möglich, sie zu finden, da ihr Zeiger an einem Offset innerhalb von `mpo_policy_conf` liegt und auch aufgrund der Anzahl der NULL-Zeiger, die sich in diesem Bereich befinden werden.
 
-Moreover, it's also possible to get the list of kexts that have configured a policy by dumping from memory the struct **`_mac_policy_list`** which is updated with every policy that is registered.
+Darüber hinaus ist es auch möglich, die Liste der Kexts zu erhalten, die eine Policy konfiguriert haben, indem man die Struktur **`_mac_policy_list`** aus dem Speicher dumpet, die mit jeder registrierten Policy aktualisiert wird.
 
-## MACF Initialisering
+## MACF-Initialisierung
 
-MACF word baie vroeg geïnitialiseer. Dit word opgestel in XNU se `bootstrap_thread`: na `ipc_bootstrap` 'n oproep na `mac_policy_init()` wat die `mac_policy_list` initaliseer en 'n oomblik later word `mac_policy_initmach()` aangeroep. Onder andere dinge, sal hierdie funksie al die Apple kexts met die `AppleSecurityExtension` sleutel in hul Info.plist soos `ALF.kext`, `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext` en `TMSafetyNet.kext` kry en laai.
+MACF wird sehr früh initialisiert. Es wird im `bootstrap_thread` von XNU eingerichtet: nach `ipc_bootstrap` erfolgt ein Aufruf von `mac_policy_init()`, der die `mac_policy_list` initialisiert, und kurz darauf wird `mac_policy_initmach()` aufgerufen. Unter anderem wird diese Funktion alle Apple-Kexts mit dem Schlüssel `AppleSecurityExtension` in ihrer Info.plist wie `ALF.kext`, `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext` und `TMSafetyNet.kext` abrufen und laden.
 
-## MACF Oproepe
+## MACF-Callouts
 
-Dit is algemeen om oproepe na MACF te vind wat in kode gedefinieer is soos: **`#if CONFIG_MAC`** voorwaardelike blokke. Bovendien, binne hierdie blokke is dit moontlik om oproepe na `mac_proc_check*` te vind wat MACF aanroep om **toestemmings te kontroleer** om sekere aksies uit te voer. Boonop is die formaat van die MACF oproepe: **`mac_<object>_<opType>_opName`**.
+Es ist üblich, Callouts zu MACF in Code zu finden, wie: **`#if CONFIG_MAC`** bedingte Blöcke. Darüber hinaus ist es innerhalb dieser Blöcke möglich, Aufrufe von `mac_proc_check*` zu finden, die MACF aufrufen, um **Berechtigungen zu überprüfen**, um bestimmte Aktionen durchzuführen. Darüber hinaus hat das Format der MACF-Callouts die Form: **`mac_<object>_<opType>_opName`**.
 
-Die objek is een van die volgende: `bpfdesc`, `cred`, `file`, `proc`, `vnode`, `mount`, `devfs`, `ifnet`, `inpcb`, `mbuf`, `ipq`, `pipe`, `sysv[msg/msq/shm/sem]`, `posix[shm/sem]`, `socket`, `kext`.\
-Die `opType` is gewoonlik check wat gebruik sal word om die aksie toe te laat of te weier. Dit is egter ook moontlik om `notify` te vind, wat die kext sal toelaat om op die gegewe aksie te reageer.
+Das Objekt ist eines der folgenden: `bpfdesc`, `cred`, `file`, `proc`, `vnode`, `mount`, `devfs`, `ifnet`, `inpcb`, `mbuf`, `ipq`, `pipe`, `sysv[msg/msq/shm/sem]`, `posix[shm/sem]`, `socket`, `kext`.\
+Der `opType` ist normalerweise check, der verwendet wird, um die Aktion zu erlauben oder abzulehnen. Es ist jedoch auch möglich, `notify` zu finden, was dem Kext erlaubt, auf die gegebene Aktion zu reagieren.
 
-You can find an example in [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_mman.c#L621](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_mman.c#L621):
+Ein Beispiel finden Sie unter [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_mman.c#L621](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_mman.c#L621):
 
 <pre class="language-c"><code class="lang-c">int
 mmap(proc_t p, struct mmap_args *uap, user_addr_t *retval)
@@ -134,7 +134,7 @@ goto bad;
 [...]
 </code></pre>
 
-Then, it's possible to find the code of `mac_file_check_mmap` in [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_file.c#L174](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_file.c#L174)
+Dann ist es möglich, den Code von `mac_file_check_mmap` unter [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_file.c#L174](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_file.c#L174) zu finden.
 ```c
 mac_file_check_mmap(struct ucred *cred, struct fileglob *fg, int prot,
 int flags, uint64_t offset, int *maxprot)
@@ -151,7 +151,7 @@ panic("file_check_mmap increased max protections");
 return error;
 }
 ```
-Wat die `MAC_CHECK` makro aanroep, waarvan die kode gevind kan word in [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L261](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L261)
+Welches das `MAC_CHECK`-Makro aufruft, dessen Code in [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L261](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L261) gefunden werden kann.
 ```c
 /*
 * MAC_CHECK performs the designated check by walking the policy
@@ -171,10 +171,10 @@ error = mac_error_select(__step_err, error);         \
 });                                                             \
 } while (0)
 ```
-Wat al die geregistreerde mac-beleide sal deurgaan, hul funksies aanroep en die uitvoer binne die fout veranderlike stoor, wat slegs deur `mac_error_select` oorruilbaar sal wees deur sukses kodes, sodat as enige toets misluk, die volledige toets sal misluk en die aksie nie toegelaat sal word nie.
+Welche alle registrierten mac Richtlinien aufruft, ihre Funktionen aufruft und die Ausgabe in der Fehler-Variable speichert, die nur von `mac_error_select` durch Erfolgscodes überschreibbar ist, sodass, wenn eine Überprüfung fehlschlägt, die gesamte Überprüfung fehlschlägt und die Aktion nicht erlaubt wird.
 
 {% hint style="success" %}
-Maar, onthou dat nie alle MACF-aanroepings slegs gebruik word om aksies te weier nie. Byvoorbeeld, `mac_priv_grant` roep die makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac_internal.h#L274) aan, wat die aangevraagde voorreg sal toeken as enige beleid met 'n 0 antwoordgee:
+Denken Sie jedoch daran, dass nicht alle MACF-Callouts nur verwendet werden, um Aktionen zu verweigern. Zum Beispiel ruft `mac_priv_grant` das Makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274) auf, das das angeforderte Privileg gewährt, wenn eine Richtlinie mit einer 0 antwortet:
 ```c
 /*
 * MAC_GRANT performs the designated check by walking the policy
@@ -201,12 +201,12 @@ DTRACE_MACF2(mac__rslt__ ## check, void *, mpc, int, __step_res); \
 
 ### priv\_check & priv\_grant
 
-Hierdie aanroepe is bedoel om (tens of) **privileges** te kontroleer en te verskaf soos gedefinieer in [**bsd/sys/priv.h**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/priv.h).\
-Sommige kernkode sal `priv_check_cred()` aanroep vanaf [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) met die KAuth geloofsbriewe van die proses en een van die privileges kode wat `mac_priv_check` sal aanroep om te sien of enige beleid **weier** om die privilege te gee en dan roep dit `mac_priv_grant` aan om te sien of enige beleid die `privilege` toeken. 
+Diese Aufrufe dienen dazu, (Dutzende von) **Berechtigungen** zu überprüfen und bereitzustellen, die in [**bsd/sys/priv.h**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/priv.h) definiert sind.\
+Einige Kernel-Codes würden `priv_check_cred()` aus [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) mit den KAuth-Anmeldeinformationen des Prozesses und einem der Berechtigungs-Codes aufrufen, der `mac_priv_check` aufruft, um zu sehen, ob eine Richtlinie die Gewährung der Berechtigung **verweigert** und dann wird `mac_priv_grant` aufgerufen, um zu sehen, ob eine Richtlinie die `Berechtigung` gewährt.
 
 ### proc\_check\_syscall\_unix
 
-Hierdie haak laat toe om alle stelselaanroepe te onderskep. In `bsd/dev/[i386|arm]/systemcalls.c` is dit moontlik om die verklaarde funksie [`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25) te sien, wat hierdie kode bevat:
+Dieser Hook ermöglicht es, alle Systemaufrufe abzufangen. In `bsd/dev/[i386|arm]/systemcalls.c` ist es möglich, die deklarierte Funktion [`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25) zu sehen, die diesen Code enthält:
 ```c
 #if CONFIG_MACF
 if (__improbable(proc_syscall_filter_mask(proc) != NULL && !bitstr_test(proc_syscall_filter_mask(proc), syscode))) {
@@ -217,13 +217,13 @@ goto skip_syscall;
 }
 #endif /* CONFIG_MACF */
 ```
-Welke sal die oproepende proses **bitmask** nagaan of die huidige syscall `mac_proc_check_syscall_unix` moet aanroep. Dit is omdat syscalls so gereeld aangeroep word dat dit interessant is om te probeer om `mac_proc_check_syscall_unix` nie elke keer aan te roep nie.
+Welche im aufrufenden Prozess **Bitmaske** überprüft, ob der aktuelle Syscall `mac_proc_check_syscall_unix` aufrufen sollte. Dies liegt daran, dass Syscalls so häufig aufgerufen werden, dass es interessant ist, zu vermeiden, `mac_proc_check_syscall_unix` jedes Mal aufzurufen.
 
-Let daarop dat die funksie `proc_set_syscall_filter_mask()`, wat die bitmask syscalls in 'n proses stel, deur Sandbox aangeroep word om maskers op gesandboksde prosesse te stel.
+Beachten Sie, dass die Funktion `proc_set_syscall_filter_mask()`, die die Bitmaske für Syscalls in einem Prozess festlegt, von Sandbox aufgerufen wird, um Masken für sandboxed Prozesse festzulegen.
 
-## Blootgestelde MACF syscalls
+## Exponierte MACF-Syscalls
 
-Dit is moontlik om met MACF te kommunikeer deur sommige syscalls wat in [security/mac.h](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac.h#L151) gedefinieer is:
+Es ist möglich, über einige in [security/mac.h](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac.h#L151) definierte Syscalls mit MACF zu interagieren:
 ```c
 /*
 * Extended non-POSIX.1e interfaces that offer additional services
@@ -248,21 +248,21 @@ int      __mac_syscall(const char *_policyname, int _call, void *_arg);
 __END_DECLS
 #endif /*__APPLE_API_PRIVATE*/
 ```
-## Verwysings
+## Referenzen
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

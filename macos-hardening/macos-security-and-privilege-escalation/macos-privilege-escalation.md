@@ -1,23 +1,23 @@
 # macOS Privilege Escalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 ## TCC Privilege Escalation
 
-As jy hier gekom het op soek na TCC privilege escalatie, gaan na:
+Wenn Sie hier sind, um nach TCC-Privilegieneskalation zu suchen, gehen Sie zu:
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
@@ -25,19 +25,19 @@ As jy hier gekom het op soek na TCC privilege escalatie, gaan na:
 
 ## Linux Privesc
 
-Neem asseblief kennis dat **meeste van die truuks oor privilege escalasie wat Linux/Unix raak, ook MacOS** masjiene sal raak. So kyk na:
+Bitte beachten Sie, dass **die meisten Tricks zur Privilegieneskalation, die Linux/Unix betreffen, auch MacOS**-Maschinen betreffen werden. Sehen Sie also:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## User Interaction
+## Benutzerinteraktion
 
 ### Sudo Hijacking
 
-Jy kan die oorspronklike [Sudo Hijacking tegniek binne die Linux Privilege Escalation pos vind](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+Sie finden die ursprüngliche [Sudo Hijacking-Technik im Linux Privilege Escalation-Beitrag](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-E however, macOS **onderhou** die gebruiker se **`PATH`** wanneer hy **`sudo`** uitvoer. Dit beteken dat 'n ander manier om hierdie aanval te bereik, sou wees om **ander binaries te kap** wat die slagoffer steeds sal uitvoer wanneer **sudo gedraai word:**
+Allerdings **beibehält** macOS den **`PATH`** des Benutzers, wenn er **`sudo`** ausführt. Das bedeutet, dass ein anderer Weg, um diesen Angriff zu erreichen, darin bestehen würde, **andere Binärdateien zu hijacken**, die das Opfer weiterhin ausführen wird, wenn es **sudo** ausführt:
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -52,17 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-Note dat 'n gebruiker wat die terminal gebruik hoogs waarskynlik **Homebrew geïnstalleer** sal hê. Dit is dus moontlik om binaries in **`/opt/homebrew/bin`** te kap.
+Beachten Sie, dass ein Benutzer, der das Terminal verwendet, höchstwahrscheinlich **Homebrew installiert** hat. Daher ist es möglich, Binärdateien in **`/opt/homebrew/bin`** zu hijacken.
 
-### Dock Imitasie
+### Dock-Imitation
 
-Deur sommige **sosiale ingenieurswese** kan jy **byvoorbeeld Google Chrome imiteer** binne die dock en werklik jou eie skrip uitvoer:
+Mit etwas **Social Engineering** könnten Sie **zum Beispiel Google Chrome imitieren** und tatsächlich Ihr eigenes Skript ausführen:
 
 {% tabs %}
-{% tab title="Chrome Imitasie" %}
-Sommige voorstelle:
+{% tab title="Chrome-Imitation" %}
+Einige Vorschläge:
 
-* Kontroleer in die Dock of daar 'n Chrome is, en in daardie geval **verwyder** daardie inskrywing en **voeg** die **valse** **Chrome-inskrywing in dieselfde posisie** in die Dock-array by.&#x20;
+* Überprüfen Sie im Dock, ob es ein Chrome gibt, und entfernen Sie in diesem Fall diesen Eintrag und **fügen Sie** den **falschen** **Chrome-Eintrag an derselben Position** im Dock-Array hinzu.&#x20;
 ```bash
 #!/bin/sh
 
@@ -134,14 +134,14 @@ killall Dock
 ```
 {% endtab %}
 
-{% tab title="Finder Imitasie" %}
-Sommige voorstelle:
+{% tab title="Finder-Imitation" %}
+Einige Vorschläge:
 
-* Jy **kan nie Finder uit die Dock verwyder nie**, so as jy dit aan die Dock wil voeg, kan jy die vals Finder net langs die werklike een plaas. Hiervoor moet jy die **vals Finder inskrywing aan die begin van die Dock-array voeg**.
-* 'n Ander opsie is om dit nie in die Dock te plaas nie en net oop te maak, "Finder vra om Finder te beheer" is nie so vreemd nie.
-* 'n Ander opsie om **na root te eskaleer sonder om** die wagwoord met 'n vreeslike boks te vra, is om Finder regtig te laat vra vir die wagwoord om 'n bevoorregte aksie uit te voer:
-* Vra Finder om na **`/etc/pam.d`** 'n nuwe **`sudo`** lêer te kopieer (Die prompt wat om die wagwoord vra, sal aandui dat "Finder wil sudo kopieer")
-* Vra Finder om 'n nuwe **Magtigingsplugin** te kopieer (Jy kan die lêernaam beheer sodat die prompt wat om die wagwoord vra, sal aandui dat "Finder wil Finder.bundle kopieer")
+* Sie **können den Finder nicht aus dem Dock entfernen**, also wenn Sie ihn zum Dock hinzufügen möchten, könnten Sie den gefälschten Finder direkt neben den echten setzen. Dafür müssen Sie **den gefälschten Finder-Eintrag am Anfang des Dock-Arrays hinzufügen**.
+* Eine andere Möglichkeit ist, ihn nicht im Dock zu platzieren und ihn einfach zu öffnen, "Finder fragt, um Finder zu steuern" ist nicht so seltsam.
+* Eine weitere Möglichkeit, um **ohne Passwortabfrage** mit einem schrecklichen Fenster zu root zu eskalieren, ist, den Finder wirklich nach dem Passwort zu fragen, um eine privilegierte Aktion auszuführen:
+* Bitten Sie den Finder, eine neue **`sudo`**-Datei nach **`/etc/pam.d`** zu kopieren (Die Eingabeaufforderung, die nach dem Passwort fragt, wird anzeigen, dass "Finder sudo kopieren möchte")
+* Bitten Sie den Finder, ein neues **Authorization Plugin** zu kopieren (Sie könnten den Dateinamen kontrollieren, sodass die Eingabeaufforderung, die nach dem Passwort fragt, anzeigen wird, dass "Finder Finder.bundle kopieren möchte")
 ```bash
 #!/bin/sh
 
@@ -214,12 +214,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Wortel Privilege Escalation
+## TCC - Root-Rechteausweitung
 
-### CVE-2020-9771 - mount\_apfs TCC omseiling en privilege escalasie
+### CVE-2020-9771 - mount\_apfs TCC-Umgehung und Rechteausweitung
 
-**Enige gebruiker** (selfs onprivilegieerde) kan 'n tydmasjien-snapshot skep en monteer en **toegang hê tot AL die lêers** van daardie snapshot.\
-Die **enige privilegie** wat benodig word, is dat die toepassing wat gebruik word (soos `Terminal`) **Volledige Skyftoegang** (FDA) toegang (`kTCCServiceSystemPolicyAllfiles`) moet hê wat deur 'n admin toegestaan moet word.
+**Jeder Benutzer** (auch unprivilegierte) kann einen Time Machine-Snapshot erstellen und einbinden und **auf ALLE Dateien** dieses Snapshots zugreifen.\
+Die **einzige Berechtigung**, die benötigt wird, ist, dass die verwendete Anwendung (wie `Terminal`) **Vollzugriff auf die Festplatte** (FDA) benötigt (`kTCCServiceSystemPolicyAllfiles`), was von einem Administrator gewährt werden muss.
 
 {% code overflow="wrap" %}
 ```bash
@@ -243,27 +243,27 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-'n Meer gedetailleerde verduideliking kan [**gevind word in die oorspronklike verslag**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+Eine detailliertere Erklärung kann [**im ursprünglichen Bericht**](https://theevilbit.github.io/posts/cve\_2020\_9771/)** gefunden werden.**
 
-## Sensitiewe Inligting
+## Sensible Informationen
 
-Dit kan nuttig wees om voorregte te verhoog:
+Dies kann nützlich sein, um Privilegien zu eskalieren:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

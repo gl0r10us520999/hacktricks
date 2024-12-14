@@ -1,73 +1,73 @@
-# macOS Sleutelhanger
+# macOS Keychain
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}
 
-## Hoof Sleutelhangers
+## Haupt-Schlüsselbunde
 
-* Die **Gebruiker Sleutelhanger** (`~/Library/Keychains/login.keychain-db`), wat gebruik word om **gebruiker-spesifieke akrediteer** soos toepassingswagwoorde, internetwagwoorde, gebruiker-gegenereerde sertifikate, netwerkwagwoorde, en gebruiker-gegenereerde publieke/privaat sleutels te stoor.
-* Die **Stelsel Sleutelhanger** (`/Library/Keychains/System.keychain`), wat **stelsel-wye akrediteer** soos WiFi wagwoorde, stelsel wortelsertifikate, stelsel privaat sleutels, en stelsel toepassingswagwoorde stoor.
-* Dit is moontlik om ander komponente soos sertifikate in `/System/Library/Keychains/*` te vind.
-* In **iOS** is daar slegs een **Sleutelhanger** geleë in `/private/var/Keychains/`. Hierdie gids bevat ook databasisse vir die `TrustStore`, sertifikaatowerhede (`caissuercache`) en OSCP inskrywings (`ocspache`).
-* Toepassings sal in die sleutelhanger beperk wees tot hul private area gebaseer op hul toepassingsidentifiseerder.
+* Der **Benutzerschlüsselbund** (`~/Library/Keychains/login.keychain-db`), der verwendet wird, um **benutzerspezifische Anmeldeinformationen** wie Anwendungskennwörter, Internetkennwörter, benutzergenerierte Zertifikate, Netzwerkkennwörter und benutzergenerierte öffentliche/private Schlüssel zu speichern.
+* Der **Systemschlüsselbund** (`/Library/Keychains/System.keychain`), der **systemweite Anmeldeinformationen** wie WiFi-Kennwörter, Systemstammzertifikate, systemprivate Schlüssel und Systemanwendungskennwörter speichert.
+* Es ist möglich, andere Komponenten wie Zertifikate in `/System/Library/Keychains/*` zu finden.
+* In **iOS** gibt es nur einen **Schlüsselbund**, der sich in `/private/var/Keychains/` befindet. Dieser Ordner enthält auch Datenbanken für den `TrustStore`, Zertifizierungsstellen (`caissuercache`) und OSCP-Einträge (`ocspache`).
+* Apps werden im Schlüsselbund nur auf ihren privaten Bereich basierend auf ihrer Anwendungskennung beschränkt.
 
-### Wagwoord Sleutelhanger Toegang
+### Passwort Schlüsselbundzugriff
 
-Hierdie lêers, terwyl hulle nie inherente beskerming het nie en **afgelaai** kan word, is versleuteld en vereis die **gebruiker se platte wagwoord om ontcijfer** te word. 'n Gereedskap soos [**Chainbreaker**](https://github.com/n0fate/chainbreaker) kan gebruik word vir ontcijfering.
+Diese Dateien haben zwar keinen inhärenten Schutz und können **heruntergeladen** werden, sind jedoch verschlüsselt und erfordern das **Klartextkennwort des Benutzers zur Entschlüsselung**. Ein Tool wie [**Chainbreaker**](https://github.com/n0fate/chainbreaker) könnte zur Entschlüsselung verwendet werden.
 
-## Sleutelhanger Inskrywings Beskerming
+## Schutz der Schlüsselbund-Einträge
 
 ### ACLs
 
-Elke inskrywing in die sleutelhanger word gereguleer deur **Toegang Beheer Lyste (ACLs)** wat bepaal wie verskillende aksies op die sleutelhanger inskrywing kan uitvoer, insluitend:
+Jeder Eintrag im Schlüsselbund wird durch **Zugriffskontrolllisten (ACLs)** geregelt, die festlegen, wer verschiedene Aktionen auf dem Schlüsselbund-Eintrag ausführen kann, einschließlich:
 
-* **ACLAuhtorizationExportClear**: Laat die houer toe om die duidelike teks van die geheim te verkry.
-* **ACLAuhtorizationExportWrapped**: Laat die houer toe om die duidelike teks wat met 'n ander verskafde wagwoord versleuteld is, te verkry.
-* **ACLAuhtorizationAny**: Laat die houer toe om enige aksie uit te voer.
+* **ACLAuhtorizationExportClear**: Ermöglicht dem Inhaber, den Klartext des Geheimnisses zu erhalten.
+* **ACLAuhtorizationExportWrapped**: Ermöglicht dem Inhaber, den Klartext zu erhalten, der mit einem anderen bereitgestellten Kennwort verschlüsselt ist.
+* **ACLAuhtorizationAny**: Ermöglicht dem Inhaber, jede Aktion auszuführen.
 
-Die ACLs word verder vergesel deur 'n **lys van vertroude toepassings** wat hierdie aksies kan uitvoer sonder om te vra. Dit kan wees:
+Die ACLs werden zusätzlich von einer **Liste vertrauenswürdiger Anwendungen** begleitet, die diese Aktionen ohne Aufforderung ausführen können. Dies könnte sein:
 
-* **N`il`** (geen toestemming vereis, **elkeen is vertrou**)
-* 'n **leë** lys (**niemand** is vertrou)
-* **Lys** van spesifieke **toepassings**.
+* **N`il`** (keine Autorisierung erforderlich, **jeder ist vertrauenswürdig**)
+* Eine **leere** Liste (**niemand** ist vertrauenswürdig)
+* **Liste** spezifischer **Anwendungen**.
 
-Ook kan die inskrywing die sleutel **`ACLAuthorizationPartitionID`** bevat, wat gebruik word om die **teamid, apple,** en **cdhash** te identifiseer.
+Außerdem könnte der Eintrag den Schlüssel **`ACLAuthorizationPartitionID`** enthalten, der verwendet wird, um die **teamid, apple** und **cdhash** zu identifizieren.
 
-* As die **teamid** gespesifiseer is, dan om die **inskrywing** waarde **sonder** 'n **prompt** te **toegang**, moet die gebruikte toepassing die **selfde teamid** hê.
-* As die **apple** gespesifiseer is, dan moet die app **onderteken** wees deur **Apple**.
-* As die **cdhash** aangedui is, dan moet die **app** die spesifieke **cdhash** hê.
+* Wenn die **teamid** angegeben ist, muss die verwendete Anwendung, um den **Eintrag** ohne **Aufforderung** zu **zugreifen**, die **gleiche teamid** haben.
+* Wenn **apple** angegeben ist, muss die App von **Apple** **signiert** sein.
+* Wenn die **cdhash** angegeben ist, muss die **App** die spezifische **cdhash** haben.
 
-### Skep 'n Sleutelhanger Inskrywing
+### Erstellen eines Schlüsselbund-Eintrags
 
-Wanneer 'n **nuwe** **inskrywing** geskep word met **`Keychain Access.app`**, geld die volgende reëls:
+Wenn ein **neuer** **Eintrag** mit **`Keychain Access.app`** erstellt wird, gelten die folgenden Regeln:
 
-* Alle apps kan versleuteld.
-* **Geen apps** kan uitvoer/ontcijfer (sonder om die gebruiker te vra).
-* Alle apps kan die integriteitskontrole sien.
-* Geen apps kan ACLs verander nie.
-* Die **partitionID** is gestel op **`apple`**.
+* Alle Apps können verschlüsseln.
+* **Keine Apps** können exportieren/entschlüsseln (ohne den Benutzer aufzufordern).
+* Alle Apps können die Integritätsprüfung sehen.
+* Keine Apps können ACLs ändern.
+* Die **partitionID** wird auf **`apple`** gesetzt.
 
-Wanneer 'n **toepassing 'n inskrywing in die sleutelhanger skep**, is die reëls effens anders:
+Wenn eine **Anwendung einen Eintrag im Schlüsselbund erstellt**, sind die Regeln etwas anders:
 
-* Alle apps kan versleuteld.
-* Slegs die **skepende toepassing** (of enige ander apps wat eksplisiet bygevoeg is) kan uitvoer/ontcijfer (sonder om die gebruiker te vra).
-* Alle apps kan die integriteitskontrole sien.
-* Geen apps kan die ACLs verander nie.
-* Die **partitionID** is gestel op **`teamid:[teamID hier]`**.
+* Alle Apps können verschlüsseln.
+* Nur die **erstellende Anwendung** (oder andere ausdrücklich hinzugefügte Apps) können exportieren/entschlüsseln (ohne den Benutzer aufzufordern).
+* Alle Apps können die Integritätsprüfung sehen.
+* Keine Apps können die ACLs ändern.
+* Die **partitionID** wird auf **`teamid:[teamID hier]`** gesetzt.
 
-## Toegang tot die Sleutelhanger
+## Zugriff auf den Schlüsselbund
 
 ### `security`
 ```bash
@@ -89,72 +89,72 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 ### APIs
 
 {% hint style="success" %}
-Die **keychain enumerasie en dumping** van geheime wat **nie 'n prompt sal genereer nie** kan gedoen word met die hulpmiddel [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+Die **Aufzählung und das Dumpen** von Geheimnissen, die **keine Eingabeaufforderung** erzeugen, kann mit dem Tool [**LockSmith**](https://github.com/its-a-feature/LockSmith) durchgeführt werden.
 
-Ander API eindpunte kan gevind word in [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html) bronkode.
+Andere API-Endpunkte finden sich im Quellcode von [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html).
 {% endhint %}
 
-Lys en kry **inligting** oor elke keychain inskrywing met die **Security Framework** of jy kan ook die Apple se oopbron cli hulpmiddel [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Sommige API voorbeelde:
+Liste und erhalte **Informationen** über jeden Schlüsselbund-Eintrag mit dem **Security Framework** oder du kannst auch das Open-Source-CLI-Tool von Apple [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Einige API-Beispiele:
 
-* Die API **`SecItemCopyMatching`** gee inligting oor elke inskrywing en daar is 'n paar eienskappe wat jy kan stel wanneer jy dit gebruik:
-* **`kSecReturnData`**: As waar, sal dit probeer om die data te ontsleutel (stel op vals om potensiële pop-ups te vermy)
-* **`kSecReturnRef`**: Kry ook verwysing na keychain item (stel op waar in geval jy later sien jy kan ontsleutel sonder pop-up)
-* **`kSecReturnAttributes`**: Kry metadata oor inskrywings
-* **`kSecMatchLimit`**: Hoeveel resultate om terug te gee
-* **`kSecClass`**: Watter soort keychain inskrywing
+* Die API **`SecItemCopyMatching`** gibt Informationen über jeden Eintrag und es gibt einige Attribute, die du beim Verwenden festlegen kannst:
+* **`kSecReturnData`**: Wenn wahr, wird versucht, die Daten zu entschlüsseln (auf falsch setzen, um potenzielle Pop-ups zu vermeiden)
+* **`kSecReturnRef`**: Erhalte auch einen Verweis auf den Schlüsselbund-Eintrag (auf wahr setzen, falls du später siehst, dass du ohne Pop-up entschlüsseln kannst)
+* **`kSecReturnAttributes`**: Erhalte Metadaten über Einträge
+* **`kSecMatchLimit`**: Wie viele Ergebnisse zurückgegeben werden sollen
+* **`kSecClass`**: Welche Art von Schlüsselbund-Eintrag
 
-Kry **ACLs** van elke inskrywing:
+Erhalte **ACLs** jedes Eintrags:
 
-* Met die API **`SecAccessCopyACLList`** kan jy die **ACL vir die keychain item** kry, en dit sal 'n lys van ACLs teruggee (soos `ACLAuhtorizationExportClear` en die ander voorheen genoem) waar elke lys het:
-* Beskrywing
-* **Vertroude Toepassing Lys**. Dit kan wees:
-* 'n app: /Applications/Slack.app
-* 'n binêre: /usr/libexec/airportd
-* 'n groep: group://AirPort
+* Mit der API **`SecAccessCopyACLList`** kannst du die **ACL für den Schlüsselbund-Eintrag** abrufen, und es wird eine Liste von ACLs zurückgegeben (wie `ACLAuhtorizationExportClear` und die zuvor genannten), wobei jede Liste hat:
+* Beschreibung
+* **Vertrauenswürdige Anwendungs-Liste**. Dies könnte sein:
+* Eine App: /Applications/Slack.app
+* Ein Binary: /usr/libexec/airportd
+* Eine Gruppe: group://AirPort
 
-Eksporteer die data:
+Exportiere die Daten:
 
-* Die API **`SecKeychainItemCopyContent`** kry die platte teks
-* Die API **`SecItemExport`** eksporteer die sleutels en sertifikate maar jy mag dalk wagwoorde moet stel om die inhoud versleuteld te eksporteer
+* Die API **`SecKeychainItemCopyContent`** erhält den Klartext
+* Die API **`SecItemExport`** exportiert die Schlüssel und Zertifikate, könnte aber erforderlich sein, Passwörter festzulegen, um den Inhalt verschlüsselt zu exportieren
 
-En dit is die **vereistes** om 'n **geheim sonder 'n prompt** te kan **eksporteer**:
+Und dies sind die **Anforderungen**, um ein **Geheimnis ohne Eingabeaufforderung** zu **exportieren**:
 
-* As **1+ vertroude** apps gelys:
-* Nodig die toepaslike **autorisaties** (**`Nil`**, of wees **deel** van die toegelate lys van apps in die autorisasie om toegang tot die geheime inligting te verkry)
-* Nodig kodehandtekening om te pas by **PartitionID**
-* Nodig kodehandtekening om te pas by een **vertroude app** (of wees 'n lid van die regte KeychainAccessGroup)
-* As **alle toepassings vertrou**:
-* Nodig die toepaslike **autorisaties**
-* Nodig kodehandtekening om te pas by **PartitionID**
-* As **geen PartitionID**, dan is dit nie nodig nie
+* Wenn **1+ vertrauenswürdige** Apps aufgelistet sind:
+* Benötige die entsprechenden **Berechtigungen** (**`Nil`**, oder Teil der erlaubten Liste von Apps in der Berechtigung, um auf die geheimen Informationen zuzugreifen)
+* Benötige eine Codesignatur, die mit **PartitionID** übereinstimmt
+* Benötige eine Codesignatur, die mit der eines **vertrauenswürdigen App** übereinstimmt (oder Mitglied der richtigen KeychainAccessGroup sein)
+* Wenn **alle Anwendungen vertrauenswürdig**:
+* Benötige die entsprechenden **Berechtigungen**
+* Benötige eine Codesignatur, die mit **PartitionID** übereinstimmt
+* Wenn **keine PartitionID**, dann ist dies nicht erforderlich
 
 {% hint style="danger" %}
-Daarom, as daar **1 toepassing gelys** is, moet jy **kode in daardie toepassing inspuit**.
+Daher, wenn **1 Anwendung aufgelistet** ist, musst du **Code in dieser Anwendung injizieren**.
 
-As **apple** aangedui word in die **partitionID**, kan jy dit met **`osascript`** benader, so enigiets wat al die toepassings met apple in die partitionID vertrou. **`Python`** kan ook hiervoor gebruik word.
+Wenn **apple** in der **partitionID** angegeben ist, könntest du darauf mit **`osascript`** zugreifen, sodass alles, was alle Anwendungen mit apple in der partitionID vertraut, darauf zugreifen kann. **`Python`** könnte auch dafür verwendet werden.
 {% endhint %}
 
-### Twee addisionele eienskappe
+### Zwei zusätzliche Attribute
 
-* **Onsigbaar**: Dit is 'n booleaanse vlag om die inskrywing van die **UI** Keychain app te **versteek**
-* **Algemeen**: Dit is om **metadata** te stoor (so dit is NIE VERSPREKELD nie)
-* Microsoft het al die verfrissingstokens in platte teks gestoor om toegang tot sensitiewe eindpunte te verkry.
+* **Unsichtbar**: Es ist ein boolesches Flag, um den Eintrag in der **UI** Schlüsselbund-App zu **verstecken**.
+* **Allgemein**: Es dient zur Speicherung von **Metadaten** (also ist es NICHT VERSCHLÜSSELT).
+* Microsoft speicherte alle Refresh-Token im Klartext, um auf sensible Endpunkte zuzugreifen.
 
-## References
+## Referenzen
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

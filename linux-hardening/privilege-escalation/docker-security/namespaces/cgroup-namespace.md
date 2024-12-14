@@ -1,6 +1,99 @@
 # CGroup Namespace
 
 {% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Unterstützen Sie HackTricks</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+
+</details>
+{% endhint %}
+
+## Grundinformationen
+
+Ein cgroup-Namespace ist eine Funktion des Linux-Kernels, die **Isolation von cgroup-Hierarchien für Prozesse, die innerhalb eines Namespaces ausgeführt werden**, bereitstellt. Cgroups, kurz für **Control Groups**, sind eine Kernel-Funktion, die es ermöglicht, Prozesse in hierarchischen Gruppen zu organisieren, um **Grenzen für Systemressourcen** wie CPU, Speicher und I/O zu verwalten und durchzusetzen.
+
+Während cgroup-Namensräume kein separater Namespace-Typ wie die anderen, die wir zuvor besprochen haben (PID, Mount, Netzwerk usw.), sind, stehen sie im Zusammenhang mit dem Konzept der Namespace-Isolation. **Cgroup-Namensräume virtualisieren die Sicht auf die cgroup-Hierarchie**, sodass Prozesse, die innerhalb eines cgroup-Namensraums ausgeführt werden, eine andere Sicht auf die Hierarchie haben als Prozesse, die im Host oder in anderen Namespaces ausgeführt werden.
+
+### So funktioniert es:
+
+1. Wenn ein neuer cgroup-Namespace erstellt wird, **beginnt er mit einer Sicht auf die cgroup-Hierarchie, die auf der cgroup des erstellenden Prozesses basiert**. Das bedeutet, dass Prozesse, die im neuen cgroup-Namespace ausgeführt werden, nur einen Teil der gesamten cgroup-Hierarchie sehen, der auf dem cgroup-Teilbaum basiert, der an der cgroup des erstellenden Prozesses verwurzelt ist.
+2. Prozesse innerhalb eines cgroup-Namensraums werden **ihre eigene cgroup als Wurzel der Hierarchie sehen**. Das bedeutet, dass aus der Perspektive der Prozesse innerhalb des Namespaces ihre eigene cgroup als Wurzel erscheint und sie cgroups außerhalb ihres eigenen Teilbaums nicht sehen oder darauf zugreifen können.
+3. Cgroup-Namensräume bieten nicht direkt Isolation von Ressourcen; **sie bieten nur Isolation der Sicht auf die cgroup-Hierarchie**. **Die Kontrolle und Isolation von Ressourcen werden weiterhin von den cgroup**-Subsystemen (z. B. CPU, Speicher usw.) selbst durchgesetzt.
+
+Für weitere Informationen zu CGroups siehe:
+
+{% content-ref url="../cgroups.md" %}
+[cgroups.md](../cgroups.md)
+{% endcontent-ref %}
+
+## Labor:
+
+### Erstellen Sie verschiedene Namespaces
+
+#### CLI
+```bash
+sudo unshare -C [--mount-proc] /bin/bash
+```
+Durch das Einhängen einer neuen Instanz des `/proc` Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Sicht auf die prozessspezifischen Informationen dieses Namespaces** hat.
+
+<details>
+
+<summary>Fehler: bash: fork: Kann Speicher nicht zuweisen</summary>
+
+Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler auf, der auf die Art und Weise zurückzuführen ist, wie Linux neue PID (Prozess-ID) Namespaces behandelt. Die wichtigsten Details und die Lösung sind unten aufgeführt:
+
+1. **Problemerklärung**:
+- Der Linux-Kernel erlaubt es einem Prozess, neue Namespaces mit dem Systemaufruf `unshare` zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namespace initiiert (als "unshare" Prozess bezeichnet), tritt jedoch nicht in den neuen Namespace ein; nur seine Kindprozesse tun dies.
+- Das Ausführen von `%unshare -p /bin/bash%` startet `/bin/bash` im selben Prozess wie `unshare`. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namespace.
+- Der erste Kindprozess von `/bin/bash` im neuen Namespace wird zu PID 1. Wenn dieser Prozess beendet wird, wird die Bereinigung des Namespaces ausgelöst, wenn keine anderen Prozesse vorhanden sind, da PID 1 die besondere Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namespace.
+
+2. **Folge**:
+- Das Verlassen von PID 1 in einem neuen Namespace führt zur Bereinigung des `PIDNS_HASH_ADDING` Flags. Dies führt dazu, dass die Funktion `alloc_pid` bei der Erstellung eines neuen Prozesses fehlschlägt, was den Fehler "Kann Speicher nicht zuweisen" erzeugt.
+
+3. **Lösung**:
+- Das Problem kann gelöst werden, indem die Option `-f` mit `unshare` verwendet wird. Diese Option bewirkt, dass `unshare` einen neuen Prozess nach der Erstellung des neuen PID-Namespace forked.
+- Das Ausführen von `%unshare -fp /bin/bash%` stellt sicher, dass der `unshare` Befehl selbst PID 1 im neuen Namespace wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namespace enthalten, wodurch der vorzeitige Austritt von PID 1 verhindert wird und eine normale PID-Zuweisung ermöglicht wird.
+
+Durch die Sicherstellung, dass `unshare` mit dem `-f` Flag ausgeführt wird, wird der neue PID-Namespace korrekt aufrechterhalten, sodass `/bin/bash` und seine Unterprozesse ohne den Speicherzuweisungsfehler arbeiten können.
+
+</details>
+
+#### Docker
+```bash
+docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
+```
+### &#x20;Überprüfen, in welchem Namespace sich Ihr Prozess befindet
+```bash
+ls -l /proc/self/ns/cgroup
+lrwxrwxrwx 1 root root 0 Apr  4 21:19 /proc/self/ns/cgroup -> 'cgroup:[4026531835]'
+```
+### Alle CGroup-Namensräume finden
+
+{% code overflow="wrap" %}
+```bash
+sudo find /proc -maxdepth 3 -type l -name cgroup -exec readlink {} \; 2>/dev/null | sort -u
+# Find the processes with an specific namespace
+sudo find /proc -maxdepth 3 -type l -name cgroup -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
+```
+{% endcode %}
+
+### Betreten Sie einen CGroup-Namespace
+```bash
+nsenter -C TARGET_PID --pid /bin/bash
+```
+Auch können Sie **nur in einen anderen Prozess-Namespace eintreten, wenn Sie root sind**. Und Sie **können** **nicht** **in** einen anderen Namespace **eintreten**, **ohne einen Deskriptor**, der darauf verweist (wie `/proc/self/ns/cgroup`).
+
+## References
+* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+
+{% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
@@ -11,99 +104,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
 * **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
-
-## Basic Information
-
-'n cgroup namespace is 'n Linux-kernfunksie wat **isolasie van cgroup hiërargieë vir prosesse wat binne 'n namespace loop** bied. Cgroups, kort vir **kontrole groepe**, is 'n kernfunksie wat toelaat dat prosesse in hiërargiese groepe georganiseer word om **grense op stelselhulpbronne** soos CPU, geheue en I/O te bestuur en af te dwing.
-
-Terwyl cgroup namespaces nie 'n aparte namespace tipe is soos die ander wat ons vroeër bespreek het nie (PID, mount, netwerk, ens.), is hulle verwant aan die konsep van namespace-isolasie. **Cgroup namespaces virtualiseer die uitsig van die cgroup hiërargie**, sodat prosesse wat binne 'n cgroup namespace loop 'n ander uitsig van die hiërargie het in vergelyking met prosesse wat in die gasheer of ander namespaces loop.
-
-### How it works:
-
-1. Wanneer 'n nuwe cgroup namespace geskep word, **begin dit met 'n uitsig van die cgroup hiërargie gebaseer op die cgroup van die skepende proses**. Dit beteken dat prosesse wat in die nuwe cgroup namespace loop slegs 'n subset van die hele cgroup hiërargie sal sien, beperk tot die cgroup subboom wat op die skepende proses se cgroup gegrond is.
-2. Prosesse binne 'n cgroup namespace sal **hulle eie cgroup as die wortel van die hiërargie sien**. Dit beteken dat, vanuit die perspektief van prosesse binne die namespace, hulle eie cgroup as die wortel verskyn, en hulle kan nie cgroups buite hulle eie subboom sien of toegang daartoe kry nie.
-3. Cgroup namespaces bied nie direk isolasie van hulpbronne nie; **hulle bied slegs isolasie van die cgroup hiërargie uitsig**. **Hulpbronbeheer en isolasie word steeds afgedwing deur die cgroup** subsisteme (bv., cpu, geheue, ens.) self.
-
-For more information about CGroups check:
-
-{% content-ref url="../cgroups.md" %}
-[cgroups.md](../cgroups.md)
-{% endcontent-ref %}
-
-## Lab:
-
-### Create different Namespaces
-
-#### CLI
-```bash
-sudo unshare -C [--mount-proc] /bin/bash
-```
-Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteernaamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
-
-<details>
-
-<summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
-
-Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
-
-1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan egter nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
-- Om `%unshare -p /bin/bash%` uit te voer, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, veroorsaak dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
-
-2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
-
-3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
-
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse funksioneer sonder om die geheue toewysing fout te ondervind.
-
-</details>
-
-#### Docker
-```bash
-docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
-```
-### &#x20;Kontroleer in watter naamruimte jou proses is
-```bash
-ls -l /proc/self/ns/cgroup
-lrwxrwxrwx 1 root root 0 Apr  4 21:19 /proc/self/ns/cgroup -> 'cgroup:[4026531835]'
-```
-### Vind alle CGroup-namespaces
-
-{% code overflow="wrap" %}
-```bash
-sudo find /proc -maxdepth 3 -type l -name cgroup -exec readlink {} \; 2>/dev/null | sort -u
-# Find the processes with an specific namespace
-sudo find /proc -maxdepth 3 -type l -name cgroup -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
-```
-{% endcode %}
-
-### Gaan binne in 'n CGroup naamruimte
-```bash
-nsenter -C TARGET_PID --pid /bin/bash
-```
-Ook, jy kan slegs **in 'n ander prosesnaamruimte ingaan as jy root is**. En jy **kan nie** **in** 'n ander naamruimte **ingaan sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/cgroup`).
-
-## Verwysings
-* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
-
-{% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

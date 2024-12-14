@@ -1,48 +1,48 @@
-# macOS Gebruikers & Eksterne Rekeninge
+# macOS Benutzer & Externe Konten
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Algemene Gebruikers
+## Gemeinsame Benutzer
 
-*   **Daemon**: Gebruiker gereserveer vir stelseldemons. Die standaard daemon rekeningname begin gewoonlik met 'n "\_":
+*   **Daemon**: Benutzer, der für System-Daemons reserviert ist. Die Standard-Daemon-Kontennamen beginnen normalerweise mit einem "\_":
 
 ```bash
 _amavisd, _analyticsd, _appinstalld, _appleevents, _applepay, _appowner, _appserver, _appstore, _ard, _assetcache, _astris, _atsserver, _avbdeviced, _calendar, _captiveagent, _ces, _clamav, _cmiodalassistants, _coreaudiod, _coremediaiod, _coreml, _ctkd, _cvmsroot, _cvs, _cyrus, _datadetectors, _demod, _devdocs, _devicemgr, _diskimagesiod, _displaypolicyd, _distnote, _dovecot, _dovenull, _dpaudio, _driverkit, _eppc, _findmydevice, _fpsd, _ftp, _fud, _gamecontrollerd, _geod, _hidd, _iconservices, _installassistant, _installcoordinationd, _installer, _jabber, _kadmin_admin, _kadmin_changepw, _knowledgegraphd, _krb_anonymous, _krb_changepw, _krb_kadmin, _krb_kerberos, _krb_krbtgt, _krbfast, _krbtgt, _launchservicesd, _lda, _locationd, _logd, _lp, _mailman, _mbsetupuser, _mcxalr, _mdnsresponder, _mobileasset, _mysql, _nearbyd, _netbios, _netstatistics, _networkd, _nsurlsessiond, _nsurlstoraged, _oahd, _ondemand, _postfix, _postgres, _qtss, _reportmemoryexception, _rmd, _sandbox, _screensaver, _scsd, _securityagent, _softwareupdate, _spotlight, _sshd, _svn, _taskgated, _teamsserver, _timed, _timezone, _tokend, _trustd, _trustevaluationagent, _unknown, _update_sharing, _usbmuxd, _uucp, _warmd, _webauthserver, _windowserver, _www, _wwwproxy, _xserverdocs
 ```
-* **Gaste**: Rekening vir gaste met baie streng toestemmings
+* **Gast**: Konto für Gäste mit sehr strengen Berechtigungen
 ```bash
 state=("automaticTime" "afpGuestAccess" "filesystem" "guestAccount" "smbGuestAccess")
 for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ```
 {% endcode %}
 
-* **Niemand**: Prosesse word met hierdie gebruiker uitgevoer wanneer minimale toestemmings benodig word
+* **Niemand**: Prozesse werden mit diesem Benutzer ausgeführt, wenn minimale Berechtigungen erforderlich sind
 * **Root**
 
-## Gebruikersregte
+## Benutzerberechtigungen
 
-* **Standaard gebruiker:** Die mees basiese van gebruikers. Hierdie gebruiker benodig toestemmings wat deur 'n admin gebruiker toegestaan word wanneer hy probeer om sagteware te installeer of ander gevorderde take uit te voer. Hulle kan dit nie op hul eie doen nie.
-* **Admin gebruiker**: 'n Gebruiker wat die meeste van die tyd as 'n standaard gebruiker werk, maar ook toegelaat word om root aksies uit te voer soos om sagteware te installeer en ander administratiewe take. Alle gebruikers wat tot die admin-groep behoort, **kry toegang tot root via die sudoers-lêer**.
-* **Root**: Root is 'n gebruiker wat toegelaat word om byna enige aksie uit te voer (daar is beperkings wat deur beskermings soos Stelselintegriteitsbeskerming opgelê word).
-* Byvoorbeeld, root sal nie in staat wees om 'n lêer binne `/System` te plaas nie.
+* **Standardbenutzer:** Der grundlegendste Benutzer. Dieser Benutzer benötigt Berechtigungen, die von einem Administrator gewährt werden, wenn er versucht, Software zu installieren oder andere fortgeschrittene Aufgaben auszuführen. Er kann dies nicht selbst tun.
+* **Administratorbenutzer**: Ein Benutzer, der die meiste Zeit als Standardbenutzer arbeitet, aber auch berechtigt ist, Root-Aktionen wie die Installation von Software und andere administrative Aufgaben auszuführen. Alle Benutzer, die zur Administratorgruppe gehören, haben **Zugriff auf Root über die sudoers-Datei**.
+* **Root**: Root ist ein Benutzer, der fast jede Aktion ausführen darf (es gibt Einschränkungen, die durch Schutzmaßnahmen wie den System Integrity Protection auferlegt werden).
+* Zum Beispiel kann Root keine Datei in `/System` ablegen.
 
-## Eksterne Rekeninge
+## Externe Konten
 
-MacOS ondersteun ook om in te log via eksterne identiteitsverskaffers soos FaceBook, Google... Die hoof daemon wat hierdie werk uitvoer is `accountsd` (`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`) en dit is moontlik om plugins wat vir eksterne autentisering gebruik word, binne die gids `/System/Library/Accounts/Authentication/` te vind.\
-Boonop kry `accountsd` die lys van rekeningsoorte van `/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`.
+MacOS unterstützt auch die Anmeldung über externe Identitätsanbieter wie FaceBook, Google... Der Hauptdaemon, der diese Aufgabe ausführt, ist `accountsd` (`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`) und es ist möglich, Plugins für die externe Authentifizierung im Ordner `/System/Library/Accounts/Authentication/` zu finden.\
+Darüber hinaus erhält `accountsd` die Liste der Kontotypen aus `/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

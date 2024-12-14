@@ -1,16 +1,16 @@
-# macOS Serienommer
+# macOS Seriennummer
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -26,48 +26,48 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 
 
-## Basiese Inligting
+## Grundinformationen
 
-Apple toestelle na 2010 het serienommers wat bestaan uit **12 alfanumeriese karakters**, elke segment wat spesifieke inligting oordra:
+Apple-Geräte nach 2010 haben Seriennummern, die aus **12 alphanumerischen Zeichen** bestehen, wobei jedes Segment spezifische Informationen vermittelt:
 
-- **Eerste 3 Karakters**: Dui die **produksie ligging** aan.
-- **Karakter 4 & 5**: Dui die **jaar en week van vervaardiging** aan.
-- **Karakter 6 tot 8**: Dien as 'n **unieke identifiseerder** vir elke toestel.
-- **Laaste 4 Karakters**: Spesifiseer die **modelnommer**.
+- **Erste 3 Zeichen**: Geben den **Herstellungsort** an.
+- **Zeichen 4 & 5**: Bezeichnen das **Jahr und die Woche der Herstellung**.
+- **Zeichen 6 bis 8**: Dienen als **eindeutige Kennung** für jedes Gerät.
+- **Letzte 4 Zeichen**: Geben die **Modellnummer** an.
 
-Byvoorbeeld, die serienommer **C02L13ECF8J2** volg hierdie struktuur.
+Zum Beispiel folgt die Seriennummer **C02L13ECF8J2** dieser Struktur.
 
-### **Produksie Ligging (Eerste 3 Karakters)**
-Sekere kodes verteenwoordig spesifieke fabrieke:
-- **FC, F, XA/XB/QP/G8**: Verskeie plekke in die VSA.
+### **Herstellungsorte (Erste 3 Zeichen)**
+Bestimmte Codes repräsentieren spezifische Fabriken:
+- **FC, F, XA/XB/QP/G8**: Verschiedene Standorte in den USA.
 - **RN**: Mexiko.
-- **CK**: Cork, Ierland.
-- **VM**: Foxconn, Tsjeggië.
-- **SG/E**: Singapoer.
-- **MB**: Maleisië.
+- **CK**: Cork, Irland.
+- **VM**: Foxconn, Tschechische Republik.
+- **SG/E**: Singapur.
+- **MB**: Malaysia.
 - **PT/CY**: Korea.
 - **EE/QT/UV**: Taiwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Verskillende plekke in China.
-- **C0, C3, C7**: Spesifieke stede in China.
-- **RM**: Gerenoveerde toestelle.
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Verschiedene Standorte in China.
+- **C0, C3, C7**: Bestimmte Städte in China.
+- **RM**: Aufbereitete Geräte.
 
-### **Jaar van Vervaardiging (4de Karakter)**
-Hierdie karakter wissel van 'C' (wat die eerste helfte van 2010 verteenwoordig) tot 'Z' (tweede helfte van 2019), met verskillende letters wat verskillende helfjaarperiodes aandui.
+### **Jahr der Herstellung (4. Zeichen)**
+Dieses Zeichen variiert von 'C' (repräsentiert die erste Hälfte von 2010) bis 'Z' (zweite Hälfte von 2019), wobei verschiedene Buchstaben unterschiedliche Halbjahresperioden anzeigen.
 
-### **Week van Vervaardiging (5de Karakter)**
-Cijfers 1-9 kom ooreen met weke 1-9. Letters C-Y (uitgesluit vokale en 'S') verteenwoordig weke 10-27. Vir die tweede helfte van die jaar, word 26 by hierdie nommer gevoeg.
+### **Woche der Herstellung (5. Zeichen)**
+Ziffern 1-9 entsprechen den Wochen 1-9. Buchstaben C-Y (ohne Vokale und 'S') repräsentieren die Wochen 10-27. Für die zweite Hälfte des Jahres wird 26 zu dieser Zahl addiert.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -86,7 +86,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 </details>
-{% endhint %}hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 {% endhint %}
 </details>

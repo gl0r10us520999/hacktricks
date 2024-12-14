@@ -1,70 +1,70 @@
-# macOS Bundels
+# macOS Bundles
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundlegende Informationen
 
-Bundels in macOS dien as houers vir 'n verskeidenheid bronne insluitend toepassings, biblioteke, en ander nodige lêers, wat hulle laat voorkom as enkel voorwerpe in Finder, soos die bekende `*.app` lêers. Die mees algemeen aangetrefte bundel is die `.app` bundel, alhoewel ander tipes soos `.framework`, `.systemextension`, en `.kext` ook algemeen voorkom.
+Bundles in macOS dienen als Container für eine Vielzahl von Ressourcen, einschließlich Anwendungen, Bibliotheken und anderen notwendigen Dateien, wodurch sie im Finder als einzelne Objekte erscheinen, wie die vertrauten `*.app`-Dateien. Das am häufigsten vorkommende Bundle ist das `.app`-Bundle, obwohl auch andere Typen wie `.framework`, `.systemextension` und `.kext` verbreitet sind.
 
-### Essensiële Komponente van 'n Bundel
+### Wesentliche Komponenten eines Bundles
 
-Binne 'n bundel, veral binne die `<toepassing>.app/Contents/` gids, word 'n verskeidenheid belangrike bronne gehuisves:
+Innerhalb eines Bundles, insbesondere im `<application>.app/Contents/`-Verzeichnis, befinden sich eine Vielzahl wichtiger Ressourcen:
 
-* **\_CodeSignature**: Hierdie gids stoor kode-ondertekeningsbesonderhede wat noodsaaklik is vir die verifikasie van die toepassing se integriteit. Jy kan die kode-ondertekeningsinligting inspekteer met bevele soos: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
-* **MacOS**: Bevat die uitvoerbare binêre van die toepassing wat hardloop wanneer die gebruiker interaksie het.
-* **Hulpbronne**: 'n Berging vir die toepassing se gebruikerskoppelvlakkomponente insluitend beelde, dokumente, en koppelvlakbeskrywings (nib/xib lêers).
-* **Info.plist**: Tree op as die toepassing se hoofkonfigurasie lêer, noodsaaklik vir die stelsel om die toepassing toepaslik te herken en mee te interageer.
+* **\_CodeSignature**: Dieses Verzeichnis speichert die Code-Signierungsdetails, die für die Überprüfung der Integrität der Anwendung entscheidend sind. Du kannst die Code-Signierungsinformationen mit Befehlen wie: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
+* **MacOS**: Enthält die ausführbare Binärdatei der Anwendung, die bei Benutzerinteraktion ausgeführt wird.
+* **Resources**: Ein Repository für die Benutzeroberflächenkomponenten der Anwendung, einschließlich Bilder, Dokumente und Schnittstellenbeschreibungen (nib/xib-Dateien).
+* **Info.plist**: Dient als Hauptkonfigurationsdatei der Anwendung, die für das System entscheidend ist, um die Anwendung korrekt zu erkennen und mit ihr zu interagieren.
 
-#### Belangrike Sleutels in Info.plist
+#### Wichtige Schlüssel in Info.plist
 
-Die `Info.plist` lêer is 'n hoeksteen vir toepassingskonfigurasie, wat sleutels soos bevat:
+Die `Info.plist`-Datei ist ein Grundpfeiler für die Anwendungs-Konfiguration und enthält Schlüssel wie:
 
-* **CFBundleExecutable**: Spesifiseer die naam van die hoofuitvoerbare lêer wat in die `Contents/MacOS` gids geleë is.
-* **CFBundleIdentifier**: Verskaf 'n globale identifiseerder vir die toepassing, wat wyd deur macOS gebruik word vir toepassingsbestuur.
-* **LSMinimumSystemVersion**: Dui die minimum weergawe van macOS aan wat vir die toepassing benodig word om te hardloop.
+* **CFBundleExecutable**: Gibt den Namen der Hauptausführungsdatei im Verzeichnis `Contents/MacOS` an.
+* **CFBundleIdentifier**: Stellt einen globalen Identifikator für die Anwendung bereit, der von macOS umfassend für das Anwendungsmanagement verwendet wird.
+* **LSMinimumSystemVersion**: Gibt die minimale Version von macOS an, die erforderlich ist, damit die Anwendung ausgeführt werden kann.
 
-### Verken Bundels
+### Erforschen von Bundles
 
-Om die inhoud van 'n bundel te verken, soos `Safari.app`, kan die volgende bevel gebruik word: `bash ls -lR /Applications/Safari.app/Contents`
+Um den Inhalt eines Bundles, wie `Safari.app`, zu erkunden, kann der folgende Befehl verwendet werden: `bash ls -lR /Applications/Safari.app/Contents`
 
-Hierdie verkenning onthul gids soos `_CodeSignature`, `MacOS`, `Hulpbronne`, en lêers soos `Info.plist`, wat elk 'n unieke doel dien vanaf die beveiliging van die toepassing tot die definisie van sy gebruikerskoppelvlak en operasionele parameters.
+Diese Erkundung zeigt Verzeichnisse wie `_CodeSignature`, `MacOS`, `Resources` und Dateien wie `Info.plist`, die jeweils einen einzigartigen Zweck erfüllen, von der Sicherung der Anwendung bis zur Definition ihrer Benutzeroberfläche und Betriebsparameter.
 
-#### Addisionele Bundelgidse
+#### Zusätzliche Bundle-Verzeichnisse
 
-Verder as die algemene gidse, kan bundels ook insluit:
+Über die gängigen Verzeichnisse hinaus können Bundles auch Folgendes enthalten:
 
-* **Raamwerke**: Bevat gebundelde raamwerke wat deur die toepassing gebruik word. Raamwerke is soos dylibs met ekstra bronne.
-* **Inproppe**: 'n Gids vir inproppe en uitbreidings wat die toepassing se vermoëns verbeter.
-* **XPC-dienste**: Hou XPC-dienste wat deur die toepassing vir buiteproseskommunikasie gebruik word.
+* **Frameworks**: Enthält gebündelte Frameworks, die von der Anwendung verwendet werden. Frameworks sind wie dylibs mit zusätzlichen Ressourcen.
+* **PlugIns**: Ein Verzeichnis für Plug-ins und Erweiterungen, die die Fähigkeiten der Anwendung erweitern.
+* **XPCServices**: Enthält XPC-Dienste, die von der Anwendung für die Kommunikation außerhalb des Prozesses verwendet werden.
 
-Hierdie struktuur verseker dat alle nodige komponente binne die bundel ingesluit is, wat 'n modulêre en veilige toepassingsomgewing fasiliteer.
+Diese Struktur stellt sicher, dass alle notwendigen Komponenten innerhalb des Bundles gekapselt sind, was eine modulare und sichere Anwendungsumgebung ermöglicht.
 
-Vir meer gedetailleerde inligting oor `Info.plist` sleutels en hul betekenisse, bied die Apple-ontwikkelaardokumentasie uitgebreide bronne: [Apple Info.plist Sleutelverwysing](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+Für detailliertere Informationen zu `Info.plist`-Schlüsseln und deren Bedeutungen bietet die Apple-Entwicklerdokumentation umfangreiche Ressourcen: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

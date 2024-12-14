@@ -1,61 +1,61 @@
-# Netwerk Naamruimte
+# Netzwerk-Namespace
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-'n Netwerk naamruimte is 'n Linux-kernfunksie wat isolasie van die netwerkstapel bied, wat toelaat dat **elke netwerk naamruimte sy eie onafhanklike netwerk konfigurasie**, interfaces, IP adresse, routeringstabelle, en firewall reëls kan hê. Hierdie isolasie is nuttig in verskeie scenario's, soos containerisering, waar elke container sy eie netwerk konfigurasie moet hê, onafhanklik van ander containers en die gasheerstelsel.
+Ein Netzwerk-Namespace ist eine Funktion des Linux-Kernels, die die Isolation des Netzwerk-Stacks bereitstellt, sodass **jeder Netzwerk-Namespace seine eigene unabhängige Netzwerkkonfiguration**, Schnittstellen, IP-Adressen, Routing-Tabellen und Firewall-Regeln haben kann. Diese Isolation ist in verschiedenen Szenarien nützlich, wie z.B. bei der Containerisierung, wo jeder Container seine eigene Netzwerkkonfiguration haben sollte, unabhängig von anderen Containern und dem Host-System.
 
-### Hoe dit werk:
+### So funktioniert es:
 
-1. Wanneer 'n nuwe netwerk naamruimte geskep word, begin dit met 'n **heeltemal geïsoleerde netwerkstapel**, met **geen netwerkinterfaces** behalwe vir die loopback interface (lo). Dit beteken dat prosesse wat in die nuwe netwerk naamruimte loop nie met prosesse in ander naamruimtes of die gasheerstelsel kan kommunikeer nie, behalwe as 'n standaard.
-2. **Virtuele netwerkinterfaces**, soos veth pare, kan geskep en tussen netwerk naamruimtes beweeg word. Dit maak dit moontlik om netwerkverbinding te vestig tussen naamruimtes of tussen 'n naamruimte en die gasheerstelsel. Byvoorbeeld, een kant van 'n veth paar kan in 'n container se netwerk naamruimte geplaas word, en die ander kant kan aan 'n **brug** of 'n ander netwerkinterface in die gasheer naamruimte gekoppel word, wat netwerkverbinding aan die container bied.
-3. Netwerkinterfaces binne 'n naamruimte kan hul **eie IP adresse, routeringstabelle, en firewall reëls** hê, onafhanklik van ander naamruimtes. Dit laat prosesse in verskillende netwerk naamruimtes toe om verskillende netwerk konfigurasies te hê en te werk asof hulle op aparte netwerkstelsels loop.
-4. Prosesse kan tussen naamruimtes beweeg deur die `setns()` stelselkroep te gebruik, of nuwe naamruimtes te skep deur die `unshare()` of `clone()` stelselkroepe met die `CLONE_NEWNET` vlag. Wanneer 'n proses na 'n nuwe naamruimte beweeg of een skep, sal dit begin om die netwerk konfigurasie en interfaces wat met daardie naamruimte geassosieer is, te gebruik.
+1. Wenn ein neuer Netzwerk-Namespace erstellt wird, beginnt er mit einem **vollständig isolierten Netzwerk-Stack**, mit **keinen Netzwerk-Schnittstellen** außer der Loopback-Schnittstelle (lo). Das bedeutet, dass Prozesse, die im neuen Netzwerk-Namespace ausgeführt werden, standardmäßig nicht mit Prozessen in anderen Namespaces oder dem Host-System kommunizieren können.
+2. **Virtuelle Netzwerk-Schnittstellen**, wie veth-Paare, können erstellt und zwischen Netzwerk-Namespaces verschoben werden. Dies ermöglicht die Herstellung einer Netzwerkverbindung zwischen Namespaces oder zwischen einem Namespace und dem Host-System. Zum Beispiel kann ein Ende eines veth-Paares im Netzwerk-Namespace eines Containers platziert werden, und das andere Ende kann mit einem **Bridge** oder einer anderen Netzwerkschnittstelle im Host-Namespace verbunden werden, um dem Container Netzwerkverbindung zu bieten.
+3. Netzwerkschnittstellen innerhalb eines Namespace können ihre **eigenen IP-Adressen, Routing-Tabellen und Firewall-Regeln** haben, unabhängig von anderen Namespaces. Dies ermöglicht es Prozessen in verschiedenen Netzwerk-Namespaces, unterschiedliche Netzwerkkonfigurationen zu haben und so zu arbeiten, als ob sie auf separaten vernetzten Systemen ausgeführt werden.
+4. Prozesse können zwischen Namespaces mit dem `setns()` Systemaufruf wechseln oder neue Namespaces mit den Systemaufrufen `unshare()` oder `clone()` mit dem `CLONE_NEWNET`-Flag erstellen. Wenn ein Prozess zu einem neuen Namespace wechselt oder einen erstellt, beginnt er, die Netzwerkkonfiguration und Schnittstellen zu verwenden, die mit diesem Namespace verbunden sind.
 
-## Laboratorium:
+## Labor:
 
-### Skep verskillende Naamruimtes
+### Erstelle verschiedene Namespaces
 
 #### CLI
 ```bash
 sudo unshare -n [--mount-proc] /bin/bash
 # Run ifconfig or ip -a
 ```
-Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteernaamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
+Durch das Einhängen einer neuen Instanz des `/proc`-Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Sicht auf die prozessspezifischen Informationen dieses Namensraums** hat.
 
 <details>
 
-<summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
+<summary>Fehler: bash: fork: Kann Speicher nicht zuweisen</summary>
 
-Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler auf, der auf die Art und Weise zurückzuführen ist, wie Linux neue PID (Prozess-ID) Namensräume behandelt. Die wichtigsten Details und die Lösung sind unten aufgeführt:
 
-1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) betree egter nie die nuwe naamruimte nie; slegs sy kindproses doen.
-- Om `%unshare -p /bin/bash%` te loop, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
+1. **Problemerklärung**:
+- Der Linux-Kernel erlaubt es einem Prozess, neue Namensräume mit dem Systemaufruf `unshare` zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namensraums initiiert (als "unshare"-Prozess bezeichnet), tritt jedoch nicht in den neuen Namensraum ein; nur seine Kindprozesse tun dies.
+- Das Ausführen von `%unshare -p /bin/bash%` startet `/bin/bash` im selben Prozess wie `unshare`. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namensraum.
+- Der erste Kindprozess von `/bin/bash` im neuen Namensraum wird PID 1. Wenn dieser Prozess beendet wird, wird die Bereinigung des Namensraums ausgelöst, wenn keine anderen Prozesse vorhanden sind, da PID 1 die besondere Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namensraum.
 
-2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
+2. **Folge**:
+- Das Beenden von PID 1 in einem neuen Namensraum führt zur Bereinigung des `PIDNS_HASH_ADDING`-Flags. Dies führt dazu, dass die Funktion `alloc_pid` fehlschlägt, wenn sie versucht, eine neue PID zuzuweisen, was den Fehler "Kann Speicher nicht zuweisen" erzeugt.
 
-3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
+3. **Lösung**:
+- Das Problem kann gelöst werden, indem die Option `-f` mit `unshare` verwendet wird. Diese Option bewirkt, dass `unshare` einen neuen Prozess nach der Erstellung des neuen PID-Namensraums forked.
+- Das Ausführen von `%unshare -fp /bin/bash%` stellt sicher, dass der `unshare`-Befehl selbst PID 1 im neuen Namensraum wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namensraum enthalten, wodurch das vorzeitige Beenden von PID 1 verhindert wird und eine normale PID-Zuweisung ermöglicht wird.
 
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse kan werk sonder om die geheue toewysing fout te ondervind.
+Durch die Sicherstellung, dass `unshare` mit dem `-f`-Flag ausgeführt wird, wird der neue PID-Namensraum korrekt aufrechterhalten, sodass `/bin/bash` und seine Unterprozesse ohne den Speicherzuweisungsfehler arbeiten können.
 
 </details>
 
@@ -64,12 +64,12 @@ Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamrui
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 # Run ifconfig or ip -a
 ```
-### &#x20;Kontroleer in watter naamruimte jou proses is
+### &#x20;Überprüfen, in welchem Namespace sich Ihr Prozess befindet
 ```bash
 ls -l /proc/self/ns/net
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/net -> 'net:[4026531840]'
 ```
-### Vind alle Netwerk name ruimtes
+### Finde alle Netzwerk-Namensräume
 
 {% code overflow="wrap" %}
 ```bash
@@ -79,26 +79,26 @@ sudo find /proc -maxdepth 3 -type l -name net -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
-### Gaan binne 'n Netwerk-namespace in
+### Betreten Sie einen Netzwerk-Namespace
 ```bash
 nsenter -n TARGET_PID --pid /bin/bash
 ```
-Ook, jy kan slegs **in 'n ander prosesnaamruimte ingaan as jy root is**. En jy **kan nie** **in** 'n ander naamruimte **ingaan sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/net`).
+Auch können Sie **nur in einen anderen Prozess-Namespace eintreten, wenn Sie root sind**. Und Sie **können** **nicht** **in** einen anderen Namespace **eintreten, ohne einen Deskriptor**, der darauf verweist (wie `/proc/self/ns/net`).
 
-## Verwysings
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

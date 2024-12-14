@@ -1,44 +1,44 @@
-# macOS MIG - Mach-koppelvlakgenerator
+# macOS MIG - Mach Interface Generator
 
 {% hint style="success" %}
-Leer en oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-MIG is geskep om **die proses van Mach IPC-kode-skepping te vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en klient om met 'n gegewe definisie te kommunikeer. Selfs as die gegenereerde kode lelik is, sal 'n ontwikkelaar dit net hoef in te voer en sy kode sal baie eenvoudiger wees as voorheen.
+MIG wurde entwickelt, um den **Prozess der Erstellung von Mach IPC**-Code zu **vereinfachen**. Es **generiert den benötigten Code** für Server und Client, um mit einer gegebenen Definition zu kommunizieren. Auch wenn der generierte Code unansehnlich ist, muss ein Entwickler ihn nur importieren, und sein Code wird viel einfacher sein als zuvor.
 
-Die definisie word gespesifiseer in die Interface Definisie Taal (IDL) deur die gebruik van die `.defs`-uitbreiding.
+Die Definition wird in der Interface Definition Language (IDL) mit der Erweiterung `.defs` angegeben.
 
-Hierdie definisies het 5 afdelings:
+Diese Definitionen haben 5 Abschnitte:
 
-* **Onderstelselverklaring**: Die sleutelwoord onderstelsel word gebruik om die **naam** en die **id** aan te dui. Dit is ook moontlik om dit as **`KernelServer`** te merk as die bediener in die kernel moet loop.
-* **Insluitings en invoere**: MIG gebruik die C-preprosessor, sodat dit invoere kan gebruik. Daarbenewens is dit moontlik om `uimport` en `simport` vir gebruiker- of bedieners gegenereerde kode te gebruik.
-* **Tipeverklarings**: Dit is moontlik om datatipes te definieer, alhoewel dit gewoonlik `mach_types.defs` en `std_types.defs` sal invoer. Vir aangepaste tipes kan 'n paar sintaksis gebruik word:
-* \[i`n/out]tran`: Funksie wat van 'n inkomende of na 'n uitgaande boodskap vertaal moet word
-* `c[user/server]type`: Koppeling na 'n ander C-tipe.
-* `destructor`: Roep hierdie funksie aan wanneer die tipe vrygestel word.
-* **Operasies**: Dit is die definisies van die RPC-metodes. Daar is 5 verskillende tipes:
-* `routine`: Verwag antwoord
-* `simpleroutine`: Verwag nie antwoord nie
-* `procedure`: Verwag antwoord
-* `simpleprocedure`: Verwag nie antwoord nie
-* `function`: Verwag antwoord
+* **Subsystemdeklaration**: Das Schlüsselwort subsystem wird verwendet, um den **Namen** und die **ID** anzugeben. Es ist auch möglich, es als **`KernelServer`** zu kennzeichnen, wenn der Server im Kernel ausgeführt werden soll.
+* **Inklusionen und Importe**: MIG verwendet den C-Präprozessor, sodass es in der Lage ist, Importe zu verwenden. Darüber hinaus ist es möglich, `uimport` und `simport` für benutzer- oder servergenerierten Code zu verwenden.
+* **Typdeklarationen**: Es ist möglich, Datentypen zu definieren, obwohl normalerweise `mach_types.defs` und `std_types.defs` importiert werden. Für benutzerdefinierte Typen kann eine bestimmte Syntax verwendet werden:
+* \[i`n/out]tran`: Funktion, die von einer eingehenden oder zu einer ausgehenden Nachricht übersetzt werden muss
+* `c[user/server]type`: Zuordnung zu einem anderen C-Typ.
+* `destructor`: Rufen Sie diese Funktion auf, wenn der Typ freigegeben wird.
+* **Operationen**: Dies sind die Definitionen der RPC-Methoden. Es gibt 5 verschiedene Typen:
+* `routine`: Erwartet eine Antwort
+* `simpleroutine`: Erwartet keine Antwort
+* `procedure`: Erwartet eine Antwort
+* `simpleprocedure`: Erwartet keine Antwort
+* `function`: Erwartet eine Antwort
 
-### Voorbeeld
+### Beispiel
 
-Skep 'n definisie-lêer, in hierdie geval met 'n baie eenvoudige funksie:
+Erstellen Sie eine Definitionsdatei, in diesem Fall mit einer sehr einfachen Funktion:
 
 {% code title="myipc.defs" %}
 ```cpp
@@ -57,20 +57,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Merk op dat die eerste **argument die poort is om te bind** en MIG sal **outomaties die antwoordpoort hanteer** (tensy `mig_get_reply_port()` geroep word in die kliëntkode). Verder sal die **ID van die operasies** **opeenvolgend** wees beginnende met die aangeduide subsisteem ID (so as 'n operasie verouderd is, word dit verwyder en `skip` word gebruik om steeds sy ID te gebruik).
+Beachten Sie, dass das erste **Argument der Port ist, an den gebunden werden soll** und MIG **automatisch den Antwortport verwaltet** (es sei denn, `mig_get_reply_port()` wird im Client-Code aufgerufen). Darüber hinaus wird die **ID der Operationen** **sequentiell** beginnend mit der angegebenen Subsystem-ID sein (wenn eine Operation veraltet ist, wird sie gelöscht und `skip` wird verwendet, um ihre ID weiterhin zu verwenden).
 
-Gebruik nou MIG om die bediener- en kliëntkode te genereer wat in staat sal wees om binne mekaar te kommunikeer om die Aftrek-funksie te roep:
+Verwenden Sie nun MIG, um den Server- und Client-Code zu generieren, der in der Lage ist, miteinander zu kommunizieren, um die Subtract-Funktion aufzurufen:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Verskeie nuwe lêers sal geskep word in die huidige gids.
+Mehrere neue Dateien werden im aktuellen Verzeichnis erstellt.
 
 {% hint style="success" %}
-Jy kan 'n meer komplekse voorbeeld in jou stelsel vind met: `mdfind mach_port.defs`\
-En jy kan dit van dieselfde gids as die lêer kompileer met: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+Sie können ein komplexeres Beispiel in Ihrem System mit: `mdfind mach_port.defs` finden.\
+Und Sie können es aus demselben Ordner wie die Datei mit: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs` kompilieren.
 {% endhint %}
 
-In die lêers **`myipcServer.c`** en **`myipcServer.h`** kan jy die deklarasie en definisie van die struktuur **`SERVERPREFmyipc_subsystem`** vind, wat basies die funksie definieer om te roep gebaseer op die ontvangsboodskap-ID (ons het 'n beginnommer van 500 aangedui):
+In den Dateien **`myipcServer.c`** und **`myipcServer.h`** finden Sie die Deklaration und Definition der Struktur **`SERVERPREFmyipc_subsystem`**, die im Grunde die Funktion definiert, die basierend auf der empfangenen Nachrichten-ID aufgerufen werden soll (wir haben eine Startnummer von 500 angegeben):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -91,25 +91,7 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}  
-### macOS MIG (Mach Interface Generator)
-
-MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client-server communication code based on the interfaces defined in a .defs file. This allows processes to communicate with each other using messages.
-
-#### Example:
-
-```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
-```
-
-In this example, `myipc_server` is the function that will be called when a message is received by the server. The server processes the message and sends a response back to the client.
-
-MIG simplifies the process of defining IPC interfaces and handling messages between processes in macOS.  
-{% endtab %}
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -125,7 +107,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Gebaseer op die vorige struktuur sal die funksie **`myipc_server_routine`** die **boodskap ID** kry en die korrekte funksie teruggee om te roep:
+Basierend auf der vorherigen Struktur wird die Funktion **`myipc_server_routine`** die **Nachrichten-ID** erhalten und die entsprechende Funktion zurückgeben, die aufgerufen werden soll:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -140,18 +122,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-In hierdie voorbeeld het ons slegs 1 funksie in die definisies gedefinieer, maar as ons meer funksies sou definieer, sou hulle binne die array van **`SERVERPREFmyipc_subsystem`** gewees het en die eerste een sou aan die ID **500** toegewys gewees het, die tweede een aan die ID **501**...
+In diesem Beispiel haben wir nur 1 Funktion in den Definitionen definiert, aber wenn wir mehr Funktionen definiert hätten, wären sie im Array von **`SERVERPREFmyipc_subsystem`** enthalten gewesen und die erste wäre der ID **500** zugewiesen worden, die zweite der ID **501**...
 
-As die funksie verwag het om 'n **antwoord** te stuur, sou die funksie `mig_internal kern_return_t __MIG_check__Reply__<name>` ook bestaan.
+Wenn die Funktion erwartet wurde, eine **Antwort** zu senden, würde die Funktion `mig_internal kern_return_t __MIG_check__Reply__<name>` ebenfalls existieren.
 
-Eintlik is dit moontlik om hierdie verhouding in die struktuur **`subsystem_to_name_map_myipc`** van **`myipcServer.h`** (**`subsystem_to_name_map_***`** in ander lêers) te identifiseer:
+Tatsächlich ist es möglich, diese Beziehung in der Struktur **`subsystem_to_name_map_myipc`** aus **`myipcServer.h`** (**`subsystem_to_name_map_***`** in anderen Dateien) zu identifizieren:
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Uiteindelik, nog 'n belangrike funksie om die bediener te laat werk, sal **`myipc_server`** wees, wat die een is wat werklik die funksie **oproep** wat verband hou met die ontvangste id:
+Schließlich ist eine weitere wichtige Funktion, um den Server zum Laufen zu bringen, **`myipc_server`**, die tatsächlich **die Funktion** aufruft, die mit der empfangenen ID verbunden ist:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -168,7 +150,7 @@ mig_routine_t routine;
 
 OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
 OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
-/* Minimal size: routine() will update it if different */
+/* Minimale Größe: routine() wird sie aktualisieren, wenn sie unterschiedlich ist */
 OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
 OutHeadP->msgh_local_port = MACH_PORT_NULL;
 OutHeadP->msgh_id = InHeadP->msgh_id + 100;
@@ -185,9 +167,9 @@ return FALSE;
 }
 </code></pre>
 
-Kontroleer die voorheen uitgeligte lyne deur toegang tot die funksie om te roep volgens ID.
+Überprüfen Sie die zuvor hervorgehobenen Zeilen, die auf die Funktion zugreifen, die nach ID aufgerufen werden soll.
 
-Die volgende is die kode om 'n eenvoudige **bediener** en **kliënt** te skep waar die kliënt die funksies van die bediener kan oproep:
+Der folgende Code erstellt einen einfachen **Server** und **Client**, bei dem der Client die Funktionen Subtract vom Server aufrufen kann:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -223,44 +205,7 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}  
-### Afrikaans Translation:
-  
-```c
-#include <stdio.h>
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
-
-int main() {
-    kern_return_t kr;
-    mach_port_t server_port;
-    myipc_msg_t msg;
-
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        return 1;
-    }
-
-    msg.hdr.msgh_bits = MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
-    msg.hdr.msgh_size = sizeof(msg);
-    msg.hdr.msgh_remote_port = server_port;
-    msg.hdr.msgh_local_port = MACH_PORT_NULL;
-    msg.hdr.msgh_id = 0;
-
-    msg.body.msgh_descriptor_count = 0;
-
-    kr = mach_msg(&msg.hdr, MACH_SEND_MSG, msg.hdr.msgh_size, 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
-        return 1;
-    }
-
-    return 0;
-}
-```  
-{% endtab %}
+{% tab title="myipc_client.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -288,40 +233,40 @@ USERPREFSubtract(port, 40, 2);
 {% endtab %}
 {% endtabs %}
 
-### Die NDR\_record
+### Der NDR\_record
 
-Die NDR\_record word uitgevoer deur `libsystem_kernel.dylib`, en dit is 'n struktuur wat MIG toelaat om **data te transformeer sodat dit onverskillig is van die stelsel** waarvoor dit gebruik word aangesien MIG gedink was om tussen verskillende stelsels gebruik te word (en nie net op dieselfde masjien nie).
+Der NDR\_record wird von `libsystem_kernel.dylib` exportiert und ist eine Struktur, die es MIG ermöglicht, **Daten so zu transformieren, dass sie systemunabhängig sind**, da MIG ursprünglich für die Verwendung zwischen verschiedenen Systemen (und nicht nur auf derselben Maschine) gedacht war.
 
-Dit is interessant omdat as `_NDR_record` gevind word in 'n binêre lêer as 'n afhanklikheid (`jtool2 -S <binary> | grep NDR` of `nm`), beteken dit dat die binêre lêer 'n MIG-kliënt of -bediener is.
+Dies ist interessant, da das Vorhandensein von `_NDR_record` in einer Binärdatei als Abhängigkeit (`jtool2 -S <binary> | grep NDR` oder `nm`) bedeutet, dass die Binärdatei ein MIG-Client oder -Server ist.
 
-Verder het **MIG-bedieners** die verspreidingstabel in `__DATA.__const` (of in `__CONST.__constdata` in macOS-kernel en `__DATA_CONST.__const` in ander \*OS-kernelle). Dit kan gedump word met **`jtool2`**.
+Darüber hinaus haben **MIG-Server** die Dispatch-Tabelle in `__DATA.__const` (oder in `__CONST.__constdata` im macOS-Kernel und `__DATA_CONST.__const` in anderen \*OS-Kernen). Dies kann mit **`jtool2`** ausgegeben werden.
 
-En **MIG-kliënte** sal die `__NDR_record` gebruik om met `__mach_msg` na die bedieners te stuur.
+Und **MIG-Clients** verwenden den `__NDR_record`, um mit `__mach_msg` an die Server zu senden.
 
-## Binêre Analise
+## Binäranalyse
 
 ### jtool
 
-Aangesien baie binêre lêers nou MIG gebruik om mach-poorte bloot te stel, is dit interessant om te weet hoe om te **identifiseer dat MIG gebruik is** en die **funksies wat MIG uitvoer** met elke boodskap-ID.
+Da viele Binärdateien jetzt MIG verwenden, um Mach-Ports bereitzustellen, ist es interessant zu wissen, wie man **erkennt, dass MIG verwendet wurde** und die **Funktionen, die MIG mit jeder Nachrichten-ID ausführt**.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) kan MIG-inligting van 'n Mach-O binêre lêer ontleding wat die boodskap-ID aandui en die funksie identifiseer om uit te voer:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) kann MIG-Informationen aus einer Mach-O-Binärdatei analysieren, die die Nachrichten-ID angibt und die auszuführende Funktion identifiziert:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Verder is MIG-funksies net omhulsels van die werklike funksie wat opgeroep word, wat beteken dat deur sy disassemblage te kry en te soek vir BL, jy moontlik die werklike funksie wat opgeroep word, kan vind:
+Darüber hinaus sind MIG-Funktionen nur Wrapper der tatsächlichen Funktion, die aufgerufen wird, was bedeutet, dass Sie durch das Abrufen ihrer Disassemblierung und das Durchsuchen nach BL möglicherweise die tatsächlich aufgerufene Funktion finden können:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep BL
 ```
-### Monteer
+### Assembly
 
-Dit is voorheen genoem dat die funksie wat sal sorg vir **die oproep van die korrekte funksie afhangende van die ontvangste boodskap-ID** `myipc_server` was. Gewoonlik sal jy egter nie die simbole van die binêre lêer hê nie (geen funksienames nie), dus is dit interessant om **te kyk hoe dit gedeaktiveer lyk** aangesien dit altyd baie soortgelyk sal wees (die kode van hierdie funksie is onafhanklik van die blootgestelde funksies):
+Es wurde zuvor erwähnt, dass die Funktion, die sich um **den Aufruf der richtigen Funktion je nach empfangenem Nachrichten-ID** kümmert, `myipc_server` war. Allerdings haben Sie normalerweise nicht die Symbole der Binärdatei (keine Funktionsnamen), daher ist es interessant zu **überprüfen, wie es dekompiliert aussieht**, da der Code dieser Funktion immer sehr ähnlich sein wird (der Code dieser Funktion ist unabhängig von den exponierten Funktionen):
 
 {% tabs %}
-{% tab title="myipc_server gedeaktiveer 1" %}
+{% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Aanvanklike instruksies om die regte funksiepunte te vind
+// Anfangsinstruktionen, um die richtigen Funktionszeiger zu finden
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -330,20 +275,20 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Oproep na sign_extend_64 wat kan help om hierdie funksie te identifiseer
-// Dit stoor in rax die wyser na die oproep wat gemaak moet word
-// Kyk na die gebruik van die adres 0x100004040 (funksie-adresse-reeks)
-// 0x1f4 = 500 (die begin-ID)
+// Aufruf von sign_extend_64, der helfen kann, diese Funktion zu identifizieren
+// Dies speichert in rax den Zeiger auf den Aufruf, der aufgerufen werden muss
+// Überprüfen Sie die Verwendung der Adresse 0x100004040 (Funktionsadressenarray)
+// 0x1f4 = 500 (die Start-ID)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, die if gee vals terug, terwyl die else die regte funksie oproep en waar teruggee
+// Wenn - sonst, gibt die if false zurück, während else die richtige Funktion aufruft und true zurückgibt
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
 var_4 = 0x0;
 }
 else {
-// Gekalibreerde adres wat die regte funksie met 2 argumente oproep
+// Berechnete Adresse, die die richtige Funktion mit 2 Argumenten aufruft
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -359,8 +304,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server gedeaktiveer 2" %}
-Hierdie is dieselfde funksie gedeaktiveer in 'n ander Hopper gratis weergawe:
+{% tab title="myipc_server decompiled 2" %}
+Dies ist die gleiche Funktion, die in einer anderen kostenlosen Hopper-Version dekompiliert wurde:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -368,7 +313,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Aanvanklike instruksies om die regte funksiepunte te vind
+// Anfangsinstruktionen, um die richtigen Funktionszeiger zu finden
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -392,7 +337,7 @@ r8 = 0x1;
 }
 if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
-// 0x1f4 = 500 (die begin-ID)
+// 0x1f4 = 500 (die Start-ID)
 <strong>                    r8 = r8 - 0x1f4;
 </strong>                    asm { smaddl     x8, w8, w9, x10 };
 r8 = *(r8 + 0x8);
@@ -403,15 +348,15 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Dieselfde if anders as in die vorige weergawe
-// Kyk na die gebruik van die adres 0x100004040 (funksie-adresse-reeks)
+// Gleiches if else wie in der vorherigen Version
+// Überprüfen Sie die Verwendung der Adresse 0x100004040 (Funktionsadressenarray)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
 }
 else {
-// Oproep na die gekalibreerde adres waar die funksie moet wees
+// Aufruf der berechneten Adresse, wo die Funktion sein sollte
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -435,32 +380,33 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Eintlik, as jy na die funksie **`0x100004000`** gaan, sal jy die reeks van **`routine_descriptor`** strukture vind. Die eerste element van die struktuur is die **adres** waar die **funksie** geïmplementeer is, en die **struktuur neem 0x28 byte**, dus elke 0x28 byte (beginnend vanaf byte 0) kan jy 8 byte kry en dit sal die **adres van die funksie** wees wat geroep sal word:
+Tatsächlich, wenn Sie zur Funktion **`0x100004000`** gehen, finden Sie das Array von **`routine_descriptor`** Strukturen. Das erste Element der Struktur ist die **Adresse**, an der die **Funktion** implementiert ist, und die **Struktur benötigt 0x28 Bytes**, sodass Sie alle 0x28 Bytes (beginnend bei Byte 0) 8 Bytes erhalten können, und das wird die **Adresse der Funktion** sein, die aufgerufen wird:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
-Hierdie data kan onttrek word [**deur hierdie Hopper-skrip te gebruik**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-### Foutopsporing
+Diese Daten können [**mit diesem Hopper-Skript extrahiert werden**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
-Die kode wat deur MIG gegenereer word, roep ook `kernel_debug` aan om logboeke oor operasies by in- en uitgang te genereer. Dit is moontlik om hulle te kontroleer met behulp van **`trace`** of **`kdv`**: `kdv all | grep MIG`
+### Debug
 
-## Verwysings
+Der von MIG generierte Code ruft auch `kernel_debug` auf, um Protokolle über Operationen beim Eintritt und Austritt zu generieren. Es ist möglich, sie mit **`trace`** oder **`kdv`** zu überprüfen: `kdv all | grep MIG`
+
+## References
 
 * [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}

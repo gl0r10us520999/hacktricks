@@ -1,16 +1,16 @@
-# macOS xattr-acls ekstra goed
+# macOS xattr-acls zusätzliche Informationen
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ ACL in hex: \x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43
 ```
 <details>
 
-<summary>Kode van get_acls</summary>
+<summary>Code von get_acls</summary>
 ```c
 // gcc -o get_acls get_acls
 #include <stdio.h>
@@ -68,31 +68,7 @@ acl_free(acl_text);
 return 0;
 }
 ```
-```markdown
-<details>
-<summary>MacOS XATTR, ACLs en ekstra goed</summary>
-
-In MacOS is daar verskeie maniere om lêers en gidsen te beveilig en te bestuur. Een van die maniere is deur die gebruik van Extended Attributes (XATTRs) en Access Control Lists (ACLs).
-
-### Extended Attributes (XATTRs)
-
-XATTRs is 'n manier om ekstra metadata aan lêers en gidsen toe te voeg. Dit kan gebruik word om spesifieke inligting oor die lêer te stoor, soos wie dit geskep het of wanneer dit laas gewysig is. Dit kan ook gebruik word om sekuriteitsmaatreëls toe te pas.
-
-### Access Control Lists (ACLs)
-
-ACLs bied 'n meer gedetailleerde benadering tot toegangsbeheer as tradisionele Unix-permissies. Dit laat jou toe om spesifieke toestemmings aan verskillende gebruikers of groepe toe te ken. Dit is nuttig in omgewings waar jy meer beheer oor toegang tot lêers en gidsen benodig.
-
-### Gebruik van XATTRs en ACLs
-
-Om XATTRs en ACLs te gebruik, kan jy die volgende opdragte in die terminal gebruik:
-
-- **XATTR**: `xattr -w <attribute> <value> <file>`
-- **ACL**: `chmod +a "<user>:<permissions>" <file>`
-
-Hierdie tegnieke kan help om jou MacOS-stelsels te beveilig teen ongewenste toegang en om jou data te beskerm.
-
 </details>
-```
 ```bash
 # Lets add the xattr com.apple.xxx.xxxx with the acls
 mkdir start
@@ -102,7 +78,7 @@ echo something > start/protected/something
 ```
 <details>
 
-<summary>Code van set_xattr</summary>
+<summary>Code von set_xattr</summary>
 ```c
 // gcc -o set_xattr set_xattr.c
 #include <stdio.h>
@@ -209,16 +185,16 @@ ditto -x -k --rsrc protected.zip .
 xattr -l protected
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

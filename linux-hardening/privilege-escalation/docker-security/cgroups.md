@@ -1,31 +1,31 @@
 # CGroups
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-**Linux Beheergroepe**, of **cgroups**, is 'n kenmerk van die Linux-kernel wat die toekenning, beperking, en prioritisering van stelselbronne soos CPU, geheue, en skyf I/O onder prosesgroepe moontlik maak. Hulle bied 'n meganisme vir **die bestuur en isolering van die hulpbruggebruik** van prosesversamelings, voordelig vir doeleindes soos hulpbrugbeperking, werklas-isolering, en hulpbrugprioritisering tussen verskillende prosesgroepe.
+**Linux Control Groups**, oder **cgroups**, sind ein Feature des Linux-Kernels, das die Zuweisung, Begrenzung und Priorisierung von Systemressourcen wie CPU, Speicher und Festplatten-I/O zwischen Prozessgruppen ermöglicht. Sie bieten einen Mechanismus zur **Verwaltung und Isolierung der Ressourcennutzung** von Prozesssammlungen, was für Zwecke wie Ressourcenbegrenzung, Arbeitslastisolierung und Ressourcenpriorisierung zwischen verschiedenen Prozessgruppen von Vorteil ist.
 
-Daar is **twee weergawes van cgroups**: weergawe 1 en weergawe 2. Beide kan gelyktydig op 'n stelsel gebruik word. Die primêre onderskeid is dat **cgroups weergawe 2** 'n **hiërargiese, boomagtige struktuur** introduceer, wat meer genuanseerde en gedetailleerde hulpbrugverdeling tussen prosesgroepe moontlik maak. Daarbenewens bring weergawe 2 verskeie verbeterings, insluitend:
+Es gibt **zwei Versionen von cgroups**: Version 1 und Version 2. Beide können gleichzeitig auf einem System verwendet werden. Der Hauptunterschied besteht darin, dass **cgroups Version 2** eine **hierarchische, baumartige Struktur** einführt, die eine nuanciertere und detailliertere Ressourcenzuteilung zwischen Prozessgruppen ermöglicht. Darüber hinaus bringt Version 2 verschiedene Verbesserungen mit sich, darunter:
 
-Benewens die nuwe hiërargiese organisasie het cgroups weergawe 2 ook **verskeie ander veranderinge en verbeterings** ingevoer, soos ondersteuning vir **nuwe hulpbrugbeheerders**, beter ondersteuning vir oudtydse toepassings, en verbeterde prestasie.
+Neben der neuen hierarchischen Organisation führte cgroups Version 2 auch **mehrere andere Änderungen und Verbesserungen** ein, wie die Unterstützung für **neue Ressourcencontroller**, bessere Unterstützung für Legacy-Anwendungen und verbesserte Leistung.
 
-Oor die algemeen bied cgroups **weergawe 2 meer kenmerke en beter prestasie** as weergawe 1, maar die laasgenoemde kan steeds in sekere scenario's gebruik word waar verenigbaarheid met ouer stelsels 'n bekommernis is.
+Insgesamt bietet cgroups **Version 2 mehr Funktionen und eine bessere Leistung** als Version 1, aber letztere kann in bestimmten Szenarien, in denen die Kompatibilität mit älteren Systemen ein Anliegen ist, weiterhin verwendet werden.
 
-Jy kan die v1 en v2 cgroups vir enige proses lys deur na sy cgroup-lêer in /proc/\<pid> te kyk. Jy kan begin deur na jou skul se cgroups te kyk met hierdie bevel:
+Sie können die v1- und v2-cgroups für jeden Prozess auflisten, indem Sie die cgroup-Datei in /proc/\<pid> ansehen. Sie können damit beginnen, die cgroups Ihrer Shell mit diesem Befehl anzusehen:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,54 +40,69 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
-Die uitvoerstruktuur is as volg:
+Die Ausgabestruktur ist wie folgt:
 
-* **Nommers 2–12**: cgroups v1, waar elke lyn 'n verskillende cgroup voorstel. Kontroleerders vir hierdie is aangrensend aan die nommer.
-* **Nommer 1**: Ook cgroups v1, maar slegs vir bestuursdoeleindes (ingestel deur bv. systemd), en ontbreek 'n kontroleerder.
-* **Nommer 0**: Stel cgroups v2 voor. Geen kontroleerders word gelys nie, en hierdie lyn is eksklusief op stelsels wat slegs cgroups v2 hardloop.
-* Die **name is hiërargies**, lyk soos lêerpaadjies, wat die struktuur en verhouding tussen verskillende cgroups aandui.
-* **Name soos /user.slice of /system.slice** dui die kategorisering van cgroups aan, met user.slice tipies vir aanmeldsessies wat deur systemd bestuur word en system.slice vir stelseldienste.
+* **Zahlen 2–12**: cgroups v1, wobei jede Zeile ein anderes cgroup darstellt. Die Controller dafür sind neben der Zahl angegeben.
+* **Zahl 1**: Ebenfalls cgroups v1, jedoch ausschließlich für Verwaltungszwecke (gesetzt von z.B. systemd) und ohne einen Controller.
+* **Zahl 0**: Stellt cgroups v2 dar. Es sind keine Controller aufgeführt, und diese Zeile ist ausschließlich auf Systemen, die nur cgroups v2 ausführen, vorhanden.
+* Die **Namen sind hierarchisch**, ähnlich wie Dateipfade, und zeigen die Struktur und Beziehung zwischen verschiedenen cgroups an.
+* **Namen wie /user.slice oder /system.slice** spezifizieren die Kategorisierung von cgroups, wobei user.slice typischerweise für Anmeldesitzungen, die von systemd verwaltet werden, und system.slice für Systemdienste verwendet wird.
 
-### Besigtiging van cgroups
+### Anzeigen von cgroups
 
-Die lêersisteem word tipies gebruik vir die toegang tot **cgroups**, wat afwyk van die Unix-stelseloproepkoppelvlak wat tradisioneel gebruik word vir kernelinteraksies. Om 'n skul se cgroup-konfigurasie te ondersoek, moet 'n mens die **/proc/self/cgroup**-lêer ondersoek, wat die skul se cgroup onthul. Daarna, deur te navigeer na die **/sys/fs/cgroup** (of **`/sys/fs/cgroup/unified`**) gids en 'n gids te vind wat die naam van die cgroup deel, kan 'n mens verskeie instellings en hulpbruggebruiksinligting wat relevant is vir die cgroup, waarneem.
+Das Dateisystem wird typischerweise für den Zugriff auf **cgroups** verwendet, abweichend von der Unix-Systemaufrufschnittstelle, die traditionell für Kernel-Interaktionen genutzt wird. Um die cgroup-Konfiguration einer Shell zu untersuchen, sollte die **/proc/self/cgroup**-Datei überprüft werden, die die cgroup der Shell offenbart. Anschließend kann man im Verzeichnis **/sys/fs/cgroup** (oder **`/sys/fs/cgroup/unified`**) navigieren und ein Verzeichnis finden, das den Namen der cgroup trägt, um verschiedene Einstellungen und Informationen zur Ressourcennutzung der cgroup zu beobachten.
 
-![Cgroup-lêersisteem](<../../../.gitbook/assets/image (1128).png>)
+![Cgroup-Dateisystem](<../../../.gitbook/assets/image (1128).png>)
 
-Die sleutelkoppelvlaklêers vir cgroups is voorafgegaan deur **cgroup**. Die **cgroup.procs**-lêer, wat met standaardopdragte soos cat bekyk kan word, lys die prosesse binne die cgroup. 'n Ander lêer, **cgroup.threads**, sluit draadinligting in.
+Die wichtigsten Schnittstellendateien für cgroups sind mit **cgroup** vorangestellt. Die **cgroup.procs**-Datei, die mit Standardbefehlen wie cat angezeigt werden kann, listet die Prozesse innerhalb der cgroup auf. Eine andere Datei, **cgroup.threads**, enthält Thread-Informationen.
 
-![Cgroup Procs](<../../../.gitbook/assets/image (281).png>)
+![Cgroup-Prozesse](<../../../.gitbook/assets/image (281).png>)
 
-Cgroups wat skul beheer, omvat tipies twee kontroleerders wat geheugengebruik en prosesgetal reguleer. Om met 'n kontroleerder te interaksieer, moet lêers wat die voorvoegsel van die kontroleerder dra, geraadpleeg word. Byvoorbeeld, **pids.current** sou geraadpleeg word om die telling van drade in die cgroup te bepaal.
+Cgroups, die Shells verwalten, umfassen typischerweise zwei Controller, die den Speicherverbrauch und die Prozessanzahl regulieren. Um mit einem Controller zu interagieren, sollten Dateien mit dem Präfix des Controllers konsultiert werden. Zum Beispiel würde **pids.current** herangezogen, um die Anzahl der Threads in der cgroup zu ermitteln.
 
-![Cgroup-geheue](<../../../.gitbook/assets/image (677).png>)
+![Cgroup-Speicher](<../../../.gitbook/assets/image (677).png>)
 
-Die aanduiding van **max** in 'n waarde dui op die afwesigheid van 'n spesifieke limiet vir die cgroup. Tog, as gevolg van die hiërargiese aard van cgroups, kan limiete opgelê word deur 'n cgroup op 'n laer vlak in die gidshiërargie.
+Die Angabe von **max** in einem Wert deutet auf das Fehlen eines spezifischen Limits für die cgroup hin. Aufgrund der hierarchischen Natur von cgroups können jedoch Limits von einer cgroup auf einer niedrigeren Ebene in der Verzeichnisstruktur auferlegt werden.
 
-### Manipulering en Skepping van cgroups
+### Manipulieren und Erstellen von cgroups
 
-Prosesse word aan cgroups toegewys deur **hul Proses-ID (PID) na die `cgroup.procs`-lêer te skryf**. Dit vereis root-voorregte. Byvoorbeeld, om 'n proses by te voeg:
+Prozesse werden cgroups zugewiesen, indem **ihre Prozess-ID (PID) in die `cgroup.procs`-Datei geschrieben wird**. Dies erfordert Root-Rechte. Um beispielsweise einen Prozess hinzuzufügen:
 ```bash
 echo [pid] > cgroup.procs
 ```
-Op soortgelyke wyse word **die wysiging van cgroup-eienskappe, soos die instelling van 'n PID-limiet**, gedoen deur die gewenste waarde na die relevante lêer te skryf. Om 'n maksimum van 3,000 PIDs vir 'n cgroup in te stel:
+Ebenso wird **das Ändern von cgroup-Attributen, wie das Festlegen eines PID-Limits**, durchgeführt, indem der gewünschte Wert in die entsprechende Datei geschrieben wird. Um ein Maximum von 3.000 PIDs für eine cgroup festzulegen:
 ```bash
 echo 3000 > pids.max
 ```
-**Skep nuwe cgroups** behels die skep van 'n nuwe subgids binne die cgroup-hierargie, wat die kernel aanmoedig om outomaties die nodige koppelvlaklêers te genereer. Alhoewel cgroups sonder aktiewe prosesse met `rmdir` verwyder kan word, moet daar bewus wees van sekere beperkings:
+**Das Erstellen neuer cgroups** beinhaltet das Anlegen eines neuen Unterverzeichnisses innerhalb der cgroup-Hierarchie, was den Kernel dazu veranlasst, automatisch die erforderlichen Schnittstellendateien zu generieren. Obwohl cgroups ohne aktive Prozesse mit `rmdir` entfernt werden können, sollten Sie sich bestimmter Einschränkungen bewusst sein:
 
-- **Prosesse kan slegs in blaar-cgroups geplaas word** (m.a.w., die mees geneste in 'n hiërargie).
-- **'n Cgroup kan nie 'n beheerder besit wat afwesig is in sy ouer nie**.
-- **Beheerders vir kind-cgroups moet eksplisiet verklaar word** in die `cgroup.subtree_control` lêer. Byvoorbeeld, om die CPU- en PID-beheerders in 'n kind-cgroup te aktiveer:
+* **Prozesse können nur in Blatt-cgroups platziert werden** (d.h. in den am tiefsten geschachtelten in einer Hierarchie).
+* **Eine cgroup kann keinen Controller besitzen, der in ihrem Elternteil fehlt**.
+* **Controller für untergeordnete cgroups müssen ausdrücklich** in der Datei `cgroup.subtree_control` **deklariert werden**. Zum Beispiel, um CPU- und PID-Controller in einer untergeordneten cgroup zu aktivieren:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
-Die **root cgroup** is 'n uitsondering op hierdie reëls, wat direkte prosesplasing toelaat. Dit kan gebruik word om prosesse uit systemd-bestuur te verwyder.
+Der **root cgroup** ist eine Ausnahme von diesen Regeln und ermöglicht die direkte Platzierung von Prozessen. Dies kann verwendet werden, um Prozesse aus der Verwaltung von systemd zu entfernen.
 
-**Monitering van CPU-gebruik** binne 'n cgroup is moontlik deur die `cpu.stat` lêer, wat die totale CPU-tyd verbruik aandui, nuttig vir die opsporing van gebruik oor 'n diens se subprosesse:
+**Die Überwachung der CPU-Nutzung** innerhalb eines cgroups ist über die Datei `cpu.stat` möglich, die die insgesamt verbrachte CPU-Zeit anzeigt, was hilfreich ist, um die Nutzung über die Unterprozesse eines Dienstes zu verfolgen:
 
-<figure><img src="../../../.gitbook/assets/image (908).png" alt=""><figcaption><p>CPU-gebruikstatistieke soos in die cpu.stat lêer vertoon</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (908).png" alt=""><figcaption><p>CPU-Nutzungsstatistiken, wie sie in der Datei cpu.stat angezeigt werden</p></figcaption></figure>
 
-## Verwysings
+## Referenzen
 
-* **Boek: How Linux Works, 3de Uitgawe: Wat Elke Supergebruiker Behoort te Weet Deur Brian Ward**
+* **Buch: Wie Linux funktioniert, 3. Auflage: Was jeder Superuser wissen sollte von Brian Ward**
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Unterstützen Sie HackTricks</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+
+</details>
+{% endhint %}

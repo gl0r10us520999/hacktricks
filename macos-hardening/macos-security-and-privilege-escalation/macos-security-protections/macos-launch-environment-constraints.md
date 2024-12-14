@@ -15,87 +15,87 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-Lanceringsbeperkings in macOS is ingestel om sekuriteit te verbeter deur **te reguleer hoe, wie, en van waar 'n proses geinitieer kan word**. Geïnisieer in macOS Ventura, bied dit 'n raamwerk wat **elke stelselbinarie in verskillende beperkingkategorieë kategoriseer**, wat gedefinieer word binne die **vertrou cache**, 'n lys wat stelselbinaries en hul onderskeie hashes bevat​. Hierdie beperkings strek na elke uitvoerbare binarie binne die stelsel, wat 'n stel **reëls** insluit wat die vereistes vir **die bekendstelling van 'n spesifieke binarie** uiteensit. Die reëls sluit selfbeperkings in wat 'n binarie moet nakom, ouerbeperkings wat deur sy ouerproses nagekom moet word, en verantwoordelike beperkings wat deur ander relevante entiteite nagekom moet word​.
+Startbeschränkungen in macOS wurden eingeführt, um die Sicherheit zu erhöhen, indem **reguliert wird, wie, wer und von wo ein Prozess gestartet werden kann**. Eingeführt in macOS Ventura, bieten sie einen Rahmen, der **jede Systembinärdatei in verschiedene Beschränkungs-kategorien** einteilt, die innerhalb des **Trust-Caches** definiert sind, einer Liste, die Systembinärdateien und deren jeweilige Hashes enthält. Diese Beschränkungen erstrecken sich auf jede ausführbare Binärdatei im System und umfassen eine Reihe von **Regeln**, die die Anforderungen für **das Starten einer bestimmten Binärdatei** festlegen. Die Regeln umfassen Selbstbeschränkungen, die eine Binärdatei erfüllen muss, Elternbeschränkungen, die von ihrem übergeordneten Prozess erfüllt werden müssen, und verantwortliche Beschränkungen, die von anderen relevanten Entitäten eingehalten werden müssen.
 
-Die meganisme strek na derdeparty-apps deur **Omgewingbeperkings**, wat begin vanaf macOS Sonoma, wat ontwikkelaars toelaat om hul apps te beskerm deur 'n **stel sleutels en waardes vir omgewingbeperkings te spesifiseer.**
+Der Mechanismus erstreckt sich auf Drittanbieter-Apps durch **Umgebungsbeschränkungen**, beginnend mit macOS Sonoma, die es Entwicklern ermöglichen, ihre Apps zu schützen, indem sie eine **Menge von Schlüsseln und Werten für Umgebungsbeschränkungen angeben.**
 
-Jy definieer **lanceringsomgewing en biblioteekbeperkings** in beperkingwoordeboeke wat jy of in **`launchd` eiendomlys lêers** stoor, of in **afsonderlike eiendomlys** lêers wat jy in kodeondertekening gebruik.
+Sie definieren **Startumgebungs- und Bibliotheksbeschränkungen** in Beschränkungswörterbüchern, die Sie entweder in **`launchd`-Eigenschaftslisten** speichern oder in **separaten Eigenschaftslisten**, die Sie beim Code-Signing verwenden.
 
-Daar is 4 tipes beperkings:
+Es gibt 4 Arten von Beschränkungen:
 
-* **Selfbeperkings**: Beperkings wat toegepas word op die **lopende** binarie.
-* **Ouerproses**: Beperkings wat toegepas word op die **ouer van die proses** (byvoorbeeld **`launchd`** wat 'n XP-diens uitvoer)
-* **Verantwoordelike beperkings**: Beperkings wat toegepas word op die **proses wat die diens aanroep** in 'n XPC-kommunikasie
-* **Biblioteeklaaibeperkings**: Gebruik biblioteeklaaibeperkings om selektief kode te beskryf wat gelaai kan word
+* **Selbstbeschränkungen**: Beschränkungen, die auf die **laufende** Binärdatei angewendet werden.
+* **Elternprozess**: Beschränkungen, die auf den **Elternprozess** (zum Beispiel **`launchd`**, der einen XP-Dienst ausführt) angewendet werden.
+* **Verantwortliche Beschränkungen**: Beschränkungen, die auf den **Prozess, der den Dienst aufruft**, in einer XPC-Kommunikation angewendet werden.
+* **Bibliotheksladebeschränkungen**: Verwenden Sie Bibliotheksladebeschränkungen, um selektiv Code zu beschreiben, der geladen werden kann.
 
-So wanneer 'n proses probeer om 'n ander proses te begin — deur `execve(_:_:_:)` of `posix_spawn(_:_:_:_:_:_:)` aan te roep — kontroleer die bedryfstelsel dat die **uitvoerbare** lêer **aan sy** **eie selfbeperking** **voldoen**. Dit kontroleer ook dat die **ouer** **proses se** uitvoerbare **aan die uitvoerbare se** **ouerbeperking** **voldoen**, en dat die **verantwoordelike** **proses se** uitvoerbare **aan die uitvoerbare se verantwoordelike prosesbeperking** **voldoen**. As enige van hierdie lanceringsbeperkings nie nagekom word nie, sal die bedryfstelsel die program nie uitvoer nie.
+Wenn ein Prozess versucht, einen anderen Prozess zu starten — indem er `execve(_:_:_:)` oder `posix_spawn(_:_:_:_:_:_:)` aufruft — überprüft das Betriebssystem, ob die **ausführbare** Datei ihre **eigene Selbstbeschränkung** **erfüllt**. Es überprüft auch, ob die **ausführbare** Datei des **Elternprozesses** die **Elternbeschränkung** der ausführbaren Datei **erfüllt** und ob die **ausführbare** Datei des **verantwortlichen** Prozesses die **verantwortliche Prozessbeschränkung** der ausführbaren Datei **erfüllt**. Wenn eine dieser Startbeschränkungen nicht erfüllt ist, führt das Betriebssystem das Programm nicht aus.
 
-As enige deel van die **biblioteekbeperking nie waar is nie** wanneer 'n biblioteek gelaai word, **laai** jou proses **nie** die biblioteek nie.
+Wenn beim Laden einer Bibliothek ein Teil der **Bibliotheksbeschränkung nicht zutrifft**, **lädt** Ihr Prozess die Bibliothek **nicht**.
 
-## LC Categories
+## LC-Kategorien
 
-'n LC is saamgestel uit **feite** en **logiese operasies** (en, of..) wat feite kombineer.
+Ein LC besteht aus **Fakten** und **logischen Operationen** (und, oder..), die Fakten kombinieren.
 
-Die[ **feite wat 'n LC kan gebruik is gedokumenteer**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Byvoorbeeld:
+Die [**Fakten, die ein LC verwenden kann, sind dokumentiert**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Zum Beispiel:
 
-* is-init-proc: 'n Booleaanse waarde wat aandui of die uitvoerbare die bedryfstelsel se inisialisasieproses (`launchd`) moet wees.
-* is-sip-beskerm: 'n Booleaanse waarde wat aandui of die uitvoerbare 'n lêer moet wees wat deur Stelselintegriteitsbeskerming (SIP) beskerm word.
-* `on-authorized-authapfs-volume:` 'n Booleaanse waarde wat aandui of die bedryfstelsel die uitvoerbare van 'n geverifieerde, geverifieerde APFS-volume gelaai het.
-* `on-authorized-authapfs-volume`: 'n Booleaanse waarde wat aandui of die bedryfstelsel die uitvoerbare van 'n geverifieerde, geverifieerde APFS-volume gelaai het.
-* Cryptexes volume
-* `on-system-volume:` 'n Booleaanse waarde wat aandui of die bedryfstelsel die uitvoerbare van die tans-gestarte stelselmengsel gelaai het.
-* Binne /System...
+* is-init-proc: Ein boolescher Wert, der angibt, ob die ausführbare Datei der Initialisierungsprozess des Betriebssystems (`launchd`) sein muss.
+* is-sip-protected: Ein boolescher Wert, der angibt, ob die ausführbare Datei eine Datei ist, die durch den Systemintegritätsschutz (SIP) geschützt ist.
+* `on-authorized-authapfs-volume:` Ein boolescher Wert, der angibt, ob das Betriebssystem die ausführbare Datei von einem autorisierten, authentifizierten APFS-Volume geladen hat.
+* `on-authorized-authapfs-volume`: Ein boolescher Wert, der angibt, ob das Betriebssystem die ausführbare Datei von einem autorisierten, authentifizierten APFS-Volume geladen hat.
+* Cryptexes-Volume
+* `on-system-volume:` Ein boolescher Wert, der angibt, ob das Betriebssystem die ausführbare Datei vom aktuell gebooteten Systemvolume geladen hat.
+* Innerhalb von /System...
 * ...
 
-Wanneer 'n Apple binarie onderteken word, **ken dit dit aan 'n LC-kategorie** binne die **vertrou cache** toe.
+Wenn eine Apple-Binärdatei signiert wird, **weist sie ihr eine LC-Kategorie** im **Trust-Cache** zu.
 
-* **iOS 16 LC-kategorieë** is [**omgekeer en hier gedokumenteer**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Huidige **LC-kategorieë (macOS 14** - Somona) is omgekeer en hul [**beskrywings kan hier gevind word**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **iOS 16 LC-Kategorien** wurden [**umgekehrt und hier dokumentiert**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Aktuelle **LC-Kategorien (macOS 14** - Sonoma) wurden umgekehrt und ihre [**Beschreibungen sind hier zu finden**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
-Byvoorbeeld, Kategori 1 is:
+Zum Beispiel ist Kategorie 1:
 ```
 Category 1:
 Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
 Parent Constraint: is-init-proc
 ```
-* `(on-authorized-authapfs-volume || on-system-volume)`: Moet in die Stelsel of Cryptexes volume wees.
-* `launch-type == 1`: Moet 'n stelseldiens wees (plist in LaunchDaemons).
-* `validation-category == 1`: 'n Bedryfstelsel uitvoerbare lêer.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Muss sich im System- oder Cryptexes-Volume befinden.
+* `launch-type == 1`: Muss ein Systemdienst sein (plist in LaunchDaemons).
+* `validation-category == 1`: Eine Betriebssystemausführbare.
 * `is-init-proc`: Launchd
 
-### Omgekeerde LC Kategoriewe
+### Umkehrung der LC-Kategorien
 
-Jy het meer inligting [**hieroor**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), maar basies, hulle is gedefinieer in **AMFI (AppleMobileFileIntegrity)**, so jy moet die Kernel Development Kit aflaai om die **KEXT** te kry. Die simbole wat met **`kConstraintCategory`** begin, is die **interessante**. As jy hulle onttrek, sal jy 'n DER (ASN.1) geënkodeerde stroom kry wat jy moet dekodeer met [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) of die python-asn1 biblioteek en sy `dump.py` skrip, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) wat jou 'n meer verstaanbare string sal gee.
+Sie haben mehr Informationen [**darüber hier**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), aber im Grunde genommen sind sie in **AMFI (AppleMobileFileIntegrity)** definiert, daher müssen Sie das Kernel Development Kit herunterladen, um die **KEXT** zu erhalten. Die Symbole, die mit **`kConstraintCategory`** beginnen, sind die **interessanten**. Wenn Sie sie extrahieren, erhalten Sie einen DER (ASN.1) kodierten Stream, den Sie mit dem [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) oder der python-asn1-Bibliothek und ihrem `dump.py`-Skript, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) dekodieren müssen, was Ihnen eine verständlichere Zeichenfolge gibt.
 
-## Omgewing Beperkings
+## Umgebungsbeschränkungen
 
-Dit is die Launch Beperkings wat in **derdeparty toepassings** gekonfigureer is. Die ontwikkelaar kan die **feite** en **logiese operateurs wat gebruik moet word** in sy toepassing kies om toegang tot homself te beperk.
+Dies sind die Launch Constraints, die in **drittanbieter Anwendungen** konfiguriert sind. Der Entwickler kann die **Fakten** und **logischen Operanden auswählen**, die er in seiner Anwendung verwenden möchte, um den Zugriff auf sich selbst einzuschränken.
 
-Dit is moontlik om die Omgewing Beperkings van 'n toepassing te enumerate met:
+Es ist möglich, die Umgebungsbeschränkungen einer Anwendung mit zu enumerieren:
 ```bash
 codesign -d -vvvv app.app
 ```
-## Vertroue Caches
+## Vertrauensspeicher
 
-In **macOS** is daar 'n paar vertroue caches:
+In **macOS** gibt es einige Vertrauensspeicher:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-En in iOS lyk dit of dit in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`** is.
+Und in iOS sieht es so aus, als wäre es in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-Op macOS wat op Apple Silicon toestelle loop, as 'n Apple-onderteken binaire nie in die vertroue cache is nie, sal AMFI weier om dit te laai.
+Auf macOS, das auf Apple Silicon-Geräten läuft, wird AMFI sich weigern, eine Apple-signierte Binärdatei zu laden, wenn sie nicht im Vertrauensspeicher ist.
 {% endhint %}
 
-### Opname van Vertroue Caches
+### Auflisten von Vertrauensspeichern
 
-Die vorige vertroue cache lêers is in formaat **IMG4** en **IM4P**, met IM4P die payload gedeelte van 'n IMG4 formaat.
+Die vorherigen Vertrauensspeicherdateien sind im Format **IMG4** und **IM4P**, wobei IM4P der Payload-Bereich eines IMG4-Formats ist.
 
-Jy kan [**pyimg4**](https://github.com/m1stadev/PyIMG4) gebruik om die payload van databasisse te onttrek:
+Sie können [**pyimg4**](https://github.com/m1stadev/PyIMG4) verwenden, um die Payload von Datenbanken zu extrahieren:
 
 {% code overflow="wrap" %}
 ```bash
@@ -115,9 +115,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(‘n Ander opsie kan wees om die hulpmiddel [**img4tool**](https://github.com/tihmstar/img4tool) te gebruik, wat selfs op M1 sal werk, selfs al is die weergawe oud, en vir x86\_64 as jy dit in die regte plekke installeer).
+(Eine weitere Option könnte sein, das Tool [**img4tool**](https://github.com/tihmstar/img4tool) zu verwenden, das auch auf M1 läuft, selbst wenn die Version alt ist, und für x86\_64, wenn Sie es an den richtigen Orten installieren).
 
-Nou kan jy die hulpmiddel [**trustcache**](https://github.com/CRKatri/trustcache) gebruik om die inligting in 'n leesbare formaat te kry:
+Jetzt können Sie das Tool [**trustcache**](https://github.com/CRKatri/trustcache) verwenden, um die Informationen in einem lesbaren Format zu erhalten:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -141,7 +141,7 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-Die vertrou cache volg die volgende struktuur, so Die **LC kategorie is die 4de kolom**
+Der Vertrauenscache folgt der folgenden Struktur, sodass die **LC-Kategorie die 4. Spalte ist**.
 ```c
 struct trust_cache_entry2 {
 uint8_t cdhash[CS_CDHASH_LEN];
@@ -151,32 +151,32 @@ uint8_t constraintCategory;
 uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+Dann könnten Sie ein Skript wie [**dieses**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) verwenden, um Daten zu extrahieren.
 
-From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+Anhand dieser Daten können Sie die Apps mit einem **Launch-Constraints-Wert von `0`** überprüfen, die nicht eingeschränkt sind ([**hier überprüfen**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056), was jeder Wert bedeutet).
 
-## Aanval Mitigasies
+## Angriffsminderungen
 
-Launch Constrains sou verskeie ou aanvalle gemitigeer het deur **te verseker dat die proses nie in onverwagte toestande uitgevoer sal word:** Byvoorbeeld vanaf onverwagte plekke of deur 'n onverwagte ouer proses aangeroep word (as slegs launchd dit moet begin).
+Launch Constraints hätten mehrere alte Angriffe gemildert, indem sie **sicherstellen, dass der Prozess nicht unter unerwarteten Bedingungen ausgeführt wird:** Zum Beispiel von unerwarteten Standorten oder von einem unerwarteten übergeordneten Prozess aufgerufen wird (wenn nur launchd es starten sollte).
 
-Boonop **mitigeer Launch Constraints ook afgraderingsaanvalle.**
+Darüber hinaus **mildern Launch Constraints auch Downgrade-Angriffe.**
 
-Egter, hulle **mitigeer nie algemene XPC** misbruik nie, **Electron** kode-inspuitings of **dylib inspuitings** sonder biblioteekvalidasie (tenzij die span-ID's wat biblioteke kan laai bekend is).
+Sie **mildern jedoch keine häufigen XPC**-Missbräuche, **Electron**-Code-Injektionen oder **dylib-Injektionen** ohne Bibliotheksvalidierung (es sei denn, die Team-IDs, die Bibliotheken laden können, sind bekannt).
 
-### XPC Daemon Beskerming
+### XPC-Daemon-Schutz
 
-In die Sonoma vrystelling, is 'n noemenswaardige punt die daemon XPC diens se **verantwoordelikheid konfigurasie**. Die XPC diens is verantwoordelik vir homself, in teenstelling met die verbindende kliënt wat verantwoordelik is. Dit is gedokumenteer in die terugvoer verslag FB13206884. Hierdie opstelling mag gebrekkig voorkom, aangesien dit sekere interaksies met die XPC diens toelaat:
+Im Sonoma-Release ist ein bemerkenswerter Punkt die **Verantwortlichkeitskonfiguration** des Daemon-XPC-Dienstes. Der XPC-Dienst ist für sich selbst verantwortlich, im Gegensatz zum verbindenden Client, der verantwortlich ist. Dies ist im Feedback-Bericht FB13206884 dokumentiert. Diese Konfiguration mag fehlerhaft erscheinen, da sie bestimmte Interaktionen mit dem XPC-Dienst zulässt:
 
-- **Die XPC Diens Begin**: As dit as 'n fout beskou word, laat hierdie opstelling nie toe om die XPC diens deur aanvallerskode te begin nie.
-- **Verbinding met 'n Aktiewe Diens**: As die XPC diens reeds loop (miskien geaktiveer deur sy oorspronklike toepassing), is daar geen hindernisse om met dit te verbind nie.
+- **Starten des XPC-Dienstes**: Wenn dies als Fehler angesehen wird, erlaubt diese Konfiguration nicht, den XPC-Dienst über Angreifercode zu initiieren.
+- **Verbinden mit einem aktiven Dienst**: Wenn der XPC-Dienst bereits läuft (möglicherweise von seiner ursprünglichen Anwendung aktiviert), gibt es keine Barrieren, um sich mit ihm zu verbinden.
 
-Terwyl die implementering van beperkings op die XPC diens voordelig kan wees deur **die venster vir potensiële aanvalle te vernou**, adres dit nie die primêre bekommernis nie. Om die sekuriteit van die XPC diens te verseker, vereis fundamenteel **dat die verbindende kliënt effektief geverifieer word**. Dit bly die enigste metode om die diens se sekuriteit te versterk. Ook, dit is die moeite werd om te noem dat die genoemde verantwoordelikheid konfigurasie tans operasioneel is, wat dalk nie ooreenstem met die beoogde ontwerp nie.
+Während die Implementierung von Einschränkungen für den XPC-Dienst vorteilhaft sein könnte, indem sie **das Fenster für potenzielle Angriffe verengt**, adressiert sie nicht das Hauptanliegen. Die Sicherheit des XPC-Dienstes sicherzustellen, erfordert grundsätzlich **eine effektive Validierung des verbindenden Clients**. Dies bleibt die einzige Methode, um die Sicherheit des Dienstes zu stärken. Es ist auch erwähnenswert, dass die genannte Verantwortlichkeitskonfiguration derzeit in Betrieb ist, was möglicherweise nicht mit dem beabsichtigten Design übereinstimmt.
 
-### Electron Beskerming
+### Electron-Schutz
 
-Selfs al is dit vereis dat die toepassing **deur LaunchService** geopen moet word (in die ouer beperkings). Dit kan bereik word deur **`open`** (wat omgewingsveranderlikes kan stel) of deur die **Launch Services API** (waar omgewingsveranderlikes aangedui kan word).
+Selbst wenn es erforderlich ist, dass die Anwendung **von LaunchService** (in den übergeordneten Einschränkungen) geöffnet werden muss. Dies kann durch die Verwendung von **`open`** (das Umgebungsvariablen setzen kann) oder durch die Verwendung der **Launch Services API** (wo Umgebungsvariablen angegeben werden können) erreicht werden.
 
-## Verwysings
+## Referenzen
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -184,16 +184,16 @@ Selfs al is dit vereis dat die toepassing **deur LaunchService** geopen moet wor
 * [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}

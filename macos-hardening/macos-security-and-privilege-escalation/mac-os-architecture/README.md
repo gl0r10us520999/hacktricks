@@ -1,97 +1,97 @@
 # macOS Kernel & System Extensions
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## XNU Kernel
 
-Die **kern van macOS is XNU**, wat staan vir "X is Not Unix". Hierdie kern is fundamenteel saamgestel uit die **Mach mikrokerne**l (wat later bespreek sal word), **en** elemente van Berkeley Software Distribution (**BSD**). XNU bied ook 'n platform vir **kern bestuurders via 'n stelsel genaamd die I/O Kit**. Die XNU-kern is deel van die Darwin oopbronprojek, wat beteken **sy bronkode is vrylik beskikbaar**.
+Der **Kern von macOS ist XNU**, was für "X is Not Unix" steht. Dieser Kernel besteht grundlegend aus dem **Mach-Mikrokernel** (der später besprochen wird) und Elementen aus der Berkeley Software Distribution (**BSD**). XNU bietet auch eine Plattform für **Kernel-Treiber über ein System namens I/O Kit**. Der XNU-Kernel ist Teil des Darwin-Open-Source-Projekts, was bedeutet, dass **der Quellcode frei zugänglich ist**.
 
-Vanuit die perspektief van 'n sekuriteitsnavorser of 'n Unix-ontwikkelaar, kan **macOS** baie **soortgelyk** voel aan 'n **FreeBSD** stelsel met 'n elegante GUI en 'n verskeidenheid van pasgemaakte toepassings. Meeste toepassings wat vir BSD ontwikkel is, sal saamgestel en op macOS loop sonder dat aanpassings nodig is, aangesien die opdraglyn gereedskap wat bekend is aan Unix-gebruikers, almal in macOS teenwoordig is. Tog, omdat die XNU-kern Mach inkorporeer, is daar 'n paar beduidende verskille tussen 'n tradisionele Unix-agtige stelsel en macOS, en hierdie verskille kan potensiële probleme veroorsaak of unieke voordele bied.
+Aus der Perspektive eines Sicherheitsforschers oder Unix-Entwicklers kann **macOS** ziemlich **ähnlich** einem **FreeBSD**-System mit einer eleganten GUI und einer Vielzahl von benutzerdefinierten Anwendungen erscheinen. Die meisten Anwendungen, die für BSD entwickelt wurden, werden auf macOS ohne Änderungen kompiliert und ausgeführt, da die für Unix-Benutzer vertrauten Befehlszeilenwerkzeuge alle in macOS vorhanden sind. Da der XNU-Kernel jedoch Mach integriert, gibt es einige wesentliche Unterschiede zwischen einem traditionellen Unix-ähnlichen System und macOS, und diese Unterschiede könnten potenzielle Probleme verursachen oder einzigartige Vorteile bieten.
 
-Oopbron weergawe van XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+Open-Source-Version von XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach is 'n **mikrokerne**l wat ontwerp is om **UNIX-compatibel** te wees. Een van sy sleutelontwerp beginsels was om die hoeveelheid **kode** wat in die **kern** ruimte loop te **minimaliseer** en eerder toe te laat dat baie tipiese kernfunksies, soos lêerstelsels, netwerk, en I/O, as **gebruikersvlak take** loop.
+Mach ist ein **Mikrokernel**, der **UNIX-kompatibel** sein soll. Eines seiner wichtigsten Entwurfsprinzipien war es, die Menge an **Code**, die im **Kernel**-Bereich ausgeführt wird, zu **minimieren** und stattdessen viele typische Kernel-Funktionen, wie Dateisystem, Netzwerk und I/O, als **Benutzerebene-Aufgaben** auszuführen.
 
-In XNU is Mach **verantwoordelik vir baie van die kritieke laagvlak operasies** wat 'n kern tipies hanteer, soos prosessor skedulering, multitasking, en virtuele geheue bestuur.
+In XNU ist Mach **verantwortlich für viele der kritischen Low-Level-Operationen**, die ein Kernel typischerweise behandelt, wie Prozessorplanung, Multitasking und Verwaltung des virtuellen Speichers.
 
 ### BSD
 
-Die XNU **kern** inkorporeer ook 'n beduidende hoeveelheid kode wat afkomstig is van die **FreeBSD** projek. Hierdie kode **loop as deel van die kern saam met Mach**, in dieselfde adresruimte. Tog, die FreeBSD kode binne XNU mag aansienlik verskil van die oorspronklike FreeBSD kode omdat aanpassings nodig was om sy kompatibiliteit met Mach te verseker. FreeBSD dra by tot baie kern operasies insluitend:
+Der XNU **Kernel** integriert auch eine erhebliche Menge an Code, der aus dem **FreeBSD**-Projekt stammt. Dieser Code **läuft als Teil des Kernels zusammen mit Mach** im selben Adressraum. Der FreeBSD-Code innerhalb von XNU kann jedoch erheblich vom ursprünglichen FreeBSD-Code abweichen, da Änderungen erforderlich waren, um die Kompatibilität mit Mach sicherzustellen. FreeBSD trägt zu vielen Kernel-Operationen bei, einschließlich:
 
-* Proses bestuur
-* Sein hantering
-* Basiese sekuriteitsmeganismes, insluitend gebruiker en groep bestuur
-* Stelselaanroep infrastruktuur
-* TCP/IP stapel en sokke
-* Vuurmuur en pakketfiltrering
+* Prozessverwaltung
+* Signalverarbeitung
+* Grundlegende Sicherheitsmechanismen, einschließlich Benutzer- und Gruppenverwaltung
+* Systemaufruf-Infrastruktur
+* TCP/IP-Stack und Sockets
+* Firewall und Paketfilterung
 
-Om die interaksie tussen BSD en Mach te verstaan, kan kompleks wees, as gevolg van hul verskillende konseptuele raamwerke. Byvoorbeeld, BSD gebruik prosesse as sy fundamentele uitvoerende eenheid, terwyl Mach werk op grond van drade. Hierdie verskil word in XNU versoen deur **elke BSD-proses te assosieer met 'n Mach-taak** wat presies een Mach-draad bevat. Wanneer BSD se fork() stelselaanroep gebruik word, gebruik die BSD kode binne die kern Mach funksies om 'n taak en 'n draadstruktuur te skep.
+Das Verständnis der Interaktion zwischen BSD und Mach kann komplex sein, aufgrund ihrer unterschiedlichen konzeptionellen Rahmen. Zum Beispiel verwendet BSD Prozesse als seine grundlegende Ausführungseinheit, während Mach auf Threads basiert. Diese Diskrepanz wird in XNU durch **die Zuordnung jedes BSD-Prozesses zu einer Mach-Aufgabe** gelöst, die genau einen Mach-Thread enthält. Wenn der Systemaufruf fork() von BSD verwendet wird, verwendet der BSD-Code innerhalb des Kernels Mach-Funktionen, um eine Aufgabe und eine Thread-Struktur zu erstellen.
 
-Boonop, **Mach en BSD handhaaf elk verskillende sekuriteitsmodelle**: **Mach se** sekuriteitsmodel is gebaseer op **poortregte**, terwyl BSD se sekuriteitsmodel werk op grond van **prosesbesit**. Verskille tussen hierdie twee modelle het af en toe gelei tot plaaslike voorreg-verhoging kwesbaarhede. Afgesien van tipiese stelselaanroepe, is daar ook **Mach traps wat gebruikersruimte programme toelaat om met die kern te kommunikeer**. Hierdie verskillende elemente saam vorm die veelvlakkige, hibriede argitektuur van die macOS-kern.
+Darüber hinaus **pflegen Mach und BSD jeweils unterschiedliche Sicherheitsmodelle**: **Das Sicherheitsmodell von Mach** basiert auf **Port-Rechten**, während das Sicherheitsmodell von BSD auf **Prozesseigentum** basiert. Unterschiede zwischen diesen beiden Modellen haben gelegentlich zu lokalen Privilegieneskalationsanfälligkeiten geführt. Neben typischen Systemaufrufen gibt es auch **Mach-Traps, die es Benutzerspace-Programmen ermöglichen, mit dem Kernel zu interagieren**. Diese verschiedenen Elemente bilden zusammen die facettenreiche, hybride Architektur des macOS-Kernels.
 
-### I/O Kit - Bestuurders
+### I/O Kit - Treiber
 
-Die I/O Kit is 'n oopbron, objek-georiënteerde **toestel-bestuurder raamwerk** in die XNU-kern, wat **dynamies gelaaide toestel bestuurders** hanteer. Dit laat modulaire kode toe om aan die kern bygevoeg te word terwyl dit loop, wat verskillende hardeware ondersteun.
+Das I/O Kit ist ein Open-Source, objektorientiertes **Gerätetreiber-Framework** im XNU-Kernel, das **dynamisch geladene Gerätetreiber** verwaltet. Es ermöglicht, modulare Codes zur Laufzeit in den Kernel einzufügen und unterstützt verschiedene Hardware.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
 {% endcontent-ref %}
 
-### IPC - Inter Proses Kommunikasie
+### IPC - Interprozesskommunikation
 
 {% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-## macOS Kernel Extensions
+## macOS Kernel-Erweiterungen
 
-macOS is **baie beperkend om Kernel Extensions** (.kext) te laai weens die hoë voorregte wat kode sal loop. Trouens, standaard is dit feitlik onmoontlik (tenzij 'n omseiling gevind word).
+macOS ist **sehr restriktiv beim Laden von Kernel-Erweiterungen** (.kext) aufgrund der hohen Privilegien, mit denen der Code ausgeführt wird. Tatsächlich ist es standardmäßig nahezu unmöglich (es sei denn, es wird ein Bypass gefunden).
 
-Op die volgende bladsy kan jy ook sien hoe om die `.kext` wat macOS binne sy **kernelcache** laai, te herstel:
+Auf der folgenden Seite kannst du auch sehen, wie du die `.kext` wiederherstellen kannst, die macOS in seinem **Kernelcache** lädt:
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
 {% endcontent-ref %}
 
-### macOS System Extensions
+### macOS Systemerweiterungen
 
-In plaas daarvan om Kernel Extensions te gebruik, het macOS die System Extensions geskep, wat in gebruikersvlak API's bied om met die kern te kommunikeer. Op hierdie manier kan ontwikkelaars vermy om kern uitbreidings te gebruik.
+Anstelle von Kernel-Erweiterungen hat macOS die Systemerweiterungen geschaffen, die in der Benutzerebene APIs bieten, um mit dem Kernel zu interagieren. Auf diese Weise können Entwickler auf die Verwendung von Kernel-Erweiterungen verzichten.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
 {% endcontent-ref %}
 
-## References
+## Referenzen
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

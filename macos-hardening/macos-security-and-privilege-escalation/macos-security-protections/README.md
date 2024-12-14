@@ -1,37 +1,37 @@
-# macOS Sekuriteitsbeskerming
+# macOS Sicherheitsmaßnahmen
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## Gatekeeper
 
-Gatekeeper word gewoonlik gebruik om te verwys na die kombinasie van **Quarantine + Gatekeeper + XProtect**, 3 macOS sekuriteitsmodules wat sal probeer om **gebruikers te verhoed om potensieel kwaadwillige sagteware wat afgelaai is, uit te voer**.
+Gatekeeper wird normalerweise verwendet, um die Kombination von **Quarantäne + Gatekeeper + XProtect** zu bezeichnen, 3 macOS-Sicherheitsmodule, die versuchen, **zu verhindern, dass Benutzer potenziell schädliche Software ausführen, die heruntergeladen wurde**.
 
-Meer inligting in:
+Weitere Informationen in:
 
 {% content-ref url="macos-gatekeeper.md" %}
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Prosesse Beperkings
+## Prozessbeschränkungen
 
 ### MACF
 
 
 
-### SIP - Stelselintegriteit Beskerming
+### SIP - Systemintegritätsschutz
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
@@ -39,52 +39,52 @@ Meer inligting in:
 
 ### Sandbox
 
-MacOS Sandbox **beperk toepassings** wat binne die sandbox loop tot die **toegelate aksies wat in die Sandbox-profiel gespesifiseer is** waarmee die app loop. Dit help om te verseker dat **die toepassing slegs verwagte hulpbronne sal benader**.
+Die macOS-Sandbox **beschränkt Anwendungen**, die innerhalb der Sandbox ausgeführt werden, auf die **erlaubten Aktionen, die im Sandbox-Profil** festgelegt sind, mit dem die App ausgeführt wird. Dies hilft sicherzustellen, dass **die Anwendung nur auf erwartete Ressourcen zugreift**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Deursigtigheid, Toestemming, en Beheer**
+### TCC - **Transparenz, Zustimmung und Kontrolle**
 
-**TCC (Deursigtigheid, Toestemming, en Beheer)** is 'n sekuriteitsraamwerk. Dit is ontwerp om **die toestemmings** van toepassings te **bestuur**, spesifiek deur hul toegang tot sensitiewe funksies te reguleer. Dit sluit elemente soos **liggingsdienste, kontakte, foto's, mikrofoon, kamera, toeganklikheid, en volle skyf toegang** in. TCC verseker dat toepassings slegs toegang tot hierdie funksies kan verkry nadat hulle eksplisiete gebruikers toestemming verkry het, wat privaatheid en beheer oor persoonlike data versterk.
+**TCC (Transparenz, Zustimmung und Kontrolle)** ist ein Sicherheitsrahmen. Er wurde entwickelt, um **die Berechtigungen** von Anwendungen zu **verwalten**, insbesondere indem er deren Zugriff auf sensible Funktionen reguliert. Dazu gehören Elemente wie **Standortdienste, Kontakte, Fotos, Mikrofon, Kamera, Barrierefreiheit und Vollzugriff auf die Festplatte**. TCC stellt sicher, dass Apps nur auf diese Funktionen zugreifen können, nachdem sie die ausdrückliche Zustimmung des Benutzers erhalten haben, wodurch die Privatsphäre und Kontrolle über persönliche Daten gestärkt wird.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Begin/Omgewing Beperkings & Vertroue Kas
+### Start-/Umgebungsbeschränkungen & Vertrauenscache
 
-Begin beperkings in macOS is 'n sekuriteitskenmerk om **prosesinisiëring te reguleer** deur te definieer **wie 'n proses kan begin**, **hoe**, en **van waar**. Ingevoerd in macOS Ventura, kategoriseer dit stelselbinaries in beperking kategorieë binne 'n **vertroue kas**. Elke uitvoerbare binêre het **reëls** vir sy **begin**, insluitend **self**, **ouer**, en **verantwoordelike** beperkings. Uitgebrei na derdeparty-apps as **Omgewing** Beperkings in macOS Sonoma, help hierdie kenmerke om potensiële stelselaanrandings te verminder deur prosesbeginvoorwaardes te regeer.
+Startbeschränkungen in macOS sind eine Sicherheitsfunktion, um **die Prozessinitiierung zu regulieren**, indem definiert wird, **wer einen Prozess starten kann**, **wie** und **von wo**. Eingeführt in macOS Ventura, kategorisieren sie System-Binärdateien in Beschränkungs-Kategorien innerhalb eines **Vertrauenscaches**. Jede ausführbare Binärdatei hat festgelegte **Regeln** für ihren **Start**, einschließlich **selbst**, **Eltern** und **verantwortlich**. Diese Funktionen wurden in macOS Sonoma auf Drittanbieter-Apps als **Umgebungs**-Beschränkungen ausgeweitet, um potenzielle Systemausnutzungen zu mindern, indem die Bedingungen für das Starten von Prozessen geregelt werden.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Kwaadwillige Sagteware Verwydering Gereedskap
+## MRT - Malware-Entfernungstool
 
-Die Kwaadwillige Sagteware Verwydering Gereedskap (MRT) is 'n ander deel van macOS se sekuriteitsinfrastruktuur. Soos die naam aandui, is MRT se hooffunksie om **bekende kwaadwillige sagteware van besmette stelsels te verwyder**.
+Das Malware-Entfernungstool (MRT) ist ein weiterer Teil der Sicherheitsinfrastruktur von macOS. Wie der Name schon sagt, besteht die Hauptfunktion von MRT darin, **bekannte Malware von infizierten Systemen zu entfernen**.
 
-Sodra kwaadwillige sagteware op 'n Mac opgespoor word (of deur XProtect of deur 'n ander middel), kan MRT gebruik word om outomaties **die kwaadwillige sagteware te verwyder**. MRT werk stil in die agtergrond en loop tipies wanneer die stelsel opgedateer word of wanneer 'n nuwe kwaadwillige sagteware definisie afgelaai word (dit lyk of die reëls wat MRT het om kwaadwillige sagteware op te spoor binne die binêre is).
+Sobald Malware auf einem Mac erkannt wird (entweder durch XProtect oder auf andere Weise), kann MRT verwendet werden, um automatisch **die Malware zu entfernen**. MRT arbeitet im Hintergrund und wird normalerweise ausgeführt, wenn das System aktualisiert wird oder wenn eine neue Malware-Definition heruntergeladen wird (es scheint, dass die Regeln, die MRT zur Erkennung von Malware hat, in der Binärdatei enthalten sind).
 
-Terwyl beide XProtect en MRT deel van macOS se sekuriteitsmaatreëls is, voer hulle verskillende funksies uit:
+Während sowohl XProtect als auch MRT Teil der Sicherheitsmaßnahmen von macOS sind, erfüllen sie unterschiedliche Funktionen:
 
-* **XProtect** is 'n preventiewe hulpmiddel. Dit **kontroleer lêers soos hulle afgelaai word** (deur sekere toepassings), en as dit enige bekende tipes kwaadwillige sagteware opspoor, **verhoed dit dat die lêer oopgemaak word**, wat verhoed dat die kwaadwillige sagteware jou stelsel in die eerste plek besmet.
-* **MRT**, aan die ander kant, is 'n **reaktiewe hulpmiddel**. Dit werk nadat kwaadwillige sagteware op 'n stelsel opgespoor is, met die doel om die oortredende sagteware te verwyder om die stelsel skoon te maak.
+* **XProtect** ist ein präventives Tool. Es **überprüft Dateien, während sie heruntergeladen werden** (über bestimmte Anwendungen), und wenn es bekannte Malware erkennt, **verhindert es, dass die Datei geöffnet wird**, wodurch verhindert wird, dass die Malware dein System überhaupt infiziert.
+* **MRT** hingegen ist ein **reaktives Tool**. Es arbeitet, nachdem Malware auf einem System erkannt wurde, mit dem Ziel, die schädliche Software zu entfernen, um das System zu bereinigen.
 
-Die MRT-toepassing is geleë in **`/Library/Apple/System/Library/CoreServices/MRT.app`**
+Die MRT-Anwendung befindet sich in **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
-## Agtergrond Take Bestuur
+## Verwaltung von Hintergrundaufgaben
 
-**macOS** waarsku nou **elke keer** wanneer 'n hulpmiddel 'n bekende **tegniek gebruik om kode-uitvoering te volhard** (soos Login Items, Daemons...), sodat die gebruiker beter weet **watter sagteware volhard**.
+**macOS** warnt jetzt jedes Mal, wenn ein Tool eine bekannte **Technik zur Persistenz der Codeausführung** verwendet (wie Anmeldeobjekte, Daemons...), damit der Benutzer besser weiß, **welche Software persistiert**.
 
 <figure><img src="../../../.gitbook/assets/image (1183).png" alt=""><figcaption></figcaption></figure>
 
-Dit werk met 'n **daemon** geleë in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` en die **agent** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Dies läuft mit einem **Daemon**, der sich in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` befindet, und dem **Agenten** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
-Die manier waarop **`backgroundtaskmanagementd`** weet dat iets in 'n volhardende gids geïnstalleer is, is deur **die FSEvents te verkry** en 'n paar **handlers** vir daardie te skep.
+Die Art und Weise, wie **`backgroundtaskmanagementd`** weiß, dass etwas in einem persistenten Ordner installiert ist, besteht darin, **die FSEvents abzurufen** und einige **Handler** dafür zu erstellen.
 
-Boonop is daar 'n plist-lêer wat **goed bekende toepassings** bevat wat gereeld volhard, wat deur apple onderhou word, geleë in: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
+Darüber hinaus gibt es eine plist-Datei, die **bekannte Anwendungen** enthält, die häufig persistiert werden und von Apple verwaltet werden, die sich in: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist` befindet.
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
@@ -102,31 +102,31 @@ Boonop is daar 'n plist-lêer wat **goed bekende toepassings** bevat wat gereeld
 ```
 ### Enumeration
 
-Dit is moontlik om **alle** die geconfigureerde agtergronditems wat die Apple cli-gereedskap uitvoer, te **enumerate**:
+Es ist möglich, **alle** konfigurierten Hintergrundelemente, die das Apple-CLI-Tool ausführen, aufzulisten:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-Boonop is dit ook moontlik om hierdie inligting te lys met [**DumpBTM**](https://github.com/objective-see/DumpBTM).
+Darüber hinaus ist es auch möglich, diese Informationen mit [**DumpBTM**](https://github.com/objective-see/DumpBTM) aufzulisten.
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Hierdie inligting word gestoor in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** en die Terminal benodig FDA.
+Diese Informationen werden in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** gespeichert und das Terminal benötigt FDA.
 
-### Meng met BTM
+### Manipulation mit BTM
 
-Wanneer 'n nuwe volharding gevind word, is daar 'n gebeurtenis van tipe **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Enige manier om hierdie **gebeurtenis** te **voorkom** of die **agent om die gebruiker te waarsku** sal 'n aanvaller help om _**te omseil**_ BTM.
+Wenn eine neue Persistenz gefunden wird, wird ein Ereignis vom Typ **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** ausgelöst. Jede Möglichkeit, dieses **Ereignis** daran zu hindern, gesendet zu werden, oder den **Agenten daran zu hindern**, den Benutzer zu benachrichtigen, wird einem Angreifer helfen, BTM zu _**umgehen**_.
 
-* **Herstel die databasis**: Die uitvoering van die volgende opdrag sal die databasis herstel (moet dit van die grond af herbou), egter, om een of ander rede, na die uitvoering hiervan, **sal geen nuwe volharding gewaarsku word totdat die stelsel herbegin word**.
-* **root** is vereis.
+* **Datenbank zurücksetzen**: Das Ausführen des folgenden Befehls setzt die Datenbank zurück (sollte sie von Grund auf neu aufbauen), jedoch wird aus irgendeinem Grund nach dem Ausführen dies **keine neue Persistenz benachrichtigt, bis das System neu gestartet wird**.
+* **root** ist erforderlich.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-* **Stop die Agent**: Dit is moontlik om 'n stopsein na die agent te stuur sodat dit **nie die gebruiker sal waarsku nie** wanneer nuwe opsporings gevind word.
+* **Stoppe den Agenten**: Es ist möglich, ein Stoppsignal an den Agenten zu senden, sodass er **den Benutzer nicht benachrichtigt**, wenn neue Erkennungen gefunden werden.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -139,25 +139,25 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
-* **Fout**: As die **proses wat die volharding geskep het, vinnig reg na dit bestaan**, sal die daemon probeer om **inligting** daaroor te **kry**, **misluk**, en **nie in staat wees om die gebeurtenis** te stuur wat aandui dat 'n nuwe ding volhard nie.
+* **Fehler**: Wenn der **Prozess, der die Persistenz erstellt hat, direkt danach schnell existiert**, wird der Daemon versuchen, **Informationen darüber zu erhalten**, **fehlschlagen** und **nicht in der Lage sein, das Ereignis zu senden**, das anzeigt, dass eine neue Sache persistiert.
 
-Verwysings en **meer inligting oor BTM**:
+Referenzen und **weitere Informationen über BTM**:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
 * [https://support.apple.com/en-gb/guide/deployment/depdca572563/web](https://support.apple.com/en-gb/guide/deployment/depdca572563/web)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

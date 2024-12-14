@@ -15,23 +15,23 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## Pkg Basiese Inligting
+## Pkg Grundinformationen
 
-'n macOS **installer pakket** (ook bekend as 'n `.pkg` lêer) is 'n lêerformaat wat deur macOS gebruik word om **programmatuur te versprei**. Hierdie lêers is soos 'n **doos wat alles bevat wat 'n stuk programmatuur** nodig het om korrek te installeer en te werk.
+Ein macOS **Installationspaket** (auch bekannt als `.pkg`-Datei) ist ein Dateiformat, das von macOS verwendet wird, um **Software zu verteilen**. Diese Dateien sind wie eine **Box, die alles enthält, was ein Stück Software** benötigt, um korrekt installiert und ausgeführt zu werden.
 
-Die pakketlêer self is 'n argief wat 'n **hiërargie van lêers en gidse bevat wat op die teiken** rekenaar geïnstalleer sal word. Dit kan ook **scripts** insluit om take voor en na die installasie uit te voer, soos om konfigurasielêers op te stel of ou weergawes van die programmatuur skoon te maak.
+Die Paketdatei selbst ist ein Archiv, das eine **Hierarchie von Dateien und Verzeichnissen enthält, die auf dem Zielcomputer installiert werden**. Es kann auch **Skripte** enthalten, um Aufgaben vor und nach der Installation auszuführen, wie das Einrichten von Konfigurationsdateien oder das Bereinigen alter Versionen der Software.
 
-### Hiërargie
+### Hierarchie
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Verspreiding (xml)**: Aangepas (titel, verwelkoming teks…) en script/installasie kontroles
-* **PakketInligting (xml)**: Inligting, installasie vereistes, installasie ligging, paaie na scripts om uit te voer
-* **Materiaallys (bom)**: Lys van lêers om te installeer, op te dateer of te verwyder met lêer toestemmings
-* **Payload (CPIO argief gzip gecomprimeer)**: Lêers om te installeer in die `install-location` van PakketInligting
-* **Scripts (CPIO argief gzip gecomprimeer)**: Voor en na installasie scripts en meer hulpbronne wat na 'n tydelike gids onttrek is vir uitvoering.
+* **Distribution (xml)**: Anpassungen (Titel, Willkommensnachricht…) und Skript-/Installationsprüfungen
+* **PackageInfo (xml)**: Informationen, Installationsanforderungen, Installationsort, Pfade zu auszuführenden Skripten
+* **Bill of materials (bom)**: Liste der Dateien, die installiert, aktualisiert oder entfernt werden sollen, mit Dateiberechtigungen
+* **Payload (CPIO-Archiv gzip-komprimiert)**: Dateien, die im `install-location` aus PackageInfo installiert werden
+* **Skripte (CPIO-Archiv gzip-komprimiert)**: Vor- und Nachinstallationsskripte und weitere Ressourcen, die in ein temporäres Verzeichnis zur Ausführung extrahiert werden.
 
-### Decomprimeer
+### Dekomprimieren
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -45,37 +45,37 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-In order to visualize the contents of the installer without decompressing it manually you can also use the free tool [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
+Um den Inhalt des Installers zu visualisieren, ohne ihn manuell zu dekomprimieren, können Sie auch das kostenlose Tool [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/) verwenden.
 
-## DMG Basiese Inligting
+## DMG Grundinformationen
 
-DMG-lêers, of Apple Disk Images, is 'n lêerformaat wat deur Apple se macOS vir skyfbeelde gebruik word. 'n DMG-lêer is in wese 'n **aansluitbare skyfbeeld** (dit bevat sy eie lêerstelsel) wat rou blokdata bevat wat tipies gecomprimeer en soms geënkripteer is. Wanneer jy 'n DMG-lêer oopmaak, **aansluit macOS dit asof dit 'n fisiese skyf is**, wat jou toelaat om toegang tot sy inhoud te verkry.
+DMG-Dateien oder Apple Disk Images sind ein Dateiformat, das von Apples macOS für Disk-Images verwendet wird. Eine DMG-Datei ist im Wesentlichen ein **einhängbares Disk-Image** (es enthält sein eigenes Dateisystem), das rohe Blockdaten enthält, die typischerweise komprimiert und manchmal verschlüsselt sind. Wenn Sie eine DMG-Datei öffnen, **bindet macOS sie so, als wäre es eine physische Festplatte**, sodass Sie auf ihren Inhalt zugreifen können.
 
 {% hint style="danger" %}
-Let daarop dat **`.dmg`** installers **soveel formate** ondersteun dat sommige daarvan in die verlede wat kwesbaarhede bevat het, misbruik is om **kernel kode-uitvoering** te verkry.
+Beachten Sie, dass **`.dmg`**-Installer **so viele Formate** unterstützen, dass in der Vergangenheit einige von ihnen, die Schwachstellen enthielten, missbraucht wurden, um **Kernel-Codeausführung** zu erlangen.
 {% endhint %}
 
-### Hiërargie
+### Hierarchie
 
 <figure><img src="../../../.gitbook/assets/image (225).png" alt=""><figcaption></figcaption></figure>
 
-Die hiërargie van 'n DMG-lêer kan verskil op grond van die inhoud. Dit volg egter gewoonlik hierdie struktuur vir toepassings DMGs:
+Die Hierarchie einer DMG-Datei kann je nach Inhalt unterschiedlich sein. Für Anwendungs-DMGs folgt sie jedoch normalerweise dieser Struktur:
 
-* Topvlak: Dit is die wortel van die skyfbeeld. Dit bevat dikwels die toepassing en moontlik 'n skakel na die Toepassings-gids.
-* Toepassing (.app): Dit is die werklike toepassing. In macOS is 'n toepassing tipies 'n pakket wat baie individuele lêers en gidse bevat wat die toepassing saamstel.
-* Toepassingskakel: Dit is 'n snelkoppeling na die Toepassings-gids in macOS. Die doel hiervan is om dit maklik vir jou te maak om die toepassing te installeer. Jy kan die .app-lêer na hierdie snelkoppeling sleep om die app te installeer.
+* Oberste Ebene: Dies ist die Wurzel des Disk-Images. Es enthält oft die Anwendung und möglicherweise einen Link zum Anwendungsordner.
+* Anwendung (.app): Dies ist die eigentliche Anwendung. In macOS ist eine Anwendung typischerweise ein Paket, das viele einzelne Dateien und Ordner enthält, die die Anwendung ausmachen.
+* Anwendungen-Link: Dies ist eine Verknüpfung zum Anwendungsordner in macOS. Der Zweck davon ist es, Ihnen die Installation der Anwendung zu erleichtern. Sie können die .app-Datei auf diese Verknüpfung ziehen, um die App zu installieren.
 
-## Privesc via pkg misbruik
+## Privesc über pkg-Missbrauch
 
-### Uitvoering vanaf openbare gidse
+### Ausführung aus öffentlichen Verzeichnissen
 
-As 'n vooraf of na-installasie skrip byvoorbeeld uitvoer vanaf **`/var/tmp/Installerutil`**, en 'n aanvaller daardie skrip kan beheer, kan hy privilige verhoog wanneer dit uitgevoer word. Of 'n ander soortgelyke voorbeeld:
+Wenn ein Pre- oder Post-Installationsskript beispielsweise aus **`/var/tmp/Installerutil`** ausgeführt wird und ein Angreifer dieses Skript kontrollieren könnte, könnte er die Berechtigungen erhöhen, wann immer es ausgeführt wird. Oder ein weiteres ähnliches Beispiel:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) wat verskeie installers en opdaterings sal aanroep om **iets as root uit te voer**. Hierdie funksie aanvaar die **pad** van die **lêer** om **uit te voer** as parameter, egter, as 'n aanvaller hierdie lêer kan **wysig**, sal hy in staat wees om sy uitvoering met root te **misbruik** om **privilege te verhoog**.
+Dies ist eine [öffentliche Funktion](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), die mehrere Installer und Updater aufrufen, um **etwas als root auszuführen**. Diese Funktion akzeptiert den **Pfad** der **Datei**, die **ausgeführt** werden soll, als Parameter. Wenn ein Angreifer jedoch diese Datei **modifizieren** könnte, wäre er in der Lage, ihre Ausführung mit root zu **missbrauchen**, um die **Berechtigungen zu erhöhen**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -83,27 +83,27 @@ Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/
 ```
 For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
-### Uitvoering deur montering
+### Ausführung durch Einhängen
 
-As 'n installer na `/tmp/fixedname/bla/bla` skryf, is dit moontlik om **'n montasie te skep** oor `/tmp/fixedname` sonder eienaars sodat jy **enige lêer tydens die installasie kan wysig** om die installasieproses te misbruik.
+Wenn ein Installer in `/tmp/fixedname/bla/bla` schreibt, ist es möglich, ein **Mount** über `/tmp/fixedname` ohne Besitzer zu **erstellen**, sodass Sie **jede Datei während der Installation ändern** können, um den Installationsprozess auszunutzen.
 
-'n Voorbeeld hiervan is **CVE-2021-26089** wat daarin geslaag het om **'n periodieke skrip te oorskryf** om uitvoering as root te verkry. Vir meer inligting, kyk na die praatjie: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Ein Beispiel dafür ist **CVE-2021-26089**, das es geschafft hat, ein **periodisches Skript zu überschreiben**, um als Root ausgeführt zu werden. Für weitere Informationen schauen Sie sich den Vortrag an: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-## pkg as malware
+## pkg als Malware
 
-### Leë Payload
+### Leerer Payload
 
-Dit is moontlik om net 'n **`.pkg`** lêer te genereer met **pre- en post-install skripte** sonder enige werklike payload behalwe die malware binne die skripte.
+Es ist möglich, einfach eine **`.pkg`**-Datei mit **Pre- und Post-Install-Skripten** zu generieren, ohne einen echten Payload außer der Malware in den Skripten.
 
-### JS in Verspreiding xml
+### JS in der Verteilungs-XML
 
-Dit is moontlik om **`<script>`** etikette in die **verspreiding xml** lêer van die pakket toe te voeg en daardie kode sal uitgevoer word en dit kan **opdragte uitvoer** met behulp van **`system.run`**:
+Es ist möglich, **`<script>`**-Tags in der **Verteilungs-XML**-Datei des Pakets hinzuzufügen, und dieser Code wird ausgeführt und kann **Befehle ausführen** mit **`system.run`**:
 
 <figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
-### Backdoored Installer
+### Hintertüriger Installer
 
-Kwaadwillige installer wat 'n skrip en JS-kode binne dist.xml gebruik
+Bösartiger Installer, der ein Skript und JS-Code in dist.xml verwendet.
 ```bash
 # Package structure
 mkdir -p pkgroot/root/Applications/MyApp
@@ -164,24 +164,24 @@ EOF
 # Buil final
 productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pkg
 ```
-## Verwysings
+## Referenzen
 
-* [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne Macos Installer Pakkette En Algemene Sekuriteitsfoute**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
-* [**OBTS v4.0: "Die Wilde Wêreld van macOS Installeerders" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-* [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne MacOS Installer Pakkette**](https://www.youtube.com/watch?v=kCXhIYtODBg)
+* [**DEF CON 27 - Entpacken von Paketen Ein Blick in macOS-Installationspakete und häufige Sicherheitsanfälligkeiten**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
+* [**OBTS v4.0: "Die wilde Welt der macOS-Installateure" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+* [**DEF CON 27 - Entpacken von Paketen Ein Blick in macOS-Installationspakete**](https://www.youtube.com/watch?v=kCXhIYtODBg)
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Ekspert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

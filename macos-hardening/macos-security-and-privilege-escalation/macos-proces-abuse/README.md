@@ -1,61 +1,61 @@
-# macOS Proseshandelinge
+# macOS Prozessmissbrauch
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting oor Prosesse
+## Grundlegende Informationen zu Prozessen
 
-'n Proses is 'n instansie van 'n lopende uitvoerbare lêer, maar prosesse voer nie kode uit nie, dit is drade. Daarom **is prosesse net houers vir lopende drade** wat die geheue, beskrywers, poorte, toestemmings voorsien...
+Ein Prozess ist eine Instanz eines laufenden ausführbaren Programms, jedoch führen Prozesse keinen Code aus, das sind Threads. Daher **sind Prozesse nur Container für laufende Threads**, die den Speicher, Deskriptoren, Ports, Berechtigungen... bereitstellen.
 
-Tradisioneel is prosesse binne ander prosesse (behalwe PID 1) begin deur **`fork`** te roep wat 'n presiese kopie van die huidige proses sou skep en dan sou die **kindproses** gewoonlik **`execve`** roep om die nuwe uitvoerbare lêer te laai en dit uit te voer. Toe is **`vfork`** ingevoer om hierdie proses vinniger te maak sonder enige geheuekopie.\
-Toe is **`posix_spawn`** ingevoer wat **`vfork`** en **`execve`** in een oproep kombineer en vlae aanvaar:
+Traditionell wurden Prozesse innerhalb anderer Prozesse (außer PID 1) durch den Aufruf von **`fork`** gestartet, was eine exakte Kopie des aktuellen Prozesses erstellt, und dann würde der **Kindprozess** normalerweise **`execve`** aufrufen, um die neue ausführbare Datei zu laden und auszuführen. Dann wurde **`vfork`** eingeführt, um diesen Prozess schneller zu machen, ohne Speicher zu kopieren.\
+Dann wurde **`posix_spawn`** eingeführt, das **`vfork`** und **`execve`** in einem Aufruf kombiniert und Flags akzeptiert:
 
-* `POSIX_SPAWN_RESETIDS`: Stel effektiewe ids terug na regte ids
-* `POSIX_SPAWN_SETPGROUP`: Stel prosesgroepaffiliasie in
-* `POSUX_SPAWN_SETSIGDEF`: Stel seinstandaardgedrag in
-* `POSIX_SPAWN_SETSIGMASK`: Stel seinmasker in
-* `POSIX_SPAWN_SETEXEC`: Voer in dieselfde proses uit (soos `execve` met meer opsies)
-* `POSIX_SPAWN_START_SUSPENDED`: Begin opgeskort
-* `_POSIX_SPAWN_DISABLE_ASLR`: Begin sonder ASLR
-* `_POSIX_SPAWN_NANO_ALLOCATOR:` Gebruik libmalloc se Nano-toewysers
-* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Laat `rwx` toe op data-segmente
-* `POSIX_SPAWN_CLOEXEC_DEFAULT`: Sluit alle lêerbeskrywings op exec(2) standaard
-* `_POSIX_SPAWN_HIGH_BITS_ASLR:` Randomiseer hoë bietjies van ASLR skuif
+* `POSIX_SPAWN_RESETIDS`: Setze effektive IDs auf reale IDs zurück
+* `POSIX_SPAWN_SETPGROUP`: Setze die Prozessgruppen-Zugehörigkeit
+* `POSUX_SPAWN_SETSIGDEF`: Setze das Standardverhalten von Signalen
+* `POSIX_SPAWN_SETSIGMASK`: Setze die Signalmaske
+* `POSIX_SPAWN_SETEXEC`: Exec im selben Prozess (wie `execve` mit mehr Optionen)
+* `POSIX_SPAWN_START_SUSPENDED`: Starten im angehaltenen Zustand
+* `_POSIX_SPAWN_DISABLE_ASLR`: Starten ohne ASLR
+* `_POSIX_SPAWN_NANO_ALLOCATOR:` Verwende den Nano-Allocator von libmalloc
+* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Erlaube `rwx` auf Datensegmenten
+* `POSIX_SPAWN_CLOEXEC_DEFAULT`: Schließe alle Dateibeschreibungen bei exec(2) standardmäßig
+* `_POSIX_SPAWN_HIGH_BITS_ASLR:` Randomisiere die hohen Bits des ASLR-Slides
 
-Verder laat `posix_spawn` toe om 'n reeks van **`posix_spawnattr`** te spesifiseer wat sekere aspekte van die geskepte proses beheer, en **`posix_spawn_file_actions`** om die toestand van die beskrywers te wysig.
+Darüber hinaus erlaubt `posix_spawn`, ein Array von **`posix_spawnattr`** anzugeben, das einige Aspekte des gestarteten Prozesses steuert, und **`posix_spawn_file_actions`**, um den Zustand der Deskriptoren zu ändern.
 
-Wanneer 'n proses sterf, stuur dit die **terugvoerkode na die ouerproses** (as die ouer sterf, is die nuwe ouer PID 1) met die sein `SIGCHLD`. Die ouer moet hierdie waarde kry deur `wait4()` of `waitid()` te roep en totdat dit gebeur bly die kind in 'n zombie-toestand waar dit nog gelys word maar nie hulpbronne verbruik nie.
+Wenn ein Prozess stirbt, sendet er den **Rückgabewert an den übergeordneten Prozess** (wenn der übergeordnete Prozess gestorben ist, ist der neue übergeordnete Prozess PID 1) mit dem Signal `SIGCHLD`. Der übergeordnete Prozess muss diesen Wert abrufen, indem er `wait4()` oder `waitid()` aufruft, und bis das geschieht, bleibt das Kind in einem Zombie-Zustand, in dem es weiterhin aufgeführt ist, aber keine Ressourcen verbraucht.
 
 ### PIDs
 
-PIDs, prosesidentifiseerders, identifiseer 'n unieke proses. In XNU is die **PIDs** van **64-bits** wat monotonies toeneem en **nooit oorvloei** (om misbruik te voorkom).
+PIDs, Prozessidentifikatoren, identifizieren einen einzigartigen Prozess. In XNU sind die **PIDs** **64 Bit** und steigen monoton an und **wickeln sich niemals** (um Missbrauch zu vermeiden).
 
-### Prosesgroepe, Sessies & Coalisies
+### Prozessgruppen, Sitzungen & Koalitionen
 
-**Prosesse** kan in **groepe** geplaas word om dit makliker te maak om hulle te hanteer. Byvoorbeeld, opdragte in 'n skulpskrip sal in dieselfde prosesgroep wees sodat dit moontlik is om hulle saam te **seineer** deur byvoorbeeld te doodmaak.\
-Dit is ook moontlik om **prosesse in sessies** te groepeer. Wanneer 'n proses 'n sessie begin (`setsid(2)`), word die kinderprosesse binne die sessie geplaas, tensy hulle hul eie sessie begin.
+**Prozesse** können in **Gruppen** eingefügt werden, um die Handhabung zu erleichtern. Zum Beispiel werden Befehle in einem Shell-Skript in derselben Prozessgruppe sein, sodass es möglich ist, **sie zusammen zu signalisieren**, indem man beispielsweise kill verwendet.\
+Es ist auch möglich, **Prozesse in Sitzungen zu gruppieren**. Wenn ein Prozess eine Sitzung startet (`setsid(2)`), werden die Kindprozesse in die Sitzung gesetzt, es sei denn, sie starten ihre eigene Sitzung.
 
-Coalition is 'n ander manier om prosesse in Darwin te groepeer. 'n Proses wat by 'n coalisie aansluit, kan toegang verkry tot poelhulpbronne, 'n grootboek deel of Jetsam in die gesig staar. Coalisies het verskillende rolle: Leier, XPC-diens, Uitbreiding.
+Koalition ist eine weitere Möglichkeit, Prozesse in Darwin zu gruppieren. Ein Prozess, der einer Koalition beitritt, ermöglicht den Zugriff auf Poolressourcen, teilt ein Hauptbuch oder steht Jetsam gegenüber. Koalitionen haben unterschiedliche Rollen: Führer, XPC-Dienst, Erweiterung.
 
-### Gelde & Persone
+### Berechtigungen & Personae
 
-Elke proses hou **gelde** aan wat **sy voorregte identifiseer** in die stelsel. Elke proses sal een primêre `uid` en een primêre `gid` hê (alhoewel dit dalk tot verskeie groepe behoort).\
-Dit is ook moontlik om die gebruiker- en groep-id te verander as die binêre lêer die `setuid/setgid`-bietjie het.\
-Daar is verskeie funksies om **nuwe uids/gids** in te stel.
+Jeder Prozess hält **Berechtigungen**, die **seine Privilegien** im System identifizieren. Jeder Prozess hat eine primäre `uid` und eine primäre `gid` (obwohl er mehreren Gruppen angehören kann).\
+Es ist auch möglich, die Benutzer- und Gruppen-ID zu ändern, wenn die Binärdatei das `setuid/setgid`-Bit hat.\
+Es gibt mehrere Funktionen, um **neue uids/gids festzulegen**.
 
-Die systaalaanroep **`persona`** bied 'n **alternatiewe** stel **gelde** aan. Die aanneem van 'n persona aanvaar sy uid, gid en groepslidmaatskappe **op een keer**. In die [**bronkode**](https://github.com/apple/darwin-xnu/blob/main/bsd/sys/persona.h) is dit moontlik om die struktuur te vind:
+Der Systemaufruf **`persona`** bietet ein **alternatives** Set von **Berechtigungen**. Die Annahme einer Persona übernimmt ihre uid, gid und Gruppenmitgliedschaften **auf einmal**. Im [**Quellcode**](https://github.com/apple/darwin-xnu/blob/main/bsd/sys/persona.h) ist es möglich, die Struktur zu finden:
 ```c
 struct kpersona_info { uint32_t persona_info_version;
 uid_t    persona_id; /* overlaps with UID */
@@ -69,44 +69,44 @@ char     persona_name[MAXLOGNAME + 1];
 /* TODO: MAC policies?! */
 }
 ```
-## Drade Basiese Inligting
+## Threads Grundinformationen
 
-1. **POSIX Drade (pthreads):** macOS ondersteun POSIX drade (`pthreads`), wat deel is van 'n standaard drade API vir C/C++. Die implementering van pthreads in macOS word gevind in `/usr/lib/system/libsystem_pthread.dylib`, wat afkomstig is van die openbarelik beskikbare `libpthread`-projek. Hierdie biblioteek voorsien die nodige funksies om drade te skep en te bestuur.
-2. **Skep Drade:** Die `pthread_create()`-funksie word gebruik om nuwe drade te skep. Intern, roep hierdie funksie `bsdthread_create()` aan, wat 'n laervlak-sisteemaanroep is wat spesifiek is vir die XNU-kernel (die kernel waarop macOS gebaseer is). Hierdie sisteemaanroep neem verskeie vlae afgelei van `pthread_attr` (eienskappe) wat drade se gedrag spesifiseer, insluitend skeduleringsbeleide en stokgrootte.
-* **Verstek Stokgrootte:** Die verstek stokgrootte vir nuwe drade is 512 KB, wat voldoende is vir tipiese werksaamhede, maar aangepas kan word via draadseienskappe as meer of minder spasie benodig word.
-3. **Draadinisialisering:** Die `__pthread_init()`-funksie is noodsaaklik tydens draadopstelling, waar die `env[]`-argument gebruik word om omgewingsveranderlikes te ontled wat besonderhede oor die stok se ligging en grootte kan insluit.
+1. **POSIX-Threads (pthreads):** macOS unterstützt POSIX-Threads (`pthreads`), die Teil einer standardisierten Thread-API für C/C++ sind. Die Implementierung von pthreads in macOS befindet sich in `/usr/lib/system/libsystem_pthread.dylib`, die aus dem öffentlich verfügbaren `libpthread`-Projekt stammt. Diese Bibliothek bietet die notwendigen Funktionen zur Erstellung und Verwaltung von Threads.
+2. **Threads erstellen:** Die Funktion `pthread_create()` wird verwendet, um neue Threads zu erstellen. Intern ruft diese Funktion `bsdthread_create()` auf, einen niedrigeren Systemaufruf, der spezifisch für den XNU-Kernel (den Kernel, auf dem macOS basiert) ist. Dieser Systemaufruf nimmt verschiedene Flags entgegen, die aus `pthread_attr` (Attributen) abgeleitet sind und das Verhalten des Threads spezifizieren, einschließlich der Planungsrichtlinien und der Stackgröße.
+* **Standard-Stackgröße:** Die Standard-Stackgröße für neue Threads beträgt 512 KB, was für typische Operationen ausreichend ist, aber über Thread-Attribute angepasst werden kann, wenn mehr oder weniger Platz benötigt wird.
+3. **Thread-Initialisierung:** Die Funktion `__pthread_init()` ist während der Thread-Einrichtung entscheidend und nutzt das Argument `env[]`, um Umgebungsvariablen zu parsen, die Details über den Standort und die Größe des Stacks enthalten können.
 
-#### Draad Beëindiging in macOS
+#### Thread-Beendigung in macOS
 
-1. **Draad Uittree:** Drade word tipies beëindig deur `pthread_exit()` aan te roep. Hierdie funksie laat 'n draad toe om skoon uit te tree, nodige skoonmaakwerk te doen en die draad toe te laat om 'n terugvoerwaarde terug te stuur na enige aansluiters.
-2. **Draad Skoonmaak:** Na die aanroep van `pthread_exit()`, word die funksie `pthread_terminate()` geaktiveer, wat die verwydering van alle geassosieerde draadstrukture hanteer. Dit deallokeer Mach-draadpoorte (Mach is die kommunikasiestelsel in die XNU-kernel) en roep `bsdthread_terminate` aan, 'n sisteemaanroep wat die kernelvlakstrukture verwyder wat met die draad geassosieer is.
+1. **Threads beenden:** Threads werden typischerweise durch den Aufruf von `pthread_exit()` beendet. Diese Funktion ermöglicht es einem Thread, sauber zu beenden, notwendige Aufräumarbeiten durchzuführen und dem Thread zu erlauben, einen Rückgabewert an alle Joiner zu senden.
+2. **Thread-Aufräumung:** Nach dem Aufruf von `pthread_exit()` wird die Funktion `pthread_terminate()` aufgerufen, die die Entfernung aller zugehörigen Thread-Strukturen behandelt. Sie gibt Mach-Thread-Ports frei (Mach ist das Kommunikationssubsystem im XNU-Kernel) und ruft `bsdthread_terminate` auf, einen Systemaufruf, der die kernelseitigen Strukturen, die mit dem Thread verbunden sind, entfernt.
 
-#### Sinksronisasie Meganismes
+#### Synchronisationsmechanismen
 
-Om toegang tot gedeelde bronne te bestuur en wedloopvoorwaardes te vermy, voorsien macOS verskeie sinksronisasieprimitiewe. Hierdie is krities in multi-draad-omgewings om data-integriteit en stelselstabiliteit te verseker:
+Um den Zugriff auf gemeinsame Ressourcen zu verwalten und Rennbedingungen zu vermeiden, bietet macOS mehrere Synchronisationsprimitive. Diese sind entscheidend in Multi-Threading-Umgebungen, um die Datenintegrität und Systemstabilität zu gewährleisten:
 
-1. **Mutexes:**
-* **Gewone Mutex (Handtekening: 0x4D555458):** Standaard mutex met 'n geheueafdruk van 60 byte (56 byte vir die mutex en 4 byte vir die handtekening).
-* **Vinnige Mutex (Handtekening: 0x4d55545A):** Soortgelyk aan 'n gewone mutex, maar geoptimeer vir vinniger werksaamhede, ook 60 byte groot.
-2. **Toestandsveranderlikes:**
-* Gebruik vir wag vir sekere toestande om voor te kom, met 'n grootte van 44 byte (40 byte plus 'n 4-byte handtekening).
-* **Toestandsveranderlike Eienskappe (Handtekening: 0x434e4441):** Konfigurasie-eienskappe vir toestandsveranderlikes, grootte van 12 byte.
-3. **Eenkeer Veranderlike (Handtekening: 0x4f4e4345):**
-* Verseker dat 'n stuk inisialisasiekode slegs een keer uitgevoer word. Dit is 12 byte groot.
-4. **Lees-Skryfslotte:**
-* Laat meerdere lesers of een skrywer op 'n slag toe, wat doeltreffende toegang tot gedeelde data fasiliteer.
-* **Lees-Skryfslot (Handtekening: 0x52574c4b):** Grootte van 196 byte.
-* **Lees-Skryfslot Eienskappe (Handtekening: 0x52574c41):** Eienskappe vir lees-skryfsluite, grootte van 20 byte.
+1. **Mutexe:**
+* **Regulärer Mutex (Signatur: 0x4D555458):** Standard-Mutex mit einem Speicherbedarf von 60 Bytes (56 Bytes für den Mutex und 4 Bytes für die Signatur).
+* **Schneller Mutex (Signatur: 0x4d55545A):** Ähnlich wie ein regulärer Mutex, aber für schnellere Operationen optimiert, ebenfalls 60 Bytes groß.
+2. **Bedingungsvariablen:**
+* Wird verwendet, um auf das Eintreten bestimmter Bedingungen zu warten, mit einer Größe von 44 Bytes (40 Bytes plus eine 4-Byte-Signatur).
+* **Bedingungsvariablenattribute (Signatur: 0x434e4441):** Konfigurationsattribute für Bedingungsvariablen, mit einer Größe von 12 Bytes.
+3. **Once-Variable (Signatur: 0x4f4e4345):**
+* Stellt sicher, dass ein Stück Initialisierungscode nur einmal ausgeführt wird. Ihre Größe beträgt 12 Bytes.
+4. **Lese-Schreib-Sperren:**
+* Ermöglicht mehreren Lesern oder einem Schreiber gleichzeitig den Zugriff und erleichtert den effizienten Zugriff auf gemeinsame Daten.
+* **Lese-Schreib-Sperre (Signatur: 0x52574c4b):** Größe von 196 Bytes.
+* **Lese-Schreib-Sperrenattribute (Signatur: 0x52574c41):** Attribute für Lese-Schreib-Sperren, 20 Bytes groß.
 
 {% hint style="success" %}
-Die laaste 4 byte van daardie voorwerpe word gebruik om oorvloei te bepaal.
+Die letzten 4 Bytes dieser Objekte werden verwendet, um Überläufe zu erkennen.
 {% endhint %}
 
-### Draad Plaaslike Veranderlikes (TLV)
+### Thread-lokale Variablen (TLV)
 
-**Draad Plaaslike Veranderlikes (TLV)** in die konteks van Mach-O-lêers (die formaat vir uitvoerbare lêers in macOS) word gebruik om veranderlikes te verklaar wat spesifiek is vir **elke draad** in 'n multi-draad-toepassing. Dit verseker dat elke draad sy eie aparte instansie van 'n veranderlike het, wat 'n manier bied om konflikte te vermy en data-integriteit te handhaaf sonder om eksplisiete sinksronisasie-meganismes soos mutexes nodig te hê.
+**Thread-lokale Variablen (TLV)** im Kontext von Mach-O-Dateien (dem Format für ausführbare Dateien in macOS) werden verwendet, um Variablen zu deklarieren, die spezifisch für **jeden Thread** in einer Multi-Thread-Anwendung sind. Dies stellt sicher, dass jeder Thread seine eigene separate Instanz einer Variablen hat, was eine Möglichkeit bietet, Konflikte zu vermeiden und die Datenintegrität aufrechtzuerhalten, ohne explizite Synchronisationsmechanismen wie Mutexe zu benötigen.
 
-In C en verwante tale kan jy 'n draad-plaaslike veranderlike verklaar deur die **`__thread`** sleutelwoord te gebruik. Hier is hoe dit werk in jou voorbeeld:
+In C und verwandten Sprachen können Sie eine thread-lokale Variable mit dem **`__thread`**-Schlüsselwort deklarieren. So funktioniert es in Ihrem Beispiel:
 ```c
 cCopy code__thread int tlv_var;
 
@@ -114,140 +114,141 @@ void main (int argc, char **argv){
 tlv_var = 10;
 }
 ```
-Hierdie snipper definieer `tlv_var` as 'n draad-plaaslike veranderlike. Elke draad wat hierdie kode hardloop, sal sy eie `tlv_var` hê, en veranderinge wat een draad aan `tlv_var` maak, sal nie `tlv_var` in 'n ander draad beïnvloed nie.
+Dieses Snippet definiert `tlv_var` als eine thread-lokale Variable. Jeder Thread, der diesen Code ausführt, hat sein eigenes `tlv_var`, und Änderungen, die ein Thread an `tlv_var` vornimmt, wirken sich nicht auf `tlv_var` in einem anderen Thread aus.
 
-In die Mach-O binêre lêer is die data wat verband hou met draad-plaaslike veranderlikes georganiseer in spesifieke seksies:
+Im Mach-O-Binary sind die Daten, die mit thread-lokalen Variablen verbunden sind, in spezifischen Abschnitten organisiert:
 
-* **`__DATA.__thread_vars`**: Hierdie seksie bevat die metadata oor die draad-plaaslike veranderlikes, soos hul tipes en inisialisasiestatus.
-* **`__DATA.__thread_bss`**: Hierdie seksie word gebruik vir draad-plaaslike veranderlikes wat nie eksplisiet geïnisialiseer is nie. Dit is 'n deel van die geheue wat apart gesit word vir nul-geïnisialiseerde data.
+* **`__DATA.__thread_vars`**: Dieser Abschnitt enthält die Metadaten über die thread-lokalen Variablen, wie ihre Typen und den Initialisierungsstatus.
+* **`__DATA.__thread_bss`**: Dieser Abschnitt wird für thread-lokale Variablen verwendet, die nicht explizit initialisiert sind. Es ist ein Teil des Speichers, der für null-initialisierte Daten reserviert ist.
 
-Mach-O bied ook 'n spesifieke API genaamd **`tlv_atexit`** om draad-plaaslike veranderlikes te bestuur wanneer 'n draad eindig. Hierdie API laat jou toe om **destruktore te registreer**—spesiale funksies wat draad-plaaslike data skoonmaak wanneer 'n draad beëindig.
+Mach-O bietet auch eine spezifische API namens **`tlv_atexit`**, um thread-lokale Variablen zu verwalten, wenn ein Thread beendet wird. Diese API ermöglicht es Ihnen, **Destruktoren** zu registrieren – spezielle Funktionen, die thread-lokale Daten bereinigen, wenn ein Thread endet.
 
-### Draad Prioriteite
+### Thread-Prioritäten
 
-Die begrip van draad prioriteite behels om te kyk na hoe die bedryfstelsel besluit watter drade om uit te voer en wanneer. Hierdie besluit word beïnvloed deur die prioriteitsvlak wat aan elke draad toegewys is. In macOS en Unix-soortgelyke stelsels word dit hanteer deur konsepte soos `nice`, `renice`, en Kwaliteit van Diens (QoS) klasse.
+Das Verständnis von Thread-Prioritäten beinhaltet, wie das Betriebssystem entscheidet, welche Threads ausgeführt werden und wann. Diese Entscheidung wird durch das Prioritätsniveau beeinflusst, das jedem Thread zugewiesen ist. In macOS und Unix-ähnlichen Systemen wird dies mit Konzepten wie `nice`, `renice` und Quality of Service (QoS) Klassen gehandhabt.
 
-#### Nice en Renice
+#### Nice und Renice
 
 1. **Nice:**
-* Die `nice` waarde van 'n proses is 'n nommer wat sy prioriteit beïnvloed. Elke proses het 'n nice waarde wat wissel tussen -20 (die hoogste prioriteit) en 19 (die laagste prioriteit). Die verstek nice waarde wanneer 'n proses geskep word, is tipies 0.
-* 'n Laer nice waarde (nader aan -20) maak 'n proses meer "selfsugtig," en gee dit meer CPU-tyd in vergelyking met ander prosesse met hoër nice waardes.
+* Der `nice`-Wert eines Prozesses ist eine Zahl, die seine Priorität beeinflusst. Jeder Prozess hat einen nice-Wert, der von -20 (höchste Priorität) bis 19 (niedrigste Priorität) reicht. Der Standard-nice-Wert, wenn ein Prozess erstellt wird, ist typischerweise 0.
+* Ein niedrigerer nice-Wert (näher an -20) macht einen Prozess "egoistischer" und gibt ihm mehr CPU-Zeit im Vergleich zu anderen Prozessen mit höheren nice-Werten.
 2. **Renice:**
-* `renice` is 'n bevel wat gebruik word om die nice waarde van 'n reeds lopende proses te verander. Dit kan gebruik word om dinamies die prioriteit van prosesse aan te pas, deur hul CPU-tydtoekenning te verhoog of te verlaag gebaseer op nuwe nice waardes.
-* Byvoorbeeld, as 'n proses tydelik meer CPU-hulpbronne benodig, kan jy sy nice waarde verlaag met behulp van `renice`.
+* `renice` ist ein Befehl, der verwendet wird, um den nice-Wert eines bereits laufenden Prozesses zu ändern. Dies kann verwendet werden, um die Priorität von Prozessen dynamisch anzupassen, indem entweder ihre CPU-Zeit-Zuweisung basierend auf neuen nice-Werten erhöht oder verringert wird.
+* Zum Beispiel, wenn ein Prozess vorübergehend mehr CPU-Ressourcen benötigt, könnten Sie seinen nice-Wert mit `renice` senken.
 
-#### Kwaliteit van Diens (QoS) Klasse
+#### Quality of Service (QoS) Klassen
 
-QoS klasse is 'n meer moderne benadering tot die hanteer van draad prioriteite, veral in stelsels soos macOS wat **Grand Central Dispatch (GCD)** ondersteun. QoS klasse laat ontwikkelaars toe om werk te **kategoriseer** in verskillende vlakke gebaseer op hul belangrikheid of dringendheid. macOS bestuur draad prioritisering outomaties gebaseer op hierdie QoS klasse:
+QoS-Klassen sind ein modernerer Ansatz zur Handhabung von Thread-Prioritäten, insbesondere in Systemen wie macOS, die **Grand Central Dispatch (GCD)** unterstützen. QoS-Klassen ermöglichen es Entwicklern, Arbeiten in verschiedene Ebenen basierend auf ihrer Wichtigkeit oder Dringlichkeit zu **kategorisieren**. macOS verwaltet die Thread-Priorisierung automatisch basierend auf diesen QoS-Klassen:
 
-1. **Gebruiker Interaktief:**
-* Hierdie klas is vir take wat tans met die gebruiker interaksie het of onmiddellike resultate benodig om 'n goeie gebruikerervaring te bied. Hierdie take kry die hoogste prioriteit om die koppelvlak responsief te hou (bv. animasies of gebeurtenishantering).
-2. **Gebruiker Geïnisieer:**
-* Take wat die gebruiker inisieer en onmiddellike resultate verwag, soos die oopmaak van 'n dokument of die klik op 'n knoppie wat berekeninge benodig. Hierdie take is hoë prioriteit, maar onder gebruiker interaktief.
-3. **Hulpprogram:**
-* Hierdie take is langdurig en toon tipies 'n vordering aanwyser (bv. lêers aflaai, data invoer). Hulle is laer in prioriteit as gebruiker-geïnisieerde take en hoef nie onmiddellik klaar te wees nie.
-4. **Agtergrond:**
-* Hierdie klas is vir take wat in die agtergrond werk en nie sigbaar is vir die gebruiker nie. Dit kan take soos indeksering, sinchronisering, of rugsteun wees. Hulle het die laagste prioriteit en minimale impak op stelselverrigting.
+1. **Benutzerinteraktiv:**
+* Diese Klasse ist für Aufgaben, die derzeit mit dem Benutzer interagieren oder sofortige Ergebnisse erfordern, um eine gute Benutzererfahrung zu bieten. Diese Aufgaben erhalten die höchste Priorität, um die Benutzeroberfläche reaktionsschnell zu halten (z. B. Animationen oder Ereignisbehandlung).
+2. **Benutzerinitiiert:**
+* Aufgaben, die der Benutzer initiiert und sofortige Ergebnisse erwartet, wie das Öffnen eines Dokuments oder das Klicken auf eine Schaltfläche, die Berechnungen erfordert. Diese haben eine hohe Priorität, liegen jedoch unter benutzerinteraktiven Aufgaben.
+3. **Dienstprogramm:**
+* Diese Aufgaben sind langlaufend und zeigen typischerweise einen Fortschrittsindikator an (z. B. Dateien herunterladen, Daten importieren). Sie haben eine niedrigere Priorität als benutzerinitiierte Aufgaben und müssen nicht sofort abgeschlossen werden.
+4. **Hintergrund:**
+* Diese Klasse ist für Aufgaben, die im Hintergrund arbeiten und für den Benutzer nicht sichtbar sind. Dazu können Aufgaben wie Indizierung, Synchronisierung oder Backups gehören. Sie haben die niedrigste Priorität und einen minimalen Einfluss auf die Systemleistung.
 
-Deur QoS klasse te gebruik, hoef ontwikkelaars nie die presiese prioriteitsgetalle te bestuur nie, maar eerder te fokus op die aard van die taak, en die stelsel optimaliseer die CPU-hulpbronne dienooreenkomstig.
+Durch die Verwendung von QoS-Klassen müssen Entwickler die genauen Prioritätszahlen nicht verwalten, sondern sich auf die Art der Aufgabe konzentrieren, und das System optimiert die CPU-Ressourcen entsprechend.
 
-Daarbenewens is daar verskillende **draad skeduleringsbeleide** wat vloei om 'n stel skeduleringsparameters te spesifiseer wat die skeduler in ag sal neem. Dit kan gedoen word met behulp van `thread_policy_[set/get]`. Dit kan nuttig wees in wedloopvoorwaarde aanvalle.
+Darüber hinaus gibt es verschiedene **Thread-Planungspolitiken**, die eine Reihe von Planungsparametern spezifizieren, die der Scheduler berücksichtigen wird. Dies kann mit `thread_policy_[set/get]` durchgeführt werden. Dies könnte in Race-Condition-Angriffen nützlich sein.
 
-## MacOS Proseshandeling
+## MacOS Prozessmissbrauch
 
-MacOS, soos enige ander bedryfstelsel, bied 'n verskeidenheid metodes en meganismes vir **prosesse om te interaksieer, kommunikeer, en data te deel**. Terwyl hierdie tegnieke noodsaaklik is vir doeltreffende stelselwerking, kan dit ook misbruik word deur bedreigingsakteurs om **booswillige aktiwiteite uit te voer**.
+MacOS bietet, wie jedes andere Betriebssystem, eine Vielzahl von Methoden und Mechanismen, damit **Prozesse interagieren, kommunizieren und Daten teilen**. Während diese Techniken für das effiziente Funktionieren des Systems unerlässlich sind, können sie auch von Bedrohungsakteuren missbraucht werden, um **böswillige Aktivitäten** durchzuführen.
 
-### Biblioteekinspuiting
+### Bibliotheksinjektion
 
-Biblioteekinspuiting is 'n tegniek waarin 'n aanvaller **'n proses dwing om 'n booswillige biblioteek te laai**. Sodra ingespuit, hardloop die biblioteek in die konteks van die teikenproses, wat die aanvaller dieselfde toestemmings en toegang gee as die proses.
+Bibliotheksinjektion ist eine Technik, bei der ein Angreifer **einen Prozess zwingt, eine bösartige Bibliothek zu laden**. Nach der Injektion läuft die Bibliothek im Kontext des Zielprozesses und gibt dem Angreifer die gleichen Berechtigungen und den gleichen Zugriff wie der Prozess.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Funksiehaak
+### Funktionshooking
 
-Funksiehaak behels **die onderskepping van funksie-oproepe** of boodskappe binne 'n sagtewarekode. Deur funksies te haak, kan 'n aanvaller **die gedrag** van 'n proses wysig, sensitiewe data waarneem, of selfs beheer oor die uitvoervloei verkry.
+Funktionshooking beinhaltet das **Abfangen von Funktionsaufrufen** oder Nachrichten innerhalb eines Softwarecodes. Durch das Hooken von Funktionen kann ein Angreifer das **Verhalten** eines Prozesses ändern, sensible Daten beobachten oder sogar die Ausführungsreihenfolge kontrollieren.
 
 {% content-ref url="macos-function-hooking.md" %}
 [macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Interproseskommunikasie
+### Interprozesskommunikation
 
-Interproseskommunikasie (IPC) verwys na verskillende metodes waardeur afsonderlike prosesse **data deel en uitruil**. Terwyl IPC fundamenteel is vir baie wettige toepassings, kan dit ook misbruik word om prosesisolasie te omseil, sensitiewe inligting te lek, of ongemagtigde aksies uit te voer.
+Interprozesskommunikation (IPC) bezieht sich auf verschiedene Methoden, durch die separate Prozesse **Daten teilen und austauschen**. Während IPC für viele legitime Anwendungen grundlegend ist, kann es auch missbraucht werden, um die Prozessisolierung zu untergraben, sensible Informationen zu leaken oder unbefugte Aktionen durchzuführen.
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Elektron Toepassingsinspuiting
+### Electron-Anwendungsinjektion
 
-Elektron-toepassings wat uitgevoer word met spesifieke omgewingsveranderlikes kan vatbaar wees vir prosesinspuiting:
+Electron-Anwendungen, die mit bestimmten Umgebungsvariablen ausgeführt werden, könnten anfällig für Prozessinjektionen sein:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Chromium Inspuiting
+### Chromium-Injektion
 
-Dit is moontlik om die vlae `--load-extension` en `--use-fake-ui-for-media-stream` te gebruik om 'n **man in die blaaier aanval** uit te voer wat toelaat om toetsaanslae, verkeer, koekies te steel, skripte in bladsye in te spuit...:
+Es ist möglich, die Flags `--load-extension` und `--use-fake-ui-for-media-stream` zu verwenden, um einen **Man-in-the-Browser-Angriff** durchzuführen, der es ermöglicht, Tastenanschläge, Datenverkehr, Cookies zu stehlen und Skripte in Seiten einzufügen...:
 
 {% content-ref url="macos-chromium-injection.md" %}
 [macos-chromium-injection.md](macos-chromium-injection.md)
 {% endcontent-ref %}
 
-### Vuil NIB
+### Dirty NIB
 
-NIB-lêers **definieer gebruikerskoppelvlak (UI) elemente** en hul interaksies binne 'n toepassing. Tog kan hulle **willekeurige bevele uitvoer** en **Gatekeeper stop nie** 'n reeds uitgevoerde toepassing van uitvoering as 'n **NIB-lêer gewysig** word nie. Daarom kan hulle gebruik word om willekeurige programme willekeurige bevele te laat uitvoer:
+NIB-Dateien **definieren Benutzeroberflächenelemente (UI)** und deren Interaktionen innerhalb einer Anwendung. Sie können jedoch **willkürliche Befehle ausführen**, und **Gatekeeper stoppt nicht**, dass eine bereits ausgeführte Anwendung ausgeführt wird, wenn eine **NIB-Datei geändert wird**. Daher könnten sie verwendet werden, um beliebige Programme willkürliche Befehle ausführen zu lassen:
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Java Toepassingsinspuiting
+### Java-Anwendungsinjektion
 
-Dit is moontlik om sekere Java-vermoëns (soos die **`_JAVA_OPTS`** omgewingsveranderlike) te misbruik om 'n Java-toepassing **willekeurige kode/bevele** te laat uitvoer.
+Es ist möglich, bestimmte Java-Funktionen (wie die **`_JAVA_OPTS`**-Umgebungsvariable) zu missbrauchen, um eine Java-Anwendung **willkürlichen Code/Befehle** ausführen zu lassen.
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### .Net Toepassingsinspuiting
+### .Net-Anwendungsinjektion
 
-Dit is moontlik om kode in .Net-toepassings in te spuit deur **die .Net aflynfunksionaliteit te misbruik** (nie beskerm deur macOS-beskermings soos harding van uitvoertyd).
+Es ist möglich, Code in .Net-Anwendungen zu injizieren, indem man **die .Net-Debugging-Funktionalität missbraucht** (nicht durch macOS-Schutzmaßnahmen wie Runtime-Härtung geschützt).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Perl Inspuiting
+### Perl-Injektion
 
-Kyk na verskillende opsies om 'n Perl-skrip willekeurige kode te laat uitvoer in:
+Überprüfen Sie verschiedene Optionen, um ein Perl-Skript willkürlichen Code ausführen zu lassen in:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
-### Ruby Inspuiting
+### Ruby-Injektion
 
-Dit is ook moontlik om Ruby-omgewingsveranderlikes te misbruik om willekeurige skripte willekeurige kode te laat uitvoer:
+Es ist auch möglich, Ruby-Umgebungsvariablen zu missbrauchen, um willkürliche Skripte willkürlichen Code ausführen zu lassen:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
-### Python Injectering
 
-Indien die omgewingsveranderlike **`PYTHONINSPECT`** ingestel is, sal die python-proses in 'n python-cli val sodra dit klaar is. Dit is ook moontlik om **`PYTHONSTARTUP`** te gebruik om 'n python-skrip aan te dui wat aan die begin van 'n interaktiewe sessie uitgevoer moet word.\
-Let egter daarop dat die **`PYTHONSTARTUP`** skrip nie uitgevoer sal word wanneer **`PYTHONINSPECT`** die interaktiewe sessie skep nie.
+### Python-Injektion
 
-Ander omgewingsveranderlikes soos **`PYTHONPATH`** en **`PYTHONHOME`** kan ook nuttig wees om 'n python-opdrag arbitrêre kode te laat uitvoer.
+Wenn die Umgebungsvariable **`PYTHONINSPECT`** gesetzt ist, wird der Python-Prozess in eine Python-CLI wechseln, sobald er beendet ist. Es ist auch möglich, **`PYTHONSTARTUP`** zu verwenden, um ein Python-Skript anzugeben, das zu Beginn einer interaktiven Sitzung ausgeführt werden soll.\
+Beachten Sie jedoch, dass das **`PYTHONSTARTUP`**-Skript nicht ausgeführt wird, wenn **`PYTHONINSPECT`** die interaktive Sitzung erstellt.
 
-Let daarop dat uitvoerbare lêers wat met **`pyinstaller`** saamgestel is, nie hierdie omgewingsveranderlikes sal gebruik nie, selfs as hulle uitgevoer word met 'n ingeslote python.
+Andere Umgebungsvariablen wie **`PYTHONPATH`** und **`PYTHONHOME`** könnten ebenfalls nützlich sein, um einen Python-Befehl willkürlichen Code ausführen zu lassen.
+
+Beachten Sie, dass ausführbare Dateien, die mit **`pyinstaller`** kompiliert wurden, diese Umgebungsvariablen nicht verwenden, auch wenn sie mit einem eingebetteten Python ausgeführt werden.
 
 {% hint style="danger" %}
-Oor die algemeen kon ek nie 'n manier vind om python arbitrêre kode te laat uitvoer deur omgewingsveranderlikes te misbruik nie.\
-Meeste mense installeer egter pyhton met **Hombrew**, wat pyhton in 'n **skryfbare ligging** vir die verstek-admin-gebruiker sal installeer. Jy kan dit oorneem met iets soos:
+Insgesamt konnte ich keinen Weg finden, um Python willkürlichen Code durch den Missbrauch von Umgebungsvariablen auszuführen.\
+Die meisten Leute installieren jedoch Python mit **Homebrew**, was Python an einem **beschreibbaren Ort** für den Standard-Admin-Benutzer installiert. Sie können es mit etwas wie:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -257,42 +258,42 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-Selfs **root** sal hierdie kode hardloop wanneer python uitgevoer word.
+Even **root** wird diesen Code ausführen, wenn Python ausgeführt wird.
 {% endhint %}
 
-## Opmerking
+## Erkennung
 
-### Skild
+### Shield
 
-[**Skild**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is 'n oopbron toepassing wat **proses inspuiting kan opspoor en blokkeer**:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) ist eine Open-Source-Anwendung, die **Prozessinjektions**-Aktionen **erkennen und blockieren** kann:
 
-* Deur **Omgewingsveranderlikes** te gebruik: Dit sal die teenwoordigheid van enige van die volgende omgewingsveranderlikes monitor: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** en **`ELECTRON_RUN_AS_NODE`**
-* Deur **`task_for_pid`** oproepe te gebruik: Om te vind wanneer een proses die **taakpoort van 'n ander** wil kry wat dit moontlik maak om kode in die proses in te spuit.
-* **Electron apps parameters**: Iemand kan **`--inspect`**, **`--inspect-brk`** en **`--remote-debugging-port`** bevellyn argument gebruik om 'n Electron app in afstemmingsmodus te begin, en sodoende kode daarin in te spuit.
-* Deur **symboliese skakels** of **harde skakels** te gebruik: Tipies is die mees algemene misbruik om 'n skakel met ons gebruikersbevoegdhede te **plaas**, en dit na 'n hoër bevoorregte ligging te **rig**. Die opsporing is baie eenvoudig vir beide harde skakels en simboliese skakels. As die proses wat die skakel skep 'n **verskillende bevoorregtingsvlak** as die teikenlêer het, skep ons 'n **waarskuwing**. Ongelukkig is blokkering in die geval van simboliese skakels nie moontlik nie, aangesien ons nie vooraf inligting oor die bestemming van die skakel het nie. Dit is 'n beperking van Apple se EndpointSecuriy-raamwerk.
+* Verwendung von **Umgebungsvariablen**: Es wird die Anwesenheit einer der folgenden Umgebungsvariablen überwachen: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** und **`ELECTRON_RUN_AS_NODE`**
+* Verwendung von **`task_for_pid`**-Aufrufen: Um zu finden, wann ein Prozess den **Task-Port eines anderen** abrufen möchte, was das Injizieren von Code in den Prozess ermöglicht.
+* **Electron-App-Parameter**: Jemand kann die Befehlszeilenargumente **`--inspect`**, **`--inspect-brk`** und **`--remote-debugging-port`** verwenden, um eine Electron-App im Debugging-Modus zu starten und somit Code in sie einzufügen.
+* Verwendung von **Symlinks** oder **Hardlinks**: Typischerweise ist der häufigste Missbrauch, einen Link mit unseren Benutzerprivilegien zu **platzieren** und ihn auf einen Ort mit höheren Privilegien zu **verweisen**. Die Erkennung ist für sowohl Hardlinks als auch Symlinks sehr einfach. Wenn der Prozess, der den Link erstellt, ein **anderes Privilegieniveau** als die Zieldatei hat, erstellen wir einen **Alarm**. Leider ist im Fall von Symlinks eine Blockierung nicht möglich, da wir keine Informationen über das Ziel des Links vor der Erstellung haben. Dies ist eine Einschränkung des EndpointSecurity-Frameworks von Apple.
 
-### Oproepe gemaak deur ander prosesse
+### Aufrufe von anderen Prozessen
 
-In [**hierdie blogpos**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) kan jy vind hoe dit moontlik is om die funksie **`task_name_for_pid`** te gebruik om inligting oor ander **prosesse wat kode in 'n proses inspuit** te kry en dan inligting oor daardie ander proses te kry.
+In [**diesem Blogbeitrag**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) finden Sie, wie es möglich ist, die Funktion **`task_name_for_pid`** zu verwenden, um Informationen über andere **Prozesse, die Code in einen Prozess injizieren**, zu erhalten und dann Informationen über diesen anderen Prozess zu erhalten.
 
-Let daarop dat om daardie funksie te roep, moet jy **dieselfde uid** as die een wat die proses hardloop of **root** wees (en dit gee inligting oor die proses, nie 'n manier om kode in te spuit).
+Beachten Sie, dass Sie, um diese Funktion aufzurufen, **die gleiche UID** wie die des Prozesses haben müssen, der ausgeführt wird, oder **root** sein müssen (und es gibt Informationen über den Prozess zurück, nicht einen Weg, um Code zu injizieren).
 
-## Verwysings
+## Referenzen
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

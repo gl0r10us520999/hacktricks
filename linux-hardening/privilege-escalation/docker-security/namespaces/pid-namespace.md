@@ -1,39 +1,39 @@
-# PID Namespace
+# PID-Namespace
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-Die PID (Process IDentifier) naamruimte is 'n kenmerk in die Linux-kern wat prosesisolasie bied deur 'n groep prosesse in staat te stel om hul eie stel unieke PID's te hê, geskei van die PID's in ander naamruimtes. Dit is veral nuttig in kontenerisering, waar prosesisolasie noodsaaklik is vir sekuriteit en hulpbronbestuur.
+Der PID (Process IDentifier) Namespace ist eine Funktion im Linux-Kernel, die Prozessisolierung bietet, indem sie einer Gruppe von Prozessen ermöglicht, ihren eigenen Satz von einzigartigen PIDs zu haben, die von den PIDs in anderen Namespaces getrennt sind. Dies ist besonders nützlich in der Containerisierung, wo Prozessisolierung für Sicherheit und Ressourcenmanagement entscheidend ist.
 
-Wanneer 'n nuwe PID naamruimte geskep word, word die eerste proses in daardie naamruimte aan PID 1 toegeken. Hierdie proses word die "init" proses van die nuwe naamruimte en is verantwoordelik vir die bestuur van ander prosesse binne die naamruimte. Elke daaropvolgende proses wat binne die naamruimte geskep word, sal 'n unieke PID binne daardie naamruimte hê, en hierdie PID's sal onafhanklik wees van PID's in ander naamruimtes.
+Wenn ein neuer PID-Namespace erstellt wird, erhält der erste Prozess in diesem Namespace die PID 1. Dieser Prozess wird zum "init"-Prozess des neuen Namespaces und ist verantwortlich für die Verwaltung anderer Prozesse innerhalb des Namespaces. Jeder nachfolgende Prozess, der innerhalb des Namespaces erstellt wird, hat eine einzigartige PID innerhalb dieses Namespaces, und diese PIDs sind unabhängig von PIDs in anderen Namespaces.
 
-Van die perspektief van 'n proses binne 'n PID naamruimte, kan dit slegs ander prosesse in dieselfde naamruimte sien. Dit is nie bewus van prosesse in ander naamruimtes nie, en dit kan nie met hulle interaksie hê nie met behulp van tradisionele prosesbestuur gereedskap (bv. `kill`, `wait`, ens.). Dit bied 'n vlak van isolasie wat help om te voorkom dat prosesse mekaar steur.
+Aus der Perspektive eines Prozesses innerhalb eines PID-Namespaces kann dieser nur andere Prozesse im selben Namespace sehen. Er ist sich der Prozesse in anderen Namespaces nicht bewusst und kann nicht mit ihnen über traditionelle Prozessmanagement-Tools (z. B. `kill`, `wait` usw.) interagieren. Dies bietet ein Maß an Isolation, das hilft, zu verhindern, dass Prozesse sich gegenseitig stören.
 
-### How it works:
+### So funktioniert es:
 
-1. Wanneer 'n nuwe proses geskep word (bv. deur die `clone()` stelselaanroep te gebruik), kan die proses aan 'n nuwe of bestaande PID naamruimte toegeken word. **As 'n nuwe naamruimte geskep word, word die proses die "init" proses van daardie naamruimte**.
-2. Die **kern** handhaaf 'n **kaart tussen die PID's in die nuwe naamruimte en die ooreenstemmende PID's** in die ouer naamruimte (d.w.s. die naamruimte waaruit die nuwe naamruimte geskep is). Hierdie kaart **stel die kern in staat om PID's te vertaal wanneer nodig**, soos wanneer dit seine tussen prosesse in verskillende naamruimtes stuur.
-3. **Prosesse binne 'n PID naamruimte kan slegs ander prosesse in dieselfde naamruimte sien en met hulle interaksie hê**. Hulle is nie bewus van prosesse in ander naamruimtes nie, en hul PID's is uniek binne hul naamruimte.
-4. Wanneer 'n **PID naamruimte vernietig word** (bv. wanneer die "init" proses van die naamruimte verlaat), **word alle prosesse binne daardie naamruimte beëindig**. Dit verseker dat alle hulpbronne wat met die naamruimte geassosieer word, behoorlik skoongemaak word.
+1. Wenn ein neuer Prozess erstellt wird (z. B. durch Verwendung des `clone()`-Systemaufrufs), kann der Prozess einem neuen oder bestehenden PID-Namespace zugewiesen werden. **Wenn ein neuer Namespace erstellt wird, wird der Prozess zum "init"-Prozess dieses Namespaces**.
+2. Der **Kernel** verwaltet eine **Zuordnung zwischen den PIDs im neuen Namespace und den entsprechenden PIDs** im übergeordneten Namespace (d. h. dem Namespace, aus dem der neue Namespace erstellt wurde). Diese Zuordnung **ermöglicht es dem Kernel, PIDs bei Bedarf zu übersetzen**, z. B. beim Senden von Signalen zwischen Prozessen in verschiedenen Namespaces.
+3. **Prozesse innerhalb eines PID-Namespaces können nur andere Prozesse im selben Namespace sehen und mit ihnen interagieren**. Sie sind sich der Prozesse in anderen Namespaces nicht bewusst, und ihre PIDs sind innerhalb ihres Namespaces einzigartig.
+4. Wenn ein **PID-Namespace zerstört wird** (z. B. wenn der "init"-Prozess des Namespaces beendet wird), **werden alle Prozesse innerhalb dieses Namespaces beendet**. Dies stellt sicher, dass alle mit dem Namespace verbundenen Ressourcen ordnungsgemäß bereinigt werden.
 
-## Lab:
+## Labor:
 
-### Create different Namespaces
+### Verschiedene Namespaces erstellen
 
 #### CLI
 ```bash
@@ -41,38 +41,38 @@ sudo unshare -pf --mount-proc /bin/bash
 ```
 <details>
 
-<summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
+<summary>Fehler: bash: fork: Kann Speicher nicht zuweisen</summary>
 
-Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) name ruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler auf, der auf die Art und Weise zurückzuführen ist, wie Linux neue PID (Prozess-ID) Namespaces behandelt. Die wichtigsten Details und die Lösung sind unten aufgeführt:
 
-1. **Probleem Uitleg**:
-- Die Linux-kern laat 'n proses toe om nuwe name ruimtes te skep met die `unshare` stelselsoproep. egter, die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
-- Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weesprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
+1. **Problemerklärung**:
+- Der Linux-Kernel erlaubt es einem Prozess, neue Namespaces mit dem Systemaufruf `unshare` zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namespace initiiert (als "unshare" Prozess bezeichnet), tritt jedoch nicht in den neuen Namespace ein; nur seine Kindprozesse tun dies.
+- Das Ausführen von `%unshare -p /bin/bash%` startet `/bin/bash` im selben Prozess wie `unshare`. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namespace.
+- Der erste Kindprozess von `/bin/bash` im neuen Namespace wird PID 1. Wenn dieser Prozess beendet wird, löst dies die Bereinigung des Namespaces aus, wenn keine anderen Prozesse vorhanden sind, da PID 1 die besondere Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namespace.
 
-2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die mislukking van die `alloc_pid` funksie om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
+2. **Folge**:
+- Das Beenden von PID 1 in einem neuen Namespace führt zur Bereinigung des `PIDNS_HASH_ADDING` Flags. Dies führt dazu, dass die Funktion `alloc_pid` fehlschlägt, wenn sie versucht, eine neue PID zuzuweisen, was den Fehler "Kann Speicher nicht zuweisen" erzeugt.
 
-3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Die uitvoering van `%unshare -fp /bin/bash%` verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
+3. **Lösung**:
+- Das Problem kann gelöst werden, indem die Option `-f` mit `unshare` verwendet wird. Diese Option sorgt dafür, dass `unshare` einen neuen Prozess nach der Erstellung des neuen PID-Namespace forked.
+- Das Ausführen von `%unshare -fp /bin/bash%` stellt sicher, dass der `unshare` Befehl selbst PID 1 im neuen Namespace wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namespace enthalten, wodurch das vorzeitige Beenden von PID 1 verhindert wird und eine normale PID-Zuweisung ermöglicht wird.
 
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse funksioneer sonder om die geheue toewysing fout te ondervind.
+Indem sichergestellt wird, dass `unshare` mit dem `-f` Flag ausgeführt wird, wird der neue PID-Namespace korrekt aufrechterhalten, sodass `/bin/bash` und seine Unterprozesse ohne den Speicherzuweisungsfehler arbeiten können.
 
 </details>
 
-Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteer naamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
+Durch das Einhängen einer neuen Instanz des `/proc` Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Sicht auf die Prozessinformationen hat, die spezifisch für diesen Namespace sind**.
 
 #### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Kontroleer in watter naamruimte jou proses is
+### &#x20;Überprüfen, in welchem Namespace sich Ihr Prozess befindet
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-### Vind alle PID name ruimtes
+### Finde alle PID-Namensräume
 
 {% code overflow="wrap" %}
 ```bash
@@ -80,15 +80,15 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Let daarop dat die root gebruiker van die aanvanklike (standaard) PID naamruimte al die prosesse kan sien, selfs die in nuwe PID naamruimtes, daarom kan ons al die PID naamruimtes sien.
+Beachten Sie, dass der Root-Benutzer aus dem ursprünglichen (Standard-)PID-Namespace alle Prozesse sehen kann, selbst die in neuen PID-Namensräumen, weshalb wir alle PID-Namensräume sehen können.
 
-### Gaan binne 'n PID naamruimte in
+### Betreten eines PID-Namensraums
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
-Wanneer jy binne 'n PID namespace van die standaard namespace ingaan, sal jy steeds al die prosesse kan sien. En die proses van daardie PID ns sal die nuwe bash op die PID ns kan sien.
+Wenn Sie von dem Standard-Namespace in einen PID-Namespace eintreten, können Sie weiterhin alle Prozesse sehen. Und der Prozess aus diesem PID-Namespace kann die neue Bash im PID-Namespace sehen.
 
-Ook, jy kan slegs **in 'n ander proses PID namespace ingaan as jy root is**. En jy **kan nie** **in** 'n ander namespace **ingaan sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/pid`)
+Außerdem können Sie **nur in einen anderen Prozess-PID-Namespace eintreten, wenn Sie root sind**. Und Sie **können** **nicht** **in einen anderen Namespace eintreten** **ohne einen Deskriptor**, der darauf verweist (wie `/proc/self/ns/pid`)
 
 ## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)

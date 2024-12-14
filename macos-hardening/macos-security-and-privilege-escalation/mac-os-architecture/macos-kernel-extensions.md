@@ -15,39 +15,39 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-Kernel extensies (Kexts) is **pakkette** met 'n **`.kext`** uitbreiding wat **direk in die macOS-kernruimte gelaai** word, wat addisionele funksionaliteit aan die hoofbedryfstelsel bied.
+Kernel-Erweiterungen (Kexts) sind **Pakete** mit einer **`.kext`**-Erweiterung, die **direkt in den macOS-Kernelraum geladen werden**, um zusätzliche Funktionalität zum Hauptbetriebssystem bereitzustellen.
 
-### Requirements
+### Anforderungen
 
-Dit is duidelik dat dit so kragtig is dat dit **gekompliseerd is om 'n kernuitbreiding te laai**. Dit is die **vereistes** waaraan 'n kernuitbreiding moet voldoen om gelaai te word:
+Offensichtlich ist es so mächtig, dass es **kompliziert ist, eine Kernel-Erweiterung zu laden**. Dies sind die **Anforderungen**, die eine Kernel-Erweiterung erfüllen muss, um geladen zu werden:
 
-* Wanneer **jy herstelmodus binnegaan**, moet kern **uitbreidings toegelaat word** om gelaai te word:
+* Beim **Eintreten in den Wiederherstellungsmodus** müssen Kernel-**Erweiterungen erlaubt sein**, geladen zu werden:
 
 <figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* Die kernuitbreiding moet **onderteken wees met 'n kernkode-ondertekeningssertifikaat**, wat slegs **deur Apple** toegestaan kan word. Wie die maatskappy en die redes waarom dit nodig is, in detail sal hersien.
-* Die kernuitbreiding moet ook **notarized** wees, Apple sal dit vir malware kan nagaan.
-* Dan is die **root** gebruiker die een wat die **kernuitbreiding kan laai** en die lêers binne die pakket moet **aan root behoort**.
-* Tydens die oplaadproses moet die pakket in 'n **beskermde nie-root ligging** voorberei word: `/Library/StagedExtensions` (vereis die `com.apple.rootless.storage.KernelExtensionManagement` grant).
-* Laastens, wanneer daar probeer word om dit te laai, sal die gebruiker [**'n bevestigingsversoek ontvang**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) en, indien aanvaar, moet die rekenaar **herstart** word om dit te laai.
+* Die Kernel-Erweiterung muss **mit einem Kernel-Code-Signaturzertifikat signiert** sein, das nur von **Apple** erteilt werden kann. Wer das Unternehmen und die Gründe, warum es benötigt wird, im Detail überprüfen wird.
+* Die Kernel-Erweiterung muss auch **notariell beglaubigt** sein, Apple wird in der Lage sein, sie auf Malware zu überprüfen.
+* Dann ist der **Root**-Benutzer derjenige, der die **Kernel-Erweiterung laden** kann, und die Dateien im Paket müssen **dem Root gehören**.
+* Während des Upload-Prozesses muss das Paket an einem **geschützten Nicht-Root-Standort** vorbereitet werden: `/Library/StagedExtensions` (erfordert die Genehmigung `com.apple.rootless.storage.KernelExtensionManagement`).
+* Schließlich erhält der Benutzer beim Versuch, sie zu laden, eine [**Bestätigungsanfrage**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) und, wenn akzeptiert, muss der Computer **neu gestartet** werden, um sie zu laden.
 
-### Loading process
+### Ladeprozess
 
-In Catalina was dit soos volg: Dit is interessant om op te let dat die **verifikasie** proses in **userland** plaasvind. Dit is egter slegs toepassings met die **`com.apple.private.security.kext-management`** grant wat **die kern kan vra om 'n uitbreiding te laai**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+In Catalina war es so: Es ist interessant zu beachten, dass der **Überprüfungs**prozess in **Userland** erfolgt. Allerdings können nur Anwendungen mit der **`com.apple.private.security.kext-management`**-Genehmigung **den Kernel auffordern, eine Erweiterung zu laden**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** cli **begin** die **verifikasie** proses om 'n uitbreiding te laai
-* Dit sal met **`kextd`** praat deur 'n **Mach-diens** te gebruik.
-2. **`kextd`** sal verskeie dinge nagaan, soos die **handtekening**
-* Dit sal met **`syspolicyd`** praat om te **kontroleer** of die uitbreiding **gelaai** kan word.
-3. **`syspolicyd`** sal die **gebruiker** **vra** of die uitbreiding nie voorheen gelaai is nie.
-* **`syspolicyd`** sal die resultaat aan **`kextd`** rapporteer
-4. **`kextd`** sal uiteindelik in staat wees om die **kern te sê om** die uitbreiding te laai
+1. **`kextutil`** cli **startet** den **Überprüfungs**prozess zum Laden einer Erweiterung
+* Es wird mit **`kextd`** kommunizieren, indem es einen **Mach-Dienst** verwendet.
+2. **`kextd`** wird mehrere Dinge überprüfen, wie die **Signatur**
+* Es wird mit **`syspolicyd`** kommunizieren, um zu **überprüfen**, ob die Erweiterung **geladen** werden kann.
+3. **`syspolicyd`** wird den **Benutzer** **auffordern**, wenn die Erweiterung nicht zuvor geladen wurde.
+* **`syspolicyd`** wird das Ergebnis an **`kextd`** melden
+4. **`kextd`** wird schließlich in der Lage sein, dem Kernel zu **sagen, die Erweiterung zu laden**
 
-As **`kextd`** nie beskikbaar is nie, kan **`kextutil`** dieselfde kontroles uitvoer.
+Wenn **`kextd`** nicht verfügbar ist, kann **`kextutil`** die gleichen Überprüfungen durchführen.
 
-### Enumeration (loaded kexts)
+### Auflistung (geladene Kexts)
 ```bash
 # Get loaded kernel extensions
 kextstat
@@ -58,36 +58,36 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 ## Kernelcache
 
 {% hint style="danger" %}
-Alhoewel die kernel uitbreidings verwag word om in `/System/Library/Extensions/` te wees, as jy na hierdie gids gaan, **sal jy geen binêre vind** nie. Dit is as gevolg van die **kernelcache** en om een `.kext` te reverseer, moet jy 'n manier vind om dit te verkry.
+Obwohl die Kernel-Erweiterungen in `/System/Library/Extensions/` erwartet werden, wirst du in diesem Ordner **keine Binärdatei** finden. Das liegt am **Kernelcache**, und um eine `.kext` zurückzuverfolgen, musst du einen Weg finden, sie zu erhalten.
 {% endhint %}
 
-Die **kernelcache** is 'n **vooraf-gecompileerde en vooraf-gekoppelde weergawe van die XNU-kern**, saam met noodsaaklike toestel **drywers** en **kernel uitbreidings**. Dit word in 'n **gecomprimeerde** formaat gestoor en word tydens die opstartproses in geheue gedecomprimeer. Die kernelcache fasiliteer 'n **sneller opstarttyd** deur 'n gereed-om-te-loop weergawe van die kern en belangrike drywers beskikbaar te hê, wat die tyd en hulpbronne verminder wat andersins aan die dinamiese laai en koppeling van hierdie komponente tydens opstart bestee sou word.
+Der **Kernelcache** ist eine **vorkompilierte und vorverlinkte Version des XNU-Kernels**, zusammen mit wesentlichen Geräte-**Treibern** und **Kernel-Erweiterungen**. Er wird in einem **komprimierten** Format gespeichert und während des Bootvorgangs in den Arbeitsspeicher dekomprimiert. Der Kernelcache ermöglicht eine **schnellere Bootzeit**, indem eine sofort einsatzbereite Version des Kernels und wichtiger Treiber verfügbar ist, wodurch die Zeit und Ressourcen reduziert werden, die sonst für das dynamische Laden und Verlinken dieser Komponenten beim Booten benötigt würden.
 
-### Plaaslike Kernelcache
+### Lokaler Kernelcache
 
-In iOS is dit geleë in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS kan jy dit vind met: **`find / -name "kernelcache" 2>/dev/null`** \
-In my geval in macOS het ek dit gevind in:
+In iOS befindet er sich in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS kannst du ihn finden mit: **`find / -name "kernelcache" 2>/dev/null`** \
+In meinem Fall habe ich ihn in macOS gefunden in:
 
 * `/System/Volumes/Preboot/1BAEB4B5-180B-4C46-BD53-51152B7D92DA/boot/DAD35E7BC0CDA79634C20BD1BD80678DFB510B2AAD3D25C1228BB34BCD0A711529D3D571C93E29E1D0C1264750FA043F/System/Library/Caches/com.apple.kernelcaches/kernelcache`
 
 #### IMG4
 
-Die IMG4 lêerformaat is 'n houerformaat wat deur Apple in sy iOS en macOS toestelle gebruik word om firmware komponente veilig te **stoor en te verifieer** (soos **kernelcache**). Die IMG4 formaat sluit 'n kop en verskeie etikette in wat verskillende stukke data kapsuleer, insluitend die werklike payload (soos 'n kern of opstartlader), 'n handtekening, en 'n stel manifest eienskappe. Die formaat ondersteun kriptografiese verifikasie, wat die toestel toelaat om die egtheid en integriteit van die firmware komponent te bevestig voordat dit uitgevoer word.
+Das IMG4-Dateiformat ist ein Containerformat, das von Apple in seinen iOS- und macOS-Geräten verwendet wird, um Firmware-Komponenten (wie **Kernelcache**) sicher zu **speichern und zu verifizieren**. Das IMG4-Format umfasst einen Header und mehrere Tags, die verschiedene Datenstücke kapseln, einschließlich der tatsächlichen Nutzlast (wie einen Kernel oder Bootloader), einer Signatur und einer Reihe von Manifest-Eigenschaften. Das Format unterstützt die kryptografische Verifizierung, sodass das Gerät die Authentizität und Integrität der Firmware-Komponente bestätigen kann, bevor es sie ausführt.
 
-Dit bestaan gewoonlik uit die volgende komponente:
+Es besteht normalerweise aus den folgenden Komponenten:
 
-* **Payload (IM4P)**:
-* Gereeld gecomprimeer (LZFSE4, LZSS, …)
-* Opsioneel versleuteld
+* **Nutzlast (IM4P)**:
+* Oft komprimiert (LZFSE4, LZSS, …)
+* Optional verschlüsselt
 * **Manifest (IM4M)**:
-* Bevat Handtekening
-* Bykomende Sleutel/Waarde woordeboek
-* **Herstel Inligting (IM4R)**:
-* Ook bekend as APNonce
-* Voorkom die herhaling van sommige opdaterings
-* OPSIONEEL: Gewoonlik word dit nie gevind nie
+* Enthält Signatur
+* Zusätzliche Schlüssel/Wert-Dictionary
+* **Wiederherstellungsinfo (IM4R)**:
+* Auch bekannt als APNonce
+* Verhindert das Wiederholen einiger Updates
+* OPTIONALE: Normalerweise wird dies nicht gefunden
 
-Decompress die Kernelcache:
+Dekomprimiere den Kernelcache:
 ```bash
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -95,23 +95,23 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-### Laai af&#x20;
+### Download&#x20;
 
 * [**KernelDebugKit Github**](https://github.com/dortania/KdkSupportPkg/releases)
 
-In [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) is dit moontlik om al die kernel debug kits te vind. Jy kan dit aflaai, monteer, dit oopmaak met die [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html) hulpmiddel, toegang verkry tot die **`.kext`** gids en **uit te trek**.
+In [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) ist es möglich, alle Kernel-Debug-Kits zu finden. Sie können es herunterladen, einbinden, mit dem [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html) Tool öffnen, auf den **`.kext`** Ordner zugreifen und **es extrahieren**.
 
-Kontroleer dit vir simbole met:
+Überprüfen Sie es auf Symbole mit:
 ```bash
 nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 ```
 * [**theapplewiki.com**](https://theapplewiki.com/wiki/Firmware/Mac/14.x)**,** [**ipsw.me**](https://ipsw.me/)**,** [**theiphonewiki.com**](https://www.theiphonewiki.com/)
 
-Soms vry Apple **kernelcache** met **symbols**. Jy kan 'n paar firmware met symbols aflaai deur die skakels op daardie bladsye te volg. Die firmwares sal die **kernelcache** onder andere lêers bevat.
+Manchmal veröffentlicht Apple **kernelcache** mit **Symbolen**. Sie können einige Firmware-Versionen mit Symbolen über die Links auf diesen Seiten herunterladen. Die Firmware wird den **kernelcache** neben anderen Dateien enthalten.
 
-Om die lêers te **onttrek**, begin deur die uitbreiding van `.ipsw` na `.zip` te verander en dit te **ontpak**.
+Um die Dateien zu **extrahieren**, ändern Sie zunächst die Erweiterung von `.ipsw` in `.zip` und **entpacken** Sie sie.
 
-Na die ontrekking van die firmware sal jy 'n lêer soos: **`kernelcache.release.iphone14`** kry. Dit is in **IMG4** formaat, jy kan die interessante inligting ontbloot met:
+Nach dem Extrahieren der Firmware erhalten Sie eine Datei wie: **`kernelcache.release.iphone14`**. Sie ist im **IMG4**-Format, Sie können die interessanten Informationen mit:
 
 [**pyimg4**](https://github.com/m1stadev/PyIMG4)**:** 
 
@@ -127,11 +127,11 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
 ### Inspecting kernelcache
 
-Kontroleer of die kernelcache simbole het met
+Überprüfen Sie, ob der kernelcache Symbole mit
 ```bash
 nm -a kernelcache.release.iphone14.e | wc -l
 ```
-Met dit kan ons nou **alle uitbreidings** of die **een waarin jy belangstel** **onttrek:**
+Damit können wir jetzt **alle Erweiterungen extrahieren** oder die **eine, die Sie interessiert:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -148,22 +148,22 @@ nm -a binaries/com.apple.security.sandbox | wc -l
 
 
 
-## Verwysings
+## Referenzen
 
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

@@ -1,31 +1,31 @@
-# macOS .Net Applications Injection
+# macOS .Net-Anwendungen Injection
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-**Dit is 'n opsomming van die pos [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Kyk daarna vir verdere besonderhede!**
+**Dies ist eine Zusammenfassung des Beitrags [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Überprüfen Sie ihn für weitere Details!**
 
 ## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-### **Die Vestiging van 'n Debugging Sessie** <a href="#net-core-debugging" id="net-core-debugging"></a>
+### **Einrichten einer Debugging-Sitzung** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-Die hantering van kommunikasie tussen die debugger en debuggee in .NET word bestuur deur [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Hierdie komponent stel twee benoemde pype per .NET proses op soos gesien in [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), wat geinitieer word via [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Hierdie pype is gesuffikseerd met **`-in`** en **`-out`**.
+Die Handhabung der Kommunikation zwischen Debugger und Debuggee in .NET wird von [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp) verwaltet. Diese Komponente richtet zwei benannte Pipes pro .NET-Prozess ein, wie in [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127) zu sehen ist, die über [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27) initiiert werden. Diese Pipes sind mit **`-in`** und **`-out`** suffixiert.
 
-Deur die gebruiker se **`$TMPDIR`** te besoek, kan 'n mens debugging FIFOs vind wat beskikbaar is vir debugging .Net toepassings.
+Durch den Besuch des **`$TMPDIR`** des Benutzers kann man Debugging-FIFOs finden, die für das Debuggen von .Net-Anwendungen verfügbar sind.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) is verantwoordelik vir die bestuur van kommunikasie van 'n debugger. Om 'n nuwe debugging sessie te begin, moet 'n debugger 'n boodskap via die `out` pyp stuur wat begin met 'n `MessageHeader` struktuur, soos in die .NET bronskode uiteengesit:
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) ist verantwortlich für die Verwaltung der Kommunikation von einem Debugger. Um eine neue Debugging-Sitzung zu initiieren, muss ein Debugger eine Nachricht über die `out`-Pipe senden, die mit einer `MessageHeader`-Struktur beginnt, die im .NET-Quellcode detailliert beschrieben ist:
 ```c
 struct MessageHeader {
 MessageType   m_eType;        // Message type
@@ -44,7 +44,7 @@ DWORD         m_dwMinorVersion;
 BYTE          m_sMustBeZero[8];
 }
 ```
-Om 'n nuwe sessie aan te vra, word hierdie struktuur soos volg ingevul, wat die boodskap tipe op `MT_SessionRequest` stel en die protokol weergawe op die huidige weergawe:
+Um eine neue Sitzung anzufordern, wird diese Struktur wie folgt ausgefüllt, wobei der Nachrichtentyp auf `MT_SessionRequest` und die Protokollversion auf die aktuelle Version gesetzt wird:
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -55,18 +55,18 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMajorVersion = kCurrentMajorVersion
 sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion;
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-Hierdie kop is dan na die teiken gestuur met die `write` syscall, gevolg deur die `sessionRequestData` struktuur wat 'n GUID vir die sessie bevat:
+Dieser Header wird dann über den `write` syscall an das Ziel gesendet, gefolgt von der `sessionRequestData` Struktur, die eine GUID für die Sitzung enthält:
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-'n Leesoperasie op die `out`-pyp bevestig die sukses of mislukking van die debugging-sessie se vestiging:
+Ein Lesevorgang auf dem `out`-Pipe bestätigt den Erfolg oder Misserfolg der Einrichtung der Debugging-Sitzung:
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
-## Geheue Lees
-Sodra 'n foutopsporing sessie gevestig is, kan geheue gelees word met behulp van die [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) boodskap tipe. Die funksie readMemory is gedetailleerd, en voer die nodige stappe uit om 'n leesversoek te stuur en die antwoord te verkry:
+## Lesen des Speichers
+Sobald eine Debugging-Sitzung eingerichtet ist, kann der Speicher mit dem [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) Nachrichtentyp gelesen werden. Die Funktion readMemory ist detailliert und führt die notwendigen Schritte aus, um eine Leseanforderung zu senden und die Antwort abzurufen:
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -78,11 +78,11 @@ bool readMemory(void *addr, int len, unsigned char **output) {
 return true;
 }
 ```
-Die volledige bewys van konsep (POC) is beskikbaar [hier](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
+Der vollständige Proof of Concept (POC) ist [hier](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b) verfügbar.
 
-## Skryf Geheue
+## Schreiben in den Speicher
 
-Op soortgelyke wyse kan geheue geskryf word met die `writeMemory` funksie. Die proses behels om die boodskap tipe op `MT_WriteMemory` te stel, die adres en lengte van die data te spesifiseer, en dan die data te stuur:
+Ähnlich kann der Speicher mit der Funktion `writeMemory` beschrieben werden. Der Prozess umfasst das Setzen des Nachrichtentyps auf `MT_WriteMemory`, das Festlegen der Adresse und der Länge der Daten und das anschließende Senden der Daten:
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location
@@ -94,22 +94,22 @@ bool writeMemory(void *addr, int len, unsigned char *input) {
 return true;
 }
 ```
-Die geassosieerde POC is beskikbaar [hier](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5).
+Der zugehörige POC ist [hier](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5) verfügbar.
 
-## .NET Core Kode Uitvoering <a href="#net-core-code-execution" id="net-core-code-execution"></a>
+## .NET Core Codeausführung <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-Om kode uit te voer, moet 'n geheuegebied met rwx-toestemmings geïdentifiseer word, wat gedoen kan word met vmmap -pages:
+Um Code auszuführen, muss man einen Speicherbereich mit rwx-Berechtigungen identifizieren, was mit vmmap -pages: durchgeführt werden kann.
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-Locating a place to overwrite a function pointer is necessary, and in .NET Core, this can be done by targeting the **Dynamic Function Table (DFT)**. This table, detailed in [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), is used by the runtime for JIT compilation helper functions.
+Einen Ort zu finden, um einen Funktionszeiger zu überschreiben, ist notwendig, und in .NET Core kann dies durch das Anvisieren der **Dynamic Function Table (DFT)** erfolgen. Diese Tabelle, die in [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) detailliert beschrieben ist, wird von der Laufzeit für JIT-Kompilierungs-Hilfsfunktionen verwendet.
 
-Vir x64 stelsels kan handtekening jag gebruik word om 'n verwysing na die simbool `_hlpDynamicFuncTable` in `libcorclr.dll` te vind.
+Für x64-Systeme kann die Signaturjagd verwendet werden, um einen Verweis auf das Symbol `_hlpDynamicFuncTable` in `libcorclr.dll` zu finden.
 
-Die `MT_GetDCB` debuggingsfunksie bied nuttige inligting, insluitend die adres van 'n helper funksie, `m_helperRemoteStartAddr`, wat die ligging van `libcorclr.dll` in die prosesgeheue aandui. Hierdie adres word dan gebruik om 'n soektog na die DFT te begin en 'n funksie-aanwyser met die shellcode se adres te oorskryf.
+Die Debuggerfunktion `MT_GetDCB` liefert nützliche Informationen, einschließlich der Adresse einer Hilfsfunktion, `m_helperRemoteStartAddr`, die den Standort von `libcorclr.dll` im Prozessspeicher angibt. Diese Adresse wird dann verwendet, um eine Suche nach der DFT zu starten und einen Funktionszeiger mit der Adresse des Shellcodes zu überschreiben.
 
-The full POC code for injection into PowerShell is accessible [here](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
+Der vollständige POC-Code für die Injektion in PowerShell ist [hier](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6) zugänglich.
 
 ## References
 

@@ -1,107 +1,107 @@
-# macOS Sisteemuitbreidings
+# macOS System Extensions
 
 {% hint style="success" %}
-Leer en oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Sisteemuitbreidings / Eindpuntbeveiligingsraamwerk
+## System Extensions / Endpoint Security Framework
 
-In teenstelling met Kerneluitbreidings, **loop Sisteemuitbreidings in gebruikersruimte** in plaas van kernelruimte, wat die risiko van 'n stelselbotsing as gevolg van uitbreidingsfoute verminder.
+Im Gegensatz zu Kernel Extensions **laufen System Extensions im Benutzermodus** anstelle des Kernelmodus, was das Risiko eines Systemabsturzes aufgrund von Erweiterungsfehlern verringert.
 
 <figure><img src="../../../.gitbook/assets/image (606).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-Daar is drie tipes sisteemuitbreidings: **DriverKit**-uitbreidings, **Netwerk**-uitbreidings, en **Eindpuntbeveiliging**-uitbreidings.
+Es gibt drei Arten von Systemerweiterungen: **DriverKit**-Erweiterungen, **Netzwerk**-Erweiterungen und **Endpoint Security**-Erweiterungen.
 
-### **DriverKit-uitbreidings**
+### **DriverKit-Erweiterungen**
 
-DriverKit is 'n vervanging vir kerneluitbreidings wat **hardwaresondersteuning bied**. Dit maak dit moontlik vir toestuurprogramme (soos USB, Seriële, NIC, en HID-toestuurprogramme) om in gebruikersruimte te hardloop eerder as in kernelruimte. Die DriverKit-raamwerk sluit **gebruikersruimte-weergawes van sekere I/O Kit-klasse** in, en die kernel stuur normale I/O Kit-gebeure na gebruikersruimte, wat 'n veiliger omgewing bied vir hierdie toestuurprogramme om te hardloop.
+DriverKit ist ein Ersatz für Kernel-Erweiterungen, die **Hardwareunterstützung** bieten. Es ermöglicht Gerätetreibern (wie USB-, Serial-, NIC- und HID-Treibern), im Benutzermodus anstelle des Kernelmodus zu laufen. Das DriverKit-Framework umfasst **Benutzermodusversionen bestimmter I/O Kit-Klassen**, und der Kernel leitet normale I/O Kit-Ereignisse an den Benutzermodus weiter, was eine sicherere Umgebung für diese Treiber bietet.
 
-### **Netwerkuitbreidings**
+### **Netzwerk-Erweiterungen**
 
-Netwerkuitbreidings bied die vermoë om netwerkgedrag aan te pas. Daar is verskeie tipes Netwerkuitbreidings:
+Netzwerk-Erweiterungen bieten die Möglichkeit, Netzwerkverhalten anzupassen. Es gibt mehrere Arten von Netzwerk-Erweiterungen:
 
-* **Toepassingsproksi**: Dit word gebruik om 'n VPN-kliënt te skep wat 'n vloeigeoriënteerde, aangepaste VPN-protokol implementeer. Dit beteken dit hanteer netwerkverkeer op grond van verbindings (of vloeie) eerder as individuele pakkette.
-* **Pakketspoor**: Dit word gebruik om 'n VPN-kliënt te skep wat 'n pakketgeoriënteerde, aangepaste VPN-protokol implementeer. Dit beteken dit hanteer netwerkverkeer op grond van individuele pakkette.
-* **Filterdata**: Dit word gebruik om netwerk "vloeie" te filter. Dit kan netwerkdata op vloeivlak monitor of wysig.
-* **Filterpakkette**: Dit word gebruik om individuele netwerkpakkette te filter. Dit kan netwerkdata op pakketvlak monitor of wysig.
-* **DNS-proksi**: Dit word gebruik om 'n aangepaste DNS-lewerancier te skep. Dit kan gebruik word om DNS-versoeke en -antwoorde te monitor of wysig.
+* **App Proxy**: Dies wird verwendet, um einen VPN-Client zu erstellen, der ein flow-orientiertes, benutzerdefiniertes VPN-Protokoll implementiert. Das bedeutet, dass er den Netzwerkverkehr basierend auf Verbindungen (oder Flows) anstelle einzelner Pakete verarbeitet.
+* **Packet Tunnel**: Dies wird verwendet, um einen VPN-Client zu erstellen, der ein packet-orientiertes, benutzerdefiniertes VPN-Protokoll implementiert. Das bedeutet, dass er den Netzwerkverkehr basierend auf einzelnen Paketen verarbeitet.
+* **Filter Data**: Dies wird verwendet, um Netzwerk-"Flows" zu filtern. Es kann Netzwerkdaten auf Flussebene überwachen oder ändern.
+* **Filter Packet**: Dies wird verwendet, um einzelne Netzwerkpakete zu filtern. Es kann Netzwerkdaten auf Paketebene überwachen oder ändern.
+* **DNS Proxy**: Dies wird verwendet, um einen benutzerdefinierten DNS-Anbieter zu erstellen. Es kann verwendet werden, um DNS-Anfragen und -Antworten zu überwachen oder zu ändern.
 
-## Eindpuntbeveiligingsraamwerk
+## Endpoint Security Framework
 
-Eindpuntbeveiliging is 'n raamwerk wat deur Apple in macOS voorsien word en 'n stel API's vir stelselsekuriteit bied. Dit is bedoel vir gebruik deur **sekuriteitsvennote en ontwikkelaars om produkte te bou wat stelselaktiwiteit kan monitor en beheer** om skadelike aktiwiteit te identifiseer en teen te beskerm.
+Endpoint Security ist ein von Apple in macOS bereitgestelltes Framework, das eine Reihe von APIs für die Systemsicherheit bietet. Es ist für die Verwendung durch **Sicherheitsanbieter und Entwickler gedacht, um Produkte zu erstellen, die Systemaktivitäten überwachen und steuern können**, um böswillige Aktivitäten zu identifizieren und zu schützen.
 
-Hierdie raamwerk bied 'n **versameling API's om stelselaktiwiteit te monitor en te beheer**, soos prosesuitvoerings, lêersisteemgebeure, netwerk- en kernelgebeure.
+Dieses Framework bietet eine **Sammlung von APIs zur Überwachung und Steuerung von Systemaktivitäten**, wie z.B. Prozessausführungen, Dateisystemereignisse, Netzwerk- und Kernelereignisse.
 
-Die kern van hierdie raamwerk word geïmplementeer in die kernel, as 'n Kerneluitbreiding (KEXT) geleë by **`/System/Library/Extensions/EndpointSecurity.kext`**. Hierdie KEXT bestaan uit verskeie sleutelkomponente:
+Der Kern dieses Frameworks ist im Kernel implementiert, als Kernel Extension (KEXT) unter **`/System/Library/Extensions/EndpointSecurity.kext`**. Diese KEXT besteht aus mehreren wichtigen Komponenten:
 
-* **EndpointSecurityDriver**: Dit tree op as die "ingangspunt" vir die kerneluitbreiding. Dit is die hoofpunt van interaksie tussen die OS en die Eindpuntbeveiligingsraamwerk.
-* **EndpointSecurityEventManager**: Hierdie komponent is verantwoordelik vir die implementering van kernelhake. Kernelhake maak dit moontlik vir die raamwerk om stelselgebeure te monitor deur stelseloproepe te onderskep.
-* **EndpointSecurityClientManager**: Dit bestuur die kommunikasie met gebruikersruimtekliënte, hou by watter kliënte gekoppel is en kennis moet neem van gebeurteniskennisgewings.
-* **EndpointSecurityMessageManager**: Dit stuur boodskappe en gebeurteniskennisgewings na gebruikersruimtekliënte.
+* **EndpointSecurityDriver**: Dies fungiert als "Einstiegspunkt" für die Kernel-Erweiterung. Es ist der Hauptinteraktionspunkt zwischen dem OS und dem Endpoint Security-Framework.
+* **EndpointSecurityEventManager**: Diese Komponente ist verantwortlich für die Implementierung von Kernel-Hooks. Kernel-Hooks ermöglichen es dem Framework, Systemereignisse zu überwachen, indem Systemaufrufe abgefangen werden.
+* **EndpointSecurityClientManager**: Dies verwaltet die Kommunikation mit Benutzermodus-Clients und verfolgt, welche Clients verbunden sind und Ereignisbenachrichtigungen erhalten müssen.
+* **EndpointSecurityMessageManager**: Dies sendet Nachrichten und Ereignisbenachrichtigungen an Benutzermodus-Clients.
 
-Die gebeure wat die Eindpuntbeveiligingsraamwerk kan monitor word gekategoriseer in:
+Die Ereignisse, die das Endpoint Security-Framework überwachen kann, sind in folgende Kategorien unterteilt:
 
-* Lêergebeure
-* Prosessgebeure
-* Sokketgebeure
-* Kernelgebeure (soos die laai/ontlaai van 'n kerneluitbreiding of die oopmaak van 'n I/O Kit-toestel)
+* Dateiereignisse
+* Prozessereignisse
+* Socketereignisse
+* Kernelereignisse (wie das Laden/Entladen einer Kernel-Erweiterung oder das Öffnen eines I/O Kit-Geräts)
 
-### Eindpuntbeveiligingsraamwerkargitektuur
+### Architektur des Endpoint Security Frameworks
 
 <figure><img src="../../../.gitbook/assets/image (1068).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-**Gebruikersruimte kommunikasie** met die Eindpuntbeveiligingsraamwerk gebeur deur die IOUserClient-klas. Twee verskillende subklasse word gebruik, afhangende van die tipe oproeper:
+**Die Kommunikation im Benutzermodus** mit dem Endpoint Security-Framework erfolgt über die IOUserClient-Klasse. Es werden zwei verschiedene Unterklassen verwendet, abhängig von der Art des Aufrufers:
 
-* **EndpointSecurityDriverClient**: Dit vereis die `com.apple.private.endpoint-security.manager` toestemming, wat slegs deur die stelselproses `endpointsecurityd` gehou word.
-* **EndpointSecurityExternalClient**: Dit vereis die `com.apple.developer.endpoint-security.client` toestemming. Dit sou tipies gebruik word deur derdeparty-sekuriteitsagteware wat met die Eindpuntbeveiligingsraamwerk moet interaksie hê.
+* **EndpointSecurityDriverClient**: Dies erfordert die Berechtigung `com.apple.private.endpoint-security.manager`, die nur vom Systemprozess `endpointsecurityd` gehalten wird.
+* **EndpointSecurityExternalClient**: Dies erfordert die Berechtigung `com.apple.developer.endpoint-security.client`. Dies würde typischerweise von drittanbieter Sicherheitssoftware verwendet, die mit dem Endpoint Security-Framework interagieren muss.
 
-Die Eindpuntbeveiligingsuitbreidings:**`libEndpointSecurity.dylib`** is die C-biblioteek wat sisteemuitbreidings gebruik om met die kernel te kommunikeer. Hierdie biblioteek gebruik die I/O Kit (`IOKit`) om met die Eindpuntbeveiligings-KEXT te kommunikeer.
+Die Endpoint Security Extensions:**`libEndpointSecurity.dylib`** ist die C-Bibliothek, die Systemerweiterungen verwenden, um mit dem Kernel zu kommunizieren. Diese Bibliothek verwendet das I/O Kit (`IOKit`), um mit der Endpoint Security KEXT zu kommunizieren.
 
-**`endpointsecurityd`** is 'n sleutelstelseldaemon wat betrokke is by die bestuur en aan die gang sit van eindpuntbeveiligingstelseluitbreidings, veral gedurende die vroeë opstartproses. **Slegs sisteemuitbreidings** gemerk met **`NSEndpointSecurityEarlyBoot`** in hul `Info.plist`-lêer ontvang hierdie vroeë opstartbehandeling.
+**`endpointsecurityd`** ist ein wichtiger Systemdaemon, der an der Verwaltung und dem Starten von Endpoint Security-Systemerweiterungen beteiligt ist, insbesondere während des frühen Bootprozesses. **Nur Systemerweiterungen**, die in ihrer `Info.plist`-Datei mit **`NSEndpointSecurityEarlyBoot`** gekennzeichnet sind, erhalten diese frühe Bootbehandlung.
 
-'n Ander stelseldaemon, **`sysextd`**, **valideer sisteemuitbreidings** en skuif hulle na die regte stelsellokasies. Dit vra dan die relevante daemon om die uitbreiding te laai. Die **`SystemExtensions.framework`** is verantwoordelik vir die aktivering en deaktivering van sisteemuitbreidings.
+Ein weiterer Systemdaemon, **`sysextd`**, **validiert Systemerweiterungen** und verschiebt sie an die richtigen Systemstandorte. Er fordert dann den relevanten Daemon auf, die Erweiterung zu laden. Das **`SystemExtensions.framework`** ist verantwortlich für das Aktivieren und Deaktivieren von Systemerweiterungen.
 
-## Omskep ESF
+## Umgehung des ESF
 
-ESF word deur sekuriteitsgereedskap gebruik wat sal probeer om 'n rooi span-lid op te spoor, dus enige inligting oor hoe dit vermy kan word, klink interessant.
+ESF wird von Sicherheitstools verwendet, die versuchen, einen Red Teamer zu erkennen, daher klingt jede Information darüber, wie dies vermieden werden könnte, interessant.
 
 ### CVE-2021-30965
 
-Die ding is dat die sekuriteitsaansoek **Volle Skyf Toegang-toestemmings** moet hê. Dus as 'n aanvaller dit kon verwyder, kon hy voorkom dat die sagteware hardloop:
+Das Problem ist, dass die Sicherheitsanwendung **Vollzugriff auf die Festplatte** benötigt. Wenn ein Angreifer dies entfernen könnte, könnte er verhindern, dass die Software ausgeführt wird:
 ```bash
 tccutil reset All
 ```
-Vir **meer inligting** oor hierdie omweg en verwante omwegte, kyk na die aanbieding [#OBTS v5.0: "Die Achilleshiel van Eindpuntbeveiliging" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Für **weitere Informationen** zu diesem Bypass und verwandten Themen siehe den Vortrag [#OBTS v5.0: "Die Achillesferse von EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-Aan die einde is hierdie probleem opgelos deur die nuwe toestemming **`kTCCServiceEndpointSecurityClient`** te gee aan die beveiligingsprogram wat bestuur word deur **`tccd`** sodat `tccutil` nie sy toestemmings sal skoonmaak nie en dit verhoed om uit te voer.
+Am Ende wurde dies behoben, indem die neue Berechtigung **`kTCCServiceEndpointSecurityClient`** der Sicherheitsanwendung, die von **`tccd`** verwaltet wird, gegeben wurde, sodass `tccutil` ihre Berechtigungen nicht löscht und sie weiterhin ausgeführt werden kann.
 
-## Verwysings
+## Referenzen
 
-* [**OBTS v3.0: "Eindpuntbeveiliging & Onveiligheid" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
+* [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

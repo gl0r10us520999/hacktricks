@@ -15,17 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-Die I/O Kit is 'n oopbron, objek-georiënteerde **toestuurder-raamwerk** in die XNU-kern, wat **dynamies gelaaide toestel bestuurders** hanteer. Dit laat modulaire kode toe om aan die kern bygevoeg te word terwyl dit loop, wat verskillende hardeware ondersteun.
+Das I/O Kit ist ein Open-Source, objektorientiertes **Gerätetreiber-Framework** im XNU-Kernel, das **dynamisch geladene Gerätetreiber** verwaltet. Es ermöglicht, modulare Codes zur Laufzeit in den Kernel einzufügen und unterstützt verschiedene Hardware.
 
-IOKit bestuurders sal basies **funksies van die kern** **uitvoer**. Hierdie funksieparameter **tipes** is **vooraf gedefinieer** en word geverifieer. Boonop, soortgelyk aan XPC, is IOKit net nog 'n laag op **top van Mach boodskappe**.
+IOKit-Treiber **exportieren Funktionen aus dem Kernel**. Diese Funktionsparameter **typen** sind **vordefiniert** und werden überprüft. Darüber hinaus ist IOKit, ähnlich wie XPC, nur eine weitere Schicht **oberhalb von Mach-Nachrichten**.
 
-**IOKit XNU kernkode** is oopgesluit deur Apple in [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Boonop is die gebruikersruimte IOKit-komponente ook oopbron [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+**IOKit XNU-Kernelcode** ist von Apple unter [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit) als Open Source veröffentlicht. Darüber hinaus sind auch die IOKit-Komponenten im Benutzerspeicher Open Source [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Echter, **geen IOKit bestuurders** is oopbron. In elk geval, van tyd tot tyd kan 'n vrystelling van 'n bestuurder kom met simbole wat dit makliker maak om dit te debug. Kyk hoe om [**die bestuurder uitbreidings van die firmware hier te kry**](./#ipsw)**.**
+Allerdings sind **keine IOKit-Treiber** Open Source. Dennoch kann von Zeit zu Zeit eine Veröffentlichung eines Treibers mit Symbolen kommen, die das Debuggen erleichtern. Überprüfen Sie, wie Sie [**die Treibererweiterungen aus der Firmware hier erhalten**](./#ipsw)**.**
 
-Dit is geskryf in **C++**. Jy kan demangled C++ simbole kry met:
+Es ist in **C++** geschrieben. Sie können demanglierte C++-Symbole mit folgendem Befehl erhalten:
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -36,19 +36,19 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **blootgestelde funksies** kan **addisionele sekuriteitskontroles** uitvoer wanneer 'n kliënt probeer om 'n funksie aan te roep, maar let daarop dat die programme gewoonlik **beperk** is deur die **sandbox** waartoe IOKit-funksies hulle kan interaksie hê.
+IOKit **exponierte Funktionen** könnten **zusätzliche Sicherheitsprüfungen** durchführen, wenn ein Client versucht, eine Funktion aufzurufen, aber beachten Sie, dass die Apps normalerweise durch den **Sandbox** eingeschränkt sind, mit welchen IOKit-Funktionen sie interagieren können.
 {% endhint %}
 
-## Bestuurders
+## Treiber
 
-In macOS is hulle geleë in:
+In macOS befinden sie sich in:
 
 * **`/System/Library/Extensions`**
-* KEXT-lêers ingebou in die OS X-bedryfstelsel.
+* KEXT-Dateien, die in das OS X-Betriebssystem integriert sind.
 * **`/Library/Extensions`**
-* KEXT-lêers geïnstalleer deur 3de party sagteware
+* KEXT-Dateien, die von Drittanbieter-Software installiert wurden.
 
-In iOS is hulle geleë in:
+In iOS befinden sie sich in:
 
 * **`/System/Library/Extensions`**
 ```bash
@@ -68,48 +68,48 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
 9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
 10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-Tot nommer 9 is die gelysde bestuurders **gelaai in die adres 0**. Dit beteken dat dit nie werklike bestuurders is nie, maar **deel van die kern en hulle kan nie ontlaai word nie**.
+Bis zur Nummer 9 werden die aufgeführten Treiber **an der Adresse 0** geladen. Das bedeutet, dass es sich nicht um echte Treiber handelt, sondern **Teil des Kernels sind und sie nicht entladen werden können**.
 
-Om spesifieke uitbreidings te vind, kan jy gebruik maak van:
+Um spezifische Erweiterungen zu finden, können Sie Folgendes verwenden:
 ```bash
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-Om kernuitbreidings te laai en te ontlaai, doen:
+Um Kernel-Erweiterungen zu laden und zu entladen, tun Sie Folgendes:
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-Die **IORegistry** is 'n belangrike deel van die IOKit-raamwerk in macOS en iOS wat dien as 'n databasis vir die voorstelling van die stelsel se hardewarekonfigurasie en -toestand. Dit is 'n **hiërargiese versameling van objekke wat al die hardeware en bestuurders** wat op die stelsel gelaai is, verteenwoordig, en hul verhoudings tot mekaar.
+Der **IORegistry** ist ein entscheidender Teil des IOKit-Frameworks in macOS und iOS, der als Datenbank zur Darstellung der Hardwarekonfiguration und des Zustands des Systems dient. Es ist eine **hierarchische Sammlung von Objekten, die alle auf dem System geladenen Hardware und Treiber darstellen** und deren Beziehungen zueinander.
 
-Jy kan die IORegistry verkry met die cli **`ioreg`** om dit vanaf die konsole te inspekteer (spesiaal nuttig vir iOS).
+Sie können den IORegistry mit dem CLI **`ioreg`** abrufen, um ihn von der Konsole aus zu inspizieren (besonders nützlich für iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-You could download **`IORegistryExplorer`** from **Xcode Additional Tools** from [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) and inspect the **macOS IORegistry** through a **grafiese** interface.
+Sie können **`IORegistryExplorer`** von **Xcode Additional Tools** von [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) herunterladen und das **macOS IORegistry** über eine **grafische** Benutzeroberfläche inspizieren.
 
 <figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
-In IORegistryExplorer, "planes" are used to organize and display the relationships between different objects in the IORegistry. Each plane represents a specific type of relationship or a particular view of the system's hardware and driver configuration. Here are some of the common planes you might encounter in IORegistryExplorer:
+In IORegistryExplorer werden "Planes" verwendet, um die Beziehungen zwischen verschiedenen Objekten im IORegistry zu organisieren und darzustellen. Jeder Plane repräsentiert eine spezifische Art von Beziehung oder eine bestimmte Ansicht der Hardware- und Treiberkonfiguration des Systems. Hier sind einige der häufigsten Planes, die Sie in IORegistryExplorer antreffen könnten:
 
-1. **IOService Plane**: This is the most general plane, displaying the service objects that represent drivers and nubs (communication channels between drivers). It shows the provider-client relationships between these objects.
-2. **IODeviceTree Plane**: This plane represents the physical connections between devices as they are attached to the system. It is often used to visualize the hierarchy of devices connected via buses like USB or PCI.
-3. **IOPower Plane**: Displays objects and their relationships in terms of power management. It can show which objects are affecting the power state of others, useful for debugging power-related issues.
-4. **IOUSB Plane**: Specifically focused on USB devices and their relationships, showing the hierarchy of USB hubs and connected devices.
-5. **IOAudio Plane**: This plane is for representing audio devices and their relationships within the system.
+1. **IOService Plane**: Dies ist der allgemeinste Plane, der die Dienstobjekte anzeigt, die Treiber und Nubs (Kommunikationskanäle zwischen Treibern) repräsentieren. Er zeigt die Anbieter-Kunden-Beziehungen zwischen diesen Objekten.
+2. **IODeviceTree Plane**: Dieser Plane repräsentiert die physischen Verbindungen zwischen Geräten, während sie an das System angeschlossen sind. Er wird oft verwendet, um die Hierarchie der über Busse wie USB oder PCI verbundenen Geräte zu visualisieren.
+3. **IOPower Plane**: Zeigt Objekte und deren Beziehungen im Hinblick auf das Energiemanagement an. Er kann zeigen, welche Objekte den Energiezustand anderer beeinflussen, was nützlich ist, um energiebezogene Probleme zu debuggen.
+4. **IOUSB Plane**: Fokussiert sich speziell auf USB-Geräte und deren Beziehungen und zeigt die Hierarchie von USB-Hubs und angeschlossenen Geräten.
+5. **IOAudio Plane**: Dieser Plane dient der Darstellung von Audiogeräten und deren Beziehungen innerhalb des Systems.
 6. ...
 
 ## Driver Comm Code Example
 
-The following code connects to the IOKit service `"YourServiceNameHere"` and calls the function inside the selector 0. For it:
+Der folgende Code verbindet sich mit dem IOKit-Dienst `"YourServiceNameHere"` und ruft die Funktion im Selektor 0 auf. Dafür:
 
-* it first calls **`IOServiceMatching`** and **`IOServiceGetMatchingServices`** to get the service.
-* It then establish a connection calling **`IOServiceOpen`**.
-* And it finally calls a function with **`IOConnectCallScalarMethod`** indicating the selector 0 (the selector is the number the function you want to call has assigned).
+* wird zuerst **`IOServiceMatching`** und **`IOServiceGetMatchingServices`** aufgerufen, um den Dienst zu erhalten.
+* Dann wird eine Verbindung hergestellt, indem **`IOServiceOpen`** aufgerufen wird.
+* Und schließlich wird eine Funktion mit **`IOConnectCallScalarMethod`** aufgerufen, wobei der Selektor 0 angegeben wird (der Selektor ist die Nummer, die der Funktion, die Sie aufrufen möchten, zugewiesen wurde).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -164,19 +164,19 @@ IOObjectRelease(iter);
 return 0;
 }
 ```
-There are **ander** functions that can be used to call IOKit functions apart of **`IOConnectCallScalarMethod`** like **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
+Es gibt **andere** Funktionen, die verwendet werden können, um IOKit-Funktionen aufzurufen, abgesehen von **`IOConnectCallScalarMethod`**, wie **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
 
-## Reversing driver entrypoint
+## Rückwärtsanalyse des Treiber-Einstiegspunkts
 
-You could obtain these for example from a [**firmware image (ipsw)**](./#ipsw). Then, load it into your favourite decompiler.
+Sie könnten diese beispielsweise aus einem [**Firmware-Image (ipsw)**](./#ipsw) erhalten. Laden Sie es dann in Ihren bevorzugten Decompiler.
 
-You could start decompiling the **`externalMethod`** function as this is the driver function that will be receiving the call and calling the correct function:
+Sie könnten mit der Dekompilierung der **`externalMethod`**-Funktion beginnen, da dies die Treiberfunktion ist, die den Aufruf empfängt und die richtige Funktion aufruft:
 
 <figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-That awful call demagled means:
+Dieser schreckliche Aufruf demangled bedeutet: 
 
 {% code overflow="wrap" %}
 ```cpp
@@ -184,7 +184,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-Let op hoe die **`self`** parameter in die vorige definisie ontbreek, die goeie definisie sou wees:
+Beachten Sie, dass im vorherigen Definition der **`self`** Parameter fehlt, die gute Definition wäre:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -192,59 +192,59 @@ IOUserClient2022::dispatchExternalMethod(self, unsigned int, IOExternalMethodArg
 ```
 {% endcode %}
 
-Werklik, jy kan die werklike definisie vind in [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
+Tatsächlich finden Sie die echte Definition unter [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
 ```cpp
 IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgumentsOpaque *arguments,
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-Met hierdie inligting kan jy Ctrl+Right -> `Edit function signature` herskryf en die bekende tipes stel:
+Mit diesen Informationen können Sie Ctrl+Rechts -> `Edit function signature` umschreiben und die bekannten Typen festlegen:
 
 <figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
-Die nuwe dekompilde kode sal soos volg lyk:
+Der neue dekompilierte Code wird folgendermaßen aussehen:
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Vir die volgende stap moet ons die **`IOExternalMethodDispatch2022`** struktuur gedefinieer hê. Dit is oopbron in [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), jy kan dit definieer:
+Für den nächsten Schritt müssen wir die **`IOExternalMethodDispatch2022`** Struktur definiert haben. Sie ist Open Source in [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), Sie könnten sie definieren:
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
-Nou, volg die `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` kan jy 'n baie data sien:
+Jetzt, folgend der `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` können Sie viele Daten sehen:
 
 <figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Verander die Data Type na **`IOExternalMethodDispatch2022:`**
+Ändern Sie den Datentyp in **`IOExternalMethodDispatch2022:`**
 
 <figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
-na die verandering:
+nach der Änderung:
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-En soos ons nou daar is, het ons 'n **array van 7 elemente** (kyk die finale dekompilde kode), klik om 'n array van 7 elemente te skep:
+Und wie wir jetzt wissen, haben wir ein **Array von 7 Elementen** (überprüfen Sie den endgültigen dekompilierten Code), klicken Sie, um ein Array von 7 Elementen zu erstellen:
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Nadat die array geskep is, kan jy al die geexporteerde funksies sien:
+Nachdem das Array erstellt wurde, können Sie alle exportierten Funktionen sehen:
 
 <figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-As jy onthou, om 'n **geexporteerde** funksie vanuit gebruikersruimte te **roep**, hoef ons nie die naam van die funksie te noem nie, maar die **selector nommer**. Hier kan jy sien dat die selector **0** die funksie **`initializeDecoder`** is, die selector **1** is **`startDecoder`**, die selector **2** **`initializeEncoder`**...
+Wenn Sie sich erinnern, um eine **exportierte** Funktion aus dem Benutzerspeicher zu **rufen**, müssen wir nicht den Namen der Funktion aufrufen, sondern die **Selector-Nummer**. Hier sehen Sie, dass der Selector **0** die Funktion **`initializeDecoder`** ist, der Selector **1** ist **`startDecoder`**, der Selector **2** **`initializeEncoder`**...
 {% endhint %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

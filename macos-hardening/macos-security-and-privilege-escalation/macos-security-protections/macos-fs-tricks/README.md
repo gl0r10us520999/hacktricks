@@ -1,56 +1,56 @@
 # macOS FS Tricks
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## POSIX toestemmingskombinasies
+## POSIX-Berechtigungskombinationen
 
-Toestemmings in 'n **gids**:
+Berechtigungen in einem **Verzeichnis**:
 
-* **lees** - jy kan die **gids** inskrywings **opnoem**
-* **skryf** - jy kan **verwyder/skryf** **lêers** in die gids en jy kan **leë vouers verwyder**.
-* Maar jy **kan nie nie-leë vouers verwyder/wysig** tensy jy skryftoestemmings daaroor het.
-* Jy **kan nie die naam van 'n vouer wysig** tensy jy dit besit nie.
-* **voer uit** - jy is **toegelaat om** die gids te **deursoek** - as jy nie hierdie reg het nie, kan jy nie enige lêers binne dit, of in enige subgidsen, toegang nie.
+* **lesen** - Sie können die **Einträge** im Verzeichnis **auflisten**
+* **schreiben** - Sie können **Dateien** im Verzeichnis **löschen/schreiben** und Sie können **leere Ordner löschen**.
+* Aber Sie **können keine nicht-leeren Ordner löschen/ändern**, es sei denn, Sie haben Schreibberechtigungen dafür.
+* Sie **können den Namen eines Ordners nicht ändern**, es sei denn, Sie besitzen ihn.
+* **ausführen** - Sie sind **berechtigt, das Verzeichnis zu durchqueren** - wenn Sie dieses Recht nicht haben, können Sie auf keine Dateien darin oder in Unterverzeichnissen zugreifen.
 
-### Gevaarlike Kombinasies
+### Gefährliche Kombinationen
 
-**Hoe om 'n lêer/vouer wat deur root besit word te oorskryf**, maar:
+**Wie man eine Datei/einen Ordner, der root gehört, überschreibt**, aber:
 
-* Een ouer **gids eienaar** in die pad is die gebruiker
-* Een ouer **gids eienaar** in die pad is 'n **gebruikersgroep** met **skryftoegang**
-* 'n gebruikers **groep** het **skryf** toegang tot die **lêer**
+* Ein übergeordneter **Verzeichnisbesitzer** im Pfad ist der Benutzer
+* Ein übergeordneter **Verzeichnisbesitzer** im Pfad ist eine **Benutzergruppe** mit **Schreibzugriff**
+* Eine Benutzer**gruppe** hat **Schreib**zugriff auf die **Datei**
 
-Met enige van die vorige kombinasies, kan 'n aanvaller 'n **sim/hard skakel** in die verwagte pad **inspuit** om 'n bevoorregte arbitrêre skryf te verkry.
+Mit einer der vorherigen Kombinationen könnte ein Angreifer einen **sym/hard link** in den erwarteten Pfad **einspeisen**, um einen privilegierten beliebigen Schreibzugriff zu erhalten.
 
-### Vouer root R+X Spesiale geval
+### Ordner root R+X Sonderfall
 
-As daar lêers in 'n **gids** is waar **slegs root R+X toegang het**, is dit **nie toeganklik vir enige iemand anders nie**. So 'n kwesbaarheid wat toelaat om 'n lêer wat deur 'n gebruiker leesbaar is, wat nie gelees kan word weens daardie **beperking**, van hierdie gids **na 'n ander een** te beweeg, kan misbruik word om hierdie lêers te lees.
+Wenn es Dateien in einem **Verzeichnis** gibt, in dem **nur root R+X-Zugriff hat**, sind diese **für niemanden sonst nicht zugänglich**. Eine Schwachstelle, die es ermöglicht, eine von einem Benutzer lesbare Datei, die aufgrund dieser **Einschränkung** nicht gelesen werden kann, von diesem Ordner **in einen anderen** zu **verschieben**, könnte missbraucht werden, um diese Dateien zu lesen.
 
-Voorbeeld in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+Beispiel in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Simboliese Skakel / Hard Skakel
+## Symbolischer Link / Hard Link
 
-As 'n bevoorregte proses data in 'n **lêer** skryf wat **beheer** kan word deur 'n **laer bevoorregte gebruiker**, of wat **voorheen geskep** kan wees deur 'n laer bevoorregte gebruiker. Die gebruiker kan net **na 'n ander lêer wys** via 'n Simboliese of Hard skakel, en die bevoorregte proses sal op daardie lêer skryf.
+Wenn ein privilegierter Prozess Daten in eine **Datei** schreibt, die von einem **weniger privilegierten Benutzer** **kontrolliert** werden könnte oder die **zuvor von einem weniger privilegierten Benutzer erstellt** worden sein könnte. Der Benutzer könnte einfach **auf eine andere Datei** über einen symbolischen oder harten Link **zeigen**, und der privilegierte Prozess wird in diese Datei schreiben.
 
-Kyk in die ander afdelings waar 'n aanvaller 'n **arbitrêre skryf kan misbruik om voorregte te verhoog**.
+Überprüfen Sie in den anderen Abschnitten, wo ein Angreifer **einen beliebigen Schreibzugriff missbrauchen könnte, um Privilegien zu eskalieren**.
 
 ## .fileloc
 
-Lêers met **`.fileloc`** uitbreiding kan na ander toepassings of binêre lêers wys, so wanneer hulle geopen word, sal die toepassing/binêre die een wees wat uitgevoer word.\
-Voorbeeld:
+Dateien mit der **`.fileloc`**-Erweiterung können auf andere Anwendungen oder Binärdateien verweisen, sodass beim Öffnen die Anwendung/Binärdatei ausgeführt wird.\
+Beispiel:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -65,19 +65,19 @@ Voorbeeld:
 ```
 ## Arbitrary FD
 
-As jy 'n **proses kan laat 'n lêer of 'n gids met hoë voorregte oopmaak**, kan jy **`crontab`** misbruik om 'n lêer in `/etc/sudoers.d` met **`EDITOR=exploit.py`** oop te maak, sodat die `exploit.py` die FD na die lêer binne `/etc/sudoers` sal kry en dit kan misbruik.
+Wenn Sie einen **Prozess dazu bringen können, eine Datei oder einen Ordner mit hohen Rechten zu öffnen**, können Sie **`crontab`** missbrauchen, um eine Datei in `/etc/sudoers.d` mit **`EDITOR=exploit.py`** zu öffnen, sodass `exploit.py` den FD zur Datei in `/etc/sudoers` erhält und diesen ausnutzt.
 
-Byvoorbeeld: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
+Zum Beispiel: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Vermy kwarantyn xattrs truuks
+## Vermeiden Sie Quarantäne-xattrs-Tricks
 
-### Verwyder dit
+### Entfernen Sie es
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### uchg / uchange / uimmutable vlag
+### uchg / uchange / uimmutable flag
 
-As 'n lêer/gids hierdie onveranderlike eienskap het, sal dit nie moontlik wees om 'n xattr daarop te plaas nie.
+Wenn eine Datei/ein Ordner dieses unveränderliche Attribut hat, ist es nicht möglich, ein xattr darauf zu setzen.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -89,7 +89,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs mount
 
-'n **devfs** monteer **ondersteun nie xattr nie**, meer inligting in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+Ein **devfs**-Mount **unterstützt keine xattr**, weitere Informationen in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -100,7 +100,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-Hierdie ACL verhoed dat `xattrs` by die lêer gevoeg word
+Diese ACL verhindert das Hinzufügen von `xattrs` zur Datei.
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -123,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** lêerformaat kopieer 'n lêer insluitend sy ACE's.
+**AppleDouble** Dateiformat kopiert eine Datei einschließlich ihrer ACEs.
 
-In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedecomprimeerde lêer gestel gaan word. So, as jy 'n toepassing in 'n zip-lêer met **AppleDouble** lêerformaat saamgepers het met 'n ACL wat voorkom dat ander xattrs daarin geskryf kan word... was die kwarantyn xattr nie in die toepassing gestel nie:
+Im [**Quellcode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) ist zu sehen, dass die ACL-Textdarstellung, die im xattr mit dem Namen **`com.apple.acl.text`** gespeichert ist, als ACL in der dekomprimierten Datei gesetzt wird. Wenn Sie also eine Anwendung in eine Zip-Datei mit dem **AppleDouble** Dateiformat komprimiert haben, mit einer ACL, die das Schreiben anderer xattrs verhindert... wurde das Quarantäne-xattr nicht in die Anwendung gesetzt:
 
-Kyk na die [**oorspronklike verslag**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) vir meer inligting.
+Überprüfen Sie den [**ursprünglichen Bericht**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) für weitere Informationen.
 
-Om dit te repliseer, moet ons eers die korrekte acl string kry:
+Um dies zu replizieren, müssen wir zuerst den richtigen acl-String erhalten:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -147,19 +147,19 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Note dat selfs al werk dit, die sandbox skryf die kwarantyn xattr voor)
+(Note that even if this works the sandbox write the quarantine xattr before)
 
-Nie regtig nodig nie, maar ek laat dit daar net ingeval:
+Nicht wirklich nötig, aber ich lasse es hier, nur für den Fall:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Omseil Kode Handtekeninge
+## Umgehen von Code-Signaturen
 
-Bundles bevat die lêer **`_CodeSignature/CodeResources`** wat die **hash** van elke enkele **lêer** in die **bundle** bevat. Let daarop dat die hash van CodeResources ook **ingebed is in die uitvoerbare**, so ons kan nie daarmee mors nie.
+Bundles enthalten die Datei **`_CodeSignature/CodeResources`**, die den **Hash** jeder einzelnen **Datei** im **Bundle** enthält. Beachten Sie, dass der Hash von CodeResources auch **in der ausführbaren Datei eingebettet** ist, sodass wir damit auch nicht herumspielen können.
 
-Daar is egter 'n paar lêers waarvan die handtekening nie nagegaan sal word nie, hierdie het die sleutel omit in die plist, soos:
+Es gibt jedoch einige Dateien, deren Signatur nicht überprüft wird; diese haben den Schlüssel omit in der plist, wie:
 ```xml
 <dict>
 ...
@@ -203,7 +203,7 @@ Daar is egter 'n paar lêers waarvan die handtekening nie nagegaan sal word nie,
 ...
 </dict>
 ```
-Dit is moontlik om die handtekening van 'n hulpbron vanaf die cli te bereken met: 
+Es ist möglich, die Signatur einer Ressource über die CLI zu berechnen mit:
 
 {% code overflow="wrap" %}
 ```bash
@@ -211,9 +211,9 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ```
 {% endcode %}
 
-## Monteer dmgs
+## DMGs einbinden
 
-'n Gebruiker kan 'n pasgemaakte dmg monteer wat selfs bo-op sommige bestaande vouers geskep is. Dit is hoe jy 'n pasgemaakte dmg-pakket met pasgemaakte inhoud kan skep:
+Ein Benutzer kann ein benutzerdefiniertes DMG einbinden, das sogar über einige vorhandene Ordner erstellt wurde. So könnten Sie ein benutzerdefiniertes DMG-Paket mit benutzerdefiniertem Inhalt erstellen:
 
 {% code overflow="wrap" %}
 ```bash
@@ -238,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Gewoonlik monteer macOS skyf deur te kommunikeer met die `com.apple.DiskArbitrarion.diskarbitrariond` Mach diens (verskaf deur `/usr/libexec/diskarbitrationd`). As jy die param `-d` by die LaunchDaemons plist-lêer voeg en herbegin, sal dit logs stoor in `/var/log/diskarbitrationd.log`.\
-Dit is egter moontlik om gereedskap soos `hdik` en `hdiutil` te gebruik om direk met die `com.apple.driver.DiskImages` kext te kommunikeer.
+Normalerweise mountet macOS Festplatten, indem es mit dem `com.apple.DiskArbitrarion.diskarbitrariond` Mach-Dienst kommuniziert (bereitgestellt von `/usr/libexec/diskarbitrationd`). Wenn man den Parameter `-d` zur LaunchDaemons plist-Datei hinzufügt und neu startet, werden die Protokolle in `/var/log/diskarbitrationd.log` gespeichert.\
+Es ist jedoch möglich, Tools wie `hdik` und `hdiutil` zu verwenden, um direkt mit dem `com.apple.driver.DiskImages` kext zu kommunizieren.
 
-## Willekeurige Skrywe
+## Arbiträre Schreibvorgänge
 
-### Periodieke sh skripte
+### Periodische sh-Skripte
 
-As jou skrip as 'n **shell skrip** geïnterpreteer kan word, kan jy die **`/etc/periodic/daily/999.local`** shell skrip oorskryf wat elke dag geaktiveer sal word.
+Wenn Ihr Skript als **Shell-Skript** interpretiert werden könnte, könnten Sie das **`/etc/periodic/daily/999.local`** Shell-Skript überschreiben, das jeden Tag ausgelöst wird.
 
-Jy kan 'n **vals** uitvoering van hierdie skrip maak met: **`sudo periodic daily`**
+Sie können eine Ausführung dieses Skripts **fälschen** mit: **`sudo periodic daily`**
 
 ### Daemons
 
-Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** met 'n plist wat 'n willekeurige skrip uitvoer soos:
+Schreiben Sie einen beliebigen **LaunchDaemon** wie **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** mit einer plist, die ein beliebiges Skript ausführt wie:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -268,21 +268,21 @@ Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktr
 </dict>
 </plist>
 ```
-Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
+Just generate the script `/Applications/Scripts/privesc.sh` with the **Befehlen**, die Sie als root ausführen möchten.
 
-### Sudoers File
+### Sudoers-Datei
 
-If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
+Wenn Sie **willkürlichen Schreibzugriff** haben, könnten Sie eine Datei im Ordner **`/etc/sudoers.d/`** erstellen, die Ihnen **sudo**-Rechte gewährt.
 
-### PATH files
+### PATH-Dateien
 
-The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
+Die Datei **`/etc/paths`** ist einer der Hauptorte, die die PATH-Umgebungsvariable befüllen. Sie müssen root sein, um sie zu überschreiben, aber wenn ein Skript von einem **privilegierten Prozess** einen **Befehl ohne den vollständigen Pfad** ausführt, könnten Sie in der Lage sein, es zu **übernehmen**, indem Sie diese Datei ändern.
 
-You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
+Sie können auch Dateien in **`/etc/paths.d`** schreiben, um neue Ordner in die `PATH`-Umgebungsvariable zu laden.
 
-## Generate writable files as other users
+## Schreibbare Dateien als andere Benutzer generieren
 
-This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
+Dies wird eine Datei erzeugen, die root gehört und von mir beschreibbar ist ([**Code von hier**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Dies könnte auch als privesc funktionieren:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -294,13 +294,13 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-## POSIX Gedeelde Geheue
+## POSIX Shared Memory
 
-**POSIX gedeelde geheue** laat prosesse in POSIX-konforme bedryfstelsels toe om toegang te verkry tot 'n gemeenskaplike geheuegebied, wat vinniger kommunikasie vergemaklik in vergelyking met ander inter-proses kommunikasie metodes. Dit behels die skep of oopmaak van 'n gedeelde geheue objek met `shm_open()`, die instelling van sy grootte met `ftruncate()`, en die kartering daarvan in die proses se adresruimte met `mmap()`. Prosesse kan dan direk lees van en skryf na hierdie geheuegebied. Om gelyktydige toegang te bestuur en data-beskadiging te voorkom, word sinchronisasie meganismes soos mutexes of semafore dikwels gebruik. Laastens, prosesse onkarter en sluit die gedeelde geheue met `munmap()` en `close()`, en verwyder opsioneel die geheue objek met `shm_unlink()`. Hierdie stelsel is veral effektief vir doeltreffende, vinnige IPC in omgewings waar verskeie prosesse vinnig toegang tot gedeelde data moet verkry.
+**POSIX Shared Memory** ermöglicht es Prozessen in POSIX-konformen Betriebssystemen, auf einen gemeinsamen Speicherbereich zuzugreifen, was eine schnellere Kommunikation im Vergleich zu anderen Methoden der interprozessualen Kommunikation ermöglicht. Es beinhaltet das Erstellen oder Öffnen eines Shared-Memory-Objekts mit `shm_open()`, das Festlegen seiner Größe mit `ftruncate()` und das Mappen in den Adressraum des Prozesses mit `mmap()`. Prozesse können dann direkt aus diesem Speicherbereich lesen und in ihn schreiben. Um den gleichzeitigen Zugriff zu verwalten und Datenkorruption zu verhindern, werden häufig Synchronisationsmechanismen wie Mutexes oder Semaphoren verwendet. Schließlich entmappen und schließen Prozesse den Shared Memory mit `munmap()` und `close()`, und entfernen optional das Speicherobjekt mit `shm_unlink()`. Dieses System ist besonders effektiv für effiziente, schnelle IPC in Umgebungen, in denen mehrere Prozesse schnell auf gemeinsame Daten zugreifen müssen.
 
 <details>
 
-<summary>Produsent Kode Voorbeeld</summary>
+<summary>Producer Code Example</summary>
 ```c
 // gcc producer.c -o producer -lrt
 #include <fcntl.h>
@@ -348,7 +348,7 @@ return 0;
 
 <details>
 
-<summary>Verbruikerskode Voorbeeld</summary>
+<summary>Beispiel für Verbrauchercode</summary>
 ```c
 // gcc consumer.c -o consumer -lrt
 #include <fcntl.h>
@@ -390,31 +390,31 @@ return 0;
 ```
 </details>
 
-## macOS Bewaakte Beskrywings
+## macOS Guarded Descriptors
 
-**macOS bewaakte beskrywings** is 'n sekuriteitskenmerk wat in macOS bekendgestel is om die veiligheid en betroubaarheid van **lêer beskrywing operasies** in gebruikersaansoeke te verbeter. Hierdie bewaakte beskrywings bied 'n manier om spesifieke beperkings of "wagters" met lêer beskrywings te assosieer, wat deur die kern afgedwing word.
+**macOS geschützte Deskriptoren** sind eine Sicherheitsfunktion, die in macOS eingeführt wurde, um die Sicherheit und Zuverlässigkeit von **Dateideskriptoroperationen** in Benutzeranwendungen zu verbessern. Diese geschützten Deskriptoren bieten eine Möglichkeit, spezifische Einschränkungen oder "Wächter" mit Dateideskriptoren zu verknüpfen, die vom Kernel durchgesetzt werden.
 
-Hierdie kenmerk is veral nuttig om sekere klasse van sekuriteitskwesbaarhede soos **ongemagtigde lêer toegang** of **wedloop toestande** te voorkom. Hierdie kwesbaarhede gebeur wanneer 'n draad byvoorbeeld 'n lêer beskrywing benader wat **'n ander kwesbare draad toegang gee** of wanneer 'n lêer beskrywing **geërf** word deur 'n kwesbare kind proses. Sommige funksies wat met hierdie funksionaliteit verband hou, is:
+Diese Funktion ist besonders nützlich, um bestimmte Klassen von Sicherheitsanfälligkeiten wie **unbefugten Dateizugriff** oder **Rennbedingungen** zu verhindern. Diese Anfälligkeiten treten auf, wenn beispielsweise ein Thread auf eine Dateibeschreibung zugreift und **einem anderen anfälligen Thread Zugriff darauf gewährt** oder wenn ein Dateideskriptor von einem anfälligen Kindprozess **vererbt** wird. Einige Funktionen, die mit dieser Funktionalität zusammenhängen, sind:
 
-* `guarded_open_np`: Oop 'n FD met 'n wagter
-* `guarded_close_np`: Sluit dit
-* `change_fdguard_np`: Verander wagter vlae op 'n beskrywing (selfs om die wagter beskerming te verwyder)
+* `guarded_open_np`: Öffnet einen FD mit einem Wächter
+* `guarded_close_np`: Schließt ihn
+* `change_fdguard_np`: Ändert die Wächterflags auf einem Deskriptor (sogar das Entfernen des Wächter-Schutzes)
 
-## Verwysings
+## References
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

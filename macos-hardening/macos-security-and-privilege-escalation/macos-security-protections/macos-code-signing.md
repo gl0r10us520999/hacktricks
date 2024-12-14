@@ -1,28 +1,28 @@
 # macOS Code Signing
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basic Information
+## Grundinformationen
 
-Mach-o binêre bevat 'n laaiopdrag genaamd **`LC_CODE_SIGNATURE`** wat die **offset** en **grootte** van die handtekeninge binne die binêre aandui. Trouens, deur die GUI-gereedskap MachOView te gebruik, is dit moontlik om aan die einde van die binêre 'n afdeling genaamd **Code Signature** met hierdie inligting te vind:
+Mach-o-Binärdateien enthalten einen Ladebefehl namens **`LC_CODE_SIGNATURE`**, der den **Offset** und die **Größe** der Signaturen innerhalb der Binärdatei angibt. Tatsächlich ist es möglich, mit dem GUI-Tool MachOView am Ende der Binärdatei einen Abschnitt namens **Code Signature** mit diesen Informationen zu finden:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="431"><figcaption></figcaption></figure>
 
-Die magiese kop van die Code Signature is **`0xFADE0CC0`**. Dan het jy inligting soos die lengte en die aantal blobs van die superBlob wat hulle bevat.\
-Dit is moontlik om hierdie inligting in die [bronkode hier](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276) te vind:
+Der magische Header der Code Signature ist **`0xFADE0CC0`**. Dann gibt es Informationen wie die Länge und die Anzahl der Blobs des SuperBlobs, die sie enthalten.\
+Es ist möglich, diese Informationen im [Quellcode hier](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276) zu finden:
 ```c
 /*
 * Structure of an embedded-signature SuperBlob
@@ -51,14 +51,14 @@ char data[];
 } CS_GenericBlob
 __attribute__ ((aligned(1)));
 ```
-Common blobs contained are Code Directory, Requirements and Entitlements and a Cryptographic Message Syntax (CMS).\
-Boonop, let op hoe die data wat in die blobs gekodeer is, in **Big Endian** gekodeer is.
+Häufig enthaltene Blobs sind Codeverzeichnis, Anforderungen und Berechtigungen sowie eine kryptografische Nachrichten-Syntax (CMS).\
+Außerdem beachten Sie, dass die in den Blobs codierten Daten in **Big Endian** codiert sind.
 
-Boonop, handtekeninge kan van die binaries losgemaak word en gestoor word in `/var/db/DetachedSignatures` (gebruik deur iOS).
+Darüber hinaus können Signaturen von den Binärdateien getrennt und in `/var/db/DetachedSignatures` gespeichert werden (verwendet von iOS).
 
-## Code Directory Blob
+## Codeverzeichnis-Blob
 
-It's possible to find the declaration of the [Code Directory Blob in the code](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
+Es ist möglich, die Deklaration des [Codeverzeichnis-Blobs im Code zu finden](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
 ```c
 typedef struct __CodeDirectory {
 uint32_t magic;                                 /* magic number (CSMAGIC_CODEDIRECTORY) */
@@ -114,12 +114,12 @@ char end_withLinkage[0];
 } CS_CodeDirectory
 __attribute__ ((aligned(1)));
 ```
-Let daarop dat daar verskillende weergawes van hierdie struktuur is waar oues dalk minder inligting bevat.
+Beachten Sie, dass es verschiedene Versionen dieser Struktur gibt, bei denen ältere möglicherweise weniger Informationen enthalten.
 
-## Ondertekening van Kode Bladsye
+## Signing Code Pages
 
-Hashing van die volle binêre sou ondoeltreffend en selfs nutteloos wees as dit net gedeeltelik in geheue gelaai word. Daarom is die kodehandtekening eintlik 'n hash van hashes waar elke binêre bladsy individueel gehasht word.\
-Eintlik kan jy in die vorige **Kodegids** kode sien dat die **bladgrootte gespesifiseer is** in een van sy velde. Boonop, as die grootte van die binêre nie 'n veelvoud van die grootte van 'n bladsy is nie, spesifiseer die veld **CodeLimit** waar die einde van die handtekening is.
+Das Hashing des vollständigen Binaries wäre ineffizient und sogar nutzlos, wenn es nur teilweise im Speicher geladen ist. Daher ist die Codesignatur tatsächlich ein Hash von Hashes, bei dem jede Binärseite einzeln gehasht wird.\
+Tatsächlich können Sie im vorherigen **Code Directory**-Code sehen, dass die **Seitengröße angegeben ist** in einem seiner Felder. Darüber hinaus gibt das Feld **CodeLimit** an, wo das Ende der Signatur liegt, wenn die Größe des Binaries kein Vielfaches der Seitengröße ist.
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -157,25 +157,25 @@ openssl sha256 /tmp/*.page.*
 ```
 ## Entitlements Blob
 
-Let op dat toepassings ook 'n **entitlement blob** kan bevat waar al die regte gedefinieer is. Boonop kan sommige iOS-binaries hul regte spesifiek in die spesiale slot -7 hê (in plaas van in die -5 regte spesiale slot).
+Beachten Sie, dass Anwendungen auch einen **Entitlement Blob** enthalten können, in dem alle Berechtigungen definiert sind. Darüber hinaus können einige iOS-Binärdateien ihre Berechtigungen spezifisch im speziellen Slot -7 (anstatt im speziellen Slot -5 für Berechtigungen) haben.
 
 ## Special Slots
 
-MacOS-toepassings het nie alles wat hulle nodig het om binne die binêre uit te voer nie, maar hulle gebruik ook **eksterne hulpbronne** (gewoonlik binne die toepassings **bundel**). Daarom is daar 'n paar slots binne die binêre wat die hashes van sommige interessante eksterne hulpbronne sal bevat om te kontroleer dat hulle nie gewysig is nie.
+MacOS-Anwendungen haben nicht alles, was sie zur Ausführung benötigen, innerhalb der Binärdatei, sondern verwenden auch **externe Ressourcen** (normalerweise innerhalb des Anwendungs-**Bundles**). Daher gibt es einige Slots innerhalb der Binärdatei, die die Hashes einiger interessanter externer Ressourcen enthalten, um zu überprüfen, ob sie nicht modifiziert wurden.
 
-Werklik, dit is moontlik om in die Code Directory strukture 'n parameter genaamd **`nSpecialSlots`** te sien wat die aantal spesiale slots aandui. Daar is nie 'n spesiale slot 0 nie en die mees algemene (van -1 tot -6) is:
+Tatsächlich ist es möglich, in den Code Directory-Strukturen einen Parameter namens **`nSpecialSlots`** zu sehen, der die Anzahl der speziellen Slots angibt. Es gibt keinen speziellen Slot 0, und die häufigsten (von -1 bis -6) sind:
 
-* Hash van `info.plist` (of die een binne `__TEXT.__info__plist`).
-* Hash van die Vereistes
-* Hash van die Hulpbron Gids (hash van `_CodeSignature/CodeResources` lêer binne die bundel).
-* Toepassing spesifiek (onbenut)
-* Hash van die regte
-* DMG kode handtekeninge slegs
-* DER Regte
+* Hash von `info.plist` (oder dem im `__TEXT.__info__plist`).
+* Hash der Anforderungen
+* Hash des Ressourcenverzeichnisses (Hash der Datei `_CodeSignature/CodeResources` im Bundle).
+* Anwendungsspezifisch (nicht verwendet)
+* Hash der Berechtigungen
+* DMG-Code-Signaturen nur
+* DER Berechtigungen
 
 ## Code Signing Flags
 
-Elke proses het 'n bitmasker wat bekend staan as die `status` wat deur die kernel begin word en sommige daarvan kan oorgeskryf word deur die **kodehandtekening**. Hierdie vlae wat ingesluit kan word in die kodehandtekening is [gedefinieer in die kode](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+Jeder Prozess hat eine zugehörige Bitmaske, die als `status` bekannt ist und vom Kernel gestartet wird. Einige davon können durch die **Code-Signatur** überschrieben werden. Diese Flags, die in der Code-Signierung enthalten sein können, sind [im Code definiert](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -220,15 +220,15 @@ CS_RESTRICT | CS_ENFORCEMENT | CS_REQUIRE_LV | CS_RUNTIME | CS_LINKER_SIGNED)
 
 #define CS_ENTITLEMENT_FLAGS        (CS_GET_TASK_ALLOW | CS_INSTALLER | CS_DATAVAULT_CONTROLLER | CS_NVRAM_UNRESTRICTED)
 ```
-Note dat die funksie [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) ook die `CS_EXEC_*` vlae dinamies kan byvoeg wanneer dit die uitvoering begin.
+Note that the function [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) kann auch die `CS_EXEC_*`-Flags dynamisch hinzufügen, wenn die Ausführung gestartet wird.
 
-## Kode Handtekening Vereistes
+## Anforderungen an die Code-Signatur
 
-Elke toepassing stoor **vereistes** wat dit moet **tevrede stel** om uitgevoer te kan word. As die **toepassing vereistes bevat wat nie deur die toepassing tevrede gestel word nie**, sal dit nie uitgevoer word nie (soos dit waarskynlik gewysig is).
+Jede Anwendung speichert einige **Anforderungen**, die sie **erfüllen** muss, um ausgeführt werden zu können. Wenn die **Anforderungen der Anwendung nicht von der Anwendung erfüllt werden**, wird sie nicht ausgeführt (da sie wahrscheinlich verändert wurde).
 
-Die vereistes van 'n binêre gebruik 'n **spesiale grammatika** wat 'n stroom van **uitdrukkings** is en word as blobs gekodeer met `0xfade0c00` as die magiese waarde waarvan die **hash in 'n spesiale kode-slot gestoor word**.
+Die Anforderungen einer Binärdatei verwenden eine **spezielle Grammatik**, die ein Stream von **Ausdrücken** ist und als Blobs mit `0xfade0c00` als dem Magic kodiert ist, dessen **Hash in einem speziellen Code-Slot gespeichert ist**.
 
-Die vereistes van 'n binêre kan gesien word deur te loop: 
+Die Anforderungen einer Binärdatei können angezeigt werden, indem man Folgendes ausführt:
 
 {% code overflow="wrap" %}
 ```bash
@@ -243,10 +243,10 @@ designated => identifier "org.whispersystems.signal-desktop" and anchor apple ge
 {% endcode %}
 
 {% hint style="info" %}
-Let op hoe hierdie handtekeninge dinge soos sertifiseringsinligting, TeamID, ID's, regte en baie ander data kan nagaan.
+Beachten Sie, wie diese Signaturen Dinge wie Zertifizierungsinformationen, TeamID, IDs, Berechtigungen und viele andere Daten überprüfen können.
 {% endhint %}
 
-Boonop is dit moontlik om 'n paar saamgestelde vereistes te genereer met die `csreq` hulpmiddel:
+Darüber hinaus ist es möglich, einige kompilierte Anforderungen mit dem `csreq`-Tool zu generieren:
 
 {% code overflow="wrap" %}
 ```bash
@@ -262,57 +262,57 @@ od -A x -t x1 /tmp/output.csreq
 ```
 {% endcode %}
 
-Dit is moontlik om toegang tot hierdie inligting te verkry en vereistes te skep of te wysig met sommige API's van die `Security.framework` soos:
+Es ist möglich, auf diese Informationen zuzugreifen und Anforderungen mit einigen APIs aus dem `Security.framework` zu erstellen oder zu ändern, wie:
 
-#### **Kontroleer Geldigheid**
+#### **Überprüfung der Gültigkeit**
 
-* **`Sec[Static]CodeCheckValidity`**: Kontroleer die geldigheid van SecCodeRef per Vereiste.
-* **`SecRequirementEvaluate`**: Valideer vereiste in sertifikaat konteks
-* **`SecTaskValidateForRequirement`**: Valideer 'n lopende SecTask teen `CFString` vereiste.
+* **`Sec[Static]CodeCheckValidity`**: Überprüft die Gültigkeit von SecCodeRef pro Anforderung.
+* **`SecRequirementEvaluate`**: Validiert die Anforderung im Kontext des Zertifikats.
+* **`SecTaskValidateForRequirement`**: Validiert eine laufende SecTask gegen die `CFString`-Anforderung.
 
-#### **Skep en Bestuur Kode Vereistes**
+#### **Erstellen und Verwalten von Code-Anforderungen**
 
-* **`SecRequirementCreateWithData`:** Skep 'n `SecRequirementRef` uit binêre data wat die vereiste verteenwoordig.
-* **`SecRequirementCreateWithString`:** Skep 'n `SecRequirementRef` uit 'n stringuitdrukking van die vereiste.
-* **`SecRequirementCopy[Data/String]`**: Verkry die binêre data voorstelling van 'n `SecRequirementRef`.
-* **`SecRequirementCreateGroup`**: Skep 'n vereiste vir app-groep lidmaatskap
+* **`SecRequirementCreateWithData`:** Erstellt ein `SecRequirementRef` aus binären Daten, die die Anforderung darstellen.
+* **`SecRequirementCreateWithString`:** Erstellt ein `SecRequirementRef` aus einem String-Ausdruck der Anforderung.
+* **`SecRequirementCopy[Data/String]`**: Ruft die binäre Datenrepräsentation eines `SecRequirementRef` ab.
+* **`SecRequirementCreateGroup`**: Erstellt eine Anforderung für die Mitgliedschaft in einer App-Gruppe.
 
-#### **Toegang tot Kode Handtekening Inligting**
+#### **Zugriff auf Code-Signaturinformationen**
 
-* **`SecStaticCodeCreateWithPath`**: Inisialiseer 'n `SecStaticCodeRef` objek vanaf 'n lêerstelsel pad vir die inspeksie van kode handtekeninge.
-* **`SecCodeCopySigningInformation`**: Verkry handtekening inligting van 'n `SecCodeRef` of `SecStaticCodeRef`.
+* **`SecStaticCodeCreateWithPath`**: Initialisiert ein `SecStaticCodeRef`-Objekt von einem Dateisystempfad zur Inspektion von Codesignaturen.
+* **`SecCodeCopySigningInformation`**: Erhält Signaturinformationen von einem `SecCodeRef` oder `SecStaticCodeRef`.
 
-#### **Wysig Kode Vereistes**
+#### **Ändern von Code-Anforderungen**
 
-* **`SecCodeSignerCreate`**: Skep 'n `SecCodeSignerRef` objek vir die uitvoering van kode handtekening operasies.
-* **`SecCodeSignerSetRequirement`**: Stel 'n nuwe vereiste vir die kode ondertekenaar in om tydens ondertekening toe te pas.
-* **`SecCodeSignerAddSignature`**: Voeg 'n handtekening by die kode wat onderteken word met die gespesifiseerde ondertekenaar.
+* **`SecCodeSignerCreate`**: Erstellt ein `SecCodeSignerRef`-Objekt für die Durchführung von Codesignierungsoperationen.
+* **`SecCodeSignerSetRequirement`**: Setzt eine neue Anforderung für den Codesigner, die während der Signierung angewendet werden soll.
+* **`SecCodeSignerAddSignature`**: Fügt eine Signatur zu dem zu signierenden Code mit dem angegebenen Signierer hinzu.
 
-#### **Valideer Kode met Vereistes**
+#### **Validierung von Code mit Anforderungen**
 
-* **`SecStaticCodeCheckValidity`**: Valideer 'n statiese kode objek teen gespesifiseerde vereistes.
+* **`SecStaticCodeCheckValidity`**: Validiert ein statisches Codeobjekt gegen die angegebenen Anforderungen.
 
-#### **Addisionele Nuttige API's**
+#### **Zusätzliche nützliche APIs**
 
-* **`SecCodeCopy[Internal/Designated]Requirement`: Kry SecRequirementRef van SecCodeRef**
-* **`SecCodeCopyGuestWithAttributes`**: Skep 'n `SecCodeRef` wat 'n kode objek verteenwoordig gebaseer op spesifieke eienskappe, nuttig vir sandboxing.
-* **`SecCodeCopyPath`**: Verkry die lêerstelsel pad geassosieer met 'n `SecCodeRef`.
-* **`SecCodeCopySigningIdentifier`**: Verkry die handtekening identifiseerder (bv. Span ID) van 'n `SecCodeRef`.
-* **`SecCodeGetTypeID`**: Gee die tipe identifiseerder vir `SecCodeRef` objek.
-* **`SecRequirementGetTypeID`**: Kry 'n CFTypeID van 'n `SecRequirementRef`
+* **`SecCodeCopy[Internal/Designated]Requirement`: Holen Sie sich SecRequirementRef von SecCodeRef**
+* **`SecCodeCopyGuestWithAttributes`**: Erstellt ein `SecCodeRef`, das ein Codeobjekt basierend auf spezifischen Attributen darstellt, nützlich für Sandboxing.
+* **`SecCodeCopyPath`**: Ruft den Dateisystempfad ab, der mit einem `SecCodeRef` verknüpft ist.
+* **`SecCodeCopySigningIdentifier`**: Erhält die Signaturkennung (z. B. Team-ID) von einem `SecCodeRef`.
+* **`SecCodeGetTypeID`**: Gibt die Typkennung für `SecCodeRef`-Objekte zurück.
+* **`SecRequirementGetTypeID`**: Erhält eine CFTypeID von einem `SecRequirementRef`.
 
-#### **Kode Handtekening Vlaggies en Konstanten**
+#### **Code-Signierungsflags und Konstanten**
 
-* **`kSecCSDefaultFlags`**: Standaard vlaggies wat in baie Security.framework funksies vir kode handtekening operasies gebruik word.
-* **`kSecCSSigningInformation`**: Vlag wat gebruik word om aan te dui dat handtekening inligting verkry moet word.
+* **`kSecCSDefaultFlags`**: Standardflags, die in vielen Funktionen des Security.framework für Codesignierungsoperationen verwendet werden.
+* **`kSecCSSigningInformation`**: Flag, das angibt, dass Signaturinformationen abgerufen werden sollen.
 
-## Kode Handtekening Afforcing
+## Durchsetzung der Codesignatur
 
-Die **kernel** is die een wat **die kode handtekening nagaan** voordat dit die kode van die app toelaat om uit te voer. Boonop, een manier om in geheue nuwe kode te kan skryf en uitvoer, is om JIT te misbruik as `mprotect` met `MAP_JIT` vlag aangeroep word. Let daarop dat die toepassing 'n spesiale regte benodig om dit te kan doen.
+Der **Kernel** ist derjenige, der **die Codesignatur überprüft**, bevor er den Code der App ausführt. Darüber hinaus ist eine Möglichkeit, neuen Code im Speicher zu schreiben und auszuführen, den JIT zu missbrauchen, wenn `mprotect` mit dem `MAP_JIT`-Flag aufgerufen wird. Beachten Sie, dass die Anwendung eine spezielle Berechtigung benötigt, um dies tun zu können.
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struktuur bevat die inligting oor die regte van die lopende proses daarop. `csb_platform_binary` dui ook aan of die toepassing 'n platform binêre is (wat op verskillende tye deur die OS nagegaan word om sekuriteitsmeganismes toe te pas soos om die SEND regte na die taakpoorte van hierdie prosesse te beskerm).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) Struktur enthält die Informationen über die Berechtigung des laufenden Prozesses. `csb_platform_binary` informiert auch, ob die Anwendung eine Plattform-Binärdatei ist (was zu verschiedenen Zeitpunkten vom OS überprüft wird, um Sicherheitsmechanismen anzuwenden, wie zum Beispiel den SEND-Rechten zu den Task-Ports dieser Prozesse zu schützen).
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;
@@ -371,21 +371,21 @@ bool csb_csm_managed;
 #endif
 };
 ```
-## Verwysings
+## Referenzen
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

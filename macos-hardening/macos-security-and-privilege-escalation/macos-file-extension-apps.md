@@ -1,25 +1,25 @@
-# macOS Lêeruitbreiding & URL-skema-toepassingshanteraars
+# macOS Dateierweiterung & URL-Schema-App-Handler
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## LaunchServices-databasis
+## LaunchServices-Datenbank
 
-Dit is 'n databasis van al die geïnstalleerde toepassings in die macOS wat ondervra kan word om inligting oor elke geïnstalleerde toepassing te verkry, soos URL-skemas wat dit ondersteun en MIME-tipes.
+Dies ist eine Datenbank aller installierten Anwendungen in macOS, die abgefragt werden kann, um Informationen über jede installierte Anwendung zu erhalten, wie z. B. die unterstützten URL-Schemata und MIME-Typen.
 
-Dit is moontlik om hierdie databasis te dump met:
+Es ist möglich, diese Datenbank mit folgendem Befehl zu dumpen:
 
 {% code overflow="wrap" %}
 ```
@@ -27,15 +27,15 @@ Dit is moontlik om hierdie databasis te dump met:
 ```
 {% endcode %}
 
-Of deur die hulpmiddel [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+Oder mit dem Tool [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-**`/usr/libexec/lsd`** is die brein van die databasis. Dit voorsien **verskeie XPC-diens** soos `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, en meer. Maar dit **vereis ook sekere toestemmings** aan aansoeke om die blootgestelde XPC-funksies te kan gebruik, soos `.launchservices.changedefaulthandler` of `.launchservices.changeurlschemehandler` om verstekprogramme vir mime-tipes of url-skemas te verander en ander.
+**`/usr/libexec/lsd`** ist das Gehirn der Datenbank. Es bietet **mehrere XPC-Dienste** wie `.lsd.installation`, `.lsd.open`, `.lsd.openurl` und mehr. Aber es **benötigt auch einige Berechtigungen** für Anwendungen, um die exponierten XPC-Funktionalitäten nutzen zu können, wie `.launchservices.changedefaulthandler` oder `.launchservices.changeurlschemehandler`, um Standardanwendungen für MIME-Typen oder URL-Schemata und andere zu ändern.
 
-**`/System/Library/CoreServices/launchservicesd`** eis die diens `com.apple.coreservices.launchservicesd` en kan ondervra word om inligting oor lopende aansoeke te kry. Dit kan ondervra word met die stelselhulpmiddel /**`usr/bin/lsappinfo`** of met [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+**`/System/Library/CoreServices/launchservicesd`** beansprucht den Dienst `com.apple.coreservices.launchservicesd` und kann abgefragt werden, um Informationen über laufende Anwendungen zu erhalten. Es kann mit dem Systemtool /**`usr/bin/lsappinfo`** oder mit [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html) abgefragt werden.
 
-## Lêeruitbreiding & URL-skema-aansoekhanteraars
+## Datei-Erweiterung & URL-Schema-Anwendungs-Handler
 
-Die volgende lyn kan nuttig wees om die aansoeke te vind wat lêers kan oopmaak afhangende van die uitbreiding:
+Die folgende Zeile kann nützlich sein, um die Anwendungen zu finden, die Dateien je nach Erweiterung öffnen können:
 
 {% code overflow="wrap" %}
 ```bash
@@ -43,14 +43,14 @@ Die volgende lyn kan nuttig wees om die aansoeke te vind wat lêers kan oopmaak 
 ```
 {% endcode %}
 
-Of gebruik iets soos [**SwiftDefaultApps**](https://github.com/Lord-Kamina/SwiftDefaultApps):
+Oder verwenden Sie etwas wie [**SwiftDefaultApps**](https://github.com/Lord-Kamina/SwiftDefaultApps):
 ```bash
 ./swda getSchemes #Get all the available schemes
 ./swda getApps #Get all the apps declared
 ./swda getUTIs #Get all the UTIs
 ./swda getHandler --URL ftp #Get ftp handler
 ```
-Jy kan ook die uitbreidings wat deur 'n toepassing ondersteun word, nagaan deur:
+Sie können auch die von einer Anwendung unterstützten Erweiterungen überprüfen, indem Sie Folgendes tun:
 ```
 cd /Applications/Safari.app/Contents
 grep -A3 CFBundleTypeExtensions Info.plist  | grep string
@@ -83,16 +83,16 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>svg</string>
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

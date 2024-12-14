@@ -1,25 +1,25 @@
-# Voorwerpe in geheue
+# Objekte im Speicher
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-CF\* voorwerpe kom van CoreFOundation, wat meer as 50 klasse van voorwerpe soos `CFString`, `CFNumber` of `CFAllocatior` bied.
+CF\* Objekte stammen aus CoreFoundation, das mehr als 50 Klassen von Objekten wie `CFString`, `CFNumber` oder `CFAllocator` bereitstellt.
 
-Al hierdie klasse is instansies van die klas `CFRuntimeClass`, wat wanneer dit geroep word 'n indeks na die `__CFRuntimeClassTable` teruggee. Die CFRuntimeClass is gedefinieer in [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Alle diese Klassen sind Instanzen der Klasse `CFRuntimeClass`, die, wenn sie aufgerufen wird, einen Index zur `__CFRuntimeClassTable` zurückgibt. Die CFRuntimeClass ist in [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html) definiert:
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Gebruikte geheue-afdelings
+### Verwendete Speicherabschnitte
 
-Die meeste van die data wat deur die ObjectiveC-runtime gebruik word, sal tydens die uitvoering verander, daarom gebruik dit sekere afdelings van die **\_\_DATA** segment in die geheue:
+Die meisten Daten, die von der ObjectiveC-Laufzeit verwendet werden, ändern sich während der Ausführung, daher verwendet es einige Abschnitte aus dem **\_\_DATA**-Segment im Speicher:
 
-- **`__objc_msgrefs`** (`message_ref_t`): Boodskapverwysings
-- **`__objc_ivar`** (`ivar`): Instansie-veranderlikes
-- **`__objc_data`** (`...`): Veranderlike data
-- **`__objc_classrefs`** (`Class`): Klasverwysings
-- **`__objc_superrefs`** (`Class`): Superklasverwysings
-- **`__objc_protorefs`** (`protocol_t *`): Protokolverwysings
-- **`__objc_selrefs`** (`SEL`): Kieserverwysings
-- **`__objc_const`** (`...`): Klas `r/o` data en ander (hopelik) konstante data
-- **`__objc_imageinfo`** (`weergawe, vlae`): Gebruik tydens beeldlading: Weergawe tans `0`; Vlae spesifiseer vooraf geoptimeerde GC-ondersteuning, ens.
-- **`__objc_protolist`** (`protocol_t *`): Protokollys
-- **`__objc_nlcatlist`** (`category_t`): Verwysing na Nie-Luie Kategorieë wat in hierdie binêre lê
-- **`__objc_catlist`** (`category_t`): Verwysing na Kategorieë wat in hierdie binêre lê
-- **`__objc_nlclslist`** (`classref_t`): Verwysing na Nie-Luie Objective-C-klasse wat in hierdie binêre lê
-- **`__objc_classlist`** (`classref_t`): Verwysings na alle Objective-C-klasse wat in hierdie binêre lê
+* **`__objc_msgrefs`** (`message_ref_t`): Nachrichtenreferenzen
+* **`__objc_ivar`** (`ivar`): Instanzvariablen
+* **`__objc_data`** (`...`): Änderbare Daten
+* **`__objc_classrefs`** (`Class`): Klassenreferenzen
+* **`__objc_superrefs`** (`Class`): Superklassenreferenzen
+* **`__objc_protorefs`** (`protocol_t *`): Protokollreferenzen
+* **`__objc_selrefs`** (`SEL`): Selektorreferenzen
+* **`__objc_const`** (`...`): Klassen `r/o` Daten und andere (hoffentlich) konstante Daten
+* **`__objc_imageinfo`** (`version, flags`): Wird während des Bildladens verwendet: Version derzeit `0`; Flags geben voroptimierte GC-Unterstützung usw. an.
+* **`__objc_protolist`** (`protocol_t *`): Protokollliste
+* **`__objc_nlcatlist`** (`category_t`): Zeiger auf Nicht-Lazy-Kategorien, die in diesem Binärformat definiert sind
+* **`__objc_catlist`** (`category_t`): Zeiger auf Kategorien, die in diesem Binärformat definiert sind
+* **`__objc_nlclslist`** (`classref_t`): Zeiger auf Nicht-Lazy-Objective-C-Klassen, die in diesem Binärformat definiert sind
+* **`__objc_classlist`** (`classref_t`): Zeiger auf alle Objective-C-Klassen, die in diesem Binärformat definiert sind
 
-Dit gebruik ook 'n paar afdelings in die **`__TEXT`** segment om konstante waardes te stoor as dit nie moontlik is om in hierdie afdeling te skryf nie:
+Es verwendet auch einige Abschnitte im **`__TEXT`**-Segment, um konstante Werte zu speichern, wenn es nicht möglich ist, in diesem Abschnitt zu schreiben:
 
-- **`__objc_methname`** (C-String): Metode name
-- **`__objc_classname`** (C-String): Klasname
-- **`__objc_methtype`** (C-String): Metode tipes
+* **`__objc_methname`** (C-String): Methodennamen
+* **`__objc_classname`** (C-String): Klassennamen
+* **`__objc_methtype`** (C-String): Methodentypen
 
-### Tipe-kodering
+### Typkodierung
 
-Objective-C gebruik 'n bietjie verminking om die kieser- en veranderlike tipes van eenvoudige en komplekse tipes te kodeer:
+Objective-C verwendet einige Mangling-Techniken, um Selektor- und Variablentypen einfacher und komplexer Typen zu kodieren:
 
-- Primitiewe tipes gebruik hul eerste letter van die tipe `i` vir `int`, `c` vir `char`, `l` vir `long`... en gebruik die hoofletter in die geval dit onderteken is (`L` vir `unsigned Long`).
-- Ander datatipes waarvan die letters gebruik word of spesiaal is, gebruik ander letters of simbole soos `q` vir `long long`, `b` vir `bitvelds`, `B` vir `booleans`, `#` vir `klasse`, `@` vir `id`, `*` vir `char-aanwysers`, `^` vir generiese `aanwysers` en `?` vir `onbepaalde`.
-- Arrays, strukture en unies gebruik `[`, `{` en `(`
+* Primitive Typen verwenden den ersten Buchstaben des Typs `i` für `int`, `c` für `char`, `l` für `long`... und verwenden den Großbuchstaben, falls es sich um einen unsigned Typ handelt (`L` für `unsigned Long`).
+* Andere Datentypen, deren Buchstaben verwendet werden oder die speziell sind, verwenden andere Buchstaben oder Symbole wie `q` für `long long`, `b` für `Bitfelder`, `B` für `Booleans`, `#` für `Klassen`, `@` für `id`, `*` für `char-Zeiger`, `^` für generische `Zeiger` und `?` für `undefiniert`.
+* Arrays, Strukturen und Vereinigungen verwenden `[`, `{` und `(`
 
-#### Voorbeeld Metodeverklaring
+#### Beispiel für eine Methodendeklaration
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -109,31 +109,31 @@ Objective-C gebruik 'n bietjie verminking om die kieser- en veranderlike tipes v
 ```
 {% endcode %}
 
-Die kieser sal `processString:withOptions:andError:` wees
+Der Selektor wäre `processString:withOptions:andError:`
 
-#### Tipe Enkodering
+#### Typkodierung
 
-* `id` word enkodeer as `@`
-* `char *` word enkodeer as `*`
+* `id` wird als `@` kodiert
+* `char *` wird als `*` kodiert
 
-Die volledige tipe enkodering vir die metode is:
+Die vollständige Typkodierung für die Methode ist:
 ```less
 @24@0:8@16*20^@24
 ```
-#### Gedetailleerde Uiteensetting
+#### Detaillierte Aufschlüsselung
 
-1. **Retourtipe (`NSString *`)**: Opgesluit as `@` met lengte 24
-2. **`self` (objekinstansie)**: Opgesluit as `@`, by offset 0
-3. **`_cmd` (selekteerder)**: Opgesluit as `:`, by offset 8
-4. **Eerste argument (`char * input`)**: Opgesluit as `*`, by offset 16
-5. **Tweede argument (`NSDictionary * options`)**: Opgesluit as `@`, by offset 20
-6. **Derde argument (`NSError ** error`)**: Opgesluit as `^@`, by offset 24
+1. **Rückgabetyp (`NSString *`)**: Kodiert als `@` mit Länge 24
+2. **`self` (Objektinstanz)**: Kodiert als `@`, bei Offset 0
+3. **`_cmd` (Selektor)**: Kodiert als `:`, bei Offset 8
+4. **Erstes Argument (`char * input`)**: Kodiert als `*`, bei Offset 16
+5. **Zweites Argument (`NSDictionary * options`)**: Kodiert als `@`, bei Offset 20
+6. **Drittes Argument (`NSError ** error`)**: Kodiert als `^@`, bei Offset 24
 
-**Met die selekteerder + die enkodering kan jy die metode herkonstrueer.**
+**Mit dem Selektor + der Kodierung kannst du die Methode rekonstruieren.**
 
-### **Klasse**
+### **Klassen**
 
-Klasse in Objective-C is 'n struktuur met eienskappe, metode-aanwysers... Dit is moontlik om die struktuur `objc_class` in die [**bronkode**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) te vind:
+Klassen in Objective-C sind eine Struktur mit Eigenschaften, Methodenzeigern... Es ist möglich, die Struktur `objc_class` im [**Quellcode**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) zu finden:
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,7 @@ data()->setFlags(set);
 }
 [...]
 ```
-Hierdie klas gebruik 'n paar bietjies van die isa-veld om inligting oor die klas aan te dui.
+Diese Klasse verwendet einige Bits des isa-Feldes, um Informationen über die Klasse anzuzeigen.
 
-Dan het die struktuur 'n verwysing na die struktuur `class_ro_t` wat op die skyf gestoor word en eienskappe van die klas bevat soos sy naam, basiese metodes, eienskappe en instansie-veranderlikes.\
-Tydens hardlooptyd word 'n bykomende struktuur `class_rw_t` gebruik wat verwysings bevat wat verander kan word soos metodes, protokolle, eienskappe...
+Dann hat die Struktur einen Zeiger auf die Struktur `class_ro_t`, die auf der Festplatte gespeichert ist und Attribute der Klasse wie ihren Namen, Basis-Methoden, Eigenschaften und Instanzvariablen enthält.\
+Zur Laufzeit wird eine zusätzliche Struktur `class_rw_t` verwendet, die Zeiger enthält, die geändert werden können, wie Methoden, Protokolle, Eigenschaften...

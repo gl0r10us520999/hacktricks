@@ -17,33 +17,33 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## **Autoriserings DB**
+## **Athorizarions DB**
 
-Die databasis geleë in `/var/db/auth.db` is 'n databasis wat gebruik word om toestemmings te stoor om sensitiewe operasies uit te voer. Hierdie operasies word heeltemal in **gebruikerspas** uitgevoer en word gewoonlik deur **XPC-dienste** gebruik wat moet nagaan **of die oproepende kliënt gemagtig is** om sekere aksies uit te voer deur hierdie databasis te kontroleer.
+Die Datenbank, die sich in `/var/db/auth.db` befindet, ist eine Datenbank, die verwendet wird, um Berechtigungen für die Durchführung sensibler Operationen zu speichern. Diese Operationen werden vollständig im **Benutzermodus** durchgeführt und werden normalerweise von **XPC-Diensten** verwendet, die überprüfen müssen, **ob der aufrufende Client autorisiert ist**, um bestimmte Aktionen durchzuführen, indem sie diese Datenbank abfragen.
 
-Aanvanklik word hierdie databasis geskep uit die inhoud van `/System/Library/Security/authorization.plist`. Dan kan sommige dienste hierdie databasis bywerk of wysig om ander toestemmings by te voeg.
+Ursprünglich wird diese Datenbank aus dem Inhalt von `/System/Library/Security/authorization.plist` erstellt. Dann können einige Dienste diese Datenbank hinzufügen oder ändern, um weitere Berechtigungen hinzuzufügen.
 
-Die reëls word in die `rules` tabel binne die databasis gestoor en bevat die volgende kolomme:
+Die Regeln werden in der `rules`-Tabelle innerhalb der Datenbank gespeichert und enthalten die folgenden Spalten:
 
-* **id**: 'n Unieke identifiseerder vir elke reël, outomaties verhoog en dien as die primêre sleutel.
-* **name**: Die unieke naam van die reël wat gebruik word om dit binne die autorisasiesisteem te identifiseer en te verwys.
-* **type**: Gee die tipe van die reël aan, beperk tot waardes 1 of 2 om sy autorisasielogika te definieer.
-* **class**: Kategoriseer die reël in 'n spesifieke klas, wat verseker dat dit 'n positiewe heelgetal is.
-* "allow" vir toelaat, "deny" vir weier, "user" as die groep eienskap 'n groep aandui waarvan lidmaatskap toegang toelaat, "rule" dui in 'n array 'n reël aan wat nagekom moet word, "evaluate-mechanisms" gevolg deur 'n `mechanisms` array wat of ingeboude funksies of 'n naam van 'n bundel binne `/System/Library/CoreServices/SecurityAgentPlugins/` of /Library/Security//SecurityAgentPlugins is.
-* **group**: Dui die gebruikersgroep aan wat met die reël geassosieer word vir groep-gebaseerde autorisasie.
-* **kofn**: Verteenwoordig die "k-of-n" parameter, wat bepaal hoeveel subreëls uit 'n totale aantal bevredig moet word.
-* **timeout**: Definieer die duur in sekondes voordat die autorisasie wat deur die reël toegestaan word, verval.
-* **flags**: Bevat verskeie vlae wat die gedrag en eienskappe van die reël wysig.
-* **tries**: Beperk die aantal toegelate autorisasiepogings om sekuriteit te verbeter.
-* **version**: Hou die weergawe van die reël dop vir weergawebeheer en opdaterings.
-* **created**: Registreer die tydstempel wanneer die reël geskep is vir ouditdoeleindes.
-* **modified**: Stoor die tydstempel van die laaste wysiging aan die reël.
-* **hash**: Hou 'n hash-waarde van die reël om sy integriteit te verseker en om te detecteer of daar gemanipuleer is.
-* **identifier**: Verskaf 'n unieke string identifiseerder, soos 'n UUID, vir eksterne verwysings na die reël.
-* **requirement**: Bevat geserialiseerde data wat die spesifieke autorisasievereistes en meganismes van die reël definieer.
-* **comment**: Bied 'n menslike leesbare beskrywing of opmerking oor die reël vir dokumentasie en duidelikheid.
+* **id**: Ein eindeutiger Identifikator für jede Regel, der automatisch inkrementiert wird und als Primärschlüssel dient.
+* **name**: Der eindeutige Name der Regel, der verwendet wird, um sie im Autorisierungssystem zu identifizieren und darauf zu verweisen.
+* **type**: Gibt den Typ der Regel an, der auf die Werte 1 oder 2 beschränkt ist, um ihre Autorisierungslogik zu definieren.
+* **class**: Kategorisiert die Regel in eine spezifische Klasse und stellt sicher, dass es sich um eine positive ganze Zahl handelt.
+* "allow" für erlauben, "deny" für verweigern, "user" wenn die Gruppen-Eigenschaft eine Gruppe angibt, deren Mitgliedschaft den Zugriff erlaubt, "rule" zeigt in einem Array eine Regel an, die erfüllt werden muss, "evaluate-mechanisms" gefolgt von einem `mechanisms`-Array, das entweder integrierte Mechanismen oder den Namen eines Bundles innerhalb von `/System/Library/CoreServices/SecurityAgentPlugins/` oder /Library/Security//SecurityAgentPlugins enthält.
+* **group**: Gibt die Benutzergruppe an, die mit der Regel für gruppenbasierte Autorisierung verbunden ist.
+* **kofn**: Stellt den "k-of-n"-Parameter dar, der bestimmt, wie viele Unterregeln aus einer Gesamtzahl erfüllt sein müssen.
+* **timeout**: Definiert die Dauer in Sekunden, bevor die durch die Regel gewährte Autorisierung abläuft.
+* **flags**: Enthält verschiedene Flags, die das Verhalten und die Eigenschaften der Regel ändern.
+* **tries**: Begrenzung der Anzahl der erlaubten Autorisierungsversuche zur Verbesserung der Sicherheit.
+* **version**: Verfolgt die Version der Regel für die Versionskontrolle und Updates.
+* **created**: Protokolliert den Zeitstempel, wann die Regel erstellt wurde, zu Prüfungszwecken.
+* **modified**: Speichert den Zeitstempel der letzten Änderung an der Regel.
+* **hash**: Enthält einen Hash-Wert der Regel, um ihre Integrität sicherzustellen und Manipulationen zu erkennen.
+* **identifier**: Bietet einen eindeutigen String-Identifikator, wie eine UUID, für externe Verweise auf die Regel.
+* **requirement**: Enthält serialisierte Daten, die die spezifischen Autorisierungsanforderungen und -mechanismen der Regel definieren.
+* **comment**: Bietet eine für Menschen lesbare Beschreibung oder einen Kommentar zur Regel für Dokumentations- und Klarheitszwecke.
 
-### Voorbeeld
+### Beispiel
 ```bash
 # List by name and comments
 sudo sqlite3 /var/db/auth.db "select name, comment from rules"
@@ -71,7 +71,7 @@ security authorizationdb read com.apple.tcc.util.admin
 </dict>
 </plist>
 ```
-Boonop in [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/](https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/) is dit moontlik om die betekenis van `authenticate-admin-nonshared` te sien:
+Außerdem ist es möglich, die Bedeutung von `authenticate-admin-nonshared` unter [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/](https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/) zu sehen:
 ```json
 {
 'allow-root' : 'false',
@@ -88,11 +88,11 @@ Boonop in [https://www.dssw.co.uk/reference/authorization-rights/authenticate-ad
 ```
 ## Authd
 
-Dit is 'n daemon wat versoeke sal ontvang om kliënte te autoriseer om sensitiewe aksies uit te voer. Dit werk as 'n XPC-diens wat binne die `XPCServices/`-map gedefinieer is en gebruik om sy logs in `/var/log/authd.log` te skryf.
+Es ist ein Daemon, der Anfragen erhält, um Clients zu autorisieren, sensible Aktionen durchzuführen. Es funktioniert als XPC-Dienst, der im `XPCServices/`-Ordner definiert ist, und schreibt seine Protokolle in `/var/log/authd.log`.
 
-Boonop is dit moontlik om baie `Security.framework` API's te toets met die sekuriteitstoepassing. Byvoorbeeld, die `AuthorizationExecuteWithPrivileges` wat loop: `security execute-with-privileges /bin/ls`
+Darüber hinaus ist es möglich, mit dem Sicherheitstool viele `Security.framework`-APIs zu testen. Zum Beispiel `AuthorizationExecuteWithPrivileges`, das ausgeführt wird mit: `security execute-with-privileges /bin/ls`
 
-Dit sal `/usr/libexec/security_authtrampoline /bin/ls` as root fork en exec, wat toestemming sal vra in 'n prompt om ls as root uit te voer:
+Das wird `/usr/libexec/security_authtrampoline /bin/ls` als root fork und exec, was um Erlaubnis in einem Prompt bittet, um ls als root auszuführen:
 
 <figure><img src="../../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
