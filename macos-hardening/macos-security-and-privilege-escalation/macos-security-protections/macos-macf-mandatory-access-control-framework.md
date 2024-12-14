@@ -19,16 +19,16 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 **MACF** σημαίνει **Πλαίσιο Υποχρεωτικού Ελέγχου Πρόσβασης**, το οποίο είναι ένα σύστημα ασφαλείας ενσωματωμένο στο λειτουργικό σύστημα για να βοηθήσει στην προστασία του υπολογιστή σας. Λειτουργεί θέτοντας **αυστηρούς κανόνες σχετικά με το ποιος ή τι μπορεί να έχει πρόσβαση σε ορισμένα μέρη του συστήματος**, όπως αρχεία, εφαρμογές και πόρους συστήματος. Εφαρμόζοντας αυτούς τους κανόνες αυτόματα, το MACF διασφαλίζει ότι μόνο οι εξουσιοδοτημένοι χρήστες και διαδικασίες μπορούν να εκτελούν συγκεκριμένες ενέργειες, μειώνοντας τον κίνδυνο μη εξουσιοδοτημένης πρόσβασης ή κακόβουλων δραστηριοτήτων.
 
-Σημειώστε ότι το MACF δεν παίρνει πραγματικά αποφάσεις καθώς απλώς **παρεμβαίνει** σε ενέργειες, αφήνει τις αποφάσεις στα **πολιτικά modules** (επέκταση πυρήνα) που καλεί όπως `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext`, `TMSafetyNet.kext` και `mcxalr.kext`.
+Σημειώστε ότι το MACF δεν παίρνει πραγματικά αποφάσεις καθώς απλώς **παρεμβαίνει** σε ενέργειες, αφήνει τις αποφάσεις στα **modules πολιτικής** (επέκταση πυρήνα) που καλεί όπως `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext`, `TMSafetyNet.kext` και `mcxalr.kext`.
 
 ### Flow
 
 1. Η διαδικασία εκτελεί μια syscall/mach trap
 2. Η σχετική λειτουργία καλείται μέσα στον πυρήνα
 3. Η λειτουργία καλεί το MACF
-4. Το MACF ελέγχει τα πολιτικά modules που ζήτησαν να συνδεθούν με αυτή τη λειτουργία στην πολιτική τους
+4. Το MACF ελέγχει τα modules πολιτικής που ζήτησαν να συνδεθούν με αυτή τη λειτουργία στην πολιτική τους
 5. Το MACF καλεί τις σχετικές πολιτικές
-6. Οι πολιτικές υποδεικνύουν αν επιτρέπουν ή αρνούνται την ενέργεια
+6. Οι πολιτικές υποδεικνύουν αν επιτρέπουν ή απορρίπτουν την ενέργεια
 
 {% hint style="danger" %}
 Η Apple είναι η μόνη που μπορεί να χρησιμοποιήσει το KPI του MAC Framework.
@@ -36,7 +36,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ### Labels
 
-Το MACF χρησιμοποιεί **ετικέτες** που στη συνέχεια οι πολιτικές ελέγχουν αν θα παραχωρήσουν κάποια πρόσβαση ή όχι. Ο κώδικας της δήλωσης δομής των ετικετών μπορεί να βρεθεί [εδώ](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), ο οποίος χρησιμοποιείται στη συνέχεια μέσα στη **`struct ucred`** [**εδώ**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) στο μέρος **`cr_label`**. Η ετικέτα περιέχει σημαίες και έναν αριθμό **slots** που μπορούν να χρησιμοποιηθούν από **πολιτικές MACF για να εκχωρήσουν δείκτες**. Για παράδειγμα, το Sandbox θα δείχνει στο προφίλ του κοντέινερ.
+Το MACF χρησιμοποιεί **ετικέτες** που στη συνέχεια οι πολιτικές ελέγχουν αν θα χορηγήσουν κάποια πρόσβαση ή όχι. Ο κώδικας της δήλωσης δομής των ετικετών μπορεί να βρεθεί [εδώ](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), ο οποίος χρησιμοποιείται στη συνέχεια μέσα στη **`struct ucred`** [**εδώ**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) στο μέρος **`cr_label`**. Η ετικέτα περιέχει σημαίες και έναν αριθμό **slots** που μπορούν να χρησιμοποιηθούν από **πολιτικές MACF για να εκχωρήσουν δείκτες**. Για παράδειγμα, το Sandbox θα δείχνει στο προφίλ του κοντέινερ.
 
 ## MACF Policies
 
@@ -79,11 +79,11 @@ mpc_t			 mpc_list;		/** List reference */
 void			*mpc_data;		/** module data */
 };
 ```
-Είναι εύκολο να εντοπιστούν οι επεκτάσεις πυρήνα που ρυθμίζουν αυτές τις πολιτικές ελέγχοντας τις κλήσεις προς `mac_policy_register`. Επιπλέον, ελέγχοντας την αποσυναρμολόγηση της επέκτασης είναι επίσης δυνατό να βρεθεί η χρησιμοποιούμενη δομή `mac_policy_conf`.
+Είναι εύκολο να εντοπιστούν οι επεκτάσεις πυρήνα που ρυθμίζουν αυτές τις πολιτικές ελέγχοντας τις κλήσεις προς το `mac_policy_register`. Επιπλέον, ελέγχοντας την αποσυναρμολόγηση της επέκτασης είναι επίσης δυνατό να βρεθεί η χρησιμοποιούμενη δομή `mac_policy_conf`.
 
 Σημειώστε ότι οι πολιτικές MACF μπορούν να καταχωρηθούν και να αποσυρθούν επίσης **δυναμικά**.
 
-Ένα από τα κύρια πεδία της `mac_policy_conf` είναι το **`mpc_ops`**. Αυτό το πεδίο καθορίζει ποιες λειτουργίες ενδιαφέρει η πολιτική. Σημειώστε ότι υπάρχουν εκατοντάδες από αυτές, οπότε είναι δυνατό να μηδενιστούν όλες και στη συνέχεια να επιλεγούν μόνο αυτές που ενδιαφέρουν την πολιτική. Από [εδώ](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html):
+Ένα από τα κύρια πεδία της `mac_policy_conf` είναι το **`mpc_ops`**. Αυτό το πεδίο καθορίζει ποιες λειτουργίες ενδιαφέρει η πολιτική. Σημειώστε ότι υπάρχουν εκατοντάδες από αυτές, οπότε είναι δυνατό να μηδενιστούν όλες και στη συνέχεια να επιλεγούν μόνο αυτές που ενδιαφέρει η πολιτική. Από [εδώ](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
 ```c
 struct mac_policy_ops {
 mpo_audit_check_postselect_t		*mpo_audit_check_postselect;
@@ -96,8 +96,7 @@ mpo_cred_check_label_update_execve_t	*mpo_cred_check_label_update_execve;
 mpo_cred_check_label_update_t		*mpo_cred_check_label_update;
 [...]
 ```
-```markdown
-Σχεδόν όλοι οι hooks θα καλούνται από το MACF όταν μία από αυτές τις λειτουργίες παρεμποδίζεται. Ωστόσο, οι **`mpo_policy_*`** hooks είναι μια εξαίρεση επειδή το `mpo_hook_policy_init()` είναι μια callback που καλείται κατά την εγγραφή (οπότε μετά το `mac_policy_register()`) και το `mpo_hook_policy_initbsd()` καλείται κατά την καθυστερημένη εγγραφή μόλις το υποσύστημα BSD έχει αρχικοποιηθεί σωστά.
+Σχεδόν όλοι οι hooks θα καλούνται από το MACF όταν μία από αυτές τις λειτουργίες παρεμποδίζεται. Ωστόσο, οι **`mpo_policy_*`** hooks είναι μια εξαίρεση επειδή το `mpo_hook_policy_init()` είναι μια callback που καλείται κατά την εγγραφή (οπότε μετά το `mac_policy_register()`) και το `mpo_hook_policy_initbsd()` καλείται κατά την καθυστερημένη εγγραφή μόλις το BSD υποσύστημα έχει αρχικοποιηθεί σωστά.
 
 Επιπλέον, ο **`mpo_policy_syscall`** hook μπορεί να εγγραφεί από οποιοδήποτε kext για να εκθέσει μια ιδιωτική **ioctl** στυλ κλήση **interface**. Στη συνέχεια, ένας πελάτης χρήστη θα μπορεί να καλέσει το `mac_syscall` (#381) καθορίζοντας ως παραμέτρους το **όνομα πολιτικής** με έναν ακέραιο **κωδικό** και προαιρετικά **ορίσματα**.\
 Για παράδειγμα, το **`Sandbox.kext`** το χρησιμοποιεί πολύ.
@@ -108,11 +107,11 @@ mpo_cred_check_label_update_t		*mpo_cred_check_label_update;
 
 ## MACF Initialization
 
-Το MACF αρχικοποιείται πολύ νωρίς. Ρυθμίζεται στο `bootstrap_thread` του XNU: μετά το `ipc_bootstrap` γίνεται μια κλήση στο `mac_policy_init()` που αρχικοποιεί τη λίστα `mac_policy_list` και λίγο αργότερα καλείται το `mac_policy_initmach()`. Μεταξύ άλλων, αυτή η λειτουργία θα αποκτήσει όλα τα Apple kexts με το κλειδί `AppleSecurityExtension` στο Info.plist τους όπως το `ALF.kext`, `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext` και `TMSafetyNet.kext` και τα φορτώνει.
+Το MACF αρχικοποιείται πολύ νωρίς. Ρυθμίζεται στο `bootstrap_thread` του XNU: μετά το `ipc_bootstrap` γίνεται μια κλήση στο `mac_policy_init()` που αρχικοποιεί τη `mac_policy_list` και λίγα λεπτά αργότερα καλείται το `mac_policy_initmach()`. Μεταξύ άλλων, αυτή η συνάρτηση θα αποκτήσει όλα τα Apple kexts με το κλειδί `AppleSecurityExtension` στο Info.plist τους όπως το `ALF.kext`, `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext` και `TMSafetyNet.kext` και τα φορτώνει.
 
 ## MACF Callouts
 
-Είναι κοινό να βρείτε callouts στο MACF που ορίζονται σε κώδικα όπως: **`#if CONFIG_MAC`** μπλοκ συνθηκών. Επιπλέον, μέσα σε αυτά τα μπλοκ είναι δυνατό να βρείτε κλήσεις στο `mac_proc_check*` που καλεί το MACF για **έλεγχο δικαιωμάτων** για την εκτέλεση ορισμένων ενεργειών. Επιπλέον, η μορφή των callouts του MACF είναι: **`mac_<object>_<opType>_opName`**.
+Είναι κοινό να βρείτε callouts στο MACF που ορίζονται σε κώδικα όπως: **`#if CONFIG_MAC`** μπλοκ συνθηκών. Επιπλέον, μέσα σε αυτά τα μπλοκ είναι δυνατό να βρείτε κλήσεις σε `mac_proc_check*` που καλεί το MACF για **έλεγχο δικαιωμάτων** για την εκτέλεση ορισμένων ενεργειών. Επιπλέον, η μορφή των callouts του MACF είναι: **`mac_<object>_<opType>_opName`**.
 
 Το αντικείμενο είναι ένα από τα εξής: `bpfdesc`, `cred`, `file`, `proc`, `vnode`, `mount`, `devfs`, `ifnet`, `inpcb`, `mbuf`, `ipq`, `pipe`, `sysv[msg/msq/shm/sem]`, `posix[shm/sem]`, `socket`, `kext`.\
 Ο `opType` είναι συνήθως check που θα χρησιμοποιηθεί για να επιτρέψει ή να αρνηθεί την ενέργεια. Ωστόσο, είναι επίσης δυνατό να βρείτε `notify`, που θα επιτρέψει στο kext να αντιδράσει στην δεδομένη ενέργεια.
@@ -136,7 +135,6 @@ goto bad;
 </code></pre>
 
 Στη συνέχεια, είναι δυνατό να βρείτε τον κώδικα του `mac_file_check_mmap` στο [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_file.c#L174](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_file.c#L174)
-```
 ```c
 mac_file_check_mmap(struct ucred *cred, struct fileglob *fg, int prot,
 int flags, uint64_t offset, int *maxprot)
@@ -208,7 +206,7 @@ DTRACE_MACF2(mac__rslt__ ## check, void *, mpc, int, __step_res); \
 
 ### proc\_check\_syscall\_unix
 
-Αυτή η γάντζος επιτρέπει την παρεμβολή σε όλες τις κλήσεις συστήματος. Στο `bsd/dev/[i386|arm]/systemcalls.c` είναι δυνατόν να δει κανείς τη δηλωμένη συνάρτηση [`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25), η οποία περιέχει αυτόν τον κώδικα:
+Αυτή η γάντζος επιτρέπει την παρεμβολή σε όλες τις κλήσεις συστήματος. Στο `bsd/dev/[i386|arm]/systemcalls.c` είναι δυνατή η προβολή της δηλωμένης συνάρτησης [`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25), η οποία περιέχει αυτόν τον κώδικα:
 ```c
 #if CONFIG_MACF
 if (__improbable(proc_syscall_filter_mask(proc) != NULL && !bitstr_test(proc_syscall_filter_mask(proc), syscode))) {
@@ -260,7 +258,7 @@ __END_DECLS
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
 * **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

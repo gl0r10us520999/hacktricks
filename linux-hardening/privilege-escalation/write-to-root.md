@@ -1,24 +1,24 @@
-# Αυθαίρετη Εγγραφή Αρχείου στο Root
+# Arbitrary File Write to Root
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ κάνοντας υποβολή PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-Αυτό το αρχείο συμπεριφέρεται όπως η μεταβλητή περιβάλλοντος **`LD_PRELOAD`** αλλά λειτουργεί επίσης σε **SUID δυαδικά**.\
-Αν μπορείτε να το δημιουργήσετε ή να το τροποποιήσετε, μπορείτε απλά να προσθέσετε ένα **μονοπάτι προς μια βιβλιοθήκη που θα φορτωθεί** με κάθε εκτελούμενο δυαδικό.
+Αυτό το αρχείο συμπ behaves όπως η **`LD_PRELOAD`** μεταβλητή περιβάλλοντος αλλά λειτουργεί επίσης σε **SUID binaries**.\
+Αν μπορείτε να το δημιουργήσετε ή να το τροποποιήσετε, μπορείτε απλά να προσθέσετε μια **διαδρομή σε μια βιβλιοθήκη που θα φορτωθεί** με κάθε εκτελούμενο δυαδικό αρχείο.
 
 Για παράδειγμα: `echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
@@ -37,9 +37,9 @@ system("/bin/bash");
 ```
 ### Git hooks
 
-[**Οι Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) είναι **σενάρια** που εκτελούνται σε διάφορα **συμβάντα** σε ένα αποθετήριο git όπως όταν δημιουργείται ένα commit, μια συγχώνευση... Έτσι, αν ένα **προνομιούχο σενάριο ή χρήστης** εκτελεί αυτές τις ενέργειες συχνά και είναι δυνατόν να **γράψει στον φάκελο `.git`**, αυτό μπορεί να χρησιμοποιηθεί για **ανύψωση προνομίων**.
+[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) είναι **σενάρια** που εκτελούνται σε διάφορες **εκδηλώσεις** σε ένα αποθετήριο git, όπως όταν δημιουργείται μια δέσμευση, μια συγχώνευση... Έτσι, αν ένα **προνομιακό σενάριο ή χρήστης** εκτελεί αυτές τις ενέργειες συχνά και είναι δυνατό να **γραφεί στον φάκελο `.git`**, αυτό μπορεί να χρησιμοποιηθεί για **privesc**.
 
-Για παράδειγμα, είναι δυνατόν να **δημιουργηθεί ένα σενάριο** σε ένα αποθετήριο git στο **`.git/hooks`** ώστε να εκτελείται πάντα όταν δημιουργείται ένα νέο commit:
+Για παράδειγμα, είναι δυνατό να **δημιουργηθεί ένα σενάριο** σε ένα αποθετήριο git στον **`.git/hooks`** ώστε να εκτελείται πάντα όταν δημιουργείται μια νέα δέσμευση:
 
 {% code overflow="wrap" %}
 ```bash
@@ -48,29 +48,29 @@ chmod +x pre-commit
 ```
 {% endcode %}
 
-### Αρχεία Cron & Time
+### Cron & Time files
 
 TODO
 
-### Αρχεία Υπηρεσίας & Socket
+### Service & Socket files
 
 TODO
 
 ### binfmt\_misc
 
-Το αρχείο που βρίσκεται στο `/proc/sys/fs/binfmt_misc` υποδεικνύει ποιο δυαδικό αρχείο πρέπει να εκτελέσει ποιον τύπο αρχείων. TODO: ελέγξτε τις απαιτήσεις για να εκμεταλλευτείτε αυτό για να εκτελέσετε ένα αντίστροφο κέλυφος όταν ανοίγεται ένα κοινό τύπο αρχείου. 
+Το αρχείο που βρίσκεται στο `/proc/sys/fs/binfmt_misc` υποδεικνύει ποιο δυαδικό αρχείο θα εκτελεί ποιο τύπο αρχείων. TODO: ελέγξτε τις απαιτήσεις για να εκμεταλλευτείτε αυτό για να εκτελέσετε ένα rev shell όταν ανοίγει ένας κοινός τύπος αρχείου.
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκινγκ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

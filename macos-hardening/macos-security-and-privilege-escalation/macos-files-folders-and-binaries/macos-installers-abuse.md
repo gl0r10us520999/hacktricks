@@ -49,7 +49,7 @@ In order to visualize the contents of the installer without decompressing it man
 
 ## DMG Basic Information
 
-DMG αρχεία, ή Apple Disk Images, είναι μια μορφή αρχείου που χρησιμοποιείται από το macOS της Apple για εικόνες δίσκων. Ένα αρχείο DMG είναι ουσιαστικά μια **mountable disk image** (περιέχει το δικό του σύστημα αρχείων) που περιέχει ακατέργαστα δεδομένα μπλοκ που συνήθως είναι συμπιεσμένα και μερικές φορές κρυπτογραφημένα. Όταν ανοίγετε ένα αρχείο DMG, το macOS **το τοποθετεί σαν να ήταν φυσικός δίσκος**, επιτρέποντάς σας να έχετε πρόσβαση στα περιεχόμενά του.
+DMG αρχεία, ή Apple Disk Images, είναι μια μορφή αρχείου που χρησιμοποιείται από το macOS της Apple για εικόνες δίσκων. Ένα αρχείο DMG είναι ουσιαστικά μια **mountable disk image** (περιέχει το δικό του σύστημα αρχείων) που περιέχει ακατέργωστα δεδομένα μπλοκ που συνήθως είναι συμπιεσμένα και μερικές φορές κρυπτογραφημένα. Όταν ανοίγετε ένα αρχείο DMG, το macOS **το τοποθετεί σαν να ήταν φυσικός δίσκος**, επιτρέποντάς σας να έχετε πρόσβαση στα περιεχόμενά του.
 
 {% hint style="danger" %}
 Note that **`.dmg`** installers support **so many formats** that in the past some of them containing vulnerabilities were abused to obtain **kernel code execution**.
@@ -61,43 +61,43 @@ Note that **`.dmg`** installers support **so many formats** that in the past som
 
 Η ιεραρχία ενός αρχείου DMG μπορεί να είναι διαφορετική ανάλογα με το περιεχόμενο. Ωστόσο, για τα DMG εφαρμογών, συνήθως ακολουθεί αυτή τη δομή:
 
-* Top Level: Αυτό είναι η ρίζα της εικόνας δίσκου. Συνήθως περιέχει την εφαρμογή και πιθανώς έναν σύνδεσμο στον φάκελο Εφαρμογών.
+* Top Level: Αυτό είναι η ρίζα της εικόνας δίσκου. Συνήθως περιέχει την εφαρμογή και πιθανώς έναν σύνδεσμο προς τον φάκελο Εφαρμογών.
 * Application (.app): Αυτή είναι η πραγματική εφαρμογή. Στο macOS, μια εφαρμογή είναι συνήθως ένα πακέτο που περιέχει πολλά μεμονωμένα αρχεία και φακέλους που συνθέτουν την εφαρμογή.
-* Applications Link: Αυτός είναι ένας συντομευμένος σύνδεσμος στον φάκελο Εφαρμογών στο macOS. Ο σκοπός αυτού είναι να διευκολύνει την εγκατάσταση της εφαρμογής. Μπορείτε να σύρετε το αρχείο .app σε αυτή τη συντόμευση για να εγκαταστήσετε την εφαρμογή.
+* Applications Link: Αυτός είναι ένας συντομευμένος σύνδεσμος προς τον φάκελο Εφαρμογών στο macOS. Ο σκοπός αυτού είναι να διευκολύνει την εγκατάσταση της εφαρμογής. Μπορείτε να σύρετε το αρχείο .app σε αυτή τη συντόμευση για να εγκαταστήσετε την εφαρμογή.
 
 ## Privesc via pkg abuse
 
 ### Execution from public directories
 
-Εάν ένα σενάριο προ- ή μετά την εγκατάσταση εκτελείται για παράδειγμα από **`/var/tmp/Installerutil`**, και ο επιτιθέμενος μπορούσε να ελέγξει αυτό το σενάριο, θα μπορούσε να κλιμακώσει τα δικαιώματα όποτε εκτελείται. Ή ένα άλλο παρόμοιο παράδειγμα:
+Εάν ένα σενάριο προ ή μετά την εγκατάσταση εκτελείται για παράδειγμα από **`/var/tmp/Installerutil`**, και ο επιτιθέμενος μπορούσε να ελέγξει αυτό το σενάριο, θα μπορούσε να κλιμακώσει τα δικαιώματα όποτε εκτελείται. Ή ένα άλλο παρόμοιο παράδειγμα:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Αυτή είναι μια [δημόσια συνάρτηση](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) που αρκετοί εγκαταστάτες και ενημερωτές θα καλέσουν για να **εκτελέσουν κάτι ως root**. Αυτή η συνάρτηση δέχεται το **μονοπάτι** του **αρχείου** που θα **εκτελεστεί** ως παράμετρο, ωστόσο, εάν ένας επιτιθέμενος μπορούσε να **τροποποιήσει** αυτό το αρχείο, θα μπορούσε να **καταχραστεί** την εκτέλεσή του με root για να **κλιμακώσει τα δικαιώματα**.
+Αυτή είναι μια [δημόσια συνάρτηση](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) που αρκετοί εγκαταστάτες και ενημερωτές θα καλέσουν για να **εκτελέσουν κάτι ως root**. Αυτή η συνάρτηση δέχεται την **διαδρομή** του **αρχείου** που θα **εκτελεστεί** ως παράμετρο, ωστόσο, εάν ένας επιτιθέμενος μπορούσε να **τροποποιήσει** αυτό το αρχείο, θα ήταν σε θέση να **καταχραστεί** την εκτέλεσή του με root για να **κλιμακώσει τα δικαιώματα**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Για περισσότερες πληροφορίες, ελέγξτε αυτή την ομιλία: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
-### Εκτέλεση μέσω προσάρτησης
+### Εκτέλεση μέσω τοποθέτησης
 
-Εάν ένας εγκαταστάτης γράφει στο `/tmp/fixedname/bla/bla`, είναι δυνατόν να **δημιουργηθεί μια προσάρτηση** πάνω από το `/tmp/fixedname` χωρίς ιδιοκτήτες, ώστε να μπορείτε να **τροποποιήσετε οποιοδήποτε αρχείο κατά τη διάρκεια της εγκατάστασης** για να εκμεταλλευτείτε τη διαδικασία εγκατάστασης.
+Αν ένας εγκαταστάτης γράφει στο `/tmp/fixedname/bla/bla`, είναι δυνατόν να **δημιουργηθεί μια τοποθέτηση** πάνω από το `/tmp/fixedname` χωρίς ιδιοκτήτες, ώστε να μπορείτε να **τροποποιήσετε οποιοδήποτε αρχείο κατά τη διάρκεια της εγκατάστασης** για να εκμεταλλευτείτε τη διαδικασία εγκατάστασης.
 
-Ένα παράδειγμα αυτού είναι το **CVE-2021-26089** που κατάφερε να **επικαλύψει ένα περιοδικό σενάριο** για να αποκτήσει εκτέλεση ως root. Για περισσότερες πληροφορίες, ρίξτε μια ματιά στην ομιλία: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Ένα παράδειγμα αυτού είναι το **CVE-2021-26089** που κατάφερε να **επικαλύψει ένα περιοδικό σενάριο** για να αποκτήσει εκτέλεση ως root. Για περισσότερες πληροφορίες ρίξτε μια ματιά στην ομιλία: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg ως κακόβουλο λογισμικό
 
 ### Κενό Payload
 
-Είναι δυνατόν να δημιουργηθεί απλώς ένα **`.pkg`** αρχείο με **προ και μετά την εγκατάσταση σενάρια** χωρίς κανένα πραγματικό payload εκτός από το κακόβουλο λογισμικό μέσα στα σενάρια.
+Είναι δυνατόν να δημιουργηθεί απλά ένα **`.pkg`** αρχείο με **προ και μετά-εγκατάστασης σενάρια** χωρίς κανένα πραγματικό payload εκτός από το κακόβουλο λογισμικό μέσα στα σενάρια.
 
-### JS στο Distribution xml
+### JS στο αρχείο xml διανομής
 
-Είναι δυνατόν να προστεθούν **`<script>`** ετικέτες στο **distribution xml** αρχείο του πακέτου και αυτός ο κώδικας θα εκτελείται και μπορεί να **εκτελεί εντολές** χρησιμοποιώντας **`system.run`**:
+Είναι δυνατόν να προστεθούν **`<script>`** ετικέτες στο **αρχείο xml διανομής** του πακέτου και αυτός ο κώδικας θα εκτελείται και μπορεί να **εκτελεί εντολές** χρησιμοποιώντας **`system.run`**:
 
 <figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
@@ -172,16 +172,16 @@ productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pk
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

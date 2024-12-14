@@ -1,25 +1,25 @@
 # Αντικείμενα στη μνήμη
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκινγκ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-Τα αντικείμενα CF\* προέρχονται από το CoreFOundation, το οποίο παρέχει περισσότερες από 50 κλάσεις αντικειμένων όπως `CFString`, `CFNumber` ή `CFAllocatior`.
+CF\* αντικείμενα προέρχονται από το CoreFoundation, το οποίο παρέχει περισσότερες από 50 κλάσεις αντικειμένων όπως `CFString`, `CFNumber` ή `CFAllocator`.
 
-Όλες αυτές οι κλάσεις είναι παραδείγματα της κλάσης `CFRuntimeClass`, η οποία όταν καλείται επιστρέφει ένα δείκτη στον πίνακα `__CFRuntimeClassTable`. Η CFRuntimeClass ορίζεται στο [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Όλες αυτές οι κλάσεις είναι στιγμιότυπα της κλάσης `CFRuntimeClass`, η οποία όταν καλείται επιστρέφει έναν δείκτη στον `__CFRuntimeClassTable`. Η CFRuntimeClass ορίζεται στο [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Χρησιμοποιούμενες ενότητες μνήμης
+### Memory sections used
 
-Τα περισσότερα δεδομένα που χρησιμοποιούνται από το runtime του ObjectiveC θα αλλάξουν κατά τη διάρκεια της εκτέλεσης, γι' αυτό χρησιμοποιεί ορισμένες ενότητες από το τμήμα **\_\_DATA** στη μνήμη:
+Most of the data used by ObjectiveC runtime will change during the execution, therefore it uses some sections from the **\_\_DATA** segment in memory:
 
 * **`__objc_msgrefs`** (`message_ref_t`): Αναφορές μηνυμάτων
-* **`__objc_ivar`** (`ivar`): Μεταβλητές ιδιότητας
+* **`__objc_ivar`** (`ivar`): Μεταβλητές στιγμής
 * **`__objc_data`** (`...`): Μεταβλητά δεδομένα
 * **`__objc_classrefs`** (`Class`): Αναφορές κλάσεων
 * **`__objc_superrefs`** (`Class`): Αναφορές υπερκλάσεων
 * **`__objc_protorefs`** (`protocol_t *`): Αναφορές πρωτοκόλλων
-* **`__objc_selrefs`** (`SEL`): Αναφορές επιλογέα
+* **`__objc_selrefs`** (`SEL`): Αναφορές επιλεγέων
 * **`__objc_const`** (`...`): Δεδομένα κλάσης `r/o` και άλλα (ελπίζουμε) σταθερά δεδομένα
-* **`__objc_imageinfo`** (`version, flags`): Χρησιμοποιείται κατά τη φόρτωση της εικόνας: Η έκδοση είναι προς το παρόν `0`; Τα σημαία καθορίζουν την προεπιλεγμένη υποστήριξη GC, κλπ.
+* **`__objc_imageinfo`** (`version, flags`): Χρησιμοποιείται κατά τη φόρτωση εικόνας: Έκδοση αυτή τη στιγμή `0`; Οι σημαίες καθορίζουν υποστήριξη προ-βελτιστοποιημένου GC, κ.λπ.
 * **`__objc_protolist`** (`protocol_t *`): Λίστα πρωτοκόλλων
-* **`__objc_nlcatlist`** (`category_t`): Δείκτης σε μη-τεμπέλιες κατηγορίες που έχουν οριστεί σε αυτό το δυαδικό
-* **`__objc_catlist`**** (`category_t`): Δείκτης σε κατηγορίες που έχουν οριστεί σε αυτό το δυαδικό
-* **`__objc_nlclslist`** (`classref_t`): Δείκτης σε μη-τεμπέλιες κλάσεις Objective-C που έχουν οριστεί σε αυτό το δυαδικό
-* **`__objc_classlist`** (`classref_t`): Δείκτες σε όλες τις κλάσεις Objective-C που έχουν οριστεί σε αυτό το δυαδικό
+* **`__objc_nlcatlist`** (`category_t`): Δείκτης σε Μη-Τεμπέλικες Κατηγορίες που ορίζονται σε αυτό το δυαδικό
+* **`__objc_catlist`** (`category_t`): Δείκτης σε Κατηγορίες που ορίζονται σε αυτό το δυαδικό
+* **`__objc_nlclslist`** (`classref_t`): Δείκτης σε Μη-Τεμπέλικες κλάσεις Objective-C που ορίζονται σε αυτό το δυαδικό
+* **`__objc_classlist`** (`classref_t`): Δείκτες σε όλες τις κλάσεις Objective-C που ορίζονται σε αυτό το δυαδικό
 
-Χρησιμοποιεί επίσης μερικές ενότητες στο τμήμα **`__TEXT`** για να αποθηκεύσει σταθερές τιμές που δεν είναι δυνατό να γραφτούν σε αυτή την ενότητα:
+It also uses a few sections in the **`__TEXT`** segment to store constan values of it's not possible to write in this section:
 
 * **`__objc_methname`** (C-String): Ονόματα μεθόδων
 * **`__objc_classname`** (C-String): Ονόματα κλάσεων
 * **`__objc_methtype`** (C-String): Τύποι μεθόδων
 
-### Κωδικοποίηση Τύπου
+### Type Encoding
 
-Το Objective-C χρησιμοποιεί κάποια μετατροπή για να κωδικοποιήσει τους τύπους επιλογέα και μεταβλητών απλών και πολύπλοκων τύπων:
+Objective-c uses some mangling to encode selector and variable types of simple and complex types:
 
-* Οι πρωτογενείς τύποι χρησιμοποιούν τον πρώτο χαρακτήρα του τύπου, όπως `i` για `int`, `c` για `char`, `l` για `long`... και χρησιμοποιεί το κεφαλαίο γράμμα σε περίπτωση που είναι unsigned (`L` για `unsigned Long`).
-* Άλλοι τύποι δεδομένων οι οποίοι χρησιμοποιούνται ή είναι ειδικοί, χρησιμοποιούν άλλους χαρακτήρες ή σύμβολα όπως `q` για `long long`, `b` για `bitfields`, `B` για `booleans`, `#` για `classes`, `@` για `id`, `*` για `char pointers`, `^` για γενικούς `pointers` και `?` για `undefined`.
-* Οι πίνακες, δομές και ένωση χρησιμοποιούν `[`, `{` και `(`
+* Primitive types use their first letter of the type `i` for `int`, `c` for `char`, `l` for `long`... and uses the capital letter in case it's unsigned (`L` for `unsigned Long`).
+* Other data types whose letters are used or are special, use other letters or symbols like `q` for `long long`, `b` for `bitfields`, `B` for `booleans`, `#` for `classes`, `@` for `id`, `*` for `char pointers` , `^` for generic `pointers` and `?` for `undefined`.
+* Arrays, structures and unions use `[`, `{` and `(`
 
-#### Δήλωση Παραδείγματος Μεθόδου
+#### Example Method Declaration
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -109,12 +109,12 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 {% endcode %}
 
-Ο επιλογέας θα ήταν `processString:withOptions:andError:`
+Ο επιλεγέας θα είναι `processString:withOptions:andError:`
 
 #### Κωδικοποίηση Τύπου
 
-* Το `id` κωδικοποιείται ως `@`
-* Το `char *` κωδικοποιείται ως `*`
+* `id` κωδικοποιείται ως `@`
+* `char *` κωδικοποιείται ως `*`
 
 Η πλήρης κωδικοποίηση τύπου για τη μέθοδο είναι:
 ```less
@@ -122,18 +122,18 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 #### Αναλυτική Ανάλυση
 
-1. **Τύπος Επιστροφής (`NSString *`)**: Κωδικοποιείται ως `@` με μήκος 24
-2. **`self` (παράδειγμα αντικειμένου)**: Κωδικοποιείται ως `@`, στη θέση 0
-3. **`_cmd` (επιλογέας)**: Κωδικοποιείται ως `:`, στη θέση 8
-4. **Πρώτο όρισμα (`char * input`)**: Κωδικοποιείται ως `*`, στη θέση 16
-5. **Δεύτερο όρισμα (`NSDictionary * options`)**: Κωδικοποιείται ως `@`, στη θέση 20
-6. **Τρίτο όρισμα (`NSError ** error`)**: Κωδικοποιείται ως `^@`, στη θέση 24
+1. **Τύπος Επιστροφής (`NSString *`)**: Κωδικοποιημένος ως `@` με μήκος 24
+2. **`self` (αντικείμενο στιγμιότυπο)**: Κωδικοποιημένος ως `@`, στη θέση 0
+3. **`_cmd` (επιλογέας)**: Κωδικοποιημένος ως `:`, στη θέση 8
+4. **Πρώτη παράμετρος (`char * input`)**: Κωδικοποιημένος ως `*`, στη θέση 16
+5. **Δεύτερη παράμετρος (`NSDictionary * options`)**: Κωδικοποιημένος ως `@`, στη θέση 20
+6. **Τρίτη παράμετρος (`NSError ** error`)**: Κωδικοποιημένος ως `^@`, στη θέση 24
 
 **Με τον επιλογέα + την κωδικοποίηση μπορείτε να ανακατασκευάσετε τη μέθοδο.**
 
 ### **Κλάσεις**
 
-Οι κλάσεις στο Objective-C είναι μια δομή με ιδιότητες, δείκτες μεθόδων... Είναι δυνατόν να βρείτε τη δομή `objc_class` στο [**κώδικα πηγής**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
+Οι κλάσεις στην Objective-C είναι μια δομή με ιδιότητες, δείκτες μεθόδων... Είναι δυνατόν να βρείτε τη δομή `objc_class` στον [**πηγαίο κώδικα**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,7 @@ data()->setFlags(set);
 }
 [...]
 ```
-Αυτή η κλάση χρησιμοποιεί μερικά bits του πεδίου isa για να υποδείξει πληροφορίες σχετικά με την κλάση.
+Αυτή η κλάση χρησιμοποιεί κάποια bits του πεδίου isa για να υποδείξει κάποιες πληροφορίες σχετικά με την κλάση.
 
-Στη συνέχεια, η δομή έχει ένα δείκτη προς τη δομή `class_ro_t` που αποθηκεύεται στο δίσκο και περιέχει χαρακτηριστικά της κλάσης όπως το όνομά της, τις βασικές μεθόδους, τις ιδιότητες και τις μεταβλητές της παρουσίας.\
-Κατά τη διάρκεια της εκτέλεσης, μια επιπλέον δομή `class_rw_t` χρησιμοποιείται περιέχοντας δείκτες που μπορούν να τροποποιηθούν, όπως μεθόδους, πρωτόκολλα, ιδιότητες...
+Στη συνέχεια, η δομή έχει έναν δείκτη στη δομή `class_ro_t` που αποθηκεύεται στο δίσκο και περιέχει χαρακτηριστικά της κλάσης όπως το όνομά της, τις βασικές μεθόδους, τις ιδιότητες και τις μεταβλητές στιγμής.\
+Κατά τη διάρκεια της εκτέλεσης, χρησιμοποιείται μια επιπλέον δομή `class_rw_t` που περιέχει δείκτες οι οποίοι μπορούν να τροποποιηθούν, όπως μέθοδοι, πρωτόκολλα, ιδιότητες...

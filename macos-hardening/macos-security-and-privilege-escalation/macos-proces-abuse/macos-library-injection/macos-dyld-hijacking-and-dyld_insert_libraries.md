@@ -52,7 +52,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
 ## Dyld Hijacking Example
 
-The targeted vulnerable binary is `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Ο στοχευμένος ευάλωτος δυαδικός κώδικας είναι το `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Έτσι, είναι δυνατόν να το αναλάβετε! Δημιουργήστε μια βιβλιοθήκη που **εκτελεί κάποιο αυθαίρετο κώδικα και εξάγει τις ίδιες λειτουργίες** με τη νόμιμη βιβλιοθήκη επανεξάγοντας την. Και θυμηθείτε να την μεταγλωττίσετε με τις αναμενόμενες εκδόσεις:
+Έτσι, είναι δυνατόν να το αναλάβετε! Δημιουργήστε μια βιβλιοθήκη που **εκτελεί κάποιο αυθαίρετο κώδικα και εξάγει τις ίδιες λειτουργίες** με τη νόμιμη βιβλιοθήκη επαναεξάγοντας την. Και θυμηθείτε να την μεταγλωττίσετε με τις αναμενόμενες εκδόσεις:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Τέλος, απλώς αντιγράψτε το στη **κατεχόμενη τοποθεσία**:
+Τέλος, απλώς αντιγράψτε το στην **κατεχόμενη τοποθεσία**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -164,7 +164,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 </code></pre>
 
 {% hint style="info" %}
-Μια ωραία ανάλυση για το πώς να εκμεταλλευτείτε αυτήν την ευπάθεια για να εκμεταλλευτείτε τις άδειες κάμερας του telegram μπορεί να βρεθεί στο [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Μια ωραία ανάλυση για το πώς να εκμεταλλευτείτε αυτήν την ευπάθεια για να εκμεταλλευτείτε τις άδειες κάμερας του Telegram μπορείτε να βρείτε στο [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Μεγαλύτερη Κλίμακα
@@ -182,7 +182,7 @@ sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"
 <summary>Υποστηρίξτε το HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

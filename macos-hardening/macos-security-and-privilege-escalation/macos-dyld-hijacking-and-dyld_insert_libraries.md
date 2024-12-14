@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## DYLD\_INSERT\_LIBRARIES Βασικό παράδειγμα
 
-**Βιβλιοθήκη προς έγχυση** για την εκτέλεση ενός shell:
+**Βιβλιοθήκη για εισαγωγή** για την εκτέλεση ενός shell:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -127,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Η διαδρομή επαναεξαγωγής που δημιουργείται στη βιβλιοθήκη είναι σχετική με τον φορτωτή, ας την αλλάξουμε σε απόλυτη διαδρομή προς τη βιβλιοθήκη για εξαγωγή:
+Η διαδρομή επανεξαγωγής που δημιουργείται στη βιβλιοθήκη είναι σχετική με τον φορτωτή, ας την αλλάξουμε σε απόλυτη διαδρομή προς τη βιβλιοθήκη για εξαγωγή:
 
 {% code overflow="wrap" %}
 ```bash
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Τέλος, απλώς αντιγράψτε το στη **χτυπημένη τοποθεσία**:
+Τέλος, απλώς αντιγράψτε το στην **κατεχόμενη τοποθεσία**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -164,7 +164,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 </code></pre>
 
 {% hint style="info" %}
-Μια ωραία ανάλυση για το πώς να εκμεταλλευτείτε αυτήν την ευπάθεια για να εκμεταλλευτείτε τις άδειες κάμερας του telegram μπορεί να βρεθεί στο [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Μια ωραία ανάλυση για το πώς να εκμεταλλευτείτε αυτήν την ευπάθεια για να εκμεταλλευτείτε τις άδειες κάμερας του Telegram μπορείτε να βρείτε στο [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Μεγαλύτερη Κλίμακα

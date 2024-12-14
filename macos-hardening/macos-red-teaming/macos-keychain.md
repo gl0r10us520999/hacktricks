@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 * The **User Keychain** (`~/Library/Keychains/login.keychain-db`), which is used to store **credentials που σχετίζονται με τον χρήστη** όπως κωδικούς πρόσβασης εφαρμογών, κωδικούς πρόσβασης στο διαδίκτυο, πιστοποιητικά που δημιουργούνται από τον χρήστη, κωδικούς πρόσβασης δικτύου και δημόσιους/ιδιωτικούς κωδικούς που δημιουργούνται από τον χρήστη.
 * The **System Keychain** (`/Library/Keychains/System.keychain`), which stores **credentials σε επίπεδο συστήματος** όπως κωδικούς πρόσβασης WiFi, πιστοποιητικά ρίζας συστήματος, ιδιωτικούς κωδικούς συστήματος και κωδικούς πρόσβασης εφαρμογών συστήματος.
 * It's possible to find other components like certificates in `/System/Library/Keychains/*`
-* In **iOS** there is only one **Keychain** located in `/private/var/Keychains/`. This folder also contains databases for the `TrustStore`, certificates authorities (`caissuercache`) and OSCP entries (`ocspache`).
+* In **iOS** there is only one **Keychain** located in `/private/var/Keychains/`. This folder also contains databases for the `TrustStore`, authorities πιστοποιητικών (`caissuercache`) and OSCP entries (`ocspache`).
 * Apps will be restricted in the keychain only to their private area based on their application identifier.
 
 ### Password Keychain Access
@@ -94,18 +94,18 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 Άλλες τελικές API μπορούν να βρεθούν στον κώδικα πηγής [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html).
 {% endhint %}
 
-Λίστα και λήψη **πληροφοριών** για κάθε καταχώρηση keychain χρησιμοποιώντας το **Security Framework** ή μπορείτε επίσης να ελέγξετε το εργαλείο cli ανοιχτού κώδικα της Apple [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Ορισμένα παραδείγματα API:
+Λίστα και λήψη **πληροφοριών** για κάθε καταχώρηση του keychain χρησιμοποιώντας το **Security Framework** ή μπορείτε επίσης να ελέγξετε το εργαλείο cli ανοιχτού κώδικα της Apple [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Μερικά παραδείγματα API:
 
-* Η API **`SecItemCopyMatching`** δίνει πληροφορίες για κάθε καταχώρηση και υπάρχουν ορισμένα χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση της:
+* Η API **`SecItemCopyMatching`** δίνει πληροφορίες για κάθε καταχώρηση και υπάρχουν μερικά χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση της:
 * **`kSecReturnData`**: Αν είναι αληθές, θα προσπαθήσει να αποκρυπτογραφήσει τα δεδομένα (ορίστε σε ψευδές για να αποφύγετε πιθανές αναδυόμενες ειδοποιήσεις)
-* **`kSecReturnRef`**: Λάβετε επίσης αναφορά στο στοιχείο keychain (ορίστε σε αληθές σε περίπτωση που αργότερα δείτε ότι μπορείτε να αποκρυπτογραφήσετε χωρίς αναδυόμενη ειδοποίηση)
+* **`kSecReturnRef`**: Λάβετε επίσης αναφορά στο στοιχείο του keychain (ορίστε σε αληθές σε περίπτωση που αργότερα δείτε ότι μπορείτε να αποκρυπτογραφήσετε χωρίς αναδυόμενη ειδοποίηση)
 * **`kSecReturnAttributes`**: Λάβετε μεταδεδομένα σχετικά με τις καταχωρήσεις
 * **`kSecMatchLimit`**: Πόσα αποτελέσματα να επιστραφούν
 * **`kSecClass`**: Τι είδους καταχώρηση keychain
 
 Λάβετε **ACLs** κάθε καταχώρησης:
 
-* Με την API **`SecAccessCopyACLList`** μπορείτε να λάβετε το **ACL για το στοιχείο keychain**, και θα επιστρέψει μια λίστα ACL (όπως `ACLAuhtorizationExportClear` και οι άλλες που αναφέρθηκαν προηγουμένως) όπου κάθε λίστα έχει:
+* Με την API **`SecAccessCopyACLList`** μπορείτε να λάβετε το **ACL για το στοιχείο του keychain**, και θα επιστρέψει μια λίστα ACL (όπως `ACLAuhtorizationExportClear` και οι άλλες που αναφέρθηκαν προηγουμένως) όπου κάθε λίστα έχει:
 * Περιγραφή
 * **Λίστα Εμπιστευμένων Εφαρμογών**. Αυτό θα μπορούσε να είναι:
 * Μια εφαρμογή: /Applications/Slack.app
@@ -123,15 +123,15 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 * Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις** (**`Nil`**, ή να είστε **μέρος** της επιτρεπόμενης λίστας εφαρμογών στην εξουσιοδότηση για πρόσβαση στις μυστικές πληροφορίες)
 * Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με το **PartitionID**
 * Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με αυτήν μιας **εμπιστευμένης εφαρμογής** (ή να είστε μέλος της σωστής ομάδας πρόσβασης Keychain)
-* Αν **όλες οι εφαρμογές είναι εμπιστευμένες**:
+* Αν **όλες οι εφαρμογές είναι εμπιστευτές**:
 * Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις**
 * Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με το **PartitionID**
 * Αν **δεν υπάρχει PartitionID**, τότε αυτό δεν είναι απαραίτητο
 
 {% hint style="danger" %}
-Επομένως, αν υπάρχει **1 εφαρμογή αναφερόμενη**, χρειάζεστε να **εισάγετε κώδικα σε αυτήν την εφαρμογή**.
+Επομένως, αν υπάρχει **1 εφαρμογή αναφερόμενη**, πρέπει να **εισάγετε κώδικα σε αυτήν την εφαρμογή**.
 
-Αν **apple** αναφέρεται στο **partitionID**, μπορείτε να έχετε πρόσβαση σε αυτό με **`osascript`** οπότε οτιδήποτε εμπιστεύεται όλες τις εφαρμογές με apple στο partitionID. **`Python`** θα μπορούσε επίσης να χρησιμοποιηθεί για αυτό.
+Αν **apple** αναφέρεται στο **partitionID**, μπορείτε να έχετε πρόσβαση σε αυτό με **`osascript`** οπότε οτιδήποτε εμπιστεύεται όλες τις εφαρμογές με apple στο partitionID. **`Python`** θα μπορούσε επίσης να χρησιμοποιηθεί γι' αυτό.
 {% endhint %}
 
 ### Δύο επιπλέον χαρακτηριστικά

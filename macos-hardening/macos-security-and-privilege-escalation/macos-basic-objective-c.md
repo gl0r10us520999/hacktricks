@@ -1,16 +1,16 @@
 # macOS Objective-C
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -34,9 +34,9 @@
 Σημειώστε ότι τα προγράμματα που έχουν γραφτεί σε Objective-C **διατηρούν** τις δηλώσεις κλάσης τους **όταν** **συμπιέζονται** σε [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Τέτοιες δηλώσεις κλάσης **περιλαμβάνουν** το όνομα και τον τύπο του:
 {% endhint %}
 
-* Της κλάσης
-* Των μεθόδων της κλάσης
-* Των μεταβλητών στιγμής της κλάσης
+* Η κλάση
+* Οι μέθοδοι της κλάσης
+* Οι μεταβλητές στιγμής της κλάσης
 
 Μπορείτε να αποκτήσετε αυτές τις πληροφορίες χρησιμοποιώντας [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
@@ -195,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Οι βασικές κλάσεις είναι **αμετάβλητες**, οπότε για να προστεθεί μια συμβολοσειρά σε μια υπάρχουσα, πρέπει να **δημιουργηθεί μια νέα NSString**.
+Οι βασικές κλάσεις είναι **αμετάβλητες**, οπότε για να προστεθεί μια συμβολοσειρά σε μια υπάρχουσα, χρειάζεται να δημιουργηθεί **μια νέα NSString**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -304,7 +304,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-Είναι επίσης δυνατό να **ορίσετε έναν τύπο μπλοκ για να χρησιμοποιηθεί ως παράμετρος** σε συναρτήσεις:
+Είναι επίσης δυνατό να **ορίσετε έναν τύπο μπλοκ που θα χρησιμοποιείται ως παράμετρος** σε συναρτήσεις:
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);

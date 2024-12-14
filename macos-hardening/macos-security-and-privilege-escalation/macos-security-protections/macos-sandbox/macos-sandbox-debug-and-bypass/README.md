@@ -20,30 +20,30 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-In the previous image it's possible to observe **πώς θα φορτωθεί το sandbox** όταν εκτελείται μια εφαρμογή με την εξουσιοδότηση **`com.apple.security.app-sandbox`**.
+Στην προηγούμενη εικόνα είναι δυνατόν να παρατηρηθεί **πώς θα φορτωθεί το sandbox** όταν εκτελείται μια εφαρμογή με την εξουσιοδότηση **`com.apple.security.app-sandbox`**.
 
-The compiler will link `/usr/lib/libSystem.B.dylib` to the binary.
+Ο μεταγλωττιστής θα συνδέσει το `/usr/lib/libSystem.B.dylib` με το δυαδικό αρχείο.
 
-Then, **`libSystem.B`** will be calling other several functions until the **`xpc_pipe_routine`** sends the entitlements of the app to **`securityd`**. Securityd checks if the process should be quarantine inside the Sandbox, and if so, it will be quarentine.\
-Finally, the sandbox will be activated will a call to **`__sandbox_ms`** which will call **`__mac_syscall`**.
+Στη συνέχεια, **`libSystem.B`** θα καλεί πολλές άλλες συναρτήσεις μέχρι να στείλει η **`xpc_pipe_routine`** τις εξουσιοδοτήσεις της εφαρμογής στο **`securityd`**. Το Securityd ελέγχει αν η διαδικασία θα πρέπει να είναι σε καραντίνα μέσα στο Sandbox, και αν ναι, θα τεθεί σε καραντίνα.\
+Τέλος, το sandbox θα ενεργοποιηθεί με μια κλήση στο **`__sandbox_ms`** που θα καλέσει το **`__mac_syscall`**.
 
 ## Possible Bypasses
 
 ### Bypassing quarantine attribute
 
-**Τα αρχεία που δημιουργούνται από διαδικασίες που είναι σε sandbox** προστίθεται το **quarantine attribute** για να αποτραπεί η διαφυγή από το sandbox. Ωστόσο, αν καταφέρετε να **δημιουργήσετε έναν φάκελο `.app` χωρίς το quarantine attribute** μέσα σε μια εφαρμογή που είναι σε sandbox, θα μπορούσατε να κάνετε το εκτελέσιμο της εφαρμογής να δείχνει στο **`/bin/bash`** και να προσθέσετε κάποιες μεταβλητές περιβάλλοντος στο **plist** για να εκμεταλλευτείτε το **`open`** για να **εκκινήσετε τη νέα εφαρμογή χωρίς sandbox**.
+**Τα αρχεία που δημιουργούνται από διαδικασίες που είναι σε sandbox** προστίθεται το **quarantine attribute** για να αποτραπεί η διαφυγή από το sandbox. Ωστόσο, αν καταφέρετε να **δημιουργήσετε έναν φάκελο `.app` χωρίς το quarantine attribute** μέσα σε μια εφαρμογή που είναι σε sandbox, θα μπορούσατε να κάνετε το δυαδικό αρχείο της εφαρμογής να δείχνει στο **`/bin/bash`** και να προσθέσετε κάποιες μεταβλητές περιβάλλοντος στο **plist** για να εκμεταλλευτείτε το **`open`** για να **εκκινήσετε την νέα εφαρμογή χωρίς sandbox**.
 
-This is what was done in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
+Αυτό είναι αυτό που έγινε στο [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-Therefore, at the moment, if you are just capable of creating a folder with a name ending in **`.app`** without a quarantine attribute, you can scape the sandbox because macOS only **checks** the **quarantine** attribute in the **`.app` folder** and in the **main executable** (and we will point the main executable to **`/bin/bash`**).
+Επομένως, αυτή τη στιγμή, αν είστε απλώς ικανοί να δημιουργήσετε έναν φάκελο με όνομα που τελειώνει σε **`.app`** χωρίς το quarantine attribute, μπορείτε να διαφύγετε από το sandbox γιατί το macOS μόνο **ελέγχει** το **quarantine** attribute στον **φάκελο `.app`** και στο **κύριο εκτελέσιμο** (και θα δείξουμε το κύριο εκτελέσιμο στο **`/bin/bash`**).
 
-Note that if an .app bundle has already been authorized to run (it has a quarantine xttr with the authorized to run flag on), you could also abuse it... except that now you cannot write inside **`.app`** bundles unless you have some privileged TCC perms (which you won't have inside a sandbox high).
+Σημειώστε ότι αν ένα πακέτο .app έχει ήδη εξουσιοδοτηθεί να εκτελείται (έχει ένα quarantine xttr με την εξουσιοδότηση να εκτελείται), θα μπορούσατε επίσης να το εκμεταλλευτείτε... εκτός αν τώρα δεν μπορείτε να γράψετε μέσα σε **πακέτα .app** εκτός αν έχετε κάποιες προνομιακές άδειες TCC (που δεν θα έχετε μέσα σε ένα sandbox υψηλής ασφάλειας).
 {% endhint %}
 
 ### Abusing Open functionality
 
-In the [**last examples of Word sandbox bypass**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) can be appreciated how the **`open`** cli functionality could be abused to bypass the sandbox.
+Στα [**τελευταία παραδείγματα παράκαμψης του Word sandbox**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) μπορεί να εκτιμηθεί πώς η λειτουργικότητα **`open`** της γραμμής εντολών θα μπορούσε να εκμεταλλευτεί για να παρακαμφθεί το sandbox.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
@@ -51,16 +51,16 @@ In the [**last examples of Word sandbox bypass**](macos-office-sandbox-bypasses.
 
 ### Launch Agents/Daemons
 
-Even if an application is **meant to be sandboxed** (`com.apple.security.app-sandbox`), it's possible to make bypass the sandbox if it's **executed from a LaunchAgent** (`~/Library/LaunchAgents`) for example.\
-As explained in [**this post**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), if you want to gain persistence with an application that is sandboxed you could make be automatically executed as a LaunchAgent and maybe inject malicious code via DyLib environment variables.
+Ακόμα και αν μια εφαρμογή είναι **σχεδιασμένη να είναι σε sandbox** (`com.apple.security.app-sandbox`), είναι δυνατόν να παρακαμφθεί το sandbox αν εκτελείται από έναν LaunchAgent (`~/Library/LaunchAgents`) για παράδειγμα.\
+Όπως εξηγήθηκε σε [**αυτή την ανάρτηση**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), αν θέλετε να αποκτήσετε επιμονή με μια εφαρμογή που είναι σε sandbox, θα μπορούσατε να την κάνετε να εκτελείται αυτόματα ως LaunchAgent και ίσως να εισάγετε κακόβουλο κώδικα μέσω μεταβλητών περιβάλλοντος DyLib.
 
 ### Abusing Auto Start Locations
 
-If a sandboxed process can **write** in a place where **later an unsandboxed application is going to run the binary**, it will be able to **escape just by placing** there the binary. A good example of this kind of locations are `~/Library/LaunchAgents` or `/System/Library/LaunchDaemons`.
+Αν μια διαδικασία που είναι σε sandbox μπορεί να **γράψει** σε ένα μέρος όπου **αργότερα μια εφαρμογή χωρίς sandbox θα εκτελέσει το δυαδικό αρχείο**, θα μπορέσει να **διαφύγει απλά τοποθετώντας** εκεί το δυαδικό αρχείο. Ένα καλό παράδειγμα αυτού του είδους τοποθεσιών είναι το `~/Library/LaunchAgents` ή το `/System/Library/LaunchDaemons`.
 
-For this you might even need **2 steps**: To make a process with a **more permissive sandbox** (`file-read*`, `file-write*`) execute your code which will actually write in a place where it will be **executed unsandboxed**.
+Για αυτό μπορεί να χρειαστείτε **2 βήματα**: Να κάνετε μια διαδικασία με ένα **πιο επιεική sandbox** (`file-read*`, `file-write*`) να εκτελέσει τον κώδικά σας που θα γράψει σε ένα μέρος όπου θα **εκτελείται χωρίς sandbox**.
 
-Check this page about **Auto Start locations**:
+Δείτε αυτή τη σελίδα σχετικά με τις **τοποθεσίες αυτόματης εκκίνησης**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -68,7 +68,7 @@ Check this page about **Auto Start locations**:
 
 ### Abusing other processes
 
-If from then sandbox process you are able to **compromise other processes** running in less restrictive sandboxes (or none), you will be able to escape to their sandboxes:
+Αν από τη διαδικασία sandbox μπορείτε να **συμβιβάσετε άλλες διαδικασίες** που εκτελούνται σε λιγότερο περιορισμένα sandbox (ή καθόλου), θα μπορέσετε να διαφύγετε στα sandbox τους:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -76,14 +76,14 @@ If from then sandbox process you are able to **compromise other processes** runn
 
 ### Static Compiling & Dynamically linking
 
-[**This research**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) discovered 2 ways to bypass the Sandbox. Because the sandbox is applied from userland when the **libSystem** library is loaded. If a binary could avoid loading it, it would never get sandboxed:
+[**Αυτή η έρευνα**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) ανακάλυψε 2 τρόπους για να παρακαμφθεί το Sandbox. Επειδή το sandbox εφαρμόζεται από το userland όταν φορτώνεται η βιβλιοθήκη **libSystem**. Αν ένα δυαδικό αρχείο μπορούσε να αποφύγει τη φόρτωσή της, δεν θα είχε ποτέ sandbox:
 
-* If the binary was **completely statically compiled**, it could avoid loading that library.
-* If the **binary wouldn't need to load any libraries** (because the linker is also in libSystem), it won't need to load libSystem.
+* Αν το δυαδικό αρχείο ήταν **εντελώς στατικά μεταγλωττισμένο**, θα μπορούσε να αποφύγει τη φόρτωση αυτής της βιβλιοθήκης.
+* Αν το **δυαδικό αρχείο δεν χρειαζόταν να φορτώσει καμία βιβλιοθήκη** (επειδή ο σύνδεσμος είναι επίσης στη libSystem), δεν θα χρειαστεί να φορτώσει τη libSystem.
 
 ### Shellcodes
 
-Note that **even shellcodes** in ARM64 needs to be linked in `libSystem.dylib`:
+Σημειώστε ότι **ακόμα και οι shellcodes** σε ARM64 χρειάζονται να συνδεθούν στη `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
@@ -102,7 +102,7 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 ```
 ### Interposting Bypass
 
-Για περισσότερες πληροφορίες σχετικά με το **Interposting** δείτε:
+Για περισσότερες πληροφορίες σχετικά με το **Interposting** ελέγξτε:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
@@ -180,7 +180,7 @@ Sandbox Bypassed!
 ```
 ### Debug & bypass Sandbox with lldb
 
-Ας συντάξουμε μια εφαρμογή που θα πρέπει να είναι σε sandbox:
+Ας συντάξουμε μια εφαρμογή που θα πρέπει να είναι sandboxed:
 
 {% tabs %}
 {% tab title="sand.c" %}

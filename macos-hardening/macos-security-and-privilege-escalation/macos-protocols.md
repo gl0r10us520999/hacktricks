@@ -1,23 +1,23 @@
-# macOS Network Services & Protocols
+# macOS Υπηρεσίες Δικτύου & Πρωτόκολλα
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Remote Access Services
+## Υπηρεσίες Απομακρυσμένης Πρόσβασης
 
-Αυτές είναι οι κοινές υπηρεσίες macOS για να έχετε πρόσβαση σε αυτές απομακρυσμένα.\
+Αυτές είναι οι κοινές υπηρεσίες macOS για απομακρυσμένη πρόσβαση.\
 Μπορείτε να ενεργοποιήσετε/απενεργοποιήσετε αυτές τις υπηρεσίες στις `Ρυθμίσεις Συστήματος` --> `Κοινή Χρήση`
 
 * **VNC**, γνωστό ως “Κοινή Χρήση Οθόνης” (tcp:5900)
@@ -51,14 +51,14 @@ ARD παρέχει ευέλικτα επίπεδα ελέγχου, συμπερ�
 
 Το Bonjour, μια τεχνολογία σχεδιασμένη από την Apple, επιτρέπει **στις συσκευές στο ίδιο δίκτυο να ανιχνεύουν τις προσφερόμενες υπηρεσίες η μία της άλλης**. Γνωστό επίσης ως Rendezvous, **Zero Configuration**, ή Zeroconf, επιτρέπει σε μια συσκευή να ενταχθεί σε ένα δίκτυο TCP/IP, **να επιλέξει αυτόματα μια διεύθυνση IP**, και να εκπέμπει τις υπηρεσίες της σε άλλες συσκευές του δικτύου.
 
-Η Δικτύωση Χωρίς Ρυθμίσεις, που παρέχεται από το Bonjour, διασφαλίζει ότι οι συσκευές μπορούν:
-* **Να αποκτούν αυτόματα μια διεύθυνση IP** ακόμη και στην απουσία διακομιστή DHCP.
-* Να εκτελούν **μετάφραση ονόματος σε διεύθυνση** χωρίς να απαιτείται διακομιστής DNS.
-* **Να ανακαλύπτουν υπηρεσίες** διαθέσιμες στο δίκτυο.
+Η Δικτύωση Χωρίς Ρυθμίσεις, που παρέχεται από το Bonjour, διασφαλίζει ότι οι συσκευές μπορούν να:
+* **Αποκτούν αυτόματα μια διεύθυνση IP** ακόμη και στην απουσία διακομιστή DHCP.
+* Εκτελούν **μετάφραση ονόματος σε διεύθυνση** χωρίς να απαιτείται διακομιστής DNS.
+* **Ανακαλύπτουν υπηρεσίες** διαθέσιμες στο δίκτυο.
 
-Οι συσκευές που χρησιμοποιούν το Bonjour θα αναθέσουν μόνες τους μια **διεύθυνση IP από το εύρος 169.254/16** και θα επαληθεύσουν την μοναδικότητά της στο δίκτυο. Οι Macs διατηρούν μια καταχώρηση πίνακα δρομολόγησης για αυτό το υποδίκτυο, που μπορεί να επαληθευτεί μέσω του `netstat -rn | grep 169`.
+Οι συσκευές που χρησιμοποιούν Bonjour θα αναθέσουν μόνες τους μια **διεύθυνση IP από το εύρος 169.254/16** και θα επαληθεύσουν την μοναδικότητά της στο δίκτυο. Οι Macs διατηρούν μια καταχώρηση πίνακα δρομολόγησης για αυτό το υποδίκτυο, επαληθεύσιμη μέσω `netstat -rn | grep 169`.
 
-Για το DNS, το Bonjour χρησιμοποιεί το **πρωτόκολλο Multicast DNS (mDNS)**. Το mDNS λειτουργεί μέσω **θύρας 5353/UDP**, χρησιμοποιώντας **τυπικά ερωτήματα DNS** αλλά στοχεύοντας τη **διεύθυνση multicast 224.0.0.251**. Αυτή η προσέγγιση διασφαλίζει ότι όλες οι συσκευές που ακούν στο δίκτυο μπορούν να λάβουν και να απαντήσουν στα ερωτήματα, διευκολύνοντας την ενημέρωση των καταχωρήσεών τους.
+Για το DNS, το Bonjour χρησιμοποιεί το **πρωτόκολλο Multicast DNS (mDNS)**. Το mDNS λειτουργεί μέσω **θύρας 5353/UDP**, χρησιμοποιώντας **τυπικά ερωτήματα DNS** αλλά στοχεύοντας στη **διεύθυνση multicast 224.0.0.251**. Αυτή η προσέγγιση διασφαλίζει ότι όλες οι συσκευές που ακούν στο δίκτυο μπορούν να λάβουν και να απαντήσουν στα ερωτήματα, διευκολύνοντας την ενημέρωση των καταχωρήσεών τους.
 
 Κατά την ένταξή τους στο δίκτυο, κάθε συσκευή επιλέγει αυτόματα ένα όνομα, που συνήθως τελειώνει σε **.local**, το οποίο μπορεί να προέρχεται από το όνομα υπολογιστή ή να είναι τυχαία παραγόμενο.
 
@@ -123,8 +123,8 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

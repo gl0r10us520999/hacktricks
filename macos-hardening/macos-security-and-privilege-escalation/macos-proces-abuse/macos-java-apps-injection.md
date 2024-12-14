@@ -99,7 +99,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 Η δημιουργία του πράκτορα με **διαφορετική έκδοση Java** από την εφαρμογή μπορεί να προκαλέσει κατάρρευση της εκτέλεσης τόσο του πράκτορα όσο και της εφαρμογής
 {% endhint %}
 
-Όπου ο πράκτορας μπορεί να είναι:
+Where the agent can be:
 
 {% code title="Agent.java" %}
 ```java

@@ -187,13 +187,13 @@ block(authRightName, authRightDefault, authRightDesc);
 ```
 Αυτό σημαίνει ότι στο τέλος αυτής της διαδικασίας, οι άδειες που δηλώνονται μέσα στο `commandInfo` θα αποθηκευτούν στο `/var/db/auth.db`. Σημειώστε πώς μπορείτε να βρείτε για **κάθε μέθοδο** που θα **απαιτεί αυθεντικοποίηση**, το **όνομα άδειας** και το **`kCommandKeyAuthRightDefault`**. Το τελευταίο **υποδεικνύει ποιος μπορεί να αποκτήσει αυτό το δικαίωμα**.
 
-Υπάρχουν διαφορετικοί τομείς για να υποδείξουν ποιος μπορεί να έχει πρόσβαση σε ένα δικαίωμα. Ορισμένοι από αυτούς ορίζονται στο [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (μπορείτε να βρείτε [όλους εδώ](https://www.dssw.co.uk/reference/authorization-rights/)), αλλά ως σύνοψη:
+Υπάρχουν διαφορετικοί τομείς για να υποδείξουν ποιος μπορεί να έχει πρόσβαση σε ένα δικαίωμα. Ορισμένοι από αυτούς ορίζονται στο [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (μπορείτε να βρείτε [όλους τους τομείς εδώ](https://www.dssw.co.uk/reference/authorization-rights/)), αλλά ως σύνοψη:
 
 <table><thead><tr><th width="284.3333333333333">Όνομα</th><th width="165">Τιμή</th><th>Περιγραφή</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Οποιοσδήποτε</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Κανείς</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Ο τρέχων χρήστης πρέπει να είναι διαχειριστής (μέσα στην ομάδα διαχειριστών)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Ρωτήστε τον χρήστη να αυθεντικοποιηθεί.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Ρωτήστε τον χρήστη να αυθεντικοποιηθεί. Πρέπει να είναι διαχειριστής (μέσα στην ομάδα διαχειριστών)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Καθορίστε κανόνες</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Καθορίστε μερικά επιπλέον σχόλια σχετικά με το δικαίωμα</td></tr></tbody></table>
 
 ### Επαλήθευση Δικαιωμάτων
 
-Στο `HelperTool/HelperTool.m` η συνάρτηση **`readLicenseKeyAuthorization`** ελέγχει αν ο καλών είναι εξουσιοδοτημένος να **εκτελέσει αυτή τη μέθοδο** καλώντας τη συνάρτηση **`checkAuthorization`**. Αυτή η συνάρτηση θα ελέγξει αν τα **authData** που αποστέλλονται από τη διαδικασία κλήσης έχουν **σωστή μορφή** και στη συνέχεια θα ελέγξει **τι απαιτείται για να αποκτήσει το δικαίωμα** να καλέσει τη συγκεκριμένη μέθοδο. Αν όλα πάνε καλά, το **επιστρεφόμενο `error` θα είναι `nil`**:
+Στο `HelperTool/HelperTool.m`, η συνάρτηση **`readLicenseKeyAuthorization`** ελέγχει αν ο καλών είναι εξουσιοδοτημένος να **εκτελέσει αυτή τη μέθοδο** καλώντας τη συνάρτηση **`checkAuthorization`**. Αυτή η συνάρτηση θα ελέγξει αν τα **authData** που αποστέλλονται από τη διαδικασία κλήσης έχουν **σωστή μορφή** και στη συνέχεια θα ελέγξει **τι απαιτείται για να αποκτήσει το δικαίωμα** να καλέσει τη συγκεκριμένη μέθοδο. Αν όλα πάνε καλά, το **επιστρεφόμενο `error` θα είναι `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -243,7 +243,7 @@ return error;
 ```
 Σημειώστε ότι για να **ελέγξετε τις απαιτήσεις για να αποκτήσετε το δικαίωμα** να καλέσετε αυτή τη μέθοδο, η συνάρτηση `authorizationRightForCommand` θα ελέγξει απλώς το προηγουμένως σχολιασμένο αντικείμενο **`commandInfo`**. Στη συνέχεια, θα καλέσει **`AuthorizationCopyRights`** για να ελέγξει **αν έχει τα δικαιώματα** να καλέσει τη συνάρτηση (σημειώστε ότι οι σημαίες επιτρέπουν την αλληλεπίδραση με τον χρήστη).
 
-Σε αυτή την περίπτωση, για να καλέσετε τη συνάρτηση `readLicenseKeyAuthorization`, το `kCommandKeyAuthRightDefault` ορίζεται σε `@kAuthorizationRuleClassAllow`. Έτσι, **ο καθένας μπορεί να το καλέσει**.
+Σε αυτή την περίπτωση, για να καλέσετε τη συνάρτηση `readLicenseKeyAuthorization`, το `kCommandKeyAuthRightDefault` ορίζεται σε `@kAuthorizationRuleClassAllow`. Έτσι, **οποιοσδήποτε μπορεί να το καλέσει**.
 
 ### Πληροφορίες DB
 
@@ -290,7 +290,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-Αν αυτή η συνάρτηση καλεί συναρτήσεις όπως `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, χρησιμοποιεί το [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Αυτό, αν αυτή η συνάρτηση καλεί συναρτήσεις όπως `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, χρησιμοποιεί το [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
 Ελέγξτε το **`/var/db/auth.db`** για να δείτε αν είναι δυνατό να αποκτήσετε άδειες για να καλέσετε κάποια προνομιακή ενέργεια χωρίς αλληλεπίδραση χρήστη.
 
@@ -318,7 +318,7 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Τέλος, πρέπει απλώς να γνωρίζουμε το **όνομα της εκτεθειμένης Υπηρεσίας Mach** προκειμένου να καθορίσουμε μια επικοινωνία μαζί της. Υπάρχουν αρκετοί τρόποι για να το βρούμε αυτό:
+Τέλος, χρειάζεται απλώς να γνωρίζουμε το **όνομα της εκτεθειμένης Υπηρεσίας Mach** προκειμένου να καθορίσουμε μια επικοινωνία μαζί της. Υπάρχουν αρκετοί τρόποι για να το βρούμε αυτό:
 
 * Στο **`[HelperTool init]`** όπου μπορείτε να δείτε την Υπηρεσία Mach που χρησιμοποιείται:
 

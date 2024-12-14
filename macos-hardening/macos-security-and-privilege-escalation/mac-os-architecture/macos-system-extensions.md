@@ -1,95 +1,107 @@
-# Επεκτάσεις Συστήματος macOS
+# macOS System Extensions
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Επεκτάσεις Συστήματος / Πλαίσιο Ασφάλειας Τερματικού
+## System Extensions / Endpoint Security Framework
 
-Σε αντίθεση με τις Πυρήνας Επεκτάσεις, **οι Επεκτάσεις Συστήματος λειτουργούν στον χώρο χρήστη** αντί για τον χώρο πυρήνα, μειώνοντας τον κίνδυνο από κατάρρευση του συστήματος λόγω δυσλειτουργίας της επέκτασης.
+Σε αντίθεση με τις Kernel Extensions, **οι System Extensions εκτελούνται σε χώρο χρήστη** αντί για χώρο πυρήνα, μειώνοντας τον κίνδυνο συστήματος λόγω δυσλειτουργίας της επέκτασης.
 
 <figure><img src="../../../.gitbook/assets/image (606).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-Υπάρχουν τρία είδη επεκτάσεων συστήματος: Επεκτάσεις **DriverKit**, Επεκτάσεις **Δικτύου** και Επεκτάσεις **Ασφάλειας Τερματικού**.
+Υπάρχουν τρεις τύποι συστημικών επεκτάσεων: **DriverKit** Extensions, **Network** Extensions και **Endpoint Security** Extensions.
 
-### **Επεκτάσεις DriverKit**
+### **DriverKit Extensions**
 
-Το DriverKit είναι μια αντικατάσταση για τις πυρήνας επεκτάσεις που **παρέχουν υποστήριξη υλικού**. Επιτρέπει στους οδηγούς συσκευών (όπως USB, Serial, NIC και HID drivers) να λειτουργούν στον χώρο χρήστη αντί για τον χώρο πυρήνα. Το πλαίσιο DriverKit περιλαμβάνει **εκδόσεις χώρου χρήστη ορισμένων κλάσεων I/O Kit**, και ο πυρήνας προωθεί κανονικά τα συμβάντα I/O Kit στον χώρο χρήστη, προσφέροντας ένα πιο ασφαλές περιβάλλον για αυτούς τους οδηγούς να λειτουργούν.
+Το DriverKit είναι μια αντικατάσταση για τις kernel extensions που **παρέχουν υποστήριξη υλικού**. Επιτρέπει στους οδηγούς συσκευών (όπως USB, Serial, NIC και HID drivers) να εκτελούνται σε χώρο χρήστη αντί για χώρο πυρήνα. Το πλαίσιο DriverKit περιλαμβάνει **εκδόσεις χώρου χρήστη ορισμένων κλάσεων I/O Kit**, και ο πυρήνας προωθεί κανονικά γεγονότα I/O Kit σε χώρο χρήστη, προσφέροντας ένα ασφαλέστερο περιβάλλον για αυτούς τους οδηγούς.
 
-### **Επεκτάσεις Δικτύου**
+### **Network Extensions**
 
-Οι Επεκτάσεις Δικτύου παρέχουν τη δυνατότητα προσαρμογής των συμπεριφορών του δικτύου. Υπάρχουν διάφοροι τύποι Επεκτάσεων Δικτύου:
+Οι Network Extensions παρέχουν τη δυνατότητα προσαρμογής των συμπεριφορών δικτύου. Υπάρχουν αρκετοί τύποι Network Extensions:
 
-* **Προξειδωτής Εφαρμογής**: Χρησιμοποιείται για τη δημιουργία ενός πελάτη VPN που υλοποιεί ένα πρωτόκολλο VPN που εστιάζεται σε ροές σύνδεσης αντί για μεμονωμένα πακέτα.
-* **Σήραγγα Πακέτων**: Χρησιμοποιείται για τη δημιουργία ενός πελάτη VPN που υλοποιεί ένα πρωτόκολλο VPN που εστιάζεται σε μεμονωμένα πακέτα.
-* **Φίλτρο Δεδομένων**: Χρησιμοποιείται για το φιλτράρισμα "ροών" δικτύου. Μπορεί να παρακολουθεί ή να τροποποιεί δεδομένα δικτύου στο επίπεδο ροής.
-* **Φίλτρο Πακέτων**: Χρησιμοποιείται για το φιλτράρισμα μεμονωμένων πακέτων δικτύου. Μπορεί να παρακολουθεί ή να τροποποιεί δεδομένα δικτύου στο επίπεδο πακέτου.
-* **Προξειδωτής DNS**: Χρησιμοποιείται για τη δημιουργία ενός προσαρμοσμένου παροχέα DNS. Μπορεί να χρησιμοποιηθεί για την παρακολούθηση ή την τροποποίηση αιτημάτων και απαντήσεων DNS.
+* **App Proxy**: Αυτό χρησιμοποιείται για τη δημιουργία ενός VPN client που υλοποιεί ένα ροής-προσανατολισμένο, προσαρμοσμένο πρωτόκολλο VPN. Αυτό σημαίνει ότι διαχειρίζεται την κυκλοφορία δικτύου με βάση τις συνδέσεις (ή ροές) αντί για μεμονωμένα πακέτα.
+* **Packet Tunnel**: Αυτό χρησιμοποιείται για τη δημιουργία ενός VPN client που υλοποιεί ένα πακέτο-προσανατολισμένο, προσαρμοσμένο πρωτόκολλο VPN. Αυτό σημαίνει ότι διαχειρίζεται την κυκλοφορία δικτύου με βάση τα μεμονωμένα πακέτα.
+* **Filter Data**: Αυτό χρησιμοποιείται για την φιλτράρισμα των "ροών" δικτύου. Μπορεί να παρακολουθεί ή να τροποποιεί τα δεδομένα δικτύου σε επίπεδο ροής.
+* **Filter Packet**: Αυτό χρησιμοποιείται για την φιλτράρισμα μεμονωμένων πακέτων δικτύου. Μπορεί να παρακολουθεί ή να τροποποιεί τα δεδομένα δικτύου σε επίπεδο πακέτου.
+* **DNS Proxy**: Αυτό χρησιμοποιείται για τη δημιουργία ενός προσαρμοσμένου παρόχου DNS. Μπορεί να χρησιμοποιηθεί για την παρακολούθηση ή την τροποποίηση των αιτημάτων και απαντήσεων DNS.
 
-## Πλαίσιο Ασφάλειας Τερματικού
+## Endpoint Security Framework
 
-Το Πλαίσιο Ασφάλειας Τερματικού είναι ένα πλαίσιο που παρέχεται από την Apple στο macOS και παρέχει ένα σύνολο APIs για την ασφάλεια του συστήματος. Προορίζεται για χρήση από **προμηθευτές ασφάλειας και προγραμματιστές για τη δημιουργία προϊόντων που μπορούν να παρακολουθούν και να ελέγχουν τη δραστηριότητα του συστήματος** για την αναγνώριση και προστασία από κακόβουλη δραστηριότητα.
+Το Endpoint Security είναι ένα πλαίσιο που παρέχεται από την Apple στο macOS που προσφέρει ένα σύνολο APIs για την ασφάλεια του συστήματος. Προορίζεται για χρήση από **προμηθευτές ασφάλειας και προγραμματιστές για την κατασκευή προϊόντων που μπορούν να παρακολουθούν και να ελέγχουν τη δραστηριότητα του συστήματος** για να εντοπίσουν και να προστατεύσουν από κακόβουλες δραστηριότητες.
 
-Αυτό το πλαίσιο παρέχει μια **συλλογή από APIs για την παρακολούθηση και τον έλεγχο της δραστηριότητας του συστήματος**, όπως εκτελέσεις διεργασιών, συμβάντα συστήματος αρχείων, δικτύου και πυρήνα.
+Αυτό το πλαίσιο παρέχει μια **συλλογή APIs για την παρακολούθηση και τον έλεγχο της δραστηριότητας του συστήματος**, όπως εκτελέσεις διεργασιών, γεγονότα συστήματος αρχείων, γεγονότα δικτύου και πυρήνα.
 
-Η καρδιά αυτού του πλαισίου υλοποιείται στον πυρήνα, ως Πυρήνας Επέκτασης (KEXT) που βρίσκεται στο **`/System/Library/Extensions/EndpointSecurity.kext`**. Αυτός ο KEXT αποτελείται από αρκετά βασικά στοιχεία:
+Ο πυρήνας αυτού του πλαισίου είναι υλοποιημένος στον πυρήνα, ως Kernel Extension (KEXT) που βρίσκεται στο **`/System/Library/Extensions/EndpointSecurity.kext`**. Αυτό το KEXT αποτελείται από αρκετά βασικά στοιχεία:
 
-* **EndpointSecurityDriver**: Λειτουργεί ως "σημείο εισόδου" για την πυρήνα επέκταση. Είναι το κύριο σημείο αλληλεπίδρασης μεταξύ του λειτουργικού συστήματος και του πλαισίου Ασφάλειας Τερματικού.
-* **EndpointSecurityEventManager**: Αυτό το στοιχείο είναι υπεύθυνο για την υλοποίηση των συνδέσεων πυρήνα. Οι συνδέσεις πυρήνα επιτρέπουν στο πλαίσιο να παρακολουθεί συμβάντα συστήματος με την παρέμβαση κλήσεων συστήματος.
-* **EndpointSecurityClientManager**: Διαχειρίζεται την επικοινωνία με τους πελάτες χώρου χρήστη, παρακολουθώντας ποιοι πελάτες είναι συνδεδεμένοι και χρειάζονται να λάβουν ειδοποιήσεις συμβάντων.
-* **EndpointSecurityMessageManager**: Αποστέλλει μηνύματα και ειδοποιήσεις συμβάντων στους πελάτες χώρου χρήστη.
+* **EndpointSecurityDriver**: Αυτό λειτουργεί ως το "σημείο εισόδου" για την επέκταση πυρήνα. Είναι το κύριο σημείο αλληλεπίδρασης μεταξύ του OS και του πλαισίου Endpoint Security.
+* **EndpointSecurityEventManager**: Αυτό το στοιχείο είναι υπεύθυνο για την υλοποίηση kernel hooks. Τα kernel hooks επιτρέπουν στο πλαίσιο να παρακολουθεί γεγονότα του συστήματος παρεμβαίνοντας σε κλήσεις συστήματος.
+* **EndpointSecurityClientManager**: Αυτό διαχειρίζεται την επικοινωνία με τους πελάτες χώρου χρήστη, παρακολουθώντας ποιες πελάτες είναι συνδεδεμένοι και χρειάζονται να λάβουν ειδοποιήσεις γεγονότων.
+* **EndpointSecurityMessageManager**: Αυτό στέλνει μηνύματα και ειδοποιήσεις γεγονότων στους πελάτες χώρου χρήστη.
 
-Τα συμβάντα που μπορεί να παρακολουθήσει το πλαίσιο Ασφάλειας Τερματικού κατηγοριοποιούνται σε:
+Τα γεγονότα που μπορεί να παρακολουθεί το πλαίσιο Endpoint Security κατηγοριοποιούνται σε:
 
-* Συμβάντα αρχείων
-* Συμβάντα διεργασιών
-* Συμβάντα socket
-* Συμβάντα πυρήνα (όπως φόρτωση/εκφόρτωση μιας πυρήνας επέκτασης ή ανοίγμα ενός συσκευής I/O Kit)
+* Γεγονότα αρχείων
+* Γεγονότα διεργασιών
+* Γεγονότα υποδοχών
+* Γεγονότα πυρήνα (όπως η φόρτωση/αφόρτωση μιας επέκτασης πυρήνα ή το άνοιγμα μιας συσκευής I/O Kit)
 
-### Αρχιτεκτονική Πλαισίου Ασφάλειας Τερματικού
+### Endpoint Security Framework Architecture
 
 <figure><img src="../../../.gitbook/assets/image (1068).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-Η **επικοινωνία χώρου χρήστη** με το πλαίσιο Ασφάλειας Τερματικού γίνεται μέσω της κλάσης IOUserClient. Χρησιμοποιούνται δύο διαφορετικές υποκλάσεις, ανάλογα με τον τύπο του καλούντος:
+**Η επικοινωνία χώρου χρήστη** με το πλαίσιο Endpoint Security συμβαίνει μέσω της κλάσης IOUserClient. Χρησιμοποιούνται δύο διαφορετικές υποκλάσεις, ανάλογα με τον τύπο του καλούντος:
 
-* **EndpointSecurityDriverClient**: Αυτό απαιτεί την άδεια `com.apple.private.endpoint-security.manager`, η οποία κατέχεται μόνο από τη διεργασία συστήματος `endpointsecurityd`.
-* **EndpointSecurityExternalClient**: Αυτό απαιτεί την άδεια `com.apple.developer.endpoint-security.client`. Αυτό θα χρησιμοποιούνταν τυπικά από λογισμικό ασφαλείας τρίτων που χρειάζεται να αλληλεπιδρά με το πλαίσιο Ασφάλειας Τερματικού.
+* **EndpointSecurityDriverClient**: Αυτό απαιτεί την άδεια `com.apple.private.endpoint-security.manager`, η οποία κατέχεται μόνο από τη διαδικασία συστήματος `endpointsecurityd`.
+* **EndpointSecurityExternalClient**: Αυτό απαιτεί την άδεια `com.apple.developer.endpoint-security.client`. Αυτό θα χρησιμοποιείται συνήθως από λογισμικό ασφάλειας τρίτων που χρειάζεται να αλληλεπιδράσει με το πλαίσιο Endpoint Security.
 
-Οι Επεκτάσεις Ασφάλειας Τερματικού: **`
+Οι Endpoint Security Extensions:**`libEndpointSecurity.dylib`** είναι η C βιβλιοθήκη που χρησιμοποιούν οι συστημικές επεκτάσεις για να επικοινωνούν με τον πυρήνα. Αυτή η βιβλιοθήκη χρησιμοποιεί το I/O Kit (`IOKit`) για να επικοινωνήσει με το KEXT Endpoint Security.
+
+**`endpointsecurityd`** είναι μια βασική υπηρεσία συστήματος που εμπλέκεται στη διαχείριση και εκκίνηση των συστημικών επεκτάσεων ασφάλειας, ιδιαίτερα κατά τη διάρκεια της πρώιμης διαδικασίας εκκίνησης. **Μόνο οι συστημικές επεκτάσεις** που έχουν σημειωθεί με **`NSEndpointSecurityEarlyBoot`** στο αρχείο `Info.plist` τους λαμβάνουν αυτή τη θεραπεία πρώιμης εκκίνησης.
+
+Μια άλλη υπηρεσία συστήματος, **`sysextd`**, **επικυρώνει τις συστημικές επεκτάσεις** και τις μεταφέρει στις κατάλληλες θέσεις του συστήματος. Στη συνέχεια, ζητά από την σχετική υπηρεσία να φορτώσει την επέκταση. Το **`SystemExtensions.framework`** είναι υπεύθυνο για την ενεργοποίηση και απενεργοποίηση των συστημικών επεκτάσεων.
+
+## Bypassing ESF
+
+Το ESF χρησιμοποιείται από εργαλεία ασφάλειας που θα προσπαθήσουν να ανιχνεύσουν έναν red teamer, οπότε οποιαδήποτε πληροφορία σχετικά με το πώς αυτό θα μπορούσε να αποφευχθεί ακούγεται ενδιαφέρουσα.
+
+### CVE-2021-30965
+
+Το θέμα είναι ότι η εφαρμογή ασφάλειας πρέπει να έχει **δικαιώματα πλήρους πρόσβασης δίσκου**. Έτσι, αν ένας επιτιθέμενος μπορούσε να αφαιρέσει αυτό, θα μπορούσε να αποτρέψει τη λειτουργία του λογισμικού:
 ```bash
 tccutil reset All
 ```
-Για **περισσότερες πληροφορίες** σχετικά με αυτήν την παράκαμψη και σχετικές, ελέγξτε την ομιλία [#OBTS v5.0: "Η Αχίλλειος Πτέρνα της Ασφάλειας Τερματικού" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Για **περισσότερες πληροφορίες** σχετικά με αυτήν την παράκαμψη και σχετικές, ελέγξτε την ομιλία [#OBTS v5.0: "Η Αχίλλειος Πτέρνα της EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-Στο τέλος αυτό διορθώθηκε δίνοντας τη νέα άδεια **`kTCCServiceEndpointSecurityClient`** στην εφαρμογή ασφαλείας που διαχειρίζεται ο **`tccd`** έτσι ώστε το `tccutil` να μην εκκαθαρίζει τις άδειές της εμποδίζοντάς την από το να εκτελεστεί.
+Στο τέλος, αυτό διορθώθηκε δίνοντας τη νέα άδεια **`kTCCServiceEndpointSecurityClient`** στην εφαρμογή ασφαλείας που διαχειρίζεται το **`tccd`** έτσι ώστε το `tccutil` να μην διαγράψει τις άδειές της, εμποδίζοντας την από το να τρέξει.
 
 ## Αναφορές
 
-* [**OBTS v3.0: "Ασφάλεια & Ανασφάλεια Τερματικού" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
+* [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
