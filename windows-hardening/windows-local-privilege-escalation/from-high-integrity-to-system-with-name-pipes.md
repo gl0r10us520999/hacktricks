@@ -7,7 +7,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -19,7 +19,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 1. Unda Pipe mpya
 2. Unda na anza huduma ambayo itajihusisha na pipe iliyoundwa na kuandika kitu. Msimbo wa huduma utaendesha msimbo huu wa PS uliokodishwa: `$pipe = new-object System.IO.Pipes.NamedPipeClientStream("piper"); $pipe.Connect(); $sw = new-object System.IO.StreamWriter($pipe); $sw.WriteLine("Go"); $sw.Dispose();`
 3. Huduma inapata data kutoka kwa mteja kwenye pipe, inaita ImpersonateNamedPipeClient na inasubiri huduma ikamilike
-4. Hatimaye, inatumia token iliyopatikana kutoka kwa huduma kuanzisha _cmd.exe_ mpya
+4. Hatimaye, inatumia token iliyopatikana kutoka kwa huduma kuanzisha _cmd.exe_
 
 {% hint style="warning" %}
 Ikiwa huna ruhusa za kutosha, exploit inaweza kukwama na kamwe isirudi.

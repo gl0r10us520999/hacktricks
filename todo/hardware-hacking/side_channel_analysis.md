@@ -1,7 +1,7 @@
-# Mashambulizi ya Uchambuzi wa Channel ya Upande
+# Side Channel Analysis Attacks
 
-Mashambulizi ya Uchambuzi wa Channel ya Upande inahusu kubaini habari kutoka kifaa au kitu kingine kupitia channel au chanzo kingine ambacho kina athari isiyo ya moja kwa moja kwake na habari inaweza kuchimbuliwa kutoka kwake. Hii inaweza kufafanuliwa vizuri zaidi kwa mfano:
+Mashambulizi ya Side Channel Analysis yanarejelea kubaini habari kutoka kwa kifaa au chombo kupitia njia au chanzo kingine ambacho kina ushawishi wa moja kwa moja juu yake na habari inaweza kutolewa kutoka kwake. Hii inaweza kueleweka vizuri zaidi kwa mfano:
 
-Kuchambua msukumo katika karatasi za glasi ambazo ziko karibu na chanzo cha sauti, lakini chanzo cha sauti hakipatikani. Msukumo katika glasi unaathiriwa na chanzo cha sauti na ikiwa ikifuatiliwa na kuchambuliwa, sauti inaweza kubainishwa na kufasiriwa.
+Kuchambua mitetemo katika karatasi za kioo ambazo ziko karibu na chanzo cha sauti, lakini chanzo cha sauti hakiwezi kufikiwa. Mitetemo katika kioo inaathiriwa na chanzo cha sauti na ikiwa itafuatiliwa na kuchambuliwa, sauti inaweza kufasiriwa na kutafsiriwa.
 
-Mashambulizi haya ni maarufu sana linapokuja suala la kuvuja kwa data kama vile funguo za faragha au kugundua operesheni katika mchakato. Mzunguko wa umeme una njia nyingi ambazo, habari inavuja mara kwa mara. Kufuatilia na kuchambua inaweza kuwa na manufaa kwa kufichua habari nyingi kuhusu mzunguko na mambo ya ndani yake.
+Mashambulizi haya ni maarufu sana katika hali ya kuvuja kwa data kama funguo za kibinafsi au kutafuta operesheni katika prosesa. Mzunguko wa elektroniki una njia nyingi ambazo, habari inavuja mara kwa mara. Kufuatilia na kuchambua kunaweza kuwa na manufaa kwa kufichua habari nyingi kuhusu mzunguko na ndani yake.

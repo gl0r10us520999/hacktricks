@@ -33,7 +33,7 @@ New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F
 
 Windows Tasks hutumia Custom Triggers kuita COM objects na kwa sababu zinafanywa kupitia Task Scheduler, ni rahisi kutabiri wakati zitakapoitwa.
 
-<pre class="language-powershell"><code class="lang-powershell"># Onyesha COM CLSIDs
+<pre class="language-powershell"><code class="lang-powershell"># Show COM CLSIDs
 $Tasks = Get-ScheduledTask
 
 foreach ($Task in $Tasks)
@@ -47,8 +47,8 @@ $usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
 
 if ($Task.Principal.GroupId -eq $usersGroup)
 {
-Write-Host "Jina la Kazi: " $Task.TaskName
-Write-Host "Njia ya Kazi: " $Task.TaskPath
+Write-Host "Task Name: " $Task.TaskName
+Write-Host "Task Path: " $Task.TaskPath
 Write-Host "CLSID: " $Task.Actions.ClassId
 Write-Host
 }
@@ -56,11 +56,11 @@ Write-Host
 }
 }
 
-# Mfano wa Matokeo:
-<strong># Jina la Kazi:  Mfano
-</strong># Njia ya Kazi:  \Microsoft\Windows\Mfano\
+# Sample Output:
+<strong># Task Name:  Example
+</strong># Task Path:  \Microsoft\Windows\Example\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
-# [zaidi kama ile ya awali...]</code></pre>
+# [more like the previous one...]</code></pre>
 
 Kuangalia matokeo unaweza kuchagua moja ambayo itatekelezwa **kila wakati mtumiaji anapoingia** kwa mfano.
 

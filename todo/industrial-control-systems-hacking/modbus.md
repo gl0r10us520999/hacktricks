@@ -1,31 +1,31 @@
-# Itifaki ya Modbus
+# The Modbus Protocol
 
-## Utangulizi wa Itifaki ya Modbus
+## Introduction to Modbus Protocol
 
-Itifaki ya Modbus ni itifaki inayotumiwa sana katika Mifumo ya Kiotomatiki na Udhibiti wa Viwandani. Modbus inaruhusu mawasiliano kati ya vifaa mbalimbali kama vile mitawala ya mantiki inayoweza programika (PLCs), sensor, vitendo, na vifaa vingine vya viwandani. Kuelewa Itifaki ya Modbus ni muhimu kwani hii ni itifaki ya mawasiliano inayotumiwa zaidi katika ICS na ina eneo kubwa la shambulio la kuchunguza na hata kuingiza amri kwenye PLCs.
+Protokali ya Modbus ni protokali inayotumika sana katika Uhandisi wa Viwanda na Mifumo ya Kudhibiti. Modbus inaruhusu mawasiliano kati ya vifaa mbalimbali kama vile wakala wa mantiki wanaoweza kuprogramu (PLCs), sensorer, actuators, na vifaa vingine vya viwandani. Kuelewa Protokali ya Modbus ni muhimu kwani hii ndiyo protokali pekee inayotumika sana katika ICS na ina uso mkubwa wa mashambulizi kwa ajili ya kunasa na hata kuingiza amri katika PLCs.
 
-Hapa, dhana zimetajwa kwa mtindo wa pointi zinazotoa muktadha wa itifaki na asili yake ya uendeshaji. Changamoto kubwa katika usalama wa mfumo wa ICS ni gharama ya utekelezaji na kuboresha. Itifaki hizi na viwango vilivyoundwa katika miaka ya 80 na 90 bado vinatumika sana. Kwa kuwa tasnia ina vifaa vingi na uunganisho, kuboresha vifaa ni jambo gumu sana, ambalo hutoa wadukuzi fursa ya kushughulika na itifaki zilizopitwa na wakati. Mashambulizi kwenye Modbus ni kama hakika kwa kuwa itatumika bila kuboreshwa na uendeshaji wake ni muhimu kwa tasnia.
+Hapa, dhana zimeelezwa kwa alama zikitoa muktadha wa protokali na asili yake ya uendeshaji. Changamoto kubwa katika usalama wa mifumo ya ICS ni gharama ya utekelezaji na uboreshaji. Protokali hizi na viwango vilitengenezwa mwanzoni mwa miaka ya 80 na 90 ambazo bado zinatumika sana. Kwa kuwa tasnia ina vifaa vingi na muunganisho, kuboresha vifaa ni vigumu sana, ambayo inawapa hackers faida ya kushughulikia protokali za zamani. Mashambulizi kwenye Modbus ni kama yasiyoweza kuepukika kwani itatumika bila uboreshaji na uendeshaji wake ni muhimu kwa tasnia.
 
-## Usanidi wa Mteja-Mhudumu
+## The Client-Server Architecture
 
-Itifaki ya Modbus kawaida hutumiwa kama katika Usanidi wa Mteja-Mhudumu ambapo kifaa cha msingi (mteja) huanzisha mawasiliano na kifaa kimoja au zaidi cha watumwa (huduma). Hii pia huitwa Usanidi wa Bwana-Mtumwa, ambao unatumika sana katika elektroniki na IoT na SPI, I2C, n.k.
+Protokali ya Modbus kwa kawaida inatumika kama katika Muktadha wa Mteja-Mtumikaji ambapo kifaa kikuu (mteja) kinaanzisha mawasiliano na vifaa moja au zaidi vya mtumizi (servers). Hii pia inajulikana kama muktadha wa Mwalimu-Mtumwa, ambayo inatumika sana katika elektroniki na IoT na SPI, I2C, nk.
 
-## Toleo za Serial na Ethernet
+## Serial and Etherent Versions
 
-Itifaki ya Modbus imeundwa kwa ajili ya Mawasiliano ya Serial pamoja na Mawasiliano ya Ethernet. Mawasiliano ya Serial hutumiwa sana katika mifumo ya zamani wakati vifaa vya kisasa vinavyotumia Ethernet vinatoa viwango vya juu vya data na ni vyema zaidi kwa mitandao ya viwandani vya kisasa.
+Protokali ya Modbus imeundwa kwa mawasiliano ya Serial pamoja na Mawasiliano ya Ethernet. Mawasiliano ya Serial yanatumika sana katika mifumo ya zamani wakati vifaa vya kisasa vinasaidia Ethernet ambayo inatoa viwango vya juu vya data na inafaa zaidi kwa mitandao ya kisasa ya viwanda.
 
-## Uwakilishi wa Data
+## Data Representation
 
-Data inatumwa katika itifaki ya Modbus kama ASCII au Binary, ingawa muundo wa binary hutumiwa kutokana na uwezo wake wa kufanya kazi na vifaa vya zamani.
+Data inatumwa katika protokali ya Modbus kama ASCII au Binary, ingawa muundo wa binary unatumika kutokana na ufanisi wake na vifaa vya zamani.
 
-## Vificho vya Kazi
+## Function Codes
 
-Itifaki ya Modbus hufanya kazi na uhamishaji wa vificho maalum vya kazi vinavyotumiwa kufanya kazi kwenye PLCs na vifaa mbalimbali vya udhibiti. Sehemu hii ni muhimu kuelewa kwani mashambulizi ya kujibu yanaweza kufanywa kwa kutuma upya vificho vya kazi. Vifaa vya zamani havisaidii usimbaji wowote kwa uhamishaji wa data na kawaida huwa na nyaya ndefu zinazowaunganisha, ambazo husababisha kuharibiwa kwa nyaya hizo na kukamata/kuingiza data.
+Protokali ya ModBus inafanya kazi na uhamasishaji wa nambari maalum za kazi ambazo zinatumika kuendesha PLCs na vifaa mbalimbali vya kudhibiti. Sehemu hii ni muhimu kuelewa kwani mashambulizi ya kurudi yanaweza kufanywa kwa kurudisha nambari za kazi. Vifaa vya zamani havisaidii usimbaji wa mawasiliano ya data na kwa kawaida vina nyaya ndefu zinazovihusisha, ambayo inasababisha kuingiliwa kwa nyaya hizi na kunasa/kuingiza data.
 
-## Kutambua kwa Modbus
+## Addressing of Modbus
 
-Kila kifaa katika mtandao una anwani ya kipekee ambayo ni muhimu kwa mawasiliano kati ya vifaa. Itifaki kama Modbus RTU, Modbus TCP, n.k. hutumiwa kutekeleza kutambua na kutumika kama safu ya usafirishaji kwa uhamishaji wa data. Data inayohamishwa iko katika muundo wa itifaki ya Modbus ambayo ina ujumbe.
+Kila kifaa katika mtandao kina anwani maalum ambayo ni muhimu kwa mawasiliano kati ya vifaa. Protokali kama Modbus RTU, Modbus TCP, nk. zinatumika kutekeleza anwani na hutumikia kama tabaka la usafirishaji kwa uhamasishaji wa data. Data inayohamishwa iko katika muundo wa protokali ya Modbus ambayo ina ujumbe.
 
-Zaidi ya hayo, Modbus pia hutekeleza ukaguzi wa makosa ili kuhakikisha uadilifu wa data iliyohamishwa. Lakini zaidi ya yote, Modbus ni Kiwango cha Wazi na mtu yeyote anaweza kukiweka katika vifaa vyao. Hii ilifanya itifaki hii kuwa kiwango cha kimataifa na ni maarufu katika tasnia ya kiotomatiki ya viwandani.
+Zaidi ya hayo, Modbus pia inatekeleza ukaguzi wa makosa ili kuhakikisha uaminifu wa data iliyotumwa. Lakini zaidi ya yote, Modbus ni Kiwango Huria na mtu yeyote anaweza kukitekeleza katika vifaa vyao. Hii ilifanya protokali hii kuwa kiwango cha kimataifa na inatumika sana katika tasnia ya uhandisi wa viwanda.
 
-Kutokana na matumizi yake makubwa na ukosefu wa kuboresha, kushambulia Modbus hutoa faida kubwa na eneo kubwa la shambulio. ICS inategemea sana mawasiliano kati ya vifaa na mashambulizi yoyote yanayofanywa kwao yanaweza kuwa hatari kwa uendeshaji wa mifumo ya viwandani. Mashambulizi kama vile kujibu, kuingiza data, kuchunguza na kuvuja data, Kukataa Huduma, kughushi data, n.k. yanaweza kutekelezwa ikiwa njia ya uhamishaji inatambuliwa na mkaidi.
+Kwa sababu ya matumizi yake makubwa na ukosefu wa uboreshaji, kushambulia Modbus kunatoa faida kubwa na uso wake wa mashambulizi. ICS inategemea sana mawasiliano kati ya vifaa na mashambulizi yoyote yaliyofanywa juu yao yanaweza kuwa hatari kwa uendeshaji wa mifumo ya viwanda. Mashambulizi kama kurudi, kuingiza data, kunasa data na kuvuja, Kukataa Huduma, uongo wa data, nk. yanaweza kufanywa ikiwa njia ya uhamasishaji itatambuliwa na mshambuliaji.

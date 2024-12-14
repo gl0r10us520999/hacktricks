@@ -1,5 +1,5 @@
-# Mashambulizi ya Kuingiza Hitilafu
+# Fault Injection Attacks
 
-Mashambulizi ya kuingiza hitilafu ni pamoja na kuingiza kizuizi cha nje katika mizunguko ya umeme ili kuathiri tabia yake, ikisababisha kufichua habari au hata kuzidi vikwazo fulani katika mzunguko. Mashambulizi haya yanafungua fursa nyingi za kushambulia mizunguko ya umeme. Shambulizi hili pia hurejelewa kama kuchanganya mizunguko ya umeme.
+Shambulio la kuingiza makosa linajumuisha kuanzisha usumbufu wa nje katika mizunguko ya kielektroniki ili kuathiri tabia yake, na kusababisha kufichua habari au hata kupita vizuizi fulani katika mzunguko. Shambulio hili linafungua nafasi nyingi za kushambulia mizunguko ya kielektroniki. Shambulio hili pia linajulikana kama glitching ya mizunguko ya kielektroniki.
 
-Kuna njia nyingi na njia za kuingiza hitilafu katika mzunguko wa umeme.
+Kuna njia nyingi na vyombo vya kuingiza makosa katika mzunguko wa kielektroniki.

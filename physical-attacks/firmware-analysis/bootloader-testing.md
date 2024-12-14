@@ -15,8 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanzisha kifaa na bootloaders kama U-boot:
 
-1. **Fikia Shell ya Mfasiri ya Bootloader**:
-- Wakati wa kuanzisha, bonyeza "0", nafasi, au "mifumo ya uchawi" nyingine iliyotambuliwa ili kufikia shell ya mfasiri ya bootloader.
+1. **Fikia Shell ya Mfasiri wa Bootloader**:
+- Wakati wa kuanzisha, bonyeza "0", nafasi, au "mifumo ya uchawi" nyingine iliyotambuliwa ili kufikia shell ya mfasiri wa bootloader.
 
 2. **Badilisha Hoja za Boot**:
 - Tekeleza amri zifuatazo kuongeza '`init=/bin/sh`' kwenye hoja za boot, kuruhusu utekelezaji wa amri ya shell:
@@ -42,7 +42,7 @@ Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanzisha kifaa na 
 - Tumia `ubootwrite.py` kuandika picha ya U-boot na kusukuma firmware iliyobadilishwa ili kupata ufikiaji wa root.
 
 5. **Angalia Vipengele vya Debug**:
-- Thibitisha ikiwa vipengele vya debug kama vile logging ya kina, kupakia kernels zisizo na uhakika, au kuanzisha kutoka vyanzo visivyoaminika vimewezeshwa.
+- Thibitisha ikiwa vipengele vya debug kama vile logging ya kina, kupakia kernels zisizo za kuaminika, au kuanzisha kutoka vyanzo visivyoaminika vimewezeshwa.
 
 6. **Uingiliaji wa Kihardware wa Tahadhari**:
 - Kuwa makini unapounganisha pini moja na ardhi na kuingiliana na SPI au NAND flash chips wakati wa mchakato wa kuanzisha kifaa, hasa kabla ya kernel kufunguka. Kagua karatasi ya data ya NAND flash chip kabla ya kufupisha pini.

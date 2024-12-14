@@ -71,7 +71,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # Hesabu ya Mashine
 
-CPUs za kisasa na lugha za programu za kawaida hutumia hesabu juu ya **bit-vectors zenye ukubwa wa kudumu**. Hesabu ya mashine inapatikana katika Z3Py kama **Bit-Vectors**.
+CPUs za kisasa na lugha za programu za kawaida hutumia hesabu juu ya **bit-vectors zenye ukubwa wa fasta**. Hesabu ya mashine inapatikana katika Z3Py kama **Bit-Vectors**.
 ```python
 from z3 import *
 
@@ -88,7 +88,7 @@ print(simplify(a == b)) #This is False
 ```
 ## Signed/Unsigned Numbers
 
-Z3 inatoa toleo maalum la operesheni za kihesabu ambapo ina umuhimu ikiwa **bit-vector inachukuliwa kama signed au unsigned**. Katika Z3Py, waendeshaji **<, <=, >, >=, /, % na >>** wanalingana na toleo la **signed**. Waendeshaji wa **unsigned** husika ni **ULT, ULE, UGT, UGE, UDiv, URem na LShR.**
+Z3 inatoa toleo maalum la shughuli za kihesabu ambapo ina umuhimu ikiwa **bit-vector inachukuliwa kama signed au unsigned**. Katika Z3Py, waendeshaji **<, <=, >, >=, /, % na >>** wanalingana na toleo la **signed**. Waendeshaji wa **unsigned** husika ni **ULT, ULE, UGT, UGE, UDiv, URem na LShR.**
 ```python
 from z3 import *
 
@@ -131,7 +131,7 @@ print(m.model())
 ```
 # Mifano
 
-## Mchambuzi wa Sudoku
+## Msolvesudoku
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -195,8 +195,8 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

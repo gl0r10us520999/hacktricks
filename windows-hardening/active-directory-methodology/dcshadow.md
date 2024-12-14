@@ -16,10 +16,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DCShadow
 
-Inajisajili **Meneja wa Kikoa** mpya katika AD na inatumia ku **sukuma sifa** (SIDHistory, SPNs...) kwenye vitu vilivyotajwa **bila** kuacha **kumbukumbu** yoyote kuhusu **mabadiliko**. Unahitaji **privileges za DA** na uwe ndani ya **kikoa cha mzizi**.\
+Inajisajili **Msimamizi Mpya wa Kikoa** katika AD na kuitumia **kushinikiza sifa** (SIDHistory, SPNs...) kwenye vitu vilivyotajwa **bila** kuacha **kumbukumbu** zozote kuhusu **mabadiliko**. Unahitaji **privileges za DA** na uwe ndani ya **kikoa cha mzizi**.\
 Kumbuka kwamba ikiwa utatumia data mbaya, kumbukumbu mbaya sana zitaonekana.
 
-Ili kufanya shambulio unahitaji mifano 2 ya mimikatz. Moja yao itaanzisha seva za RPC kwa ruhusa za SYSTEM (lazima uonyeshe hapa mabadiliko unayotaka kufanya), na mfano mwingine utatumika kusukuma thamani:
+Ili kutekeleza shambulio unahitaji mifano 2 ya mimikatz. Moja yao itaanzisha seva za RPC kwa ruhusa za SYSTEM (lazima uonyeshe hapa mabadiliko unayotaka kutekeleza), na mfano mwingine utatumika kushinikiza thamani:
 
 {% code title="mimikatz1 (RPC servers)" %}
 ```bash
@@ -42,7 +42,7 @@ Unaweza kusukuma mabadiliko kutoka kwa DA au kutoka kwa mtumiaji mwenye ruhusa h
 
 * Katika **kitu cha domain**:
 * _DS-Install-Replica_ (Ongeza/ondoa Replica katika Domain)
-* _DS-Replication-Manage-Topology_ (Simamia Topolojia ya Replika)
+* _DS-Replication-Manage-Topology_ (Simamisha Topolojia ya Replika)
 * _DS-Replication-Synchronize_ (Sawaisha Replika)
 * Kitu cha **Sites** (na watoto wake) katika **konteina ya Configuration**:
 * _CreateChild and DeleteChild_
@@ -51,8 +51,8 @@ Unaweza kusukuma mabadiliko kutoka kwa DA au kutoka kwa mtumiaji mwenye ruhusa h
 * Kitu cha **lengo**:
 * _WriteProperty_ (Sio Andika)
 
-Unaweza kutumia [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) kutoa ruhusa hizi kwa mtumiaji asiye na haki (kumbuka kwamba hii itacha baadhi ya kumbukumbu). Hii ni ya kikomo zaidi kuliko kuwa na ruhusa za DA.\
-Kwa mfano: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` Hii inamaanisha kwamba jina la mtumiaji _**student1**_ anapokuwa kwenye mashine _**mcorp-student1**_ ana ruhusa za DCShadow juu ya kitu _**root1user**_.
+Unaweza kutumia [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) kutoa haki hizi kwa mtumiaji asiye na haki (kumbuka kwamba hii itacha baadhi ya kumbukumbu). Hii ni ya kikomo zaidi kuliko kuwa na haki za DA.\
+Kwa mfano: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` Hii inamaanisha kwamba jina la mtumiaji _**student1**_ anapokuwa kwenye mashine _**mcorp-student1**_ ana haki za DCShadow juu ya kitu _**root1user**_.
 
 ## Kutumia DCShadow kuunda milango ya nyuma
 
@@ -91,9 +91,12 @@ Tunahitaji kuongeza ACEs zifuatazo na SID ya mtumiaji wetu mwishoni:
 
 Ili kupata ACE ya sasa ya kitu: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-Kumbuka kwamba katika kesi hii unahitaji kufanya **mabadiliko kadhaa,** si moja tu. Hivyo, katika **mimikatz1 session** (RPC server) tumia parameter **`/stack` na kila mabadiliko** unayotaka kufanya. Kwa njia hii, utahitaji tu **`/push`** mara moja ili kutekeleza mabadiliko yote yaliyokamatwa kwenye seva ya rogue.
+Kumbuka kwamba katika kesi hii unahitaji kufanya **mabadiliko kadhaa,** si moja tu. Hivyo, katika **sehemu ya mimikatz1** (server ya RPC) tumia parameter **`/stack` na kila mabadiliko** unayotaka kufanya. Kwa njia hii, utahitaji tu **`/push`** mara moja ili kutekeleza mabadiliko yote yaliyokamatwa kwenye server ya rogue.
+
+
 
 [**Taarifa zaidi kuhusu DCShadow katika ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+
 
 {% hint style="success" %}
 Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -1,8 +1,8 @@
 # Radio
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -40,13 +40,13 @@ Ikiwa unagundua kuwa PC yako haikamata mambo jaribu kuzima OpenGL na kupunguza k
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* **Tuner** ya SigDigger husaidia **kukamata ishara bora** (lakini inaweza pia kuziharibu). Kwa kawaida anza na 0 na endelea **kuifanya iwe kubwa zaidi hadi** upate **kelele** inayotambulika kuwa **kubwa** kuliko **kuboresha ishara** unayohitaji).
+* **Tuner** ya SigDigger inasaidia **kukamata ishara bora** (lakini inaweza pia kuziharibu). Kwa kawaida anza na 0 na endelea **kuifanya iwe kubwa hadi** upate **kelele** inayotambulika kuwa **kubwa** kuliko **kuboresha ishara** unayohitaji).
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
-### Kusawazisha na kituo cha redio
+### Sambaza na kituo cha redio
 
-Pamoja na [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sawazisha na kituo unachotaka kusikia, pangilia chaguo la "Baseband audio preview", pangilia upana wa bendi ili kupata taarifa zote zinazotumwa na kisha weka Tuner kwenye kiwango kabla ya kelele kuanza kuongezeka:
+Na [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sambaza na kituo unachotaka kusikia, pangilia chaguo la "Baseband audio preview", pangilia upana wa bendi ili kupata taarifa zote zinazotumwa na kisha weka Tuner kwenye kiwango kabla ya kelele kuanza kuongezeka:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
@@ -59,22 +59,22 @@ Pamoja na [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sawazisha na 
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-* **Baada ya kurejesha bits unaweza kuhitaji kuzichakata kwa njia fulani**. Kwa mfano, katika codification ya Manchester up+down itakuwa 1 au 0 na down+up itakuwa nyingine. Hivyo, jozi za 1s na 0s (ups na downs) zitakuwa 1 halisi au 0 halisi.
+* **Baada ya kurejesha bits unaweza kuhitaji kuzichakata kwa namna fulani**. Kwa mfano, katika codification ya Manchester up+down itakuwa 1 au 0 na down+up itakuwa nyingine. Hivyo, jozi za 1s na 0s (ups na downs) zitakuwa 1 halisi au 0 halisi.
 * Hata kama ishara inatumia codification ya Manchester (haiwezekani kupata zaidi ya 0s au 1s mbili mfululizo), unaweza **kupata 1s au 0s kadhaa pamoja katika preamble**!
 
-### Kufichua aina ya moduli kwa IQ
+### Kufichua aina ya moduli na IQ
 
 Kuna njia 3 za kuhifadhi taarifa katika ishara: Kurekebisha **amplitude**, **frequency** au **phase**.\
-Ikiwa unachunguza ishara kuna njia tofauti za kujaribu kubaini kinachotumika kuhifadhi taarifa (pata njia zaidi hapa chini) lakini njia nzuri ni kuangalia grafu ya IQ.
+Ikiwa unachunguza ishara kuna njia tofauti za kujaribu kubaini kinachotumika kuhifadhi taarifa (pata njia zaidi hapa chini) lakini moja nzuri ni kuangalia grafu ya IQ.
 
 ![](<../../.gitbook/assets/image (788).png>)
 
 * **Kugundua AM**: Ikiwa katika grafu ya IQ inaonekana kwa mfano **duka 2** (labda moja katika 0 na nyingine katika amplitude tofauti), inaweza kumaanisha kuwa hii ni ishara ya AM. Hii ni kwa sababu katika grafu ya IQ umbali kati ya 0 na duka ni amplitude ya ishara, hivyo ni rahisi kuona amplitudes tofauti zinazo tumika.
-* **Kugundua PM**: Kama katika picha ya awali, ikiwa unapata duara ndogo zisizohusiana kati yao inaweza kumaanisha kuwa moduli ya awamu inatumika. Hii ni kwa sababu katika grafu ya IQ, pembe kati ya nukta na 0,0 ni awamu ya ishara, hivyo inamaanisha kuwa awamu 4 tofauti zinatumika.
+* **Kugundua PM**: Kama katika picha ya awali, ikiwa unapata duara ndogo zisizohusiana kati yao inaweza kumaanisha kuwa moduli ya awamu inatumika. Hii ni kwa sababu katika grafu ya IQ, pembe kati ya pointi na 0,0 ni awamu ya ishara, hivyo inamaanisha kuwa awamu 4 tofauti zinatumika.
 * Kumbuka kwamba ikiwa taarifa imefichwa katika ukweli kwamba awamu inabadilishwa na sio katika awamu yenyewe, huwezi kuona awamu tofauti zikiwa zimejulikana wazi.
 * **Kugundua FM**: IQ haina uwanja wa kutambua frequencies (umbali hadi katikati ni amplitude na pembe ni awamu).\
-Kwa hiyo, ili kutambua FM, unapaswa **kuona kimsingi duara tu** katika grafu hii.\
-Zaidi ya hayo, frequency tofauti "inawakilishwa" na grafu ya IQ kwa **kuongezeka kwa kasi katika duara** (hivyo katika SysDigger kuchagua ishara grafu ya IQ inajazwa, ikiwa unapata kuongezeka au mabadiliko ya mwelekeo katika duara iliyoundwa inaweza kumaanisha kuwa hii ni FM):
+Hivyo, ili kutambua FM, unapaswa **kuona kimsingi duara tu** katika grafu hii.\
+Zaidi ya hayo, frequency tofauti "inawakilishwa" na grafu ya IQ kwa **kuongezeka kwa kasi kwenye duara** (hivyo katika SysDigger kuchagua ishara grafu ya IQ inajazwa, ikiwa unapata ongezeko au mabadiliko ya mwelekeo katika duara iliyoundwa inaweza kumaanisha kuwa hii ni FM):
 
 ## Mfano wa AM
 
@@ -104,9 +104,9 @@ Kwa mfano, ikiwa unachagua Frequency badala ya Amplitude katika ishara hii ya AM
 
 Ikiwa unapata frequencies nyingi huenda hii isiwe FM, labda frequency ya ishara ilibadilishwa tu kwa sababu ya channel.
 
-#### Pamoja na IQ
+#### Na IQ
 
-Katika mfano huu unaweza kuona jinsi kuna **duara kubwa** lakini pia **pointi nyingi katikati.**
+Katika mfano huu unaweza kuona jinsi kuna **duka kubwa** lakini pia **pointi nyingi katikati.**
 
 ![](<../../.gitbook/assets/image (222).png>)
 
@@ -120,38 +120,38 @@ Chagua alama ndogo zaidi unayoweza kupata (hivyo unahakikisha ni 1 tu) na angali
 
 #### Kwa kundi la alama
 
-Unaweza pia kuashiria idadi ya alama unazopanga kuchagua na SigDigger itahesabu frequency ya alama 1 (alama zaidi zilizochaguliwa bora zaidi). Katika hali hii nilichagua alama 10 na "Selection freq" ni 1.004 Khz:
+Unaweza pia kuashiria idadi ya alama unazopanga kuchagua na SigDigger itahesabu frequency ya alama 1 (alama zaidi zilizochaguliwa ni bora labda). Katika hali hii nilichagua alama 10 na "Selection freq" ni 1.004 Khz:
 
 ![](<../../.gitbook/assets/image (1008).png>)
 
 ### Pata Bits
 
-Baada ya kugundua kuwa hii ni ishara ya **AM modulated** na **kasi ya alama** (na kujua kuwa katika kesi hii kitu chochote kilichoinuka kinamaanisha 1 na kitu chochote kilichoshuka kinamaanisha 0), ni rahisi sana **kupata bits** zilizowekwa katika ishara. Hivyo, chagua ishara yenye taarifa na pangilia sampuli na uamuzi na bonyeza sampuli (hakikisha kuwa **Amplitude** imechaguliwa, kasi iliyogunduliwa ya **Symbol rate** imepangiliwa na **Gadner clock recovery** imechaguliwa):
+Baada ya kugundua kuwa hii ni ishara **iliyorekebishwa ya AM** na **kiwango cha alama** (na kujua kuwa katika kesi hii kitu chochote juu kinamaanisha 1 na kitu chochote chini kinamaanisha 0), ni rahisi sana **kupata bits** zilizowekwa katika ishara. Hivyo, chagua ishara yenye taarifa na pangilia sampuli na uamuzi na bonyeza sampuli (hakikisha kuwa **Amplitude** imechaguliwa, kiwango cha **Symbol rate** kilichogunduliwa kimepangiliwa na **Gadner clock recovery** imechaguliwa):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
-* **Sync to selection intervals** inamaanisha kuwa ikiwa hapo awali umechagua vipindi ili kupata kasi ya alama, kasi hiyo ya alama itatumika.
-* **Manual** inamaanisha kuwa kasi ya alama iliyotajwa itatumika
-* Katika **Fixed interval selection** unaashiria idadi ya vipindi vinavyopaswa kuchaguliwa na inahesabu kasi ya alama kutoka kwake
-* **Gadner clock recovery** kwa kawaida ndiyo chaguo bora, lakini bado unahitaji kuashiria baadhi ya kasi ya alama ya takriban.
+* **Sync to selection intervals** inamaanisha kwamba ikiwa hapo awali umechagua intervals ili kupata kiwango cha alama, kiwango hicho cha alama kitatumika.
+* **Manual** inamaanisha kwamba kiwango cha alama kilichoonyeshwa kitatumika
+* Katika **Fixed interval selection** unaashiria idadi ya intervals ambazo zinapaswa kuchaguliwa na inahesabu kiwango cha alama kutoka kwake
+* **Gadner clock recovery** kwa kawaida ni chaguo bora, lakini bado unahitaji kuashiria kiwango fulani cha alama.
 
 Bonyeza sampuli hii inatokea:
 
 ![](<../../.gitbook/assets/image (644).png>)
 
-Sasa, ili kufanya SigDigger kuelewa **wapi kuna kiwango** cha kiwango kinachobeba taarifa unahitaji kubonyeza kwenye **kiwango cha chini** na kudumisha kubonyeza hadi kiwango kikubwa zaidi:
+Sasa, ili kufanya SigDigger kuelewa **wapi kuna kiwango** cha kiwango kinachobeba taarifa unahitaji kubonyeza kwenye **kiwango cha chini** na ushikilie hadi kiwango kikubwa zaidi:
 
 ![](<../../.gitbook/assets/image (439).png>)
 
-Kama ingekuwa kwa mfano **viwango 4 tofauti vya amplitude**, unapaswa kuhitaji kupangilia **Bits per symbol kuwa 2** na kuchagua kutoka ndogo hadi kubwa zaidi.
+Ikiwa ingekuwa kwa mfano **viwango 4 tofauti vya amplitude**, unapaswa kuwa na mipangilio ya **Bits per symbol kuwa 2** na kuchagua kutoka ndogo hadi kubwa.
 
-Hatimaye **kuongeza** **Zoom** na **kubadilisha Ukubwa wa Safu** unaweza kuona bits (na unaweza kuchagua yote na nakala ili kupata bits zote):
+Hatimaye **kuongeza** **Zoom** na **kubadilisha saizi ya Row** unaweza kuona bits (na unaweza kuchagua yote na nakala ili kupata bits zote):
 
 ![](<../../.gitbook/assets/image (276).png>)
 
-Ikiwa ishara ina zaidi ya 1 bit kwa alama (kwa mfano 2), SigDigger haina **njia ya kujua ni alama gani** 00, 01, 10, 11, hivyo itatumia **mifumo tofauti ya kijivu** kuwakilisha kila moja (na ikiwa unakopa bits itatumia **nambari kutoka 0 hadi 3**, utahitaji kuzitibu).
+Ikiwa ishara ina zaidi ya 1 bit kwa alama (kwa mfano 2), SigDigger haina **njia ya kujua ni alama ipi** 00, 01, 10, 11, hivyo itatumia **mifumo tofauti ya kijivu** kuwakilisha kila moja (na ikiwa unakopa bits itatumia **nambari kutoka 0 hadi 3**, utahitaji kuzitibu).
 
-Pia, tumia **codifications** kama **Manchester**, na **up+down** inaweza kuwa **1 au 0** na down+up inaweza kuwa 1 au 0. Katika hali hizo unahitaji **kuzitibu ups zilizopatikana (1) na downs (0)** ili kubadilisha jozi za 01 au 10 kama 0s au 1s.
+Pia, tumia **codifications** kama **Manchester**, na **up+down** inaweza kuwa **1 au 0** na down+up inaweza kuwa 1 au 0. Katika hali hizo unahitaji **kuzitibu ups zilizopatikana (1) na downs (0)** ili kubadilisha jozi za 01 au 10 kuwa 0s au 1s.
 
 ## Mfano wa FM
 
@@ -165,11 +165,11 @@ Mfano wa ishara inayotuma taarifa iliyorekebishwa katika FM:
 
 ![](<../../.gitbook/assets/image (725).png>)
 
-Katika picha ya awali unaweza kuona vizuri kuwa **frequencies 2 zinatumika** lakini ikiwa unachunguza **waveform** huenda usiweze **kutambua kwa usahihi frequencies 2 tofauti**:
+Katika picha ya awali unaweza kuona vizuri kwamba **frequencies 2 zinatumika** lakini ikiwa unatazama **waveform** huenda usiweze **kutambua kwa usahihi frequencies 2 tofauti**:
 
 ![](<../../.gitbook/assets/image (717).png>)
 
-Hii ni kwa sababu nilikamata ishara katika frequencies zote mbili, hivyo moja ni karibu na nyingine kwa upande hasi:
+Hii ni kwa sababu nilikamata ishara katika frequencies zote mbili, hivyo moja ni karibu na nyingine kwa hasi:
 
 ![](<../../.gitbook/assets/image (942).png>)
 
@@ -185,7 +185,7 @@ Kuangalia histogram ya frequency ya ishara yenye taarifa unaweza kwa urahisi kuo
 
 ![](<../../.gitbook/assets/image (871).png>)
 
-Katika kesi hii ikiwa unachunguza **Amplitude histogram** utapata **amplitude moja tu**, hivyo **haiwezi kuwa AM** (ikiwa unapata amplitudes nyingi huenda ni kwa sababu ishara imekuwa ikipoteza nguvu katika channel):
+Katika kesi hii ikiwa unatazama **Amplitude histogram** utapata **amplitude moja tu**, hivyo **haiwezi kuwa AM** (ikiwa unapata amplitudes nyingi huenda ni kwa sababu ishara imekuwa ikipoteza nguvu katika channel):
 
 ![](<../../.gitbook/assets/image (817).png>)
 
@@ -193,11 +193,11 @@ Na hii itakuwa histogram ya awamu (ambayo inaonyesha wazi kuwa ishara haijarekeb
 
 ![](<../../.gitbook/assets/image (996).png>)
 
-#### Pamoja na IQ
+#### Na IQ
 
 IQ haina uwanja wa kutambua frequencies (umbali hadi katikati ni amplitude na pembe ni awamu).\
-Kwa hiyo, ili kutambua FM, unapaswa **kuona kimsingi duara tu** katika grafu hii.\
-Zaidi ya hayo, frequency tofauti "inawakilishwa" na grafu ya IQ kwa **kuongezeka kwa kasi katika duara** (hivyo katika SysDigger kuchagua ishara grafu ya IQ inajazwa, ikiwa unapata kuongezeka au mabadiliko ya mwelekeo katika duara iliyoundwa inaweza kumaanisha kuwa hii ni FM):
+Hivyo, ili kutambua FM, unapaswa **kuona kimsingi duara tu** katika grafu hii.\
+Zaidi ya hayo, frequency tofauti "inawakilishwa" na grafu ya IQ kwa **kuongezeka kwa kasi kwenye duara** (hivyo katika SysDigger kuchagua ishara grafu ya IQ inajazwa, ikiwa unapata ongezeko au mabadiliko ya mwelekeo katika duara iliyoundwa inaweza kumaanisha kuwa hii ni FM):
 
 ![](<../../.gitbook/assets/image (81).png>)
 
@@ -207,11 +207,11 @@ Unaweza kutumia **mbinu ile ile iliyotumika katika mfano wa AM** kupata kiwango 
 
 ### Pata Bits
 
-Unaweza kutumia **mbinu ile ile iliyotumika katika mfano wa AM** kupata bits mara tu umepata **ishara imejarekebishwa katika frequency** na **kasi ya alama**.
+Unaweza kutumia **mbinu ile ile iliyotumika katika mfano wa AM** kupata bits mara tu unapogundua **ishara imekuzwa katika frequency** na **kiwango cha alama**.
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -219,7 +219,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

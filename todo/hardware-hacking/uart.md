@@ -22,11 +22,11 @@ UART ni protokali ya serial, ambayo inamaanisha inahamisha data kati ya vipengel
 
 Kwa ujumla, laini inashikiliwa juu (kwa thamani ya mantiki 1) wakati UART iko katika hali ya kupumzika. Kisha, ili kuashiria mwanzo wa uhamisho wa data, mtumaji anatumia bit ya mwanzo kwa mpokeaji, wakati ambapo ishara inashikiliwa chini (kwa thamani ya mantiki 0). Kisha, mtumaji anatumia bits tano hadi nane za data zinazojumuisha ujumbe halisi, ikifuatiwa na bit ya parity ya hiari na bit moja au mbili za kusitisha (zikiwa na thamani ya mantiki 1), kulingana na usanidi. Bit ya parity, inayotumika kwa ajili ya kuangalia makosa, mara nyingi haionekani katika mazoezi. Bit ya kusitisha (au bits) inaashiria mwisho wa uhamisho.
 
-Tunaita usanidi wa kawaida zaidi 8N1: bits nane za data, hakuna parity, na bit moja ya kusitisha. Kwa mfano, ikiwa tungependa kutuma herufi C, au 0x43 katika ASCII, katika usanidi wa UART wa 8N1, tungeweza kutuma bits zifuatazo: 0 (bit ya mwanzo); 0, 1, 0, 0, 0, 0, 1, 1 (thamani ya 0x43 katika binary), na 0 (bit ya kusitisha).
+Tunaita usanidi wa kawaida zaidi 8N1: bits nane za data, hakuna parity, na bit moja ya kusitisha. Kwa mfano, ikiwa tungependa kutuma herufi C, au 0x43 katika ASCII, katika usanidi wa UART wa 8N1, tungepeleka bits zifuatazo: 0 (bit ya mwanzo); 0, 1, 0, 0, 0, 0, 1, 1 (thamani ya 0x43 katika binary), na 0 (bit ya kusitisha).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
-Zana za vifaa kuwasiliana na UART:
+Vifaa vya vifaa kuwasiliana na UART:
 
 * Adaptari ya USB-to-serial
 * Adaptari zenye chips za CP2102 au PL2303
@@ -43,13 +43,13 @@ Kwa kutumia **multimeter** na kifaa kikiwa kimezimwa:
 * Ili kubaini bandari ya **TX**, weka **DC voltage mode** hadi 20 V ya voltage, probe mweusi kwenye ardhi, na probe nyekundu kwenye pini, na washia kifaa. Ikiwa unapata voltage inabadilika kwa sekunde chache kisha inastabilika kwenye thamani ya Vcc, umepata bandari ya TX. Hii ni kwa sababu wakati wa kuwasha, inatuma data fulani za debug.
 * Bandari ya **RX** itakuwa karibu zaidi na zingine 3, ina mabadiliko madogo ya voltage na thamani ya chini zaidi ya pini zote za UART.
 
-Unaweza kuchanganya bandari za TX na RX na hakuna kitu kitakachotokea, lakini ikiwa unachanganya GND na bandari ya VCC unaweza kuharibu mzunguko.
+Unaweza kuchanganya bandari za TX na RX na hakuna kitu kitakachotokea, lakini ikiwa unachanganya bandari za GND na VCC unaweza kuharibu mzunguko.
 
-Katika baadhi ya vifaa vya lengo, bandari ya UART imezimwa na mtengenezaji kwa kuzima RX au TX au hata zote mbili. Katika kesi hiyo, inaweza kuwa na manufaa kufuatilia muunganisho kwenye bodi ya mzunguko na kupata sehemu fulani ya kuvunja. Kidokezo kikubwa kuhusu kuthibitisha kutokuwepo kwa UART na kuvunja mzunguko ni kuangalia dhamana ya kifaa. Ikiwa kifaa kimepelekwa na dhamana fulani, mtengenezaji huacha interfaces za debug (katika kesi hii, UART) na hivyo, lazima awe ameondoa UART na ataiunganisha tena wakati wa debugging. Pini hizi za kuvunja zinaweza kuunganishwa kwa kulehemu au nyaya za jumper.
+Katika baadhi ya vifaa vya lengo, bandari ya UART imezimwa na mtengenezaji kwa kuzima RX au TX au hata zote mbili. Katika kesi hiyo, inaweza kuwa na manufaa kufuatilia muunganisho kwenye bodi ya mzunguko na kupata sehemu fulani ya kuvunja. Kidokezo kikubwa kuhusu kuthibitisha kutokuwepo kwa UART na kuvunja mzunguko ni kuangalia dhamana ya kifaa. Ikiwa kifaa kimepelekwa na dhamana fulani, mtengenezaji huacha interfaces za debug (katika kesi hii, UART) na hivyo, lazima awe amezima UART na ataiunganisha tena wakati wa debugging. Pini hizi za kuvunja zinaweza kuunganishwa kwa kulehemu au nyaya za jumper.
 
 ### Identifying the UART Baud Rate
 
-Njia rahisi ya kubaini kiwango sahihi cha baud ni kuangalia **matokeo ya pini ya TX na kujaribu kusoma data**. Ikiwa data unayopokea haiwezi kusomeka, badilisha hadi kiwango kinachowezekana cha baud hadi data iweze kusomeka. Unaweza kutumia adaptari ya USB-to-serial au kifaa cha matumizi mengi kama Bus Pirate kufanya hivyo, pamoja na script ya msaada, kama [baudrate.py](https://github.com/devttys0/baudrate/). Viwango vya kawaida vya baud ni 9600, 38400, 19200, 57600, na 115200.
+Njia rahisi ya kubaini kiwango sahihi cha baud ni kuangalia **matokeo ya pini ya TX na kujaribu kusoma data**. Ikiwa data unayopokea haiwezi kusomwa, badilisha hadi kiwango kinachowezekana cha baud hadi data iweze kusomwa. Unaweza kutumia adaptari ya USB-to-serial au kifaa cha matumizi mengi kama Bus Pirate kufanya hivyo, pamoja na script ya msaada, kama [baudrate.py](https://github.com/devttys0/baudrate/). Viwango vya kawaida vya baud ni 9600, 38400, 19200, 57600, na 115200.
 
 {% hint style="danger" %}
 Ni muhimu kutambua kwamba katika protokali hii unahitaji kuunganisha TX ya kifaa kimoja na RX ya kingine!
@@ -79,7 +79,7 @@ Baada ya usanidi, tumia amri `minicom` kuanza kupata UART Console.
 
 ## UART Kupitia Arduino UNO R3 (Bodi za Chip za Atmel 328p Zinazoweza Kuondolewa)
 
-Iwapo adapta za UART Serial hadi USB hazipatikani, Arduino UNO R3 inaweza kutumika kwa hack ya haraka. Kwa kuwa Arduino UNO R3 kwa kawaida inapatikana popote, hii inaweza kuokoa muda mwingi.
+Iwapo adapta za UART Serial hadi USB hazipatikani, Arduino UNO R3 inaweza kutumika kwa hack ya haraka. Kwa kuwa Arduino UNO R3 kwa kawaida inapatikana mahali popote, hii inaweza kuokoa muda mwingi.
 
 Arduino UNO R3 ina adapta ya USB hadi Serial iliyojengwa kwenye bodi yenyewe. Ili kupata muunganisho wa UART, toa chip ya microcontroller ya Atmel 328p kutoka kwenye bodi. Hack hii inafanya kazi kwenye toleo la Arduino UNO R3 lenye Atmel 328p isiyosafishwa kwenye bodi (toleo la SMD linatumika ndani yake). Unganisha pini ya RX ya Arduino (Pini ya Kidijitali 0) kwa pini ya TX ya Kiolesura cha UART na pini ya TX ya Arduino (Pini ya Kidijitali 1) kwa pini ya RX ya kiolesura cha UART.
 
@@ -163,7 +163,7 @@ waiting a few secs to repeat....
 
 UART Console inatoa njia nzuri ya kufanya kazi na firmware ya msingi katika mazingira ya wakati halisi. Lakini wakati ufikiaji wa UART Console ni wa kusoma tu, inaweza kuleta vizuizi vingi. Katika vifaa vingi vilivyojumuishwa, firmware huhifadhiwa katika EEPROMs na kutekelezwa katika prosesa ambazo zina kumbukumbu ya muda. Hivyo, firmware inahifadhiwa kuwa ya kusoma tu kwani firmware ya awali wakati wa utengenezaji iko ndani ya EEPROM yenyewe na faili zozote mpya zitapotea kutokana na kumbukumbu ya muda. Hivyo, dumping firmware ni juhudi ya thamani wakati wa kufanya kazi na firmware zilizojumuishwa.
 
-Kuna njia nyingi za kufanya hivi na sehemu ya SPI inashughulikia mbinu za kutoa firmware moja kwa moja kutoka kwa EEPROM na vifaa mbalimbali. Ingawa, inapendekezwa kwanza kujaribu dumping firmware na UART kwani dumping firmware kwa vifaa vya kimwili na mwingiliano wa nje inaweza kuwa hatari.
+Kuna njia nyingi za kufanya hivi na sehemu ya SPI inashughulikia mbinu za kutoa firmware moja kwa moja kutoka kwa EEPROM kwa vifaa mbalimbali. Ingawa, inapendekezwa kwanza kujaribu dumping firmware na UART kwani dumping firmware kwa vifaa vya kimwili na mwingiliano wa nje inaweza kuwa hatari.
 
 Dumping firmware kutoka kwa UART Console inahitaji kwanza kupata ufikiaji wa bootloaders. Wauzaji wengi maarufu hutumia uboot (Universal Bootloader) kama bootloader yao kupakia Linux. Hivyo, kupata ufikiaji wa uboot ni muhimu.
 
@@ -175,15 +175,15 @@ Kawaida, amri ya dumping firmware ni:
 ```
 md
 ```
-ambayo inasimama kwa "memory dump". Hii itatoa kumbukumbu (EEPROM Content) kwenye skrini. Inapendekezwa kuandika matokeo ya Serial Console kabla ya kuanza mchakato wa kukamata kumbukumbu.
+ambayo inasimama kwa "memory dump". Hii itatoa kumbukumbu (EEPROM Content) kwenye skrini. Inapendekezwa kuandika matokeo ya Serial Console kabla ya kuanza mchakato wa kukamata memory dump.
 
-Hatimaye, ondolewa tu data zisizohitajika kutoka kwa faili la logi na uhifadhi faili kama `filename.rom` na tumia binwalk kutoa maudhui:
+Hatimaye, ondolewa tu data zisizohitajika kutoka kwa faili la log na uhifadhi faili kama `filename.rom` na tumia binwalk kutoa maudhui:
 ```
 binwalk -e <filename.rom>
 ```
 Hii itataja maudhui yanayowezekana kutoka kwa EEPROM kulingana na saini zilizopatikana katika faili la hex.
 
-Ingawa, ni muhimu kutambua kwamba si kila wakati uboot imefunguliwa hata kama inatumika. Ikiwa Kitufe cha Kuingia hakifanyi chochote, angalia funguo tofauti kama Kitufe cha Nafasi, nk. Ikiwa bootloader imefungwa na haikatishwi, njia hii haitafanya kazi. Ili kuangalia ikiwa uboot ndiyo bootloader ya kifaa, angalia matokeo kwenye UART Console wakati wa kuanzisha kifaa. Inaweza kutaja uboot wakati wa kuanzisha.
+Ingawa, ni muhimu kutambua kwamba si kila wakati uboot imefunguliwa hata kama inatumika. Ikiwa Kitufe cha Kuingia hakifanyi chochote, angalia funguo tofauti kama Kitufe cha Nafasi, n.k. Ikiwa bootloader imefungwa na haikatizwa, njia hii haitafanya kazi. Ili kuangalia ikiwa uboot ni bootloader wa kifaa, angalia matokeo kwenye UART Console wakati wa kuanzisha kifaa. Inaweza kutaja uboot wakati wa kuanzisha.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

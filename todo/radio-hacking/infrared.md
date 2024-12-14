@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## How the Infrared Works <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
 
-**Mwanga wa infrared hauonekani kwa wanadamu**. Urefu wa mawimbi ya IR ni kutoka **0.7 hadi 1000 microns**. Remote za nyumbani hutumia ishara ya IR kwa ajili ya uhamasishaji wa data na zinafanya kazi katika wigo wa mawimbi wa 0.75..1.4 microns. Microcontroller katika remote inafanya LED ya infrared kung'ara kwa mzunguko maalum, ikigeuza ishara ya dijitali kuwa ishara ya IR.
+**Mwanga wa infrared hauonekani kwa wanadamu**. Urefu wa wimbi la IR ni kutoka **0.7 hadi 1000 microns**. Remote za nyumbani hutumia ishara ya IR kwa ajili ya uhamasishaji wa data na zinafanya kazi katika wigo wa urefu wa wimbi wa 0.75..1.4 microns. Microcontroller katika remote inafanya LED ya infrared kung'ara kwa mzunguko maalum, ikigeuza ishara ya dijitali kuwa ishara ya IR.
 
-Ili kupokea ishara za IR, **photoreceiver** hutumiwa. In **abadilisha mwanga wa IR kuwa mapigo ya voltage**, ambayo tayari ni **ishara za dijitali**. Kawaida, kuna **filter ya mwanga mweusi ndani ya mpokeaji**, ambayo inaruhusu **tu urefu wa mawimbi unaotakiwa kupita** na kuondoa kelele.
+Ili kupokea ishara za IR, **photoreceiver** hutumiwa. In **abadilisha mwanga wa IR kuwa mapigo ya voltage**, ambayo tayari ni **ishara za dijitali**. Kawaida, kuna **filter ya mwanga mweusi ndani ya mpokeaji**, ambayo inaruhusu **tu urefu wa wimbi unaotakiwa kupita** na kuondoa kelele.
 
 ### Variety of IR Protocols <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
@@ -27,7 +27,7 @@ Protokali za IR zinatofautiana katika mambo 3:
 
 * uandishi wa bit
 * muundo wa data
-* mzunguko wa kubeba — mara nyingi katika wigo wa 36..38 kHz
+* mzunguko wa carrier — mara nyingi katika wigo wa 36..38 kHz
 
 #### Bit encoding ways <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
@@ -59,19 +59,19 @@ Watengenezaji wanapenda kutumia protokali zao za IR za kipekee, hata ndani ya sa
 
 ### Exploring an IR signal
 
-Njia ya kuaminika zaidi ya kuona jinsi ishara ya IR ya remote inavyoonekana ni kutumia oscilloscope. Haifanyi demodulation au kugeuza ishara iliyopokelewa, inonyeshwa tu "kama ilivyo". Hii ni muhimu kwa ajili ya kupima na kutatua matatizo. Nitaonyesha ishara inayotarajiwa kwa mfano wa protokali ya NEC IR.
+Njia ya kuaminika zaidi kuona jinsi ishara ya IR ya remote inavyoonekana ni kutumia oscilloscope. Haitaondoa au kubadilisha ishara iliyopokelewa, inonyeshwa tu "kama ilivyo". Hii ni muhimu kwa ajili ya kupima na kutatua matatizo. Nitaonyesha ishara inayotarajiwa kwa mfano wa protokali ya NEC IR.
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
-Kawaida, kuna preamble mwanzoni mwa pakiti iliyowekwa. Hii inaruhusu mpokeaji kubaini kiwango cha gain na mandharinyuma. Pia kuna protokali bila preamble, kwa mfano, Sharp.
+Kawaida, kuna preamble mwanzoni mwa pakiti iliyowekwa. Hii inaruhusu mpokeaji kubaini kiwango cha gain na mandhari. Pia kuna protokali bila preamble, kwa mfano, Sharp.
 
-Kisha data inatumwa. Muundo, preamble, na njia ya uandishi wa bit zinatambulishwa na protokali maalum.
+Kisha data inatumwa. Muundo, preamble, na njia ya uandishi wa bit zinatambuliwa na protokali maalum.
 
 **Protokali ya NEC IR** ina amri fupi na nambari ya kurudia, ambayo inatumwa wakati kifungo kinashinikizwa. Zote amri na nambari ya kurudia zina preamble sawa mwanzoni.
 
-**Amri ya NEC**, mbali na preamble, ina byte ya anwani na byte ya nambari ya amri, ambayo kifaa kinaelewa kinachohitajika kutekelezwa. Byte za anwani na nambari ya amri zinajirudia kwa thamani za kinyume, ili kuangalia uadilifu wa uhamasishaji. Kuna bit ya kusitisha ya ziada mwishoni mwa amri.
+Amri ya NEC, mbali na preamble, ina byte ya anwani na byte ya nambari ya amri, ambayo kifaa kinaelewa ni nini kinapaswa kufanywa. Bytes za anwani na nambari ya amri zinajirudia kwa thamani za kinyume, ili kuangalia uadilifu wa uhamasishaji. Kuna bit ya kusimamisha ya ziada mwishoni mwa amri.
 
-**Nambari ya kurudia** ina "1" baada ya preamble, ambayo ni bit ya kusitisha.
+Nambari ya **kurudia** ina "1" baada ya preamble, ambayo ni bit ya kusimamisha.
 
 Kwa **mantiki "0" na "1"** NEC inatumia Pulse Distance Encoding: kwanza, mlipuko wa pigo unatumwa baada ya hapo kuna mapumziko, urefu wake unakamilisha thamani ya bit.
 

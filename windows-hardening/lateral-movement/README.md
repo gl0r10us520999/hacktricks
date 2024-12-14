@@ -15,7 +15,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 </details>
 {% endhint %}
 
-Kuna njia tofauti za kutekeleza amri katika mifumo ya nje, hapa unaweza kupata maelezo juu ya jinsi mbinu kuu za Windows lateral movements zinavyofanya kazi:
+Kuna njia tofauti za kutekeleza amri katika mifumo ya nje, hapa unaweza kupata maelezo kuhusu jinsi mbinu kuu za Windows lateral movements zinavyofanya kazi:
 
 * [**PsExec**](psexec-and-winexec.md)
 * [**SmbExec**](smbexec.md)

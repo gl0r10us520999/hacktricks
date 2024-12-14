@@ -30,7 +30,7 @@ Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
 ## Scheduled Tasks
 
-**Kazi** zinaweza kuandaliwa kufanyika kwa **mara fulani**. Angalia ni binaries gani zimeandaliwa kufanyika na:
+**Kazi** zinaweza kuandaliwa kufanyika kwa **mara fulani**. Angalia ni binaries gani zimepangwa kufanyika na:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Folders
 
-Mabinary yote yaliyoko katika **maktaba za Kuanzisha yataanzishwa wakati wa kuanzisha**. Maktaba za kawaida za kuanzisha ni zile zilizoorodheshwa hapa chini, lakini maktaba ya kuanzisha inaonyeshwa katika rejista. [Soma hii kujifunza wapi.](privilege-escalation-with-autorun-binaries.md#startup-path)
+Mabinary yote yaliyoko katika **maktaba za Kuanzisha yataanzishwa wakati wa kuanzisha**. Maktaba za kawaida za kuanzisha ni zile zilizoorodheshwa hapa chini, lakini maktaba ya kuanzisha inaonyeshwa katika rejista. [Soma hii kujifunza mahali.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -92,7 +92,7 @@ Funguo za registry zinazojulikana kama **Run** na **RunOnce** zimeundwa ili kute
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Katika Windows Vista na toleo la baadaye, funguo za registry za **Run** na **RunOnce** hazizalishwi kiotomatiki. Kuingizwa katika funguo hizi kunaweza kuanzisha programu moja kwa moja au kuzitaja kama utegemezi. Kwa mfano, ili kupakia faili ya DLL wakati wa kuingia, mtu anaweza kutumia funguo ya registry ya **RunOnceEx** pamoja na funguo ya "Depend". Hii inaonyeshwa kwa kuongeza kuingizwa kwa registry ili kutekeleza "C:\temp\evil.dll" wakati wa kuanzishwa kwa mfumo:
+Katika Windows Vista na toleo la baadaye, funguo za registry **Run** na **RunOnce** hazizalishwi kiotomatiki. Kuingizwa katika funguo hizi kunaweza kuanzisha programu moja kwa moja au kuzitaja kama utegemezi. Kwa mfano, ili kupakia faili ya DLL wakati wa kuingia, mtu anaweza kutumia funguo ya registry **RunOnceEx** pamoja na funguo ya "Depend". Hii inaonyeshwa kwa kuongeza kuingizwa kwa registry kutekeleza "C:\temp\evil.dll" wakati wa kuanzishwa kwa mfumo:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
@@ -168,7 +168,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 Viungo vilivyowekwa katika folda ya **Startup** vitasababisha huduma au programu kuanzishwa wakati wa kuingia kwa mtumiaji au upya wa mfumo. Mahali pa folda ya **Startup** lin defined katika rejista kwa ajili ya **Local Machine** na **Current User**. Hii inamaanisha kwamba kiungo chochote kilichoongezwa kwenye maeneo haya maalum ya **Startup** kitahakikisha huduma au programu iliyounganishwa inaanza baada ya mchakato wa kuingia au upya, na kufanya kuwa njia rahisi ya kupanga programu kuendesha kiotomatiki.
 
 {% hint style="info" %}
-Ikiwa unaweza kubadilisha chochote \[User] Shell Folder chini ya **HKLM**, utaweza kuielekeza kwenye folda inayodhibitiwa na wewe na kuweka backdoor ambayo itatekelezwa wakati wowote mtumiaji anapoingia kwenye mfumo ikipandisha haki.
+Ikiwa unaweza kubadilisha chochote \[User] Shell Folder chini ya **HKLM**, utaweza kuielekeza kwenye folda inayodhibitiwa na wewe na kuweka backdoor ambayo itatekelezwa wakati wowote mtumiaji anapoingia kwenye mfumo ikipandisha mamlaka.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -210,21 +210,21 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 ```
 ### AlternateShell
 
-### Kubadilisha Amri ya Salama ya Msimbo
+### Kubadilisha Amri ya Salama ya Mode
 
-Katika Usajili wa Windows chini ya `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, kuna thamani ya **`AlternateShell`** iliyowekwa kwa chaguo-msingi kuwa `cmd.exe`. Hii inamaanisha wakati unachagua "Salama Msimbo na Amri" wakati wa kuanzisha (kwa kubonyeza F8), `cmd.exe` inatumika. Lakini, inawezekana kuandaa kompyuta yako kuanza moja kwa moja katika hali hii bila kuhitaji kubonyeza F8 na kuchagua kwa mikono.
+Katika Usajili wa Windows chini ya `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, kuna thamani ya **`AlternateShell`** iliyowekwa kwa chaguo-msingi kuwa `cmd.exe`. Hii inamaanisha unapochagua "Safe Mode with Command Prompt" wakati wa kuanzisha (kwa kubonyeza F8), `cmd.exe` inatumika. Lakini, inawezekana kuweka kompyuta yako kuanzisha moja kwa moja katika hali hii bila kuhitaji kubonyeza F8 na kuchagua kwa mikono.
 
-Hatua za kuunda chaguo la kuanzisha ili kuanza moja kwa moja katika "Salama Msimbo na Amri":
+Hatua za kuunda chaguo la kuanzisha ili kuanzisha moja kwa moja katika "Safe Mode with Command Prompt":
 
-1. Badilisha sifa za faili ya `boot.ini` kuondoa bendera za kusoma pekee, mfumo, na zilizofichwa: `attrib c:\boot.ini -r -s -h`
+1. Badilisha sifa za faili la `boot.ini` kuondoa bendera za kusoma pekee, mfumo, na zilizofichwa: `attrib c:\boot.ini -r -s -h`
 2. Fungua `boot.ini` kwa ajili ya kuhariri.
 3. Ingiza mstari kama: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. Hifadhi mabadiliko kwenye `boot.ini`.
 5. Rudisha sifa za awali za faili: `attrib c:\boot.ini +r +s +h`
 
 * **Exploit 1:** Kubadilisha funguo za usajili **AlternateShell** kunaruhusu usanidi wa shell ya amri ya kawaida, huenda kwa ufikiaji usioidhinishwa.
-* **Exploit 2 (Ruhusa za Kuandika PATH):** Kuwa na ruhusa za kuandika sehemu yoyote ya mfumo wa **PATH** variable, hasa kabla ya `C:\Windows\system32`, kunakuwezesha kutekeleza `cmd.exe` ya kawaida, ambayo inaweza kuwa nyuma ya mlango ikiwa mfumo utaanzishwa katika Hali ya Salama.
-* **Exploit 3 (Ruhusa za Kuandika PATH na boot.ini):** Upatikanaji wa kuandika kwenye `boot.ini` unaruhusu kuanzisha Hali ya Salama kiotomatiki, ikirahisisha ufikiaji usioidhinishwa kwenye kuanzisha kwa pili.
+* **Exploit 2 (PATH Write Permissions):** Kuwa na ruhusa za kuandika sehemu yoyote ya mfumo wa **PATH** variable, hasa kabla ya `C:\Windows\system32`, kunakuwezesha kutekeleza `cmd.exe` ya kawaida, ambayo inaweza kuwa nyuma ya mlango ikiwa mfumo utaanzishwa katika Hali ya Salama.
+* **Exploit 3 (PATH and boot.ini Write Permissions):** Upatikanaji wa kuandika kwenye `boot.ini` unaruhusu kuanzisha Hali ya Salama kiotomatiki, kurahisisha ufikiaji usioidhinishwa kwenye kuanzisha kwa pili.
 
 Ili kuangalia mipangilio ya sasa ya **AlternateShell**, tumia amri hizi:
 ```bash
@@ -235,14 +235,14 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 
 Active Setup ni kipengele katika Windows ambacho **kinanzishwa kabla ya mazingira ya desktop kupakiwa kikamilifu**. Kinatoa kipaumbele kwa utekelezaji wa amri fulani, ambazo lazima zikamilike kabla ya kuendelea na kuingia kwa mtumiaji. Mchakato huu unafanyika hata kabla ya kuanzishwa kwa entries zingine za kuanzisha, kama zile katika sehemu za Run au RunOnce za rejista.
 
-Active Setup inasimamiwa kupitia funguo za rejista zifuatazo:
+Active Setup inasimamiwa kupitia funguo zifuatazo za rejista:
 
 * `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Ndani ya funguo hizi, kuna funguo ndogo mbalimbali, kila moja ikihusiana na kipengele maalum. Thamani za funguo zinazovutia hasa ni pamoja na:
+Ndani ya funguo hizi, kuna funguo ndogo mbalimbali, kila moja ikihusiana na kipengele maalum. Thamani za funguo ambazo ni za umuhimu maalum ni pamoja na:
 
 * **IsInstalled:**
 * `0` inaonyesha amri ya kipengele haitatekelezwa.
@@ -267,16 +267,16 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 Browser Helper Objects (BHOs) ni moduli za DLL ambazo zinaongeza vipengele vya ziada kwa Internet Explorer ya Microsoft. Zinapakia kwenye Internet Explorer na Windows Explorer kila wakati zinapoanzishwa. Hata hivyo, utekelezaji wao unaweza kuzuiwa kwa kuweka ufunguo wa **NoExplorer** kuwa 1, kuzuia kutoka kupakia na mifano ya Windows Explorer.
 
-BHOs zinaendana na Windows 10 kupitia Internet Explorer 11 lakini hazipati msaada katika Microsoft Edge, kivinjari cha chaguo-msingi katika toleo jipya la Windows.
+BHOs zinaendana na Windows 10 kupitia Internet Explorer 11 lakini hazipati msaada katika Microsoft Edge, kivinjari chaguo-msingi katika toleo jipya la Windows.
 
-Ili kuchunguza BHOs zilizosajiliwa kwenye mfumo, unaweza kukagua ufunguo wa rejista zifuatazo:
+Ili kuchunguza BHOs zilizosajiliwa kwenye mfumo, unaweza kukagua funguo zifuatazo za rejista:
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
 Kila BHO inawakilishwa na **CLSID** yake katika rejista, ikihudumu kama kitambulisho cha kipekee. Taarifa za kina kuhusu kila CLSID zinaweza kupatikana chini ya `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
 
-Kwa kuuliza BHOs katika rejista, amri hizi zinaweza kutumika:
+Ili kuuliza BHOs katika rejista, amri hizi zinaweza kutumika:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
@@ -315,7 +315,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Kumbuka kwamba tovuti zote ambapo unaweza kupata autoruns **zimeshachunguzwa na** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Hata hivyo, kwa **orodha kamili zaidi ya** faili zinazotekelezwa kiotomatiki unaweza kutumia [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) kutoka sysinternals:
+Kumbuka kwamba tovuti zote ambapo unaweza kupata autoruns **zimeshachunguzwa na** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Hata hivyo, kwa **orodha kamili zaidi ya** faili zinazotekelezwa kiotomatiki unaweza kutumia [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) kutoka systinternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -332,7 +332,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi katika [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata bounties hadi **$100,000**!
+**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi katika [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -345,8 +345,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 <summary>Support HackTricks</summary>
 
 * Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

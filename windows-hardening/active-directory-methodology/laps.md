@@ -134,11 +134,11 @@ Nenosiri bado litarejeshwa ikiwa **admin** atatumia **`Reset-AdmPwdPassword`** c
 
 ### Backdoor
 
-Msimbo wa asili wa LAPS unaweza kupatikana [hapa](https://github.com/GreyCorbel/admpwd), kwa hivyo inawezekana kuweka backdoor katika msimbo (ndani ya `Get-AdmPwdPassword` njia katika `Main/AdmPwd.PS/Main.cs` kwa mfano) ambayo kwa namna fulani **itatoa nenosiri mpya au kuyahifadhi mahali fulani**.
+Msimbo wa asili wa LAPS unaweza kupatikana [hapa](https://github.com/GreyCorbel/admpwd), kwa hivyo inawezekana kuweka backdoor katika msimbo (ndani ya `Get-AdmPwdPassword` njia katika `Main/AdmPwd.PS/Main.cs` kwa mfano) ambayo kwa namna fulani **itaondoa nenosiri mpya au kuyahifadhi mahali fulani**.
 
-Kisha, tu jenga upya `AdmPwd.PS.dll` mpya na uipakie kwenye mashine katika `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (na ubadilishe muda wa mabadiliko).
+Kisha, tu kompilisha `AdmPwd.PS.dll` mpya na uipakie kwenye mashine katika `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (na ubadilishe muda wa mabadiliko).
 
-## Marejeleo
+## References
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
@@ -155,7 +155,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

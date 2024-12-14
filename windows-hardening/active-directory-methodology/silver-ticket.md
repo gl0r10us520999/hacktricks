@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na uanze kupata zawadi hadi **$100,000**!
+**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la premium lililotengenezwa na hackers, kwa hackers**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na uanze kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Silver ticket
 
-Shambulio la **Silver Ticket** linahusisha unyakuzi wa tiketi za huduma katika mazingira ya Active Directory (AD). Njia hii inategemea **kupata hash ya NTLM ya akaunti ya huduma**, kama akaunti ya kompyuta, ili kutunga tiketi ya Ticket Granting Service (TGS). Kwa tiketi hii iliyotungwa, mshambuliaji anaweza kufikia huduma maalum kwenye mtandao, **akijifanya kuwa mtumiaji yeyote**, kwa kawaida akilenga haki za usimamizi. Inasisitizwa kwamba kutumia funguo za AES kwa kutunga tiketi ni salama zaidi na ngumu kugundulika.
+Shambulio la **Silver Ticket** linahusisha unyonyaji wa tiketi za huduma katika mazingira ya Active Directory (AD). Njia hii inategemea **kupata hash ya NTLM ya akaunti ya huduma**, kama akaunti ya kompyuta, ili kuunda tiketi ya Ticket Granting Service (TGS). Kwa tiketi hii iliyoundwa, mshambuliaji anaweza kufikia huduma maalum kwenye mtandao, **akijifanya kuwa mtumiaji yeyote**, kwa kawaida akilenga haki za usimamizi. Inasisitizwa kwamba kutumia funguo za AES kwa ajili ya kuunda tiketi ni salama zaidi na si rahisi kugundulika.
 
-Kwa ajili ya kutunga tiketi, zana tofauti zinatumika kulingana na mfumo wa uendeshaji:
+Kwa ajili ya uundaji wa tiketi, zana tofauti zinatumika kulingana na mfumo wa uendeshaji:
 
 ### On Linux
 ```bash
@@ -104,7 +104,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
 ### HOST + RPCSS
 
-Kwa tiketi hizi unaweza **kutekeleza WMI katika mfumo wa mwathirika**:
+Na tiketi hizi unaweza **kutekeleza WMI katika mfumo wa mwathirika**:
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -126,7 +126,7 @@ Kwa ufikiaji wa winrm juu ya kompyuta unaweza **kuipata** na hata kupata PowerSh
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-Check the following page to learn **njia zaidi za kuungana na mwenyeji wa mbali kwa kutumia winrm**:
+Check the following page to learn **njia zaidi za kuungana na mwenyeji wa mbali ukitumia winrm**:
 
 {% content-ref url="../lateral-movement/winrm.md" %}
 [winrm.md](../lateral-movement/winrm.md)
@@ -168,7 +168,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

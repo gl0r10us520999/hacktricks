@@ -1,13 +1,13 @@
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -23,7 +23,7 @@ python3 -m venv ang
 source ang/bin/activate
 pip install angr
 ```
-# Mambo Msingi
+# Mambo ya Msingi
 ```python
 import angr
 import monkeyhex # this will format numerical results in hexadecimal
@@ -41,7 +41,7 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Ijayo na Maelezo ya Kitu Kikuu
+# Ijayo na Taarifa za Kitu Kikuu
 
 ## Takwimu Iliyopakiwa
 ```python
@@ -97,7 +97,7 @@ main_strcmp.is_export #False
 main_strcmp.is_import #True
 main_strcmp.resolvedby #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 ```
-## Vizio
+## Blocks
 ```python
 #Blocks
 block = proj.factory.block(proj.entry) #Get the block of the entrypoint fo the binary
@@ -133,7 +133,7 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ## Calling functions
 
 * Unaweza kupitisha orodha ya hoja kupitia `args` na kamusi ya mabadiliko ya mazingira kupitia `env` katika `entry_state` na `full_init_state`. Thamani katika muundo hii zinaweza kuwa nyuzi au bitvectors, na zitaandikwa katika hali kama hoja na mazingira kwa utekelezaji ulioigwa. `args` ya default ni orodha tupu, hivyo ikiwa programu unayoichambua inatarajia kupata angalau `argv[0]`, unapaswa kila wakati kutoa hiyo!
-* Ikiwa ungependa kuwa `argc` ni ya alama, unaweza kupitisha bitvector ya alama kama `argc` kwa wajenzi wa `entry_state` na `full_init_state`. Kuwa makini, ingawa: ikiwa utafanya hivi, unapaswa pia kuongeza kizuizi kwa hali inayotokana ambayo thamani yako ya argc haiwezi kuwa kubwa zaidi kuliko idadi ya hoja ulizopitisha katika `args`.
+* Ikiwa ungependa kuwa `argc` iwe ya alama, unaweza kupitisha bitvector ya alama kama `argc` kwa wajenzi wa `entry_state` na `full_init_state`. Kuwa makini, ingawa: ikiwa utafanya hivi, unapaswa pia kuongeza kizuizi kwa hali inayotokana ambayo thamani yako ya argc haiwezi kuwa kubwa zaidi kuliko idadi ya hoja ulizopitisha katika `args`.
 * Ili kutumia hali ya wito, unapaswa kuitwa na `.call_state(addr, arg1, arg2, ...)`, ambapo `addr` ni anwani ya kazi unayotaka kuita na `argN` ni hoja ya Nth kwa kazi hiyo, iwe kama nambari ya python, nyuzi, au array, au bitvector. Ikiwa unataka kuwa na kumbukumbu iliyotengwa na kwa kweli kupitisha kiashiria kwa kitu, unapaswa kuifunga katika PointerWrapper, yaani `angr.PointerWrapper("point to me!")`. Matokeo ya API hii yanaweza kuwa yasiyotabirika kidogo, lakini tunafanya kazi juu yake.
 
 ## BitVectors
@@ -145,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## BitVector za Kihesabu na Vikwazo
+## BitVectors za Kihesabu & Vikwazo
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -197,9 +197,13 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Zaidi ya hayo, unaweza kutumia `proj.hook_symbol(name, hook)`, ukitoa jina la alama kama hoja ya kwanza, kuunganisha anwani ambapo alama hiyo inapatikana
+Furthermore, you can use `proj.hook_symbol(name, hook)`, providing the name of a symbol as the first argument, to hook the address where the symbol lives
 
-# Mifano
+# Examples
+
+
+
+
 
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -211,7 +215,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

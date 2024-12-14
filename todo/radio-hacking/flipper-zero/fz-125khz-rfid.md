@@ -36,7 +36,7 @@ Kwa maelezo zaidi kuhusu aina hizi za vitambulisho [**soma utangulizi huu**](../
 Inajaribu **kusoma** taarifa za kadi. Kisha inaweza **kuiga** hizo.
 
 {% hint style="warning" %}
-Kumbuka kwamba baadhi ya intercoms zinajaribu kujilinda kutokana na nakala za funguo kwa kutuma amri ya kuandika kabla ya kusoma. Ikiwa kuandika kunafanikiwa, vitambulisho hivyo vinachukuliwa kuwa vya uwongo. Wakati Flipper inapoiga RFID, hakuna njia kwa msomaji kutofautisha kati yake na ile ya asili, hivyo matatizo kama hayo hayatokea.
+Kumbuka kwamba baadhi ya intercoms zinajaribu kujilinda kutokana na nakala za funguo kwa kutuma amri ya kuandika kabla ya kusoma. Ikiwa kuandika kunafanikiwa, vitambulisho hivyo vinachukuliwa kuwa vya uwongo. Wakati Flipper inapoiga RFID hakuna njia kwa msomaji kutofautisha kati yake na ile ya asili, hivyo matatizo kama hayo hayatokea.
 {% endhint %}
 
 ### Add Manually
@@ -49,14 +49,14 @@ Wakati mwingine, unapopata kadi utapata ID (au sehemu) yake imeandikwa kwenye ka
 
 * **EM Marin**
 
-Kwa mfano katika kadi hii ya EM-Marin kwenye kadi halisi inawezekana **kusoma byte 3 za mwisho kati ya 5 wazi**.\
-Byte 2 nyingine zinaweza kujaribiwa kwa nguvu ikiwa huwezi kuzisoma kutoka kwenye kadi.
+Kwa mfano katika kadi hii ya EM-Marin kwenye kadi halisi inawezekana **kusoma mwisho 3 kati ya 5 bytes wazi**.\
+Mengine 2 yanaweza kujaribiwa kwa nguvu ikiwa huwezi kuyasoma kutoka kwenye kadi.
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Vivyo hivyo inatokea katika kadi hii ya HID ambapo byte 2 kati ya 3 zinaweza kupatikana zimeandikwa kwenye kadi
+Vivyo hivyo inatokea katika kadi hii ya HID ambapo ni bytes 2 tu kati ya 3 zinaweza kupatikana zimeandikwa kwenye kadi
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 

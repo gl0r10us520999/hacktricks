@@ -22,7 +22,7 @@ Zinaweza kufikia zaidi ya **maili sita** na **betri** zao zinaweza kudumu hadi *
 
 Long Range (**LoRa**) ni maarufu katika nchi nyingi na ina spesifikesheni ya chanzo wazi inayoitwa **LoRaWAN**.
 
-### LPWAN, LoRa, na LoRaWAN
+### LPWAN, LoRa, and LoRaWAN
 
 [https://github.com/IOActive/laf](https://github.com/IOActive/laf)
 

@@ -23,12 +23,12 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## **Password Spraying**
 
-Mara tu umepata **majina halali ya watumiaji** kadhaa unaweza kujaribu **nywila za kawaida zaidi** (zingatia sera ya nywila ya mazingira) na kila mmoja wa watumiaji waliogunduliwa.\
+Mara tu umepata **majina halali ya watumiaji** kadhaa unaweza kujaribu **nywila za kawaida zaidi** (zingatia sera ya nywila ya mazingira) kwa kila mmoja wa watumiaji walio gundulika.\
 Kwa **kawaida** **urefu wa chini** wa **nywila** ni **7**.
 
 Orodha za majina ya watumiaji wa kawaida pia zinaweza kuwa na manufaa: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-Kumbuka kwamba **unaweza kufunga akaunti kadhaa ikiwa utajaribu nywila kadhaa zisizo sahihi** (kwa kawaida zaidi ya 10).
+Kumbuka kwamba **unaweza kufunga akaunti zingine ikiwa utajaribu nywila kadhaa zisizo sahihi** (kwa kawaida zaidi ya 10).
 
 ### Pata sera ya nywila
 
@@ -74,11 +74,11 @@ spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-* Pamoja na moduli ya `scanner/smb/smb_login` ya **Metasploit**:
+* Na moduli ya `scanner/smb/smb_login` ya **Metasploit**:
 
 ![](<../../.gitbook/assets/image (745).png>)
 
-* Kutumia **rpcclient**:
+* Kwa kutumia **rpcclient**:
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
 for u in $(cat users.txt); do
@@ -95,7 +95,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* Na [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Inaweza kuunda watumiaji kutoka kwenye kikoa kwa default na itapata sera ya nywila kutoka kwenye kikoa na kupunguza majaribio kulingana na hiyo):
+* Na [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Inaweza kuunda watumiaji kutoka kwa kikoa kwa default na itapata sera ya nywila kutoka kwa kikoa na kupunguza majaribio kulingana na hiyo):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
@@ -115,11 +115,11 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 Kuna zana nyingi za p**assword spraying outlook**.
 
-* Pamoja na [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
-* pamoja na [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
-* Pamoja na [Ruler](https://github.com/sensepost/ruler) (inaaminika!)
-* Pamoja na [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
-* Pamoja na [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
+* Na [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
+* na [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
+* Na [Ruler](https://github.com/sensepost/ruler) (inaaminika!)
+* Na [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
+* Na [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
 
 Ili kutumia yoyote ya zana hizi, unahitaji orodha ya watumiaji na nenosiri / orodha ndogo ya nenosiri za kupuliza.
 ```bash

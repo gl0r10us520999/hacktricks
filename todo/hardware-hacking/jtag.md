@@ -34,7 +34,7 @@ Tuma amri s kuanza skanning:
 
 ![](<../../.gitbook/assets/image (774).png>)
 
-Ikiwa unawasiliana na JTAG, utaona moja au kadhaa **mistari inayohakikisha kuwa IMEPATIKANA!** ikionyesha pini za JTAG.
+Ikiwa unawasiliana na JTAG, utaona moja au zaidi **mistari inayohusika na FOUND!** ikionyesha pini za JTAG.
 
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

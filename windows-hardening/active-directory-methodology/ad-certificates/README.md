@@ -25,30 +25,30 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 - Nambari ya **Serial** ya kipekee, inayotolewa na Mamlaka ya Cheti (CA), inatambulisha kila cheti.
 - **Mtoaji** inahusisha CA ambayo imetoa cheti.
 - **SubjectAlternativeName** inaruhusu majina ya ziada kwa mada, ikiongeza kubadilika kwa utambuzi.
-- **Mipaka ya Msingi** inatambulisha ikiwa cheti ni kwa CA au kitengo cha mwisho na kuainisha vizuizi vya matumizi.
+- **Misingi ya Msingi** inatambulisha ikiwa cheti ni kwa CA au kitengo cha mwisho na kuainisha vizuizi vya matumizi.
 - **Matumizi ya Funguo Yaliyoongezwa (EKUs)** yanaelezea madhumuni maalum ya cheti, kama vile kusaini msimbo au usimbaji wa barua pepe, kupitia Vitambulisho vya Kitu (OIDs).
 - **Algorithimu ya Saini** inaelezea njia ya kusaini cheti.
 - **Saini**, iliyoundwa kwa funguo ya kibinafsi ya mtoaji, inahakikisha uhalali wa cheti.
 
 ### Special Considerations
 
-- **Majina Alternatif ya Mada (SANs)** yanapanua matumizi ya cheti kwa vitambulisho vingi, muhimu kwa seva zenye maeneo mengi. Mchakato wa kutoa cheti kwa usalama ni muhimu ili kuepuka hatari za kujifanya kwa washambuliaji wanaoshughulikia spesifikas SAN.
+- **Majina Alternatif ya Mada (SANs)** yanapanua matumizi ya cheti kwa vitambulisho vingi, muhimu kwa seva zenye maeneo mengi. Mchakato wa kutoa cheti kwa usalama ni muhimu ili kuepuka hatari za kujifanya kwa washambuliaji wanaoshughulikia spesifikas za SAN.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
 AD CS inatambua cheti za CA katika msitu wa AD kupitia vyombo vilivyotengwa, kila kimoja kikihudumu majukumu ya kipekee:
 
-- **Mamlaka ya Cheti** chombo kinashikilia cheti za CA za msingi zinazotambulika.
+- **Mamlaka za Cheti** chombo kinashikilia cheti za CA za mizizi zinazotambulika.
 - **Huduma za Usajili** chombo kinaelezea CA za Biashara na templeti zao za cheti.
 - **NTAuthCertificates** kitu kinajumuisha cheti za CA zilizoidhinishwa kwa uthibitishaji wa AD.
 - **AIA (Upatikanaji wa Taarifa za Mamlaka)** chombo kinasaidia uthibitishaji wa mnyororo wa cheti na cheti za CA za kati na za msalaba.
 
 ### Certificate Acquisition: Client Certificate Request Flow
 
-1. Mchakato wa ombi huanza na wateja kutafuta CA ya Biashara.
+1. Mchakato wa ombi huanza na wateja wakitafuta CA ya Biashara.
 2. CSR inaundwa, ikiwa na funguo ya umma na maelezo mengine, baada ya kuunda jozi ya funguo ya umma na ya kibinafsi.
 3. CA inakagua CSR dhidi ya templeti za cheti zilizopo, ikitoa cheti kulingana na ruhusa za templeti.
-4. Baada ya idhini, CA inasaini cheti kwa funguo yake ya kibinafsi na kuirudisha kwa mteja.
+4. Baada ya idhini, CA inasaini cheti kwa funguo yake ya kibinafsi na kurudisha kwa mteja.
 
 ### Certificate Templates
 
@@ -56,14 +56,14 @@ Zimeainishwa ndani ya AD, templeti hizi zinaelezea mipangilio na ruhusa za kutoa
 
 ## Certificate Enrollment
 
-Mchakato wa usajili wa cheti huanzishwa na msimamizi ambaye **anaunda templeti ya cheti**, ambayo kisha **inasambazwa** na Mamlaka ya Cheti ya Biashara (CA). Hii inafanya templeti hiyo ipatikane kwa usajili wa mteja, hatua inayofikiwa kwa kuongeza jina la templeti kwenye uwanja wa `certificatetemplates` wa kitu cha Active Directory.
+Mchakato wa usajili wa cheti huanzishwa na msimamizi ambaye **anaunda templeti ya cheti**, ambayo kisha **inasambazwa** na Mamlaka ya Cheti ya Biashara (CA). Hii inafanya templeti kuwa inapatikana kwa usajili wa mteja, hatua inayofikiwa kwa kuongeza jina la templeti kwenye uwanja wa `certificatetemplates` wa kitu cha Active Directory.
 
 Ili mteja aombe cheti, **haki za usajili** lazima zipewe. Haki hizi zinaainishwa na waelekezi wa usalama kwenye templeti ya cheti na CA ya Biashara yenyewe. Ruhusa lazima zipewe katika maeneo yote mawili ili ombi liwe na mafanikio.
 
 ### Template Enrollment Rights
 
 Haki hizi zinaainishwa kupitia Kuingilia kwa Udhibiti wa Ufikiaji (ACEs), zikielezea ruhusa kama:
-- **Usajili wa Cheti** na **AutoEnrollment ya Cheti**, kila moja ikihusishwa na GUID maalum.
+- Haki za **Usajili wa Cheti** na **AutoEnrollment ya Cheti**, kila moja ikihusishwa na GUID maalum.
 - **Haki za Kupanuliwa**, zikiruhusu ruhusa zote za ziada.
 - **Udhibiti Kamili/GenericAll**, ikitoa udhibiti kamili juu ya templeti.
 
@@ -82,7 +82,7 @@ Madhara fulani yanaweza kutumika, kama:
 Cheti zinaweza kuombwa kupitia:
 1. **Protokali ya Usajili wa Cheti ya Mteja wa Windows** (MS-WCCE), ikitumia interfaces za DCOM.
 2. **Protokali ya ICertPassage Remote** (MS-ICPR), kupitia mabomba yaliyopewa majina au TCP/IP.
-3. Kiolesura cha wavuti cha **usajili wa cheti**, na jukumu la Usajili wa Wavuti wa Mamlaka ya Cheti lililosakinishwa.
+3. Kiolesura cha wavuti cha **usajili wa cheti**, ikiwa na jukumu la Usajili wa Wavuti wa Mamlaka ya Cheti iliyosakinishwa.
 4. **Huduma ya Usajili wa Cheti** (CES), kwa kushirikiana na huduma ya Sera ya Usajili wa Cheti (CEP).
 5. **Huduma ya Usajili wa Vifaa vya Mtandao** (NDES) kwa vifaa vya mtandao, ikitumia Protokali ya Usajili wa Cheti Rahisi (SCEP).
 
@@ -93,7 +93,7 @@ Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
 ## Uthibitisho wa Cheti
 
-Active Directory (AD) inasaidia uthibitisho wa cheti, hasa ikitumia **Kerberos** na **Secure Channel (Schannel)** protokali.
+Active Directory (AD) inasaidia uthibitisho wa cheti, ikitumia hasa **Kerberos** na **Secure Channel (Schannel)** protokali.
 
 ### Mchakato wa Uthibitisho wa Kerberos
 
@@ -105,7 +105,7 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel inarahisisha muunganisho salama wa TLS/SSL, ambapo wakati wa mkutano, mteja anawasilisha cheti ambacho, ikiwa kimefanikiwa kuthibitishwa, kinatoa ruhusa ya ufikiaji. Mchoro wa cheti kwa akaunti ya AD unaweza kujumuisha kazi ya Kerberos **S4U2Self** au **Subject Alternative Name (SAN)** ya cheti, miongoni mwa mbinu nyingine.
+Schannel inarahisisha mawasiliano salama ya TLS/SSL, ambapo wakati wa mkutano, mteja anawasilisha cheti ambacho, ikiwa kimefanikiwa kuthibitishwa, kinatoa ruhusa ya ufikiaji. Mchoro wa cheti kwa akaunti ya AD unaweza kujumuisha kazi ya Kerberos **S4U2Self** au **Subject Alternative Name (SAN)** ya cheti, miongoni mwa mbinu nyingine.
 
 ### AD Certificate Services Enumeration
 

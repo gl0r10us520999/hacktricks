@@ -54,11 +54,11 @@ Pata habari kuhusu masafa yanayotumika (pia njia nyingine ya kupata ni masafa ga
 Chaguo la **Read** **linasikiliza kwenye masafa yaliyosanidiwa** kwenye moduli iliyotajwa: 433.92 AM kwa chaguo-msingi. Ikiwa **kitu kinapatikana** wakati wa kusoma, **habari inatolewa** kwenye skrini. Habari hii inaweza kutumika kuiga ishara siku zijazo.
 
 Wakati Read inatumika, inawezekana kubonyeza **kitufe cha kushoto** na **kuisakinisha**.\
-Katika wakati huu ina **modulations 4** (AM270, AM650, FM328 na FM476), na **masafa kadhaa muhimu** yaliyohifadhiwa:
+Wakati huu ina **modulations 4** (AM270, AM650, FM328 na FM476), na **masafa kadhaa muhimu** yaliyohifadhiwa:
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Unaweza kuweka **yoyote inayokuvutia**, hata hivyo, ikiwa **hujui ni masafa gani** yanaweza kuwa yanayotumiwa na remote ulionayo, **weka Hopping kuwa ON** (Off kwa chaguo-msingi), na bonyeza kitufe mara kadhaa hadi Flipper ikiteka na kukupa habari unayohitaji kuweka masafa.
+Unaweza kuweka **yoyote inayokuvutia**, hata hivyo, ikiwa **hujui ni masafa gani** yanaweza kuwa yanatumika na remote ulionayo, **weka Hopping kuwa ON** (Off kwa chaguo-msingi), na bonyeza kitufe mara kadhaa hadi Flipper ikiteka na kukupa habari unayohitaji kuweka masafa.
 
 {% hint style="danger" %}
 Kubadilisha kati ya masafa kunachukua muda, kwa hivyo ishara zinazotumwa wakati wa kubadilisha zinaweza kupuuziliwa mbali. Kwa kupokea ishara bora, weka masafa thabiti yaliyopangwa na Frequency Analyzer.
@@ -67,10 +67,10 @@ Kubadilisha kati ya masafa kunachukua muda, kwa hivyo ishara zinazotumwa wakati 
 ### **Read Raw**
 
 {% hint style="info" %}
-Pora (na rudia) ishara katika masafa yaliyosanidiwa
+Kununua (na kurudia) ishara katika masafa yaliyosanidiwa
 {% endhint %}
 
-Chaguo la **Read Raw** **linarekodi ishara** zinazotumwa katika masafa yanayosikilizwa. Hii inaweza kutumika **kuiba** ishara na **kurudia** hiyo.
+Chaguo la **Read Raw** **linarekodi ishara** zinazotumwa katika masafa yanayosikilizwa. Hii inaweza kutumika **kukunja** ishara na **kurudia** hiyo.
 
 Kwa chaguo-msingi **Read Raw pia iko katika 433.92 katika AM650**, lakini ikiwa kwa chaguo la Read umepata kuwa ishara inayokuvutia iko katika **masafa/modulation tofauti, unaweza pia kubadilisha hiyo** kwa kubonyeza kushoto (wakati uko ndani ya chaguo la Read Raw).
 

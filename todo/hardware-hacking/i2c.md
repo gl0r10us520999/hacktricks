@@ -9,7 +9,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -17,7 +17,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 ## Bus Pirate
 
-Ili kujaribu kama Bus Pirate inafanya kazi, ung'anisha +5V na VPU na 3.3V na ADC na upate ufikiaji wa bus pirate (Kwa kutumia Tera Term kwa mfano) na tumia amri `~`:
+Ili kujaribu kama Bus Pirate inafanya kazi, ung'anishe +5V na VPU na 3.3V na ADC na upate ufikiaji wa bus pirate (Tumia Tera Term kwa mfano) na tumia amri `~`:
 ```bash
 # Use command
 HiZ>~
@@ -56,7 +56,7 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Kama unavyoona katika mstari wa amri uliopita, ilisema kwamba iligundua makosa 0. Hii ni muhimu sana kujua inafanya kazi baada ya kuununua au baada ya kubandika firmware.
+Kama unavyoona katika mistari ya amri iliyopita, ilisema kwamba iligundua makosa 0. Hii ni muhimu sana kujua inafanya kazi baada ya kuununua au baada ya kubandika firmware.
 
 Ili kuungana na bus pirate unaweza kufuata nyaraka:
 
@@ -66,7 +66,7 @@ Katika kesi hii, nitaungana na EPROM: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-Ili kuzungumza na bus pirate nilitumia Tera Term iliyounganishwa na bandari ya COM ya pirate bus na Mipangilio --> Bandari ya Serial --> Kasi ya 115200.\
+Ili kuzungumza na bus pirate nilitumia Tera Term iliyounganishwa na bandari ya COM ya pirate bus na Setup --> Serial Port --> Speed ya 115200.\
 Katika mawasiliano yafuatayo unaweza kupata jinsi ya kuandaa bus pirate kuzungumza I2C na jinsi ya kuandika na kusoma kutoka kwenye kumbukumbu (Maoni yanaonekana kwa kutumia "#", usitarajie sehemu hiyo katika mawasiliano):
 ```bash
 # Check communication with buspirate
@@ -168,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-Katika hali hii tutakuwa tunanusa mawasiliano ya I2C kati ya arduino na EPROM iliyopita, unahitaji tu kuwasiliana na vifaa vyote viwili kisha uunganishe bus pirate kwenye pini za SCL, SDA na GND:
+Katika hali hii tutakuwa tunanusa mawasiliano ya I2C kati ya arduino na EPROM iliyopita, unahitaji tu kuwasiliana na vifaa vyote viwili kisha kuunganisha bus pirate kwenye pini za SCL, SDA na GND:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash

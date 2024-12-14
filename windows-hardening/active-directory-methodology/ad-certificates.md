@@ -20,35 +20,35 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ### Components of a Certificate
 
 - **Mada** ya cheti inaonyesha mmiliki wake.
-- **Funguo ya Umma** inashirikishwa na funguo ya kibinafsi kuunganisha cheti na mmiliki wake halali.
+- **Funguo za Umma** zimeunganishwa na funguo za kibinafsi ili kuunganisha cheti na mmiliki wake halali.
 - **Muda wa Uhalali**, ulioainishwa na tarehe za **NotBefore** na **NotAfter**, unaashiria muda wa ufanisi wa cheti.
 - Nambari ya **Serial** ya kipekee, inayotolewa na Mamlaka ya Cheti (CA), inatambulisha kila cheti.
-- **Mtoaji** inahusisha CA ambayo imetoa cheti.
+- **Mtoaji** anarejelea CA ambayo imetoa cheti.
 - **SubjectAlternativeName** inaruhusu majina ya ziada kwa mada, ikiongeza kubadilika kwa utambuzi.
-- **Misingi ya Msingi** inatambulisha ikiwa cheti ni kwa CA au kitengo cha mwisho na kuainisha vizuizi vya matumizi.
-- **Matumizi ya Funguo ya Kupanua (EKUs)** yanaelezea madhumuni maalum ya cheti, kama vile kusaini msimbo au usimbaji wa barua pepe, kupitia Vitambulisho vya Kitu (OIDs).
-- **Algorithimu ya Saini** inaelezea njia ya kusaini cheti.
-- **Saini**, iliyoundwa kwa funguo ya kibinafsi ya mtoaji, inahakikisha uhalali wa cheti.
+- **Mipaka ya Msingi** inatambulisha ikiwa cheti ni kwa CA au kitengo cha mwisho na kuainisha vizuizi vya matumizi.
+- **Matumizi ya Funguo Yaliyoongezwa (EKUs)** yanaelezea madhumuni maalum ya cheti, kama vile kusaini msimbo au usimbaji wa barua pepe, kupitia Vitambulisho vya Kitu (OIDs).
+- **Algorithimu ya Sahihi** inaelezea njia ya kusaini cheti.
+- **Sahihi**, iliyoundwa kwa funguo ya kibinafsi ya mtoaji, inahakikisha uhalali wa cheti.
 
 ### Special Considerations
 
-- **Majina Alternatif ya Mada (SANs)** yanapanua matumizi ya cheti kwa vitambulisho vingi, muhimu kwa seva zenye maeneo mengi. Mchakato wa kutoa cheti kwa usalama ni muhimu ili kuepuka hatari za kujifanya kwa washambuliaji wanaoshughulikia spesifikas za SAN.
+- **Majina Alternatif ya Mada (SANs)** yanapanua matumizi ya cheti kwa vitambulisho vingi, muhimu kwa seva zenye maeneo mengi. Mchakato wa kutoa cheti kwa usalama ni muhimu ili kuepuka hatari za kujifanya kwa washambuliaji wanaoshughulikia spesifikas SAN.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS inatambua vyeti vya CA katika msitu wa AD kupitia kontena zilizotengwa, kila moja ikihudumu majukumu ya kipekee:
+AD CS inatambua cheti za CA katika msitu wa AD kupitia kontena zilizotengwa, kila moja ikihudumu majukumu ya kipekee:
 
-- Kontena ya **Mamlaka ya Cheti** inashikilia vyeti vya CA vya mizizi vinavyotambulika.
-- Kontena ya **Huduma za Usajili** inaelezea CAs za Biashara na templeti zao za cheti.
-- Kituo cha **NTAuthCertificates** kinajumuisha vyeti vya CA vilivyothibitishwa kwa uthibitisho wa AD.
-- Kontena ya **AIA (Upatikanaji wa Taarifa za Mamlaka)** inarahisisha uthibitishaji wa mnyororo wa cheti na vyeti vya CA vya kati na vya msalaba.
+- Kontena la **Mamlaka ya Cheti** lina cheti za CA za msingi zinazotambulika.
+- Kontena la **Huduma za Usajili** linaelezea CA za Biashara na templeti zao za cheti.
+- Kitu cha **NTAuthCertificates** kinajumuisha cheti za CA zilizoidhinishwa kwa uthibitishaji wa AD.
+- Kontena la **AIA (Upatikanaji wa Taarifa za Mamlaka)** linawezesha uthibitishaji wa mnyororo wa cheti na cheti za CA za kati na za msalaba.
 
 ### Certificate Acquisition: Client Certificate Request Flow
 
 1. Mchakato wa ombi huanza na wateja wakitafuta CA ya Biashara.
 2. CSR inaundwa, ikiwa na funguo ya umma na maelezo mengine, baada ya kuunda jozi ya funguo ya umma na ya kibinafsi.
 3. CA inakagua CSR dhidi ya templeti za cheti zilizopo, ikitoa cheti kulingana na ruhusa za templeti.
-4. Baada ya kuidhinishwa, CA inasaini cheti kwa funguo yake ya kibinafsi na kuirudisha kwa mteja.
+4. Baada ya idhini, CA inasaini cheti kwa funguo yake ya kibinafsi na kuirudisha kwa mteja.
 
 ### Certificate Templates
 
@@ -56,33 +56,33 @@ Zimeainishwa ndani ya AD, templeti hizi zinaelezea mipangilio na ruhusa za kutoa
 
 ## Certificate Enrollment
 
-Mchakato wa usajili wa vyeti huanzishwa na msimamizi ambaye **anaunda templeti ya cheti**, ambayo kisha **inasambazwa** na Mamlaka ya Cheti ya Biashara (CA). Hii inafanya templeti ipatikane kwa usajili wa mteja, hatua inayofikiwa kwa kuongeza jina la templeti kwenye uwanja wa `certificatetemplates` wa kitu cha Active Directory.
+Mchakato wa usajili wa vyeti huanzishwa na msimamizi ambaye **anaunda templeti ya cheti**, ambayo kisha **inasambazwa** na Mamlaka ya Cheti ya Biashara (CA). Hii inafanya templeti hiyo ipatikane kwa usajili wa mteja, hatua inayofikiwa kwa kuongeza jina la templeti kwenye uwanja wa `certificatetemplates` wa kitu cha Active Directory.
 
 Ili mteja aombe cheti, **haki za usajili** lazima zipewe. Haki hizi zinaainishwa na waelekezi wa usalama kwenye templeti ya cheti na CA ya Biashara yenyewe. Ruhusa lazima zipewe katika maeneo yote mawili ili ombi liwe na mafanikio.
 
 ### Template Enrollment Rights
 
 Haki hizi zinaainishwa kupitia Kuingilia kwa Udhibiti wa Ufikiaji (ACEs), zikielezea ruhusa kama:
-- Haki za **Usajili wa Cheti** na **Usajili wa Kiotomatiki wa Cheti**, kila moja ikihusishwa na GUID maalum.
-- **Haki za Kupanua**, zinazoruhusu ruhusa zote za kupanua.
-- **Udhibiti Kamili/GenericAll**, ukitoa udhibiti kamili juu ya templeti.
+- Haki za **Usajili wa Cheti** na **AutoEnrollment ya Cheti**, kila moja ikihusishwa na GUID maalum.
+- **Haki za Kupanuliwa**, zikiruhusu ruhusa zote za ziada.
+- **FullControl/GenericAll**, ikitoa udhibiti kamili juu ya templeti.
 
 ### Enterprise CA Enrollment Rights
 
-Haki za CA zinaelezwa katika waelekezi wake wa usalama, zinazopatikana kupitia console ya usimamizi wa Mamlaka ya Cheti. Mipangilio mingine hata inaruhusu watumiaji wenye mamlaka ya chini kupata mbali, ambayo inaweza kuwa wasiwasi wa usalama.
+Haki za CA zinaelezwa katika waelekezi wake wa usalama, zinazopatikana kupitia konsoli ya usimamizi wa Mamlaka ya Cheti. Mipangilio mingine hata inaruhusu watumiaji wenye mamlaka ya chini kupata mbali, ambayo inaweza kuwa wasiwasi wa usalama.
 
 ### Additional Issuance Controls
 
 Madhara fulani yanaweza kutumika, kama:
 - **Idhini ya Meneja**: Inaweka maombi katika hali ya kusubiri hadi idhini itolewe na meneja wa cheti.
-- **Wakala wa Usajili na Saini Zilizothibitishwa**: Kuainisha idadi ya saini zinazohitajika kwenye CSR na OIDs za Sera ya Maombi zinazohitajika.
+- **Wakala wa Usajili na Sahihi Zilizothibitishwa**: Kuainisha idadi ya sahihi zinazohitajika kwenye CSR na OIDs za Sera ya Maombi zinazohitajika.
 
 ### Methods to Request Certificates
 
 Vyeti vinaweza kuombwa kupitia:
 1. **Protokali ya Usajili wa Cheti ya Mteja wa Windows** (MS-WCCE), ikitumia interfaces za DCOM.
 2. **Protokali ya ICertPassage Remote** (MS-ICPR), kupitia mabomba yaliyopewa majina au TCP/IP.
-3. Kiolesura cha wavuti cha **usajili wa cheti**, na jukumu la Usajili wa Wavuti wa Mamlaka ya Cheti lililosakinishwa.
+3. Kiolesura cha wavuti cha **usajili wa cheti**, ikiwa na jukumu la Usajili wa Wavuti wa Mamlaka ya Cheti lililosakinishwa.
 4. **Huduma ya Usajili wa Cheti** (CES), kwa kushirikiana na huduma ya Sera ya Usajili wa Cheti (CEP).
 5. **Huduma ya Usajili wa Vifaa vya Mtandao** (NDES) kwa vifaa vya mtandao, ikitumia Protokali ya Usajili wa Cheti Rahisi (SCEP).
 
@@ -97,7 +97,7 @@ Active Directory (AD) inasaidia uthibitisho wa cheti, hasa ikitumia **Kerberos**
 
 ### Mchakato wa Uthibitisho wa Kerberos
 
-Katika mchakato wa uthibitisho wa Kerberos, ombi la mtumiaji la Tiketi ya Kutoa Tiketi (TGT) linatiwa saini kwa kutumia **funguo ya faragha** ya cheti cha mtumiaji. Ombi hili hupitia uthibitisho kadhaa na msimamizi wa eneo, ikiwa ni pamoja na **halali** ya cheti, **njia**, na **hali ya kufutwa**. Uthibitisho pia unajumuisha kuangalia kwamba cheti kinatoka kwa chanzo kinachotegemewa na kuthibitisha uwepo wa mtoaji katika **duka la cheti la NTAUTH**. Uthibitisho uliofanikiwa unapelekea utoaji wa TGT. Kitu cha **`NTAuthCertificates`** katika AD, kinapatikana kwenye:
+Katika mchakato wa uthibitisho wa Kerberos, ombi la mtumiaji la Tiketi ya Kutoa Tiketi (TGT) linatiwa saini kwa kutumia **funguo ya faragha** ya cheti cha mtumiaji. Ombi hili hupitia uthibitisho kadhaa na msimamizi wa eneo, ikiwa ni pamoja na **uhalali** wa cheti, **njia**, na **hali ya kufutwa**. Uthibitisho pia unajumuisha kuangalia kwamba cheti kinatoka kwa chanzo kinachotegemewa na kuthibitisha uwepo wa mtoaji katika **duka la cheti la NTAUTH**. Uthibitisho uliofanikiwa unapelekea utoaji wa TGT. Kitu cha **`NTAuthCertificates`** katika AD, kinapatikana kwenye:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -105,13 +105,13 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel inasaidia muunganisho salama wa TLS/SSL, ambapo wakati wa mkutano, mteja anawasilisha cheti ambacho, ikiwa kimefanikiwa kuthibitishwa, kinatoa ruhusa ya ufikiaji. Mchoro wa cheti kwa akaunti ya AD unaweza kujumuisha kazi ya Kerberos **S4U2Self** au **Subject Alternative Name (SAN)** ya cheti, miongoni mwa mbinu nyingine.
+Schannel inarahisisha muunganisho salama wa TLS/SSL, ambapo wakati wa mkutano, mteja anawasilisha cheti ambacho, ikiwa kimefanikiwa kuthibitishwa, kinatoa ruhusa ya ufikiaji. Mchoro wa cheti kwa akaunti ya AD unaweza kujumuisha kazi ya Kerberos **S4U2Self** au **Subject Alternative Name (SAN)** ya cheti, miongoni mwa mbinu nyingine.
 
 ### AD Certificate Services Enumeration
 
-Huduma za cheti za AD zinaweza kuhesabiwa kupitia maswali ya LDAP, zikifunua habari kuhusu **Enterprise Certificate Authorities (CAs)** na mipangilio yao. Hii inapatikana na mtumiaji yeyote aliyeidhinishwa na kikoa bila ruhusa maalum. Zana kama **[Certify](https://github.com/GhostPack/Certify)** na **[Certipy](https://github.com/ly4k/Certipy)** zinatumika kwa ajili ya kuhesabu na tathmini ya udhaifu katika mazingira ya AD CS.
+Huduma za cheti za AD zinaweza kuorodheshwa kupitia maswali ya LDAP, zikifunua habari kuhusu **Enterprise Certificate Authorities (CAs)** na mipangilio yao. Hii inapatikana na mtumiaji yeyote aliyeidhinishwa na kikoa bila ruhusa maalum. Zana kama **[Certify](https://github.com/GhostPack/Certify)** na **[Certipy](https://github.com/ly4k/Certipy)** zinatumika kwa kuorodhesha na tathmini ya udhaifu katika mazingira ya AD CS.
 
-Amri za kutumia zana hizi ni:
+Commands for using these tools include:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -140,7 +140,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

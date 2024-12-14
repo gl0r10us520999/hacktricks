@@ -21,18 +21,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Msingi wa Resource-based Constrained Delegation
 
-Hii ni sawa na [Constrained Delegation](constrained-delegation.md) ya msingi lakini **badala** ya kutoa ruhusa kwa **kitu** ku **jifanya kama mtumiaji yeyote dhidi ya huduma**. Resource-based Constrained Delegation **inasanifisha** katika **kitu ambacho kinaweza kujifanya kama mtumiaji yeyote dhidi yake**.
+Hii ni sawa na [Constrained Delegation](constrained-delegation.md) ya msingi lakini **badala** ya kutoa ruhusa kwa **kitu** kuweza **kujifanya kama mtumiaji yeyote dhidi ya huduma**. Resource-based Constrained Delegation **inasanifisha** katika **kitu ambacho kinaweza kujifanya kama mtumiaji yeyote dhidi yake**.
 
 Katika kesi hii, kitu kilichozuiliwa kitakuwa na sifa inayoitwa _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ yenye jina la mtumiaji ambaye anaweza kujifanya kama mtumiaji mwingine dhidi yake.
 
-Tofauti nyingine muhimu kutoka kwa Constrained Delegation hii hadi delegations nyingine ni kwamba mtumiaji yeyote mwenye **ruhusa za kuandika juu ya akaunti ya mashine** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) anaweza kuweka _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Katika aina nyingine za Delegation ulihitaji ruhusa za admin wa kikoa).
+Tofauti nyingine muhimu kutoka kwa Constrained Delegation hii hadi delegations nyingine ni kwamba mtumiaji yeyote mwenye **ruhusa za kuandika juu ya akaunti ya mashine** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/n.k.) anaweza kuweka _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Katika aina nyingine za Delegation ulihitaji ruhusa za admin wa kikoa).
 
 ### Dhana Mpya
 
 Katika Constrained Delegation ilisemwa kwamba **`TrustedToAuthForDelegation`** bendera ndani ya _userAccountControl_ thamani ya mtumiaji inahitajika ili kutekeleza **S4U2Self.** Lakini hiyo si kweli kabisa.\
 Ukweli ni kwamba hata bila thamani hiyo, unaweza kutekeleza **S4U2Self** dhidi ya mtumiaji yeyote ikiwa wewe ni **huduma** (una SPN) lakini, ikiwa una **`TrustedToAuthForDelegation`** TGS iliyorejeshwa itakuwa **Forwardable** na ikiwa **huna** bendera hiyo TGS iliyorejeshwa **haitakuwa** **Forwardable**.
 
-Hata hivyo, ikiwa **TGS** iliyotumika katika **S4U2Proxy** **SIO Forwardable** kujaribu kutumia **Constrain Delegation ya msingi** haitafanya kazi. Lakini ikiwa unajaribu kutumia **Resource-Based constrain delegation, itafanya kazi** (hii si udhaifu, ni kipengele, kwa wazi).
+Hata hivyo, ikiwa **TGS** iliyotumika katika **S4U2Proxy** **SIO Forwardable** kujaribu kutumia **Constrained Delegation** ya msingi haitafanya kazi. Lakini ikiwa unajaribu kutumia **Resource-Based constrain delegation, itafanya kazi** (hii si udhaifu, ni kipengele, kwa wazi).
 
 ### Muundo wa Shambulio
 
@@ -40,11 +40,11 @@ Hata hivyo, ikiwa **TGS** iliyotumika katika **S4U2Proxy** **SIO Forwardable** k
 
 Fikiria kwamba mshambuliaji tayari ana **ruhusa sawa za kuandika juu ya kompyuta ya mwathirika**.
 
-1. Mshambuliaji **anashambulia** akaunti ambayo ina **SPN** au **anaunda moja** (“Huduma A”). Kumbuka kwamba **mtumiaji yeyote** _Admin User_ bila ruhusa nyingine maalum anaweza **kuunda** hadi 10 **vitu vya Kompyuta (**_**MachineAccountQuota**_**)** na kuziweka SPN. Hivyo mshambuliaji anaweza tu kuunda kitu cha Kompyuta na kuweka SPN.
+1. Mshambuliaji **anashambulia** akaunti ambayo ina **SPN** au **anaunda moja** (“Huduma A”). Kumbuka kwamba **mtumiaji yeyote** _Admin User_ bila ruhusa nyingine maalum anaweza **kuunda** hadi vitu 10 vya **Kompyuta (**_**MachineAccountQuota**_**)** na kuweka SPN. Hivyo mshambuliaji anaweza tu kuunda kitu cha Kompyuta na kuweka SPN.
 2. Mshambuliaji **anatumia ruhusa zake za KUANDIKA** juu ya kompyuta ya mwathirika (HudumaB) ili kuunda **resource-based constrained delegation ili kuruhusu HudumaA kujifanya kama mtumiaji yeyote** dhidi ya kompyuta hiyo ya mwathirika (HudumaB).
 3. Mshambuliaji anatumia Rubeus kutekeleza **shambulio kamili la S4U** (S4U2Self na S4U2Proxy) kutoka Huduma A hadi Huduma B kwa mtumiaji **mwenye ufikiaji wa ruhusa kwa Huduma B**.
-1. S4U2Self (kutoka akaunti ya SPN iliyoshambuliwa/iliyoundwa): Omba **TGS ya Msimamizi kwangu** (Sio Forwardable).
-2. S4U2Proxy: Tumia **TGS isiyo Forwardable** ya hatua ya awali kuomba **TGS** kutoka **Msimamizi** hadi **kompyuta ya mwathirika**.
+1. S4U2Self (kutoka kwa akaunti ya SPN iliyoshambuliwa/iliyoundwa): Omba **TGS ya Msimamizi kwangu** (Sio Forwardable).
+2. S4U2Proxy: Tumia **TGS isiyo Forwardable** ya hatua ya awali kuomba **TGS** kutoka kwa **Msimamizi** hadi **kompyuta ya mwathirika**.
 3. Hata kama unatumia TGS isiyo Forwardable, kwani unatumia Resource-based constrained delegation, itafanya kazi.
 4. Mshambuliaji anaweza **kupitisha tiketi** na **kujifanya** kama mtumiaji ili kupata **ufikiaji kwa HudumaB ya mwathirika**.
 
@@ -102,7 +102,7 @@ Unaweza kuunda tiketi zaidi kwa kuomba mara moja ukitumia paramu ya `/altservice
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
 {% hint style="danger" %}
-Kumbuka kwamba watumiaji wana sifa inayoitwa "**Haiwezi kupewa dhamana**". Ikiwa mtumiaji ana sifa hii kuwa Kweli, huwezi kumwakilisha. Mali hii inaweza kuonekana ndani ya bloodhound.
+Kumbuka kwamba watumiaji wana sifa inayoitwa "**Haiwezi kuwakilishwa**". Ikiwa mtumiaji ana sifa hii kuwa Kweli, huwezi kumwakilisha. Mali hii inaweza kuonekana ndani ya bloodhound.
 {% endhint %}
 
 ### Kupata
@@ -123,7 +123,7 @@ Jifunze kuhusu [**tiketi za huduma zinazopatikana hapa**](silver-ticket.md#avail
 * **`preauth_failed`**: Hii inamaanisha kwamba jina la mtumiaji lililotolewa + hash hazifanyi kazi kuingia. Huenda umesahau kuweka "$" ndani ya jina la mtumiaji unapozalisha hash (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
 * **`KDC_ERR_BADOPTION`**: Hii inaweza kumaanisha:
 * Mtumiaji unayejaribu kujifanya hawezi kufikia huduma inayotakiwa (kwa sababu huwezi kujifanya au kwa sababu hana ruhusa za kutosha)
-* Huduma iliyoulizwa haipo (ikiwa unahitaji tiketi kwa winrm lakini winrm haifanyi kazi)
+* Huduma iliyoulizwa haipo (ikiwa unahitaji tiketi ya winrm lakini winrm haifanyi kazi)
 * Kompyuta ya uwongo iliyoundwa imepoteza ruhusa zake juu ya seva iliyo hatarini na unahitaji kuzirudisha.
 
 ## Marejeleo
@@ -138,16 +138,16 @@ Jifunze kuhusu [**tiketi za huduma zinazopatikana hapa**](silver-ticket.md#avail
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

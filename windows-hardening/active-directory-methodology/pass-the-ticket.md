@@ -25,7 +25,7 @@ Get Access Today:
 
 ## Pass The Ticket (PTT)
 
-Katika mbinu ya shambulio ya **Pass The Ticket (PTT)**, washambuliaji **hupora tiketi ya uthibitishaji ya mtumiaji** badala ya nywila zao au thamani za hash. Tiketi hii iliyoporwa inatumika kisha **kufanana na mtumiaji**, ikipata ufikiaji usioidhinishwa kwa rasilimali na huduma ndani ya mtandao.
+Katika mbinu ya shambulio ya **Pass The Ticket (PTT)**, washambuliaji **hupora tiketi ya uthibitishaji ya mtumiaji** badala ya nywila zao au thamani za hash. Tiketi hii iliyoporwa inatumika kisha **kujifanya kuwa mtumiaji**, ikipata ufikiaji usioidhinishwa kwa rasilimali na huduma ndani ya mtandao.
 
 **Soma**:
 
@@ -42,7 +42,7 @@ Converting ccache => kirbi
 python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-In Windows [Kekeo](https://github.com/gentilkiwi/kekeo) inaweza kutumika.
+Katika Windows [Kekeo](https://github.com/gentilkiwi/kekeo) inaweza kutumika.
 
 ### Shambulio la Pass The Ticket
 

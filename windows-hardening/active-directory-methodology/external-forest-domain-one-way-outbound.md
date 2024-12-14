@@ -49,11 +49,11 @@ Jambo muhimu kuelewa hapa ni kwamba nenosiri na hash ya akaunti hii maalum yanaw
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Hii uchimbaji inawezekana kwa sababu akaunti, iliyotambulishwa na **$** baada ya jina lake, iko hai na inahusishwa na kundi la "Domain Users" la kikoa **A**, hivyo ikirithi ruhusa zinazohusiana na kundi hili. Hii inawawezesha watu kuthibitisha dhidi ya kikoa **A** wakitumia akidi za akaunti hii.
+Hii uvunaji inawezekana kwa sababu akaunti, iliyotambulishwa na **$** baada ya jina lake, iko hai na inahusishwa na kundi la "Domain Users" la domain **A**, hivyo kurithi ruhusa zinazohusiana na kundi hili. Hii inawawezesha watu kuthibitisha dhidi ya domain **A** wakitumia akidi za akaunti hii.
 
-**Warning:** Inawezekana kutumia hali hii kupata msingi katika kikoa **A** kama mtumiaji, ingawa kwa ruhusa zilizopunguzwa. Hata hivyo, ufikiaji huu unatosha kufanya uhesabuji katika kikoa **A**.
+**Warning:** Inawezekana kutumia hali hii kupata msingi katika domain **A** kama mtumiaji, ingawa kwa ruhusa zilizopunguzwa. Hata hivyo, ufikiaji huu unatosha kufanya uhesabuji katika domain **A**.
 
-Katika hali ambapo `ext.local` ni kikoa kinachotegemea na `root.local` ni kikoa kinachotegemewa, akaunti ya mtumiaji iliyoitwa `EXT$` ingekuwa ikiumbwa ndani ya `root.local`. Kupitia zana maalum, inawezekana kutoa funguo za kuaminiana za Kerberos, zikifunua akidi za `EXT$` katika `root.local`. Amri ya kufanikisha hili ni:
+Katika hali ambapo `ext.local` ni domain inayotegemea na `root.local` ni domain inayotegemewa, akaunti ya mtumiaji iitwayo `EXT$` itaundwa ndani ya `root.local`. Kupitia zana maalum, inawezekana kutoa funguo za kuaminiana za Kerberos, zikifunua akidi za `EXT$` katika `root.local`. Amri ya kufanikisha hili ni:
 ```bash
 lsadump::trust /patch
 ```
@@ -61,7 +61,7 @@ Kufuata hili, mtu anaweza kutumia funguo ya RC4 iliyochukuliwa kuthibitisha kama
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Huu hatua ya uthibitishaji inafungua uwezekano wa kuhesabu na hata kutumia huduma ndani ya `root.local`, kama vile kufanya shambulio la Kerberoast ili kutoa akauti za huduma kwa kutumia:
+Hii hatua ya uthibitishaji inafungua uwezekano wa kuhesabu na hata kutumia huduma ndani ya `root.local`, kama vile kufanya shambulio la Kerberoast ili kutoa akauti za huduma kwa kutumia:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
@@ -73,13 +73,13 @@ Nenosiri la wazi linaweza kupatikana kwa kubadilisha \[ CLEAR ] kutoka kwa mimik
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Wakati mwingine unapounda uhusiano wa kuaminiana, nenosiri linapaswa kuandikwa na mtumiaji kwa ajili ya kuaminiana. Katika onyesho hili, ufunguo ni nenosiri la kuaminiana la awali na hivyo linaweza kusomeka na binadamu. Kadri ufunguo unavyopitia (siku 30), nenosiri la wazi halitasomeka na binadamu lakini kiufundi bado linaweza kutumika.
+Wakati mwingine unapounda uhusiano wa kuaminiana, nenosiri lazima liandikwe na mtumiaji kwa ajili ya kuaminiana. Katika onyesho hili, funguo ni nenosiri la kuaminiana la awali na kwa hivyo linaweza kusomeka na binadamu. Kadri funguo inavyobadilika (siku 30), nenosiri la wazi halitasomeka na binadamu lakini kiufundi bado linaweza kutumika.
 
-Nenosiri la wazi linaweza kutumika kufanya uthibitishaji wa kawaida kama akaunti ya kuaminiana, mbadala wa kuomba TGT kwa kutumia ufunguo wa siri wa Kerberos wa akaunti ya kuaminiana. Hapa, kuuliza root.local kutoka ext.local kwa wanachama wa Domain Admins:
+Nenosiri la wazi linaweza kutumika kufanya uthibitishaji wa kawaida kama akaunti ya kuaminiana, mbadala wa kuomba TGT kwa kutumia funguo ya siri ya Kerberos ya akaunti ya kuaminiana. Hapa, kuuliza root.local kutoka ext.local kwa wanachama wa Domain Admins:
 
 ![](<../../.gitbook/assets/image (792).png>)
 
-## Marejeleo
+## Marejeo
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 

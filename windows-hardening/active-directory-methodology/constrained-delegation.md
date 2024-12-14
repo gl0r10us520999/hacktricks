@@ -19,14 +19,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Kwa kutumia hii, msimamizi wa Domain anaweza **kuruhusu** kompyuta **kujifanya** kama mtumiaji au kompyuta dhidi ya **huduma** ya mashine.
 
-* **Huduma kwa Mtumiaji kujitenga (**_**S4U2self**_**):** Ikiwa **akaunti ya huduma** ina thamani ya _userAccountControl_ inayojumuisha [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), basi inaweza kupata TGS kwa ajili yake mwenyewe (huduma) kwa niaba ya mtumiaji mwingine yeyote.
-* **Huduma kwa Mtumiaji Proxy(**_**S4U2proxy**_**):** **Akaunti ya huduma** inaweza kupata TGS kwa niaba ya mtumiaji yeyote kwa huduma iliyowekwa katika **msDS-AllowedToDelegateTo.** Ili kufanya hivyo, kwanza inahitaji TGS kutoka kwa mtumiaji huyo kwa ajili yake mwenyewe, lakini inaweza kutumia S4U2self kupata TGS hiyo kabla ya kuomba nyingine.
+* **Huduma kwa Mtumiaji kujitenga (**_**S4U2self**_**):** Ikiwa **akaunti ya huduma** ina thamani ya _userAccountControl_ inayojumuisha [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), basi inaweza kupata TGS kwa ajili yake (huduma) kwa niaba ya mtumiaji mwingine yeyote.
+* **Huduma kwa Mtumiaji Proxy(**_**S4U2proxy**_**):** **Akaunti ya huduma** inaweza kupata TGS kwa niaba ya mtumiaji yeyote kwa huduma iliyoainishwa katika **msDS-AllowedToDelegateTo.** Ili kufanya hivyo, kwanza inahitaji TGS kutoka kwa mtumiaji huyo kwa ajili yake, lakini inaweza kutumia S4U2self kupata TGS hiyo kabla ya kuomba nyingine.
 
-**Kumbuka**: Ikiwa mtumiaji amewekwa alama kama ‘_Akaunti ni nyeti na haiwezi kuhamasishwa_’ katika AD, huwezi **kujifanya** kama wao.
+**Kumbuka**: Ikiwa mtumiaji amewekwa alama kama ‘_Akaunti ni nyeti na haiwezi kuhamasishwa_’ katika AD, huwezi **kujifanya** nao.
 
-Hii inamaanisha kwamba ikiwa unapata **hash ya huduma** unaweza **kujifanya kama watumiaji** na kupata **ufikiaji** kwa niaba yao kwa **huduma iliyowekwa** (inawezekana **privesc**).
+Hii inamaanisha kwamba ikiwa **utavunja hash ya huduma** unaweza **kujifanya kwa watumiaji** na kupata **ufikiaji** kwa niaba yao kwa **huduma iliyowekwa** (inawezekana **privesc**).
 
-Zaidi ya hayo, **hutakuwa na ufikiaji tu kwa huduma ambayo mtumiaji anaweza kujifanya, bali pia kwa huduma yoyote** kwa sababu SPN (jina la huduma iliyohitajika) halijakaguliwa, ni ruhusa pekee. Hivyo, ikiwa una ufikiaji kwa **huduma ya CIFS** unaweza pia kuwa na ufikiaji kwa **huduma ya HOST** kwa kutumia bendera ya `/altservice` katika Rubeus.
+Zaidi ya hayo, **hutakuwa na ufikiaji tu kwa huduma ambayo mtumiaji anaweza kujifanya, bali pia kwa huduma yoyote** kwa sababu SPN (jina la huduma iliyotakiwa) halijakaguliwa, ni ruhusa pekee. Hivyo, ikiwa una ufikiaji kwa **huduma ya CIFS** unaweza pia kuwa na ufikiaji kwa **huduma ya HOST** ukitumia bendera ya `/altservice` katika Rubeus.
 
 Pia, **ufikiaji wa huduma ya LDAP kwenye DC**, ndio inahitajika ili kutumia **DCSync**.
 
@@ -103,15 +103,15 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 [**Maelezo zaidi katika ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

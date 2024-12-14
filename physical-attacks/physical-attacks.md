@@ -53,7 +53,7 @@ Kubadilisha binaries za mfumo kama **_sethc.exe_** au **_Utilman.exe_** kwa naka
 
 #### BAD USB Devices
 
-Vifaa kama **Rubber Ducky** na **Teensyduino** vinatumika kama majukwaa ya kuunda **bad USB** devices, zenye uwezo wa kutekeleza payload zilizowekwa wakati zinapounganishwa na kompyuta lengwa.
+Vifaa kama **Rubber Ducky** na **Teensyduino** vinatumika kama majukwaa ya kuunda **bad USB** devices, zenye uwezo wa kutekeleza payload zilizowekwa awali zinapounganishwa na kompyuta lengwa.
 
 #### Volume Shadow Copy
 
@@ -61,7 +61,7 @@ Mamlaka ya msimamizi yanaruhusu kuunda nakala za faili nyeti, ikiwa ni pamoja na
 
 ### Bypassing BitLocker Encryption
 
-BitLocker encryption inaweza kupita ikiwa **nenosiri la urejeleaji** linapatikana ndani ya faili ya memory dump (**MEMORY.DMP**). Zana kama **Elcomsoft Forensic Disk Decryptor** au **Passware Kit Forensic** zinaweza kutumika kwa kusudi hili.
+BitLocker encryption inaweza kupita ikiwa **nenosiri la urejeleaji** litapatikana ndani ya faili ya memory dump (**MEMORY.DMP**). Zana kama **Elcomsoft Forensic Disk Decryptor** au **Passware Kit Forensic** zinaweza kutumika kwa kusudi hili.
 
 ### Social Engineering for Recovery Key Addition
 

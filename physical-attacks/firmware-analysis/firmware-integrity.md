@@ -27,19 +27,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 8. Backdoor inaweza kufikiwa kupitia netcat.
 9. Binary ya QEMU inapaswa kuondolewa kutoka kwenye rootfs ya firmware iliyotolewa.
 10. Firmware iliyobadilishwa inaweza kufungashwa tena kwa kutumia FMK.
-11. Firmware iliyokuwa na backdoor inaweza kupimwa kwa kuigwa nayo na toolkit ya uchambuzi wa firmware (FAT) na kuunganishwa na IP na bandari ya backdoor inayolengwa kwa kutumia netcat.
+11. Firmware iliyokuwa na backdoor inaweza kupimwa kwa kuigiza na toolkit ya uchambuzi wa firmware (FAT) na kuunganishwa na IP na bandari ya backdoor inayolengwa kwa kutumia netcat.
 
-Ikiwa shell ya root tayari imepatikana kupitia uchambuzi wa dynamic, manipulering ya bootloader, au upimaji wa usalama wa vifaa, binaries mbaya zilizokusanywa kama vile implants au reverse shells zinaweza kutekelezwa. Zana za payload/implant za kiotomatiki kama vile mfumo wa Metasploit na 'msfvenom' zinaweza kutumika kwa hatua zifuatazo:
+Ikiwa shell ya root tayari imepatikana kupitia uchambuzi wa dynamic, manipulering ya bootloader, au upimaji wa usalama wa vifaa, binaries mbaya zilizokusanywa kama implants au reverse shells zinaweza kutekelezwa. Zana za payload/implant za kiotomatiki kama vile mfumo wa Metasploit na 'msfvenom' zinaweza kutumika kwa hatua zifuatazo:
 
 1. Mifumo ya firmware inayolengwa na endianness inapaswa kutambuliwa.
 2. Msfvenom inaweza kutumika kubainisha payload inayolengwa, IP ya mwenye shambulio, nambari ya bandari inayosikiliza, aina ya faili, mfumo, jukwaa, na faili ya matokeo.
-3. Payload inaweza kuhamishwa kwa kifaa kilichovunjwa na kuhakikisha kuwa ina ruhusa za kutekeleza.
+3. Payload inaweza kuhamasishwa kwa kifaa kilichovunjwa na kuhakikisha kuwa ina ruhusa za utekelezaji.
 4. Metasploit inaweza kuandaliwa kushughulikia maombi yanayokuja kwa kuanzisha msfconsole na kuunda mipangilio kulingana na payload.
 5. Meterpreter reverse shell inaweza kutekelezwa kwenye kifaa kilichovunjwa.
 6. Session za meterpreter zinaweza kufuatiliwa kadri zinavyofunguka.
 7. Shughuli za baada ya unyakuzi zinaweza kufanywa.
 
-Ikiwa inawezekana, udhaifu ndani ya scripts za kuanzisha zinaweza kutumiwa kupata ufikiaji wa kudumu kwa kifaa wakati wa kuanzisha upya. Udhaifu huu unatokea wakati scripts za kuanzisha zinarejelea, [kuunganisha kwa alama](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), au kutegemea msimbo ulio katika maeneo yasiyoaminika yaliyowekwa kama vile kadi za SD na volumu za flash zinazotumiwa kuhifadhi data nje ya mifumo ya faili ya root.
+Ikiwa inawezekana, udhaifu ndani ya scripts za kuanzisha zinaweza kutumiwa kupata ufikiaji wa kudumu kwa kifaa wakati wa kuanzisha upya. Udhaifu huu unatokea wakati scripts za kuanzisha zinarejelea, [kuunganisha kwa alama](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), au kutegemea msimbo ulio katika maeneo yasiyoaminika yaliyowekwa kama vile kadi za SD na volumes za flash zinazotumiwa kuhifadhi data nje ya mifumo ya faili ya root.
 
 ## Marejeleo
 * Kwa maelezo zaidi angalia [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)

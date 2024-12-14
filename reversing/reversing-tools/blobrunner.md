@@ -14,7 +14,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 {% endhint %}
 
 
-Mstari pekee uliofanyiwa mabadiliko kutoka kwa [msimbo wa asili](https://github.com/OALabs/BlobRunner) ni mstari wa 10.
+Mstari pekee uliohaririwa kutoka kwa [msimbo wa asili](https://github.com/OALabs/BlobRunner) ni mstari wa 10.
 Ili kuunda, **unda mradi wa C/C++ katika Visual Studio Code, nakili na ubandike msimbo na ujenge**.
 ```c
 #include <stdio.h>

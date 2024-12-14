@@ -34,7 +34,7 @@ Lengo la awamu hii ya pili ni rahisi sana: **Chukua sampuli ya data ya ingizo na
 
 {% hint style="success" %}
 Lengo la awamu hii ya tatu ni rahisi sana: **Patia kila moja ya tokeni za awali katika msamiati vector ya vipimo vinavyotakiwa ili kufundisha mfano.** Kila neno katika msamiati litakuwa na pointi katika nafasi ya vipimo X.\
-Kumbuka kwamba awali nafasi ya kila neno katika nafasi inaanzishwa "kwa bahati" na nafasi hizi ni vigezo vinavyoweza kufundishwa (vitaboreshwa wakati wa mafunzo).
+Kumbuka kwamba awali nafasi ya kila neno katika nafasi inaanzishwa "kwa bahati nasibu" na nafasi hizi ni vigezo vinavyoweza kufundishwa (vitaboreshwa wakati wa mafunzo).
 
 Zaidi ya hayo, wakati wa kuingiza token **tabaka lingine la kuingiza linaundwa** ambalo linawakilisha (katika kesi hii) **nafasi halisi ya neno katika sentensi ya mafunzo**. Kwa njia hii neno katika nafasi tofauti katika sentensi litakuwa na uwakilishi tofauti (maana).
 {% endhint %}

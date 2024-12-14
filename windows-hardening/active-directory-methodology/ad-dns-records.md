@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-Kwa kawaida **mtumiaji yeyote** katika Active Directory anaweza **kuorodhesha rekodi zote za DNS** katika eneo la Domain au Forest DNS, sawa na uhamishaji wa eneo (watumiaji wanaweza orodhesha vitu vya watoto vya eneo la DNS katika mazingira ya AD).
+Kwa kawaida **mtumiaji yeyote** katika Active Directory anaweza **kuorodhesha rekodi zote za DNS** katika eneo la Domain au Forest DNS, sawa na uhamisho wa eneo (watumiaji wanaweza orodhesha vitu vya watoto vya eneo la DNS katika mazingira ya AD).
 
 Zana [**adidnsdump**](https://github.com/dirkjanm/adidnsdump) inaruhusu **kuorodhesha** na **kutoa** **rekodi zote za DNS** katika eneo kwa madhumuni ya upelelezi wa mitandao ya ndani.
 ```bash
@@ -37,7 +37,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

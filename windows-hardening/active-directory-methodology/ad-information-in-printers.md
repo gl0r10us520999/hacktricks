@@ -21,7 +21,7 @@ Pia, printers kadhaa zitakuwa na **kumbukumbu za majina ya watumiaji** au zinawe
 
 Taarifa hii **nyeti** na **ukosefu wa usalama** wa kawaida inafanya printers kuwa za kuvutia sana kwa washambuliaji.
 
-Baadhi ya blogu kuhusu mada hiyo:
+Baadhi ya blogu kuhusu mada hii:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
@@ -45,24 +45,24 @@ Hata hivyo, mafanikio ya mbinu hii yanatofautiana.
 ### Method 2: Full LDAP Server with Slapd
 Njia ya kuaminika zaidi inahusisha kuanzisha seva kamili ya LDAP kwa sababu printer inafanya null bind ikifuatiwa na uchunguzi kabla ya kujaribu kuunganisha akidi.
 
-1. **LDAP Server Setup**: Mwongozo unafuata hatua kutoka [chanzo hiki](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+1. **LDAP Server Setup**: Mwongozo unafuata hatua kutoka [hii chanzo](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
 2. **Key Steps**:
 - Sakinisha OpenLDAP.
 - Sanidi nenosiri la admin.
 - Ingiza mifano ya msingi.
-- Weka jina la kikoa kwenye DB ya LDAP.
+- Weka jina la kikoa kwenye LDAP DB.
 - Sanidi LDAP TLS.
 3. **LDAP Service Execution**: Mara tu inapoanzishwa, huduma ya LDAP inaweza kuendeshwa kwa kutumia:
 ```bash
 slapd -d 2
 ```
-## References
+## Marejeo
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

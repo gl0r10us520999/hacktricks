@@ -21,7 +21,7 @@ Kwanza kabisa, inahitajika kuonyesha kwamba **mikopo yote ya mbinu kutoka kwa ut
 
 HackTricks ni Wiki ya kielimu inayokusanya maarifa kuhusu **usalama wa mtandao** inayoongozwa na Carlos pamoja na mamia ya washirikiano! Ni **mkusanyiko mkubwa wa mbinu za hacking** ambao unasasishwa na jamii kadri iwezekanavyo ili kuendelea kuwa wa kisasa. Ikiwa unapata kitu kinakosekana au kimepitwa na wakati, tafadhali, tuma **Pull Request** kwa [**Hacktricks Github**](https://github.com/carlospolop/hacktricks)!
 
-HackTricks pia ni wiki ambapo **tafiti nyingi pia zinashiriki matokeo yao ya hivi karibuni**, hivyo ni mahali pazuri pa kubaki na habari za mbinu za hacking za hivi karibuni. 
+HackTricks pia ni wiki ambapo **tafiti nyingi pia zinashiriki matokeo yao ya hivi karibuni**, hivyo ni mahali pazuri pa kuendelea kuwa wa kisasa na mbinu za hivi karibuni za hacking. 
 
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

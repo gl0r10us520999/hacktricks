@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## RDP Process Injection
 
-Ikiwa **kikundi cha nje** kina **ufikiaji wa RDP** kwa **kompyuta** yoyote katika eneo la sasa, **mshambuliaji** anaweza **kuharibu kompyuta hiyo na kumsubiri**.
+Ikiwa **kikundi cha nje** kina **ufikiaji wa RDP** kwa **kompyuta** yoyote katika eneo la sasa, **mshambuliaji** anaweza **kuchafua kompyuta hiyo na kumsubiri**.
 
 Mara tu mtumiaji huyo anapofikia kupitia RDP, **mshambuliaji anaweza kuhamasisha kwenye kikao cha watumiaji hao** na kutumia ruhusa zake katika eneo la nje.
 ```powershell
@@ -47,9 +47,9 @@ Check **njia nyingine za kuiba vikao kwa kutumia zana nyingine** [**katika ukura
 
 ## RDPInception
 
-Ikiwa mtumiaji anapata **RDP kwenye mashine** ambapo **mshambuliaji** anangojea **yeye**, mshambuliaji ataweza **kuingiza beacon katika kikao cha RDP cha mtumiaji** na ikiwa **mhasiriwa ameunganisha diski yake** wakati wa kufikia kupitia RDP, **mshambuliaji anaweza kuipata**.
+Ikiwa mtumiaji anapata **RDP kwenye mashine** ambapo **mshambuliaji** anangojea **yeye**, mshambuliaji ataweza **kuingiza beacon katika kikao cha RDP cha mtumiaji** na ikiwa **mwathirika ameunganisha diski yake** wakati wa kufikia kupitia RDP, **mshambuliaji anaweza kuipata**.
 
-Katika kesi hii unaweza tu **kudhoofisha** **kompyuta ya awali ya wahasiriwa** kwa kuandika **backdoor** katika **folda ya kuanzisha**.
+Katika kesi hii unaweza tu **kudhoofisha** **kompyuta ya awali ya waathirika** kwa kuandika **backdoor** katika **folda ya kuanzisha**.
 ```powershell
 # Wait til someone logs in:
 net logons

@@ -1,29 +1,29 @@
 # iButton
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Intro
 
-iButton ni jina la jumla kwa funguo za kitambulisho za kielektroniki zilizowekwa ndani ya **konteina ya chuma yenye umbo la sarafu**. Pia inaitwa **Dallas Touch** Memory au kumbukumbu ya mawasiliano. Ingawa mara nyingi inaitwa kwa makosa kama funguo “za sumaku”, hakuna **kitu chochote cha sumaku** ndani yake. Kwa kweli, **microchip** kamili inayofanya kazi kwenye itifaki ya kidijitali imefichwa ndani.
+iButton ni jina la jumla kwa funguo za kitambulisho za kielektroniki zilizowekwa ndani ya **konteina ya chuma yenye umbo la sarafu**. Pia inaitwa **Dallas Touch** Memory au kumbukumbu ya mawasiliano. Ingawa mara nyingi inaitwa kwa makosa kama funguo "za sumaku", hakuna **chochote cha sumaku** ndani yake. Kwa kweli, **microchip** kamili inayofanya kazi kwa itifaki ya kidijitali imefichwa ndani.
 
 <figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
 ### What is iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
-Kawaida, iButton inamaanisha umbo la kimwili la funguo na msomaji - sarafu ya mviringo yenye mawasiliano mawili. Kwa ajili ya fremu inayozunguka, kuna tofauti nyingi kutoka kwa holder ya plastiki yenye shimo hadi pete, mapambo, n.k.
+Kwa kawaida, iButton inamaanisha umbo halisi la funguo na msomaji - sarafu ya mviringo yenye mawasiliano mawili. Kwa ajili ya fremu inayozunguka, kuna tofauti nyingi kutoka kwa holder ya plastiki yenye shimo hadi pete, mapambo, n.k.
 
 <figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
@@ -33,7 +33,7 @@ Wakati funguo inafika kwa msomaji, **mawasiliano yanagusa** na funguo inapata ng
 
 ### **1-Wire protocol** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 
-Funguo za Dallas hubadilishana data kwa kutumia itifaki ya 1-wire. Kwa mawasiliano moja tu ya uhamishaji wa data (!!) katika pande zote mbili, kutoka kwa bwana hadi mtumwa na kinyume chake. Itifaki ya 1-wire inafanya kazi kulingana na mfano wa Bwana-Mtumwa. Katika topolojia hii, Bwana daima huanzisha mawasiliano na Mtumwa anafuata maagizo yake.
+Funguo za Dallas hubadilishana data kwa kutumia itifaki ya 1-wire. Kwa mawasiliano moja tu ya kuhamasisha data (!!) katika pande zote mbili, kutoka kwa bwana hadi mtumwa na kinyume chake. Itifaki ya 1-wire inafanya kazi kulingana na mfano wa Bwana-Mtumwa. Katika topolojia hii, Bwana daima huanzisha mawasiliano na Mtumwa anafuata maagizo yake.
 
 Wakati funguo (Mtumwa) inagusa intercom (Bwana), chip ndani ya funguo inawashwa, ikipata nguvu kutoka kwa intercom, na funguo inaanzishwa. Baada ya hapo, intercom inaomba kitambulisho cha funguo. Kisha, tutaangalia mchakato huu kwa undani zaidi.
 
@@ -56,16 +56,16 @@ iButtons zinaweza kushambuliwa kwa Flipper Zero:
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

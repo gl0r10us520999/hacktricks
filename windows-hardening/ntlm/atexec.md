@@ -21,7 +21,7 @@ At inaruhusu kupanga kazi katika mwenyeji ambapo unajua jina la mtumiaji/(nenosi
 ```
 At \\victim 11:00:00PM shutdown -r
 ```
-Kutumia schtasks unahitaji kwanza kuunda kazi na kisha kuitwa:
+Kutumia schtasks unahitaji kwanza kuunda kazi na kisha kuitaja:
 
 {% code overflow="wrap" %}
 ```bash
@@ -57,7 +57,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

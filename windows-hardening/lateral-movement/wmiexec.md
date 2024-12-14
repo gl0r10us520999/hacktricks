@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## How It Works Explained
 
-Mchakato unaweza kufunguliwa kwenye mwenyeji ambapo jina la mtumiaji na ama nenosiri au hash vinajulikana kupitia matumizi ya WMI. Amri zinafanywa kwa kutumia WMI na Wmiexec, ikitoa uzoefu wa shell wa nusu-interactive.
+Mchakato unaweza kufunguliwa kwenye mwenyeji ambapo jina la mtumiaji na ama nenosiri au hash zinajulikana kupitia matumizi ya WMI. Amri zinafanywa kwa kutumia WMI na Wmiexec, ikitoa uzoefu wa shell wa nusu-interactive.
 
-**dcomexec.py:** Kutumia mwisho tofauti wa DCOM, skripti hii inatoa shell ya nusu-interactive inayofanana na wmiexec.py, ikitumia hasa kitu cha DCOM cha ShellBrowserWindow. Hivi sasa inasaidia MMC20. Maombi, Windows za Shell, na vitu vya Shell Browser Window. (chanzo: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Kutumia mwisho tofauti wa DCOM, skripti hii inatoa shell ya nusu-interactive inayofanana na wmiexec.py, ikitumia hasa kitu cha DCOM cha ShellBrowserWindow. Hivi sasa inasaidia MMC20. Maombi, Shell Windows, na Shell Browser Window objects. (chanzo: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## WMI Fundamentals
 
@@ -44,8 +44,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **Darasa**
 
-Kujua jina la darasa la WMI, kama win32\_process, na nafasi ambayo linaishi ni muhimu kwa operesheni yoyote ya WMI. 
-Amri za kuorodhesha madarasa yanayoanza na `win32`:
+Kujua jina la darasa la WMI, kama win32\_process, na eneo ambalo linaishi ni muhimu kwa operesheni yoyote ya WMI. Amri za kuorodhesha madarasa yanayoanza na `win32`:
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
 gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
@@ -102,7 +101,7 @@ Remote querying of WMI for specific information, such as local admins or logged-
 
 ### **Manual Remote WMI Querying**
 
-Stealthy identification of local admins on a remote machine and logged-on users can be achieved through specific WMI queries. `wmic` piafa pia inasaidia kusoma kutoka kwa faili la maandiko ili kutekeleza amri kwenye nodi nyingi kwa wakati mmoja.
+Stealthy identification of local admins on a remote machine and logged-on users can be achieved through specific WMI queries. `wmic` piafanya kazi pia kusoma kutoka kwa faili la maandiko ili kutekeleza amri kwenye nodi nyingi kwa wakati mmoja.
 
 To remotely execute a process over WMI, such as deploying an Empire agent, the following command structure is employed, with successful execution indicated by a return value of "0":
 ```bash

@@ -13,9 +13,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-# Kuunda MSI Mbaya na Kupata Mzizi
+# Kuunda MSI Mbaya na Kupata Msingi
 
-Uundaji wa msanidi wa MSI utafanywa kwa kutumia wixtools, haswa [wixtools](http://wixtoolset.org) itatumika. Inafaa kutaja kwamba waumbaji wengine wa MSI walijaribiwa, lakini hawakuwa na mafanikio katika kesi hii maalum.
+Uundaji wa msanidi wa MSI utafanywa kwa kutumia wixtools, haswa [wixtools](http://wixtoolset.org) itatumika. Inafaa kutajwa kwamba waumbaji wengine wa MSI walijaribiwa, lakini hawakuwa na mafanikio katika kesi hii maalum.
 
 Ili kuelewa kwa kina matumizi ya wix MSI, ni vyema kutafuta [ukurasa huu](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with). Hapa, unaweza kupata mifano mbalimbali inayoonyesha matumizi ya wix MSI.
 
@@ -51,7 +51,7 @@ fail_here
 </Product>
 </Wix>
 ```
-Ni muhimu kutambua kwamba kipengele cha Package kina sifa kama InstallerVersion na Compressed, zinazoelezea toleo la installer na kuashiria ikiwa kifurushi kimepandwa au la, mtawalia.
+Ni muhimu kutambua kwamba kipengele cha Package kina sifa kama InstallerVersion na Compressed, zinazoelezea toleo la installer na kuashiria ikiwa kifurushi kimepandishwa au la, mtawalia.
 
 Mchakato wa uundaji unahusisha kutumia candle.exe, chombo kutoka wixtools, kutengeneza wixobject kutoka msi.xml. Amri ifuatayo inapaswa kutekelezwa:
 ```

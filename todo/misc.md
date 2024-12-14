@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -29,12 +29,12 @@ Ikiwa hujui kilicho nyuma ya huduma, jaribu kufanya ombi la HTTP GET.
 **UDP Scans**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-Pakiti tupu ya UDP inatumwa kwa bandari maalum. Ikiwa bandari ya UDP iko wazi, hakuna jibu litatumwa kutoka kwa mashine lengwa. Ikiwa bandari ya UDP imefungwa, pakiti ya ICMP port unreachable inapaswa kutumwa kutoka kwa mashine lengwa.\
+Paket ya UDP isiyo na maudhui inatumwa kwa bandari maalum. Ikiwa bandari ya UDP iko wazi, hakuna jibu litatumwa kutoka kwa mashine lengwa. Ikiwa bandari ya UDP imefungwa, paket ya ICMP isiyoweza kufikiwa inapaswa kutumwa kutoka kwa mashine lengwa.\
 
-Kuskania bandari za UDP mara nyingi hakuhakikishi, kwani firewalls na routers zinaweza kuondoa pakiti za ICMP.\
-Hii inaweza kusababisha positives za uwongo katika skani yako, na utaona mara kwa mara\
-skani za bandari za UDP zikionyesha bandari zote za UDP zikiwa wazi kwenye mashine iliyoskanwa.\
-o Skana nyingi za bandari hazisakanii bandari zote zinazopatikana, na kwa kawaida zina orodha iliyowekwa ya “bandari za kuvutia” zinazokaguliwa.
+Kuchunguza bandari za UDP mara nyingi hakutegemeki, kwani moto wa kuzuia na route zinaweza kuondoa paket za ICMP.\
+Hii inaweza kusababisha matokeo ya uwongo katika uchunguzi wako, na utaona mara kwa mara\
+uchunguzi wa bandari za UDP ukionyesha bandari zote za UDP zikiwa wazi kwenye mashine iliyochunguzwa.\
+o Wengi wa wachunguzi wa bandari hawachunguze bandari zote zinazopatikana, na kwa kawaida wana orodha iliyowekwa ya “bandari za kuvutia” ambazo zinachunguzwa.
 
 # CTF - Tricks
 
@@ -55,7 +55,7 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 **Uuencode** --> Anza na "_begin \<mode> \<filename>_" na herufi za ajabu\
 **Xxencoding** --> Anza na "_begin \<mode> \<filename>_" na B64\
 \
-**Vigenere** (uchambuzi wa mzunguko) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
+**Vigenere** (uchambuzi wa mara kwa mara) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
 **Scytale** (mabadiliko ya wahusika) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
 
 **25x25 = QR**

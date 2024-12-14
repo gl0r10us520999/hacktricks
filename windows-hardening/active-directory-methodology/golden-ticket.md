@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Golden ticket
 
-Shambulio la **Golden Ticket** linajumuisha **kuunda Tiketi Halali ya Kutoa Tiketi (TGT) kwa kujifanya kama mtumiaji yeyote** kupitia matumizi ya **hash ya NTLM ya akaunti ya krbtgt ya Active Directory (AD)**. Mbinu hii ni faida hasa kwa sababu in **aruhusu ufikiaji wa huduma au mashine yoyote** ndani ya eneo kama mtumiaji aliyejifanya. Ni muhimu kukumbuka kwamba **akili za akaunti ya krbtgt hazisasishwa kiotomatiki**.
+Shambulio la **Golden Ticket** linajumuisha **kuunda Tiketi Halali ya Kutoa Tiketi (TGT) kwa kujifanya kama mtumiaji yeyote** kupitia matumizi ya **hash ya NTLM ya akaunti ya krbtgt ya Active Directory (AD)**. Mbinu hii ni faida hasa kwa sababu inaruhusu **kupata huduma au mashine yoyote** ndani ya eneo kama mtumiaji aliyejifanya. Ni muhimu kukumbuka kwamba **akili za akaunti ya krbtgt hazisasishwa kiotomatiki**.
 
-Ili **kupata hash ya NTLM** ya akaunti ya krbtgt, njia mbalimbali zinaweza kutumika. Inaweza kutolewa kutoka kwa **Huduma ya Msingi ya Usalama wa Mitaa (LSASS)** au faili ya **Huduma za Katalogi za NT (NTDS.dit)** iliyoko kwenye Kituo chochote cha Kikoa (DC) ndani ya eneo. Zaidi ya hayo, **kutekeleza shambulio la DCsync** ni mkakati mwingine wa kupata hash hii ya NTLM, ambayo inaweza kufanywa kwa kutumia zana kama **moduli ya lsadump::dcsync** katika Mimikatz au **script ya secretsdump.py** na Impacket. Ni muhimu kusisitiza kwamba ili kufanya shughuli hizi, **privilege za admin wa kikoa au kiwango sawa cha ufikiaji kawaida kinahitajika**.
+Ili **kupata hash ya NTLM** ya akaunti ya krbtgt, njia mbalimbali zinaweza kutumika. Inaweza kutolewa kutoka kwa **Huduma ya Msingi ya Usalama wa Mitaa (LSASS)** au faili ya **Huduma za Katalogi za NT (NTDS.dit)** iliyoko kwenye Kichapishaji chochote (DC) ndani ya eneo. Zaidi ya hayo, **kutekeleza shambulio la DCsync** ni mkakati mwingine wa kupata hash hii ya NTLM, ambayo inaweza kufanywa kwa kutumia zana kama **moduli ya lsadump::dcsync** katika Mimikatz au **script ya secretsdump.py** na Impacket. Ni muhimu kusisitiza kwamba ili kufanya shughuli hizi, **privilege za admin wa eneo au kiwango sawa cha ufikiaji kawaida kinahitajika**.
 
 Ingawa hash ya NTLM inatumika kama njia inayofaa kwa kusudi hili, inashauriwa **kuunda tiketi kwa kutumia funguo za Kerberos za Kiwango cha Juu cha Usimbuaji (AES) (AES128 na AES256)** kwa sababu za usalama wa operesheni. 
 
@@ -43,15 +43,15 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**Mara** umepata **tiketi ya dhahabu iliyowekwa**, unaweza kufikia faili za pamoja **(C$)**, na kutekeleza huduma na WMI, hivyo unaweza kutumia **psexec** au **wmiexec** kupata shell (inaonekana huwezi kupata shell kupitia winrm).
+**Mara** umepata **tiketi ya dhahabu iliyoingizwa**, unaweza kufikia faili za pamoja **(C$)**, na kutekeleza huduma na WMI, hivyo unaweza kutumia **psexec** au **wmiexec** kupata shell (inaonekana huwezi kupata shell kupitia winrm).
 
 ### Kupita njia za kawaida za kugundua
 
-Njia za kawaida zaidi za kugundua tiketi ya dhahabu ni kwa **kukagua trafiki ya Kerberos** kwenye waya. Kwa kawaida, Mimikatz **inasaini TGT kwa miaka 10**, ambayo itajitokeza kama isiyo ya kawaida katika maombi ya TGS yanayofanywa nayo.
+Njia za kawaida zaidi za kugundua tiketi ya dhahabu ni kwa **kukagua trafiki ya Kerberos** kwenye waya. Kawaida, Mimikatz **inasaini TGT kwa miaka 10**, ambayo itajitokeza kama isiyo ya kawaida katika maombi ya TGS yanayofanywa nayo.
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-Tumia vigezo vya `/startoffset`, `/endin` na `/renewmax` kudhibiti mwanzo wa offset, muda na upya wa juu (yote kwa dakika).
+Tumia vigezo vya `/startoffset`, `/endin` na `/renewmax` kudhibiti kuanza kwa offset, muda na upya wa juu (yote kwa dakika).
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```

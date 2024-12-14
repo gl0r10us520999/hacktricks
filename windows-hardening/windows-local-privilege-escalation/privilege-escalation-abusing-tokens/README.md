@@ -27,7 +27,7 @@ Ikiwa **hujui ni nini Windows Access Tokens** soma ukurasa huu kabla ya kuendele
 
 ### SeImpersonatePrivilege
 
-Hii ni mamlaka ambayo inashikiliwa na mchakato wowote inaruhusu uigaji (lakini sio uundaji) wa token yoyote, ikiwa tu mkono wake unaweza kupatikana. Token yenye mamlaka inaweza kupatikana kutoka kwa huduma ya Windows (DCOM) kwa kuifanya ifanye uthibitishaji wa NTLM dhidi ya exploit, na hivyo kuwezesha utekelezaji wa mchakato wenye mamlaka ya SYSTEM. Uthibitisho huu unaweza kutumika kwa kutumia zana mbalimbali, kama vile [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (ambayo inahitaji winrm kuzuiliwa), [SweetPotato](https://github.com/CCob/SweetPotato), [EfsPotato](https://github.com/zcgonvh/EfsPotato), [DCOMPotato](https://github.com/zcgonvh/DCOMPotato) na [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
+Hii ni mamlaka ambayo inashikiliwa na mchakato wowote inaruhusu uigaji (lakini sio uundaji) wa token yoyote, ikiwa tu mkono wake unaweza kupatikana. Token yenye mamlaka inaweza kupatikana kutoka kwa huduma ya Windows (DCOM) kwa kuifanya ifanye uthibitishaji wa NTLM dhidi ya exploit, kisha kuwezesha utekelezaji wa mchakato wenye mamlaka ya SYSTEM. Uthibitisho huu unaweza kutumika kwa kutumia zana mbalimbali, kama vile [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (ambayo inahitaji winrm kuzuiliwa), [SweetPotato](https://github.com/CCob/SweetPotato), [EfsPotato](https://github.com/zcgonvh/EfsPotato), [DCOMPotato](https://github.com/zcgonvh/DCOMPotato) na [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
 
 {% content-ref url="../roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](../roguepotato-and-printspoofer.md)
@@ -39,23 +39,23 @@ Hii ni mamlaka ambayo inashikiliwa na mchakato wowote inaruhusu uigaji (lakini s
 
 ### SeAssignPrimaryPrivilege
 
-Ni sawa na **SeImpersonatePrivilege**, itatumia **mbinu ile ile** kupata token yenye mamlaka.\
+Ni sawa sana na **SeImpersonatePrivilege**, itatumia **mbinu ile ile** kupata token yenye mamlaka.\
 Kisha, mamlaka hii inaruhusu **kuteua token ya msingi** kwa mchakato mpya/uliokamatwa. Kwa token ya uigaji yenye mamlaka unaweza kuunda token ya msingi (DuplicateTokenEx).\
 Kwa token hiyo, unaweza kuunda **mchakato mpya** kwa 'CreateProcessAsUser' au kuunda mchakato ulio kamatwa na **kuteua token** (kwa ujumla, huwezi kubadilisha token ya msingi ya mchakato unaoendelea).
 
 ### SeTcbPrivilege
 
-Ikiwa umewezesha token hii unaweza kutumia **KERB\_S4U\_LOGON** kupata **token ya uigaji** kwa mtumiaji mwingine yeyote bila kujua nywila, **ongeza kundi lolote** (admins) kwenye token, weka **kiwango cha uaminifu** cha token kuwa "**medium**", na kuteua token hii kwa **thread ya sasa** (SetThreadToken).
+Ikiwa umewezesha token hii unaweza kutumia **KERB\_S4U\_LOGON** kupata **token ya uigaji** kwa mtumiaji mwingine yeyote bila kujua taarifa za kuingia, **ongeza kundi lolote** (admins) kwenye token, weka **kiwango cha uaminifu** cha token kuwa "**medium**", na kuteua token hii kwa **thread ya sasa** (SetThreadToken).
 
 ### SeBackupPrivilege
 
-Mfumo unalazimishwa **kutoa udhibiti wa ufikiaji wa kusoma** kwa faili yoyote (iliyopunguzwa kwa operesheni za kusoma) kwa mamlaka hii. Inatumika kwa **kusoma hash za nywila za akaunti za Msimamizi wa ndani** kutoka kwenye rejista, baada ya hapo, zana kama "**psexec**" au "**wmiexec**" zinaweza kutumika na hash hiyo (mbinu ya Pass-the-Hash). Hata hivyo, mbinu hii inashindwa chini ya hali mbili: wakati akaunti ya Msimamizi wa ndani imezuiliwa, au wakati sera ipo inayondoa haki za usimamizi kutoka kwa Wasimamizi wa ndani wanaounganisha kwa mbali.\
+Mfumo unalazimishwa **kutoa udhibiti wa kusoma** kwa faili yoyote (iliyopunguzwa kwa operesheni za kusoma) kwa mamlaka hii. Inatumika kwa **kusoma hash za nywila za akaunti za Msimamizi wa ndani** kutoka kwenye rejista, baada ya hapo, zana kama "**psexec**" au "**wmiexec**" zinaweza kutumika na hash hiyo (mbinu ya Pass-the-Hash). Hata hivyo, mbinu hii inashindwa chini ya hali mbili: wakati akaunti ya Msimamizi wa ndani imezuiliwa, au wakati sera ipo inayondoa haki za usimamizi kutoka kwa Wasimamizi wa ndani wanaounganisha kwa mbali.\
 Unaweza **kuabudu mamlaka hii** kwa:
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
 * kufuata **IppSec** katika [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
-* Au kama ilivyoelezwa katika sehemu ya **kupandisha mamlaka na Wasaidizi wa Nakala** ya:
+* Au kama ilivyoelezwa katika sehemu ya **kupandisha mamlaka na Watoa Hifadhi** ya:
 
 {% content-ref url="../../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../../active-directory-methodology/privileged-groups-and-token-privileges.md)
@@ -63,7 +63,7 @@ Unaweza **kuabudu mamlaka hii** kwa:
 
 ### SeRestorePrivilege
 
-Ruhusa ya **ufikiaji wa kuandika** kwa faili yoyote ya mfumo, bila kujali Orodha ya Udhibiti wa Ufikiaji (ACL) ya faili hiyo, inatolewa na mamlaka hii. Inafungua uwezekano mwingi wa kupandisha mamlaka, ikiwa ni pamoja na uwezo wa **kubadilisha huduma**, kufanya DLL Hijacking, na kuweka **debuggers** kupitia Chaguzi za Utekelezaji wa Faili ya Picha kati ya mbinu nyingine mbalimbali.
+Ruhusa ya **kupata ufikiaji wa kuandika** kwa faili yoyote ya mfumo, bila kujali Orodha ya Udhibiti wa Ufikiaji (ACL) ya faili hiyo, inatolewa na mamlaka hii. Inafungua uwezekano mwingi wa kupandisha, ikiwa ni pamoja na uwezo wa **kubadilisha huduma**, kufanya DLL Hijacking, na kuweka **debuggers** kupitia Chaguzi za Utekelezaji wa Faili ya Picha kati ya mbinu mbalimbali nyingine.
 
 ### SeCreateTokenPrivilege
 
@@ -77,15 +77,15 @@ SeCreateTokenPrivilege ni ruhusa yenye nguvu, hasa inavyofaa wakati mtumiaji ana
 
 ### SeLoadDriverPrivilege
 
-Ruhusa hii inaruhusu **kupakia na kuondoa madereva ya vifaa** kwa kuunda kipengee cha rejista chenye thamani maalum za `ImagePath` na `Type`. Kwa kuwa ufikiaji wa moja kwa moja wa kuandika kwenye `HKLM` (HKEY_LOCAL_MACHINE) umepunguzika, `HKCU` (HKEY_CURRENT_USER) lazima itumike badala yake. Hata hivyo, ili kufanya `HKCU` itambulike kwa kernel kwa ajili ya usanidi wa dereva, njia maalum lazima ifuatwe.
+Mamlaka hii inaruhusu **kuchaji na kuondoa madereva ya vifaa** kwa kuunda kipengee cha rejista chenye thamani maalum za `ImagePath` na `Type`. Kwa kuwa ufikiaji wa moja kwa moja wa kuandika kwenye `HKLM` (HKEY_LOCAL_MACHINE) umepunguzika, `HKCU` (HKEY_CURRENT_USER) lazima itumike badala yake. Hata hivyo, ili kufanya `HKCU` itambulike kwa kernel kwa ajili ya usanidi wa dereva, njia maalum lazima ifuatwe.
 
-Njia hii ni `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, ambapo `<RID>` ni Kitambulisho cha Kijamii cha mtumiaji wa sasa. Ndani ya `HKCU`, njia hii yote lazima iundwe, na thamani mbili zinahitaji kuwekwa:
+Njia hii ni `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, ambapo `<RID>` ni Kitambulisho cha Kijadi cha mtumiaji wa sasa. Ndani ya `HKCU`, njia hii yote lazima iundwe, na thamani mbili zinahitaji kuwekwa:
 - `ImagePath`, ambayo ni njia ya binary itakayotekelezwa
 - `Type`, ikiwa na thamani ya `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 
 **Hatua za Kufuatia:**
 1. Fikia `HKCU` badala ya `HKLM` kutokana na ufikiaji wa kuandika uliozuiliwa.
-2. Unda njia `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` ndani ya `HKCU`, ambapo `<RID>` inawakilisha Kitambulisho cha Kijamii cha mtumiaji wa sasa.
+2. Unda njia `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` ndani ya `HKCU`, ambapo `<RID>` inawakilisha Kitambulisho cha Kijadi cha mtumiaji wa sasa.
 3. Weka `ImagePath` kuwa njia ya utekelezaji wa binary.
 4. Teua `Type` kama `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 ```python
@@ -103,7 +103,7 @@ More ways to abuse this privilege in [https://www.ired.team/offensive-security-e
 
 ### SeTakeOwnershipPrivilege
 
-Hii ni sawa na **SeRestorePrivilege**. Kazi yake kuu inaruhusu mchakato **kuchukua umiliki wa kitu**, ikiepuka hitaji la ufikiaji wa hiari kupitia utoaji wa haki za ufikiaji za WRITE_OWNER. Mchakato unahusisha kwanza kupata umiliki wa funguo za rejista zinazokusudiwa kwa madhumuni ya kuandika, kisha kubadilisha DACL ili kuwezesha operesheni za kuandika.
+Hii ni sawa na **SeRestorePrivilege**. Kazi yake kuu inaruhusu mchakato **kuchukua umiliki wa kitu**, ikiepuka hitaji la ufikiaji wa hiari kupitia utoaji wa haki za ufikiaji za WRITE_OWNER. Mchakato huu unahusisha kwanza kupata umiliki wa funguo za rejista zinazokusudiwa kwa madhumuni ya kuandika, kisha kubadilisha DACL ili kuwezesha operesheni za kuandika.
 ```bash
 takeown /f 'C:\some\file.txt' #Now the file is owned by you
 icacls 'C:\some\file.txt' /grant <your_username>:F #Now you have full access
@@ -121,11 +121,11 @@ c:\inetpub\wwwwroot\web.config
 ```
 ### SeDebugPrivilege
 
-Haki hii inaruhusu **kudebug mchakato mwingine**, ikiwa ni pamoja na kusoma na kuandika katika kumbukumbu. Mikakati mbalimbali ya kuingiza kumbukumbu, inayoweza kukwepa antivirusi nyingi na suluhisho za kuzuia uvamizi wa mwenyeji, zinaweza kutumika kwa haki hii.
+Haki hii inaruhusu **kudebug mchakato mingine**, ikiwa ni pamoja na kusoma na kuandika katika kumbukumbu. Mikakati mbalimbali za kuingiza kumbukumbu, zinazoweza kukwepa suluhisho nyingi za antivirus na kuzuia uvamizi wa mwenyeji, zinaweza kutumika kwa haki hii.
 
 #### Dump memory
 
-Unaweza kutumia [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) kutoka kwa [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) ili **kukamata kumbukumbu ya mchakato**. Kwa hakika, hii inaweza kutumika kwa mchakato wa **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, ambao unawajibika kuhifadhi akiba za mtumiaji mara tu mtumiaji anapofanikiwa kuingia kwenye mfumo.
+Unaweza kutumia [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) kutoka kwa [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) ili **kukamata kumbukumbu ya mchakato**. Kwa hakika, hii inaweza kutumika kwa mchakato wa **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, ambao unawajibika kuhifadhi akidi za mtumiaji mara tu mtumiaji anapofanikiwa kuingia kwenye mfumo.
 
 Kisha unaweza kupakia dump hii katika mimikatz ili kupata nywila:
 ```
@@ -147,11 +147,11 @@ import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<c
 ```
 ### SeManageVolumePrivilege
 
-`SeManageVolumePrivilege` ni haki ya mtumiaji wa Windows inayowaruhusu watumiaji kusimamia kiasi za diski, ikiwa ni pamoja na kuunda na kufuta. Ingawa inakusudiwa kwa wasimamizi, ikiwa itatolewa kwa watumiaji wasiokuwa wasimamizi, inaweza kutumika kwa ajili ya kupandisha hadhi.
+`SeManageVolumePrivilege` ni haki ya mtumiaji wa Windows inayowezesha watumiaji kusimamia kiasi za diski, ikiwa ni pamoja na kuunda na kufuta. Ingawa inakusudiwa kwa wasimamizi, ikiwa itatolewa kwa watumiaji wasiokuwa wasimamizi, inaweza kutumika kwa ajili ya kupandisha hadhi.
 
-Inawezekana kutumia haki hii kubadilisha kiasi, na kusababisha ufikiaji kamili wa kiasi. [SeManageVolumeExploit](https://github.com/CsEnox/SeManageVolumeExploit) inaweza kutumika kutoa ufikiaji kamili kwa watumiaji wote kwa C:\
+Inawezekana kutumia haki hii kudhibiti kiasi, na kusababisha ufikiaji kamili wa kiasi. [SeManageVolumeExploit](https://github.com/CsEnox/SeManageVolumeExploit) inaweza kutumika kutoa ufikiaji kamili kwa watumiaji wote kwa C:\
 
-Zaidi ya hayo, mchakato ulioelezwa katika [hiki kifungu cha Medium](https://medium.com/@raphaeltzy13/exploiting-semanagevolumeprivilege-with-dll-hijacking-windows-privilege-escalation-1a4f28372d37) unaelezea kutumia DLL hijacking pamoja na `SeManageVolumePrivilege` ili kupandisha hadhi. Kwa kuweka payload DLL `C:\Windows\System32\wbem\tzres.dll` na kuita `systeminfo`, dll inatekelezwa.
+Zaidi ya hayo, mchakato ulioelezewa katika [hiki kifungu cha Medium](https://medium.com/@raphaeltzy13/exploiting-semanagevolumeprivilege-with-dll-hijacking-windows-privilege-escalation-1a4f28372d37) unaelezea kutumia DLL hijacking pamoja na `SeManageVolumePrivilege` ili kupandisha hadhi. Kwa kuweka payload DLL `C:\Windows\System32\wbem\tzres.dll` na kuita `systeminfo`, dll inatekelezwa.
 
 ## Check privileges
 ```
@@ -159,7 +159,7 @@ whoami /priv
 ```
 The **tokens that appear as Disabled** zinaweza kuwezeshwa, unaweza kweli kutumia _Enabled_ na _Disabled_ tokens.
 
-### Enable All the tokens
+### Wezesha Tokens Zote
 
 Ikiwa una tokens zilizozuiliwa, unaweza kutumia script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) kuwezesha tokens zote:
 ```powershell

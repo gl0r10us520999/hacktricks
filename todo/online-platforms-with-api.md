@@ -1,8 +1,8 @@
 # Online Platforms with API
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -46,16 +46,16 @@ Kibiashara?
 
 ## [Fraudguard](https://fraudguard.io/)
 
-Angalia kama mwenyeji (domain au IP) anahusiana na shughuli za kutatanisha/mbaya. Ina upatikanaji wa API bure.\
+Angalia kama mwenyeji (domain au IP) anahusiana na shughuli za kutatanisha/mbaya. Ina upatikanaji wa bure wa API.\
 Kibiashara?
 
 ## [FortiGuard](https://fortiguard.com/)
 
-Angalia kama mwenyeji (domain au IP) anahusiana na shughuli za kutatanisha/mbaya. Ina upatikanaji wa API bure.
+Angalia kama mwenyeji (domain au IP) anahusiana na shughuli za kutatanisha/mbaya. Ina upatikanaji wa bure wa API.
 
 ## [SpamCop](https://www.spamcop.net/)
 
-Inaonyesha kama mwenyeji anahusiana na shughuli za spam. Ina upatikanaji wa API bure.
+Inaonyesha kama mwenyeji anahusiana na shughuli za spam. Ina upatikanaji wa bure wa API.
 
 ## [mywot](https://www.mywot.com/)
 
@@ -88,11 +88,11 @@ Tafuta kwa IP na kukusanya taarifa zinazohusiana na shughuli za kutatanisha. Kun
 
 ## [Greynoise](https://viz.greynoise.io/)
 
-Tafuta kwa IP au anuwai ya IP na pata taarifa kuhusu IPs zinazoskania Mtandao. Upatikanaji wa bure wa siku 15.
+Tafuta kwa IP au anuwai ya IP na pata taarifa kuhusu IPs zinazoskanisha Mtandao. Upatikanaji wa bure wa siku 15.
 
 ## [Shodan](https://www.shodan.io/)
 
-Pata taarifa za skana za anwani ya IP. Ina upatikanaji wa API bure.
+Pata taarifa za skana za anwani ya IP. Ina upatikanaji wa bure wa api.
 
 ## [Censys](https://censys.io/)
 
@@ -100,7 +100,7 @@ Ni sawa sana na shodan
 
 ## [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Pata ndoo za S3 zilizo wazi kwa kutafuta kwa neno muhimu.
+Pata S3 buckets wazi kwa kutafuta kwa neno muhimu.
 
 ## [Dehashed](https://www.dehashed.com/data)
 
@@ -125,7 +125,7 @@ Pata taarifa za kuvutia kutoka kwa IPs
 
 ## [haveibeenpwned](https://haveibeenpwned.com/)
 
-Tafuta kwa domain na barua pepe na pata kama ilipwoned na nywila. Kibiashara?
+Tafuta kwa domain na barua pepe na pata kama ilipwned na nywila. Kibiashara?
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
@@ -140,8 +140,8 @@ Inagundua geolocation ya IP, kituo cha data, ASN na hata taarifa za VPN. Inatoa 
 [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (katika zana ya kibiashara?)
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

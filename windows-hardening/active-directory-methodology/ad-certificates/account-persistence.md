@@ -25,7 +25,7 @@ Kwa kutumia chombo kinachoitwa [**Certify**](https://github.com/GhostPack/Certif
 ```bash
 Certify.exe find /clientauth
 ```
-Inasisitizwa kwamba nguvu ya cheti iko katika uwezo wake wa **kujiuthibitisha kama mtumiaji** anayemilikiwa, bila kujali mabadiliko yoyote ya nenosiri, mradi cheti kimebaki **halali**.
+Inasisitizwa kwamba nguvu ya cheti iko katika uwezo wake wa **kujiuthibitisha kama mtumiaji** anayehusiana nacho, bila kujali mabadiliko yoyote ya nenosiri, mradi cheti kimebaki **halali**.
 
 Vyeti vinaweza kuombwa kupitia kiolesura cha picha kwa kutumia `certmgr.msc` au kupitia mstari wa amri na `certreq.exe`. Pamoja na **Certify**, mchakato wa kuomba cheti umewekwa rahisi kama ifuatavyo:
 ```bash
@@ -33,7 +33,7 @@ Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```
 Upon successful request, a certificate along with its private key is generated in `.pem` format. To convert this into a `.pfx` file, which is usable on Windows systems, the following command is utilized: 
 
-Baada ya ombi kufanikiwa, cheti pamoja na ufunguo wake wa faragha kinatengenezwa katika muundo wa `.pem`. Ili kubadilisha hii kuwa faili ya `.pfx`, ambayo inaweza kutumika kwenye mifumo ya Windows, amri ifuatayo inatumika:
+Baada ya ombi kufanikiwa, cheti pamoja na funguo yake ya faragha kinatengenezwa katika muundo wa `.pem`. Ili kubadilisha hii kuwa faili ya `.pfx`, ambayo inaweza kutumika kwenye mifumo ya Windows, amri ifuatayo inatumika:
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
@@ -43,7 +43,7 @@ Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass
 ```
 An important warning is shared about how this technique, combined with another method outlined in the **THEFT5** section, allows an attacker to persistently obtain an account’s **NTLM hash** without interacting with the Local Security Authority Subsystem Service (LSASS), and from a non-elevated context, providing a stealthier method for long-term credential theft.
 
-## **Gaining Machine Persistence with Certificates - PERSIST2**
+## **Kupata Uthibitisho wa Mashine kwa kutumia Vyeti - PERSIST2**
 
 Another method involves enrolling a compromised system’s machine account for a certificate, utilizing the default `Machine` template which allows such actions. If an attacker gains elevated privileges on a system, they can use the **SYSTEM** account to request certificates, providing a form of **persistence**:
 ```bash
@@ -51,8 +51,8 @@ Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /mach
 ```
 This access enables the attacker to authenticate to **Kerberos** as the machine account and utilize **S4U2Self** to obtain Kerberos service tickets for any service on the host, effectively granting the attacker persistent access to the machine.
 
-## **Kuongeza Uthibitisho Kupitia Upya Leseni - PERSIST3**
+## **Kupunguza Uthibitisho Kupitia Upya Leseni - PERSIST3**
 
-Njia ya mwisho iliyozungumziwa inahusisha kutumia **uhalali** na **muda wa upya** wa mifano ya leseni. Kwa **kuhuisha** leseni kabla ya kuisha, mshambuliaji anaweza kudumisha uthibitisho kwa Active Directory bila haja ya kujiandikisha tiketi za ziada, ambazo zinaweza kuacha alama kwenye seva ya Mamlaka ya Leseni (CA).
+Njia ya mwisho iliyozungumziwa inahusisha kutumia **uhalali** na **muda wa upya** wa mifano ya leseni. Kwa **kuhuisha** leseni kabla ya kuisha, mshambuliaji anaweza kudumisha uthibitisho kwa Active Directory bila haja ya usajili wa tiketi za ziada, ambazo zinaweza kuacha alama kwenye seva ya Mamlaka ya Leseni (CA).
 
 Njia hii inaruhusu **mbinu ya kudumu** iliyopanuliwa, ikipunguza hatari ya kugunduliwa kupitia mwingiliano mdogo na seva ya CA na kuepuka uzalishaji wa vitu ambavyo vinaweza kuwajulisha wasimamizi kuhusu uvamizi.

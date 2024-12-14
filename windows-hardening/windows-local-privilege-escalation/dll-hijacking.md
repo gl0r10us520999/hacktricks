@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-DLL Hijacking inahusisha kubadilisha programu inayotegemewa ili kupakia DLL mbaya. Neno hili linajumuisha mbinu kadhaa kama **DLL Spoofing, Injection, na Side-Loading**. Kimsingi inatumika kwa ajili ya utekelezaji wa msimbo, kufikia kudumu, na, kwa kiwango kidogo, kupandisha mamlaka. Licha ya kuzingatia kupandisha mamlaka hapa, mbinu ya hijacking inabaki kuwa sawa katika malengo.
+DLL Hijacking inahusisha kubadilisha programu inayotegemewa ili kupakia DLL mbaya. Neno hili linajumuisha mbinu kadhaa kama **DLL Spoofing, Injection, na Side-Loading**. Inatumika hasa kwa ajili ya utekelezaji wa msimbo, kufikia kudumu, na, kwa kiwango kidogo, kupandisha mamlaka. Licha ya kuzingatia kupandisha mamlaka hapa, mbinu ya hijacking inabaki kuwa sawa katika malengo.
 
 ### Common Techniques
 
@@ -31,8 +31,8 @@ Mbinu kadhaa zinatumika kwa DLL hijacking, kila moja ikiwa na ufanisi wake kulin
 
 1. **DLL Replacement**: Kubadilisha DLL halisi na moja mbaya, kwa hiari kutumia DLL Proxying ili kuhifadhi kazi ya DLL ya asili.
 2. **DLL Search Order Hijacking**: Kuweka DLL mbaya katika njia ya utafutaji kabla ya ile halali, ikitumia muundo wa utafutaji wa programu.
-3. **Phantom DLL Hijacking**: Kuunda DLL mbaya kwa programu kupakia, ikidhani ni DLL inayohitajika isiyokuwepo.
-4. **DLL Redirection**: Kubadilisha vigezo vya utafutaji kama vile `%PATH%` au `.exe.manifest` / `.exe.local` ili kuelekeza programu kwa DLL mbaya.
+3. **Phantom DLL Hijacking**: Kuunda DLL mbaya kwa programu kupakia, ikidhani ni DLL inayohitajika isiyopo.
+4. **DLL Redirection**: Kubadilisha vigezo vya utafutaji kama vile `%PATH%` au faili za `.exe.manifest` / `.exe.local` ili kuelekeza programu kwa DLL mbaya.
 5. **WinSxS DLL Replacement**: Kubadilisha DLL halali na sawa mbaya katika saraka ya WinSxS, mbinu ambayo mara nyingi inahusishwa na DLL side-loading.
 6. **Relative Path DLL Hijacking**: Kuweka DLL mbaya katika saraka inayodhibitiwa na mtumiaji pamoja na programu iliyokopwa, ikifanana na mbinu za Binary Proxy Execution.
 
@@ -48,12 +48,12 @@ na kuonyesha tu **Shughuli za Mfumo wa Faili**:
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-Ikiwa unatafuta **dll zinazokosekana kwa ujumla** unapaswa **kuacha** hii ikikimbia kwa **sekunde** chache.\
+Ikiwa unatafuta **dlls zinazokosekana kwa ujumla** unapaswa **kuacha** hii ikikimbia kwa **sekunde** chache.\
 Ikiwa unatafuta **dll inayokosekana ndani ya executable maalum** unapaswa kuweka **filta nyingine kama "Jina la Mchakato" "linajumuisha" "\<jina la exec>", kuendesha, na kusitisha kukamata matukio**.
 
 ## Exploiting Missing Dlls
 
-Ili kupandisha mamlaka, nafasi bora tuliyonayo ni kuwa na uwezo wa **kuandika dll ambayo mchakato wa mamlaka utajaribu kupakia** katika moja ya **mahali ambapo itatafutwa**. Hivyo, tutakuwa na uwezo wa **kuandika** dll katika **folda** ambapo **dll inatafutwa kabla** ya folda ambapo **dll ya asili** iko (kesi ya ajabu), au tutakuwa na uwezo wa **kuandika kwenye folda fulani ambapo dll inatafutwa** na **dll ya asili haipo** kwenye folda yoyote.
+Ili kupandisha mamlaka, nafasi bora tuliyonayo ni kuwa na uwezo wa **kuandika dll ambayo mchakato wa mamlaka utajaribu kupakia** katika baadhi ya **mahali ambapo itatafutwa**. Hivyo, tutakuwa na uwezo wa **kuandika** dll katika **folda** ambapo **dll inatafutwa kabla** ya folda ambapo **dll ya asili** iko (kesi ya ajabu), au tutakuwa na uwezo wa **kuandika kwenye folda fulani ambapo dll inatafutwa** na **dll ya asili haipo** kwenye folda yoyote.
 
 ### Dll Search Order
 
@@ -64,27 +64,28 @@ Ili kupandisha mamlaka, nafasi bora tuliyonayo ni kuwa na uwezo wa **kuandika dl
 Unaweza kuona **mpangilio wa utafutaji wa DLL kwenye mifumo ya 32-bit** hapa chini:
 
 1. Saraka ambayo programu ilipakia.
-2. Saraka ya mfumo. Tumia [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) kazi kupata njia ya saraka hii. (_C:\Windows\System32_)
-3. Saraka ya mfumo wa 16-bit. Hakuna kazi inayopata njia ya saraka hii, lakini inatafutwa. (_C:\Windows\System_)
-4. Saraka ya Windows. Tumia [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) kazi kupata njia ya saraka hii. (_C:\Windows_)
+2. Saraka ya mfumo. Tumia [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) kazi kupata njia ya saraka hii.(_C:\Windows\System32_)
+3. Saraka ya mfumo ya 16-bit. Hakuna kazi inayopata njia ya saraka hii, lakini inatafutwa. (_C:\Windows\System_)
+4. Saraka ya Windows. Tumia [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) kazi kupata njia ya saraka hii.
+1. (_C:\Windows_)
 5. Saraka ya sasa.
-6. Saraka ambazo ziko kwenye mabadiliko ya mazingira ya PATH. Kumbuka kwamba hii haijumuishi njia ya kila programu iliyotajwa na funguo za register za **App Paths**. Funguo za **App Paths** hazitumiki wakati wa kuhesabu njia ya utafutaji wa DLL.
+6. Saraka ambazo ziko kwenye mabadiliko ya mazingira ya PATH. Kumbuka kwamba hii haijumuishi njia ya kila programu iliyowekwa na funguo za rejista za **App Paths**. Funguo za **App Paths** hazitumiki wakati wa kuhesabu njia ya utafutaji wa DLL.
 
-Huu ndio **mpangilio wa kawaida** wa utafutaji na **SafeDllSearchMode** imewezeshwa. Wakati imezimwa, saraka ya sasa inapaa hadi nafasi ya pili. Ili kuzima kipengele hiki, tengeneza **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** funguo ya register na uweke kuwa 0 (kawaida imewezeshwa).
+Huu ndio **mpangilio wa kawaida** wa utafutaji na **SafeDllSearchMode** imewezeshwa. Wakati imezimwa, saraka ya sasa inapaa hadi nafasi ya pili. Ili kuzima kipengele hiki, tengeneza **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** funguo ya rejista na uweke kuwa 0 (kawaida imewezeshwa).
 
-Ikiwa kazi ya [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) inaitwa na **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** utafutaji huanza katika saraka ya moduli ya executable ambayo **LoadLibraryEx** inakabili.
+Ikiwa [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) kazi inaitwa na **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** utafutaji huanza katika saraka ya moduli ya executable ambayo **LoadLibraryEx** inakabili.
 
-Mwisho, kumbuka kwamba **dll inaweza kupakiwa ikionyesha njia kamili badala ya jina tu**. Katika kesi hiyo, dll hiyo **itaweza kutafutwa tu katika hiyo njia** (ikiwa dll ina utegemezi wowote, zitatafutwa kama zilivyojulikana kwa jina).
+Hatimaye, kumbuka kwamba **dll inaweza kupakiwa ikionyesha njia kamili badala ya jina tu**. Katika kesi hiyo, dll hiyo **itaweza kutafutwa tu katika hiyo njia** (ikiwa dll ina utegemezi wowote, zitatafutwa kama zilivyopakiwa kwa jina tu).
 
-Kuna njia nyingine za kubadilisha njia za utafutaji lakini sitazielezea hapa.
+Kuna njia nyingine za kubadilisha njia za kubadilisha mpangilio wa utafutaji lakini sitazielezea hapa.
 
 #### Exceptions on dll search order from Windows docs
 
 Mambo fulani ya kipekee kwa mpangilio wa kawaida wa utafutaji wa DLL yanatajwa katika nyaraka za Windows:
 
-* Wakati **DLL inayoshiriki jina lake na moja ambayo tayari imepakiwa kwenye kumbukumbu** inakutana, mfumo hupita utafutaji wa kawaida. Badala yake, unafanya ukaguzi wa uelekeo na orodha kabla ya kurudi kwa DLL ambayo tayari iko kwenye kumbukumbu. **Katika hali hii, mfumo haufanyi utafutaji wa DLL**.
-* Katika kesi ambapo DLL inatambuliwa kama **DLL inayojulikana** kwa toleo la sasa la Windows, mfumo utatumia toleo lake la DLL inayojulikana, pamoja na DLL zake zinazotegemea, **bila kufanya mchakato wa utafutaji**. Funguo ya register **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** ina orodha ya hizi DLL zinazojulikana.
-* Ikiwa **DLL ina utegemezi**, utafutaji wa hizi DLL zinazotegemea unafanywa kana kwamba zilionyeshwa tu kwa **majina ya moduli** zao, bila kujali ikiwa DLL ya awali ilitambuliwa kupitia njia kamili.
+* Wakati **DLL inayoshiriki jina lake na moja ambayo tayari imepakiwa kwenye kumbukumbu** inakutana, mfumo hupita utafutaji wa kawaida. Badala yake, unafanya ukaguzi wa uelekeo na hati kabla ya kurudi kwa DLL ambayo tayari iko kwenye kumbukumbu. **Katika hali hii, mfumo haufanyi utafutaji wa DLL**.
+* Katika kesi ambapo DLL inatambuliwa kama **DLL inayojulikana** kwa toleo la sasa la Windows, mfumo utatumia toleo lake la DLL inayojulikana, pamoja na yoyote ya DLLs zake zinazotegemea, **bila kufanya mchakato wa utafutaji**. Funguo ya rejista **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** ina orodha ya hizi DLLs zinazojulikana.
+* Ikiwa **DLL ina utegemezi**, utafutaji wa hizi DLLs zinazotegemea unafanywa kana kwamba zilionyeshwa tu kwa **majina ya moduli** zao, bila kujali ikiwa DLL ya awali ilitambuliwa kupitia njia kamili.
 
 ### Escalating Privileges
 
@@ -93,10 +94,10 @@ Mambo fulani ya kipekee kwa mpangilio wa kawaida wa utafutaji wa DLL yanatajwa k
 * Tambua mchakato unaofanya kazi au utakaofanya kazi chini ya **mamlaka tofauti** (harakati za usawa au za pembeni), ambayo **haina DLL**.
 * Hakikisha **ufikiaji wa kuandika** upo kwa **saraka yoyote** ambayo **DLL** itatafutwa. Mahali hapa inaweza kuwa saraka ya executable au saraka ndani ya njia ya mfumo.
 
-Ndio, mahitaji ni magumu kupatikana kwani **kwa kawaida ni ajabu kupata executable yenye mamlaka ikikosekana dll** na ni **ajabu zaidi kuwa na ruhusa za kuandika kwenye folda ya njia ya mfumo** (huwezi kwa kawaida). Lakini, katika mazingira yasiyo sahihi, hii inawezekana.\
+Ndio, mahitaji ni magumu kupatikana kwani **kwa kawaida ni ajabu kupata executable yenye mamlaka ikikosa dll** na ni **ajabu zaidi kuwa na ruhusa za kuandika kwenye folda ya njia ya mfumo** (huwezi kwa kawaida). Lakini, katika mazingira yasiyosahihi, hii inawezekana.\
 Katika kesi uko na bahati na unakutana na mahitaji, unaweza kuangalia mradi wa [UACME](https://github.com/hfiref0x/UACME). Hata kama **lengo kuu la mradi ni kupita UAC**, unaweza kupata huko **PoC** ya Dll hijacking kwa toleo la Windows ambalo unaweza kutumia (labda tu kubadilisha njia ya folda ambapo una ruhusa za kuandika).
 
-Kumbuka kwamba unaweza **kuangalia ruhusa zako katika folda** ukifanya:
+Kumbuka kwamba unaweza **kuangalia ruhusa zako katika folda** kwa kufanya:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
@@ -105,12 +106,12 @@ Na **kagua ruhusa za folda zote ndani ya PATH**:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-Unaweza pia kuangalia uagizaji wa executable na uuzaji wa dll kwa:
+Unaweza pia kuangalia uagizaji wa executable na usafirishaji wa dll kwa:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-Kwa mwongozo kamili juu ya jinsi ya **kutumia Dll Hijacking kuongeza mamlaka** na ruhusa za kuandika katika **folda ya Njia ya Mfumo** angalia:
+Kwa mwongozo kamili juu ya jinsi ya **kudhulumu Dll Hijacking ili kupandisha mamlaka** na ruhusa za kuandika katika **folda ya Njia ya Mfumo** angalia:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
@@ -123,7 +124,7 @@ Zana nyingine za kiotomatiki zinazovutia kugundua udhaifu huu ni **PowerSploit f
 
 ### Mfano
 
-Ikiwa utapata hali inayoweza kutumika, moja ya mambo muhimu ili kufanikiwa kuitumia ni **kuunda dll inayosafirisha angalau kazi zote ambazo executable itazipata kutoka kwake**. Hata hivyo, kumbuka kwamba Dll Hijacking inakuwa na manufaa ili [kuongeza kutoka Kiwango cha Uaminifu wa Kati hadi Juu **(kupita UAC)**](../authentication-credentials-uac-and-efs.md#uac) au kutoka [ **Kiwango cha Juu hadi SYSTEM**](./#from-high-integrity-to-system)**.** Unaweza kupata mfano wa **jinsi ya kuunda dll halali** ndani ya utafiti huu wa dll hijacking uliozingatia dll hijacking kwa utekelezaji: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Iwapo utapata hali inayoweza kutumiwa, moja ya mambo muhimu ili kufanikiwa kuitumia ni **kuunda dll inayosafirisha angalau kazi zote ambazo executable itazipata kutoka kwake**. Hata hivyo, kumbuka kwamba Dll Hijacking inakuja kwa manufaa ili [kupandisha kutoka Kiwango cha Uaminifu wa Kati hadi Juu **(kupita UAC)**](../authentication-credentials-uac-and-efs.md#uac) au kutoka [**Kiwango cha Juu hadi SYSTEM**](./#from-high-integrity-to-system)**.** Unaweza kupata mfano wa **jinsi ya kuunda dll halali** ndani ya utafiti huu wa dll hijacking ulioangazia dll hijacking kwa utekelezaji: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
 Zaidi ya hayo, katika **sehemu inayofuata** unaweza kupata baadhi ya **misimbo ya msingi ya dll** ambayo inaweza kuwa na manufaa kama **mifano** au kuunda **dll yenye kazi zisizohitajika zilizofichwa**.
 
 ## **Kuunda na kukusanya Dlls**
@@ -150,7 +151,7 @@ msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
 ### Yako mwenyewe
 
-Kumbuka kwamba katika kesi kadhaa Dll unayoandika lazima **itolee nje kazi kadhaa** ambazo zitakuwa zikichukuliwa na mchakato wa mwathirika, ikiwa kazi hizi hazipo **binary haitakuwa na uwezo wa kuzipeleka** na **kuvunjika kwa usalama kutashindwa**.
+Kumbuka kwamba katika kesi kadhaa Dll unayoandika lazima **itolee kazi kadhaa** ambazo zitakuwa zikipakiwa na mchakato wa mwathirika, ikiwa kazi hizi hazipo **binary haitakuwa na uwezo wa kupakia** hizo na **kuvunjika kwa matumizi kutashindwa**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -238,21 +239,21 @@ return TRUE;
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
+**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na uanze kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

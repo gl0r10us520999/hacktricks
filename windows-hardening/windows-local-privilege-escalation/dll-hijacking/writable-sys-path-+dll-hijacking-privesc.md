@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Ikiwa umeona kwamba unaweza **kuandika katika folda ya System Path** (kumbuka kwamba hii haitafanya kazi ikiwa unaweza kuandika katika folda ya User Path) inawezekana kwamba unaweza **kuinua mamlaka** katika mfumo.
 
-Ili kufanya hivyo unaweza kutumia **Dll Hijacking** ambapo uta **hijack maktaba inayopakiwa** na huduma au mchakato wenye **mamlaka zaidi** kuliko yako, na kwa sababu huduma hiyo inachukua Dll ambayo labda hata haipo katika mfumo mzima, itajaribu kuipakia kutoka kwa System Path ambapo unaweza kuandika.
+Ili kufanya hivyo unaweza kutumia **Dll Hijacking** ambapo uta **hijack maktaba inayopakiwa** na huduma au mchakato wenye **mamlaka zaidi** kuliko yako, na kwa sababu huduma hiyo inachukua Dll ambayo labda hata haipo katika mfumo mzima, itajaribu kuipakia kutoka System Path ambapo unaweza kuandika.
 
 Kwa maelezo zaidi kuhusu **nini Dll Hijacking** angalia:
 
@@ -31,7 +31,7 @@ Kwa maelezo zaidi kuhusu **nini Dll Hijacking** angalia:
 
 ### Finding a missing Dll
 
-Jambo la kwanza unahitaji ni **kubaini mchakato** unaotembea na **mamlaka zaidi** kuliko wewe ambao unajaribu **kupakia Dll kutoka kwa System Path** unayoweza kuandika.
+Jambo la kwanza unahitaji ni **kubaini mchakato** unaotembea na **mamlaka zaidi** kuliko yako ambao unajaribu **kupakia Dll kutoka System Path** unayoweza kuandika.
 
 Shida katika kesi hizi ni kwamba labda michakato hiyo tayari inatembea. Ili kupata ni Dll zipi zinakosekana huduma unahitaji kuanzisha procmon haraka iwezekanavyo (kabla ya michakato kupakiwa). Hivyo, ili kupata .dll zinazokosekana fanya:
 
@@ -52,7 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-* Fungua **`procmon`** na nenda kwenye **`Options`** --> **`Enable boot logging`** na bonyeza **`OK`** kwenye ujumbe.
+* Anza **`procmon`** na nenda kwenye **`Options`** --> **`Enable boot logging`** na bonyeza **`OK`** kwenye ujumbe.
 * Kisha, **reboot**. Wakati kompyuta inapoanzishwa upya **`procmon`** itaanza **kurekodi** matukio mara moja.
 * Mara **Windows** inapokuwa **imeanzishwa, tekeleza `procmon`** tena, itakuambia kuwa imekuwa ikifanya kazi na itaku **uliza kama unataka kuhifadhi** matukio kwenye faili. Sema **ndiyo** na **hifadhi matukio kwenye faili**.
 * **Baada** ya **faili** kutengenezwa, **funga** dirisha lililo wazi la **`procmon`** na **fungua faili la matukio**.
@@ -68,22 +68,22 @@ Nilipokimbia hii kwenye **mashine ya bure ya virtual (vmware) Windows 11** nilip
 
 Katika kesi hii .exe hazina maana hivyo zipuuzie, Dll zilizokosekana zilikuwa kutoka:
 
-| Huduma                         | Dll                | CMD line                                                             |
+| Huduma                          | Dll                | CMD line                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
 | Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-Baada ya kupata hii, nilipata chapisho la blog linalovutia ambalo pia linaelezea jinsi ya [**kudhulumu WptsExtensions.dll kwa privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Ambayo ndiyo tunayo **enda kufanya sasa**.
+Baada ya kupata hii, nilipata chapisho la blog la kuvutia ambalo pia linaelezea jinsi ya [**kudhulumu WptsExtensions.dll kwa privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Ambayo ndiyo tunayo **enda kufanya sasa**.
 
 ### Ukatili
 
 Hivyo, ili **kuinua mamlaka** tunakwenda kudhulumu maktaba **WptsExtensions.dll**. Tukiwa na **njia** na **jina** tunahitaji tu **kutengeneza dll mbaya**.
 
-Unaweza [**jaribu kutumia mfano yoyote ya hizi**](./#creating-and-compiling-dlls). Unaweza kukimbia payloads kama: pata rev shell, ongeza mtumiaji, tekeleza beacon...
+Unaweza [**jaribu kutumia mfano yoyote ya haya**](./#creating-and-compiling-dlls). Unaweza kukimbia payloads kama: pata rev shell, ongeza mtumiaji, tekeleza beacon...
 
 {% hint style="warning" %}
-Kumbuka kuwa **sio huduma zote zinaendeshwa** na **`NT AUTHORITY\SYSTEM`** baadhi pia zinaendeshwa na **`NT AUTHORITY\LOCAL SERVICE`** ambayo ina **mamlaka kidogo** na hu **wezi kuunda mtumiaji mpya** kudhulumu ruhusa zake.\
+Kumbuka kuwa **sio huduma zote zinaendeshwa** na **`NT AUTHORITY\SYSTEM`** baadhi pia zinaendeshwa na **`NT AUTHORITY\LOCAL SERVICE`** ambayo ina **mamlaka kidogo** na huwezi **kuunda mtumiaji mpya** kudhulumu ruhusa zake.\
 Hata hivyo, mtumiaji huyo ana **`seImpersonate`** ruhusa, hivyo unaweza kutumia [**potato suite kuinua mamlaka**](../roguepotato-and-printspoofer.md). Hivyo, katika kesi hii rev shell ni chaguo bora kuliko kujaribu kuunda mtumiaji.
 {% endhint %}
 

@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Jinsi Inavyofanya Kazi
+## How it Works
 
-**Smbexec** ni chombo kinachotumika kwa utekelezaji wa amri kwa mbali kwenye mifumo ya Windows, sawa na **Psexec**, lakini kinakwepa kuweka faili zozote za uhalifu kwenye mfumo wa lengo.
+**Smbexec** ni chombo kinachotumika kwa ajili ya utekelezaji wa amri kwa mbali kwenye mifumo ya Windows, sawa na **Psexec**, lakini kinakwepa kuweka faili zozote za uhalifu kwenye mfumo wa lengo.
 
-### Vidokezo Muhimu Kuhusu **SMBExec**
+### Key Points about **SMBExec**
 
 - Inafanya kazi kwa kuunda huduma ya muda (kwa mfano, "BTOBTO") kwenye mashine ya lengo ili kutekeleza amri kupitia cmd.exe (%COMSPEC%), bila kuacha binaries zozote.
 - Licha ya mbinu yake ya siri, inazalisha kumbukumbu za matukio kwa kila amri iliyotekelezwa, ikitoa aina ya "shell" isiyoingiliana.
@@ -42,12 +42,13 @@ sc start [ServiceName]
 ```
 FOr further details check [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
+
 ## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

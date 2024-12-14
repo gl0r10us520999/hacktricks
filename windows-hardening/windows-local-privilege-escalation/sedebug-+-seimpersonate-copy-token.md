@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Msimbo ufuatao **unatumia mamlaka SeDebug na SeImpersonate** ili nakala ya token kutoka kwa **mchakato unaotembea kama SYSTEM** na ukiwa na **mamlaka yote ya token**. \
 Katika kesi hii, msimbo huu unaweza kukusanywa na kutumika kama **Windows service binary** ili kuangalia kama inafanya kazi.\
-Hata hivyo, sehemu kuu ya **msimbo ambapo kuinua kunatokea** iko ndani ya **`Exploit`** **function**.\
+Hata hivyo, sehemu kuu ya **msimbo ambapo kupandishwa kwa mamlaka kunatokea** iko ndani ya **`Exploit`** **function**.\
 Ndani ya hiyo kazi unaweza kuona kwamba **mchakato **_**lsass.exe**_** unatafutwa**, kisha **token yake inakopwa**, na hatimaye token hiyo inatumika kuzalisha _**cmd.exe**_ mpya yenye mamlaka yote ya token iliyokopwa.
 
 **Mchakato mingine** inayotembea kama SYSTEM yenye mamlaka yote au nyingi za token ni: **services.exe**, **svhost.exe** (moja ya za kwanza), **wininit.exe**, **csrss.exe**... (_kumbuka kwamba huwezi kukopa token kutoka kwa mchakato uliohifadhiwa_). Zaidi ya hayo, unaweza kutumia zana [Process Hacker](https://processhacker.sourceforge.io/downloads.php) ikifanya kazi kama msimamizi kuona token za mchakato.
@@ -233,7 +233,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

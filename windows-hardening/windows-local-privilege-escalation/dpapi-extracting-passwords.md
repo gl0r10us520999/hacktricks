@@ -1,15 +1,15 @@
 # DPAPI - Kutolewa kwa Nywila
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -21,18 +21,18 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## DPAPI ni Nini
+## DPAPI ni nini
 
-Data Protection API (DPAPI) inatumika hasa ndani ya mfumo wa uendeshaji wa Windows kwa **kuficha funguo za kibinafsi za asimetriki**, ikitumia siri za mtumiaji au mfumo kama chanzo muhimu cha entropy. Njia hii inarahisisha ufichaji kwa waendelezaji kwa kuwapa uwezo wa kuficha data kwa kutumia funguo zilizotokana na siri za kuingia za mtumiaji au, kwa ufichaji wa mfumo, siri za uthibitishaji wa kikoa cha mfumo, hivyo kuondoa haja kwa waendelezaji kusimamia ulinzi wa funguo za ufichaji wenyewe.
+Data Protection API (DPAPI) inatumika hasa ndani ya mfumo wa uendeshaji wa Windows kwa **sifuri ya usimbuaji wa funguo za kibinafsi zisizo za kawaida**, ikitumia siri za mtumiaji au mfumo kama chanzo muhimu cha entropy. Njia hii inarahisisha usimbuaji kwa waendelezaji kwa kuwapa uwezo wa kusimbua data kwa kutumia funguo zilizotokana na siri za kuingia za mtumiaji au, kwa usimbuaji wa mfumo, siri za uthibitishaji wa eneo la mfumo, hivyo kuondoa haja kwa waendelezaji kusimamia ulinzi wa funguo za usimbuaji wenyewe.
 
 ### Data Iliyolindwa na DPAPI
 
 Miongoni mwa data binafsi zilizolindwa na DPAPI ni:
 
-* Nywila za Internet Explorer na Google Chrome na data za kukamilisha kiotomatiki
+* Nywila za Internet Explorer na Google Chrome na data ya kukamilisha kiotomatiki
 * Nywila za barua pepe na akaunti za FTP za ndani kwa programu kama Outlook na Windows Mail
-* Nywila za folda za pamoja, rasilimali, mitandao isiyo na waya, na Windows Vault, ikiwa ni pamoja na funguo za ufichaji
-* Nywila za muunganisho wa desktop ya mbali, .NET Passport, na funguo za kibinafsi kwa madhumuni mbalimbali ya ufichaji na uthibitishaji
+* Nywila za folda za pamoja, rasilimali, mitandao isiyo na waya, na Windows Vault, ikiwa ni pamoja na funguo za usimbuaji
+* Nywila za muunganisho wa desktop ya mbali, .NET Passport, na funguo za kibinafsi kwa madhumuni mbalimbali ya usimbuaji na uthibitishaji
 * Nywila za mtandao zinazodhibitiwa na Credential Manager na data binafsi katika programu zinazotumia CryptProtectData, kama Skype, MSN messenger, na zaidi
 
 ## Orodha ya Vault
@@ -43,9 +43,9 @@ vaultcmd /listcreds:"Windows Credentials" /all
 # From mimikatz
 mimikatz vault::list
 ```
-## Fail ya Akida
+## Faili za Akida
 
-Fail **za akida zilizolindwa** zinaweza kupatikana katika:
+Faili za **akida zilizolindwa** zinaweza kupatikana katika:
 ```
 dir /a:h C:\Users\username\AppData\Local\Microsoft\Credentials\
 dir /a:h C:\Users\username\AppData\Roaming\Microsoft\Credentials\
@@ -68,7 +68,7 @@ dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
 ## Master Keys
 
-Vifunguo vya DPAPI vinavyotumika kwa ajili ya kuficha funguo za RSA za mtumiaji vinahifadhiwa chini ya saraka ya `%APPDATA%\Microsoft\Protect\{SID}`, ambapo {SID} ni [**Kitambulisho cha Usalama**](https://en.wikipedia.org/wiki/Security\_Identifier) **cha mtumiaji huyo**. **Funguo la DPAPI linahifadhiwa katika faili ile ile na funguo kuu inayolinda funguo za faragha za watumiaji**. Kwa kawaida ni bytes 64 za data za nasibu. (Kumbuka kwamba saraka hii inalindwa hivyo huwezi kuorodhesha kwa kutumia `dir` kutoka cmd, lakini unaweza kuorodhesha kutoka PS).
+Vifunguo vya DPAPI vinavyotumika kwa ajili ya kuficha funguo za RSA za mtumiaji vinahifadhiwa chini ya saraka ya `%APPDATA%\Microsoft\Protect\{SID}`, ambapo {SID} ni [**Kitambulisho cha Usalama**](https://en.wikipedia.org/wiki/Security\_Identifier) **cha mtumiaji huyo**. **Funguo la DPAPI linahifadhiwa katika faili moja na funguo kuu inayolinda funguo za faragha za watumiaji**. Kwa kawaida ni bytes 64 za data za nasibu. (Kumbuka kwamba saraka hii inalindwa hivyo huwezi kuorodhesha kwa kutumia `dir` kutoka cmd, lakini unaweza kuorodhesha kutoka PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -81,7 +81,7 @@ Hii ndiyo inavyoonekana kwa kundi la Master Keys za mtumiaji:
 
 ![](<../../.gitbook/assets/image (1121).png>)
 
-Kawaida **kila master key ni funguo ya simetriki iliyosimbwa ambayo inaweza kufungua maudhui mengine**. Hivyo, **kuchota** **Master Key iliyosimbwa** ni ya kuvutia ili **kuifungua** baadaye **maudhui mengine** yaliyosimbwa nayo.
+Kawaida **kila master key ni funguo ya siri iliyosimbwa ambayo inaweza kufungua maudhui mengine**. Hivyo, **kuchota** **Master Key iliyosimbwa** ni ya kuvutia ili **kuifungua** baadaye **maudhui mengine** yaliyosimbwa nayo.
 
 ### Chota master key & fungua
 
@@ -93,7 +93,7 @@ Angalia chapisho [https://www.ired.team/offensive-security/credential-access-and
 
 ## HEKATOMB
 
-[**HEKATOMB**](https://github.com/Processus-Thief/HEKATOMB) ni chombo kinachotumia otomatiki kuchota watumiaji wote na kompyuta kutoka kwenye directory ya LDAP na kuchota funguo za nakala za kudhibiti eneo kupitia RPC. Skripti itatatua anwani za IP za kompyuta zote na kufanya smbclient kwenye kompyuta zote ili kupata DPAPI blobs za watumiaji wote na kufungua kila kitu kwa funguo za nakala za eneo.
+[**HEKATOMB**](https://github.com/Processus-Thief/HEKATOMB) ni chombo kinachotumia kiotomatiki kuchota watumiaji wote na kompyuta kutoka kwenye directory ya LDAP na kuchota funguo za nakala za kudhibiti eneo kupitia RPC. Skripti itatatua anwani za IP za kompyuta zote na kufanya smbclient kwenye kompyuta zote ili kupata DPAPI blobs za watumiaji wote na kufungua kila kitu kwa funguo za nakala za eneo.
 
 `python3 hekatomb.py -hashes :ed0052e5a66b1c8e942cc9481a50d56 DOMAIN.local/administrator@10.0.0.1 -debug -dnstcp`
 
@@ -126,7 +126,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki hila za uvamizi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

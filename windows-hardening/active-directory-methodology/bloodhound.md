@@ -43,11 +43,11 @@ From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundA
 
 > BloodHound ni programu ya wavuti ya Javascript ya ukurasa mmoja, iliyojengwa juu ya [Linkurious](http://linkurio.us/), iliyokusanywa na [Electron](http://electron.atom.io/), ikiwa na hifadhidata ya [Neo4j](https://neo4j.com/) inayopatiwa na mkusanyiko wa data wa C#.
 
-BloodHound inatumia nadharia ya grafu kufichua uhusiano wa siri na mara nyingi usiokusudiwa ndani ya mazingira ya Active Directory au Azure. Washambuliaji wanaweza kutumia BloodHound kutambua kwa urahisi njia za shambulio zenye ugumu mkubwa ambazo vinginevyo zingekuwa ngumu kutambua haraka. Walinzi wanaweza kutumia BloodHound kutambua na kuondoa njia hizo za shambulio. Timu za buluu na nyekundu zinaweza kutumia BloodHound kupata uelewa mzuri wa uhusiano wa mamlaka katika mazingira ya Active Directory au Azure.
+BloodHound inatumia nadharia ya grafu kufichua uhusiano wa siri na mara nyingi usiokusudiwa ndani ya mazingira ya Active Directory au Azure. Washambuliaji wanaweza kutumia BloodHound kutambua kwa urahisi njia za shambulio zenye ugumu mkubwa ambazo vinginevyo zingekuwa ngumu kutambua haraka. Walinzi wanaweza kutumia BloodHound kutambua na kuondoa njia hizo za shambulio. Timu za buluu na za shaba zinaweza kutumia BloodHound kupata uelewa mzuri wa uhusiano wa mamlaka katika mazingira ya Active Directory au Azure.
 
-Hivyo, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) ni chombo cha ajabu ambacho kinaweza kuhesabu kikoa kiotomatiki, kuhifadhi taarifa zote, kutafuta njia zinazowezekana za kupandisha mamlaka na kuonyesha taarifa zote kwa kutumia grafu.
+Hivyo, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound)ni chombo cha ajabu ambacho kinaweza kuhesabu kikoa kiotomatiki, kuhifadhi taarifa zote, kutafuta njia zinazowezekana za kupandisha mamlaka na kuonyesha taarifa zote kwa kutumia grafu.
 
-Bloodhound inajumuisha sehemu 2 kuu: **ingestors** na **programu ya uonyeshaji**.
+Booldhound inajumuisha sehemu 2 kuu: **ingestors** na **programu ya uonyeshaji**.
 
 **Ingestors** zinatumika ku **hesabu kikoa na kutoa taarifa zote** katika muundo ambao programu ya uonyeshaji itaelewa.
 
@@ -62,13 +62,13 @@ Baada ya kuundwa kwa BloodHound CE, mradi mzima ulisasishwa ili urahisi wa matum
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
 3. Pata nenosiri lililotengenezwa kwa bahati katika matokeo ya terminal ya Docker Compose.  
-4. Katika kivinjari, tembelea http://localhost:8080/ui/login. Ingia kwa jina la mtumiaji admin na nenosiri lililotengenezwa kwa bahati kutoka kwenye kumbukumbu.
+4. Katika kivinjari, tembelea http://localhost:8080/ui/login. Ingia kwa jina la mtumiaji admin na nenosiri lililotengenezwa kwa bahati kutoka kwa kumbukumbu.
 
-Baada ya hii, utahitaji kubadilisha nenosiri lililotengenezwa kwa bahati na utakuwa na kiolesura kipya kilichokuwa tayari, ambacho unaweza kupakua ingestors moja kwa moja.
+Baada ya hii, utahitaji kubadilisha nenosiri lililotengenezwa kwa bahati na utakuwa na kiolesura kipya kilichotayarishwa, ambacho unaweza kupakua ingestors moja kwa moja.
 
 ### SharpHound
 
-Wana chaguzi kadhaa lakini ikiwa unataka kuendesha SharpHound kutoka kwa PC iliyojiunga na eneo, ukitumia mtumiaji wako wa sasa na kutoa taarifa zote unaweza kufanya:
+Wana chaguzi kadhaa lakini ikiwa unataka kuendesha SharpHound kutoka kwa PC iliyojiunga na eneo, ukitumia mtumiaji wako wa sasa na kutoa taarifa zote, unaweza kufanya:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
@@ -85,7 +85,7 @@ runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ## Group3r
 
 [**Group3r**](https://github.com/Group3r/Group3r) ni chombo cha kutafuta **vulnerabilities** katika Active Directory zinazohusiana na **Group Policy**. \
-Unahitaji **kukimbia group3r** kutoka kwa mwenyeji ndani ya eneo kwa kutumia **mtumiaji yeyote wa eneo**.
+Unahitaji **kukimbia group3r** kutoka kwa mwenyeji ndani ya eneo la kikoa ukitumia **mtumiaji yeyote wa kikoa**.
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
@@ -95,7 +95,7 @@ group3r.exe -f <filepath-name.log>
 
 [**PingCastle**](https://www.pingcastle.com/documentation/) **inasimamia usalama wa mazingira ya AD** na inatoa **ripoti** nzuri yenye grafu.
 
-Ili kuikimbia, unaweza kutekeleza binary `PingCastle.exe` na itaanzisha **sehemu ya maingiliano** ikionyesha menyu ya chaguzi. Chaguo la msingi kutumia ni **`healthcheck`** ambalo litaanzisha **muonekano** wa **domeni**, na kutafuta **makosa ya usanidi** na **udhaifu**.&#x20;
+Ili kuikimbia, unaweza kutekeleza binary `PingCastle.exe` na itaanzisha **sehemu ya maingiliano** ikionyesha menyu ya chaguzi. Chaguo la default kutumia ni **`healthcheck`** ambalo litaanzisha **muonekano** wa **kimsingi** wa **domeni**, na kutafuta **makosa ya usanidi** na **udhaifu**.&#x20;
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -104,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg kwa Faili za PNG na BMP**
 
-zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usanidi unafanywa kupitia `gem install zsteg`, ikiwa na [chanzo chake kwenye GitHub](https://github.com/zed-0xff/zsteg).
+zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usanidi unafanywa kupitia `gem install zsteg`, ikiwa na [chanzo kwenye GitHub](https://github.com/zed-0xff/zsteg).
 
 **Amri:**
 
@@ -119,7 +119,7 @@ zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usa
 
 ### **FFT kwa Ugunduzi wa Maudhui ya Fichwa**
 
-Fast Fourier Transform (FFT) mbinu zinaweza kufichua maudhui yaliyofichwa katika picha. Rasilimali muhimu ni pamoja na:
+Mbinu za Fast Fourier Transform (FFT) zinaweza kufichua maudhui yaliyofichwa katika picha. Rasilimali muhimu ni pamoja na:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -127,7 +127,7 @@ Fast Fourier Transform (FFT) mbinu zinaweza kufichua maudhui yaliyofichwa katika
 
 ### **Stegpy kwa Faili za Sauti na Picha**
 
-Stegpy inaruhusu kuingiza taarifa katika faili za picha na sauti, ikisaidia fomati kama PNG, BMP, GIF, WebP, na WAV. Inapatikana kwenye [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy inaruhusu kuingiza taarifa katika faili za picha na sauti, ikisaidia format kama PNG, BMP, GIF, WebP, na WAV. Inapatikana kwenye [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck kwa Uchambuzi wa Faili za PNG**
 
@@ -178,7 +178,7 @@ Deepsound inaruhusu usimbaji na kugundua habari ndani ya faili za sauti kwa kutu
 
 ### **Sonic Visualizer**
 
-Kifaa kisicho na thamani kwa ukaguzi wa kuona na wa uchambuzi wa faili za sauti, Sonic Visualizer inaweza kufichua vipengele vilivyofichwa ambavyo haviwezi kugundulika kwa njia nyingine. Tembelea [tovuti rasmi](https://www.sonicvisualiser.org/) kwa maelezo zaidi.
+Kifaa kisicho na thamani kwa ukaguzi wa kuona na wa uchambuzi wa faili za sauti, Sonic Visualizer inaweza kufichua vipengele vilivyojificha ambavyo haviwezi kugundulika kwa njia nyingine. Tembelea [tovuti rasmi](https://www.sonicvisualiser.org/) kwa maelezo zaidi.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -199,7 +199,7 @@ Kwa kubadilisha binary kuwa picha, angalia [dcode](https://www.dcode.fr/binary-i
 
 Kwa kutafsiri Braille, [Branah Braille Translator](https://www.branah.com/braille-translator) ni rasilimali bora.
 
-## **Marejeleo**
+## **Marejeo**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
@@ -213,8 +213,8 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

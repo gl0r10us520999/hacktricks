@@ -17,14 +17,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Diamond Ticket
 
-**Kama tiketi ya dhahabu**, tiketi ya almasi ni TGT ambayo inaweza kutumika **kuingia kwenye huduma yoyote kama mtumiaji yeyote**. Tiketi ya dhahabu inaundwa kabisa mtandaoni, imefungwa kwa hash ya krbtgt ya eneo hilo, na kisha kuingizwa kwenye kikao cha kuingia kwa matumizi. Kwa sababu wasimamizi wa eneo hawafuatilii TGTs ambazo zimepewa kihalali, watakubali kwa furaha TGTs ambazo zimefungwa kwa hash yao ya krbtgt.
+**Kama tiketi ya dhahabu**, tiketi ya almasi ni TGT ambayo inaweza kutumika **kuingia kwenye huduma yoyote kama mtumiaji yeyote**. Tiketi ya dhahabu inaundwa kabisa mtandaoni, imefungwa kwa hash ya krbtgt ya eneo hilo, na kisha kuingizwa kwenye kikao cha kuingia kwa matumizi. Kwa sababu waudhi wa eneo hawafuatilii TGTs ambazo zimepewa kihalali, watakubali kwa furaha TGTs ambazo zimefungwa kwa hash yao ya krbtgt.
 
 Kuna mbinu mbili za kawaida kugundua matumizi ya tiketi za dhahabu:
 
 * Angalia TGS-REQs ambazo hazina AS-REQ inayolingana.
 * Angalia TGTs ambazo zina thamani za kipumbavu, kama vile muda wa miaka 10 wa Mimikatz.
 
-**Tiketi ya almasi** inaundwa kwa **kubadilisha maeneo ya TGT halali ambayo ilitolewa na DC**. Hii inafikiwa kwa **kuomba** **TGT**, **kuifungua** kwa hash ya krbtgt ya eneo, **kubadilisha** maeneo yanayotakiwa ya tiketi, kisha **kuifunga tena**. Hii **inasuluhisha mapungufu mawili yaliyotajwa hapo juu** ya tiketi ya dhahabu kwa sababu:
+**Tiketi ya almasi** inaundwa kwa **kubadilisha maeneo ya TGT halali ambayo ilitolewa na DC**. Hii inafikiwa kwa **kuomba** **TGT**, **kuifungua** kwa hash ya krbtgt ya eneo, **kubadilisha** maeneo yanayohitajika ya tiketi, kisha **kuifunga tena**. Hii **inasuluhisha mapungufu mawili yaliyotajwa hapo juu** ya tiketi ya dhahabu kwa sababu:
 
 * TGS-REQs zitakuwa na AS-REQ inayotangulia.
 * TGT ilitolewa na DC ambayo inamaanisha itakuwa na maelezo yote sahihi kutoka kwenye sera ya Kerberos ya eneo. Ingawa haya yanaweza kuundwa kwa usahihi katika tiketi ya dhahabu, ni ngumu zaidi na yanaweza kuwa na makosa.

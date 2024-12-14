@@ -30,8 +30,8 @@ Hii ni kwa sababu wakati wa kuungana na Kerberos hatua hizi zinafuatwa:
 
 1. User1 anatoa akili na **meneja wa eneo** anarudisha **TGT** ya Kerberos kwa User1.
 2. User1 anatumia **TGT** kuomba **tiketi ya huduma** ili **kuungana** na Server1.
-3. User1 **anaungana** na **Server1** na anatoa **tiketi ya huduma**.
-4. **Server1** **hainayo** **akili** za User1 zilizohifadhiwa au **TGT** ya User1. Hivyo, wakati User1 kutoka Server1 anajaribu kuingia kwenye seva ya pili, hawezi **kujiandikisha**.
+3. User1 **anajiunga** na **Server1** na anatoa **tiketi ya huduma**.
+4. **Server1** **hainayo** **akili** za User1 zilizohifadhiwa au **TGT** ya User1. Hivyo, wakati User1 kutoka Server1 anajaribu kuingia kwenye seva ya pili, hawezi **kujiuthibitisha**.
 
 ### Unconstrained Delegation
 
@@ -54,14 +54,14 @@ Get-WSManCredSSP
 
 ### Invoke Command
 
-Ili kushughulikia tatizo la double hop, njia inayohusisha `Invoke-Command` iliyozungushwa inawasilishwa. Hii haisuluhishi tatizo moja kwa moja lakini inatoa suluhisho mbadala bila kuhitaji usanidi maalum. Njia hii inaruhusu kutekeleza amri (`hostname`) kwenye seva ya pili kupitia amri ya PowerShell inayotekelezwa kutoka kwenye mashine ya awali ya shambulio au kupitia PS-Session iliyowekwa awali na seva ya kwanza. Hapa kuna jinsi inavyofanywa:
+Ili kushughulikia tatizo la double hop, njia inayohusisha `Invoke-Command` iliyozungushwa inawasilishwa. Hii haisuluhishi tatizo moja kwa moja lakini inatoa suluhisho mbadala bila kuhitaji usanidi maalum. Njia hii inaruhusu kutekeleza amri (`hostname`) kwenye seva ya pili kupitia amri ya PowerShell inayotekelezwa kutoka kwa mashine ya awali ya kushambulia au kupitia PS-Session iliyowekwa awali na seva ya kwanza. Hapa kuna jinsi inavyofanywa:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-Kwa upande mwingine, kuanzisha PS-Session na seva ya kwanza na kuendesha `Invoke-Command` kwa kutumia `$cred` inapendekezwa kwa kuunganisha kazi.
+Alternatif, kuanzisha PS-Session na seva ya kwanza na kuendesha `Invoke-Command` kwa kutumia `$cred` inapendekezwa kwa kuunganisha kazi.
 
 ### Sajili Mipangilio ya PSSession
 
@@ -74,7 +74,7 @@ klist
 ```
 ### PortForwarding
 
-Kwa wasimamizi wa ndani kwenye lengo la kati, upitishaji wa bandari unaruhusu maombi kutumwa kwa seva ya mwisho. Kwa kutumia `netsh`, sheria inaweza kuongezwa kwa upitishaji wa bandari, pamoja na sheria ya moto ya Windows kuruhusu bandari iliyopitishwa.
+Kwa wasimamizi wa ndani kwenye lengo la kati, upitishaji wa bandari unaruhusu maombi kutumwa kwa seva ya mwisho. Kwa kutumia `netsh`, sheria inaweza kuongezwa kwa upitishaji wa bandari, pamoja na sheria ya moto ya Windows ili kuruhusu bandari iliyopitishwa.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
@@ -92,10 +92,10 @@ Kuweka OpenSSH kwenye seva ya kwanza kunaruhusu suluhisho kwa tatizo la double-h
 #### Hatua za Usakinishaji wa OpenSSH
 
 1. Pakua na hamasisha toleo la hivi karibuni la OpenSSH zip kwenye seva lengwa.
-2. Fungua na endesha script ya `Install-sshd.ps1`.
+2. Fungua na endesha skripti ya `Install-sshd.ps1`.
 3. Ongeza sheria ya firewall kufungua bandari 22 na thibitisha huduma za SSH zinaendesha.
 
-Ili kutatua makosa ya `Connection reset`, ruhusa zinaweza kuhitaji kusasishwa ili kuruhusu kila mtu kuwa na ufikiaji wa kusoma na kutekeleza kwenye saraka ya OpenSSH.
+Ili kutatua makosa ya `Connection reset`, ruhusa zinaweza kuhitaji kusasishwa ili kuruhusu kila mtu kusoma na kutekeleza kwenye saraka ya OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```

@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Kuashiria Mifumo ya RFID kwa kutumia Proxmark3
+## Attacking RFID Systems with Proxmark3
 
-Jambo la kwanza unahitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**kufunga programu na utegemezi wake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Jambo la kwanza unahitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**sakinisha programu na utegemezi wake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-### Kuashiria MIFARE Classic 1KB
+### Attacking MIFARE Classic 1KB
 
 Ina **sehemu 16**, kila moja ina **blocks 4** na kila block ina **16B**. UID iko katika sehemu 0 block 0 (na haiwezi kubadilishwa).\
 Ili kufikia kila sehemu unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa katika **block 3 ya kila sehemu** (sehemu trailer). Sehemu trailer pia inahifadhi **vigezo vya ufikiaji** vinavyotoa **ruhusa za kusoma na kuandika** kwenye **kila block** kwa kutumia funguo 2.\
@@ -62,11 +62,11 @@ Kwa habari hii unaweza kujaribu kutafuta taarifa kuhusu kadi na kuhusu njia ya k
 
 ### Scripts
 
-Programu ya Proxmark3 inakuja na orodha iliyopakiwa ya awali ya **scripts za automatisering** ambazo unaweza kutumia kufanya kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la script:
+Programu ya Proxmark3 inakuja na orodha iliyopakiwa awali ya **scripts za automatisering** ambazo unaweza kutumia kufanya kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la script:
 ```
 proxmark3> script run mfkeys
 ```
-Unaweza kuunda skripti ili **fuzz tag readers**, hivyo kunakili data ya **kadi halali** andika tu **Lua script** ambayo **randomize** byte moja au zaidi za nasibu na uangalie kama **reader inashindwa** na iteration yoyote.
+Unaweza kuunda skripti ili **fuzz tag readers**, hivyo kunakili data ya **kadi halali** andika **Lua script** ambayo **randomize** byte moja au zaidi za nasibu na uangalie kama **reader inashindwa** na iteration yoyote.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

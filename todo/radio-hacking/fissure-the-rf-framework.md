@@ -1,28 +1,28 @@
-# FISSURE - Kitengo cha RF
+# FISSURE - The RF Framework
 
-**Uelewa na Uhandisi wa Nyuma kwa Kutumia Ishara za SDR zisizo na Mzunguko**
+**Frequency Independent SDR-based Signal Understanding and Reverse Engineering**
 
-FISSURE ni mfumo wa chanzo wazi wa RF na uhandisi wa nyuma ulioundwa kwa viwango vyote vya ujuzi na vifungo vya ugunduzi na uainishaji wa ishara, ugunduzi wa itifaki, utekelezaji wa mashambulizi, uchambuzi wa IQ, uchambuzi wa udhaifu, otomatiki, na AI/ML. Mfumo huu ulijengwa ili kuhamasisha ushirikiano wa haraka wa moduli za programu, redio, itifaki, data ya ishara, hati za skrini, michoro ya mzunguko, vifaa vya marejeleo, na zana za watu wengine. FISSURE ni kifaa kinachowezesha mchakato ambao unaweka programu katika eneo moja na kuruhusu timu kujifunza kwa urahisi huku wakishiriki mipangilio sawa ya msingi kwa usambazaji maalum wa Linux.
+FISSURE ni mfumo wa RF na uhandisi wa nyuma wa chanzo wazi ulioandaliwa kwa ajili ya viwango vyote vya ujuzi ukiwa na viunganishi vya kugundua na kuainisha ishara, kugundua itifaki, kutekeleza mashambulizi, kudhibiti IQ, kuchambua udhaifu, automatisering, na AI/ML. Mfumo huu ulijengwa ili kuhamasisha uunganishaji wa haraka wa moduli za programu, redio, itifaki, data za ishara, skripti, grafu za mtiririko, vifaa vya rejea, na zana za wahusika wengine. FISSURE ni mwezeshaji wa mtiririko wa kazi ambao unashikilia programu katika eneo moja na unaruhusu timu kujiweka sawa kwa urahisi huku wakishiriki usanidi wa msingi uliojaribiwa kwa usahihi kwa usambazaji maalum wa Linux.
 
-Mfumo na zana zilizojumuishwa na FISSURE zimeundwa kugundua uwepo wa nishati ya RF, kuelewa sifa za ishara, kukusanya na kuchambua sampuli, kukuza njia za kutuma na/au kuingiza, na kuunda malipo au ujumbe maalum. FISSURE ina maktaba inayoongezeka ya habari za itifaki na ishara ili kusaidia katika utambuzi, uundaji wa pakiti, na kufanya majaribio ya kufanya kosa. Uwezo wa kuhifadhi kwenye mtandao upo ili kupakua faili za ishara na kujenga orodha za kucheza ili kusimuliza trafiki na kujaribu mifumo.
+Mfumo na zana zilizo pamoja na FISSURE zimeundwa kugundua uwepo wa nishati ya RF, kuelewa sifa za ishara, kukusanya na kuchambua sampuli, kuendeleza mbinu za kutuma na/au sindano, na kuunda mizigo au ujumbe maalum. FISSURE ina maktaba inayokua ya taarifa za itifaki na ishara kusaidia katika utambuzi, uundaji wa pakiti, na fuzzing. Uwezo wa kuhifadhi mtandaoni upo ili kupakua faili za ishara na kujenga orodha za kucheza ili kuiga trafiki na kujaribu mifumo.
 
-Namna ya kirafiki ya msimbo wa Python na kiolesura cha mtumiaji inaruhusu wanaanza kujifunza haraka juu ya zana maarufu na mbinu zinazohusiana na RF na uhandisi wa nyuma. Waelimishaji katika usalama wa mtandao na uhandisi wanaweza kutumia vifaa vilivyomo au kutumia mfumo huu kuonyesha matumizi yao halisi ya ulimwengu. Watengenezaji na watafiti wanaweza kutumia FISSURE kwa kazi zao za kila siku au kuonyesha suluhisho zao za kukata kwa hadhira kubwa. Kadiri ufahamu na matumizi ya FISSURE yanavyoongezeka katika jamii, ndivyo uwezo wake na upana wa teknolojia inayojumuisha itakavyoongezeka.
+Msingi wa msimbo wa Python na kiolesura cha mtumiaji kinawaruhusu wanafunzi kujifunza haraka kuhusu zana na mbinu maarufu zinazohusiana na RF na uhandisi wa nyuma. Walimu katika usalama wa mtandao na uhandisi wanaweza kutumia vifaa vilivyomo au kutumia mfumo huu kuonyesha maombi yao halisi. Wanaendeleza na watafiti wanaweza kutumia FISSURE kwa kazi zao za kila siku au kufichua suluhisho zao za kisasa kwa hadhira kubwa. Kadri ufahamu na matumizi ya FISSURE yanavyokua katika jamii, ndivyo uwezo wake na wigo wa teknolojia inayohusisha itakavyoongezeka.
 
-**Maelezo Zaidi**
+**Additional Information**
 
-* [AIS Ukurasa](https://www.ainfosec.com/technologies/fissure/)
-* [GRCon22 Slaidi](https://events.gnuradio.org/event/18/contributions/246/attachments/84/164/FISSURE\_Poore\_GRCon22.pdf)
-* [GRCon22 Karatasi](https://events.gnuradio.org/event/18/contributions/246/attachments/84/167/FISSURE\_Paper\_Poore\_GRCon22.pdf)
+* [AIS Page](https://www.ainfosec.com/technologies/fissure/)
+* [GRCon22 Slides](https://events.gnuradio.org/event/18/contributions/246/attachments/84/164/FISSURE\_Poore\_GRCon22.pdf)
+* [GRCon22 Paper](https://events.gnuradio.org/event/18/contributions/246/attachments/84/167/FISSURE\_Paper\_Poore\_GRCon22.pdf)
 * [GRCon22 Video](https://www.youtube.com/watch?v=1f2umEKhJvE)
-* [Mkataba wa Mazungumzo ya Udukuzi](https://hackaday.io/event/187076-rf-hacking-hack-chat/log/212136-hack-chat-transcript-part-1)
+* [Hack Chat Transcript](https://hackaday.io/event/187076-rf-hacking-hack-chat/log/212136-hack-chat-transcript-part-1)
 
-## Kuanza
+## Getting Started
 
-**Inayoungwa mkono**
+**Supported**
 
-Kuna matawi matatu ndani ya FISSURE ili kufanya urambazaji wa faili kuwa rahisi na kupunguza upungufu wa msimbo. Tawi la Python2\_maint-3.7 lina msingi wa msimbo uliojengwa kwa Python2, PyQt4, na GNU Radio 3.7; tawi la Python3\_maint-3.8 limejengwa kwa Python3, PyQt5, na GNU Radio 3.8; na tawi la Python3\_maint-3.10 limejengwa kwa Python3, PyQt5, na GNU Radio 3.10.
+Kuna matawi matatu ndani ya FISSURE ili kufanya urambazaji wa faili kuwa rahisi na kupunguza kurudiwa kwa msimbo. Tawi la Python2\_maint-3.7 lina msingi wa msimbo uliojengwa kuzunguka Python2, PyQt4, na GNU Radio 3.7; tawi la Python3\_maint-3.8 limejengwa kuzunguka Python3, PyQt5, na GNU Radio 3.8; na tawi la Python3\_maint-3.10 limejengwa kuzunguka Python3, PyQt5, na GNU Radio 3.10.
 
-|   Mfumo wa Uendeshaji   |   Tawi la FISSURE   |
+|   Operating System   |   FISSURE Branch   |
 | :------------------: | :----------------: |
 |  Ubuntu 18.04 (x64)  | Python2\_maint-3.7 |
 | Ubuntu 18.04.5 (x64) | Python2\_maint-3.7 |
@@ -31,16 +31,18 @@ Kuna matawi matatu ndani ya FISSURE ili kufanya urambazaji wa faili kuwa rahisi 
 | Ubuntu 20.04.4 (x64) | Python3\_maint-3.8 |
 |  KDE neon 5.25 (x64) | Python3\_maint-3.8 |
 
-**Katika Maendeleo (beta)**
+**In-Progress (beta)**
 
-Mifumo hii ya uendeshaji bado iko katika hali ya beta. Inaendelezwa na kuna vipengele kadhaa ambavyo havipo. Vitu katika programu ya usanidi vinaweza kuingiliana na programu zilizopo au kushindwa kusakinishwa hadi hali hiyo itakapoondolewa.
+Mifumo hii ya uendeshaji bado iko katika hali ya beta. Ziko katika maendeleo na vipengele kadhaa vinajulikana kukosekana. Vitu katika installer vinaweza kuingiliana na programu zilizopo au kushindwa kufunga hadi hali hiyo itakapondolewa.
 
-|     Mfumo wa Uendeshaji     |    Tawi la FISSURE   |
+|     Operating System     |    FISSURE Branch   |
 | :----------------------: | :-----------------: |
 | DragonOS Focal (x86\_64) |  Python3\_maint-3.8 |
 |    Ubuntu 22.04 (x64)    | Python3\_maint-3.10 |
 
-Kumbuka: Zana fulani za programu hazifanyi kazi kwa kila mfumo wa uendeshaji. Angalia [Programu na Migongano](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Help/Markdown/SoftwareAndConflicts.md)
+Note: Zana fulani za programu hazifanyi kazi kwa kila OS. Rejelea [Software And Conflicts](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Help/Markdown/SoftwareAndConflicts.md)
+
+**Installation**
 ```
 git clone https://github.com/ainfosec/FISSURE.git
 cd FISSURE
@@ -48,15 +50,15 @@ git checkout <Python2_maint-3.7> or <Python3_maint-3.8> or <Python3_maint-3.10>
 git submodule update --init
 ./install
 ```
-Hii itasakinisha programu tegemezi za PyQt zinazohitajika kuendesha GUI za usakinishaji ikiwa hazijapatikana.
+Hii itasakinisha utegemezi wa programu za PyQt zinazohitajika kuanzisha GUI za usakinishaji ikiwa hazijapatikana.
 
-Kisha, chagua chaguo ambalo linalingana vizuri na mfumo wako wa uendeshaji (linapaswa kugunduliwa moja kwa moja ikiwa mfumo wako wa uendeshaji unalingana na chaguo).
+Ifuatayo, chagua chaguo linalofaa zaidi kwa mfumo wako wa uendeshaji (linapaswa kugundulika kiotomatiki ikiwa mfumo wako wa uendeshaji unalingana na chaguo).
 
 |                                          Python2\_maint-3.7                                          |                                          Python3\_maint-3.8                                          |                                          Python3\_maint-3.10                                         |
 | :--------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
 | ![install1b](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install1b.png) | ![install1a](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install1a.png) | ![install1c](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install1c.png) |
 
-Inapendekezwa kusakinisha FISSURE kwenye mfumo wa uendeshaji safi ili kuepuka migongano iliyopo. Chagua vikasha vyote vilivyopendekezwa (kitufe cha Chaguo-msingi) ili kuepuka makosa wakati wa kutumia zana mbalimbali ndani ya FISSURE. Kutakuwa na maombi mengi wakati wa usakinishaji, kwa kawaida yanayouliza ruhusa iliyoinuliwa na majina ya watumiaji. Ikiwa kipengee kina sehemu ya "Thibitisha" mwishoni, usakinishaji utatekeleza amri inayofuata na kuonyesha kipengee cha kisanduku cha rangi ya kijani au nyekundu kulingana na ikiwa kuna makosa yoyote yanayozalishwa na amri hiyo. Vipengee vilivyochaguliwa bila sehemu ya "Thibitisha" vitabaki nyeusi baada ya usakinishaji.
+Inapendekezwa kusakinisha FISSURE kwenye mfumo safi wa uendeshaji ili kuepuka migongano iliyopo. Chagua masanduku yote yaliyopendekezwa (Kitufe cha Kawaida) ili kuepuka makosa wakati wa kutumia zana mbalimbali ndani ya FISSURE. Kutakuwa na maonyesho mengi wakati wa usakinishaji, hasa yanayouliza ruhusa za juu na majina ya watumiaji. Ikiwa kipengee kina sehemu ya "Thibitisha" mwishoni, msakinishaji atatekeleza amri inayofuata na kuangazia kipengee cha sanduku kuwa kijani au nyekundu kulingana na ikiwa kuna makosa yoyote yanayotokana na amri hiyo. Vitu vilivyokaguliwa bila sehemu ya "Thibitisha" vitabaki kuwa nyeusi baada ya usakinishaji.
 
 ![install2](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install2.png)
 
@@ -66,30 +68,30 @@ Fungua terminal na ingiza:
 ```
 fissure
 ```
-Rejelea menyu ya Msaada wa FISSURE kwa maelezo zaidi kuhusu matumizi.
+Refer to the FISSURE Help menu for more details on usage.
 
-## Maelezo
+## Details
 
-**Vipengele**
+**Components**
 
 * Dashibodi
-* Kituo Kikuu (HIPRFISR)
-* Uthibitishaji wa Ishara ya Lengo (TSI)
+* Kituo Kuu (HIPRFISR)
+* Utambuzi wa Ishara ya Lengo (TSI)
 * Ugunduzi wa Itifaki (PD)
-* Flow Graph & Script Executor (FGE)
+* Mchoro wa Mtiririko & Mtendaji wa Skripti (FGE)
 
-![vipengele](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/components.png)
+![components](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/components.png)
 
-**Uwezo**
+**Capabilities**
 
-| ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/detector.png)_**Mgunduzi wa Ishara**_ | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/iq.png)_**Udanganyifu wa IQ**_      | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/library.png)_**Utafutaji wa Ishara**_          | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/pd.png)_**Ugunduzi wa Mfano**_ |
+| ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/detector.png)_**Detector wa Ishara**_ | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/iq.png)_**Manipulation ya IQ**_      | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/library.png)_**Utafutaji wa Ishara**_          | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/pd.png)_**Utambuzi wa Mifumo**_ |
 | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/attack.png)_**Mashambulizi**_           | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/fuzzing.png)_**Fuzzing**_         | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/archive.png)_**Orodha ya Ishara**_       | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/gallery.png)_**Galeria ya Picha**_  |
-| ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/packet.png)_**Uundaji wa Pakiti**_   | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/scapy.png)_**Uingizaji wa Scapy**_ | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/crc\_calculator.png)_**Kadiria ya CRC**_ | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/log.png)_**Kuandika Kumbukumbu**_            |
+| ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/attack.png)_**Mashambulizi**_           | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/fuzzing.png)_**Fuzzing**_         | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/archive.png)_**Orodha za Ishara**_       | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/gallery.png)_**Galleri ya Picha**_  |
+| ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/packet.png)_**Uundaji wa Pakiti**_   | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/scapy.png)_**Ushirikiano wa Scapy**_ | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/crc\_calculator.png)_**Kikokotoo cha CRC**_ | ![](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/log.png)_**Kurekodi**_            |
 
-**Vifaa**
+**Hardware**
 
-Hapa kuna orodha ya vifaa "vilivyosaidiwa" na viwango tofauti vya ushirikiano:
+Orodha ifuatayo ni ya vifaa "vinavyoungwa mkono" vyenye viwango tofauti vya uungwaji mkono:
 
 * USRP: X3xx, B2xx, B20xmini, USRP2, N2xx
 * HackRF
@@ -100,78 +102,79 @@ Hapa kuna orodha ya vifaa "vilivyosaidiwa" na viwango tofauti vya ushirikiano:
 * Open Sniffer
 * PlutoSDR
 
-## Madarasa
+## Lessons
 
-FISSURE inakuja na mwongozo wenye manufaa kadhaa ili kufahamiana na teknolojia na mbinu tofauti. Wengi wanajumuisha hatua za kutumia zana mbalimbali zilizounganishwa katika FISSURE.
+FISSURE inakuja na miongozo kadhaa ya kusaidia kufahamiana na teknolojia na mbinu tofauti. Mengi yanajumuisha hatua za kutumia zana mbalimbali ambazo zimeunganishwa kwenye FISSURE.
 
-* [Mafunzo1: OpenBTS](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson1\_OpenBTS.md)
-* [Mafunzo2: Lua Dissectors](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson2\_LuaDissectors.md)
-* [Mafunzo3: Sound eXchange](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson3\_Sound\_eXchange.md)
-* [Mafunzo4: ESP Boards](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson4\_ESP\_Boards.md)
-* [Mafunzo5: Radiosonde Tracking](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson5\_Radiosonde\_Tracking.md)
-* [Mafunzo6: RFID](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson6\_RFID.md)
-* [Mafunzo7: Aina za Data](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson7\_Data\_Types.md)
-* [Mafunzo8: Vipande vya GNU Radio vilivyoboreshwa](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson8\_Custom\_GNU\_Radio\_Blocks.md)
-* [Mafunzo9: TPMS](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson9\_TPMS.md)
-* [Mafunzo10: Mitihani ya Redio ya Ham](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson10\_Ham\_Radio\_Exams.md)
-* [Mafunzo11: Zana za Wi-Fi](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson11\_WiFi\_Tools.md)
+* [Lesson1: OpenBTS](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson1\_OpenBTS.md)
+* [Lesson2: Lua Dissectors](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson2\_LuaDissectors.md)
+* [Lesson3: Sound eXchange](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson3\_Sound\_eXchange.md)
+* [Lesson4: ESP Boards](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson4\_ESP\_Boards.md)
+* [Lesson5: Radiosonde Tracking](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson5\_Radiosonde\_Tracking.md)
+* [Lesson6: RFID](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson6\_RFID.md)
+* [Lesson7: Data Types](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson7\_Data\_Types.md)
+* [Lesson8: Custom GNU Radio Blocks](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson8\_Custom\_GNU\_Radio\_Blocks.md)
+* [Lesson9: TPMS](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson9\_TPMS.md)
+* [Lesson10: Ham Radio Exams](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson10\_Ham\_Radio\_Exams.md)
+* [Lesson11: Wi-Fi Tools](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Lessons/Markdown/Lesson11\_WiFi\_Tools.md)
 
-## Ramani ya Barabara
+## Roadmap
 
 * [ ] Ongeza aina zaidi za vifaa, itifaki za RF, vigezo vya ishara, zana za uchambuzi
-* [ ] Saidia mifumo zaidi ya uendeshaji
-* [ ] Tengeneza vifaa vya darasa kuhusu FISSURE (Mashambulizi ya RF, Wi-Fi, GNU Radio, PyQt, nk)
-* [ ] Unda kifaa cha kurekebisha ishara, kifaa cha kuchuja vipengele, na mtaalamu wa ishara na mbinu za AI/ML zinazoweza kuchaguliwa
-* [ ] Tekeleza mifumo ya kudemodisha kwa kuzalisha mfululizo wa biti kutoka kwa ishara zisizojulikana
-* [ ] Badilisha sehemu kuu za FISSURE kuwa mpango wa kupeleka sensori jumla
+* [ ] Tunga mifumo zaidi ya uendeshaji
+* [ ] Tengeneza vifaa vya darasa kuhusiana na FISSURE (Mashambulizi ya RF, Wi-Fi, GNU Radio, PyQt, nk.)
+* [ ] Unda mrekebishaji wa ishara, extractor ya vipengele, na mchanganuzi wa ishara kwa mbinu za AI/ML zinazoweza kuchaguliwa
+* [ ] Tekeleza mitambo ya demodulation ya kurudi kwa ajili ya kuzalisha mtiririko wa bit kutoka kwa ishara zisizojulikana
+* [ ] Hamisha vipengele vya msingi vya FISSURE kwenye mpango wa uanzishaji wa node ya sensor ya jumla
 
-## Kuchangia
+## Contributing
 
-Mapendekezo ya kuboresha FISSURE yanahimizwa sana. Acha maoni katika ukurasa wa [Majadiliano](https://github.com/ainfosec/FISSURE/discussions) au kwenye Seva ya Discord ikiwa una mawazo yoyote kuhusu yafuatayo:
+Mapendekezo ya kuboresha FISSURE yanahimizwa sana. Acha maoni kwenye ukurasa wa [Discussions](https://github.com/ainfosec/FISSURE/discussions) au kwenye Discord Server ikiwa una mawazo yoyote kuhusu yafuatayo:
 
-* Mapendekezo mapya ya vipengele na mabadiliko ya muundo
-* Zana za programu na hatua za ufungaji
-* Madarasa mapya au nyenzo zaidi kwa madarasa yaliyopo
-* Itifaki za RF za kuvutia
-* Vifaa zaidi na aina za SDR kwa ushirikiano
-* Skrini za uchambuzi wa IQ kwa kutumia Python
-* Marekebisho na uboreshaji wa ufungaji
+* Mapendekezo ya vipengele vipya na mabadiliko ya muundo
+* Zana za programu zenye hatua za usakinishaji
+* Masomo mapya au nyenzo za ziada kwa masomo yaliyopo
+* Itifaki za RF zinazovutia
+* Vifaa zaidi na aina za SDR kwa uungwaji mkono
+* Skripti za uchambuzi wa IQ katika Python
+* Marekebisho na maboresho ya usakinishaji
 
-Mchango wa kuboresha FISSURE ni muhimu katika kuharakisha maendeleo yake. Mchango wowote utakaofanya unathaminiwa sana. Ikiwa unataka kuchangia kupitia maendeleo ya nambari, tafadhali gawanya repo na uunda ombi la kuvuta:
+Michango ya kuboresha FISSURE ni muhimu ili kuharakisha maendeleo yake. Michango yoyote unayofanya inathaminiwa sana. Ikiwa unataka kuchangia kupitia maendeleo ya msimbo, tafadhali fork repo na uunde ombi la kuvuta:
 
-1. Gawa mradi
-2. Unda tawi lako la kipengee (`git checkout -b feature/AmazingFeature`)
-3. Thibitisha mabadiliko yako (`git commit -m 'Ongeza kipengee kizuri'`)
-4. Push kwenye tawi (`git push origin feature/AmazingFeature`)
+1. Fork mradi
+2. Unda tawi lako la kipengele (`git checkout -b feature/AmazingFeature`)
+3. Fanya mabadiliko yako (`git commit -m 'Add some AmazingFeature'`)
+4. Sukuma kwenye tawi (`git push origin feature/AmazingFeature`)
 5. Fungua ombi la kuvuta
 
-Kuunda [Masuala](https://github.com/ainfosec/FISSURE/issues) ili kuvuta tahadhari kwa mende pia ni karibu.
+Kuunda [Issues](https://github.com/ainfosec/FISSURE/issues) ili kuleta umakini kwa makosa pia kunakaribishwa.
 
-## Kufanya Kazi kwa Pamoja
+## Collaborating
 
-Wasiliana na Maendeleo ya Biashara ya Assured Information Security, Inc. (AIS) ili kupendekeza na kufanya kazi kwa pamoja kwenye FISSURE - iwe ni kwa kutumia muda kwa kuingiza programu yako, kuwa na watu wenye talanta katika AIS kuendeleza suluhisho kwa changamoto zako za kiufundi, au kuingiza FISSURE katika majukwaa/makala mengine.
+Wasiliana na Assured Information Security, Inc. (AIS) Business Development ili kupendekeza na kuandaa fursa zozote za ushirikiano wa FISSURE–iwe ni kwa kujitolea muda wa kuunganisha programu yako, kuwa na watu wenye talanta katika AIS kuendeleza suluhisho kwa changamoto zako za kiufundi, au kuunganisha FISSURE kwenye majukwaa/aplikesheni nyingine.
 
-## Leseni
+## License
 
 GPL-3.0
 
 Kwa maelezo ya leseni, angalia faili ya LICENSE.
-## Wasiliana
 
-Jiunge na Seva ya Discord: [https://discord.gg/JZDs5sgxcG](https://discord.gg/JZDs5sgxcG)
+## Contact
+
+Jiunge na Discord Server: [https://discord.gg/JZDs5sgxcG](https://discord.gg/JZDs5sgxcG)
 
 Fuata kwenye Twitter: [@FissureRF](https://twitter.com/fissurerf), [@AinfoSec](https://twitter.com/ainfosec)
 
 Chris Poore - Assured Information Security, Inc. - poorec@ainfosec.com
 
-Maendeleo ya Biashara - Assured Information Security, Inc. - bd@ainfosec.com
+Business Development - Assured Information Security, Inc. - bd@ainfosec.com
 
-## Mikopo
+## Credits
 
-Tunatambua na tunashukuru kwa watengenezaji hawa:
+Tunatambua na tunashukuru waendelezaji hawa:
 
-[Mikopo](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/CREDITS.md)
+[Credits](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/CREDITS.md)
 
-## Shukrani
+## Acknowledgments
 
-Shukrani maalum kwa Dk. Samuel Mantravadi na Joseph Reith kwa michango yao kwenye mradi huu.
+Shukrani maalum kwa Dr. Samuel Mantravadi na Joseph Reith kwa michango yao katika mradi huu.

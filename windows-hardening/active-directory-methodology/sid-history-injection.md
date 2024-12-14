@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## SID History Injection Attack
 
-Lengo la **SID History Injection Attack** ni kusaidia **uhamaji wa watumiaji kati ya maeneo** huku ikihakikisha upatikanaji wa rasilimali kutoka eneo la zamani. Hii inafanywa kwa **kujumuisha Kitambulisho cha Usalama (SID) cha mtumiaji wa zamani katika Historia ya SID** ya akaunti yao mpya. Kwa kuzingatia, mchakato huu unaweza kudhibitiwa ili kutoa upatikanaji usioidhinishwa kwa kuongeza SID ya kundi lenye mamlaka makubwa (kama vile Enterprise Admins au Domain Admins) kutoka eneo la mzazi kwenye Historia ya SID. Ukatili huu unatoa upatikanaji wa rasilimali zote ndani ya eneo la mzazi.
+Lengo la **SID History Injection Attack** ni kusaidia **uhamaji wa watumiaji kati ya maeneo** huku ikihakikisha upatikanaji wa rasilimali kutoka eneo la zamani. Hii inafanywa kwa **kujumuisha Kitambulisho cha Usalama (SID) cha mtumiaji wa zamani katika Historia ya SID** ya akaunti yao mpya. Kwa kuzingatia, mchakato huu unaweza kudhibitiwa ili kutoa upatikanaji usioidhinishwa kwa kuongeza SID ya kundi lenye mamlaka ya juu (kama vile Wataalam wa Biashara au Wataalam wa Eneo) kutoka eneo la mzazi hadi Historia ya SID. Ukatili huu unatoa upatikanaji wa rasilimali zote ndani ya eneo la mzazi.
 
 Njia mbili zipo za kutekeleza shambulio hili: kupitia uundaji wa **Golden Ticket** au **Diamond Ticket**.
 
-Ili kubaini SID ya kundi la **"Enterprise Admins"**, mtu lazima kwanza apate SID ya eneo la mzazi. Baada ya kutambua, SID ya kundi la Enterprise Admins inaweza kujengwa kwa kuongeza `-519` kwenye SID ya eneo la mzazi. Kwa mfano, ikiwa SID ya eneo la mzazi ni `S-1-5-21-280534878-1496970234-700767426`, SID inayotokana kwa kundi la "Enterprise Admins" itakuwa `S-1-5-21-280534878-1496970234-700767426-519`.
+Ili kubaini SID ya kundi la **"Enterprise Admins"**, mtu lazima kwanza apate SID ya eneo la mzazi. Baada ya kutambua, SID ya kundi la Enterprise Admins inaweza kuundwa kwa kuongeza `-519` kwenye SID ya eneo la mzazi. Kwa mfano, ikiwa SID ya eneo la mzazi ni `S-1-5-21-280534878-1496970234-700767426`, SID inayotokana kwa kundi la "Enterprise Admins" itakuwa `S-1-5-21-280534878-1496970234-700767426-519`.
 
 Unaweza pia kutumia vikundi vya **Domain Admins**, ambavyo vinamalizika kwa **512**.
 
-Njia nyingine ya kupata SID ya kundi la eneo lingine (kwa mfano "Domain Admins") ni kwa:
+Njia nyingine ya kupata SID ya kundi la eneo lingine (kwa mfano "Domain Admins") ni kwa kutumia:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -73,7 +73,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 Kwa maelezo zaidi kuhusu tiketi za almasi angalia:
 
 {% content-ref url="diamond-ticket.md" %}
-[tiketi-za-almasi.md](diamond-ticket.md)
+[diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
 {% code overflow="wrap" %}
@@ -84,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Pandisha hadi DA wa root au Enterprise admin ukitumia hash ya KRBTGT ya eneo lililoathirika:
+Pandisha hadi DA wa root au msimamizi wa Enterprise kwa kutumia hash ya KRBTGT ya eneo lililoathirika:
 
 {% code overflow="wrap" %}
 ```bash
@@ -134,9 +134,9 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 
 #### Automatic using [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-Hii ni skripti ya Impacket ambayo itafanya **kuongeza kutoka kwa domain ya mtoto hadi domain ya mzazi**. Skripti inahitaji:
+Hii ni skripti ya Impacket ambayo itafanya **kuongeza kutoka kwa domain ya mtoto hadi domain ya mzazi** kiotomatiki. Skripti inahitaji:
 
-* Kiongozi wa domain ya lengo
+* Kituo cha kudhibiti domain kilicholengwa
 * Akawasilisha kwa mtumiaji wa admin katika domain ya mtoto
 
 Mchakato ni:
@@ -146,17 +146,17 @@ Mchakato ni:
 * Inaunda Tiketi ya Dhahabu
 * Inajiandikisha katika domain ya mzazi
 * Inapata akawasilisha kwa akaunti ya Msimamizi katika domain ya mzazi
-* Ikiwa swichi ya `target-exec` imeainishwa, inathibitisha kwa Kiongozi wa Domain wa domain ya mzazi kupitia Psexec.
+* Ikiwa swichi ya `target-exec` imeainishwa, inathibitisha kwa Kituo cha Kudhibiti Domain cha domain ya mzazi kupitia Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
-## References
+## Marejeo
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
