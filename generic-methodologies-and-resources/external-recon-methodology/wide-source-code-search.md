@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 यह कई अवसरों पर **लीक की गई जानकारी** या **कमजोरियों** के पैटर्न की खोज में मदद करता है।
 
-* [**SourceGraph**](https://sourcegraph.com/search): लाखों रिपोजिटरी में खोजें। इसमें एक मुफ्त संस्करण और एक एंटरप्राइज संस्करण (15 दिनों के लिए मुफ्त) है। यह regex का समर्थन करता है।
+* [**SourceGraph**](https://sourcegraph.com/search): लाखों रिपोजिटरी में खोजें। इसमें एक मुफ्त संस्करण और एक उद्यम संस्करण (15 दिन मुफ्त) है। यह regex का समर्थन करता है।
 * [**Github Search**](https://github.com/search): Github में खोजें। यह regex का समर्थन करता है।
 * शायद [**Github Code Search**](https://cs.github.com/) की जांच करना भी उपयोगी हो।
-* [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab प्रोजेक्ट्स में खोजें। regex का समर्थन करता है।
-* [**SearchCode**](https://searchcode.com/): लाखों प्रोजेक्ट्स में कोड खोजें।
+* [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab परियोजनाओं में खोजें। regex का समर्थन करता है।
+* [**SearchCode**](https://searchcode.com/): लाखों परियोजनाओं में कोड खोजें।
 
 {% hint style="warning" %}
 जब आप किसी रिपोजिटरी में लीक की तलाश कर रहे हों और कुछ ऐसा चलाते हैं जैसे `git log -p` तो न भूलें कि वहाँ **अन्य शाखाएँ हो सकती हैं जिनमें अन्य कमिट्स** हो सकते हैं जिनमें रहस्य हो सकते हैं!

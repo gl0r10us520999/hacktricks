@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-यदि आपके पास एक pcap है जिसमें एक कीबोर्ड के माध्यम से USB के माध्यम से संचार शामिल है जैसे कि निम्नलिखित:
+यदि आपके पास एक pcap है जिसमें एक कीबोर्ड के माध्यम से USB के माध्यम से संचार शामिल है, जैसे कि निम्नलिखित:
 
 ![](<../../../.gitbook/assets/image (962).png>)
 

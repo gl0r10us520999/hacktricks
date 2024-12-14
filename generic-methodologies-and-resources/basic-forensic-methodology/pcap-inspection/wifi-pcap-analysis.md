@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Brute Force
 
-उस स्क्रीन के एक कॉलम में यह संकेत दिया गया है कि **क्या pcap के अंदर कोई प्रमाणीकरण पाया गया था**। यदि ऐसा है, तो आप इसे `aircrack-ng` का उपयोग करके Brute force करने की कोशिश कर सकते हैं:
+उस स्क्रीन के एक कॉलम में यह संकेत दिया गया है कि **क्या pcap के अंदर कोई प्रमाणीकरण पाया गया**। यदि ऐसा है, तो आप इसे `aircrack-ng` का उपयोग करके Brute force करने की कोशिश कर सकते हैं:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```

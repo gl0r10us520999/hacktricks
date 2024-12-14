@@ -1,23 +1,23 @@
-# क्रिप्टो सीटीएफ़ ट्रिक्स
+# Crypto CTFs Tricks
 
 {% hint style="success" %}
-**AWS हैकिंग सीखें और प्रैक्टिस करें:**<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-**GCP हैकिंग सीखें और प्रैक्टिस करें:** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर हमें **फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स**](https://github.com/carlospolop/hacktricks) और [**हैकट्रिक्स क्लाउड**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PR जमा करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## ऑनलाइन हैश डेटाबेस
+## Online Hashes DBs
 
-* _**गूगल पर खोजें**_
+* _**गूगल करें**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
 * [https://crackstation.net/](https://crackstation.net)
@@ -29,60 +29,107 @@
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## मैजिक ऑटोसॉल्वर्स
+## Magic Autosolvers
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (मैजिक मॉड्यूल)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (जादुई मॉड्यूल)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## एन्कोडर्स
+## Encoders
 
-अधिकांश एन्कोडेड डेटा को इन 2 स्रोतों से डिकोड किया जा सकता है:
+Most of encoded data can be decoded with these 2 ressources:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### सब्स्टीट्यूशन ऑटोसॉल्वर्स
+### Substitution Autosolvers
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - बहुत अच्छा !
 
-#### सीज़र - ROTx ऑटोसॉल्वर्स
+#### Caesar - ROTx Autosolvers
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### अटबाश साइफर
+#### Atbash Cipher
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### बेस एन्कोडिंग्स ऑटोसॉल्वर
+### Base Encodings Autosolver
 
-इन सभी बेस को चेक करें: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
-* **हैज़15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
+Check all these bases with: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+
+* **Ascii85**
+* `BQ%]q@psCd@rH0l`
+* **Base26** \[_A-Z_]
+* `BQEKGAHRJKHQMVZGKUXNT`
+* **Base32** \[_A-Z2-7=_]
+* `NBXWYYLDMFZGCY3PNRQQ====`
+* **Zbase32** \[_ybndrfg8ejkmcpqxot1uwisza345h769_]
+* `pbzsaamdcf3gna5xptoo====`
+* **Base32 Geohash** \[_0-9b-hjkmnp-z_]
+* `e1rqssc3d5t62svgejhh====`
+* **Base32 Crockford** \[_0-9A-HJKMNP-TV-Z_]
+* `D1QPRRB3C5S62RVFDHGG====`
+* **Base32 Extended Hexadecimal** \[_0-9A-V_]
+* `D1NMOOB3C5P62ORFDHGG====`
+* **Base45** \[_0-9A-Z $%\*+-./:_]
+* `59DPVDGPCVKEUPCPVD`
+* **Base58 (bitcoin)** \[_1-9A-HJ-NP-Za-km-z_]
+* `2yJiRg5BF9gmsU6AC`
+* **Base58 (flickr)** \[_1-9a-km-zA-HJ-NP-Z_]
+* `2YiHqF5bf9FLSt6ac`
+* **Base58 (ripple)** \[_rpshnaf39wBUDNEGHJKLM4PQ-T7V-Z2b-eCg65jkm8oFqi1tuvAxyz_]
+* `pyJ5RgnBE9gm17awU`
+* **Base62** \[_0-9A-Za-z_]
+* `g2AextRZpBKRBzQ9`
+* **Base64** \[_A-Za-z0-9+/=_]
+* `aG9sYWNhcmFjb2xh`
+* **Base67** \[_A-Za-z0-9-_.!\~\_]
+* `NI9JKX0cSUdqhr!p`
+* **Base85 (Ascii85)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `BQ%]q@psCd@rH0l`
+* **Base85 (Adobe)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `<~BQ%]q@psCd@rH0l~>`
+* **Base85 (IPv6 or RFC1924)** \[_0-9A-Za-z!#$%&()\*+-;<=>?@^_\`{|}\~\_]
+* `Xm4y`V\_|Y(V{dF>\`
+* **Base85 (xbtoa)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `xbtoa Begin\nBQ%]q@psCd@rH0l\nxbtoa End N 12 c E 1a S 4e6 R 6991d`
+* **Base85 (XML)** \[_0-9A-Za-y!#$()\*+,-./:;=?@^\`{|}\~z\__]
+* `Xm4y|V{~Y+V}dF?`
+* **Base91** \[_A-Za-z0-9!#$%&()\*+,./:;<=>?@\[]^\_\`{|}\~"_]
+* `frDg[*jNN!7&BQM`
+* **Base100** \[]
+* `👟👦👣👘👚👘👩👘👚👦👣👘`
+* **Base122** \[]
+* `4F ˂r0Xmvc`
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
+* `MIc3KiXa+Ihz+lrXMIc3KbCC`
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
-* **मेगान35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
+* **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
-* **जॉंग22** \[_ZKj9n+yf0wDVX1s/5YbdxSo=ILaUpPBCHg8uvNO4klm6iJGhQ7eFrWczAMEq3RTt2_]
+* **ZONG22** \[_ZKj9n+yf0wDVX1s/5YbdxSo=ILaUpPBCHg8uvNO4klm6iJGhQ7eFrWczAMEq3RTt2_]
 * `ayRiIo1gpO+uUc7g`
-* **एसएबी46** \[]
+* **ESAB46** \[]
 * `3sHcL2NR8WrT7mhR`
-* **मेगान45** \[]
+* **MEGAN45** \[]
 * `kLD8igSXm2KZlwrX`
-* **टिगो3एफएक्स** \[]
+* **TIGO3FX** \[]
 * `7AP9mIzdmltYmIP9mWXX`
-* **त्रिपो5** \[]
+* **TRIPO5** \[]
 * `UE9vSbnBW6psVzxB`
-* **फेरोन74** \[]
+* **FERON74** \[]
 * `PbGkNudxCzaKBm0x`
-* **गिला7** \[]
+* **GILA7** \[]
 * `D+nkv8C1qIKMErY1`
-* **सिट्रिक्स सीटीएक्स1** \[]
+* **Citrix CTX1** \[]
 * `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
 [http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
-### हैकराइज़एक्सएस \[_╫Λ↻├☰┏_]
+### HackerizeXS \[_╫Λ↻├☰┏_]
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
@@ -92,7 +139,7 @@
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 मरा हुआ: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 मृत: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -122,7 +169,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 * [http://www.webutils.pl/index.php?idx=yenc](http://www.webutils.pl/index.php?idx=yenc)
 
-### बिनहेक्स
+### बिनहैक्स
 ```
 (This file must be converted with BinHex 4.0)
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
@@ -130,13 +177,13 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
-### एएससीआई85
+### ASCII85
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
 * [http://www.webutils.pl/index.php?idx=ascii85](http://www.webutils.pl/index.php?idx=ascii85)
 
-### ड्वोराक कीबोर्ड
+### ड्वोरक कीबोर्ड
 ```
 drnajapajrna
 ```
@@ -144,54 +191,54 @@ drnajapajrna
 
 ### A1Z26
 
-अक्षरों के उनके संख्यात्मक मूल्य
+अक्षरों को उनके संख्यात्मक मान में बदलना
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### अफाइन गुप्ताक्षर एन्कोड
+### Affine Cipher Encode
 
-अक्षर को संख्या में बदलें `(ax+b)%26` (_a_ और _b_ कुंजी हैं और _x_ अक्षर है) और परिणाम को फिर से अक्षर में बदलें
+अक्षर से संख्या `(ax+b)%26` (_a_ और _b_ कुंजी हैं और _x_ अक्षर है) और परिणाम को फिर से अक्षर में बदलें
 ```
 krodfdudfrod
 ```
-### एसएमएस कोड
+### SMS Code
 
-**मल्टीटैप** [एक अक्षर को बदलता है](https://www.dcode.fr/word-letter-change) जिसे मोबाइल [फोन की पैड](https://www.dcode.fr/phone-keypad-cipher) पर संबंधित कुंजी कोड द्वारा परिभाषित बार-बार अंकों से बदल दिया जाता है (यह मोड एसएमएस लिखते समय प्रयोग किया जाता है)।\
-उदाहरण: 2=A, 22=B, 222=C, 3=D...\
-आप इस कोड को पहचान सकते हैं क्योंकि आपको\*\* कई बार दोहराए गए अंक\*\* दिखाई देंगे।
+**Multitap** [एक अक्षर को बदलता है](https://www.dcode.fr/word-letter-change) द्वारा दोहराए गए अंकों के साथ जो मोबाइल [फोन कीपैड](https://www.dcode.fr/phone-keypad-cipher) पर संबंधित कुंजी कोड द्वारा परिभाषित होते हैं (यह मोड SMS लिखते समय उपयोग किया जाता है)।\
+उदाहरण के लिए: 2=A, 22=B, 222=C, 3=D...\
+आप इस कोड की पहचान कर सकते हैं क्योंकि आप\*\* कई नंबरों को दोहराते हुए देखेंगे\*\*।
 
 आप इस कोड को डिकोड कर सकते हैं: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
-### बेकन कोड
+### Bacon Code
 
-प्रत्येक अक्षर को 4 ए या बी (या 1 और 0) के लिए प्रतिस्थापित करें
+प्रत्येक अक्षर को 4 A या B (या 1 और 0) के लिए प्रतिस्थापित करें
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### रूण
+### Runes
 
 ![](../.gitbook/assets/runes.jpg)
 
-## संक्षेपण
+## Compression
 
-**Raw Deflate** और **Raw Inflate** (आप दोनों को साइबरचेफ में पा सकते हैं) डेटा को हेडर के बिना संक्षेपित और विसंक्षेपित कर सकते हैं।
+**Raw Deflate** और **Raw Inflate** (आप दोनों को Cyberchef में पा सकते हैं) बिना हेडर के डेटा को संकुचित और अनसंकुचित कर सकते हैं।
 
-## सरल एन्क्रिप्शन
+## Easy Crypto
 
-### XOR - ऑटोसॉल्वर
+### XOR - Autosolver
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
 ### Bifid
 
-एक कीवर्ड की आवश्यकता है
+एक कुंजी शब्द की आवश्यकता है
 ```
 fgaargaamnlunesuneoa
 ```
-### वीजेनेर
+### Vigenere
 
-एक कुंजीशब्द की आवश्यकता है
+एक कुंजी शब्द की आवश्यकता है
 ```
 wodsyoidrods
 ```
@@ -201,9 +248,9 @@ wodsyoidrods
 
 ## मजबूत क्रिप्टो
 
-### फेर्नेट
+### फर्नेट
 
-2 base64 स्ट्रिंग्स (टोकन और कुंजी)
+2 base64 स्ट्रिंग (टोकन और कुंजी)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -213,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### समीर सीक्रेट शेयरिंग
+### समीर गुप्त साझाकरण
 
-एक रहस्य को X भागों में विभाजित किया जाता है और इसे पुनर्प्राप्त करने के लिए आपको Y भागों की आवश्यकता होती है (_Y <=X_).
+एक रहस्य X भागों में विभाजित किया जाता है और इसे पुनर्प्राप्त करने के लिए आपको Y भागों की आवश्यकता होती है (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -223,7 +270,7 @@ Key:
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### OpenSSL brute-force
+### OpenSSL ब्रूट-फोर्स
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -235,16 +282,16 @@ Key:
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 {% hint style="success" %}
-AWS हैकिंग सीखें और प्रैक्टिस करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और प्रैक्टिस करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+सीखें और AWS हैकिंग का अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+सीखें और GCP हैकिंग का अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PR जमा करके।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}

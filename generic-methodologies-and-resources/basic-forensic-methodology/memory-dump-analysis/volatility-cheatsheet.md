@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) **स्पेन** में सबसे प्रासंगिक साइबरसुरक्षा कार्यक्रम है और **यूरोप** में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** के मिशन के साथ, यह कांग्रेस हर अनुशासन में प्रौद्योगिकी और साइबरसुरक्षा पेशेवरों के लिए एक उबालता हुआ बैठक बिंदु है।
+​​[**RootedCON**](https://www.rootedcon.com/) **स्पेन** में सबसे प्रासंगिक साइबर सुरक्षा कार्यक्रम है और **यूरोप** में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** के मिशन के साथ, यह कांग्रेस हर अनुशासन में प्रौद्योगिकी और साइबर सुरक्षा पेशेवरों के लिए एक उबालता हुआ बैठक बिंदु है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -39,7 +39,7 @@ python3 vol.py —h
 ### volatility2
 
 {% tabs %}
-{% tab title="Method1" %} मेथड 1
+{% tab title="Method1" %}
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
@@ -72,8 +72,8 @@ From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis
 
 ### Volatility3
 
-जैसा कि README के अंदर समझाया गया है, आपको उस OS का **सिंबॉल टेबल** _volatility3/volatility/symbols_ के अंदर रखना होगा जिसे आप समर्थन देना चाहते हैं।\
-विभिन्न ऑपरेटिंग सिस्टम के लिए सिंबॉल टेबल पैक्स **डाउनलोड** के लिए उपलब्ध हैं:
+जैसा कि README के अंदर समझाया गया है, आपको उस OS की **सिंबॉल टेबल** को _volatility3/volatility/symbols_ के अंदर रखना होगा जिसे आप समर्थन करना चाहते हैं।\
+विभिन्न ऑपरेटिंग सिस्टम के लिए सिंबॉल टेबल पैक **डाउनलोड** के लिए उपलब्ध हैं:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -87,7 +87,7 @@ From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-यदि आप एक **नया प्रोफ़ाइल जिसका आपने डाउनलोड किया है** (उदाहरण के लिए एक लिनक्स वाला) का उपयोग करना चाहते हैं, तो आपको कहीं निम्नलिखित फ़ोल्डर संरचना बनानी होगी: _plugins/overlays/linux_ और इस फ़ोल्डर के अंदर प्रोफ़ाइल वाला ज़िप फ़ाइल डालनी होगी। फिर, प्रोफ़ाइलों की संख्या प्राप्त करने के लिए:
+यदि आप एक **नया प्रोफ़ाइल जिसे आपने डाउनलोड किया है** (उदाहरण के लिए एक लिनक्स प्रोफ़ाइल) का उपयोग करना चाहते हैं, तो आपको कहीं निम्नलिखित फ़ोल्डर संरचना बनानी होगी: _plugins/overlays/linux_ और इस फ़ोल्डर के अंदर प्रोफ़ाइल वाला ज़िप फ़ाइल डालनी होगी। फिर, प्रोफ़ाइलों की संख्या प्राप्त करने के लिए:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -112,7 +112,7 @@ volatility kdbgscan -f file.dmp
 ```
 #### **imageinfo और kdbgscan के बीच के अंतर**
 
-[**यहां से**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): जहाँ imageinfo केवल प्रोफ़ाइल सुझाव प्रदान करता है, **kdbgscan** सही प्रोफ़ाइल और सही KDBG पते की सकारात्मक पहचान के लिए डिज़ाइन किया गया है (यदि कई हों)। यह प्लगइन Volatility प्रोफाइल से जुड़े KDBGHeader हस्ताक्षरों के लिए स्कैन करता है और झूठे सकारात्मक को कम करने के लिए सैनीटी चेक लागू करता है। आउटपुट की विस्तारता और किए जा सकने वाले सैनीटी चेक की संख्या इस पर निर्भर करती है कि क्या Volatility एक DTB ढूंढ सकता है, इसलिए यदि आप पहले से ही सही प्रोफ़ाइल जानते हैं (या यदि आपके पास imageinfo से प्रोफ़ाइल सुझाव है), तो सुनिश्चित करें कि आप इसका उपयोग करें।
+[**यहां से**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): जहाँ imageinfo केवल प्रोफ़ाइल सुझाव प्रदान करता है, **kdbgscan** सही प्रोफ़ाइल और सही KDBG पते की सकारात्मक पहचान के लिए डिज़ाइन किया गया है (यदि कई हों)। यह प्लगइन Volatility प्रोफाइल से जुड़े KDBGHeader हस्ताक्षरों के लिए स्कैन करता है और झूठे सकारात्मक को कम करने के लिए सैनीटी चेक लागू करता है। आउटपुट की विस्तारता और किए जा सकने वाले सैनीटी चेक की संख्या इस पर निर्भर करती है कि क्या Volatility एक DTB ढूंढ सकता है, इसलिए यदि आप पहले से सही प्रोफ़ाइल जानते हैं (या यदि आपके पास imageinfo से प्रोफ़ाइल सुझाव है), तो सुनिश्चित करें कि आप इसका उपयोग करें।
 
 हमेशा **kdbgscan द्वारा पाए गए प्रक्रियाओं की संख्या** पर नज़र रखें। कभी-कभी imageinfo और kdbgscan **एक से अधिक** उपयुक्त **प्रोफ़ाइल** पा सकते हैं लेकिन केवल **मान्य एक में कुछ प्रक्रिया संबंधित** होगी (यह इसलिए है क्योंकि प्रक्रियाओं को निकालने के लिए सही KDBG पते की आवश्यकता होती है)
 ```bash
@@ -128,16 +128,16 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
 #### KDBG
 
-**कर्नेल डिबगर ब्लॉक**, जिसे **KDBG** के नाम से जाना जाता है, वोलाटिलिटी और विभिन्न डिबगर्स द्वारा किए गए फोरेंसिक कार्यों के लिए महत्वपूर्ण है। इसे `KdDebuggerDataBlock` के रूप में पहचाना जाता है और इसका प्रकार `_KDDEBUGGER_DATA64` है, इसमें आवश्यक संदर्भ जैसे `PsActiveProcessHead` शामिल हैं। यह विशेष संदर्भ प्रक्रिया सूची के सिर की ओर इशारा करता है, जिससे सभी प्रक्रियाओं की सूची बनाना संभव होता है, जो गहन मेमोरी विश्लेषण के लिए मौलिक है।
+**कर्नेल डिबगर ब्लॉक**, जिसे **KDBG** के नाम से जाना जाता है, वोलाटिलिटी और विभिन्न डिबगर्स द्वारा किए गए फोरेंसिक कार्यों के लिए महत्वपूर्ण है। इसे `KdDebuggerDataBlock` के रूप में पहचाना जाता है और यह प्रकार `_KDDEBUGGER_DATA64` का है, इसमें आवश्यक संदर्भ जैसे `PsActiveProcessHead` शामिल हैं। यह विशेष संदर्भ प्रक्रिया सूची के सिर की ओर इशारा करता है, जिससे सभी प्रक्रियाओं की सूची बनाना संभव होता है, जो गहन मेमोरी विश्लेषण के लिए मौलिक है।
 
 ## OS Information
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
-The plugin `banners.Banners` can be used in **vol3 to try to find linux banners** in the dump.
+The plugin `banners.Banners` का उपयोग **vol3 में लिनक्स बैनर्स** को डंप में खोजने के लिए किया जा सकता है।
 
-## Hashes/Passwords
+## हैश/पासवर्ड
 
 SAM हैश, [डोमेन कैश की गई क्रेडेंशियल्स](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) और [lsa रहस्य](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets) निकालें।
 
@@ -161,7 +161,7 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 
 ## मेमोरी डंप
 
-एक प्रक्रिया का मेमोरी डंप वर्तमान स्थिति का **सब कुछ** **निकालेगा**। **procdump** मॉड्यूल केवल **कोड** को **निकालेगा**।
+एक प्रक्रिया का मेमोरी डंप वर्तमान स्थिति का **सब कुछ** निकालेगा। **procdump** मॉड्यूल केवल **कोड** को **निकालेगा**।
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
@@ -282,7 +282,7 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 ### SIDs
 
 प्रक्रिया द्वारा स्वामित्व वाले प्रत्येक SSID की जांच करें।\
-यह दिलचस्प हो सकता है कि उन प्रक्रियाओं की सूची बनाएं जो एक विशेषाधिकार SIDs का उपयोग कर रही हैं (और उन प्रक्रियाओं की जो कुछ सेवा SIDs का उपयोग कर रही हैं)। 
+यह उन प्रक्रियाओं की सूची बनाना दिलचस्प हो सकता है जो एक विशेषाधिकार SIDs का उपयोग कर रही हैं (और उन प्रक्रियाओं का जो कुछ सेवा SIDs का उपयोग कर रही हैं)। 
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -302,7 +302,7 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 
 ### हैंडल
 
-जानना उपयोगी है कि **प्रक्रिया के लिए किस अन्य फ़ाइलों, कुंजियों, थ्रेड्स, प्रक्रियाओं... का हैंडल है** (खुला हुआ है)
+जानना उपयोगी है कि **प्रक्रिया के पास किस अन्य फ़ाइलों, कुंजियों, थ्रेड्स, प्रक्रियाओं... के लिए हैंडल है** (खुला हुआ है)
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -359,7 +359,7 @@ strings 3532.dmp > strings_file
 {% endtab %}
 {% endtabs %}
 
-यह एक प्रक्रिया के अंदर स्ट्रिंग्स के लिए yarascan मॉड्यूल का उपयोग करके खोज करने की अनुमति भी देता है:
+यह एक प्रक्रिया के अंदर स्ट्रिंग्स के लिए yarascan मॉड्यूल का उपयोग करके खोजने की अनुमति भी देता है:
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -398,7 +398,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) **स्पेन** में सबसे प्रासंगिक साइबरसुरक्षा कार्यक्रम है और **यूरोप** में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** के मिशन के साथ, यह कांग्रेस हर अनुशासन में प्रौद्योगिकी और साइबरसुरक्षा पेशेवरों के लिए एक उष्णकटिबंधीय बैठक बिंदु है।
+​​​​[**RootedCON**](https://www.rootedcon.com/) **स्पेन** में सबसे प्रासंगिक साइबरसुरक्षा कार्यक्रम है और **यूरोप** में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** के मिशन के साथ, यह कांग्रेस हर अनुशासन में प्रौद्योगिकी और साइबरसुरक्षा पेशेवरों के लिए एक उष्णकटिबंधीय बैठक स्थल है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -553,7 +553,7 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-**NTFS फ़ाइल प्रणाली** एक महत्वपूर्ण घटक का उपयोग करती है जिसे _मास्टर फ़ाइल तालिका_ (MFT) के रूप में जाना जाता है। इस तालिका में एक वॉल्यूम पर हर फ़ाइल के लिए कम से कम एक प्रविष्टि शामिल होती है, जिसमें MFT स्वयं भी शामिल है। प्रत्येक फ़ाइल के बारे में महत्वपूर्ण विवरण, जैसे **आकार, समय मुहरें, अनुमतियाँ, और वास्तविक डेटा**, MFT प्रविष्टियों के भीतर या MFT के बाहरी क्षेत्रों में संलग्न होते हैं, लेकिन इन प्रविष्टियों द्वारा संदर्भित होते हैं। अधिक विवरण [आधिकारिक दस्तावेज़ीकरण](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table) में पाया जा सकता है।
+**NTFS फ़ाइल प्रणाली** एक महत्वपूर्ण घटक का उपयोग करती है जिसे _मास्टर फ़ाइल तालिका_ (MFT) के रूप में जाना जाता है। इस तालिका में एक वॉल्यूम पर हर फ़ाइल के लिए कम से कम एक प्रविष्टि शामिल होती है, जिसमें MFT स्वयं भी शामिल है। प्रत्येक फ़ाइल के बारे में महत्वपूर्ण विवरण, जैसे **आकार, टाइमस्टैम्प, अनुमतियाँ, और वास्तविक डेटा**, MFT प्रविष्टियों के भीतर या MFT के बाहरी क्षेत्रों में संलग्न होते हैं, लेकिन इन प्रविष्टियों द्वारा संदर्भित होते हैं। अधिक विवरण [आधिकारिक दस्तावेज़](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table) में पाया जा सकता है।
 
 ### SSL कुंजी/प्रमाणपत्र
 
@@ -640,11 +640,11 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 {% endtab %}
 {% endtabs %}
 
-## MISC
+## विविध
 
-### External plugins
+### बाहरी प्लगइन्स
 
-यदि आप बाहरी प्लगइन्स का उपयोग करना चाहते हैं, तो सुनिश्चित करें कि प्लगइन्स से संबंधित फ़ोल्डर पहले पैरामीटर के रूप में उपयोग किए गए हैं।
+यदि आप बाहरी प्लगइन्स का उपयोग करना चाहते हैं, तो सुनिश्चित करें कि प्लगइन्स से संबंधित फ़ोल्डर पहले पैरामीटर के रूप में उपयोग किए जाते हैं।
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -773,7 +773,7 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-The **Master Boot Record (MBR)** एक महत्वपूर्ण भूमिका निभाता है जो एक स्टोरेज माध्यम के तार्किक विभाजन का प्रबंधन करता है, जो विभिन्न [file systems](https://en.wikipedia.org/wiki/File\_system) के साथ संरचित होते हैं। यह न केवल विभाजन लेआउट जानकारी रखता है बल्कि इसमें निष्पादन योग्य कोड भी होता है जो एक बूट लोडर के रूप में कार्य करता है। यह बूट लोडर या तो सीधे OS के दूसरे चरण के लोडिंग प्रक्रिया को प्रारंभ करता है (देखें [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) या प्रत्येक विभाजन के [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) के साथ सामंजस्य में काम करता है। गहन ज्ञान के लिए, [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master\_boot\_record) देखें।
+The **Master Boot Record (MBR)** एक महत्वपूर्ण भूमिका निभाता है जो एक स्टोरेज माध्यम के तार्किक विभाजन का प्रबंधन करता है, जो विभिन्न [फाइल सिस्टम](https://en.wikipedia.org/wiki/File\_system) के साथ संरचित होते हैं। यह न केवल विभाजन लेआउट जानकारी रखता है बल्कि इसमें निष्पादन योग्य कोड भी होता है जो एक बूट लोडर के रूप में कार्य करता है। यह बूट लोडर या तो सीधे OS के दूसरे चरण के लोडिंग प्रक्रिया को प्रारंभ करता है (देखें [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) या प्रत्येक विभाजन के [वॉल्यूम बूट रिकॉर्ड](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) के साथ सामंजस्य में काम करता है। गहन ज्ञान के लिए, [MBR Wikipedia पृष्ठ](https://en.wikipedia.org/wiki/Master\_boot\_record) देखें।
 
 ## References
 

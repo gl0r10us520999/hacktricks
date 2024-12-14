@@ -21,13 +21,13 @@ More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github
 
 ### Autopsy
 
-फॉरेंसिक्स में इमेज से फ़ाइलें निकालने के लिए सबसे सामान्य उपकरण [**Autopsy**](https://www.autopsy.com/download/) है। इसे डाउनलोड करें, इंस्टॉल करें और "छिपी" फ़ाइलें खोजने के लिए इसे फ़ाइल को इनजेस्ट करने दें। ध्यान दें कि Autopsy डिस्क इमेज और अन्य प्रकार की इमेज का समर्थन करने के लिए बनाया गया है, लेकिन साधारण फ़ाइलों के लिए नहीं।
+फॉरेंसिक्स में इमेज से फाइल निकालने के लिए सबसे सामान्य उपकरण [**Autopsy**](https://www.autopsy.com/download/) है। इसे डाउनलोड करें, इंस्टॉल करें और "छिपी" फाइलें खोजने के लिए इसे फाइल को इनजेस्ट करने दें। ध्यान दें कि Autopsy डिस्क इमेज और अन्य प्रकार की इमेज का समर्थन करने के लिए बनाया गया है, लेकिन साधारण फाइलों के लिए नहीं।
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** एक उपकरण है जो बाइनरी फ़ाइलों का विश्लेषण करने के लिए अंतर्निहित सामग्री खोजने के लिए है। इसे `apt` के माध्यम से इंस्टॉल किया जा सकता है और इसका स्रोत [GitHub](https://github.com/ReFirmLabs/binwalk) पर है।
+**Binwalk** एक उपकरण है जो बाइनरी फाइलों का विश्लेषण करने के लिए अंतर्निहित सामग्री खोजने के लिए है। इसे `apt` के माध्यम से इंस्टॉल किया जा सकता है और इसका स्रोत [GitHub](https://github.com/ReFirmLabs/binwalk) पर है।
 
-**Useful commands**:
+**उपयोगी कमांड**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -57,7 +57,7 @@ scalpel file.img -o output
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **सभी जानकारी** that the tool has gathered (passwords?), **विश्लेषण करें** the **पैकेट** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **अजीब डोमेन** (domains related to **malware** or **गैर-मौजूद**).
+Navigate through **सभी जानकारी** that the tool has gathered (passwords?), **विश्लेषण करें** the **पैकेट्स** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **अजीब डोमेन** (domains related to **malware** or **गैर-मौजूद**).
 
 ### PhotoRec
 

