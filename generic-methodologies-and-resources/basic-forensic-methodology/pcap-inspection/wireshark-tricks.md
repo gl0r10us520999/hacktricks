@@ -16,7 +16,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 {% endhint %}
 
 
-## Poboljšajte svoje veštine u Wireshark-u
+## Poboljšajte svoje Wireshark veštine
 
 ### Tutorijali
 
@@ -37,7 +37,7 @@ Klikom na _**Analiziraj** --> **Expert informacije**_ dobićete **pregled** onog
 
 **Rešene adrese**
 
-Pod _**Statistika --> Rešene adrese**_ možete pronaći nekoliko **informacija** koje je Wireshark "**rešio**", kao što su port/transport do protokola, MAC do proizvođača itd. Zanimljivo je znati šta je uključeno u komunikaciju.
+Pod _**Statistika --> Rešene adrese**_ možete pronaći nekoliko **informacija** koje je wireshark "**rešio**", kao što su port/transport do protokola, MAC do proizvođača, itd. Zanimljivo je znati šta je uključeno u komunikaciju.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
@@ -59,7 +59,7 @@ Pod _**Statistika --> Krajnje tačke**_ možete pronaći **rezime krajnjih tača
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**DNS informacije**
+**DNS info**
 
 Pod _**Statistika --> DNS**_ možete pronaći statistiku o uhvaćenim DNS zahtevima.
 
@@ -73,7 +73,7 @@ Pod _**Statistika --> I/O graf**_ možete pronaći **graf komunikacije.**
 
 ### Filteri
 
-Ovde možete pronaći Wireshark filtere u zavisnosti od protokola: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Ovde možete pronaći wireshark filtere u zavisnosti od protokola: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Ostali zanimljivi filteri:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -85,11 +85,11 @@ Ostali zanimljivi filteri:
 
 ### Pretraga
 
-Ako želite da **pretražujete** **sadržaj** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve u glavnu informativnu traku (Br., Vreme, Izvor itd.) pritiskom desnog dugmeta i zatim uređivanjem kolone.
+Ako želite da **pretražujete** **sadržaj** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve u glavnu informativnu traku (Br., Vreme, Izvor, itd.) pritiskom desnog dugmeta i zatim uređivanjem kolone.
 
-### Besplatni pcap laboratoriji
+### Besplatni pcap labovi
 
-**Vežbajte sa besplatnim izazovima:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Vežbajte sa besplatnim izazovima na:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifikacija domena
 
@@ -105,7 +105,7 @@ I kolonu koja dodaje ime servera iz inicijalne HTTPS veze (**ssl.handshake.type 
 
 ### Iz DHCP
 
-U trenutnom Wireshark-u umesto `bootp` treba da tražite `DHCP`
+U trenutnom Wireshark-u umesto `bootp` trebate pretraživati `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -121,11 +121,11 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Pritisnite _Edit_ i dodajte sve podatke o serveru i privatnom ključu (_IP, Port, Protokol, Datoteka ključa i lozinka_)
+Pritisnite _Edit_ i dodajte sve podatke o serveru i privatnom ključu (_IP, Port, Protokol, Ključna datoteka i lozinka_)
 
 ### Dekriptovanje https saobraćaja sa simetričnim sesijskim ključevima
 
-I Firefox i Chrome imaju mogućnost da beleže TLS sesijske ključeve, koji se mogu koristiti sa Wireshark-om za dekriptovanje TLS saobraćaja. Ovo omogućava dubinsku analizu sigurnih komunikacija. Više detalja o tome kako izvršiti ovo dekriptovanje može se naći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+I Firefox i Chrome imaju mogućnost da beleže TLS sesijske ključeve, koji se mogu koristiti sa Wireshark-om za dekriptovanje TLS saobraćaja. Ovo omogućava dubinsku analizu sigurnih komunikacija. Više detalja o tome kako izvršiti ovo dekriptovanje možete pronaći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Da biste to otkrili, pretražujte unutar okruženja za promenljivu `SSLKEYLOGFILE`
 
@@ -133,7 +133,7 @@ Datoteka deljenih ključeva će izgledati ovako:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Da biste to uvezli u Wireshark, idite na _edit > preference > protocol > ssl > i uvezite to u (Pre)-Master-Secret log filename:
+Da biste to uvezli u wireshark idite na \_edit > preference > protocol > ssl > i uvezite to u (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 

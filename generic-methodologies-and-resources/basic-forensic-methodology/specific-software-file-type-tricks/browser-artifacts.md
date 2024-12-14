@@ -30,7 +30,7 @@ Browser artifacts include various types of data stored by web browsers, such as 
 Here's a summary of the most common browser artifacts:
 
 * **Navigation History**: Prati posete korisnika veb sajtovima, korisno za identifikaciju poseta zlonamernim sajtovima.
-* **Autocomplete Data**: Predlozi zasnovani na čestim pretragama, nude uvid kada se kombinuju sa istorijom pretrage.
+* **Autocomplete Data**: Predlozi zasnovani na čestim pretragama, nude uvid kada se kombinuju sa istorijom navigacije.
 * **Bookmarks**: Sajtovi koje je korisnik sačuvao za brzi pristup.
 * **Extensions and Add-ons**: Ekstenzije ili dodaci koje je korisnik instalirao.
 * **Cache**: Čuva veb sadržaj (npr. slike, JavaScript datoteke) kako bi poboljšao vreme učitavanja veb sajtova, vredno za forenzičku analizu.
@@ -70,7 +70,7 @@ Unutar svake fascikle profila možete pronaći nekoliko važnih datoteka:
 * **logins.json**: Enkriptovane prijavne informacije.
 * **key4.db** ili **key3.db**: Čuva ključeve za enkripciju osetljivih informacija.
 
-Pored toga, proveru podešavanja pretraživača za zaštitu od phishing-a možete izvršiti pretraživanjem `browser.safebrowsing` unosa u `prefs.js`, što ukazuje na to da li su funkcije bezbednog pretraživanja omogućene ili onemogućene.
+Pored toga, proveru postavki pretraživača za zaštitu od phishing-a možete izvršiti pretraživanjem `browser.safebrowsing` unosa u `prefs.js`, što ukazuje na to da li su funkcije bezbednog pretraživanja omogućene ili onemogućene.
 
 Da biste pokušali da dekriptujete glavnu lozinku, možete koristiti [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Sa sledećim skriptom i pozivom možete odrediti datoteku lozinki za brute force:
@@ -100,17 +100,17 @@ Google Chrome čuva korisničke profile na specifičnim lokacijama u zavisnosti 
 
 Unutar ovih direktorijuma, većina korisničkih podataka može se naći u **Default/** ili **ChromeDefaultData/** folderima. Sledeće datoteke sadrže značajne podatke:
 
-* **History**: Sadrži URL-ove, preuzimanja i ključne reči za pretragu. Na Windows-u, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) može se koristiti za čitanje istorije. Kolona "Transition Type" ima različita značenja, uključujući klikove korisnika na linkove, otkucane URL-ove, slanje obrazaca i ponovna učitavanja stranica.
-* **Cookies**: Čuva kolačiće. Za inspekciju, dostupan je [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
+* **History**: Sadrži URL-ove, preuzimanja i ključne reči pretrage. Na Windows-u, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) može se koristiti za čitanje istorije. Kolona "Transition Type" ima različita značenja, uključujući klikove korisnika na linkove, otkucane URL-ove, slanje obrazaca i ponovna učitavanja stranica.
+* **Cookies**: Čuva kolačiće. Za inspekciju, dostupna je [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
 * **Cache**: Drži keširane podatke. Za inspekciju, korisnici Windows-a mogu koristiti [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
-* **Bookmarks**: Korisnički obeleživači.
+* **Bookmarks**: Korisničke oznake.
 * **Web Data**: Sadrži istoriju obrazaca.
-* **Favicons**: Čuva favicon-e sajtova.
+* **Favicons**: Čuva favicon-e veb sajtova.
 * **Login Data**: Uključuje podatke za prijavu kao što su korisnička imena i lozinke.
 * **Current Session**/**Current Tabs**: Podaci o trenutnoj sesiji pretraživanja i otvorenim karticama.
 * **Last Session**/**Last Tabs**: Informacije o sajtovima aktivnim tokom poslednje sesije pre nego što je Chrome zatvoren.
 * **Extensions**: Direktorijumi za ekstenzije i dodatke pretraživača.
-* **Thumbnails**: Čuva sličice sajtova.
+* **Thumbnails**: Čuva sličice veb sajtova.
 * **Preferences**: Datoteka bogata informacijama, uključujući podešavanja za dodatke, ekstenzije, iskačuće prozore, obaveštenja i još mnogo toga.
 * **Browser’s built-in anti-phishing**: Da biste proverili da li su zaštita od phishing-a i zaštita od malvera omogućene, pokrenite `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Potražite `{"enabled: true,"}` u izlazu.
 
@@ -120,11 +120,11 @@ Kao što možete primetiti u prethodnim sekcijama, i Chrome i Firefox koriste **
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 upravlja svojim podacima i metapodacima na različitim lokacijama, pomažući u razdvajanju sačuvanih informacija i njihovih odgovarajućih detalja za lak pristup i upravljanje.
+Internet Explorer 11 upravlja svojim podacima i metapodacima na različitim lokacijama, pomažući u razdvajanju sačuvanih informacija i njihovih odgovarajućih detalja radi lakšeg pristupa i upravljanja.
 
 ### Metadata Storage
 
-Metapodaci za Internet Explorer čuvaju se u `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (gde je VX V01, V16 ili V24). Uz to, datoteka `V01.log` može pokazati razlike u vremenu modifikacije sa `WebcacheVX.data`, što ukazuje na potrebu za popravkom koristeći `esentutl /r V01 /d`. Ovi metapodaci, smešteni u ESE bazi podataka, mogu se oporaviti i pregledati koristeći alate kao što su photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html). Unutar tabele **Containers**, može se uočiti specifične tabele ili kontejneri gde je svaki segment podataka smešten, uključujući detalje o kešu za druge Microsoft alate kao što je Skype.
+Metapodaci za Internet Explorer čuvaju se u `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (gde je VX V01, V16 ili V24). Uz to, datoteka `V01.log` može pokazati razlike u vremenu modifikacije sa `WebcacheVX.data`, što ukazuje na potrebu za popravkom koristeći `esentutl /r V01 /d`. Ovi metapodaci, smešteni u ESE bazi podataka, mogu se oporaviti i pregledati koristeći alate kao što su photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), redom. Unutar tabele **Containers**, može se razaznati specifične tabele ili kontejneri gde je svaki segment podataka smešten, uključujući detalje o kešu za druge Microsoft alate kao što je Skype.
 
 ### Cache Inspection
 
@@ -162,9 +162,9 @@ Safari podaci se čuvaju na `/Users/$User/Library/Safari`. Ključne datoteke ukl
 
 * **History.db**: Sadrži tabele `history_visits` i `history_items` sa URL-ovima i vremenskim oznakama poseta. Koristite `sqlite3` za upite.
 * **Downloads.plist**: Informacije o preuzetim datotekama.
-* **Bookmarks.plist**: Čuva obeležene URL-ove.
+* **Bookmarks.plist**: Čuva URL-ove oznaka.
 * **TopSites.plist**: Najčešće posećeni sajtovi.
-* **Extensions.plist**: Lista ekstenzija za Safari pretraživač. Koristite `plutil` ili `pluginkit` za preuzimanje.
+* **Extensions.plist**: Lista ekstenzija pretraživača Safari. Koristite `plutil` ili `pluginkit` za preuzimanje.
 * **UserNotificationPermissions.plist**: Domeni kojima je dozvoljeno slanje obaveštenja. Koristite `plutil` za analizu.
 * **LastSession.plist**: Kartice iz poslednje sesije. Koristite `plutil` za analizu.
 * **Browser’s built-in anti-phishing**: Proverite koristeći `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Odgovor 1 označava da je funkcija aktivna.
@@ -173,9 +173,9 @@ Safari podaci se čuvaju na `/Users/$User/Library/Safari`. Ključne datoteke ukl
 
 Opera podaci se nalaze u `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i deli format Chrome-a za istoriju i preuzimanja.
 
-* **Browser’s built-in anti-phishing**: Proverite tako što ćete videti da li je `fraud_protection_enabled` u Preferences datoteci postavljeno na `true` koristeći `grep`.
+* **Browser’s built-in anti-phishing**: Proverite tako što ćete proveriti da li je `fraud_protection_enabled` u datoteci Preferences postavljeno na `true` koristeći `grep`.
 
-Ove putanje i komande su ključne za pristup i razumevanje podataka o pretraživanju koje čuvaju različiti web pretraživači.
+Ove putanje i komande su ključne za pristup i razumevanje podataka o pretraživanju koje čuvaju različiti veb pretraživači.
 
 ## References
 
@@ -187,7 +187,7 @@ Ove putanje i komande su ključne za pristup i razumevanje podataka o pretraživ
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) za lako izgradnju i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatom** zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatom** zajednice.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}

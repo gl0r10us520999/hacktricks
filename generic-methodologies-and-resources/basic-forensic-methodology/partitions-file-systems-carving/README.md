@@ -22,7 +22,7 @@ Hard disk ili **SSD disk može sadržati različite particije** sa ciljem fizič
 
 ### MBR (master Boot Record)
 
-Dodeljuje se u **prvom sektoru diska nakon 446B boot koda**. Ovaj sektor je ključan za označavanje PC-u šta i odakle treba da se montira particija.\
+Dodeljuje se u **prvom sektoru diska nakon 446B boot koda**. Ovaj sektor je suštinski za označavanje PC-u šta i odakle treba da se montira particija.\
 Omogućava do **4 particije** (najviše **samo 1** može biti aktivna/**bootable**). Međutim, ako vam je potrebno više particija, možete koristiti **proširene particije**. **Zadnji bajt** ovog prvog sektora je potpis boot zapisa **0x55AA**. Samo jedna particija može biti označena kao aktivna.\
 MBR omogućava **maksimalno 2.2TB**.
 
@@ -42,8 +42,8 @@ Od **bajtova 440 do 443** MBR-a možete pronaći **Windows Disk Signature** (ako
 | 446 (0x1BE) | 16 (0x10)  | Prva particija     |
 | 462 (0x1CE) | 16 (0x10)  | Druga particija    |
 | 478 (0x1DE) | 16 (0x10)  | Treća particija     |
-| 494 (0x1EE) | 16 (0x10)  | Četvrta particija   |
-| 510 (0x1FE) | 2 (0x2)    | Potpis 0x55 0xAA   |
+| 494 (0x1EE) | 16 (0x10)  | Četvrta particija    |
+| 510 (0x1FE) | 2 (0x2)    | Potpis 0x55 0xAA |
 
 **Format zapisa particije**
 
@@ -54,17 +54,17 @@ Od **bajtova 440 do 443** MBR-a možete pronaći **Windows Disk Signature** (ako
 | 2 (0x02)  | 1 (0x01) | Početni sektor (bitovi 0-5); gornji bitovi cilindra (6- 7) |
 | 3 (0x03)  | 1 (0x01) | Početni cilindar najniži 8 bitova                     |
 | 4 (0x04)  | 1 (0x01) | Kod tipa particije (0x83 = Linux)                     |
-| 5 (0x05)  | 1 (0x01) | Kraj glave                                            |
+| 5 (0x05)  | 1 (0x01) | Kraj glave                                           |
 | 6 (0x06)  | 1 (0x01) | Kraj sektora (bitovi 0-5); gornji bitovi cilindra (6- 7)   |
-| 7 (0x07)  | 1 (0x01) | Kraj cilindra najniži 8 bitova                        |
-| 8 (0x08)  | 4 (0x04) | Sektori pre particije (mali endian)                   |
+| 7 (0x07)  | 1 (0x01) | Kraj cilindra najniži 8 bitova                       |
+| 8 (0x08)  | 4 (0x04) | Sektori koji prethode particiji (mali endian)        |
 | 12 (0x0C) | 4 (0x04) | Sektori u particiji                                   |
 
 Da biste montirali MBR u Linux-u, prvo morate dobiti početni offset (možete koristiti `fdisk` i `p` komandu)
 
 ![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-I zatim koristite sledeći kod
+A zatim koristite sledeći kod
 ```bash
 #Mount MBR in Linux
 mount -o ro,loop,offset=<Bytes>
@@ -73,7 +73,7 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logičko adresiranje blokova)**
 
-**Logičko adresiranje blokova** (**LBA**) je uobičajen sistem koji se koristi za **specifikaciju lokacije blokova** podataka koji se čuvaju na uređajima za skladištenje računara, obično na sekundarnim sistemima skladištenja kao što su hard diskovi. LBA je posebno jednostavan linearni sistem adresiranja; **blokovi se lociraju pomoću celobrojnih indeksa**, pri čemu je prvi blok LBA 0, drugi LBA 1, i tako dalje.
+**Logičko adresiranje blokova** (**LBA**) je uobičajen sistem koji se koristi za **specifikaciju lokacije blokova** podataka koji se čuvaju na uređajima za skladištenje računara, obično na sekundarnim sistemima skladištenja kao što su hard diskovi. LBA je posebno jednostavan linearni sistem adresiranja; **blokovi se nalaze pomoću celobrojnog indeksa**, pri čemu je prvi blok LBA 0, drugi LBA 1, i tako dalje.
 
 ### GPT (GUID tabela particija)
 
@@ -85,12 +85,12 @@ GUID tabela particija, poznata kao GPT, favorizovana je zbog svojih poboljšanih
 
 **Otpornost podataka i oporavak**:
 
-* **Redundancija**: Za razliku od MBR-a, GPT ne ograničava particionisanje i podatke za pokretanje na jedno mesto. Replikuje ove podatke širom diska, poboljšavajući integritet i otpornost podataka.
+* **Redundancija**: Za razliku od MBR-a, GPT ne ograničava particionisanje i podatke o pokretanju na jedno mesto. Replikuje ove podatke širom diska, poboljšavajući integritet i otpornost podataka.
 * **Ciklična kontrola redundancije (CRC)**: GPT koristi CRC za osiguranje integriteta podataka. Aktivno prati oštećenje podataka, a kada se otkrije, GPT pokušava da povrati oštećene podatke iz druge lokacije na disku.
 
 **Zaštitni MBR (LBA0)**:
 
-* GPT održava unazad kompatibilnost putem zaštitnog MBR-a. Ova funkcija se nalazi u prostoru nasleđenog MBR-a, ali je dizajnirana da spreči starije MBR-bazirane alate da greškom prepisuju GPT diskove, čime se štiti integritet podataka na GPT-formatiranim diskovima.
+* GPT održava unazad kompatibilnost putem zaštitnog MBR-a. Ova funkcija se nalazi u prostoru nasleđenog MBR-a, ali je dizajnirana da spreči starije MBR-bazirane alate da greškom prepišu GPT diskove, čime se štiti integritet podataka na GPT-formatiranim diskovima.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1062).png>)
 
@@ -117,7 +117,7 @@ Zaglavlje tabele particija definiše upotrebljive blokove na disku. Takođe defi
 | 32 (0x20) | 8 bajtova  | Backup LBA (lokacija druge kopije zaglavlja)                                                                                                                                  |
 | 40 (0x28) | 8 bajtova  | Prvi upotrebljivi LBA za particije (poslednji LBA primarne tabele particija + 1)                                                                                                          |
 | 48 (0x30) | 8 bajtova  | Poslednji upotrebljivi LBA (prvi LBA sekundarne tabele particija − 1)                                                                                                                       |
-| 56 (0x38) | 16 bajtova | Disk GUID u mešovitom endian                                                                                                                                                       |
+| 56 (0x38) | 16 bajtova | Disk GUID u mešovitom endianu                                                                                                                                                       |
 | 72 (0x48) | 8 bajtova  | Početni LBA niza unosa particija (uvek 2 u primarnoj kopiji)                                                                                                        |
 | 80 (0x50) | 4 bajta  | Broj unosa particija u nizu                                                                                                                                            |
 | 84 (0x54) | 4 bajta  | Veličina jednog unosa particije (obično 80h ili 128)                                                                                                                           |
@@ -182,7 +182,7 @@ Ključne komponente korenskog direktorijuma, posebno za FAT12 i FAT16, uključuj
 
 ### EXT
 
-**Ext2** je najčešći sistem datoteka za **ne-journal** particije (**particije koje se ne menjaju mnogo**) kao što je particija za pokretanje. **Ext3/4** su **journal** i obično se koriste za **ostale particije**.
+**Ext2** je najčešći sistem datoteka za **ne-journaled** particije (**particije koje se ne menjaju mnogo**) kao što je boot particija. **Ext3/4** su **journaled** i obično se koriste za **ostale particije**.
 
 ## **Metapodaci**
 
@@ -200,11 +200,11 @@ Možete koristiti alate kao što su [**exiftool**](https://exiftool.org) i [**Me
 
 ## **Oporavak obrisanih datoteka**
 
-### Zabeležene obrisane datoteke
+### Zapisane obrisane datoteke
 
 Kao što je ranije viđeno, postoji nekoliko mesta gde je datoteka još uvek sačuvana nakon što je "obrisana". To je zato što obično brisanje datoteke iz sistema datoteka samo označava da je obrisana, ali podaci nisu dodirnuti. Tada je moguće ispitati registre datoteka (kao što je MFT) i pronaći obrisane datoteke.
 
-Takođe, OS obično čuva mnogo informacija o promenama u sistemu datoteka i rezervnim kopijama, tako da je moguće pokušati koristiti ih za oporavak datoteke ili što više informacija.
+Takođe, OS obično čuva mnogo informacija o promenama u sistemu datoteka i rezervnim kopijama, tako da je moguće pokušati da ih iskoristite za oporavak datoteke ili što više informacija.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -212,11 +212,11 @@ Takođe, OS obično čuva mnogo informacija o promenama u sistemu datoteka i rez
 
 ### **File Carving**
 
-**File carving** je tehnika koja pokušava da **pronađe datoteke u masi podataka**. Postoje 3 glavna načina na koje alati poput ovog funkcionišu: **Na osnovu zaglavlja i podnožja tipova datoteka**, na osnovu struktura tipova datoteka i na osnovu **sadržaja** samog.
+**File carving** je tehnika koja pokušava da **pronađe datoteke u masi podataka**. Postoje 3 glavna načina na koje alati poput ovog funkcionišu: **Na osnovu zaglavlja i repova tipova datoteka**, na osnovu **struktura** tipova datoteka i na osnovu **sadržaja** same datoteke.
 
 Napomena da ova tehnika **ne funkcioniše za vraćanje fragmentisanih datoteka**. Ako datoteka **nije smeštena u kontiguitetne sektore**, tada ova tehnika neće moći da je pronađe ili barem deo nje.
 
-Postoji nekoliko alata koje možete koristiti za file carving koji označavaju tipove datoteka koje želite da pretražujete.
+Postoji nekoliko alata koje možete koristiti za file carving koji ukazuju na tipove datoteka koje želite da pretražujete.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -250,11 +250,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

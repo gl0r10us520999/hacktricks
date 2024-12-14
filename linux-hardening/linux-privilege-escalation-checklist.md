@@ -26,7 +26,7 @@ Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
 **Najnovija Obaveštenja**\
-Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima platforme
+Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platforme
 
 **Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
@@ -40,13 +40,13 @@ Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima p
 * [ ] Pretražite [**kernel exploite**](privilege-escalation/#kernel-exploits) **koristeći skripte** (DirtyCow?)
 * [ ] **Proverite** da li je [**sudo verzija** ranjiva](privilege-escalation/#sudo-version)
 * [ ] [**Dmesg** verifikacija potpisa nije uspela](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] Više sistemskih informacija ([datum, sistemske statistike, cpu informacije, štampači](privilege-escalation/#more-system-enumeration))
-* [ ] [**Enumerisanje više odbrana**](privilege-escalation/#enumerate-possible-defenses)
+* [ ] Više sistemskih enumeracija ([datum, sistemske statistike, informacije o CPU-u, štampači](privilege-escalation/#more-system-enumeration))
+* [ ] [**Enumerirajte više odbrana**](privilege-escalation/#enumerate-possible-defenses)
 
 ### [Diskovi](privilege-escalation/#drives)
 
-* [ ] **Lista montiranih** diskova
-* [ ] **Da li postoji neki nemontirani disk?**
+* [ ] **Prikažite montirane** diskove
+* [ ] **Da li postoji nemontirani disk?**
 * [ ] **Da li postoje kredencijali u fstab?**
 
 ### [**Instalirani Softver**](privilege-escalation/#installed-software)
@@ -58,31 +58,31 @@ Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima p
 
 * [ ] Da li se pokreće neki **nepoznati softver**?
 * [ ] Da li se neki softver pokreće sa **više privilegija nego što bi trebao**?
-* [ ] Pretražite **exploite pokrenutih procesa** (posebno verziju koja se pokreće).
-* [ ] Možete li **modifikovati binarni** fajl nekog pokrenutog procesa?
+* [ ] Pretražite za **exploite pokrenutih procesa** (posebno verziju koja se pokreće).
+* [ ] Možete li **modifikovati binarni** fajl bilo kog pokrenutog procesa?
 * [ ] **Pratite procese** i proverite da li se neki zanimljiv proces često pokreće.
 * [ ] Možete li **pročitati** neku zanimljivu **memoriju procesa** (gde bi lozinke mogle biti sačuvane)?
 
 ### [Zakazani/Cron poslovi?](privilege-escalation/#scheduled-jobs)
 
 * [ ] Da li se [**PATH**](privilege-escalation/#cron-path) menja od strane nekog crona i možete li **pisati** u njega?
-* [ ] Da li postoji neki [**wildcard**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) u cron poslu?
+* [ ] Da li postoji [**wildcard**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) u cron poslu?
 * [ ] Da li se neki [**modifikovani skript**](privilege-escalation/#cron-script-overwriting-and-symlink) **izvršava** ili se nalazi u **modifikovanoj fascikli**?
 * [ ] Da li ste otkrili da se neki **skript** može ili se izvršava [**veoma često**](privilege-escalation/#frequent-cron-jobs)? (svakih 1, 2 ili 5 minuta)
 
 ### [Servisi](privilege-escalation/#services)
 
-* [ ] Da li postoji neki **pisiv .service** fajl?
-* [ ] Da li postoji neki **pisiv binarni** fajl koji izvršava **servis**?
-* [ ] Da li postoji neka **pisiva fascikla u systemd PATH**?
+* [ ] Da li postoji **pisiv .service** fajl?
+* [ ] Da li postoji **pisivi binarni** fajl koji izvršava **servis**?
+* [ ] Da li postoji **pisiva fascikla u systemd PATH**?
 
 ### [Tajmeri](privilege-escalation/#timers)
 
-* [ ] Da li postoji neki **pisiv tajmer**?
+* [ ] Da li postoji **pisivi tajmer**?
 
 ### [Soketi](privilege-escalation/#sockets)
 
-* [ ] Da li postoji neki **pisiv .socket** fajl?
+* [ ] Da li postoji **pisiv .socket** fajl?
 * [ ] Možete li **komunicirati sa nekim soketom**?
 * [ ] **HTTP soketi** sa zanimljivim informacijama?
 
@@ -92,8 +92,8 @@ Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima p
 
 ### [Mreža](privilege-escalation/#network)
 
-* [ ] Enumerisanje mreže da biste znali gde se nalazite
-* [ ] **Otvoreni portovi koje niste mogli da pristupite pre** nego što ste dobili shell unutar mašine?
+* [ ] Enumerirajte mrežu da znate gde se nalazite
+* [ ] **Otvoreni portovi kojima niste mogli pristupiti pre** nego što ste dobili shell unutar mašine?
 * [ ] Možete li **sniffovati saobraćaj** koristeći `tcpdump`?
 
 ### [Korisnici](privilege-escalation/#users)
@@ -112,7 +112,7 @@ Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima p
 ### [SUDO i SUID komande](privilege-escalation/#sudo-and-suid)
 
 * [ ] Možete li izvršiti **bilo koju komandu sa sudo**? Možete li je koristiti da ČITATE, PIŠETE ili IZVRŠAVATE bilo šta kao root? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Da li postoji neki **eksploatabilni SUID binarni**? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Da li postoji neki **exploitable SUID binarni**? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Da li su [**sudo** komande **ograničene** po **putanji**? Možete li **obići** ograničenja](privilege-escalation/#sudo-execution-bypassing-paths)?
 * [ ] [**Sudo/SUID binarni bez naznačene putanje**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
 * [ ] [**SUID binarni koji naznačava putanju**](privilege-escalation/#suid-binary-with-command-path)? Obilaženje
@@ -146,11 +146,11 @@ Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima p
 * [ ] **Profilni fajlovi** - Pročitajte osetljive podatke? Pišite za privesc?
 * [ ] **passwd/shadow fajlovi** - Pročitajte osetljive podatke? Pišite za privesc?
 * [ ] **Proverite uobičajene zanimljive fascikle** za osetljive podatke
-* [ ] **Čudne Lokacije/Posedovani fajlovi,** možda imate pristup ili možete da menjate izvršne fajlove
-* [ ] **Izmenjeni** u poslednjih minuta
+* [ ] **Čudne Lokacije/Vlasnički fajlovi,** možda imate pristup ili možete izmeniti izvršne fajlove
+* [ ] **Modifikovani** u poslednjim minutima
 * [ ] **Sqlite DB fajlovi**
 * [ ] **Skriveni fajlovi**
-* [ ] **Skripte/Binari u PATH-u**
+* [ ] **Skripte/Binarni u PATH-u**
 * [ ] **Web fajlovi** (lozinke?)
 * [ ] **Backup-i**?
 * [ ] **Poznati fajlovi koji sadrže lozinke**: Koristite **Linpeas** i **LaZagne**
@@ -179,7 +179,7 @@ Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
 **Najnovija Obaveštenja**\
-Budite informisani o najnovijim nagradama za greške i ključnim ažuriranjima platforme
+Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platforme
 
 **Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 

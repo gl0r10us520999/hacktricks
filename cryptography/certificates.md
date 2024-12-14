@@ -33,7 +33,7 @@ Sertifikati se uglavnom izdaju od strane [sertifikacionih tela](https://en.wikip
 
 ### **Zajednička polja u x509 sertifikatima**
 
-U x509 sertifikatima, nekoliko **polja** igra ključne uloge u obezbeđivanju validnosti i sigurnosti sertifikata. Evo pregleda ovih polja:
+U x509 sertifikatima, nekoliko **polja** igra ključne uloge u osiguravanju validnosti i sigurnosti sertifikata. Evo pregleda ovih polja:
 
 * **Broj verzije** označava verziju x509 formata.
 * **Serijski broj** jedinstveno identifikuje sertifikat unutar sistema Sertifikacionog tela (CA), uglavnom za praćenje opoziva.
@@ -42,7 +42,7 @@ U x509 sertifikatima, nekoliko **polja** igra ključne uloge u obezbeđivanju va
 * **Zemlja (C)**, **Lokacija (L)**, **Država ili pokrajina (ST, S, ili P)**, **Organizacija (O)**, i **Organizaciona jedinica (OU)** pružaju geografske i organizacione detalje.
 * **Istaknuto ime (DN)** obuhvata punu identifikaciju subjekta.
 * **Izdavač** detaljno opisuje ko je verifikovao i potpisao sertifikat, uključujući slična podpolja kao Subjekt za CA.
-* **Period važenja** označen je vremenskim oznakama **Ne pre** i **Ne posle**, osiguravajući da se sertifikat ne koristi pre ili posle određenog datuma.
+* **Period validnosti** označen je vremenskim oznakama **Ne pre** i **Ne posle**, osiguravajući da se sertifikat ne koristi pre ili posle određenog datuma.
 * Sekcija **Javni ključ**, koja je ključna za sigurnost sertifikata, specificira algoritam, veličinu i druge tehničke detalje javnog ključa.
 * **x509v3 ekstenzije** poboljšavaju funkcionalnost sertifikata, specificirajući **Korišćenje ključa**, **Prošireno korišćenje ključa**, **Alternativno ime subjekta**, i druge osobine za fino podešavanje primene sertifikata.
 
@@ -53,7 +53,7 @@ U x509 sertifikatima, nekoliko **polja** igra ključne uloge u obezbeđivanju va
 * **Alternativno ime subjekta** i **Osnovna ograničenja** definišu dodatne nazive hostova pokrivene sertifikatom i da li je to CA ili sertifikat krajnjeg entiteta, redom.
 * Identifikatori kao što su **Identifikator ključa subjekta** i **Identifikator ključa vlasti** osiguravaju jedinstvenost i praćenje ključeva.
 * **Pristup informacijama o vlasti** i **Tačke distribucije CRL** pružaju puteve za verifikaciju izdavača CA i proveru statusa opoziva sertifikata.
-* **CT Precertifikat SCTs** nude transparente dnevnike, što je ključno za javno poverenje u sertifikat.
+* **CT Precertifikat SCTs** nude evidencije transparentnosti, što je ključno za javno poverenje u sertifikat.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -77,19 +77,19 @@ print(f"Public Key: {public_key}")
 ```
 ### **Razlika između OCSP i CRL distribucionih tačaka**
 
-**OCSP** (**RFC 2560**) uključuje klijenta i odgovarača koji rade zajedno kako bi proverili da li je digitalni javni ključ sertifikat opozvan, bez potrebe za preuzimanjem celog **CRL**. Ova metoda je efikasnija od tradicionalnog **CRL**, koji pruža listu opozvanih serijskih brojeva sertifikata, ali zahteva preuzimanje potencijalno velikog fajla. CRL-ovi mogu sadržati do 512 unosa. Više detalja je dostupno [ovde](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) uključuje klijenta i odgovarača koji rade zajedno kako bi proverili da li je digitalni javni ključ sertifikat opozvan, bez potrebe za preuzimanjem celog **CRL**. Ova metoda je efikasnija od tradicionalnog **CRL**, koji pruža listu opozvanih serijskih brojeva sertifikata, ali zahteva preuzimanje potencijalno velikog fajla. CRL može sadržati do 512 unosa. Više detalja je dostupno [ovde](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **Šta je transparentnost sertifikata**
 
-Transparentnost sertifikata pomaže u borbi protiv pretnji vezanih za sertifikate osiguravajući da je izdavanje i postojanje SSL sertifikata vidljivo vlasnicima domena, CA-ima i korisnicima. Njeni ciljevi su:
+Transparentnost sertifikata pomaže u borbi protiv pretnji vezanih za sertifikate osiguravajući da je izdavanje i postojanje SSL sertifikata vidljivo vlasnicima domena, CA i korisnicima. Njeni ciljevi su:
 
-* Sprečavanje CA-a da izdaju SSL sertifikate za domen bez znanja vlasnika domena.
+* Sprečavanje CA da izdaju SSL sertifikate za domen bez znanja vlasnika domena.
 * Uspostavljanje otvorenog sistema revizije za praćenje greškom ili zlonamerno izdatih sertifikata.
 * Zaštita korisnika od prevarantskih sertifikata.
 
 #### **Sertifikati logovi**
 
-Sertifikati logovi su javno revizibilni, samo za dodavanje zapisi sertifikata, koje održavaju mrežne usluge. Ovi logovi pružaju kriptografske dokaze za revizijske svrhe. Izdavaoci i javnost mogu podnositi sertifikate ovim logovima ili ih pretraživati radi verifikacije. Dok tačan broj log servera nije fiksiran, očekuje se da će biti manje od hiljadu globalno. Ove servere mogu nezavisno upravljati CA, ISP ili bilo koja zainteresovana strana.
+Sertifikati logovi su javno revizibilni, samo za dodavanje zapisi sertifikata, koje održavaju mrežne usluge. Ovi logovi pružaju kriptografske dokaze za revizijske svrhe. Izdavačke vlasti i javnost mogu podnositi sertifikate ovim logovima ili ih pretraživati radi verifikacije. Dok tačan broj log servera nije fiksiran, očekuje se da će biti manje od hiljadu globalno. Ove servere mogu nezavisno upravljati CA, ISP ili bilo koja zainteresovana strana.
 
 #### **Upit**
 
@@ -178,7 +178,7 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatima** zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) za lako kreiranje i **automatizaciju radnih tokova** pokretanih **najnaprednijim** alatima zajednice na svetu.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

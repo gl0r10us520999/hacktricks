@@ -3,7 +3,7 @@
 
 ## Threat Modeling
 
-Dobrodošli u sveobuhvatan vodič HackTricks-a o modelovanju pretnji! Krenite na istraživanje ovog kritičnog aspekta sajber bezbednosti, gde identifikujemo, razumemo i strategizujemo protiv potencijalnih ranjivosti u sistemu. Ova tema služi kao vodič korak po korak, ispunjen stvarnim primerima, korisnim softverom i lako razumljivim objašnjenjima. Idealno za novajlije i iskusne praktičare koji žele da ojačaju svoje odbrane u oblasti sajber bezbednosti.
+Dobrodošli u sveobuhvatan vodič HackTricks-a o modelovanju pretnji! Krenite u istraživanje ovog kritičnog aspekta sajber bezbednosti, gde identifikujemo, razumemo i strategizujemo protiv potencijalnih ranjivosti u sistemu. Ova tema služi kao vodič korak po korak, ispunjen stvarnim primerima, korisnim softverom i lako razumljivim objašnjenjima. Idealno za novajlije i iskusne praktičare koji žele da ojačaju svoju sajber bezbednost.
 
 ### Commonly Used Scenarios
 
@@ -18,20 +18,20 @@ Modeli pretnji često sadrže elemente označene crvenom bojom, simbolizujući p
 
 ### The CIA Triad
 
-CIA trojka je široko prepoznat model u oblasti informacione bezbednosti, koji se odnosi na Poverljivost, Integritet i Dostupnost. Ove tri kolone čine osnovu na kojoj se grade mnoge mere i politike bezbednosti, uključujući metodologije modelovanja pretnji.
+CIA trojka je široko prepoznat model u oblasti informacione bezbednosti, koji se odnosi na Poverljivost, Integritet i Dostupnost. Ove tri stuba čine osnovu na kojoj se grade mnoge mere i politike bezbednosti, uključujući metodologije modelovanja pretnji.
 
 1. **Poverljivost**: Osiguranje da podaci ili sistem nisu dostupni neovlašćenim osobama. Ovo je centralni aspekt bezbednosti, koji zahteva odgovarajuće kontrole pristupa, enkripciju i druge mere za sprečavanje curenja podataka.
-2. **Integritet**: Tačnost, doslednost i pouzdanost podataka tokom njihovog životnog ciklusa. Ova princip osigurava da podaci nisu izmenjeni ili kompromitovani od strane neovlašćenih strana. Često uključuje kontrolne sume, heširanje i druge metode verifikacije podataka.
+2. **Integritet**: Tačnost, doslednost i pouzdanost podataka tokom njihovog životnog ciklusa. Ova načela osiguravaju da podaci nisu izmenjeni ili kompromitovani od strane neovlašćenih strana. Često uključuje kontrolne sume, heširanje i druge metode verifikacije podataka.
 3. **Dostupnost**: Ovo osigurava da su podaci i usluge dostupni ovlašćenim korisnicima kada su potrebni. Ovo često uključuje redundanciju, otpornost na greške i konfiguracije visoke dostupnosti kako bi se sistemi održavali u radu čak i u slučaju prekida.
 
 ### Threat Modeling Methodlogies
 
 1. **STRIDE**: Razvijen od strane Microsoft-a, STRIDE je akronim za **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Svaka kategorija predstavlja tip pretnje, a ova metodologija se obično koristi u fazi dizajniranja programa ili sistema za identifikaciju potencijalnih pretnji.
 2. **DREAD**: Ovo je još jedna metodologija iz Microsoft-a koja se koristi za procenu rizika identifikovanih pretnji. DREAD se odnosi na **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Svaki od ovih faktora se boduje, a rezultat se koristi za prioritizaciju identifikovanih pretnji.
-3. **PASTA** (Process for Attack Simulation and Threat Analysis): Ovo je metodologija zasnovana na **riziku** koja se sastoji od sedam koraka. Uključuje definisanje i identifikaciju bezbednosnih ciljeva, kreiranje tehničkog okvira, dekompoziciju aplikacije, analizu pretnji, analizu ranjivosti i procenu rizika/triage.
-4. **Trike**: Ovo je metodologija zasnovana na riziku koja se fokusira na odbranu sredstava. Počinje iz perspektive **upravljanja rizikom** i gleda na pretnje i ranjivosti u tom kontekstu.
+3. **PASTA** (Process for Attack Simulation and Threat Analysis): Ovo je metodologija zasnovana na **riziku**, koja se sastoji od sedam koraka. Uključuje definisanje i identifikaciju bezbednosnih ciljeva, kreiranje tehničkog okvira, dekompoziciju aplikacije, analizu pretnji, analizu ranjivosti i procenu rizika/triage.
+4. **Trike**: Ovo je metodologija zasnovana na riziku koja se fokusira na zaštitu sredstava. Počinje iz perspektive **upravljanja rizikom** i gleda na pretnje i ranjivosti u tom kontekstu.
 5. **VAST** (Visual, Agile, and Simple Threat modeling): Ovaj pristup ima za cilj da bude pristupačniji i integriše se u Agile razvojne okruženja. Kombinuje elemente iz drugih metodologija i fokusira se na **vizuelne prikaze pretnji**.
-6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Razvijen od strane CERT Coordination Center, ovaj okvir je usmeren na **organizacionu procenu rizika umesto na specifične sisteme ili softver**.
+6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Razvijen od strane CERT Koordinacionog centra, ovaj okvir je usmeren ka **organizacionoj proceni rizika umesto na specifične sisteme ili softver**.
 
 ## Tools
 
@@ -39,7 +39,7 @@ Postoji nekoliko alata i softverskih rešenja dostupnih koja mogu **pomoći** u 
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Napredni cross-platform i multi-feature GUI web spider/crawler za profesionalce u oblasti sajber bezbednosti. Spider Suite se može koristiti za mapiranje i analizu površine napada.
+Napredni cross-platform i multi-feature GUI web spider/crawler za profesionalce u sajber bezbednosti. Spider Suite se može koristiti za mapiranje i analizu površine napada.
 
 **Usage**
 
@@ -83,7 +83,7 @@ Samo malo objašnjenja o entitetima:
 
 * Proces (Sam entitet kao što je Webserver ili web funkcionalnost)
 * Akter (Osoba kao što je posetilac veb sajta, korisnik ili administrator)
-* Linija toka podataka (Indikator interakcije)
+* Linija toka podataka (Pokazatelj interakcije)
 * Granica poverenja (Različiti mrežni segmenti ili opsezi.)
 * Skladište (Stvari gde se podaci čuvaju kao što su baze podataka)
 
@@ -103,7 +103,7 @@ Imajte na umu da postoji razlika između pretnji aktera i pretnji procesa. Ako b
 
 6. Gotovo
 
-Sada vaš završeni model treba da izgleda ovako. I ovako pravite jednostavan model pretnji sa OWASP Threat Dragon.
+Sada bi vaš završeni model trebao izgledati ovako. I ovako pravite jednostavan model pretnji sa OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 

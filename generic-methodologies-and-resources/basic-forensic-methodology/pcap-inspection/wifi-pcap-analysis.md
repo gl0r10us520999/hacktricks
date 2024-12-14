@@ -15,9 +15,9 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-## Proverite BSSID-ove
+## Proverite BSSID-e
 
-Kada primite snimak čiji je glavni saobraćaj Wifi koristeći WireShark, možete početi da istražujete sve SSID-ove snimka sa _Wireless --> WLAN Traffic_:
+Kada primite snimak čiji je glavni saobraćaj Wifi koristeći WireShark, možete početi da istražujete sve SSID-e snimka sa _Wireless --> WLAN Traffic_:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
@@ -33,7 +33,7 @@ For example it will retrieve the WPA passphrase protecting a PSK (pre shared-key
 
 ## Data in Beacons / Side Channel
 
-If you suspect that **podaci se curi unutar beacons Wifi mreže** you can check the beacons of the network using a filter like the following one: `wlan contains <NAMEofNETWORK>`, or `wlan.ssid == "NAMEofNETWORK"` search inside the filtered packets for suspicious strings.
+If you suspect that **podaci se curi unutar beacon-a Wifi mreže** you can check the beacons of the network using a filter like the following one: `wlan contains <NAMEofNETWORK>`, or `wlan.ssid == "NAMEofNETWORK"` search inside the filtered packets for suspicious strings.
 
 ## Find Unknown MAC Addresses in A Wifi Network
 
@@ -43,7 +43,7 @@ The following link will be useful to find the **mašine koje šalju podatke unut
 
 If you already know **MAC adrese možete ih ukloniti iz izlaza** adding checks like this one: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Once you have detected **nepoznate MAC** adrese communicating inside the network you can use **filters** like the following one: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` to filter its traffic. Note that ftp/http/ssh/telnet filters are useful if you have decrypted the traffic.
+Once you have detected **nepoznate MAC** adrese communicating inside the network you can use **filtre** like the following one: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` to filter its traffic. Note that ftp/http/ssh/telnet filters are useful if you have decrypted the traffic.
 
 ## Decrypt Traffic
 

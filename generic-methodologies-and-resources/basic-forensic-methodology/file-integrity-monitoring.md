@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Učite i vežbajte AWS hakovanje:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP hakovanje: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Delite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,17 +16,17 @@ Učite i vežbajte GCP hakovanje: <img src="/.gitbook/assets/grte.png" alt="" da
 
 # Osnovna linija
 
-Osnovna linija se sastoji od uzimanja snimka određenih delova sistema kako bi se **uporedila sa budućim statusom i istakle promene**.
+Osnovna linija se sastoji od uzimanja snimka određenih delova sistema kako bi se **uporedila sa budućim statusom radi isticanja promena**.
 
-Na primer, možete izračunati i sačuvati heš svake datoteke na fajl sistemu kako biste mogli da saznate koje datoteke su izmenjene.\
-Ovo se takođe može uraditi sa kreiranim korisničkim nalozima, pokrenutim procesima, pokrenutim servisima i bilo čime drugim što se ne bi trebalo mnogo menjati, ili uopšte.
+Na primer, možete izračunati i sačuvati hash svake datoteke u datotečnom sistemu kako biste mogli da saznate koje su datoteke izmenjene.\
+Ovo se takođe može uraditi sa korisničkim nalozima koji su kreirani, procesima koji se izvršavaju, uslugama koje se pokreću i bilo kojom drugom stvari koja ne bi trebala da se menja mnogo, ili uopšte.
 
-## Praćenje Integriteta Datoteka
+## Praćenje integriteta datoteka
 
-Praćenje Integriteta Datoteka (FIM) je kritična bezbednosna tehnika koja štiti IT okruženja i podatke praćenjem promena u datotekama. Uključuje dva ključna koraka:
+Praćenje integriteta datoteka (FIM) je kritična bezbednosna tehnika koja štiti IT okruženja i podatke praćenjem promena u datotekama. Uključuje dva ključna koraka:
 
-1. **Upoređivanje Osnovne Linije:** Uspostavljanje osnovne linije korišćenjem atributa datoteka ili kriptografskih kontrolnih suma (kao što su MD5 ili SHA-2) za buduće poređenje radi otkrivanja modifikacija.
-2. **Obaveštenje o Promenama u Realnom Vremenu:** Dobijanje trenutnih obaveštenja kada se datoteke pristupaju ili menjaju, obično putem proširenja jezgra OS-a.
+1. **Uporedna analiza osnovne linije:** Uspostavite osnovnu liniju koristeći atribute datoteka ili kriptografske heš funkcije (kao što su MD5 ili SHA-2) za buduće upoređivanje radi otkrivanja izmena.
+2. **Obaveštenje o promenama u realnom vremenu:** Dobijajte trenutna obaveštenja kada se datoteke pristupaju ili menjaju, obično putem ekstenzija jezgra operativnog sistema.
 
 ## Alati
 
@@ -39,16 +39,16 @@ Praćenje Integriteta Datoteka (FIM) je kritična bezbednosna tehnika koja štit
 
 
 {% hint style="success" %}
-Učite i vežbajte AWS hakovanje:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP hakovanje: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Delite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

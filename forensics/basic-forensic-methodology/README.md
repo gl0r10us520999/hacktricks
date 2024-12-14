@@ -23,7 +23,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Analiza Malvera
 
-Ovo **nije nužno prvi korak koji treba preduzeti kada imate sliku**. Ali možete koristiti ove tehnike analize malvera nezavisno ako imate datoteku, sliku datotečnog sistema, sliku memorije, pcap... tako da je dobro **imati ove akcije na umu**:
+Ovo **nije nužno prvi korak koji treba preduzeti kada imate sliku**. Ali možete koristiti ove tehnike analize malvera nezavisno ako imate datoteku, sliku datotečnog sistema, sliku memorije, pcap... tako da je dobro **imati na umu ove akcije**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -51,9 +51,9 @@ U zavisnosti od korišćenih OS-ova i čak platformi, različiti zanimljivi arte
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## Dubinska Istraživanja Specifičnih Tipova Datoteka i Softvera
+## Dubinska Inspekcija Specifičnih Tipova Datoteka i Softvera
 
-Ako imate veoma **sumnjivu** **datoteku**, onda **u zavisnosti od tipa datoteke i softvera** koji je kreirao, nekoliko **trikova** može biti korisno.\
+Ako imate vrlo **sumnjivu** **datoteku**, onda **u zavisnosti od tipa datoteke i softvera** koji je kreirao, nekoliko **trikova** može biti korisno.\
 Pročitajte sledeću stranicu da biste saznali neke zanimljive trikove:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -66,13 +66,13 @@ Pročitajte sledeću stranicu da biste saznali neke zanimljive trikove:
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Istraživanje Dump-a Memorije
+## Inspekcija Dump-a Memorije
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
 {% endcontent-ref %}
 
-## Istraživanje Pcap-a
+## Inspekcija Pcap-a
 
 {% content-ref url="pcap-inspection/" %}
 [pcap-inspection](pcap-inspection/)

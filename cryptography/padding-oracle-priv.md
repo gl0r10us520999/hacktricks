@@ -24,7 +24,7 @@ U CBC režimu **prethodni enkriptovani blok se koristi kao IV** za XOR sa slede�
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Da bi se dekriptovao CBC, vrše se **suprotne** **operacije**:
+Da bi se dekriptovao CBC, **suprotne** **operacije** se vrše:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
@@ -64,17 +64,17 @@ perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -e
 ```
 **Encoding 0** znači da se koristi **base64** (ali su dostupni i drugi, proverite meni pomoći).
 
-Takođe možete **iskoristiti ovu ranjivost da enkriptujete nove podatke. Na primer, zamislite da je sadržaj kolačića "**_**user=MyUsername**_**", tada ga možete promeniti u "\_user=administrator\_" i eskalirati privilegije unutar aplikacije. Takođe to možete uraditi koristeći `paduster`specifikujući -plaintext** parametar:
+Takođe možete **iskoristiti ovu ranjivost za enkripciju novih podataka. Na primer, zamislite da je sadržaj kolačića "**_**user=MyUsername**_**", tada ga možete promeniti u "\_user=administrator\_" i eskalirati privilegije unutar aplikacije. Takođe to možete uraditi koristeći `paduster`specifikujući -plaintext** parametar:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Ako je sajt ranjiv, `padbuster` će automatski pokušati da pronađe kada se javlja greška u dodavanju, ali takođe možete naznačiti poruku o grešci koristeći **-error** parametar.
+Ako je sajt ranjiv, `padbuster` će automatski pokušati da pronađe kada se javlja greška u punjenju, ali takođe možete da navedete poruku o grešci koristeći **-error** parametar.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
 ## Teorija
 
-U **kratko**, možete početi dekriptovanje enkriptovanih podataka pogađanjem ispravnih vrednosti koje se mogu koristiti za kreiranje svih **različitih paddinga**. Tada će napad na padding oracle početi dekriptovanje bajtova od kraja ka početku pogađajući koja će biti ispravna vrednost koja **stvara padding od 1, 2, 3, itd**.
+U **sažetku**, možete početi dekriptovanje enkriptovanih podataka pogađanjem ispravnih vrednosti koje se mogu koristiti za kreiranje svih **različitih paddinga**. Tada će napad na padding oracle početi dekriptovanje bajtova od kraja ka početku pogađajući koja će biti ispravna vrednost koja **stvara padding od 1, 2, 3, itd**.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
@@ -103,7 +103,7 @@ Zatim, uradite iste korake da dekriptujete C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ 
 
 ## Otkrivanje ranjivosti
 
-Registrujte se i prijavite sa ovim nalogom.\
+Registrujte se i napravite nalog i prijavite se sa tim nalogom.\
 Ako se **prijavljujete više puta** i uvek dobijate **isti kolačić**, verovatno postoji **nešto** **pogrešno** u aplikaciji. **Kolačić koji se vraća treba da bude jedinstven** svaki put kada se prijavite. Ako je kolačić **uvek** **isti**, verovatno će uvek biti važeći i neće biti načina da se on **nevaži**.
 
 Sada, ako pokušate da **modifikujete** **kolačić**, možete videti da dobijate **grešku** iz aplikacije.\

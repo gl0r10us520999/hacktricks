@@ -44,7 +44,7 @@ Prethodna slika je **izlaz** prikazan od strane **alata** gde se može primetiti
 
 Ponovo, u izlazu alata moguće je videti da su **neke promene izvršene**.
 
-Korišćenjem istog alata moguće je identifikovati **na koji način su vremenske oznake modifikovane**:
+Korišćenjem istog alata moguće je identifikovati **do koje tačno vreme su vremenske oznake modifikovane**:
 
 ![](<../../.gitbook/assets/image (1089).png>)
 
@@ -78,11 +78,11 @@ Stoga, moguće je povratiti slobodan prostor koristeći alate poput FTK Imager. 
 ## UsbKill
 
 Ovo je alat koji će **isključiti računar ako se otkrije bilo kakva promena na USB** portovima.\
-Jedan od načina da se to otkrije bio bi da se ispita pokrenuti procesi i **pregleda svaki python skript koji se izvršava**.
+Jedan od načina da se to otkrije bio bi da se ispita pokrenuti procesi i **pregleda svaki pokrenuti python skript**.
 
 ## Live Linux Distributions
 
-Ove distribucije se **izvršavaju unutar RAM** memorije. Jedini način da ih otkrijete je **ako je NTFS datotečni sistem montiran sa pravima za pisanje**. Ako je montiran samo sa pravima za čitanje, neće biti moguće otkriti upad.
+Ove distribucije su **izvršene unutar RAM** memorije. Jedini način da ih otkrijete je **ako je NTFS datotečni sistem montiran sa dozvolama za pisanje**. Ako je montiran samo sa dozvolama za čitanje, neće biti moguće otkriti upad.
 
 ## Secure Deletion
 
@@ -99,7 +99,7 @@ Ovo je ključ registra koji održava datume i sate kada je svaki izvršni progra
 Onemogućavanje UserAssist zahteva dva koraka:
 
 1. Postavite dva ključa registra, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` i `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, oba na nulu kako bi se signalizovalo da želimo da onemogućimo UserAssist.
-2. Očistite svoje podključeve registra koji izgledaju kao `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+2. Očistite svoje podstabla registra koja izgledaju kao `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
 ### Disable Timestamps - Prefetch
 
@@ -109,7 +109,7 @@ Ovo će sačuvati informacije o aplikacijama koje su izvršene sa ciljem pobolj�
 * Izaberite putanju datoteke `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
 * Desni klik na `EnablePrefetcher` i `EnableSuperfetch`
 * Izaberite Izmeni na svakom od ovih da promenite vrednost sa 1 (ili 3) na 0
-* Restartujte
+* Ponovo pokrenite
 
 ### Disable Timestamps - Last Access Time
 
@@ -118,12 +118,12 @@ Kad god se folder otvori sa NTFS volumena na Windows NT serveru, sistem uzima vr
 1. Otvorite Registry Editor (Regedit.exe).
 2. Pretražite do `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
 3. Potražite `NtfsDisableLastAccessUpdate`. Ako ne postoji, dodajte ovaj DWORD i postavite njegovu vrednost na 1, što će onemogućiti proces.
-4. Zatvorite Registry Editor i restartujte server.
+4. Zatvorite Registry Editor i ponovo pokrenite server.
 
 ### Delete USB History
 
-Sve **USB Device Entries** se čuvaju u Windows Registry pod ključem **USBSTOR** koji sadrži podključeve koji se kreiraju svaki put kada priključite USB uređaj u svoj PC ili laptop. Ovaj ključ možete pronaći ovde H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Brisanjem ovog** obrišete USB istoriju.\
-Takođe možete koristiti alat [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) da biste bili sigurni da ste ih obrisali (i da ih obrišete).
+Sve **USB Device Entries** se čuvaju u Windows Registry pod ključem **USBSTOR** koji sadrži podključeve koji se kreiraju svaki put kada priključite USB uređaj u svoj PC ili laptop. Možete pronaći ovaj ključ ovde H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Brisanjem ovog** obrišete USB istoriju.\
+Takođe možete koristiti alat [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) da biste bili sigurni da ste ih obrisali (i da ih obrišete).
 
 Još jedna datoteka koja čuva informacije o USB-ima je datoteka `setupapi.dev.log` unutar `C:\Windows\INF`. Ova datoteka takođe treba da bude obrisana.
 
@@ -134,11 +134,11 @@ Još jedna datoteka koja čuva informacije o USB-ima je datoteka `setupapi.dev.l
 
 Takođe ih možete obrisati putem GUI prateći korake predložene na [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Da biste onemogućili shadow copies [koraci odavde](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Da biste onemogućili shadow copies [koraci odavde](https://support.waters.com/KB\_Inf/Other/WKB15560\_How\_to\_disable\_Volume\_Shadow\_Copy\_Service\_VSS\_in\_Windows):
 
 1. Otvorite program Services tako što ćete otkucati "services" u tekstualnom pretraživaču nakon što kliknete na Windows dugme.
 2. Sa liste, pronađite "Volume Shadow Copy", izaberite ga, a zatim pristupite Svojstvima desnim klikom.
-3. Izaberite Onemogućeno iz padajućeg menija "Startup type", a zatim potvrdite promenu klikom na Primeni i U redu.
+3. Izaberite Onemogućeno iz padajućeg menija "Tip pokretanja", a zatim potvrdite promenu klikom na Primeni i U redu.
 
 Takođe je moguće modifikovati konfiguraciju koje datoteke će biti kopirane u shadow copy u registru `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 

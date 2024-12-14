@@ -54,13 +54,13 @@ docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-Ako otkrijete da je **neka sumnjiva datoteka dodata**, možete pristupiti kontejneru i proveriti je:
+Ako otkrijete da je **neki sumnjiv fajl dodat**, možete pristupiti kontejneru i proveriti ga:
 ```bash
 docker exec -it wordpress bash
 ```
 ## Izmene slika
 
-Kada dobijete eksportovanu docker sliku (verovatno u `.tar` formatu), možete koristiti [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) da **izvučete sažetak izmena**:
+Kada dobijete eksportovanu docker sliku (verovatno u `.tar` formatu) možete koristiti [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) da **izvučete sažetak izmena**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -88,7 +88,7 @@ dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dive
 
-Da biste pronašli dodate/izmene datoteke u docker slikama, možete koristiti i [**dive**](https://github.com/wagoodman/dive) (preuzmite ga sa [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) alata:
+Da biste pronašli dodate/izmene datoteke u docker slikama, možete koristiti [**dive**](https://github.com/wagoodman/dive) (preuzmite ga sa [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) alata:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -97,10 +97,10 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Ovo vam omogućava da **navigirate kroz različite blob-ove docker slika** i proverite koji su fajlovi modifikovani/dodati. **Crvena** znači dodato, a **žuta** znači modifikovano. Koristite **tab** za prelazak na drugi prikaz i **space** za skupljanje/otvaranje foldera.
+Ovo vam omogućava da **navigirate kroz različite blobove docker slika** i proverite koji su fajlovi modifikovani/dodati. **Crvena** znači dodato, a **žuta** znači modifikovano. Koristite **tab** za prelazak na drugi prikaz i **space** za skupljanje/otvaranje foldera.
 
 Sa die nećete moći da pristupite sadržaju različitih faza slike. Da biste to uradili, moraćete da **dekompresujete svaki sloj i pristupite mu**.\
-Možete dekompresovati sve slojeve iz slike iz direktorijuma gde je slika dekompresovana izvršavajući:
+Možete dekompresovati sve slojeve iz slike iz direktorijuma gde je slika dekompresovana izvršavanjem:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
@@ -109,11 +109,11 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 
 Napomena da kada pokrenete docker kontejner unutar hosta **možete videti procese koji se izvršavaju na kontejneru iz hosta** jednostavno pokretanjem `ps -ef`
 
-Stoga (kao root) možete **izvršiti dump memorije procesa** iz hosta i pretražiti **kredencijale** baš [**kao u sledećem primeru**](../../linux-hardening/privilege-escalation/#process-memory).
+Stoga (kao root) možete **izvršiti dump memorije procesa** iz hosta i pretražiti **kredencijale** samo [**kao u sledećem primeru**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Produbite svoje znanje u **Mobilnoj Bezbednosti** sa 8kSec Akademijom. Savladajte iOS i Android bezbednost kroz naše kurseve koji se mogu pratiti sopstvenim tempom i dobijite sertifikat:
+Produbite svoje znanje u **Mobilnoj Bezbednosti** sa 8kSec Akademijom. Savladajte iOS i Android bezbednost kroz naše kurseve koji se mogu pratiti sopstvenim tempom i dobijte sertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 

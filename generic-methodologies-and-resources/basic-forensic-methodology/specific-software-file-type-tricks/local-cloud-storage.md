@@ -6,7 +6,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -19,18 +19,18 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim alatima zajednice na svetu.\
-Dobijte pristup danas:
+Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 ## OneDrive
 
-U Windows-u, možete pronaći OneDrive folder u `\Users\<username>\AppData\Local\Microsoft\OneDrive`. I unutar `logs\Personal` moguće je pronaći datoteku `SyncDiagnostics.log` koja sadrži neke zanimljive podatke o sinhronizovanim datotekama:
+U Windows-u, možete pronaći OneDrive folder u `\Users\<username>\AppData\Local\Microsoft\OneDrive`. A unutar `logs\Personal` moguće je pronaći datoteku `SyncDiagnostics.log` koja sadrži neke zanimljive podatke o sinhronizovanim datotekama:
 
 * Veličina u bajtovima
 * Datum kreiranja
 * Datum modifikacije
-* Broj datoteka u cloud-u
+* Broj datoteka u oblaku
 * Broj datoteka u folderu
 * **CID**: Jedinstveni ID OneDrive korisnika
 * Vreme generisanja izveštaja
@@ -63,9 +63,9 @@ A glavne baze podataka su:
 * Deleted.dbx
 * Config.dbx
 
-Ekstenzija ".dbx" znači da su **baze podataka** **enkriptovane**. Dropbox koristi **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+Ekstenzija ".dbx" znači da su **baze podataka** **šifrovane**. Dropbox koristi **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-Da biste bolje razumeli enkripciju koju Dropbox koristi, možete pročitati [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+Da biste bolje razumeli šifrovanje koje Dropbox koristi, možete pročitati [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
 
 Međutim, glavne informacije su:
 
@@ -74,9 +74,9 @@ Međutim, glavne informacije su:
 * **Algoritam**: PBKDF2
 * **Iteracije**: 1066
 
-Pored tih informacija, da biste dekriptovali baze podataka, još uvek vam je potrebno:
+Pored tih informacija, da biste dešifrovali baze podataka, još uvek vam je potrebna:
 
-* **enkriptovani DPAPI ključ**: Možete ga pronaći u registru unutar `NTUSER.DAT\Software\Dropbox\ks\client` (izvezite ove podatke kao binarne)
+* **šifrovani DPAPI ključ**: Možete ga pronaći u registru unutar `NTUSER.DAT\Software\Dropbox\ks\client` (izvezite ove podatke kao binarne)
 * **`SYSTEM`** i **`SECURITY`** hives
 * **DPAPI master ključevi**: Koji se mogu pronaći u `\Users\<username>\AppData\Roaming\Microsoft\Protect`
 * **korisničko ime** i **lozinka** Windows korisnika
@@ -85,9 +85,9 @@ Zatim možete koristiti alat [**DataProtectionDecryptor**](https://nirsoft.net/u
 
 ![](<../../../.gitbook/assets/image (443).png>)
 
-Ako sve prođe kako se očekuje, alat će označiti **primarni ključ** koji treba da **koristite za oporavak originalnog**. Da biste povratili originalni, jednostavno koristite ovaj [cyber\_chef recept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) stavljajući primarni ključ kao "lozinku" unutar recepta.
+Ako sve ide kako se očekuje, alat će označiti **primarni ključ** koji treba da **koristite za oporavak originalnog**. Da biste povratili originalni, jednostavno koristite ovaj [cyber\_chef recept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) stavljajući primarni ključ kao "lozinku" unutar recepta.
 
-Rezultantni heksadecimalni broj je konačni ključ koji se koristi za enkripciju baza podataka koje se mogu dekriptovati sa:
+Rezultantni heksadecimalni broj je konačni ključ korišćen za šifrovanje baza podataka koji se može dešifrovati sa:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```

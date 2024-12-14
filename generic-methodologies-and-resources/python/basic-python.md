@@ -1,38 +1,38 @@
-# Osnove Pythona
+# Osnovni Python
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
 
-## Osnove Pythona
+## Osnovi Pythona
 
 ### Korisne informacije
 
-list(xrange()) == range() --> U python3, range je xrange u python2 (nije lista već generator)\
-Razlika između Tuple i Liste je u tome što pozicija vrednosti u tuple-u daje značenje, dok su liste samo uređene vrednosti. Tuple imaju strukturu, dok liste imaju redosled.
+list(xrange()) == range() --> U python3 range je xrange iz python2 (nije lista već generator)\
+Razlika između Tupla i Liste je u tome što pozicija vrednosti u tuplu daje značenje, dok su liste samo uređene vrednosti. Tuplovi imaju strukture, ali liste imaju redosled.
 
-### Osnovne operacije
+### Glavne operacije
 
-Za stepenovanje broja koristite: 3\*\*2 (ne 3^2)\
-Ako uradite 2/3, vraća 1 jer delite dva cela broja (integers). Ako želite decimale, treba da delite float-ove (2.0/3.0).\
+Da biste podigli broj koristite: 3\*\*2 (ne 3^2)\
+Ako uradite 2/3 vraća 1 jer delite dva cela broja (integers). Ako želite decimale trebate deliti float-ove (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
 i != j\
-a and b\
-a or b\
-not a\
+a i b\
+a ili b\
+ne a\
 float(a)\
 int(a)\
 str(d)\
@@ -70,9 +70,9 @@ sorted(\[1,43,5,3,21,4])
 **Komentari**\
 \# Komentar u jednoj liniji\
 """\
-Komentar u više linija\
+Komentar u nekoliko linija\
 Još jedan\
-"""
+""" 
 
 **Petlje**
 ```
@@ -92,62 +92,62 @@ for i in range(0,100):
 for letter in "hola":
 #something with a letter in "hola"
 ```
-### Tuple
+### Tuples
 
-t1 = (1, '2', 'tri')\
-t2 = (5, 6)\
-t3 = t1 + t2 = (1, '2', 'tri', 5, 6)\
-(4,) = Singlton\
-d = () prazan tuple\
+t1 = (1,'2,'three')\
+t2 = (5,6)\
+t3 = t1 + t2 = (1, '2', 'three', 5, 6)\
+(4,) = Singelton\
+d = () prazna tuple\
 d += (4,) --> Dodavanje u tuple\
-NE MOŽE! --> t1\[1] == 'Nova vrednost'\
-list(t2) = \[5, 6] --> Iz tuple u listu
+CANT! --> t1\[1] == 'Nova vrednost'\
+list(t2) = \[5,6] --> Iz tuple u listu
 
-### Lista (niz)
+### List (array)
 
-d = \[] prazan\
-a = \[1, 2, 3]\
-b = \[4, 5]\
-a + b = \[1, 2, 3, 4, 5]\
-b.append(6) = \[4, 5, 6]\
-tuple(a) = (1, 2, 3) --> Iz liste u tuple
+d = \[] prazna\
+a = \[1,2,3]\
+b = \[4,5]\
+a + b = \[1,2,3,4,5]\
+b.append(6) = \[4,5,6]\
+tuple(a) = (1,2,3) --> Iz liste u tuple
 
-### Rečnik
+### Dictionary
 
-d = {} prazan\
-monthNumbers={1:'Jan', 2: 'feb','feb':2}—> monthNumbers ->{1:'Jan', 2: 'feb','feb':2}\
-monthNumbers\[1] = 'Jan'\
-monthNumbers\['feb'] = 2\
-list(monthNumbers) = \[1, 2, 'feb']\
-monthNumbers.values() = \['Jan', 'feb', 2]\
+d = {} prazna\
+monthNumbers={1:’Jan’, 2: ‘feb’,’feb’:2}—> monthNumbers ->{1:’Jan’, 2: ‘feb’,’feb’:2}\
+monthNumbers\[1] = ‘Jan’\
+monthNumbers\[‘feb’] = 2\
+list(monthNumbers) = \[1,2,’feb’]\
+monthNumbers.values() = \[‘Jan’,’feb’,2]\
 keys = \[k for k in monthNumbers]\
 a={'9':9}\
-monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
+monthNumbers.update(a) = {'9':9, 1:’Jan’, 2: ‘feb’,’feb’:2}\
 mN = monthNumbers.copy() #Nezavisna kopija\
-monthNumbers.get('ključ',0) #Provera da li ključ postoji, Vraća vrednost monthNumbers\["ključ"] ili 0 ako ne postoji
+monthNumbers.get('key',0) #Proveri da li ključ postoji, vrati vrednost monthNumbers\["key"] ili 0 ako ne postoji
 
-### Skup
+### Set
 
 U skupovima nema ponavljanja\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
 myset.add('a') = {'a', 'b', 'c'} #Bez ponavljanja\
-myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
-myset.discard(10) #Ako je prisutno, ukloni, ako nije, ništa\
-myset.remove(10) #Ako je prisutno, ukloni, ako nije, podiže izuzetak\
+myset.update(\[1,2,3]) = set(\['a', 1, 2, 'b', 'c', 3])\
+myset.discard(10) #Ako je prisutan, ukloni ga, ako nije, ništa\
+myset.remove(10) #Ako je prisutan ukloni ga, ako nije, podigni izuzetak\
 myset2 = set(\[1, 2, 3, 4])\
-myset.union(myset2) #Vrednosti u myset ILI myset2\
+myset.union(myset2) #Vrednosti su myset ILI myset2\
 myset.intersection(myset2) #Vrednosti u myset I myset2\
-myset.difference(myset2) #Vrednosti u myset ali ne i u myset2\
-myset.symmetric\_difference(myset2) #Vrednosti koje nisu ni u myset NI myset2 (nisu u oba)\
-myset.pop() #Dobijanje prvog elementa skupa i uklanjanje\
+myset.difference(myset2) #Vrednosti u myset ali ne u myset2\
+myset.symmetric\_difference(myset2) #Vrednosti koje nisu u myset I myset2 (ne u oba)\
+myset.pop() #Uzmi prvi element skupa i ukloni ga\
 myset.intersection\_update(myset2) #myset = Elementi u oba myset i myset2\
-myset.difference\_update(myset2) #myset = Elementi u myset ali ne i u myset2\
+myset.difference\_update(myset2) #myset = Elementi u myset ali ne u myset2\
 myset.symmetric\_difference\_update(myset2) #myset = Elementi koji nisu u oba
 
-### Klase
+### Classes
 
-Metod u \_\_It\_\_ će biti korišćen od strane sortiranja za poređenje da li je objekat ove klase veći od drugog
+Metoda u \_\_It\_\_ će biti ta koja se koristi za poređenje da li je objekat ove klase veći od drugog
 ```python
 class Person(name):
 def __init__(self,name):
@@ -175,12 +175,12 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted i jednolinijski izrazi
+### map, zip, filter, lambda, sorted i one-liners
 
 **Map** je kao: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**Zip** se zaustavlja kada se kraći od foo ili bar zaustavi:
+**zip** se zaustavlja kada kraći od foo ili bar prestane:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
@@ -218,7 +218,7 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-Ako je uslov netačan, string će biti prikazan na ekranu
+Ako je uslov lažan, string će biti odštampan na ekranu.
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
@@ -226,7 +226,7 @@ assert len(grades) == 'wrong number grades'
 ```
 ### Generatori, yield
 
-Generator umesto vraćanja nečega, "daje" nešto. Kada mu pristupite, "vratit će" prvu generisanu vrednost, zatim možete ponovo pristupiti i dobiti sledeću generisanu vrednost. Dakle, sve vrednosti nisu generisane istovremeno i mnogo memorije može biti ušteđeno koristeći ovo umesto liste sa svim vrednostima.
+Generator, umesto da vrati nešto, "izbacuje" nešto. Kada mu pristupite, "vratiće" prvu generisanu vrednost, zatim, možete mu ponovo pristupiti i vratiće sledeću generisanu vrednost. Dakle, sve vrednosti se ne generišu u isto vreme i može se uštedeti mnogo memorije koristeći ovo umesto liste sa svim vrednostima.
 ```
 def myGen(n):
 yield n
@@ -236,24 +236,24 @@ g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Greška
 
-### Redovni izrazi
+### Regularne Ekspresije
 
 import re\
 re.search("\w","hola").group() = "h"\
 re.findall("\w","hola") = \['h', 'o', 'l', 'a']\
 re.findall("\w+(la)","hola caracola") = \['la', 'la']
 
-**Posebna značenja:**\
+**Specijalna značenja:**\
 . --> Sve\
 \w --> \[a-zA-Z0-9\_]\
 \d --> Broj\
-\s --> Beli znak\[ \n\r\t\f]\
-\S --> Znak koji nije beli znak\
+\s --> Karakter praznog prostora\[ \n\r\t\f]\
+\S --> Karakter koji nije prazan\
 ^ --> Počinje sa\
-$ --> Završava se sa\
+$ --> Završava sa\
 \+ --> Jedan ili više\
 \* --> 0 ili više\
-? --> 0 ili 1 pojavljivanje
+? --> 0 ili 1 pojava
 
 **Opcije:**\
 re.search(pat,str,re.IGNORECASE)\
@@ -266,7 +266,7 @@ re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>
 
 IterTools\
 **product**\
-from **itertools** import product --> Generiše kombinacije između 1 ili više lista, možda ponavljajući vrednosti, kartezijev proizvod (distributivno svojstvo)\
+from **itertools** import product --> Generiše kombinacije između 1 ili više lista, možda ponavljajući vrednosti, kartezijanski proizvod (distributivna svojstva)\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
@@ -276,16 +276,16 @@ print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), (
 print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Svaka moguća kombinacija dužine 2
 
 **combinations**\
-from itertools import **combinations** --> Generiše sve moguće kombinacije bez ponavljanja karaktera (ako postoji "ab", ne generiše "ba")\
+from itertools import **combinations** --> Generiše sve moguće kombinacije bez ponavljanja karaktera (ako "ab" postoji, ne generiše "ba")\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Generiše sve moguće kombinacije od karaktera nadalje (na primer, 3. je mešan od 3. nadalje ali ne sa 2. ili 1.)\
+from itertools import **combinations\_with\_replacement** --> Generiše sve moguće kombinacije od karaktera nadalje (na primer, 3. je mešano od 3. nadalje, ali ne sa 2. ili 1.)\
 print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
 ### Dekoratori
 
-Dekorator koji meri vreme potrebno za izvršavanje funkcije (od [ovde](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
+Dekorator koji meri vreme koje funkcija treba da se izvrši (iz [ovde](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
 ```python
 from functools import wraps
 import time
@@ -303,23 +303,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-Ako ga pokrenete, videćete nešto slično sledećem:
+Ako ga pokrenete, videćete nešto poput sledećeg:
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
 {% hint style="success" %}
-Učite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Delite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

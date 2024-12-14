@@ -18,20 +18,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Summary of the attack
 
-Zamislite server koji **potpisuje** neke **podatke** dodajući **tajnu** nekim poznatim čistim tekstualnim podacima i zatim heširajući te podatke. Ako znate:
+Zamislite server koji **potpisuje** neke **podatke** tako što **dodaje** **tajnu** nekim poznatim čistim tekstualnim podacima i zatim hešira te podatke. Ako znate:
 
 * **Dužinu tajne** (to se može takođe bruteforce-ovati iz datog opsega dužine)
 * **Čiste tekstualne podatke**
 * **Algoritam (i da je ranjiv na ovaj napad)**
 * **Padding je poznat**
-* Obično se koristi podrazumevani, tako da ako su ispunjena druga 3 zahteva, ovo takođe jeste
+* Obično se koristi podrazumevani, tako da ako su ispunjena ostala 3 zahteva, i ovo je
 * Padding varira u zavisnosti od dužine tajne + podataka, zato je potrebna dužina tajne
 
 Tada je moguće da **napadač** **doda** **podatke** i **generiše** važeći **potpis** za **prethodne podatke + dodate podatke**.
 
 ### How?
 
-U suštini, ranjivi algoritmi generišu heševe prvo **heširajući blok podataka**, a zatim, **iz** **prethodno** kreiranog **heša** (stanja), **dodaju sledeći blok podataka** i **heširaju ga**.
+U suštini, ranjivi algoritmi generišu heševe prvo **heširanjem bloka podataka**, a zatim, **iz** **prethodno** kreiranog **heša** (stanja), **dodaju sledeći blok podataka** i **heširaju ga**.
 
 Zamislite da je tajna "secret" a podaci su "data", MD5 od "secretdata" je 6036708eba0d11f6ef52ad44e8b74d5b.\
 Ako napadač želi da doda string "append" može:

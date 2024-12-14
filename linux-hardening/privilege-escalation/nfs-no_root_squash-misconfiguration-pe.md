@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Pročitajte _ **/etc/exports** _ datoteku, ako pronađete neku direktoriju koja je konfigurisana kao **no\_root\_squash**, tada možete **pristupiti** njoj **kao klijent** i **pisati unutar** te direktorije **kao** da ste lokalni **root** mašine.
+Pročitajte _ **/etc/exports** _ datoteku, ako pronađete neku direktoriju koja je konfigurisana kao **no\_root\_squash**, tada možete **pristupiti** toj direktoriji **kao klijent** i **pisati unutar** te direktorije **kao** da ste lokalni **root** mašine.
 
 **no\_root\_squash**: Ova opcija u suštini daje ovlašćenje root korisniku na klijentu da pristupi datotekama na NFS serveru kao root. I to može dovesti do ozbiljnih bezbednosnih implikacija.
 
@@ -31,7 +31,7 @@ Pročitajte _ **/etc/exports** _ datoteku, ako pronađete neku direktoriju koja 
 
 Ako ste pronašli ovu ranjivost, možete je iskoristiti:
 
-* **Montiranje te direktorije** na klijentskoj mašini, i **kao root kopiranje** unutar montirane fascikle **/bin/bash** binarnu datoteku i davanje **SUID** prava, i **izvršavanje sa žrtvovane** mašine te bash binarne datoteke.
+* **Montiranje te direktorije** na klijentskoj mašini, i **kao root kopiranje** unutar montirane fascikle **/bin/bash** binarnog fajla i davanje **SUID** prava, i **izvršavanje sa žrtvovane** mašine tog bash binarnog fajla.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -44,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Montiranje te direktorije** na klijentskoj mašini, i **kao root kopiranje** unutar montirane fascikle našeg kompajliranog payload-a koji će zloupotrebiti SUID dozvolu, dati mu **SUID** prava, i **izvršiti sa žrtvovane** mašine tu binarnu datoteku (ovde možete pronaći neke [C SUID payload-e](payloads-to-execute.md#c)).
+* **Montiranje te direktorije** na klijentskoj mašini, i **kao root kopiranje** unutar montirane fascikle našeg kompajliranog payload-a koji će zloupotrebiti SUID dozvolu, dati mu **SUID** prava, i **izvršiti sa žrtvovane** mašine taj binarni fajl (ovde možete pronaći neke [C SUID payload-e](payloads-to-execute.md#c)).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -61,15 +61,15 @@ cd <SHAREDD_FOLDER>
 ## Lokalni Eksploit
 
 {% hint style="info" %}
-Imajte na umu da ako možete da kreirate **tunel sa vašeg računara na računar žrtve, još uvek možete koristiti daljinsku verziju za eksploataciju ovog eskalacije privilegija tunelovanjem potrebnih portova**.\
-Sledeći trik se koristi u slučaju da datoteka `/etc/exports` **ukazuje na IP**. U ovom slučaju **nećete moći da koristite** u bilo kom slučaju **daljinski eksploit** i biće potrebno da **zloupotrebite ovaj trik**.\
+Imajte na umu da ako možete da kreirate **tunel sa vašeg računara na računar žrtve, još uvek možete koristiti Remote verziju da iskoristite ovu eskalaciju privilegija tunelovanjem potrebnih portova**.\
+Sledeći trik se koristi u slučaju da datoteka `/etc/exports` **ukazuje na IP**. U ovom slučaju **nećete moći da koristite** u bilo kom slučaju **remote exploit** i biće potrebno da **zloputite ovaj trik**.\
 Još jedan neophodan uslov za rad eksploita je da **izvoz unutar `/etc/export`** **mora koristiti `insecure` flag**.\
 \--_Nisam siguran da li će ovaj trik raditi ako `/etc/export` ukazuje na IP adresu_--
 {% endhint %}
 
 ## Osnovne Informacije
 
-Scenario uključuje eksploataciju montiranog NFS dela na lokalnom računaru, koristeći grešku u NFSv3 specifikaciji koja omogućava klijentu da specificira svoj uid/gid, potencijalno omogućavajući neovlašćen pristup. Eksploatacija uključuje korišćenje [libnfs](https://github.com/sahlberg/libnfs), biblioteke koja omogućava falsifikovanje NFS RPC poziva.
+Scenario uključuje iskorišćavanje montiranog NFS dela na lokalnom računaru, koristeći grešku u NFSv3 specifikaciji koja omogućava klijentu da specificira svoj uid/gid, potencijalno omogućavajući neovlašćen pristup. Eksploatacija uključuje korišćenje [libnfs](https://github.com/sahlberg/libnfs), biblioteke koja omogućava falsifikovanje NFS RPC poziva.
 
 ### Kompilacija Biblioteke
 
@@ -82,7 +82,7 @@ gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib
 ```
 ### Izvođenje Eksploata
 
-Eksploit uključuje kreiranje jednostavnog C programa (`pwn.c`) koji povećava privilegije na root i zatim izvršava shell. Program se kompajlira, a rezultantni binarni fajl (`a.out`) se postavlja na deljenje sa suid root, koristeći `ld_nfs.so` da lažira uid u RPC pozivima:
+Eksploit uključuje kreiranje jednostavnog C programa (`pwn.c`) koji podiže privilegije na root i zatim izvršava shell. Program se kompajlira, a rezultantni binarni fajl (`a.out`) se postavlja na deljenje sa suid root, koristeći `ld_nfs.so` da lažira uid u RPC pozivima:
 
 1. **Kompajlirajte kod eksploata:**
 ```bash
@@ -105,7 +105,7 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs:/
 #root
 ```
 
-## Bonus: NFShell za Diskretni Pristup Fajlovima
+## Bonus: NFShell za Diskretan Pristup Fajlovima
 Kada se dobije root pristup, za interakciju sa NFS deljenjem bez promene vlasništva (da bi se izbegli tragovi), koristi se Python skripta (nfsh.py). Ova skripta prilagođava uid da odgovara onom fajlu koji se pristupa, omogućavajući interakciju sa fajlovima na deljenju bez problema sa dozvolama:
 ```python
 #!/usr/bin/env python

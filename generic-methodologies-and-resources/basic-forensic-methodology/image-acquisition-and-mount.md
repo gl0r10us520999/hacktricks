@@ -91,7 +91,7 @@ mount output/ewf1 -o ro,norecovery /mnt
 
 To je Windows aplikacija za montiranje volumena. Možete je preuzeti ovde [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### Errors
+### Greške
 
 * **`cannot mount /dev/loop0 read-only`** u ovom slučaju treba da koristite oznake **`-o ro,norecovery`**
 * **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** u ovom slučaju montiranje je neuspešno jer je pomeraj datotečnog sistema drugačiji od onog na slici diska. Treba da pronađete veličinu sektora i početni sektor:
@@ -107,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Napomena da je veličina sektora **512** a početak je **2048**. Zatim montirajte sliku ovako:
+Napomena da je veličina sektora **512** i da je početak **2048**. Zatim montirajte sliku na sledeći način:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```

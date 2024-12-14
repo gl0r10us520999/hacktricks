@@ -53,7 +53,7 @@ scalpel file.img -o output
 
 Ovaj alat dolazi unutar kali, ali ga možete pronaći ovde: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Ovaj alat može skenirati sliku i **izvući pcaps** unutar nje, **mrežne informacije (URL-ovi, domene, IP adrese, MAC adrese, e-mailovi)** i još **datoteka**. Samo treba da uradite:
+Ovaj alat može skenirati sliku i **izvući pcaps** unutar nje, **mrežne informacije (URL-ovi, domeni, IP-ovi, MAC-ovi, mejlovi)** i još **fajlova**. Samo treba da uradite:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -84,15 +84,15 @@ Proverite [kod](https://code.google.com/archive/p/binvis/) i [web stranicu alata
 
 BinVis je odlična **polazna tačka za upoznavanje sa nepoznatim ciljem** u scenariju crne kutije.
 
-## Specifični alati za vađenje podataka
+## Specifični alati za carving podataka
 
 ### FindAES
 
-Pretražuje AES ključeve tražeći njihove rasporede ključeva. Sposoban je da pronađe 128, 192 i 256 bitne ključeve, kao što su oni korišćeni od strane TrueCrypt i BitLocker.
+Pretražuje AES ključeve tražeći njihove rasporede ključeva. Sposoban je da pronađe 128, 192 i 256 bitne ključeve, kao što su oni koje koriste TrueCrypt i BitLocker.
 
 Preuzmite [ovde](https://sourceforge.net/projects/findaes/).
 
-## Dodatni alati
+## Komplementarni alati
 
 Možete koristiti [**viu**](https://github.com/atanunq/viu) da vidite slike iz terminala.\
 Možete koristiti linux komandnu liniju alat **pdftotext** da transformišete pdf u tekst i pročitate ga.

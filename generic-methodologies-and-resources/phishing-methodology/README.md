@@ -15,19 +15,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Metodologija
+## Methodology
 
 1. Istraži žrtvu
 1. Izaberi **domen žrtve**.
 2. Izvrši osnovnu web enumeraciju **tražeći login portale** koje koristi žrtva i **odluči** koji ćeš **imitirati**.
 3. Koristi neki **OSINT** da **pronađeš emailove**.
 2. Pripremi okruženje
-1. **Kupi domen** koji ćeš koristiti za phishing procenu.
-2. **Konfiguriši email servis** povezane zapise (SPF, DMARC, DKIM, rDNS).
-3. Konfiguriši VPS sa **gophish**.
+1. **Kupi domen** koji ćeš koristiti za phishing procenu
+2. **Konfiguriši email servis** povezane zapise (SPF, DMARC, DKIM, rDNS)
+3. Konfiguriši VPS sa **gophish**
 3. Pripremi kampanju
-1. Pripremi **šablon emaila**.
-2. Pripremi **web stranicu** za krađu kredencijala.
+1. Pripremi **email šablon**
+2. Pripremi **web stranicu** za krađu kredencijala
 4. Pokreni kampanju!
 
 ## Generiši slične nazive domena ili kupi pouzdan domen
@@ -35,14 +35,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ### Tehnike varijacije naziva domena
 
 * **Ključna reč**: Naziv domena **sadrži** važnu **ključnu reč** originalnog domena (npr., zelster.com-management.com).
-* **poddomen sa crticom**: Promeni **tačku u crtu** poddomena (npr., www-zelster.com).
-* **Nova TLD**: Isti domen koristeći **novu TLD** (npr., zelster.org).
-* **Homoglif**: **Zamenjuje** jedno slovo u nazivu domena sa **sličnim slovima** (npr., zelfser.com).
+* **poddomen sa crticom**: Promeni **tačku u crtic** poddomena (npr., www-zelster.com).
+* **Nova TLD**: Isti domen koristeći **novu TLD** (npr., zelster.org)
+* **Homoglif**: **Zamenjuje** jedno slovo u nazivu domena sa **slovima koja izgledaju slično** (npr., zelfser.com).
 * **Transpozicija:** **Menja dva slova** unutar naziva domena (npr., zelsetr.com).
 * **Singularizacija/Pluralizacija**: Dodaje ili uklanja “s” na kraju naziva domena (npr., zeltsers.com).
-* **Odstupanje**: **Uklanja jedno** od slova iz naziva domena (npr., zelser.com).
+* **Odbacivanje**: **Uklanja jedno** od slova iz naziva domena (npr., zelser.com).
 * **Ponavljanje:** **Ponavlja jedno** od slova u nazivu domena (npr., zeltsser.com).
-* **Zamena**: Kao homoglif, ali manje suptilan. Zamenjuje jedno od slova u nazivu domena, možda sa slovom u blizini originalnog slova na tastaturi (npr., zektser.com).
+* **Zamena**: Kao homoglif, ali manje prikriveno. Zamenjuje jedno od slova u nazivu domena, možda sa slovom u blizini originalnog slova na tastaturi (npr, zektser.com).
 * **Poddomen**: Uvedi **tačku** unutar naziva domena (npr., ze.lster.com).
 * **Umetanje**: **Umeće slovo** u naziv domena (npr., zerltser.com).
 * **Nedostajuća tačka**: Dodaj TLD nazivu domena. (npr., zelstercom.com)
@@ -60,7 +60,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Bitflipping
 
-Postoji **mogućnost da jedan od nekih bitova koji su pohranjeni ili u komunikaciji može automatski da se preokrene** zbog raznih faktora kao što su solarne erupcije, kosmički zraci ili greške u hardveru.
+Postoji **mogućnost da jedan od nekih bitova koji su pohranjeni ili u komunikaciji može automatski da se preokrene** zbog raznih faktora kao što su solarne erupcije, kosmičke zrake ili greške u hardveru.
 
 Kada se ovaj koncept **primeni na DNS zahteve**, moguće je da **domen koji je primljen od DNS servera** nije isti kao domen koji je prvobitno zatražen.
 
@@ -73,7 +73,7 @@ Za više informacija pročitaj [https://www.bleepingcomputer.com/news/security/h
 ### Kupi pouzdan domen
 
 Možeš pretraživati na [https://www.expireddomains.net/](https://www.expireddomains.net) za istekao domen koji bi mogao da koristiš.\
-Da bi se osiguralo da je istekao domen koji planiraš da kupiš **već imao dobar SEO**, možeš proveriti kako je kategorizovan u:
+Da bi se osiguralo da je istekao domen koji planiraš da kupiš **već imao dobar SEO**, možeš proveriti kako je kategorizovan na:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
@@ -89,7 +89,7 @@ Da bi se osiguralo da je istekao domen koji planiraš da kupiš **već imao doba
 Da bi **otkrio više** validnih email adresa ili **verifikovao one** koje si već otkrio, možeš proveriti da li možeš da brute-force-uješ smtp servere žrtve. [Saznaj kako da verifikuješ/otkriješ email adresu ovde](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
 Pored toga, ne zaboravi da ako korisnici koriste **bilo koji web portal za pristup svojim mailovima**, možeš proveriti da li je ranjiv na **brute force korisničkog imena**, i iskoristiti ranjivost ako je moguće.
 
-## Konfigurisanje GoPhish
+## Konfiguriši GoPhish
 
 ### Instalacija
 
@@ -120,7 +120,7 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**Konfiguracija mail-a**
+**Mail konfiguracija**
 
 Počnite sa instalacijom: `apt-get install postfix`
 
@@ -234,9 +234,9 @@ service gophish stop
 ```
 ## Konfigurisanje mail servera i domena
 
-### Sačekajte i budite legitimni
+### Čekajte i budite legitimni
 
-Što je domen stariji, to je manje verovatno da će biti označen kao spam. Zato treba da sačekate što je duže moguće (najmanje 1 nedelju) pre phishing procene. Štaviše, ako postavite stranicu o reputacionom sektoru, dobijena reputacija će biti bolja.
+Što je domen stariji, to je manje verovatno da će biti označen kao spam. Zato treba da čekate što je duže moguće (najmanje 1 nedelju) pre phishing procene. Štaviše, ako postavite stranicu o reputacionom sektoru, dobijena reputacija će biti bolja.
 
 Imajte na umu da čak i ako morate da čekate nedelju dana, možete završiti konfiguraciju svega sada.
 
@@ -248,7 +248,7 @@ Postavite rDNS (PTR) zapis koji rešava IP adresu VPS-a na naziv domena.
 
 Morate **konfigurisati SPF zapis za novi domen**. Ako ne znate šta je SPF zapis [**pročitajte ovu stranicu**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-Možete koristiti [https://www.spfwizard.net/](https://www.spfwizard.net) da generišete vašu SPF politiku (koristite IP adresu VPS mašine)
+Možete koristiti [https://www.spfwizard.net/](https://www.spfwizard.net) za generisanje vaše SPF politike (koristite IP adresu VPS mašine)
 
 ![](<../../.gitbook/assets/image (1037).png>)
 
@@ -284,7 +284,7 @@ Samo pristupite stranici i pošaljite email na adresu koju vam daju:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Možete takođe **proveriti svoju email konfiguraciju** slanjem emaila na `check-auth@verifier.port25.com` i **čitajući odgovor** (za ovo ćete morati da **otvorite** port **25** i vidite odgovor u datoteci _/var/mail/root_ ako pošaljete email kao root).\
+Možete takođe **proveriti vašu email konfiguraciju** slanjem emaila na `check-auth@verifier.port25.com` i **čitajući odgovor** (za ovo ćete morati da **otvorite** port **25** i vidite odgovor u datoteci _/var/mail/root_ ako pošaljete email kao root).\
 Proverite da li ste prošli sve testove:
 ```bash
 ==========================================================
@@ -304,31 +304,31 @@ dkim=pass header.i=@example.com;
 ```
 ### ​Uklanjanje sa Spamhouse crne liste
 
-Stranica [www.mail-tester.com](https://www.mail-tester.com) može vam pokazati da li je vaša domena blokirana od strane spamhouse-a. Možete zatražiti uklanjanje vaše domene/IP na: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+Stranica [www.mail-tester.com](https://www.mail-tester.com) može da vam pokaže da li je vaš domen blokiran od strane spamhouse-a. Možete zatražiti uklanjanje vašeg domena/IP na: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
 ### Uklanjanje sa Microsoft crne liste
 
-​​Možete zatražiti uklanjanje vaše domene/IP na [https://sender.office.com/](https://sender.office.com).
+​​Možete zatražiti uklanjanje vašeg domena/IP na [https://sender.office.com/](https://sender.office.com).
 
 ## Kreirajte i pokrenite GoPhish kampanju
 
 ### Profil pošiljaoca
 
 * Postavite **ime za identifikaciju** profila pošiljaoca
-* Odlučite sa kojeg računa ćete slati phishing emailove. Predlozi: _noreply, support, servicedesk, salesforce..._
+* Odlučite sa kojeg naloga ćete slati phishing emailove. Predlozi: _noreply, support, servicedesk, salesforce..._
 * Možete ostaviti prazne korisničko ime i lozinku, ali obavezno proverite opciju Ignoriši greške sertifikata
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
-Preporučuje se korišćenje funkcionalnosti "**Pošalji test email**" da biste testirali da li sve funkcioniše.\
+Preporučuje se korišćenje funkcionalnosti "**Pošalji test email**" da biste proverili da li sve funkcioniše.\
 Preporučujem da **pošaljete test emailove na 10min mail adrese** kako biste izbegli stavljanje na crnu listu tokom testiranja.
 {% endhint %}
 
 ### Email šablon
 
 * Postavite **ime za identifikaciju** šablona
-* Zatim napišite **predmet** (ništa neobično, samo nešto što biste mogli očekivati da pročitate u običnom emailu)
+* Zatim napišite **naslov** (ništa čudno, samo nešto što biste mogli očekivati da pročitate u običnom emailu)
 * Uverite se da ste označili "**Dodaj sliku za praćenje**"
 * Napišite **email šablon** (možete koristiti varijable kao u sledećem primeru):
 ```markup
@@ -352,27 +352,27 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 Note that **da biste povećali kredibilitet email-a**, preporučuje se korišćenje neke potpisa iz email-a klijenta. Predlozi:
 
 * Pošaljite email na **nepostojeću adresu** i proverite da li odgovor ima neku potpis.
-* Pretražujte **javne email adrese** kao što su info@ex.com ili press@ex.com ili public@ex.com i pošaljite im email i sačekajte odgovor.
-* Pokušajte da kontaktirate **neku validnu otkrivenu** email adresu i sačekajte odgovor.
+* Pretražujte **javne email adrese** kao što su info@ex.com ili press@ex.com ili public@ex.com i pošaljite im email i čekajte odgovor.
+* Pokušajte da kontaktirate **neku validnu otkrivenu** email adresu i čekajte odgovor.
 
 ![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-Email šablon takođe omogućava **priključivanje fajlova za slanje**. Ako želite da ukradete NTLM izazove koristeći neke posebno kreirane fajlove/dokumente [pročitajte ovu stranicu](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Email šablon takođe omogućava da **priložite datoteke za slanje**. Ako želite da ukradete NTLM izazove koristeći neke posebno kreirane datoteke/dokumente [pročitajte ovu stranicu](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
 ### Odredišna stranica
 
 * Napišite **ime**
 * **Napišite HTML kod** web stranice. Imajte na umu da možete **importovati** web stranice.
-* Označite **Zabeleži poslata podataka** i **Zabeleži lozinke**
+* Označite **Zabeleži poslate podatke** i **Zabeleži lozinke**
 * Postavite **preusmeravanje**
 
 ![](<../../.gitbook/assets/image (826).png>)
 
 {% hint style="info" %}
 Obično ćete morati da modifikujete HTML kod stranice i napravite neke testove lokalno (možda koristeći neki Apache server) **dok ne budete zadovoljni rezultatima.** Zatim, napišite taj HTML kod u kutiju.\
-Imajte na umu da ako trebate da **koristite neke statične resurse** za HTML (možda neke CSS i JS stranice) možete ih sačuvati u _**/opt/gophish/static/endpoint**_ i zatim im pristupiti iz _**/static/\<filename>**_
+Imajte na umu da ako trebate da **koristite neke statičke resurse** za HTML (možda neke CSS i JS stranice) možete ih sačuvati u _**/opt/gophish/static/endpoint**_ i zatim im pristupiti iz _**/static/\<filename>**_
 {% endhint %}
 
 {% hint style="info" %}
@@ -382,7 +382,7 @@ Za preusmeravanje možete **preusmeriti korisnike na legitimnu glavnu web strani
 ### Korisnici i grupe
 
 * Postavite ime
-* **Importujte podatke** (imajte na umu da da biste koristili šablon za primer trebate ime, prezime i email adresu svakog korisnika)
+* **Uvezite podatke** (imajte na umu da da biste koristili šablon za primer, potrebni su vam ime, prezime i email adresa svakog korisnika)
 
 ![](<../../.gitbook/assets/image (163).png>)
 
@@ -408,9 +408,9 @@ Ako iz bilo kog razloga želite da klonirate web stranicu, proverite sledeću st
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Dokumenti i fajlovi sa backdoor-om
+## Dokumenti i datoteke sa backdoor-om
 
-U nekim phishing procenama (pretežno za Red Teams) želećete takođe **slati fajlove koji sadrže neku vrstu backdoor-a** (možda C2 ili možda samo nešto što će pokrenuti autentifikaciju).\
+U nekim phishing procenama (pretežno za Red Teams) takođe ćete želeti da **pošaljete datoteke koje sadrže neku vrstu backdoor-a** (možda C2 ili možda samo nešto što će pokrenuti autentifikaciju).\
 Pogledajte sledeću stranicu za neke primere:
 
 {% content-ref url="phishing-documents.md" %}
@@ -427,18 +427,18 @@ Ovde su alati kao što su [**evilginx2**](https://github.com/kgretzky/evilginx2)
 
 1. **Pretvarate se u login** formu prave web stranice.
 2. Korisnik **šalje** svoje **akreditive** na vašu lažnu stranicu, a alat šalje te podatke pravoj web stranici, **proveravajući da li akreditivi rade**.
-3. Ako je nalog konfiguran sa **2FA**, MitM stranica će tražiti to, a kada **korisnik unese** to, alat će to poslati pravoj web stranici.
+3. Ako je nalog konfiguran sa **2FA**, MitM stranica će to tražiti i kada **korisnik unese** to, alat će to poslati pravoj web stranici.
 4. Kada je korisnik autentifikovan, vi (kao napadač) ćete imati **uhvaćene akreditive, 2FA, kolačić i sve informacije** svake interakcije dok alat obavlja MitM.
 
 ### Putem VNC
 
-Šta ako umesto da **šaljete žrtvu na zloćudnu stranicu** koja izgleda kao originalna, pošaljete ga na **VNC sesiju sa pretraživačem povezanom na pravu web stranicu**? Moći ćete da vidite šta radi, ukradete lozinku, korišćeni MFA, kolačiće...\
+Šta ako umesto da **šaljete žrtvu na zloćudnu stranicu** sa istim izgledom kao originalna, pošaljete ga na **VNC sesiju sa pretraživačem povezanom na pravu web stranicu**? Moći ćete da vidite šta radi, ukradete lozinku, korišćeni MFA, kolačiće...\
 To možete uraditi sa [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
 ## Otkrivanje detekcije
 
-Očigledno je jedan od najboljih načina da saznate da li ste uhvaćeni da **pretražujete svoju domenu unutar crnih lista**. Ako se pojavi na listi, na neki način vaša domena je otkrivena kao sumnjiva.\
-Jedan jednostavan način da proverite da li se vaša domena pojavljuje na nekoj crnoj listi je da koristite [https://malwareworld.com/](https://malwareworld.com)
+Očigledno je jedan od najboljih načina da saznate da li ste otkriveni da **pretražujete svoju domenu unutar crnih lista**. Ako se pojavi na listi, na neki način je vaša domena otkrivena kao sumnjiva.\
+Jedan jednostavan način da proverite da li se vaša domena pojavljuje na bilo kojoj crnoj listi je da koristite [https://malwareworld.com/](https://malwareworld.com)
 
 Međutim, postoje i drugi načini da saznate da li žrtva **aktivno traži sumnjivu phishing aktivnost u prirodi** kao što je objašnjeno u:
 
@@ -446,7 +446,7 @@ Međutim, postoje i drugi načini da saznate da li žrtva **aktivno traži sumnj
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Možete **kupiti domenu sa vrlo sličnim imenom** kao domena žrtve **i/ili generisati sertifikat** za **poddomen** domene koju kontrolišete **sadržeći** **ključnu reč** domena žrtve. Ako žrtva izvrši bilo kakvu vrstu **DNS ili HTTP interakcije** sa njima, znaćete da **aktivno traži** sumnjive domene i moraćete da budete veoma diskretni.
+Možete **kupiti domenu sa vrlo sličnim imenom** kao domena žrtve **i/ili generisati sertifikat** za **poddomen** domene koju kontrolišete **sadržeći** **ključnu reč** domene žrtve. Ako žrtva izvrši bilo kakvu vrstu **DNS ili HTTP interakcije** sa njima, znaćete da **aktivno traži** sumnjive domene i moraćete da budete veoma diskretni.
 
 ### Procena phishing-a
 

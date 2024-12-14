@@ -24,7 +24,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ### User Identification Variables
 
-- **`ruid`**: **pravi ID korisnika** označava korisnika koji je pokrenuo proces.
+- **`ruid`**: **stvarni ID korisnika** označava korisnika koji je pokrenuo proces.
 - **`euid`**: Poznat kao **efektivni ID korisnika**, predstavlja identitet korisnika koji sistem koristi za utvrđivanje privilegija procesa. Generalno, `euid` odražava `ruid`, osim u slučajevima kao što je izvršavanje SetUID binarnog fajla, gde `euid` preuzima identitet vlasnika fajla, čime se dodeljuju specifične operativne dozvole.
 - **`suid`**: Ovaj **sačuvani ID korisnika** je ključan kada proces sa visokim privilegijama (obično pokrenut kao root) treba privremeno da se odrekne svojih privilegija da bi izvršio određene zadatke, samo da bi kasnije povratio svoj prvobitni povišeni status.
 
@@ -33,52 +33,52 @@ Proces koji ne radi pod root-om može samo da modifikuje svoj `euid` da odgovara
 
 ### Understanding set*uid Functions
 
-- **`setuid`**: Suprotno prvobitnim pretpostavkama, `setuid` prvenstveno modifikuje `euid` umesto `ruid`. Konkretno, za privilegovane procese, usklađuje `ruid`, `euid` i `suid` sa određenim korisnikom, često root, efikasno učvršćujući ove ID-ove zbog nadjačavajućeg `suid`. Detaljne informacije mogu se naći na [setuid man stranici](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setuid`**: Suprotno prvobitnim pretpostavkama, `setuid` prvenstveno modifikuje `euid` umesto `ruid`. Konkretno, za privilegovane procese, usklađuje `ruid`, `euid` i `suid` sa određenim korisnikom, često root, efektivno učvršćujući ove ID-ove zbog nadjačavajućeg `suid`. Detaljne informacije mogu se naći na [setuid man stranici](https://man7.org/linux/man-pages/man2/setuid.2.html).
 - **`setreuid`** i **`setresuid`**: Ove funkcije omogućavaju suptilno podešavanje `ruid`, `euid` i `suid`. Međutim, njihove mogućnosti zavise od nivoa privilegija procesa. Za procese koji nisu root, modifikacije su ograničene na trenutne vrednosti `ruid`, `euid` i `suid`. Nasuprot tome, root procesi ili oni sa `CAP_SETUID` privilegijom mogu dodeliti proizvoljne vrednosti ovim ID-ovima. Više informacija može se dobiti sa [setresuid man stranice](https://man7.org/linux/man-pages/man2/setresuid.2.html) i [setreuid man stranice](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-Ove funkcionalnosti nisu dizajnirane kao mehanizam sigurnosti, već da olakšaju predviđeni operativni tok, kao kada program preuzima identitet drugog korisnika menjajući svoj efektivni ID korisnika.
+Ove funkcionalnosti nisu dizajnirane kao mehanizam bezbednosti, već da olakšaju predviđeni operativni tok, kao kada program preuzima identitet drugog korisnika menjajući svoj efektivni ID korisnika.
 
-Važno je napomenuti da, iako `setuid` može biti uobičajen izbor za podizanje privilegija na root (pošto usklađuje sve ID-ove sa root), razlikovanje između ovih funkcija je ključno za razumevanje i manipulaciju ponašanjem ID korisnika u različitim scenarijima.
+Važno je napomenuti da, iako `setuid` može biti uobičajen izbor za podizanje privilegija na root (pošto usklađuje sve ID-ove sa root), razlikovanje između ovih funkcija je ključno za razumevanje i manipulaciju ponašanjem ID-ova korisnika u različitim scenarijima.
 
 ### Program Execution Mechanisms in Linux
 
 #### **`execve` System Call**
-- **Funkcionalnost**: `execve` pokreće program, određen prvim argumentom. Prihvaća dva niz argumenta, `argv` za argumente i `envp` za okruženje.
-- **Ponašanje**: Zadržava memorijski prostor pozivaoca, ali osvežava stek, heap i podatkovne segmente. Kod programa se zamenjuje novim programom.
-- **Očuvanje ID korisnika**:
+- **Functionality**: `execve` pokreće program, određen prvim argumentom. Prihvaća dva niz argumenta, `argv` za argumente i `envp` za okruženje.
+- **Behavior**: Zadržava memorijski prostor pozivaoca, ali osvežava stek, heap i podatkovne segmente. Kod programa se zamenjuje novim programom.
+- **User ID Preservation**:
 - `ruid`, `euid` i dodatni grupni ID-ovi ostaju nepromenjeni.
 - `euid` može imati suptilne promene ako novi program ima postavljen SetUID bit.
 - `suid` se ažurira iz `euid` nakon izvršenja.
-- **Dokumentacija**: Detaljne informacije mogu se naći na [`execve` man stranici](https://man7.org/linux/man-pages/man2/execve.2.html).
+- **Documentation**: Detaljne informacije mogu se naći na [`execve` man stranici](https://man7.org/linux/man-pages/man2/execve.2.html).
 
 #### **`system` Function**
-- **Funkcionalnost**: Za razliku od `execve`, `system` kreira podproces koristeći `fork` i izvršava komandu unutar tog podprocesa koristeći `execl`.
-- **Izvršenje komande**: Izvršava komandu putem `sh` sa `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Ponašanje**: Pošto je `execl` oblik `execve`, funkcioniše slično, ali u kontekstu novog podprocesa.
-- **Dokumentacija**: Dodatne uvide možete dobiti sa [`system` man stranice](https://man7.org/linux/man-pages/man3/system.3.html).
+- **Functionality**: Za razliku od `execve`, `system` kreira podproces koristeći `fork` i izvršava komandu unutar tog podprocesa koristeći `execl`.
+- **Command Execution**: Izvršava komandu putem `sh` sa `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
+- **Behavior**: Pošto je `execl` oblik `execve`, funkcioniše slično, ali u kontekstu novog podprocesa.
+- **Documentation**: Dalje uvide možete dobiti sa [`system` man stranice](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### **Ponašanje `bash` i `sh` sa SUID**
+#### **Behavior of `bash` and `sh` with SUID**
 - **`bash`**:
-- Ima opciju `-p` koja utiče na to kako se tretiraju `euid` i `ruid`.
+- Ima `-p` opciju koja utiče na to kako se tretiraju `euid` i `ruid`.
 - Bez `-p`, `bash` postavlja `euid` na `ruid` ako se prvobitno razlikuju.
 - Sa `-p`, prvobitni `euid` se čuva.
 - Više detalja može se naći na [`bash` man stranici](https://linux.die.net/man/1/bash).
 - **`sh`**:
 - Ne poseduje mehanizam sličan `-p` u `bash`.
-- Ponašanje u vezi sa ID-ovima korisnika nije eksplicitno pomenuto, osim pod opcijom `-i`, naglašavajući očuvanje jednakosti `euid` i `ruid`.
+- Ponašanje u vezi sa ID-ovima korisnika nije eksplicitno pomenuto, osim pod `-i` opcijom, naglašavajući očuvanje jednakosti `euid` i `ruid`.
 - Dodatne informacije su dostupne na [`sh` man stranici](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
 Ovi mehanizmi, različiti u svojoj operaciji, nude raznovrsne opcije za izvršavanje i prelazak između programa, sa specifičnim nijansama u načinu na koji se upravlja i čuva ID korisnika.
 
 ### Testing User ID Behaviors in Executions
 
-Primeri preuzeti sa https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, proverite za dodatne informacije
+Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
 
 #### Case 1: Using `setuid` with `system`
 
-**Cilj**: Razumevanje efekta `setuid` u kombinaciji sa `system` i `bash` kao `sh`.
+**Objective**: Razumevanje efekta `setuid` u kombinaciji sa `system` i `bash` kao `sh`.
 
-**C Kod**:
+**C Code**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -153,11 +153,11 @@ return 0;
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
-**Analiza:**
+**Анализа:**
 
-* `ruid` ostaje 99, ali je euid postavljen na 1000, u skladu sa efektom setuid-a.
+* `ruid` остаје 99, али је euid постављен на 1000, у складу са ефектом setuid-а.
 
-**C Primer Koda 2 (Pozivanje Bashe):**
+**C Код Пример 2 (Позивање Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>

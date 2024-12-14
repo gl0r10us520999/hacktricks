@@ -6,7 +6,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -19,7 +19,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) za lako kreiranje i **automatizaciju radnih tokova** uz pomoć najnaprednijih alata zajednice na svetu.\
-Dobijte pristup danas:
+Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -41,7 +41,7 @@ Kada pronađete CID, preporučuje se da **pretražujete datoteke koje sadrže ov
 ## Google Drive
 
 U Windows-u, možete pronaći glavni Google Drive folder u `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-Ovaj folder sadrži datoteku pod nazivom Sync\_log.log sa informacijama kao što su email adresa naloga, imena datoteka, vremenski oznake, MD5 hešovi datoteka, itd. Čak i obrisane datoteke se pojavljuju u toj log datoteci sa odgovarajućim MD5.
+Ovaj folder sadrži datoteku pod nazivom Sync\_log.log sa informacijama kao što su email adresa naloga, imena datoteka, vremenski oznake, MD5 heševi datoteka, itd. Čak i obrisane datoteke se pojavljuju u toj log datoteci sa odgovarajućim MD5.
 
 Datoteka **`Cloud_graph\Cloud_graph.db`** je sqlite baza podataka koja sadrži tabelu **`cloud_graph_entry`**. U ovoj tabeli možete pronaći **ime** **sinhronizovanih** **datoteka**, vreme modifikacije, veličinu i MD5 kontrolni zbir datoteka.
 
@@ -74,7 +74,7 @@ Međutim, glavne informacije su:
 * **Algoritam**: PBKDF2
 * **Iteracije**: 1066
 
-Pored tih informacija, da biste dešifrovali baze podataka, još uvek vam je potrebna:
+Pored tih informacija, da biste dešifrovali baze podataka, još uvek vam je potrebno:
 
 * **šifrovani DPAPI ključ**: Možete ga pronaći u registru unutar `NTUSER.DAT\Software\Dropbox\ks\client` (izvezite ove podatke kao binarne)
 * **`SYSTEM`** i **`SECURITY`** hives
@@ -85,7 +85,7 @@ Zatim možete koristiti alat [**DataProtectionDecryptor**](https://nirsoft.net/u
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-Ako sve ide kako se očekuje, alat će označiti **glavni ključ** koji trebate **koristiti za oporavak originalnog**. Da biste povratili originalni, jednostavno koristite ovaj [cyber\_chef recept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) stavljajući glavni ključ kao "lozinku" unutar recepta.
+Ako sve ide kako se očekuje, alat će označiti **glavni ključ** koji trebate **koristiti za oporavak originalnog**. Da biste povratili originalni, jednostavno koristite ovu [cyber\_chef recept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) stavljajući glavni ključ kao "lozinku" unutar recepta.
 
 Rezultantni heksadecimalni broj je konačni ključ koji se koristi za šifrovanje baza podataka koje se mogu dešifrovati sa:
 ```bash
@@ -96,12 +96,12 @@ The **`config.dbx`** baza podataka sadrži:
 * **Email**: Email korisnika
 * **usernamedisplayname**: Ime korisnika
 * **dropbox\_path**: Putanja gde se nalazi dropbox folder
-* **Host\_id: Hash** korišćen za autentifikaciju u cloud. Ovo se može opozvati samo sa veba.
+* **Host\_id: Hash** koji se koristi za autentifikaciju u cloud. Ovo se može opozvati samo sa veba.
 * **Root\_ns**: Identifikator korisnika
 
 The **`filecache.db`** baza podataka sadrži informacije o svim datotekama i folderima sinhronizovanim sa Dropbox-om. Tabela `File_journal` je ona sa više korisnih informacija:
 
-* **Server\_path**: Putanja gde se datoteka nalazi unutar servera (ova putanja je prethodna sa `host_id` klijenta).
+* **Server\_path**: Putanja gde se datoteka nalazi unutar servera (ova putanja je prethodna `host_id` klijenta).
 * **local\_sjid**: Verzija datoteke
 * **local\_mtime**: Datum modifikacije
 * **local\_ctime**: Datum kreiranja

@@ -19,7 +19,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 Da biste otkrili pokušaj phishing-a, važno je **razumeti phishing tehnike koje se danas koriste**. Na roditeljskoj stranici ovog posta možete pronaći te informacije, pa ako niste upoznati sa tehnikama koje se danas koriste, preporučujem da odete na roditeljsku stranicu i pročitate barem taj deo.
 
-Ovaj post se zasniva na ideji da će **napadači pokušati na neki način da imituju ili koriste ime domena žrtve**. Ako je vaš domen nazvan `example.com` i vi ste phishing-ovani koristeći potpuno drugačije ime domena, kao što je `youwonthelottery.com`, ove tehnike neće otkriti to.
+Ovaj post se zasniva na ideji da će **napadači pokušati na neki način da imituju ili koriste ime domena žrtve**. Ako se vaš domen zove `example.com` i vi ste phishingovani koristeći potpuno drugačije ime domena, kao što je `youwonthelottery.com`, ove tehnike neće ga otkriti.
 
 ## Varijacije imena domena
 
@@ -37,14 +37,14 @@ Za ovu svrhu možete koristiti bilo koji od sledećih alata. Imajte na umu da ć
 
 **Možete pronaći kratko objašnjenje ove tehnike na roditeljskoj stranici. Ili pročitajte originalno istraživanje na** [**https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/**](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-Na primer, 1-bitna modifikacija u domenu microsoft.com može ga transformisati u _windnws.com._\
+Na primer, 1 bit modifikacija u domenu microsoft.com može ga transformisati u _windnws.com._\
 **Napadači mogu registrovati koliko god je moguće domena sa bit-flipping vezanim za žrtvu kako bi preusmerili legitimne korisnike na svoju infrastrukturu**.
 
-**Svi mogući nazivi domena sa bit-flipping-om takođe bi trebali biti praćeni.**
+**Svi mogući nazivi domena sa bit-flipping takođe bi trebali biti praćeni.**
 
 ### Osnovne provere
 
-Kada imate listu potencijalno sumnjivih imena domena, trebali biste **proveriti** ih (pretežno portove HTTP i HTTPS) da **vidite da li koriste neki obrazac za prijavu sličan** onome sa domena žrtve.\
+Kada imate listu potencijalno sumnjivih imena domena, trebali biste **proveriti** ih (pretežno portove HTTP i HTTPS) da **vidite da li koriste neki obrazac za prijavu sličan** nekom od domena žrtve.\
 Takođe možete proveriti port 3333 da vidite da li je otvoren i da li pokreće instancu `gophish`.\
 Takođe je zanimljivo znati **koliko je stara svaka otkrivena sumnjiva domena**, što je mlađa, to je rizičnija.\
 Možete takođe dobiti **screenshot-ove** sumnjive web stranice HTTP i/ili HTTPS da vidite da li je sumnjiva i u tom slučaju **pristupiti joj da biste detaljnije pogledali**.
@@ -52,7 +52,7 @@ Možete takođe dobiti **screenshot-ove** sumnjive web stranice HTTP i/ili HTTPS
 ### Napredne provere
 
 Ako želite da idete korak dalje, preporučujem da **pratite te sumnjive domene i povremeno tražite više** (svakog dana? to traje samo nekoliko sekundi/minuta). Takođe biste trebali **proveriti** otvorene **portove** povezanih IP-ova i **tražiti instance `gophish` ili sličnih alata** (da, napadači takođe prave greške) i **pratiti HTTP i HTTPS web stranice sumnjivih domena i poddomena** da vidite da li su kopirali neki obrazac za prijavu sa web stranica žrtve.\
-Da biste **automatizovali ovo**, preporučujem da imate listu obrazaca za prijavu domena žrtve, da pretražujete sumnjive web stranice i upoređujete svaki obrazac za prijavu pronađen unutar sumnjivih domena sa svakim obrascem za prijavu domena žrtve koristeći nešto poput `ssdeep`.\
+Da biste **automatizovali ovo**, preporučujem da imate listu obrazaca za prijavu domena žrtve, pretražujete sumnjive web stranice i upoređujete svaki obrazac za prijavu pronađen unutar sumnjivih domena sa svakim obrascem za prijavu domena žrtve koristeći nešto poput `ssdeep`.\
 Ako ste locirali obrasce za prijavu sumnjivih domena, možete pokušati da **pošaljete lažne kredencijale** i **proverite da li vas preusmerava na domen žrtve**.
 
 ## Imena domena koristeći ključne reči
@@ -71,13 +71,13 @@ Međutim, možete učiniti "isto" koristeći besplatni web [**crt.sh**](https://
 
 ![](<../../.gitbook/assets/image (519).png>)
 
-Korišćenjem ove poslednje opcije možete čak koristiti polje Matching Identities da vidite da li se neka identitet iz pravog domena poklapa sa bilo kojim od sumnjivih domena (napomena: sumnjivi domen može biti lažno pozitivan).
+Korišćenjem ove poslednje opcije možete čak koristiti polje Matching Identities da vidite da li se neka identitet iz pravog domena poklapa sa bilo kojim od sumnjivih domena (napomena da sumnjivi domen može biti lažno pozitivan).
 
-**Još jedna alternativa** je fantastičan projekat pod nazivom [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream pruža real-time tok novoregistrovanih sertifikata koje možete koristiti za otkrivanje određenih ključnih reči u (neposrednom) realnom vremenu. U stvari, postoji projekat pod nazivom [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) koji to upravo radi.
+**Još jedna alternativa** je fantastičan projekat pod nazivom [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream pruža real-time stream novo generisanih sertifikata koje možete koristiti za otkrivanje određenih ključnih reči u (neposrednom) realnom vremenu. U stvari, postoji projekat pod nazivom [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) koji to upravo radi.
 
 ### **Novi domeni**
 
-**Jedna poslednja alternativa** je da prikupite listu **novoregistrovanih domena** za neke TLD-ove ([Whoxy](https://www.whoxy.com/newly-registered-domains/) pruža takvu uslugu) i **proverite ključne reči u tim domenima**. Međutim, dugi domeni obično koriste jedan ili više poddomena, stoga ključna reč neće biti prisutna unutar FLD-a i nećete moći pronaći phishing poddomen.
+**Jedna poslednja alternativa** je prikupiti listu **novoregistrovanih domena** za neke TLD-ove ([Whoxy](https://www.whoxy.com/newly-registered-domains/) pruža takvu uslugu) i **proveriti ključne reči u tim domenima**. Međutim, dugi domeni obično koriste jedan ili više poddomena, stoga ključna reč neće biti prisutna unutar FLD-a i nećete moći pronaći phishing poddomen.
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

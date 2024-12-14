@@ -24,7 +24,7 @@ Logstash se koristi za **prikupljanje, transformaciju i slanje logova** kroz sis
 
 ### Pipeline Configuration
 
-Pipelines se konfigurišu u datoteci **/etc/logstash/pipelines.yml**, koja navodi lokacije konfiguracija pipelines:
+Pipelines se konfigurišu u datoteci **/etc/logstash/pipelines.yml**, koja navodi lokacije konfiguracija pipeline-a:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -36,19 +36,19 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Ovaj fajl otkriva gde se nalaze **.conf** fajlovi, koji sadrže konfiguracije pipeline-a. Kada se koristi **Elasticsearch output module**, uobičajeno je da **pipelines** uključuju **Elasticsearch credentials**, koje često imaju opsežne privilegije zbog potrebe Logstash-a da piše podatke u Elasticsearch. Wildcard-ovi u konfiguracionim putanjama omogućavaju Logstash-u da izvrši sve odgovarajuće pipeline-ove u određenom direktorijumu.
+Ovaj fajl otkriva gde se nalaze **.conf** fajlovi koji sadrže konfiguracije pipeline-a. Kada se koristi **Elasticsearch output module**, uobičajeno je da **pipelines** uključuju **Elasticsearch kredencijale**, koji često imaju opsežne privilegije zbog potrebe Logstash-a da piše podatke u Elasticsearch. Wildcard-ovi u konfiguracionim putanjama omogućavaju Logstash-u da izvrši sve odgovarajuće pipeline-ove u određenom direktorijumu.
 
 ### Eskalacija privilegija putem zapisivih pipeline-a
 
 Da biste pokušali eskalaciju privilegija, prvo identifikujte korisnika pod kojim Logstash servis radi, obično korisnika **logstash**. Uverite se da ispunjavate **jedan** od ovih kriterijuma:
 
 - Imate **pristup za pisanje** u **.conf** fajl pipeline-a **ili**
-- **/etc/logstash/pipelines.yml** fajl koristi wildcard, i možete pisati u ciljni folder
+- Fajl **/etc/logstash/pipelines.yml** koristi wildcard, i možete pisati u ciljni folder
 
 Pored toga, **jedan** od ovih uslova mora biti ispunjen:
 
 - Mogućnost ponovnog pokretanja Logstash servisa **ili**
-- **/etc/logstash/logstash.yml** fajl ima **config.reload.automatic: true** postavljeno
+- Fajl **/etc/logstash/logstash.yml** ima postavljeno **config.reload.automatic: true**
 
 S obzirom na wildcard u konfiguraciji, kreiranje fajla koji odgovara ovom wildcard-u omogućava izvršavanje komandi. Na primer:
 ```bash

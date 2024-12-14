@@ -37,11 +37,11 @@ Kada je dump mali (samo nekoliko KB, možda nekoliko MB) onda je verovatno reč 
 
 ![](<../../../.gitbook/assets/image (532).png>)
 
-Ako imate instaliran Visual Studio, možete otvoriti ovu datoteku i povezati neke osnovne informacije kao što su naziv procesa, arhitektura, informacije o izuzecima i moduli koji se izvršavaju:
+Ako imate instaliran Visual Studio, možete otvoriti ovu datoteku i povezati neke osnovne informacije kao što su ime procesa, arhitektura, informacije o izuzecima i moduli koji se izvršavaju:
 
 ![](<../../../.gitbook/assets/image (263).png>)
 
-Takođe možete učitati izuzetak i videti dekompilovane instrukcije
+Takođe možete učitati izuzetak i videti dekompilisana uputstva
 
 ![](<../../../.gitbook/assets/image (142).png>)
 

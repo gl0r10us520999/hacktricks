@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Path 1
+## Put 1
 
 (Primer sa [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
@@ -59,7 +59,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 (Primer sa [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Blog¹ tima synacktiv opisao je elegantan način da se dobije root shell, ali upozorenje je da je potrebno dobiti kopiju `/usr/bin/confd_cli_user` koja je samo čitljiva od strane root-a. Pronašao sam drugi način da se eskaliram na root bez takvih problema.
+Blog¹ tima synacktiv opisao je elegantan način da se dobije root shell, ali upozorenje je da zahteva dobijanje kopije `/usr/bin/confd_cli_user` koja je samo čitljiva od strane root-a. Pronašao sam drugi način da se eskaliram na root bez takvih problema.
 
 Kada sam dekompajlirao `/usr/bin/confd_cli` binarni fajl, primetio sam sledeće:
 ```

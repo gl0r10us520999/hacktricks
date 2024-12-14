@@ -25,7 +25,7 @@ U iptables-u, liste pravila poznate kao lanci se obrađuju sekvencijalno. Među 
 - **Forward Chain**: Koristi se za rukovanje dolaznim konekcijama koje nisu namenjene lokalnom sistemu. Ovo je tipično za uređaje koji deluju kao ruteri, gde su podaci koji se primaju namenjeni za prosleđivanje na drugu destinaciju. Ovaj lanac je relevantan prvenstveno kada je sistem uključen u rutiranje, NAT-ovanje ili slične aktivnosti.
 - **Output Chain**: Posvećen regulaciji odlaznih konekcija.
 
-Ovi lanci osiguravaju urednu obradu mrežnog saobraćaja, omogućavajući precizno definisanje detaljnih pravila koja upravljaju protokom podataka u, kroz i iz sistema.
+Ovi lanci osiguravaju urednu obradu mrežnog saobraćaja, omogućavajući precizno definisanje pravila koja upravljaju protokom podataka u, kroz i iz sistema.
 ```bash
 # Delete all rules
 iptables -F
@@ -146,7 +146,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * pass - zaustavi dalju inspekciju paketa
 * **drop** - odbaci paket i generiši upozorenje
 * **reject** - pošalji RST/ICMP grešku nedostupnosti pošiljaocu odgovarajućeg paketa.
-* rejectsrc - isto kao _reject_
+* rejectsrc - isto kao samo _reject_
 * rejectdst - pošalji RST/ICMP grešku paketu primaocu odgovarajućeg paketa.
 * rejectboth - pošalji RST/ICMP greške paketima obe strane razgovora.
 
@@ -166,9 +166,9 @@ Podržava IP opsege, negacije i listu adresa:
 | ------------------------------- | ----------------------------------------- |
 | ! 1.1.1.1                       | Svaka IP adresa osim 1.1.1.1             |
 | !\[1.1.1.1, 1.1.1.2]            | Svaka IP adresa osim 1.1.1.1 i 1.1.1.2   |
-| $HOME\_NET                     | Vaša postavka HOME\_NET u yaml           |
+| $HOME\_NET                     | Vaša postavka HOME\_NET u yaml-u        |
 | \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET i ne HOME\_NET             |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 osim za 10.0.0.5             |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 osim 10.0.0.5                |
 
 #### Izvori i odredišne portove
 
@@ -182,7 +182,7 @@ Podržava opsege portova, negacije i liste portova
 | \[1024: ]       | Od 1024 do najvišeg broja porta       |
 | !80             | Svaki port osim 80                     |
 | \[80:100,!99]   | Opseg od 80 do 100 osim 99             |
-| \[1:80,!\[2,4]] | Opseg od 1-80, osim portova 2 i 4      |
+| \[1:80,!\[2,4]] | Opseg od 1-80, osim portova 2 i 4     |
 
 #### Smer
 
@@ -193,7 +193,7 @@ source <> destination  (both directions)
 ```
 #### Ključne reči
 
-Postoji **stotine opcija** dostupnih u Suricata za pretragu **specifičnog paketa** koji tražite, ovde će biti pomenuto ako se pronađe nešto zanimljivo. Proverite [**dokumentaciju**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) za više informacija!
+Postoji **stotine opcija** dostupnih u Suricata za pretragu **specifičnog paketa** koji tražite, ovde će biti pomenuto ako se pronađe nešto zanimljivo. Proverite [**dokumentaciju**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) za više!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule

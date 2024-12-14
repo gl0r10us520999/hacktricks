@@ -120,7 +120,7 @@ sftp -P 8888 127.0.0.1
 ```
 ## Penelope
 
-[Penelope](https://github.com/brightio/penelope) automatski nadograđuje Linux reverse shells na TTY, upravlja veličinom terminala, beleži sve i još mnogo toga. Takođe pruža readline podršku za Windows shells.
+[Penelope](https://github.com/brightio/penelope) automatski unapređuje Linux reverse shells u TTY, upravlja veličinom terminala, beleži sve i još mnogo toga. Takođe pruža readline podršku za Windows shell-ove.
 
 ![penelope](https://github.com/user-attachments/assets/27ab4b3a-780c-4c07-a855-fd80a194c01e)
 
@@ -132,7 +132,7 @@ expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PAS
 ```
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Produbite svoje znanje o **Mobilnoj Bezbednosti** sa 8kSec Akademijom. Savladajte bezbednost iOS i Android-a kroz naše kurseve koji se mogu pratiti sopstvenim tempom i dobijite sertifikat:
+Produbite svoje znanje o **Mobilnoj Bezbednosti** sa 8kSec Akademijom. Savladajte iOS i Android bezbednost kroz naše kurseve koji se mogu pratiti sopstvenim tempom i dobijte sertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 

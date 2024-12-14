@@ -63,21 +63,21 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Comparison (cmp)**
 
-Koristan za upoređivanje izmenjene datoteke sa njenom originalnom verzijom pronađenom na mreži.
+Korisno za upoređivanje izmenjene datoteke sa njenom originalnom verzijom koja se može pronaći na mreži.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Ekstrakcija Skrivenih Podataka u Tekstu**
+## **Izvlačenje Skrivenih Podataka u Tekstu**
 
 ### **Skriveni Podaci u Prostorima**
 
-Nevidljivi karakteri u naizgled praznim prostorima mogu skrivati informacije. Da biste ekstraktovali ove podatke, posetite [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Nevidljivi karakteri u naizgled praznim prostorima mogu skrivati informacije. Da biste izvukli ove podatke, posetite [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
-## **Ekstrakcija Podataka iz Slika**
+## **Izvlačenje Podataka iz Slika**
 
 ### **Identifikacija Detalja Slike sa GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) služi za određivanje tipova fajlova slika i identifikaciju potencijalne korupcije. Izvršite komandu ispod da biste pregledali sliku:
+[GraphicMagick](https://imagemagick.org/script/download.php) služi za određivanje tipova fajlova slika i identifikaciju potencijalne korupcije. Izvršite komandu u nastavku da biste pregledali sliku:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -87,7 +87,7 @@ Da biste pokušali da popravite oštećenu sliku, dodavanje komentara u metapoda
 ```
 ### **Steghide za Sakrivanje Podataka**
 
-Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV, i AU` fajlova, sposoban je za ugrađivanje i vađenje enkriptovanih podataka. Instalacija je jednostavna koristeći `apt`, a njegov [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
+Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV, i AU` fajlova, sposoban je za ugrađivanje i vađenje enkriptovanih podataka. Instalacija je jednostavna koristeći `apt`, a [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
 
 **Komande:**
 
@@ -113,13 +113,13 @@ zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. I
 
 ### **StegoVeritas i Stegsolve**
 
-**stegoVeritas** proverava metapodatke, vrši transformacije slika i primenjuje LSB brute forcing među ostalim funkcijama. Koristite `stegoveritas.py -h` za punu listu opcija i `stegoveritas.py stego.jpg` za izvršavanje svih provera.
+**stegoVeritas** proverava metapodatke, vrši transformacije slika i primenjuje LSB brute forcing među ostalim funkcijama. Koristite `stegoveritas.py -h` za punu listu opcija i `stegoveritas.py stego.jpg` da izvršite sve provere.
 
 **Stegsolve** primenjuje razne filtere boja kako bi otkrio skrivene tekstove ili poruke unutar slika. Dostupan je na [GitHub-u](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
 ### **FFT za detekciju skrivenog sadržaja**
 
-Fast Fourier Transform (FFT) tehnike mogu otkriti skrivene sadržaje u slikama. Korisni resursi uključuju:
+Tehnike brze Furijeove transformacije (FFT) mogu otkriti skrivene sadržaje u slikama. Korisni resursi uključuju:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -127,7 +127,7 @@ Fast Fourier Transform (FFT) tehnike mogu otkriti skrivene sadržaje u slikama. 
 
 ### **Stegpy za audio i slikovne fajlove**
 
-Stegpy omogućava ugrađivanje informacija u slikovne i audio fajlove, podržavajući formate kao što su PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
+Stegpy omogućava umetanje informacija u slikovne i audio fajlove, podržavajući formate kao što su PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck za analizu PNG fajlova**
 
@@ -136,9 +136,9 @@ Za analizu PNG fajlova ili za validaciju njihove autentičnosti, koristite:
 apt-get install pngcheck
 pngcheck stego.png
 ```
-### **Dodatni alati za analizu slika**
+### **Додатни алати за анализу слика**
 
-Za dalju istraživanje, razmotrite posetu:
+За даље истраживање, размислите о посети:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -146,27 +146,27 @@ Za dalju istraživanje, razmotrite posetu:
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Ekstrakcija podataka iz audio zapisa**
+## **Извлачење података из аудио записа**
 
-**Audio steganografija** nudi jedinstvenu metodu za skrivanje informacija unutar zvučnih datoteka. Različiti alati se koriste za umetanje ili preuzimanje skrivenog sadržaja.
+**Аудио стеганографија** нуди јединствен метод за сакривање информација у звучним фајловима. Различити алати се користе за уграђивање или извлачење скривеног садржаја.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide je svestran alat dizajniran za skrivanje podataka u JPEG, BMP, WAV i AU datotekama. Detaljna uputstva su dostupna u [stego trikovima dokumentaciji](stego-tricks.md#steghide).
+Steghide је свестран алат дизајниран за сакривање података у JPEG, BMP, WAV и AU фајловима. Детаљна упутства су доступна у [документацији стего трикова](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Ovaj alat je kompatibilan sa raznim formatima uključujući PNG, BMP, GIF, WebP i WAV. Za više informacija, pogledajte [Stegpy-evu sekciju](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Овај алат је компатибилан са различитим форматима укључујући PNG, BMP, GIF, WebP и WAV. За више информација, погледајте [секцију Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
-ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i ukazujući na bilo kakve nesuglasice.
+ffmpeg је кључан за процену интегритета аудио фајлова, истичући детаљне информације и указујући на било какве несагласности.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg se odlično snalazi u skrivanju i ekstrakciji podataka unutar WAV datoteka koristeći strategiju najmanje značajne bit. Dostupan je na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
+WavSteg se odlično snalazi u skrivanju i ekstrakciji podataka unutar WAV fajlova koristeći strategiju najmanje značajnog bita. Dostupan je na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -174,30 +174,30 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound omogućava enkripciju i detekciju informacija unutar zvučnih datoteka koristeći AES-256. Može se preuzeti sa [službene stranice](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound omogućava enkripciju i detekciju informacija unutar zvučnih fajlova koristeći AES-256. Može se preuzeti sa [službene stranice](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
-Neprocenjiv alat za vizuelnu i analitičku inspekciju audio datoteka, Sonic Visualizer može otkriti skrivene elemente koji su nevidljivi drugim sredstvima. Posetite [službenu veb stranicu](https://www.sonicvisualiser.org/) za više informacija.
+Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji su nevidljivi drugim sredstvima. Posetite [službenu veb stranicu](https://www.sonicvisualiser.org/) za više informacija.
 
 ### **DTMF Tones - Dial Tones**
 
-Detekcija DTMF tonova u audio datotekama može se postići putem online alata kao što su [ovaj DTMF detektor](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
+Detekcija DTMF tonova u audio fajlovima može se postići putem online alata kao što su [ovaj DTMF detektor](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Other Techniques**
 
 ### **Binary Length SQRT - QR Code**
 
-Binarni podaci koji se kvadriraju u celo broj mogu predstavljati QR kod. Koristite ovaj isječak za proveru:
+Binarni podaci koji se kvadriraju u celoj broju mogu predstavljati QR kod. Koristite ovaj isječak za proveru:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-Za konverziju binarnih podataka u sliku, proverite [dcode](https://www.dcode.fr/binary-image). Da biste pročitali QR kodove, koristite [ovaj online čitač barkodova](https://online-barcode-reader.inliteresearch.com/).
+Za konverziju binarnih podataka u sliku, proverite [dcode](https://www.dcode.fr/binary-image). Da biste pročitali QR kodove, koristite [ovaj online čitač barkoda](https://online-barcode-reader.inliteresearch.com/).
 
-### **Prevod na Brajevo pismo**
+### **Prevod Brajove Pisma**
 
-Za prevođenje Brajevog pisma, [Branah Braille Translator](https://www.branah.com/braille-translator) je odličan resurs.
+Za prevođenje Brajove pisma, [Branah Braille Translator](https://www.branah.com/braille-translator) je odličan resurs.
 
 ## **Reference**
 

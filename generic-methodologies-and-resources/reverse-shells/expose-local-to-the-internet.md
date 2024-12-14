@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-**Cilj ove stranice je da predloži alternative koje omogućavaju DA BAR izlože lokalne sirove TCP portove i lokalne web stranice (HTTP) internetu BEZ potrebe da se bilo šta instalira na drugom serveru (samo lokalno ako je potrebno).**
+**Cilj ove stranice je da predloži alternative koje omogućavaju DA BAR izlože lokalne sirove TCP portove i lokalne veb stranice (HTTP) internetu BEZ potrebe da se bilo šta instalira na drugom serveru (samo lokalno ako je potrebno).**
 
 ## **Serveo**
 

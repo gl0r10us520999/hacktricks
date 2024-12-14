@@ -25,7 +25,7 @@ Linux mašina u AD može **čuvati različite CCACHE karte unutar fajlova. Ove k
 
 ### AD enumeracija sa linux-a
 
-Ako imate pristup AD-u u linux-u (ili bash-u u Windows-u), možete probati [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) da enumerišete AD.
+Ako imate pristup AD-u na linux-u (ili bash-u u Windows-u), možete probati [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) da enumerišete AD.
 
 Takođe možete proveriti sledeću stranicu da biste naučili **druge načine za enumeraciju AD-a sa linux-a**:
 
@@ -35,7 +35,7 @@ Takođe možete proveriti sledeću stranicu da biste naučili **druge načine za
 
 ### FreeIPA
 
-FreeIPA je open-source **alternativa** za Microsoft Windows **Active Directory**, uglavnom za **Unix** okruženja. Kombinuje kompletnu **LDAP direktoriju** sa MIT **Kerberos** Centrom za distribuciju ključeva za upravljanje sličnim Active Directory. Koristeći Dogtag **Sistem sertifikata** za upravljanje CA i RA sertifikatima, podržava **multi-factor** autentifikaciju, uključujući pametne kartice. SSSD je integrisan za Unix procese autentifikacije. Saznajte više o tome u:
+FreeIPA je open-source **alternativa** za Microsoft Windows **Active Directory**, uglavnom za **Unix** okruženja. Kombinuje kompletnu **LDAP direktoriju** sa MIT **Kerberos** Centrom za distribuciju ključeva za upravljanje sličnim Active Directory. Koristi Dogtag **Sistem sertifikata** za upravljanje CA i RA sertifikatima, podržava **multi-factor** autentifikaciju, uključujući pametne kartice. SSSD je integrisan za Unix procese autentifikacije. Saznajte više o tome u:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -55,7 +55,7 @@ Na ovoj stranici ćete pronaći različita mesta gde možete **pronaći kerberos
 
 CCACHE fajlovi su binarni formati za **čuvanje Kerberos kredencijala** i obično se čuvaju sa 600 dozvolama u `/tmp`. Ovi fajlovi se mogu identifikovati po svom **formatu imena, `krb5cc_%{uid}`,** koji se odnosi na UID korisnika. Za verifikaciju autentifikacione karte, **promenljiva okruženja `KRB5CCNAME`** treba da bude postavljena na putanju željenog fajla karte, omogućavajući njenu ponovnu upotrebu.
 
-Prikazivanje trenutne karte korišćene za autentifikaciju sa `env | grep KRB5CCNAME`. Format je prenosiv i karta se može **ponovo koristiti postavljanjem promenljive okruženja** sa `export KRB5CCNAME=/tmp/ticket.ccache`. Format imena kerberos karte je `krb5cc_%{uid}` gde je uid UID korisnika.
+Prikazivanje trenutne karte koja se koristi za autentifikaciju sa `env | grep KRB5CCNAME`. Format je prenosiv i karta se može **ponovo koristiti postavljanjem promenljive okruženja** sa `export KRB5CCNAME=/tmp/ticket.ccache`. Format imena Kerberos karte je `krb5cc_%{uid}` gde je uid UID korisnika.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -81,7 +81,7 @@ Ova procedura će pokušati da injektuje u različite sesije, označavajući usp
 
 SSSD održava kopiju baze podataka na putanji `/var/lib/sss/secrets/secrets.ldb`. Odgovarajući ključ se čuva kao skriveni fajl na putanji `/var/lib/sss/secrets/.secrets.mkey`. Po defaultu, ključ je čitljiv samo ako imate **root** dozvole.
 
-Pozivanje \*\*`SSSDKCMExtractor` \*\* sa parametrima --database i --key će analizirati bazu podataka i **dekriptovati tajne**.
+Pozivanje \*\*`SSSDKCMExtractor` \*\* sa --database i --key parametrima će analizirati bazu podataka i **dekriptovati tajne**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
@@ -96,14 +96,14 @@ klist -k /etc/krb5.keytab
 ```
 ### Izvlačenje naloga iz /etc/krb5.keytab
 
-Ključevi servisnih naloga, koji su neophodni za usluge koje rade sa root privilegijama, sigurno su pohranjeni u **`/etc/krb5.keytab`** datotekama. Ovi ključevi, slični lozinkama za usluge, zahtevaju strogu poverljivost.
+Ključevi servisnog naloga, koji su neophodni za usluge koje rade sa root privilegijama, sigurno su pohranjeni u **`/etc/krb5.keytab`** datotekama. Ovi ključevi, slični lozinkama za usluge, zahtevaju strogu poverljivost.
 
-Da biste pregledali sadržaj keytab datoteke, može se koristiti **`klist`**. Ovaj alat je dizajniran da prikaže ključne detalje, uključujući **NT Hash** za autentifikaciju korisnika, posebno kada je tip ključa identifikovan kao 23.
+Da biste pregledali sadržaj keytab datoteke, može se koristiti **`klist`**. Ovaj alat je dizajniran da prikaže detalje ključeva, uključujući **NT Hash** za autentifikaciju korisnika, posebno kada je tip ključa identifikovan kao 23.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-Za Linux korisnike, **`KeyTabExtract`** nudi funkcionalnost za ekstrakciju RC4 HMAC haša, koji se može iskoristiti za ponovnu upotrebu NTLM haša.
+Za Linux korisnike, **`KeyTabExtract`** nudi funkcionalnost za ekstrakciju RC4 HMAC heša, koji se može iskoristiti za ponovnu upotrebu NTLM heša.
 ```bash
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
@@ -116,7 +116,7 @@ Korišćenjem ekstraktovanih informacija o nalogu i hešu, mogu se uspostaviti v
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
-## References
+## Reference
 
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)

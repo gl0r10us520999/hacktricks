@@ -1,36 +1,36 @@
-# Python Interni Čitački Gadgeti
+# Python Internal Read Gadgets
 
 {% hint style="success" %}
-Naučite i vežbajte AWS hakovanje:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte GCP hakovanje: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Osnovne Informacije
+## Osnovne informacije
 
-Različite ranjivosti poput [**Python Format Stringova**](bypass-python-sandboxes/#python-format-string) ili [**Zagađenje Klasa**](class-pollution-pythons-prototype-pollution.md) mogu vam omogućiti da **čitate interne podatke Pythona ali vam neće dozvoliti izvršavanje koda**. Stoga, pentester će morati maksimalno iskoristiti ova dozvola za čitanje kako bi **dobio osetljive privilegije i eskalirao ranjivost**.
+Različite ranjivosti kao što su [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) ili [**Class Pollution**](class-pollution-pythons-prototype-pollution.md) mogu vam omogućiti da **pročitate interne podatke u Pythonu, ali neće vam omogućiti da izvršite kod**. Stoga, pentester će morati da iskoristi ove dozvole za čitanje kako bi **dobio osetljive privilegije i eskalirao ranjivost**.
 
-### Flask - Čitanje tajnog ključa
+### Flask - Pročitajte tajni ključ
 
 Glavna stranica Flask aplikacije verovatno će imati **`app`** globalni objekat gde je ovaj **tajni ključ konfigurisan**.
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-U ovom slučaju moguće je pristupiti ovom objektu koristeći bilo koji gedžet za **pristup globalnim objektima** sa [**Bypass Python sandboxes stranice**](bypass-python-sandboxes/).
+U ovom slučaju je moguće pristupiti ovom objektu koristeći bilo koji gadget za **pristup globalnim objektima** sa [**stranice za zaobilaženje Python sandboxes**](bypass-python-sandboxes/).
 
-U slučaju kada je **ranjivost u drugom Python fajlu**, potreban vam je gedžet za pretragu fajlova kako biste došli do glavnog fajla i **pristupili globalnom objektu `app.secret_key`** kako biste promenili Flask tajni ključ i bili u mogućnosti da [**dignete privilegije** znajući ovaj ključ](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+U slučaju kada **je ranjivost u drugom python fajlu**, potreban vam je gadget za prelazak između fajlova kako biste došli do glavnog da **pristupite globalnom objektu `app.secret_key`** da promenite Flask tajni ključ i budete u mogućnosti da [**povećate privilegije** znajući ovaj ključ](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Payload poput ovog [iz ovog writeupa](https://ctftime.org/writeup/36082):
+Payload poput ovog [iz ovog izveštaja](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -38,32 +38,32 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Koristite ovaj payload da **promenite `app.secret_key`** (naziv u vašoj aplikaciji može biti drugačiji) kako biste mogli da potpišete nove i privilegovane flask kolačiće.
+Koristite ovaj payload da **promenite `app.secret_key`** (ime u vašoj aplikaciji može biti drugačije) kako biste mogli da potpišete nove i privilegovanije flask kolačiće.
 
 ### Werkzeug - machine\_id i node uuid
 
-[**Koristeći ovaj payload iz ovog writeupa**](https://vozec.fr/writeups/tweedle-dum-dee/) bićete u mogućnosti da pristupite **machine\_id**-u i **uuid** nodu, koji su **glavne tajne** koje su vam potrebne da [**generišete Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md) koji možete koristiti da pristupite python konzoli na `/console` ako je **omogućen debug režim:**
+[**Koristeći ove payload-ove iz ovog izveštaja**](https://vozec.fr/writeups/tweedle-dum-dee/) moći ćete da pristupite **machine\_id** i **uuid** node, koji su **glavne tajne** koje su vam potrebne da [**generišete Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md) koji možete koristiti za pristup python konzoli u `/console` ako je **debug mode omogućen:**
 ```python
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug]._machine_id}
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug].uuid._node}
 ```
 {% hint style="warning" %}
-Imajte na umu da možete dobiti **lokalnu putanju servera do `app.py`** generišući neku **grešku** na veb stranici koja će vam **omogućiti pristup putanji**.
+Napomena da možete dobiti **lokalnu putanju servera do `app.py`** generišući neku **grešku** na veb stranici koja će **dati putanju**.
 {% endhint %}
 
-Ako je ranjivost u drugom Python fajlu, proverite prethodni trik sa Flask-om kako biste pristupili objektima iz glavnog Python fajla.
+Ako je ranjivost u drugom python fajlu, proverite prethodni Flask trik za pristup objektima iz glavnog python fajla.
 
 {% hint style="success" %}
-Učite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

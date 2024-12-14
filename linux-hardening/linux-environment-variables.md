@@ -61,10 +61,10 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **MANPATH** – lista direktorijuma za pretragu priručnika.
 * **OSTYPE** – tip operativnog sistema.
 * **PS1** – podrazumevani prompt u bash-u.
-* **PATH** – čuva putanju svih direktorijuma koji sadrže binarne datoteke koje želite da izvršite samo navodeći ime datoteke, a ne relativnu ili apsolutnu putanju.
+* **PATH** – čuva putanju svih direktorijuma koji sadrže binarne datoteke koje želite da izvršite samo navođenjem imena datoteke, a ne relativnom ili apsolutnom putanjom.
 * **PWD** – trenutni radni direktorijum.
 * **SHELL** – putanja do trenutne komandne ljuske (na primer, **/bin/bash**).
-* **TERM** – trenutni tip terminala (na primer, **xterm**).
+* **TERM** – trenutna vrsta terminala (na primer, **xterm**).
 * **TZ** – vaša vremenska zona.
 * **USER** – vaše trenutno korisničko ime.
 
@@ -84,7 +84,7 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesi će koristiti **proxy** deklarisan ovde da se povežu na internet putem **http ili https**.
+Procesi će koristiti **proxy** deklarisan ovde da se povežu na internet preko **http ili https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -106,7 +106,7 @@ Root:
 
 ![](<../.gitbook/assets/image (897).png>)
 
-Redovan korisnik:
+Redovni korisnik:
 
 ![](<../.gitbook/assets/image (740).png>)
 

@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 {% embed url="https://www.rootedcon.com/" %}
 
-Ako želite nešto **brzo i ludo** što će pokrenuti nekoliko Volatility dodataka paralelno, možete koristiti: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
+If you want something **fast and crazy** that will launch several Volatility plugins on parallel you can use: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
@@ -39,7 +39,7 @@ python3 vol.py —h
 ### volatility2
 
 {% tabs %}
-{% tab title="Metoda1" %}
+{% tab title="Metod1" %}
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
@@ -54,21 +54,21 @@ python setup.py install
 {% endtab %}
 {% endtabs %}
 
-## Volatility Komande
+## Volatility Commands
 
-Pristupite zvaničnoj dokumentaciji u [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
+Access the official doc in [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
 
-### Napomena o “list” vs. “scan” pluginovima
+### A note on “list” vs. “scan” plugins
 
-Volatility ima dva glavna pristupa pluginovima, koji se ponekad odražavaju u njihovim imenima. “list” pluginovi će pokušati da navigiraju kroz Windows Kernel strukture kako bi prikupili informacije kao što su procesi (lociranje i prolazak kroz povezanu listu `_EPROCESS` struktura u memoriji), OS handle-ovi (lociranje i listanje tabele handle-ova, dereferenciranje bilo kojih pronađenih pokazivača, itd). Oni se više-manje ponašaju kao Windows API kada se traži, na primer, da listaju procese.
+Volatility ima dva glavna pristupa za plugine, što se ponekad odražava u njihovim imenima. “list” plugini će pokušati da se kreću kroz strukture Windows Kernel-a kako bi dobili informacije kao što su procesi (lociranje i prolazak kroz povezanu listu `_EPROCESS` struktura u memoriji), OS handle-ovi (lociranje i listanje tabele handle-ova, dereferenciranje bilo kojih pronađenih pokazivača, itd). Oni se više-manje ponašaju kao što bi se Windows API ponašao kada bi se, na primer, tražilo da listaju procese.
 
-To čini “list” pluginove prilično brzim, ali jednako ranjivim kao Windows API na manipulaciju od strane malvera. Na primer, ako malver koristi DKOM da unlink-uje proces iz `_EPROCESS` povezane liste, on se neće pojaviti u Task Manager-u, niti u pslist-u.
+To čini “list” plugine prilično brzim, ali jednako ranjivim kao Windows API na manipulaciju od strane malvera. Na primer, ako malver koristi DKOM da unlink-uje proces iz `_EPROCESS` povezane liste, neće se pojaviti u Task Manager-u, niti u pslist-u.
 
-“scan” pluginovi, s druge strane, će uzeti pristup sličan vađenju iz memorije za stvari koje bi mogle imati smisla kada se dereferenciraju kao specifične strukture. `psscan` na primer će čitati memoriju i pokušati da napravi `_EPROCESS` objekte iz nje (koristi skeniranje pool-taga, koje traži 4-bajtne stringove koji ukazuju na prisustvo strukture od interesa). Prednost je u tome što može pronaći procese koji su izašli, i čak i ako malver manipuliše `_EPROCESS` povezanim listama, plugin će i dalje pronaći strukturu koja leži u memoriji (pošto ona i dalje mora postojati da bi proces radio). Nedostatak je što su “scan” pluginovi malo sporiji od “list” pluginova, i ponekad mogu dati lažne pozitivne rezultate (proces koji je izašao previše davno i čiji su delovi strukture prepisani drugim operacijama).
+“scan” plugini, s druge strane, će uzeti pristup sličan sečenju memorije za stvari koje bi mogle imati smisla kada se dereferenciraju kao specifične strukture. `psscan` na primer će čitati memoriju i pokušati da napravi `_EPROCESS` objekte iz nje (koristi skeniranje pool-taga, koje traži 4-bajtne stringove koji ukazuju na prisustvo strukture od interesa). Prednost je u tome što može pronaći procese koji su izašli, i čak i ako malver manipuliše `_EPROCESS` povezanim listama, plugin će i dalje pronaći strukturu koja leži u memoriji (pošto i dalje mora postojati da bi proces radio). Nedostatak je što su “scan” plugini malo sporiji od “list” plugina, i ponekad mogu dati lažne pozitivne rezultate (proces koji je izašao previše davno i čiji su delovi strukture prepisani drugim operacijama).
 
-Izvor: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
+From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
-## OS Profili
+## OS Profiles
 
 ### Volatility3
 
@@ -81,7 +81,7 @@ Paketi tabela simbola za različite operativne sisteme su dostupni za **preuzima
 
 ### Volatility2
 
-#### Spoljni Profil
+#### External Profile
 
 Možete dobiti listu podržanih profila tako što ćete uraditi:
 ```bash
@@ -128,7 +128,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
 #### KDBG
 
-**KDBG**, poznat kao **kernel debugger block**, je ključan za forenzičke zadatke koje obavlja Volatility i razni debageri. Identifikovan kao `KdDebuggerDataBlock` i tipa `_KDDEBUGGER_DATA64`, sadrži bitne reference kao što je `PsActiveProcessHead`. Ova specifična referenca ukazuje na početak liste procesa, omogućavajući prikazivanje svih procesa, što je osnovno za temeljnu analizu memorije.
+**Kernel debugger block**, poznat kao **KDBG** u Volatility, je ključan za forenzičke zadatke koje obavlja Volatility i razni debageri. Identifikovan kao `KdDebuggerDataBlock` i tipa `_KDDEBUGGER_DATA64`, sadrži bitne reference kao što je `PsActiveProcessHead`. Ova specifična referenca ukazuje na početak liste procesa, omogućavajući prikazivanje svih procesa, što je osnovno za temeljnu analizu memorije.
 
 ## OS Information
 ```bash
@@ -167,7 +167,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljanje za profesionalce u tehnologiji i sajber bezbednosti u svakoj disciplini.
+​​​[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljanje za profesionalce iz tehnologije i sajber bezbednosti u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -176,7 +176,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ### Lista procesa
 
 Pokušajte da pronađete **sumnjive** procese (po imenu) ili **neočekivane** dečje **procese** (na primer, cmd.exe kao dečiji proces iexplorer.exe).\
-Može biti zanimljivo **uporediti** rezultat pslist-a sa onim iz psscan-a kako biste identifikovali skrivene procese.
+Može biti zanimljivo **uporediti** rezultat pslist-a sa onim iz psscan-a kako bi se identifikovali skriveni procesi.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -257,7 +257,7 @@ volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of proc
 ### Token privilegije
 
 Proverite privilegovane tokene u neočekivanim servisima.\
-Može biti zanimljivo navesti procese koji koriste neki privilegovani token.
+Može biti zanimljivo nabrojati procese koji koriste neki privilegovani token.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -398,7 +398,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljalište za profesionalce iz tehnologije i sajber bezbednosti u svakoj disciplini.
+​​​​[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljalište za profesionalce u tehnologiji i sajber bezbednosti u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -495,7 +495,7 @@ volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
-## Datoteke
+## Datotečni sistem
 
 ### Montiranje
 
@@ -553,7 +553,7 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-**NTFS datotečni sistem** koristi kritičnu komponentu poznatu kao _master file table_ (MFT). Ova tabela uključuje barem jedan unos za svaku datoteku na volumenu, pokrivajući i samu MFT. Vitalni detalji o svakoj datoteci, kao što su **veličina, vremenske oznake, dozvole i stvarni podaci**, su enkapsulirani unutar MFT unosa ili u oblastima van MFT-a, ali na koje se pozivaju ovi unosi. Više detalja može se naći u [službenoj dokumentaciji](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+**NTFS datotečni sistem** koristi kritičnu komponentu poznatu kao _master file table_ (MFT). Ova tabela uključuje barem jedan unos za svaku datoteku na volumenu, pokrivajući i samu MFT. Vitalni detalji o svakoj datoteci, kao što su **veličina, vremenske oznake, dozvole i stvarni podaci**, su enkapsulirani unutar MFT unosa ili u oblastima van MFT, ali na koje se pozivaju ovi unosi. Više detalja može se naći u [službenoj dokumentaciji](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
 ### SSL Ključevi/Cerifikati
 
@@ -612,7 +612,7 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Skener sa yara
+### Skeneranje sa yara
 
 Koristite ovaj skript za preuzimanje i spajanje svih yara pravila za malver sa github-a: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
 Kreirajte _**rules**_ direktorijum i izvršite ga. Ovo će kreirati datoteku pod nazivom _**malware\_rules.yar**_ koja sadrži sva yara pravila za malver.
@@ -770,7 +770,7 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-**Master Boot Record (MBR)** igra ključnu ulogu u upravljanju logičkim particijama skladišnog medija, koje su strukturirane sa različitim [file systems](https://en.wikipedia.org/wiki/File\_system). On ne samo da sadrži informacije o rasporedu particija, već takođe sadrži izvršni kod koji deluje kao boot loader. Ovaj boot loader ili direktno pokreće proces učitavanja drugog stepena OS-a (vidi [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) ili radi u harmoniji sa [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) svake particije. Za detaljno znanje, pogledajte [MBR Wikipedia stranicu](https://en.wikipedia.org/wiki/Master\_boot\_record).
+**Master Boot Record (MBR)** igra ključnu ulogu u upravljanju logičkim particijama skladišnog medija, koje su strukturirane sa različitim [file systems](https://en.wikipedia.org/wiki/File\_system). On ne samo da sadrži informacije o rasporedu particija, već takođe sadrži izvršni kod koji deluje kao boot loader. Ovaj boot loader ili direktno pokreće proces učitavanja drugog stepena OS-a (vidi [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) ili radi u harmoniji sa [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) svake particije. Za detaljno znanje, pogledajte [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master\_boot\_record).
 
 ## References
 

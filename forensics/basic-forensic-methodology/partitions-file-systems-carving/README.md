@@ -22,7 +22,7 @@ Hard disk ili **SSD disk može sadržati različite particije** sa ciljem fizič
 
 ### MBR (master Boot Record)
 
-Dodeljuje se u **prvom sektoru diska nakon 446B boot koda**. Ovaj sektor je ključan za indikaciju PC-u šta i odakle treba da se montira particija.\
+Dodeljuje se u **prvom sektoru diska nakon 446B boot koda**. Ovaj sektor je suštinski za označavanje PC-u šta i odakle treba da se montira particija.\
 Omogućava do **4 particije** (najviše **samo 1** može biti aktivna/**bootable**). Međutim, ako vam je potrebno više particija, možete koristiti **proširene particije**. **Zadnji bajt** ovog prvog sektora je potpis boot zapisa **0x55AA**. Samo jedna particija može biti označena kao aktivna.\
 MBR omogućava **maksimalno 2.2TB**.
 
@@ -54,9 +54,9 @@ Od **bajtova 440 do 443** MBR-a možete pronaći **Windows Disk Signature** (ako
 | 2 (0x02)  | 1 (0x01) | Početni sektor (bitovi 0-5); gornji bitovi cilindra (6- 7) |
 | 3 (0x03)  | 1 (0x01) | Početni cilindar najniži 8 bitova                     |
 | 4 (0x04)  | 1 (0x01) | Kod tipa particije (0x83 = Linux)                     |
-| 5 (0x05)  | 1 (0x01) | Kraj glave                                            |
-| 6 (0x06)  | 1 (0x01) | Kraj sektora (bitovi 0-5); gornji bitovi cilindra (6- 7)   |
-| 7 (0x07)  | 1 (0x01) | Kraj cilindra najniži 8 bitova                        |
+| 5 (0x05)  | 1 (0x01) | Krajnja glava                                         |
+| 6 (0x06)  | 1 (0x01) | Krajnji sektor (bitovi 0-5); gornji bitovi cilindra (6- 7)   |
+| 7 (0x07)  | 1 (0x01) | Krajnji cilindar najniži 8 bitova                     |
 | 8 (0x08)  | 4 (0x04) | Sektori pre particije (mali endian)                   |
 | 12 (0x0C) | 4 (0x04) | Sektori u particiji                                   |
 
@@ -73,42 +73,42 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logičko adresiranje blokova)**
 
-**Logičko adresiranje blokova** (**LBA**) je uobičajen sistem koji se koristi za **specifikaciju lokacije blokova** podataka koji su pohranjeni na uređajima za skladištenje računara, obično sekundarnim sistemima skladištenja kao što su hard diskovi. LBA je posebno jednostavan linearni sistem adresiranja; **blokovi se lociraju pomoću celobrojnih indeksa**, pri čemu je prvi blok LBA 0, drugi LBA 1, i tako dalje.
+**Logičko adresiranje blokova** (**LBA**) je uobičajen sistem koji se koristi za **specifikaciju lokacije blokova** podataka koji se čuvaju na uređajima za skladištenje računara, obično na sekundarnim sistemima skladištenja kao što su hard diskovi. LBA je posebno jednostavan linearni sistem adresiranja; **blokovi se nalaze pomoću celobrojnog indeksa**, pri čemu je prvi blok LBA 0, drugi LBA 1, i tako dalje.
 
 ### GPT (GUID tabela particija)
 
 GUID tabela particija, poznata kao GPT, favorizovana je zbog svojih poboljšanih mogućnosti u poređenju sa MBR (Master Boot Record). Karakteristična po svom **globalno jedinstvenom identifikatoru** za particije, GPT se izdvaja na nekoliko načina:
 
-* **Lokacija i veličina**: I GPT i MBR počinju na **sektoru 0**. Međutim, GPT radi na **64bita**, u kontrastu sa MBR-ovih 32bita.
+* **Lokacija i veličina**: I GPT i MBR počinju na **sektoru 0**. Međutim, GPT radi na **64 bita**, u kontrastu sa MBR-ovih 32 bita.
 * **Ograničenja particija**: GPT podržava do **128 particija** na Windows sistemima i može da primi do **9.4ZB** podataka.
 * **Imena particija**: Nudi mogućnost imenovanja particija sa do 36 Unicode karaktera.
 
 **Otpornost podataka i oporavak**:
 
-* **Redundancija**: Za razliku od MBR-a, GPT ne ograničava particionisanje i podatke za pokretanje na jedno mesto. Replikuje ove podatke širom diska, poboljšavajući integritet i otpornost podataka.
+* **Redundancija**: Za razliku od MBR-a, GPT ne ograničava particionisanje i podatke o pokretanju na jedno mesto. Replikuje ove podatke širom diska, poboljšavajući integritet i otpornost podataka.
 * **Ciklična kontrola redundancije (CRC)**: GPT koristi CRC za osiguranje integriteta podataka. Aktivno prati oštećenje podataka, a kada se otkrije, GPT pokušava da povrati oštećene podatke iz druge lokacije na disku.
 
 **Zaštitni MBR (LBA0)**:
 
-* GPT održava unazad kompatibilnost putem zaštitnog MBR-a. Ova funkcija se nalazi u prostoru nasleđenog MBR-a, ali je dizajnirana da spreči starije MBR-bazirane alate da greškom prepisuju GPT diskove, čime se štiti integritet podataka na GPT-formatiranim diskovima.
+* GPT održava unazad kompatibilnost putem zaštitnog MBR-a. Ova funkcija se nalazi u prostoru nasleđenog MBR-a, ali je dizajnirana da spreči starije MBR-bazirane alate da greškom prepišu GPT diskove, čime se štiti integritet podataka na GPT-formatiranim diskovima.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
 
 **Hibridni MBR (LBA 0 + GPT)**
 
-[Iz Wikipedije](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
+[Sa Wikipedije](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 U operativnim sistemima koji podržavaju **GPT-bazirano pokretanje putem BIOS** usluga umesto EFI, prvi sektor se takođe može koristiti za skladištenje prve faze **bootloader** koda, ali **modifikovan** da prepozna **GPT** **particije**. Bootloader u MBR-u ne sme da pretpostavlja veličinu sektora od 512 bajta.
 
 **Zaglavlje tabele particija (LBA 1)**
 
-[Iz Wikipedije](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
+[Sa Wikipedije](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 Zaglavlje tabele particija definiše upotrebljive blokove na disku. Takođe definiše broj i veličinu unosa particija koji čine tabelu particija (offseti 80 i 84 u tabeli).
 
-| Offset    | Dužina   | Sadržaj                                                                                                                                                                        |
+| Offset    | Length   | Contents                                                                                                                                                                        |
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 (0x00)  | 8 bajta  | Potpis ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h ili 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)na little-endian mašinama) |
+| 0 (0x00)  | 8 bajta  | Potpis ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h ili 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8) na little-endian mašinama) |
 | 8 (0x08)  | 4 bajta  | Revizija 1.0 (00h 00h 01h 00h) za UEFI 2.8                                                                                                                                     |
 | 12 (0x0C) | 4 bajta  | Veličina zaglavlja u little endian (u bajtovima, obično 5Ch 00h 00h 00h ili 92 bajta)                                                                                                    |
 | 16 (0x10) | 4 bajta  | [CRC32](https://en.wikipedia.org/wiki/CRC32) zaglavlja (offset +0 do veličine zaglavlja) u little endian, sa ovim poljem nula tokom izračunavanja                                |
@@ -117,7 +117,7 @@ Zaglavlje tabele particija definiše upotrebljive blokove na disku. Takođe defi
 | 32 (0x20) | 8 bajta  | Backup LBA (lokacija druge kopije zaglavlja)                                                                                                                                  |
 | 40 (0x28) | 8 bajta  | Prvi upotrebljivi LBA za particije (poslednji LBA primarne tabele particija + 1)                                                                                                          |
 | 48 (0x30) | 8 bajta  | Poslednji upotrebljivi LBA (prvi LBA sekundarne tabele particija − 1)                                                                                                                       |
-| 56 (0x38) | 16 bajta | Disk GUID u mešovitom endian                                                                                                                                                       |
+| 56 (0x38) | 16 bajta | Disk GUID u mešovitom endianu                                                                                                                                                       |
 | 72 (0x48) | 8 bajta  | Početni LBA niza unosa particija (uvek 2 u primarnoj kopiji)                                                                                                        |
 | 80 (0x50) | 4 bajta  | Broj unosa particija u nizu                                                                                                                                            |
 | 84 (0x54) | 4 bajta  | Veličina jednog unosa particije (obično 80h ili 128)                                                                                                                           |
@@ -128,7 +128,7 @@ Zaglavlje tabele particija definiše upotrebljive blokove na disku. Takođe defi
 
 | Format unosa GUID particije |          |                                                                                                                   |
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| Offset                      | Dužina   | Sadržaj                                                                                                          |
+| Offset                      | Length   | Contents                                                                                                          |
 | 0 (0x00)                    | 16 bajta | [GUID tipa particije](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mešovit endian) |
 | 16 (0x10)                   | 16 bajta | Jedinstveni GUID particije (mešovit endian)                                                                              |
 | 32 (0x20)                   | 8 bajta  | Prvi LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
@@ -168,7 +168,7 @@ Osnovna jedinica skladištenja sistema datoteka je **klaster, obično 512B**, ko
 
 * **FAT12**, podržava 12-bitne adrese klastera i obrađuje do 4078 klastera (4084 sa UNIX-om).
 * **FAT16**, unapređuje na 16-bitne adrese, čime se omogućava do 65,517 klastera.
-* **FAT32**, dalje napreduje sa 32-bitnim adresama, omogućavajući impresivnih 268,435,456 klastera po volumenu.
+* **FAT32**, dodatno napreduje sa 32-bitnim adresama, omogućavajući impresivnih 268,435,456 klastera po volumenu.
 
 Značajno ograničenje kod FAT verzija je **maksimalna veličina datoteke od 4GB**, koju nameće 32-bitno polje korišćeno za skladištenje veličine datoteke.
 
@@ -212,9 +212,9 @@ Takođe, OS obično čuva mnogo informacija o promenama u sistemu datoteka i rez
 
 ### **File Carving**
 
-**File carving** je tehnika koja pokušava da **pronađe datoteke u masi podataka**. Postoje 3 glavna načina na koje alati poput ovog funkcionišu: **Na osnovu zaglavlja i repova tipova datoteka**, na osnovu struktura tipova datoteka i na osnovu **sadržaja** samog.
+**File carving** je tehnika koja pokušava da **pronađe datoteke u masi podataka**. Postoje 3 glavna načina na koje alati poput ovog funkcionišu: **Na osnovu zaglavlja i podnožja tipova datoteka**, na osnovu struktura tipova datoteka i na osnovu **sadržaja** same datoteke.
 
-Napomena da ova tehnika **ne funkcioniše za vraćanje fragmentisanih datoteka**. Ako datoteka **nije pohranjena u kontiguitetnim sektorima**, tada ova tehnika neće moći da je pronađe ili barem deo nje.
+Napomena da ova tehnika **ne funkcioniše za vraćanje fragmentisanih datoteka**. Ako datoteka **nije smeštena u kontiguitetne sektore**, tada ova tehnika neće moći da je pronađe ili barem deo nje.
 
 Postoji nekoliko alata koje možete koristiti za file carving koji označavaju tipove datoteka koje želite da pretražujete.
 
@@ -233,7 +233,7 @@ Na primer, umesto da traži kompletnu datoteku koja sadrži zabeležene URL-ove,
 
 ### Sigurno brisanje
 
-Očigledno, postoje načini da se **"sigurno" obrišu datoteke i deo logova o njima**. Na primer, moguće je **prepisati sadržaj** datoteke sa smešnim podacima nekoliko puta, a zatim **ukloniti** **logove** iz **$MFT** i **$LOGFILE** o datoteci, i **ukloniti kopije senki volumena**.\
+Očigledno, postoje načini da se **"sigurno" obrišu datoteke i deo logova o njima**. Na primer, moguće je **prepisati sadržaj** datoteke sa smešnim podacima nekoliko puta, a zatim **ukloniti** **logove** iz **$MFT** i **$LOGFILE** o datoteci, i **ukloniti kopije volumena**.\
 Možda ćete primetiti da čak i nakon izvođenja te akcije može postojati **drugi delovi gde je postojanje datoteke još uvek zabeleženo**, i to je tačno, a deo posla forenzičkog stručnjaka je da ih pronađe.
 
 ## Reference
@@ -242,7 +242,7 @@ Možda ćete primetiti da čak i nakon izvođenja te akcije može postojati **dr
 * [http://ntfs.com/ntfs-permissions.htm](http://ntfs.com/ntfs-permissions.htm)
 * [https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html](https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html)
 * [https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service](https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service)
-* **iHackLabs Sertifikovani Digitalni Forenzik Windows**
+* **iHackLabs Sertifikovani Digitalni Forenzičar Windows**
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -250,11 +250,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

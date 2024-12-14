@@ -1,21 +1,21 @@
-# Zagađenje klase (Python-ova prototipska zagađenje)
+# Class Pollution (Python's Prototype Pollution)
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Osnovni primer
+## Basic Example
 
 Proverite kako je moguće zagađivati klase objekata sa stringovima:
 ```python
@@ -41,7 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-## Osnovni primer ranjivosti
+## Основни пример рањивости
 ```python
 # Initial state
 class Employee: pass
@@ -74,11 +74,11 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-## Primeri uređaja
+## Gadget Examples
 
 <details>
 
-<summary>Kreiranje podrazumevane vrednosti svojstva klase za RCE (subprocess)</summary>
+<summary>Postavljanje podrazumevane vrednosti svojstva klase na RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -129,7 +129,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Zagađivanje drugih klasa i globalnih promenljivih kroz <code>globals</code></summary>
+<summary>Onečišćenje drugih klasa i globalnih varijabli putem <code>globals</code></summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Proizvoljno izvršavanje podprocesa</summary>
+<summary>Arbitrarna izvršavanje podprocesa</summary>
 ```python
 import subprocess, json
 
@@ -195,7 +195,7 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <summary>Prepisivanje <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** je poseban atribut svih funkcija, prema Python [dokumentaciji](https://docs.python.org/3/library/inspect.html), to je "mapiranje bilo kojih podrazumevanih vrednosti za **samo-ključne** parametre". Zagađivanje ovog atributa nam omogućava kontrolu podrazumevanih vrednosti samo-ključnih parametara funkcije, to su parametri funkcije koji dolaze posle \* ili \*args.
+**`__kwdefaults__`** je posebna atribut svih funkcija, zasnovano na Python [dokumentaciji](https://docs.python.org/3/library/inspect.html), to je “mapiranje svih podrazumevanih vrednosti za **samo-ključne** parametre”. Zagađivanje ovog atributa nam omogućava da kontrolišemo podrazumevane vrednosti samo-ključnih parametara funkcije, to su parametri funkcije koji dolaze posle \* ili \*args.
 ```python
 from os import system
 import json
@@ -236,17 +236,17 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Prepisivanje tajne u Flask-u preko više fajlova</summary>
+<summary>Prepisivanje Flask tajne kroz fajlove</summary>
 
-Dakle, ako možete izvršiti klasnu zagađenost nad objektom definisanim u glavnom Python fajlu veba ali **čija je klasa definisana u drugom fajlu** od glavnog. Jer, kako biste pristupili \_\_globals\_\_ u prethodnim payload-ima, morate pristupiti klasi objekta ili metodama klase, bićete u mogućnosti da **pristupite globalima u tom fajlu, ali ne i u glavnom**. \
-Stoga, **nećete moći pristupiti Flask globalnom objektu** koji je definisao **tajni ključ** na glavnoj stranici:
+Dakle, ako možete da izvršite klasu zagađenja nad objektom definisanim u glavnom python fajlu veba, ali **čija je klasa definisana u drugom fajlu** od glavnog. Zato što da biste pristupili \_\_globals\_\_ u prethodnim payload-ima, morate pristupiti klasi objekta ili metodama klase, moći ćete da **pristupite globalnim varijablama u tom fajlu, ali ne i u glavnom**. \
+Stoga, **nećete moći da pristupite globalnom objektu Flask aplikacije** koji je definisao **tajni ključ** na glavnoj stranici:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-U ovom scenariju vam je potreban uređaj za pretraživanje datoteka kako biste došli do glavne datoteke da biste **pristupili globalnom objektu `app.secret_key`** kako biste promenili Flask tajni ključ i bili u mogućnosti [**dosegnuti privilegije** znajući ovaj ključ](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+U ovom scenariju vam je potreban uređaj za pretraživanje fajlova kako biste došli do glavnog da **pristupite globalnom objektu `app.secret_key`** kako biste promenili Flask tajni ključ i mogli da [**povećate privilegije** znajući ovaj ključ](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Payload poput ovog [iz ovog writeupa](https://ctftime.org/writeup/36082):
+Payload poput ovog [iz ovog izveštaja](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -254,11 +254,11 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Koristite ovaj payload da **promenite `app.secret_key`** (naziv u vašoj aplikaciji može biti drugačiji) kako biste mogli da potpišete nove i privilegovane flask kolačiće.
+Koristite ovaj payload da **promenite `app.secret_key`** (ime u vašoj aplikaciji može biti drugačije) kako biste mogli da potpisujete nove i privilegovanije flask kolačiće.
 
 </details>
 
-Pogledajte takođe sledeću stranicu za više samo za čitanje gedžeta:
+Proverite i sledeću stranicu za više read-only gadgeta:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
@@ -269,16 +269,16 @@ Pogledajte takođe sledeću stranicu za više samo za čitanje gedžeta:
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

@@ -3,7 +3,7 @@
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim **alatima** zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da lako izgradite i **automatizujete radne tokove** pokretane od strane **najnaprednijih** alata zajednice.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -23,9 +23,9 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-## Podrazumevani Akreditivi
+## Default Credentials
 
-**Pretražujte google** za podrazumevane akreditive tehnologije koja se koristi, ili **probajte ove linkove**:
+**Pretražujte na google-u** za podrazumevane akreditive tehnologije koja se koristi, ili **probajte ove linkove**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -42,7 +42,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## **Kreirajte svoje rečnike**
 
-Pronađite što više informacija o cilju i generišite prilagođeni rečnik. Alati koji mogu pomoći:
+Pronađite što više informacija o cilju što možete i generišite prilagođeni rečnik. Alati koji mogu pomoći:
 
 ### Crunch
 ```bash
@@ -424,11 +424,11 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Slabi SSH ključevi / Debian predvidljiv PRNG
 
-Neki sistemi imaju poznate greške u nasumičnom semenu koje se koristi za generisanje kriptografskog materijala. To može rezultirati dramatično smanjenim prostorom ključeva koji se može bruteforced sa alatima kao što je [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Takođe su dostupni unapred generisani setovi slabih ključeva kao što je [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Neki sistemi imaju poznate greške u nasumičnom semenu koje se koristi za generisanje kriptografskog materijala. To može rezultirati dramatično smanjenim prostorom ključeva koji se može bruteforovati alatima kao što su [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Takođe su dostupni unapred generisani setovi slabih ključeva kao što su [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ i OpenMQ)
 
-STOMP tekstualni protokol je široko korišćen protokol za razmenu poruka koji **omogućava besprekornu komunikaciju i interakciju sa popularnim uslugama za redove poruka** kao što su RabbitMQ, ActiveMQ, HornetQ i OpenMQ. Pruža standardizovan i efikasan pristup razmeni poruka i izvođenju raznih operacija sa porukama.
+STOMP tekstualni protokol je široko korišćen protokol za razmenu poruka koji **omogućava besprekornu komunikaciju i interakciju sa popularnim uslugama za redove poruka** kao što su RabbitMQ, ActiveMQ, HornetQ i OpenMQ. Pruža standardizovan i efikasan pristup za razmenu poruka i izvođenje raznih operacija sa porukama.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -469,7 +469,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim **alatima** zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim alatima zajednice na svetu.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -483,7 +483,7 @@ Pribavite pristup danas:
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashovi, WPA2 snimci i arhive MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (Hashovi)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
-* [https://gpuhash.me/](https://gpuhash.me) (Hashovi i hashovi fajlova)
+* [https://gpuhash.me/](https://gpuhash.me) (Hashovi i hashovi datoteka)
 * [https://hashes.org/search.php](https://hashes.org/search.php) (Hashovi)
 * [https://www.cmd5.org/](https://www.cmd5.org) (Hashovi)
 * [https://hashkiller.co.uk/Cracker](https://hashkiller.co.uk/Cracker) (MD5, NTLM, SHA1, MySQL5, SHA256, SHA512)
@@ -510,8 +510,8 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### Napad poznatim otvorenim tekstom na zip
 
-Morate znati **otvoreni tekst** (ili deo otvorenog teksta) **datoteke koja se nalazi unutar** enkriptovanog zip-a. Možete proveriti **imena datoteka i veličinu datoteka koje se nalaze unutar** enkriptovanog zip-a pokretanjem: **`7z l encrypted.zip`**\
-Preuzmite [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) sa stranice za preuzimanje.
+Potrebno je da znate **otvoreni tekst** (ili deo otvorenog teksta) **fajla koji se nalazi unutar** enkriptovanog zip-a. Možete proveriti **imena fajlova i veličinu fajlova koji se nalaze unutar** enkriptovanog zip-a pokretanjem: **`7z l encrypted.zip`**\
+Preuzmite [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) sa stranice za izdanja.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -644,7 +644,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da lako izgradite i **automatizujete radne tokove** pokretane **najnaprednijim** alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatima** zajednice na svetu.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -690,7 +690,7 @@ hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
 * **Wordlist combinator** napad
 
-Moguće je **kombinovati 2 liste reči u 1** pomoću hashcat-a.\
+Moguće je **kombinovati 2 liste reči u 1** sa hashcat-om.\
 Ako je lista 1 sadržala reč **"hello"** a druga je sadržala 2 reda sa rečima **"world"** i **"earth"**. Reči `helloworld` i `helloearth` će biti generisane.
 ```bash
 # This will combine 2 wordlists
@@ -734,7 +734,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-* Lista reči + Maska (`-a 6`) / Maska + Lista reči (`-a 7`) napad
+* Wordlist + Mask (`-a 6`) / Mask + Wordlist (`-a 7`) напад
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -787,6 +787,6 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim **alatima** zajednice.\
-Pribavite pristup danas:
+Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}

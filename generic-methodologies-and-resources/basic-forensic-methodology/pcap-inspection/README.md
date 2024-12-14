@@ -6,7 +6,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -17,7 +17,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljalište za profesionalce u tehnologiji i sajber bezbednosti u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo mesto okupljanja za profesionalce u tehnologiji i sajber bezbednosti u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -54,7 +54,7 @@ Pcap analiza iz pregledača.
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(samo linux)_ može **analizirati** **pcap** i izvući informacije iz njega. Na primer, iz pcap datoteke Xplico, izvlači svaku email poruku (POP, IMAP i SMTP protokoli), sve HTTP sadržaje, svaki VoIP poziv (SIP), FTP, TFTP, itd.
+[**Xplico** ](https://github.com/xplico/xplico)_(samo linux)_ može **analizirati** **pcap** i izvući informacije iz njega. Na primer, iz pcap datoteke Xplico, izvlači svaku e-poštu (POP, IMAP i SMTP protokoli), sve HTTP sadržaje, svaki VoIP poziv (SIP), FTP, TFTP, itd.
 
 **Instalirajte**
 ```bash
@@ -74,20 +74,20 @@ Then create a **new case**, create a **new session** inside the case and **uploa
 
 ### NetworkMiner
 
-Kao Xplico, to je alat za **analizu i ekstrakciju objekata iz pcaps**. Ima besplatnu verziju koju možete **preuzeti** [**ovde**](https://www.netresec.com/?page=NetworkMiner). Radi na **Windows**.\
-Ovaj alat je takođe koristan za dobijanje **druge analizirane informacije** iz paketa kako bi se moglo brže saznati šta se dešava.
+Like Xplico it is a tool to **analyze and extract objects from pcaps**. It has a free edition that you can **download** [**here**](https://www.netresec.com/?page=NetworkMiner). It works with **Windows**.\
+This tool is also useful to get **other information analysed** from the packets in order to be able to know what was happening in a **quicker** way.
 
 ### NetWitness Investigator
 
-Možete preuzeti [**NetWitness Investigator odavde**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Radi na Windows)**.\
-Ovo je još jedan koristan alat koji **analizira pakete** i sortira informacije na koristan način da bi se **znalo šta se dešava unutra**.
+You can download [**NetWitness Investigator from here**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(It works in Windows)**.\
+This is another useful tool that **analyses the packets** and sorts the information in a useful way to **know what is happening inside**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Ekstrakcija i kodiranje korisničkih imena i lozinki (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Ekstrakcija autentifikacionih hash-ova i njihovo razbijanje koristeći Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Izrada vizuelnog dijagrama mreže (Mrežni čvorovi i korisnici)
-* Ekstrakcija DNS upita
+* Izvlačenje i kodiranje korisničkih imena i lozinki (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Izvlačenje autentifikacionih hash-ova i njihovo razbijanje koristeći Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Izgradnja vizuelnog mrežnog dijagrama (Mrežni čvorovi i korisnici)
+* Izvlačenje DNS upita
 * Rekonstrukcija svih TCP i UDP sesija
 * File Carving
 
@@ -115,7 +115,7 @@ Možete koristiti alate kao što su [https://github.com/lgandx/PCredz](https://g
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija cyberbezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljalište za profesionalce iz tehnologije i cyberbezbednosti u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantnija cyberbezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo okupljalište za profesionalce u tehnologiji i cyberbezbednosti u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -138,9 +138,9 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 [**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) je alat koji
 
-* Čita PCAP datoteku i ekstrahuje Http tokove.
+* Čita PCAP datoteku i ekstraktuje Http tokove.
 * gzip dekompresuje sve kompresovane tokove
-* Skenira svaku datoteku sa yara
+* Skandira svaku datoteku sa yara
 * Piše report.txt
 * Opcionalno čuva odgovarajuće datoteke u direktorijum
 
@@ -154,9 +154,9 @@ Proverite da li možete pronaći bilo koji otisak poznatog malvera:
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) je pasivni, open-source analizator mrežnog saobraćaja. Mnogi operateri koriste Zeek kao Mrežni sigurnosni monitor (NSM) za podršku istragama sumnjive ili zlonamerne aktivnosti. Zeek takođe podržava širok spektar zadataka analize saobraćaja van domena sigurnosti, uključujući merenje performansi i rešavanje problema.
+> [Zeek](https://docs.zeek.org/en/master/about.html) je pasivni, open-source analizator mrežnog saobraćaja. Mnogi operateri koriste Zeek kao Mrežni Sigurnosni Monitor (NSM) za podršku istragama sumnjivih ili zlonamernih aktivnosti. Zeek takođe podržava širok spektar zadataka analize saobraćaja van domena sigurnosti, uključujući merenje performansi i rešavanje problema.
 
-U suštini, logovi koje kreira `zeek` nisu **pcaps**. Stoga ćete morati da koristite **druge alate** za analizu logova gde se nalaze **informacije** o pcaps. 
+U suštini, logovi koje kreira `zeek` nisu **pcaps**. Stoga ćete morati koristiti **druge alate** za analizu logova gde se nalaze **informacije** o pcaps. 
 
 ### Connections Info
 ```bash

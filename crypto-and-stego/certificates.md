@@ -25,7 +25,7 @@ Get Access Today:
 
 ## Šta je sertifikat
 
-**Javni ključ sertifikat** je digitalni ID koji se koristi u kriptografiji da dokaže da neko poseduje javni ključ. Uključuje detalje o ključevi, identitet vlasnika (subjekt) i digitalni potpis od poverljive vlasti (izdavača). Ako softver veruje izdavaču i potpis je validan, moguća je sigurna komunikacija sa vlasnikom ključa.
+**Javni ključ sertifikat** je digitalni ID koji se koristi u kriptografiji da dokaže da neko poseduje javni ključ. Uključuje detalje o ključevi, identitet vlasnika (subjekt) i digitalni potpis od poverljive vlasti (izdavača). Ako softver veruje izdavaču i potpis je validan, sigurna komunikacija sa vlasnikom ključa je moguća.
 
 Sertifikati se uglavnom izdaju od strane [sertifikacionih tela](https://en.wikipedia.org/wiki/Certificate\_authority) (CA) u okviru [infrastrukture javnog ključa](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Druga metoda je [mreža poverenja](https://en.wikipedia.org/wiki/Web\_of\_trust), gde korisnici direktno verifikuju ključeve jedni drugih. Uobičajeni format za sertifikate je [X.509](https://en.wikipedia.org/wiki/X.509), koji se može prilagoditi specifičnim potrebama kako je navedeno u RFC 5280.
 
@@ -39,12 +39,12 @@ U x509 sertifikatima, nekoliko **polja** igra ključne uloge u osiguravanju vali
 * **Serijski broj** jedinstveno identifikuje sertifikat unutar sistema Sertifikacionog tela (CA), uglavnom za praćenje opoziva.
 * Polje **Subjekt** predstavlja vlasnika sertifikata, što može biti mašina, pojedinac ili organizacija. Uključuje detaljnu identifikaciju kao što su:
 * **Uobičajeno ime (CN)**: Domeni pokriveni sertifikatom.
-* **Zemlja (C)**, **Lokacija (L)**, **Država ili provincija (ST, S, ili P)**, **Organizacija (O)** i **Organizaciona jedinica (OU)** pružaju geografske i organizacione detalje.
+* **Zemlja (C)**, **Lokacija (L)**, **Država ili provincija (ST, S, ili P)**, **Organizacija (O)**, i **Organizaciona jedinica (OU)** pružaju geografske i organizacione detalje.
 * **Istaknuto ime (DN)** obuhvata punu identifikaciju subjekta.
 * **Izdavač** detaljno opisuje ko je verifikovao i potpisao sertifikat, uključujući slična podpolja kao Subjekt za CA.
-* **Period važenja** označen je vremenskim oznakama **Ne pre** i **Ne posle**, osiguravajući da se sertifikat ne koristi pre ili posle određenog datuma.
+* **Period validnosti** označen je vremenskim oznakama **Ne pre** i **Ne posle**, osiguravajući da se sertifikat ne koristi pre ili posle određenog datuma.
 * Sekcija **Javni ključ**, koja je ključna za sigurnost sertifikata, specificira algoritam, veličinu i druge tehničke detalje javnog ključa.
-* **x509v3 ekstenzije** poboljšavaju funkcionalnost sertifikata, specificirajući **Korišćenje ključa**, **Prošireno korišćenje ključa**, **Alternativno ime subjekta** i druge osobine za fino podešavanje primene sertifikata.
+* **x509v3 ekstenzije** poboljšavaju funkcionalnost sertifikata, specificirajući **Korišćenje ključa**, **Prošireno korišćenje ključa**, **Alternativno ime subjekta**, i druge osobine za fino podešavanje primene sertifikata.
 
 #### **Korišćenje ključa i ekstenzije**
 
@@ -77,23 +77,23 @@ print(f"Public Key: {public_key}")
 ```
 ### **Razlika između OCSP i CRL distribucionih tačaka**
 
-**OCSP** (**RFC 2560**) uključuje klijenta i odgovarača koji rade zajedno kako bi proverili da li je digitalni javni ključ sertifikat opozvan, bez potrebe za preuzimanjem celog **CRL**. Ova metoda je efikasnija od tradicionalnog **CRL**, koji pruža listu opozvanih serijskih brojeva sertifikata, ali zahteva preuzimanje potencijalno velikog fajla. CRL-ovi mogu uključivati do 512 unosa. Više detalja je dostupno [ovde](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) uključuje klijenta i odgovarača koji rade zajedno kako bi proverili da li je digitalni javni ključ sertifikat opozvan, bez potrebe za preuzimanjem celog **CRL**. Ova metoda je efikasnija od tradicionalnog **CRL**, koji pruža listu opozvanih serijskih brojeva sertifikata, ali zahteva preuzimanje potencijalno velikog fajla. CRL može sadržati do 512 unosa. Više detalja je dostupno [ovde](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **Šta je transparentnost sertifikata**
 
-Transparentnost sertifikata pomaže u borbi protiv pretnji vezanih za sertifikate osiguravajući da je izdavanje i postojanje SSL sertifikata vidljivo vlasnicima domena, CA-ima i korisnicima. Njeni ciljevi su:
+Transparentnost sertifikata pomaže u borbi protiv pretnji vezanih za sertifikate osiguravajući da je izdavanje i postojanje SSL sertifikata vidljivo vlasnicima domena, CA i korisnicima. Njeni ciljevi su:
 
-* Sprečavanje CA-a da izdaju SSL sertifikate za domen bez znanja vlasnika domena.
+* Sprečavanje CA da izdaju SSL sertifikate za domen bez znanja vlasnika domena.
 * Uspostavljanje otvorenog sistema revizije za praćenje greškom ili zlonamerno izdatih sertifikata.
 * Zaštita korisnika od prevarantskih sertifikata.
 
-#### **Dnevnici sertifikata**
+#### **Sertifikati logovi**
 
-Dnevnici sertifikata su javno revizibilni, samo za dodavanje zapisi o sertifikatima, koje održavaju mrežne usluge. Ovi dnevnici pružaju kriptografske dokaze za svrhe revizije. Izdavaoci i javnost mogu podnositi sertifikate ovim dnevnicima ili ih pretraživati radi verifikacije. Dok tačan broj servera dnevnika nije fiksiran, očekuje se da će biti manje od hiljadu globalno. Ove servere mogu nezavisno upravljati CA, ISP ili bilo koja zainteresovana strana.
+Sertifikati logovi su javno revizibilni, samo za dodavanje zapisi sertifikata, koje održavaju mrežne usluge. Ovi logovi pružaju kriptografske dokaze za revizijske svrhe. Izdavaoci i javnost mogu podnositi sertifikate ovim logovima ili ih pretraživati radi verifikacije. Dok tačan broj log servera nije fiksiran, očekuje se da će biti manje od hiljadu globalno. Ove servere mogu nezavisno upravljati CA, ISP ili bilo koja zainteresovana strana.
 
 #### **Upit**
 
-Da biste istražili dnevnike transparentnosti sertifikata za bilo koji domen, posetite [https://crt.sh/](https://crt.sh).
+Da biste istražili logove transparentnosti sertifikata za bilo koji domen, posetite [https://crt.sh/](https://crt.sh).
 
 Postoje različiti formati za skladištenje sertifikata, svaki sa svojim slučajevima upotrebe i kompatibilnošću. Ovaj pregled pokriva glavne formate i pruža smernice za konvertovanje između njih.
 
@@ -117,7 +117,7 @@ Postoje različiti formati za skladištenje sertifikata, svaki sa svojim slučaj
 
 * Skladišti se u Base64 ASCII, sa ekstenzijama .p7b ili .p7c.
 * Sadrži samo sertifikate i lance sertifikata, isključujući privatni ključ.
-* Podržava Microsoft Windows i Java Tomcat.
+* Podržava ga Microsoft Windows i Java Tomcat.
 
 ### **PFX/P12/PKCS#12 format**
 
@@ -187,7 +187,7 @@ asn1template/asn1template.pl -p certificatename.pem > certificatename.tpl
 ```bash
 vim certificatename.tpl
 ```
-4. Ponovo izgradite izmenjeni sertifikat
+4. Ponovno izgradite izmenjeni sertifikat
 ```bash
 openssl asn1parse -genconf certificatename.tpl -out certificatename_new.der
 openssl asn1parse -genconf certificatename.tpl -outform PEM -out certificatename_new.pem

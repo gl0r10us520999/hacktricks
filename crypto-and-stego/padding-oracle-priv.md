@@ -63,22 +63,22 @@ perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -e
 ```
 **Encoding 0** znači da se koristi **base64** (ali su dostupni i drugi, proverite meni pomoći).
 
-Takođe možete **iskoristiti ovu ranjivost da enkriptujete nove podatke. Na primer, zamislite da je sadržaj kolačića "**_**user=MyUsername**_**", tada ga možete promeniti u "\_user=administrator\_" i eskalirati privilegije unutar aplikacije. Takođe to možete uraditi koristeći `paduster`specifikujući -plaintext** parametar:
+Takođe možete **iskoristiti ovu ranjivost za enkripciju novih podataka. Na primer, zamislite da je sadržaj kolačića "**_**user=MyUsername**_**", tada ga možete promeniti u "\_user=administrator\_" i eskalirati privilegije unutar aplikacije. Takođe to možete uraditi koristeći `paduster`specifikujući -plaintext** parametar:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Ako je sajt ranjiv, `padbuster` će automatski pokušati da pronađe kada se javlja greška u dodavanju, ali takođe možete naznačiti poruku o grešci koristeći **-error** parametar.
+Ako je sajt ranjiv, `padbuster` će automatski pokušati da pronađe kada se javlja greška u punjenju, ali takođe možete naznačiti poruku o grešci koristeći **-error** parametar.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
 ### Teorija
 
-U **kratko**, možete početi dekriptovanje enkriptovanih podataka pogađanjem ispravnih vrednosti koje se mogu koristiti za kreiranje svih **različitih popuna**. Tada će napad na oracle za popunjavanje početi dekriptovanje bajtova od kraja ka početku pogađajući koja će biti ispravna vrednost koja **stvara popunu od 1, 2, 3, itd**.
+U **kratko**, možete početi dekriptovanje enkriptovanih podataka pogađanjem ispravnih vrednosti koje se mogu koristiti za kreiranje svih **različitih popuna**. Tada će napad na padding oracle početi dekriptovanje bajtova od kraja ka početku pogađajući koja će biti ispravna vrednost koja **stvara popunu od 1, 2, 3, itd**.
 
 ![](<../.gitbook/assets/image (561).png>)
 
 Zamislite da imate neki enkriptovani tekst koji zauzima **2 bloka** formirana bajtovima od **E0 do E15**.\
-Da biste **dekriptovali** **poslednji** **blok** (**E8** do **E15**), ceo blok prolazi kroz "dekriptovanje blok šifre" generišući **intermedijarne bajtove I0 do I15**.\
+Da biste **dekriptovali** **poslednji** **blok** (**E8** do **E15**), ceo blok prolazi kroz "dekripciju blok cifre" generišući **intermedijarne bajtove I0 do I15**.\
 Na kraju, svaki intermedijarni bajt se **XOR-uje** sa prethodnim enkriptovanim bajtovima (E0 do E7). Tako:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
@@ -95,18 +95,18 @@ Dakle, pronalaženjem E'7, **moguće je izračunati I15**: `I15 = 0x01 ^ E'7`
 
 Znajući **C15**, sada je moguće **izračunati C14**, ali ovaj put brute-forcing popunu `\x02\x02`.
 
-Ovaj BF je jednako složen kao prethodni jer je moguće izračunati `E''15` čija je vrednost 0x02: `E''7 = \x02 ^ I15` tako da je samo potrebno pronaći **`E'14`** koja generiše **`C14` jednaku `0x02`**.\
+Ovaj BF je jednako složen kao prethodni jer je moguće izračunati `E''15` čija je vrednost 0x02: `E''7 = \x02 ^ I15` tako da je samo potrebno pronaći **`E'14`** koji generiše **`C14` jednaku `0x02`**.\
 Zatim, uradite iste korake da dekriptujete C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Pratite ovaj lanac dok ne dekriptujete ceo enkriptovani tekst.**
+**Pratite chain dok ne dekriptujete ceo enkriptovani tekst.**
 
 ### Otkrivanje ranjivosti
 
-Registrujte se i otvorite nalog i prijavite se sa ovim nalogom.\
-Ako se **prijavite više puta** i uvek dobijate **isti kolačić**, verovatno postoji **nešto** **pogrešno** u aplikaciji. **Kolačić koji se vraća treba da bude jedinstven** svaki put kada se prijavite. Ako je kolačić **uvek** **isti**, verovatno će uvek biti važeći i neće biti načina da se on **nevaži**.
+Registrujte se i napravite nalog i prijavite se sa tim nalogom.\
+Ako se **prijavljujete više puta** i uvek dobijate **isti kolačić**, verovatno postoji **nešto** **pogrešno** u aplikaciji. **Kolačić koji se vraća treba da bude jedinstven** svaki put kada se prijavite. Ako je kolačić **uvek** **isti**, verovatno će uvek biti važeći i neće biti načina da se on **ne važi**.
 
 Sada, ako pokušate da **modifikujete** **kolačić**, možete videti da dobijate **grešku** iz aplikacije.\
-Ali ako BF popunu (koristeći padbuster na primer) uspete da dobijete drugi kolačić važeći za drugog korisnika. Ovaj scenario je veoma verovatno ranjiv na padbuster.
+Ali ako BF-ujete popunu (koristeći padbuster na primer) uspete da dobijete drugi kolačić važeći za drugog korisnika. Ovaj scenario je veoma verovatno ranjiv na padbuster.
 
 ### Reference
 
