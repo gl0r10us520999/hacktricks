@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -424,11 +424,11 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Zayıf SSH anahtarları / Debian tahmin edilebilir PRNG
 
-Bazı sistemler, kriptografik materyal oluşturmak için kullanılan rastgele tohumda bilinen hatalara sahiptir. Bu, [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gibi araçlarla bruteforce edilebilecek şekilde dramatik bir anahtar alanının azalmasına neden olabilir. Ayrıca, [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh) gibi önceden oluşturulmuş zayıf anahtar setleri de mevcuttur.
+Bazı sistemler, kriptografik materyal oluşturmak için kullanılan rastgele tohumda bilinen hatalara sahiptir. Bu, [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gibi araçlarla bruteforce edilebilecek şekilde dramatik bir şekilde azaltılmış bir anahtar alanına yol açabilir. Ayrıca, [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh) gibi önceden oluşturulmuş zayıf anahtar setleri de mevcuttur.
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ ve OpenMQ)
 
-STOMP metin protokolü, **RabbitMQ, ActiveMQ, HornetQ ve OpenMQ gibi popüler mesaj kuyruklama hizmetleriyle kesintisiz iletişim ve etkileşim sağlar.** Mesajları değiştirmek ve çeşitli mesajlaşma işlemleri gerçekleştirmek için standartlaştırılmış ve verimli bir yaklaşım sunar.
+STOMP metin protokolü, **RabbitMQ, ActiveMQ, HornetQ ve OpenMQ gibi popüler mesaj kuyruklama hizmetleriyle kesintisiz iletişim ve etkileşim sağlar**. Mesajları değiştirmek ve çeşitli mesajlaşma işlemleri gerçekleştirmek için standartlaştırılmış ve verimli bir yaklaşım sunar.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -480,7 +480,7 @@ Bugün Erişim Alın:
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
 * [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 ESS/SSP ile/olmaksızın ve herhangi bir zorluk değeri ile)
-* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashler, WPA2 yakalamaları ve MSOffice, ZIP, PDF arşivleri...)
+* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashler, WPA2 yakalamaları ve MSOffice, ZIP, PDF... arşivleri)
 * [https://crackstation.net/](https://crackstation.net) (Hashler)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
 * [https://gpuhash.me/](https://gpuhash.me) (Hashler ve dosya hashleri)
@@ -511,7 +511,7 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 #### Bilinen düz metin zip saldırısı
 
 Şifreli zip içinde bulunan bir dosyanın **düz metnini** (veya düz metnin bir kısmını) bilmeniz gerekir. Şifreli zip içinde bulunan **dosya adlarını ve dosyaların boyutunu** kontrol etmek için şunu çalıştırabilirsiniz: **`7z l encrypted.zip`**\
-[**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)indirin.
+[**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)indirme sayfasından indirin.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -620,9 +620,9 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) kullanın ve ardından john
 
-### Open Office Pwd Korunan Sütun
+### Open Office Pwd Protected Column
 
-Eğer bir şifre ile korunan bir sütun içeren bir xlsx dosyanız varsa, onu korumasını kaldırabilirsiniz:
+Eğer bir şifre ile korunan bir sütunu olan bir xlsx dosyanız varsa, onu korumasını kaldırabilirsiniz:
 
 * **Google Drive'a yükleyin** ve şifre otomatik olarak kaldırılacaktır
 * **Manuel olarak kaldırmak için**:
@@ -667,7 +667,7 @@ hash-identifier
 
 ### **Wordlist Generation Tools**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Gelişmiş klavye yürüyüşü oluşturucu, yapılandırılabilir temel karakterler, tuş haritası ve rotalar ile.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Konfigüre edilebilir temel karakterler, tuş haritası ve rotalar ile gelişmiş klavye yürüyüşü üreteci.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -684,7 +684,7 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 
 * **Kelimeler listesi saldırısı** (`-a 0`) kurallarla
 
-**Hashcat** zaten **kuralları içeren bir klasörle** birlikte gelir, ancak [**diğer ilginç kuralları burada bulabilirsiniz**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
+**Hashcat** zaten **kurallar içeren bir klasörle** birlikte gelir, ancak [**diğer ilginç kuralları burada bulabilirsiniz**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
@@ -758,7 +758,7 @@ Windows Hash'lerini Kırma
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-Yaygın Uygulama Hash'lerini Kırma
+Ortak Uygulama Hash'lerini Kırma
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -777,7 +777,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

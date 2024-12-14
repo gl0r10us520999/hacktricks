@@ -1,8 +1,8 @@
 # Fiziksel Saldırılar
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -36,7 +36,7 @@ RAM, güç kesildiğinde verileri kısa bir süre, genellikle **1 ila 2 dakika**
 
 ### Doğrudan Bellek Erişimi (DMA) Saldırıları
 
-**INCEPTION**, **FireWire** ve **Thunderbolt** gibi arayüzlerle uyumlu olan **fiziksel bellek manipülasyonu** için tasarlanmış bir araçtır. Herhangi bir şifreyi kabul etmek için belleği yamanarak oturum açma prosedürlerini atlamaya olanak tanır. Ancak, **Windows 10** sistemlerine karşı etkisizdir.
+**INCEPTION**, **FireWire** ve **Thunderbolt** gibi arayüzlerle uyumlu, **fiziksel bellek manipülasyonu** için tasarlanmış bir araçtır. Herhangi bir şifreyi kabul etmek için belleği yamanarak oturum açma prosedürlerini atlamaya olanak tanır. Ancak, **Windows 10** sistemlerine karşı etkisizdir.
 
 ### Sistem Erişimi için Live CD/USB
 
@@ -66,4 +66,4 @@ BitLocker şifrelemesi, **kurtarma şifresi** bir bellek döküm dosyasında (**
 
 ### Kurtarma Anahtarı Ekleme için Sosyal Mühendislik
 
-Yeni bir BitLocker kurtarma anahtarı, bir kullanıcıyı sıfırlama işlemi gerçekleştirmeye ikna ederek, sıfırlama anahtarını sıfırlardan oluşan bir komut çalıştırmasını sağlayarak eklenebilir, böylece şifre çözme süreci basitleştirilir.
+Yeni bir BitLocker kurtarma anahtarı, bir kullanıcıyı sıfırlardan oluşan yeni bir kurtarma anahtarı ekleyecek bir komutu çalıştırmaya ikna ederek sosyal mühendislik taktikleriyle eklenebilir, böylece şifre çözme süreci basitleştirilir.

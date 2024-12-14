@@ -17,19 +17,19 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en önemli siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
+[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en önemli siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplinde teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## Başlangıç
 
-Pcap içinde **kötü amaçlı yazılım** için **arama yapmaya** başlayın. [**Kötü Amaçlı Yazılım Analizi**](../malware-analysis.md) bölümünde belirtilen **araçları** kullanın.
+Pcap içinde **kötü amaçlı yazılım** aramaya başlayın. [**Kötü Amaçlı Yazılım Analizi**](../malware-analysis.md) bölümünde belirtilen **araçları** kullanın.
 
 ## [Volatility](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)
 
 **Volatility, bellek dökümü analizi için ana açık kaynak çerçevesidir**. Bu Python aracı, dış kaynaklardan veya VMware sanal makinelerinden dökümleri analiz eder, dökümün işletim sistemi profiline dayalı olarak süreçler ve şifreler gibi verileri tanımlar. Eklentilerle genişletilebilir, bu da onu adli soruşturmalar için son derece çok yönlü hale getirir.
 
-**[Buradan bir ipucu sayfası bulun](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
+**[Buradan bir kılavuz bulun](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
 
 ## Mini döküm çökme raporu
 

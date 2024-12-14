@@ -16,22 +16,22 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-## Summary of the attack
+## Saldırının Özeti
 
-Bir sunucunun bazı bilinen açık metin verilerine bir **gizli** ekleyerek **imzaladığı** bazı **verileri** hayal edin ve ardından bu verileri hash'lediğini düşünün. Eğer şunları biliyorsanız:
+Bir sunucunun bazı bilinen düz metin verilerine bir **gizli** ekleyerek **imza** attığını ve ardından bu veriyi hashlediğini hayal edin. Eğer şunları biliyorsanız:
 
 * **Gizlinin uzunluğu** (bu, belirli bir uzunluk aralığından da brute force ile elde edilebilir)
-* **Açık metin verisi**
+* **Düz metin verisi**
 * **Algoritma (ve bu saldırıya karşı savunmasız)**
 * **Padding biliniyor**
 * Genellikle varsayılan bir padding kullanılır, bu nedenle diğer 3 gereklilik karşılandığında bu da geçerlidir
 * Padding, gizli+veri uzunluğuna bağlı olarak değişir, bu yüzden gizlinin uzunluğu gereklidir
 
-O zaman, bir **saldırganın** **veri eklemesi** ve **önceki veri + eklenen veri** için geçerli bir **imza** **üretmesi** mümkündür.
+O zaman, bir **saldırgan** **veri ekleyip** **önceki veri + eklenen veri** için geçerli bir **imza** **üretebilir**.
 
-### How?
+### Nasıl?
 
-Temelde, savunmasız algoritmalar hash'leri önce bir **veri bloğunu hash'leyerek** oluşturur ve ardından, **önceden** oluşturulmuş **hash** (durum) üzerinden **bir sonraki veri bloğunu ekleyip** **hash'ler**.
+Temelde, savunmasız algoritmalar hash'leri önce bir **veri bloğunu hashleyerek** oluşturur ve ardından, **önceden** oluşturulmuş **hash** (durum) üzerinden **bir sonraki veri bloğunu ekleyip** **hashler**.
 
 O zaman, gizli "secret" ve veri "data" ise, "secretdata"nın MD5'i 6036708eba0d11f6ef52ad44e8b74d5b'dir.\
 Eğer bir saldırgan "append" dizesini eklemek isterse, şunları yapabilir:
@@ -41,11 +41,11 @@ Eğer bir saldırgan "append" dizesini eklemek isterse, şunları yapabilir:
 * "append" dizesini ekle
 * Hash'i tamamla ve sonuçta elde edilen hash, **"secret" + "data" + "padding" + "append"** için geçerli olacaktır
 
-### **Tool**
+### **Araç**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-### References
+### Referanslar
 
 Bu saldırıyı iyi bir şekilde açıklanmış olarak [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks) adresinde bulabilirsiniz.
 

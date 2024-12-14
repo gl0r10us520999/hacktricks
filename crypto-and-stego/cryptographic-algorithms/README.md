@@ -3,23 +3,23 @@
 ## Kriptografik/Sıkıştırma Algoritmaları
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi takip edin 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 ## Algoritmaları Tanımlama
 
-Eğer bir kod **kaydırma işlemleri, XOR'lar ve çeşitli aritmetik işlemler** içeriyorsa, büyük ihtimalle bir **kriptografik algoritmanın** uygulanmasıdır. Burada, **her adımı tersine çevirmeye gerek kalmadan kullanılan algoritmayı tanımlamanın bazı yolları** gösterilecektir.
+Eğer bir kod **sağa ve sola kaydırma, XOR ve çeşitli aritmetik işlemler** kullanıyorsa, bunun bir **kriptografik algoritmanın** uygulanması olması oldukça olasıdır. Burada, **her adımı tersine çevirmeye gerek kalmadan kullanılan algoritmayı tanımlamanın bazı yolları** gösterilecektir.
 
 ### API fonksiyonları
 
@@ -29,59 +29,62 @@ Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek hang
 
 ![](<../../.gitbook/assets/image (156).png>)
 
-Mümkün algoritmalar ve atanan değerlerin tablosu için buraya bakabilirsiniz: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Olası algoritmalar ve atanan değerleri kontrol etmek için buraya bakın: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Veri akışını sıkıştırır ve açar.
+Verilen bir veri tamponunu sıkıştırır ve açar.
 
 **CryptAcquireContext**
 
-[Belgelerden](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): **CryptAcquireContext** fonksiyonu, belirli bir kriptografik hizmet sağlayıcısı (CSP) içinde belirli bir anahtar konteynerine bir tutamaç almak için kullanılır. **Bu döndürülen tutamaç, seçilen CSP'yi kullanan CryptoAPI** fonksiyonlarına yapılan çağrılarda kullanılır.
+[Belgelerden](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): **CryptAcquireContext** fonksiyonu, belirli bir kriptografik hizmet sağlayıcısı (CSP) içindeki belirli bir anahtar konteynerine bir tanıtıcı almak için kullanılır. **Bu döndürülen tanıtıcı, seçilen CSP'yi kullanan CryptoAPI** fonksiyonlarına yapılan çağrılarda kullanılır.
 
 **CryptCreateHash**
 
-Veri akışının karma işlemini başlatır. Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek hangi **algoritmanın kullanıldığını** bulabilirsiniz:
+Bir veri akışının hash'ini başlatır. Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek hangi **algoritmanın kullanıldığını** bulabilirsiniz:
 
 ![](<../../.gitbook/assets/image (549).png>)
 
 \
-Mümkün algoritmalar ve atanan değerlerin tablosu için buraya bakabilirsiniz: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Olası algoritmalar ve atanan değerleri kontrol etmek için buraya bakın: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 ### Kod sabitleri
 
-Bazen bir algoritmayı tanımlamak gerçekten kolay olabilir çünkü özel ve benzersiz bir değeri kullanması gerekir.
+Bazen, bir algoritmayı tanımlamak gerçekten kolaydır çünkü özel ve benzersiz bir değer kullanması gerekir.
 
 ![](<../../.gitbook/assets/image (833).png>)
 
-Eğer ilk sabit için Google'da arama yaparsanız, aşağıdakini elde edersiniz:
+Eğer ilk sabiti Google'da ararsanız, bu sonucu alırsınız:
 
 ![](<../../.gitbook/assets/image (529).png>)
 
-Bu nedenle, dekompilasyon edilmiş fonksiyonun bir **sha256 hesaplayıcısı** olduğunu varsayabilirsiniz. Diğer sabitlerden herhangi birini arayabilir ve (muhtemelen) aynı sonucu elde edersiniz.
+Bu nedenle, decompile edilmiş fonksiyonun bir **sha256 hesaplayıcısı** olduğunu varsayabilirsiniz.\
+Diğer sabitlerden herhangi birini arayabilirsiniz ve (muhtemelen) aynı sonucu alırsınız.
 
-### Veri bilgisi
+### veri bilgisi
 
-Eğer kodda önemli bir sabit yoksa, muhtemelen **.data bölümünden bilgi yükleniyor** demektir.\
-Bu verilere erişebilir, **ilk dört kelimeyi gruplayabilir** ve yukarıda yaptığımız gibi Google'da arayabilirsiniz:
+Eğer kodda herhangi bir önemli sabit yoksa, bu **.data bölümünden bilgi yüklüyor olabilir**.\
+Bu veriye erişebilir, **ilk dword'u gruplandırabilir** ve daha önceki bölümde yaptığımız gibi Google'da arama yapabilirsiniz:
 
 ![](<../../.gitbook/assets/image (531).png>)
 
-Bu durumda, **0xA56363C6** için arama yaparsanız, bunun **AES algoritmasının tablolarıyla** ilişkili olduğunu bulabilirsiniz.
+Bu durumda, eğer **0xA56363C6** ararsanız, bunun **AES algoritmasının tablolarıyla** ilgili olduğunu bulabilirsiniz.
 
-## RC4 **(Simetrik Şifreleme)**
+## RC4 **(Simetrik Kriptografi)**
 
 ### Özellikler
 
-* **Başlatma aşaması/**: 0x00 ile 0xFF (toplamda 256 bayt, 0x100) arasında bir **değer tablosu oluşturur**. Bu tablo genellikle **Yerine Koyma Kutusu** (veya SBox) olarak adlandırılır.
-* **Karıştırma aşaması**: Önceki oluşturulan tablo üzerinde dönecek (tekrar 0x100 iterasyon döngüsü) ve her bir değeri **yarı rastgele** baytlarla değiştirerek **değiştirecek**. Bu yarı rastgele baytları oluşturmak için RC4 **anahtarı kullanılır**. RC4 **anahtarları** genellikle **1 ile 256 bayt arasında** olabilir, ancak genellikle 5 bayttan fazla olması önerilir. Genellikle, RC4 anahtarları 16 bayt uzunluğundadır.
-* **XOR aşaması**: Son olarak, düz metin veya şifreli metin, önceki oluşturulan değerlerle **XOR edilir**. Şifrelemek ve deşifre etmek için aynı işlev kullanılır. Bunun için, oluşturulan 256 bayt üzerinde bir döngü **gerektiği kadar** yapılacaktır. Bu genellikle bir dekompilasyon kodunda **%256 (mod 256)** ile tanınır.
+3 ana bölümden oluşur:
+
+* **Başlatma aşaması/**: **0x00 ile 0xFF arasında değerler içeren bir tablo oluşturur** (toplam 256 bayt, 0x100). Bu tablo genellikle **Yer Değiştirme Kutusu** (veya SBox) olarak adlandırılır.
+* **Karıştırma aşaması**: Daha önce oluşturulan tabloyu **döngü ile geçer** (0x100 yineleme döngüsü) ve her değeri **yarı rastgele** baytlarla değiştirir. Bu yarı rastgele baytları oluşturmak için RC4 **anahtarı kullanılır**. RC4 **anahtarları** **1 ile 256 bayt arasında** olabilir, ancak genellikle 5 bayttan fazla olması önerilir. Genellikle, RC4 anahtarları 16 bayt uzunluğundadır.
+* **XOR aşaması**: Son olarak, düz metin veya şifreli metin, daha önce oluşturulan değerlerle **XOR'lanır**. Şifreleme ve şifre çözme fonksiyonu aynıdır. Bunun için, oluşturulan 256 bayt üzerinden gerekli olduğu kadar döngü yapılacaktır. Bu genellikle decompile edilmiş kodda **%256 (mod 256)** ile tanınır.
 
 {% hint style="info" %}
-**RC4'ü bir dekompilasyon/dekompilasyon kodunda tanımlamak için 0x100 boyutunda 2 döngüye (bir anahtar kullanarak) ve ardından giriş verilerinin 2 döngüde önceden oluşturulan 256 değerle XOR'lanmasıyla muhtemelen %256 (mod 256) kullanılarak kontrol edebilirsiniz.**
+**Bir disassembly/decompile edilmiş kodda RC4'ü tanımlamak için, 0x100 boyutunda 2 döngü kontrol edebilir ve ardından giriş verisinin 2 döngüde daha önce oluşturulan 256 değerle XOR'lanmasını kontrol edebilirsiniz, muhtemelen %256 (mod 256) kullanarak**
 {% endhint %}
 
-### **Başlatma aşaması/Yerine Koyma Kutusu:** (256 sayısı kullanılan sayacı ve 256 karakterin her bir yerine 0 yazıldığına dikkat edin)
+### **Başlatma aşaması/Yer Değiştirme Kutusu:** (Sayacın olarak kullanılan 256 sayısını ve 256 karakterin her yerinde 0 yazıldığını not edin)
 
 ![](<../../.gitbook/assets/image (584).png>)
 
@@ -93,51 +96,52 @@ Bu durumda, **0xA56363C6** için arama yaparsanız, bunun **AES algoritmasının
 
 ![](<../../.gitbook/assets/image (904).png>)
 
-## **AES (Simetrik Şifreleme)**
+## **AES (Simetrik Kriptografi)**
 
 ### **Özellikler**
 
-* **Yerine koyma kutuları ve arama tabloları** kullanımı
-* **Belirli arama tablosu değerlerinin** (sabitlerin) kullanımı sayesinde AES'i **ayırt etmek mümkündür**. _**Sabit**'in ikili dosyada **saklanabileceğini veya dinamik olarak oluşturulabileceğini**_ _**unutmayın**._
-* **Şifreleme anahtarı** 16'ya **bölünebilir** olmalıdır (genellikle 32B) ve genellikle 16B'lik bir **IV** kullanılır.
+* **yer değiştirme kutuları ve arama tabloları** kullanımı
+* **belirli arama tablo değerlerinin** (sabitlerin) kullanımı sayesinde AES'i **ayırmak mümkündür**. _Not edin ki **sabit** ikili **ya da dinamik olarak** _**oluşturulabilir**._
+* **şifreleme anahtarı** **16'ya** (genellikle 32B) **tam bölünebilir** olmalıdır ve genellikle 16B'lik bir **IV** kullanılır.
 
 ### SBox sabitleri
 
 ![](<../../.gitbook/assets/image (208).png>)
 
-## Yılan **(Simetrik Şifreleme)**
+## Serpent **(Simetrik Kriptografi)**
 
 ### Özellikler
 
-* Kullanan bazı kötü amaçlı yazılımların nadir olduğu ancak örneklerin bulunduğu (Ursnif gibi)
-* Bir algoritmanın Serpent olup olmadığını belirlemek oldukça basittir, uzunluğuna (son derece uzun fonksiyon) dayanarak.
+* Bunu kullanan bazı kötü amaçlı yazılımlar bulmak nadirdir ama örnekler vardır (Ursnif)
+* Bir algoritmanın Serpent olup olmadığını belirlemek için uzunluğuna (son derece uzun fonksiyon) dayanarak basit.
 
 ### Tanımlama
 
-Aşağıdaki resimde **0x9E3779B9** sabitinin nasıl kullanıldığına dikkat edin (bu sabitin **TEA** -Tiny Encryption Algorithm gibi diğer kripto algoritmalarında da kullanıldığını unutmayın).\
-Ayrıca **döngünün boyutunu** (**132**) ve **XOR işlemlerinin sayısını** **derleme** talimatlarında ve **örnek kodda** fark edin:
+Aşağıdaki görüntüde **0x9E3779B9** sabitinin nasıl kullanıldığına dikkat edin (bu sabitin ayrıca **TEA** -Küçük Şifreleme Algoritması gibi diğer kripto algoritmaları tarafından da kullanıldığını not edin).\
+Ayrıca **döngünün boyutunu** (**132**) ve **disassembly** talimatlarındaki ve **kod** örneğindeki **XOR işlemleri sayısını** not edin:
 
 ![](<../../.gitbook/assets/image (547).png>)
 
-Yukarıda belirtildiği gibi, bu kod, içinde **atlamaların olmadığı** çok uzun bir fonksiyon olarak herhangi bir dekompilatörde görüntülenebilir. Dekompilasyon edilmiş kod aşağıdaki gibi görünebilir:
+Daha önce belirtildiği gibi, bu kod herhangi bir decompiler içinde **çok uzun bir fonksiyon** olarak görselleştirilebilir çünkü içinde **atlamalar** yoktur. Decompile edilmiş kod aşağıdaki gibi görünebilir:
 
 ![](<../../.gitbook/assets/image (513).png>)
 
-Bu nedenle, bu algoritmayı tanımlamak için **sihirli sayıyı** ve **başlangıç XOR'larını** kontrol ederek, **çok uzun bir fonksiyonu** görerek ve bazı **talimatları** (örneğin, 7 ile sola kaydırma ve 22 ile sola döndürme) **uzun fonksiyonun bazı talimatlarıyla bir uygulamayla karşılaştırarak** mümkündür.
-## RSA **(Asimetrik Şifreleme)**
+Bu nedenle, bu algoritmayı **büyülü sayıyı** ve **ilk XOR'ları** kontrol ederek, **çok uzun bir fonksiyon** görerek ve uzun fonksiyonun bazı **talimatlarını** bir **uygulama** ile karşılaştırarak tanımlamak mümkündür (örneğin, 7'ye kaydırma ve 22'ye döndürme).
+
+## RSA **(Asimetrik Kriptografi)**
 
 ### Özellikler
 
-* Simetrik algoritmalarından daha karmaşıktır
-* Sabitler yoktur! (özel uygulamaları belirlemek zordur)
-* KANAL (bir şifre analizörü) RSA hakkında ipuçları veremez çünkü sabitlere dayanır.
+* Simetrik algoritmalardan daha karmaşık
+* Sabit yok! (özel uygulamaların belirlenmesi zordur)
+* KANAL (bir kripto analizörü) RSA hakkında ipuçları gösteremiyor çünkü sabitlere dayanıyor.
 
 ### Karşılaştırmalarla Tanımlama
 
 ![](<../../.gitbook/assets/image (1113).png>)
 
-* 11. satırda (sol) `+7) >> 3` bulunur, aynı şey 35. satırda (sağ) `+7) / 8` olarak geçer
-* 12. satırda (sol) `modulus_len < 0x040` kontrol edilirken, 36. satırda (sağ) `inputLen+11 > modulusLen` kontrol edilir
+* 11. satırda (solda) `+7) >> 3` var, bu da 35. satırda (sağda) `+7) / 8` ile aynıdır.
+* 12. satır (solda) `modulus_len < 0x040` kontrol ediyor ve 36. satırda (sağda) `inputLen+11 > modulusLen` kontrol ediliyor.
 
 ## MD5 & SHA (hash)
 
@@ -150,28 +154,28 @@ Bu nedenle, bu algoritmayı tanımlamak için **sihirli sayıyı** ve **başlang
 
 **Init**
 
-Her ikisini de sabitlere bakarak tanımlayabilirsiniz. SHA\_init'in MD5'te olmayan 1 sabiti olduğunu unutmayın:
+Her ikisini de sabitleri kontrol ederek tanımlayabilirsiniz. Not edin ki sha\_init'in MD5'de olmayan 1 sabiti vardır:
 
 ![](<../../.gitbook/assets/image (406).png>)
 
 **MD5 Dönüşümü**
 
-Daha fazla sabit kullanımına dikkat edin
+Daha fazla sabit kullanıldığına dikkat edin
 
 ![](<../../.gitbook/assets/image (253) (1) (1).png>)
 
 ## CRC (hash)
 
-* Verideki kazara değişiklikleri bulma işlevi olduğundan daha küçük ve daha verimlidir
+* Daha küçük ve daha verimli çünkü işlevi verilerdeki kazara değişiklikleri bulmaktır
 * Sabitleri tanımlamak için arama tabloları kullanır
 
 ### Tanımlama
 
-**Arama tablosu sabitlerini** kontrol edin:
+**arama tablo sabitlerini** kontrol edin:
 
 ![](<../../.gitbook/assets/image (508).png>)
 
-Bir CRC hash algoritması şuna benzer:
+Bir CRC hash algoritması şöyle görünür:
 
 ![](<../../.gitbook/assets/image (391).png>)
 
@@ -179,15 +183,30 @@ Bir CRC hash algoritması şuna benzer:
 
 ### Özellikler
 
-* Tanınabilir sabitler yoktur
-* Algoritmayı python'da yazmayı deneyebilir ve benzer şeyleri çevrimiçi arayabilirsiniz
+* Tanınabilir sabit yok
+* Algoritmayı python'da yazmayı deneyebilir ve çevrimiçi benzer şeyler arayabilirsiniz
 
 ### Tanımlama
 
-Grafik oldukça büyüktür:
+Grafik oldukça büyük:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Tanımak için **3 karşılaştırmayı kontrol edin**:
+Tanımak için **3 karşılaştırmayı** kontrol edin:
 
 ![](<../../.gitbook/assets/image (430).png>)
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi takip edin 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+
+</details>
+{% endhint %}

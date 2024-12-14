@@ -1,23 +1,23 @@
-# Crypto CTFs İpuçları
+# Crypto CTFs Tricks
 
 {% hint style="success" %}
-Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekle</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
-* **Hacking ipuçlarını paylaşmak için PR göndererek HackTricks ve HackTricks Cloud github depolarına katkıda bulun.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-## Çevrimiçi Hash Veritabanları
+## Online Hashes DBs
 
-* _**Google'da ara**_
+* _**Google'da arayın**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
 * [https://crackstation.net/](https://crackstation.net)
@@ -29,36 +29,36 @@
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Sihirli Otomatik Çözücüler
+## Magic Autosolvers
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Sihirli modül)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Kodlayıcılar
+## Encoders
 
 Kodlanmış verilerin çoğu bu 2 kaynakla çözülebilir:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Yerine Koyma Otomatik Çözücüler
+### Substitution Autosolvers
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-* [https://quipqiup.com/](https://quipqiup.com) - Çok iyi !
+* [https://quipqiup.com/](https://quipqiup.com) - Çok iyi!
 
-#### Caesar - ROTx Otomatik Çözücüler
+#### Caesar - ROTx Autosolvers
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Atbash Şifreleme
+#### Atbash Cipher
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Temel Kodlamalar Otomatik Çözücü
+### Base Encodings Autosolver
 
-Tüm bu tabanları kontrol et: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+Tüm bu tabanları kontrol edin: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -127,19 +127,19 @@ Tüm bu tabanları kontrol et: [https://github.com/dhondta/python-codext](https:
 * **Citrix CTX1** \[]
 * `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
-[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Ölü: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### HackerizeXS \[_╫Λ↻├☰┏_]
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Bulunamadı: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Ölü: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### Morse
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Bulunamadı: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Ölü: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -160,8 +160,6 @@ hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
 end
 ```
 * [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
-
-### YEncoder
 
 ### YEncoder
 ```
@@ -189,44 +187,44 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=tr\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=tr\&page=dvorakKeyboard)
 
 ### A1Z26
 
-Harflerinin sayısal değerlerine dönüştürülmesi
+Harflerin sayısal değeri
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Affine Şifreleme
+### Affine Cipher Encode
 
-Harfi sayıya dönüştür `(ax+b)%26` (_a_ ve _b_ anahtarlarıdır ve _x_ harfidir) ve sonucu tekrar harfe dönüştür.
+Harf numarasına `(ax+b)%26` (_a_ ve _b_ anahtarlarıdır ve _x_ harftir) ve sonucu tekrar harfe çevirin.
 ```
 krodfdudfrod
 ```
 ### SMS Kodu
 
-**Çoklu dokunma** [bir harfi](https://www.dcode.fr/word-letter-change) mobil [telefon tuş takımı](https://www.dcode.fr/phone-keypad-cipher) üzerindeki karşılık gelen tuş kodu tarafından tanımlanan tekrarlanan rakamlarla değiştirir (Bu mod, SMS yazarken kullanılır).\
+**Multitap** [bir harfi](https://www.dcode.fr/word-letter-change) mobil [telefon tuş takımı](https://www.dcode.fr/phone-keypad-cipher) üzerindeki karşılık gelen tuş kodu ile tanımlanan tekrar eden rakamlarla değiştirir (Bu mod SMS yazarken kullanılır).\
 Örneğin: 2=A, 22=B, 222=C, 3=D...\
-Bu kodu tanıyabilirsiniz çünkü\*\* tekrarlanan birkaç sayı göreceksiniz\*\*.
+Bu kodu tanıyabilirsiniz çünkü\*\* birkaç rakamın tekrarlandığını\*\* göreceksiniz.
 
-Bu kodu şurada çözebilirsiniz: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+Bu kodu şifre çözmek için: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Bacon Kodu
 
-Her harfi 4 A veya B (veya 1 ve 0) ile değiştirin
+Her harfi 4 A veya B (veya 1 ve 0) ile değiştirin.
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Runlar
+### Runes
 
 ![](../.gitbook/assets/runes.jpg)
 
 ## Sıkıştırma
 
-**Ham Sıkıştırma** ve **Ham Genişletme** (her ikisini de Cyberchef'te bulabilirsiniz) verileri başlıksız sıkıştırabilir ve açabilir.
+**Raw Deflate** ve **Raw Inflate** (her ikisini de Cyberchef'te bulabilirsiniz) başlık olmadan verileri sıkıştırabilir ve açabilir.
 
-## Kolay Şifreleme
+## Kolay Kripto
 
 ### XOR - Otomatik Çözücü
 
@@ -234,13 +232,13 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ### Bifid
 
-Bir anahtar kelime gereklidir
+Bir anahtar kelime gereklidir.
 ```
 fgaargaamnlunesuneoa
 ```
 ### Vigenere
 
-Bir anahtar kelimeye ihtiyaç vardır
+Bir anahtar kelimeye ihtiyaç vardır.
 ```
 wodsyoidrods
 ```
@@ -248,11 +246,11 @@ wodsyoidrods
 * [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
 * [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
 
-## Güçlü Şifreleme
+## Güçlü Kripto
 
 ### Fernet
 
-2 base64 dizisi (token ve anahtar)
+2 base64 dizesi (token ve anahtar)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -262,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Samir Gizli Paylaşım
+### Samir Gizli Paylaşımı
 
-Bir sır X parçaya bölünür ve onu kurtarmak için Y parçaya ihtiyacınız vardır (_Y <=X_).
+Bir gizli bilgi X parçaya bölünür ve onu geri kazanmak için Y parçaya ihtiyacınız vardır (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -284,16 +282,16 @@ Bir sır X parçaya bölünür ve onu kurtarmak için Y parçaya ihtiyacınız v
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 {% hint style="success" %}
-AWS Hacking'ini öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'ini öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* Hacking püf noktalarını paylaşarak PR'lar göndererek **HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

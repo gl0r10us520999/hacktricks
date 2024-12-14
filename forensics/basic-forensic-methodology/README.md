@@ -60,7 +60,7 @@ Bazı ilginç ipuçlarını öğrenmek için aşağıdaki sayfayı okuyun:
 [specific-software-file-type-tricks](specific-software-file-type-tricks/)
 {% endcontent-ref %}
 
-Aşağıdaki sayfaya özel bir atıfta bulunmak istiyorum:
+Özel bir sayfaya dikkat çekmek istiyorum:
 
 {% content-ref url="specific-software-file-type-tricks/browser-artifacts.md" %}
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)

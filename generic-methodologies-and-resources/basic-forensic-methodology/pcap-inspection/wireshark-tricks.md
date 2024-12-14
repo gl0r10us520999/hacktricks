@@ -37,7 +37,7 @@ _**Analyze** --> **Expert Information**_ seçeneğine tıkladığınızda, **ana
 
 **Çözülmüş Adresler**
 
-_**Statistics --> Resolved Addresses**_ altında, wireshark tarafından "**çözülen**" çeşitli **bilgiler** bulabilirsiniz; örneğin port/taşıyıcıdan protokole, MAC'tan üreticiye vb. İletişimde nelerin yer aldığını bilmek ilginçtir.
+_**Statistics --> Resolved Addresses**_ altında, wireshark tarafından "**çözülen**" çeşitli **bilgiler** bulabilirsiniz; örneğin, port/taşıyıcıdan protokole, MAC'tan üreticiye vb. İletişimde nelerin yer aldığını bilmek ilginçtir.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
@@ -85,7 +85,7 @@ Diğer ilginç filtreler:
 
 ### Arama
 
-Eğer oturumların **paketleri** içinde **içerik** aramak istiyorsanız _CTRL+f_ tuşlarına basın. Ana bilgi çubuğuna (No., Zaman, Kaynak vb.) yeni katmanlar eklemek için sağ tıklayıp ardından sütunu düzenleyebilirsiniz.
+Eğer oturumların **paketleri** içinde **içerik** aramak istiyorsanız, _CTRL+f_ tuşlarına basın. Ana bilgi çubuğuna (No., Zaman, Kaynak vb.) yeni katmanlar eklemek için sağ tıklayıp ardından sütunu düzenleyebilirsiniz.
 
 ### Ücretsiz pcap laboratuvarları
 
@@ -121,7 +121,7 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Sunucu ve özel anahtarın tüm verilerini (_IP, Port, Protokol, Anahtar dosyası ve şifre_) eklemek için _Edit_ seçeneğine basın.
+Sunucu ve özel anahtarın tüm verilerini (_IP, Port, Protokol, Anahtar dosyası ve şifre_) eklemek için _Edit_ seçeneğine tıklayın.
 
 ### Simetrik oturum anahtarları ile https trafiğini şifre çözme
 
@@ -139,7 +139,7 @@ Bunu wireshark'a aktarmak için _edit > preference > protocol > ssl > ve (Pre)-M
 
 ## ADB iletişimi
 
-APK'nın gönderildiği bir ADB iletişiminden bir APK çıkarın:
+APK'nin gönderildiği bir ADB iletişiminden bir APK çıkarın:
 ```python
 from scapy.all import *
 
@@ -175,7 +175,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

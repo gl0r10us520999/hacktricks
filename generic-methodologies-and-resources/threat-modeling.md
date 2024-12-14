@@ -2,7 +2,7 @@
 
 ## Tehdit Modelleme
 
-HackTricks'in Tehdit Modelleme üzerine kapsamlı kılavuzuna hoş geldiniz! Bu kritik siber güvenlik alanını keşfetmeye başlayın; burada bir sistemdeki potansiyel zayıflıkları tanımlıyor, anlıyor ve bunlara karşı stratejiler geliştiriyoruz. Bu konu, gerçek dünya örnekleri, yararlı yazılımlar ve kolay anlaşılır açıklamalarla dolu adım adım bir kılavuz olarak hizmet vermektedir. Hem acemiler hem de siber güvenlik savunmalarını güçlendirmek isteyen deneyimli uygulayıcılar için idealdir.
+HackTricks'in Tehdit Modelleme üzerine kapsamlı kılavuzuna hoş geldiniz! Bu kritik siber güvenlik alanını keşfetmeye başlayın; burada bir sistemdeki potansiyel zayıflıkları tanımlıyor, anlıyor ve bunlara karşı stratejiler geliştiriyoruz. Bu konu, gerçek dünya örnekleri, yararlı yazılımlar ve kolay anlaşılır açıklamalarla dolu adım adım bir kılavuz olarak hizmet vermektedir. Hem yeni başlayanlar hem de siber güvenlik savunmalarını güçlendirmek isteyen deneyimli uygulayıcılar için idealdir.
 
 ### Yaygın Olarak Kullanılan Senaryolar
 
@@ -25,7 +25,7 @@ CIA Üçlüsü, bilgi güvenliği alanında yaygın olarak tanınan bir modeldir
 
 ### Tehdit Modelleme Metodolojileri
 
-1. **STRIDE**: Microsoft tarafından geliştirilen STRIDE, **Sahtecilik, Müdahale, Reddetme, Bilgi Sızdırma, Hizmet Reddi ve Yetki Yükseltme** için bir kısaltmadır. Her kategori bir tehdit türünü temsil eder ve bu metodoloji, potansiyel tehditleri tanımlamak için bir program veya sistemin tasarım aşamasında yaygın olarak kullanılır.
+1. **STRIDE**: Microsoft tarafından geliştirilen STRIDE, **Sahtecilik, Müdahale, Reddetme, Bilgi Sızdırma, Hizmet Reddi ve Ayrıcalık Yükseltme** için bir kısaltmadır. Her kategori bir tehdit türünü temsil eder ve bu metodoloji, potansiyel tehditleri tanımlamak için bir program veya sistemin tasarım aşamasında yaygın olarak kullanılır.
 2. **DREAD**: Bu, tanımlanan tehditlerin risk değerlendirmesi için kullanılan başka bir Microsoft metodolojisidir. DREAD, **Zarar Potansiyeli, Yeniden Üretilebilirlik, Sömürülebilirlik, Etkilenen Kullanıcılar ve Keşfedilebilirlik** anlamına gelir. Bu faktörlerin her biri puanlanır ve sonuç, tanımlanan tehditlerin önceliklendirilmesinde kullanılır.
 3. **PASTA** (Saldırı Simülasyonu ve Tehdit Analizi Süreci): Bu, yedi adımlı, **risk merkezli** bir metodolojidir. Güvenlik hedeflerini tanımlama ve belirleme, teknik kapsam oluşturma, uygulama ayrıştırma, tehdit analizi, zayıflık analizi ve risk/triage değerlendirmesini içerir.
 4. **Trike**: Bu, varlıkları savunmaya odaklanan bir risk temelli metodolojidir. **Risk yönetimi** perspektifinden başlar ve tehditler ile zayıflıkları bu bağlamda inceler.
@@ -38,7 +38,7 @@ Tehdit modellerinin oluşturulması ve yönetilmesi konusunda **yardımcı** ola
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Siber güvenlik profesyonelleri için gelişmiş, çok platformlu ve çok özellikli bir GUI web örümceği/kraker. Spider Suite, saldırı yüzeyi haritalama ve analiz için kullanılabilir.
+Siber güvenlik profesyonelleri için gelişmiş, çok platformlu ve çok özellikli bir GUI web örümceği/gezgini. Spider Suite, saldırı yüzeyi haritalama ve analiz için kullanılabilir.
 
 **Kullanım**
 
@@ -74,17 +74,17 @@ Bazen şöyle görünebilir:
 
 4. Modelinizi Oluşturun
 
-İlham almak için SpiderSuite Crawler gibi araçları kullanabilirsiniz, temel bir model şöyle görünebilir:
+İlham almak için SpiderSuite Crawler gibi araçlar kullanabilirsiniz, temel bir model şöyle görünebilir:
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
 Varlıklar hakkında biraz açıklama:
 
-* Süreç (Web sunucusu veya web işlevselliği gibi varlık)
-* Aktör (Bir Web Sitesi Ziyaretçisi, Kullanıcı veya Yönetici gibi bir kişi)
+* Süreç (Web sunucusu veya web işlevi gibi varlık)
+* Aktör (Bir Kişi, örneğin bir Web Sitesi Ziyaretçisi, Kullanıcı veya Yönetici)
 * Veri Akış Hattı (Etkileşim Göstergesi)
-* Güven Sınırı (Farklı ağ segmentleri veya kapsamlar.)
-* Depo (Verilerin saklandığı yerler, örneğin Veritabanları)
+* Güven Sınırı (Farklı ağ segmentleri veya kapsamları.)
+* Depolama (Verilerin depolandığı yerler, örneğin Veritabanları)
 
 5. Bir Tehdit Oluşturun (Adım 1)
 
@@ -102,10 +102,10 @@ Aktör Tehditleri ile Süreç Tehditleri arasında bir fark olduğunu unutmayın
 
 6. Tamam
 
-Artık bitmiş modeliniz şöyle görünmelidir. Ve OWASP Threat Dragon ile basit bir tehdit modeli nasıl oluşturulur.
+Artık bitmiş modeliniz şöyle görünmelidir. Ve OWASP Threat Dragon ile basit bir tehdit modeli nasıl oluşturduğunuz budur.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 
 ### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
 
-Bu, yazılım projelerinin tasarım aşamasında tehditleri bulmaya yardımcı olan Microsoft'tan ücretsiz bir araçtır. STRIDE metodolojisini kullanır ve özellikle Microsoft'un yığınında geliştirme yapanlar için uygundur.
+Bu, yazılım projelerinin tasarım aşamasında tehditleri bulmaya yardımcı olan Microsoft'tan ücretsiz bir araçtır. STRIDE metodolojisini kullanır ve özellikle Microsoft'un yığını üzerinde geliştirme yapanlar için uygundur.

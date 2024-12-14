@@ -55,7 +55,7 @@ Bu sayfada, **bir linux ana bilgisayarında kerberos biletlerini nerede bulabile
 
 CCACHE dosyaları, **Kerberos kimlik bilgilerini** saklamak için kullanılan ikili formatlardır ve genellikle `/tmp` içinde 600 izinleriyle saklanır. Bu dosyalar, kullanıcının UID'sine karşılık gelen **isim formatı, `krb5cc_%{uid}`,** ile tanımlanabilir. Kimlik doğrulama biletinin doğrulanması için, **`KRB5CCNAME`** ortam değişkeni, istenen bilet dosyasının yoluna ayarlanmalıdır, bu da yeniden kullanımını sağlar.
 
-Kimlik doğrulama için kullanılan mevcut bileti `env | grep KRB5CCNAME` ile listeleyin. Format taşınabilir ve bilet, ortam değişkenini `export KRB5CCNAME=/tmp/ticket.ccache` ile ayarlayarak **yeniden kullanılabilir**. Kerberos bilet adı formatı `krb5cc_%{uid}` şeklindedir; burada uid, kullanıcının UID'sidir.
+Kimlik doğrulama için kullanılan mevcut bileti `env | grep KRB5CCNAME` ile listeleyin. Format taşınabilir ve bilet, ortam değişkenini `export KRB5CCNAME=/tmp/ticket.ccache` ile ayarlayarak **yeniden kullanılabilir**. Kerberos bilet isim formatı `krb5cc_%{uid}` şeklindedir; burada uid, kullanıcının UID'sidir.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -66,7 +66,7 @@ export KRB5CCNAME=/tmp/krb5cc_1000
 ```
 ### CCACHE bilet yeniden kullanımı anahtarlık üzerinden
 
-**Bir işlemin belleğinde saklanan Kerberos biletleri çıkarılabilir**, özellikle makinenin ptrace koruması devre dışı bırakıldığında (`/proc/sys/kernel/yama/ptrace_scope`). Bu amaçla yararlı bir araç [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey) adresinde bulunur; bu araç, oturumlara enjekte ederek biletleri `/tmp` dizinine dökme işlemini kolaylaştırır.
+**Bir işlemin belleğinde depolanan Kerberos biletleri çıkarılabilir**, özellikle makinenin ptrace koruması devre dışı bırakıldığında (`/proc/sys/kernel/yama/ptrace_scope`). Bu amaçla yararlı bir araç [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey) adresinde bulunur; bu araç, oturumlara enjekte ederek biletleri `/tmp` dizinine dökme işlemini kolaylaştırır.
 
 Bu aracı yapılandırmak ve kullanmak için aşağıdaki adımlar izlenir:
 ```bash
@@ -75,7 +75,7 @@ cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
-Bu prosedür, çeşitli oturumlara enjekte etmeyi deneyecek ve başarıyı, çıkarılan biletleri `/tmp` dizininde `__krb_UID.ccache` adlandırma kuralıyla saklayarak gösterecektir.
+Bu prosedür, çeşitli oturumlara enjekte etmeyi deneyecek ve başarıyı `/tmp` dizininde `__krb_UID.ccache` adlandırma kuralıyla çıkarılan biletleri saklayarak gösterecektir.
 
 ### SSSD KCM'den CCACHE bilet yeniden kullanımı
 
@@ -103,7 +103,7 @@ Keytab dosyasının içeriğini incelemek için **`klist`** kullanılabilir. Bu 
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-Linux kullanıcıları için, **`KeyTabExtract`** RC4 HMAC hash'ini çıkarmak için işlevsellik sunar; bu, NTLM hash yeniden kullanımında kullanılabilir.
+Linux kullanıcıları için, **`KeyTabExtract`** NTLM hash yeniden kullanımı için kullanılabilecek RC4 HMAC hash'ini çıkarmak için işlevsellik sunar.
 ```bash
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
@@ -133,7 +133,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.png
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

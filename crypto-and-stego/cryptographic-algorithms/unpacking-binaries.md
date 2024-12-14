@@ -17,8 +17,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 # Paketlenmiş ikililerin tanımlanması
 
-* **string eksikliği**: Paketlenmiş ikililerde neredeyse hiç string bulunmaması yaygındır.
-* Birçok **kullanılmayan string**: Ayrıca, bir kötü amaçlı yazılım bazı ticari paketleyiciler kullanıyorsa, genellikle çapraz referansları olmayan birçok string bulmak yaygındır. Bu stringler mevcut olsa bile, bu durum ikilinin paketlenmediği anlamına gelmez.
+* **string eksikliği**: Paketlenmiş ikililerin neredeyse hiç string içermediğini bulmak yaygındır.
+* Birçok **kullanılmayan string**: Ayrıca, bir kötü amaçlı yazılım bazı ticari paketleyiciler kullanıyorsa, çapraz referanssız birçok string bulmak yaygındır. Bu stringler mevcut olsa bile, bu durum ikilinin paketlenmediği anlamına gelmez.
 * Bir ikilinin hangi paketleyici ile paketlendiğini bulmak için bazı araçlar kullanabilirsiniz:
 * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
 * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
@@ -26,13 +26,13 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 # Temel Öneriler
 
-* Paketlenmiş ikiliyi **IDA'da alttan başlayarak analiz etmeye** başlayın ve yukarı doğru ilerleyin. Paket açıcılar, açılmış kod çıkınca çıkış yapar, bu nedenle paket açıcının açılmış koda başlangıçta yürütme geçirmesi olası değildir.
+* Paketlenmiş ikiliyi **en alttan başlayarak IDA'da analiz etmeye başlayın ve yukarı doğru ilerleyin**. Paketleyiciler, açılmış kod çıkınca çıkış yapar, bu nedenle paketleyicinin açılmış koda başlangıçta yürütme geçirmesi olası değildir.
 * **Kayıtlar** veya **bellek** **bölgelerine** **JMP** veya **CALL** arayın. Ayrıca, **argümanlar ve bir adres yönlendirmesi iten fonksiyonlar arayın ve ardından `retn` çağırın**, çünkü bu durumda fonksiyonun dönüşü, yığına itilen adresi çağırabilir.
-* `VirtualAlloc` üzerinde bir **kesme noktası** koyun, çünkü bu, programın açılmış kod yazabileceği bellek alanını ayırır. "Kullanıcı koduna çalıştır" veya F8 kullanarak **fonksiyonu çalıştırdıktan sonra EAX içindeki değere ulaşın** ve "**dump'taki o adresi takip edin**". Açılmış kodun kaydedileceği bölge olup olmadığını asla bilemezsiniz.
-* **`VirtualAlloc`**'un "**40**" değeri ile bir argüman olarak kullanılması, Okuma+Yazma+Çalıştırma anlamına gelir (buraya kopyalanacak bazı çalıştırma gerektiren kodlar olacak).
-* **Kodu açarken**, **aritmetik işlemler** ve **`memcopy`** veya **`Virtual`**`Alloc` gibi fonksiyonlara **birçok çağrı** bulmak normaldir. Eğer yalnızca aritmetik işlemler gerçekleştiren ve belki de bazı `memcopy` yapan bir fonksiyonda bulursanız, öneri, **fonksiyonun sonunu bulmaya çalışmaktır** (belki bir JMP veya bazı kayıtlarla çağrı) **veya** en azından **son fonksiyona yapılan çağrıya kadar ilerleyin** çünkü kod ilginç değildir.
-* Kodu açarken, **bellek bölgesini değiştirdiğinizde** not alın, çünkü bir bellek bölgesi değişikliği **açma kodunun başlangıcını** gösterebilir. Process Hacker kullanarak bir bellek bölgesini kolayca dökebilirsiniz (işlem --> özellikler --> bellek).
-* Kodu açmaya çalışırken, **açılmış kodla çalışıp çalışmadığınızı bilmenin** iyi bir yolu, **ikili dosyanın stringlerini kontrol etmektir**. Eğer bir noktada bir atlama yaparsanız (belki bellek bölgesini değiştirerek) ve **çok daha fazla string eklendiğini** fark ederseniz, o zaman **açılmış kodla çalıştığınızı** bilebilirsiniz.\
+* `VirtualAlloc` üzerinde bir **kesme noktası** koyun, çünkü bu, programın açılmış kod yazabileceği bellek alanı ayırır. "Kullanıcı koduna çalıştır" veya F8 kullanarak **fonksiyonu çalıştırdıktan sonra EAX içindeki değere ulaşın** ve "**dump'taki o adresi takip edin**". Açılmış kodun kaydedileceği bölge olup olmadığını asla bilemezsiniz.
+* **`VirtualAlloc`**'un "**40**" değeri argümanı, Okuma+Yazma+Çalıştırma anlamına gelir (buraya kopyalanacak bazı çalıştırılması gereken kodlar olacak).
+* **Kod açma** sırasında **birçok çağrı** ile **aritmetik işlemler** ve **`memcopy`** veya **`Virtual`**`Alloc` gibi fonksiyonlar bulmak normaldir. Eğer yalnızca aritmetik işlemler gerçekleştiren ve belki de bazı `memcopy` yapan bir fonksiyonda iseniz, öneri **fonksiyonun sonunu bulmaya çalışmaktır** (belki bir JMP veya bazı kayıtlarla çağrı) **veya** en azından **son fonksiyona yapılan çağrıya kadar ilerleyin** çünkü kod ilginç değildir.
+* Kod açma sırasında **bellek bölgesini değiştirdiğinizde** not alın, çünkü bir bellek bölgesi değişikliği **açma kodunun başlangıcını** gösterebilir. Process Hacker kullanarak bir bellek bölgesini kolayca dökebilirsiniz (işlem --> özellikler --> bellek).
+* Kod açmaya çalışırken, **açılmış kodla çalışıp çalışmadığınızı bilmenin** iyi bir yolu, **ikili dosyanın stringlerini kontrol etmektir**. Eğer bir noktada bir atlama yaparsanız (belki bellek bölgesini değiştirerek) ve **çok daha fazla string eklendiğini** fark ederseniz, o zaman **açılmış kodla çalıştığınızı** bilebilirsiniz.\
 Ancak, eğer paketleyici zaten birçok string içeriyorsa, "http" kelimesini içeren string sayısını görebilir ve bu sayının artıp artmadığını kontrol edebilirsiniz.
 * Bir bellek bölgesinden bir yürütülebilir dosyayı dökerken, bazı başlıkları [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases) kullanarak düzeltebilirsiniz.
 

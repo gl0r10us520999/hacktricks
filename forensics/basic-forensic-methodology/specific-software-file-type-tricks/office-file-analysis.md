@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -25,11 +25,11 @@ Bugün Erişim Alın:
 
 Daha fazla bilgi için [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/) adresini kontrol edin. Bu sadece bir özet:
 
-Microsoft, iki ana türü **OLE formatları** (RTF, DOC, XLS, PPT gibi) ve **Office Open XML (OOXML) formatları** (DOCX, XLSX, PPTX gibi) olan birçok ofis belge formatı oluşturmuştur. Bu formatlar makrolar içerebilir, bu da onları phishing ve kötü amaçlı yazılım hedefleri haline getirir. OOXML dosyaları, zip konteynerleri olarak yapılandırılmıştır, bu da dosya ve klasör hiyerarşisini ve XML dosyası içeriklerini açarak incelemeye olanak tanır.
+Microsoft, iki ana türü **OLE formatları** (RTF, DOC, XLS, PPT gibi) ve **Office Open XML (OOXML) formatları** (DOCX, XLSX, PPTX gibi) olan birçok ofis belge formatı oluşturmuştur. Bu formatlar makrolar içerebilir, bu da onları kimlik avı ve kötü amaçlı yazılım hedefleri haline getirir. OOXML dosyaları, dosya ve klasör hiyerarşisini ve XML dosyası içeriklerini ortaya çıkaran zip konteynerleri olarak yapılandırılmıştır.
 
-OOXML dosya yapılarını keşfetmek için bir belgeyi açma komutu ve çıktı yapısı verilmiştir. Bu dosyalarda verileri gizleme teknikleri belgelenmiştir ve CTF zorlukları içinde veri gizleme konusunda devam eden yenilikleri göstermektedir.
+OOXML dosya yapılarını keşfetmek için bir belgeyi açmak için kullanılan komut ve çıktı yapısı verilmiştir. Bu dosyalarda verileri gizleme teknikleri belgelenmiştir ve CTF zorlukları içinde veri gizleme konusunda devam eden yenilikleri göstermektedir.
 
-Analiz için, **oletools** ve **OfficeDissector**, hem OLE hem de OOXML belgelerini incelemek için kapsamlı araç setleri sunar. Bu araçlar, genellikle kötü amaçlı yazılım dağıtım vektörleri olarak hizmet eden gömülü makroları tanımlama ve analiz etme konusunda yardımcı olur; genellikle ek kötü amaçlı yükleri indirip çalıştırırlar. VBA makrolarının analizi, Microsoft Office olmadan, hata ayıklama için kesme noktaları ve izleme değişkenleri ile Libre Office kullanılarak gerçekleştirilebilir.
+Analiz için, **oletools** ve **OfficeDissector**, hem OLE hem de OOXML belgelerini incelemek için kapsamlı araç setleri sunar. Bu araçlar, genellikle kötü amaçlı yazılım dağıtım vektörleri olarak hizmet eden gömülü makroları tanımlama ve analiz etme konusunda yardımcı olur; genellikle ek kötü amaçlı yükleri indirip çalıştırırlar. VBA makrolarının analizi, hata ayıklama için kesme noktaları ve izleme değişkenleri ile birlikte Libre Office kullanılarak Microsoft Office olmadan gerçekleştirilebilir.
 
 **oletools**'un kurulumu ve kullanımı basittir; pip ile kurulum ve belgelerden makro çıkarma komutları sağlanmıştır. Makroların otomatik olarak çalıştırılması, `AutoOpen`, `AutoExec` veya `Document_Open` gibi işlevlerle tetiklenir.
 ```bash

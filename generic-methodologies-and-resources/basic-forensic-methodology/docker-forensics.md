@@ -1,27 +1,27 @@
 # Docker Forensics
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and Android security through our self-paced courses and get certified:
+**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza uygun kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika kazanın:
 
 {% embed url="https://academy.8ksec.io/" %}
 
-## Container modification
+## Konteyner değişikliği
 
 Bazı docker konteynerlerinin tehlikeye girdiğine dair şüpheler var:
 ```bash
@@ -67,7 +67,7 @@ container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-Sonra, görüntüyü **açabilir** ve **blob'lara erişebilirsiniz**; böylece değişiklik geçmişinde bulduğunuz şüpheli dosyaları arayabilirsiniz:
+Sonra, görüntüyü **açabilir** ve şüpheli dosyaları değişiklik geçmişinde aramak için **bloblara** **erişebilirsiniz**:
 ```bash
 tar -xf image.tar
 ```
@@ -77,7 +77,7 @@ Görüntüden **temel bilgiler** alabilirsiniz:
 ```bash
 docker inspect <image>
 ```
-Aşağıdaki komutla **değişikliklerin tarihine** dair bir özet alabilirsiniz:
+Aşağıdaki komutla **değişikliklerin geçmişi** hakkında bir özet alabilirsiniz:
 ```bash
 docker history --no-trunc <image>
 ```
@@ -97,10 +97,10 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Bu, **docker görüntülerinin farklı blob'ları arasında gezinmenizi** ve hangi dosyaların değiştirildiğini/eklendiğini kontrol etmenizi sağlar. **Kırmızı** eklenmiş anlamına gelir ve **sarı** değiştirilmiş anlamına gelir. Diğer görünüme geçmek için **tab** tuşunu ve klasörleri daraltmak/açmak için **space** tuşunu kullanın.
+Bu, **docker görüntülerinin farklı blob'ları arasında gezinmenizi** ve hangi dosyaların değiştirildiğini/eklendiğini kontrol etmenizi sağlar. **Kırmızı** eklenmiş anlamına gelir ve **sarı** değiştirilmiş anlamına gelir. **Tab** tuşunu kullanarak diğer görünüme geçin ve **boşluk** tuşunu kullanarak klasörleri daraltın/açın.
 
-Die ile görüntünün farklı aşamalarının içeriğine erişemeyeceksiniz. Bunu yapmak için **her katmanı sıkıştırmadan çıkarmanız ve erişmeniz** gerekecek.\
-Görüntü sıkıştırmadan çıkarıldığında, görüntüden tüm katmanları şu dizinden çıkarabilirsiniz:
+Die ile görüntünün farklı aşamalarının içeriğine erişemeyeceksiniz. Bunu yapmak için **her katmanı sıkıştırmanız ve erişmeniz** gerekecek.\
+Görüntü sıkıştırıldığında, görüntüden tüm katmanları sıkıştırmak için şu dizinden çalıştırabilirsiniz:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done

@@ -57,28 +57,28 @@ Bu araç bir görüntüyü tarayabilir ve içindeki **pcap'leri** **çıkartabil
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **tüm bilgileri** that the tool has gathered (şifreler?), **analiz et** the **paketleri** (oku[ **Pcaps analizi**](../pcap-inspection/)), search for **garip alan adları** (malware ile ilgili veya **mevcut olmayan** alan adları).
+Tüm bilgileri (şifreler?) toplayan aracı inceleyin, paketleri analiz edin (okuyun [**Pcaps analizi**](../pcap-inspection/)), garip alan adlarını arayın (kötü amaçlı yazılımlarla veya var olmayanlarla ilgili alan adları).
 
 ### PhotoRec
 
-You can find it in [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+Bunu [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download) adresinde bulabilirsiniz.
 
-It comes with GUI and CLI versions. You can select the **dosya türleri** you want PhotoRec to search for.
+GUI ve CLI sürümleri ile gelir. PhotoRec'in aramasını istediğiniz **dosya türlerini** seçebilirsiniz.
 
 ![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-Check the [kod](https://code.google.com/archive/p/binvis/) and the [web sayfası aracı](https://binvis.io/#/).
+[**Kodunu**](https://code.google.com/archive/p/binvis/) ve [web sayfası aracını](https://binvis.io/#/) kontrol edin.
 
-#### BinVis Özellikleri
+#### BinVis'in Özellikleri
 
 * Görsel ve aktif **yapı görüntüleyici**
 * Farklı odak noktaları için birden fazla grafik
 * Bir örneğin bölümlerine odaklanma
 * PE veya ELF yürütülebilir dosyalarda **dize ve kaynakları görme**
 * Dosyalar üzerinde kriptoanaliz için **desenler** elde etme
-* **Paketleyici** veya kodlayıcı algoritmaları **belirleme**
+* **Packer** veya kodlayıcı algoritmalarını **belirleme**
 * Desenler ile Steganografi **tanımlama**
 * **Görsel** ikili fark analizi
 
@@ -88,26 +88,26 @@ BinVis, bir kara kutu senaryosunda bilinmeyen bir hedefle tanışmak için harik
 
 ### FindAES
 
-AES anahtarlarını anahtar programlarını arayarak bulur. TrueCrypt ve BitLocker gibi 128, 192 ve 256 bit anahtarları bulabilir.
+Anahtar programlarını arayarak AES anahtarlarını arar. TrueCrypt ve BitLocker gibi 128, 192 ve 256 bit anahtarları bulabilir.
 
-Download [buradan](https://sourceforge.net/projects/findaes/).
+[Buradan](https://sourceforge.net/projects/findaes/) indirin.
 
 ## Tamamlayıcı araçlar
 
-You can use [**viu** ](https://github.com/atanunq/viu) to see images from the terminal.\
-You can use the linux command line tool **pdftotext** to transform a pdf into text and read it.
+Terminalden görüntüleri görmek için [**viu**](https://github.com/atanunq/viu) kullanabilirsiniz.\
+Bir pdf'yi metne dönüştürmek ve okumak için linux komut satırı aracı **pdftotext** kullanabilirsiniz.
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**abonelik planları**](https://github.com/sponsors/carlospolop)!
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi takip edin** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

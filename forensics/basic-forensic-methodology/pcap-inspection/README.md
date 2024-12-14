@@ -1,39 +1,39 @@
-# Pcap İnceleme
+# Pcap İncelemesi
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/), **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'nın en önemlilerinden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
+[**RootedCON**](https://www.rootedcon.com/) **İspanya'daki** en ilgili siber güvenlik etkinliği ve **Avrupa'daki** en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-**PCAP** ile **PCAPNG** hakkında bir not: PCAP dosya formatının iki versiyonu vardır; **PCAPNG daha yeni ve tüm araçlar tarafından desteklenmez**. Başka araçlarla çalışmak için bir dosyayı PCAPNG'den PCAP'ye dönüştürmeniz gerekebilir, Wireshark veya başka uyumlu bir araç kullanarak.
+**PCAP** ile **PCAPNG** hakkında bir not: PCAP dosya formatının iki versiyonu vardır; **PCAPNG daha yenidir ve tüm araçlar tarafından desteklenmez**. Bazı araçlarla çalışabilmek için bir dosyayı PCAPNG'den PCAP'a dönüştürmeniz gerekebilir, bu da Wireshark veya başka bir uyumlu araç kullanarak yapılabilir.
 {% endhint %}
 
 ## Pcap'ler için Çevrimiçi Araçlar
 
-* Eğer pcap dosyanızın başlığı **bozuk** ise şunu kullanarak **düzeltmeyi** deneyin: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Bir pcap içinde **bilgi çıkarın** ve **zararlı yazılım** arayın: [**PacketTotal**](https://packettotal.com)
-* **Zararlı faaliyetleri** aramak için [**www.virustotal.com**](https://www.virustotal.com) ve [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com) kullanın
+* Pcap'inizin başlığı **bozuksa**, bunu düzeltmek için şunu deneyin: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Bir pcap içindeki **bilgileri** çıkarın ve **kötü amaçlı yazılım** arayın [**PacketTotal**](https://packettotal.com)
+* **Kötü niyetli etkinlik** aramak için [**www.virustotal.com**](https://www.virustotal.com) ve [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com) kullanın
 
 ## Bilgi Çıkarma
 
-Aşağıdaki araçlar istatistikler, dosyalar vb. çıkarmak için kullanışlıdır.
+Aşağıdaki araçlar istatistik, dosya vb. çıkarmak için kullanışlıdır.
 
 ### Wireshark
 
@@ -41,7 +41,7 @@ Aşağıdaki araçlar istatistikler, dosyalar vb. çıkarmak için kullanışlı
 **Bir PCAP'ı analiz edecekseniz, Wireshark'ı nasıl kullanacağınızı bilmelisiniz**
 {% endhint %}
 
-Wireshark hakkında bazı ipuçlarına şuradan ulaşabilirsiniz:
+Bazı Wireshark ipuçlarını burada bulabilirsiniz:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -49,7 +49,7 @@ Wireshark hakkında bazı ipuçlarına şuradan ulaşabilirsiniz:
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(yalnızca linux)_ bir **pcap'ı analiz edebilir** ve içinden bilgi çıkarabilir. Örneğin, Xplico, bir pcap dosyasından her e-postayı (POP, IMAP ve SMTP protokolleri), tüm HTTP içeriklerini, her VoIP aramasını (SIP), FTP, TFTP ve benzerlerini çıkarır.
+[**Xplico** ](https://github.com/xplico/xplico)_(sadece linux)_ bir **pcap'ı analiz edebilir** ve ondan bilgi çıkarabilir. Örneğin, bir pcap dosyasından Xplico, her e-postayı (POP, IMAP ve SMTP protokolleri), tüm HTTP içeriklerini, her VoIP çağrısını (SIP), FTP, TFTP vb. çıkarır.
 
 **Kurulum**
 ```bash
@@ -63,28 +63,28 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-Erişim sağlayın _**127.0.0.1:9876**_ kimlik bilgileriyle _**xplico:xplico**_
+_**127.0.0.1:9876**_ adresine _**xplico:xplico**_ kimlik bilgileriyle erişin.
 
-Daha sonra **yeni bir vaka** oluşturun, vakadaki **yeni bir oturum** oluşturun ve **pcap** dosyasını **yükleyin**.
+Ardından **yeni bir vaka** oluşturun, vaka içinde **yeni bir oturum** oluşturun ve **pcap** dosyasını **yükleyin**.
 
 ### NetworkMiner
 
-Xplico gibi, pcaps'ten nesneleri **analiz etmek ve çıkarmak** için bir araçtır. Ücretsiz bir sürümü vardır ve [**buradan**](https://www.netresec.com/?page=NetworkMiner) indirebilirsiniz. **Windows** ile çalışır.\
-Bu araç ayrıca paketlerden **diğer bilgileri analiz etmek** için de kullanışlıdır, böylece neyin **daha hızlı bir şekilde** gerçekleştiğini bilmek mümkün olur.
+Xplico gibi, **pcap'lerden nesneleri analiz etmek ve çıkarmak** için bir araçtır. **Buradan** [**indirebileceğiniz**](https://www.netresec.com/?page=NetworkMiner) ücretsiz bir sürümü vardır. **Windows** ile çalışır.\
+Bu araç, paketlerden **diğer bilgilerin analiz edilmesi** için de faydalıdır, böylece ne olduğunu **daha hızlı** bir şekilde anlayabilirsiniz.
 
 ### NetWitness Investigator
 
 [**NetWitness Investigator'ı buradan indirebilirsiniz**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Windows'ta çalışır)**.\
-Bu, paketleri **analiz eden ve bilgileri yararlı bir şekilde sıralayan** başka bir yararlı araçtır, böylece içeride ne olduğunu **bilmek mümkün olur**.
+Bu, paketleri **analiz eden** ve bilgileri **içeride ne olduğunu bilmek için** faydalı bir şekilde sıralayan başka bir kullanışlı araçtır.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Kullanıcı adlarını ve şifreleri çıkarma ve kodlama (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Kimlik doğrulama karmaşalarını çıkarma ve Hashcat kullanarak kırma (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Görsel ağ diyagramı oluşturma (Ağ düğümleri ve kullanıcılar)
-* DNS sorgularını çıkarma
-* Tüm TCP ve UDP Oturumlarını yeniden oluşturma
-* Dosya Kurtarma
+* Kullanıcı adlarını ve şifreleri çıkarmak ve kodlamak (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Kimlik doğrulama hash'lerini çıkarmak ve Hashcat kullanarak kırmak (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Görsel bir ağ diyagramı oluşturmak (Ağ düğümleri ve kullanıcılar)
+* DNS sorgularını çıkarmak
+* Tüm TCP ve UDP oturumlarını yeniden oluşturmak
+* Dosya Kesme
 
 ### Capinfos
 ```
@@ -92,13 +92,13 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-Eğer pcap içinde bir şeyler arıyorsanız **ngrep** kullanabilirsiniz. İşte ana filtreleri kullanarak bir örnek:
+Eğer pcap içinde **bir şey** **aramak** istiyorsanız **ngrep** kullanabilirsiniz. İşte ana filtreleri kullanan bir örnek:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### Oyma
+### Carving
 
-Ortak oyma tekniklerini kullanarak pcap dosyasından dosyaları ve bilgileri çıkarmak faydalı olabilir:
+Yaygın carving tekniklerini kullanmak, pcap'tan dosyaları ve bilgileri çıkarmak için faydalı olabilir:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
@@ -106,19 +106,19 @@ Ortak oyma tekniklerini kullanarak pcap dosyasından dosyaları ve bilgileri ç�
 
 ### Kimlik bilgilerini yakalama
 
-[https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) gibi araçları kullanarak bir pcap dosyasından veya canlı bir arayüzden kimlik bilgilerini ayrıştırabilirsiniz.
+Bir pcap veya canlı arayüzden kimlik bilgilerini ayrıştırmak için [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) gibi araçları kullanabilirsiniz.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/), **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'nın en önemlilerinden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
+[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Sızma Yazılımları/Kötü Amaçlı Yazılımları Kontrol Et
+## Exploitler/Malware Kontrolü
 
 ### Suricata
 
-**Kurulum ve yapılandırma**
+**Kurulum ve ayarlama**
 ```
 apt-get install suricata
 apt-get install oinkmaster
@@ -131,17 +131,17 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap), şunları yapabilen bir araçtır:
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) bir araçtır
 
-* Bir PCAP Dosyasını Okur ve Http Akışlarını Çıkarır.
-* Herhangi sıkıştırılmış akışları gzip ile açar
+* Bir PCAP Dosyasını okur ve Http Akışlarını çıkarır.
+* Herhangi bir sıkıştırılmış akışı gzip ile açar
 * Her dosyayı yara ile tarar
-* Bir rapor.txt dosyası yazar
-* Eşleşen dosyaları isteğe bağlı olarak bir Dizin'e kaydeder
+* report.txt dosyası yazar
+* İsteğe bağlı olarak eşleşen dosyaları bir Dizin'e kaydeder
 
-### Zararlı Yazılım Analizi
+### Malware Analysis
 
-Bilinen bir zararlı yazılımın herhangi bir parmak izini bulup bulamadığınızı kontrol edin:
+Bilinen bir kötü amaçlı yazılımın herhangi bir parmak izini bulup bulamayacağını kontrol edin:
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -149,11 +149,11 @@ Bilinen bir zararlı yazılımın herhangi bir parmak izini bulup bulamadığın
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html), pasif, açık kaynaklı bir ağ trafiği analizcisidir. Birçok operatör, şüpheli veya kötü niyetli faaliyetlerin araştırılmasını desteklemek için Zeek'i bir Ağ Güvenliği İzleyicisi (NSM) olarak kullanır. Zeek ayrıca, güvenlik alanının ötesinde performans ölçümü ve sorun giderme de dahil olmak üzere geniş bir trafik analizi görevlerini destekler.
+> [Zeek](https://docs.zeek.org/en/master/about.html) pasif, açık kaynaklı bir ağ trafiği analizörüdür. Birçok operatör, şüpheli veya kötü niyetli etkinliklerin araştırmalarını desteklemek için Zeek'i bir Ağ Güvenliği İzleyici (NSM) olarak kullanır. Zeek ayrıca güvenlik alanının ötesinde, performans ölçümü ve sorun giderme dahil olmak üzere geniş bir trafik analizi görev yelpazesini destekler.
 
-Temelde, `zeek` tarafından oluşturulan günlükler **pcap** dosyaları değildir. Bu nedenle, **bilgilerin** pcap'ler hakkında olduğu günlükleri analiz etmek için **diğer araçları** kullanmanız gerekecektir.
+Temelde, `zeek` tarafından oluşturulan günlükler **pcap** değildir. Bu nedenle, **pcap'lar** hakkında **bilgilerin** bulunduğu günlükleri analiz etmek için **diğer araçlar** kullanmanız gerekecektir.
 
-### Bağlantılar Bilgisi
+### Connections Info
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -220,7 +220,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-## Diğer pcap analizi püf noktaları
+## Diğer pcap analiz ipuçları
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -238,21 +238,21 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'nın en önemlilerinden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
+[**RootedCON**](https://www.rootedcon.com/) **İspanya'daki** en ilgili siber güvenlik etkinliği ve **Avrupa'daki** en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

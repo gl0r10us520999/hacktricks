@@ -17,19 +17,19 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınızda ilerleyerek iOS ve Android güvenliğini öğrenin ve sertifika alın:
+**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza göre kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika alın:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 ## Konteyner değişikliği
 
-Bazı docker konteynerlerinin tehlikeye atıldığına dair şüpheler var:
+Bazı docker konteynerlerinin tehlikeye girdiğine dair şüpheler var:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-Bu konteynerdeki **görüntü ile ilgili yapılan değişiklikleri kolayca bulabilirsiniz**:
+Bu konteynerin **görüntü ile ilgili yapılan değişikliklerini kolayca bulabilirsiniz**:
 ```bash
 docker diff wordpress
 C /var
@@ -48,7 +48,7 @@ Eğer `/etc/shadow` gibi ilginç bir dosyanın değiştirildiğini bulursanız, 
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-Orijinal olanla **karşılaştırabilirsiniz** yeni bir konteyner çalıştırarak ve ondan dosyayı çıkararak:
+Aynı zamanda **bunu orijinal ile karşılaştırabilirsiniz** yeni bir konteyner çalıştırarak ve ondan dosyayı çıkararak:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
@@ -67,7 +67,7 @@ container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-Sonra, görüntüyü **açabilir** ve şüpheli dosyaları değişiklik geçmişinde aramak için **bloblara** **erişebilirsiniz**:
+Sonra, görüntüyü **açabilir** ve **blob'lara erişebilir** ve değişiklik geçmişinde bulmuş olabileceğiniz şüpheli dosyaları arayabilirsiniz:
 ```bash
 tar -xf image.tar
 ```
@@ -97,10 +97,10 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Bu, **docker görüntülerinin farklı blob'ları arasında gezinmenizi** ve hangi dosyaların değiştirildiğini/eklendiğini kontrol etmenizi sağlar. **Kırmızı** eklenmiş anlamına gelir ve **sarı** değiştirilmiş anlamına gelir. Diğer görünüme geçmek için **tab** tuşunu kullanın ve klasörleri kapatmak/açmak için **space** tuşunu kullanın.
+Bu, **docker görüntülerinin farklı blob'ları arasında gezinmenizi** ve hangi dosyaların değiştirildiğini/eklendiğini kontrol etmenizi sağlar. **Kırmızı** eklenmiş anlamına gelir ve **sarı** değiştirilmiş anlamına gelir. Diğer görünüme geçmek için **tab** tuşunu ve klasörleri daraltmak/açmak için **space** tuşunu kullanın.
 
 Die ile görüntünün farklı aşamalarının içeriğine erişemeyeceksiniz. Bunu yapmak için **her katmanı sıkıştırmanız ve erişmeniz** gerekecek.\
-Görüntü sıkıştırıldığında, görüntüden tüm katmanları sıkıştırmak için şu dizinde çalıştırabilirsiniz:
+Görüntü sıkıştırıldığında, görüntünün tüm katmanlarını sıkıştırmak için bulunduğunuz dizinden şu komutu çalıştırabilirsiniz:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
@@ -109,7 +109,7 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 
 Bir docker konteynerini bir ana bilgisayar içinde çalıştırdığınızda **ana bilgisayardan konteynerde çalışan süreçleri görebileceğinizi** unutmayın, sadece `ps -ef` komutunu çalıştırarak.
 
-Bu nedenle (root olarak) **ana bilgisayardan süreçlerin belleğini dökebilir** ve **kimlik bilgilerini** arayabilirsiniz, [**aşağıdaki örnekte olduğu gibi**](../../linux-hardening/privilege-escalation/#process-memory).
+Bu nedenle (root olarak) **ana bilgisayardan süreçlerin belleğini dökebilir** ve **kimlik bilgilerini** arayabilirsiniz, [**aşağıdaki örnekteki gibi**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -126,7 +126,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

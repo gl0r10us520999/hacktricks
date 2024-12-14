@@ -15,7 +15,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grt
 </details>
 {% endhint %}
 
-Eğer aşağıdaki gibi bir klavyenin USB üzerinden iletişimini içeren bir pcap dosyanız varsa:
+Bir klavye üzerinden USB ile iletişimi içeren bir pcap dosyanız varsa, aşağıdaki gibi:
 
 ![](<../../../.gitbook/assets/image (962).png>)
 
@@ -38,7 +38,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

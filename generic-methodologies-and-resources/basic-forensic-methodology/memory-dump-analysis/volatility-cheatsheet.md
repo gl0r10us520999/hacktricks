@@ -64,7 +64,7 @@ Volatility, bazen isimlerinde yansıtılan iki ana eklenti yaklaşımına sahipt
 
 Bu, “list” eklentilerini oldukça hızlı hale getirir, ancak kötü amaçlı yazılımlar tarafından manipülasyona karşı Windows API'si kadar savunmasızdır. Örneğin, kötü amaçlı yazılım DKOM kullanarak bir süreci `_EPROCESS` bağlı listesinden ayırırsa, bu süreç Görev Yöneticisi'nde görünmeyecek ve pslist'te de görünmeyecektir.
 
-Diğer yandan, “scan” eklentileri, belirli yapılar olarak çözümlendiğinde anlamlı olabilecek şeyler için belleği kazıma yaklaşımını benimseyecektir. Örneğin, `psscan` belleği okuyacak ve ondan `_EPROCESS` nesneleri oluşturmaya çalışacaktır (ilgi çekici bir yapının varlığını gösteren 4 baytlık dizeleri arayan havuz etiketi taraması kullanır). Avantajı, çıkmış süreçleri bulabilmesidir ve kötü amaçlı yazılım `_EPROCESS` bağlı listesiyle oynasa bile, eklenti hala bellekte yatan yapıyı bulacaktır (çünkü sürecin çalışması için hala var olması gerekir). Dezavantajı ise, “scan” eklentilerinin “list” eklentilerinden biraz daha yavaş olması ve bazen yanlış pozitifler verebilmesidir (çok uzun süre önce çıkmış ve yapısının bazı kısımları diğer işlemler tarafından üzerine yazılmış bir süreç).
+Diğer yandan, “scan” eklentileri, bellekten belirli yapılar olarak çözümlendiğinde anlamlı olabilecek şeyleri kazıma yaklaşımını benimseyecektir. Örneğin, `psscan` bellek okur ve ondan `_EPROCESS` nesneleri oluşturmaya çalışır (ilgi çekici bir yapının varlığını gösteren 4 baytlık dizeleri arayan havuz etiketi taraması kullanır). Avantajı, çıkmış süreçleri bulabilmesidir ve kötü amaçlı yazılım `_EPROCESS` bağlı listesiyle oynasa bile, eklenti hala bellekte yatan yapıyı bulacaktır (çünkü sürecin çalışması için hala var olması gerekir). Dezavantajı ise, “scan” eklentilerinin “list” eklentilerinden biraz daha yavaş olması ve bazen yanlış pozitifler verebilmesidir (çok uzun süre önce çıkmış ve yapısının bazı kısımları diğer işlemler tarafından üzerine yazılmış bir süreç).
 
 Kaynak: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -72,8 +72,8 @@ Kaynak: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analys
 
 ### Volatility3
 
-Readme içinde açıklandığı gibi, desteklemek istediğiniz **OS'nin sembol tablosunu** _volatility3/volatility/symbols_ içine koymanız gerekir.\
-Çeşitli işletim sistemleri için sembol tablosu paketleri **indirme** için mevcuttur:
+Readme içinde açıklandığı gibi, desteklemek istediğiniz **OS sembol tablosunu** _volatility3/volatility/symbols_ içine koymanız gerekir.\
+Çeşitli işletim sistemleri için sembol tablosu paketleri **indirilebilir** olarak mevcuttur:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -87,7 +87,7 @@ Desteklenen profillerin listesini almak için:
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-Eğer **indirdiğiniz yeni bir profili** (örneğin bir linux profili) kullanmak istiyorsanız, aşağıdaki klasör yapısını bir yere oluşturmanız gerekir: _plugins/overlays/linux_ ve bu klasörün içine profili içeren zip dosyasını koymalısınız. Ardından, profillerin numarasını almak için:
+Eğer **indirdiğiniz yeni bir profili** (örneğin bir linux profili) kullanmak istiyorsanız, aşağıdaki klasör yapısını bir yere oluşturmanız gerekiyor: _plugins/overlays/linux_ ve bu klasörün içine profili içeren zip dosyasını koymalısınız. Ardından, profillerin numarasını almak için:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -112,7 +112,7 @@ volatility kdbgscan -f file.dmp
 ```
 #### **imageinfo ve kdbgscan arasındaki farklar**
 
-[**Buradan**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Sadece profil önerileri sunan imageinfo'nun aksine, **kdbgscan** doğru profili ve doğru KDBG adresini (birden fazla varsa) kesin olarak tanımlamak için tasarlanmıştır. Bu eklenti, Volatility profilleriyle bağlantılı KDBGHeader imzalarını tarar ve yanlış pozitifleri azaltmak için mantık kontrolleri uygular. Çıktının ayrıntı seviyesi ve gerçekleştirilebilecek mantık kontrolü sayısı, Volatility'nin bir DTB bulup bulamamasına bağlıdır, bu nedenle doğru profili zaten biliyorsanız (veya imageinfo'dan bir profil öneriniz varsa), bunu kullanmayı unutmayın.
+[**Buradan**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Sadece profil önerileri sunan imageinfo'nun aksine, **kdbgscan** doğru profili ve doğru KDBG adresini (birden fazla varsa) kesin olarak tanımlamak için tasarlanmıştır. Bu eklenti, Volatility profilleriyle bağlantılı KDBGHeader imzalarını tarar ve yanlış pozitifleri azaltmak için mantık kontrolleri uygular. Çıktının ayrıntı düzeyi ve gerçekleştirilebilecek mantık kontrolü sayısı, Volatility'nin bir DTB bulup bulamamasına bağlıdır, bu nedenle doğru profili zaten biliyorsanız (veya imageinfo'dan bir profil öneriniz varsa), bunu kullanmayı unutmayın.
 
 Her zaman **kdbgscan'ın bulduğu süreç sayısına** bakın. Bazen imageinfo ve kdbgscan **birden fazla** uygun **profil** bulabilir, ancak yalnızca **geçerli olanın bazı süreçlerle ilişkili** olacaktır (Bu, süreçleri çıkarmak için doğru KDBG adresinin gerekli olmasındandır).
 ```bash
@@ -128,7 +128,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
 #### KDBG
 
-**Kernel hata ayıklayıcı bloğu** olarak adlandırılan **KDBG**, Volatility tarafından yapılan adli görevler için kritik öneme sahiptir. `KdDebuggerDataBlock` olarak tanımlanan ve `_KDDEBUGGER_DATA64` türünde olan bu blok, `PsActiveProcessHead` gibi temel referanslar içerir. Bu özel referans, tüm süreçlerin listelenmesini sağlayan süreç listesinin başına işaret eder; bu da kapsamlı bellek analizi için temeldir.
+**Kernel debugger block** olarak adlandırılan **KDBG**, Volatility tarafından yapılan adli görevler için kritik öneme sahiptir. `KdDebuggerDataBlock` olarak tanımlanan ve `_KDDEBUGGER_DATA64` türünde olan bu blok, `PsActiveProcessHead` gibi temel referanslar içerir. Bu özel referans, tüm süreçlerin listelenmesini sağlayan süreç listesinin başına işaret eder; bu da kapsamlı bellek analizi için temeldir.
 
 ## OS Bilgisi
 ```bash
@@ -161,7 +161,7 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 
 ## Bellek Dökümü
 
-Bir sürecin bellek dökümü, sürecin mevcut durumunun **her şeyini** **çıkarır**. **procdump** modülü yalnızca **kod**u **çıkarır**.
+Bir sürecin bellek dökümü, sürecin mevcut durumunun **her şeyini** **çıkaracaktır**. **procdump** modülü yalnızca **kod**u **çıkaracaktır**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
@@ -398,7 +398,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
+​​​​[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplinde teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -452,7 +452,7 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 
 ## Kayıt hives
 
-### Mevcut hives'ları yazdır
+### Mevcut hives'leri yazdır
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -497,7 +497,7 @@ volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
 ## Dosya Sistemi
 
-### Bağlama
+### Bağla
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -644,7 +644,7 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 
 ### Dış eklentiler
 
-Eğer dış eklentileri kullanmak istiyorsanız, eklentilerle ilgili klasörlerin kullanılan ilk parametre olduğundan emin olun.
+Eğer dış eklentileri kullanmak istiyorsanız, eklentilerle ilgili klasörlerin kullanılan ilk parametre olduğundan emin olun. 
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -701,7 +701,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-**Bellekten bash geçmişini okumak mümkündür.** Ayrıca _.bash\_history_ dosyasını dökebilirsiniz, ancak bu devre dışı bırakıldı, bu nedenle bu volatility modülünü kullanabileceğiniz için mutlu olacaksınız.
+**Bellekten bash geçmişini okumak mümkündür.** Ayrıca _.bash\_history_ dosyasını da dökebilirsiniz, ancak bu devre dışı bırakıldı, bu nedenle bu volatility modülünü kullanabileceğiniz için mutlu olacaksınız.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -773,9 +773,9 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-The **Master Boot Record (MBR)**, depolama ortamının mantıksal bölümlerini yönetmede kritik bir rol oynar ve bu bölümler farklı [dosya sistemleri](https://en.wikipedia.org/wiki/File\_system) ile yapılandırılmıştır. Sadece bölüm düzeni bilgilerini tutmakla kalmaz, aynı zamanda bir önyükleyici olarak işlev gören yürütülebilir kod içerir. Bu önyükleyici, ya doğrudan işletim sisteminin ikinci aşama yükleme sürecini başlatır (bkz. [ikinci aşama önyükleyici](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) ya da her bölümün [hacim önyükleme kaydı](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) ile uyum içinde çalışır. Derinlemesine bilgi için [MBR Vikipedi sayfasına](https://en.wikipedia.org/wiki/Master\_boot\_record) bakın.
+**Master Boot Record (MBR)**, bir depolama ortamının mantıksal bölümlerini yönetmede kritik bir rol oynar ve bu bölümler farklı [dosya sistemleri](https://en.wikipedia.org/wiki/File\_system) ile yapılandırılmıştır. Sadece bölüm düzeni bilgilerini tutmakla kalmaz, aynı zamanda bir önyükleyici olarak işlev gören yürütülebilir kod içerir. Bu önyükleyici, ya doğrudan işletim sisteminin ikinci aşama yükleme sürecini başlatır (bkz. [ikinci aşama önyükleyici](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) ya da her bölümün [hacim önyükleme kaydı](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) ile uyum içinde çalışır. Derinlemesine bilgi için [MBR Wikipedia sayfasına](https://en.wikipedia.org/wiki/Master\_boot\_record) bakın.
 
-## References
+## Referanslar
 
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
@@ -785,7 +785,7 @@ The **Master Boot Record (MBR)**, depolama ortamının mantıksal bölümlerini 
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplinde teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
+[**RootedCON**](https://www.rootedcon.com/) **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 

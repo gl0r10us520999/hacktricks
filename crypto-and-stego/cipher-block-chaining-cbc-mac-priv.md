@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekle</summary>
+<summary>Support HackTricks</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
-* **Hacking püf noktalarını paylaşmak için PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,68 +16,68 @@
 
 # CBC
 
-Eğer **çerez** sadece **kullanıcı adı** (veya çerezin ilk kısmı kullanıcı adı ise) ise ve kullanıcı adını "**admin**" olarak taklit etmek istiyorsanız. O zaman, kullanıcı adını **"bdmin"** olarak oluşturabilir ve çerezin **ilk byte'ını** **bruteforce** edebilirsiniz.
+Eğer **cookie** **sadece** **kullanıcı adı** (veya cookie'nin ilk kısmı kullanıcı adıysa) ve kullanıcı adı "**admin**" olarak taklit edilmek isteniyorsa, o zaman kullanıcı adı **"bdmin"** oluşturulabilir ve **cookie'nin ilk baytı** için **bruteforce** yapılabilir.
 
 # CBC-MAC
 
-**Cipher block chaining message authentication code** (**CBC-MAC**), kriptografi alanında kullanılan bir yöntemdir. Bir mesajı blok blok şifreleyerek çalışır, her bloğun şifrelemesi bir önceki bloğa bağlıdır. Bu süreç, orijinal mesajın sadece bir bitinin bile değiştirilmesinin şifreli verinin son bloğunda öngörülemeyen bir değişikliğe yol açacağından emin olmak için bir **blok zinciri** oluşturur. Böyle bir değişiklik yapmak veya tersine çevirmek için şifreleme anahtarı gereklidir, bu da güvenliği sağlar.
+**Şifre blok zincirleme mesaj doğrulama kodu** (**CBC-MAC**), kriptografide kullanılan bir yöntemdir. Bu yöntem, bir mesajı blok blok şifreleyerek çalışır; her bloğun şifrelemesi, bir önceki bloğa bağlıdır. Bu süreç, **blokların bir zincirini** oluşturur ve orijinal mesajın tek bir bitinin değiştirilmesinin, şifrelenmiş verinin son bloğunda öngörülemeyen bir değişikliğe yol açacağını garanti eder. Böyle bir değişikliği yapmak veya tersine çevirmek için şifreleme anahtarı gereklidir, bu da güvenliği sağlar.
 
-Mesaj m'nin CBC-MAC'ini hesaplamak için, m'yi sıfır başlangıç vektörü ile CBC modunda şifreler ve son bloğu saklar. Aşağıdaki şekil, bir gizli anahtar k ve bir blok şifresi E kullanılarak mesajın bloklarından oluşan bir CBC-MAC'in hesaplanmasını tasvir eder: ![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5)
+Mesaj m'nin CBC-MAC'ını hesaplamak için, m CBC modunda sıfır başlangıç vektörü ile şifrelenir ve son blok saklanır. Aşağıdaki şekil, gizli anahtar k ve bir blok şifre E kullanarak bloklardan oluşan bir mesajın CBC-MAC'ının hesaplanmasını tasvir etmektedir![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5):
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
-# Zayıflık
+# Vulnerability
 
-CBC-MAC ile genellikle **kullanılan IV 0'dır**.\
-Bu bir problemdir çünkü 2 bilinen mesaj (`m1` ve `m2`) bağımsız olarak 2 imza (`s1` ve `s2`) oluşturacaktır. Yani:
+CBC-MAC ile genellikle kullanılan **IV 0'dır**.\
+Bu bir sorun çünkü 2 bilinen mesaj (`m1` ve `m2`) bağımsız olarak 2 imza (`s1` ve `s2`) üretecektir. Yani:
 
 * `E(m1 XOR 0) = s1`
 * `E(m2 XOR 0) = s2`
 
-Sonra m1 ve m2'nin birleştirilmiş olduğu bir mesaj (m3) 2 imza oluşturacaktır (s31 ve s32):
+Sonra, m1 ve m2'nin birleştirilmesiyle oluşan bir mesaj (m3) 2 imza (s31 ve s32) üretecektir:
 
 * `E(m1 XOR 0) = s31 = s1`
 * `E(m2 XOR s1) = s32`
 
-**Bu, şifrenin anahtarını bilmeden hesaplanabilir.**
+**Bu, şifreleme anahtarını bilmeden hesaplanabilir.**
 
-8 byte'lık bloklar halinde **Yönetici** adını şifrelediğinizi hayal edin:
+**Administrator** ismini **8bayt** bloklarda şifrelediğinizi hayal edin:
 
 * `Administ`
 * `rator\00\00\00`
 
-**Administ** (m1) adlı bir kullanıcı adı oluşturabilir ve imzasını (s1) alabilirsiniz.\
-Sonra, `rator\00\00\00 XOR s1` işleminin sonucu olan bir kullanıcı adı oluşturabilirsiniz. Bu, s32 olan `E(m2 XOR s1 XOR 0)`'yi oluşturacaktır.\
-şimdi, s32'yi **Yönetici** adının tam imzası olarak kullanabilirsiniz.
+**Administ** (m1) adında bir kullanıcı adı oluşturabilir ve imzayı (s1) alabilirsiniz.\
+Sonra, `rator\00\00\00 XOR s1` sonucunu kullanarak bir kullanıcı adı oluşturabilirsiniz. Bu, `E(m2 XOR s1 XOR 0)` üretecektir ki bu da s32'dir.\
+Artık, s32'yi **Administrator** tam adı için imza olarak kullanabilirsiniz.
 
-### Özet
+### Summary
 
-1. Kullanıcı adı **Administ** (m1) için imzayı alın, bu s1'dir
-2. Kullanıcı adı **rator\x00\x00\x00 XOR s1 XOR 0** için imzayı alın, bu s32'dir.
-3. Çerezi s32 olarak ayarlayın ve bu, **Yönetici** kullanıcısı için geçerli bir çerez olacaktır.
+1. **Administ** (m1) kullanıcı adının imzasını alın, bu s1'dir.
+2. **rator\x00\x00\x00 XOR s1 XOR 0** kullanıcı adının imzasını alın, bu s32'dir.
+3. Cookie'yi s32 olarak ayarlayın ve bu, **Administrator** kullanıcısı için geçerli bir cookie olacaktır.
 
-# Saldırıyı Kontrol Eden IV
+# Attack Controlling IV
 
 Kullanılan IV'yi kontrol edebiliyorsanız, saldırı çok kolay olabilir.\
-Eğer çerez sadece şifrelenmiş kullanıcı adı ise, kullanıcıyı "**yönetici**" olarak taklit etmek için **Yönetici** kullanıcısını oluşturabilir ve onun çerezini alabilirsiniz.\
-Şimdi, IV'yi kontrol edebiliyorsanız, IV'nin ilk Byte'ını değiştirebilirsiniz, böylece **IV\[0] XOR "A" == IV'\[0] XOR "a"** olacak ve **Yönetici** kullanıcısı için çerezi yeniden oluşturabilirsiniz. Bu çerez, başlangıçtaki **IV** ile **yönetici** kullanıcısını **taklit etmek** için geçerli olacaktır.
+Eğer cookie sadece şifrelenmiş kullanıcı adıysa, "**administrator**" kullanıcısını taklit etmek için "**Administrator**" kullanıcısını oluşturabilir ve onun cookie'sini alabilirsiniz.\
+Şimdi, eğer IV'yi kontrol edebiliyorsanız, IV'nin ilk Baytını değiştirebilir ve **IV\[0] XOR "A" == IV'\[0] XOR "a"** yaparak **Administrator** kullanıcısı için cookie'yi yeniden üretebilirsiniz. Bu cookie, başlangıç **IV** ile **administrator** kullanıcısını taklit etmek için geçerli olacaktır.
 
-## Referanslar
+## References
 
 Daha fazla bilgi için [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
 
 
 {% hint style="success" %}
-Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekle</summary>
+<summary>Support HackTricks</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
-* **Hacking püf noktalarını paylaşmak için PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

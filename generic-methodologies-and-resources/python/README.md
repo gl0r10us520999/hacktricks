@@ -29,7 +29,7 @@ Bugün Erişim Alın:
 * [**Python deserialization'ları**](../../pentesting-web/deserialization/#python)
 * [**Python sandbox'larını atlatma ipuçları**](bypass-python-sandboxes/)
 * [**Temel python web istekleri sözdizimi**](web-requests.md)
-* [**Temel python sözdizimi ve kütüphaneler**](basic-python.md)
+* [**Temel python sözdizimi ve kütüphaneleri**](basic-python.md)
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 

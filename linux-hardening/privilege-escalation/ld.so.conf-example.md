@@ -103,7 +103,7 @@ printf("I'm the bad library\n");
 system("/bin/sh",NULL,NULL);
 }
 ```
-Artık **yanlış yapılandırılmış** yol içinde kötü niyetli libcustom kütüphanesini **oluşturduğumuza göre**, bir **yeniden başlatma** veya root kullanıcısının **`ldconfig`** komutunu çalıştırmasını beklememiz gerekiyor (_eğer bu ikiliyi **sudo** olarak çalıştırabiliyorsanız veya **suid biti** varsa, bunu kendiniz çalıştırabileceksiniz_).
+Artık **yanlış yapılandırılmış** yol içinde kötü niyetli libcustom kütüphanesini **oluşturduğumuza göre**, bir **yeniden başlatma** veya root kullanıcısının **`ldconfig`** komutunu çalıştırmasını beklememiz gerekiyor (_bu ikiliyi **sudo** olarak çalıştırabiliyorsanız veya **suid biti** varsa, kendiniz çalıştırabileceksiniz_).
 
 Bu gerçekleştiğinde, `sharevuln` yürütülebilir dosyasının `libcustom.so` kütüphanesini nereden yüklediğini **yeniden kontrol edin**:
 ```c
@@ -133,8 +133,8 @@ Ancak, `/etc/ld.so.conf.d` içindeki bazı **yapılandırma dosyalarında** yazm
 ## İstismar 2
 
 **`ldconfig` üzerinde sudo ayrıcalıklarınız olduğunu varsayalım**.\
-`ldconfig`'e **konfigürasyon dosyalarının nereden yükleneceğini** belirtebilirsiniz, bu nedenle `ldconfig`'in keyfi klasörleri yüklemesini sağlamak için bunu avantaja çevirebiliriz.\
-Şimdi, "/tmp" yüklemek için gereken dosya ve klasörleri oluşturalım:
+`ldconfig`'e **konfigürasyon dosyalarını nereden yükleyeceğini** belirtebilirsiniz, bu nedenle `ldconfig`'in keyfi klasörleri yüklemesinden yararlanabiliriz.\
+Şimdi, "/tmp" yüklemek için gerekli dosya ve klasörleri oluşturalım:
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf

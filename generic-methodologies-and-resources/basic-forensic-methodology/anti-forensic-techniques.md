@@ -15,18 +15,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Timestamps
+## Zaman Damgaları
 
-Bir saldırgan, **dosyaların zaman damgalarını değiştirmekle** ilgilenebilir.\
+Bir saldırgan, **dosyaların zaman damgalarını değiştirmeye** ilgi duyabilir.\
 Zaman damgalarını, `$STANDARD_INFORMATION` \_\_ ve \_\_ `$FILE_NAME` özniteliklerinde MFT içinde bulmak mümkündür.
 
 Her iki öznitelik de 4 zaman damgası içerir: **Değiştirme**, **erişim**, **oluşturma** ve **MFT kayıt değişikliği** (MACE veya MACB).
 
-**Windows gezgini** ve diğer araçlar, **`$STANDARD_INFORMATION`** içindeki bilgileri gösterir.
+**Windows Gezgini** ve diğer araçlar, **`$STANDARD_INFORMATION`** içindeki bilgileri gösterir.
 
-### TimeStomp - Anti-forensic Tool
+### TimeStomp - Anti-forensic Aracı
 
-Bu araç, **`$STANDARD_INFORMATION`** içindeki zaman damgası bilgilerini **değiştirir** **ancak** **`$FILE_NAME`** içindeki bilgileri **değiştirmez**. Bu nedenle, **şüpheli** **faaliyetleri** **belirlemek** mümkündür.
+Bu araç, **`$STANDARD_INFORMATION`** içindeki zaman damgası bilgilerini **değiştirir** **ancak** **`$FILE_NAME`** içindeki bilgileri **değiştirmez**. Bu nedenle, **şüpheli** **etkinlikleri** **belirlemek** mümkündür.
 
 ### Usnjrnl
 
@@ -57,17 +57,17 @@ Aynı aracı kullanarak, **zaman damgalarının ne zaman değiştirildiğini** b
 
 Şüpheli değiştirilmiş dosyaları belirlemenin bir diğer yolu, her iki öznitelikteki zamanı karşılaştırarak **uyumsuzluklar** aramaktır.
 
-### Nanoseconds
+### Nanosecond
 
 **NTFS** zaman damgalarının **kesinliği** **100 nanosecond**'dir. Bu nedenle, 2010-10-10 10:10:**00.000:0000 gibi zaman damgalarına sahip dosyaları bulmak **çok şüphelidir**.
 
-### SetMace - Anti-forensic Tool
+### SetMace - Anti-forensic Aracı
 
 Bu araç, hem `$STARNDAR_INFORMATION` hem de `$FILE_NAME` özniteliklerini değiştirebilir. Ancak, Windows Vista'dan itibaren, bu bilgileri değiştirmek için canlı bir işletim sistemine ihtiyaç vardır.
 
-## Data Hiding
+## Veri Gizleme
 
-NFTS, bir küme ve minimum bilgi boyutu kullanır. Bu, bir dosya bir buçuk küme kullanıyorsa, **geri kalan yarımın asla kullanılmayacağı** anlamına gelir, ta ki dosya silinene kadar. Bu nedenle, bu boşlukta **veri gizlemek mümkündür**.
+NFTS, bir küme ve minimum bilgi boyutu kullanır. Bu, bir dosya bir küme ve yarım kullanıyorsa, **kalan yarımın asla kullanılmayacağı** anlamına gelir. Bu nedenle, bu boşlukta **veri gizlemek** mümkündür.
 
 Slacker gibi, bu "gizli" alanda veri gizlemeye olanak tanıyan araçlar vardır. Ancak, `$logfile` ve `$usnjrnl` analizi, bazı verilerin eklendiğini gösterebilir:
 
@@ -77,60 +77,60 @@ Bu nedenle, FTK Imager gibi araçlar kullanarak boş alanı geri almak mümkünd
 
 ## UsbKill
 
-Bu, herhangi bir USB portunda bir değişiklik algılandığında bilgisayarı **kapatan** bir araçtır.\
+Bu, **herhangi bir USB** portunda bir değişiklik algılandığında bilgisayarı **kapatan** bir araçtır.\
 Bunu keşfetmenin bir yolu, çalışan süreçleri incelemek ve **her bir çalışan python betiğini gözden geçirmektir**.
 
-## Live Linux Distributions
+## Canlı Linux Dağıtımları
 
 Bu dağıtımlar, **RAM** belleği içinde **çalıştırılır**. Onları tespit etmenin tek yolu, **NTFS dosya sisteminin yazma izinleriyle monte edilmesidir**. Sadece okuma izinleriyle monte edilirse, ihlali tespit etmek mümkün olmayacaktır.
 
-## Secure Deletion
+## Güvenli Silme
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-## Windows Configuration
+## Windows Yapılandırması
 
-Birçok Windows günlükleme yöntemini devre dışı bırakmak, adli soruşturmayı çok daha zor hale getirebilir.
+Adli soruşturmayı çok daha zor hale getirmek için birçok Windows günlüğü yöntemini devre dışı bırakmak mümkündür.
 
-### Disable Timestamps - UserAssist
+### Zaman Damgalarını Devre Dışı Bırak - UserAssist
 
-Bu, her çalıştırılan yürütülebilir dosyanın tarihlerini ve saatlerini saklayan bir kayıt anahtarıdır.
+Bu, her çalıştırılan yürütülebilir dosyanın tarihlerini ve saatlerini tutan bir kayıt anahtarıdır.
 
-UserAssist'i devre dışı bırakmak için iki adım gereklidir:
+UserAssist'i devre dışı bırakmak iki adım gerektirir:
 
-1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` ve `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` adlı iki kayıt anahtarını sıfıra ayarlayın, böylece UserAssist'in devre dışı bırakılmasını istediğimizi belirtmiş oluruz.
+1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` ve `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` adlı iki kayıt anahtarını sıfıra ayarlamak, UserAssist'in devre dışı bırakılmasını istediğimizi belirtir.
 2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>` gibi görünen kayıt alt ağaçlarınızı temizleyin.
 
-### Disable Timestamps - Prefetch
+### Zaman Damgalarını Devre Dışı Bırak - Prefetch
 
-Bu, Windows sisteminin performansını artırmak amacıyla çalıştırılan uygulamalar hakkında bilgi kaydedecektir. Ancak, bu aynı zamanda adli uygulamalar için de yararlı olabilir.
+Bu, Windows sisteminin performansını artırmak amacıyla çalıştırılan uygulamalar hakkında bilgi kaydedecektir. Ancak, bu aynı zamanda adli uygulamalar için de faydalı olabilir.
 
-* `regedit`i çalıştırın
-* Dosya yolunu seçin `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Hem `EnablePrefetcher` hem de `EnableSuperfetch` üzerinde sağ tıklayın
+* `regedit` komutunu çalıştırın
+* Dosya yolunu `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters` olarak seçin
+* `EnablePrefetcher` ve `EnableSuperfetch` üzerinde sağ tıklayın
 * Her birinin değerini 1 (veya 3) yerine 0 olarak değiştirmek için Değiştir'i seçin
 * Yeniden başlatın
 
-### Disable Timestamps - Last Access Time
+### Zaman Damgalarını Devre Dışı Bırak - Son Erişim Zamanı
 
-Bir NTFS hacminden bir klasör açıldığında, sistem, listedeki her klasör için **bir zaman damgası alanını güncellemek için zamanı alır**, bu alana son erişim zamanı denir. Yoğun kullanılan bir NTFS hacminde, bu performansı etkileyebilir.
+Bir NTFS hacminden bir klasör açıldığında, sistem her listedeki klasör için **bir zaman damgası alanını güncellemek için zaman alır**, bu alana son erişim zamanı denir. Yoğun kullanılan bir NTFS hacminde, bu performansı etkileyebilir.
 
 1. Kayıt Defteri Düzenleyicisini (Regedit.exe) açın.
 2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem` yoluna gidin.
-3. `NtfsDisableLastAccessUpdate` anahtarını arayın. Eğer yoksa, bu DWORD'u ekleyin ve değerini 1 olarak ayarlayın, bu işlem devre dışı bırakılacaktır.
+3. `NtfsDisableLastAccessUpdate` anahtarını arayın. Eğer yoksa, bu DWORD'u ekleyin ve değerini 1 olarak ayarlayın, bu işlem sürecini devre dışı bırakacaktır.
 4. Kayıt Defteri Düzenleyicisini kapatın ve sunucuyu yeniden başlatın.
 
-### Delete USB History
+### USB Geçmişini Sil
 
-Tüm **USB Aygıt Girişleri**, bir USB Aygıtını PC veya Dizüstü Bilgisayarınıza taktığınızda oluşturulan alt anahtarları içeren **USBSTOR** kayıt anahtarı altında Windows Kayıt Defteri'nde saklanır. Bu anahtarı burada bulabilirsiniz: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Bunu silerek** USB geçmişini silmiş olursunuz.\
+Tüm **USB Aygıt Girişleri**, bir USB Aygıtını PC veya Dizüstü Bilgisayarınıza taktığınızda oluşturulan alt anahtarları içeren **USBSTOR** kayıt anahtarı altında Windows Kayıt Defteri'nde saklanır. Bu anahtarı burada bulabilirsiniz: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Bunu silerek** USB geçmişini sileceksiniz.\
 Ayrıca, bunları sildiğinizden emin olmak için [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) aracını kullanabilirsiniz (ve silmek için).
 
 USB'ler hakkında bilgi kaydeden bir diğer dosya, `C:\Windows\INF` içindeki `setupapi.dev.log` dosyasıdır. Bu dosya da silinmelidir.
 
-### Disable Shadow Copies
+### Gölge Kopyalarını Devre Dışı Bırak
 
-**Gölge kopyaları listeleyin** `vssadmin list shadowstorage`\
-**Silin** `vssadmin delete shadow` komutunu çalıştırarak
+**Gölge kopyalarını listele**: `vssadmin list shadowstorage`\
+**Sil**: `vssadmin delete shadow`
 
 Ayrıca, [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) adresinde önerilen adımları izleyerek GUI üzerinden de silebilirsiniz.
 
@@ -140,26 +140,26 @@ Gölge kopyalarını devre dışı bırakmak için [buradaki adımları](https:/
 2. Listeden "Volume Shadow Copy"yi bulun, seçin ve sağ tıklayarak Özellikler'e erişin.
 3. "Başlangıç türü" açılır menüsünden Devre Dışı seçeneğini seçin ve ardından değişikliği onaylamak için Uygula ve Tamam'a tıklayın.
 
-Hangi dosyaların gölge kopyasında kopyalanacağını yapılandırmayı da kayıt defterinde `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` değiştirerek yapabilirsiniz.
+Hangi dosyaların gölge kopyasında kopyalanacağını yapılandırmayı da kayıt defterinde `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` ile değiştirmek mümkündür.
 
-### Overwrite deleted files
+### Silinmiş Dosyaları Üzerine Yaz
 
-* Bir **Windows aracı** kullanabilirsiniz: `cipher /w:C` Bu, şifreleme aracına C sürücüsündeki kullanılmayan disk alanından herhangi bir veriyi kaldırmasını belirtir.
+* **Windows aracı** kullanabilirsiniz: `cipher /w:C` Bu, şifreleme aracına C sürücüsündeki kullanılmayan disk alanından herhangi bir veriyi kaldırmasını belirtir.
 * Ayrıca, [**Eraser**](https://eraser.heidi.ie) gibi araçlar da kullanabilirsiniz.
 
-### Delete Windows event logs
+### Windows Olay Günlüklerini Sil
 
-* Windows + R --> eventvwr.msc --> "Windows Logs"u genişletin --> Her kategoriye sağ tıklayın ve "Logu Temizle" seçeneğini seçin
+* Windows + R --> eventvwr.msc --> "Windows Günlükleri"ni genişletin --> Her kategoriye sağ tıklayın ve "Günlüğü Temizle" seçeneğini seçin
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-### Disable Windows event logs
+### Windows Olay Günlüklerini Devre Dışı Bırak
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Hizmetler bölümünde "Windows Event Log" hizmetini devre dışı bırakın
+* Hizmetler bölümünde "Windows Olay Günlüğü" hizmetini devre dışı bırakın
 * `WEvtUtil.exec clear-log` veya `WEvtUtil.exe cl`
 
-### Disable $UsnJrnl
+### $UsnJrnl'yi Devre Dışı Bırak
 
 * `fsutil usn deletejournal /d c:`
 

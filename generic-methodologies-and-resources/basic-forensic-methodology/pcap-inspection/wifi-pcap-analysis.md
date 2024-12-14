@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## BSSID'leri Kontrol Edin
 
-WireShark kullanarak Wifi'nın ana trafiği olan bir yakalama aldığınızda, _Wireless --> WLAN Traffic_ ile yakalamadaki tüm SSID'leri araştırmaya başlayabilirsiniz:
+WireShark kullanarak Wifi'nın ana trafiğini içeren bir yakalama aldığınızda, _Wireless --> WLAN Traffic_ ile yakalamadaki tüm SSID'leri araştırmaya başlayabilirsiniz:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
@@ -25,7 +25,7 @@ WireShark kullanarak Wifi'nın ana trafiği olan bir yakalama aldığınızda, _
 
 ### Kaba Kuvvet
 
-O ekranın sütunlarından biri, **pcap içinde herhangi bir kimlik doğrulamanın bulunup bulunmadığını** gösterir. Eğer durum böyleyse, `aircrack-ng` kullanarak kaba kuvvet denemesi yapabilirsiniz:
+O ekranın sütunlarından biri, **pcap içinde herhangi bir kimlik doğrulamanın bulunup bulunmadığını** gösterir. Eğer durum buysa, `aircrack-ng` kullanarak kaba kuvvet denemesi yapabilirsiniz:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
@@ -33,17 +33,17 @@ For example it will retrieve the WPA passphrase protecting a PSK (pre shared-key
 
 ## Data in Beacons / Side Channel
 
-If you suspect that **verilerin bir Wifi ağının beacon'larında sızdırıldığını** kontrol edebilirsiniz. Ağa ait beacon'ları aşağıdaki gibi bir filtre kullanarak kontrol edebilirsiniz: `wlan contains <NAMEofNETWORK>`, veya `wlan.ssid == "NAMEofNETWORK"` filtrelenmiş paketler içinde şüpheli dizeleri arayın.
+If you suspect that **verilerin Wifi ağının beacon'larında sızdırıldığını** kontrol edebilirsiniz. Ağı kontrol etmek için aşağıdaki gibi bir filtre kullanabilirsiniz: `wlan contains <NAMEofNETWORK>`, veya `wlan.ssid == "NAMEofNETWORK"` filtrelenmiş paketler içinde şüpheli dizeleri arayın.
 
 ## Find Unknown MAC Addresses in A Wifi Network
 
-The following link will be useful to find the **veri gönderen makineleri Wifi Ağı içinde**:
+The following link will be useful to find the **veri gönderen makineleri Wifi Ağında**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
 If you already know **MAC adreslerini çıktıdan çıkarabilirsiniz** bu tür kontroller ekleyerek: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Once you have detected **bilinmeyen MAC** adreslerinin ağ içinde iletişim kurduğunu, **filtreler** kullanabilirsiniz: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` trafiğini filtrelemek için. ftp/http/ssh/telnet filtrelerinin, trafiği şifrelediyseniz yararlı olduğunu unutmayın.
+Once you have detected **bilinmeyen MAC** adresleri ağ içinde iletişim kurarken, **filtreler** kullanabilirsiniz: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` trafiğini filtrelemek için. ftp/http/ssh/telnet filtrelerinin, trafiği şifrelediyseniz yararlı olduğunu unutmayın.
 
 ## Decrypt Traffic
 

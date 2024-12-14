@@ -1,8 +1,8 @@
 # Geniş Kaynak Kodu Arama
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -20,9 +20,9 @@ Bu sayfanın amacı, bir veya daha fazla platformda **kod aramaya izin veren pla
 Bu, **sızdırılmış bilgileri** veya **açıklar** kalıplarını aramak için birkaç durumda yardımcı olur.
 
 * [**SourceGraph**](https://sourcegraph.com/search): Milyonlarca repoda arama yapın. Ücretsiz bir versiyonu ve 15 gün ücretsiz olan bir kurumsal versiyonu vardır. Regexleri destekler.
-* [**Github Arama**](https://github.com/search): Github'da arama yapın. Regexleri destekler.
-* Belki [**Github Kod Arama**](https://cs.github.com/) kontrol etmek de faydalı olabilir.
-* [**Gitlab Gelişmiş Arama**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab projelerinde arama yapın. Regexleri destekler.
+* [**Github Search**](https://github.com/search): Github'da arama yapın. Regexleri destekler.
+* Belki [**Github Code Search**](https://cs.github.com/) kontrol etmek de faydalı olabilir.
+* [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab projelerinde arama yapın. Regexleri destekler.
 * [**SearchCode**](https://searchcode.com/): Milyonlarca projede kod arayın.
 
 {% hint style="warning" %}
@@ -30,8 +30,8 @@ Bir repoda sızıntılar ararken ve `git log -p` gibi bir şey çalıştırıyor
 {% endhint %}
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

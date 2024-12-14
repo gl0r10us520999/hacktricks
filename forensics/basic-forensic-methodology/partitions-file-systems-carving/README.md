@@ -1,23 +1,23 @@
 # Partitions/File Systems/Carving
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 ## Partitions
 
-Bir sabit disk veya bir **SSD diski, verileri fiziksel olarak ayırma amacıyla farklı bölümler içerebilir**.\
+Bir sabit disk veya **SSD disk, verileri fiziksel olarak ayırma amacıyla farklı bölümler içerebilir**.\
 Diskin **minimum** birimi **sektördür** (normalde 512B'den oluşur). Bu nedenle, her bölüm boyutu bu boyutun katı olmalıdır.
 
 ### MBR (master Boot Record)
@@ -30,7 +30,7 @@ MBR **maksimum 2.2TB**'ye izin verir.
 
 ![](<../../../.gitbook/assets/image (490).png>)
 
-MBR'nin **440 ile 443 baytları arasında** **Windows Disk İmzası** bulabilirsiniz (Windows kullanılıyorsa). Sabit diskin mantıksal sürücü harfi, Windows Disk İmzasına bağlıdır. Bu imzanın değiştirilmesi, Windows'un başlatılmasını engelleyebilir (araç: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+MBR'nin **440 ile 443 baytları arasında** **Windows Disk İmzası** bulunabilir (Windows kullanılıyorsa). Sabit diskin mantıksal sürücü harfi, Windows Disk İmzasına bağlıdır. Bu imzanın değiştirilmesi, Windows'un başlatılmasını engelleyebilir (araç: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
 ![](<../../../.gitbook/assets/image (493).png>)
 
@@ -51,18 +51,18 @@ MBR'nin **440 ile 443 baytları arasında** **Windows Disk İmzası** bulabilirs
 | --------- | -------- | ------------------------------------------------------ |
 | 0 (0x00)  | 1 (0x01) | Aktif bayrağı (0x80 = bootable)                       |
 | 1 (0x01)  | 1 (0x01) | Başlangıç başlığı                                      |
-| 2 (0x02)  | 1 (0x01) | Başlangıç sektörü (bit 0-5); silindirin üst bitleri (6- 7) |
+| 2 (0x02)  | 1 (0x01) | Başlangıç sektörü (bit 0-5); silindirin üst bitleri (6-7) |
 | 3 (0x03)  | 1 (0x01) | Başlangıç silindiri en düşük 8 bit                     |
 | 4 (0x04)  | 1 (0x01) | Bölüm türü kodu (0x83 = Linux)                        |
 | 5 (0x05)  | 1 (0x01) | Bitiş başlığı                                          |
-| 6 (0x06)  | 1 (0x01) | Bitiş sektörü (bit 0-5); silindirin üst bitleri (6- 7)   |
+| 6 (0x06)  | 1 (0x01) | Bitiş sektörü (bit 0-5); silindirin üst bitleri (6-7)   |
 | 7 (0x07)  | 1 (0x01) | Bitiş silindiri en düşük 8 bit                         |
 | 8 (0x08)  | 4 (0x04) | Bölümden önceki sektörler (little endian)             |
 | 12 (0x0C) | 4 (0x04) | Bölümdeki sektörler                                   |
 
-Bir MBR'yi Linux'ta bağlamak için önce başlangıç ofsetini almanız gerekir (bunu `fdisk` ve `p` komutunu kullanarak yapabilirsiniz)
+Bir MBR'yi Linux'ta bağlamak için önce başlangıç ofsetini almanız gerekir (bunun için `fdisk` ve `p` komutunu kullanabilirsiniz)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
 Ve ardından aşağıdaki kodu kullanın
 ```bash
@@ -73,15 +73,15 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Mantıksal blok adresleme)**
 
-**Mantıksal blok adresleme** (**LBA**), bilgisayar depolama cihazlarında saklanan veri bloklarının konumunu **belirlemek için** yaygın olarak kullanılan bir şemadır; genellikle sabit disk sürücüleri gibi ikincil depolama sistemleridir. LBA, özellikle basit bir doğrusal adresleme şemasına sahiptir; **bloklar bir tam sayı indeksi ile konumlandırılır**, ilk blok LBA 0, ikinci LBA 1 şeklinde devam eder.
+**Mantıksal blok adresleme** (**LBA**), bilgisayar depolama cihazlarında saklanan veri bloklarının konumunu belirtmek için yaygın olarak kullanılan bir şemadır; genellikle sabit disk sürücüleri gibi ikincil depolama sistemleridir. LBA, özellikle basit bir doğrusal adresleme şemasına sahiptir; **bloklar bir tam sayı indeksi ile konumlandırılır**, ilk blok LBA 0, ikinci LBA 1 şeklindedir.
 
 ### GPT (GUID Bölüm Tablosu)
 
-GUID Bölüm Tablosu, GPT olarak bilinir ve MBR (Master Boot Record) ile karşılaştırıldığında geliştirilmiş yetenekleri nedeniyle tercih edilmektedir. Bölümler için **küresel benzersiz tanımlayıcı** ile ayırt edici olan GPT, birkaç yönden öne çıkmaktadır:
+GUID Bölüm Tablosu, GPT olarak bilinir ve MBR (Ana Önyükleme Kaydı) ile karşılaştırıldığında geliştirilmiş yetenekleri nedeniyle tercih edilmektedir. Bölümler için **küresel benzersiz tanımlayıcı** ile ayırt edici olan GPT, birkaç şekilde öne çıkmaktadır:
 
-* **Konum ve Boyut**: Hem GPT hem de MBR **sektör 0**'da başlar. Ancak, GPT **64 bit** üzerinde çalışırken, MBR **32 bit** ile çalışır.
-* **Bölüm Sınırları**: GPT, Windows sistemlerinde **128 bölüme** kadar destekler ve **9.4ZB**'a kadar veri depolayabilir.
-* **Bölüm İsimleri**: Bölümlere 36 Unicode karaktere kadar isim verme imkanı sunar.
+* **Konum ve Boyut**: Hem GPT hem de MBR **sektör 0**'da başlar. Ancak, GPT **64 bit** üzerinde çalışırken, MBR **32 bit** kullanır.
+* **Bölüm Sınırları**: GPT, Windows sistemlerinde **128 bölüme kadar** destekler ve **9.4ZB**'a kadar veri depolayabilir.
+* **Bölüm İsimleri**: Bölümlere **36 Unicode karaktere kadar** isim verme imkanı sunar.
 
 **Veri Dayanıklılığı ve Kurtarma**:
 
@@ -90,7 +90,7 @@ GUID Bölüm Tablosu, GPT olarak bilinir ve MBR (Master Boot Record) ile karşı
 
 **Koruyucu MBR (LBA0)**:
 
-* GPT, koruyucu bir MBR aracılığıyla geriye dönük uyumluluğu sürdürür. Bu özellik, eski MBR tabanlı yardımcı programların yanlışlıkla GPT disklerini üzerine yazmasını önlemek için tasarlanmıştır ve böylece GPT formatlı disklerde veri bütünlüğünü korur.
+* GPT, koruyucu bir MBR aracılığıyla geriye dönük uyumluluğu sürdürür. Bu özellik, eski MBR tabanlı yardımcı programların yanlışlıkla GPT disklerini üzerine yazmasını önlemek için tasarlanmıştır, böylece GPT formatlı disklerde veri bütünlüğünü korur.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
 
@@ -98,7 +98,7 @@ GUID Bölüm Tablosu, GPT olarak bilinir ve MBR (Master Boot Record) ile karşı
 
 [Wikipedia'dan](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-**EFI** yerine **BIOS** hizmetleri aracılığıyla **GPT tabanlı önyükleme** destekleyen işletim sistemlerinde, ilk sektör hala **önyükleyici** kodunun ilk aşamasını depolamak için kullanılabilir, ancak **GPT** **bölümlerini tanımak için** **değiştirilmiş** olmalıdır. MBR'deki önyükleyici, 512 baytlık bir sektör boyutu varsaymamalıdır.
+**EFI** yerine **BIOS** hizmetleri aracılığıyla **GPT tabanlı önyükleme** destekleyen işletim sistemlerinde, ilk sektör hala **önyükleyici** kodunun ilk aşamasını depolamak için kullanılabilir, ancak **GPT** **bölümlerini tanımak için** **değiştirilmiş** olmalıdır. MBR'deki önyükleyici, 512 baytlık bir sektör boyutu varsayımında bulunmamalıdır.
 
 **Bölüm tablosu başlığı (LBA 1)**
 
@@ -106,35 +106,35 @@ GUID Bölüm Tablosu, GPT olarak bilinir ve MBR (Master Boot Record) ile karşı
 
 Bölüm tablosu başlığı, disk üzerindeki kullanılabilir blokları tanımlar. Ayrıca, bölüm tablosunu oluşturan bölüm girişlerinin sayısını ve boyutunu tanımlar (tablodaki 80 ve 84 ofsetleri).
 
-| Ofset    | Uzunluk   | İçerik                                                                                                                                                                        |
-| --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 (0x00)  | 8 bayt  | İmza ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h veya 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)küçük sonlu makinelerde) |
-| 8 (0x08)  | 4 bayt  | UEFI 2.8 için Revizyon 1.0 (00h 00h 01h 00h)                                                                                                                                     |
-| 12 (0x0C) | 4 bayt  | Küçük sonlu (bayt cinsinden, genellikle 5Ch 00h 00h 00h veya 92 bayt) başlık boyutu                                                                                                    |
-| 16 (0x10) | 4 bayt  | [CRC32](https://en.wikipedia.org/wiki/CRC32) başlığın CRC'si (ofset +0'dan başlık boyutuna kadar) küçük sonlu, bu alan hesaplama sırasında sıfırlanır                                |
-| 20 (0x14) | 4 bayt  | Ayrılmış; sıfır olmalıdır                                                                                                                                                          |
-| 24 (0x18) | 8 bayt  | Mevcut LBA (bu başlık kopyasının konumu)                                                                                                                                      |
-| 32 (0x20) | 8 bayt  | Yedek LBA (diğer başlık kopyasının konumu)                                                                                                                                  |
-| 40 (0x28) | 8 bayt  | Bölümler için ilk kullanılabilir LBA (birincil bölüm tablosunun son LBA'sı + 1)                                                                                                          |
-| 48 (0x30) | 8 bayt  | Son kullanılabilir LBA (ikincil bölüm tablosunun ilk LBA'sı − 1)                                                                                                                       |
-| 56 (0x38) | 16 bayt | Disk GUID'i karışık sonlu                                                                                                                                                       |
-| 72 (0x48) | 8 bayt  | Bir dizi bölüm girişinin başlangıç LBA'sı (her zaman birincil kopyada 2)                                                                                                        |
-| 80 (0x50) | 4 bayt  | Dizideki bölüm girişlerinin sayısı                                                                                                                                            |
-| 84 (0x54) | 4 bayt  | Tek bir bölüm girişinin boyutu (genellikle 80h veya 128)                                                                                                                           |
-| 88 (0x58) | 4 bayt  | Küçük sonlu bölüm girişleri dizisinin CRC32'si                                                                                                                               |
-| 92 (0x5C) | \*       | Ayrılmış; bloğun geri kalanında sıfır olmalıdır (512 baytlık bir sektör boyutu için 420 bayt; ancak daha büyük sektör boyutları ile daha fazla olabilir)                                         |
+| Ofset     | Uzunluk  | İçerik                                                                                                                                                                        |
+| --------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0 (0x00)  | 8 bayt   | İmza ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h veya 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)küçük sonlu makinelerde) |
+| 8 (0x08)  | 4 bayt   | UEFI 2.8 için Revizyon 1.0 (00h 00h 01h 00h)                                                                                                                                     |
+| 12 (0x0C) | 4 bayt   | Küçük sonlu (bayt cinsinden, genellikle 5Ch 00h 00h 00h veya 92 bayt) başlık boyutu                                                                                                    |
+| 16 (0x10) | 4 bayt   | [CRC32](https://en.wikipedia.org/wiki/CRC32) başlığın (ofset +0'dan başlık boyutuna kadar) küçük sonlu, bu alan hesaplama sırasında sıfırlanmıştır                                |
+| 20 (0x14) | 4 bayt   | Ayrılmış; sıfır olmalıdır                                                                                                                                                          |
+| 24 (0x18) | 8 bayt   | Mevcut LBA (bu başlık kopyasının konumu)                                                                                                                                      |
+| 32 (0x20) | 8 bayt   | Yedek LBA (diğer başlık kopyasının konumu)                                                                                                                                  |
+| 40 (0x28) | 8 bayt   | Bölümler için ilk kullanılabilir LBA (birincil bölüm tablosunun son LBA'sı + 1)                                                                                                          |
+| 48 (0x30) | 8 bayt   | Son kullanılabilir LBA (ikincil bölüm tablosunun ilk LBA'sı − 1)                                                                                                                       |
+| 56 (0x38) | 16 bayt  | Disk GUID karışık sonlu                                                                                                                                                       |
+| 72 (0x48) | 8 bayt   | Bir dizi bölüm girişinin başlangıç LBA'sı (her zaman birincil kopyada 2)                                                                                                        |
+| 80 (0x50) | 4 bayt   | Dizideki bölüm girişlerinin sayısı                                                                                                                                            |
+| 84 (0x54) | 4 bayt   | Tek bir bölüm girişinin boyutu (genellikle 80h veya 128)                                                                                                                           |
+| 88 (0x58) | 4 bayt   | Küçük sonlu bölüm girişleri dizisinin CRC32'si                                                                                                                               |
+| 92 (0x5C) | \*       | Ayrılmış; geri kalan blok için sıfır olmalıdır (512 baytlık bir sektör boyutu için 420 bayt; ancak daha büyük sektör boyutları ile daha fazla olabilir)                                         |
 
 **Bölüm girişleri (LBA 2–33)**
 
 | GUID bölüm giriş formatı |          |                                                                                                                   |
 | ------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| Ofset                      | Uzunluk   | İçerik                                                                                                          |
-| 0 (0x00)                  | 16 bayt | [Bölüm türü GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (karışık sonlu) |
-| 16 (0x10)                 | 16 bayt | Benzersiz bölüm GUID'i (karışık sonlu)                                                                              |
-| 32 (0x20)                 | 8 bayt  | İlk LBA ([küçük sonlu](https://en.wikipedia.org/wiki/Little\_endian))                                         |
-| 40 (0x28)                 | 8 bayt  | Son LBA (dahil, genellikle tek)                                                                                 |
-| 48 (0x30)                 | 8 bayt  | Nitelik bayrakları (örneğin, bit 60 yalnızca okunur)                                                                   |
-| 56 (0x38)                 | 72 bayt | Bölüm adı (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE kod birimi)                                   |
+| Ofset                    | Uzunluk  | İçerik                                                                                                          |
+| 0 (0x00)                 | 16 bayt  | [Bölüm türü GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (karışık sonlu) |
+| 16 (0x10)                | 16 bayt  | Benzersiz bölüm GUID (karışık sonlu)                                                                              |
+| 32 (0x20)                | 8 bayt   | İlk LBA ([küçük sonlu](https://en.wikipedia.org/wiki/Little\_endian))                                         |
+| 40 (0x28)                | 8 bayt   | Son LBA (dahil, genellikle tek)                                                                                 |
+| 48 (0x30)                | 8 bayt   | Nitelik bayrakları (örneğin, bit 60 yalnızca okunur)                                                                   |
+| 56 (0x38)                | 72 bayt  | Bölüm adı (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE kod birimi)                                   |
 
 **Bölüm Türleri**
 
@@ -144,7 +144,7 @@ Daha fazla bölüm türü için [https://en.wikipedia.org/wiki/GUID\_Partition\_
 
 ### İnceleme
 
-Forensics görüntüsünü [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/) ile monte ettikten sonra, ilk sektörü Windows aracı [**Active Disk Editor**](https://www.disk-editor.org/index.html)** ile inceleyebilirsiniz.** Aşağıdaki görüntüde **sektör 0**'da bir **MBR** tespit edilmiştir ve yorumlanmıştır:
+[**ArsenalImageMounter**](https://arsenalrecon.com/downloads/) ile adli görüntüyü monte ettikten sonra, Windows aracı [**Active Disk Editor**](https://www.disk-editor.org/index.html)**'ı** kullanarak ilk sektörü inceleyebilirsiniz. Aşağıdaki görüntüde **sektör 0**'da bir **MBR** tespit edilmiştir ve yorumlanmıştır:
 
 ![](<../../../.gitbook/assets/image (494).png>)
 
@@ -164,9 +164,9 @@ Eğer bir **MBR yerine bir GPT tablosu** olsaydı, **sektör 1**'de _EFI PART_ i
 
 **FAT (Dosya Tahsis Tablosu)** dosya sistemi, hacmin başlangıcında yer alan dosya tahsis tablosu etrafında tasarlanmıştır. Bu sistem, tablonun **iki kopyasını** tutarak verileri korur ve birinin bozulması durumunda veri bütünlüğünü sağlar. Tablo, kök klasör ile birlikte **sabit bir konumda** olmalıdır; bu, sistemin başlatma süreci için kritik öneme sahiptir.
 
-Dosya sisteminin temel depolama birimi bir **küme, genellikle 512B**'dir ve birden fazla sektörden oluşur. FAT, sürümler boyunca evrim geçirmiştir:
+Dosya sisteminin temel depolama birimi bir **küme, genellikle 512B**'dir ve birden fazla sektörden oluşur. FAT, sürümler aracılığıyla evrim geçirmiştir:
 
-* **FAT12**, 12 bit küme adreslerini destekler ve 4078 kümeye kadar işleyebilir (UNIX ile 4084).
+* **FAT12**, 12 bit küme adreslerini destekler ve 4078 kümeye kadar (UNIX ile 4084) işleyebilir.
 * **FAT16**, 16 bit adreslere yükseltilerek 65,517 kümeye kadar destek sağlar.
 * **FAT32**, 32 bit adreslerle daha da ilerleyerek hacim başına 268,435,456 kümeye izin verir.
 
@@ -234,7 +234,7 @@ Veri Akışı Oymacılığı, Dosya Oymacılığına benzer, ancak **tam dosyala
 ### Güvenli Silme
 
 Açıkça, dosyaları ve bunlarla ilgili logların bir kısmını **"güvenli" bir şekilde silmenin** yolları vardır. Örneğin, bir dosyanın içeriğini birkaç kez çöp verilerle **üst üste yazmak** ve ardından dosya ile ilgili **$MFT** ve **$LOGFILE**'dan **logları kaldırmak** ve **Hacim Gölge Kopyalarını** **kaldırmak** mümkündür.\
-Bu işlemi gerçekleştirirken, dosyanın varlığının hala **diğer parçalarda kaydedilmiş olabileceğini** fark edebilirsiniz; bu doğrudur ve adli bilişim uzmanının işi bunları bulmaktır.
+Bu işlemi gerçekleştirirken, dosyanın varlığının hala **diğer parçalarda kaydedilmiş olabileceğini** fark edebilirsiniz; bu doğrudur ve adli uzmanların işinin bir parçası bunları bulmaktır.
 
 ## Referanslar
 
@@ -253,8 +253,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek hacking ipuçlarını paylaşın.
 
 </details>
 {% endhint %}

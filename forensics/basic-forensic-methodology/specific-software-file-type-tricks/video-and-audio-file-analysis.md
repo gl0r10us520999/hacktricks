@@ -17,11 +17,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 **Ses ve video dosyası manipülasyonu**, **CTF adli bilişim zorlukları** için temel bir unsurdur ve gizli mesajları saklamak veya açığa çıkarmak için **steganografi** ve meta veri analizinden yararlanır. **[mediainfo](https://mediaarea.net/en/MediaInfo)** ve **`exiftool`** gibi araçlar, dosya meta verilerini incelemek ve içerik türlerini tanımlamak için gereklidir.
 
-Ses zorlukları için, **[Audacity](http://www.audacityteam.org/)**, dalga formlarını görüntülemek ve ses spektrumlarını analiz etmek için öne çıkan bir araçtır ve ses içinde kodlanmış metinleri ortaya çıkarmak için gereklidir. **[Sonic Visualiser](http://www.sonicvisualiser.org/)**, detaylı spektrum analizi için şiddetle tavsiye edilir. **Audacity**, gizli mesajları tespit etmek için parçaları yavaşlatma veya tersine çevirme gibi ses manipülasyonlarına olanak tanır. **[Sox](http://sox.sourceforge.net/)**, ses dosyalarını dönüştürme ve düzenleme konusunda uzmanlaşmış bir komut satırı aracıdır.
+Ses zorlukları için, **[Audacity](http://www.audacityteam.org/)**, dalga formlarını görüntülemek ve ses spektrumlarını analiz etmek için öne çıkan bir araçtır; bu, ses içinde kodlanmış metni ortaya çıkarmak için gereklidir. **[Sonic Visualiser](http://www.sonicvisualiser.org/)**, detaylı spektrum analizi için şiddetle tavsiye edilir. **Audacity**, gizli mesajları tespit etmek için parçaları yavaşlatma veya tersine çevirme gibi ses manipülasyonlarına olanak tanır. **[Sox](http://sox.sourceforge.net/)**, ses dosyalarını dönüştürme ve düzenleme konusunda uzmanlaşmış bir komut satırı aracıdır.
 
-**En Düşük Anlamlı Bitler (LSB)** manipülasyonu, ses ve video steganografisinde yaygın bir tekniktir ve medya dosyalarının sabit boyutlu parçalarını kullanarak verileri gizlice yerleştirir. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)**, **DTMF tonları** veya **Morse kodu** olarak gizlenmiş mesajları çözmek için faydalıdır.
+**En Az Anlamlı Bitler (LSB)** manipülasyonu, ses ve video steganografisinde yaygın bir tekniktir ve medya dosyalarının sabit boyutlu parçalarını kullanarak verileri gizlice yerleştirir. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)**, **DTMF tonları** veya **Morse kodu** olarak gizlenmiş mesajları çözmek için faydalıdır.
 
-Video zorlukları genellikle ses ve video akışlarını bir araya getiren konteyner formatlarını içerir. **[FFmpeg](http://ffmpeg.org/)**, bu formatları analiz etmek ve manipüle etmek için başvurulan araçtır ve içeriği ayırma ve oynatma yeteneğine sahiptir. Geliştiriciler için, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)**, FFmpeg'in yeteneklerini Python'a entegre ederek gelişmiş scriptable etkileşimler sağlar.
+Video zorlukları genellikle ses ve video akışlarını bir araya getiren konteyner formatlarını içerir. **[FFmpeg](http://ffmpeg.org/)**, bu formatları analiz etmek ve manipüle etmek için başvurulan araçtır; içeriği ayırma ve oynatma yeteneğine sahiptir. Geliştiriciler için, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)**, FFmpeg'in yeteneklerini Python'a entegre ederek gelişmiş scriptable etkileşimler sağlar.
 
 Bu araçlar dizisi, CTF zorluklarında gereken çok yönlülüğü vurgular; katılımcılar, ses ve video dosyalarında gizli verileri ortaya çıkarmak için geniş bir analiz ve manipülasyon tekniği yelpazesini kullanmalıdır.
 
@@ -31,7 +31,7 @@ Bu araçlar dizisi, CTF zorluklarında gereken çok yönlülüğü vurgular; kat
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**Mobil Güvenlik** alanındaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza uygun kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika alın:
+**Mobil Güvenlik** alanındaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza göre kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika alın:
 
 {% embed url="https://academy.8ksec.io/" %}
 

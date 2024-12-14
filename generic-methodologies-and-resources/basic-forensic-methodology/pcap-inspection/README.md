@@ -54,7 +54,7 @@ Tarayıcıdan pcap analizi.
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(sadece linux)_ bir **pcap** analiz edebilir ve ondan bilgi çıkarabilir. Örneğin, bir pcap dosyasından Xplico, her e-postayı (POP, IMAP ve SMTP protokolleri), tüm HTTP içeriklerini, her VoIP çağrısını (SIP), FTP, TFTP vb. çıkarır.
+[**Xplico** ](https://github.com/xplico/xplico)_(sadece linux)_ bir **pcap'ı analiz edebilir** ve ondan bilgi çıkarabilir. Örneğin, bir pcap dosyasından Xplico, her e-postayı (POP, IMAP ve SMTP protokolleri), tüm HTTP içeriklerini, her VoIP çağrısını (SIP), FTP, TFTP vb. çıkarır.
 
 **Kurulum**
 ```bash
@@ -74,7 +74,7 @@ Ardından **yeni bir vaka** oluşturun, vaka içinde **yeni bir oturum** oluştu
 
 ### NetworkMiner
 
-Xplico gibi, **pcap'lerden nesneleri analiz etmek ve çıkarmak** için bir araçtır. **Buradan** [**indirebileceğiniz**](https://www.netresec.com/?page=NetworkMiner) ücretsiz bir sürümü vardır. **Windows** ile çalışır.\
+Xplico gibi, **pcap'lerden nesneleri analiz etmek ve çıkarmak** için bir araçtır. [**buradan**](https://www.netresec.com/?page=NetworkMiner) **indirebileceğiniz** ücretsiz bir sürümü vardır. **Windows** ile çalışır.\
 Bu araç, paketlerden **diğer bilgilerin analiz edilmesi** için de faydalıdır, böylece ne olduğunu **daha hızlı** bir şekilde anlayabilirsiniz.
 
 ### NetWitness Investigator
@@ -154,9 +154,9 @@ Bilinen bir kötü amaçlı yazılımın herhangi bir parmak izini bulup bulamay
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) pasif, açık kaynaklı bir ağ trafiği analizörüdür. Birçok operatör, şüpheli veya kötü niyetli etkinliklerin araştırmalarını desteklemek için Zeek'i bir Ağ Güvenliği İzleyici (NSM) olarak kullanır. Zeek ayrıca güvenlik alanının ötesinde, performans ölçümü ve sorun giderme dahil olmak üzere geniş bir trafik analizi görev yelpazesini destekler.
+> [Zeek](https://docs.zeek.org/en/master/about.html) pasif, açık kaynaklı bir ağ trafiği analizörüdür. Birçok operatör, şüpheli veya kötü niyetli etkinliklerin araştırmalarını desteklemek için Zeek'i Ağ Güvenliği İzleyicisi (NSM) olarak kullanır. Zeek ayrıca güvenlik alanının ötesinde, performans ölçümü ve sorun giderme dahil olmak üzere geniş bir trafik analizi görev yelpazesini destekler.
 
-Temelde, `zeek` tarafından oluşturulan günlükler **pcap** değildir. Bu nedenle, **pcaplar** hakkında **bilgilerin** bulunduğu günlükleri analiz etmek için **diğer araçlar** kullanmanız gerekecektir.
+Temelde, `zeek` tarafından oluşturulan günlükler **pcap** değildir. Bu nedenle, **pcap'ler** hakkında **bilgilerin** bulunduğu günlükleri analiz etmek için **diğer araçlar** kullanmanız gerekecektir.
 
 ### Connections Info
 ```bash

@@ -1,32 +1,32 @@
 {% hint style="success" %}
-Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekle</summary>
+<summary>Support HackTricks</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
-* **Hacking püf noktalarını paylaşmak için PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# Başlangıç
+# Temel
 
-Bir başlangıç, bir sistemin belirli parçalarının anlık bir görüntüsünü alarak **gelecekteki bir durumla karşılaştırmak ve değişiklikleri vurgulamak** için oluşturulan bir referans noktasıdır.
+Bir temel, bir sistemin belirli bölümlerinin anlık görüntüsünü almayı içerir ve **değişiklikleri vurgulamak için gelecekteki bir durumla karşılaştırılır**.
 
-Örneğin, dosya sistemindeki her dosyanın karma değerini hesaplayıp depolayarak hangi dosyaların değiştirildiğini bulabilirsiniz.\
-Bu aynı zamanda oluşturulan kullanıcı hesapları, çalışan işlemler, çalışan servisler ve değişmemesi gereken veya hiç değişmemesi gereken diğer herhangi bir şey için de yapılabilir.
+Örneğin, hangi dosyaların değiştirildiğini bulabilmek için dosya sisteminin her dosyasının hash'ini hesaplayabilir ve saklayabilirsiniz.\
+Bu, oluşturulan kullanıcı hesapları, çalışan süreçler, çalışan hizmetler ve çok fazla değişmemesi gereken veya hiç değişmemesi gereken diğer şeyler için de yapılabilir.
 
 ## Dosya Bütünlüğü İzleme
 
-Dosya Bütünlüğü İzleme (FIM), dosyalardaki değişiklikleri izleyerek IT ortamlarını ve verileri koruyan kritik bir güvenlik tekniğidir. İki temel adım içerir:
+Dosya Bütünlüğü İzleme (FIM), dosyalardaki değişiklikleri izleyerek BT ortamlarını ve verileri koruyan kritik bir güvenlik tekniğidir. İki ana adımı içerir:
 
-1. **Başlangıç Karşılaştırması:** Gelecekteki karşılaştırmalar için dosya öznitelikleri veya kriptografik karma değerleri (örneğin MD5 veya SHA-2) kullanarak bir başlangıç oluşturun ve değişiklikleri tespit etmek için.
-2. **Gerçek Zamanlı Değişiklik Bildirimi:** Dosyalara erişildiğinde veya değiştirildiğinde anında uyarılar alın, genellikle işletim sistemi çekirdek uzantıları aracılığıyla.
+1. **Temel Karşılaştırması:** Değişiklikleri tespit etmek için gelecekteki karşılaştırmalar için dosya özellikleri veya kriptografik kontrol toplamları (MD5 veya SHA-2 gibi) kullanarak bir temel oluşturun.
+2. **Gerçek Zamanlı Değişiklik Bildirimi:** Dosyalar erişildiğinde veya değiştirildiğinde, genellikle işletim sistemi çekirdek uzantıları aracılığıyla anında bildirim alın.
 
 ## Araçlar
 
@@ -39,16 +39,16 @@ Dosya Bütünlüğü İzleme (FIM), dosyalardaki değişiklikleri izleyerek IT o
 
 
 {% hint style="success" %}
-Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekle</summary>
+<summary>Support HackTricks</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
-* **Hacking püf noktalarını paylaşmak için PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

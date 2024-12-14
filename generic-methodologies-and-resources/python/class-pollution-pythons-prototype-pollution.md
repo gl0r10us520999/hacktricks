@@ -1,23 +1,23 @@
-# Sınıf Kirliliği (Python'ın Prototip Kirliliği)
+# Class Pollution (Python's Prototype Pollution)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 ## Temel Örnek
 
-Nesnelerin sınıflarını dizelerle nasıl kirletilebileceğini kontrol edin:
+Stringlerle nesne sınıflarını nasıl kirletebileceğinizi kontrol edin:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -41,7 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-## Temel Zayıflık Örneği
+## Temel Güvenlik Açığı Örneği
 ```python
 # Initial state
 class Employee: pass
@@ -78,7 +78,7 @@ print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 
 <details>
 
-<summary>Class özelliği varsayılan değer oluşturarak RCE (alt işlem) </summary>
+<summary>Sınıf özelliği varsayılan değerini RCE (subprocess) oluşturma</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -129,7 +129,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Diğer sınıfları ve global değişkenleri <code>globals</code> aracılığıyla kirletme</summary>
+<summary>Diğer sınıfları ve global değişkenleri <code>globals</code> aracılığıyla kirletmek</summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Rastgele alt işlem yürütme</summary>
+<summary>Keyfi alt süreç yürütme</summary>
 ```python
 import subprocess, json
 
@@ -193,9 +193,9 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <details>
 
-<summary><strong><code>__kwdefaults__</code></strong> Üzerine Yazma</summary>
+<summary>Üzerine Yazma <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`**, tüm fonksiyonların özel bir özelliğidir, Python [belgelerine](https://docs.python.org/3/library/inspect.html) göre, bu özellik "**sadece anahtar kelime** parametreleri için herhangi bir varsayılan değerlerin eşlemesi"dir. Bu özelliği kirletmek, bir fonksiyonun sadece anahtar kelime parametrelerinin varsayılan değerlerini kontrol etmemizi sağlar, bunlar \* veya \*args'den sonra gelen fonksiyonun parametreleridir.
+**`__kwdefaults__`** tüm fonksiyonların özel bir niteliğidir, Python [belgelerine](https://docs.python.org/3/library/inspect.html) göre, bu “**anahtar kelime yalnızca** parametreler için herhangi bir varsayılan değerin eşlemesidir”. Bu niteliği kirletmek, bir fonksiyonun anahtar kelime yalnızca parametrelerinin varsayılan değerlerini kontrol etmemizi sağlar, bunlar \* veya \*args'den sonra gelen fonksiyonun parametreleridir.
 ```python
 from os import system
 import json
@@ -236,17 +236,17 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Flask secret'ın farklı dosyalar arasında üzerine yazılması</summary>
+<summary>Flask gizli anahtarını dosyalar arasında geçersiz kılma</summary>
 
-Yani, web'in ana python dosyasında tanımlanan ancak **sınıfı ana dosyadan farklı bir dosyada tanımlanan bir nesne üzerinde sınıf kirliliği yapabilirsiniz**. Önceki yüklerde \_\_globals\_\_'a erişmek için nesnenin sınıfına veya sınıfın yöntemlerine erişmeniz gerektiğinden, **o dosyadaki globals'e erişebileceksiniz, ancak ana dosyadaki globals'e erişemeyeceksiniz**. \
-Bu nedenle, ana sayfada **tanımlanan Flask uygulama global nesnesine erişemezsiniz**, bu nesne **gizli anahtarı** tanımladı:
+Yani, eğer web'in ana python dosyasında tanımlı bir nesne üzerinde bir sınıf kirlenmesi yapabiliyorsanız ama **sınıfı ana dosyadan farklı bir dosyada tanımlıysa**. Çünkü önceki yüklerde \_\_globals\_\_'a erişmek için nesnenin sınıfına veya sınıfın yöntemlerine erişmeniz gerekiyor, o dosyadaki **globals'a erişebileceksiniz, ama ana dosyadaki globals'a erişemeyeceksiniz**. \
+Bu nedenle, **ana sayfada tanımlı olan Flask uygulama global nesnesine erişemeyeceksiniz**:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-Bu senaryoda, ana dosyaya erişmek için dosyalar arasında gezinmek için bir cihaza ihtiyacınız var ve Flask gizli anahtarını değiştirmek ve bu anahtarı bilerek ayrıcalıkları yükseltmek için global nesne `app.secret_key`'e **erişmeniz gerekmektedir**.
+Bu senaryoda, Flask gizli anahtarını değiştirmek ve bu anahtarı bilerek [**yetki yükseltmek**] için ana dosyaya ulaşmak üzere dosyaları geçmek için bir alete ihtiyacınız var. **global nesne `app.secret_key`**'e erişmek.
 
-Bu yazıdan bir örnek gibi bir yük: [bu yazıdan](https://ctftime.org/writeup/36082):
+Bu yazıdan [şu yükleme] gibi bir yük: 
 
 {% code overflow="wrap" %}
 ```python
@@ -254,11 +254,11 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Bu payload'ı kullanarak **`app.secret_key`**'i (uygulamanızdaki adı farklı olabilir) değiştirin ve daha fazla ayrıcalıklı flask çerezlerini imzalayabilin.
+Bu payload'u kullanarak **`app.secret_key`'i değiştirin** (uygulamanızdaki adı farklı olabilir) böylece yeni ve daha fazla yetkiye sahip flask çerezlerini imzalayabilirsiniz.
 
 </details>
 
-Yalnızca daha fazla salt okunur cihazlar için aşağıdaki sayfayı da kontrol edin:
+Ayrıca daha fazla yalnızca okunabilir gadget için aşağıdaki sayfayı kontrol edin:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
@@ -269,16 +269,16 @@ Yalnızca daha fazla salt okunur cihazlar için aşağıdaki sayfayı da kontrol
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* Hacking püf noktalarını paylaşarak PR'ler göndererek **HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

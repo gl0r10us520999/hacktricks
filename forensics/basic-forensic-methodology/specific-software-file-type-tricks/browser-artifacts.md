@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -18,14 +18,14 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Tarayıcı Artifaktları <a href="#id-3def" id="id-3def"></a>
 
-Tarayıcı artifaktları, web tarayıcıları tarafından saklanan çeşitli veri türlerini içerir; bunlar arasında gezinme geçmişi, yer imleri ve önbellek verileri bulunur. Bu artifaktlar, işletim sistemi içinde belirli klasörlerde saklanır, konum ve isimleri tarayıcılar arasında farklılık gösterir, ancak genellikle benzer veri türlerini depolar.
+Tarayıcı artifaktları, web tarayıcıları tarafından saklanan çeşitli veri türlerini içerir; bunlar arasında gezinme geçmişi, yer imleri ve önbellek verileri bulunur. Bu artifaktlar, işletim sistemi içinde belirli klasörlerde saklanır, konum ve isim açısından tarayıcılar arasında farklılık gösterir, ancak genellikle benzer veri türlerini depolar.
 
 En yaygın tarayıcı artifaktlarının bir özeti:
 
@@ -37,7 +37,7 @@ En yaygın tarayıcı artifaktlarının bir özeti:
 * **Girişler**: Saklanan giriş kimlik bilgileri.
 * **Favikonlar**: Web siteleriyle ilişkili simgeler, sekmelerde ve yer imlerinde görünür, kullanıcı ziyaretleri hakkında ek bilgi sağlar.
 * **Tarayıcı Oturumları**: Açık tarayıcı oturumlarıyla ilgili veriler.
-* **İndirmeler**: Tarayıcı aracılığıyla indirilen dosyaların kayıtları.
+* **İndirmeler**: Tarayıcı üzerinden indirilen dosyaların kayıtları.
 * **Form Verileri**: Web formlarına girilen bilgiler, gelecekteki otomatik doldurma önerileri için saklanır.
 * **Küçük Resimler**: Web sitelerinin önizleme resimleri.
 * **Özel Dictionary.txt**: Kullanıcı tarafından tarayıcının sözlüğüne eklenen kelimeler.
@@ -61,7 +61,7 @@ Her profil klasöründe, birkaç önemli dosya bulabilirsiniz:
 * **handlers.json**: Protokol yöneticilerini yönetir.
 * **persdict.dat**: Özel sözlük kelimeleri.
 * **addons.json** ve **extensions.sqlite**: Yüklenen eklentiler ve uzantılar hakkında bilgi.
-* **cookies.sqlite**: Çerez depolama, Windows'ta inceleme için [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) mevcuttur.
+* **cookies.sqlite**: Çerez depolama, Windows'ta [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) ile incelenebilir.
 * **cache2/entries** veya **startupCache**: Önbellek verileri, [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html) gibi araçlarla erişilebilir.
 * **favicons.sqlite**: Favikonları saklar.
 * **prefs.js**: Kullanıcı ayarları ve tercihleri.
@@ -73,7 +73,7 @@ Her profil klasöründe, birkaç önemli dosya bulabilirsiniz:
 Ayrıca, tarayıcının anti-phishing ayarlarını kontrol etmek için `prefs.js` içinde `browser.safebrowsing` girişlerini arayarak güvenli tarama özelliklerinin etkinleştirilip etkinleştirilmediğini kontrol edebilirsiniz.
 
 Ana şifreyi çözmeye çalışmak için [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) kullanabilirsiniz.\
-Aşağıdaki script ve çağrı ile bir şifre dosyasını brute force etmek için belirtebilirsiniz:
+Aşağıdaki script ve çağrı ile bir şifre dosyasını brute force yapmak için belirtebilirsiniz:
 
 {% code title="brute.sh" %}
 ```bash
@@ -116,7 +116,7 @@ Bu dizinler içinde, çoğu kullanıcı verisi **Default/** veya **ChromeDefault
 
 ## **SQLite DB Veri Kurtarma**
 
-Önceki bölümlerde gözlemleyebileceğiniz gibi, hem Chrome hem de Firefox **SQLite** veritabanlarını veri saklamak için kullanır. **Silinmiş girişleri kurtarmak için** [**sqlparse**](https://github.com/padfoot999/sqlparse) **veya** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) **aracını kullanmak mümkündür.**
+Önceki bölümlerde gözlemleyebileceğiniz gibi, hem Chrome hem de Firefox **SQLite** veritabanlarını veri saklamak için kullanır. **Silinmiş girişleri kurtarmak için** [**sqlparse**](https://github.com/padfoot999/sqlparse) **veya** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) aracını kullanmak mümkündür.
 
 ## **Internet Explorer 11**
 
@@ -124,15 +124,15 @@ Internet Explorer 11, verilerini ve meta verilerini çeşitli konumlarda yöneti
 
 ### Meta Veri Saklama
 
-Internet Explorer için meta veriler `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` dosyasında saklanır (VX V01, V16 veya V24 olabilir). Bununla birlikte, `V01.log` dosyası `WebcacheVX.data` ile değişiklik zamanı tutarsızlıklarını gösterebilir ve bu, `esentutl /r V01 /d` kullanarak onarım gerektirdiğini belirtir. Bu meta veriler, bir ESE veritabanında yer alır ve photorec ve [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gibi araçlar kullanılarak kurtarılabilir ve incelenebilir. **Containers** tablosunda, her veri segmentinin saklandığı belirli tablolar veya konteynerler, diğer Microsoft araçları için önbellek detayları da dahil olmak üzere belirlenebilir.
+Internet Explorer için meta veriler `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` konumunda saklanır (VX V01, V16 veya V24 olabilir). Bununla birlikte, `V01.log` dosyası `WebcacheVX.data` ile değişiklik zamanı tutarsızlıklarını gösterebilir ve bu, `esentutl /r V01 /d` kullanarak onarım gerektirdiğini gösterir. Bu meta veriler, bir ESE veritabanında yer alır ve photorec ve [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gibi araçlar kullanılarak kurtarılabilir ve incelenebilir. **Containers** tablosunda, her veri segmentinin saklandığı belirli tablolar veya konteynerler, diğer Microsoft araçları için önbellek detayları da dahil olmak üzere ayırt edilebilir.
 
 ### Önbellek İncelemesi
 
-[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) aracı, önbellek incelemesi için kullanılabilir ve önbellek verilerinin çıkarılacağı klasör konumunu gerektirir. Önbellek için meta veriler, dosya adı, dizin, erişim sayısı, URL kaynağı ve önbellek oluşturma, erişim, değiştirme ve süresi dolma zamanlarını gösteren zaman damgalarını içerir.
+[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) aracı, önbellek incelemesi için kullanılabilir ve önbellek verilerinin çıkarılacağı klasör konumunu gerektirir. Önbellek için meta veriler, dosya adı, dizin, erişim sayısı, URL kaynağı ve önbellek oluşturma, erişim, değiştirme ve sona erme zamanlarını gösteren zaman damgalarını içerir.
 
 ### Çerez Yönetimi
 
-Çerezler, [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) kullanılarak incelenebilir ve meta veriler isimler, URL'ler, erişim sayıları ve çeşitli zamanla ilgili detayları kapsar. Kalıcı çerezler `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` içinde saklanırken, oturum çerezleri bellekte bulunur.
+Çerezler, [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) kullanılarak incelenebilir ve meta veriler isimler, URL'ler, erişim sayıları ve çeşitli zamanla ilgili detayları kapsar. Kalıcı çerezler `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` konumunda saklanırken, oturum çerezleri bellekte bulunur.
 
 ### İndirme Detayları
 
@@ -140,7 +140,7 @@ Internet Explorer için meta veriler `%userprofile%\Appdata\Local\Microsoft\Wind
 
 ### Tarayıcı Geçmişi
 
-Tarayıcı geçmişini gözden geçirmek için [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) kullanılabilir ve çıkarılan geçmiş dosyalarının konumu ile Internet Explorer için yapılandırma gerektirir. Buradaki meta veriler, değiştirme ve erişim zamanlarını, ayrıca erişim sayısını içerir. Geçmiş dosyaları `%userprofile%\Appdata\Local\Microsoft\Windows\History` içinde yer alır.
+Tarayıcı geçmişini gözden geçirmek için [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) kullanılabilir ve çıkarılan geçmiş dosyalarının konumu ile Internet Explorer için yapılandırma gerektirir. Buradaki meta veriler, değiştirme ve erişim zamanlarını, ayrıca erişim sayısını içerir. Geçmiş dosyaları `%userprofile%\Appdata\Local\Microsoft\Windows\History` konumunda bulunur.
 
 ### Yazılan URL'ler
 
@@ -148,7 +148,7 @@ Yazılan URL'ler ve kullanım zamanları, `NTUSER.DAT` altında `Software\Micros
 
 ## Microsoft Edge
 
-Microsoft Edge, kullanıcı verilerini `%userprofile%\Appdata\Local\Packages` içinde saklar. Çeşitli veri türleri için yollar:
+Microsoft Edge, kullanıcı verilerini `%userprofile%\Appdata\Local\Packages` konumunda saklar. Çeşitli veri türleri için yollar:
 
 * **Profil Yolu**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **Geçmiş, Çerezler ve İndirmeler**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -158,7 +158,7 @@ Microsoft Edge, kullanıcı verilerini `%userprofile%\Appdata\Local\Packages` i�
 
 ## Safari
 
-Safari verileri `/Users/$User/Library/Safari` içinde saklanır. Ana dosyalar şunlardır:
+Safari verileri `/Users/$User/Library/Safari` konumunda saklanır. Ana dosyalar şunlardır:
 
 * **History.db**: URL'ler ve ziyaret zaman damgaları ile `history_visits` ve `history_items` tablolarını içerir. Sorgulamak için `sqlite3` kullanın.
 * **Downloads.plist**: İndirilen dosyalar hakkında bilgi.
@@ -171,7 +171,7 @@ Safari verileri `/Users/$User/Library/Safari` içinde saklanır. Ana dosyalar ş
 
 ## Opera
 
-Opera'nın verileri `/Users/$USER/Library/Application Support/com.operasoftware.Opera` içinde yer alır ve geçmiş ile indirmeler için Chrome'un formatını paylaşır.
+Opera'nın verileri `/Users/$USER/Library/Application Support/com.operasoftware.Opera` konumunda bulunur ve geçmiş ile indirmeler için Chrome'un formatını paylaşır.
 
 * **Tarayıcının yerleşik anti-phishing**: `Preferences` dosyasında `fraud_protection_enabled` değerinin `true` olarak ayarlandığını kontrol ederek doğrulayın.
 
@@ -201,7 +201,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.**
 
 </details>

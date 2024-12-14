@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -27,23 +27,23 @@ Bugün Erişim Alın:
 
 Bir **açık anahtar sertifikası**, birinin bir açık anahtara sahip olduğunu kanıtlamak için kriptografide kullanılan dijital bir kimliktir. Anahtarın detaylarını, sahibinin kimliğini (konu) ve güvenilir bir otoriteden (verici) dijital bir imzayı içerir. Yazılım vericiyi güvenilir bulursa ve imza geçerliyse, anahtarın sahibiyle güvenli iletişim mümkündür.
 
-Sertifikalar genellikle [sertifika otoriteleri](https://en.wikipedia.org/wiki/Certificate\_authority) (CA'lar) tarafından [açık anahtar altyapısı](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) kurulumunda verilir. Diğer bir yöntem ise kullanıcıların birbirlerinin anahtarlarını doğrudan doğruladığı [güven ağı](https://en.wikipedia.org/wiki/Web\_of\_trust)'dır. Sertifikalar için yaygın format [X.509](https://en.wikipedia.org/wiki/X.509)'dur ve RFC 5280'de belirtildiği gibi belirli ihtiyaçlara uyarlanabilir.
+Sertifikalar genellikle [sertifika otoriteleri](https://en.wikipedia.org/wiki/Certificate\_authority) (CA'lar) tarafından [açık anahtar altyapısı](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) kurulumunda verilir. Diğer bir yöntem ise [güven ağı](https://en.wikipedia.org/wiki/Web\_of\_trust) olup, kullanıcıların birbirlerinin anahtarlarını doğrudan doğrulamasını sağlar. Sertifikalar için yaygın format [X.509](https://en.wikipedia.org/wiki/X.509) olup, RFC 5280'de belirtildiği gibi belirli ihtiyaçlara uyarlanabilir.
 
 ## x509 Ortak Alanlar
 
 ### **x509 Sertifikalarında Ortak Alanlar**
 
-x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamak için birkaç **alan** kritik roller oynar. Bu alanların bir dökümü:
+x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamak için birkaç **alan** kritik rol oynamaktadır. Bu alanların bir dökümü:
 
 * **Versiyon Numarası**, x509 formatının versiyonunu belirtir.
-* **Seri Numarası**, sertifikayı bir Sertifika Otoritesi (CA) sisteminde benzersiz olarak tanımlar, esas olarak iptal takibi için.
+* **Seri Numarası**, sertifikayı bir Sertifika Otoritesi (CA) sisteminde benzersiz olarak tanımlar, esasen iptal takibi için kullanılır.
 * **Konu** alanı, sertifikanın sahibini temsil eder; bu bir makine, birey veya organizasyon olabilir. Detaylı kimlik bilgilerini içerir:
 * **Ortak İsim (CN)**: Sertifika tarafından kapsanan alanlar.
 * **Ülke (C)**, **Yerleşim Yeri (L)**, **Eyalet veya İl (ST, S veya P)**, **Organizasyon (O)** ve **Organizasyon Birimi (OU)** coğrafi ve organizasyonel detaylar sağlar.
 * **Ayrıcalıklı İsim (DN)**, tam konu kimliğini kapsar.
-* **Verici**, sertifikayı kimlerin doğruladığını ve imzaladığını detaylandırır; CA için konu ile benzer alt alanlar içerir.
+* **Verici**, sertifikayı doğrulayan ve imzalayan kişiyi detaylandırır; CA için konu ile benzer alt alanlar içerir.
 * **Geçerlilik Süresi**, sertifikanın belirli bir tarihten önce veya sonra kullanılmadığını sağlamak için **Not Before** ve **Not After** zaman damgaları ile işaretlenir.
-* **Açık Anahtar** bölümü, sertifikanın güvenliği için kritik öneme sahiptir; açık anahtarın algoritmasını, boyutunu ve diğer teknik detaylarını belirtir.
+* **Açık Anahtar** bölümü, sertifikanın güvenliği için kritik olup, açık anahtarın algoritmasını, boyutunu ve diğer teknik detaylarını belirtir.
 * **x509v3 uzantıları**, sertifikanın işlevselliğini artırır; **Anahtar Kullanımı**, **Genişletilmiş Anahtar Kullanımı**, **Konu Alternatif Adı** ve sertifikanın uygulamasını ince ayar yapmak için diğer özellikleri belirtir.
 
 #### **Anahtar Kullanımı ve Uzantılar**
@@ -77,13 +77,13 @@ print(f"Public Key: {public_key}")
 ```
 ### **OCSP ve CRL Dağıtım Noktaları Arasındaki Fark**
 
-**OCSP** (**RFC 2560**), bir istemci ve bir yanıtlayıcının birlikte çalışarak dijital genel anahtar sertifikasının iptal edilip edilmediğini kontrol etmesini sağlar; bu, tam **CRL**'yi indirmeyi gerektirmez. Bu yöntem, iptal edilen sertifika seri numaralarının bir listesini sağlayan ve potansiyel olarak büyük bir dosyanın indirilmesini gerektiren geleneksel **CRL**'den daha verimlidir. CRL'ler en fazla 512 giriş içerebilir. Daha fazla ayrıntı [burada](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) mevcuttur.
+**OCSP** (**RFC 2560**), bir istemci ve bir yanıtlayıcının, tam **CRL** indirmeye gerek kalmadan dijital kamu anahtar sertifikasının iptal edilip edilmediğini kontrol etmek için birlikte çalışmasını içerir. Bu yöntem, iptal edilen sertifika seri numaralarının bir listesini sağlayan ancak potansiyel olarak büyük bir dosyanın indirilmesini gerektiren geleneksel **CRL**'den daha verimlidir. CRL'ler en fazla 512 giriş içerebilir. Daha fazla ayrıntı [burada](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) mevcuttur.
 
 ### **Sertifika Şeffaflığı Nedir**
 
-Sertifika Şeffaflığı, SSL sertifikalarının verilmesi ve varlığının alan adı sahipleri, CA'lar ve kullanıcılar tarafından görünür olmasını sağlayarak sertifika ile ilgili tehditlerle mücadeleye yardımcı olur. Amaçları şunlardır:
+Sertifika Şeffaflığı, SSL sertifikalarının verilmesi ve varlığının alan adı sahipleri, CA'lar ve kullanıcılar tarafından görünür olmasını sağlayarak sertifika ile ilgili tehditlerle mücadele etmeye yardımcı olur. Amaçları şunlardır:
 
-* CA'ların, alan adı sahibinin bilgisi olmadan bir alan için SSL sertifikası vermesini engellemek.
+* CA'ların, alan adı sahibinin bilgisi olmadan bir alan için SSL sertifikası vermesini önlemek.
 * Yanlış veya kötü niyetle verilmiş sertifikaların izlenmesi için açık bir denetim sistemi kurmak.
 * Kullanıcıları sahte sertifikalardan korumak.
 
@@ -95,7 +95,7 @@ Sertifika kayıtları, ağ hizmetleri tarafından tutulan, kamuya açık denetle
 
 Herhangi bir alan için Sertifika Şeffaflığı kayıtlarını keşfetmek için [https://crt.sh/](https://crt.sh) adresini ziyaret edin.
 
-Sertifikaları depolamak için farklı formatlar mevcuttur; her birinin kendi kullanım durumları ve uyumluluğu vardır. Bu özet, ana formatları kapsar ve bunlar arasında dönüştürme konusunda rehberlik sağlar.
+Sertifikaları depolamak için farklı formatlar mevcuttur, her birinin kendi kullanım durumları ve uyumluluğu vardır. Bu özet, ana formatları kapsar ve bunlar arasında dönüştürme konusunda rehberlik sağlar.
 
 ## **Formatlar**
 

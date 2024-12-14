@@ -19,7 +19,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ### **Binwalk**
 
-Gömülü gizli dosyaları ve verileri aramak için kullanılan bir araçtır. `apt` ile kurulur ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk)'ta mevcuttur.
+Gömülü gizli dosyaları ve verileri aramak için kullanılan bir araçtır. `apt` ile kurulur ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk) üzerinde mevcuttur.
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -39,7 +39,7 @@ exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Exiftool'e benzer, metadata görüntüleme için. `apt` ile kurulabilir, kaynağı [GitHub](https://github.com/Exiv2/exiv2)'da bulunmaktadır ve bir [resmi web sitesi](http://www.exiv2.org/) vardır.
+Exiftool'e benzer, metadata görüntüleme için. `apt` ile kurulabilir, [GitHub](https://github.com/Exiv2/exiv2)'da kaynak mevcuttur ve [resmi web sitesi](http://www.exiv2.org/) vardır.
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -63,7 +63,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Karşılaştırma (cmp)**
 
-Çevrimiçi bulunan orijinal versiyonla değiştirilmiş bir dosyayı karşılaştırmak için kullanışlıdır.
+Çevrimiçi bulunan orijinal versiyonuyla değiştirilmiş bir dosyayı karşılaştırmak için kullanışlıdır.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
@@ -85,9 +85,9 @@ Hasar görmüş bir resmi onarmaya çalışmak için, bir meta veri yorumu eklem
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghide ile Veri Gizleme**
+### **Veri Gizleme için Steghide**
 
-Steghide, verileri `JPEG, BMP, WAV ve AU` dosyaları içinde gizlemeyi kolaylaştırır, şifreli verileri gömme ve çıkarma yeteneğine sahiptir. Kurulum `apt` kullanarak basittir ve [kaynak kodu GitHub'da mevcuttur](https://github.com/StefanoDeVuono/steghide).
+Steghide, `JPEG, BMP, WAV ve AU` dosyaları içinde veri gizlemeyi kolaylaştırır, şifreli verileri gömme ve çıkarma yeteneğine sahiptir. Kurulum, `apt` kullanarak basittir ve [kaynak kodu GitHub'da mevcuttur](https://github.com/StefanoDeVuono/steghide).
 
 **Komutlar:**
 
@@ -96,7 +96,7 @@ Steghide, verileri `JPEG, BMP, WAV ve AU` dosyaları içinde gizlemeyi kolaylaş
 
 Web tabanlı çıkarım için [bu web sitesini](https://futureboy.us/stegano/decinput.html) ziyaret edin.
 
-**Stegcracker ile Bruteforce Saldırısı:**
+**Stegcracker ile Brute Force Saldırısı:**
 
 * Steghide üzerinde şifre kırma denemesi yapmak için [stegcracker](https://github.com/Paradoxis/StegCracker.git) kullanın:
 ```bash
@@ -113,7 +113,7 @@ zsteg, PNG ve BMP dosyalarında gizli verileri ortaya çıkarmada uzmanlaşmış
 
 ### **StegoVeritas ve Stegsolve**
 
-**stegoVeritas**, meta verileri kontrol eder, görüntü dönüşümleri gerçekleştirir ve diğer özelliklerin yanı sıra LSB brute forcing uygular. Tüm seçeneklerin tam listesi için `stegoveritas.py -h` kullanın ve tüm kontrolleri gerçekleştirmek için `stegoveritas.py stego.jpg` komutunu çalıştırın.
+**stegoVeritas**, meta verileri kontrol eder, görüntü dönüşümleri gerçekleştirir ve LSB brute forcing uygular. Tüm seçeneklerin tam listesi için `stegoveritas.py -h` kullanın ve tüm kontrolleri gerçekleştirmek için `stegoveritas.py stego.jpg` komutunu çalıştırın.
 
 **Stegsolve**, görüntülerde gizli metinleri veya mesajları ortaya çıkarmak için çeşitli renk filtreleri uygular. [GitHub'da](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) mevcuttur.
 
@@ -131,7 +131,7 @@ Stegpy, PNG, BMP, GIF, WebP ve WAV gibi formatları destekleyerek bilgi gömülm
 
 ### **PNG Dosyası Analizi için Pngcheck**
 
-PNG dosyalarını analiz etmek veya doğruluklarını kontrol etmek için:
+PNG dosyalarını analiz etmek veya doğruluğunu kontrol etmek için:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -156,7 +156,7 @@ Steghide, JPEG, BMP, WAV ve AU dosyalarında veri gizlemek için tasarlanmış �
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Bu araç, PNG, BMP, GIF, WebP ve WAV dahil olmak üzere çeşitli formatlarla uyumludur. Daha fazla bilgi için [Stegpy bölümüne](stego-tricks.md#stegpy-png-bmp-gif-webp-wav) bakın.
+Bu araç, PNG, BMP, GIF, WebP ve WAV dahil olmak üzere çeşitli formatlarla uyumludur. Daha fazla bilgi için [Stegpy'nin bölümüne](stego-tricks.md#stegpy-png-bmp-gif-webp-wav) bakın.
 
 ### **ffmpeg**
 

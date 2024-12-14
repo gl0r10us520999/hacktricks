@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Logstash
 
-Logstash, **logları toplamak, dönüştürmek ve dağıtmak** için **pipeline** olarak bilinen bir sistem kullanır. Bu pipeline'lar **giriş**, **filtre** ve **çıkış** aşamalarından oluşur. Logstash, ele geçirilmiş bir makinede çalıştığında ilginç bir durum ortaya çıkar.
+Logstash, **logları toplamak, dönüştürmek ve iletmek** için **pipeline** olarak bilinen bir sistem kullanılır. Bu pipeline'lar **giriş**, **filtre** ve **çıkış** aşamalarından oluşur. Logstash, ele geçirilmiş bir makinede çalıştığında ilginç bir durum ortaya çıkar.
 
 ### Pipeline Yapılandırması
 
@@ -36,7 +36,7 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Bu dosya, **.conf** dosyalarının, pipeline yapılandırmalarını içeren yerlerini ortaya koymaktadır. **Elasticsearch output module** kullanıldığında, **pipelines**'in genellikle **Elasticsearch kimlik bilgilerini** içerdiği yaygındır; bu kimlik bilgileri, Logstash'ın Elasticsearch'e veri yazma gereksinimi nedeniyle genellikle geniş yetkilere sahiptir. Yapılandırma yollarındaki joker karakterler, Logstash'ın belirlenen dizindeki tüm eşleşen pipeline'ları çalıştırmasına olanak tanır.
+Bu dosya, **pipeline** yapılandırmalarını içeren **.conf** dosyalarının nerede bulunduğunu ortaya koymaktadır. **Elasticsearch output module** kullanıldığında, **pipelines**'in genellikle **Elasticsearch kimlik bilgileri** içermesi yaygındır; bu kimlik bilgileri, Logstash'ın Elasticsearch'e veri yazma gereksinimi nedeniyle genellikle geniş yetkilere sahiptir. Yapılandırma yollarındaki joker karakterler, Logstash'ın belirlenen dizindeki tüm eşleşen **pipelines**'i çalıştırmasına olanak tanır.
 
 ### Yazılabilir Pipelines ile Yetki Yükseltme
 

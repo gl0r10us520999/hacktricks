@@ -19,10 +19,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Zincirler
 
-Iptables'ta, kuralların listeleri zincirler olarak adlandırılır ve sıralı bir şekilde işlenir. Bunlar arasında, evrensel olarak mevcut olan üç ana zincir bulunur; sistemin yeteneklerine bağlı olarak NAT gibi ek zincirler de desteklenebilir.
+Iptables'ta, zincirler olarak bilinen kural listeleri sıralı bir şekilde işlenir. Bunlar arasında, evrensel olarak mevcut olan üç ana zincir bulunur; sistemin yeteneklerine bağlı olarak NAT gibi ek zincirler de desteklenebilir.
 
 - **Giriş Zinciri**: Gelen bağlantıların davranışını yönetmek için kullanılır.
-- **İleri Zincir**: Yerel sisteme yönlendirilmeyen gelen bağlantıları işlemek için kullanılır. Bu, verilerin başka bir hedefe iletilmesi gereken yönlendirici olarak işlev gören cihazlar için tipiktir. Bu zincir, sistemin yönlendirme, NAT yapma veya benzeri faaliyetlerde bulunduğu durumlarda önemlidir.
+- **İletim Zinciri**: Yerel sisteme yönlendirilmeyen gelen bağlantıları işlemek için kullanılır. Bu, verilerin başka bir hedefe iletilmesi amaçlanan yönlendirici olarak hareket eden cihazlar için tipiktir. Bu zincir, sistemin yönlendirme, NAT yapma veya benzeri faaliyetlerde bulunduğu durumlarda önemlidir.
 - **Çıkış Zinciri**: Giden bağlantıların düzenlenmesine adanmıştır.
 
 Bu zincirler, ağ trafiğinin düzenli bir şekilde işlenmesini sağlar ve bir sistemin içine, içinden ve dışına veri akışını yöneten ayrıntılı kuralların belirtilmesine olanak tanır.
@@ -135,7 +135,7 @@ systemctl daemon-reload
 [Belgelerden:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Bir kural/imza aşağıdakilerden oluşur:
 
 * **hareket**, imza eşleştiğinde ne olacağını belirler.
-* **başlık**, kuralın protokolünü, IP adreslerini, portları ve yönünü tanımlar.
+* **başlık**, protokolü, IP adreslerini, portları ve kuralın yönünü tanımlar.
 * **kural seçenekleri**, kuralın ayrıntılarını tanımlar.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
@@ -158,7 +158,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * ip (ip 'tümü' veya 'herhangi' anlamına gelir)
 * _layer7 protokolleri_: http, ftp, tls, smb, dns, ssh... (daha fazlası için [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Kaynak ve Hedef Adresleri
+#### Kaynak ve Hedef Adresler
 
 IP aralıklarını, olumsuzlamaları ve adres listelerini destekler:
 
@@ -170,7 +170,7 @@ IP aralıklarını, olumsuzlamaları ve adres listelerini destekler:
 | \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET ve HOME\_NET hariç       |
 | \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24, 10.0.0.5 hariç            |
 
-#### Kaynak ve Hedef Portları
+#### Kaynak ve Hedef Portlar
 
 Port aralıklarını, olumsuzlamaları ve port listelerini destekler
 
@@ -180,7 +180,7 @@ Port aralıklarını, olumsuzlamaları ve port listelerini destekler
 | \[80, 81, 82]   | port 80, 81 ve 82                     |
 | \[80: 82]       | 80'den 82'ye kadar aralık             |
 | \[1024: ]       | 1024'ten en yüksek port numarasına kadar |
-| !80             | 80 hariç her port                     |
+| !80             | 80 hariç her port                      |
 | \[80:100,!99]   | 80'den 100'e kadar aralık ama 99 hariç |
 | \[1:80,!\[2,4]] | 1-80 aralığı, port 2 ve 4 hariç       |
 
@@ -243,7 +243,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

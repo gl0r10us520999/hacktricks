@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -24,7 +24,7 @@ Mevcut oturumunuz için bir küresel değişken oluşturmak için:
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Bu değişken, mevcut oturumlarınız ve bunların alt süreçleri tarafından erişilebilir olacaktır.
+Bu değişken, mevcut oturumlarınız ve onların alt süreçleri tarafından erişilebilir olacaktır.
 
 Bir değişkeni **kaldırmak** için:
 ```bash
@@ -59,8 +59,8 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **LANG** – mevcut diliniz.
 * **MAIL** – kullanıcının posta kuyruğunun yeri. Genellikle **/var/spool/mail/USER**.
 * **MANPATH** – kılavuz sayfalarını aramak için dizinler listesi.
-* **OSTYPE** – işletim sisteminin türü.
-* **PS1** – bash'deki varsayılan istem.
+* **OSTYPE** – işletim sistemi türü.
+* **PS1** – bash'teki varsayılan istem.
 * **PATH** – yalnızca dosya adını belirterek çalıştırmak istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolunu saklar, göreli veya mutlak yol ile değil.
 * **PWD** – mevcut çalışma dizini.
 * **SHELL** – mevcut komut kabuğunun yolu (örneğin, **/bin/bash**).
@@ -72,13 +72,13 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 
 ### **HISTFILESIZE**
 
-Bu değişkenin **değerini 0 olarak değiştirin**, böylece **oturumunuzu bitirdiğinizde** **geçmiş dosyası** (\~/.bash\_history) **silinecektir**.
+Bu değişkenin **değerini 0 olarak değiştirin**, böylece **oturumunuzu sonlandırdığınızda** **geçmiş dosyası** (\~/.bash\_history) **silinecektir**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Bu **değişkenin değerini 0 olarak değiştirin**, böylece **oturumunuzu sonlandırdığınızda** herhangi bir komut **tarih dosyasına** (\~/.bash\_history) eklenecektir.
+Bu **değişkenin değerini 0 olarak değiştirin**, böylece **oturumunuzu sonlandırdığınızda** herhangi bir komut **geçmiş dosyasına** (\~/.bash\_history) eklenmeyecektir.
 ```bash
 export HISTSIZE=0
 ```
@@ -98,7 +98,7 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-İstediğiniz şekilde istemci görünümünü değiştirin.
+İstediğiniz gibi istemci görünümünü değiştirin.
 
 [**Bu bir örnektir**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
@@ -128,7 +128,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

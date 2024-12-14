@@ -23,13 +23,13 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## Başlangıç
 
-**Pcap** içinde **kötü amaçlı yazılım** aramaya başlayın. [**Kötü Amaçlı Yazılım Analizi**](../malware-analysis.md) bölümünde belirtilen **araçları** kullanın.
+Pcap içinde **kötü amaçlı yazılım** aramaya başlayın. [**Kötü Amaçlı Yazılım Analizi**](../malware-analysis.md) bölümünde belirtilen **araçları** kullanın.
 
 ## [Volatility](volatility-cheatsheet.md)
 
-**Volatility, bellek dökümü analizi için ana açık kaynak çerçevesidir**. Bu Python aracı, dış kaynaklardan veya VMware sanal makinelerinden dökümleri analiz eder, dökümün işletim sistemi profilini temel alarak süreçler ve şifreler gibi verileri tanımlar. Eklentilerle genişletilebilir, bu da onu adli soruşturmalar için son derece çok yönlü hale getirir.
+**Volatility, bellek dökümü analizi için ana açık kaynak çerçevesidir**. Bu Python aracı, dış kaynaklardan veya VMware sanal makinelerinden dökümleri analiz eder, dökümün işletim sistemi profiline dayalı olarak süreçler ve şifreler gibi verileri tanımlar. Eklentilerle genişletilebilir, bu da onu adli soruşturmalar için son derece çok yönlü hale getirir.
 
-[**Burada bir ipucu sayfası bulun**](volatility-cheatsheet.md)
+[**Buradan bir kılavuz bulun**](volatility-cheatsheet.md)
 
 ## Mini döküm çökme raporu
 
