@@ -33,7 +33,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 .Netアセンブリの逆コンパイルは、以下のツールを使用して実行できます。
 
 - [ILSpy](https://github.com/icsharpcode/ILSpy)は、[Visual Studio Code用のプラグイン](https://github.com/icsharpcode/ilspy-vscode)も提供しており、クロスプラットフォームでの使用が可能です。
-- **逆コンパイル**、**修正**、および**再コンパイル**を含むタスクには、[dnSpy](https://github.com/0xd4d/dnSpy/releases)が強く推奨されます。メソッドを**右クリック**して**Modify Method**を選択することで、コードの変更が可能です。
+- **逆コンパイル**、**修正**、および**再コンパイル**を含むタスクには、[dnSpy](https://github.com/0xd4d/dnSpy/releases)が強く推奨されます。メソッドを**右クリック**して**Modify Method**を選択することでコードを変更できます。
 - [JetBrainsのdotPeek](https://www.jetbrains.com/es-es/decompiler/)も.Netアセンブリの逆コンパイルのための別の選択肢です。
 
 ## DNSpyによるデバッグとロギングの強化
@@ -64,11 +64,11 @@ Javaバイトコードを逆コンパイルするために、これらのツー�
 ## **DLLのデバッグ**
 ### IDAを使用
 - **Rundll32**は、64ビットおよび32ビットバージョンの特定のパスからロードされます。
-- **Windbg**がデバッガとして選択され、ライブラリのロード/アンロード時に一時停止するオプションが有効になります。
+- **Windbg**がデバッガとして選択され、ライブラリのロード/アンロード時に一時停止するオプションが有効になっています。
 - 実行パラメータにはDLLパスと関数名が含まれます。この設定により、各DLLのロード時に実行が停止します。
 
 ### x64dbg/x32dbgを使用
-- IDAと同様に、**rundll32**はコマンドラインの修正を加えてDLLと関数を指定してロードされます。
+- IDAと同様に、**rundll32**はDLLと関数を指定するためにコマンドラインの修正を行ってロードされます。
 - DLLエントリでブレークするように設定が調整され、希望するDLLエントリポイントでブレークポイントを設定できます。
 
 ### 画像
@@ -79,7 +79,7 @@ Javaバイトコードを逆コンパイルするために、これらのツー�
 
 ## **シェルコード**
 ### デバッグ技術
-- **Blobrunner**と**jmp2it**は、メモリにシェルコードを割り当て、Idaまたはx64dbgでデバッグするためのツールです。
+- **Blobrunner**と**jmp2it**は、メモリ内にシェルコードを割り当て、Idaまたはx64dbgでデバッグするためのツールです。
 - Blobrunner [リリース](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
 - jmp2it [コンパイル版](https://github.com/adamkramer/jmp2it/releases/)
 - **Cutter**はGUIベースのシェルコードエミュレーションと検査を提供し、ファイルとしてのシェルコード処理と直接シェルコード処理の違いを強調します。
@@ -100,7 +100,7 @@ scdbg.exe -f shellcode /foff 0x0000004D # オフセットから実行
 ## **Movfuscator**
 - すべての命令を`mov`に置き換えるオブフスケータです。
 - 有用なリソースには[YouTubeの説明](https://www.youtube.com/watch?v=2VF_wPkiBJY)と[PDFスライド](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf)があります。
-- **demovfuscator**はmovfuscatorのオブフスケーションを逆転させる可能性があり、`libcapstone-dev`と`libz3-dev`の依存関係が必要で、[keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md)をインストールする必要があります。
+- **demovfuscator**はmovfuscatorのオブフスケーションを逆転させる可能性があり、`libcapstone-dev`および`libz3-dev`などの依存関係が必要で、[keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md)をインストールする必要があります。
 
 ## **Delphi**
 - Delphiバイナリには、[IDR](https://github.com/crypto2011/IDR)が推奨されます。

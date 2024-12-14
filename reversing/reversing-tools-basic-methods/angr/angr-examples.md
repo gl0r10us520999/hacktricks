@@ -1,25 +1,25 @@
-# Angr - 例
+# Angr - Examples
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 {% hint style="info" %}
-プログラムが`scanf`を使用して**標準入力から複数の値を一度に取得する**場合、**`scanf`**の後から始まる状態を生成する必要があります。
+プログラムが `scanf` を使用して **標準入力から複数の値を一度に取得する** 場合、**`scanf`** の後から始まる状態を生成する必要があります。
 {% endhint %}
 
-コードは[https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)から取得されています。
+Codes taken from [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
 ### アドレスに到達するための入力（アドレスを示す）
 ```python
@@ -215,7 +215,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-このシナリオでは、入力は `scanf("%u %u")` で取得され、値 `"1 1"` が与えられたため、スタックの値 **`0x00000001`** は **ユーザー入力** から来ています。これらの値は `$ebp - 8` から始まることがわかります。したがって、コードでは **`$esp` に 8 バイトを引いています（その時 `$ebp` と `$esp` は同じ値を持っていました）** そして BVS をプッシュしました。
+このシナリオでは、入力は `scanf("%u %u")` で取得され、値 `"1 1"` が与えられたため、スタックの値 **`0x00000001`** は **ユーザー入力** から来ています。これらの値が `$ebp - 8` で始まることがわかります。したがって、コードでは **`$esp` に 8 バイトを引いています（その時 `$ebp` と `$esp` は同じ値を持っていました）** そして、BVS をプッシュしました。
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
@@ -395,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-シンボリックファイルには、シンボリックデータとマージされた定数データも含まれている可能性があることに注意してください:
+シンボリックファイルには、シンボリックデータとマージされた定数データも含まれている可能性があることに注意してください：
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -421,8 +421,8 @@ main(sys.argv)
 ### 制約の適用
 
 {% hint style="info" %}
-時には、長さ16の2つの単語を**文字ごとに**比較するような単純な人間の操作が、**angr**にとっては非常にコストがかかります。なぜなら、それは1つのifごとに1つの分岐を生成するため、**指数関数的に**分岐を生成する必要があるからです: `2^16`\
-したがって、**angrに以前のポイントに戻るように依頼し**（実際の難しい部分はすでに完了している場所）、**これらの制約を手動で設定する**方が簡単です。
+時には、長さ16の2つの単語を**文字ごとに**比較するような単純な人間の操作（ループ）が、**angr**にとっては非常にコストがかかります。なぜなら、それは1つのifごとに1つの分岐を生成するため、**指数的に**分岐を生成する必要があるからです: `2^16`\
+したがって、**angrに以前のポイントに戻るように依頼する**方が簡単です（実際の難しい部分はすでに完了している場所）し、**それらの制約を手動で設定する**ことができます。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -499,13 +499,13 @@ main(sys.argv)
 {% endhint %}
 
 {% hint style="info" %}
-これらのシナリオでできるもう一つのことは、**angrがより簡単に理解できるものを与えるために関数をフックする**ことです。
+これらのシナリオでできるもう一つのことは、**angrがより理解しやすいものを与えるために関数をフックする**ことです。
 {% endhint %}
 
-### シミュレーションマネージャー
+### シミュレーションマネージャ
 
-いくつかのシミュレーションマネージャーは他のものよりも便利です。前の例では、多くの有用な分岐が作成されたため問題がありました。ここでは、**veritesting**技術がそれらを統合し、解決策を見つけます。\
-このシミュレーションマネージャーは、次のようにしても有効にできます: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+いくつかのシミュレーションマネージャは他のものよりも便利です。前の例では、多くの有用な分岐が作成されたため問題がありました。ここでは、**veritesting**技術がそれらを統合し、解決策を見つけます。\
+このシミュレーションマネージャも次のように有効にできます: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -833,8 +833,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

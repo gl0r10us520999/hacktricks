@@ -8,7 +8,7 @@ _Hacktricksのロゴとモーションデザインは_ [_@ppiernacho_](https://w
 **CTF、実際のアプリ、研究の読書、ニュースから学んだ各ハッキングトリック/テクニック/その他を見つけることができるウィキへようこそ。**
 {% endhint %}
 
-始めるには、このページに従って、**1台以上のマシンをペンテストする際に従うべき典型的な流れ**を見つけてください：
+始めるには、このページに従って、**1台以上のマシンをペンテストする際に従うべき典型的なフロー**を見つけてください：
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -44,7 +44,7 @@ _Hacktricksのロゴとモーションデザインは_ [_@ppiernacho_](https://w
 
 **Intigriti**は、**ヨーロッパの#1**エシカルハッキングおよび**バグバウンティプラットフォーム**です。
 
-**バグバウンティのヒント**: **Intigriti**に**サインアップ**してください。これは、**ハッカーによって、ハッカーのために作られたプレミアム**バグバウンティプラットフォームです！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)で参加し、最大**$100,000**の報酬を得始めましょう！
+**バグバウンティのヒント**: **Intigriti**に**サインアップ**してください。これは、**ハッカーによって、ハッカーのために作られたプレミアム**バグバウンティプラットフォームです！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)に参加し、最大**$100,000**の報酬を得始めましょう！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,7 +55,7 @@ _Hacktricksのロゴとモーションデザインは_ [_@ppiernacho_](https://w
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって**ワークフローを簡単に構築および自動化**します。
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって駆動される**ワークフローを簡単に構築および自動化**します。
 
 今すぐアクセスを取得：
 
@@ -70,10 +70,10 @@ _Hacktricksのロゴとモーションデザインは_ [_@ppiernacho_](https://w
 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy)サーバーに参加して、経験豊富なハッカーやバグバウンティハンターとコミュニケーションを取りましょう！
 
 * **ハッキングの洞察:** ハッキングのスリルと課題に深く掘り下げたコンテンツに参加
-* **リアルタイムハックニュース:** リアルタイムのニュースと洞察を通じて、急速に変化するハッキングの世界を把握
+* **リアルタイムハックニュース:** リアルタイムのニュースと洞察を通じて、急速に進化するハッキングの世界を把握
 * **最新の発表:** 新しいバグバウンティの開始や重要なプラットフォームの更新について情報を得る
 
-**私たちと一緒に** [**Discord**](https://discord.com/invite/N3FrSbmwdy)に参加し、今日からトップハッカーと協力を始めましょう！
+**私たちと一緒に** [**Discord**](https://discord.com/invite/N3FrSbmwdy)に参加し、今日からトップハッカーとコラボレーションを始めましょう！
 
 ***
 
@@ -93,14 +93,14 @@ _Hacktricksのロゴとモーションデザインは_ [_@ppiernacho_](https://w
 
 <figure><img src=".gitbook/assets/image (1254).png" alt=""><figcaption></figcaption></figure>
 
-**SerpApi**は、**検索エンジンの結果**にアクセスするための迅速で簡単なリアルタイムAPIを提供します。彼らは検索エンジンをスクレイピングし、プロキシを処理し、キャプチャを解決し、すべてのリッチな構造化データを解析します。
+**SerpApi**は、**検索エンジンの結果にアクセスするための迅速で簡単なリアルタイムAPI**を提供します。彼らは検索エンジンをスクレイピングし、プロキシを処理し、キャプチャを解決し、すべてのリッチな構造化データを解析します。
 
-SerpApiのプランの1つに加入すると、Google、Bing、Baidu、Yahoo、Yandexなど、さまざまな検索エンジンをスクレイピングするための50以上の異なるAPIにアクセスできます。\
+SerpApiのプランのサブスクリプションには、Google、Bing、Baidu、Yahoo、Yandexなど、さまざまな検索エンジンをスクレイピングするための50以上の異なるAPIへのアクセスが含まれています。\
 他のプロバイダーとは異なり、**SerpApiはオーガニック結果だけをスクレイピングするわけではありません**。SerpApiの応答には、常にすべての広告、インライン画像と動画、ナレッジグラフ、検索結果に存在する他の要素や機能が含まれます。
 
-現在のSerpApiの顧客には、**Apple、Shopify、GrubHub**が含まれます。\
-詳細については、彼らの[**ブログ**](https://serpapi.com/blog/)をチェックするか、[**プレイグラウンド**](https://serpapi.com/playground)で例を試してください。\
-**無料アカウントを作成**するには、[**こちら**](https://serpapi.com/users/sign_up)をクリックしてください。**
+現在のSerpApiの顧客には、**Apple、Shopify、GrubHub**が含まれています。\
+詳細については、彼らの[**ブログ**](https://serpapi.com/blog/)をチェックするか、[**プレイグラウンド**](https://serpapi.com/playground)で例を試してみてください。\
+**ここで無料アカウントを作成**できます[**こちら**](https://serpapi.com/users/sign_up)**。**
 
 ***
 
@@ -108,7 +108,7 @@ SerpApiのプランの1つに加入すると、Google、Bing、Baidu、Yahoo、Y
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-脆弱性研究、ペネトレーションテスト、リバースエンジニアリングを実施するために必要な技術とスキルを学び、モバイルアプリケーションとデバイスを保護します。**オンデマンドコースを通じてiOSとAndroidのセキュリティをマスターし、**認定を取得しましょう：
+脆弱性研究、ペネトレーションテスト、リバースエンジニアリングを実施するために必要な技術とスキルを学び、モバイルアプリケーションとデバイスを保護します。**オンデマンドコースを通じてiOSとAndroidのセキュリティをマスターし、**認定を取得します：
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -118,7 +118,7 @@ SerpApiのプランの1つに加入すると、Google、Bing、Baidu、Yahoo、Y
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl)は、**アムステルダム**に拠点を置くプロフェッショナルなサイバーセキュリティ会社で、**世界中の**ビジネスを最新のサイバーセキュリティ脅威から保護するために、**攻撃的セキュリティサービス**を提供しています。
+[**WebSec**](https://websec.nl)は、**アムステルダム**に拠点を置くプロフェッショナルなサイバーセキュリティ会社で、**世界中のビジネスを最新のサイバーセキュリティ脅威から保護する**ために、**攻撃的セキュリティサービス**を**現代的**なアプローチで提供しています。
 
 WebSecは**オールインワンのセキュリティ会社**であり、ペンテスト、**セキュリティ**監査、意識向上トレーニング、フィッシングキャンペーン、コードレビュー、エクスプロイト開発、セキュリティ専門家のアウトソーシングなど、すべてを行います。
 

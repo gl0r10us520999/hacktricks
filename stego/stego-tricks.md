@@ -77,11 +77,11 @@ cmp original.jpg stego.jpg -b -l
 
 ### **GraphicMagickを使用した画像詳細の特定**
 
-[GraphicMagick](https://imagemagick.org/script/download.php)は、画像ファイルの種類を特定し、潜在的な破損を識別するために使用されます。画像を検査するには、以下のコマンドを実行してください：
+[GraphicMagick](https://imagemagick.org/script/download.php)は、画像ファイルの種類を特定し、潜在的な破損を識別するために使用されます。以下のコマンドを実行して画像を検査してください：
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-損傷した画像の修復を試みるために、メタデータコメントを追加することが役立つかもしれません：
+損傷した画像の修復を試みるために、メタデータコメントを追加することが役立つかもしれません:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
@@ -94,7 +94,7 @@ Steghideは、`JPEG, BMP, WAV, AU`ファイル内にデータを隠すことを�
 * `steghide info file`は、ファイルに隠されたデータが含まれているかどうかを明らかにします。
 * `steghide extract -sf file [--passphrase password]`は、隠されたデータを抽出します。パスワードはオプションです。
 
-ウェブベースの抽出には、[このウェブサイト](https://futureboy.us/stegano/decinput.html)を訪れてください。
+ウェブベースの抽出については、[このウェブサイト](https://futureboy.us/stegano/decinput.html)を訪れてください。
 
 **Stegcrackerによるブルートフォース攻撃:**
 
@@ -148,19 +148,19 @@ pngcheck stego.png
 
 ## **オーディオからのデータ抽出**
 
-**オーディオステガノグラフィ**は、音声ファイル内に情報を隠すユニークな方法を提供します。隠されたコンテンツを埋め込むまたは取得するために、さまざまなツールが利用されます。
+**オーディオステガノグラフィ**は、音声ファイル内に情報を隠す独自の方法を提供します。隠されたコンテンツを埋め込むまたは取得するために、さまざまなツールが利用されます。
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghideは、JPEG、BMP、WAV、およびAUファイルにデータを隠すために設計された多目的ツールです。詳細な指示は[stego tricks documentation](stego-tricks.md#steghide)に記載されています。
+Steghideは、JPEG、BMP、WAV、およびAUファイルにデータを隠すために設計された多目的ツールです。詳細な手順は[stego tricks documentation](stego-tricks.md#steghide)に記載されています。
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-このツールは、PNG、BMP、GIF、WebP、およびWAVを含むさまざまなフォーマットに対応しています。詳細については、[Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)を参照してください。
+このツールは、PNG、BMP、GIF、WebP、およびWAVを含むさまざまなフォーマットに対応しています。詳細については[Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)を参照してください。
 
 ### **ffmpeg**
 
-ffmpegは、オーディオファイルの整合性を評価するために重要であり、詳細な情報を強調し、あらゆる不一致を特定します。
+ffmpegは、オーディオファイルの整合性を評価するために重要であり、詳細な情報を強調し、いかなる不一致を特定します。
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -213,8 +213,8 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

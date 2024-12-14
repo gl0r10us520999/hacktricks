@@ -1,8 +1,8 @@
 # DPAPI - パスワードの抽出
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -23,16 +23,16 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ## DPAPIとは
 
-データ保護API（DPAPI）は、主にWindowsオペレーティングシステム内で**非対称プライベートキーの対称暗号化**に利用され、ユーザーまたはシステムの秘密を重要なエントロピーのソースとして活用します。このアプローチは、開発者がユーザーのログオン秘密から派生したキーを使用してデータを暗号化できるようにすることで、暗号化を簡素化します。また、システム暗号化の場合は、システムのドメイン認証秘密を使用し、開発者が暗号化キーの保護を自ら管理する必要を排除します。
+データ保護API（DPAPI）は、主にWindowsオペレーティングシステム内で**非対称プライベートキーの対称暗号化**に利用され、ユーザーまたはシステムの秘密を重要なエントロピーのソースとして活用します。このアプローチは、開発者がユーザーのログオン秘密から派生したキーを使用してデータを暗号化できるようにすることで、暗号化を簡素化します。また、システム暗号化の場合は、システムのドメイン認証秘密を使用し、開発者が暗号化キーの保護を自分で管理する必要を排除します。
 
 ### DPAPIによって保護されるデータ
 
 DPAPIによって保護される個人データには以下が含まれます：
 
 * Internet ExplorerおよびGoogle Chromeのパスワードと自動補完データ
-* OutlookやWindows Mailなどのアプリケーションの電子メールおよび内部FTPアカウントのパスワード
+* OutlookやWindows Mailなどのアプリケーションのメールおよび内部FTPアカウントのパスワード
 * 共有フォルダー、リソース、無線ネットワーク、Windows Vaultのパスワード（暗号化キーを含む）
-* リモートデスクトップ接続、.NET Passport、およびさまざまな暗号化および認証目的のプライベートキーのパスワード
+* リモートデスクトップ接続、.NET Passport、およびさまざまな暗号化および認証目的のためのプライベートキーのパスワード
 * Credential Managerによって管理されるネットワークパスワードおよびCryptProtectDataを使用するアプリケーション内の個人データ（Skype、MSNメッセンジャーなど）
 
 ## リストボールト
@@ -45,14 +45,14 @@ mimikatz vault::list
 ```
 ## Credential Files
 
-**保護された資格情報ファイル**は、次の場所にあります:
+保護された**資格情報ファイル**は、次の場所にあります:
 ```
 dir /a:h C:\Users\username\AppData\Local\Microsoft\Credentials\
 dir /a:h C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 ```
-`mimikatz`を使用して資格情報情報を取得するには `dpapi::cred` を使用します。レスポンスには、暗号化されたデータや `guidMasterKey` などの興味深い情報が含まれています。
+`mimikatz`の`dpapi::cred`を使用して資格情報情報を取得します。レスポンスには、暗号化されたデータや`guidMasterKey`などの興味深い情報が含まれています。
 ```bash
 mimikatz dpapi::cred /in:C:\Users\<username>\AppData\Local\Microsoft\Credentials\28350839752B38B238E5D56FDD7891A7
 
@@ -93,11 +93,11 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 
 ## HEKATOMB
 
-[**HEKATOMB**](https://github.com/Processus-Thief/HEKATOMB)は、LDAPディレクトリからすべてのユーザーとコンピュータを抽出し、RPCを通じてドメインコントローラのバックアップキーを抽出するツールです。スクリプトはすべてのコンピュータのIPアドレスを解決し、すべてのコンピュータでsmbclientを実行して、すべてのユーザーのDPAPIブロブを取得し、ドメインバックアップキーで全てを復号化します。
+[**HEKATOMB**](https://github.com/Processus-Thief/HEKATOMB)は、LDAPディレクトリからすべてのユーザーとコンピュータを自動的に抽出し、RPCを介してドメインコントローラのバックアップキーを抽出するツールです。スクリプトはすべてのコンピュータのIPアドレスを解決し、すべてのコンピュータでsmbclientを実行して、すべてのユーザーのDPAPIブロブを取得し、ドメインバックアップキーで全てを復号化します。
 
 `python3 hekatomb.py -hashes :ed0052e5a66b1c8e942cc9481a50d56 DOMAIN.local/administrator@10.0.0.1 -debug -dnstcp`
 
-LDAPから抽出したコンピュータのリストを使用すると、知らなかったサブネットワークも見つけることができます！
+LDAPから抽出したコンピュータのリストを使用すると、知らなかったサブネットワークをすべて見つけることができます！
 
 「ドメイン管理者権限だけでは不十分です。すべてをハックしましょう。」
 
@@ -112,7 +112,7 @@ LDAPから抽出したコンピュータのリストを使用すると、知ら�
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)は、**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**で最も重要なイベントの一つです。**技術的知識を促進することを使命として**、この会議はあらゆる分野の技術とサイバーセキュリティの専門家の熱い集まりです。
+[**RootedCON**](https://www.rootedcon.com/)は、**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**で最も重要なイベントの一つです。**技術的知識を促進することを使命として**、この会議はあらゆる分野の技術とサイバーセキュリティの専門家の熱い交流の場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -126,7 +126,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

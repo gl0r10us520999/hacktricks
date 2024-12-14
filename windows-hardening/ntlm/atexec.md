@@ -21,7 +21,7 @@ Atは、ユーザー名/(パスワード/ハッシュ)を知っているホス�
 ```
 At \\victim 11:00:00PM shutdown -r
 ```
-Using schtasksを使用して、最初にタスクを作成し、その後呼び出す必要があります：
+schtasksを使用するには、まずタスクを作成し、その後呼び出す必要があります：
 
 {% code overflow="wrap" %}
 ```bash

@@ -9,8 +9,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 **外部グループ**が現在のドメイン内の任意の**コンピュータ**に**RDPアクセス**を持っている場合、**攻撃者**はその**コンピュータを侵害し、彼を待つ**ことができます。
 
-そのユーザーがRDP経由でアクセスすると、**攻撃者はそのユーザーのセッションにピボットし、外部ドメインでの権限を悪用する**ことができます。
+そのユーザーがRDP経由でアクセスすると、**攻撃者はそのユーザーのセッションにピボットし、外部ドメインでの権限を悪用することができます。**
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -43,11 +43,11 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-Check **他のツールを使ってセッションを盗む方法** [**このページで。**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+他のツールを使ってセッションを盗む**他の方法を確認してください** [**このページで。**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-ユーザーが**RDPを介してマシンにアクセス**し、**攻撃者**が**待機**している場合、攻撃者は**ユーザーのRDPセッションにビーコンを注入**することができ、**被害者がRDP経由でドライブをマウント**した場合、**攻撃者はそれにアクセスできる**。
+ユーザーが**RDPを介してマシンにアクセス**し、**攻撃者**が**待機**している場合、攻撃者は**ユーザーのRDPセッションにビーコンを注入**することができ、**被害者がRDP経由でアクセスする際にドライブをマウントした場合、**攻撃者はそれにアクセスできる**。
 
 この場合、**被害者の** **元のコンピュータ**を**バックドア**を**スタートアップフォルダ**に書き込むことで**妥協**することができます。
 ```powershell
@@ -91,7 +91,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

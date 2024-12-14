@@ -36,7 +36,7 @@ kerberos::list /export #Another way
 # Monitor logins and export new tickets
 .\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Check every 10s for new TGTs</code></pre>
 
-**Mimikatz**または**Rubeus**を使用して、管理者（または被害者ユーザー）のチケットをメモリにロードします。**[Pass the Ticket](pass-the-ticket.md)**。\
+**Mimikatz**または**Rubeus**を使用して、メモリ内の管理者（または被害者ユーザー）のチケットをロードします。**[Pass the Ticket](pass-the-ticket.md)**のために。\
 詳細情報：[https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
 [**制約のない委任に関する詳細情報はired.teamにあります。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
 

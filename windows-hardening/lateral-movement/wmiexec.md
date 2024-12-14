@@ -44,7 +44,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **クラス**
 
-WMIクラス名（例：win32\_process）とその存在する名前空間を知ることは、すべてのWMI操作において重要です。  
+WMIクラス名（例：win32\_process）と、それが存在する名前空間を知ることは、すべてのWMI操作において重要です。  
 `win32`で始まるクラスをリストするコマンド：
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
@@ -84,7 +84,7 @@ net start | findstr "Instrumentation"
 ```
 ### システムおよびプロセス情報
 
-WMIを通じてシステムおよびプロセス情報を収集する：
+WMIを通じてシステムおよびプロセス情報を収集する:
 ```bash
 Get-WmiObject -ClassName win32_operatingsystem | select * | more
 Get-WmiObject win32_process | Select Name, Processid
@@ -133,7 +133,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

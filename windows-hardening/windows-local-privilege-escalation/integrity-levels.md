@@ -28,7 +28,7 @@ Windows Vista以降のバージョンでは、すべての保護されたアイ�
 * **システム**: Windowsカーネルとコアサービスの最高の操作レベルで、管理者でさえもアクセスできず、重要なシステム機能を保護します。
 * **インストーラー**: 他のすべてのレベルの上に位置するユニークなレベルで、このレベルのオブジェクトは他のオブジェクトをアンインストールできます。
 
-**Process Explorer**を使用してプロセスの整合性レベルを取得できます。**Sysinternals**からプロセスの**プロパティ**にアクセスし、**セキュリティ**タブを表示します：
+**Process Explorer**を使用してプロセスの整合性レベルを取得できます。**Sysinternals**からプロセスの**プロパティ**にアクセスし、"**セキュリティ**"タブを表示します：
 
 ![](<../../.gitbook/assets/image (824).png>)
 
@@ -39,7 +39,7 @@ Windows Vista以降のバージョンでは、すべての保護されたアイ�
 ### Integrity Levels in File-system
 
 ファイルシステム内のオブジェクトは**最小整合性レベル要件**を必要とする場合があり、プロセスがこの整合性を持っていない場合、相互作用できません。\
-例えば、**通常のユーザーコンソールから通常のファイルを作成し、権限を確認しましょう**:
+例えば、**通常のユーザーコンソールから通常のファイルを作成し、権限を確認しましょう**：
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -65,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-これは興味深いところです。ユーザー `DESKTOP-IDJHTKP\user` がファイルに対して **完全な権限** を持っていることがわかります（実際、このユーザーがファイルを作成しました）。しかし、実装された最小の整合性レベルのため、彼は高い整合性レベル内で実行していない限り、ファイルを変更することができません（彼はそれを読むことができることに注意してください）：
+これは興味深いところです。ユーザー `DESKTOP-IDJHTKP\user` がファイルに対して **完全な権限** を持っていることがわかります（実際、このユーザーがファイルを作成したのです）。しかし、実装された最小の整合性レベルのため、彼は高い整合性レベルで実行していない限り、ファイルを変更することができません（彼はそれを読むことができることに注意してください）：
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -75,7 +75,7 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**したがって、ファイルに最低限の整合性レベルがある場合、それを変更するには、その整合性レベル以上で実行する必要があります。**
+**したがって、ファイルに最低限の整合性レベルがある場合、それを変更するには、その整合性レベル以上で実行している必要があります。**
 {% endhint %}
 
 ### バイナリの整合性レベル
@@ -90,30 +90,14 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-今、`cmd-low.exe`を実行すると、**低い整合性レベル**で実行されます。中程度の整合性レベルではありません。
+今、`cmd-low.exe`を実行すると、**中程度の整合性レベル**ではなく**低整合性レベル**で**実行されます**：
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-興味のある方のために、高い整合性レベルをバイナリに割り当てると（`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`）、自動的に高い整合性レベルで実行されるわけではありません（中程度の整合性レベルから呼び出すと、デフォルトで中程度の整合性レベルで実行されます）。
+好奇心のある人のために、バイナリに高整合性レベルを割り当てると（`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`）、自動的に高整合性レベルで実行されるわけではありません（中程度の整合性レベルから呼び出すと、デフォルトで中程度の整合性レベルで実行されます）。
 
 ### プロセスの整合性レベル
 
-すべてのファイルやフォルダーには最小整合性レベルがあるわけではありませんが、**すべてのプロセスは整合性レベルの下で実行されています**。ファイルシステムで起こったことと同様に、**あるプロセスが別のプロセス内に書き込むには、少なくとも同じ整合性レベルを持っている必要があります**。これは、低い整合性レベルのプロセスが中程度の整合性レベルのプロセスに対してフルアクセスのハンドルを開くことができないことを意味します。
+すべてのファイルやフォルダーには最小整合性レベルがあるわけではありませんが、**すべてのプロセスは整合性レベルの下で実行されています**。ファイルシステムで起こったことと同様に、**プロセスが別のプロセス内に書き込むには、少なくとも同じ整合性レベルを持っている必要があります**。これは、低整合性レベルのプロセスが中程度の整合性レベルのプロセスに対してフルアクセスのハンドルを開くことができないことを意味します。
 
 このセクションと前のセクションで述べた制限により、セキュリティの観点からは、常に**可能な限り低い整合性レベルでプロセスを実行することが推奨されます**。
-
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}

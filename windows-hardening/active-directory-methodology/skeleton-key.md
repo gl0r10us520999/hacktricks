@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Skeleton Key Attack
 
-**Skeleton Key攻撃**は、攻撃者が**ドメインコントローラーにマスターパスワードを注入することによってActive Directory認証をバイパスする**高度な技術です。これにより、攻撃者は**任意のユーザーとして認証できる**ようになり、実質的に**ドメインへの無制限のアクセスを付与**します。
+**Skeleton Key攻撃**は、攻撃者が**ドメインコントローラーにマスターパスワードを注入することによってActive Directory認証をバイパスする**高度な技術です。これにより、攻撃者は**パスワードなしで任意のユーザーとして認証できる**ため、実質的に**ドメインへの無制限のアクセスを付与**します。
 
 この攻撃は[Mimikatz](https://github.com/gentilkiwi/mimikatz)を使用して実行できます。この攻撃を実行するには、**ドメイン管理者権限が前提条件**であり、攻撃者は包括的な侵害を確実にするために各ドメインコントローラーをターゲットにする必要があります。ただし、攻撃の効果は一時的であり、**ドメインコントローラーを再起動するとマルウェアが消去される**ため、持続的なアクセスのためには再実装が必要です。
 
@@ -31,11 +31,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 - 疑わしいサービスのインストールを検出するには、次のコマンドを使用します：`Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
-- 特にMimikatzのドライバーを検出するには、次のコマンドを利用できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
+- 特にMimikatzのドライバーを検出するには、次のコマンドを使用できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
 - `lsass.exe`を強化するためには、保護されたプロセスとして有効にすることが推奨されます：`New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-システム再起動後の検証は、保護措置が正常に適用されたことを確認するために重要です。これは次のコマンドで実現できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+システム再起動後の検証は、保護措置が正常に適用されたことを確認するために重要です。これは次のコマンドで実行できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
 ## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)

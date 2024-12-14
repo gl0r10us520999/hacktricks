@@ -1,12 +1,12 @@
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
@@ -45,7 +45,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * [https://builtwith.com/](https://builtwith.com)
 * [https://www.spiderfoot.net/](https://www.spiderfoot.net)
 * [https://github.com/zricethezav/gitleaks](https://github.com/zricethezav/gitleaks)
-* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : 8つのサブドメインファインダー工具、sublist3r、amassなど
+* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : 8つのサブドメインファインダーツール、sublist3r、amassなど
 
 # **WEB**
 
@@ -67,12 +67,12 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : ウェブバグバウンティチェックリスト
 * [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : オープンリダイレクションに対してドメインのリストを確認する
-* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burpプラグイン、ドメイン、サブドメイン、IPを発見するためのオフライン分析
+* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burpプラグイン、オフライン分析でドメイン、サブドメイン、IPを発見
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): 様々なツールのリスト
-* [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : 脆弱性を見つけるためのBurpSuiteプラグイン（SQLi、XSS、SSTI）
-* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : post-messages関数を追跡するためのChrome拡張機能
-* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : 自動認証テスト（クッキーを削除し、リクエストを送信しようとする）
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCrossは再構築、スキャナー、ペネトレーション/バグバウンティテストのためのツールです。このツールは（XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI）脆弱性をテストするために構築されました。
+* [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : 脆弱性を見つけるためのBurpSuiteプラグイン (SQLi, XSS, SSTI)
+* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : post-messages関数を追跡するためのChrome拡張
+* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : 自動認証テスト (クッキーを削除し、リクエストを送信しようとする)
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCrossは再構築、スキャナー、ペネトレーション/バグバウンティテスト用のツールです。このツールは(XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)の脆弱性をテストするために作られました。
 
 # Windows
 
@@ -84,32 +84,32 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : Active Directoryグループポリシーのセキュリティ関連の誤設定を見つける。
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Securestring難読化
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : 親PIDスプーフィング
-* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Powershellペイロードを暗号化する
+* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Powershellペイロードを暗号化
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : ステルスC2
-* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Windows内部に関する一連のログ
-* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : ドキュメントを開いた人を追跡する
+* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Windows内部に関するログのシリーズ
+* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : ドキュメントを開いた人を追跡
 * [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directoryチートシート
 
 # Firmware
 
-ファームウェアを分析するためのツール（自動）：
+ファームウェアを分析するためのツール (自動):
 
 * [https://github.com/craigz28/firmwalker](https://github.com/craigz28/firmwalker)
 * [https://github.com/fkie-cad/FACT\_core](https://github.com/fkie-cad/FACT\_core)
 * [https://gitlab.com/bytesweep/bytesweep-go](https://gitlab.com/bytesweep/bytesweep-go)
 
-ポストクリーム：
+ポストクリーム:
 
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
 
-ファームウェアをオンラインで見つけられない場合の抽出方法：[https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
+ファームウェアをオンラインで見つけられない場合の抽出方法: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
 
-ここに分析用の脆弱性のあるファームウェアがあります：[https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
+分析するための脆弱性のあるファームウェア: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
-そして、ここにファームウェアを分析するためのOWASPメソドロジーがあります：[https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
+ファームウェアを分析するためのOWASPメソドロジー: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
-ファームウェアエミュレーション：FIRMADYNE (https://github.com/firmadyne/firmadyne/) は、Linuxベースのファームウェアのエミュレーションと動的分析を自動化するためのプラットフォームです。
+ファームウェアエミュレーション: FIRMADYNE (https://github.com/firmadyne/firmadyne/) は、Linuxベースのファームウェアのエミュレーションと動的分析を自動化するためのプラットフォームです。
 
 # OTHER
 
@@ -119,16 +119,16 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
 * [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : 静的コード分析
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSHターポイントで、徐々に無限のバナーを送信します。
-* AWSおよびクラウドツール：[https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
-* フィッシング用のIFS（Interplanetary File System）：[https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
-* IPローテーションサービス：[https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
-* Linuxルートキット：[https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSHターピットが徐々に無限のバナーを送信します。
+* AWSおよびクラウドツール: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
+* フィッシング用のIFS (Interplanetary File System): [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
+* IPローテーションサービス: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
+* Linuxルートキット: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
 * [https://theia-ide.org/](https://theia-ide.org) : オンラインIDE
 * [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : バグバウンティを始めるためのリソース
-* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOSペネトスティングツール
+* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOSペンテストツール
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : キーワード
-* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : IoTハッキング（Wifi、BLE、SSDP、MDNS）
+* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : IoTハッキング (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : スキャンの自動化
 * [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : このリストはElectron.jsのセキュリティ関連のトピックをカバーすることを目的としています。
 * [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : BBプログラムに関する情報
@@ -140,14 +140,14 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 

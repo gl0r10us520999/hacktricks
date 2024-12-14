@@ -18,23 +18,23 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
 ## Kerberoast
 
-Kerberoastingは、**Active Directory (AD)**内の**ユーザーアカウント**に関連する**TGSチケット**の取得に焦点を当てています。**コンピューターアカウント**は除外されます。これらのチケットの暗号化には、**ユーザーパスワード**から派生したキーが使用されており、**オフラインの資格情報クラッキング**の可能性があります。サービスとしてのユーザーアカウントの使用は、非空の**"ServicePrincipalName"**プロパティによって示されます。
+Kerberoastingは、**Active Directory (AD)**内の**ユーザーアカウント**に関連する**TGSチケット**の取得に焦点を当てています。**コンピューターアカウント**は除外されます。これらのチケットの暗号化は、**ユーザーパスワード**から生成されたキーを使用しており、**オフラインの資格情報クラッキング**の可能性を提供します。サービスとしてのユーザーアカウントの使用は、非空の**"ServicePrincipalName"**プロパティによって示されます。
 
 **Kerberoasting**を実行するには、**TGSチケット**を要求できるドメインアカウントが必要ですが、このプロセスには**特別な権限**は必要なく、**有効なドメイン資格情報**を持つ誰でもアクセス可能です。
 
 ### 主なポイント：
 
 * **Kerberoasting**は、**AD**内の**ユーザーアカウントサービス**の**TGSチケット**をターゲットにします。
-* **ユーザーパスワード**からのキーで暗号化されたチケットは**オフラインでクラッキング**可能です。
+* **ユーザーパスワード**からのキーで暗号化されたチケットは、**オフラインでクラッキング**可能です。
 * サービスは、nullでない**ServicePrincipalName**によって識別されます。
-* **特別な権限**は不要で、**有効なドメイン資格情報**のみが必要です。
+* **特別な権限**は必要なく、**有効なドメイン資格情報**のみが必要です。
 
 ### **攻撃**
 
@@ -137,28 +137,28 @@ Linuxからこの**エラー**が表示された場合: **`Kerberos SessionError
 
 ### 緩和策
 
-Kerberoastingは、利用可能であれば高いステルス性で実施できます。この活動を検出するためには、**Security Event ID 4769**に注意を払う必要があります。これはKerberosチケットがリクエストされたことを示します。しかし、このイベントの高頻度のため、疑わしい活動を特定するために特定のフィルターを適用する必要があります:
+Kerberoastingは、利用可能であれば高いステルス性で実行できます。この活動を検出するためには、**Security Event ID 4769**に注意を払う必要があります。これはKerberosチケットがリクエストされたことを示します。しかし、このイベントの頻度が高いため、疑わしい活動を特定するために特定のフィルターを適用する必要があります:
 
 * サービス名は**krbtgt**であってはならず、これは通常のリクエストです。
 * **$**で終わるサービス名は、サービスに使用されるマシンアカウントを含まないように除外する必要があります。
 * マシンからのリクエストは、**machine@domain**形式のアカウント名を除外することでフィルタリングする必要があります。
 * 成功したチケットリクエストのみを考慮し、失敗コード**'0x0'**で識別されます。
-* **最も重要なこと**は、チケット暗号化タイプが**0x17**であるべきで、これはKerberoasting攻撃でよく使用されます。
+* **最も重要なこと**は、チケット暗号化タイプが**0x17**である必要があり、これはKerberoasting攻撃でよく使用されます。
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
 Kerberoastingのリスクを軽減するために：
 
-* **サービスアカウントのパスワードは推測しにくいものにする**ことを確保し、**25文字以上**の長さを推奨します。
+* **サービスアカウントのパスワードは推測しにくいものにする**ことを確認し、**25文字以上**の長さを推奨します。
 * **マネージドサービスアカウント**を利用し、**自動パスワード変更**や**委任されたサービスプリンシパル名（SPN）管理**などの利点を提供し、こうした攻撃に対するセキュリティを強化します。
 
 これらの対策を実施することで、組織はKerberoastingに関連するリスクを大幅に低減できます。
 
-## ドメインアカウントなしのKerberoast
+## Kerberoast w/o domain account
 
 **2022年9月**、チャーリー・クラークという研究者によって新しいシステムの悪用方法が明らかにされ、彼のプラットフォーム[exploit.ph](https://exploit.ph/)を通じて共有されました。この方法では、**KRB_AS_REQ**リクエストを介して**サービスチケット（ST）**を取得することが可能で、驚くべきことに、Active Directoryアカウントの制御を必要としません。基本的に、プリンシパルが事前認証を必要としないように設定されている場合—サイバーセキュリティの領域で**AS-REP Roasting攻撃**として知られるシナリオに似ています—この特性を利用してリクエストプロセスを操作できます。具体的には、リクエストのボディ内の**sname**属性を変更することで、システムは標準の暗号化されたチケットグラントチケット（TGT）ではなく、**ST**を発行するように騙されます。
 
-この技術はこの記事で完全に説明されています：[Semperisブログ投稿](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/)。
+この技術はこの記事で完全に説明されています：[Semperis blog post](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/)。
 
 {% hint style="warning" %}
 この技術を使用してLDAPをクエリするための有効なアカウントがないため、ユーザーのリストを提供する必要があります。
@@ -192,7 +192,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

@@ -9,7 +9,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
@@ -18,7 +18,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 ## JTAGenum
 
 [**JTAGenum** ](https://github.com/cyphunk/JTAGenum)は、Raspberry PIまたはArduinoを使用して不明なチップのJTAGピンを探すために使用できるツールです。\
-**Arduino**では、**2から11のピンをJTAGに属する可能性のある10ピンに接続します**。Arduinoにプログラムをロードすると、すべてのピンをブルートフォースして、どのピンがJTAGに属するかを見つけようとします。\
+**Arduino**では、**2から11のピンをJTAGに属する可能性のある10ピンに接続します**。Arduinoにプログラムをロードすると、すべてのピンをブルートフォースして、どのピンがJTAGに属するか、各ピンが何であるかを見つけようとします。\
 **Raspberry PI**では、**1から6のピンのみを使用できます**（6ピンなので、各潜在的なJTAGピンをテストするのが遅くなります）。
 
 ### Arduino
@@ -45,7 +45,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>

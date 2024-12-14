@@ -1,22 +1,22 @@
 # JuicyPotato
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 {% hint style="warning" %}
-**JuicyPotatoは** Windows Server 2019およびWindows 10ビルド1809以降では動作しません。ただし、[**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**、**[**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**、**[**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)を使用して、**同じ特権を利用し、`NT AUTHORITY\SYSTEM`**レベルのアクセスを取得できます。_**確認してください：**_
+**JuicyPotatoは** Windows Server 2019 および Windows 10 ビルド 1809 以降では動作しません。しかし、[**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**、** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**、** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) を使用して **同じ特権を利用し、`NT AUTHORITY\SYSTEM`** レベルのアクセスを取得できます。 _**確認してください:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -25,7 +25,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ## Juicy Potato (ゴールデン特権の悪用) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_少しのジュースを加えた_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG) _の甘いバージョン、つまり**WindowsサービスアカウントからNT AUTHORITY\SYSTEMへの別のローカル特権昇格ツール**_
+_少しのジュースを加えた_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG) _の甘いバージョン、つまり **Windows サービスアカウントから NT AUTHORITY\SYSTEM への別のローカル特権昇格ツール**_
 
 #### juicypotatoは[https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)からダウンロードできます
 
@@ -33,36 +33,36 @@ _少しのジュースを加えた_ [_RottenPotatoNG_](https://github.com/breenm
 
 [**juicy-potatoのReadmeから**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG)およびその[バリアント](https://github.com/decoder-it/lonelypotato)は、[`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [サービス](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126)に基づく特権昇格チェーンを利用し、`127.0.0.1:6666`でMiTMリスナーを持ち、`SeImpersonate`または`SeAssignPrimaryToken`特権を持っている場合に機能します。Windowsビルドレビュー中に、`BITS`が意図的に無効にされ、ポート`6666`が使用されている設定を見つけました。
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) とその [バリアント](https://github.com/decoder-it/lonelypotato) は、[`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [サービス](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) に基づく特権昇格チェーンを利用し、`127.0.0.1:6666` で MiTM リスナーを持ち、`SeImpersonate` または `SeAssignPrimaryToken` 特権を持っている場合に機能します。Windows ビルドレビュー中に、`BITS` が意図的に無効にされ、ポート `6666` が使用されている設定を見つけました。
 
-私たちは[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG)を武器化することに決めました：**Juicy Potatoにこんにちはを言いましょう**。
+私たちは [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) を武器化することに決めました: **Juicy Potato にこんにちはを言いましょう**。
 
-> 理論については、[Rotten Potato - サービスアカウントからSYSTEMへの特権昇格](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/)を参照し、リンクと参考文献のチェーンをたどってください。
+> 理論については、[Rotten Potato - サービスアカウントから SYSTEM への特権昇格](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) を参照し、リンクと参考文献のチェーンをたどってください。
 
-私たちは、`BITS`以外にも悪用できるCOMサーバーがいくつかあることを発見しました。それらは次の条件を満たす必要があります：
+私たちは、`BITS` 以外にも悪用できるいくつかの COM サーバーがあることを発見しました。これらは次の条件を満たす必要があります：
 
-1. 現在のユーザーによってインスタンス化可能であること、通常は特権を持つ「サービスユーザー」
-2. `IMarshal`インターフェースを実装していること
-3. 高い権限のユーザー（SYSTEM、Administratorなど）として実行されること
+1. 現在のユーザーによってインスタンス化可能であること、通常は偽装特権を持つ「サービスユーザー」
+2. `IMarshal` インターフェースを実装していること
+3. 高い権限のユーザー（SYSTEM、Administrator など）として実行されること
 
-いくつかのテストの後、私たちは複数のWindowsバージョンで[興味深いCLSIDのリスト](http://ohpe.it/juicy-potato/CLSID/)を取得し、テストしました。
+いくつかのテストの後、私たちは複数の Windows バージョンでの [興味深い CLSID のリスト](http://ohpe.it/juicy-potato/CLSID/) を取得し、テストしました。
 
 ### ジューシーな詳細 <a href="#juicy-details" id="juicy-details"></a>
 
-JuicyPotatoを使用すると：
+JuicyPotato を使用すると、次のことができます：
 
-* **ターゲットCLSID** _任意のCLSIDを選択できます。_ [_こちら_](http://ohpe.it/juicy-potato/CLSID/) _でOS別に整理されたリストを見つけることができます。_
-* **COMリスニングポート** _好みのCOMリスニングポートを定義します（ハードコーディングされた6666の代わりに）_
-* **COMリスニングIPアドレス** _任意のIPにサーバーをバインドします_
+* **ターゲット CLSID** _任意の CLSID を選択できます。_ [_こちら_](http://ohpe.it/juicy-potato/CLSID/) _で OS ごとに整理されたリストを見つけることができます。_
+* **COM リスニングポート** _好みの COM リスニングポートを定義します（ハードコーディングされた 6666 の代わりに）_
+* **COM リスニング IP アドレス** _任意の IP にサーバーをバインドします_
 * **プロセス作成モード** _偽装されたユーザーの特権に応じて、次のいずれかを選択できます：_
-* `CreateProcessWithToken`（`SeImpersonate`が必要）
-* `CreateProcessAsUser`（`SeAssignPrimaryToken`が必要）
+* `CreateProcessWithToken`（`SeImpersonate` が必要）
+* `CreateProcessAsUser`（`SeAssignPrimaryToken` が必要）
 * `両方`
 * **起動するプロセス** _エクスプロイトが成功した場合に実行する実行可能ファイルまたはスクリプト_
 * **プロセス引数** _起動するプロセスの引数をカスタマイズします_
-* **RPCサーバーアドレス** _ステルスアプローチのために、外部RPCサーバーに認証できます_
-* **RPCサーバーポート** _外部サーバーに認証したい場合に便利で、ファイアウォールがポート`135`をブロックしている場合…_
-* **テストモード** _主にテスト目的、つまりCLSIDのテスト。DCOMを作成し、トークンのユーザーを表示します。テストについては_ [_こちらを参照_](http://ohpe.it/juicy-potato/Test/)
+* **RPC サーバーアドレス** _ステルスアプローチのために、外部 RPC サーバーに認証できます_
+* **RPC サーバーポート** _外部サーバーに認証したい場合に便利で、ファイアウォールがポート `135` をブロックしている場合…_
+* **テストモード** _主にテスト目的、つまり CLSID のテスト。DCOM を作成し、トークンのユーザーを表示します。_ [_テスト用はこちら_](http://ohpe.it/juicy-potato/Test/)
 
 ### 使用法 <a href="#usage" id="usage"></a>
 ```
@@ -87,7 +87,7 @@ Optional args:
 
 ユーザーが `SeImpersonate` または `SeAssignPrimaryToken` 権限を持っている場合、あなたは **SYSTEM** です。
 
-これらのCOMサーバーの悪用を防ぐことはほぼ不可能です。`DCOMCNFG` を介してこれらのオブジェクトの権限を変更することを考えるかもしれませんが、うまくいくことは難しいでしょう。
+これらのCOMサーバーの悪用を防ぐことはほぼ不可能です。これらのオブジェクトの権限を `DCOMCNFG` を介して変更することを考えるかもしれませんが、うまくいくことは難しいでしょう。
 
 実際の解決策は、`* SERVICE` アカウントの下で実行される敏感なアカウントとアプリケーションを保護することです。`DCOM` を停止することは確かにこのエクスプロイトを抑制しますが、基盤となるOSに深刻な影響を与える可能性があります。
 
@@ -128,9 +128,9 @@ c:\Users\Public>
 
 まず、juicypotato.exe以外のいくつかの実行可能ファイルが必要です。
 
-[Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1)をダウンロードしてPSセッションに読み込み、[GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1)をダウンロードして実行します。そのスクリプトはテストする可能性のあるCLSIDのリストを作成します。
+[Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1)をダウンロードしてPSセッションにロードし、[GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1)をダウンロードして実行します。そのスクリプトは、テストする可能性のあるCLSIDのリストを作成します。
 
-次に[test_clsid.bat](https://github.com/ohpe/juicy-potato/blob/master/Test/test_clsid.bat)をダウンロードし（CLSIDリストとjuicypotato実行可能ファイルへのパスを変更）、実行します。すべてのCLSIDを試し始め、**ポート番号が変更されると、それはCLSIDが機能したことを意味します**。
+次に、[test\_clsid.bat](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)をダウンロードし（CLSIDリストとjuicypotato実行可能ファイルへのパスを変更）、実行します。これにより、すべてのCLSIDを試し始め、**ポート番号が変更されると、CLSIDが機能したことを意味します**。
 
 **-cパラメータを使用して**動作するCLSIDを**確認してください**
 
@@ -140,8 +140,8 @@ c:\Users\Public>
 
 
 {% hint style="success" %}
-AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

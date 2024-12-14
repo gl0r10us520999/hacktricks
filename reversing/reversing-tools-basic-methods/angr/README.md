@@ -1,19 +1,19 @@
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-このチートシートの一部は、[angrドキュメント](https://docs.angr.io/_/downloads/en/stable/pdf/)に基づいています。
+このチートシートの一部は[angr documentation](https://docs.angr.io/_/downloads/en/stable/pdf/)に基づいています。
 
 # インストール
 ```bash
@@ -44,6 +44,8 @@ angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch':
 # Loaded and Main object information
 
 ## Loaded Data
+
+読み込まれたデータ
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -132,7 +134,7 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## 関数の呼び出し
 
-* `entry_state` と `full_init_state` に `args` を通じて引数のリストを、`env` を通じて環境変数の辞書を渡すことができます。これらの構造内の値は文字列またはビットベクタであり、シミュレーションされた実行の引数と環境として状態にシリアライズされます。デフォルトの `args` は空のリストなので、分析しているプログラムが少なくとも `argv[0]` を見つけることを期待している場合は、常にそれを提供する必要があります！
+* `entry_state` と `full_init_state` に `args` を通じて引数のリストを、`env` を通じて環境変数の辞書を渡すことができます。これらの構造内の値は文字列またはビットベクタであり、シミュレートされた実行の引数と環境として状態にシリアライズされます。デフォルトの `args` は空のリストなので、分析しているプログラムが少なくとも `argv[0]` を見つけることを期待している場合は、常にそれを提供する必要があります！
 * `argc` をシンボリックにしたい場合は、`entry_state` と `full_init_state` コンストラクタにシンボリックビットベクタを `argc` として渡すことができます。ただし、注意が必要です：これを行う場合は、結果の状態に対して、argc の値が `args` に渡した引数の数より大きくならないという制約も追加する必要があります。
 * コールステートを使用するには、`.call_state(addr, arg1, arg2, ...)` で呼び出す必要があります。ここで `addr` は呼び出したい関数のアドレスで、`argN` はその関数への N 番目の引数であり、Python の整数、文字列、配列、またはビットベクタとして指定できます。メモリを割り当ててオブジェクトへのポインタを実際に渡したい場合は、`angr.PointerWrapper("point to me!")` のように PointerWrapper でラップする必要があります。この API の結果は少し予測不可能な場合がありますが、改善に取り組んでいます。
 

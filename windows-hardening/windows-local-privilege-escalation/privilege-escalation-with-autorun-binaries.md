@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## フォルダ
 
-**スタートアップフォルダにあるすべてのバイナリは、起動時に実行されます**。一般的なスタートアップフォルダは以下に示すものですが、スタートアップフォルダはレジストリに示されています。[ここを読んで、どこにあるかを学んでください。](privilege-escalation-with-autorun-binaries.md#startup-path)
+**スタートアップフォルダにあるすべてのバイナリは、起動時に実行されます**。一般的なスタートアップフォルダは以下にリストされているものですが、スタートアップフォルダはレジストリに示されています。[ここを読んで、どこにあるかを学んでください。](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -245,38 +245,38 @@ Active Setupは、以下のレジストリキーを通じて管理されます�
 これらのキー内には、特定のコンポーネントに対応するさまざまなサブキーが存在します。特に注目すべきキー値には以下が含まれます：
 
 * **IsInstalled:**
-* `0`は、コンポーネントのコマンドが実行されないことを示します。
-* `1`は、コマンドが各ユーザーごとに一度実行されることを意味し、`IsInstalled`値が欠如している場合のデフォルトの動作です。
+* `0`はコンポーネントのコマンドが実行されないことを示します。
+* `1`はコマンドが各ユーザーごとに一度実行されることを意味し、`IsInstalled`値が欠如している場合のデフォルトの動作です。
 * **StubPath:** Active Setupによって実行されるコマンドを定義します。`notepad`を起動するなど、任意の有効なコマンドラインである可能性があります。
 
-**セキュリティの洞察：**
+**セキュリティインサイト：**
 
 * **`IsInstalled`**が`"1"`に設定され、特定の**`StubPath`**を持つキーを変更または書き込むことは、権限昇格のための不正なコマンド実行につながる可能性があります。
 * いかなる**`StubPath`**値で参照されるバイナリファイルを変更することも、十分な権限があれば権限昇格を達成する可能性があります。
 
-Active Setupコンポーネント全体の**`StubPath`**設定を検査するには、以下のコマンドを使用できます：
+Active Setupコンポーネント全体の**`StubPath`**構成を検査するには、以下のコマンドを使用できます：
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 ```
-### Browser Helper Objects
+### ブラウザヘルパーオブジェクト
 
-### Overview of Browser Helper Objects (BHOs)
+### ブラウザヘルパーオブジェクト (BHO) の概要
 
-Browser Helper Objects (BHOs) は、Microsoft の Internet Explorer に追加機能を提供する DLL モジュールです。これらは、各起動時に Internet Explorer および Windows Explorer に読み込まれます。しかし、**NoExplorer** キーを 1 に設定することで実行をブロックでき、Windows Explorer インスタンスと共に読み込まれるのを防ぐことができます。
+ブラウザヘルパーオブジェクト (BHO) は、Microsoft の Internet Explorer に追加機能を提供する DLL モジュールです。これらは、各起動時に Internet Explorer および Windows Explorer に読み込まれます。しかし、**NoExplorer** キーを 1 に設定することで実行をブロックでき、Windows Explorer インスタンスと共に読み込まれるのを防ぐことができます。
 
-BHOs は、Internet Explorer 11 を介して Windows 10 と互換性がありますが、最新の Windows バージョンのデフォルトブラウザである Microsoft Edge ではサポートされていません。
+BHO は、Internet Explorer 11 を介して Windows 10 と互換性がありますが、最新の Windows バージョンのデフォルトブラウザである Microsoft Edge ではサポートされていません。
 
-システムに登録されている BHOs を調査するには、以下のレジストリキーを確認できます：
+システムに登録されている BHO を調査するには、次のレジストリキーを確認できます：
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-各 BHO は、レジストリ内の **CLSID** によって表され、ユニークな識別子として機能します。各 CLSID に関する詳細情報は、`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` の下にあります。
+各 BHO はレジストリ内の **CLSID** によって表され、ユニークな識別子として機能します。各 CLSID に関する詳細情報は `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` の下にあります。
 
-レジストリ内の BHOs をクエリするには、以下のコマンドを利用できます：
+レジストリ内の BHO をクエリするには、次のコマンドを利用できます：
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
@@ -315,7 +315,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-注意すべきは、autorunsを見つけることができるすべてのサイトは**すでに**[**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe)によって**検索されています**。しかし、**自動実行される**ファイルの**より包括的なリスト**を得るには、Sysinternalsの[autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)を使用することができます：
+注意すべきは、autorunsを見つけることができるすべてのサイトは**すでに**[**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe)によって検索されています。しかし、**自動実行される**ファイルの**より包括的なリスト**を得るには、Sysinternalsの[autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)を使用することができます。
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -332,7 +332,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**バグバウンティのヒント**: **ハッカーによって、ハッカーのために作られたプレミアム** **バグバウンティプラットフォーム** **Intigritiに** **サインアップ** **しましょう**！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)に参加して、最大**$100,000**のバウンティを獲得し始めましょう！
+**バグバウンティのヒント**: **ハッカーによって、ハッカーのために作られたプレミアム** **バグバウンティプラットフォーム** **Intigritiに** **サインアップ** **しましょう**！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)に参加し、最大**$100,000**のバウンティを獲得し始めましょう！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -346,7 +346,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを送信してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

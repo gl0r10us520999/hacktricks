@@ -15,17 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## How It Works Explained
+## 仕組みの説明
 
-プロセスは、ユーザー名とパスワードまたはハッシュが知られているホストでWMIを使用して開くことができます。コマンドはWmiexecによってWMIを使用して実行され、セミインタラクティブなシェル体験を提供します。
+ユーザー名とパスワードまたはハッシュが知られているホスト上でプロセスを開くことができます。Wmiexecを使用してWMIによってコマンドが実行され、セミインタラクティブなシェル体験を提供します。
 
-**dcomexec.py:** 異なるDCOMエンドポイントを利用して、このスクリプトはwmiexec.pyに似たセミインタラクティブなシェルを提供し、特にShellBrowserWindow DCOMオブジェクトを活用します。現在、MMC20、アプリケーション、シェルウィンドウ、およびシェルブラウザウィンドウオブジェクトをサポートしています。(source: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** 異なるDCOMエンドポイントを利用して、このスクリプトはwmiexec.pyに似たセミインタラクティブなシェルを提供し、特にShellBrowserWindow DCOMオブジェクトを活用します。現在、MMC20、アプリケーション、シェルウィンドウ、およびシェルブラウザウィンドウオブジェクトをサポートしています。(出典: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
-## WMI Fundamentals
+## WMIの基本
 
-### Namespace
+### 名前空間
 
-ディレクトリスタイルの階層で構成されているWMIの最上位コンテナは\rootであり、その下に名前空間と呼ばれる追加のディレクトリが整理されています。
+ディレクトリスタイルの階層で構成されており、WMIの最上位コンテナは\rootで、その下に名前空間と呼ばれる追加のディレクトリが整理されています。
 名前空間をリストするためのコマンド:
 ```bash
 # Retrieval of Root namespaces
@@ -44,7 +44,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **クラス**
 
-WMIクラス名（例：win32\_process）とその存在する名前空間を知ることは、すべてのWMI操作において重要です。  
+WMIクラス名（例：win32\_process）と、それが存在する名前空間を知ることは、すべてのWMI操作において重要です。  
 `win32`で始まるクラスをリストするコマンド：
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
@@ -102,7 +102,7 @@ wmic sysaccount list /format:list
 
 ### **手動リモートWMIクエリ**
 
-リモートマシン上のローカル管理者やログイン中のユーザーを stealthy に特定することは、特定のWMIクエリを通じて達成できます。 `wmic` は、複数のノードでコマンドを同時に実行するためにテキストファイルからの読み取りもサポートしています。
+リモートマシン上のローカル管理者やログイン中のユーザーをステルスに特定するためには、特定のWMIクエリを使用します。`wmic`は、複数のノードでコマンドを同時に実行するためにテキストファイルからの読み取りもサポートしています。
 
 WMIを介してプロセスをリモートで実行するためには、Empireエージェントを展開するなど、以下のコマンド構造が使用され、成功した実行は戻り値「0」で示されます：
 ```bash
@@ -132,7 +132,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>

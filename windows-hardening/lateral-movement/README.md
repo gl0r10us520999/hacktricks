@@ -15,7 +15,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 </details>
 {% endhint %}
 
-外部システムでコマンドを実行する方法はさまざまです。ここでは、主なWindowsのラテラルムーブメント技術がどのように機能するかの説明を見つけることができます：
+外部システムでコマンドを実行する方法はさまざまあります。ここでは、主なWindowsの横移動技術がどのように機能するかの説明を見つけることができます：
 
 * [**PsExec**](psexec-and-winexec.md)
 * [**SmbExec**](smbexec.md)

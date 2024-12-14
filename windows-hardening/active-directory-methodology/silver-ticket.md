@@ -23,9 +23,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Silver ticket
 
-**Silver Ticket**攻撃は、Active Directory (AD) 環境におけるサービスチケットの悪用を含みます。この手法は、**サービスアカウントのNTLMハッシュを取得すること**に依存し、コンピュータアカウントなどのチケットを偽造するために使用されます。この偽造されたチケットを使用することで、攻撃者はネットワーク上の特定のサービスにアクセスでき、**任意のユーザーを偽装**し、通常は管理者権限を目指します。チケットを偽造する際にAESキーを使用することが、より安全で検出されにくいことが強調されています。
+**Silver Ticket**攻撃は、Active Directory (AD) 環境におけるサービスチケットの悪用を含みます。この手法は、**サービスアカウントのNTLMハッシュを取得すること**に依存しており、コンピュータアカウントなどのチケットを偽造するために使用されます。この偽造されたチケットを使用することで、攻撃者はネットワーク上の特定のサービスにアクセスでき、**任意のユーザーを偽装**し、通常は管理者権限を目指します。チケットを偽造する際にAESキーを使用することが、より安全で検出されにくいことが強調されています。
 
-チケット作成には、オペレーティングシステムに基づいて異なるツールが使用されます。
+チケット作成には、オペレーティングシステムに基づいて異なるツールが使用されます：
 
 ### On Linux
 ```bash
@@ -45,7 +45,7 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-CIFSサービスは、被害者のファイルシステムにアクセスするための一般的なターゲットとして強調されていますが、HOSTやRPCSSなどの他のサービスもタスクやWMIクエリのために悪用される可能性があります。
+The CIFSサービスは、被害者のファイルシステムにアクセスするための一般的なターゲットとして強調されていますが、HOSTやRPCSSなどの他のサービスもタスクやWMIクエリのために悪用される可能性があります。
 
 ## 利用可能なサービス
 
@@ -60,7 +60,7 @@ CIFSサービスは、被害者のファイルシステムにアクセスする�
 | Windowsリモートサーバー管理ツール          | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | ゴールデンチケット                         | krbtgt                                                                     |
 
-**Rubeus**を使用すると、次のパラメータを使用して**すべての**チケットを**要求**できます：
+**Rubeus**を使用すると、次のパラメータを使用して**すべての**チケットを**要求**できます:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
@@ -82,7 +82,7 @@ dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-あなたはまた、**psexec**を使用してホスト内でシェルを取得したり、任意のコマンドを実行したりすることができます：
+あなたはまた、ホスト内でシェルを取得したり、**psexec**を使用して任意のコマンドを実行することができます：
 
 {% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)
@@ -155,7 +155,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**バグバウンティのヒント**：**Intigritiにサインアップ**してください。これは**ハッカーによって、ハッカーのために作られたプレミアムバグバウンティプラットフォーム**です！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)に参加して、最大**$100,000**の報酬を得始めましょう！
+**バグバウンティのヒント**：**Intigritiにサインアップ**してください。これは**ハッカーによって、ハッカーのために作られたプレミアムバグバウンティプラットフォーム**です！今日、[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)で私たちに参加し、最大**$100,000**の報酬を得始めましょう！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -169,7 +169,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

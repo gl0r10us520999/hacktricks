@@ -1,16 +1,16 @@
 # アクセストークン
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ## アクセストークン
 
-各**ユーザーがシステムにログイン**すると、そのログオンセッションの**セキュリティ情報を持つアクセストークンを保持します**。ユーザーがログインすると、システムはアクセストークンを作成します。**ユーザーのために実行されるすべてのプロセスは**、**アクセストークンのコピーを持っています**。トークンはユーザー、ユーザーのグループ、およびユーザーの特権を識別します。トークンには、現在のログオンセッションを識別するログオンSID（セキュリティ識別子）も含まれています。
+各**ユーザーが**システムに**ログインすると、そのログオンセッションのセキュリティ情報を持つアクセストークンを保持します**。ユーザーがログインすると、システムはアクセストークンを作成します。**ユーザーのために実行されるすべてのプロセスは**アクセストークンのコピーを**持っています**。トークンはユーザー、ユーザーのグループ、およびユーザーの特権を識別します。トークンには、現在のログオンセッションを識別するログオンSID（セキュリティ識別子）も含まれています。
 
 この情報は`whoami /all`を実行することで確認できます。
 ```
@@ -71,7 +71,7 @@ or using _Process Explorer_ from Sysinternals (select process and access"Securit
 ### ローカル管理者
 
 ローカル管理者がログインすると、**2つのアクセス トークンが作成されます**: 1つは管理者権限を持ち、もう1つは通常の権限を持ちます。**デフォルトでは**、このユーザーがプロセスを実行するとき、**通常の**（非管理者）**権限のトークンが使用されます**。このユーザーが**管理者として**何かを**実行**しようとすると（例えば「管理者として実行」）、**UAC**が許可を求めるために使用されます。\
-[**UACについて詳しく学ぶにはこのページを読んでください**](../authentication-credentials-uac-and-efs/#uac)**。**
+[**UACについてもっと学びたい場合は、このページを読んでください**](../authentication-credentials-uac-and-efs/#uac)**。**
 
 ### 資格情報のユーザーなりすまし
 
@@ -80,7 +80,7 @@ or using _Process Explorer_ from Sysinternals (select process and access"Securit
 runas /user:domain\username cmd.exe
 ```
 **アクセス トークン**には、**LSASS**内のログオン セッションの**参照**も含まれています。これは、プロセスがネットワークのいくつかのオブジェクトにアクセスする必要がある場合に便利です。\
-ネットワーク サービスにアクセスするために**異なる資格情報を使用するプロセス**を起動するには、次のコマンドを使用します:
+ネットワーク サービスにアクセスするために**異なる資格情報を使用する**プロセスを起動するには、次のコマンドを使用します:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
@@ -99,7 +99,7 @@ runas /user:domain\username /netonly cmd.exe
 
 #### インパーソネートトークン
 
-メタスプライトの _**incognito**_ モジュールを使用すると、十分な権限があれば、他の **トークン** を簡単に **リスト** し、**インパーソネート** できます。これは、**他のユーザーのようにアクションを実行する**のに役立ちます。この技術を使用して **権限を昇格** することもできます。
+metasploitの_**incognito**_モジュールを使用すると、十分な権限があれば、他の**トークン**を簡単に**リスト**および**インパーソネート**できます。これは、**他のユーザーのようにアクションを実行する**のに役立ちます。この技術を使用して**権限を昇格**させることもできます。
 
 ### トークンの権限
 
@@ -109,7 +109,7 @@ runas /user:domain\username /netonly cmd.exe
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-[**すべての可能なトークンの権限とこの外部ページのいくつかの定義を確認してください**](https://github.com/gtworek/Priv2Admin)。
+[**この外部ページで可能なすべてのトークン権限といくつかの定義を確認してください**](https://github.com/gtworek/Priv2Admin)。
 
 ## 参考文献
 

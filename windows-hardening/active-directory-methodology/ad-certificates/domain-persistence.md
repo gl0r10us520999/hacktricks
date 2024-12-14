@@ -1,16 +1,16 @@
 # AD CS ドメイン持続性
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,16 +19,16 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ## 盗まれたCA証明書を使った証明書の偽造 - DPERSIST1
 
-証明書がCA証明書であることはどうやって判断できますか？
+証明書がCA証明書であることをどのように判断できますか？
 
 いくつかの条件が満たされている場合、証明書がCA証明書であることが判断できます：
 
 - 証明書はCAサーバーに保存されており、その秘密鍵はマシンのDPAPIまたは、オペレーティングシステムがサポートしている場合はTPM/HSMなどのハードウェアによって保護されています。
-- 証明書の発行者および対象フィールドがCAの識別名と一致します。
+- 証明書の発行者と対象のフィールドがCAの識別名と一致します。
 - "CA Version"拡張がCA証明書にのみ存在します。
 - 証明書にはExtended Key Usage (EKU)フィールドがありません。
 
-この証明書の秘密鍵を抽出するには、CAサーバー上の`certsrv.msc`ツールがサポートされている方法です。ただし、この証明書はシステム内に保存されている他の証明書とは異ならないため、[THEFT2技術](certificate-theft.md#user-certificate-theft-via-dpapi-theft2)などの方法を使用して抽出できます。
+この証明書の秘密鍵を抽出するには、CAサーバー上の`certsrv.msc`ツールがサポートされている方法です。ただし、この証明書はシステム内に保存されている他の証明書と異ならないため、[THEFT2技術](certificate-theft.md#user-certificate-theft-via-dpapi-theft2)などの方法を使用して抽出できます。
 
 証明書と秘密鍵は、次のコマンドを使用してCertipyでも取得できます：
 ```bash
@@ -57,22 +57,22 @@ certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 
 ## 悪意のあるCA証明書の信頼 - DPERSIST2
 
-`NTAuthCertificates`オブジェクトは、その`cacertificate`属性内に1つ以上の**CA証明書**を含むように定義されており、Active Directory（AD）が利用します。**ドメインコントローラー**による検証プロセスは、認証される**証明書**の発行者フィールドに指定された**CA**に一致するエントリを`NTAuthCertificates`オブジェクトで確認することを含みます。一致が見つかれば、認証が進行します。
+`NTAuthCertificates`オブジェクトは、その`cacertificate`属性内に1つ以上の**CA証明書**を含むように定義されており、Active Directory（AD）が利用します。**ドメインコントローラー**による検証プロセスは、認証する**証明書**の発行者フィールドに指定された**CA**に一致するエントリを`NTAuthCertificates`オブジェクトで確認することを含みます。一致が見つかれば、認証が進行します。
 
-自己署名のCA証明書は、攻撃者がこのADオブジェクトを制御している場合、`NTAuthCertificates`オブジェクトに追加できます。通常、**Enterprise Admin**グループのメンバーと、**フォレストルートのドメイン**内の**Domain Admins**または**Administrators**のみが、このオブジェクトを変更する権限を与えられます。彼らは、`certutil.exe`を使用して`NTAuthCertificates`オブジェクトを編集することができ、コマンド`certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`を使用するか、[**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool)を使用します。
+攻撃者がこのADオブジェクトを制御している場合、自己署名のCA証明書を`NTAuthCertificates`オブジェクトに追加できます。通常、**Enterprise Admin**グループのメンバーと、**フォレストルートのドメイン**内の**Domain Admins**または**Administrators**のみが、このオブジェクトを変更する権限を与えられます。彼らは、`certutil.exe`を使用して`NTAuthCertificates`オブジェクトを編集することができ、コマンド`certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`を使用するか、[**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool)を使用します。
 
-この機能は、ForgeCertを使用して動的に証明書を生成する以前に説明された方法と組み合わせて使用される場合に特に関連性があります。
+この機能は、ForgeCertを使用して動的に証明書を生成する前述の方法と組み合わせて使用される場合に特に関連性があります。
 
 ## 悪意のある誤設定 - DPERSIST3
 
-AD CSコンポーネントの**セキュリティ記述子の変更**を通じた**持続性**の機会は豊富です。「[ドメイン昇格](domain-escalation.md)」セクションで説明されている変更は、権限のある攻撃者によって悪意を持って実装される可能性があります。これには、次のような敏感なコンポーネントへの「制御権」（例：WriteOwner/WriteDACLなど）の追加が含まれます：
+AD CSコンポーネントの**セキュリティ記述子の変更**を通じた**持続性**の機会は豊富です。「[ドメイン昇格](domain-escalation.md)」セクションで説明されている変更は、権限のある攻撃者によって悪意を持って実施される可能性があります。これには、次のような敏感なコンポーネントへの「制御権」（例：WriteOwner/WriteDACLなど）の追加が含まれます：
 
 - **CAサーバーのADコンピュータ**オブジェクト
 - **CAサーバーのRPC/DCOMサーバー**
 - **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`**内の任意の**子孫ADオブジェクトまたはコンテナ**（たとえば、証明書テンプレートコンテナ、認証局コンテナ、NTAuthCertificatesオブジェクトなど）
-- デフォルトまたは組織によってAD CSを制御する権利が委任された**ADグループ**（組み込みのCert Publishersグループやそのメンバーなど）
+- デフォルトまたは組織によってAD CSを制御する権利が委任された**ADグループ**（組み込みのCert Publishersグループおよびそのメンバーなど）
 
-悪意のある実装の例としては、ドメイン内で**権限のある**攻撃者が、デフォルトの**`User`**証明書テンプレートに**`WriteOwner`**権限を追加し、攻撃者がその権利の主となることが含まれます。これを利用するために、攻撃者はまず**`User`**テンプレートの所有権を自分に変更します。その後、**`mspki-certificate-name-flag`**が**1**に設定され、**`ENROLLEE_SUPPLIES_SUBJECT`**が有効になり、ユーザーがリクエストにおいて代替名を提供できるようになります。続いて、攻撃者は**テンプレート**を使用して**登録**し、代替名として**ドメイン管理者**の名前を選択し、取得した証明書をDAとして認証に利用します。
+悪意のある実装の例としては、ドメイン内で**権限のある**攻撃者が、デフォルトの**`User`**証明書テンプレートに**`WriteOwner`**権限を追加し、攻撃者がその権利の主体となることが含まれます。これを利用するために、攻撃者はまず**`User`**テンプレートの所有権を自分に変更します。その後、**`mspki-certificate-name-flag`**が**1**に設定され、**`ENROLLEE_SUPPLIES_SUBJECT`**が有効になり、ユーザーがリクエストにおいて代替名を提供できるようになります。続いて、攻撃者は**テンプレート**を使用して**登録**し、代替名として**ドメイン管理者**の名前を選択し、取得した証明書をDAとして認証に利用します。
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

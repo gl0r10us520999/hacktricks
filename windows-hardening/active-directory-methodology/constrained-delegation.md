@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -22,11 +22,11 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * **ユーザーの自己サービス（**_**S4U2self**_**）：** もし**サービスアカウント**が[TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D)を含む_userAccountControl_値を持っている場合、そのアカウントは他の任意のユーザーの代わりに自分自身（サービス）のためにTGSを取得できます。
 * **ユーザーのプロキシサービス（**_**S4U2proxy**_**）：** **サービスアカウント**は、**msDS-AllowedToDelegateTo**に設定されたサービスのために任意のユーザーの代わりにTGSを取得できます。そのためには、まずそのユーザーから自分自身へのTGSが必要ですが、S4U2selfを使用してそのTGSを取得してから、他のTGSを要求できます。
 
-**注意**：ユーザーがADで「_アカウントは機密であり、委任できません_」とマークされている場合、そのユーザーを**なりすます**ことはできません。
+**注意**：ユーザーがADで「_アカウントは機密であり、委任できません_」とマークされている場合、そのユーザーを**なりすますことはできません**。
 
-これは、**サービスのハッシュを侵害**すると、**ユーザーをなりすまし**、**サービスに対して**そのユーザーの代わりに**アクセス**を取得できることを意味します（可能な**特権昇格**）。
+これは、**サービスのハッシュを侵害した場合**、ユーザーを**なりすまし**、そのユーザーの代わりに**サービスにアクセス**できることを意味します（可能な**特権昇格**）。
 
-さらに、**ユーザーがなりすますことができるサービスだけでなく、任意のサービスにもアクセスできる**ため、SPN（要求されたサービス名）はチェックされず、特権のみがチェックされます。したがって、**CIFSサービス**にアクセスできる場合、Rubeusの`/altservice`フラグを使用して**HOSTサービス**にもアクセスできます。
+さらに、**ユーザーがなりすますことができるサービスへのアクセスだけでなく、任意のサービスへのアクセスも得られます**。なぜなら、SPN（要求されたサービス名）はチェックされず、特権のみがチェックされるからです。したがって、**CIFSサービス**にアクセスできる場合、Rubeusの`/altservice`フラグを使用して**HOSTサービス**にもアクセスできます。
 
 また、**DC上のLDAPサービスアクセス**は、**DCSync**を悪用するために必要です。
 
@@ -41,7 +41,7 @@ ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))"
 ```
 {% endcode %}
 
-{% code title="TGTを取得する" %}
+{% code title="TGTを取得" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
 ## If you are SYSTEM in the server, you might take it from memory
@@ -63,7 +63,7 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-**TGTチケット**や**RC4**または**AES256**を取得する**他の方法があります**。例えば、プリンターバグや制約のない委任、NTLMリレー、Active Directory証明書サービスの悪用などです。
+**TGTチケット**や**RC4**または**AES256**を取得する**他の方法**があります。例えば、プリンターバグや制約のない委任、NTLMリレー、Active Directory証明書サービスの悪用などです。
 
 **そのTGTチケット（またはハッシュ）を持っているだけで、コンピュータ全体を危険にさらすことなくこの攻撃を実行できます。**
 {% endhint %}
@@ -112,7 +112,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

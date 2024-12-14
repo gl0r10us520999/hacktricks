@@ -1,8 +1,8 @@
 # APIを持つオンラインプラットフォーム
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -26,7 +26,7 @@ IPアドレスがアカウントを登録するボットに関連しているか
 ## [Hunter](https://hunter.io/)
 
 メールを見つけて確認します。\
-一部のAPIリクエストは無料ですが、より多くのリクエストには支払いが必要です。\
+一部のAPIリクエストは無料で、より多くは支払いが必要です。\
 商業用？
 
 ## [AlientVault](https://otx.alienvault.com/api)
@@ -35,8 +35,8 @@ IPおよびドメインに関連する悪意のある活動を見つけます。
 
 ## [Clearbit](https://dashboard.clearbit.com/)
 
-メールに関連する個人データ（他のプラットフォームのプロフィール）、ドメイン（基本的な会社情報、メール、従業員）および会社（メールから会社情報を取得）を見つけます。\
-すべての機能にアクセスするには支払いが必要です。\
+メールに関連する個人データ（他のプラットフォームのプロフィール）、ドメイン（基本的な会社情報、メール、働いている人）および会社（メールから会社情報を取得）を見つけます。\
+すべての可能性にアクセスするには支払いが必要です。\
 商業用？
 
 ## [BuiltWith](https://builtwith.com/)
@@ -67,7 +67,7 @@ IPアドレスから基本情報を取得します。月に最大100Kまでテ�
 
 ## [securitytrails](https://securitytrails.com/app/account)
 
-このプラットフォームは、IP内のドメインやドメインサーバー内のドメイン、メールに関連するドメイン（関連するドメインを見つける）、ドメインのIP履歴（CloudFlareの背後にあるホストを見つける）、すべてのドメインが使用しているネームサーバーなどの情報を提供します。\
+このプラットフォームは、IP内のドメインやドメインサーバー内のドメイン、メールに関連するドメイン（関連ドメインを見つける）、ドメインのIP履歴（CloudFlareの背後にあるホストを見つける）、すべてのドメインが使用しているネームサーバーなどの情報を提供します。\
 いくつかの無料アクセスがあります。
 
 ## [fullcontact](https://www.fullcontact.com/)
@@ -140,8 +140,8 @@ IPのジオロケーション、データセンター、ASN、さらにはVPN情
 [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (商業ツール内？)
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

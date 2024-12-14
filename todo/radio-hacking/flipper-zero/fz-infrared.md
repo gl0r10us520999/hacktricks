@@ -10,14 +10,14 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}
 
-## はじめに <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## イントロ <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-赤外線の仕組みについての詳細は、以下を確認してください：
+赤外線の仕組みについての詳細は以下を確認してください：
 
 {% content-ref url="../infrared.md" %}
 [infrared.md](../infrared.md)
@@ -29,13 +29,13 @@ FlipperはデジタルIR信号受信機TSOPを使用しており、**IRリモコ
 
 Flipperの赤外線**受信機は非常に敏感です**。リモコンとテレビの間にいる状態でも**信号をキャッチすることができます**。リモコンをFlipperのIRポートに直接向ける必要はありません。これは、誰かがテレビの近くでチャンネルを切り替えているときに便利で、あなたとFlipperが少し離れた場所にいる場合でも機能します。
 
-**赤外線信号のデコードは**ソフトウェア側で行われるため、Flipper Zeroは**あらゆるIRリモコンコードの受信と送信をサポートする可能性があります**。認識できない**未知の**プロトコルの場合、Flipperは受信したままの生信号を**記録して再生します**。
+**赤外線信号のデコードは**ソフトウェア側で行われるため、Flipper Zeroは**任意のIRリモコンコードの受信と送信をサポートする可能性があります**。認識できない**未知の**プロトコルの場合、Flipperは受信したままの生信号を**記録して再生**します。
 
 ## アクション
 
 ### ユニバーサルリモコン
 
-Flipper Zeroは、**任意のテレビ、エアコン、またはメディアセンターを制御するためのユニバーサルリモコンとして使用できます**。このモードでは、Flipperは**SDカードの辞書に基づいて**すべてのサポートされているメーカーの**既知のコードを総当たりで試します**。レストランのテレビを消すために特定のリモコンを選ぶ必要はありません。
+Flipper Zeroは**任意のテレビ、エアコン、またはメディアセンターを制御するためのユニバーサルリモコンとして使用できます**。このモードでは、Flipperは**SDカードの辞書に基づいて**すべてのサポートされているメーカーの**既知のコードを総当たり**します。レストランのテレビを消すために特定のリモコンを選ぶ必要はありません。
 
 ユニバーサルリモコンモードで電源ボタンを押すだけで、Flipperは知っているすべてのテレビの「電源オフ」コマンドを**順次送信します**：Sony、Samsung、Panasonic...など。テレビが信号を受信すると、反応してオフになります。
 
@@ -43,7 +43,7 @@ Flipper Zeroは、**任意のテレビ、エアコン、またはメディアセ
 
 ### 新しいリモコンを学ぶ
 
-Flipper Zeroで**赤外線信号をキャプチャする**ことが可能です。データベース内で信号を**見つけた場合**、Flipperは自動的に**このデバイスが何であるかを知り**、それと対話できるようになります。\
+Flipper Zeroで**赤外線信号をキャッチする**ことが可能です。データベースに信号が**見つかれば**、Flipperは自動的に**このデバイスが何であるかを知り**、それと対話できるようになります。\
 見つからない場合、Flipperは**信号を保存**し、**再生する**ことを許可します。
 
 ## 参考文献
@@ -60,7 +60,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

@@ -14,8 +14,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-インターネット上には、**デフォルトまたは弱い**ログイン資格情報でLDAPが設定されたプリンターの危険性を**強調する**ブログがいくつかあります。\
-これは、攻撃者が**プリンターを騙して不正なLDAPサーバーに対して認証させる**ことができるためです（通常、`nc -vv -l -p 444`で十分です）し、プリンターの**資格情報を平文でキャプチャ**することができます。
+インターネット上には、**デフォルト/弱い**ログイン資格情報でLDAPが構成されたプリンターを放置する危険性を**強調する**ブログがいくつかあります。\
+これは、攻撃者が**プリンターを騙して不正なLDAPサーバーに対して認証させる**ことができるためです（通常、`nc -vv -l -p 444`で十分です）そして、プリンターの**資格情報を平文でキャプチャ**します。
 
 また、いくつかのプリンターには**ユーザー名を含むログ**があり、ドメインコントローラーから**すべてのユーザー名をダウンロード**できる場合もあります。
 
@@ -26,7 +26,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-## プリンターの設定
+## プリンターの構成
 - **場所**: LDAPサーバーのリストは、`Network > LDAP Setting > Setting Up LDAP`にあります。
 - **動作**: インターフェースは、資格情報を再入力せずにLDAPサーバーの変更を許可し、ユーザーの利便性を目指していますが、セキュリティリスクを引き起こします。
 - **エクスプロイト**: エクスプロイトは、LDAPサーバーのアドレスを制御されたマシンにリダイレクトし、「接続テスト」機能を利用して資格情報をキャプチャすることを含みます。
@@ -42,17 +42,17 @@ sudo nc -k -v -l -p 386
 ```
 しかし、この方法の成功は様々です。
 
-### 方法 2: 完全なLDAPサーバーとSlapd
-より信頼性の高いアプローチは、完全なLDAPサーバーを設定することです。なぜなら、プリンターは資格情報バインディングを試みる前に、ヌルバインドを実行し、その後クエリを行うからです。
+### 方法 2: 完全な LDAP サーバーと Slapd
+より信頼性の高いアプローチは、完全な LDAP サーバーを設定することです。なぜなら、プリンターは資格情報バインディングを試みる前に、ヌルバインドを実行し、その後クエリを行うからです。
 
-1. **LDAPサーバーのセットアップ**: ガイドは[このソース](https://www.server-world.info/en/note?os=Fedora_26&p=openldap)の手順に従います。
+1. **LDAP サーバーのセットアップ**: ガイドは [このソース](https://www.server-world.info/en/note?os=Fedora_26&p=openldap) の手順に従います。
 2. **重要なステップ**:
-- OpenLDAPをインストールします。
+- OpenLDAP をインストールします。
 - 管理者パスワードを設定します。
 - 基本スキーマをインポートします。
-- LDAP DBにドメイン名を設定します。
-- LDAP TLSを構成します。
-3. **LDAPサービスの実行**: セットアップが完了したら、LDAPサービスは次のコマンドを使用して実行できます:
+- LDAP DB にドメイン名を設定します。
+- LDAP TLS を構成します。
+3. **LDAP サービスの実行**: セットアップが完了したら、LDAP サービスは次のコマンドを使用して実行できます:
 ```bash
 slapd -d 2
 ```
@@ -69,8 +69,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

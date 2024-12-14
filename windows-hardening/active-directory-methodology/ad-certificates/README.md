@@ -41,14 +41,14 @@ AD CSは、指定されたコンテナを通じてADフォレスト内のCA証�
 - **Certification Authorities**コンテナは、信頼されたルートCA証明書を保持します。
 - **Enrolment Services**コンテナは、エンタープライズCAとその証明書テンプレートの詳細を示します。
 - **NTAuthCertificates**オブジェクトは、AD認証のために承認されたCA証明書を含みます。
-- **AIA (Authority Information Access)**コンテナは、中間CAおよびクロスCA証明書を使用して証明書チェーンの検証を容易にします。
+- **AIA (Authority Information Access)**コンテナは、中間CAおよびクロスCA証明書を使用して証明書チェーンの検証を促進します。
 
 ### Certificate Acquisition: Client Certificate Request Flow
 
 1. リクエストプロセスは、クライアントがエンタープライズCAを見つけることから始まります。
-2. 公開鍵とその他の詳細を含むCSRが作成され、公開鍵とプライベート鍵のペアが生成された後に行われます。
+2. 公開鍵とその他の詳細を含むCSRが生成され、公開-プライベートキーのペアが作成された後に作成されます。
 3. CAは、利用可能な証明書テンプレートに対してCSRを評価し、テンプレートの権限に基づいて証明書を発行します。
-4. 承認後、CAはプライベートキーで証明書に署名し、クライアントに返します。
+4. 承認されると、CAはプライベートキーで証明書に署名し、クライアントに返します。
 
 ### Certificate Templates
 
@@ -56,7 +56,7 @@ AD内で定義されているこれらのテンプレートは、証明書を発
 
 ## Certificate Enrollment
 
-証明書の登録プロセスは、管理者が**証明書テンプレートを作成**し、それがエンタープライズ証明書発行機関（CA）によって**公開**されることから始まります。これにより、クライアントの登録に利用可能なテンプレートが作成され、Active Directoryオブジェクトの`certificatetemplates`フィールドにテンプレート名を追加することで達成されます。
+証明書の登録プロセスは、管理者が**証明書テンプレートを作成**し、それがエンタープライズ証明書発行機関（CA）によって**公開**されることから始まります。これにより、クライアントの登録のためにテンプレートが利用可能になります。このステップは、テンプレートの名前をActive Directoryオブジェクトの`certificatetemplates`フィールドに追加することで達成されます。
 
 クライアントが証明書をリクエストするには、**登録権限**が付与されている必要があります。これらの権限は、証明書テンプレートおよびエンタープライズCA自体のセキュリティ記述子によって定義されます。リクエストが成功するためには、両方の場所で権限が付与される必要があります。
 
@@ -73,9 +73,9 @@ CAの権限は、そのセキュリティ記述子に記載されており、証
 
 ### Additional Issuance Controls
 
-特定の制御が適用される場合があります：
-- **Manager Approval**：リクエストを保留状態にし、証明書マネージャーによる承認を待ちます。
-- **Enrolment Agents and Authorized Signatures**：CSRに必要な署名の数と必要なアプリケーションポリシーOIDを指定します。
+特定の制御が適用される場合があります。たとえば：
+- **Manager Approval**: リクエストを保留状態にし、証明書マネージャーによる承認を待ちます。
+- **Enrolment Agents and Authorized Signatures**: CSRに必要な署名の数と必要なアプリケーションポリシーOIDを指定します。
 
 ### Methods to Request Certificates
 
@@ -84,7 +84,7 @@ CAの権限は、そのセキュリティ記述子に記載されており、証
 2. **ICertPassage Remote Protocol** (MS-ICPR)、名前付きパイプまたはTCP/IPを介して。
 3. **証明書登録ウェブインターフェース**、証明書発行機関ウェブ登録役割がインストールされていること。
 4. **Certificate Enrollment Service** (CES)、証明書登録ポリシー（CEP）サービスと連携。
-5. **Network Device Enrollment Service** (NDES)は、ネットワークデバイス用に、シンプル証明書登録プロトコル（SCEP）を使用。
+5. **Network Device Enrollment Service** (NDES)は、ネットワークデバイス用に、シンプル証明書登録プロトコル（SCEP）を使用します。
 
 Windowsユーザーは、GUI（`certmgr.msc`または`certlm.msc`）またはコマンドラインツール（`certreq.exe`またはPowerShellの`Get-Certificate`コマンド）を介しても証明書をリクエストできます。
 ```powershell
@@ -105,13 +105,13 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannelは、安全なTLS/SSL接続を促進します。ハンドシェイク中に、クライアントは証明書を提示し、成功裏に検証されるとアクセスが許可されます。証明書をADアカウントにマッピングするには、Kerberosの**S4U2Self**機能や証明書の**Subject Alternative Name (SAN)**など、他の方法が関与する場合があります。
+Schannelは、安全なTLS/SSL接続を促進します。ハンドシェイク中に、クライアントは証明書を提示し、成功裏に検証されればアクセスが許可されます。証明書をADアカウントにマッピングするには、Kerberosの**S4U2Self**機能や証明書の**Subject Alternative Name (SAN)**など、他の方法が関与する場合があります。
 
 ### AD Certificate Services Enumeration
 
 ADの証明書サービスは、LDAPクエリを通じて列挙でき、**Enterprise Certificate Authorities (CAs)**およびその構成に関する情報を明らかにします。これは、特別な権限なしにドメイン認証されたユーザーによってアクセス可能です。**[Certify](https://github.com/GhostPack/Certify)**や**[Certipy](https://github.com/ly4k/Certipy)**のようなツールは、AD CS環境での列挙と脆弱性評価に使用されます。
 
-Commands for using these tools include:
+これらのツールを使用するためのコマンドには次のものが含まれます:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -131,16 +131,16 @@ certutil -v -dstemplate
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

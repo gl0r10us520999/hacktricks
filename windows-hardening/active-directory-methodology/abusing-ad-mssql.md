@@ -91,7 +91,7 @@ mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth interactive
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### ドメインセッションなしでのネットワークからの列挙
+### ドメインセッションなしでネットワークからの列挙
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -155,7 +155,7 @@ Check in the page mentioned in the **following section how to do this manually.*
 
 ## MSSQL 信頼されたリンク
 
-MSSQL インスタンスが別の MSSQL インスタンスによって信頼されている場合。ユーザーが信頼されたデータベースに対して権限を持っている場合、**信頼関係を利用して他のインスタンスでもクエリを実行できるようになります**。この信頼は連鎖させることができ、ユーザーはコマンドを実行できるような誤設定されたデータベースを見つけることができるかもしれません。
+MSSQL インスタンスが別の MSSQL インスタンスによって信頼されている場合。ユーザーが信頼されたデータベースに対して権限を持っている場合、**信頼関係を利用して他のインスタンスでもクエリを実行できるようになります**。この信頼は連鎖させることができ、ユーザーはコマンドを実行できるような誤って構成されたデータベースを見つけることができるかもしれません。
 
 **データベース間のリンクは、フォレストトラストを越えても機能します。**
 
@@ -205,7 +205,7 @@ msf> use exploit/windows/mssql/mssql_linkcrawler
 
 **Linux**からは、**sqsh**と**mssqlclient.py**を使用してMSSQLコンソールシェルを取得できます。
 
-**Windows**からも、リンクを見つけて**MSSQLクライアントのような**[**HeidiSQL**](https://www.heidisql.com)を使用してコマンドを手動で実行できます。
+**Windows**からも、リンクを見つけて**MSSQLクライアントのような**[**HeidiSQL**](https://www.heidisql.com)を使用して手動でコマンドを実行できます。
 
 _Windows認証を使用してログイン：_
 
@@ -252,7 +252,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **MSSQLローカルユーザー**は通常、**`SeImpersonatePrivilege`**と呼ばれる特別なタイプの特権を持っています。これにより、アカウントは「認証後にクライアントを偽装する」ことができます。
 
-多くの著者が考案した戦略は、SYSTEMサービスに攻撃者が作成した悪意のあるまたは中間者サービスに認証させることです。この悪意のあるサービスは、SYSTEMサービスが認証を試みている間にそのサービスを偽装することができます。
+多くの著者が考案した戦略は、攻撃者が作成した悪意のあるまたは中間者サービスにSYSTEMサービスを認証させることです。この悪意のあるサービスは、SYSTEMサービスが認証を試みている間にそのサービスを偽装することができます。
 
 [SweetPotato](https://github.com/CCob/SweetPotato)には、Beaconの`execute-assembly`コマンドを介して実行できるこれらのさまざまな技術のコレクションがあります。
 

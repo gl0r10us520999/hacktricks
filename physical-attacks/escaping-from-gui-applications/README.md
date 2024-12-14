@@ -1,19 +1,3 @@
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
-
-
 # GUIアプリケーション内での可能なアクションを確認する
 
 **共通ダイアログ**は、**ファイルの保存**、**ファイルのオープン**、フォントや色の選択などのオプションです。これらの多くは**完全なエクスプローラー機能**を提供します。これは、これらのオプションにアクセスできれば、エクスプローラーの機能にアクセスできることを意味します：
@@ -25,7 +9,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * 検索
 * スキャン
 
-以下のことができるか確認してください：
+次のことができるか確認してください：
 
 * 新しいファイルを修正または作成する
 * シンボリックリンクを作成する
@@ -38,23 +22,23 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Windows
 
-例えば_cmd.exe、command.com、Powershell/Powershell ISE、mmc.exe、at.exe、taskschd.msc..._ ここでコマンドを実行するために使用できるバイナリをさらに見つけることができます：[https://lolbas-project.github.io/](https://lolbas-project.github.io)
+例えば_cmd.exe、command.com、Powershell/Powershell ISE、mmc.exe、at.exe、taskschd.msc..._ ここでコマンドを実行するために使用できる他のバイナリを見つけてください：[https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
-_bash、sh、zsh..._ さらにこちら：[https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash、sh、zsh..._ こちらも参照してください：[https://gtfobins.github.io/](https://gtfobins.github.io)
 
 # Windows
 
 ## パス制限の回避
 
-* **環境変数**：いくつかのパスを指している環境変数がたくさんあります
+* **環境変数**：いくつかのパスを指す環境変数がたくさんあります
 * **他のプロトコル**：_about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **シンボリックリンク**
 * **ショートカット**：CTRL+N（新しいセッションを開く）、CTRL+R（コマンドを実行）、CTRL+SHIFT+ESC（タスクマネージャー）、Windows+E（エクスプローラーを開く）、CTRL-B、CTRL-I（お気に入り）、CTRL-H（履歴）、CTRL-L、CTRL-O（ファイル/オープンダイアログ）、CTRL-P（印刷ダイアログ）、CTRL-S（名前を付けて保存）
 * 隠し管理メニュー：CTRL-ALT-F8、CTRL-ESC-F9
 * **シェルURI**：_shell:Administrative Tools、shell:DocumentsLibrary、shell:Librariesshell:UserProfiles、shell:Personal、shell:SearchHomeFolder、shell:Systemshell:NetworkPlacesFolder、shell:SendTo、shell:UsersProfiles、shell:Common Administrative Tools、shell:MyComputerFolder、shell:InternetFolder_
-* **UNCパス**：共有フォルダーに接続するためのパス。ローカルマシンのC$に接続を試みるべきです（"\\\127.0.0.1\c$\Windows\System32"）
+* **UNCパス**：共有フォルダーに接続するためのパス。ローカルマシンのC$に接続してみてください（"\\\127.0.0.1\c$\Windows\System32"）
 * **その他のUNCパス：**
 
 | UNC                       | UNC            | UNC                  |
@@ -91,9 +75,9 @@ _bash、sh、zsh..._ さらにこちら：[https://gtfobins.github.io/](https://
 
 * スティッキーキー – SHIFTを5回押す
 * マウスキー – SHIFT+ALT+NUMLOCK
-* ハイコントラスト – SHIFT+ALT+PRINTSCN
-* トグルキー – NUMLOCKを5秒間保持する
-* フィルターキー – 右SHIFTを12秒間保持する
+* 高コントラスト – SHIFT+ALT+PRINTSCN
+* トグルキー – NUMLOCKを5秒間保持
+* フィルターキー – 右SHIFTを12秒間保持
 * WINDOWS+F1 – Windows検索
 * WINDOWS+D – デスクトップを表示
 * WINDOWS+E – Windowsエクスプローラーを起動
@@ -102,7 +86,7 @@ _bash、sh、zsh..._ さらにこちら：[https://gtfobins.github.io/](https://
 * WINDOWS+F – 検索
 * SHIFT+F10 – コンテキストメニュー
 * CTRL+SHIFT+ESC – タスクマネージャー
-* CTRL+ALT+DEL – 新しいWindowsバージョンでのスプラッシュ画面
+* CTRL+ALT+DEL – 新しいWindowsバージョンでのスプラッシュスクリーン
 * F1 – ヘルプ F3 – 検索
 * F6 – アドレスバー
 * F11 – Internet Explorer内で全画面表示を切り替え
@@ -127,7 +111,7 @@ _bash、sh、zsh..._ さらにこちら：[https://gtfobins.github.io/](https://
 
 ### シェルプロトコル
 
-エクスプローラーのビューを取得するためにこのURLを入力します：
+エクスプローラー表示を取得するためにこのURLを入力します：
 
 * `shell:Administrative Tools`
 * `shell:DocumentsLibrary`
@@ -177,15 +161,15 @@ JavaScriptを使用して共通ダイアログを作成し、ファイルエク�
 
 * 画面の下から1本の指で1-2インチスワイプ（遅く）：ドックが表示される
 
-* 画面の上部から1本の指でスワイプダウン：通知を表示する
+* 画面の上端から1本の指でスワイプ：通知を表示する
 
-* 画面の右上隅から1本の指でスワイプダウン：iPad Proのコントロールセンターを表示する
+* 画面の右上隅から1本の指でスワイプ：iPad Proのコントロールセンターを表示する
 
-* 画面の左から1本の指で1-2インチスワイプ：今日のビューを表示する
+* 画面の左側から1本の指で1-2インチスワイプ：今日のビューを表示する
 
 * 画面の中央から右または左に素早く1本の指でスワイプ：次の/前のアプリに切り替える
 
-* 右上隅の**iPad**の電源ボタン/**オフ**/スリープボタンを押し続け、**電源オフ**スライダーを右にスライドさせる：電源を切る
+* 右上隅の**iPad**の電源ボタン/**オフ**/スリープボタンを押し続け、スライドして**電源オフ**スライダーを右に移動：電源を切る
 
 * 右上隅の**iPad**の電源ボタン/**オフ**/スリープボタンとホームボタンを数秒間押す：強制的にハード電源オフ
 
@@ -193,7 +177,7 @@ JavaScriptを使用して共通ダイアログを作成し、ファイルエク�
 
 ## ショートカット
 
-iPadキーボードまたはUSBキーボードアダプタを持っている必要があります。アプリケーションからの脱出に役立つショートカットのみがここに表示されます。
+iPadキーボードまたはUSBキーボードアダプタが必要です。アプリケーションからの脱出に役立つショートカットのみがここに表示されます。
 
 | Key | Name         |
 | --- | ------------ |
@@ -222,7 +206,7 @@ iPadキーボードまたはUSBキーボードアダプタを持っている必�
 | F10      | ミュート                                                                       |
 | F11      | 音量を下げる                                                                  |
 | F12      | 音量を上げる                                                                  |
-| ⌘ Space  | 利用可能な言語のリストを表示；選択するにはスペースバーを再度タップします。 |
+| ⌘ Space  | 利用可能な言語のリストを表示；選択するには、スペースバーを再度タップします。 |
 
 ### iPadナビゲーション
 
@@ -244,13 +228,13 @@ iPadキーボードまたはUSBキーボードアダプタを持っている必�
 | → (右矢印)                                        | 次のアイテム                                            |
 | ← (左矢印)                                        | 前のアイテム                                            |
 | ↑↓ (上矢印、下矢印)                               | 選択したアイテムを同時にタップ                          |
-| ⌥ ↓ (Option-Down arrow)                           | 下にスクロール                                          |
-| ⌥↑ (Option-Up arrow)                              | 上にスクロール                                          |
+| ⌥ ↓ (Option-Down arrow)                            | 下にスクロール                                          |
+| ⌥↑ (Option-Up arrow)                               | 上にスクロール                                          |
 | ⌥←または⌥→ (Option-Left arrowまたはOption-Right arrow) | 左または右にスクロール                                   |
 | ^⌥S (Control-Option-S)                             | VoiceOverの音声をオンまたはオフにする                   |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | 前のアプリに切り替える                                  |
 | ⌘⇥ (Command-Tab)                                   | 元のアプリに戻る                                       |
-| ←+→、次にOption + ←またはOption+→                  | ドックをナビゲート                                      |
+| ←+→、次にOption + ←またはOption+→                   | ドックをナビゲート                                      |
 
 ### Safariショートカット
 
@@ -277,7 +261,7 @@ iPadキーボードまたはUSBキーボードアダプタを持っている必�
 | ⌘T                         | 新しいタブを開く            |
 | ⌘W                         | 現在のタブを閉じる          |
 | ⌘R                         | 現在のタブを更新する        |
-| ⌘.                         | 現在のタブの読み込みを停止する |
+| ⌘.                         | 現在のタブの読み込みを停止  |
 | ⌘⌥F (Command-Option/Alt-F) | メールボックス内を検索する  |
 
 # 参考文献
@@ -286,19 +270,3 @@ iPadキーボードまたはUSBキーボードアダプタを持っている必�
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
-
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}

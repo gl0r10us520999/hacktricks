@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # 悪意のあるMSIの作成とルートの取得
 
-MSIインストーラーの作成はwixtoolsを使用して行います。具体的には、[wixtools](http://wixtoolset.org)が利用されます。代替のMSIビルダーも試みられましたが、この特定のケースでは成功しませんでした。
+MSIインストーラーの作成はwixtoolsを使用して行われます。具体的には、[wixtools](http://wixtoolset.org)が利用されます。代替のMSIビルダーも試みられましたが、この特定のケースでは成功しませんでした。
 
 wix MSIの使用例を包括的に理解するためには、[このページ](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with)を参照することをお勧めします。ここでは、wix MSIの使用を示すさまざまな例を見つけることができます。
 
-目的は、lnkファイルを実行するMSIを生成することです。これを達成するために、以下のXMLコードを使用することができます（[xmlはこちらから](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)）：
+目的は、lnkファイルを実行するMSIを生成することです。これを達成するために、次のXMLコードを使用することができます（[xmlはこちらから](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)）：
 ```markup
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -83,7 +83,7 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
