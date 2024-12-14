@@ -33,7 +33,7 @@ A parte **azul** da imagem a seguir é como você precisaria **colocar o iButton
 
 ### Read
 
-No Modo de Leitura, o Flipper está esperando que a chave iButton toque e é capaz de processar qualquer um dos três tipos de chaves: **Dallas, Cyfral e Metakom**. O Flipper irá **identificar o tipo da chave por conta própria**. O nome do protocolo da chave será exibido na tela acima do número de ID.
+No Modo de Leitura, o Flipper está esperando que a chave iButton toque e é capaz de processar qualquer um dos três tipos de chaves: **Dallas, Cyfral e Metakom**. O Flipper **descobrirá o tipo da chave por conta própria**. O nome do protocolo da chave será exibido na tela acima do número de ID.
 
 ### Add manually
 

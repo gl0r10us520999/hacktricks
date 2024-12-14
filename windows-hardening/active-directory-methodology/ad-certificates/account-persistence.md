@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Este é um pequeno resumo dos capítulos de persistência de máquina da pesquisa incrível de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
+**Este é um pequeno resumo dos capítulos de persistência de máquina da incrível pesquisa de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
 ## **Entendendo o Roubo de Credenciais de Usuário Ativo com Certificados – PERSIST1**
 
@@ -39,11 +39,11 @@ O arquivo `.pfx` pode então ser enviado para um sistema alvo e usado com uma fe
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
-Um aviso importante é compartilhado sobre como essa técnica, combinada com outro método descrito na seção **THEFT5**, permite que um atacante obtenha persistentemente o **NTLM hash** de uma conta sem interagir com o Local Security Authority Subsystem Service (LSASS) e a partir de um contexto não elevado, proporcionando um método mais furtivo para o roubo de credenciais a longo prazo.
+Um aviso importante é compartilhado sobre como essa técnica, combinada com outro método descrito na seção **THEFT5**, permite que um atacante obtenha persistentemente o **NTLM hash** de uma conta sem interagir com o Local Security Authority Subsystem Service (LSASS) e a partir de um contexto não elevado, proporcionando um método mais discreto para roubo de credenciais a longo prazo.
 
 ## **Ganhando Persistência de Máquina com Certificados - PERSIST2**
 
-Outro método envolve inscrever a conta de máquina de um sistema comprometido para um certificado, utilizando o modelo padrão `Machine`, que permite tais ações. Se um atacante obtiver privilégios elevados em um sistema, ele pode usar a conta **SYSTEM** para solicitar certificados, proporcionando uma forma de **persistência**:
+Outro método envolve inscrever a conta de máquina de um sistema comprometido para um certificado, utilizando o modelo padrão `Machine`, que permite tais ações. Se um atacante obtiver privilégios elevados em um sistema, ele pode usar a conta **SYSTEM** para solicitar certificados, proporcionando uma forma de **persistence**:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```

@@ -39,7 +39,7 @@ Quando a chave (Escravo) entra em contato com o intercomunicador (Mestre), o chi
 
 Flipper pode funcionar tanto em modos Mestre quanto Escravo. No modo de leitura da chave, o Flipper atua como um leitor, ou seja, funciona como um Mestre. E no modo de emulação da chave, o flipper finge ser uma chave, estando no modo Escravo.
 
-### Chaves Dallas, Cyfral e Metakom
+### Chaves Dallas, Cyfral & Metakom
 
 Para informações sobre como essas chaves funcionam, confira a página [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 

@@ -22,7 +22,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 ## **MSSQL Enumeração / Descoberta**
 
 ### Python
-A ferramenta [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) é baseada em impacket e também permite autenticar usando tickets kerberos e atacar através de cadeias de links.
+A ferramenta [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) é baseada no impacket e também permite autenticar usando tickets kerberos e atacar através de cadeias de links.
 
 <figure><img src="https://raw.githubusercontent.com/ScorpionesLabs/MSSqlPwner/main/assets/interractive.png"></figure>
 ```shell
@@ -155,7 +155,7 @@ Verifique na página mencionada na **seção seguinte como fazer isso manualment
 
 ## Links Confiáveis MSSQL
 
-Se uma instância MSSQL é confiável (link de banco de dados) por uma instância MSSQL diferente. Se o usuário tiver privilégios sobre o banco de dados confiável, ele poderá **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde pode executar comandos.
+Se uma instância MSSQL é confiável (link de banco de dados) por uma instância MSSQL diferente. Se o usuário tem privilégios sobre o banco de dados confiável, ele poderá **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde ele pode executar comandos.
 
 **Os links entre bancos de dados funcionam mesmo através de confianças de floresta.**
 
@@ -207,7 +207,7 @@ A partir do **Linux**, você pode obter um shell de console MSSQL com **sqsh** e
 
 A partir do **Windows**, você também pode encontrar os links e executar comandos manualmente usando um **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
 
-_Login usando autenticação do Windows:_
+_Faça login usando autenticação do Windows:_
 
 ![](<../../.gitbook/assets/image (808).png>)
 
@@ -220,7 +220,7 @@ EXEC sp_linkedservers;
 
 #### Execute queries in trustable link
 
-Execute consultas através do link (exemplo: encontre mais links na nova instância acessível):
+Execute queries através do link (exemplo: encontre mais links na nova instância acessível):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -252,7 +252,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 O **usuário local do MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "imite um cliente após a autenticação".
 
-Uma estratégia que muitos autores desenvolveram é forçar um serviço do SYSTEM a se autenticar em um serviço malicioso ou man-in-the-middle que o atacante cria. Esse serviço malicioso pode então imitar o serviço do SYSTEM enquanto tenta se autenticar.
+Uma estratégia que muitos autores desenvolveram é forçar um serviço do SYSTEM a se autenticar em um serviço malicioso ou man-in-the-middle que o atacante cria. Esse serviço malicioso é então capaz de imitar o serviço do SYSTEM enquanto tenta se autenticar.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas através do comando `execute-assembly` do Beacon.
 

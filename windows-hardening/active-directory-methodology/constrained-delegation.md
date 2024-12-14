@@ -63,7 +63,7 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Existem **outras maneiras de obter um ticket TGT** ou o **RC4** ou **AES256** sem ser SYSTEM no computador, como o Printer Bug e delegação não restrita, NTLM relaying e abuso do Active Directory Certificate Service.
+Existem **outras maneiras de obter um ticket TGT** ou o **RC4** ou **AES256** sem ser SYSTEM no computador, como o Printer Bug e delegação não restrita, relé NTLM e abuso do Active Directory Certificate Service.
 
 **Apenas tendo esse ticket TGT (ou hash) você pode realizar esse ataque sem comprometer todo o computador.**
 {% endhint %}

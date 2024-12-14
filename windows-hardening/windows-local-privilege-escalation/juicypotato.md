@@ -9,21 +9,21 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos no** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
 
 {% hint style="warning" %}
-**JuicyPotato não funciona** no Windows Server 2019 e no Windows 10 build 1809 em diante. No entanto, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) podem ser usados para **aproveitar os mesmos privilégios e obter acesso ao nível `NT AUTHORITY\SYSTEM`**. _**Verifique:**_
+**JuicyPotato não funciona** no Windows Server 2019 e Windows 10 build 1809 em diante. No entanto, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) podem ser usados para **aproveitar os mesmos privilégios e obter acesso ao nível `NT AUTHORITY\SYSTEM`**. _**Verifique:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](roguepotato-and-printspoofer.md)
 {% endcontent-ref %}
 
-## Juicy Potato (abusando dos privilégios dourados) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
+## Juicy Potato (abusando dos privilégios de ouro) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
 _Uma versão adoçada do_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, com um pouco de suco, ou seja, **outra ferramenta de Escalação de Privilégios Locais, de Contas de Serviço do Windows para NT AUTHORITY\SYSTEM**_
 
@@ -59,9 +59,9 @@ JuicyPotato permite que você:
 * `CreateProcessAsUser` (precisa de `SeAssignPrimaryToken`)
 * `ambos`
 * **Processo a ser iniciado** _inicie um executável ou script se a exploração for bem-sucedida_
-* **Argumento do Processo** _personalize os argumentos do processo iniciado_
-* **Endereço do Servidor RPC** _para uma abordagem furtiva, você pode se autenticar em um servidor RPC externo_
-* **Porta do Servidor RPC** _útil se você quiser se autenticar em um servidor externo e o firewall estiver bloqueando a porta `135`…_
+* **Argumento do processo** _personalize os argumentos do processo iniciado_
+* **Endereço do servidor RPC** _para uma abordagem furtiva, você pode se autenticar em um servidor RPC externo_
+* **Porta do servidor RPC** _útil se você quiser se autenticar em um servidor externo e o firewall estiver bloqueando a porta `135`…_
 * **MODO DE TESTE** _principalmente para fins de teste, ou seja, testando CLSIDs. Ele cria o DCOM e imprime o usuário do token. Veja_ [_aqui para testes_](http://ohpe.it/juicy-potato/Test/)
 
 ### Uso <a href="#usage" id="usage"></a>
@@ -83,7 +83,7 @@ Optional args:
 ```
 ### Considerações finais <a href="#final-thoughts" id="final-thoughts"></a>
 
-[**Do juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
+[**Do Readme do juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
 Se o usuário tiver privilégios `SeImpersonate` ou `SeAssignPrimaryToken`, então você é **SYSTEM**.
 
@@ -95,7 +95,7 @@ De: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 ## Exemplos
 
-Nota: Visite [esta página](https://ohpe.it/juicy-potato/CLSID/) para uma lista de CLSIDs para tentar.
+Nota: Visite [esta página](https://ohpe.it/juicy-potato/CLSID/) para uma lista de CLSIDs para testar.
 
 ### Obter um shell reverso nc.exe
 ```

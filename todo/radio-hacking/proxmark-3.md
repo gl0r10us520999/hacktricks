@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -21,7 +21,7 @@ A primeira coisa que você precisa fazer é ter um [**Proxmark3**](https://proxm
 
 ### Atacando MIFARE Classic 1KB
 
-Ele possui **16 setores**, cada um deles tem **4 blocos** e cada bloco contém **16B**. O UID está no setor 0 bloco 0 (e não pode ser alterado).\
+Ele tem **16 setores**, cada um deles tem **4 blocos** e cada bloco contém **16B**. O UID está no setor 0 bloco 0 (e não pode ser alterado).\
 Para acessar cada setor, você precisa de **2 chaves** (**A** e **B**) que estão armazenadas no **bloco 3 de cada setor** (trailer do setor). O trailer do setor também armazena os **bits de acesso** que dão as permissões de **leitura e escrita** em **cada bloco** usando as 2 chaves.\
 2 chaves são úteis para dar permissões de leitura se você souber a primeira e de escrita se souber a segunda (por exemplo).
 
@@ -44,7 +44,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-O Proxmark3 permite realizar outras ações, como **eavesdropping** em uma **comunicação de Tag para Leitor** para tentar encontrar dados sensíveis. Neste cartão, você poderia apenas espionar a comunicação e calcular a chave usada porque as **operações criptográficas utilizadas são fracas** e conhecendo o texto simples e o texto cifrado, você pode calculá-la (ferramenta `mfkey64`).
+O Proxmark3 permite realizar outras ações, como **escutar** uma **comunicação de Tag para Leitor** para tentar encontrar dados sensíveis. Neste cartão, você poderia apenas espionar a comunicação e calcular a chave utilizada porque as **operações criptográficas usadas são fracas** e conhecendo o texto simples e o texto cifrado, você pode calculá-la (ferramenta `mfkey64`).
 
 ### Comandos Brutos
 

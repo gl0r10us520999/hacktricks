@@ -1,16 +1,16 @@
-# Delegação Constrangida Baseada em Recurso
+# Resource-based Constrained Delegation
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 {% embed url="https://websec.nl/" %}
 
-## Noções Básicas da Delegação Constrangida Baseada em Recurso
+## Basics of Resource-based Constrained Delegation
 
 Isso é semelhante à [Delegação Constrangida](constrained-delegation.md) básica, mas **em vez** de dar permissões a um **objeto** para **impersonar qualquer usuário contra um serviço**. A Delegação Constrangida Baseada em Recurso **define** no **objeto quem pode impersonar qualquer usuário contra ele**.
 
@@ -27,26 +27,26 @@ Neste caso, o objeto constrangido terá um atributo chamado _**msDS-AllowedToAct
 
 Outra diferença importante desta Delegação Constrangida em relação às outras delegações é que qualquer usuário com **permissões de escrita sobre uma conta de máquina** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) pode definir o _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Nas outras formas de Delegação, você precisava de privilégios de administrador de domínio).
 
-### Novos Conceitos
+### New Concepts
 
 Na Delegação Constrangida, foi dito que a **`TrustedToAuthForDelegation`** flag dentro do valor _userAccountControl_ do usuário é necessária para realizar um **S4U2Self.** Mas isso não é completamente verdade.\
 A realidade é que mesmo sem esse valor, você pode realizar um **S4U2Self** contra qualquer usuário se você for um **serviço** (tiver um SPN), mas, se você **tiver `TrustedToAuthForDelegation`** o TGS retornado será **Forwardable** e se você **não tiver** essa flag, o TGS retornado **não será** **Forwardable**.
 
 No entanto, se o **TGS** usado em **S4U2Proxy** **NÃO for Forwardable**, tentar abusar de uma **delegação constrangida básica** **não funcionará**. Mas se você estiver tentando explorar uma **delegação constrangida baseada em recurso, funcionará** (isso não é uma vulnerabilidade, é um recurso, aparentemente).
 
-### Estrutura do Ataque
+### Attack structure
 
-> Se você tiver **privilégios equivalentes de escrita** sobre uma conta de **Computador**, pode obter **acesso privilegiado** nessa máquina.
+> Se você tiver **privilégios de escrita equivalentes** sobre uma conta de **Computador**, pode obter **acesso privilegiado** nessa máquina.
 
-Suponha que o atacante já tenha **privilégios equivalentes de escrita sobre o computador da vítima**.
+Suponha que o atacante já tenha **privilégios de escrita equivalentes sobre o computador da vítima**.
 
 1. O atacante **compromete** uma conta que tem um **SPN** ou **cria um** (“Serviço A”). Observe que **qualquer** _Usuário Admin_ sem nenhum outro privilégio especial pode **criar** até 10 **objetos de Computador (**_**MachineAccountQuota**_**)** e definir um **SPN** para eles. Portanto, o atacante pode simplesmente criar um objeto de Computador e definir um SPN.
 2. O atacante **abusa de seu privilégio de ESCRITA** sobre o computador da vítima (ServiçoB) para configurar **delegação constrangida baseada em recurso para permitir que o ServiçoA impersonifique qualquer usuário** contra aquele computador da vítima (ServiçoB).
 3. O atacante usa Rubeus para realizar um **ataque S4U completo** (S4U2Self e S4U2Proxy) do Serviço A para o Serviço B para um usuário **com acesso privilegiado ao Serviço B**.
-   1. S4U2Self (da conta SPN comprometida/criada): Solicitar um **TGS de Administrador para mim** (Não Forwardable).
-   2. S4U2Proxy: Usar o **TGS não Forwardable** do passo anterior para solicitar um **TGS** de **Administrador** para o **host da vítima**.
-   3. Mesmo que você esteja usando um TGS não Forwardable, como você está explorando a delegação constrangida baseada em recurso, funcionará.
-   4. O atacante pode **passar o ticket** e **impersonar** o usuário para obter **acesso ao ServiçoB da vítima**.
+1. S4U2Self (da conta SPN comprometida/criada): Solicitar um **TGS de Administrador para mim** (Não Forwardable).
+2. S4U2Proxy: Usar o **TGS não Forwardable** do passo anterior para solicitar um **TGS** de **Administrador** para o **host da vítima**.
+3. Mesmo que você esteja usando um TGS não Forwardable, como você está explorando a delegação constrangida baseada em recurso, funcionará.
+4. O atacante pode **passar o ticket** e **impersonar** o usuário para obter **acesso ao ServiçoB da vítima**.
 
 Para verificar o _**MachineAccountQuota**_ do domínio, você pode usar:
 ```powershell
@@ -102,12 +102,12 @@ Você pode gerar mais tickets apenas pedindo uma vez usando o parâmetro `/altse
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
 {% hint style="danger" %}
-Observe que os usuários têm um atributo chamado "**Não pode ser delegado**". Se um usuário tiver esse atributo como Verdadeiro, você não poderá se passar por ele. Essa propriedade pode ser vista dentro do BloodHound.
+Observe que os usuários têm um atributo chamado "**Não pode ser delegado**". Se um usuário tiver esse atributo como Verdadeiro, você não poderá se passar por ele. Essa propriedade pode ser vista dentro do bloodhound.
 {% endhint %}
 
 ### Acessando
 
-A última linha de comando realizará o **ataque S4U completo e injetará o TGS** do Administrador para o host da vítima em **memória**.\
+A última linha de comando realizará o **ataque S4U completo e injetará o TGS** do Administrador para o host da vítima na **memória**.\
 Neste exemplo, foi solicitado um TGS para o serviço **CIFS** do Administrador, então você poderá acessar **C$**:
 ```bash
 ls \\victim.domain.local\C$

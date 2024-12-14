@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -47,7 +47,7 @@ Verifique **outras maneiras de roubar sessões com outras ferramentas** [**nesta
 
 ## RDPInception
 
-Se um usuário acessar via **RDP em uma máquina** onde um **atacante** está **aguardando** por ele, o atacante poderá **injetar um beacon na sessão RDP do usuário** e se a **vítima montou seu drive** ao acessar via RDP, o **atacante poderia acessá-lo**.
+Se um usuário acessar via **RDP em uma máquina** onde um **atacante** está **aguardando** por ele, o atacante poderá **injetar um beacon na sessão RDP do usuário** e se a **vítima montou seu drive** ao acessar via RDP, o **atacante poderá acessá-lo**.
 
 Nesse caso, você poderia apenas **comprometer** o **computador original** da **vítima** escrevendo um **backdoor** na **pasta de inicialização**.
 ```powershell
@@ -87,7 +87,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Supporte o HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

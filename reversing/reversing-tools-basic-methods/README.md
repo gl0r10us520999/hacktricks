@@ -91,7 +91,7 @@ Em seguida, salve o novo arquivo via _**File >> Save module...**_:
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Isso é necessário porque se você não fizer isso, em **runtime** várias **optimisations** serão aplicadas ao código e pode ser possível que enquanto depurando um **break-point nunca seja atingido** ou algumas **variables não existam**.
+Isso é necessário porque se você não fizer isso, em **runtime** várias **optimisations** serão aplicadas ao código e pode ser possível que enquanto depurando um **break-point nunca seja atingido** ou algumas **variáveis não existam**.
 
 Então, se sua aplicação .NET estiver sendo **run** pelo **IIS**, você pode **restart** ela com:
 ```
@@ -147,7 +147,7 @@ Mas, como você pode chegar ao código da DLL que foi carregada? Usando este mé
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * **Alterar a Linha de Comando** (_Arquivo --> Alterar Linha de Comando_) e definir o caminho da dll e a função que você deseja chamar, por exemplo: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Alterar _Opções --> Configurações_ e selecionar "**Entrada da DLL**".
-* Então **inicie a execução**, o depurador irá parar em cada main da dll, em algum momento você irá **parar na Entrada da dll**. A partir daí, basta procurar os pontos onde você deseja colocar um ponto de interrupção.
+* Então **inicie a execução**, o depurador irá parar em cada main da dll, em algum momento você irá **parar na entrada da dll da sua dll**. A partir daí, basta procurar os pontos onde você deseja colocar um breakpoint.
 
 Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código você está** olhando no **topo da janela do win64dbg**:
 
@@ -176,7 +176,7 @@ Então, olhando para isso, você pode ver quando a execução foi interrompida n
 ### Depurando um shellcode com blobrunner
 
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) irá **alocar** o **shellcode** dentro de um espaço de memória, irá **indicar** o **endereço de memória** onde o shellcode foi alocado e irá **parar** a execução.\
-Então, você precisa **anexar um depurador** (Ida ou x64dbg) ao processo e colocar um **ponto de interrupção no endereço de memória indicado** e **retomar** a execução. Dessa forma, você estará depurando o shellcode.
+Então, você precisa **anexar um depurador** (Ida ou x64dbg) ao processo e colocar um **breakpoint no endereço de memória indicado** e **retomar** a execução. Dessa forma, você estará depurando o shellcode.
 
 A página de lançamentos do github contém zips com os lançamentos compilados: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Você pode encontrar uma versão ligeiramente modificada do Blobrunner no seguinte link. Para compilá-lo, basta **criar um projeto C/C++ no Visual Studio Code, copiar e colar o código e compilar**.
@@ -197,7 +197,7 @@ Você pode baixar uma versão compilada de [jmp2it na página de lançamentos](h
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) é a GUI do radare. Usando o cutter, você pode emular o shellcode e inspecioná-lo dinamicamente.
 
-Observe que o Cutter permite que você "Abra Arquivo" e "Abra Shellcode". No meu caso, quando abri o shellcode como um arquivo, ele o decompilou corretamente, mas quando o abri como um shellcode, não:
+Observe que o Cutter permite que você "Abra Arquivo" e "Abra Shellcode". No meu caso, quando eu abri o shellcode como um arquivo, ele o decompilou corretamente, mas quando eu o abri como um shellcode, não:
 
 ![](<../../.gitbook/assets/image (562).png>)
 
@@ -207,11 +207,11 @@ Para iniciar a emulação no lugar que você deseja, defina um bp lá e aparente
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-Você pode ver a pilha, por exemplo, dentro de um despejo hexadecimal:
+Você pode ver a pilha, por exemplo, dentro de um dump hex:
 
 ![](<../../.gitbook/assets/image (186).png>)
 
-### Desofuscando shellcode e obtendo funções executadas
+### Deobfuscando shellcode e obtendo funções executadas
 
 Você deve tentar [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
 Ele irá te informar coisas como **quais funções** o shellcode está usando e se o shellcode está **decodificando** a si mesmo na memória.
@@ -227,7 +227,7 @@ scDbg também conta com um lançador gráfico onde você pode selecionar as opç
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-A opção **Create Dump** irá despejar o shellcode final se alguma alteração for feita no shellcode dinamicamente na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, eu acho que qualquer uma das opções explicadas anteriormente é melhor para isso, pois você poderá usar o Ida ou x64dbg).
+A opção **Create Dump** irá despejar o shellcode final se alguma alteração for feita no shellcode dinamicamente na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, eu acho que qualquer uma das opções explicadas antes é melhor para isso, pois você poderá usar o Ida ou x64dbg).
 
 ### Desmontando usando CyberChef
 
@@ -351,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-O último if está verificando se **`uVar4`** está nas **últimas Chaves** e não é a chave atual, também chamada de soltar um botão (a chave atual está armazenada em **`uVar1`**).
+A última verificação está checando se **`uVar4`** está nas **últimas Chaves** e não é a chave atual, também chamada de soltar um botão (a chave atual está armazenada em **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -387,7 +387,7 @@ No código anterior, você pode ver que estamos comparando **uVar1** (o lugar on
 * Em qualquer outro caso, algum cont (`DAT_030000d4`) é verificado. É um cont porque está adicionando 1 logo após entrar no código.\
 **Se** for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente, está adicionando os valores das teclas pressionadas nesta variável, desde que o cont seja menor que 8).
 
-Portanto, neste desafio, sabendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8 que a adição resultante seja 0xf3.**
+Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8 que a adição resultante seja 0xf3.**
 
 **Referência para este tutorial:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -410,7 +410,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

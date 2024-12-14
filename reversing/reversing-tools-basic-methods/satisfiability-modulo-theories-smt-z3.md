@@ -14,7 +14,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Basicamente, esta ferramenta nos ajudará a encontrar valores para variáveis que precisam satisfazer algumas condições, e calculá-las manualmente será muito irritante. Portanto, você pode indicar ao Z3 as condições que as variáveis precisam satisfazer e ele encontrará alguns valores (se possível).
+Basicamente, esta ferramenta nos ajudará a encontrar valores para variáveis que precisam satisfazer algumas condições e calculá-los manualmente será muito irritante. Portanto, você pode indicar ao Z3 as condições que as variáveis precisam satisfazer e ele encontrará alguns valores (se possível).
 
 **Alguns textos e exemplos são extraídos de [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 

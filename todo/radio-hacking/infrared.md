@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -54,7 +54,7 @@ Os bits são codificados pela modulação da largura do pulso. A largura do espa
 {% hint style="info" %}
 Existem protocolos IR que estão **tentando se tornar universais** para vários tipos de dispositivos. Os mais famosos são RC5 e NEC. Infelizmente, o mais famoso **não significa o mais comum**. No meu ambiente, encontrei apenas dois controles remotos NEC e nenhum RC5.
 
-Os fabricantes adoram usar seus próprios protocolos IR únicos, mesmo dentro da mesma gama de dispositivos (por exemplo, caixas de TV). Portanto, controles remotos de diferentes empresas e às vezes de diferentes modelos da mesma empresa, não conseguem funcionar com outros dispositivos do mesmo tipo.
+Os fabricantes adoram usar seus próprios protocolos IR únicos, mesmo dentro da mesma gama de dispositivos (por exemplo, caixas de TV). Portanto, controles remotos de diferentes empresas e, às vezes, de diferentes modelos da mesma empresa, não conseguem funcionar com outros dispositivos do mesmo tipo.
 {% endhint %}
 
 ### Explorando um sinal IR
@@ -63,7 +63,7 @@ A maneira mais confiável de ver como o sinal IR do controle remoto se parece é
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
-Normalmente, há um preâmbulo no início de um pacote codificado. Isso permite que o receptor determine o nível de ganho e o fundo. Também existem protocolos sem preâmbulo, por exemplo, Sharp.
+Normalmente, há um preâmbulo no início de um pacote codificado. Isso permite que o receptor determine o nível de ganho e o fundo. Existem também protocolos sem preâmbulo, por exemplo, Sharp.
 
 Em seguida, os dados são transmitidos. A estrutura, o preâmbulo e o método de codificação de bits são determinados pelo protocolo específico.
 
@@ -102,7 +102,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

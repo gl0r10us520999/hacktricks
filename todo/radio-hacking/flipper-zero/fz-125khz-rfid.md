@@ -36,7 +36,7 @@ Para mais informações sobre esses tipos de tags [**leia esta introdução**](.
 Tenta **ler** as informações do cartão. Então, pode **emular** elas.
 
 {% hint style="warning" %}
-Note que alguns intercomunicadores tentam se proteger contra duplicação de chaves enviando um comando de gravação antes de ler. Se a gravação for bem-sucedida, essa tag é considerada falsa. Quando o Flipper emula RFID, não há como o leitor distinguir entre a original e a emulada, então não ocorrem tais problemas.
+Note que alguns intercomunicadores tentam se proteger contra duplicação de chaves enviando um comando de gravação antes de ler. Se a gravação for bem-sucedida, essa tag é considerada falsa. Quando o Flipper emula RFID, não há como o leitor distinguir entre ela e a original, então não ocorrem tais problemas.
 {% endhint %}
 
 ### Add Manually
@@ -45,7 +45,7 @@ Você pode criar **cartões falsos no Flipper Zero indicando os dados** que voc�
 
 #### IDs on cards
 
-Às vezes, quando você obtém um cartão, encontrará o ID (ou parte dele) escrito na parte visível do cartão.
+Às vezes, quando você obtém um cartão, encontrará o ID (ou parte dele) escrito no cartão de forma visível.
 
 * **EM Marin**
 
@@ -56,13 +56,13 @@ Os outros 2 podem ser forçados por força bruta se você não conseguir lê-los
 
 * **HID**
 
-O mesmo acontece neste cartão HID, onde apenas 2 dos 3 bytes podem ser encontrados impressos no cartão.
+O mesmo acontece neste cartão HID, onde apenas 2 de 3 bytes podem ser encontrados impressos no cartão.
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
 ### Emulate/Write
 
-Após **copiar** um cartão ou **inserir** o ID **manualmente**, é possível **emulá-lo** com o Flipper Zero ou **gravá-lo** em um cartão real.
+Após **copiar** um cartão ou **inserir** o ID **manualmente**, é possível **emular** ele com o Flipper Zero ou **gravar** em um cartão real.
 
 ## References
 

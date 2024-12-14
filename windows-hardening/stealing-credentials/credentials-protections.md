@@ -12,7 +12,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -67,13 +67,13 @@ Esse recurso marca um avanço significativo na segurança das conexões de deskt
 
 ![](../../.gitbook/assets/RAM.png)
 
-Para informações mais detalhadas, visite [este recurso](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
+Para mais informações detalhadas, visite [este recurso](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
 
 ## Credenciais em Cache
 
-O Windows protege as **credenciais de domínio** através da **Local Security Authority (LSA)**, suportando processos de logon com protocolos de segurança como **Kerberos** e **NTLM**. Uma característica chave do Windows é sua capacidade de armazenar em cache os **últimos dez logins de domínio** para garantir que os usuários ainda possam acessar seus computadores mesmo se o **controlador de domínio estiver offline**—uma vantagem para usuários de laptops que frequentemente estão fora da rede da empresa.
+O Windows protege as **credenciais de domínio** através da **Autoridade de Segurança Local (LSA)**, suportando processos de logon com protocolos de segurança como **Kerberos** e **NTLM**. Uma característica chave do Windows é sua capacidade de armazenar em cache os **últimos dez logons de domínio** para garantir que os usuários ainda possam acessar seus computadores mesmo se o **controlador de domínio estiver offline**—uma vantagem para usuários de laptops que frequentemente estão fora da rede da empresa.
 
-O número de logins em cache é ajustável através de uma **chave de registro específica ou política de grupo**. Para visualizar ou alterar essa configuração, o seguinte comando é utilizado:
+O número de logons em cache é ajustável por meio de uma **chave de registro específica ou política de grupo**. Para visualizar ou alterar essa configuração, o seguinte comando é utilizado:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
@@ -88,7 +88,7 @@ Para mais detalhes, a [fonte](http://juggernaut.wikidot.com/cached-credentials) 
 A adesão ao **grupo de Usuários Protegidos** introduz várias melhorias de segurança para os usuários, garantindo níveis mais altos de proteção contra roubo e uso indevido de credenciais:
 
 * **Delegação de Credenciais (CredSSP)**: Mesmo que a configuração de Política de Grupo para **Permitir delegar credenciais padrão** esteja habilitada, as credenciais em texto simples dos Usuários Protegidos não serão armazenadas em cache.
-* **Windows Digest**: A partir do **Windows 8.1 e Windows Server 2012 R2**, o sistema não armazenará em cache credenciais em texto simples dos Usuários Protegidos, independentemente do status do Windows Digest.
+* **Windows Digest**: A partir do **Windows 8.1 e Windows Server 2012 R2**, o sistema não armazenará em cache as credenciais em texto simples dos Usuários Protegidos, independentemente do status do Windows Digest.
 * **NTLM**: O sistema não armazenará em cache as credenciais em texto simples dos Usuários Protegidos ou funções unidirecionais NT (NTOWF).
 * **Kerberos**: Para Usuários Protegidos, a autenticação Kerberos não gerará **DES** ou **chaves RC4**, nem armazenará em cache credenciais em texto simples ou chaves de longo prazo além da aquisição inicial do Ticket-Granting Ticket (TGT).
 * **Login Offline**: Usuários Protegidos não terão um verificador em cache criado no login ou desbloqueio, o que significa que o login offline não é suportado para essas contas.

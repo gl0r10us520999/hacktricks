@@ -23,7 +23,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## O que é DPAPI
 
-A API de Proteção de Dados (DPAPI) é utilizada principalmente dentro do sistema operacional Windows para a **criptografia simétrica de chaves privadas assimétricas**, aproveitando segredos de usuário ou do sistema como uma fonte significativa de entropia. Essa abordagem simplifica a criptografia para os desenvolvedores, permitindo que eles criptografem dados usando uma chave derivada dos segredos de logon do usuário ou, para criptografia do sistema, os segredos de autenticação do domínio do sistema, eliminando assim a necessidade de os desenvolvedores gerenciarem a proteção da chave de criptografia por conta própria.
+A API de Proteção de Dados (DPAPI) é utilizada principalmente dentro do sistema operacional Windows para **a criptografia simétrica de chaves privadas assimétricas**, aproveitando segredos de usuário ou do sistema como uma fonte significativa de entropia. Essa abordagem simplifica a criptografia para os desenvolvedores, permitindo que eles criptografem dados usando uma chave derivada dos segredos de logon do usuário ou, para criptografia do sistema, os segredos de autenticação do domínio do sistema, eliminando assim a necessidade de os desenvolvedores gerenciarem a proteção da chave de criptografia por conta própria.
 
 ### Dados Protegidos pelo DPAPI
 
@@ -81,7 +81,7 @@ Isso é como um conjunto de Chaves Mestras de um usuário se parecerá:
 
 ![](<../../.gitbook/assets/image (1121).png>)
 
-Normalmente, **cada chave mestra é uma chave simétrica criptografada que pode descriptografar outro conteúdo**. Portanto, **extrair** a **Chave Mestra criptografada** é interessante para **descriptografar** mais tarde aquele **outro conteúdo** criptografado com ela.
+Normalmente, **cada chave mestra é uma chave simétrica criptografada que pode descriptografar outro conteúdo**. Portanto, **extrair** a **Chave Mestra criptografada** é interessante para **descriptografar** posteriormente aquele **outro conteúdo** criptografado com ela.
 
 ### Extrair chave mestra e descriptografar
 
@@ -97,7 +97,7 @@ Verifique o post [https://www.ired.team/offensive-security/credential-access-and
 
 `python3 hekatomb.py -hashes :ed0052e5a66b1c8e942cc9481a50d56 DOMAIN.local/administrator@10.0.0.1 -debug -dnstcp`
 
-Com a lista de computadores extraída do LDAP, você pode encontrar toda sub-rede mesmo que não soubesse delas!
+Com a lista de computadores extraída do LDAP, você pode encontrar cada sub-rede, mesmo que não as conhecesse!
 
 "Porque os direitos de Administrador de Domínio não são suficientes. Hackeie todos."
 

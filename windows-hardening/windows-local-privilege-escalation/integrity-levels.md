@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -22,13 +22,13 @@ No Windows Vista e versões posteriores, todos os itens protegidos vêm com uma 
 Uma regra chave é que objetos não podem ser modificados por processos com um nível de integridade inferior ao nível do objeto. Os níveis de integridade são:
 
 * **Não confiável**: Este nível é para processos com logins anônimos. %%%Exemplo: Chrome%%%
-* **Baixo**: Principalmente para interações na internet, especialmente no Modo Protegido do Internet Explorer, afetando arquivos e processos associados, e certas pastas como a **Pasta Temporária da Internet**. Processos de baixa integridade enfrentam restrições significativas, incluindo sem acesso de gravação no registro e acesso limitado de gravação no perfil do usuário.
+* **Baixo**: Principalmente para interações na internet, especialmente no Modo Protegido do Internet Explorer, afetando arquivos e processos associados, e certas pastas como a **Pasta Temporária da Internet**. Processos de baixa integridade enfrentam restrições significativas, incluindo sem acesso para gravação no registro e acesso limitado para gravação no perfil do usuário.
 * **Médio**: O nível padrão para a maioria das atividades, atribuído a usuários padrão e objetos sem níveis de integridade específicos. Mesmo membros do grupo de Administradores operam neste nível por padrão.
 * **Alto**: Reservado para administradores, permitindo que eles modifiquem objetos em níveis de integridade inferiores, incluindo aqueles no próprio nível alto.
 * **Sistema**: O nível operacional mais alto para o kernel do Windows e serviços essenciais, fora do alcance mesmo para administradores, garantindo a proteção de funções vitais do sistema.
 * **Instalador**: Um nível único que se destaca acima de todos os outros, permitindo que objetos neste nível desinstalem qualquer outro objeto.
 
-Você pode obter o nível de integridade de um processo usando o **Process Explorer** da **Sysinternals**, acessando as **propriedades** do processo e visualizando a aba "**Segurança**":
+Você pode obter o nível de integridade de um processo usando o **Process Explorer** do **Sysinternals**, acessando as **propriedades** do processo e visualizando a aba "**Segurança**":
 
 ![](<../../.gitbook/assets/image (824).png>)
 

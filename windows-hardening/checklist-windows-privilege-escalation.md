@@ -1,4 +1,4 @@
-# Checklist - Elevação de Privilégios Local no Windows
+# Checklist - Escalação de Privilégios Local no Windows
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -6,7 +6,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,14 +15,14 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-### **Melhor ferramenta para procurar vetores de elevação de privilégios local no Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Melhor ferramenta para procurar vetores de escalonamento de privilégios local no Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [Informações do Sistema](windows-local-privilege-escalation/#system-info)
 
 * [ ] Obter [**Informações do sistema**](windows-local-privilege-escalation/#system-info)
-* [ ] Procurar por **explorações de kernel** [**usando scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Usar **Google para procurar** por **explorações de kernel**
-* [ ] Usar **searchsploit para procurar** por **explorações de kernel**
+* [ ] Procurar por **explorações** de **kernel** [**usando scripts**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Usar **Google para procurar** por **explorações** de kernel
+* [ ] Usar **searchsploit para procurar** por **explorações** de kernel
 * [ ] Informações interessantes em [**variáveis de ambiente**](windows-local-privilege-escalation/#environment)?
 * [ ] Senhas no [**histórico do PowerShell**](windows-local-privilege-escalation/#powershell-history)?
 * [ ] Informações interessantes em [**configurações da Internet**](windows-local-privilege-escalation/#internet-settings)?
@@ -32,13 +32,13 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ### [Enumeração de Logs/AV](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Verificar [**configurações de Auditoria**](windows-local-privilege-escalation/#audit-settings) e [**WEF**](windows-local-privilege-escalation/#wef)
+* [ ] Verificar [**Configurações de Auditoria**](windows-local-privilege-escalation/#audit-settings) e [**WEF**](windows-local-privilege-escalation/#wef)
 * [ ] Verificar [**LAPS**](windows-local-privilege-escalation/#laps)
 * [ ] Verificar se [**WDigest**](windows-local-privilege-escalation/#wdigest) está ativo
 * [ ] [**Proteção LSA**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Credenciais em Cache**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Verificar se há algum [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
+* [ ] Verificar se algum [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
 * [ ] [**Política do AppLocker**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**Privilégios do Usuário**](windows-local-privilege-escalation/#users-and-groups)
@@ -46,9 +46,9 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] Você é [**membro de algum grupo privilegiado**](windows-local-privilege-escalation/#privileged-groups)?
 * [ ] Verificar se você tem [algum desses tokens habilitados](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Sessões de Usuários**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Verificar [**pastas pessoais dos usuários**](windows-local-privilege-escalation/#home-folders) (acesso?)
+* [ ] Verificar [**pastas dos usuários**](windows-local-privilege-escalation/#home-folders) (acesso?)
 * [ ] Verificar [**Política de Senhas**](windows-local-privilege-escalation/#password-policy)
-* [ ] O que há [**dentro da Área de Transferência**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] O que está [**dentro da Área de Transferência**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Rede](windows-local-privilege-escalation/#network)
 
@@ -67,7 +67,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] [Você pode **modificar algum serviço**?](windows-local-privilege-escalation/#permissions)
 * [ ] [Você pode **modificar** o **binário** que é **executado** por algum **serviço**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [ ] [Você pode **modificar** o **registro** de algum **serviço**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Você pode aproveitar algum **caminho de binário de serviço não citado**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [Você pode tirar proveito de algum **caminho de binário de serviço não citado**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Aplicações**](windows-local-privilege-escalation/#applications)
 
@@ -84,17 +84,17 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 ### [Rede](windows-local-privilege-escalation/#network)
 
 * [ ] Enumerar a rede (compartilhamentos, interfaces, rotas, vizinhos, ...)
-* [ ] Prestar atenção especial aos serviços de rede escutando em localhost (127.0.0.1)
+* [ ] Preste atenção especial aos serviços de rede escutando em localhost (127.0.0.1)
 
 ### [Credenciais do Windows](windows-local-privilege-escalation/#windows-credentials)
 
 * [ ] Credenciais do [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials)
 * [ ] Credenciais do [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) que você poderia usar?
-* [ ] Informações interessantes sobre [**credenciais DPAPI**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Senhas de [**redes Wifi salvas**](windows-local-privilege-escalation/#wifi)?
+* [ ] Credenciais [**DPAPI**](windows-local-privilege-escalation/#dpapi) interessantes?
+* [ ] Senhas de redes [**Wifi salvas**](windows-local-privilege-escalation/#wifi)?
 * [ ] Informações interessantes em [**Conexões RDP salvas**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Senhas em [**comandos executados recentemente**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] Senhas do [**Gerenciador de Credenciais do Desktop Remoto**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
+* [ ] Senhas do [**Gerenciador de Credenciais de Área de Trabalho Remota**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
 * [ ] [**AppCmd.exe** existe](windows-local-privilege-escalation/#appcmd-exe)? Credenciais?
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? Carregamento lateral de DLL?
 
@@ -110,7 +110,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] Senha no [**arquivo de configuração do IIS Web**](windows-local-privilege-escalation/#iis-web-config)?
 * [ ] Informações interessantes em [**logs da web**](windows-local-privilege-escalation/#logs)?
 * [ ] Você quer [**pedir credenciais**](windows-local-privilege-escalation/#ask-for-credentials) ao usuário?
-* [ ] Informações interessantes sobre [**arquivos dentro da Lixeira**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Arquivos interessantes [**dentro da Lixeira**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Outros [**registros contendo credenciais**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] Dentro dos [**dados do Navegador**](windows-local-privilege-escalation/#browsers-history) (dbs, histórico, favoritos, ...)?
 * [ ] [**Busca genérica de senhas**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) em arquivos e registro
@@ -130,7 +130,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -41,7 +41,7 @@ Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpa
 
 ## Credenciais com Meterpreter
 
-Use o [**Plugin de Credenciais**](https://github.com/carlospolop/MSF-Credentials) **que** eu criei para **procurar por senhas e hashes** dentro da vítima.
+Use o [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **que** eu criei para **procurar por senhas e hashes** dentro da vítima.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -93,7 +93,7 @@ Este processo é feito automaticamente com [SprayKatz](https://github.com/aas-n/
 Uma DLL chamada **comsvcs.dll** encontrada em `C:\Windows\System32` é responsável por **despejar a memória do processo** em caso de falha. Esta DLL inclui uma **função** chamada **`MiniDumpW`**, projetada para ser invocada usando `rundll32.exe`.\
 É irrelevante usar os dois primeiros argumentos, mas o terceiro é dividido em três componentes. O ID do processo a ser despejado constitui o primeiro componente, o local do arquivo de despejo representa o segundo, e o terceiro componente é estritamente a palavra **full**. Não existem opções alternativas.\
 Ao analisar esses três componentes, a DLL é acionada para criar o arquivo de despejo e transferir a memória do processo especificado para este arquivo.\
-A utilização da **comsvcs.dll** é viável para despejar o processo lsass, eliminando assim a necessidade de fazer upload e executar o procdump. Este método é descrito em detalhes em [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+A utilização de **comsvcs.dll** é viável para despejar o processo lsass, eliminando assim a necessidade de fazer upload e executar procdump. Este método é descrito em detalhes em [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
 O seguinte comando é empregado para execução:
 ```bash
@@ -217,7 +217,7 @@ Dentro deste banco de dados, três tabelas principais são mantidas:
 
 Mais informações sobre isso: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-O Windows usa _Ntdsa.dll_ para interagir com esse arquivo e é utilizado por _lsass.exe_. Então, **parte** do arquivo **NTDS.dit** pode estar localizada **dentro da memória do `lsass`** (você pode encontrar os dados acessados mais recentemente provavelmente devido à melhoria de desempenho ao usar um **cache**).
+O Windows usa _Ntdsa.dll_ para interagir com esse arquivo e é utilizado por _lsass.exe_. Então, **parte** do arquivo **NTDS.dit** pode ser localizada **dentro da memória do `lsass`** (você pode encontrar os dados acessados mais recentemente provavelmente devido à melhoria de desempenho ao usar um **cache**).
 
 #### Descriptografando os hashes dentro do NTDS.dit
 
@@ -227,7 +227,7 @@ O hash é cifrado 3 vezes:
 2. Descriptografar o **hash** usando **PEK** e **RC4**.
 3. Descriptografar o **hash** usando **DES**.
 
-**PEK** tem o **mesmo valor** em **cada controlador de domínio**, mas é **cifrado** dentro do arquivo **NTDS.dit** usando a **BOOTKEY** do **arquivo SYSTEM do controlador de domínio (é diferente entre controladores de domínio)**. É por isso que, para obter as credenciais do arquivo NTDS.dit, **você precisa dos arquivos NTDS.dit e SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** tem o **mesmo valor** em **cada controlador de domínio**, mas é **cifrado** dentro do arquivo **NTDS.dit** usando a **BOOTKEY** do **arquivo SYSTEM do controlador de domínio (é diferente entre controladores de domínio)**. É por isso que para obter as credenciais do arquivo NTDS.dit **você precisa dos arquivos NTDS.dit e SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Copiando NTDS.dit usando Ntdsutil
 
@@ -243,7 +243,7 @@ Uma vez que você tenha **obtido** os arquivos **NTDS.dit** e **SYSTEM**, você 
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Você também pode **extrair eles automaticamente** usando um usuário administrador de domínio válido:
+Você também pode **extraí-los automaticamente** usando um usuário administrador de domínio válido:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
@@ -288,7 +288,7 @@ type outpwdump
 ```
 ### PwDump7
 
-Baixe de: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) e apenas **execute-o** e as senhas serão extraídas.
+Baixe-o de: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) e apenas **execute-o** e as senhas serão extraídas.
 
 ## Defesas
 

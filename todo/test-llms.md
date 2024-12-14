@@ -32,7 +32,7 @@ Oferece várias seções como:
 
 * **Models**: Um vasto repositório de **modelos de aprendizado de máquina pré-treinados** onde os usuários podem navegar, baixar e integrar modelos para várias tarefas como geração de texto, tradução, reconhecimento de imagem e mais.
 * **Datasets:** Uma **coleção abrangente de conjuntos de dados** usados para treinar e avaliar modelos. Facilita o acesso fácil a diversas fontes de dados, permitindo que os usuários encontrem e utilizem dados para seus projetos específicos de aprendizado de máquina.
-* **Spaces:** Uma plataforma para hospedar e compartilhar **aplicações interativas de aprendizado de máquina** e demonstrações. Permite que os desenvolvedores **demonstrem** seus modelos em ação, criem interfaces amigáveis e colaborem com outros compartilhando demonstrações ao vivo.
+* **Spaces:** Uma plataforma para hospedar e compartilhar **aplicações interativas de aprendizado de máquina** e demonstrações. Permite que os desenvolvedores **apresentem** seus modelos em ação, criem interfaces amigáveis e colaborem com outros compartilhando demonstrações ao vivo.
 
 ## [**TensorFlow Hub**](https://www.tensorflow.org/hub) **&** [**Kaggle**](https://www.kaggle.com/)
 

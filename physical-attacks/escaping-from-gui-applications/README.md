@@ -29,7 +29,7 @@ Você deve verificar se pode:
 
 * Modificar ou criar novos arquivos
 * Criar links simbólicos
-* Obter acesso a áreas restritas
+* Acessar áreas restritas
 * Executar outros aplicativos
 
 ## Execução de Comandos
@@ -53,7 +53,7 @@ _bash, sh, zsh..._ Mais aqui: [https://gtfobins.github.io/](https://gtfobins.git
 * **Links simbólicos**
 * **Atalhos**: CTRL+N (abrir nova sessão), CTRL+R (Executar Comandos), CTRL+SHIFT+ESC (Gerenciador de Tarefas), Windows+E (abrir explorer), CTRL-B, CTRL-I (Favoritos), CTRL-H (Histórico), CTRL-L, CTRL-O (Arquivo/Abrir Diálogo), CTRL-P (Diálogo de Impressão), CTRL-S (Salvar Como)
 * Menu Administrativo Oculto: CTRL-ALT-F8, CTRL-ESC-F9
-* **Shell URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **URIs de Shell**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **Caminhos UNC**: Caminhos para conectar a pastas compartilhadas. Você deve tentar conectar ao C$ da máquina local ("\\\127.0.0.1\c$\Windows\System32")
 * **Mais caminhos UNC:**
 
@@ -183,7 +183,7 @@ Fonte: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811d
 
 * Deslize 1 dedo a partir da esquerda da tela 1-2 polegadas: Para ver a visualização de Hoje
 
-* Deslize rapidamente 1 dedo do centro da tela para a direita ou esquerda: Para mudar para o próximo/último aplicativo
+* Deslize rapidamente 1 dedo a partir do centro da tela para a direita ou esquerda: Para mudar para o próximo/último aplicativo
 
 * Pressione e segure o botão On/**Off**/Sleep no canto superior direito do **iPad +** Mova o controle deslizante para **desligar** completamente para a direita: Para desligar
 
@@ -203,10 +203,10 @@ Você deve ter um teclado de iPad ou um adaptador de teclado USB. Apenas atalhos
 | ↩   | Retorno      |
 | ⇥   | Tab          |
 | ^   | Controle     |
-| ←   | Seta para a Esquerda   |
-| →   | Seta para a Direita  |
-| ↑   | Seta para Cima     |
-| ↓   | Seta para Baixo   |
+| ←   | Seta Esquerda   |
+| →   | Seta Direita  |
+| ↑   | Seta Para Cima     |
+| ↓   | Seta Para Baixo   |
 
 ### Atalhos do sistema
 
@@ -217,7 +217,7 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | F1       | Diminuir a tela                                                                    |
 | F2       | Aumentar a tela                                                                |
 | F7       | Voltar uma música                                                                  |
-| F8       | Reproduzir/pause                                                                     |
+| F8       | Reproduzir/pausar                                                                     |
 | F9       | Pular música                                                                      |
 | F10      | Mudo                                                                           |
 | F11      | Diminuir volume                                                                |
@@ -230,7 +230,7 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | -------------------------------------------------- | ------------------------------------------------------- |
 | ⌘H                                                 | Ir para a Home                                              |
 | ⌘⇧H (Command-Shift-H)                              | Ir para a Home                                              |
-| ⌘ (Espaço)                                          | Abrir Spotlight                                          |
+| ⌘ (Espaço)                                          | Abrir o Spotlight                                          |
 | ⌘⇥ (Command-Tab)                                   | Listar os últimos dez aplicativos usados                                 |
 | ⌘\~                                                | Ir para o último aplicativo                                       |
 | ⌘⇧3 (Command-Shift-3)                              | Captura de tela (paira no canto inferior esquerdo para salvar ou agir sobre ela) |
@@ -238,15 +238,15 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | Pressione e segure ⌘                                   | Lista de atalhos disponíveis para o aplicativo                 |
 | ⌘⌥D (Command-Option/Alt-D)                         | Abre o dock                                      |
 | ^⌥H (Control-Option-H)                             | Botão Home                                             |
-| ^⌥H H (Control-Option-H-H)                         | Mostrar barra de multitarefa                                      |
+| ^⌥H H (Control-Option-H-H)                         | Mostrar a barra de multitarefa                                      |
 | ^⌥I (Control-Option-i)                             | Seletor de itens                                            |
 | Escape                                             | Botão voltar                                             |
-| → (Seta para a Direita)                                    | Próximo item                                               |
-| ← (Seta para a Esquerda)                                     | Item anterior                                           |
-| ↑↓ (Seta para Cima, Seta para Baixo)                          | Toque simultaneamente no item selecionado                        |
-| ⌥ ↓ (Option-Seta para Baixo)                            | Rolagem para baixo                                             |
-| ⌥↑ (Option-Seta para Cima)                               | Rolagem para cima                                               |
-| ⌥← ou ⌥→ (Option-Seta para a Esquerda ou Option-Seta para a Direita) | Rolagem para a esquerda ou direita                                    |
+| → (Seta Direita)                                    | Próximo item                                               |
+| ← (Seta Esquerda)                                     | Item anterior                                           |
+| ↑↓ (Seta Para Cima, Seta Para Baixo)                          | Toque simultaneamente no item selecionado                        |
+| ⌥ ↓ (Option-Seta Para Baixo)                            | Rolagem para baixo                                             |
+| ⌥↑ (Option-Seta Para Cima)                               | Rolagem para cima                                               |
+| ⌥← ou ⌥→ (Option-Seta Para Esquerda ou Option-Seta Para Direita) | Rolagem para a esquerda ou direita                                    |
 | ^⌥S (Control-Option-S)                             | Ativar ou desativar a fala do VoiceOver                         |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | Alternar para o aplicativo anterior                              |
 | ⌘⇥ (Command-Tab)                                   | Voltar para o aplicativo original                         |
@@ -298,7 +298,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

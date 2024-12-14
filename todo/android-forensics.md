@@ -27,9 +27,9 @@ Para começar a extrair dados de um dispositivo Android, ele precisa estar desbl
 
 Crie um [backup android usando adb](../mobile-pentesting/android-app-pentesting/adb-commands.md#backup) e extraia-o usando [Android Backup Extractor](https://sourceforge.net/projects/adbextractor/): `java -jar abe.jar unpack file.backup file.tar`
 
-### Se acesso root ou conexão física à interface JTAG
+### Se acesso root ou conexão física com a interface JTAG
 
-* `cat /proc/partitions` (procure o caminho para a memória flash, geralmente a primeira entrada é _mmcblk0_ e corresponde à memória flash inteira).
+* `cat /proc/partitions` (procure o caminho para a memória flash, geralmente a primeira entrada é _mmcblk0_ e corresponde a toda a memória flash).
 * `df /data` (Descubra o tamanho do bloco do sistema).
 * dd if=/dev/block/mmcblk0 of=/sdcard/blk0.img bs=4096 (execute com as informações coletadas do tamanho do bloco).
 

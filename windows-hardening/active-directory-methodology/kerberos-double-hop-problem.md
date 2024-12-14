@@ -26,7 +26,7 @@ O problema do "Duplo Salto" do Kerberos aparece quando um atacante tenta usar **
 
 Quando uma **autenticação** ocorre através do **Kerberos**, as **credenciais** **não são** armazenadas em **memória.** Portanto, se você executar o mimikatz, você **não encontrará credenciais** do usuário na máquina, mesmo que ele esteja executando processos.
 
-Isso acontece porque, ao conectar-se com o Kerberos, estes são os passos:
+Isso ocorre porque, ao conectar-se com o Kerberos, estes são os passos:
 
 1. User1 fornece credenciais e o **controlador de domínio** retorna um **TGT** Kerberos para o User1.
 2. User1 usa o **TGT** para solicitar um **ticket de serviço** para **conectar-se** ao Server1.
@@ -54,7 +54,7 @@ Get-WSManCredSSP
 
 ### Invoke Command
 
-Para resolver o problema do double hop, é apresentado um método que envolve um `Invoke-Command` aninhado. Isso não resolve o problema diretamente, mas oferece uma solução alternativa sem a necessidade de configurações especiais. A abordagem permite executar um comando (`hostname`) em um servidor secundário através de um comando PowerShell executado de uma máquina de ataque inicial ou através de uma PS-Session previamente estabelecida com o primeiro servidor. Veja como é feito:
+Para resolver o problema do double hop, um método envolvendo um `Invoke-Command` aninhado é apresentado. Isso não resolve o problema diretamente, mas oferece uma solução alternativa sem a necessidade de configurações especiais. A abordagem permite executar um comando (`hostname`) em um servidor secundário através de um comando PowerShell executado a partir de uma máquina de ataque inicial ou através de uma PS-Session previamente estabelecida com o primeiro servidor. Veja como é feito:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
@@ -65,7 +65,7 @@ Alternativamente, estabelecer uma PS-Session com o primeiro servidor e executar 
 
 ### Registrar Configuração de PSSession
 
-Uma solução para contornar o problema do double hop envolve o uso de `Register-PSSessionConfiguration` com `Enter-PSSession`. Este método requer uma abordagem diferente do `evil-winrm` e permite uma sessão que não sofre da limitação do double hop.
+Uma solução para contornar o problema do double hop envolve usar `Register-PSSessionConfiguration` com `Enter-PSSession`. Este método requer uma abordagem diferente do `evil-winrm` e permite uma sessão que não sofre da limitação do double hop.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM

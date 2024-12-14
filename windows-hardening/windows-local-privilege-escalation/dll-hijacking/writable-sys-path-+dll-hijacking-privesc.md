@@ -54,7 +54,7 @@ $newPath = "$envPath;$folderPath"
 ```
 * Inicie **`procmon`** e vá para **`Options`** --> **`Enable boot logging`** e pressione **`OK`** na mensagem.
 * Em seguida, **reinicie**. Quando o computador for reiniciado, **`procmon`** começará a **gravar** eventos imediatamente.
-* Assim que o **Windows** estiver **iniciado, execute `procmon`** novamente, ele informará que está em execução e **perguntará se você deseja armazenar** os eventos em um arquivo. Diga **sim** e **armazene os eventos em um arquivo**.
+* Assim que **Windows** estiver **iniciado, execute `procmon`** novamente, ele informará que está em execução e **perguntará se você deseja armazenar** os eventos em um arquivo. Diga **sim** e **armazene os eventos em um arquivo**.
 * **Após** o **arquivo** ser **gerado**, **feche** a janela **`procmon`** aberta e **abra o arquivo de eventos**.
 * Adicione esses **filtros** e você encontrará todas as DLLs que algum **processo tentou carregar** da pasta do System Path gravável:
 
@@ -87,7 +87,7 @@ Observe que **nem todos os serviços são executados** com **`NT AUTHORITY\SYSTE
 No entanto, esse usuário tem o privilégio **`seImpersonate`**, então você pode usar o [**potato suite para escalar privilégios**](../roguepotato-and-printspoofer.md). Portanto, neste caso, um rev shell é uma opção melhor do que tentar criar um usuário.
 {% endhint %}
 
-No momento da escrita, o serviço **Agendador de Tarefas** é executado com **Nt AUTHORITY\SYSTEM**.
+No momento da escrita, o serviço **Agendador de Tarefas** está sendo executado com **Nt AUTHORITY\SYSTEM**.
 
 Tendo **gerado a DLL maliciosa** (_no meu caso, usei um rev shell x64 e recebi um shell de volta, mas o defender o matou porque era do msfvenom_), salve-a no System Path gravável com o nome **WptsExtensions.dll** e **reinicie** o computador (ou reinicie o serviço ou faça o que for necessário para reiniciar o serviço/programa afetado).
 

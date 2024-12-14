@@ -30,11 +30,11 @@ No Arduino, após conectar os cabos (pino 2 a 11 aos pinos JTAG e GND do Arduino
 ![](<../../.gitbook/assets/image (578).png>)
 
 Configure **"Sem final de linha" e 115200baud**.\
-Envie o comando s para começar a escanear:
+Envie o comando s para iniciar a varredura:
 
 ![](<../../.gitbook/assets/image (774).png>)
 
-Se você estiver contatando um JTAG, encontrará uma ou várias **linhas começando com FOUND!** indicando os pinos do JTAG.
+Se você estiver se conectando a um JTAG, encontrará uma ou várias **linhas começando com FOUND!** indicando os pinos do JTAG.
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

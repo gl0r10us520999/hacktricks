@@ -28,7 +28,7 @@ Os seguintes passos são recomendados para modificar as configurações de inici
 %%%
 
 3. **Configurar o Servidor TFTP**:
-- Configure um servidor TFTP para carregar imagens através de uma rede local:
+- Configure um servidor TFTP para carregar imagens em uma rede local:
 %%%
 #setenv ipaddr 192.168.2.2 #IP local do dispositivo
 #setenv serverip 192.168.2.1 #IP do servidor TFTP

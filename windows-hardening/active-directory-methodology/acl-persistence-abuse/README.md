@@ -51,15 +51,15 @@ Ter esses privilégios em um objeto de computador ou em uma conta de usuário pe
 
 ## **WriteProperty on Group**
 
-Se um usuário tiver direitos `WriteProperty` em todos os objetos de um grupo específico (por exemplo, `Domain Admins`), ele pode:
+Se um usuário tiver direitos de `WriteProperty` em todos os objetos de um grupo específico (por exemplo, `Domain Admins`), ele pode:
 
 * **Adicionar-se ao Grupo Domain Admins**: Atingível através da combinação dos comandos `net user` e `Add-NetGroupUser`, este método permite a escalada de privilégios dentro do domínio.
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-## **Self (Auto-Membresia) em Grupo**
+## **Self (Auto-Membro) em Grupo**
 
-Este privilégio permite que atacantes se adicionem a grupos específicos, como `Domain Admins`, através de comandos que manipulam a membresia de grupos diretamente. Usar a seguinte sequência de comandos permite a auto-adição:
+Este privilégio permite que atacantes se adicionem a grupos específicos, como `Domain Admins`, através de comandos que manipulam diretamente a associação a grupos. Usar a seguinte sequência de comandos permite a auto-adição:
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
@@ -72,7 +72,7 @@ net group "domain admins" spotless /add /domain
 ```
 ## **ForceChangePassword**
 
-Ter o `ExtendedRight` em um usuário para `User-Force-Change-Password` permite redefinições de senha sem conhecer a senha atual. A verificação desse direito e sua exploração podem ser feitas através do PowerShell ou ferramentas de linha de comando alternativas, oferecendo vários métodos para redefinir a senha de um usuário, incluindo sessões interativas e one-liners para ambientes não interativos. Os comandos variam desde invocações simples do PowerShell até o uso de `rpcclient` no Linux, demonstrando a versatilidade dos vetores de ataque.
+Ter o `ExtendedRight` em um usuário para `User-Force-Change-Password` permite redefinições de senha sem conhecer a senha atual. A verificação desse direito e sua exploração podem ser feitas através do PowerShell ou ferramentas de linha de comando alternativas, oferecendo vários métodos para redefinir a senha de um usuário, incluindo sessões interativas e comandos de uma linha para ambientes não interativos. Os comandos variam desde invocações simples do PowerShell até o uso de `rpcclient` no Linux, demonstrando a versatilidade dos vetores de ataque.
 ```powershell
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainUserPassword -Identity delegate -Verbose
@@ -143,7 +143,7 @@ GPOs mal configurados podem ser explorados para executar código, por exemplo, c
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
-### GroupPolicy module - Abuse GPO
+### GroupPolicy module - Abuso de GPO
 
 O módulo GroupPolicy, se instalado, permite a criação e vinculação de novas GPOs, e a configuração de preferências como valores de registro para executar backdoors em computadores afetados. Este método requer que a GPO seja atualizada e que um usuário faça login no computador para execução:
 ```powershell
@@ -160,19 +160,19 @@ SharpGPOAbuse oferece um método para abusar de GPOs existentes adicionando tare
 
 Atualizações de GPO normalmente ocorrem a cada 90 minutos. Para acelerar esse processo, especialmente após implementar uma mudança, o comando `gpupdate /force` pode ser usado no computador alvo para forçar uma atualização imediata da política. Este comando garante que quaisquer modificações nas GPOs sejam aplicadas sem esperar pelo próximo ciclo automático de atualização.
 
-### Nos Bastidores
+### Por Trás dos Panos
 
-Ao inspecionar as Tarefas Agendadas para uma determinada GPO, como a `Política Mal Configurada`, a adição de tarefas como `evilTask` pode ser confirmada. Essas tarefas são criadas por meio de scripts ou ferramentas de linha de comando com o objetivo de modificar o comportamento do sistema ou escalar privilégios.
+Ao inspecionar as Tarefas Agendadas para uma determinada GPO, como a `Política Mal Configurada`, a adição de tarefas como `evilTask` pode ser confirmada. Essas tarefas são criadas através de scripts ou ferramentas de linha de comando com o objetivo de modificar o comportamento do sistema ou escalar privilégios.
 
-A estrutura da tarefa, conforme mostrado no arquivo de configuração XML gerado pelo `New-GPOImmediateTask`, descreve os detalhes da tarefa agendada - incluindo o comando a ser executado e seus gatilhos. Este arquivo representa como as tarefas agendadas são definidas e gerenciadas dentro das GPOs, fornecendo um método para executar comandos ou scripts arbitrários como parte da aplicação da política.
+A estrutura da tarefa, conforme mostrado no arquivo de configuração XML gerado por `New-GPOImmediateTask`, descreve os detalhes da tarefa agendada - incluindo o comando a ser executado e seus gatilhos. Este arquivo representa como as tarefas agendadas são definidas e gerenciadas dentro das GPOs, fornecendo um método para executar comandos ou scripts arbitrários como parte da aplicação da política.
 
 ### Usuários e Grupos
 
-As GPOs também permitem a manipulação de membros de usuários e grupos nos sistemas alvo. Ao editar os arquivos de política de Usuários e Grupos diretamente, os atacantes podem adicionar usuários a grupos privilegiados, como o grupo local `administrators`. Isso é possível por meio da delegação de permissões de gerenciamento de GPO, que permite a modificação dos arquivos de política para incluir novos usuários ou alterar as associações de grupos.
+As GPOs também permitem a manipulação de membros de usuários e grupos nos sistemas alvo. Ao editar os arquivos de política de Usuários e Grupos diretamente, os atacantes podem adicionar usuários a grupos privilegiados, como o grupo local `administrators`. Isso é possível através da delegação de permissões de gerenciamento de GPO, que permite a modificação dos arquivos de política para incluir novos usuários ou alterar a filiação a grupos.
 
-O arquivo de configuração XML para Usuários e Grupos descreve como essas mudanças são implementadas. Ao adicionar entradas a este arquivo, usuários específicos podem receber privilégios elevados em sistemas afetados. Este método oferece uma abordagem direta para a escalada de privilégios por meio da manipulação de GPO.
+O arquivo de configuração XML para Usuários e Grupos descreve como essas mudanças são implementadas. Ao adicionar entradas a este arquivo, usuários específicos podem receber privilégios elevados em sistemas afetados. Este método oferece uma abordagem direta para a escalada de privilégios através da manipulação de GPO.
 
-Além disso, métodos adicionais para executar código ou manter persistência, como aproveitar scripts de logon/logoff, modificar chaves de registro para autoruns, instalar software via arquivos .msi ou editar configurações de serviços, também podem ser considerados. Essas técnicas fornecem várias maneiras de manter o acesso e controlar sistemas alvo por meio do abuso de GPOs.
+Além disso, métodos adicionais para executar código ou manter persistência, como aproveitar scripts de logon/logoff, modificar chaves de registro para autoruns, instalar software via arquivos .msi, ou editar configurações de serviços, também podem ser considerados. Essas técnicas fornecem várias maneiras de manter acesso e controlar sistemas alvo através do abuso de GPOs.
 
 ## Referências
 

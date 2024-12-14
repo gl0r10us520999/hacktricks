@@ -1,4 +1,4 @@
-# Elevação de Privilégios com Autoruns
+# Escalação de Privilégios com Autoruns
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -181,7 +181,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -Name "Common Startup"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name "Common Startup"
 ```
-### Winlogon Keys
+### Chaves do Winlogon
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
@@ -224,7 +224,7 @@ Passos para criar uma opção de inicialização para iniciar automaticamente em
 
 * **Exploit 1:** Alterar a chave de registro **AlternateShell** permite a configuração de um shell de comando personalizado, potencialmente para acesso não autorizado.
 * **Exploit 2 (Permissões de Escrita no PATH):** Ter permissões de escrita em qualquer parte da variável **PATH** do sistema, especialmente antes de `C:\Windows\system32`, permite que você execute um `cmd.exe` personalizado, que pode ser uma porta dos fundos se o sistema for iniciado em Modo Seguro.
-* **Exploit 3 (Permissões de Escrita no PATH e boot.ini):** O acesso de escrita ao `boot.ini` permite a inicialização automática do Modo Seguro, facilitando o acesso não autorizado na próxima reinicialização.
+* **Exploit 3 (Permissões de Escrita no PATH e boot.ini):** O acesso de escrita ao `boot.ini` permite a inicialização automática em Modo Seguro, facilitando o acesso não autorizado na próxima reinicialização.
 
 Para verificar a configuração atual de **AlternateShell**, use estes comandos:
 ```bash
@@ -267,7 +267,7 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 Os Objetos Auxiliares do Navegador (BHOs) são módulos DLL que adicionam recursos extras ao Internet Explorer da Microsoft. Eles são carregados no Internet Explorer e no Windows Explorer a cada inicialização. No entanto, sua execução pode ser bloqueada definindo a chave **NoExplorer** como 1, impedindo que sejam carregados com instâncias do Windows Explorer.
 
-Os BHOs são compatíveis com o Windows 10 via Internet Explorer 11, mas não são suportados no Microsoft Edge, o navegador padrão nas versões mais recentes do Windows.
+Os BHOs são compatíveis com o Windows 10 através do Internet Explorer 11, mas não são suportados no Microsoft Edge, o navegador padrão nas versões mais recentes do Windows.
 
 Para explorar os BHOs registrados em um sistema, você pode inspecionar as seguintes chaves do registro:
 
@@ -315,7 +315,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Note que todos os sites onde você pode encontrar autoruns **já foram pesquisados por** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma **lista mais abrangente de arquivos auto-executados**, você pode usar [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) da Sysinternals:
+Note que todos os sites onde você pode encontrar autoruns **já foram pesquisados por** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma **lista mais abrangente de arquivos auto-executados**, você pode usar [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do Sysinternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```

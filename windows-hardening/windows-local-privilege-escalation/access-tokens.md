@@ -64,7 +64,7 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-or usando _Process Explorer_ da Sysinternals (selecione o processo e acesse a aba "Segurança"):
+ou usando _Process Explorer_ da Sysinternals (selecione o processo e acesse a aba "Segurança"):
 
 ![](<../../.gitbook/assets/image (772).png>)
 

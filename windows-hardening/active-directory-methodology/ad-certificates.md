@@ -56,7 +56,7 @@ Definidos dentro do AD, esses modelos delineiam as configurações e permissões
 
 ## Inscrição de Certificado
 
-O processo de inscrição para certificados é iniciado por um administrador que **cria um modelo de certificado**, que é então **publicado** por uma Autoridade Certificadora Empresarial (CA). Isso torna o modelo disponível para inscrição de clientes, um passo alcançado ao adicionar o nome do modelo ao campo `certificatetemplates` de um objeto do Active Directory.
+O processo de inscrição para certificados é iniciado por um administrador que **cria um modelo de certificado**, que é então **publicado** por uma Autoridade Certificadora Empresarial (CA). Isso torna o modelo disponível para inscrição de clientes, um passo alcançado adicionando o nome do modelo ao campo `certificatetemplates` de um objeto do Active Directory.
 
 Para que um cliente solicite um certificado, **direitos de inscrição** devem ser concedidos. Esses direitos são definidos por descritores de segurança no modelo de certificado e na própria CA Empresarial. As permissões devem ser concedidas em ambos os locais para que uma solicitação seja bem-sucedida.
 
@@ -80,24 +80,24 @@ Certos controles podem se aplicar, como:
 ### Métodos para Solicitar Certificados
 
 Os certificados podem ser solicitados através de:
-1. **Protocolo de Inscrição de Certificado do Cliente Windows** (MS-WCCE), usando interfaces DCOM.
-2. **Protocolo Remoto ICertPassage** (MS-ICPR), através de pipes nomeados ou TCP/IP.
+1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), usando interfaces DCOM.
+2. **ICertPassage Remote Protocol** (MS-ICPR), através de pipes nomeados ou TCP/IP.
 3. A **interface web de inscrição de certificado**, com o papel de Inscrição Web da Autoridade Certificadora instalado.
 4. O **Serviço de Inscrição de Certificado** (CES), em conjunto com o serviço de Política de Inscrição de Certificado (CEP).
 5. O **Serviço de Inscrição de Dispositivos de Rede** (NDES) para dispositivos de rede, usando o Protocolo Simples de Inscrição de Certificado (SCEP).
 
-Usuários do Windows também podem solicitar certificados via GUI (`certmgr.msc` ou `certlm.msc`) ou ferramentas de linha de comando (`certreq.exe` ou o comando `Get-Certificate` do PowerShell).
+Os usuários do Windows também podem solicitar certificados via GUI (`certmgr.msc` ou `certlm.msc`) ou ferramentas de linha de comando (`certreq.exe` ou o comando `Get-Certificate` do PowerShell).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
 ## Autenticação por Certificado
 
-O Active Directory (AD) suporta autenticação por certificado, utilizando principalmente os protocolos **Kerberos** e **Secure Channel (Schannel)**.
+Active Directory (AD) suporta autenticação por certificado, utilizando principalmente os protocolos **Kerberos** e **Secure Channel (Schannel)**.
 
 ### Processo de Autenticação Kerberos
 
-No processo de autenticação Kerberos, o pedido de um usuário para um Ticket Granting Ticket (TGT) é assinado usando a **chave privada** do certificado do usuário. Este pedido passa por várias validações pelo controlador de domínio, incluindo a **validade** do certificado, **caminho** e **status de revogação**. As validações também incluem verificar se o certificado vem de uma fonte confiável e confirmar a presença do emissor no **armazenamento de certificados NTAUTH**. Validações bem-sucedidas resultam na emissão de um TGT. O objeto **`NTAuthCertificates`** no AD, encontrado em:
+No processo de autenticação Kerberos, o pedido de um usuário para um Ticket Granting Ticket (TGT) é assinado usando a **chave privada** do certificado do usuário. Este pedido passa por várias validações pelo controlador de domínio, incluindo a **validade**, **caminho** e **status de revogação** do certificado. As validações também incluem verificar se o certificado vem de uma fonte confiável e confirmar a presença do emissor no **armazenamento de certificados NTAUTH**. Validações bem-sucedidas resultam na emissão de um TGT. O objeto **`NTAuthCertificates`** no AD, encontrado em:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -140,7 +140,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

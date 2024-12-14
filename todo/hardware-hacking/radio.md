@@ -31,16 +31,16 @@ No comportamento da GUI, é recomendado habilitar algumas coisas se seu PC supor
 ![](<../../.gitbook/assets/image (472).png>)
 
 {% hint style="info" %}
-Se você perceber que seu PC não está capturando as coisas, tente desabilitar o OpenGL e diminuir a taxa de amostragem.
+Se você perceber que seu PC não está capturando coisas, tente desabilitar o OpenGL e diminuir a taxa de amostragem.
 {% endhint %}
 
 ### Usos
 
-* Apenas para **capturar algum tempo de um sinal e analisá-lo**, mantenha o botão "Push to capture" pressionado enquanto precisar.
+* Para **capturar algum tempo de um sinal e analisá-lo**, mantenha o botão "Push to capture" pressionado pelo tempo que precisar.
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* O **Tuner** do SigDigger ajuda a **capturar melhores sinais** (mas também pode degradá-los). Idealmente, comece com 0 e continue **aumentando até** que você encontre o **ruído** introduzido que é **maior** do que a **melhoria do sinal** que você precisa).
+* O **Tuner** do SigDigger ajuda a **capturar melhores sinais** (mas também pode degradá-los). Idealmente, comece com 0 e continue **aumentando até** encontrar o **ruído** introduzido que é **maior** do que a **melhoria do sinal** que você precisa).
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
@@ -71,9 +71,9 @@ Se você está verificando um sinal, existem diferentes maneiras de tentar desco
 
 * **Detectando AM**: Se no gráfico IQ aparecem, por exemplo, **2 círculos** (provavelmente um em 0 e outro em uma amplitude diferente), isso pode significar que este é um sinal AM. Isso ocorre porque no gráfico IQ a distância entre o 0 e o círculo é a amplitude do sinal, então é fácil visualizar diferentes amplitudes sendo usadas.
 * **Detectando PM**: Como na imagem anterior, se você encontrar pequenos círculos não relacionados entre si, isso provavelmente significa que uma modulação de fase está sendo usada. Isso ocorre porque no gráfico IQ, o ângulo entre o ponto e o 0,0 é a fase do sinal, então isso significa que 4 fases diferentes estão sendo usadas.
-* Note que se a informação estiver oculta no fato de que uma fase é alterada e não na fase em si, você não verá fases diferentes claramente diferenciadas.
+* Note que se a informação estiver oculta no fato de que uma fase é alterada e não na fase em si, você não verá diferentes fases claramente diferenciadas.
 * **Detectando FM**: IQ não tem um campo para identificar frequências (distância ao centro é amplitude e ângulo é fase).\
-Portanto, para identificar FM, você deve **ver basicamente apenas um círculo** neste gráfico.\
+Portanto, para identificar FM, você deve **ver basicamente um círculo** neste gráfico.\
 Além disso, uma frequência diferente é "representada" pelo gráfico IQ por uma **aceleração de velocidade ao longo do círculo** (então, no SysDigger, selecionando o sinal, o gráfico IQ é populado; se você encontrar uma aceleração ou mudança de direção no círculo criado, isso pode significar que isso é FM):
 
 ## Exemplo de AM
@@ -84,7 +84,7 @@ Além disso, uma frequência diferente é "representada" pelo gráfico IQ por um
 
 #### Verificando o envelope
 
-Verificando informações AM com [**SigDigger** ](https://github.com/BatchDrake/SigDigger)e apenas olhando para o **envelope**, você pode ver diferentes níveis de amplitude claros. O sinal utilizado está enviando pulsos com informações em AM, assim é como um pulso se parece:
+Verificando informações de AM com [**SigDigger** ](https://github.com/BatchDrake/SigDigger)e apenas olhando para o **envelope**, você pode ver diferentes níveis de amplitude claros. O sinal utilizado está enviando pulsos com informações em AM, assim é como um pulso se parece:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
@@ -98,11 +98,11 @@ Você pode **selecionar todo o sinal** onde as informações estão localizadas,
 
 ![](<../../.gitbook/assets/image (264).png>)
 
-Por exemplo, se você selecionar Frequência em vez de Amplitude neste sinal AM, você encontrará apenas 1 frequência (não há como a informação modulada em frequência estar usando apenas 1 frequência).
+Por exemplo, se você selecionar Frequência em vez de Amplitude neste sinal AM, você encontrará apenas 1 frequência (não há como a informação modulada em frequência estar usando apenas 1 freq).
 
 ![](<../../.gitbook/assets/image (732).png>)
 
-Se você encontrar muitas frequências, provavelmente isso não será um FM, provavelmente a frequência do sinal foi apenas modificada por causa do canal.
+Se você encontrar muitas frequências, potencialmente isso não será um FM, provavelmente a frequência do sinal foi apenas modificada por causa do canal.
 
 #### Com IQ
 
@@ -126,20 +126,20 @@ Você também pode indicar o número de símbolos que você vai selecionar e o S
 
 ### Obter Bits
 
-Tendo encontrado que este é um sinal **modulado em AM** e a **taxa de símbolos** (e sabendo que neste caso algo para cima significa 1 e algo para baixo significa 0), é muito fácil **obter os bits** codificados no sinal. Então, selecione o sinal com informações e configure a amostragem e a decisão e pressione amostra (verifique se **Amplitude** está selecionado, a **Taxa de Símbolos** descoberta está configurada e a **recuperação de clock de Gadner** está selecionada):
+Tendo encontrado que este é um sinal **modulado em AM** e a **taxa de símbolos** (e sabendo que neste caso algo up significa 1 e algo down significa 0), é muito fácil **obter os bits** codificados no sinal. Então, selecione o sinal com informações e configure a amostragem e a decisão e pressione amostra (verifique se **Amplitude** está selecionado, a **Taxa de Símbolos** descoberta está configurada e a **recuperação de clock de Gadner** está selecionada):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
 * **Sincronizar com intervalos de seleção** significa que se você selecionou anteriormente intervalos para encontrar a taxa de símbolos, essa taxa de símbolos será usada.
-* **Manual** significa que a taxa de símbolos indicada será usada
-* Na **Seleção de intervalo fixo**, você indica o número de intervalos que devem ser selecionados e calcula a taxa de símbolos a partir disso
+* **Manual** significa que a taxa de símbolos indicada será usada.
+* Na **Seleção de intervalo fixo**, você indica o número de intervalos que devem ser selecionados e calcula a taxa de símbolos a partir disso.
 * **Recuperação de clock de Gadner** é geralmente a melhor opção, mas você ainda precisa indicar alguma taxa de símbolos aproximada.
 
 Pressionando amostra, isso aparece:
 
 ![](<../../.gitbook/assets/image (644).png>)
 
-Agora, para fazer o SigDigger entender **onde está a faixa** do nível que carrega informações, você precisa clicar no **nível mais baixo** e manter pressionado até o maior nível:
+Agora, para fazer o SigDigger entender **onde está o intervalo** do nível que carrega informações, você precisa clicar no **nível mais baixo** e manter pressionado até o maior nível:
 
 ![](<../../.gitbook/assets/image (439).png>)
 
@@ -151,7 +151,7 @@ Finalmente, **aumentando** o **Zoom** e **mudando o tamanho da linha**, você po
 
 Se o sinal tiver mais de 1 bit por símbolo (por exemplo, 2), o SigDigger **não tem como saber qual símbolo é** 00, 01, 10, 11, então usará diferentes **escalas de cinza** para representar cada um (e se você copiar os bits, usará **números de 0 a 3**, você precisará tratá-los).
 
-Além disso, use **codificações** como **Manchester**, e **up+down** pode ser **1 ou 0** e um down+up pode ser um 1 ou 0. Nesses casos, você precisa **tratar os ups obtidos (1) e downs (0)** para substituir os pares de 01 ou 10 por 0s ou 1s.
+Além disso, use **codificações** como **Manchester**, e **up+down** pode ser **1 ou 0** e um down+up pode ser um 1 ou 0. Nesses casos, você precisa **tratar os ups (1) e downs (0) obtidos** para substituir os pares de 01 ou 10 como 0s ou 1s.
 
 ## Exemplo de FM
 
@@ -173,7 +173,7 @@ Isso ocorre porque eu capturei o sinal em ambas as frequências, portanto, uma �
 
 ![](<../../.gitbook/assets/image (942).png>)
 
-Se a frequência sincronizada estiver **mais próxima de uma frequência do que da outra**, você pode ver facilmente as 2 diferentes frequências:
+Se a frequência sincronizada estiver **mais próxima de uma frequência do que da outra**, você pode facilmente ver as 2 diferentes frequências:
 
 ![](<../../.gitbook/assets/image (422).png>)
 
@@ -196,7 +196,7 @@ E este seria o histograma de fase (que deixa muito claro que o sinal não está 
 #### Com IQ
 
 IQ não tem um campo para identificar frequências (distância ao centro é amplitude e ângulo é fase).\
-Portanto, para identificar FM, você deve **ver basicamente apenas um círculo** neste gráfico.\
+Portanto, para identificar FM, você deve **ver basicamente um círculo** neste gráfico.\
 Além disso, uma frequência diferente é "representada" pelo gráfico IQ por uma **aceleração de velocidade ao longo do círculo** (então, no SysDigger, selecionando o sinal, o gráfico IQ é populado; se você encontrar uma aceleração ou mudança de direção no círculo criado, isso pode significar que isso é FM):
 
 ![](<../../.gitbook/assets/image (81).png>)

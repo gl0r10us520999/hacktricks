@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 O **firmware personalizado e/ou binários compilados podem ser carregados para explorar falhas de integridade ou verificação de assinatura**. Os seguintes passos podem ser seguidos para a compilação de um shell bind de backdoor:
 
 1. O firmware pode ser extraído usando firmware-mod-kit (FMK).
-2. A arquitetura e a ordem de bytes do firmware alvo devem ser identificadas.
+2. A arquitetura do firmware alvo e a ordem de bytes devem ser identificadas.
 3. Um compilador cruzado pode ser construído usando Buildroot ou outros métodos adequados para o ambiente.
 4. A backdoor pode ser construída usando o compilador cruzado.
 5. A backdoor pode ser copiada para o diretório /usr/bin do firmware extraído.
@@ -29,9 +29,9 @@ O **firmware personalizado e/ou binários compilados podem ser carregados para e
 10. O firmware modificado pode ser reempacotado usando FMK.
 11. O firmware com backdoor pode ser testado emulando-o com a ferramenta de análise de firmware (FAT) e conectando-se ao IP e porta da backdoor alvo usando netcat.
 
-Se um shell root já foi obtido através de análise dinâmica, manipulação do bootloader ou testes de segurança de hardware, binários maliciosos pré-compilados, como implantes ou shells reversos, podem ser executados. Ferramentas automatizadas de payload/implante, como o framework Metasploit e 'msfvenom', podem ser aproveitadas usando os seguintes passos:
+Se um shell root já foi obtido através de análise dinâmica, manipulação do bootloader ou teste de segurança de hardware, binários maliciosos pré-compilados, como implantes ou shells reversos, podem ser executados. Ferramentas automatizadas de payload/implante, como o framework Metasploit e 'msfvenom', podem ser aproveitadas usando os seguintes passos:
 
-1. A arquitetura e a ordem de bytes do firmware alvo devem ser identificadas.
+1. A arquitetura do firmware alvo e a ordem de bytes devem ser identificadas.
 2. O msfvenom pode ser usado para especificar o payload alvo, IP do host atacante, número da porta de escuta, tipo de arquivo, arquitetura, plataforma e o arquivo de saída.
 3. O payload pode ser transferido para o dispositivo comprometido e garantir que ele tenha permissões de execução.
 4. O Metasploit pode ser preparado para lidar com solicitações de entrada iniciando o msfconsole e configurando as configurações de acordo com o payload.

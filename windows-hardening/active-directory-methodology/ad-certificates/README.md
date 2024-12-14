@@ -36,12 +36,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Autoridades Certificadoras (CAs) no Active Directory (AD)
 
-O AD CS reconhece certificados de CA em uma floresta AD através de contêineres designados, cada um servindo a papéis únicos:
+O AD CS reconhece certificados CA em uma floresta AD através de contêineres designados, cada um servindo a papéis únicos:
 
-- O contêiner **Certification Authorities** contém certificados de CA raiz confiáveis.
+- O contêiner **Certification Authorities** contém certificados CA raiz confiáveis.
 - O contêiner **Enrolment Services** detalha CAs Empresariais e seus modelos de certificado.
-- O objeto **NTAuthCertificates** inclui certificados de CA autorizados para autenticação AD.
-- O contêiner **AIA (Authority Information Access)** facilita a validação da cadeia de certificados com certificados de CA intermediários e cruzados.
+- O objeto **NTAuthCertificates** inclui certificados CA autorizados para autenticação AD.
+- O contêiner **AIA (Authority Information Access)** facilita a validação da cadeia de certificados com certificados CA intermediários e cruzados.
 
 ### Aquisição de Certificado: Fluxo de Solicitação de Certificado do Cliente
 
@@ -56,7 +56,7 @@ Definidos dentro do AD, esses modelos delineiam as configurações e permissões
 
 ## Inscrição de Certificado
 
-O processo de inscrição para certificados é iniciado por um administrador que **cria um modelo de certificado**, que é então **publicado** por uma Autoridade Certificadora Empresarial (CA). Isso torna o modelo disponível para inscrição do cliente, um passo alcançado adicionando o nome do modelo ao campo `certificatetemplates` de um objeto do Active Directory.
+O processo de inscrição para certificados é iniciado por um administrador que **cria um modelo de certificado**, que é então **publicado** por uma Autoridade Certificadora Empresarial (CA). Isso torna o modelo disponível para inscrição do cliente, um passo alcançado ao adicionar o nome do modelo ao campo `certificatetemplates` de um objeto do Active Directory.
 
 Para que um cliente solicite um certificado, **direitos de inscrição** devem ser concedidos. Esses direitos são definidos por descritores de segurança no modelo de certificado e na própria CA Empresarial. As permissões devem ser concedidas em ambos os locais para que uma solicitação seja bem-sucedida.
 
@@ -97,7 +97,7 @@ Active Directory (AD) suporta autenticação por certificado, utilizando princip
 
 ### Processo de Autenticação Kerberos
 
-No processo de autenticação Kerberos, o pedido de um usuário para um Ticket Granting Ticket (TGT) é assinado usando a **chave privada** do certificado do usuário. Este pedido passa por várias validações pelo controlador de domínio, incluindo a **validade**, **caminho** e **status de revogação** do certificado. As validações também incluem verificar se o certificado vem de uma fonte confiável e confirmar a presença do emissor no **NTAUTH certificate store**. Validações bem-sucedidas resultam na emissão de um TGT. O objeto **`NTAuthCertificates`** no AD, encontrado em:
+No processo de autenticação Kerberos, o pedido de um usuário para um Ticket Granting Ticket (TGT) é assinado usando a **chave privada** do certificado do usuário. Este pedido passa por várias validações pelo controlador de domínio, incluindo a **validade** do certificado, **caminho** e **status de revogação**. As validações também incluem verificar se o certificado vem de uma fonte confiável e confirmar a presença do emissor no **NTAUTH certificate store**. Validações bem-sucedidas resultam na emissão de um TGT. O objeto **`NTAuthCertificates`** no AD, encontrado em:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```

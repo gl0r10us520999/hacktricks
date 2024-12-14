@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -22,7 +22,7 @@ Estes são os **valores do Projeto HackTricks**:
 
 * Dar acesso **GRATUITO** a recursos de **HACKING EDUCACIONAL** para **TODOS** na Internet.
 * Hacking é sobre aprender, e aprender deve ser o mais gratuito possível.
-* O propósito deste livro é servir como um **recurso educacional** abrangente.
+* O objetivo deste livro é servir como um **recurso educacional** abrangente.
 * **ARMAZENAR** técnicas de **hacking** incríveis que a comunidade publica, dando aos **AUTORES** **ORIGINAIS** todos os **créditos**.
 * **Não queremos o crédito de outras pessoas**, apenas queremos armazenar truques legais para todos.
 * Também escrevemos **nossas próprias pesquisas** no HackTricks.
@@ -90,7 +90,7 @@ O primeiro **valor** do **HackTricks** é oferecer recursos educacionais de hack
 
 Se você acha que os livros do HackTricks são feitos para **fins comerciais**, você está **COMPLETAMENTE ERRADO**.
 
-Temos patrocinadores porque, mesmo que todo o conteúdo seja GRATUITO, queremos **oferecer à comunidade a possibilidade de apreciar nosso trabalho** se assim desejarem. Portanto, oferecemos às pessoas a opção de doar para o HackTricks via [**patrocinadores do Github**](https://github.com/sponsors/carlospolop), e **empresas de cibersegurança relevantes** para patrocinar o HackTricks e **ter alguns anúncios** no livro, sendo os **anúncios** sempre colocados em locais que os tornem **visíveis**, mas que **não atrapalhem o processo de aprendizado** se alguém se concentrar no conteúdo.
+Temos patrocinadores porque, mesmo que todo o conteúdo seja GRATUITO, queremos **oferecer à comunidade a possibilidade de apreciar nosso trabalho** se assim desejarem. Portanto, oferecemos às pessoas a opção de doar para o HackTricks via [**patrocinadores do Github**](https://github.com/sponsors/carlospolop), e **empresas relevantes de cibersegurança** para patrocinar o HackTricks e **ter alguns anúncios** no livro, sendo os **anúncios** sempre colocados em locais que os tornem **visíveis**, mas que **não atrapalhem o processo de aprendizado** se alguém se concentrar no conteúdo.
 
 Você não encontrará o HackTricks cheio de anúncios irritantes como outros blogs com muito menos conteúdo do que o HackTricks, porque o HackTricks não é feito para fins comerciais.
 
@@ -107,8 +107,8 @@ Você não encontrará o HackTricks cheio de anúncios irritantes como outros bl
 Observe que ter links para sua página no HackTricks:
 
 * Melhora seu **SEO**
-* O conteúdo é **traduzido para mais de 15 idiomas**, tornando possível que mais pessoas acessem esse conteúdo
-* **HackTricks incentiva** as pessoas a **verificarem sua página** (várias pessoas nos mencionaram que, desde que alguma página delas está no HackTricks, elas recebem mais visitas)
+* O conteúdo é **traduzido para mais de 15 idiomas**, possibilitando que mais pessoas acessem esse conteúdo
+* **HackTricks incentiva** as pessoas a **verificarem sua página** (várias pessoas nos mencionaram que, desde que alguma página delas está no HackTricks, recebem mais visitas)
 
 No entanto, se você ainda quiser que o conteúdo do seu blog seja removido do HackTricks, basta nos avisar e nós definitivamente **removeremos todos os links para o seu blog**, e qualquer conteúdo baseado nele.
 
@@ -144,7 +144,7 @@ Esta licença não concede nenhum direito de marca registrada ou de branding em 
 ## **Isenção de Responsabilidade**
 
 {% hint style="danger" %}
-Este livro, 'HackTricks', é destinado apenas para fins educacionais e informativos. O conteúdo deste livro é fornecido na base 'como está', e os autores e editores não fazem representações ou garantias de qualquer tipo, expressas ou implícitas, sobre a completude, precisão, confiabilidade, adequação ou disponibilidade das informações, produtos, serviços ou gráficos relacionados contidos neste livro. Qualquer confiança que você deposita em tais informações é, portanto, estritamente por sua conta e risco.
+Este livro, 'HackTricks', é destinado apenas para fins educacionais e informativos. O conteúdo dentro deste livro é fornecido em uma base 'como está', e os autores e editores não fazem representações ou garantias de qualquer tipo, expressas ou implícitas, sobre a completude, precisão, confiabilidade, adequação ou disponibilidade das informações, produtos, serviços ou gráficos relacionados contidos neste livro. Qualquer confiança que você coloque em tais informações é, portanto, estritamente por sua conta e risco.
 
 Os autores e editores não serão, em nenhuma circunstância, responsáveis por qualquer perda ou dano, incluindo, sem limitação, perda ou dano indireto ou consequencial, ou qualquer perda ou dano que possa surgir da perda de dados ou lucros decorrentes do uso deste livro.
 

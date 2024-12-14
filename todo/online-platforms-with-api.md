@@ -6,7 +6,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -84,7 +84,7 @@ Pesquise Domínios, IPs e e-mails e obtenha informações de dumps. Tem algum ac
 
 ## [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Pesquise por IP e reúna informações relacionadas a atividades suspeitas. Há algum acesso gratuito.
+Pesquise por IP e colete informações relacionadas a atividades suspeitas. Há algum acesso gratuito.
 
 ## [Greynoise](https://viz.greynoise.io/)
 
@@ -131,7 +131,9 @@ Pesquise por domínio e e-mail e verifique se foi pwned e senhas. Comercial?
 
 Detecta geolocalização de IP, data center, ASN e até informações de VPN. Oferece 30K consultas gratuitas por mês.
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/) (em uma ferramenta comercial?)
+
+
+[https://dnsdumpster.com/](https://dnsdumpster.com/)(em uma ferramenta comercial?)
 
 [https://www.netcraft.com/](https://www.netcraft.com/) (em uma ferramenta comercial?)
 
@@ -143,7 +145,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

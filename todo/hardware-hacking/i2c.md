@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -56,7 +56,7 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Como você pode ver na linha de comando anterior, foi dito que encontrou 0 erros. Isso é muito útil para saber se está funcionando após a compra ou após a gravação de um firmware.
+Como você pode ver na linha de comando anterior, foi dito que encontrou 0 erros. Isso é muito útil para saber se está funcionando após comprá-lo ou após gravar um firmware.
 
 Para se conectar com o bus pirate, você pode seguir a documentação:
 
@@ -66,7 +66,7 @@ Neste caso, vou me conectar a um EPROM: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-Para conversar com o bus pirate, usei o Tera Term conectado à porta COM do bus pirate com uma Configuração --> Porta Serial --> Velocidade de 115200.\
+Para me comunicar com o bus pirate, usei o Tera Term conectado à porta COM do bus pirate com uma Configuração --> Porta Serial --> Velocidade de 115200.\
 Na comunicação a seguir, você pode encontrar como preparar o bus pirate para falar I2C e como escrever e ler da memória (Comentários aparecem usando "#", não espere que essa parte esteja na comunicação):
 ```bash
 # Check communication with buspirate
@@ -226,7 +226,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

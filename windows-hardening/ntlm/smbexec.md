@@ -23,14 +23,14 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 - Ele opera criando um serviço temporário (por exemplo, "BTOBTO") na máquina alvo para executar comandos via cmd.exe (%COMSPEC%), sem deixar binários.
 - Apesar de sua abordagem furtiva, ele gera logs de eventos para cada comando executado, oferecendo uma forma de "shell" não interativa.
-- O comando para se conectar usando **Smbexec** se parece com isto:
+- O comando para conectar usando **Smbexec** se parece com isto:
 ```bash
 smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
 ### Executando Comandos Sem Binários
 
 - **Smbexec** permite a execução direta de comandos através de binPaths de serviço, eliminando a necessidade de binários físicos no alvo.
-- Este método é útil para executar comandos únicos em um alvo Windows. Por exemplo, emparelhá-lo com o módulo `web_delivery` do Metasploit permite a execução de um payload Meterpreter reverso direcionado ao PowerShell.
+- Este método é útil para executar comandos únicos em um alvo Windows. Por exemplo, emparelhá-lo com o módulo `web_delivery` do Metasploit permite a execução de um payload reverso Meterpreter direcionado ao PowerShell.
 - Ao criar um serviço remoto na máquina do atacante com binPath configurado para executar o comando fornecido através do cmd.exe, é possível executar o payload com sucesso, alcançando callback e execução do payload com o listener do Metasploit, mesmo que ocorram erros de resposta do serviço.
 
 ### Exemplo de Comandos

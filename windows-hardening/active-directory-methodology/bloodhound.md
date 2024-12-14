@@ -79,12 +79,12 @@ Se você deseja executar o SharpHound usando credenciais diferentes, pode criar 
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
-[**Saiba mais sobre Bloodhound em ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
+[**Saiba mais sobre o Bloodhound em ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
 ## Group3r
 
 [**Group3r**](https://github.com/Group3r/Group3r) é uma ferramenta para encontrar **vulnerabilidades** no Active Directory associadas à **Política de Grupo**. \
-Você precisa **executar group3r** a partir de um host dentro do domínio usando **qualquer usuário do domínio**.
+Você precisa **executar o group3r** a partir de um host dentro do domínio usando **qualquer usuário do domínio**.
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
@@ -92,9 +92,9 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **avalia a postura de segurança de um ambiente AD** e fornece um bom **relatório** com gráficos.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **avalia a postura de segurança de um ambiente AD** e fornece um **relatório** agradável com gráficos.
 
-Para executá-lo, pode-se executar o binário `PingCastle.exe` e ele iniciará uma **sessão interativa** apresentando um menu de opções. A opção padrão a ser utilizada é **`healthcheck`**, que estabelecerá uma **visão geral** do **domínio** e encontrará **configurações incorretas** e **vulnerabilidades**.&#x20;
+Para executá-lo, pode-se executar o binário `PingCastle.exe` e ele iniciará uma **sessão interativa** apresentando um menu de opções. A opção padrão a ser utilizada é **`healthcheck`**, que estabelecerá uma **visão geral** da **domínio**, e encontrará **configurações incorretas** e **vulnerabilidades**.&#x20;
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

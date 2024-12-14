@@ -49,15 +49,15 @@ Mais informações sobre DPAPI em:
 
 No Windows, **as chaves privadas de certificados são protegidas pelo DPAPI**. É crucial reconhecer que os **locais de armazenamento para chaves privadas de usuário e máquina** são distintos, e as estruturas de arquivos variam dependendo da API criptográfica utilizada pelo sistema operacional. **SharpDPAPI** é uma ferramenta que pode navegar automaticamente por essas diferenças ao descriptografar os blobs do DPAPI.
 
-**Certificados de usuário** estão predominantemente armazenados no registro sob `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, mas alguns também podem ser encontrados no diretório `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. As correspondentes **chaves privadas** para esses certificados são tipicamente armazenadas em `%APPDATA%\Microsoft\Crypto\RSA\User SID\` para chaves **CAPI** e `%APPDATA%\Microsoft\Crypto\Keys\` para chaves **CNG**.
+**Certificados de usuário** estão predominantemente armazenados no registro sob `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, mas alguns também podem ser encontrados no diretório `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. As **chaves privadas** correspondentes a esses certificados são tipicamente armazenadas em `%APPDATA%\Microsoft\Crypto\RSA\User SID\` para chaves **CAPI** e `%APPDATA%\Microsoft\Crypto\Keys\` para chaves **CNG**.
 
 Para **extrair um certificado e sua chave privada associada**, o processo envolve:
 
 1. **Selecionar o certificado alvo** do armazenamento do usuário e recuperar seu nome de armazenamento de chave.
 2. **Localizar a masterkey DPAPI necessária** para descriptografar a chave privada correspondente.
-3. **Descriptografar a chave privada** utilizando a masterkey DPAPI em texto simples.
+3. **Descriptografar a chave privada** utilizando a masterkey DPAPI em texto claro.
 
-Para **adquirir a masterkey DPAPI em texto simples**, as seguintes abordagens podem ser usadas:
+Para **adquirir a masterkey DPAPI em texto claro**, as seguintes abordagens podem ser usadas:
 ```bash
 # With mimikatz, when running in the user's context
 dpapi::masterkey /in:"C:\PATH\TO\KEY" /rpc
@@ -87,7 +87,7 @@ Os certificados às vezes são encontrados diretamente no sistema de arquivos, c
 - `.key` para chaves privadas,
 - `.crt`/`.cer` para certificados apenas,
 - `.csr` para Solicitações de Assinatura de Certificado, que não contêm certificados ou chaves privadas,
-- `.jks`/`.keystore`/`.keys` para Java Keystores, que podem conter certificados junto com chaves privadas utilizadas por aplicações Java.
+- `.jks`/`.keystore`/`.keys` para Java Keystores, que podem conter certificados juntamente com chaves privadas utilizadas por aplicações Java.
 
 Esses arquivos podem ser pesquisados usando PowerShell ou o prompt de comando, procurando pelas extensões mencionadas.
 
@@ -104,9 +104,9 @@ john --wordlist=passwords.txt hash.txt
 ```
 ## NTLM Credential Theft via PKINIT – THEFT5
 
-O conteúdo dado explica um método para roubo de credenciais NTLM via PKINIT, especificamente através do método de roubo rotulado como THEFT5. Aqui está uma reexplicação na voz passiva, com o conteúdo anonimizado e resumido onde aplicável:
+O conteúdo fornecido explica um método para roubo de credenciais NTLM via PKINIT, especificamente através do método de roubo rotulado como THEFT5. Aqui está uma reexplicação na voz passiva, com o conteúdo anonimizado e resumido onde aplicável:
 
-Para suportar a autenticação NTLM [MS-NLMP] para aplicações que não facilitam a autenticação Kerberos, o KDC é projetado para retornar a função unidirecional (OWF) NTLM do usuário dentro do certificado de atributo de privilégio (PAC), especificamente no buffer `PAC_CREDENTIAL_INFO`, quando o PKCA é utilizado. Consequentemente, se uma conta autenticar e garantir um Ticket-Granting Ticket (TGT) via PKINIT, um mecanismo é inerentemente fornecido que permite ao host atual extrair o hash NTLM do TGT para manter os protocolos de autenticação legados. Este processo envolve a descriptografia da estrutura `PAC_CREDENTIAL_DATA`, que é essencialmente uma representação serializada NDR do NTLM em texto simples.
+Para suportar a autenticação NTLM [MS-NLMP] para aplicações que não facilitam a autenticação Kerberos, o KDC é projetado para retornar a função unidirecional (OWF) NTLM do usuário dentro do certificado de atributo de privilégio (PAC), especificamente no buffer `PAC_CREDENTIAL_INFO`, quando o PKCA é utilizado. Consequentemente, se uma conta autenticar e garantir um Ticket-Granting Ticket (TGT) via PKINIT, um mecanismo é inerentemente fornecido que permite ao host atual extrair o hash NTLM do TGT para manter os protocolos de autenticação legados. Este processo envolve a descriptografia da estrutura `PAC_CREDENTIAL_DATA`, que é essencialmente uma representação NDR serializada do NTLM em texto simples.
 
 A utilidade **Kekeo**, acessível em [https://github.com/gentilkiwi/kekeo](https://github.com/gentilkiwi/kekeo), é mencionada como capaz de solicitar um TGT contendo esses dados específicos, facilitando assim a recuperação do NTLM do usuário. O comando utilizado para esse propósito é o seguinte:
 ```bash
@@ -117,16 +117,16 @@ Além disso, observa-se que o Kekeo pode processar certificados protegidos por s
 Esta explicação encapsula o processo e as ferramentas envolvidas na roubo de credenciais NTLM via PKINIT, focando na recuperação de hashes NTLM através do TGT obtido usando PKINIT, e as utilidades que facilitam esse processo.
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

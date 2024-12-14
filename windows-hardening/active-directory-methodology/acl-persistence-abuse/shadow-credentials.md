@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Como **resumo**: se você pode escrever na propriedade **msDS-KeyCredentialLink** de um usuário/computador, você pode recuperar o **hash NT desse objeto**.
 
-No post, um método é delineado para configurar **credenciais de autenticação de chave pública-privada** para adquirir um **Ticket de Serviço** único que inclui o hash NTLM do alvo. Este processo envolve o NTLM_SUPPLEMENTAL_CREDENTIAL criptografado dentro do Certificado de Atributo de Privilégio (PAC), que pode ser descriptografado.
+No post, um método é descrito para configurar **credenciais de autenticação de chave pública-privada** para adquirir um **Ticket de Serviço** único que inclui o hash NTLM do alvo. Este processo envolve o NTLM_SUPPLEMENTAL_CREDENTIAL criptografado dentro do Certificado de Atributo de Privilégio (PAC), que pode ser descriptografado.
 
 ### Requirements
 
@@ -35,7 +35,7 @@ Para aplicar esta técnica, certas condições devem ser atendidas:
 
 O abuso do Key Trust para objetos de computador abrange etapas além de obter um Ticket Granting Ticket (TGT) e o hash NTLM. As opções incluem:
 1. Criar um **ticket prata RC4** para agir como usuários privilegiados no host pretendido.
-2. Usar o TGT com **S4U2Self** para a impersonação de **usuários privilegiados**, necessitando alterações no Ticket de Serviço para adicionar uma classe de serviço ao nome do serviço.
+2. Usar o TGT com **S4U2Self** para a impersonação de **usuários privilegiados**, necessitando de alterações no Ticket de Serviço para adicionar uma classe de serviço ao nome do serviço.
 
 Uma vantagem significativa do abuso do Key Trust é sua limitação à chave privada gerada pelo atacante, evitando a delegação para contas potencialmente vulneráveis e não exigindo a criação de uma conta de computador, o que poderia ser desafiador de remover.
 
@@ -72,16 +72,16 @@ ShadowSpray tem como objetivo **explorar permissões GenericWrite/GenericAll que
 * [https://github.com/ShutdownRepo/pywhisker](https://github.com/ShutdownRepo/pywhisker)
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

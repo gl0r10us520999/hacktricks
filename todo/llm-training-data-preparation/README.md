@@ -23,7 +23,7 @@ O objetivo desta fase inicial é muito simples: **Dividir a entrada em tokens (i
 ## 2. Data Sampling
 
 {% hint style="success" %}
-O objetivo desta segunda fase é muito simples: **Amostrar os dados de entrada e prepará-los para a fase de treinamento, geralmente separando o conjunto de dados em frases de um comprimento específico e gerando também a resposta esperada.**
+O objetivo desta segunda fase é muito simples: **Amostrar os dados de entrada e prepará-los para a fase de treinamento, geralmente separando o conjunto de dados em sentenças de um comprimento específico e gerando também a resposta esperada.**
 {% endhint %}
 
 {% content-ref url="2.-data-sampling.md" %}
@@ -36,7 +36,7 @@ O objetivo desta segunda fase é muito simples: **Amostrar os dados de entrada e
 O objetivo desta terceira fase é muito simples: **Atribuir a cada um dos tokens anteriores no vocabulário um vetor das dimensões desejadas para treinar o modelo.** Cada palavra no vocabulário será um ponto em um espaço de X dimensões.\
 Note que inicialmente a posição de cada palavra no espaço é apenas inicializada "aleatoriamente" e essas posições são parâmetros treináveis (serão melhoradas durante o treinamento).
 
-Além disso, durante a incorporação de tokens **outra camada de incorporações é criada** que representa (neste caso) a **posição absoluta da palavra na frase de treinamento**. Dessa forma, uma palavra em diferentes posições na frase terá uma representação (significado) diferente.
+Além disso, durante a incorporação de tokens **outra camada de incorporações é criada** que representa (neste caso) a **posição absoluta da palavra na sentença de treinamento**. Dessa forma, uma palavra em diferentes posições na sentença terá uma representação (significado) diferente.
 {% endhint %}
 
 {% content-ref url="3.-token-embeddings.md" %}
@@ -46,7 +46,7 @@ Além disso, durante a incorporação de tokens **outra camada de incorporaçõe
 ## 4. Attention Mechanisms
 
 {% hint style="success" %}
-O objetivo desta quarta fase é muito simples: **Aplicar alguns mecanismos de atenção**. Estes serão muitas **camadas repetidas** que vão **capturar a relação de uma palavra no vocabulário com seus vizinhos na frase atual sendo usada para treinar o LLM**.\
+O objetivo desta quarta fase é muito simples: **Aplicar alguns mecanismos de atenção**. Estes serão muitas **camadas repetidas** que vão **capturar a relação de uma palavra no vocabulário com seus vizinhos na sentença atual sendo usada para treinar o LLM**.\
 Muitas camadas são usadas para isso, então muitos parâmetros treináveis estarão capturando essa informação.
 {% endhint %}
 

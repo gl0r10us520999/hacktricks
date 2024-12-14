@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas comunitárias mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
@@ -29,7 +29,7 @@ Uma Lista de Controle de Acesso (ACL) consiste em um conjunto ordenado de Entrad
 
 Existem dois tipos de ACLs:
 
-* **Lista de Controle de Acesso Discricionária (DACL):** Especifica quais usuários e grupos têm ou não têm acesso a um objeto.
+* **Lista de Controle de Acesso Discricionária (DACL):** Especifica quais usuários e grupos têm ou não acesso a um objeto.
 * **Lista de Controle de Acesso do Sistema (SACL):** Regula a auditoria de tentativas de acesso a um objeto.
 
 O processo de acesso a um arquivo envolve o sistema verificando o descritor de segurança do objeto em relação ao token de acesso do usuário para determinar se o acesso deve ser concedido e a extensão desse acesso, com base nas ACEs.
@@ -56,7 +56,7 @@ A Autoridade de Segurança Local (LSASS) processa solicitações de acesso a obj
 Existem **três tipos principais de Entradas de Controle de Acesso (ACEs)**:
 
 * **ACE de Acesso Negado**: Esta ACE nega explicitamente o acesso a um objeto para usuários ou grupos especificados (em uma DACL).
-* **ACE de Acesso Permitido**: Esta ACE concede explicitamente acesso a um objeto para usuários ou grupos especificados (em uma DACL).
+* **ACE de Acesso Permitido**: Esta ACE concede explicitamente o acesso a um objeto para usuários ou grupos especificados (em uma DACL).
 * **ACE de Auditoria do Sistema**: Posicionada dentro de uma Lista de Controle de Acesso do Sistema (SACL), esta ACE é responsável por gerar logs de auditoria em tentativas de acesso a um objeto por usuários ou grupos. Ela documenta se o acesso foi permitido ou negado e a natureza do acesso.
 
 Cada ACE tem **quatro componentes críticos**:
@@ -66,10 +66,10 @@ Cada ACE tem **quatro componentes críticos**:
 3. **Bandeiras de herança** que determinam se objetos filhos podem herdar a ACE de seu pai.
 4. Uma [**máscara de acesso**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), um valor de 32 bits que especifica os direitos concedidos ao objeto.
 
-A determinação de acesso é realizada examinando sequencialmente cada ACE até:
+A determinação de acesso é realizada examinando sequencialmente cada ACE até que:
 
-* Uma **ACE de Acesso Negado** negar explicitamente os direitos solicitados a um fiduciário identificado no token de acesso.
-* **ACE(s) de Acesso Permitido** conceder explicitamente todos os direitos solicitados a um fiduciário no token de acesso.
+* Uma **ACE de Acesso Negado** negue explicitamente os direitos solicitados a um fiduciário identificado no token de acesso.
+* **ACE(s) de Acesso Permitido** concedam explicitamente todos os direitos solicitados a um fiduciário no token de acesso.
 * Após verificar todas as ACEs, se algum direito solicitado **não foi explicitamente permitido**, o acesso é implicitamente **negado**.
 
 ### Ordem das ACEs
@@ -87,7 +87,7 @@ Essa configuração ajuda de duas maneiras principais:
 * Garante que, se houver um **"não"** específico, ele seja respeitado, não importando quais outras regras de **"sim"** estejam presentes.
 * Permite que o proprietário de um item tenha a **última palavra** sobre quem pode entrar, antes que quaisquer regras de pastas pai ou mais distantes entrem em jogo.
 
-Ao fazer as coisas dessa maneira, o proprietário de um arquivo ou pasta pode ser muito preciso sobre quem tem acesso, garantindo que as pessoas certas possam entrar e as erradas não possam.
+Ao fazer as coisas dessa maneira, o proprietário de um arquivo ou pasta pode ser muito preciso sobre quem obtém acesso, garantindo que as pessoas certas possam entrar e as erradas não possam.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
@@ -96,7 +96,7 @@ Assim, essa **"ordem canônica"** é toda sobre garantir que as regras de acesso
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas comunitárias mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -156,7 +156,7 @@ Em resumo, ACLs e ACEs ajudam a definir controles de acesso precisos, garantindo
 | Tipo        | Bandeira que indica o tipo de ACE. Windows 2000 e Windows Server 2003 suportam seis tipos de ACE: Três tipos de ACE genéricos que estão anexados a todos os objetos securáveis. Três tipos de ACE específicas de objeto que podem ocorrer para objetos do Active Directory.                                                                                                                                                                                                                                                            |
 | Bandeiras   | Conjunto de bandeiras de bits que controlam herança e auditoria.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Tamanho     | Número de bytes de memória que são alocados para a ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Máscara de Acesso | Valor de 32 bits cujos bits correspondem aos direitos de acesso para o objeto. Os bits podem ser ativados ou desativados, mas o significado da configuração depende do tipo de ACE. Por exemplo, se o bit que corresponde ao direito de ler permissões estiver ativado, e o tipo de ACE for Negar, a ACE nega o direito de ler as permissões do objeto. Se o mesmo bit estiver ativado, mas o tipo de ACE for Permitir, a ACE concede o direito de ler as permissões do objeto. Mais detalhes da Máscara de Acesso aparecem na próxima tabela. |
+| Máscara de acesso | Valor de 32 bits cujos bits correspondem aos direitos de acesso para o objeto. Os bits podem ser ativados ou desativados, mas o significado da configuração depende do tipo de ACE. Por exemplo, se o bit que corresponde ao direito de ler permissões estiver ativado, e o tipo de ACE for Negar, a ACE nega o direito de ler as permissões do objeto. Se o mesmo bit estiver ativado, mas o tipo de ACE for Permitir, a ACE concede o direito de ler as permissões do objeto. Mais detalhes da Máscara de Acesso aparecem na próxima tabela. |
 | SID         | Identifica um usuário ou grupo cujo acesso é controlado ou monitorado por esta ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Layout da Máscara de Acesso
@@ -165,7 +165,7 @@ Em resumo, ACLs e ACEs ajudam a definir controles de acesso precisos, garantindo
 | ----------- | ---------------------------------- | ----------------------------------------- |
 | 0 - 15      | Direitos de Acesso Específicos do Objeto      | Ler dados, Executar, Anexar dados           |
 | 16 - 22     | Direitos de Acesso Padrão             | Excluir, Escrever ACL, Escrever Proprietário            |
-| 23          | Pode acessar a ACL de segurança            |                                           |
+| 23          | Pode acessar ACL de segurança            |                                           |
 | 24 - 27     | Reservado                           |                                           |
 | 28          | Genérico TODOS (Ler, Escrever, Executar) | Tudo abaixo                          |
 | 29          | Genérico Executar                    | Todas as coisas necessárias para executar um programa |
@@ -196,7 +196,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas comunitárias mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}

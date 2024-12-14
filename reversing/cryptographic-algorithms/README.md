@@ -76,7 +76,7 @@ Neste caso, se você procurar **0xA56363C6**, pode descobrir que está relaciona
 
 É composto por 3 partes principais:
 
-* **Estágio de inicialização/**: Cria uma **tabela de valores de 0x00 a 0xFF** (256bytes no total, 0x100). Esta tabela é comumente chamada de **Caixa de Substituição** (ou SBox).
+* **Estágio de inicialização/**: Cria uma **tabela de valores de 0x00 a 0xFF** (256 bytes no total, 0x100). Esta tabela é comumente chamada de **Caixa de Substituição** (ou SBox).
 * **Estágio de embaralhamento**: Irá **percorrer a tabela** criada anteriormente (loop de 0x100 iterações, novamente) modificando cada valor com bytes **semi-aleatórios**. Para criar esses bytes semi-aleatórios, a **chave RC4 é usada**. As **chaves RC4** podem ter **entre 1 e 256 bytes de comprimento**, no entanto, geralmente é recomendado que sejam superiores a 5 bytes. Comumente, as chaves RC4 têm 16 bytes de comprimento.
 * **Estágio XOR**: Finalmente, o texto simples ou o texto cifrado é **XORed com os valores criados anteriormente**. A função para criptografar e descriptografar é a mesma. Para isso, um **loop pelos 256 bytes criados** será realizado quantas vezes forem necessárias. Isso geralmente é reconhecido em um código decompilado com um **%256 (mod 256)**.
 
@@ -84,7 +84,7 @@ Neste caso, se você procurar **0xA56363C6**, pode descobrir que está relaciona
 **Para identificar um RC4 em um código desassemblado/decompilado, você pode verificar 2 loops de tamanho 0x100 (com o uso de uma chave) e, em seguida, um XOR dos dados de entrada com os 256 valores criados anteriormente nos 2 loops, provavelmente usando um %256 (mod 256)**
 {% endhint %}
 
-### **Estágio de Inicialização/Caixa de Substituição:** (Note o número 256 usado como contador e como um 0 é escrito em cada lugar dos 256 chars)
+### **Estágio de Inicialização/Caixa de Substituição:** (Note o número 256 usado como contador e como um 0 é escrito em cada lugar dos 256 caracteres)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
@@ -117,16 +117,16 @@ Neste caso, se você procurar **0xA56363C6**, pode descobrir que está relaciona
 
 ### Identificando
 
-Na imagem a seguir, note como a constante **0x9E3779B9** é usada (note que esta constante também é usada por outros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
-Também note o **tamanho do loop** (**132**) e o **número de operações XOR** nas instruções de **desmontagem** e no exemplo de **código**:
+Na imagem a seguir, note como a constante **0x9E3779B9** é usada (note que essa constante também é usada por outros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
+Também note o **tamanho do loop** (**132**) e o **número de operações XOR** nas instruções de **desmontagem** e no **exemplo de código**:
 
 ![](<../../.gitbook/assets/image (381).png>)
 
-Como mencionado anteriormente, este código pode ser visualizado dentro de qualquer decompilador como uma **função muito longa**, pois **não há saltos** dentro dele. O código decompilado pode parecer o seguinte:
+Como foi mencionado anteriormente, esse código pode ser visualizado dentro de qualquer decompilador como uma **função muito longa**, pois **não há saltos** dentro dele. O código decompilado pode parecer o seguinte:
 
 ![](<../../.gitbook/assets/image (382).png>)
 
-Portanto, é possível identificar este algoritmo verificando o **número mágico** e os **XORs iniciais**, vendo uma **função muito longa** e **comparando** algumas **instruções** da longa função **com uma implementação** (como o deslocamento à esquerda por 7 e a rotação à esquerda por 22).
+Portanto, é possível identificar esse algoritmo verificando o **número mágico** e os **XORs iniciais**, vendo uma **função muito longa** e **comparando** algumas **instruções** da longa função **com uma implementação** (como o deslocamento à esquerda por 7 e a rotação à esquerda por 22).
 
 ## RSA **(Criptografia Assimétrica)**
 

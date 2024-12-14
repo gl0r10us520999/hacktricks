@@ -166,7 +166,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg se destaca em ocultar e extrair dados dentro de arquivos WAV usando a estratégia do bit menos significativo. Está acessível no [GitHub](https://github.com/ragibson/Steganography#WavSteg). Os comandos incluem:
+WavSteg se destaca em ocultar e extrair dados dentro de arquivos WAV usando a estratégia do bit menos significativo. Está disponível no [GitHub](https://github.com/ragibson/Steganography#WavSteg). Os comandos incluem:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 

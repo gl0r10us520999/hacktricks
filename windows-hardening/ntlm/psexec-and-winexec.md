@@ -33,7 +33,7 @@ O processo é descrito nos passos abaixo, ilustrando como os binários de servi�
 
 ### **Processo de Execução Manual do PsExec**
 
-Assumindo que há um payload executável (criado com msfvenom e ofuscado usando Veil para evadir a detecção de antivírus), nomeado 'met8888.exe', representando um payload reverse_http do meterpreter, os seguintes passos são tomados:
+Assumindo que há um payload executável (criado com msfvenom e ofuscado usando Veil para evadir a detecção de antivírus), nomeado 'met8888.exe', representando um payload meterpreter reverse_http, os seguintes passos são tomados:
 
 - **Cópia do binário**: O executável é copiado para o compartilhamento ADMIN$ a partir de um prompt de comando, embora possa ser colocado em qualquer lugar no sistema de arquivos para permanecer oculto.
 
@@ -61,8 +61,8 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas** da comunidade **mais avançadas** do mundo.\
-Obtenha Acesso Hoje:
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
@@ -76,7 +76,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

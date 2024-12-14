@@ -6,11 +6,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -495,7 +495,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Em alguns cenários, você pode ativar **veritesting**, que irá mesclar estados semelhantes, a fim de economizar ramificações inúteis e encontrar a solução: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Em alguns cenários, você pode ativar **veritesting**, que irá mesclar estados semelhantes, a fim de salvar ramificações inúteis e encontrar a solução: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}

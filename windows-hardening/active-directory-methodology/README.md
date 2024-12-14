@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos no** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ Os conceitos-chave dentro do **Active Directory** incluem:
 
 1. **Diretório** – Abriga todas as informações relacionadas aos objetos do Active Directory.
 2. **Objeto** – Denota entidades dentro do diretório, incluindo **usuários**, **grupos** ou **pastas compartilhadas**.
-3. **Domínio** – Serve como um contêiner para objetos de diretório, com a capacidade de múltiplos domínios coexistirem dentro de uma **floresta**, cada um mantendo sua própria coleção de objetos.
+3. **Domínio** – Serve como um contêiner para objetos do diretório, com a capacidade de múltiplos domínios coexistirem dentro de uma **floresta**, cada um mantendo sua própria coleção de objetos.
 4. **Árvore** – Um agrupamento de domínios que compartilham um domínio raiz comum.
 5. **Floresta** – O auge da estrutura organizacional no Active Directory, composta por várias árvores com **relações de confiança** entre elas.
 
@@ -82,7 +82,7 @@ Se você apenas tiver acesso a um ambiente AD, mas não tiver credenciais/sessõ
 * Coletar credenciais **expondo** [**serviços UPnP falsos com evil-S**](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)[**SDP**](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 * [**OSINT**](https://book.hacktricks.xyz/external-recon-methodology):
 * Extrair nomes de usuários/nome de documentos internos, redes sociais, serviços (principalmente web) dentro dos ambientes de domínio e também de fontes publicamente disponíveis.
-* Se você encontrar os nomes completos dos trabalhadores da empresa, pode tentar diferentes convenções de **nomes de usuário AD** (**[leia isso](https://activedirectorypro.com/active-directory-user-naming-convention/)**). As convenções mais comuns são: _NomeSobrenome_, _Nome.Sobrenome_, _NamSur_ (3 letras de cada), _Nam.Sur_, _NSobrenome_, _N.Sobrenome_, _SobrenomeNome_, _Sobrenome.Nome_, _SobrenomeN_, _Sobrenome.N_, 3 _letras aleatórias e 3 números aleatórios_ (abc123).
+* Se você encontrar os nomes completos dos trabalhadores da empresa, pode tentar diferentes convenções de **nome de usuário AD** ([**leia isso**](https://activedirectorypro.com/active-directory-user-naming-convention/)). As convenções mais comuns são: _NomeSobrenome_, _Nome.Sobrenome_, _NamSur_ (3 letras de cada), _Nam.Sur_, _NSobrenome_, _N.Sobrenome_, _SobrenomeNome_, _Sobrenome.Nome_, _SobrenomeN_, _Sobrenome.N_, 3 _letras aleatórias e 3 números aleatórios_ (abc123).
 * Ferramentas:
 * [w0Tx/generate-ad-username](https://github.com/w0Tx/generate-ad-username)
 * [urbanadventurer/username-anarchy](https://github.com/urbanadventurer/username-anarchy)
@@ -125,7 +125,7 @@ No entanto, você deve ter o **nome das pessoas que trabalham na empresa** da et
 
 Ok, então você sabe que já tem um nome de usuário válido, mas sem senhas... Então tente:
 
-* [**ASREPRoast**](asreproast.md): Se um usuário **não tiver** o atributo _DONT\_REQ\_PREAUTH_, você pode **solicitar uma mensagem AS\_REP** para esse usuário que conterá alguns dados criptografados por uma derivação da senha do usuário.
+* [**ASREPRoast**](asreproast.md): Se um usuário **não tem** o atributo _DONT\_REQ\_PREAUTH_, você pode **solicitar uma mensagem AS\_REP** para esse usuário que conterá alguns dados criptografados por uma derivação da senha do usuário.
 * [**Password Spraying**](password-spraying.md): Vamos tentar as **senhas mais comuns** com cada um dos usuários descobertos, talvez algum usuário esteja usando uma senha fraca (lembre-se da política de senhas!).
 * Note que você também pode **spray servidores OWA** para tentar obter acesso aos servidores de e-mail dos usuários.
 
@@ -170,14 +170,14 @@ Ter comprometido uma conta é um **grande passo para começar a comprometer todo
 Em relação ao [**ASREPRoast**](asreproast.md), você agora pode encontrar todos os usuários vulneráveis possíveis, e em relação ao [**Password Spraying**](password-spraying.md), você pode obter uma **lista de todos os nomes de usuários** e tentar a senha da conta comprometida, senhas vazias e novas senhas promissoras.
 
 * Você pode usar o [**CMD para realizar um reconhecimento básico**](../basic-cmd-for-pentesters.md#domain-info)
-* Você também pode usar [**powershell para reconhecimento**](../basic-powershell-for-pentesters/) que será mais discreto
+* Você também pode usar [**powershell para reconhecimento**](../basic-powershell-for-pentesters/) que será mais furtivo
 * Você também pode [**usar powerview**](../basic-powershell-for-pentesters/powerview.md) para extrair informações mais detalhadas
-* Outra ferramenta incrível para reconhecimento em um Active Directory é [**BloodHound**](bloodhound.md). Não é **muito discreto** (dependendo dos métodos de coleta que você usa), mas **se você não se importar** com isso, deve definitivamente experimentar. Descubra onde os usuários podem RDP, encontre caminhos para outros grupos, etc.
+* Outra ferramenta incrível para reconhecimento em um Active Directory é [**BloodHound**](bloodhound.md). Não é **muito furtivo** (dependendo dos métodos de coleta que você usa), mas **se você não se importar** com isso, deve definitivamente experimentar. Descubra onde os usuários podem RDP, encontre caminhos para outros grupos, etc.
 * **Outras ferramentas automatizadas de enumeração AD são:** [**AD Explorer**](bloodhound.md#ad-explorer)**,** [**ADRecon**](bloodhound.md#adrecon)**,** [**Group3r**](bloodhound.md#group3r)**,** [**PingCastle**](bloodhound.md#pingcastle)**.**
 * [**Registros DNS do AD**](ad-dns-records.md) pois podem conter informações interessantes.
 * Uma **ferramenta com GUI** que você pode usar para enumerar o diretório é **AdExplorer.exe** do **SysInternal** Suite.
 * Você também pode pesquisar no banco de dados LDAP com **ldapsearch** para procurar credenciais nos campos _userPassword_ & _unixUserPassword_, ou até mesmo por _Description_. cf. [Senha no comentário do usuário AD em PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment) para outros métodos.
-* Se você estiver usando **Linux**, você também pode enumerar o domínio usando [**pywerview**](https://github.com/the-useless-one/pywerview).
+* Se você estiver usando **Linux**, também pode enumerar o domínio usando [**pywerview**](https://github.com/the-useless-one/pywerview).
 * Você também pode tentar ferramentas automatizadas como:
 * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
 * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
@@ -203,7 +203,7 @@ Uma vez que você tenha obtido algumas credenciais, pode verificar se tem acesso
 
 ### Escalação de Privilégios Local
 
-Se você comprometeu credenciais ou uma sessão como um usuário regular de domínio e tem **acesso** com esse usuário a **qualquer máquina no domínio**, você deve tentar encontrar uma maneira de **escalar privilégios localmente e procurar por credenciais**. Isso porque apenas com privilégios de administrador local você poderá **extrair hashes de outros usuários** na memória (LSASS) e localmente (SAM).
+Se você comprometeu credenciais ou uma sessão como um usuário regular de domínio e tem **acesso** com esse usuário a **qualquer máquina no domínio**, você deve tentar encontrar uma maneira de **escalar privilégios localmente e procurar credenciais**. Isso porque apenas com privilégios de administrador local você poderá **extrair hashes de outros usuários** na memória (LSASS) e localmente (SAM).
 
 Há uma página completa neste livro sobre [**escalação de privilégios local no Windows**](../windows-local-privilege-escalation/) e uma [**checklist**](../checklist-windows-privilege-escalation.md). Além disso, não se esqueça de usar [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite).
 
@@ -223,13 +223,13 @@ Se você conseguiu enumerar o Active Directory, terá **mais e-mails e uma melho
 
 ### **Procure Credenciais em Compartilhamentos de Computador**
 
-Agora que você tem algumas credenciais básicas, deve verificar se consegue **encontrar** arquivos **interessantes sendo compartilhados dentro do AD**. Você poderia fazer isso manualmente, mas é uma tarefa repetitiva muito chata (e mais ainda se você encontrar centenas de documentos que precisa verificar).
+Agora que você tem algumas credenciais básicas, deve verificar se consegue **encontrar** arquivos **interessantes sendo compartilhados dentro do AD**. Você poderia fazer isso manualmente, mas é uma tarefa repetitiva e muito chata (e mais ainda se você encontrar centenas de documentos que precisa verificar).
 
 [**Siga este link para aprender sobre ferramentas que você poderia usar.**](../../network-services-pentesting/pentesting-smb/#domain-shared-folders-search)
 
 ### Roubar Credenciais NTLM
 
-Se você puder **acessar outros PCs ou compartilhamentos**, poderá **colocar arquivos** (como um arquivo SCF) que, se acessados de alguma forma, **dispararão uma autenticação NTML contra você**, permitindo que você **roube** o **desafio NTLM** para quebrá-lo:
+Se você pode **acessar outros PCs ou compartilhamentos**, pode **colocar arquivos** (como um arquivo SCF) que, se acessados de alguma forma, **dispararão uma autenticação NTML contra você**, permitindo que você **roube** o **desafio NTLM** para quebrá-lo:
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
@@ -245,7 +245,7 @@ Essa vulnerabilidade permitiu que qualquer usuário autenticado **comprometesse 
 
 ## Escalação de privilégios no Active Directory COM credenciais/sessão privilegiadas
 
-**Para as técnicas a seguir, um usuário de domínio regular não é suficiente, você precisa de alguns privilégios/credenciais especiais para realizar esses ataques.**
+**Para as técnicas a seguir, um usuário regular do domínio não é suficiente, você precisa de alguns privilégios/credenciais especiais para realizar esses ataques.**
 
 ### Extração de Hash
 
@@ -255,7 +255,7 @@ Então, é hora de despejar todos os hashes na memória e localmente.\
 
 ### Pass the Hash
 
-**Uma vez que você tenha o hash de um usuário**, você pode usá-lo para **impersoná-lo**.\
+**Uma vez que você tenha o hash de um usuário**, pode usá-lo para **impersoná-lo**.\
 Você precisa usar alguma **ferramenta** que **realize** a **autenticação NTLM usando** esse **hash**, **ou** você pode criar um novo **sessionlogon** e **injetar** esse **hash** dentro do **LSASS**, para que quando qualquer **autenticação NTLM for realizada**, esse **hash será usado.** A última opção é o que o mimikatz faz.\
 [**Leia esta página para mais informações.**](../ntlm/#pass-the-hash)
 
@@ -277,7 +277,7 @@ No método de ataque **Pass The Ticket (PTT)**, os atacantes **roubam o ticket d
 
 ### Reutilização de Credenciais
 
-Se você tiver o **hash** ou a **senha** de um **administrador local**, deve tentar **fazer login localmente** em outros **PCs** com ele.
+Se você tem o **hash** ou a **senha** de um **administrador local**, deve tentar **fazer login localmente** em outros **PCs** com ele.
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
@@ -332,9 +332,9 @@ O usuário comprometido pode ter alguns **privilégios interessantes sobre algun
 [acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
-### Abuso do serviço de Spooler de Impressão
+### Abuso do serviço Spooler de Impressão
 
-Descobrir um **serviço de Spooler ouvindo** dentro do domínio pode ser **abusado** para **adquirir novas credenciais** e **escalar privilégios**.
+Descobrir um **serviço Spool** escutando dentro do domínio pode ser **abusado** para **adquirir novas credenciais** e **escalar privilégios**.
 
 {% content-ref url="printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](printers-spooler-service-abuse.md)
@@ -351,7 +351,7 @@ Normalmente, os usuários acessarão o sistema via RDP, então aqui está como r
 
 ### LAPS
 
-**LAPS** fornece um sistema para gerenciar a **senha do Administrador local** em computadores associados ao domínio, garantindo que seja **randomizada**, única e frequentemente **alterada**. Essas senhas são armazenadas no Active Directory e o acesso é controlado através de ACLs apenas para usuários autorizados. Com permissões suficientes para acessar essas senhas, a transição para outros computadores se torna possível.
+**LAPS** fornece um sistema para gerenciar a **senha do Administrador local** em computadores associados ao domínio, garantindo que seja **aleatória**, única e frequentemente **alterada**. Essas senhas são armazenadas no Active Directory e o acesso é controlado através de ACLs apenas para usuários autorizados. Com permissões suficientes para acessar essas senhas, a transição para outros computadores se torna possível.
 
 {% content-ref url="laps.md" %}
 [laps.md](laps.md)
@@ -375,9 +375,9 @@ Se **modelos vulneráveis** estiverem configurados, é possível abusar deles pa
 
 ## Pós-exploração com conta de alto privilégio
 
-### Despejando Credenciais de Domínio
+### Despejo de Credenciais de Domínio
 
-Uma vez que você obtenha privilégios de **Administrador de Domínio** ou até mesmo melhores **Administradores de Empresa**, você pode **despejar** o **banco de dados do domínio**: _ntds.dit_.
+Uma vez que você obtenha privilégios de **Administrador de Domínio** ou até mesmo melhores privilégios de **Administrador Empresarial**, você pode **despejar** o **banco de dados do domínio**: _ntds.dit_.
 
 [**Mais informações sobre o ataque DCSync podem ser encontradas aqui**](dcsync.md).
 
@@ -388,12 +388,12 @@ Uma vez que você obtenha privilégios de **Administrador de Domínio** ou até 
 Algumas das técnicas discutidas anteriormente podem ser usadas para persistência.\
 Por exemplo, você poderia:
 
-*   Tornar usuários vulneráveis a [**Kerberoast**](kerberoast.md)
+*   Tornar usuários vulneráveis ao [**Kerberoast**](kerberoast.md)
 
 ```powershell
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
 ```
-*   Tornar usuários vulneráveis a [**ASREPRoast**](asreproast.md)
+*   Tornar usuários vulneráveis ao [**ASREPRoast**](asreproast.md)
 
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
@@ -448,7 +448,7 @@ Estes são como golden tickets forjados de uma maneira que **bypassa mecanismos 
 
 ### Grupo AdminSDHolder
 
-O objeto **AdminSDHolder** no Active Directory garante a segurança de **grupos privilegiados** (como Administradores de Domínio e Administradores de Empresa) aplicando uma **Lista de Controle de Acesso (ACL)** padrão em todos esses grupos para evitar alterações não autorizadas. No entanto, esse recurso pode ser explorado; se um atacante modificar a ACL do AdminSDHolder para dar acesso total a um usuário comum, esse usuário ganha controle extenso sobre todos os grupos privilegiados. Essa medida de segurança, destinada a proteger, pode, portanto, ter um efeito contrário, permitindo acesso não autorizado, a menos que monitorado de perto.
+O objeto **AdminSDHolder** no Active Directory garante a segurança de **grupos privilegiados** (como Administradores de Domínio e Administradores Empresariais) aplicando uma **Lista de Controle de Acesso (ACL)** padrão em todos esses grupos para evitar alterações não autorizadas. No entanto, esse recurso pode ser explorado; se um atacante modificar a ACL do AdminSDHolder para dar acesso total a um usuário comum, esse usuário ganha controle extenso sobre todos os grupos privilegiados. Essa medida de segurança, destinada a proteger, pode, portanto, ter um efeito contrário, permitindo acesso não autorizado, a menos que monitorado de perto.
 
 [**Mais informações sobre o Grupo AdminDSHolder aqui.**](privileged-groups-and-token-privileges.md#adminsdholder-group)
 
@@ -486,7 +486,7 @@ Altere o **LSASS** na memória para estabelecer uma **senha universal**, concede
 
 ### SSP Personalizado
 
-[Saiba o que é um SSP (Provedor de Suporte de Segurança) aqui.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
+[Aprenda o que é um SSP (Provedor de Suporte de Segurança) aqui.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 Você pode criar seu **próprio SSP** para **capturar** em **texto claro** as **credenciais** usadas para acessar a máquina.\\
 
 {% content-ref url="custom-ssp.md" %}
@@ -495,7 +495,7 @@ Você pode criar seu **próprio SSP** para **capturar** em **texto claro** as **
 
 ### DCShadow
 
-Registra um **novo Controlador de Domínio** no AD e o usa para **empurrar atributos** (SIDHistory, SPNs...) em objetos especificados **sem** deixar nenhum **log** sobre as **modificações**. Você **precisa de privilégios de DA** e estar dentro do **domínio raiz**.\
+Registra um **novo Controlador de Domínio** no AD e o usa para **empurrar atributos** (SIDHistory, SPNs...) em objetos especificados **sem** deixar quaisquer **logs** sobre as **modificações**. Você **precisa de privilégios de DA** e estar dentro do **domínio raiz**.\
 Observe que se você usar dados errados, logs bem feios aparecerão.
 
 {% content-ref url="dcshadow.md" %}
@@ -562,7 +562,7 @@ Os atacantes poderiam acessar recursos em outro domínio através de três mecan
 
 * **Membro de Grupo Local**: Os principais podem ser adicionados a grupos locais em máquinas, como o grupo “Administradores” em um servidor, concedendo-lhes controle significativo sobre essa máquina.
 * **Membro de Grupo de Domínio Estrangeiro**: Os principais também podem ser membros de grupos dentro do domínio estrangeiro. No entanto, a eficácia deste método depende da natureza da confiança e do escopo do grupo.
-* **Listas de Controle de Acesso (ACLs)**: Os principais podem ser especificados em uma **ACL**, particularmente como entidades em **ACEs** dentro de um **DACL**, proporcionando-lhes acesso a recursos específicos. Para aqueles que desejam se aprofundar na mecânica de ACLs, DACLs e ACEs, o whitepaper intitulado “[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)” é um recurso inestimável.
+* **Listas de Controle de Acesso (ACLs)**: Os principais podem ser especificados em uma **ACL**, particularmente como entidades em **ACEs** dentro de um **DACL**, fornecendo-lhes acesso a recursos específicos. Para aqueles que desejam se aprofundar na mecânica de ACLs, DACLs e ACEs, o whitepaper intitulado “[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)” é um recurso inestimável.
 
 ### Escalonamento de privilégios de floresta de filho para pai
 ```
@@ -597,7 +597,7 @@ Escalar como administrador da empresa para o domínio filho/pai abusando da conf
 
 Entender como o Contexto de Nomeação de Configuração (NC) pode ser explorado é crucial. O NC de Configuração serve como um repositório central para dados de configuração em um ambiente de Active Directory (AD). Esses dados são replicados para todos os Controladores de Domínio (DC) dentro da floresta, com DCs graváveis mantendo uma cópia gravável do NC de Configuração. Para explorar isso, é necessário ter **privilégios de SYSTEM em um DC**, preferencialmente um DC filho.
 
-**Vincular GPO ao site do DC raiz**
+**Vincular GPO ao site DC raiz**
 
 O contêiner de Sites do NC de Configuração inclui informações sobre todos os sites de computadores associados ao domínio dentro da floresta AD. Ao operar com privilégios de SYSTEM em qualquer DC, os atacantes podem vincular GPOs aos sites do DC raiz. Essa ação potencialmente compromete o domínio raiz manipulando políticas aplicadas a esses sites.
 
@@ -621,7 +621,7 @@ A vulnerabilidade ADCS ESC5 visa o controle sobre objetos de Infraestrutura de C
 
 Mais detalhes sobre isso podem ser lidos em [From DA to EA with ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c). Em cenários sem ADCS, o atacante tem a capacidade de configurar os componentes necessários, conforme discutido em [Escalating from Child Domain Admins to Enterprise Admins](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
 
-### Domínio de Floresta Externa - Unidirecional (Entrada) ou bidirecional
+### Domínio de Floresta Externa - Unidirecional (Inbound) ou bidirecional
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -632,7 +632,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
-Neste cenário, **seu domínio é confiável** por um externo, concedendo a você **permissões indeterminadas** sobre ele. Você precisará descobrir **quais princípios do seu domínio têm qual acesso sobre o domínio externo** e então tentar explorá-lo:
+Neste cenário, **seu domínio é confiável** por um externo, dando a você **permissões indeterminadas** sobre ele. Você precisará descobrir **quais princípios do seu domínio têm qual acesso sobre o domínio externo** e então tentar explorá-lo:
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
 [external-forest-domain-oneway-inbound.md](external-forest-domain-oneway-inbound.md)
@@ -652,7 +652,7 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 ```
 Neste cenário, **seu domínio** está **confiando** alguns **privilégios** a um principal de **domínios diferentes**.
 
-No entanto, quando um **domínio é confiável** pelo domínio confiável, o domínio confiável **cria um usuário** com um **nome previsível** que usa como **senha a senha confiável**. O que significa que é possível **acessar um usuário do domínio confiável para entrar no confiável** para enumerá-lo e tentar escalar mais privilégios:
+No entanto, quando um **domínio é confiável** pelo domínio confiador, o domínio confiável **cria um usuário** com um **nome previsível** que usa como **senha a senha confiável**. O que significa que é possível **acessar um usuário do domínio confiador para entrar no confiável** para enumerá-lo e tentar escalar mais privilégios:
 
 {% content-ref url="external-forest-domain-one-way-outbound.md" %}
 [external-forest-domain-one-way-outbound.md](external-forest-domain-one-way-outbound.md)
@@ -676,7 +676,7 @@ Além disso, se a **vítima montou seu disco rígido**, a partir do processo da 
 
 ### **Autenticação Seletiva:**
 
-* Para confianças inter-floresta, empregar Autenticação Seletiva garante que os usuários das duas florestas não sejam autenticados automaticamente. Em vez disso, permissões explícitas são necessárias para que os usuários acessem domínios e servidores dentro do domínio ou floresta confiável.
+* Para confianças inter-floresta, a utilização da Autenticação Seletiva garante que os usuários das duas florestas não sejam autenticados automaticamente. Em vez disso, permissões explícitas são necessárias para que os usuários acessem domínios e servidores dentro do domínio ou floresta confiadora.
 * É importante notar que essas medidas não protegem contra a exploração do Contexto de Nomeação de Configuração (NC) gravável ou ataques à conta de confiança.
 
 [**Mais informações sobre confianças de domínio em ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
@@ -693,25 +693,25 @@ Além disso, se a **vítima montou seu disco rígido**, a partir do processo da 
 
 * **Restrições de Administradores de Domínio**: Recomenda-se que os Administradores de Domínio só possam fazer login em Controladores de Domínio, evitando seu uso em outros hosts.
 * **Privilégios de Conta de Serviço**: Os serviços não devem ser executados com privilégios de Administrador de Domínio (DA) para manter a segurança.
-* **Limitação Temporal de Privilégios**: Para tarefas que exigem privilégios de DA, sua duração deve ser limitada. Isso pode ser alcançado por: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+* **Limitação Temporal de Privilégios**: Para tarefas que requerem privilégios de DA, sua duração deve ser limitada. Isso pode ser alcançado por: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
-### **Implementando Técnicas de Decepção**
+### **Implementando Técnicas de Engano**
 
-* Implementar decepção envolve a configuração de armadilhas, como usuários ou computadores de isca, com recursos como senhas que não expiram ou são marcadas como Confiáveis para Delegação. Uma abordagem detalhada inclui a criação de usuários com direitos específicos ou adicioná-los a grupos de alto privilégio.
+* Implementar engano envolve a configuração de armadilhas, como usuários ou computadores de isca, com características como senhas que não expiram ou são marcadas como Confiáveis para Delegação. Uma abordagem detalhada inclui a criação de usuários com direitos específicos ou adicioná-los a grupos de alto privilégio.
 * Um exemplo prático envolve o uso de ferramentas como: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
-* Mais sobre a implementação de técnicas de decepção pode ser encontrado em [Deploy-Deception no GitHub](https://github.com/samratashok/Deploy-Deception).
+* Mais sobre a implementação de técnicas de engano pode ser encontrado em [Deploy-Deception no GitHub](https://github.com/samratashok/Deploy-Deception).
 
-### **Identificando Decepção**
+### **Identificando Engano**
 
 * **Para Objetos de Usuário**: Indicadores suspeitos incluem ObjectSID atípico, logons infrequentes, datas de criação e contagens baixas de senhas incorretas.
-* **Indicadores Gerais**: Comparar atributos de objetos de isca potenciais com os de objetos genuínos pode revelar inconsistências. Ferramentas como [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) podem ajudar a identificar tais decepções.
+* **Indicadores Gerais**: Comparar atributos de objetos de isca potenciais com os de objetos genuínos pode revelar inconsistências. Ferramentas como [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) podem ajudar a identificar tais enganos.
 
 ### **Evitando Sistemas de Detecção**
 
 * **Bypass de Detecção do Microsoft ATA**:
 * **Enumeração de Usuários**: Evitar a enumeração de sessões em Controladores de Domínio para prevenir a detecção do ATA.
 * **Impersonação de Ticket**: Utilizar chaves **aes** para a criação de tickets ajuda a evitar a detecção ao não rebaixar para NTLM.
-* **Ataques DCSync**: Executar a partir de um Controlador de Domínio não é recomendado para evitar a detecção do ATA, pois a execução direta a partir de um Controlador de Domínio acionará alertas.
+* **Ataques DCSync**: Executar a partir de um controlador de domínio não é recomendado para evitar a detecção do ATA, pois a execução direta de um controlador de domínio acionará alertas.
 
 ## Referências
 

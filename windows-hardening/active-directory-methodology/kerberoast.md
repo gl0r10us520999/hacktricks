@@ -40,7 +40,7 @@ Para executar **Kerberoasting**, é essencial uma conta de domínio capaz de sol
 
 {% hint style="warning" %}
 **Ferramentas de Kerberoasting** normalmente solicitam **`RC4 encryption`** ao realizar o ataque e iniciar solicitações TGS-REQ. Isso ocorre porque **RC4 é** [**mais fraco**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) e mais fácil de quebrar offline usando ferramentas como Hashcat do que outros algoritmos de criptografia, como AES-128 e AES-256.\
-Hashes RC4 (tipo 23) começam com **`$krb5tgs$23$*`** enquanto AES-256 (tipo 18) começam com **`$krb5tgs$18$*`**`.
+Hashes RC4 (tipo 23) começam com **`$krb5tgs$23$*`** enquanto AES-256 (tipo 18) começam com **`$krb5tgs$18$*`**.` 
 {% endhint %}
 
 #### **Linux**
@@ -116,7 +116,7 @@ Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
-### Cracking
+### Quebra
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -130,7 +130,7 @@ Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whatever
 ```
 Você pode encontrar **ferramentas** úteis para ataques de **kerberoast** aqui: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Se você encontrar este **erro** do Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** é por causa do seu horário local, você precisa sincronizar o host com o DC. Existem algumas opções:
+Se você encontrar este **erro** do Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`**, é por causa do seu horário local, você precisa sincronizar o host com o DC. Existem algumas opções:
 
 * `ntpdate <IP do DC>` - Obsoleto a partir do Ubuntu 16.04
 * `rdate -n <IP do DC>`
@@ -156,7 +156,7 @@ Ao implementar essas medidas, as organizações podem reduzir significativamente
 
 ## Kerberoast sem conta de domínio
 
-Em **setembro de 2022**, uma nova forma de explorar um sistema foi revelada por um pesquisador chamado Charlie Clark, compartilhada através de sua plataforma [exploit.ph](https://exploit.ph/). Este método permite a aquisição de **Tickets de Serviço (ST)** via uma solicitação **KRB\_AS\_REQ**, que notavelmente não requer controle sobre nenhuma conta do Active Directory. Essencialmente, se um principal for configurado de tal forma que não exija pré-autenticação—um cenário semelhante ao que é conhecido no campo da cibersegurança como um ataque **AS-REP Roasting**—essa característica pode ser aproveitada para manipular o processo de solicitação. Especificamente, ao alterar o atributo **sname** dentro do corpo da solicitação, o sistema é enganado para emitir um **ST** em vez do padrão Ticket Granting Ticket (TGT) criptografado.
+Em **setembro de 2022**, uma nova forma de explorar um sistema foi revelada por um pesquisador chamado Charlie Clark, compartilhada através de sua plataforma [exploit.ph](https://exploit.ph/). Este método permite a aquisição de **Tickets de Serviço (ST)** via uma solicitação **KRB\_AS\_REQ**, que notavelmente não requer controle sobre nenhuma conta do Active Directory. Essencialmente, se um principal estiver configurado de tal forma que não exija pré-autenticação—um cenário semelhante ao que é conhecido no campo da cibersegurança como um ataque **AS-REP Roasting**—essa característica pode ser aproveitada para manipular o processo de solicitação. Especificamente, ao alterar o atributo **sname** dentro do corpo da solicitação, o sistema é enganado para emitir um **ST** em vez do padrão Ticket Granting Ticket (TGT) criptografado.
 
 A técnica é totalmente explicada neste artigo: [Postagem no blog da Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 

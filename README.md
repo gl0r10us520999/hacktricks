@@ -44,7 +44,7 @@ Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://
 
 **Intigriti** é a **plataforma de hacking ético e bug bounty número 1 da Europa.**
 
-**Dica de bug bounty**: **inscreva-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
+**Dica de bug bounty**: **inscreva-se** na **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -67,9 +67,9 @@ Acesse hoje:
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de bug bounty!
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de bugs!
 
-* **Insights de Hacking:** Envolva-se com conteúdo que mergulha na emoção e nos desafios do hacking
+* **Insights de Hacking:** Engaje-se com conteúdo que mergulha na emoção e nos desafios do hacking
 * **Notícias de Hack em Tempo Real:** Mantenha-se atualizado com o mundo do hacking em ritmo acelerado através de notícias e insights em tempo real
 * **Últimos Anúncios:** Fique informado sobre os novos bug bounties lançando e atualizações cruciais da plataforma
 
@@ -93,7 +93,7 @@ Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 
 <figure><img src=".gitbook/assets/image (1254).png" alt=""><figcaption></figcaption></figure>
 
-**SerpApi** oferece APIs rápidas e fáceis em tempo real para **acessar resultados de mecanismos de busca**. Eles raspam mecanismos de busca, gerenciam proxies, resolvem captchas e analisam todos os dados estruturados ricos para você.
+**SerpApi** oferece APIs rápidas e fáceis em tempo real para **acessar resultados de mecanismos de busca**. Eles raspam mecanismos de busca, lidam com proxies, resolvem captchas e analisam todos os dados estruturados ricos para você.
 
 Uma assinatura de um dos planos da SerpApi inclui acesso a mais de 50 APIs diferentes para raspagem de diferentes mecanismos de busca, incluindo Google, Bing, Baidu, Yahoo, Yandex e mais.\
 Ao contrário de outros provedores, **a SerpApi não apenas raspa resultados orgânicos**. As respostas da SerpApi incluem consistentemente todos os anúncios, imagens e vídeos inline, gráficos de conhecimento e outros elementos e recursos presentes nos resultados de busca.
@@ -138,7 +138,7 @@ Confira-os em:
 
 ## Estatísticas do Github
 
-![Estatísticas do HackTricks no Github](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg)
+![Estatísticas do Github do HackTricks](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg)
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src=".gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src=".gitbook/assets/arte.png" alt="" data-size="line">\

@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -16,8 +16,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DCShadow
 
-Ele registra um **novo Controlador de Domínio** no AD e o utiliza para **empurrar atributos** (SIDHistory, SPNs...) em objetos especificados **sem** deixar nenhum **log** sobre as **modificações**. Você **precisa de privilégios de DA** e estar dentro do **domínio raiz**.\
-Observe que se você usar dados incorretos, logs bem feios aparecerão.
+Ele registra um **novo Controlador de Domínio** no AD e o utiliza para **empurrar atributos** (SIDHistory, SPNs...) em objetos especificados **sem** deixar quaisquer **logs** sobre as **modificações**. Você **precisa de privilégios DA** e estar dentro do **domínio raiz**.\
+Note que se você usar dados incorretos, logs bem feios aparecerão.
 
 Para realizar o ataque, você precisa de 2 instâncias do mimikatz. Uma delas iniciará os servidores RPC com privilégios de SYSTEM (você deve indicar aqui as alterações que deseja realizar), e a outra instância será usada para empurrar os valores:
 
@@ -45,7 +45,7 @@ Você pode enviar as alterações de um DA ou de um usuário com essas permissõ
 * _DS-Replication-Manage-Topology_ (Gerenciar Topologia de Replicação)
 * _DS-Replication-Synchronize_ (Sincronização de Replicação)
 * O **objeto Sites** (e seus filhos) no **container de Configuração**:
-* _CreateChild e DeleteChild_
+* _CreateChild and DeleteChild_
 * O objeto do **computador que está registrado como um DC**:
 * _WriteProperty_ (Não Write)
 * O **objeto alvo**:
@@ -89,7 +89,7 @@ Precisamos adicionar os seguintes ACEs com o SID do nosso usuário no final:
 * No objeto do usuário alvo: `(A;;WP;;;UserSID)`
 * No objeto Sites no contêiner de Configuração: `(A;CI;CCDC;;;UserSID)`
 
-Para obter o ACE atual de um objeto: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=local")).psbase.ObjectSecurity.sddl`
+Para obter o ACE atual de um objeto: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
 Observe que, neste caso, você precisa fazer **várias alterações,** não apenas uma. Portanto, na **sessão mimikatz1** (servidor RPC), use o parâmetro **`/stack` com cada alteração** que deseja fazer. Dessa forma, você só precisará **`/push`** uma vez para realizar todas as alterações acumuladas no servidor rogue.
 

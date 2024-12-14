@@ -17,7 +17,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Ataque de Injeção de SID History
 
-O foco do **Ataque de Injeção de SID History** é auxiliar **na migração de usuários entre domínios** enquanto garante o acesso contínuo a recursos do domínio anterior. Isso é realizado **incorporando o Identificador de Segurança (SID) anterior do usuário ao SID History** de sua nova conta. Notavelmente, esse processo pode ser manipulado para conceder acesso não autorizado ao adicionar o SID de um grupo de alto privilégio (como Administradores de Empresa ou Administradores de Domínio) do domínio pai ao SID History. Essa exploração confere acesso a todos os recursos dentro do domínio pai.
+O foco do **Ataque de Injeção de SID History** é auxiliar **na migração de usuários entre domínios** enquanto garante acesso contínuo aos recursos do domínio anterior. Isso é realizado **incorporando o Identificador de Segurança (SID) anterior do usuário ao SID History** de sua nova conta. Notavelmente, esse processo pode ser manipulado para conceder acesso não autorizado ao adicionar o SID de um grupo de alto privilégio (como Administradores de Empresa ou Administradores de Domínio) do domínio pai ao SID History. Essa exploração confere acesso a todos os recursos dentro do domínio pai.
 
 Existem dois métodos para executar esse ataque: através da criação de um **Golden Ticket** ou um **Diamond Ticket**.
 
@@ -84,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Escalar para DA de root ou administrador da empresa usando o hash KRBTGT do domínio comprometido:
+Escalar para DA de root ou administrador da Enterprise usando o hash KRBTGT do domínio comprometido:
 
 {% code overflow="wrap" %}
 ```bash
@@ -145,7 +145,7 @@ O fluxo é:
 * Recupera o hash da conta KRBTGT no domínio filho
 * Cria um Golden Ticket
 * Faz login no domínio pai
-* Recupera as credenciais da conta Administrator no domínio pai
+* Recupera credenciais para a conta Administrator no domínio pai
 * Se o switch `target-exec` for especificado, autentica-se no Controlador de Domínio do domínio pai via Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
@@ -160,7 +160,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Silver ticket
 
-O ataque **Silver Ticket** envolve a exploração de tickets de serviço em ambientes Active Directory (AD). Este método depende de **adquirir o hash NTLM de uma conta de serviço**, como uma conta de computador, para forjar um ticket de Serviço de Concessão de Ticket (TGS). Com este ticket forjado, um atacante pode acessar serviços específicos na rede, **impersonando qualquer usuário**, geralmente visando privilégios administrativos. É enfatizado que usar chaves AES para forjar tickets é mais seguro e menos detectável.
+O ataque **Silver Ticket** envolve a exploração de tickets de serviço em ambientes do Active Directory (AD). Este método depende de **adquirir o hash NTLM de uma conta de serviço**, como uma conta de computador, para forjar um ticket de Serviço de Concessão de Ticket (TGS). Com este ticket forjado, um atacante pode acessar serviços específicos na rede, **impersonando qualquer usuário**, geralmente visando privilégios administrativos. É enfatizado que usar chaves AES para forjar tickets é mais seguro e menos detectável.
 
 Para a criação de tickets, diferentes ferramentas são empregadas com base no sistema operacional:
 
@@ -49,16 +49,16 @@ O serviço CIFS é destacado como um alvo comum para acessar o sistema de arquiv
 
 ## Serviços Disponíveis
 
-| Tipo de Serviço                            | Serviços Silver Tickets                                                   |
-| ------------------------------------------ | ------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                 |
+| Tipo de Serviço                            | Serviços Silver Tickets                                                    |
+| ------------------------------------------ | -------------------------------------------------------------------------- |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                   |
 | PowerShell Remoting                       | <p>HOST</p><p>HTTP</p><p>Dependendo do SO também:</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>Em algumas ocasiões você pode apenas pedir: WINRM</p> |
-| Tarefas Agendadas                         | HOST                                                                     |
-| Compartilhamento de Arquivos do Windows, também psexec | CIFS                                                                     |
-| Operações LDAP, incluindo DCSync         | LDAP                                                                     |
-| Ferramentas de Administração de Servidor Remoto do Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                       |
-| Golden Tickets                             | krbtgt                                                                   |
+| Tarefas Agendadas                         | HOST                                                                      |
+| Compartilhamento de Arquivos do Windows, também psexec | CIFS                                                                      |
+| Operações LDAP, incluindo DCSync         | LDAP                                                                      |
+| Ferramentas de Administração de Servidor Remoto do Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                        |
+| Golden Tickets                             | krbtgt                                                                    |
 
 Usando **Rubeus** você pode **pedir todos** esses tickets usando o parâmetro:
 
@@ -155,7 +155,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Dica de bug bounty**: **inscreva-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
+**Dica de bug bounty**: **inscreva-se** no **Intigriti**, uma **plataforma premium de bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 

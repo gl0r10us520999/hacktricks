@@ -64,12 +64,12 @@ Para decompilar bytecode Java, estas ferramentas podem ser muito úteis:
 ## **Depuração de DLLs**
 ### Usando IDA
 - **Rundll32** é carregado de caminhos específicos para versões de 64 bits e 32 bits.
-- **Windbg** é selecionado como o depurador com a opção de suspender no carregamento/descarregamento da biblioteca habilitada.
+- **Windbg** é selecionado como o depurador com a opção de suspender no carregamento/descarregamento de bibliotecas habilitada.
 - Os parâmetros de execução incluem o caminho da DLL e o nome da função. Esta configuração interrompe a execução ao carregar cada DLL.
 
 ### Usando x64dbg/x32dbg
 - Semelhante ao IDA, **rundll32** é carregado com modificações na linha de comando para especificar a DLL e a função.
-- As configurações são ajustadas para interromper na entrada da DLL, permitindo definir um ponto de interrupção no ponto de entrada desejado da DLL.
+- As configurações são ajustadas para interromper na entrada da DLL, permitindo definir pontos de interrupção no ponto de entrada desejado da DLL.
 
 ### Imagens
 - Os pontos de parada de execução e configurações são ilustrados por meio de capturas de tela.
@@ -82,7 +82,7 @@ Para decompilar bytecode Java, estas ferramentas podem ser muito úteis:
 - **Blobrunner** e **jmp2it** são ferramentas para alocar shellcodes na memória e depurá-los com Ida ou x64dbg.
 - Blobrunner [lançamentos](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
 - jmp2it [versão compilada](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** oferece emulação e inspeção de shellcode baseada em GUI, destacando diferenças no manuseio de shellcode como um arquivo versus shellcode direto.
+- **Cutter** oferece emulação e inspeção de shellcode baseadas em GUI, destacando diferenças no manuseio de shellcode como um arquivo versus shellcode direto.
 
 ### Deobfuscação e Análise
 - **scdbg** fornece insights sobre funções de shellcode e capacidades de deobfuscação.

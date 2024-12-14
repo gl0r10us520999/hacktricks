@@ -54,9 +54,9 @@ Tela de leitura de cartão desconhecidoPara cartões NFC desconhecidos, o Flippe
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-27-53.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=932&#x26;w=2634" alt=""><figcaption></figcaption></figure>
 
-### Tipos de cartões NFC B, F e V <a href="#wyg51" id="wyg51"></a>
+### Cartões NFC tipos B, F e V <a href="#wyg51" id="wyg51"></a>
 
-Para **tipos de cartões NFC B, F e V**, o Flipper Zero pode apenas **ler e exibir um UID** sem salvá-lo.
+Para **cartões NFC tipos B, F e V**, o Flipper Zero pode apenas **ler e exibir um UID** sem salvá-lo.
 
 <figure><img src="https://archbee.imgix.net/3StCFqarJkJQZV-7N79yY/zBU55Fyj50TFO4U7S-OXH_screenshot-2022-08-12-at-182540.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=1080&#x26;w=2704" alt=""><figcaption></figcaption></figure>
 

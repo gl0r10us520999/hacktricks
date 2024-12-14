@@ -102,7 +102,7 @@ Consultas remotas ao WMI para informações específicas, como administradores l
 
 ### **Consultas WMI Remotas Manuais**
 
-A identificação discreta de administradores locais em uma máquina remota e usuários conectados pode ser alcançada por meio de consultas WMI específicas. `wmic` também suporta a leitura de um arquivo de texto para executar comandos em vários nós simultaneamente.
+A identificação discreta de administradores locais em uma máquina remota e usuários conectados pode ser alcançada por meio de consultas WMI específicas. `wmic` também suporta a leitura de um arquivo de texto para executar comandos em múltiplos nós simultaneamente.
 
 Para executar remotamente um processo via WMI, como implantar um agente Empire, a seguinte estrutura de comando é empregada, com a execução bem-sucedida indicada por um valor de retorno de "0":
 ```bash
@@ -129,11 +129,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Supporte o HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

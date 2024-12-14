@@ -21,8 +21,8 @@ Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt=""
 
 ## Abuso do Serviço de Spooler
 
-Se o _**Serviço de Spooler de Impressão**_ estiver **ativado**, você pode usar algumas credenciais de AD já conhecidas para **solicitar** ao servidor de impressão do Controlador de Domínio uma **atualização** sobre novos trabalhos de impressão e apenas dizer para **enviar a notificação para algum sistema**.\
-Observe que, quando a impressora envia a notificação para sistemas arbitrários, ela precisa **se autenticar contra** esse **sistema**. Portanto, um atacante pode fazer o _**Serviço de Spooler de Impressão**_ se autenticar contra um sistema arbitrário, e o serviço **usará a conta do computador** nessa autenticação.
+Se o serviço _**Print Spooler**_ estiver **ativado**, você pode usar algumas credenciais AD já conhecidas para **solicitar** ao servidor de impressão do Controlador de Domínio uma **atualização** sobre novos trabalhos de impressão e apenas dizer para **enviar a notificação para algum sistema**.\
+Observe que, quando a impressora envia a notificação para sistemas arbitrários, ela precisa **se autenticar contra** esse **sistema**. Portanto, um atacante pode fazer o serviço _**Print Spooler**_ se autenticar contra um sistema arbitrário, e o serviço **usará a conta do computador** nessa autenticação.
 
 ### Encontrando Servidores Windows no domínio
 

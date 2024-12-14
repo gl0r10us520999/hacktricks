@@ -14,7 +14,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 {% endhint %}
 
 
-A única linha modificada do [código original](https://github.com/OALabs/BlobRunner) é a linha 10. Para compilar, basta **criar um projeto C/C++ no Visual Studio Code, copiar e colar o código e compilar**.
+A única linha modificada do [código original](https://github.com/OALabs/BlobRunner) é a linha 10. Para compilar, **crie um projeto C/C++ no Visual Studio Code, copie e cole o código e construa-o**.
 ```c
 #include <stdio.h>
 #include <windows.h>
@@ -228,7 +228,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

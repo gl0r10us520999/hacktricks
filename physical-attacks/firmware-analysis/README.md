@@ -36,7 +36,7 @@ Para esse propósito, ferramentas de **inteligência de código aberto (OSINT)**
 
 ## **Adquirindo o Firmware**
 
-Obter firmware pode ser abordado de várias maneiras, cada uma com seu próprio nível de complexidade:
+Obter firmware pode ser abordado por vários meios, cada um com seu próprio nível de complexidade:
 
 - **Diretamente** da fonte (desenvolvedores, fabricantes)
 - **Construindo** a partir de instruções fornecidas
@@ -146,7 +146,7 @@ Para extrair **arquivos incorporados**, ferramentas e recursos como a documenta�
 
 ### Extraindo o Sistema de Arquivos
 
-Usando `binwalk -ev <bin>`, geralmente é possível extrair o sistema de arquivos, muitas vezes em um diretório nomeado de acordo com o tipo de sistema de arquivos (por exemplo, squashfs, ubifs). No entanto, quando **binwalk** não consegue reconhecer o tipo de sistema de arquivos devido à falta de bytes mágicos, a extração manual é necessária. Isso envolve usar `binwalk` para localizar o deslocamento do sistema de arquivos, seguido pelo comando `dd` para extrair o sistema de arquivos:
+Usando `binwalk -ev <bin>`, geralmente é possível extrair o sistema de arquivos, muitas vezes em um diretório nomeado de acordo com o tipo de sistema de arquivos (por exemplo, squashfs, ubifs). No entanto, quando **binwalk** não consegue reconhecer o tipo de sistema de arquivos devido à falta de bytes mágicos, a extração manual é necessária. Isso envolve usar `binwalk` para localizar o deslocamento do sistema de arquivos, seguido do comando `dd` para extrair o sistema de arquivos:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
@@ -162,7 +162,7 @@ Com o sistema de arquivos extraído, a busca por falhas de segurança começa. A
 
 - **etc/shadow** e **etc/passwd** para credenciais de usuário
 - Certificados e chaves SSL em **etc/ssl**
-- Arquivos de configuração e script para potenciais vulnerabilidades
+- Arquivos de configuração e scripts em busca de vulnerabilidades potenciais
 - Binários incorporados para análise adicional
 - Servidores web e binários comuns de dispositivos IoT
 
@@ -210,19 +210,19 @@ Nesta fase, um ambiente de dispositivo real ou emulado é usado para análise. �
 
 ## Técnicas de Análise em Tempo de Execução
 
-A análise em tempo de execução envolve interagir com um processo ou binário em seu ambiente operacional, usando ferramentas como gdb-multiarch, Frida e Ghidra para definir pontos de interrupção e identificar vulnerabilidades por meio de fuzzing e outras técnicas.
+A análise em tempo de execução envolve interagir com um processo ou binário em seu ambiente operacional, usando ferramentas como gdb-multiarch, Frida e Ghidra para definir pontos de interrupção e identificar vulnerabilidades através de fuzzing e outras técnicas.
 
 ## Exploração Binária e Prova de Conceito
 
-Desenvolver um PoC para vulnerabilidades identificadas requer um profundo entendimento da arquitetura alvo e programação em linguagens de baixo nível. Proteções de tempo de execução em sistemas embarcados são raras, mas quando presentes, técnicas como Return Oriented Programming (ROP) podem ser necessárias.
+Desenvolver um PoC para vulnerabilidades identificadas requer um profundo entendimento da arquitetura alvo e programação em linguagens de baixo nível. Proteções de tempo de execução binárias em sistemas embarcados são raras, mas quando presentes, técnicas como Return Oriented Programming (ROP) podem ser necessárias.
 
 ## Sistemas Operacionais Preparados para Análise de Firmware
 
 Sistemas operacionais como [AttifyOS](https://github.com/adi0x90/attifyos) e [EmbedOS](https://github.com/scriptingxss/EmbedOS) fornecem ambientes pré-configurados para testes de segurança de firmware, equipados com as ferramentas necessárias.
 
-## OSs Preparados para Analisar Firmware
+## Sistemas Operacionais Preparados para Analisar Firmware
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS é uma distribuição destinada a ajudar você a realizar avaliação de segurança e testes de penetração de dispositivos da Internet das Coisas (IoT). Ele economiza muito tempo ao fornecer um ambiente pré-configurado com todas as ferramentas necessárias carregadas.
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS é uma distribuição destinada a ajudar você a realizar avaliação de segurança e pentesting de dispositivos da Internet das Coisas (IoT). Ele economiza muito tempo ao fornecer um ambiente pré-configurado com todas as ferramentas necessárias carregadas.
 * [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Sistema operacional de teste de segurança embarcada baseado no Ubuntu 18.04 pré-carregado com ferramentas de teste de segurança de firmware.
 
 ## Firmware Vulnerável para Prática

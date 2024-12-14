@@ -24,14 +24,14 @@ O processo é descrito nos passos abaixo, ilustrando como os binários de servi�
 1. **Cópia de um binário de serviço para o compartilhamento ADMIN$ via SMB** é realizada.
 2. **Criação de um serviço na máquina remota** é feita apontando para o binário.
 3. O serviço é **iniciado remotamente**.
-4. Ao sair, o serviço é **parado, e o binário é excluído**.
+4. Ao sair, o serviço é **parado, e o binário é deletado**.
 
 ### **Processo de Execução Manual do PsExec**
 
 Assumindo que há um payload executável (criado com msfvenom e ofuscado usando Veil para evadir a detecção de antivírus), nomeado 'met8888.exe', representando um payload reverse_http do meterpreter, os seguintes passos são tomados:
 
 * **Cópia do binário**: O executável é copiado para o compartilhamento ADMIN$ a partir de um prompt de comando, embora possa ser colocado em qualquer lugar no sistema de arquivos para permanecer oculto.
-* **Criação de um serviço**: Utilizando o comando `sc` do Windows, que permite consultar, criar e excluir serviços do Windows remotamente, um serviço chamado "meterpreter" é criado para apontar para o binário carregado.
+* **Criação de um serviço**: Utilizando o comando `sc` do Windows, que permite consultar, criar e deletar serviços do Windows remotamente, um serviço chamado "meterpreter" é criado para apontar para o binário carregado.
 * **Iniciando o serviço**: O passo final envolve iniciar o serviço, o que provavelmente resultará em um erro de "timeout" devido ao binário não ser um verdadeiro binário de serviço e falhar em retornar o código de resposta esperado. Este erro é irrelevante, pois o objetivo principal é a execução do binário.
 
 A observação do listener do Metasploit revelará que a sessão foi iniciada com sucesso.
@@ -64,7 +64,7 @@ Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt=""
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

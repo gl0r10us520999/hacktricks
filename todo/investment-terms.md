@@ -2,7 +2,7 @@
 
 ## Spot
 
-Esta é a maneira mais básica de fazer algumas negociações. Você pode **indicar a quantidade do ativo e o preço** que deseja comprar ou vender, e sempre que esse preço for alcançado, a operação é realizada.
+Esta é a forma mais básica de fazer algumas negociações. Você pode **indicar a quantidade do ativo e o preço** que deseja comprar ou vender, e sempre que esse preço for alcançado, a operação é realizada.
 
 Normalmente, você também pode usar o **preço de mercado atual** para realizar a transação o mais rápido possível ao preço atual.
 
@@ -31,7 +31,7 @@ Caso o preço caia, o gerente do fundo ganhará benefícios porque venderá os a
 
 **Estes são "futuros" que durarão indefinidamente** (sem uma data de contrato final). É muito comum encontrá-los, por exemplo, em exchanges de criptomoedas, onde você pode entrar e sair de futuros com base no preço das criptos.
 
-Observe que, nesses casos, os benefícios e perdas podem ser em tempo real; se o preço aumentar 1%, você ganha 1%; se o preço diminuir 1%, você perderá.
+Observe que, nesses casos, os benefícios e perdas podem ser em tempo real; se o preço aumentar 1%, você ganha 1%, se o preço diminuir 1%, você perderá.
 
 ### Futuros com Alavancagem
 
@@ -50,7 +50,7 @@ No entanto, o comprador pagará uma taxa ao vendedor para abrir a opção (entã
 ### 1. **Obrigação vs. Direito:**
 
 * **Futuros:** Quando você compra ou vende um contrato futuro, está entrando em um **acordo vinculativo** para comprar ou vender um ativo a um preço específico em uma data futura. Tanto o comprador quanto o vendedor estão **obrigados** a cumprir o contrato na expiração (a menos que o contrato seja encerrado antes disso).
-* **Opções:** Com opções, você tem o **direito, mas não a obrigação**, de comprar (no caso de uma **opção de compra**) ou vender (no caso de uma **opção de venda**) um ativo a um preço específico antes ou em uma certa data de expiração. O **comprador** tem a opção de executar, enquanto o **vendedor** é obrigado a cumprir a negociação se o comprador decidir exercer a opção.
+* **Opções:** Com opções, você tem o **direito, mas não a obrigação**, de comprar (no caso de uma **opção de compra**) ou vender (no caso de uma **opção de venda**) um ativo a um preço específico antes ou na data de expiração. O **comprador** tem a opção de executar, enquanto o **vendedor** é obrigado a cumprir a negociação se o comprador decidir exercer a opção.
 
 ### 2. **Risco:**
 
@@ -65,4 +65,4 @@ No entanto, o comprador pagará uma taxa ao vendedor para abrir a opção (entã
 ### 4. **Potencial de Lucro:**
 
 * **Futuros:** O lucro ou a perda é baseado na diferença entre o preço de mercado na expiração e o preço acordado no contrato.
-* **Opções:** O comprador lucra quando o mercado se move favoravelmente além do preço de exercício em mais do que o prêmio pago. O vendedor lucra mantendo o prêmio se a opção não for exercida.
+* **Opções:** O comprador lucra quando o mercado se move favoravelmente além do preço de exercício por mais do que o prêmio pago. O vendedor lucra mantendo o prêmio se a opção não for exercida.

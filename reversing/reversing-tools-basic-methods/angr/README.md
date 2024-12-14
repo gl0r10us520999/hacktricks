@@ -8,7 +8,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -80,7 +80,7 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
-## Símbolos e Realocações
+## Símbolos e Relocações
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -134,7 +134,7 @@ simgr.active[0].regs.rip #Get RIP from the last state
 
 * Você pode passar uma lista de argumentos através de `args` e um dicionário de variáveis de ambiente através de `env` para `entry_state` e `full_init_state`. Os valores nessas estruturas podem ser strings ou bitvectors, e serão serializados no estado como os argumentos e o ambiente para a execução simulada. O `args` padrão é uma lista vazia, então se o programa que você está analisando espera encontrar pelo menos um `argv[0]`, você deve sempre fornecer isso!
 * Se você gostaria que `argc` fosse simbólico, pode passar um bitvector simbólico como `argc` para os construtores `entry_state` e `full_init_state`. Tenha cuidado, porém: se você fizer isso, também deve adicionar uma restrição ao estado resultante de que seu valor para argc não pode ser maior do que o número de args que você passou para `args`.
-* Para usar o estado de chamada, você deve chamá-lo com `.call_state(addr, arg1, arg2, ...)`, onde `addr` é o endereço da função que você deseja chamar e `argN` é o N-ésimo argumento para essa função, seja como um inteiro python, string ou array, ou um bitvector. Se você quiser ter memória alocada e realmente passar um ponteiro para um objeto, deve envolvê-lo em um PointerWrapper, ou seja, `angr.PointerWrapper("point to me!")`. Os resultados desta API podem ser um pouco imprevisíveis, mas estamos trabalhando nisso.
+* Para usar o estado de chamada, você deve chamá-lo com `.call_state(addr, arg1, arg2, ...)`, onde `addr` é o endereço da função que você deseja chamar e `argN` é o N-ésimo argumento para essa função, seja como um inteiro python, string ou array, ou um bitvector. Se você quiser ter memória alocada e realmente passar um ponteiro para um objeto, deve envolvê-lo em um PointerWrapper, ou seja, `angr.PointerWrapper("apontar para mim!")`. Os resultados desta API podem ser um pouco imprevisíveis, mas estamos trabalhando nisso.
 
 ## BitVectors
 ```python
@@ -211,7 +211,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
