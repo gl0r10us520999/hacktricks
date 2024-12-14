@@ -17,40 +17,40 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Apple Scripts
 
-Dit is 'n skriptaal wat gebruik word vir taakautomatisering **wat met afstandsprosesse interaksie het**. Dit maak dit redelik maklik om **ander prosesse te vra om sekere aksies uit te voer**. **Malware** kan hierdie funksies misbruik om funksies wat deur ander prosesse uitgevoer word, te misbruik.\
-Byvoorbeeld, 'n malware kan **arbitraire JS-kode in blaaiers wat geopen is, inspuit**. Of **outomaties op** sekere toestemmings wat aan die gebruiker gevra word, te klik;
+这是一种用于任务自动化的脚本语言，**与远程进程交互**。它使得**请求其他进程执行某些操作**变得相当简单。**恶意软件**可能会滥用这些功能来利用其他进程导出的功能。\
+例如，恶意软件可以**在浏览器打开的页面中注入任意的JS代码**。或者**自动点击**用户请求的某些允许权限；
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
 end tell
 ```
-Hier is 'n paar voorbeelde: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
-Vind meer inligting oor malware wat AppleScripts gebruik [**hier**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
+这里有一些示例: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
+在[**这里**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/)找到有关使用applescripts的恶意软件的更多信息。
 
-Apple-skripte kan maklik "**gecompileer**" word. Hierdie weergawes kan maklik "**gedecompileer**" word met `osadecompile`
+Apple脚本可以很容易地“**编译**”。这些版本可以通过`osadecompile`轻松“**反编译**”。
 
-However, this scripts can also be **exported as "Read only"** (via the "Export..." option):
+然而，这些脚本也可以**导出为“只读”**（通过“导出...”选项）：
 
 <figure><img src="https://github.com/carlospolop/hacktricks/raw/master/.gitbook/assets/image%20(556).png" alt=""><figcaption></figcaption></figure>
 ```
 file mal.scpt
 mal.scpt: AppleScript compiled
 ```
-en in hierdie geval kan die inhoud nie gedekomplileer word nie, selfs nie met `osadecompile` nie.
+在这种情况下，即使使用 `osadecompile` 也无法反编译内容。
 
-Daar is egter steeds 'n paar gereedskap wat gebruik kan word om hierdie soort uitvoerbare lêers te verstaan, [**lees hierdie navorsing vir meer inligting**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Die gereedskap [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) met [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) sal baie nuttig wees om te verstaan hoe die skrip werk.
+然而，仍然有一些工具可以用来理解这种可执行文件，[**阅读这项研究以获取更多信息**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)。工具 [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) 和 [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) 将非常有助于理解脚本的工作原理。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

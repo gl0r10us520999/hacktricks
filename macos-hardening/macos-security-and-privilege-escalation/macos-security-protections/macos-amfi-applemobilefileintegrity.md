@@ -1,61 +1,61 @@
 # macOS - AMFI - AppleMobileFileIntegrity
 
 {% hint style="success" %}
-Leer en oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
 
-## AppleMobileFileIntegrity.kext en amfid
+## AppleMobileFileIntegrity.kext 和 amfid
 
-Dit fokus op die afdwinging van die integriteit van die kode wat op die stelsel loop en bied die logika agter XNU se kodehandtekening verifikasie. Dit is ook in staat om regte te kontroleer en ander sensitiewe take te hanteer soos om foutopsporing toe te laat of om taakpoorte te verkry.
+它专注于强制执行系统上运行代码的完整性，提供 XNU 代码签名验证背后的逻辑。它还能够检查权限并处理其他敏感任务，例如允许调试或获取任务端口。
 
-Boonop, vir sommige operasies, verkies die kext om die gebruikersruimte wat die daemon `/usr/libexec/amfid` uitvoer, te kontak. Hierdie vertrouensverhouding is in verskeie jailbreaks misbruik.
+此外，对于某些操作，kext 更倾向于联系用户空间运行的守护进程 `/usr/libexec/amfid`。这种信任关系在多个越狱中被滥用。
 
-AMFI gebruik **MACF** beleide en dit registreer sy haakies die oomblik wat dit begin. Ook, om die laai of ontlaai daarvan te voorkom kan 'n kernel paniek veroorsaak. Daar is egter 'n paar opstartargumente wat AMFI kan verlam:
+AMFI 使用 **MACF** 策略，并在启动时注册其钩子。此外，防止其加载或卸载可能会触发内核崩溃。然而，有一些启动参数可以削弱 AMFI：
 
-* `amfi_unrestricted_task_for_pid`: Laat task\_for\_pid toe sonder vereiste regte
-* `amfi_allow_any_signature`: Laat enige kodehandtekening toe
-* `cs_enforcement_disable`: Stelselswye argument wat gebruik word om kodehandtekening afdwinging te deaktiveer
-* `amfi_prevent_old_entitled_platform_binaries`: Ongeldig platform binaries met regte
-* `amfi_get_out_of_my_way`: Deaktiveer amfi heeltemal
+* `amfi_unrestricted_task_for_pid`: 允许在没有所需权限的情况下使用 task\_for\_pid
+* `amfi_allow_any_signature`: 允许任何代码签名
+* `cs_enforcement_disable`: 用于禁用代码签名强制执行的系统范围参数
+* `amfi_prevent_old_entitled_platform_binaries`: 作废具有权限的平台二进制文件
+* `amfi_get_out_of_my_way`: 完全禁用 amfi
 
-Hierdie is 'n paar van die MACF beleide wat dit registreer:
+以下是它注册的一些 MACF 策略：
 
-* **`cred_check_label_update_execve:`** Etiketopdatering sal uitgevoer word en 1 teruggee
-* **`cred_label_associate`**: Werk AMFI se mac etiketgleuf met etiket op
-* **`cred_label_destroy`**: Verwyder AMFI se mac etiketgleuf
-* **`cred_label_init`**: Beweeg 0 in AMFI se mac etiketgleuf
-* **`cred_label_update_execve`:** Dit kontroleer die regte van die proses om te sien of dit toegelaat moet word om die etikette te wysig.
-* **`file_check_mmap`:** Dit kontroleer of mmap geheue verkry en dit as uitvoerbaar stel. In daardie geval kontroleer dit of biblioteekvalidasie nodig is en indien wel, roep dit die biblioteekvalidasiefunksie aan.
-* **`file_check_library_validation`**: Roep die biblioteekvalidasiefunksie aan wat onder andere kontroleer of 'n platform binêre 'n ander platform binêre laai of of die proses en die nuwe gelaaide lêer dieselfde TeamID het. Sekere regte sal ook toelaat om enige biblioteek te laai.
-* **`policy_initbsd`**: Stel vertroude NVRAM-sleutels op
-* **`policy_syscall`**: Dit kontroleer DYLD-beleide soos of die binêre onbeperkte segmente het, of dit omgewingsveranderlikes moet toelaat... dit word ook genoem wanneer 'n proses via `amfi_check_dyld_policy_self()` begin word.
-* **`proc_check_inherit_ipc_ports`**: Dit kontroleer of wanneer 'n proses 'n nuwe binêre uitvoer, ander prosesse met SEND-regte oor die taakpoort van die proses dit moet hou of nie. Platform binaries is toegelaat, `get-task-allow` regte laat dit toe, `task_for_pid-allow` regte is toegelaat en binaries met dieselfde TeamID.
-* **`proc_check_expose_task`**: afdwing regte
-* **`amfi_exc_action_check_exception_send`**: 'n Uitsondering boodskap word na die foutopsporing gestuur
-* **`amfi_exc_action_label_associate & amfi_exc_action_label_copy/populate & amfi_exc_action_label_destroy & amfi_exc_action_label_init & amfi_exc_action_label_update`**: Etiket lewensiklus tydens uitsondering hantering (foutopsporing)
-* **`proc_check_get_task`**: Kontroleer regte soos `get-task-allow` wat ander prosesse toelaat om die taakpoort te verkry en `task_for_pid-allow`, wat die proses toelaat om ander prosesse se taakpoorte te verkry. As geen van daardie, roep dit op na `amfid permitunrestricteddebugging` om te kontroleer of dit toegelaat word.
-* **`proc_check_mprotect`**: Weier as `mprotect` met die vlag `VM_PROT_TRUSTED` aangeroep word wat aandui dat die streek asof dit 'n geldige kodehandtekening het, behandel moet word.
-* **`vnode_check_exec`**: Word aangeroep wanneer uitvoerbare lêers in geheue gelaai word en stel `cs_hard | cs_kill` wat die proses sal doodmaak as enige van die bladsye ongeldig word
-* **`vnode_check_getextattr`**: MacOS: Kontroleer `com.apple.root.installed` en `isVnodeQuarantined()`
-* **`vnode_check_setextattr`**: Soos kry + com.apple.private.allow-bless en interne-installer-ekwivalente regte
-* &#x20;**`vnode_check_signature`**: Kode wat XNU aanroep om die kodehandtekening te kontroleer met behulp van regte, vertrou cache en `amfid`
-* &#x20;**`proc_check_run_cs_invalid`**: Dit onderskep `ptrace()` aanroepe (`PT_ATTACH` en `PT_TRACE_ME`). Dit kontroleer vir enige van die regte `get-task-allow`, `run-invalid-allow` en `run-unsigned-code` en as geen, kontroleer dit of foutopsporing toegelaat word.
-* **`proc_check_map_anon`**: As mmap met die **`MAP_JIT`** vlag aangeroep word, sal AMFI die `dynamic-codesigning` regte kontroleer.
+* **`cred_check_label_update_execve:`** 标签更新将被执行并返回 1
+* **`cred_label_associate`**: 用标签更新 AMFI 的 mac 标签槽
+* **`cred_label_destroy`**: 移除 AMFI 的 mac 标签槽
+* **`cred_label_init`**: 在 AMFI 的 mac 标签槽中移动 0
+* **`cred_label_update_execve`:** 它检查进程的权限以查看是否应允许修改标签。
+* **`file_check_mmap`:** 它检查 mmap 是否获取内存并将其设置为可执行。如果是这种情况，它会检查是否需要库验证，如果需要，则调用库验证函数。
+* **`file_check_library_validation`**: 调用库验证函数，该函数检查其他内容是否平台二进制文件正在加载另一个平台二进制文件，或者进程和新加载的文件是否具有相同的 TeamID。某些权限也将允许加载任何库。
+* **`policy_initbsd`**: 设置受信任的 NVRAM 密钥
+* **`policy_syscall`**: 它检查 DYLD 策略，例如二进制文件是否具有不受限制的段，是否应允许环境变量……当通过 `amfi_check_dyld_policy_self()` 启动进程时也会调用此函数。
+* **`proc_check_inherit_ipc_ports`**: 它检查当进程执行新二进制文件时，是否应保留其他具有发送权限的进程对该进程的任务端口。平台二进制文件是允许的，`get-task-allow` 权限允许它，`task_for_pid-allow` 权限是允许的，具有相同 TeamID 的二进制文件。
+* **`proc_check_expose_task`**: 强制执行权限
+* **`amfi_exc_action_check_exception_send`**: 向调试器发送异常消息
+* **`amfi_exc_action_label_associate & amfi_exc_action_label_copy/populate & amfi_exc_action_label_destroy & amfi_exc_action_label_init & amfi_exc_action_label_update`**: 异常处理（调试）期间的标签生命周期
+* **`proc_check_get_task`**: 检查权限，如 `get-task-allow`，允许其他进程获取任务端口，以及 `task_for_pid-allow`，允许进程获取其他进程的任务端口。如果都没有，它会调用 `amfid permitunrestricteddebugging` 来检查是否被允许。
+* **`proc_check_mprotect`**: 如果 `mprotect` 被调用并带有 `VM_PROT_TRUSTED` 标志，则拒绝，该标志表示该区域必须被视为具有有效的代码签名。
+* **`vnode_check_exec`**: 当可执行文件加载到内存中时被调用，并设置 `cs_hard | cs_kill`，如果任何页面变为无效，将终止该进程
+* **`vnode_check_getextattr`**: MacOS: 检查 `com.apple.root.installed` 和 `isVnodeQuarantined()`
+* **`vnode_check_setextattr`**: 作为获取 + com.apple.private.allow-bless 和内部安装程序等效权限
+* &#x20;**`vnode_check_signature`**: 调用 XNU 检查代码签名的代码，使用权限、信任缓存和 `amfid`
+* &#x20;**`proc_check_run_cs_invalid`**: 拦截 `ptrace()` 调用（`PT_ATTACH` 和 `PT_TRACE_ME`）。它检查任何权限 `get-task-allow`、`run-invalid-allow` 和 `run-unsigned-code`，如果都没有，它会检查是否允许调试。
+* **`proc_check_map_anon`**: 如果 mmap 被调用并带有 **`MAP_JIT`** 标志，AMFI 将检查 `dynamic-codesigning` 权限。
 
-`AMFI.kext` stel ook 'n API vir ander kernuitbreidings bloot, en dit is moontlik om sy afhanklikhede te vind met:
+`AMFI.kext` 还为其他内核扩展公开了一个 API，可以通过以下方式找到其依赖项：
 ```bash
 kextstat | grep " 19 " | cut -c2-5,50- | cut -d '(' -f1
 Executing: /usr/bin/kmutil showloaded
@@ -80,22 +80,22 @@ No variant specified, falling back to release
 ```
 ## amfid
 
-Dit is die gebruikersmodus wat daemons wat `AMFI.kext` sal gebruik om kode-handtekeninge in gebruikersmodus te kontroleer.\
-Vir `AMFI.kext` om met die daemon te kommunikeer, gebruik dit mach-boodskappe oor die poort `HOST_AMFID_PORT` wat die spesiale poort `18` is.
+这是用户模式下运行的守护进程，`AMFI.kext` 将使用它来检查用户模式中的代码签名。\
+为了让 `AMFI.kext` 与守护进程通信，它使用通过端口 `HOST_AMFID_PORT` 的 mach 消息，该端口是特殊端口 `18`。
 
-Let daarop dat dit in macOS nie meer moontlik is vir root prosesse om spesiale poorte te kap nie, aangesien dit beskerm word deur `SIP` en slegs launchd dit kan verkry. In iOS word dit nagegaan dat die proses wat die antwoord terugstuur die CDHash van `amfid` hardgecodeer het.
+请注意，在 macOS 中，根进程不再能够劫持特殊端口，因为它们受到 `SIP` 的保护，只有 launchd 可以获取它们。在 iOS 中，会检查发送响应的进程是否具有硬编码的 `amfid` 的 CDHash。
 
-Dit is moontlik om te sien wanneer `amfid` versoek word om 'n binêre te kontroleer en die antwoord daarvan deur dit te debugeer en 'n breekpunt in `mach_msg` in te stel.
+可以通过调试 `amfid` 并在 `mach_msg` 中设置断点来查看何时请求 `amfid` 检查二进制文件及其响应。
 
-Sodra 'n boodskap ontvang word via die spesiale poort, word **MIG** gebruik om elke funksie na die funksie wat dit aanroep te stuur. Die hooffunksies is omgekeerd en binne die boek verduidelik.
+一旦通过特殊端口接收到消息，**MIG** 将用于将每个函数发送到它所调用的函数。主要函数已被逆向并在书中进行了说明。
 
 ## Provisioning Profiles
 
-'n Provisioning-profiel kan gebruik word om kode te teken. Daar is **Ontwikkelaar** profiele wat gebruik kan word om kode te teken en dit te toets, en **Enterprise** profiele wat in alle toestelle gebruik kan word.
+配置文件可用于签署代码。有 **Developer** 配置文件可用于签署代码并进行测试，还有 **Enterprise** 配置文件可用于所有设备。
 
-Nadat 'n App by die Apple Store ingedien is, indien goedgekeur, word dit deur Apple geteken en is die provisioning-profiel nie meer nodig nie.
+在应用提交到 Apple Store 后，如果获得批准，它将由 Apple 签署，并且不再需要配置文件。
 
-'n Profiel gebruik gewoonlik die uitbreiding `.mobileprovision` of `.provisionprofile` en kan gedump word met:
+配置文件通常使用扩展名 `.mobileprovision` 或 `.provisionprofile`，可以通过以下方式转储：
 ```bash
 openssl asn1parse -inform der -in /path/to/profile
 
@@ -103,53 +103,53 @@ openssl asn1parse -inform der -in /path/to/profile
 
 security cms -D -i /path/to/profile
 ```
-Hoewel dit soms as gesertifiseer verwys word, het hierdie voorsieningsprofiele meer as 'n sertifikaat:
+虽然有时被称为证书，这些配置文件不仅仅是一个证书：
 
-* **AppIDName:** Die Aansoek Identifiseerder
-* **AppleInternalProfile**: Dui dit aan as 'n Apple Interne profiel
-* **ApplicationIdentifierPrefix**: Voorafgegaan aan AppIDName (dieselfde as TeamIdentifier)
-* **CreationDate**: Datum in `YYYY-MM-DDTHH:mm:ssZ` formaat
-* **DeveloperCertificates**: 'n Array van (gewoonlik een) sertifikaat(e), gekodeer as Base64 data
-* **Entitlements**: Die regte wat toegelaat word met regte vir hierdie profiel
-* **ExpirationDate**: Vervaldatum in `YYYY-MM-DDTHH:mm:ssZ` formaat
-* **Name**: Die Aansoek Naam, dieselfde as AppIDName
-* **ProvisionedDevices**: 'n Array (vir ontwikkelaar sertifikate) van UDIDs waarvoor hierdie profiel geldig is
-* **ProvisionsAllDevices**: 'n Boolean (waar vir ondernemingssertifikate)
-* **TeamIdentifier**: 'n Array van (gewoonlik een) alfanumeriese string(e) wat gebruik word om die ontwikkelaar vir inter-aansoek interaksie doeleindes te identifiseer
-* **TeamName**: 'n Menslike leesbare naam wat gebruik word om die ontwikkelaar te identifiseer
-* **TimeToLive**: Geldigheid (in dae) van die sertifikaat
-* **UUID**: 'n Universeel Unieke Identifiseerder vir hierdie profiel
-* **Version**: Huidiglik op 1 gestel
+* **AppIDName:** 应用程序标识符
+* **AppleInternalProfile**: 指定为苹果内部配置文件
+* **ApplicationIdentifierPrefix**: 预加到 AppIDName（与 TeamIdentifier 相同）
+* **CreationDate**: 日期格式为 `YYYY-MM-DDTHH:mm:ssZ`
+* **DeveloperCertificates**: 一个（通常是一个）证书的数组，编码为 Base64 数据
+* **Entitlements**: 此配置文件允许的权限
+* **ExpirationDate**: 过期日期格式为 `YYYY-MM-DDTHH:mm:ssZ`
+* **Name**: 应用程序名称，与 AppIDName 相同
+* **ProvisionedDevices**: 一个（针对开发者证书）此配置文件有效的 UDID 数组
+* **ProvisionsAllDevices**: 布尔值（企业证书为 true）
+* **TeamIdentifier**: 一个（通常是一个）字母数字字符串的数组，用于识别开发者以便进行应用间交互
+* **TeamName**: 用于识别开发者的人类可读名称
+* **TimeToLive**: 证书的有效期（以天为单位）
+* **UUID**: 此配置文件的通用唯一标识符
+* **Version**: 当前设置为 1
 
-Let daarop dat die regte inskrywing 'n beperkte stel regte sal bevat en die voorsieningsprofiel slegs daardie spesifieke regte kan gee om te voorkom dat Apple private regte gee.
+请注意，权限条目将包含一组受限的权限，配置文件只能提供这些特定的权限，以防止提供苹果的私有权限。
 
-Let daarop dat profiele gewoonlik in `/var/MobileDeviceProvisioningProfiles` geleë is en dit moontlik is om dit te kontroleer met **`security cms -D -i /path/to/profile`**
+请注意，配置文件通常位于 `/var/MobileDeviceProvisioningProfiles`，可以使用 **`security cms -D -i /path/to/profile`** 检查它们。
 
 ## **libmis.dyld**
 
-Dit is die eksterne biblioteek wat `amfid` aanroep om te vra of dit iets moet toelaat of nie. Dit is histories misbruik in jailbreaking deur 'n backdoored weergawe daarvan te loop wat alles sou toelaat.
+这是 `amfid` 调用的外部库，用于询问是否应该允许某些操作。历史上，这在越狱中被滥用，通过运行一个后门版本来允许所有操作。
 
-In macOS is dit binne `MobileDevice.framework`.
+在 macOS 中，这在 `MobileDevice.framework` 内部。
 
-## AMFI Trust Caches
+## AMFI 信任缓存
 
-iOS AMFI hou 'n lys van bekende hashes wat ad-hoc gesertifiseer is, genoem die **Trust Cache** en gevind in die kext se `__TEXT.__const` afdeling. Let daarop dat dit in baie spesifieke en sensitiewe operasies moontlik is om hierdie Trust Cache met 'n eksterne lêer uit te brei.
+iOS AMFI 维护一个已知哈希的列表，这些哈希是临时签名的，称为 **信任缓存**，位于 kext 的 `__TEXT.__const` 部分。请注意，在非常特定和敏感的操作中，可以使用外部文件扩展此信任缓存。
 
-## References
+## 参考文献
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

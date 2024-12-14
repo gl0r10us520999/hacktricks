@@ -1,53 +1,53 @@
-# macOS Kernel Extensions & Debugging
+# macOS 内核扩展与调试
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basic Information
+## 基本信息
 
-Kernel extensies (Kexts) is **pakkette** met 'n **`.kext`** uitbreiding wat **direk in die macOS-kernruimte gelaai** word, wat addisionele funksionaliteit aan die hoofbedryfstelsel bied.
+内核扩展（Kexts）是 **以 `.kext`** 扩展名的 **包**，它们 **直接加载到 macOS 内核空间**，为主操作系统提供额外功能。
 
-### Requirements
+### 要求
 
-Dit is duidelik dat dit so kragtig is dat dit **gekompliseerd is om 'n kernuitbreiding te laai**. Dit is die **vereistes** waaraan 'n kernuitbreiding moet voldoen om gelaai te word:
+显然，这非常强大，以至于 **加载内核扩展** 是 **复杂的**。内核扩展必须满足以下 **要求** 才能被加载：
 
-* Wanneer **jy herstelmodus binnegaan**, moet kern **uitbreidings toegelaat word** om gelaai te word:
+* 当 **进入恢复模式** 时，必须 **允许加载内核扩展**：
 
 <figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* Die kernuitbreiding moet **onderteken wees met 'n kernkode-ondertekeningssertifikaat**, wat slegs **deur Apple** toegestaan kan word. Wie die maatskappy en die redes waarom dit nodig is, in detail sal hersien.
-* Die kernuitbreiding moet ook **notarized** wees, Apple sal dit vir malware kan nagaan.
-* Dan is die **root** gebruiker die een wat die **kernuitbreiding kan laai** en die lêers binne die pakket moet **aan root behoort**.
-* Tydens die oplaadproses moet die pakket in 'n **beskermde nie-root ligging** voorberei word: `/Library/StagedExtensions` (vereis die `com.apple.rootless.storage.KernelExtensionManagement` grant).
-* Laastens, wanneer daar probeer word om dit te laai, sal die gebruiker [**'n bevestigingsversoek ontvang**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) en, indien aanvaar, moet die rekenaar **herstart** word om dit te laai.
+* 内核扩展必须 **使用内核代码签名证书签名**，该证书只能由 **Apple** 授予。谁将详细审查公司及其所需的原因。
+* 内核扩展还必须 **经过公证**，Apple 将能够检查其是否含有恶意软件。
+* 然后，**root** 用户是唯一可以 **加载内核扩展** 的人，包内的文件必须 **属于 root**。
+* 在上传过程中，包必须准备在 **受保护的非 root 位置**：`/Library/StagedExtensions`（需要 `com.apple.rootless.storage.KernelExtensionManagement` 授权）。
+* 最后，当尝试加载时，用户将 [**收到确认请求**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html)，如果接受，计算机必须 **重启** 以加载它。
 
-### Loading process
+### 加载过程
 
-In Catalina was dit soos volg: Dit is interessant om op te let dat die **verifikasie** proses in **userland** plaasvind. Dit is egter slegs toepassings met die **`com.apple.private.security.kext-management`** grant wat **die kern kan vra om 'n uitbreiding te laai**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+在 Catalina 中是这样的：有趣的是，**验证** 过程发生在 **用户空间**。然而，只有具有 **`com.apple.private.security.kext-management`** 授权的应用程序可以 **请求内核加载扩展**：`kextcache`、`kextload`、`kextutil`、`kextd`、`syspolicyd`
 
-1. **`kextutil`** cli **begin** die **verifikasie** proses om 'n uitbreiding te laai
-* Dit sal met **`kextd`** praat deur 'n **Mach-diens** te gebruik.
-2. **`kextd`** sal verskeie dinge nagaan, soos die **handtekening**
-* Dit sal met **`syspolicyd`** praat om te **kontroleer** of die uitbreiding **gelaai** kan word.
-3. **`syspolicyd`** sal die **gebruiker** **vra** of die uitbreiding nie voorheen gelaai is nie.
-* **`syspolicyd`** sal die resultaat aan **`kextd`** rapporteer
-4. **`kextd`** sal uiteindelik in staat wees om die **kern te sê om** die uitbreiding te laai
+1. **`kextutil`** CLI **启动** 加载扩展的 **验证** 过程
+* 它将通过发送 **Mach 服务** 与 **`kextd`** 进行通信。
+2. **`kextd`** 将检查多个内容，例如 **签名**
+* 它将与 **`syspolicyd`** 进行通信以 **检查** 扩展是否可以 **加载**。
+3. **`syspolicyd`** 将 **提示** **用户** 如果扩展尚未被加载。
+* **`syspolicyd`** 将结果报告给 **`kextd`**
+4. **`kextd`** 最终将能够 **告诉内核加载** 扩展
 
-As **`kextd`** nie beskikbaar is nie, kan **`kextutil`** dieselfde kontroles uitvoer.
+如果 **`kextd`** 不可用，**`kextutil`** 可以执行相同的检查。
 
-### Enumeration (loaded kexts)
+### 枚举（已加载的 kexts）
 ```bash
 # Get loaded kernel extensions
 kextstat
@@ -58,36 +58,36 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 ## Kernelcache
 
 {% hint style="danger" %}
-Alhoewel die kernel uitbreidings verwag word om in `/System/Library/Extensions/` te wees, as jy na hierdie gids gaan, **sal jy geen binêre vind** nie. Dit is as gevolg van die **kernelcache** en om een `.kext` te reverseer, moet jy 'n manier vind om dit te verkry.
+尽管内核扩展预计位于 `/System/Library/Extensions/` 中，但如果你去这个文件夹，你 **不会找到任何二进制文件**。这是因为 **kernelcache**，为了反向工程一个 `.kext`，你需要找到获取它的方法。
 {% endhint %}
 
-Die **kernelcache** is 'n **vooraf-gecompileerde en vooraf-gekoppelde weergawe van die XNU-kern**, saam met noodsaaklike toestel **drywers** en **kernel uitbreidings**. Dit word in 'n **gecomprimeerde** formaat gestoor en word tydens die opstartproses in geheue gedecomprimeer. Die kernelcache fasiliteer 'n **sneller opstarttyd** deur 'n gereed-om-te-loop weergawe van die kern en belangrike drywers beskikbaar te hê, wat die tyd en hulpbronne verminder wat andersins aan die dinamiese laai en koppeling van hierdie komponente tydens opstart bestee sou word.
+**kernelcache** 是 **XNU 内核的预编译和预链接版本**，以及基本的设备 **驱动程序** 和 **内核扩展**。它以 **压缩** 格式存储，并在启动过程中解压到内存中。kernelcache 通过提供一个准备就绪的内核和关键驱动程序的版本，促进了 **更快的启动时间**，减少了在启动时动态加载和链接这些组件所需的时间和资源。
 
-### Plaaslike Kernelcache
+### Local Kerlnelcache
 
-In iOS is dit geleë in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS kan jy dit vind met: **`find / -name "kernelcache" 2>/dev/null`** \
-In my geval in macOS het ek dit gevind in:
+在 iOS 中，它位于 **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**，在 macOS 中可以通过以下命令找到：**`find / -name "kernelcache" 2>/dev/null`** \
+在我的 macOS 中，我找到了它在：
 
 * `/System/Volumes/Preboot/1BAEB4B5-180B-4C46-BD53-51152B7D92DA/boot/DAD35E7BC0CDA79634C20BD1BD80678DFB510B2AAD3D25C1228BB34BCD0A711529D3D571C93E29E1D0C1264750FA043F/System/Library/Caches/com.apple.kernelcaches/kernelcache`
 
 #### IMG4
 
-Die IMG4 lêerformaat is 'n houerformaat wat deur Apple in sy iOS en macOS toestelle gebruik word om firmware komponente veilig te **stoor en te verifieer** (soos **kernelcache**). Die IMG4 formaat sluit 'n kop en verskeie etikette in wat verskillende stukke data kapsuleer, insluitend die werklike payload (soos 'n kern of opstartlader), 'n handtekening, en 'n stel manifest eienskappe. Die formaat ondersteun kriptografiese verifikasie, wat die toestel toelaat om die egtheid en integriteit van die firmware komponent te bevestig voordat dit uitgevoer word.
+IMG4 文件格式是苹果在其 iOS 和 macOS 设备中用于安全 **存储和验证固件** 组件（如 **kernelcache**）的容器格式。IMG4 格式包括一个头部和多个标签，封装了不同的数据片段，包括实际的有效载荷（如内核或引导加载程序）、签名和一组清单属性。该格式支持加密验证，允许设备在执行固件组件之前确认其真实性和完整性。
 
-Dit bestaan gewoonlik uit die volgende komponente:
+它通常由以下组件组成：
 
-* **Payload (IM4P)**:
-* Gereeld gecomprimeer (LZFSE4, LZSS, …)
-* Opsioneel versleuteld
-* **Manifest (IM4M)**:
-* Bevat Handtekening
-* Bykomende Sleutel/Waarde woordeboek
-* **Herstel Inligting (IM4R)**:
-* Ook bekend as APNonce
-* Voorkom die herhaling van sommige opdaterings
-* OPSIONEEL: Gewoonlik word dit nie gevind nie
+* **有效载荷 (IM4P)**：
+* 通常是压缩的 (LZFSE4, LZSS, …)
+* 可选加密
+* **清单 (IM4M)**：
+* 包含签名
+* 额外的键/值字典
+* **恢复信息 (IM4R)**：
+* 也称为 APNonce
+* 防止某些更新的重放
+* 可选：通常不会找到
 
-Decompress die Kernelcache:
+解压 Kernelcache：
 ```bash
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -95,23 +95,23 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-### Laai af&#x20;
+### 下载&#x20;
 
 * [**KernelDebugKit Github**](https://github.com/dortania/KdkSupportPkg/releases)
 
-In [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) is dit moontlik om al die kernel debug kits te vind. Jy kan dit aflaai, monteer, dit oopmaak met die [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html) hulpmiddel, toegang verkry tot die **`.kext`** gids en **uit te trek**.
+在 [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) 可以找到所有的内核调试工具包。你可以下载它，挂载它，用 [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html) 工具打开它，访问 **`.kext`** 文件夹并 **提取它**。
 
-Kontroleer dit vir simbole met:
+使用以下命令检查符号：
 ```bash
 nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 ```
 * [**theapplewiki.com**](https://theapplewiki.com/wiki/Firmware/Mac/14.x)**,** [**ipsw.me**](https://ipsw.me/)**,** [**theiphonewiki.com**](https://www.theiphonewiki.com/)
 
-Soms vry Apple **kernelcache** met **symbols**. Jy kan 'n paar firmware met symbols aflaai deur die skakels op daardie bladsye te volg. Die firmwares sal die **kernelcache** onder andere lêers bevat.
+有时，Apple 会发布带有 **symbols** 的 **kernelcache**。您可以通过这些页面上的链接下载一些带有符号的固件。固件将包含 **kernelcache** 以及其他文件。
 
-Om die lêers te **onttrek**, begin deur die uitbreiding van `.ipsw` na `.zip` te verander en dit te **ontpak**.
+要 **extract** 文件，首先将扩展名从 `.ipsw` 更改为 `.zip` 并 **unzip** 它。
 
-Na die ontrekking van die firmware sal jy 'n lêer soos: **`kernelcache.release.iphone14`** kry. Dit is in **IMG4** formaat, jy kan die interessante inligting ontbloot met:
+提取固件后，您将获得一个文件，如：**`kernelcache.release.iphone14`**。它是 **IMG4** 格式，您可以使用以下工具提取有趣的信息：
 
 [**pyimg4**](https://github.com/m1stadev/PyIMG4)**:** 
 
@@ -127,11 +127,11 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
 ### Inspecting kernelcache
 
-Kontroleer of die kernelcache simbole het met
+检查 kernelcache 是否具有符号
 ```bash
 nm -a kernelcache.release.iphone14.e | wc -l
 ```
-Met dit kan ons nou **alle uitbreidings** of die **een waarin jy belangstel** **onttrek:**
+通过这个，我们现在可以**提取所有扩展**或**您感兴趣的一个：**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -144,26 +144,26 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-## Debugging
+## 调试
 
 
 
-## Verwysings
+## 参考文献
 
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -1,61 +1,61 @@
-# macOS XPC Connecting Process Check
+# macOS XPC 连接进程检查
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过提交 PR 到** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## XPC Connecting Process Check
+## XPC 连接进程检查
 
-Wanneer 'n verbinding met 'n XPC-diens tot stand gebring word, sal die bediener nagaan of die verbinding toegelaat word. Dit is die kontroles wat dit gewoonlik sal uitvoer:
+当与 XPC 服务建立连接时，服务器将检查该连接是否被允许。通常会执行以下检查：
 
-1. Kyk of die verbindende **proses onderteken is met 'n Apple-ondertekende** sertifikaat (slegs deur Apple gegee).
-* As dit **nie geverifieer is nie**, kan 'n aanvaller 'n **valse sertifikaat** skep om aan enige ander kontrole te voldoen.
-2. Kyk of die verbindende proses onderteken is met die **organisasie se sertifikaat**, (span ID verifikasie).
-* As dit **nie geverifieer is nie**, kan **enige ontwikkelaar sertifikaat** van Apple gebruik word om te onderteken, en met die diens te verbind.
-3. Kyk of die verbindende proses **'n behoorlike bundel ID** bevat.
-* As dit **nie geverifieer is nie**, kan enige hulpmiddel **onderteken deur dieselfde org** gebruik word om met die XPC-diens te kommunikeer.
-4. (4 of 5) Kyk of die verbindende proses 'n **behoorlike sagteware weergawe nommer** het.
-* As dit **nie geverifieer is nie**, kan 'n ou, onveilige kliënt, kwesbaar vir proses inspuiting, gebruik word om met die XPC-diens te verbind, selfs met die ander kontroles in plek.
-5. (4 of 5) Kyk of die verbindende proses 'n geharde tydperk het sonder gevaarlike regte (soos dié wat toelaat om arbitrêre biblioteke te laai of DYLD omgewings veranderlikes te gebruik).
-1. As dit **nie geverifieer is nie**, mag die kliënt **kwesbaar wees vir kode inspuiting**.
-6. Kyk of die verbindende proses 'n **regte** het wat dit toelaat om met die diens te verbind. Dit is van toepassing op Apple binêre.
-7. Die **verifikasie** moet **gebaseer** wees op die verbindende **kliënt se oudit token** **in plaas van** sy proses ID (**PID**) aangesien die eerste **PID hergebruik aanvalle** voorkom.
-* Ontwikkelaars **gebruik selde die oudit token** API-oproep aangesien dit **privaat** is, so Apple kan dit **enige tyd verander**. Boonop is privaat API gebruik nie toegelaat in Mac App Store toepassings nie.
-* As die metode **`processIdentifier`** gebruik word, mag dit kwesbaar wees.
-* **`xpc_dictionary_get_audit_token`** moet gebruik word in plaas van **`xpc_connection_get_audit_token`**, aangesien laasgenoemde ook [kwesbaar kan wees in sekere situasies](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. 检查连接的 **进程是否使用 Apple 签名** 的证书（仅由 Apple 发放）。
+* 如果 **未验证**，攻击者可以创建一个 **伪造证书** 来匹配其他检查。
+2. 检查连接进程是否使用 **组织的证书**（团队 ID 验证）。
+* 如果 **未验证**，**任何开发者证书** 都可以用于签名，并连接到服务。
+3. 检查连接进程 **是否包含正确的包 ID**。
+* 如果 **未验证**，任何 **由同一组织签名的工具** 都可以用来与 XPC 服务交互。
+4. (4 或 5) 检查连接进程是否具有 **正确的软件版本号**。
+* 如果 **未验证**，旧的、不安全的客户端，易受进程注入攻击，可以在其他检查到位的情况下连接到 XPC 服务。
+5. (4 或 5) 检查连接进程是否具有没有危险权限的 **强化运行时**（如允许加载任意库或使用 DYLD 环境变量的权限）。
+* 如果 **未验证**，客户端可能 **易受代码注入**。
+6. 检查连接进程是否具有允许其连接到服务的 **权限**。这适用于 Apple 二进制文件。
+7. **验证** 必须 **基于** 连接 **客户端的审计令牌** **而不是** 其进程 ID (**PID**)，因为前者可以防止 **PID 重用攻击**。
+* 开发者 **很少使用审计令牌** API 调用，因为它是 **私有的**，所以 Apple 可以 **随时更改**。此外，私有 API 的使用在 Mac App Store 应用中是不允许的。
+* 如果使用 **`processIdentifier`** 方法，可能会存在漏洞。
+* 应使用 **`xpc_dictionary_get_audit_token`** 而不是 **`xpc_connection_get_audit_token`**，因为后者在某些情况下也可能 [存在漏洞](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)。
 
-### Communication Attacks
+### 通信攻击
 
-Vir meer inligting oor die PID hergebruik aanval, kyk:
+有关 PID 重用攻击的更多信息，请查看：
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-Vir meer inligting oor **`xpc_connection_get_audit_token`** aanval, kyk:
+有关 **`xpc_connection_get_audit_token`** 攻击的更多信息，请查看：
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Downgrade Attacks Prevention
+### Trustcache - 降级攻击防护
 
-Trustcache is 'n defensiewe metode wat in Apple Silicon masjiene bekendgestel is wat 'n databasis van CDHSAH van Apple binêre stoor sodat slegs toegelate nie-gemodifiseerde binêre uitgevoer kan word. Dit voorkom die uitvoering van downgrade weergawes.
+Trustcache 是一种防御方法，旨在 Apple Silicon 机器中引入，存储 Apple 二进制文件的 CDHSAH 数据库，以便仅允许未修改的二进制文件执行。这可以防止降级版本的执行。
 
-### Code Examples
+### 代码示例
 
-Die bediener sal hierdie **verifikasie** in 'n funksie genaamd **`shouldAcceptNewConnection`** implementeer.
+服务器将在名为 **`shouldAcceptNewConnection`** 的函数中实现此 **验证**。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -66,9 +66,9 @@ return YES;
 ```
 {% endcode %}
 
-Die objek NSXPCConnection het 'n **private** eiendom **`auditToken`** (die een wat gebruik moet word maar kan verander) en 'n **public** eiendom **`processIdentifier`** (die een wat nie gebruik moet word nie).
+对象 NSXPCConnection 有一个 **私有** 属性 **`auditToken`**（应该使用但可能会改变）和一个 **公共** 属性 **`processIdentifier`**（不应该使用）。
 
-Die verbindingsproses kan verifieer word met iets soos:
+连接的进程可以通过以下方式进行验证：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -92,7 +92,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-As 'n ontwikkelaar nie die weergawe van die kliënt wil nagaan nie, kan hy ten minste nagaan dat die kliënt nie kwesbaar is vir prosesinspuiting nie:
+如果开发者不想检查客户端的版本，他至少可以检查客户端是否不易受到进程注入的攻击：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -112,16 +112,16 @@ return Yes; // Accept connection
 {% endcode %}
 
 {% hint style="success" %}
-Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

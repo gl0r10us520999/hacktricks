@@ -1,97 +1,97 @@
-# macOS Kernel & System Extensions
+# macOS 内核与系统扩展
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## XNU Kernel
+## XNU 内核
 
-Die **kern van macOS is XNU**, wat staan vir "X is Not Unix". Hierdie kern is fundamenteel saamgestel uit die **Mach mikrokerne**l (wat later bespreek sal word), **en** elemente van Berkeley Software Distribution (**BSD**). XNU bied ook 'n platform vir **kern bestuurders via 'n stelsel genaamd die I/O Kit**. Die XNU-kern is deel van die Darwin oopbronprojek, wat beteken **sy bronkode is vrylik beskikbaar**.
+macOS 的 **核心是 XNU**，代表“X 不是 Unix”。这个内核基本上由 **Mach 微内核**（稍后讨论）和来自伯克利软件分发（**BSD**）的元素组成。XNU 还通过一个名为 I/O Kit 的系统提供 **内核驱动程序的平台**。XNU 内核是 Darwin 开源项目的一部分，这意味着 **其源代码是公开可获取的**。
 
-Vanuit die perspektief van 'n sekuriteitsnavorser of 'n Unix-ontwikkelaar, kan **macOS** baie **soortgelyk** voel aan 'n **FreeBSD** stelsel met 'n elegante GUI en 'n verskeidenheid van pasgemaakte toepassings. Meeste toepassings wat vir BSD ontwikkel is, sal saamgestel en op macOS loop sonder dat aanpassings nodig is, aangesien die opdraglyn gereedskap wat bekend is aan Unix-gebruikers, almal in macOS teenwoordig is. Tog, omdat die XNU-kern Mach inkorporeer, is daar 'n paar beduidende verskille tussen 'n tradisionele Unix-agtige stelsel en macOS, en hierdie verskille kan potensiële probleme veroorsaak of unieke voordele bied.
+从安全研究人员或 Unix 开发人员的角度来看，**macOS** 感觉与 **FreeBSD** 系统非常 **相似**，具有优雅的 GUI 和一系列自定义应用程序。大多数为 BSD 开发的应用程序可以在 macOS 上编译和运行，而无需修改，因为熟悉 Unix 用户的命令行工具在 macOS 中都存在。然而，由于 XNU 内核包含 Mach，因此传统 Unix 类系统与 macOS 之间存在一些显著差异，这些差异可能导致潜在问题或提供独特优势。
 
-Oopbron weergawe van XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+XNU 的开源版本：[https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach is 'n **mikrokerne**l wat ontwerp is om **UNIX-compatibel** te wees. Een van sy sleutelontwerp beginsels was om die hoeveelheid **kode** wat in die **kern** ruimte loop te **minimaliseer** en eerder toe te laat dat baie tipiese kernfunksies, soos lêerstelsels, netwerk, en I/O, as **gebruikersvlak take** loop.
+Mach 是一个 **微内核**，旨在 **与 UNIX 兼容**。其设计原则之一是 **最小化** 在 **内核** 空间中运行的 **代码** 数量，而允许许多典型的内核功能，如文件系统、网络和 I/O，作为 **用户级任务** 运行。
 
-In XNU is Mach **verantwoordelik vir baie van die kritieke laagvlak operasies** wat 'n kern tipies hanteer, soos prosessor skedulering, multitasking, en virtuele geheue bestuur.
+在 XNU 中，Mach 负责内核通常处理的许多关键低级操作，如处理器调度、多任务处理和虚拟内存管理。
 
 ### BSD
 
-Die XNU **kern** inkorporeer ook 'n beduidende hoeveelheid kode wat afkomstig is van die **FreeBSD** projek. Hierdie kode **loop as deel van die kern saam met Mach**, in dieselfde adresruimte. Tog, die FreeBSD kode binne XNU mag aansienlik verskil van die oorspronklike FreeBSD kode omdat aanpassings nodig was om sy kompatibiliteit met Mach te verseker. FreeBSD dra by tot baie kern operasies insluitend:
+XNU **内核** 还 **包含** 大量来自 **FreeBSD** 项目的代码。这些代码 **与 Mach 一起作为内核的一部分运行**，在同一地址空间中。然而，XNU 中的 FreeBSD 代码可能与原始 FreeBSD 代码有显著不同，因为需要进行修改以确保其与 Mach 的兼容性。FreeBSD 贡献了许多内核操作，包括：
 
-* Proses bestuur
-* Sein hantering
-* Basiese sekuriteitsmeganismes, insluitend gebruiker en groep bestuur
-* Stelselaanroep infrastruktuur
-* TCP/IP stapel en sokke
-* Vuurmuur en pakketfiltrering
+* 进程管理
+* 信号处理
+* 基本安全机制，包括用户和组管理
+* 系统调用基础设施
+* TCP/IP 堆栈和套接字
+* 防火墙和数据包过滤
 
-Om die interaksie tussen BSD en Mach te verstaan, kan kompleks wees, as gevolg van hul verskillende konseptuele raamwerke. Byvoorbeeld, BSD gebruik prosesse as sy fundamentele uitvoerende eenheid, terwyl Mach werk op grond van drade. Hierdie verskil word in XNU versoen deur **elke BSD-proses te assosieer met 'n Mach-taak** wat presies een Mach-draad bevat. Wanneer BSD se fork() stelselaanroep gebruik word, gebruik die BSD kode binne die kern Mach funksies om 'n taak en 'n draadstruktuur te skep.
+由于 BSD 和 Mach 之间的不同概念框架，理解它们之间的交互可能很复杂。例如，BSD 使用进程作为其基本执行单元，而 Mach 基于线程操作。这种差异在 XNU 中通过 **将每个 BSD 进程与一个包含恰好一个 Mach 线程的 Mach 任务关联** 来调和。当使用 BSD 的 fork() 系统调用时，内核中的 BSD 代码使用 Mach 函数来创建任务和线程结构。
 
-Boonop, **Mach en BSD handhaaf elk verskillende sekuriteitsmodelle**: **Mach se** sekuriteitsmodel is gebaseer op **poortregte**, terwyl BSD se sekuriteitsmodel werk op grond van **prosesbesit**. Verskille tussen hierdie twee modelle het af en toe gelei tot plaaslike voorreg-verhoging kwesbaarhede. Afgesien van tipiese stelselaanroepe, is daar ook **Mach traps wat gebruikersruimte programme toelaat om met die kern te kommunikeer**. Hierdie verskillende elemente saam vorm die veelvlakkige, hibriede argitektuur van die macOS-kern.
+此外，**Mach 和 BSD 各自维护不同的安全模型**：**Mach 的** 安全模型基于 **端口权限**，而 BSD 的安全模型基于 **进程所有权**。这两种模型之间的差异偶尔会导致本地特权提升漏洞。除了典型的系统调用外，还有 **Mach 陷阱，允许用户空间程序与内核交互**。这些不同的元素共同构成了 macOS 内核的多面性混合架构。
 
-### I/O Kit - Bestuurders
+### I/O Kit - 驱动程序
 
-Die I/O Kit is 'n oopbron, objek-georiënteerde **toestel-bestuurder raamwerk** in die XNU-kern, wat **dynamies gelaaide toestel bestuurders** hanteer. Dit laat modulaire kode toe om aan die kern bygevoeg te word terwyl dit loop, wat verskillende hardeware ondersteun.
+I/O Kit 是 XNU 内核中的一个开源、面向对象的 **设备驱动程序框架**，处理 **动态加载的设备驱动程序**。它允许在内核中动态添加模块化代码，支持多种硬件。
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
 {% endcontent-ref %}
 
-### IPC - Inter Proses Kommunikasie
+### IPC - 进程间通信
 
 {% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-## macOS Kernel Extensions
+## macOS 内核扩展
 
-macOS is **baie beperkend om Kernel Extensions** (.kext) te laai weens die hoë voorregte wat kode sal loop. Trouens, standaard is dit feitlik onmoontlik (tenzij 'n omseiling gevind word).
+macOS 对加载内核扩展（.kext）**非常严格**，因为代码将以高权限运行。实际上，默认情况下几乎不可能（除非找到绕过方法）。
 
-Op die volgende bladsy kan jy ook sien hoe om die `.kext` wat macOS binne sy **kernelcache** laai, te herstel:
+在以下页面中，您还可以看到如何恢复 macOS 在其 **kernelcache** 中加载的 `.kext`：
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
 {% endcontent-ref %}
 
-### macOS System Extensions
+### macOS 系统扩展
 
-In plaas daarvan om Kernel Extensions te gebruik, het macOS die System Extensions geskep, wat in gebruikersvlak API's bied om met die kern te kommunikeer. Op hierdie manier kan ontwikkelaars vermy om kern uitbreidings te gebruik.
+macOS 创建了系统扩展，而不是使用内核扩展，提供用户级 API 与内核交互。这样，开发人员可以避免使用内核扩展。
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
 {% endcontent-ref %}
 
-## References
+## 参考文献
 
-* [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
+* [**Mac 黑客手册**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,31 +1,31 @@
-# macOS Netwerkdienste & Protokolle
+# macOS 网络服务与协议
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Afgeleë Toegang Dienste
+## 远程访问服务
 
-Dit is die algemene macOS dienste om hulle afgeleë te benader.\
-Jy kan hierdie dienste aktiveer/deaktiveer in `Stelselsinstellings` --> `Deel`
+这些是常见的 macOS 服务，用于远程访问它们。\
+您可以在 `系统设置` --> `共享` 中启用/禁用这些服务。
 
-* **VNC**, bekend as “Skermdeling” (tcp:5900)
-* **SSH**, genoem “Afgeleë Aanmelding” (tcp:22)
-* **Apple Remote Desktop** (ARD), of “Afgeleë Bestuur” (tcp:3283, tcp:5900)
-* **AppleEvent**, bekend as “Afgeleë Apple Gebeurtenis” (tcp:3031)
+* **VNC**，称为“屏幕共享”（tcp:5900）
+* **SSH**，称为“远程登录”（tcp:22）
+* **Apple 远程桌面**（ARD），或称为“远程管理”（tcp:3283, tcp:5900）
+* **AppleEvent**，称为“远程 Apple 事件”（tcp:3031）
 
-Kontroleer of enige geaktiveer is deur te loop:
+检查是否启用了任何服务，运行：
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -37,60 +37,60 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD) is 'n verbeterde weergawe van [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) wat vir macOS aangepas is, en bied addisionele funksies. 'n Opmerklike kwesbaarheid in ARD is sy outentikasie metode vir die kontrole skerm wagwoord, wat slegs die eerste 8 karakters van die wagwoord gebruik, wat dit geneig maak tot [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) met gereedskap soos Hydra of [GoRedShell](https://github.com/ahhh/GoRedShell/), aangesien daar geen standaard koersbeperkings is nie.
+Apple Remote Desktop (ARD) 是一个针对 macOS 的增强版 [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing)，提供额外的功能。ARD 中一个显著的漏洞是其控制屏幕密码的认证方法，仅使用密码的前 8 个字符，这使其容易受到 [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) 的攻击，使用像 Hydra 或 [GoRedShell](https://github.com/ahhh/GoRedShell/) 这样的工具，因为没有默认的速率限制。
 
-Kwetsbare instansies kan geïdentifiseer word met **nmap**'s `vnc-info` skrip. Dienste wat `VNC Authentication (2)` ondersteun, is veral vatbaar vir brute force attacks weens die 8-karakter wagwoord afkorting.
+可以使用 **nmap** 的 `vnc-info` 脚本识别易受攻击的实例。支持 `VNC Authentication (2)` 的服务由于 8 字符密码截断而特别容易受到暴力攻击。
 
-Om ARD in te skakel vir verskeie administratiewe take soos privilige eskalasie, GUI toegang, of gebruiker monitering, gebruik die volgende opdrag:
+要启用 ARD 以进行特权提升、GUI 访问或用户监控等各种管理任务，请使用以下命令：
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD bied veelsydige kontrole vlakke, insluitend waaksaamheid, gedeelde beheer, en volle beheer, met sessies wat voortduur selfs na gebruikerswagwoord veranderinge. Dit laat die stuur van Unix-opdragte direk toe, wat as root uitgevoer word vir administratiewe gebruikers. Taakbeplanning en Remote Spotlight soektog is noemenswaardige kenmerke, wat afgeleë, lae-impak soektogte vir sensitiewe lêers oor verskeie masjiene fasiliteer.
+ARD 提供多种控制级别，包括观察、共享控制和完全控制，且会话在用户密码更改后仍然持续。它允许直接发送 Unix 命令，并以 root 身份执行这些命令，适用于管理员用户。任务调度和远程 Spotlight 搜索是显著的功能，便于在多台机器上进行远程、低影响的敏感文件搜索。
 
-## Bonjour Protokol
+## Bonjour 协议
 
-Bonjour, 'n Apple-ontwerpte tegnologie, laat **toestelle op dieselfde netwerk toe om mekaar se aangebied dienste te ontdek**. Ook bekend as Rendezvous, **Zero Configuration**, of Zeroconf, stel dit 'n toestel in staat om by 'n TCP/IP-netwerk aan te sluit, **automaties 'n IP-adres te kies**, en sy dienste aan ander netwerktoestelle te broadcast.
+Bonjour 是苹果设计的一项技术，允许 **同一网络上的设备检测彼此提供的服务**。也称为 Rendezvous、**零配置**或 Zeroconf，它使设备能够加入 TCP/IP 网络，**自动选择 IP 地址**，并将其服务广播给其他网络设备。
 
-Zero Configuration Networking, wat deur Bonjour verskaf word, verseker dat toestelle kan:
-* **Automaties 'n IP-adres verkry** selfs in die afwesigheid van 'n DHCP-bediener.
-* **Naam-naar-adres vertaling** uitvoer sonder om 'n DNS-bediener te vereis.
-* **Dienste** op die netwerk ontdek.
+Bonjour 提供的零配置网络确保设备可以：
+* **自动获取 IP 地址**，即使在没有 DHCP 服务器的情况下。
+* 执行 **名称到地址的转换**，而无需 DNS 服务器。
+* **发现**网络上可用的服务。
 
-Toestelle wat Bonjour gebruik, sal vir hulleself 'n **IP-adres uit die 169.254/16 reeks toewys** en die uniekheid daarvan op die netwerk verifieer. Macs hou 'n routeringstabel inskrywing vir hierdie subnet, wat verifieer kan word via `netstat -rn | grep 169`.
+使用 Bonjour 的设备将从 **169.254/16 范围**中自我分配一个 **IP 地址**，并验证其在网络上的唯一性。Mac 会为该子网维护一个路由表条目，可以通过 `netstat -rn | grep 169` 验证。
 
-Vir DNS gebruik Bonjour die **Multicast DNS (mDNS) protokol**. mDNS werk oor **poort 5353/UDP**, wat **standaard DNS-vrae** gebruik maar teiken die **multicast adres 224.0.0.251**. Hierdie benadering verseker dat alle luisterende toestelle op die netwerk die vrae kan ontvang en daarop kan reageer, wat die opdatering van hul rekords fasiliteer.
+对于 DNS，Bonjour 使用 **多播 DNS (mDNS) 协议**。mDNS 在 **5353/UDP 端口**上运行，采用 **标准 DNS 查询**，但目标是 **多播地址 224.0.0.251**。这种方法确保网络上所有监听设备都能接收并响应查询，从而促进其记录的更新。
 
-By die aansluiting by die netwerk, kies elke toestel self 'n naam, wat tipies eindig op **.local**, wat afgelei kan word van die gasheernaam of ewekansig gegenereer kan word.
+加入网络时，每个设备自我选择一个名称，通常以 **.local** 结尾，该名称可能源自主机名或随机生成。
 
-Dienste ontdekking binne die netwerk word gefasiliteer deur **DNS Service Discovery (DNS-SD)**. Deur die formaat van DNS SRV rekords te benut, gebruik DNS-SD **DNS PTR rekords** om die lys van verskeie dienste moontlik te maak. 'n Kliënt wat 'n spesifieke diens soek, sal 'n PTR rekord vir `<Service>.<Domain>` aan vra, en in ruil 'n lys van PTR rekords ontvang wat geformateer is as `<Instance>.<Service>.<Domain>` indien die diens beskikbaar is van verskeie gasheer.
+网络内的服务发现由 **DNS 服务发现 (DNS-SD)** 促进。利用 DNS SRV 记录的格式，DNS-SD 使用 **DNS PTR 记录** 来实现多个服务的列出。寻求特定服务的客户端将请求 `<Service>.<Domain>` 的 PTR 记录，如果该服务在多个主机上可用，则返回格式为 `<Instance>.<Service>.<Domain>` 的 PTR 记录列表。
 
-Die `dns-sd` nut kan gebruik word vir **ontdekking en advertering van netwerkdienste**. Hier is 'n paar voorbeelde van sy gebruik:
+`dns-sd` 工具可用于 **发现和广告网络服务**。以下是其用法的一些示例：
 
-### Soek na SSH Dienste
+### 搜索 SSH 服务
 
-Om na SSH dienste op die netwerk te soek, word die volgende opdrag gebruik:
+要在网络上搜索 SSH 服务，可以使用以下命令：
 ```bash
 dns-sd -B _ssh._tcp
 ```
-Hierdie opdrag begin om te soek na _ssh._tcp dienste en gee besonderhede soos tydstempel, vlae, koppelvlak, domein, dienste tipe, en instansienaam.
+此命令启动对 _ssh._tcp 服务的浏览，并输出详细信息，如时间戳、标志、接口、域、服务类型和实例名称。
 
-### Advertering van 'n HTTP-diens
+### 广播 HTTP 服务
 
-Om 'n HTTP-diens te adverteer, kan jy gebruik maak van:
+要广播 HTTP 服务，您可以使用：
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
-Hierdie opdrag registreer 'n HTTP-diens genaamd "Index" op poort 80 met 'n pad van `/index.html`.
+此命令在端口 80 上注册一个名为 "Index" 的 HTTP 服务，路径为 `/index.html`。
 
-Om dan vir HTTP-dienste op die netwerk te soek:
+然后在网络上搜索 HTTP 服务：
 ```bash
 dns-sd -B _http._tcp
 ```
-Wanneer 'n diens begin, kondig dit sy beskikbaarheid aan vir alle toestelle op die subnet deur sy teenwoordigheid te multicast. Toestelle wat in hierdie dienste belangstel, hoef nie versoeke te stuur nie, maar luister eenvoudig na hierdie aankondigings.
+当服务启动时，它通过多播其存在向子网中的所有设备宣布其可用性。对这些服务感兴趣的设备无需发送请求，只需监听这些公告。
 
-Vir 'n meer gebruikersvriendelike koppelvlak kan die **Discovery - DNS-SD Browser** app beskikbaar op die Apple App Store die dienste wat op jou plaaslike netwerk aangebied word, visualiseer.
+为了提供更友好的用户界面，可以在Apple App Store上使用**Discovery - DNS-SD Browser**应用程序来可视化您本地网络上提供的服务。
 
-Alternatiewelik kan pasgemaakte skripte geskryf word om dienste te blaai en te ontdek met behulp van die `python-zeroconf` biblioteek. Die [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) skrip demonstreer die skep van 'n diensblaaier vir `_http._tcp.local.` dienste, wat bygevoegde of verwyderde dienste druk:
+或者，可以编写自定义脚本，使用`python-zeroconf`库浏览和发现服务。 [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf)脚本演示了如何为`_http._tcp.local.`服务创建服务浏览器，打印添加或移除的服务：
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
@@ -111,28 +111,28 @@ input("Press enter to exit...\n\n")
 finally:
 zeroconf.close()
 ```
-### Deaktiveer Bonjour
-As daar bekommernisse oor sekuriteit is of ander redes om Bonjour te deaktiveer, kan dit met die volgende opdrag afgeskakel word:
+### 禁用 Bonjour
+如果出于安全考虑或其他原因需要禁用 Bonjour，可以使用以下命令将其关闭：
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-## Verwysings
+## 参考文献
 
-* [**Die Mac Hacker se Handboek**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
+* [**Mac黑客手册**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**intekening planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

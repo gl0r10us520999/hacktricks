@@ -1,29 +1,29 @@
-# macOS XPC Authorization
+# macOS XPC 授权
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## XPC Authorization
+## XPC 授权
 
-Apple stel ook 'n ander manier voor om te verifieer of die verbindingsproses **toestemmings het om 'n blootgestelde XPC-metode aan te roep**.
+苹果还提出了另一种方法来验证连接进程是否具有 **调用暴露的 XPC 方法的权限**。
 
-Wanneer 'n toepassing **aksies as 'n bevoorregte gebruiker moet uitvoer**, installeer dit gewoonlik 'n HelperTool as 'n XPC-diens as root, in plaas daarvan om die app as 'n bevoorregte gebruiker te laat loop, wat van die app af aangeroep kan word om daardie aksies uit te voer. Die app wat die diens aanroep, moet egter genoeg toestemming hê.
+当应用程序需要 **以特权用户身份执行操作** 时，通常不会以特权用户身份运行该应用，而是作为根用户安装一个 HelperTool 作为 XPC 服务，可以从应用程序调用以执行这些操作。然而，调用该服务的应用程序应该具有足够的授权。
 
-### ShouldAcceptNewConnection altyd JA
+### ShouldAcceptNewConnection 始终返回 YES
 
-'n Voorbeeld kan gevind word in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` probeer dit om te **verbinde** met die **HelperTool**. En in `HelperTool/HelperTool.m` sal die funksie **`shouldAcceptNewConnection`** **nie enige** van die vereistes wat voorheen aangedui is, **kontroleer** nie. Dit sal altyd JA teruggee:
+一个例子可以在 [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample) 中找到。在 `App/AppDelegate.m` 中，它尝试 **连接** 到 **HelperTool**。而在 `HelperTool/HelperTool.m` 中，函数 **`shouldAcceptNewConnection`** **不会检查** 之前提到的任何要求。它将始终返回 YES：
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -40,18 +40,18 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-For more information about how to properly configure this check:
+有关如何正确配置此检查的更多信息，请参见：
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Aansoekregte
+### 应用程序权限
 
-Daar is egter 'n bietjie **autorisering wat plaasvind wanneer 'n metode van die HelperTool aangeroep word**.
+然而，当调用 HelperTool 的方法时，确实存在一些 **授权**。
 
-Die funksie **`applicationDidFinishLaunching`** van `App/AppDelegate.m` sal 'n leë autoriseringsverwysing skep nadat die aansoek begin het. Dit behoort altyd te werk.\
-Dan sal dit probeer om **'n paar regte** aan daardie autoriseringsverwysing toe te voeg deur `setupAuthorizationRights` aan te roep:
+`App/AppDelegate.m` 中的 **`applicationDidFinishLaunching`** 函数将在应用程序启动后创建一个空的授权引用。这应该始终有效。\
+然后，它将尝试通过调用 `setupAuthorizationRights` 来 **添加一些权限** 到该授权引用：
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-Die funksie `setupAuthorizationRights` van `Common/Common.m` sal die regte van die aansoek in die auth databasis `/var/db/auth.db` stoor. Let op hoe dit slegs die regte sal byvoeg wat nog nie in die databasis is nie:
+函数 `setupAuthorizationRights` 来自 `Common/Common.m`，将应用程序的权限存储在授权数据库 `/var/db/auth.db` 中。请注意，它只会添加尚未在数据库中的权限：
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -107,7 +107,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-Die funksie `enumerateRightsUsingBlock` is die een wat gebruik word om toepassings se toestemmings te verkry, wat gedefinieer is in `commandInfo`:
+函数 `enumerateRightsUsingBlock` 用于获取应用程序权限，这些权限在 `commandInfo` 中定义：
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -185,15 +185,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Dit beteken dat aan die einde van hierdie proses, die toestemmings wat binne `commandInfo` verklaar is, in `/var/db/auth.db` gestoor sal word. Let op hoe daar vir **elke metode** wat **verifikasie** benodig, **toestemming naam** en die **`kCommandKeyAuthRightDefault`** gevind kan word. Laasgenoemde **gee aan wie hierdie reg kan verkry**.
+这意味着在这个过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以找到 **每个方法** 需要 **身份验证** 的 **权限名称** 和 **`kCommandKeyAuthRightDefault`**。后者 **指示谁可以获得这个权限**。
 
-Daar is verskillende skope om aan te dui wie toegang tot 'n reg kan hê. Sommige daarvan is gedefinieer in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (jy kan [almal daarvan hier vind](https://www.dssw.co.uk/reference/authorization-rights/)), maar as 'n opsomming:
+有不同的范围来指示谁可以访问某个权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在这里找到 [所有的权限](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
-<table><thead><tr><th width="284.3333333333333">Naam</th><th width="165">Waarde</th><th>Beskrywing</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Enigeen</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Niks</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Huidige gebruiker moet 'n admin wees (binne admin groep)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Vra gebruiker om te verifieer.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Vra gebruiker om te verifieer. Hy moet 'n admin wees (binne admin groep)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Spesifiseer reëls</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Spesifiseer 'n paar ekstra kommentaar oor die reg</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>没有人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>指定一些关于权限的额外评论</td></tr></tbody></table>
 
-### Regte Verifikasie
+### 权限验证
 
-In `HelperTool/HelperTool.m` kontroleer die funksie **`readLicenseKeyAuthorization`** of die oproeper gemagtig is om **so 'n metode** uit te voer deur die funksie **`checkAuthorization`** aan te roep. Hierdie funksie sal kontroleer of die **authData** wat deur die oproepende proses gestuur is, 'n **korrekte formaat** het en dan sal dit kontroleer **wat nodig is om die reg** te verkry om die spesifieke metode aan te roep. As alles goed gaan, sal die **teruggegee `error` `nil` wees**:
+在 `HelperTool/HelperTool.m` 中，函数 **`readLicenseKeyAuthorization`** 检查调用者是否被授权 **执行此方法**，通过调用函数 **`checkAuthorization`**。该函数将检查调用进程发送的 **authData** 是否具有 **正确格式**，然后检查 **获取调用特定方法的权限所需的内容**。如果一切顺利，**返回的 `error` 将为 `nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,37 +241,37 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Let daarop dat om die **vereistes te kontroleer om die regte** te kry om daardie metode aan te roep, die funksie `authorizationRightForCommand` net die voorheen kommentaar objek **`commandInfo`** sal kontroleer. Dan sal dit **`AuthorizationCopyRights`** aanroep om te kontroleer **of dit die regte het** om die funksie aan te roep (let daarop dat die vlae interaksie met die gebruiker toelaat).
+注意，要**检查获取调用该方法的权限**，函数 `authorizationRightForCommand` 只会检查之前的注释对象 **`commandInfo`**。然后，它将调用 **`AuthorizationCopyRights`** 来检查 **是否具有调用该函数的权限**（注意，标志允许与用户交互）。
 
-In hierdie geval, om die funksie `readLicenseKeyAuthorization` aan te roep, is die `kCommandKeyAuthRightDefault` gedefinieer as `@kAuthorizationRuleClassAllow`. So **enige iemand kan dit aanroep**.
+在这种情况下，要调用函数 `readLicenseKeyAuthorization`，`kCommandKeyAuthRightDefault` 被定义为 `@kAuthorizationRuleClassAllow`。因此，**任何人都可以调用它**。
 
-### DB Inligting
+### DB 信息
 
-Daar is genoem dat hierdie inligting gestoor word in `/var/db/auth.db`. Jy kan al die gestoor reëls lys met:
+提到这些信息存储在 `/var/db/auth.db`。您可以使用以下命令列出所有存储的规则：
 ```sql
 sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-Dan kan jy lees wie toegang tot die reg het met:
+然后，您可以通过以下方式查看谁可以访问该权限：
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### Toegestane regte
+### 宽松权限
 
-You can find **all the permissions configurations** [**in here**](https://www.dssw.co.uk/reference/authorization-rights/), but the combinations that won't require user interaction would be:
+您可以在[**这里**](https://www.dssw.co.uk/reference/authorization-rights/)找到**所有权限配置**，但不需要用户交互的组合如下：
 
 1. **'authenticate-user': 'false'**
-* Dit is die mees direkte sleutel. As dit op `false` gestel is, spesifiseer dit dat 'n gebruiker nie hoef te autentiseer om hierdie reg te verkry nie.
-* Dit word gebruik in **kombinasie met een van die 2 hieronder of om 'n groep aan te dui** waartoe die gebruiker moet behoort.
+* 这是最直接的键。如果设置为`false`，则表示用户无需提供身份验证即可获得此权限。
+* 这与下面的两个中的一个或指示用户必须属于的组结合使用。
 2. **'allow-root': 'true'**
-* As 'n gebruiker as die wortelgebruiker (wat verhoogde regte het) werk, en hierdie sleutel op `true` gestel is, kan die wortelgebruiker moontlik hierdie reg verkry sonder verdere autentisering. Dit is egter tipies dat om 'n wortelgebruikerstatus te verkry, reeds autentisering vereis, so dit is nie 'n "geen autentisering" scenario vir die meeste gebruikers nie.
+* 如果用户以root用户身份操作（具有提升的权限），并且此键设置为`true`，则root用户可能在没有进一步身份验证的情况下获得此权限。然而，通常情况下，获得root用户状态已经需要身份验证，因此对于大多数用户来说，这并不是一个“无身份验证”的场景。
 3. **'session-owner': 'true'**
-* As dit op `true` gestel is, sal die eienaar van die sessie (die tans ingelogde gebruiker) outomaties hierdie reg ontvang. Dit kan addisionele autentisering omseil as die gebruiker reeds ingelog is.
+* 如果设置为`true`，会话的所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，这可能会绕过额外的身份验证。
 4. **'shared': 'true'**
-* Hierdie sleutel verleen nie regte sonder autentisering nie. In plaas daarvan, as dit op `true` gestel is, beteken dit dat sodra die reg geverifieer is, dit onder verskeie prosesse gedeel kan word sonder dat elkeen weer moet autentiseer. Maar die aanvanklike toekenning van die reg sal steeds autentisering vereis tensy dit gekombineer word met ander sleutels soos `'authenticate-user': 'false'`.
+* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，则意味着一旦权限经过身份验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但初始授予权限仍然需要身份验证，除非与其他键结合使用，如`'authenticate-user': 'false'`。
 
-You can [**use this script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
+您可以[**使用此脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)来获取有趣的权限：
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -282,29 +282,29 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Omgekeerde Owerheid
+## 反向授权
 
-### Kontroleer of EvenBetterAuthorization gebruik word
+### 检查是否使用了 EvenBetterAuthorization
 
-As jy die funksie: **`[HelperTool checkAuthorization:command:]`** vind, is dit waarskynlik dat die proses die voorheen genoemde skema vir owerheid gebruik:
+如果你发现函数：**`[HelperTool checkAuthorization:command:]`**，那么这个进程可能正在使用前面提到的授权方案：
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-As hierdie funksie funksies aanroep soos `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, gebruik dit [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+如果这个函数调用了诸如 `AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree` 的函数，那么它正在使用 [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
 
-Kontroleer die **`/var/db/auth.db`** om te sien of dit moontlik is om toestemmings te verkry om 'n paar bevoorregte aksies te bel sonder gebruikersinteraksie.
+检查 **`/var/db/auth.db`** 以查看是否可以在没有用户交互的情况下获取调用某些特权操作的权限。
 
-### Protokol Kommunikasie
+### 协议通信
 
-Dan moet jy die protokol skema vind om 'n kommunikasie met die XPC diens te kan tot stand bring.
+然后，你需要找到协议方案，以便能够与 XPC 服务建立通信。
 
-Die funksie **`shouldAcceptNewConnection`** dui die protokol aan wat ge-exporteer word:
+函数 **`shouldAcceptNewConnection`** 表示正在导出的协议：
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-In hierdie geval het ons dieselfde as in EvenBetterAuthorizationSample, [**kontroleer hierdie lyn**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+在这种情况下，我们与 EvenBetterAuthorizationSample 中的相同，[**查看这一行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
 
-As jy die naam van die gebruikte protokol ken, is dit moontlik om **sy kopdefinisie te dump** met:
+知道所使用的协议名称后，可以使用以下命令 **转储其头部定义**：
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -318,13 +318,13 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Lastly, we just need to know the **naam van die blootgestelde Mach-diens** in orde om 'n kommunikasie daarmee te vestig. Daar is verskeie maniere om dit te vind:
+最后，我们只需要知道**暴露的 Mach 服务的名称**以便与之建立通信。有几种方法可以找到它：
 
-* In die **`[HelperTool init]`** waar jy die Mach-diens kan sien wat gebruik word:
+* 在**`[HelperTool init]`**中，您可以看到正在使用的 Mach 服务：
 
 <figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
-* In die launchd plist:
+* 在 launchd plist：
 ```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
@@ -337,14 +337,14 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### Exploit Voorbeeld
+### Exploit Example
 
-In hierdie voorbeeld is geskep:
+在这个例子中创建了：
 
-* Die definisie van die protokol met die funksies
-* 'n Leë auth om te gebruik om toegang te vra
-* 'n Verbinding met die XPC diens
-* 'n Oproep na die funksie as die verbinding suksesvol was
+* 协议的定义和函数
+* 一个空的授权，用于请求访问
+* 与 XPC 服务的连接
+* 如果连接成功，则调用该函数
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
@@ -422,25 +422,25 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
-## Ander XPC voorregte helpers misbruik
+## 其他被滥用的 XPC 权限助手
 
 * [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
 
-## Verwysings
+## 参考文献
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

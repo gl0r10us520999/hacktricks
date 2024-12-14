@@ -1,16 +1,16 @@
-# Enrolling Devices in Other Organisations
+# 在其他组织中注册设备
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -21,50 +21,76 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Intro
+## 介绍
 
-Soos [**voorheen kommentaar**](./#what-is-mdm-mobile-device-management)**,** om 'n toestel in 'n organisasie te probeer registreer, **is slegs 'n Serienommer wat aan daardie Organisasie behoort, nodig**. Sodra die toestel geregistreer is, sal verskeie organisasies sensitiewe data op die nuwe toestel installeer: sertifikate, toepassings, WiFi wagwoorde, VPN konfigurasies [en so aan](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Daarom kan dit 'n gevaarlike toegangspunt vir aanvallers wees as die registrasieproses nie korrek beskerm word nie.
+正如 [**之前提到的**](./#what-is-mdm-mobile-device-management)**，** 为了尝试将设备注册到一个组织 **只需要该组织的序列号**。一旦设备注册，多个组织将会在新设备上安装敏感数据：证书、应用程序、WiFi 密码、VPN 配置 [等等](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf)。\
+因此，如果注册过程没有得到正确保护，这可能成为攻击者的危险入口。
 
-**Die volgende is 'n opsomming van die navorsing [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Kyk daarna vir verdere tegniese besonderhede!**
+**以下是研究的摘要 [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe)。查看以获取更多技术细节！**
 
-## Oorsig van DEP en MDM Binaire Analise
+## DEP 和 MDM 二进制分析概述
 
-Hierdie navorsing delf in die binaire wat geassosieer word met die Toestel Registrasie Program (DEP) en Mobiele Toestel Bestuur (MDM) op macOS. Sleutelkomponente sluit in:
+本研究深入探讨了与 macOS 上的设备注册程序 (DEP) 和移动设备管理 (MDM) 相关的二进制文件。关键组件包括：
 
-- **`mdmclient`**: Kommunikeer met MDM bedieners en aktiveer DEP aanmeldings op macOS weergawes voor 10.13.4.
-- **`profiles`**: Bestuur Konfigurasie Profiele, en aktiveer DEP aanmeldings op macOS weergawes 10.13.4 en later.
-- **`cloudconfigurationd`**: Bestuur DEP API kommunikasies en haal Toestel Registrasie profiele op.
+- **`mdmclient`**：与 MDM 服务器通信，并在 macOS 10.13.4 之前的版本上触发 DEP 检查。
+- **`profiles`**：管理配置文件，并在 macOS 10.13.4 及更高版本上触发 DEP 检查。
+- **`cloudconfigurationd`**：管理 DEP API 通信并检索设备注册配置文件。
 
-DEP aanmeldings gebruik die `CPFetchActivationRecord` en `CPGetActivationRecord` funksies van die private Konfigurasie Profiele raamwerk om die Aktivering Rekord op te haal, met `CPFetchActivationRecord` wat saamwerk met `cloudconfigurationd` deur XPC.
+DEP 检查利用私有配置文件框架中的 `CPFetchActivationRecord` 和 `CPGetActivationRecord` 函数来获取激活记录，`CPFetchActivationRecord` 通过 XPC 与 `cloudconfigurationd` 协调。
 
-## Tesla Protokol en Absinthe Skema Omgekeerde Ingenieurswese
+## 特斯拉协议和 Absinthe 方案逆向工程
 
-Die DEP aanmelding behels `cloudconfigurationd` wat 'n geënkripteerde, geskrewe JSON payload na _iprofiles.apple.com/macProfile_ stuur. Die payload sluit die toestel se serienommer en die aksie "RequestProfileConfiguration" in. Die enkripsieskema wat gebruik word, word intern as "Absinthe" verwys. Om hierdie skema te ontrafel is kompleks en behels verskeie stappe, wat gelei het tot die verkenning van alternatiewe metodes om arbitrêre serienommers in die Aktivering Rekord versoek in te voeg.
+DEP 检查涉及 `cloudconfigurationd` 向 _iprofiles.apple.com/macProfile_ 发送加密的签名 JSON 负载。负载包括设备的序列号和操作 "RequestProfileConfiguration"。所使用的加密方案在内部称为 "Absinthe"。解开这个方案是复杂的，涉及多个步骤，这导致探索替代方法以在激活记录请求中插入任意序列号。
 
-## Proxying DEP Versoeke
+## 代理 DEP 请求
 
-Pogings om DEP versoeke na _iprofiles.apple.com_ te onderskep en te wysig met behulp van gereedskap soos Charles Proxy is belemmer deur payload enkripsie en SSL/TLS sekuriteitsmaatreëls. Dit is egter moontlik om die `MCCloudConfigAcceptAnyHTTPSCertificate` konfigurasie in te skakel, wat die bediener sertifikaat validasie omseil, alhoewel die geënkripteerde aard van die payload steeds die wysiging van die serienommer sonder die dekripsiesleutel verhinder.
+使用 Charles Proxy 等工具拦截和修改对 _iprofiles.apple.com_ 的 DEP 请求的尝试受到负载加密和 SSL/TLS 安全措施的阻碍。然而，启用 `MCCloudConfigAcceptAnyHTTPSCertificate` 配置可以绕过服务器证书验证，尽管负载的加密性质仍然阻止在没有解密密钥的情况下修改序列号。
 
-## Instrumentering van Stelsels Binaries wat met DEP Interaksie het
+## 对与 DEP 交互的系统二进制文件进行插桩
 
-Instrumentering van stelsels binaries soos `cloudconfigurationd` vereis die deaktivering van Stelsel Integriteit Beskerming (SIP) op macOS. Met SIP gedeaktiveer, kan gereedskap soos LLDB gebruik word om aan stelsels prosesse te koppel en moontlik die serienommer wat in DEP API interaksies gebruik word, te wysig. Hierdie metode is verkieslik aangesien dit die kompleksiteite van regte en kode ondertekening vermy.
+对系统二进制文件如 `cloudconfigurationd` 进行插桩需要在 macOS 上禁用系统完整性保护 (SIP)。禁用 SIP 后，可以使用 LLDB 等工具附加到系统进程，并可能修改在 DEP API 交互中使用的序列号。这种方法更可取，因为它避免了权限和代码签名的复杂性。
 
-**Eksploitering van Binaire Instrumentasie:**
-Die wysiging van die DEP versoek payload voor JSON serialisering in `cloudconfigurationd` het effektief geblyk. Die proses het behels:
+**利用二进制插桩：**
+在 `cloudconfigurationd` 中在 JSON 序列化之前修改 DEP 请求负载被证明是有效的。该过程包括：
 
-1. Koppel LLDB aan `cloudconfigurationd`.
-2. Vind die punt waar die stelsels serienommer opgevraag word.
-3. Spuit 'n arbitrêre serienommer in die geheue in voordat die payload geënkripteer en gestuur word.
+1. 将 LLDB 附加到 `cloudconfigurationd`。
+2. 找到获取系统序列号的点。
+3. 在负载加密并发送之前将任意序列号注入内存中。
 
-Hierdie metode het toegelaat om volledige DEP profiele vir arbitrêre serienommers te verkry, wat 'n potensiële kwesbaarheid demonstreer.
+这种方法允许检索任意序列号的完整 DEP 配置文件，展示了潜在的漏洞。
 
-### Outomatisering van Instrumentasie met Python
+### 使用 Python 自动化插桩
 
-Die eksploitasiestap is geoutomatiseer met behulp van Python met die LLDB API, wat dit haalbaar maak om programmaties arbitrêre serienommers in te spuit en ooreenstemmende DEP profiele op te haal.
+利用 Python 和 LLDB API 自动化了利用过程，使得可以以编程方式注入任意序列号并检索相应的 DEP 配置文件。
 
-### Potensiële Impakte van DEP en MDM Kwesbaarhede
+### DEP 和 MDM 漏洞的潜在影响
 
-Die navorsing het beduidende sekuriteitskwessies beklemtoon:
+研究突出了重大的安全隐患：
 
-1. **Inligting Ontsluiting**: Deur 'n DEP-geregistreerde serienommer te verskaf, kan sensitiewe organisatoriese inligting wat in die DEP profiel bevat is, verkry word.
+1. **信息泄露**：通过提供一个 DEP 注册的序列号，可以检索 DEP 配置文件中包含的敏感组织信息。
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

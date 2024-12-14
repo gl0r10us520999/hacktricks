@@ -1,109 +1,109 @@
 # macOS GCD - Grand Central Dispatch
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Basic Information
 
-**Grand Central Dispatch (GCD),** ook bekend as **libdispatch** (`libdispatch.dyld`), is beskikbaar op beide macOS en iOS. Dit is 'n tegnologie ontwikkel deur Apple om programondersteuning te optimaliseer vir gelyktydige (multidraad) uitvoering op multikern hardeware.
+**Grand Central Dispatch (GCD)**，也称为**libdispatch**（`libdispatch.dyld`），在macOS和iOS中均可用。它是苹果公司开发的一项技术，旨在优化应用程序对多核硬件的并发（多线程）执行的支持。
 
-**GCD** voorsien en bestuur **FIFO-rye** waar jou program kan **take indien** in die vorm van **blokvoorwerpe**. Blokke wat na verspreidingsrye gestuur word, word **uitgevoer op 'n poel van drade** wat volledig deur die stelsel bestuur word. GCD skep outomaties drade vir die uitvoering van die take in die verspreidingsrye en skeduleer daardie take om op die beskikbare kerne uit te voer.
+**GCD**提供并管理**FIFO队列**，您的应用程序可以以**块对象**的形式**提交任务**。提交到调度队列的块将在系统完全管理的线程池上**执行**。GCD会自动创建线程以执行调度队列中的任务，并安排这些任务在可用核心上运行。
 
 {% hint style="success" %}
-Kortliks, om kode **gelyktydig** uit te voer, kan prosesse **blokke kode na GCD stuur**, wat sal sorg vir hul uitvoering. Daarom skep prosesse nie nuwe drade nie; **GCD voer die gegewe kode uit met sy eie poel van drade** (wat moontlik vermeerder of verminder soos nodig).
+总之，为了**并行**执行代码，进程可以将**代码块发送到GCD**，GCD将负责其执行。因此，进程不会创建新线程；**GCD使用其自己的线程池执行给定的代码**（线程池可能根据需要增加或减少）。
 {% endhint %}
 
-Dit is baie nuttig om parallelle uitvoering suksesvol te bestuur, wat die aantal drade wat prosesse skep aansienlik verminder en die parallelle uitvoering optimaliseer. Dit is ideaal vir take wat **groot parallelisme** vereis (brute-forcing?) of vir take wat nie die hoofdraad moet blokkeer nie: Byvoorbeeld, die hoofdraad op iOS hanteer UI-interaksies, dus enige ander funksionaliteit wat die program kan laat vashang (soek, 'n web besoek, 'n lêer lees...) word op hierdie manier hanteer.
+这对于成功管理并行执行非常有帮助，极大地减少了进程创建的线程数量，并优化了并行执行。这对于需要**高度并行性**（暴力破解？）的任务或不应阻塞主线程的任务是理想的：例如，iOS上的主线程处理UI交互，因此任何可能导致应用程序挂起的其他功能（搜索、访问网页、读取文件等）都是以这种方式管理的。
 
-### Blokke
+### Blocks
 
-'n Blok is 'n **selfstandige afdeling kode** (soos 'n funksie met argumente wat 'n waarde teruggee) en kan ook gebonde veranderlikes spesifiseer.\
-Tog, op kompilervlak bestaan blokke nie, hulle is `os_object`s. Elkeen van hierdie voorwerpe word gevorm deur twee strukture:
+块是一个**自包含的代码段**（类似于带有参数返回值的函数），也可以指定绑定变量。\
+然而，在编译器级别，块并不存在，它们是`os_object`。每个这些对象由两个结构组成：
 
-* **blokliteraal**:&#x20;
-* Dit begin met die **`isa`** veld, wat na die blok se klas wys:
-* `NSConcreteGlobalBlock` (blokke van `__DATA.__const`)
-* `NSConcreteMallocBlock` (blokke in die hoop)
-* `NSConcreateStackBlock` (blokke in stapel)
-* Dit het **`vlaggies`** (wat velde aandui wat teenwoordig is in die blokbeskrywing) en 'n paar gereserveerde byte
-* Die funksie-aanwysers om te roep
-* 'n aanwyser na die blokbeskrywing
-* Ingevoerde blokveranderlikes (indien enige)
-* **blokbeskrywing**: Dit se grootte hang af van die data wat teenwoordig is (soos aangedui in die vorige vlaggies)
-* Dit het 'n paar gereserveerde byte
-* Die grootte daarvan
-* Dit sal gewoonlik 'n aanwyser na 'n Objective-C-stylhandtekening hê om te weet hoeveel spasie nodig is vir die parameters (vlag `BLOCK_HAS_SIGNATURE`)
-* As veranderlikes verwys word, sal hierdie blok ook aanwysers hê na 'n kopiehulpprogram (wat die waarde aan die begin kopieer) en 'n verwyderhulpprogram (wat dit vrymaak).
+* **块字面量**：
+* 它以**`isa`**字段开始，指向块的类：
+* `NSConcreteGlobalBlock`（来自`__DATA.__const`的块）
+* `NSConcreteMallocBlock`（堆中的块）
+* `NSConcreateStackBlock`（栈中的块）
+* 它具有**`flags`**（指示块描述符中存在的字段）和一些保留字节
+* 调用的函数指针
+* 指向块描述符的指针
+* 导入的块变量（如果有）
+* **块描述符**：其大小取决于存在的数据（如前面标志所示）
+* 它具有一些保留字节
+* 它的大小
+* 通常会有一个指向Objective-C风格签名的指针，以了解参数所需的空间（标志`BLOCK_HAS_SIGNATURE`）
+* 如果引用了变量，则此块还将具有指向复制助手（在开始时复制值）和处置助手（释放它）的指针。
 
-### Ryke
+### Queues
 
-'n Verspreidingsry is 'n benoemde voorwerp wat FIFO-orden van blokke vir uitvoering voorsien.
+调度队列是一个命名对象，提供块的FIFO执行顺序。
 
-Blokke word in rye geplaas om uitgevoer te word, en hierdie ondersteun 2 modusse: `DISPATCH_QUEUE_SERIAL` en `DISPATCH_QUEUE_CONCURRENT`. Natuurlik sal die **seriële** een **geen wedstrydkondisieprobleme hê** nie aangesien 'n blok nie uitgevoer sal word totdat die vorige een klaar is nie. Maar **die ander tipe ry mag dit hê**.
+块被设置在队列中以供执行，这些队列支持两种模式：`DISPATCH_QUEUE_SERIAL`和`DISPATCH_QUEUE_CONCURRENT`。当然，**串行**队列**不会有竞争条件**问题，因为块不会在前一个块完成之前执行。但是**另一种类型的队列可能会有**。
 
-Verstekrye:
+默认队列：
 
-* `.main-thread`: Vanaf `dispatch_get_main_queue()`
-* `.libdispatch-manager`: GCD se rybestuurder
-* `.root.libdispatch-manager`: GCD se rybestuurder
-* `.root.maintenance-qos`: Laagste prioriteitstake
+* `.main-thread`：来自`dispatch_get_main_queue()`
+* `.libdispatch-manager`：GCD的队列管理器
+* `.root.libdispatch-manager`：GCD的队列管理器
+* `.root.maintenance-qos`：最低优先级任务
 * `.root.maintenance-qos.overcommit`
-* `.root.background-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
+* `.root.background-qos`：可用作`DISPATCH_QUEUE_PRIORITY_BACKGROUND`
 * `.root.background-qos.overcommit`
-* `.root.utility-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
+* `.root.utility-qos`：可用作`DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
 * `.root.utility-qos.overcommit`
-* `.root.default-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_DEFAULT`
+* `.root.default-qos`：可用作`DISPATCH_QUEUE_PRIORITY_DEFAULT`
 * `.root.background-qos.overcommit`
-* `.root.user-initiated-qos`: Beskikbaar as `DISPATCH_QUEUE_PRIORITY_HIGH`
+* `.root.user-initiated-qos`：可用作`DISPATCH_QUEUE_PRIORITY_HIGH`
 * `.root.background-qos.overcommit`
-* `.root.user-interactive-qos`: Hoogste prioriteit
+* `.root.user-interactive-qos`：最高优先级
 * `.root.background-qos.overcommit`
 
-Let daarop dat dit die stelsel sal wees wat besluit **watter drade watter rye op enige tyd hanteer** (veral drade kan in dieselfde ry werk of dieselfde draad kan op 'n stadium in verskillende rye werk)
+请注意，系统将决定**在每个时刻哪个线程处理哪个队列**（多个线程可能在同一队列中工作，或者同一线程可能在某些时刻在不同队列中工作）
 
-#### Eienskappe
+#### Attributtes
 
-Wanneer 'n ry geskep word met **`dispatch_queue_create`** is die derde argument 'n `dispatch_queue_attr_t`, wat gewoonlik ofwel `DISPATCH_QUEUE_SERIAL` (wat eintlik NULL is) of `DISPATCH_QUEUE_CONCURRENT` is wat 'n aanwyser na 'n `dispatch_queue_attr_t` struktuur is wat toelaat om sekere parameters van die ry te beheer.
+使用**`dispatch_queue_create`**创建队列时，第三个参数是`dispatch_queue_attr_t`，通常是`DISPATCH_QUEUE_SERIAL`（实际上是NULL）或`DISPATCH_QUEUE_CONCURRENT`，它是指向`dispatch_queue_attr_t`结构的指针，允许控制队列的一些参数。
 
-### Verspreidingsvoorwerpe
+### Dispatch objects
 
-Daar is verskeie voorwerpe wat libdispatch gebruik en rye en blokke is net 2 van hulle. Dit is moontlik om hierdie voorwerpe te skep met `dispatch_object_create`:
+libdispatch使用多个对象，队列和块只是其中两个。可以使用`dispatch_object_create`创建这些对象：
 
-* `blok`
-* `data`: Datablokke
-* `groep`: Groep van blokke
-* `io`: Asyns I/O-versoeke
-* `mach`: Mach-poorte
-* `mach_msg`: Mach-boodskappe
-* `pthread_root_queue`: 'n Ry met 'n pthread-draadpoel en nie werkrye nie
-* `ry`
+* `block`
+* `data`：数据块
+* `group`：块组
+* `io`：异步I/O请求
+* `mach`：Mach端口
+* `mach_msg`：Mach消息
+* `pthread_root_queue`：具有pthread线程池而不是工作队列的队列
+* `queue`
 * `semaphore`
-* `bron`: Gebeurtenisbron
+* `source`：事件源
 
 ## Objective-C
 
-In Objective-C is daar verskillende funksies om 'n blok te stuur om parallel uitgevoer te word:
+在Objective-C中，有不同的函数可以将块发送到并行执行：
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Stuur 'n blok vir asynchrone uitvoering na 'n verspreidingsry en keer dadelik terug.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Stuur 'n blokvoorwerp vir uitvoering en keer terug nadat daardie blok klaar is met uitvoer.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Voer 'n blokvoorwerp net een keer uit vir die leeftyd van 'n aansoek.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Stuur 'n werkeenheid vir uitvoering en keer slegs terug nadat dit klaar is met uitvoer. Anders as [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), respekteer hierdie funksie alle eienskappe van die ry wanneer dit die blok uitvoer.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async)：提交一个块以在调度队列上异步执行，并立即返回。
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)：提交一个块对象以执行，并在该块完成执行后返回。
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once)：在应用程序的生命周期内仅执行一次块对象。
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait)：提交一个工作项以执行，并仅在其完成执行后返回。与[**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)不同，此函数在执行块时尊重队列的所有属性。
 
-Hierdie funksies verwag hierdie parameters: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`ry,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`blok`**
+这些函数期望这些参数：[**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Dit is die **struktuur van 'n Blok**:
+这是**块的结构**：
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -114,7 +114,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-En hierdie is 'n voorbeeld om **parallelisme** te gebruik met **`dispatch_async`**:
+这是一个使用 **parallelism** 和 **`dispatch_async`** 的示例：
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -146,8 +146,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** is 'n biblioteek wat **Swift-bindings** aan die Grand Central Dispatch (GCD) raamwerk voorsien wat oorspronklik in C geskryf is.\
-Die **`libswiftDispatch`** biblioteek omhul die C GCD API's in 'n meer Swift-vriendelike koppelvlak, wat dit makliker en meer intuïtief maak vir Swift-ontwikkelaars om met GCD te werk.
+**`libswiftDispatch`** 是一个库，提供 **Swift 绑定** 到最初用 C 编写的 Grand Central Dispatch (GCD) 框架。\
+**`libswiftDispatch`** 库将 C GCD API 封装在一个更适合 Swift 的接口中，使 Swift 开发者更容易和直观地使用 GCD。
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -155,7 +155,7 @@ Die **`libswiftDispatch`** biblioteek omhul die C GCD API's in 'n meer Swift-vri
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Kodevoorbeeld**:
+**代码示例**:
 ```swift
 import Foundation
 
@@ -184,7 +184,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Die volgende Frida-skrip kan gebruik word om in verskeie `dispatch`-funksies in te hake en die tou-naam, die agtervolging en die blok te onttrek: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+以下Frida脚本可用于**钩取多个`dispatch`**函数并提取队列名称、回溯和块：[**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -199,9 +199,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Tans het Ghidra nie die ObjectiveC **`dispatch_block_t`** struktuur nie, ook nie die **`swift_dispatch_block`** een nie verstaan nie.
+目前 Ghidra 既不理解 ObjectiveC **`dispatch_block_t`** 结构，也不理解 **`swift_dispatch_block`** 结构。
 
-So as jy wil hê dit moet hulle verstaan, kan jy hulle net **declare**:
+所以如果你想让它理解这些结构，你可以**声明它们**：
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -209,37 +209,37 @@ So as jy wil hê dit moet hulle verstaan, kan jy hulle net **declare**:
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Vind dan 'n plek in die kode waar hulle **gebruik** word:
+然后，找到代码中**使用**它们的地方：
 
 {% hint style="success" %}
-Merk alle verwysings na "block" op om te verstaan hoe jy kan uitvind dat die struktuur gebruik word.
+注意所有提到“block”的引用，以了解你如何能够判断该结构正在被使用。
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Regsklik op die veranderlike -> Herklassifiseer Veranderlike en kies in hierdie geval **`swift_dispatch_block`**:
+右键单击变量 -> 重新定义变量，并在这种情况下选择 **`swift_dispatch_block`**：
 
 <figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra sal outomaties alles herskryf:
+Ghidra 将自动重写所有内容：
 
 <figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Verwysings
+## References
 
-* [**\*OS Internals, Volume I: User Mode. Deur Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

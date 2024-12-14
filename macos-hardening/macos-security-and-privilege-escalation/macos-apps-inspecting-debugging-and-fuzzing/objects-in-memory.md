@@ -1,25 +1,25 @@
-# Voorwerpe in geheue
+# 内存中的对象
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-CF\* voorwerpe kom van CoreFOundation, wat meer as 50 klasse van voorwerpe soos `CFString`, `CFNumber` of `CFAllocatior` bied.
+CF\* 对象来自 CoreFoundation，它提供了超过 50 种对象类，如 `CFString`、`CFNumber` 或 `CFAllocator`。
 
-Al hierdie klasse is instansies van die klas `CFRuntimeClass`, wat wanneer dit geroep word 'n indeks na die `__CFRuntimeClassTable` teruggee. Die CFRuntimeClass is gedefinieer in [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+所有这些类都是 `CFRuntimeClass` 类的实例，当调用时，它返回一个指向 `__CFRuntimeClassTable` 的索引。CFRuntimeClass 在 [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html) 中定义：
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Gebruikte geheue-afdelings
+### Memory sections used
 
-Die meeste van die data wat deur die ObjectiveC-runtime gebruik word, sal tydens die uitvoering verander, daarom gebruik dit sekere afdelings van die **\_\_DATA** segment in die geheue:
+大多数由 ObjectiveC 运行时使用的数据在执行期间会发生变化，因此它使用内存中的一些 **\_\_DATA** 段：
 
-- **`__objc_msgrefs`** (`message_ref_t`): Boodskapverwysings
-- **`__objc_ivar`** (`ivar`): Instansie-veranderlikes
-- **`__objc_data`** (`...`): Veranderlike data
-- **`__objc_classrefs`** (`Class`): Klasverwysings
-- **`__objc_superrefs`** (`Class`): Superklasverwysings
-- **`__objc_protorefs`** (`protocol_t *`): Protokolverwysings
-- **`__objc_selrefs`** (`SEL`): Kieserverwysings
-- **`__objc_const`** (`...`): Klas `r/o` data en ander (hopelik) konstante data
-- **`__objc_imageinfo`** (`weergawe, vlae`): Gebruik tydens beeldlading: Weergawe tans `0`; Vlae spesifiseer vooraf geoptimeerde GC-ondersteuning, ens.
-- **`__objc_protolist`** (`protocol_t *`): Protokollys
-- **`__objc_nlcatlist`** (`category_t`): Verwysing na Nie-Luie Kategorieë wat in hierdie binêre lê
-- **`__objc_catlist`** (`category_t`): Verwysing na Kategorieë wat in hierdie binêre lê
-- **`__objc_nlclslist`** (`classref_t`): Verwysing na Nie-Luie Objective-C-klasse wat in hierdie binêre lê
-- **`__objc_classlist`** (`classref_t`): Verwysings na alle Objective-C-klasse wat in hierdie binêre lê
+* **`__objc_msgrefs`** (`message_ref_t`): 消息引用
+* **`__objc_ivar`** (`ivar`): 实例变量
+* **`__objc_data`** (`...`): 可变数据
+* **`__objc_classrefs`** (`Class`): 类引用
+* **`__objc_superrefs`** (`Class`): 超类引用
+* **`__objc_protorefs`** (`protocol_t *`): 协议引用
+* **`__objc_selrefs`** (`SEL`): 选择器引用
+* **`__objc_const`** (`...`): 类 `r/o` 数据和其他（希望是）常量数据
+* **`__objc_imageinfo`** (`version, flags`): 在图像加载期间使用：当前版本 `0`；标志指定预优化的 GC 支持等。
+* **`__objc_protolist`** (`protocol_t *`): 协议列表
+* **`__objc_nlcatlist`** (`category_t`): 指向此二进制文件中定义的非延迟类别的指针
+* **`__objc_catlist`** (`category_t`): 指向此二进制文件中定义的类别的指针
+* **`__objc_nlclslist`** (`classref_t`): 指向此二进制文件中定义的非延迟 Objective-C 类的指针
+* **`__objc_classlist`** (`classref_t`): 指向此二进制文件中定义的所有 Objective-C 类的指针
 
-Dit gebruik ook 'n paar afdelings in die **`__TEXT`** segment om konstante waardes te stoor as dit nie moontlik is om in hierdie afdeling te skryf nie:
+它还使用 **`__TEXT`** 段中的一些部分来存储常量值，如果无法在此部分中写入：
 
-- **`__objc_methname`** (C-String): Metode name
-- **`__objc_classname`** (C-String): Klasname
-- **`__objc_methtype`** (C-String): Metode tipes
+* **`__objc_methname`** (C-String): 方法名称
+* **`__objc_classname`** (C-String): 类名称
+* **`__objc_methtype`** (C-String): 方法类型
 
-### Tipe-kodering
+### Type Encoding
 
-Objective-C gebruik 'n bietjie verminking om die kieser- en veranderlike tipes van eenvoudige en komplekse tipes te kodeer:
+Objective-c 使用一些混淆来编码简单和复杂类型的选择器和变量类型：
 
-- Primitiewe tipes gebruik hul eerste letter van die tipe `i` vir `int`, `c` vir `char`, `l` vir `long`... en gebruik die hoofletter in die geval dit onderteken is (`L` vir `unsigned Long`).
-- Ander datatipes waarvan die letters gebruik word of spesiaal is, gebruik ander letters of simbole soos `q` vir `long long`, `b` vir `bitvelds`, `B` vir `booleans`, `#` vir `klasse`, `@` vir `id`, `*` vir `char-aanwysers`, `^` vir generiese `aanwysers` en `?` vir `onbepaalde`.
-- Arrays, strukture en unies gebruik `[`, `{` en `(`
+* 原始类型使用其类型的首字母 `i` 表示 `int`，`c` 表示 `char`，`l` 表示 `long`... 并在无符号的情况下使用大写字母（`L` 表示 `unsigned Long`）。
+* 其他字母被使用或是特殊的数据类型，使用其他字母或符号，如 `q` 表示 `long long`，`b` 表示 `bitfields`，`B` 表示 `booleans`，`#` 表示 `classes`，`@` 表示 `id`，`*` 表示 `char pointers`，`^` 表示通用 `pointers` 和 `?` 表示 `undefined`。
+* 数组、结构和联合使用 `[`, `{` 和 `(`
 
-#### Voorbeeld Metodeverklaring
+#### Example Method Declaration
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -109,31 +109,31 @@ Objective-C gebruik 'n bietjie verminking om die kieser- en veranderlike tipes v
 ```
 {% endcode %}
 
-Die kieser sal `processString:withOptions:andError:` wees
+选择器将是 `processString:withOptions:andError:`
 
-#### Tipe Enkodering
+#### 类型编码
 
-* `id` word enkodeer as `@`
-* `char *` word enkodeer as `*`
+* `id` 编码为 `@`
+* `char *` 编码为 `*`
 
-Die volledige tipe enkodering vir die metode is:
+该方法的完整类型编码为：
 ```less
 @24@0:8@16*20^@24
 ```
-#### Gedetailleerde Uiteensetting
+#### 详细分解
 
-1. **Retourtipe (`NSString *`)**: Opgesluit as `@` met lengte 24
-2. **`self` (objekinstansie)**: Opgesluit as `@`, by offset 0
-3. **`_cmd` (selekteerder)**: Opgesluit as `:`, by offset 8
-4. **Eerste argument (`char * input`)**: Opgesluit as `*`, by offset 16
-5. **Tweede argument (`NSDictionary * options`)**: Opgesluit as `@`, by offset 20
-6. **Derde argument (`NSError ** error`)**: Opgesluit as `^@`, by offset 24
+1. **返回类型 (`NSString *`)**: 编码为 `@`，长度为 24
+2. **`self`（对象实例）**: 编码为 `@`，偏移量为 0
+3. **`_cmd`（选择器）**: 编码为 `:`，偏移量为 8
+4. **第一个参数 (`char * input`)**: 编码为 `*`，偏移量为 16
+5. **第二个参数 (`NSDictionary * options`)**: 编码为 `@`，偏移量为 20
+6. **第三个参数 (`NSError ** error`)**: 编码为 `^@`，偏移量为 24
 
-**Met die selekteerder + die enkodering kan jy die metode herkonstrueer.**
+**通过选择器和编码，你可以重建该方法。**
 
-### **Klasse**
+### **类**
 
-Klasse in Objective-C is 'n struktuur met eienskappe, metode-aanwysers... Dit is moontlik om die struktuur `objc_class` in die [**bronkode**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) te vind:
+Objective-C 中的类是一个包含属性、方法指针的结构体... 可以在 [**源代码**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) 中找到结构体 `objc_class`：
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,22 @@ data()->setFlags(set);
 }
 [...]
 ```
-Hierdie klas gebruik 'n paar bietjies van die isa-veld om inligting oor die klas aan te dui.
+这个类使用 isa 字段的一些位来指示有关类的信息。
 
-Dan het die struktuur 'n verwysing na die struktuur `class_ro_t` wat op die skyf gestoor word en eienskappe van die klas bevat soos sy naam, basiese metodes, eienskappe en instansie-veranderlikes.\
-Tydens hardlooptyd word 'n bykomende struktuur `class_rw_t` gebruik wat verwysings bevat wat verander kan word soos metodes, protokolle, eienskappe...
+然后，结构体有一个指向存储在磁盘上的 `class_ro_t` 结构体的指针，该结构体包含类的属性，如其名称、基本方法、属性和实例变量。\
+在运行时，使用一个额外的结构体 `class_rw_t`，其中包含可以被更改的指针，例如方法、协议、属性...
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
+
+</details>
+{% endhint %}

@@ -1,16 +1,16 @@
-# Docker-sekuriteit
+# Docker 安全
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -18,50 +18,50 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandag Toegang:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-security" %}
 
-## **Basiese Docker-enjinsikuriteit**
+## **基本 Docker 引擎安全**
 
-Die **Docker-enjin** maak gebruik van die Linux-kernel se **Namespaces** en **Cgroups** om houers te isoleer, wat 'n basiese veiligheidslaag bied. Addisionele beskerming word gebied deur **Capabilities dropping**, **Seccomp**, en **SELinux/AppArmor**, wat houer-isolasie verbeter. 'n **Auth-plugin** kan verdere beperkings op gebruikersaksies plaas.
+**Docker 引擎** 利用 Linux 内核的 **Namespaces** 和 **Cgroups** 来隔离容器，提供基本的安全层。通过 **能力丢弃**、**Seccomp** 和 **SELinux/AppArmor** 提供额外保护，增强容器隔离。一个 **auth 插件** 可以进一步限制用户操作。
 
-![Docker-sekuriteit](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
+![Docker 安全](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
 
-### Veilige Toegang tot die Docker-enjin
+### 安全访问 Docker 引擎
 
-Die Docker-enjin kan óf plaaslik via 'n Unix-aansluiting óf op afstand deur HTTP benader word. Vir afgeleë toegang is dit noodsaaklik om HTTPS en **TLS** te gebruik om vertroulikheid, integriteit, en outentisering te verseker.
+Docker 引擎可以通过 Unix 套接字本地访问或通过 HTTP 远程访问。对于远程访问，使用 HTTPS 和 **TLS** 确保机密性、完整性和身份验证至关重要。
 
-Die Docker-enjin luister standaard na die Unix-aansluiting by `unix:///var/run/docker.sock`. Op Ubuntu-stelsels word Docker se aanvangsopsies in `/etc/default/docker` gedefinieer. Om afgeleë toegang tot die Docker-API en -klient moontlik te maak, stel die Docker-daemon bloot oor 'n HTTP-aansluiting deur die volgende instellings by te voeg:
+Docker 引擎默认在 `unix:///var/run/docker.sock` 上监听 Unix 套接字。在 Ubuntu 系统上，Docker 的启动选项在 `/etc/default/docker` 中定义。要启用对 Docker API 和客户端的远程访问，通过添加以下设置来通过 HTTP 套接字公开 Docker 守护进程：
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H tcp://192.168.56.101:2376"
 sudo service docker restart
 ```
-Nietemin, die blootstelling van die Docker daemon oor HTTP word nie aanbeveel nie as gevolg van veiligheidskwessies. Dit word aanbeveel om verbindings te beveilig deur HTTPS te gebruik. Daar is twee hoofbenaderings om die verbinding te beveilig:
+然而，由于安全问题，不建议通过HTTP暴露Docker守护进程。建议使用HTTPS来保护连接。保护连接的主要方法有两种：
 
-1. Die klient verifieer die bediener se identiteit.
-2. Beide die klient en bediener verifieer mekaar se identiteit.
+1. 客户端验证服务器的身份。
+2. 客户端和服务器相互验证对方的身份。
 
-Sertifikate word gebruik om 'n bediener se identiteit te bevestig. Vir gedetailleerde voorbeelde van beide metodes, verwys na [**hierdie gids**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/).
+证书用于确认服务器的身份。有关这两种方法的详细示例，请参阅[**本指南**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/)。
 
-### Sekuriteit van Houverbeeld
+### 容器镜像的安全性
 
-Houverbeeld kan gestoor word in privaat of openbare repose. Docker bied verskeie stooropsies vir houverbeeld:
+容器镜像可以存储在私有或公共仓库中。Docker为容器镜像提供了几种存储选项：
 
-* [**Docker Hub**](https://hub.docker.com): 'n Openbare registerdiens van Docker.
-* [**Docker Registry**](https://github.com/docker/distribution): 'n oopbronprojek wat gebruikers toelaat om hul eie register te hê.
-* [**Docker Trusted Registry**](https://www.docker.com/docker-trusted-registry): Docker se kommersiële registeraanbod, met rolgebaseerde gebruiker-verifikasie en integrasie met LDAP-gidsdiens.
+* [**Docker Hub**](https://hub.docker.com): Docker的公共注册服务。
+* [**Docker Registry**](https://github.com/docker/distribution): 一个开源项目，允许用户托管自己的注册表。
+* [**Docker Trusted Registry**](https://www.docker.com/docker-trusted-registry): Docker的商业注册表产品，具有基于角色的用户身份验证和与LDAP目录服务的集成。
 
-### Beeldskandering
+### 镜像扫描
 
-Houers kan **sekuriteitskwessies** hê as gevolg van die basisbeeld of as gevolg van die sagteware wat bo-op die basisbeeld geïnstalleer is. Docker werk aan 'n projek genaamd **Nautilus** wat sekuriteitskandering van Houers doen en die kwessies lys. Nautilus werk deur elke Houerbeeldlaag met die kwessierepositorium te vergelyk om sekuriteitsgate te identifiseer.
+容器可能存在**安全漏洞**，这可能是由于基础镜像或在基础镜像上安装的软件造成的。Docker正在进行一个名为**Nautilus**的项目，该项目对容器进行安全扫描并列出漏洞。Nautilus通过将每个容器镜像层与漏洞库进行比较来识别安全漏洞。
 
-Vir meer [**inligting lees hierdie**](https://docs.docker.com/engine/scan/).
+有关更多[**信息，请阅读此文**](https://docs.docker.com/engine/scan/)。
 
 * **`docker scan`**
 
-Die **`docker scan`** bevel stel jou in staat om bestaande Docker-beelde te skandeer deur die beeldnaam of ID te gebruik. Voer byvoorbeeld die volgende bevel uit om die hello-world beeld te skandeer:
+**`docker scan`**命令允许您使用镜像名称或ID扫描现有的Docker镜像。例如，运行以下命令以扫描hello-world镜像：
 ```bash
 docker scan hello-world
 
@@ -89,59 +89,59 @@ snyk container test <image> --json-file-output=<output file> --severity-threshol
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
-### Docker Beeld Ondertekening
+### Docker 镜像签名
 
-Docker beeld ondertekening verseker die veiligheid en integriteit van beelde wat in houers gebruik word. Hier is 'n beknopte verduideliking:
+Docker 镜像签名确保了在容器中使用的镜像的安全性和完整性。以下是简要说明：
 
-* **Docker Inhoudsvertroue** maak gebruik van die Notary projek, gebaseer op The Update Framework (TUF), om beeld ondertekening te bestuur. Vir meer inligting, sien [Notary](https://github.com/docker/notary) en [TUF](https://theupdateframework.github.io).
-* Om Docker inhoudsvertroue te aktiveer, stel `export DOCKER_CONTENT_TRUST=1` in. Hierdie kenmerk is standaard af in Docker weergawe 1.10 en later.
-* Met hierdie kenmerk geaktiveer, kan slegs ondertekende beelde afgelaai word. Die aanvanklike beeldstoot vereis die instelling van wagwoorde vir die hoof- en etikettering sleutels, met Docker wat ook Yubikey ondersteun vir verbeterde veiligheid. Meer besonderhede kan hier gevind word [hier](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
-* 'n Poging om 'n ondertekende beeld met inhoudsvertroue geaktiveer af te trek, lei tot 'n "Geen vertroue data vir die nuutste" fout.
-* Vir beeldstote na die eerste, vra Docker vir die wagwoord van die stoor sleutel om die beeld te onderteken.
+* **Docker 内容信任** 利用基于更新框架 (TUF) 的 Notary 项目来管理镜像签名。有关更多信息，请参见 [Notary](https://github.com/docker/notary) 和 [TUF](https://theupdateframework.github.io)。
+* 要激活 Docker 内容信任，请设置 `export DOCKER_CONTENT_TRUST=1`。在 Docker 版本 1.10 及更高版本中，此功能默认关闭。
+* 启用此功能后，仅可以下载签名的镜像。初始镜像推送需要为根密钥和标记密钥设置密码短语，Docker 还支持 Yubikey 以增强安全性。更多详细信息可以在 [这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/) 找到。
+* 尝试在启用内容信任的情况下拉取未签名的镜像会导致 "No trust data for latest" 错误。
+* 在第一次之后的镜像推送中，Docker 会要求输入存储库密钥的密码短语以签署镜像。
 
-Om jou privaat sleutels te rugsteun, gebruik die bevel:
+要备份您的私钥，请使用以下命令：
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
-Wanneer jy oorskakel na Docker-gashere, is dit nodig om die hoof- en bewaarpleksleutels te skuif om werksaamhede te handhaaf.
+当切换 Docker 主机时，必须移动根和存储库密钥以维持操作。
 
 ***
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) om maklik te bou en **werkvloeie te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
-Kry Vandaag Toegang:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-security" %}
 
-## Kontainer Sekuriteitskenmerke
+## 容器安全特性
 
 <details>
 
-<summary>Opsomming van Kontainer Sekuriteitskenmerke</summary>
+<summary>容器安全特性摘要</summary>
 
-**Hoofproses Isolasiekenmerke**
+**主要进程隔离特性**
 
-In gekontainerde omgewings is die isolering van projekte en hul prosesse van uiterste belang vir sekuriteit en hulpbronbestuur. Hier is 'n vereenvoudigde verduideliking van sleutelkonsepte:
+在容器化环境中，隔离项目及其进程对于安全和资源管理至关重要。以下是关键概念的简化解释：
 
-**Namespaces**
+**命名空间**
 
-* **Doel**: Verseker isolasie van hulpbronne soos prosesse, netwerke, en lêersisteme. Veral in Docker hou namespaces 'n kontainer se prosesse geskei van die gasheer en ander kontainers.
-* **Gebruik van `unshare`**: Die `unshare`-bevel (of die onderliggende stelseloortjie) word gebruik om nuwe namespaces te skep, wat 'n bygevoegde laag van isolasie bied. Tog, terwyl Kubernetes dit nie inherent blokkeer nie, doen Docker dit.
-* **Beperking**: Die skep van nuwe namespaces laat nie 'n proses toe om terug te keer na die gasheer se versteknamespaces nie. Om deur te dring tot die gasheer se namespaces, sal 'n persoon tipies toegang tot die gasheer se `/proc`-gids benodig, deur `nsenter` vir toegang te gebruik.
+* **目的**：确保进程、网络和文件系统等资源的隔离。特别是在 Docker 中，命名空间使容器的进程与主机和其他容器分开。
+* **`unshare` 的使用**：`unshare` 命令（或底层系统调用）用于创建新的命名空间，提供额外的隔离层。然而，虽然 Kubernetes 本身并不阻止这一点，但 Docker 是会的。
+* **限制**：创建新命名空间并不允许进程恢复到主机的默认命名空间。要进入主机命名空间，通常需要访问主机的 `/proc` 目录，并使用 `nsenter` 进行进入。
 
-**Beheergroepe (CGroups)**
+**控制组 (CGroups)**
 
-* **Funksie**: Primêr gebruik vir die toekenning van hulpbronne onder prosesse.
-* **Sekuriteitaspek**: CGroups self bied nie isolasiesekuriteit nie, behalwe vir die `release_agent`-kenmerk, wat, indien verkeerd geconfigureer, potensieel uitgebuit kan word vir ongemagtigde toegang.
+* **功能**：主要用于在进程之间分配资源。
+* **安全方面**：CGroups 本身不提供隔离安全，除了 `release_agent` 特性，如果配置错误，可能会被利用进行未经授权的访问。
 
-**Bevoegdheidsverwerping**
+**能力丢弃**
 
-* **Belangrikheid**: Dit is 'n kritieke sekuriteitskenmerk vir proses-isolasie.
-* **Funksionaliteit**: Dit beperk die aksies wat 'n hoofproses kan uitvoer deur sekere bevoegdhede af te skakel. Selfs as 'n proses met hoofregte loop, verhoed die ontbrekende nodige bevoegdhede dit om bevoorregte aksies uit te voer, aangesien die stelseloortjies sal misluk weens ontoereikende toestemmings.
+* **重要性**：这是进程隔离的重要安全特性。
+* **功能**：通过丢弃某些能力来限制根进程可以执行的操作。即使进程以根权限运行，缺乏必要的能力也会阻止其执行特权操作，因为系统调用将因权限不足而失败。
 
-Dit is die **oorblywende bevoegdhede** nadat die proses die ander laat val:
+这些是进程丢弃其他能力后的 **剩余能力**：
 
 {% code overflow="wrap" %}
 ```
@@ -151,22 +151,22 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 **Seccomp**
 
-Dit is standaard geaktiveer in Docker. Dit help om **selfs meer die syscalls te beperk** wat die proses kan aanroep.\
-Die **standaard Docker Seccomp profiel** kan gevind word op [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
+它在 Docker 中默认启用。它有助于**进一步限制进程可以调用的系统调用**。\
+**默认的 Docker Seccomp 配置文件**可以在 [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) 找到。
 
 **AppArmor**
 
-Docker het 'n sjabloon wat jy kan aktiveer: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+Docker 有一个可以激活的模板：[https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-Dit sal toelaat om kapasiteite, syscalls, toegang tot lêers en vouers te verminder...
+这将允许减少能力、系统调用、对文件和文件夹的访问...
 
 </details>
 
 ### Namespaces
 
-**Namespaces** is 'n kenmerk van die Linux kernel wat **kernel hulpbronne verdeel** sodat een stel **prosesse** een stel **hulpbronne sien** terwyl **'n ander** stel **prosesse** 'n **verskillende** stel hulpbronne sien. Die kenmerk werk deur dieselfde namespace vir 'n stel hulpbronne en prosesse te hê, maar daardie namespaces verwys na afsonderlike hulpbronne. Hulpbronne kan in meervoudige ruimtes bestaan.
+**Namespaces** 是 Linux 内核的一个特性，它**将内核资源进行分区**，使得一组**进程****看到**一组**资源**，而**另一**组**进程**看到**不同**的资源。该特性通过为一组资源和进程使用相同的命名空间来工作，但这些命名空间指向不同的资源。资源可以存在于多个空间中。
 
-Docker maak gebruik van die volgende Linux kernel Namespaces om Kontainer isolasie te bereik:
+Docker 利用以下 Linux 内核命名空间来实现容器隔离：
 
 * pid namespace
 * mount namespace
@@ -174,7 +174,7 @@ Docker maak gebruik van die volgende Linux kernel Namespaces om Kontainer isolas
 * ipc namespace
 * UTS namespace
 
-Vir **meer inligting oor die namespaces** kyk na die volgende bladsy:
+有关**命名空间的更多信息**，请查看以下页面：
 
 {% content-ref url="namespaces/" %}
 [namespaces](namespaces/)
@@ -182,58 +182,58 @@ Vir **meer inligting oor die namespaces** kyk na die volgende bladsy:
 
 ### cgroups
 
-Linux kernel kenmerk **cgroups** bied die vermoë om **hulpbronne soos cpu, geheue, io, netwerkbandwydte onder** 'n stel prosesse te **beperk**. Docker maak dit moontlik om Kontainers te skep met behulp van die cgroup-funksie wat hulpbronbeheer vir die spesifieke Kontainer moontlik maak.\
-Hieronder is 'n Kontainer geskep met gebruikerspasiëntgeheue beperk tot 500m, kernelgeheue beperk tot 50m, cpu-aandeel tot 512, blkioweight tot 400. CPU-aandeel is 'n verhouding wat Kontainer se CPU-gebruik beheer. Dit het 'n standaardwaarde van 1024 en 'n reeks tussen 0 en 1024. As drie Kontainers dieselfde CPU-aandeel van 1024 het, kan elke Kontainer tot 33% van die CPU neem in geval van CPU-hulpbronstryd. blkio-weight is 'n verhouding wat Kontainer se IO beheer. Dit het 'n standaardwaarde van 500 en 'n reeks tussen 10 en 1000.
+Linux 内核特性**cgroups**提供了**限制一组进程的资源，如 CPU、内存、IO、网络带宽**的能力。Docker 允许使用 cgroup 特性创建容器，从而实现对特定容器的资源控制。\
+以下是一个用户空间内存限制为 500m，内核内存限制为 50m，CPU 共享为 512，blkio-weight 为 400 的容器。CPU 共享是控制容器 CPU 使用的比例。它的默认值为 1024，范围在 0 到 1024 之间。如果三个容器的 CPU 共享均为 1024，则在 CPU 资源争用的情况下，每个容器最多可以占用 33% 的 CPU。blkio-weight 是控制容器 IO 的比例。它的默认值为 500，范围在 10 到 1000 之间。
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
-Om die cgroup van 'n houer te kry, kan jy doen:
+要获取容器的 cgroup，您可以执行：
 ```bash
 docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian container
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
-Vir meer inligting kyk:
+有关更多信息，请查看：
 
 {% content-ref url="cgroups.md" %}
 [cgroups.md](cgroups.md)
 {% endcontent-ref %}
 
-### Bevoegdhede
+### 能力
 
-Bevoegdhede maak **fyn beheer vir die bevoegdhede wat aan die root-gebruiker toegelaat kan word**. Docker gebruik die Linux-kernel bevoegdheidseienskap om **die operasies wat binne 'n houer gedoen kan word te beperk** ongeag die tipe gebruiker.
+能力允许**对可以允许的根用户能力进行更细粒度的控制**。Docker使用Linux内核能力特性来**限制可以在容器内执行的操作**，无论用户类型如何。
 
-Wanneer 'n Docker-houer uitgevoer word, **laat die proses sensitiewe bevoegdhede vall wat die proses kon gebruik om te ontsnap uit die isolasie**. Dit probeer verseker dat die proses nie sensitiewe aksies kan uitvoer en ontsnap nie:
+当运行docker容器时，**进程会放弃敏感能力，以防止进程逃离隔离**。这试图确保进程无法执行敏感操作并逃逸：
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
-### Seccomp in Docker
+### Docker中的Seccomp
 
-Dit is 'n sekuriteitskenmerk wat Docker toelaat om **die syscalls te beperk** wat binne die houer gebruik kan word:
+这是一种安全特性，允许Docker**限制可以在容器内使用的系统调用**：
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
-### AppArmor in Docker
+### Docker中的AppArmor
 
-**AppArmor** is 'n kernel-verbetering om **houers** tot 'n **beperkte** stel **hulpbronne** met **per-program profiele** te beperk:
+**AppArmor**是一个内核增强，用于将**容器**限制在**有限**的**资源**集内，并具有**每个程序的配置文件**：
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
 
-### SELinux in Docker
+### Docker中的SELinux
 
-* **Etiketteringstelsel**: SELinux ken 'n unieke etiket toe aan elke proses en lêersisteemobjek.
-* **Beleidshandhawing**: Dit dwing sekuriteitsbeleide af wat definieer watter aksies 'n prosesetiket op ander etikette binne die stelsel kan uitvoer.
-* **Houerprosesetikette**: Wanneer houermasjiene houerprosesse inisieer, word hulle gewoonlik toegewys aan 'n beperkte SELinux-etiket, gewoonlik `container_t`.
-* **Lêeretikettering binne Houers**: Lêers binne die houer word gewoonlik geëtiketteer as `container_file_t`.
-* **Beleidreëls**: Die SELinux-beleid verseker hoofsaaklik dat prosesse met die `container_t`-etiket slegs kan interaksie hê (lees, skryf, uitvoer) met lêers wat geëtiketteer is as `container_file_t`.
+* **标记系统**：SELinux为每个进程和文件系统对象分配一个唯一的标签。
+* **策略执行**：它执行定义进程标签可以对系统内其他标签执行哪些操作的安全策略。
+* **容器进程标签**：当容器引擎启动容器进程时，通常会分配一个受限的SELinux标签，通常为`container_t`。
+* **容器内的文件标记**：容器内的文件通常标记为`container_file_t`。
+* **策略规则**：SELinux策略主要确保具有`container_t`标签的进程只能与标记为`container_file_t`的文件进行交互（读取、写入、执行）。
 
-Hierdie meganisme verseker dat selfs as 'n proses binne 'n houer gekompromitteer is, dit beperk is tot interaksie slegs met objekte wat die ooreenstemmende etikette het, wat die potensiële skade van sulke kompromitterings aansienlik beperk.
+该机制确保即使容器内的进程被攻陷，它也仅限于与具有相应标签的对象进行交互，从而显著限制此类攻陷可能造成的损害。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -241,20 +241,20 @@ Hierdie meganisme verseker dat selfs as 'n proses binne 'n houer gekompromitteer
 
 ### AuthZ & AuthN
 
-In Docker speel 'n outorisasie-inprop 'n kritieke rol in sekuriteit deur te besluit of versoek aan die Docker-daemon toegelaat of geblokkeer moet word. Hierdie besluit word geneem deur twee sleutelkontekste te ondersoek:
+在Docker中，授权插件在安全性方面发挥着关键作用，通过决定是否允许或阻止对Docker守护进程的请求来实现。这一决定是通过检查两个关键上下文来做出的：
 
-* **Outentiseringskonteks**: Dit sluit omvattende inligting oor die gebruiker in, soos wie hulle is en hoe hulle hulself geoutentiseer het.
-* **Opdragkonteks**: Dit behels alle relevante data wat verband hou met die versoek wat gedoen word.
+* **身份验证上下文**：这包括有关用户的全面信息，例如他们是谁以及他们如何进行身份验证。
+* **命令上下文**：这包括与所发出请求相关的所有相关数据。
 
-Hierdie kontekste help verseker dat slegs legitieme versoek van geoutentiseerde gebruikers verwerk word, wat die sekuriteit van Docker-operasies verbeter.
+这些上下文有助于确保只有经过身份验证的用户的合法请求被处理，从而增强Docker操作的安全性。
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
-## DoS vanuit 'n houer
+## 来自容器的DoS
 
-As jy nie die hulpbronne wat 'n houer kan gebruik behoorlik beperk nie, kan 'n gekompromitteerde houer die gasheer waarop dit hardloop DoS.
+如果您没有正确限制容器可以使用的资源，则被攻陷的容器可能会对其运行的主机造成DoS。
 
 * CPU DoS
 ```bash
@@ -264,31 +264,31 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
-* Bandwydte DoS
+* 带宽 DoS
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
-## Interessante Docker-vlakke
+## 有趣的 Docker 标志
 
-### --bevoorregte vlag
+### --privileged 标志
 
-Op die volgende bladsy kan jy leer **wat impliseer die `--bevoorregte` vlag**:
+在以下页面中，您可以了解 **`--privileged` 标志的含义**：
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
 {% endcontent-ref %}
 
-### --sekuriteit-optie
+### --security-opt
 
-#### geen-nuwe-bevoegdhede
+#### no-new-privileges
 
-As jy 'n houer hardloop waar 'n aanvaller daarin slaag om toegang te kry as 'n lae-bevoegdheidsgebruiker. As jy 'n **sleg-gekonfigureerde suid-binêre lêer** het, kan die aanvaller dit misbruik en **bevoegdhede binne** die houer **opgradeer**. Dit kan hom toelaat om daaruit te ontsnap.
+如果您正在运行一个容器，攻击者设法以低权限用户身份获得访问权限。如果您有一个 **配置错误的 suid 二进制文件**，攻击者可能会利用它并 **在容器内提升权限**。这可能允许他逃离容器。
 
-Die houer hardloop met die **`geen-nuwe-bevoegdhede`** opsie geaktiveer sal **hierdie soort bevoorregte opgradering voorkom**.
+启用 **`no-new-privileges`** 选项运行容器将 **防止这种权限提升**。
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
-#### Ander
+#### 其他
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -303,29 +303,29 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-Vir meer **`--security-opt`**-opsies, kyk na: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
+对于更多 **`--security-opt`** 选项，请查看: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
 
-## Ander Sekuriteits-oorwegings
+## 其他安全考虑
 
-### Bestuur van Geheime: Beste Praktyke
+### 管理机密：最佳实践
 
-Dit is noodsaaklik om te vermy om geheime direk in Docker-beelde in te sluit of om omgewingsveranderlikes te gebruik, aangesien hierdie metodes jou sensitiewe inligting blootstel aan enigiemand met toegang tot die houer deur opdragte soos `docker inspect` of `exec`.
+避免直接在 Docker 镜像中嵌入机密或使用环境变量至关重要，因为这些方法会通过 `docker inspect` 或 `exec` 等命令将您的敏感信息暴露给任何可以访问容器的人。
 
-**Docker volumes** is 'n veiliger alternatief, aanbeveel vir die benadering van sensitiewe inligting. Hulle kan gebruik word as 'n tydelike lêersisteem in die geheue, wat die risiko's wat verband hou met `docker inspect` en logging verminder. Nietemin kan root-gebruikers en diegene met `exec`-toegang tot die houer steeds die geheime benader.
+**Docker 卷** 是一种更安全的替代方案，推荐用于访问敏感信息。它们可以作为内存中的临时文件系统使用，从而降低与 `docker inspect` 和日志记录相关的风险。然而，根用户和具有 `exec` 访问权限的用户仍然可能访问这些机密。
 
-**Docker-geheime** bied 'n selfs veiliger metode vir die hantering van sensitiewe inligting. Vir gevalle wat geheime tydens die beeldboufase benodig, bied **BuildKit** 'n doeltreffende oplossing met ondersteuning vir bou-tyd-geheime, wat bou spoed verbeter en addisionele kenmerke bied.
+**Docker secrets** 提供了一种更安全的方法来处理敏感信息。对于在镜像构建阶段需要机密的实例，**BuildKit** 提供了一种高效的解决方案，支持构建时机密，提升构建速度并提供额外功能。
 
-Om van BuildKit gebruik te maak, kan dit op drie maniere geaktiveer word:
+要利用 BuildKit，可以通过三种方式激活：
 
-1. Deur 'n omgewingsveranderlike: `export DOCKER_BUILDKIT=1`
-2. Deur opdragte te voorafgaan: `DOCKER_BUILDKIT=1 docker build .`
-3. Deur dit standaard in die Docker-konfigurasie te aktiveer: `{ "features": { "buildkit": true } }`, gevolg deur 'n Docker-herlaai.
+1. 通过环境变量: `export DOCKER_BUILDKIT=1`
+2. 通过命令前缀: `DOCKER_BUILDKIT=1 docker build .`
+3. 通过在 Docker 配置中默认启用: `{ "features": { "buildkit": true } }`，然后重启 Docker。
 
-BuildKit maak die gebruik van bou-tyd-geheime met die `--secret`-opsie moontlik, wat verseker dat hierdie geheime nie ingesluit word in die beeldbou-kas of die finale beeld nie, deur 'n opdrag soos die volgende te gebruik:
+BuildKit 允许使用 `--secret` 选项来使用构建时机密，确保这些机密不包含在镜像构建缓存或最终镜像中，使用命令如下:
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
-Vir geheime wat benodig word in 'n lopende houer, bied **Docker Compose en Kubernetes** robuuste oplossings. Docker Compose maak gebruik van 'n `secrets` sleutel in die diensdefinisie om geheime lêers te spesifiseer, soos getoon in 'n `docker-compose.yml` voorbeeld:
+对于运行中的容器所需的秘密，**Docker Compose 和 Kubernetes** 提供了强大的解决方案。Docker Compose 在服务定义中使用 `secrets` 键来指定秘密文件，如 `docker-compose.yml` 示例所示：
 ```yaml
 version: "3.7"
 services:
@@ -338,95 +338,95 @@ secrets:
 my_secret:
 file: ./my_secret_file.txt
 ```
-Hierdie konfigurasie maak die gebruik van geheime inligting moontlik wanneer dienste met Docker Compose begin word.
+此配置允许在使用 Docker Compose 启动服务时使用秘密。
 
-In Kubernetes-omgewings word geheime inligting op 'n ingeboude manier ondersteun en kan verder bestuur word met gereedskap soos [Helm-Secrets](https://github.com/futuresimple/helm-secrets). Kubernetes se Rol Gebaseerde Toegangsbeheer (RBAC) verbeter geheime bestuursbeveiliging, soortgelyk aan Docker Enterprise.
+在 Kubernetes 环境中，秘密是原生支持的，并且可以通过像 [Helm-Secrets](https://github.com/futuresimple/helm-secrets) 这样的工具进一步管理。Kubernetes 的基于角色的访问控制 (RBAC) 增强了秘密管理的安全性，类似于 Docker Enterprise。
 
 ### gVisor
 
-**gVisor** is 'n aansoek-kernel, geskryf in Go, wat 'n aansienlike deel van die Linux-sisteemoppervlak implementeer. Dit sluit 'n [Open Container Initiative (OCI)](https://www.opencontainers.org) uitvoertyd genaamd `runsc` in wat 'n **isolasiegrens tussen die aansoek en die gasheerkernel** bied. Die `runsc` uitvoertyd integreer met Docker en Kubernetes, wat dit eenvoudig maak om gesandbokte houers te hardloop.
+**gVisor** 是一个应用内核，使用 Go 编写，实施了 Linux 系统表面的相当大一部分。它包括一个名为 `runsc` 的 [开放容器倡议 (OCI)](https://www.opencontainers.org) 运行时，提供了 **应用程序与主机内核之间的隔离边界**。`runsc` 运行时与 Docker 和 Kubernetes 集成，使得运行沙箱容器变得简单。
 
 {% embed url="https://github.com/google/gvisor" %}
 
 ### Kata Containers
 
-**Kata Containers** is 'n oopbron-gemeenskap wat werk aan die bou van 'n veilige houeruitvoertyd met ligte virtuele masjiene wat soos houers voel en optree, maar **sterker werklas-isolasie bied deur hardeware-virtualisering** tegnologie as 'n tweede verdedigingslaag.
+**Kata Containers** 是一个开源社区，致力于构建一个安全的容器运行时，使用轻量级虚拟机，感觉和表现像容器，但提供 **使用硬件虚拟化技术的更强工作负载隔离** 作为第二道防线。
 
 {% embed url="https://katacontainers.io/" %}
 
-### Opsomming van Wenke
+### 总结提示
 
-* **Moenie die `--privileged` vlag gebruik of 'n** [**Docker-aansluiting binne die houer monteer nie**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Die docker-aansluiting maak dit moontlik om houers te skep, dus is dit 'n maklike manier om volle beheer oor die gasheer te neem, byvoorbeeld deur 'n ander houer met die `--privileged` vlag te hardloop.
-* Moet **nie as wortel binne die houer hardloop nie. Gebruik 'n** [**verskillende gebruiker**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user) **en** [**gebruiker-ruimtes**](https://docs.docker.com/engine/security/userns-remap/)**.** Die wortel in die houer is dieselfde as op die gasheer tensy dit met gebruiker-ruimtes herkartografeer word. Dit word slegs lig beperk deur, hoofsaaklik, Linux-ruimtes, vermoëns en cgroups.
-* [**Laat alle vermoëns val**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) en aktiveer slegs dié wat benodig word** (`--cap-add=...`). Baie werkbelastings benodig nie enige vermoëns nie en die byvoeging daarvan verhoog die omvang van 'n potensiële aanval.
-* [**Gebruik die "geen-nuwe-voorregte" veiligheidsoptie**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) om te voorkom dat prosesse meer voorregte verkry, byvoorbeeld deur suid-binêre lêers.
-* [**Beperk hulpbronne wat aan die houer beskikbaar is**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Hulpbronlimiete kan die masjien teen ontkenning van diensaanvalle beskerm.
-* **Pas** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(of SELinux)** profiele aan om die aksies en stelseloproepe wat vir die houer beskikbaar is, tot die minimum benodigde te beperk.
-* **Gebruik** [**amptelike docker-beelde**](https://docs.docker.com/docker-hub/official\_images/) **en vereis handtekeninge** of bou jou eie gebaseer op hulle. Moet nie erfenis of [agterdeur](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) beelde gebruik nie. Berg ook wortelsleutels, wagwoord op 'n veilige plek op. Docker het planne om sleutels met UCP te bestuur.
-* **Herbou gereeld** jou beelde om **sekuriteitsopdaterings op die gasheer en beelde toe te pas.**
-* Bestuur jou **geheime inligting wyslik** sodat dit moeilik vir die aanvaller is om daartoe toegang te verkry.
-* As jy **die docker-daemon blootstel, gebruik HTTPS** met klient- en bedienerverifikasie.
-* In jou Dockerfile, **gee voorkeur aan KOPIE in plaas van BYVOEG**. BYVOEG onttrek outomaties gezipde lêers en kan lêers vanaf URL's kopieer. KOPIE het nie hierdie vermoëns nie. Vermy waar moontlik BYVOEG sodat jy nie vatbaar is vir aanvalle deur afgeleë URL's en Zip-lêers nie.
-* Het **afsonderlike houers vir elke mikrodiens**
-* **Moenie ssh** binne die houer sit nie, "docker exec" kan gebruik word om na die houer te ssh.
-* Het **kleiner** houer **beelde**
+* **不要使用 `--privileged` 标志或在容器内挂载** [**Docker 套接字**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**。** Docker 套接字允许生成容器，因此这是完全控制主机的简单方法，例如，通过使用 `--privileged` 标志运行另一个容器。
+* **不要在容器内以 root 身份运行。使用** [**不同用户**](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) **和** [**用户命名空间**](https://docs.docker.com/engine/security/userns-remap/)**。** 容器中的 root 与主机上的 root 是相同的，除非通过用户命名空间重新映射。它仅受到 Linux 命名空间、能力和 cgroups 的轻微限制。
+* [**丢弃所有能力**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`)，仅启用所需的能力** (`--cap-add=...`)。许多工作负载不需要任何能力，添加它们会增加潜在攻击的范围。
+* [**使用“no-new-privileges”安全选项**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) 防止进程获得更多权限，例如通过 suid 二进制文件。
+* [**限制容器可用的资源**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**。** 资源限制可以保护机器免受拒绝服务攻击。
+* **调整** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**、** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **（或 SELinux）** 配置文件，以将容器可用的操作和系统调用限制到最低要求。
+* **使用** [**官方 Docker 镜像**](https://docs.docker.com/docker-hub/official_images/) **并要求签名**，或基于它们构建自己的镜像。不要继承或使用 [后门](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) 镜像。还要将 root 密钥、密码短语存放在安全的地方。Docker 计划通过 UCP 管理密钥。
+* **定期** **重建** 镜像以 **应用安全补丁到主机和镜像。**
+* 明智地管理您的 **秘密**，使攻击者难以访问它们。
+* 如果您 **暴露 Docker 守护进程，请使用 HTTPS**，并进行客户端和服务器身份验证。
+* 在您的 Dockerfile 中，**优先使用 COPY 而不是 ADD**。ADD 会自动提取压缩文件，并可以从 URL 复制文件。COPY 没有这些功能。尽可能避免使用 ADD，以免受到通过远程 URL 和 Zip 文件的攻击。
+* 为每个微服务 **使用单独的容器**
+* **不要在容器内放置 ssh**，可以使用 “docker exec” 连接到容器。
+* 拥有 **更小的** 容器 **镜像**
 
-## Docker Uitbreek / Voorreg-Opgradering
+## Docker 突破 / 权限提升
 
-As jy **binne 'n docker-houer** is of toegang het tot 'n gebruiker in die **docker-groep**, kan jy probeer om **te ontsnap en voorregte te opgradeer**:
+如果您 **在 Docker 容器内** 或者您有权访问 **docker 组中的用户**，您可以尝试 **逃逸并提升权限**：
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
 {% endcontent-ref %}
 
-## Docker Verifikasie Inprop Deurloophaal
+## Docker 身份验证插件绕过
 
-As jy toegang het tot die docker-aansluiting of toegang het tot 'n gebruiker in die **docker-groep maar jou aksies word beperk deur 'n docker-verifikasie-inprop**, kyk of jy dit kan **deurloophaal:**
+如果您可以访问 Docker 套接字或有权访问 **docker 组中的用户，但您的操作受到 Docker 身份验证插件的限制**，请检查您是否可以 **绕过它：**
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
-## Verharding van Docker
+## 加固 Docker
 
-* Die gereedskap [**docker-bench-security**](https://github.com/docker/docker-bench-security) is 'n skrip wat tientalle algemene beste praktyke ondersoek rakende die implementering van Docker-houers in produksie. Die toetse is almal geoutomatiseer en is gebaseer op die [CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/).\
-Jy moet die gereedskap vanaf die gasheer wat Docker hardloop of vanaf 'n houer met genoeg voorregte hardloop. Vind uit **hoe om dit in die README te hardloop:** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
+* 工具 [**docker-bench-security**](https://github.com/docker/docker-bench-security) 是一个脚本，检查在生产中部署 Docker 容器的数十个常见最佳实践。所有测试都是自动化的，基于 [CIS Docker 基准 v1.3.1](https://www.cisecurity.org/benchmark/docker/)。\
+您需要从运行 Docker 的主机或具有足够权限的容器中运行该工具。了解 **如何在 README 中运行它：** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security)。
 
-## Verwysings
+## 参考
 
 * [https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)
-* [https://twitter.com/\_fel1x/status/1151487051986087936](https://twitter.com/\_fel1x/status/1151487051986087936)
+* [https://twitter.com/_fel1x/status/1151487051986087936](https://twitter.com/_fel1x/status/1151487051986087936)
 * [https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html](https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-1overview/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-1overview/)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-4container-image/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-4container-image/)
-* [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
+* [https://en.wikipedia.org/wiki/Linux_namespaces](https://en.wikipedia.org/wiki/Linux_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
-* [https://docs.docker.com/engine/extend/plugins\_authorization](https://docs.docker.com/engine/extend/plugins\_authorization)
+* [https://docs.docker.com/engine/extend/plugins_authorization](https://docs.docker.com/engine/extend/plugins_authorization)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 * [https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/](https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/)
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) om maklik werkstrome te bou en te **outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsgereedskap.\
-Kry Vandag Toegang:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-security" %}
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客攻击： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

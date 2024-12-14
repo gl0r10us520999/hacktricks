@@ -1,97 +1,97 @@
 # macOS Dirty NIB
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-**Vir verdere besonderhede oor die tegniek, kyk na die oorspronklike pos van:** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/) en die volgende pos deur [**https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/**](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/)**.** Hier is 'n opsomming:
+**有关该技术的更多详细信息，请查看原始帖子：** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/) 和以下帖子 [**https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/**](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/)**。** 这里是摘要：
 
-### Wat is Nib-lêers
+### 什么是 Nib 文件
 
-Nib (kort vir NeXT Interface Builder) lêers, deel van Apple se ontwikkelings-ekosisteem, is bedoel om **UI-elemente** en hul interaksies in toepassings te definieer. Hulle sluit geserialiseerde voorwerpe soos vensters en knoppies in, en word tydens uitvoering gelaai. Ten spyte van hul voortgesette gebruik, beveel Apple nou Storyboards aan vir 'n meer omvattende UI-stroomvisualisering.
+Nib（NeXT Interface Builder 的缩写）文件是苹果开发生态系统的一部分，旨在定义应用程序中的 **UI 元素** 及其交互。它们包含序列化对象，如窗口和按钮，并在运行时加载。尽管它们仍在使用，苹果现在提倡使用 Storyboards 以获得更全面的 UI 流可视化。
 
-Die hoof Nib-lêer word verwys in die waarde **`NSMainNibFile`** binne die `Info.plist` lêer van die toepassing en word gelaai deur die funksie **`NSApplicationMain`** wat in die `main` funksie van die toepassing uitgevoer word.
+主要的 Nib 文件在应用程序的 `Info.plist` 文件中的 **`NSMainNibFile`** 值中引用，并由在应用程序的 `main` 函数中执行的 **`NSApplicationMain`** 函数加载。
 
-### Dirty Nib Inspuitingsproses
+### 脏 Nib 注入过程
 
-#### Skep en Stel 'n NIB-lêer op
+#### 创建和设置 NIB 文件
 
-1. **Beginopstelling**:
-* Skep 'n nuwe NIB-lêer met XCode.
-* Voeg 'n objek by die koppelvlak, stel sy klas op `NSAppleScript`.
-* Konfigureer die aanvanklike `source` eienskap via Gebruiker Gedefinieerde Runtime Attribuut.
-2. **Kode-uitvoeringsgadget**:
-* Die opstelling fasiliteer die uitvoering van AppleScript op aanvraag.
-* Integreer 'n knoppie om die `Apple Script` objek te aktiveer, spesifiek die `executeAndReturnError:` selektor te aktiveer.
-3. **Toetsing**:
-* 'n Eenvoudige Apple Script vir toetsdoeleindes:
+1. **初始设置**：
+* 使用 XCode 创建一个新的 NIB 文件。
+* 向界面添加一个对象，将其类设置为 `NSAppleScript`。
+* 通过用户定义的运行时属性配置初始 `source` 属性。
+2. **代码执行工具**：
+* 该设置便于按需运行 AppleScript。
+* 集成一个按钮以激活 `Apple Script` 对象，特别触发 `executeAndReturnError:` 选择器。
+3. **测试**：
+* 一个简单的 Apple Script 用于测试：
 
 ```bash
 set theDialogText to "PWND"
 display dialog theDialogText
 ```
-* Toets deur in die XCode-debugger te loop en op die knoppie te klik.
+* 通过在 XCode 调试器中运行并点击按钮进行测试。
 
-#### Teiken 'n Toepassing (Voorbeeld: Pages)
+#### 目标应用程序（示例：Pages）
 
-1. **Voorbereiding**:
-* Kopieer die teiken-app (bv. Pages) na 'n aparte gids (bv. `/tmp/`).
-* Begin die app om Gatekeeper-probleme te omseil en dit te kas.
-2. **Oorskrywing van NIB-lêer**:
-* Vervang 'n bestaande NIB-lêer (bv. About Panel NIB) met die vervaardigde DirtyNIB-lêer.
-3. **Uitvoering**:
-* Activeer die uitvoering deur met die app te interaksie (bv. die `About` menu-item te kies).
+1. **准备**：
+* 将目标应用程序（例如，Pages）复制到一个单独的目录（例如，`/tmp/`）。
+* 启动应用程序以绕过 Gatekeeper 问题并进行缓存。
+2. **覆盖 NIB 文件**：
+* 用制作的 DirtyNIB 文件替换现有的 NIB 文件（例如，关于面板 NIB）。
+3. **执行**：
+* 通过与应用程序交互（例如，选择 `关于` 菜单项）触发执行。
 
-#### Bewys van Konsep: Toegang tot Gebruikersdata
+#### 概念验证：访问用户数据
 
-* Wysig die AppleScript om toegang te verkry tot en gebruikersdata, soos foto's, te onttrek, sonder gebruikers toestemming.
+* 修改 AppleScript 以访问和提取用户数据，例如照片，而无需用户同意。
 
-### Kode Voorbeeld: Kwaadwillige .xib-lêer
+### 代码示例：恶意 .xib 文件
 
-* Toegang tot en hersien 'n [**voorbeeld van 'n kwaadwillige .xib-lêer**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) wat die uitvoering van arbitrêre kode demonstreer.
+* 访问并查看 [**恶意 .xib 文件的示例**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4)，演示执行任意代码。
 
-### Ander Voorbeeld
+### 其他示例
 
-In die pos [https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) kan jy 'n tutoriaal vind oor hoe om 'n dirty nib te skep.&#x20;
+在帖子 [https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) 中，您可以找到有关如何创建脏 nib 的教程。&#x20;
 
-### Aanspreek van Beginbeperkings
+### 解决启动限制
 
-* Beginbeperkings hinder app-uitvoering vanaf onverwagte plekke (bv. `/tmp`).
-* Dit is moontlik om apps te identifiseer wat nie deur Beginbeperkings beskerm word nie en hulle te teiken vir NIB-lêerinspuiting.
+* 启动限制阻碍应用程序从意外位置（例如，`/tmp`）执行。
+* 可以识别未受启动限制保护的应用程序，并将其作为 NIB 文件注入的目标。
 
-### Addisionele macOS Beskermings
+### 其他 macOS 保护
 
-Vanaf macOS Sonoma is wysigings binne App-pakkette beperk. Eerder metodes het behels:
+从 macOS Sonoma 开始，应用程序包内的修改受到限制。然而，早期的方法包括：
 
-1. Kopieer die app na 'n ander plek (bv. `/tmp/`).
-2. Hernoem gidse binne die app-pakket om aanvanklike beskermings te omseil.
-3. Na die uitvoering van die app om by Gatekeeper te registreer, wysig die app-pakket (bv. vervang MainMenu.nib met Dirty.nib).
-4. Hernoem gidse terug en herloop die app om die ingespuite NIB-lêer uit te voer.
+1. 将应用程序复制到不同的位置（例如，`/tmp/`）。
+2. 重命名应用程序包内的目录以绕过初始保护。
+3. 在运行应用程序以注册 Gatekeeper 后，修改应用程序包（例如，用 Dirty.nib 替换 MainMenu.nib）。
+4. 将目录重命名回去并重新运行应用程序以执行注入的 NIB 文件。
 
-**Let wel**: Onlangs macOS-opdaterings het hierdie uitbuiting verminder deur lêerwysigings binne app-pakkette na Gatekeeper-kas te voorkom, wat die uitbuiting ondoeltreffend maak.
+**注意**：最近的 macOS 更新通过防止在 Gatekeeper 缓存后修改应用程序包内的文件来减轻此漏洞，使其无效。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

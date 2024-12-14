@@ -1,46 +1,46 @@
-# macOS Sekuriteit & Privilege Escalation
+# macOS 安全与权限提升
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过提交 PR 分享黑客技巧到** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库。
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en bug bounty jagters!
+加入 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 服务器，与经验丰富的黑客和漏洞赏金猎人交流！
 
-**Hacking Inligting**\
-Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
+**黑客见解**\
+参与深入探讨黑客的刺激与挑战的内容
 
-**Regte Tyd Hack Nuus**\
-Bly op hoogte van die vinnig bewegende hacking wêreld deur regte tyd nuus en insigte
+**实时黑客新闻**\
+通过实时新闻和见解，跟上快速变化的黑客世界
 
-**Laaste Aankondigings**\
-Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
+**最新公告**\
+了解最新的漏洞赏金计划和重要平台更新
 
-**Sluit aan by ons op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
+**加入我们** [**Discord**](https://discord.com/invite/N3FrSbmwdy)，今天就开始与顶尖黑客合作！
 
-## Basiese MacOS
+## 基础 MacOS
 
-As jy nie bekend is met macOS nie, moet jy begin om die basiese beginsels van macOS te leer:
+如果你对 macOS 不熟悉，你应该开始学习 macOS 的基础知识：
 
-* Spesiale macOS **lêers & toestemmings:**
+* 特殊的 macOS **文件与权限：**
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Algemene macOS **gebruikers**
+* 常见的 macOS **用户**
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -52,94 +52,94 @@ As jy nie bekend is met macOS nie, moet jy begin om die basiese beginsels van ma
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* Die **argitektuur** van die k**ernel**
+* **内核**的 **架构**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Algemene macOS n**etwerk dienste & protokolle**
+* 常见的 macOS n**etwork 服务与协议**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* **Opensource** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-* Om 'n `tar.gz` te aflaai, verander 'n URL soos [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) na [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+* **开源** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
+* 要下载 `tar.gz`，将 URL 更改为 [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MacOS MDM
 
-In maatskappye gaan **macOS** stelsels hoogs waarskynlik **bestuur word met 'n MDM**. Daarom is dit vanuit die perspektief van 'n aanvaller interessant om te weet **hoe dit werk**:
+在公司中，**macOS** 系统很可能会被 **MDM 管理**。因此，从攻击者的角度来看，了解 **其工作原理** 是很有趣的：
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspekteer, Debugeer en Fuzz
+### MacOS - 检查、调试和模糊测试
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## MacOS Sekuriteit Beskermings
+## MacOS 安全保护
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Aanvaloppervlak
+## 攻击面
 
-### Lêertoestemmings
+### 文件权限
 
-As 'n **proses wat as root loop 'n lêer skryf** wat deur 'n gebruiker beheer kan word, kan die gebruiker dit misbruik om **privileges te verhoog**.\
-Dit kan in die volgende situasies gebeur:
+如果 **以 root 身份运行的进程写入** 一个可以被用户控制的文件，用户可能会利用这一点来 **提升权限**。\
+这可能发生在以下情况下：
 
-* Lêer wat gebruik is, is reeds deur 'n gebruiker geskep (besit deur die gebruiker)
-* Lêer wat gebruik is, is skryfbaar deur die gebruiker as gevolg van 'n groep
-* Lêer wat gebruik is, is binne 'n gids besit deur die gebruiker (die gebruiker kan die lêer skep)
-* Lêer wat gebruik is, is binne 'n gids besit deur root, maar die gebruiker het skryftoegang daaroor as gevolg van 'n groep (die gebruiker kan die lêer skep)
+* 使用的文件已经由用户创建（属于用户）
+* 使用的文件因组而可被用户写入
+* 使用的文件位于用户拥有的目录中（用户可以创建该文件）
+* 使用的文件位于 root 拥有的目录中，但用户因组而对其具有写入权限（用户可以创建该文件）
 
-In staat wees om 'n **lêer te skep** wat gaan **gebruik word deur root**, laat 'n gebruiker toe om **voordeel te trek uit sy inhoud** of selfs **symlinks/hardlinks** te skep om dit na 'n ander plek te wys.
+能够 **创建一个将被 root 使用的文件**，允许用户 **利用其内容**，甚至创建 **符号链接/硬链接** 指向另一个位置。
 
-Vir hierdie soort kwesbaarhede, moenie vergeet om **kwesbare `.pkg` installers** te kontroleer nie:
+对于这种类型的漏洞，不要忘记 **检查易受攻击的 `.pkg` 安装程序**：
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-### Lêeruitbreiding & URL skema app handlers
+### 文件扩展名与 URL 方案应用程序处理程序
 
-Vreemde apps geregistreer deur lêeruitbreidings kan misbruik word en verskillende toepassings kan geregistreer word om spesifieke protokolle te open
+通过文件扩展名注册的奇怪应用程序可能会被滥用，不同的应用程序可以注册以打开特定协议
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## macOS TCC / SIP Privilege Escalation
+## macOS TCC / SIP 权限提升
 
-In macOS **toepassings en lêers kan toestemmings hê** om toegang te verkry tot gidsen of instellings wat hulle meer bevoorreg maak as ander.
+在 macOS 中，**应用程序和二进制文件可以拥有** 访问文件夹或设置的权限，使其比其他应用程序更具特权。
 
-Daarom, 'n aanvaller wat suksesvol 'n macOS masjien wil kompromitteer, sal moet **sy TCC privileges verhoog** (of selfs **SIP omseil**, afhangende van sy behoeftes).
+因此，想要成功攻陷 macOS 机器的攻击者需要 **提升其 TCC 权限**（甚至 **绕过 SIP**，具体取决于其需求）。
 
-Hierdie privileges word gewoonlik gegee in die vorm van **entitlements** waarmee die toepassing onderteken is, of die toepassing mag sekere toegang versoek het en nadat die **gebruiker dit goedgekeur het**, kan dit in die **TCC databasisse** gevind word. 'n Ander manier waarop 'n proses hierdie privileges kan verkry, is deur 'n **kind van 'n proses** met daardie **privileges** te wees, aangesien dit gewoonlik **geërf** word.
+这些权限通常以 **授权** 的形式授予，应用程序是用其签名的，或者应用程序可能请求某些访问权限，经过 **用户批准** 后，它们可以在 **TCC 数据库** 中找到。进程获得这些权限的另一种方式是成为具有这些 **权限** 的进程的 **子进程**，因为它们通常是 **继承** 的。
 
-Volg hierdie skakels om verskillende maniere te vind om [**privileges in TCC te verhoog**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), om [**TCC te omseil**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) en hoe in die verlede [**SIP omseil is**](macos-security-protections/macos-sip.md#sip-bypasses).
+请访问这些链接以找到不同的 [**在 TCC 中提升权限**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses)、[**绕过 TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) 和过去 [**如何绕过 SIP**](macos-security-protections/macos-sip.md#sip-bypasses)。
 
-## macOS Tradisionele Privilege Escalation
+## macOS 传统权限提升
 
-Natuurlik, vanuit 'n rooi span perspektief, moet jy ook belangstel om na root te verhoog. Kyk na die volgende pos vir 'n paar wenke:
+当然，从红队的角度来看，你也应该对提升到 root 感兴趣。查看以下帖子以获取一些提示：
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
 
-## macOS Nakoming
+## macOS 合规性
 
 * [https://github.com/usnistgov/macos\_security](https://github.com/usnistgov/macos_security)
 
-## Verwysings
+## 参考文献
 
-* [**OS X Voorval Respons: Scripting en Analise**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**OS X 事件响应：脚本和分析**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://github.com/NicolasGrimonpont/Cheatsheet**](https://github.com/NicolasGrimonpont/Cheatsheet)
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
@@ -147,30 +147,30 @@ Natuurlik, vanuit 'n rooi span perspektief, moet jy ook belangstel om na root te
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en bug bounty jagters!
+加入 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 服务器，与经验丰富的黑客和漏洞赏金猎人交流！
 
-**Hacking Inligting**\
-Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
+**黑客见解**\
+参与深入探讨黑客的刺激与挑战的内容
 
-**Regte Tyd Hack Nuus**\
-Bly op hoogte van die vinnig bewegende hacking wêreld deur regte tyd nuus en insigte
+**实时黑客新闻**\
+通过实时新闻和见解，跟上快速变化的黑客世界
 
-**Laaste Aankondigings**\
-Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
+**最新公告**\
+了解最新的漏洞赏金计划和重要平台更新
 
-**Sluit aan by ons op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
+**加入我们** [**Discord**](https://discord.com/invite/N3FrSbmwdy)，今天就开始与顶尖黑客合作！
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过提交 PR 分享黑客技巧到** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库。
 
 </details>
 {% endhint %}

@@ -1,44 +1,44 @@
-# macOS Memory Dumping
+# macOS 内存转储
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
-## Memory Artifacts
+## 内存伪影
 
-### Swap Files
+### 交换文件
 
-Swap lêers, soos `/private/var/vm/swapfile0`, dien as **kas wanneer die fisiese geheue vol is**. Wanneer daar nie meer plek in fisiese geheue is nie, word die data na 'n swap lêer oorgedra en dan terug na fisiese geheue gebring soos nodig. Meerdere swap lêers mag teenwoordig wees, met name soos swapfile0, swapfile1, en so aan.
+交换文件，如 `/private/var/vm/swapfile0`，在 **物理内存满时** 作为 **缓存**。当物理内存没有更多空间时，其数据会被转移到交换文件中，然后根据需要再带回物理内存。可能存在多个交换文件，名称如 swapfile0、swapfile1 等。
 
-### Hibernate Image
+### 休眠映像
 
-Die lêer geleë by `/private/var/vm/sleepimage` is van kardinale belang tydens **hibernasie-modus**. **Data van geheue word in hierdie lêer gestoor wanneer OS X hiberneer**. By die wakkermaak van die rekenaar, haal die stelsel geheue data uit hierdie lêer, wat die gebruiker toelaat om voort te gaan waar hulle opgehou het.
+位于 `/private/var/vm/sleepimage` 的文件在 **休眠模式** 下至关重要。**当 OS X 进入休眠时，内存中的数据会存储在此文件中**。唤醒计算机时，系统会从此文件中检索内存数据，使用户能够继续之前的工作。
 
-Dit is die moeite werd om te noem dat op moderne MacOS stelsels, hierdie lêer tipies versleuteld is vir sekuriteitsredes, wat herstel moeilik maak.
+值得注意的是，在现代 MacOS 系统上，此文件通常出于安全原因被加密，恢复难度较大。
 
-* Om te kontroleer of versleuteling geaktiveer is vir die sleepimage, kan die opdrag `sysctl vm.swapusage` uitgevoer word. Dit sal wys of die lêer versleuteld is.
+* 要检查 sleepimage 是否启用加密，可以运行命令 `sysctl vm.swapusage`。这将显示文件是否被加密。
 
-### Memory Pressure Logs
+### 内存压力日志
 
-Nog 'n belangrike geheue-verwante lêer in MacOS stelsels is die **geheue druk log**. Hierdie logs is geleë in `/var/log` en bevat gedetailleerde inligting oor die stelsel se geheue gebruik en druk gebeurtenisse. Hulle kan veral nuttig wees om geheue-verwante probleme te diagnoseer of te verstaan hoe die stelsel geheue oor tyd bestuur.
+MacOS 系统中另一个重要的内存相关文件是 **内存压力日志**。这些日志位于 `/var/log` 中，包含有关系统内存使用情况和压力事件的详细信息。它们对于诊断内存相关问题或理解系统如何随时间管理内存特别有用。
 
-## Dumping memory with osxpmem
+## 使用 osxpmem 转储内存
 
-Om die geheue in 'n MacOS masjien te dump, kan jy [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip) gebruik.
+为了在 MacOS 机器上转储内存，可以使用 [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip)。
 
-**Nota**: Die volgende instruksies sal slegs werk vir Macs met Intel argitektuur. Hierdie hulpmiddel is nou geargiveer en die laaste vrystelling was in 2017. Die binêre wat afgelaai is met die instruksies hieronder, teiken Intel skyfies aangesien Apple Silicon nie in 2017 beskikbaar was nie. Dit mag moontlik wees om die binêre vir arm64 argitektuur te compileer, maar jy sal self moet probeer.
+**注意**：以下说明仅适用于具有 Intel 架构的 Mac。此工具现已归档，最后一次发布是在 2017 年。根据以下说明下载的二进制文件针对 Intel 芯片，因为在 2017 年时 Apple Silicon 尚未出现。可能可以为 arm64 架构编译二进制文件，但您需要自己尝试。
 ```bash
 #Dump raw format
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
@@ -46,16 +46,16 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 #Dump aff4 format
 sudo osxpmem.app/osxpmem -o /tmp/dump_mem.aff4
 ```
-As jy hierdie fout vind: `osxpmem.app/MacPmem.kext kon nie laai nie - (libkern/kext) outentisering mislukking (lêer eienaarskap/permitte); kyk na die stelsel/kernel logs vir foute of probeer kextutil(8)` kan jy dit regmaak deur:
+如果您发现此错误：`osxpmem.app/MacPmem.kext failed to load - (libkern/kext) authentication failure (file ownership/permissions); check the system/kernel logs for errors or try kextutil(8)` 您可以通过以下方式修复它：
 ```bash
 sudo cp -r osxpmem.app/MacPmem.kext "/tmp/"
 sudo kextutil "/tmp/MacPmem.kext"
 #Allow the kext in "Security & Privacy --> General"
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-**Ander foute** kan reggestel word deur **die laai van die kext toe te laat** in "Sekuriteit & Privaatheid --> Algemeen", net **laat** dit toe.
+**其他错误**可能通过**允许加载kext**在“安全性与隐私 --> 常规”中修复，只需**允许**它。
 
-Jy kan ook hierdie **oneliner** gebruik om die toepassing af te laai, die kext te laai en die geheue te dump: 
+您还可以使用此**单行命令**下载应用程序，加载kext并转储内存：
 
 {% code overflow="wrap" %}
 ```bash
@@ -66,16 +66,16 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

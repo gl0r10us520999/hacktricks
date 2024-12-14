@@ -1,40 +1,40 @@
-# macOS PID Hergebruik
+# macOS PID 重用
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## PID Hergebruik
+## PID 重用
 
-Wanneer 'n macOS **XPC diens** die aangeroep proses nagaan op grond van die **PID** en nie op die **audit token** nie, is dit kwesbaar vir 'n PID hergebruik aanval. Hierdie aanval is gebaseer op 'n **wedren toestand** waar 'n **ontploffing** **boodskappe na die XPC** diens **misbruik** van die funksionaliteit gaan **stuur** en net **na** dit, **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** met die **toegelate** binêre uitvoer.
+当 macOS **XPC 服务** 基于 **PID** 而不是 **审计令牌** 检查被调用的进程时，它就容易受到 PID 重用攻击。该攻击基于 **竞争条件**，其中 **利用** 将 **消息发送到 XPC** 服务 **滥用** 功能，随后执行 **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** 使用 **允许的** 二进制文件。
 
-Hierdie funksie sal die **toegelate binêre die PID** laat besit, maar die **kwaadwillige XPC boodskap sou net voorheen gestuur gewees het**. So, as die **XPC** diens die **PID** gebruik om die sender te **verifieer** en dit **NÁ** die uitvoering van **`posix_spawn`** nagaan, sal dit dink dit kom van 'n **geautoriseerde** proses.
+此函数将使 **允许的二进制文件拥有 PID**，但 **恶意的 XPC 消息会在此之前发送**。因此，如果 **XPC** 服务 **使用** **PID** 来 **验证** 发送者，并在执行 **`posix_spawn`** 之后检查它，它将认为消息来自 **授权** 进程。
 
-### Ontploffing voorbeeld
+### 利用示例
 
-As jy die funksie **`shouldAcceptNewConnection`** of 'n funksie wat deur dit **aangeroep** word **`processIdentifier`** en nie **`auditToken`** aanroep nie, vind. Dit beteken hoogs waarskynlik dat dit die **proses PID** nagaan en nie die audit token nie.\
-Soos byvoorbeeld in hierdie beeld (geneem van die verwysing):
+如果你发现函数 **`shouldAcceptNewConnection`** 或其调用的函数 **调用** **`processIdentifier`** 而不调用 **`auditToken`**，这很可能意味着它在 **验证进程 PID** 而不是审计令牌。\
+例如在这张图片中（取自参考）：
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Kyk na hierdie voorbeeld ontploffing (weer, geneem van die verwysing) om die 2 dele van die ontploffing te sien:
+查看这个示例利用（同样取自参考）以查看利用的两个部分：
 
-* Een wat **verskeie vurkies genereer**
-* **Elke vurk** sal die **payload** na die XPC diens stuur terwyl dit **`posix_spawn`** net na die boodskap stuur.
+* 一个 **生成多个分叉**
+* **每个分叉** 将 **发送** **有效载荷** 到 XPC 服务，同时在发送消息后立即执行 **`posix_spawn`**。
 
 {% hint style="danger" %}
-Vir die ontploffing om te werk is dit belangrik om ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** of om binne die ontploffing te plaas:
+为了使利用有效，重要的是 ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** 或将其放入利用中：
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -44,7 +44,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Eerste opsie om **`NSTasks`** te gebruik en argument om die kinders te begin om die RC te ontgin
+第一种选择是使用 **`NSTasks`** 和参数来启动子进程以利用 RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -153,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Hierdie voorbeeld gebruik 'n rou **`fork`** om **kinders te begin wat die PID wedlooptoestand** sal benut en dan **nog 'n wedlooptoestand via 'n Hard link:**
+这个例子使用原始 **`fork`** 来启动 **将利用 PID 竞争条件的子进程**，然后通过硬链接利用 **另一个竞争条件：**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -289,26 +289,26 @@ return 0;
 {% endtab %}
 {% endtabs %}
 
-## Ander voorbeelde
+## 其他示例
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
 
-## Verwysings
+## 参考文献
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

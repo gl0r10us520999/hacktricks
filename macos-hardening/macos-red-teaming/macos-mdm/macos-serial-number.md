@@ -1,16 +1,16 @@
-# macOS Serienommer
+# macOS 序列号
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -26,48 +26,48 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 
 
-## Basiese Inligting
+## 基本信息
 
-Apple toestelle na 2010 het serienommers wat bestaan uit **12 alfanumeriese karakters**, elke segment wat spesifieke inligting oordra:
+2010 年后发布的 Apple 设备的序列号由 **12 个字母数字字符** 组成，每个部分传达特定信息：
 
-- **Eerste 3 Karakters**: Dui die **produksie ligging** aan.
-- **Karakter 4 & 5**: Dui die **jaar en week van vervaardiging** aan.
-- **Karakter 6 tot 8**: Dien as 'n **unieke identifiseerder** vir elke toestel.
-- **Laaste 4 Karakters**: Spesifiseer die **modelnommer**.
+- **前 3 个字符**：指示 **制造地点**。
+- **第 4 和 5 个字符**：表示 **制造年份和周数**。
+- **第 6 到 8 个字符**：作为每个设备的 **唯一标识符**。
+- **最后 4 个字符**：指定 **型号**。
 
-Byvoorbeeld, die serienommer **C02L13ECF8J2** volg hierdie struktuur.
+例如，序列号 **C02L13ECF8J2** 遵循此结构。
 
-### **Produksie Ligging (Eerste 3 Karakters)**
-Sekere kodes verteenwoordig spesifieke fabrieke:
-- **FC, F, XA/XB/QP/G8**: Verskeie plekke in die VSA.
-- **RN**: Mexiko.
-- **CK**: Cork, Ierland.
-- **VM**: Foxconn, Tsjeggië.
-- **SG/E**: Singapoer.
-- **MB**: Maleisië.
-- **PT/CY**: Korea.
-- **EE/QT/UV**: Taiwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Verskillende plekke in China.
-- **C0, C3, C7**: Spesifieke stede in China.
-- **RM**: Gerenoveerde toestelle.
+### **制造地点（前 3 个字符）**
+某些代码代表特定工厂：
+- **FC, F, XA/XB/QP/G8**：美国的不同地点。
+- **RN**：墨西哥。
+- **CK**：爱尔兰科克。
+- **VM**：捷克共和国富士康。
+- **SG/E**：新加坡。
+- **MB**：马来西亚。
+- **PT/CY**：韩国。
+- **EE/QT/UV**：台湾。
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**：中国的不同地点。
+- **C0, C3, C7**：中国的特定城市。
+- **RM**：翻新设备。
 
-### **Jaar van Vervaardiging (4de Karakter)**
-Hierdie karakter wissel van 'C' (wat die eerste helfte van 2010 verteenwoordig) tot 'Z' (tweede helfte van 2019), met verskillende letters wat verskillende helfjaarperiodes aandui.
+### **制造年份（第 4 个字符）**
+此字符从 'C'（代表 2010 年上半年）到 'Z'（2019 年下半年），不同字母表示不同的半年时期。
 
-### **Week van Vervaardiging (5de Karakter)**
-Cijfers 1-9 kom ooreen met weke 1-9. Letters C-Y (uitgesluit vokale en 'S') verteenwoordig weke 10-27. Vir die tweede helfte van die jaar, word 26 by hierdie nommer gevoeg.
+### **制造周数（第 5 个字符）**
+数字 1-9 对应于第 1-9 周。字母 C-Y（不包括元音和 'S'）表示第 10-27 周。对于下半年，此数字加上 26。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -84,10 +84,6 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 </details>
-{% endhint %}
-</details>
-{% endhint %}hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
 {% endhint %}
 </details>
 {% endhint %}

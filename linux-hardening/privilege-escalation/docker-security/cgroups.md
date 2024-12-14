@@ -1,31 +1,31 @@
 # CGroups
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Basic Information
 
-**Linux Beheergroepe**, of **cgroups**, is 'n kenmerk van die Linux-kernel wat die toekenning, beperking, en prioritisering van stelselbronne soos CPU, geheue, en skyf I/O onder prosesgroepe moontlik maak. Hulle bied 'n meganisme vir **die bestuur en isolering van die hulpbruggebruik** van prosesversamelings, voordelig vir doeleindes soos hulpbrugbeperking, werklas-isolering, en hulpbrugprioritisering tussen verskillende prosesgroepe.
+**Linux 控制组**，或称 **cgroups**，是 Linux 内核的一个特性，允许在进程组之间分配、限制和优先处理系统资源，如 CPU、内存和磁盘 I/O。它们提供了一种**管理和隔离进程集合资源使用**的机制，有利于资源限制、工作负载隔离和不同进程组之间的资源优先级管理等目的。
 
-Daar is **twee weergawes van cgroups**: weergawe 1 en weergawe 2. Beide kan gelyktydig op 'n stelsel gebruik word. Die primêre onderskeid is dat **cgroups weergawe 2** 'n **hiërargiese, boomagtige struktuur** introduceer, wat meer genuanseerde en gedetailleerde hulpbrugverdeling tussen prosesgroepe moontlik maak. Daarbenewens bring weergawe 2 verskeie verbeterings, insluitend:
+有 **两个版本的 cgroups**：版本 1 和版本 2。两者可以在系统上同时使用。主要区别在于 **cgroups 版本 2** 引入了 **层次化的树状结构**，使得在进程组之间进行更细致和详细的资源分配成为可能。此外，版本 2 还带来了各种增强功能，包括：
 
-Benewens die nuwe hiërargiese organisasie het cgroups weergawe 2 ook **verskeie ander veranderinge en verbeterings** ingevoer, soos ondersteuning vir **nuwe hulpbrugbeheerders**, beter ondersteuning vir oudtydse toepassings, en verbeterde prestasie.
+除了新的层次化组织，cgroups 版本 2 还引入了 **其他几个变化和改进**，例如对 **新资源控制器**的支持、更好的对遗留应用程序的支持以及性能的提升。
 
-Oor die algemeen bied cgroups **weergawe 2 meer kenmerke en beter prestasie** as weergawe 1, maar die laasgenoemde kan steeds in sekere scenario's gebruik word waar verenigbaarheid met ouer stelsels 'n bekommernis is.
+总体而言，cgroups **版本 2 提供了比版本 1 更多的功能和更好的性能**，但后者在某些需要与旧系统兼容的场景中仍然可以使用。
 
-Jy kan die v1 en v2 cgroups vir enige proses lys deur na sy cgroup-lêer in /proc/\<pid> te kyk. Jy kan begin deur na jou skul se cgroups te kyk met hierdie bevel:
+您可以通过查看 /proc/\<pid> 中的 cgroup 文件来列出任何进程的 v1 和 v2 cgroups。您可以通过以下命令开始查看您 shell 的 cgroups：
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,54 +40,67 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
-Die uitvoerstruktuur is as volg:
+* **数字 2–12**：cgroups v1，每行代表一个不同的 cgroup。控制器在数字旁边指定。
+* **数字 1**：也是 cgroups v1，但仅用于管理目的（由例如 systemd 设置），并且没有控制器。
+* **数字 0**：表示 cgroups v2。没有列出控制器，这一行仅在仅运行 cgroups v2 的系统上存在。
+* **名称是层次结构的**，类似于文件路径，指示不同 cgroups 之间的结构和关系。
+* **像 /user.slice 或 /system.slice 的名称** 指定 cgroups 的分类，其中 user.slice 通常用于由 systemd 管理的登录会话，而 system.slice 用于系统服务。
 
-* **Nommers 2–12**: cgroups v1, waar elke lyn 'n verskillende cgroup voorstel. Kontroleerders vir hierdie is aangrensend aan die nommer.
-* **Nommer 1**: Ook cgroups v1, maar slegs vir bestuursdoeleindes (ingestel deur bv. systemd), en ontbreek 'n kontroleerder.
-* **Nommer 0**: Stel cgroups v2 voor. Geen kontroleerders word gelys nie, en hierdie lyn is eksklusief op stelsels wat slegs cgroups v2 hardloop.
-* Die **name is hiërargies**, lyk soos lêerpaadjies, wat die struktuur en verhouding tussen verskillende cgroups aandui.
-* **Name soos /user.slice of /system.slice** dui die kategorisering van cgroups aan, met user.slice tipies vir aanmeldsessies wat deur systemd bestuur word en system.slice vir stelseldienste.
+### 查看 cgroups
 
-### Besigtiging van cgroups
+文件系统通常用于访问 **cgroups**，与传统用于内核交互的 Unix 系统调用接口不同。要调查 shell 的 cgroup 配置，应检查 **/proc/self/cgroup** 文件，该文件显示 shell 的 cgroup。然后，通过导航到 **/sys/fs/cgroup**（或 **`/sys/fs/cgroup/unified`**）目录并找到一个与 cgroup 名称相同的目录，可以观察与 cgroup 相关的各种设置和资源使用信息。
 
-Die lêersisteem word tipies gebruik vir die toegang tot **cgroups**, wat afwyk van die Unix-stelseloproepkoppelvlak wat tradisioneel gebruik word vir kernelinteraksies. Om 'n skul se cgroup-konfigurasie te ondersoek, moet 'n mens die **/proc/self/cgroup**-lêer ondersoek, wat die skul se cgroup onthul. Daarna, deur te navigeer na die **/sys/fs/cgroup** (of **`/sys/fs/cgroup/unified`**) gids en 'n gids te vind wat die naam van die cgroup deel, kan 'n mens verskeie instellings en hulpbruggebruiksinligting wat relevant is vir die cgroup, waarneem.
+![Cgroup 文件系统](<../../../.gitbook/assets/image (1128).png>)
 
-![Cgroup-lêersisteem](<../../../.gitbook/assets/image (1128).png>)
+cgroups 的关键接口文件以 **cgroup** 为前缀。**cgroup.procs** 文件可以使用标准命令（如 cat）查看，列出 cgroup 中的进程。另一个文件 **cgroup.threads** 包含线程信息。
 
-Die sleutelkoppelvlaklêers vir cgroups is voorafgegaan deur **cgroup**. Die **cgroup.procs**-lêer, wat met standaardopdragte soos cat bekyk kan word, lys die prosesse binne die cgroup. 'n Ander lêer, **cgroup.threads**, sluit draadinligting in.
+![Cgroup 进程](<../../../.gitbook/assets/image (281).png>)
 
-![Cgroup Procs](<../../../.gitbook/assets/image (281).png>)
+管理 shell 的 cgroups 通常包含两个控制器，分别调节内存使用和进程数量。要与控制器交互，应参考带有控制器前缀的文件。例如，**pids.current** 将被引用以确定 cgroup 中的线程数量。
 
-Cgroups wat skul beheer, omvat tipies twee kontroleerders wat geheugengebruik en prosesgetal reguleer. Om met 'n kontroleerder te interaksieer, moet lêers wat die voorvoegsel van die kontroleerder dra, geraadpleeg word. Byvoorbeeld, **pids.current** sou geraadpleeg word om die telling van drade in die cgroup te bepaal.
+![Cgroup 内存](<../../../.gitbook/assets/image (677).png>)
 
-![Cgroup-geheue](<../../../.gitbook/assets/image (677).png>)
+值中 **max** 的指示表明 cgroup 没有特定限制。然而，由于 cgroups 的层次结构，限制可能由目录层次结构中较低级别的 cgroup 强加。
 
-Die aanduiding van **max** in 'n waarde dui op die afwesigheid van 'n spesifieke limiet vir die cgroup. Tog, as gevolg van die hiërargiese aard van cgroups, kan limiete opgelê word deur 'n cgroup op 'n laer vlak in die gidshiërargie.
+### 操作和创建 cgroups
 
-### Manipulering en Skepping van cgroups
-
-Prosesse word aan cgroups toegewys deur **hul Proses-ID (PID) na die `cgroup.procs`-lêer te skryf**. Dit vereis root-voorregte. Byvoorbeeld, om 'n proses by te voeg:
+通过 **将其进程 ID (PID) 写入 `cgroup.procs` 文件** 将进程分配给 cgroups。这需要 root 权限。例如，要添加一个进程：
 ```bash
 echo [pid] > cgroup.procs
 ```
-Op soortgelyke wyse word **die wysiging van cgroup-eienskappe, soos die instelling van 'n PID-limiet**, gedoen deur die gewenste waarde na die relevante lêer te skryf. Om 'n maksimum van 3,000 PIDs vir 'n cgroup in te stel:
+同样，**修改 cgroup 属性，例如设置 PID 限制**，是通过将所需值写入相关文件来完成的。要为 cgroup 设置最多 3,000 个 PIDs：
 ```bash
 echo 3000 > pids.max
 ```
-**Skep nuwe cgroups** behels die skep van 'n nuwe subgids binne die cgroup-hierargie, wat die kernel aanmoedig om outomaties die nodige koppelvlaklêers te genereer. Alhoewel cgroups sonder aktiewe prosesse met `rmdir` verwyder kan word, moet daar bewus wees van sekere beperkings:
+**创建新的 cgroups** 涉及在 cgroup 层次结构中创建一个新的子目录，这会提示内核自动生成必要的接口文件。尽管没有活动进程的 cgroups 可以使用 `rmdir` 删除，但要注意某些限制：
 
-- **Prosesse kan slegs in blaar-cgroups geplaas word** (m.a.w., die mees geneste in 'n hiërargie).
-- **'n Cgroup kan nie 'n beheerder besit wat afwesig is in sy ouer nie**.
-- **Beheerders vir kind-cgroups moet eksplisiet verklaar word** in die `cgroup.subtree_control` lêer. Byvoorbeeld, om die CPU- en PID-beheerders in 'n kind-cgroup te aktiveer:
+* **进程只能放置在叶子 cgroups 中**（即层次结构中最嵌套的那些）。
+* **一个 cgroup 不能拥有其父级中缺失的控制器**。
+* **子 cgroups 的控制器必须在 `cgroup.subtree_control` 文件中显式声明**。例如，要在子 cgroup 中启用 CPU 和 PID 控制器：
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
-Die **root cgroup** is 'n uitsondering op hierdie reëls, wat direkte prosesplasing toelaat. Dit kan gebruik word om prosesse uit systemd-bestuur te verwyder.
+The **root cgroup** 是这些规则的例外，允许直接放置进程。这可以用来将进程从 systemd 管理中移除。
 
-**Monitering van CPU-gebruik** binne 'n cgroup is moontlik deur die `cpu.stat` lêer, wat die totale CPU-tyd verbruik aandui, nuttig vir die opsporing van gebruik oor 'n diens se subprosesse:
+**监控 cgroup 中的 CPU 使用情况** 可以通过 `cpu.stat` 文件实现，该文件显示了消耗的总 CPU 时间，有助于跟踪服务的子进程的使用情况：
 
-<figure><img src="../../../.gitbook/assets/image (908).png" alt=""><figcaption><p>CPU-gebruikstatistieke soos in die cpu.stat lêer vertoon</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (908).png" alt=""><figcaption><p>cpu.stat 文件中显示的 CPU 使用统计信息</p></figcaption></figure>
 
-## Verwysings
+## References
 
-* **Boek: How Linux Works, 3de Uitgawe: Wat Elke Supergebruiker Behoort te Weet Deur Brian Ward**
+* **书籍：How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

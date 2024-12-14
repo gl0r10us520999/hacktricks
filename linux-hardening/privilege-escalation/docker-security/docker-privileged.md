@@ -1,30 +1,30 @@
 # Docker --privileged
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Wat beïnvloed
+## What Affects
 
-Wanneer jy 'n houer as bevoorregte uitvoer, is dit die beskermings wat jy deaktiveer:
+当你以特权模式运行容器时，你正在禁用以下保护：
 
-### Monteer /dev
+### Mount /dev
 
-In 'n bevoorregte houer kan alle **toestelle in `/dev/`** toeganklik wees. Daarom kan jy **ontsnap** deur die **disk** van die gasheer te **monteer**.
+在特权容器中，所有的 **设备可以在 `/dev/` 中访问**。因此，你可以通过 **挂载** 主机的磁盘来 **逃逸**。
 
 {% tabs %}
-{% tab title="Binne standaard houer" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -33,7 +33,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="Binne Bevoorregte Houer" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -46,12 +46,12 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### Lees-slegs kern lêerstelsels
+### 只读内核文件系统
 
-Kern lêerstelsels bied 'n mekanisme vir 'n proses om die gedrag van die kern te verander. egter, wanneer dit by houerprosesse kom, wil ons voorkom dat hulle enige veranderinge aan die kern aanbring. Daarom monteer ons kern lêerstelsels as **lees-slegs** binne die houer, wat verseker dat die houerprosesse nie die kern kan verander nie.
+内核文件系统为进程提供了一种修改内核行为的机制。然而，对于容器进程，我们希望防止它们对内核进行任何更改。因此，我们在容器内将内核文件系统挂载为**只读**，确保容器进程无法修改内核。
 
 {% tabs %}
-{% tab title="Binne standaard houer" %}
+{% tab title="默认容器内部" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -62,7 +62,7 @@ cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,c
 ```
 {% endtab %}
 
-{% tab title="Binne Bevoorregte Houer" %}
+{% tab title="内部特权容器" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -70,16 +70,16 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Maskering oor kern lêerstelsels
+### 遮蔽内核文件系统
 
-Die **/proc** lêerstelsel is selektief skryfbaar, maar vir sekuriteit is sekere dele beskerm teen skryf- en lees toegang deur dit met **tmpfs** te oorlaai, wat verseker dat houerprosesse nie toegang tot sensitiewe areas het nie.
+**/proc** 文件系统是选择性可写的，但出于安全考虑，某些部分通过用 **tmpfs** 进行覆盖而屏蔽了写入和读取访问，确保容器进程无法访问敏感区域。
 
 {% hint style="info" %}
-**tmpfs** is 'n lêerstelsel wat al die lêers in virtuele geheue stoor. tmpfs skep nie enige lêers op jou hardeskyf nie. So as jy 'n tmpfs-lêerstelsel ontkoppel, gaan al die lêers wat daarin is vir altyd verlore.
+**tmpfs** 是一种将所有文件存储在虚拟内存中的文件系统。tmpfs 不会在你的硬盘上创建任何文件。因此，如果你卸载一个 tmpfs 文件系统，里面的所有文件将永远丢失。
 {% endhint %}
 
 {% tabs %}
-{% tab title="Binne standaard houer" %}
+{% tab title="默认容器内部" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -89,7 +89,7 @@ tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
 {% endtab %}
 
-{% tab title="Binne Bevoorregte Houer" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -97,16 +97,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linux vermoëns
+### Linux 能力
 
-Container enjinse begin die houers met 'n **beperkte aantal vermoëns** om te beheer wat binne die houer gebeur per standaard. **Bevoorregte** houers het **alle** die **vermoëns** beskikbaar. Om meer oor vermoëns te leer, lees:
+容器引擎以 **有限数量的能力** 启动容器，以控制容器内部的操作。**特权** 容器具有 **所有** 的 **能力** 可用。要了解能力，请阅读：
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Binne standaard houer" %}
+{% tab title="默认容器内部" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -117,7 +117,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="Binne Bevoorregte Houer" %}
+{% tab title="内部特权容器" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -129,18 +129,18 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-Jy kan die vermoëns wat beskikbaar is vir 'n houer manipuleer sonder om in `--privileged` modus te loop deur die `--cap-add` en `--cap-drop` vlae te gebruik.
+您可以通过使用 `--cap-add` 和 `--cap-drop` 标志来操纵容器可用的能力，而无需以 `--privileged` 模式运行。
 
 ### Seccomp
 
-**Seccomp** is nuttig om die **syscalls** wat 'n houer kan aanroep te **beperk**. 'n Standaard seccomp-profiel is standaard geaktiveer wanneer docker-houers loop, maar in privilige-modus is dit gedeaktiveer. Leer meer oor Seccomp hier:
+**Seccomp** 对于 **限制** 容器可以调用的 **syscalls** 非常有用。默认情况下，在运行 docker 容器时启用默认的 seccomp 配置文件，但在特权模式下它是禁用的。有关 Seccomp 的更多信息，请在这里查看：
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Binne standaard houer" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -149,7 +149,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Binne Bevoorregte Houer" %}
+{% tab title="内部特权容器" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -162,11 +162,11 @@ Seccomp_filters:	0
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-Ook, let daarop dat wanneer Docker (of ander CRI's) in 'n **Kubernetes** kluster gebruik word, die **seccomp-filter is standaard gedeaktiveer**.
+另外，请注意，当在 **Kubernetes** 集群中使用 Docker（或其他 CRI）时，**seccomp 过滤器默认是禁用的**。
 
 ### AppArmor
 
-**AppArmor** is 'n kernverbetering om **houers** te beperk tot 'n **beperkte** stel **hulpbronne** met **per-program profiele**. Wanneer jy met die `--privileged` vlag loop, is hierdie beskerming gedeaktiveer.
+**AppArmor** 是一种内核增强，用于将 **容器** 限制在 **有限** 的 **资源** 集合中，具有 **每个程序的配置文件**。当您使用 `--privileged` 标志运行时，此保护将被禁用。
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -177,7 +177,7 @@ Ook, let daarop dat wanneer Docker (of ander CRI's) in 'n **Kubernetes** kluster
 ```
 ### SELinux
 
-Die uitvoering van 'n houer met die `--privileged` vlag deaktiveer **SELinux etikette**, wat veroorsaak dat dit die etiket van die houer enjin oorneem, tipies `unconfined`, wat volle toegang toeken aan die houer enjin. In rootless-modus gebruik dit `container_runtime_t`, terwyl in root-modus `spc_t` toegepas word.
+使用 `--privileged` 标志运行容器会禁用 **SELinux 标签**，导致其继承容器引擎的标签，通常为 `unconfined`，赋予与容器引擎相似的完全访问权限。在无根模式下，它使用 `container_runtime_t`，而在根模式下，应用 `spc_t`。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -186,14 +186,14 @@ Die uitvoering van 'n houer met die `--privileged` vlag deaktiveer **SELinux eti
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-## Wat Nie Beïnvloed Word Nie
+## 什么不受影响
 
-### Namespaces
+### 命名空间
 
-Namespaces word **NIE beïnvloed** deur die `--privileged` vlag. Alhoewel hulle nie die sekuriteitsbeperkings geaktiveer het nie, **sien hulle nie al die prosesse op die stelsel of die gasheer netwerk nie, byvoorbeeld**. Gebruikers kan individuele namespaces deaktiveer deur die **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** houer enjin vlae te gebruik.
+命名空间**不受**`--privileged`标志的影响。尽管它们没有启用安全约束，但它们**并不能看到系统或主机网络上的所有进程，例如**。用户可以通过使用**`--pid=host`、`--net=host`、`--ipc=host`、`--uts=host`**容器引擎标志来禁用单个命名空间。
 
 {% tabs %}
-{% tab title="Binne standaard bevoorregte houer" %}
+{% tab title="在默认特权容器内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -203,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="Binne --pid=host Houer" %}
+{% tab title="内部 --pid=host 容器" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
@@ -216,25 +216,25 @@ PID   USER     TIME  COMMAND
 {% endtab %}
 {% endtabs %}
 
-### Gebruiker naamruimte
+### 用户命名空间
 
-**Standaard gebruik container enjin nie gebruiker naamruimtes nie, behalwe vir rootless houers**, wat dit benodig vir lêerstelsel montering en die gebruik van verskeie UID's. Gebruiker naamruimtes, wat noodsaaklik is vir rootless houers, kan nie gedeaktiveer word nie en verbeter sekuriteit aansienlik deur voorregte te beperk.
+**默认情况下，容器引擎不使用用户命名空间，除了无根容器**，无根容器需要它们进行文件系统挂载和使用多个 UID。用户命名空间是无根容器的核心，无法禁用，并通过限制特权显著增强安全性。
 
-## Verwysings
+## 参考文献
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

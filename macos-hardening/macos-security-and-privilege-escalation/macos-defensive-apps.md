@@ -1,16 +1,16 @@
-# macOS Verdedigende Apps
+# macOS 防御应用
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -28,16 +28,16 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 {% endhint %}
 
-## Vuurmure
+## 防火墙
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Dit sal elke verbinding wat deur elke proses gemaak word, monitor. Afhangende van die modus (stille toelaat verbindings, stille weier verbinding en waarskuwing) sal dit **vir jou 'n waarskuwing wys** elke keer as 'n nuwe verbinding gevestig word. Dit het ook 'n baie mooi GUI om al hierdie inligting te sien.
-* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See vuurmuur. Dit is 'n basiese vuurmuur wat jou sal waarsku vir verdagte verbindings (dit het 'n GUI maar dit is nie so fancy soos dié van Little Snitch nie).
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html)：它将监控每个进程所建立的每个连接。根据模式（静默允许连接、静默拒绝连接和警报），每当建立新连接时，它将**向您显示警报**。它还有一个非常好的 GUI 来查看所有这些信息。
+* [**LuLu**](https://objective-see.org/products/lulu.html)：Objective-See 防火墙。这是一个基本的防火墙，会对可疑连接发出警报（它有一个 GUI，但没有 Little Snitch 的那么花哨）。
 
-## Volharding detectie
+## 持久性检测
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See toepassing wat in verskeie plekke sal soek waar **malware mag volhard** (dit is 'n eenmalige hulpmiddel, nie 'n moniteringsdiens nie).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Soos KnockKnock deur prosesse te monitor wat volharding genereer.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html)：Objective-See 应用程序，将在多个位置搜索**恶意软件可能存在的地方**（这是一个一次性工具，而不是监控服务）。
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html)：像 KnockKnock 一样，通过监控生成持久性的进程。
 
-## Sleutellogger detectie
+## 键盘记录器检测
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See toepassing om **sleutellogger** te vind wat sleutelbord "gebeurtenis tapps" installeer.
+* [**ReiKey**](https://objective-see.org/products/reikey.html)：Objective-See 应用程序，用于查找安装键盘“事件捕获”的**键盘记录器**。

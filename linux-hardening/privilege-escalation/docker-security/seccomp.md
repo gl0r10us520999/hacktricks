@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-**Seccomp**, wat staan vir Secure Computing mode, is 'n sekuriteitskenmerk van die **Linux-kern wat ontwerp is om stelsels aanroep te filter**. Dit beperk prosesse tot 'n beperkte stel stelsels aanroep (`exit()`, `sigreturn()`, `read()`, en `write()` vir reeds-geopende lêer beskrywings). As 'n proses probeer om enigiets anders aan te roep, word dit deur die kern beëindig met SIGKILL of SIGSYS. Hierdie meganisme virtualiseer nie hulpbronne nie, maar isoleer die proses daarvan.
+**Seccomp**，即安全计算模式，是**Linux内核的一项安全特性，旨在过滤系统调用**。它将进程限制在一组有限的系统调用中（对于已打开的文件描述符，`exit()`、`sigreturn()`、`read()`和`write()`）。如果进程尝试调用其他任何内容，内核将使用SIGKILL或SIGSYS终止该进程。该机制并不虚拟化资源，而是将进程与资源隔离。
 
-Daar is twee maniere om seccomp te aktiveer: deur die `prctl(2)` stelsels aanroep met `PR_SET_SECCOMP`, of vir Linux-kerns 3.17 en hoër, die `seccomp(2)` stelsels aanroep. Die ouer metode om seccomp in te skakel deur na `/proc/self/seccomp` te skryf, is verouderd ten gunste van `prctl()`.
+激活seccomp有两种方法：通过`prctl(2)`系统调用与`PR_SET_SECCOMP`，或者对于Linux内核3.17及以上版本，使用`seccomp(2)`系统调用。通过写入`/proc/self/seccomp`来启用seccomp的旧方法已被弃用，取而代之的是`prctl()`。
 
-'n Verbetering, **seccomp-bpf**, voeg die vermoë by om stelsels aanroep te filter met 'n aanpasbare beleid, met behulp van Berkeley Packet Filter (BPF) reëls. Hierdie uitbreiding word benut deur sagteware soos OpenSSH, vsftpd, en die Chrome/Chromium-browsers op Chrome OS en Linux vir buigsame en doeltreffende syscall-filtering, wat 'n alternatief bied vir die nou nie-ondersteunde systrace vir Linux.
+一种增强功能，**seccomp-bpf**，增加了使用可定制策略过滤系统调用的能力，使用伯克利数据包过滤器（BPF）规则。此扩展被OpenSSH、vsftpd以及Chrome OS和Linux上的Chrome/Chromium浏览器等软件利用，以实现灵活高效的系统调用过滤，提供了对现在不再支持的Linux systrace的替代方案。
 
 ### **Original/Strict Mode**
 
-In hierdie modus laat Seccomp **slegs die syscalls** `exit()`, `sigreturn()`, `read()` en `write()` toe vir reeds-geopende lêer beskrywings. As enige ander syscall gemaak word, word die proses doodgemaak met SIGKILL
+在此模式下，Seccomp **仅允许系统调用** `exit()`、`sigreturn()`、`read()`和`write()`对已打开的文件描述符。如果进行任何其他系统调用，进程将使用SIGKILL被终止。
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -63,7 +63,7 @@ printf("You will not see this message--the process will be killed first\n");
 
 ### Seccomp-bpf
 
-Hierdie modus laat **filtrering van stelselskille toe met 'n konfigureerbare beleid** wat geïmplementeer is met behulp van Berkeley Packet Filter-reëls.
+此模式允许**使用可配置策略过滤系统调用**，该策略是通过伯克利数据包过滤器规则实现的。
 
 {% code title="seccomp_bpf.c" %}
 ```c
@@ -117,29 +117,29 @@ printf("this process is %d\n", getpid());
 
 ## Seccomp in Docker
 
-**Seccomp-bpf** word deur **Docker** ondersteun om die **syscalls** van die houers te beperk, wat effektief die oppervlakarea verminder. Jy kan die **syscalls wat geblokkeer** is **per standaard** vind in [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) en die **standaard seccomp-profiel** kan hier gevind word [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
-Jy kan 'n docker-houer met 'n **ander seccomp** beleid uitvoer met:
+**Seccomp-bpf** 被 **Docker** 支持，以限制容器中的 **syscalls**，有效地减少攻击面。您可以在 [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) 找到 **默认** 被 **阻止的 syscalls**，**默认 seccomp 配置文件** 可以在这里找到 [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)。\
+您可以使用以下命令运行具有 **不同 seccomp** 策略的 docker 容器：
 ```bash
 docker run --rm \
 -it \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-As jy byvoorbeeld wil **verbied** dat 'n houer sekere **syscall** soos `uname` uitvoer, kan jy die standaardprofiel aflaai van [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) en net die **`uname` string uit die lys **verwyder.\
-As jy seker wil maak dat **'n sekere binêre nie binne 'n docker-houer werk nie**, kan jy strace gebruik om die syscalls wat die binêre gebruik, op te lys en hulle dan verbied.\
-In die volgende voorbeeld word die **syscalls** van `uname` ontdek:
+如果你想例如**禁止**一个容器执行某些**syscall**，像`uname`，你可以从[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)下载默认配置文件，然后**从列表中移除`uname`字符串**。\
+如果你想确保**某个二进制文件在docker容器内无法工作**，你可以使用strace列出该二进制文件使用的syscalls，然后禁止它们。\
+在以下示例中，发现了`uname`的**syscalls**：
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-As jy **Docker net gebruik om 'n toepassing te begin**, kan jy dit **profiel** met **`strace`** en **net die syscalls** toelaat wat dit benodig
+如果您仅仅是使用 **Docker 来启动一个应用程序**，您可以使用 **`strace`** 对其进行 **分析**，并 **仅允许它所需的系统调用**
 {% endhint %}
 
-### Voorbeeld Seccomp-beleid
+### 示例 Seccomp 策略
 
-[Voorbeeld hier vandaan](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
+[示例来自这里](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Om die Seccomp-funksie te illustreer, kom ons skep 'n Seccomp-profiel wat die “chmod” stelselsoproep soos hieronder deaktiveer.
+为了说明 Seccomp 功能，让我们创建一个 Seccomp 配置文件，禁用“chmod”系统调用，如下所示。
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -151,29 +151,29 @@ Om die Seccomp-funksie te illustreer, kom ons skep 'n Seccomp-profiel wat die �
 ]
 }
 ```
-In die bogenoemde profiel het ons die standaard aksie op "toelaat" gestel en 'n swartlys geskep om "chmod" te deaktiveer. Om veiliger te wees, kan ons die standaard aksie op "verwerp" stel en 'n witlys skep om stelsels oproepe selektief te aktiveer.\
-Die volgende uitvoer toon die "chmod" oproep wat 'n fout teruggee omdat dit in die seccomp profiel gedeaktiveer is.
+在上述配置文件中，我们将默认操作设置为“允许”，并创建了一个黑名单以禁用“chmod”。为了更安全，我们可以将默认操作设置为丢弃，并创建一个白名单以选择性地启用系统调用。\
+以下输出显示“chmod”调用返回错误，因为它在seccomp配置文件中被禁用。
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
 ```
-Die volgende uitvoer toon die “docker inspect” wat die profiel vertoon:
+以下输出显示了“docker inspect”显示的配置文件：
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
 ]
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

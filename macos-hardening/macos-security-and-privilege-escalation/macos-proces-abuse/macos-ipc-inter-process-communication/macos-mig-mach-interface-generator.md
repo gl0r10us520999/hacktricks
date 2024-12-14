@@ -1,44 +1,44 @@
-# macOS MIG - Mach-koppelvlakgenerator
+# macOS MIG - Mach Interface Generator
 
 {% hint style="success" %}
-Leer en oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-MIG is geskep om **die proses van Mach IPC-kode-skepping te vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en klient om met 'n gegewe definisie te kommunikeer. Selfs as die gegenereerde kode lelik is, sal 'n ontwikkelaar dit net hoef in te voer en sy kode sal baie eenvoudiger wees as voorheen.
+MIG的创建是为了**简化Mach IPC**代码的生成过程。它基本上**生成所需的代码**，使服务器和客户端能够根据给定的定义进行通信。即使生成的代码不够优雅，开发者只需导入它，他的代码将比之前简单得多。
 
-Die definisie word gespesifiseer in die Interface Definisie Taal (IDL) deur die gebruik van die `.defs`-uitbreiding.
+定义使用接口定义语言（IDL）以`.defs`扩展名指定。
 
-Hierdie definisies het 5 afdelings:
+这些定义有5个部分：
 
-* **Onderstelselverklaring**: Die sleutelwoord onderstelsel word gebruik om die **naam** en die **id** aan te dui. Dit is ook moontlik om dit as **`KernelServer`** te merk as die bediener in die kernel moet loop.
-* **Insluitings en invoere**: MIG gebruik die C-preprosessor, sodat dit invoere kan gebruik. Daarbenewens is dit moontlik om `uimport` en `simport` vir gebruiker- of bedieners gegenereerde kode te gebruik.
-* **Tipeverklarings**: Dit is moontlik om datatipes te definieer, alhoewel dit gewoonlik `mach_types.defs` en `std_types.defs` sal invoer. Vir aangepaste tipes kan 'n paar sintaksis gebruik word:
-* \[i`n/out]tran`: Funksie wat van 'n inkomende of na 'n uitgaande boodskap vertaal moet word
-* `c[user/server]type`: Koppeling na 'n ander C-tipe.
-* `destructor`: Roep hierdie funksie aan wanneer die tipe vrygestel word.
-* **Operasies**: Dit is die definisies van die RPC-metodes. Daar is 5 verskillende tipes:
-* `routine`: Verwag antwoord
-* `simpleroutine`: Verwag nie antwoord nie
-* `procedure`: Verwag antwoord
-* `simpleprocedure`: Verwag nie antwoord nie
-* `function`: Verwag antwoord
+* **子系统声明**：关键字subsystem用于指示**名称**和**id**。如果服务器应该在内核中运行，也可以将其标记为**`KernelServer`**。
+* **包含和导入**：MIG使用C预处理器，因此能够使用导入。此外，可以使用`uimport`和`simport`来处理用户或服务器生成的代码。
+* **类型声明**：可以定义数据类型，尽管通常会导入`mach_types.defs`和`std_types.defs`。对于自定义类型，可以使用一些语法：
+* \[i`n/out]tran`：需要从传入消息或到传出消息进行转换的函数
+* `c[user/server]type`：映射到另一个C类型。
+* `destructor`：当类型被释放时调用此函数。
+* **操作**：这些是RPC方法的定义。有5种不同类型：
+* `routine`：期望回复
+* `simpleroutine`：不期望回复
+* `procedure`：期望回复
+* `simpleprocedure`：不期望回复
+* `function`：期望回复
 
-### Voorbeeld
+### 示例
 
-Skep 'n definisie-lêer, in hierdie geval met 'n baie eenvoudige funksie:
+创建一个定义文件，在这种情况下是一个非常简单的函数：
 
 {% code title="myipc.defs" %}
 ```cpp
@@ -57,20 +57,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Merk op dat die eerste **argument die poort is om te bind** en MIG sal **outomaties die antwoordpoort hanteer** (tensy `mig_get_reply_port()` geroep word in die kliëntkode). Verder sal die **ID van die operasies** **opeenvolgend** wees beginnende met die aangeduide subsisteem ID (so as 'n operasie verouderd is, word dit verwyder en `skip` word gebruik om steeds sy ID te gebruik).
+请注意，第一个 **参数是要绑定的端口**，MIG 将 **自动处理回复端口**（除非在客户端代码中调用 `mig_get_reply_port()`）。此外，**操作的 ID** 将是 **顺序的**，从指定的子系统 ID 开始（因此，如果某个操作被弃用，它将被删除，并且使用 `skip` 仍然使用其 ID）。
 
-Gebruik nou MIG om die bediener- en kliëntkode te genereer wat in staat sal wees om binne mekaar te kommunikeer om die Aftrek-funksie te roep:
+现在使用 MIG 生成能够相互通信以调用 Subtract 函数的服务器和客户端代码：
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Verskeie nuwe lêers sal geskep word in die huidige gids.
+在当前目录中将创建几个新文件。
 
 {% hint style="success" %}
-Jy kan 'n meer komplekse voorbeeld in jou stelsel vind met: `mdfind mach_port.defs`\
-En jy kan dit van dieselfde gids as die lêer kompileer met: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+您可以在系统中找到一个更复杂的示例，使用：`mdfind mach_port.defs`\
+并且您可以从与文件相同的文件夹中编译它，使用：`mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
 {% endhint %}
 
-In die lêers **`myipcServer.c`** en **`myipcServer.h`** kan jy die deklarasie en definisie van die struktuur **`SERVERPREFmyipc_subsystem`** vind, wat basies die funksie definieer om te roep gebaseer op die ontvangsboodskap-ID (ons het 'n beginnommer van 500 aangedui):
+在文件 **`myipcServer.c`** 和 **`myipcServer.h`** 中，您可以找到结构 **`SERVERPREFmyipc_subsystem`** 的声明和定义，该结构基本上根据接收到的消息 ID 定义要调用的函数（我们指定了起始编号为 500）：
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -91,25 +91,7 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}  
-### macOS MIG (Mach Interface Generator)
-
-MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client-server communication code based on the interfaces defined in a .defs file. This allows processes to communicate with each other using messages.
-
-#### Example:
-
-```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
-```
-
-In this example, `myipc_server` is the function that will be called when a message is received by the server. The server processes the message and sends a response back to the client.
-
-MIG simplifies the process of defining IPC interfaces and handling messages between processes in macOS.  
-{% endtab %}
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -125,7 +107,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Gebaseer op die vorige struktuur sal die funksie **`myipc_server_routine`** die **boodskap ID** kry en die korrekte funksie teruggee om te roep:
+基于之前的结构，函数 **`myipc_server_routine`** 将获取 **消息 ID** 并返回适当的调用函数：
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -140,18 +122,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-In hierdie voorbeeld het ons slegs 1 funksie in die definisies gedefinieer, maar as ons meer funksies sou definieer, sou hulle binne die array van **`SERVERPREFmyipc_subsystem`** gewees het en die eerste een sou aan die ID **500** toegewys gewees het, die tweede een aan die ID **501**...
+在这个例子中，我们只在定义中定义了 1 个函数，但如果我们定义了更多函数，它们将位于 **`SERVERPREFmyipc_subsystem`** 数组中，第一个将被分配给 ID **500**，第二个将被分配给 ID **501**...
 
-As die funksie verwag het om 'n **antwoord** te stuur, sou die funksie `mig_internal kern_return_t __MIG_check__Reply__<name>` ook bestaan.
+如果该函数预期发送一个 **reply**，则函数 `mig_internal kern_return_t __MIG_check__Reply__<name>` 也会存在。
 
-Eintlik is dit moontlik om hierdie verhouding in die struktuur **`subsystem_to_name_map_myipc`** van **`myipcServer.h`** (**`subsystem_to_name_map_***`** in ander lêers) te identifiseer:
+实际上，可以在 **`myipcServer.h`** 中的结构 **`subsystem_to_name_map_myipc`** 中识别这种关系（在其他文件中为 **`subsystem_to_name_map_***`）：
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Uiteindelik, nog 'n belangrike funksie om die bediener te laat werk, sal **`myipc_server`** wees, wat die een is wat werklik die funksie **oproep** wat verband hou met die ontvangste id:
+最后，另一个使服务器正常工作的关键功能是 **`myipc_server`**，它实际上会 **调用与接收到的 id 相关的函数**：
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -168,7 +150,7 @@ mig_routine_t routine;
 
 OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
 OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
-/* Minimal size: routine() will update it if different */
+/* 最小大小：routine() 如果不同会更新它 */
 OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
 OutHeadP->msgh_local_port = MACH_PORT_NULL;
 OutHeadP->msgh_id = InHeadP->msgh_id + 100;
@@ -185,9 +167,9 @@ return FALSE;
 }
 </code></pre>
 
-Kontroleer die voorheen uitgeligte lyne deur toegang tot die funksie om te roep volgens ID.
+检查之前突出显示的行以通过 ID 访问要调用的函数。
 
-Die volgende is die kode om 'n eenvoudige **bediener** en **kliënt** te skep waar die kliënt die funksies van die bediener kan oproep:
+以下是创建一个简单的 **服务器** 和 **客户端** 的代码，其中客户端可以调用服务器的 Subtract 函数：
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -223,44 +205,7 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}  
-### Afrikaans Translation:
-  
-```c
-#include <stdio.h>
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
-
-int main() {
-    kern_return_t kr;
-    mach_port_t server_port;
-    myipc_msg_t msg;
-
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        return 1;
-    }
-
-    msg.hdr.msgh_bits = MACH_MSGH_BITS_REMOTE(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
-    msg.hdr.msgh_size = sizeof(msg);
-    msg.hdr.msgh_remote_port = server_port;
-    msg.hdr.msgh_local_port = MACH_PORT_NULL;
-    msg.hdr.msgh_id = 0;
-
-    msg.body.msgh_descriptor_count = 0;
-
-    kr = mach_msg(&msg.hdr, MACH_SEND_MSG, msg.hdr.msgh_size, 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
-        return 1;
-    }
-
-    return 0;
-}
-```  
-{% endtab %}
+{% tab title="myipc_client.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -288,40 +233,40 @@ USERPREFSubtract(port, 40, 2);
 {% endtab %}
 {% endtabs %}
 
-### Die NDR\_record
+### NDR\_record
 
-Die NDR\_record word uitgevoer deur `libsystem_kernel.dylib`, en dit is 'n struktuur wat MIG toelaat om **data te transformeer sodat dit onverskillig is van die stelsel** waarvoor dit gebruik word aangesien MIG gedink was om tussen verskillende stelsels gebruik te word (en nie net op dieselfde masjien nie).
+NDR\_record 是由 `libsystem_kernel.dylib` 导出的，它是一个结构体，允许 MIG **转换数据，使其与所使用的系统无关**，因为 MIG 被认为是用于不同系统之间的（而不仅仅是在同一台机器上）。
 
-Dit is interessant omdat as `_NDR_record` gevind word in 'n binêre lêer as 'n afhanklikheid (`jtool2 -S <binary> | grep NDR` of `nm`), beteken dit dat die binêre lêer 'n MIG-kliënt of -bediener is.
+这很有趣，因为如果在二进制文件中找到 `_NDR_record` 作为依赖项（`jtool2 -S <binary> | grep NDR` 或 `nm`），这意味着该二进制文件是一个 MIG 客户端或服务器。
 
-Verder het **MIG-bedieners** die verspreidingstabel in `__DATA.__const` (of in `__CONST.__constdata` in macOS-kernel en `__DATA_CONST.__const` in ander \*OS-kernelle). Dit kan gedump word met **`jtool2`**.
+此外，**MIG 服务器**在 `__DATA.__const` 中有调度表（在 macOS 内核中为 `__CONST.__constdata`，在其他 \*OS 内核中为 `__DATA_CONST.__const`）。这可以通过 **`jtool2`** 转储。
 
-En **MIG-kliënte** sal die `__NDR_record` gebruik om met `__mach_msg` na die bedieners te stuur.
+而 **MIG 客户端** 将使用 `__NDR_record` 通过 `__mach_msg` 发送给服务器。
 
-## Binêre Analise
+## 二进制分析
 
 ### jtool
 
-Aangesien baie binêre lêers nou MIG gebruik om mach-poorte bloot te stel, is dit interessant om te weet hoe om te **identifiseer dat MIG gebruik is** en die **funksies wat MIG uitvoer** met elke boodskap-ID.
+由于许多二进制文件现在使用 MIG 来暴露 mach 端口，因此了解如何 **识别 MIG 的使用** 以及 **MIG 执行的每个消息 ID 的函数** 是很有趣的。
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) kan MIG-inligting van 'n Mach-O binêre lêer ontleding wat die boodskap-ID aandui en die funksie identifiseer om uit te voer:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) 可以解析 Mach-O 二进制文件中的 MIG 信息，指示消息 ID 并识别要执行的函数：
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Verder is MIG-funksies net omhulsels van die werklike funksie wat opgeroep word, wat beteken dat deur sy disassemblage te kry en te soek vir BL, jy moontlik die werklike funksie wat opgeroep word, kan vind:
+此外，MIG 函数只是实际被调用函数的包装，这意味着通过获取其反汇编并搜索 BL，您可能能够找到实际被调用的函数：
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep BL
 ```
-### Monteer
+### Assembly
 
-Dit is voorheen genoem dat die funksie wat sal sorg vir **die oproep van die korrekte funksie afhangende van die ontvangste boodskap-ID** `myipc_server` was. Gewoonlik sal jy egter nie die simbole van die binêre lêer hê nie (geen funksienames nie), dus is dit interessant om **te kyk hoe dit gedeaktiveer lyk** aangesien dit altyd baie soortgelyk sal wees (die kode van hierdie funksie is onafhanklik van die blootgestelde funksies):
+之前提到过，负责**根据接收到的消息 ID 调用正确函数**的函数是 `myipc_server`。然而，通常你不会拥有二进制文件的符号（没有函数名），因此检查**反编译后的样子**是很有趣的，因为它总是非常相似（该函数的代码与暴露的函数无关）：
 
 {% tabs %}
-{% tab title="myipc_server gedeaktiveer 1" %}
+{% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Aanvanklike instruksies om die regte funksiepunte te vind
+// 初始指令以找到正确的函数指针
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -330,20 +275,20 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Oproep na sign_extend_64 wat kan help om hierdie funksie te identifiseer
-// Dit stoor in rax die wyser na die oproep wat gemaak moet word
-// Kyk na die gebruik van die adres 0x100004040 (funksie-adresse-reeks)
-// 0x1f4 = 500 (die begin-ID)
+// 调用 sign_extend_64，可以帮助识别该函数
+// 这将指针存储在 rax 中，以便调用需要调用的函数
+// 检查地址 0x100004040 的使用（函数地址数组）
+// 0x1f4 = 500（起始 ID）
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, die if gee vals terug, terwyl die else die regte funksie oproep en waar teruggee
+// 如果 - else，if 返回 false，而 else 调用正确的函数并返回 true
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
 var_4 = 0x0;
 }
 else {
-// Gekalibreerde adres wat die regte funksie met 2 argumente oproep
+// 计算的地址调用带有 2 个参数的正确函数
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -359,8 +304,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server gedeaktiveer 2" %}
-Hierdie is dieselfde funksie gedeaktiveer in 'n ander Hopper gratis weergawe:
+{% tab title="myipc_server decompiled 2" %}
+这是在不同的 Hopper 免费版本中反编译的相同函数：
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -368,7 +313,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Aanvanklike instruksies om die regte funksiepunte te vind
+// 初始指令以找到正确的函数指针
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -392,7 +337,7 @@ r8 = 0x1;
 }
 if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
-// 0x1f4 = 500 (die begin-ID)
+// 0x1f4 = 500（起始 ID）
 <strong>                    r8 = r8 - 0x1f4;
 </strong>                    asm { smaddl     x8, w8, w9, x10 };
 r8 = *(r8 + 0x8);
@@ -403,15 +348,15 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Dieselfde if anders as in die vorige weergawe
-// Kyk na die gebruik van die adres 0x100004040 (funksie-adresse-reeks)
+// 与之前版本相同的 if else
+// 检查地址 0x100004040 的使用（函数地址数组）
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
 }
 else {
-// Oproep na die gekalibreerde adres waar die funksie moet wees
+// 调用计算的地址，函数应该在这里
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -435,32 +380,33 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Eintlik, as jy na die funksie **`0x100004000`** gaan, sal jy die reeks van **`routine_descriptor`** strukture vind. Die eerste element van die struktuur is die **adres** waar die **funksie** geïmplementeer is, en die **struktuur neem 0x28 byte**, dus elke 0x28 byte (beginnend vanaf byte 0) kan jy 8 byte kry en dit sal die **adres van die funksie** wees wat geroep sal word:
+实际上，如果你去到函数**`0x100004000`**，你会发现**`routine_descriptor`** 结构的数组。结构的第一个元素是**函数**实现的**地址**，并且**结构占用 0x28 字节**，因此从字节 0 开始每 0x28 字节你可以获取 8 字节，这将是**将被调用的函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
-Hierdie data kan onttrek word [**deur hierdie Hopper-skrip te gebruik**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-### Foutopsporing
+这些数据可以通过[**使用这个 Hopper 脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取。
 
-Die kode wat deur MIG gegenereer word, roep ook `kernel_debug` aan om logboeke oor operasies by in- en uitgang te genereer. Dit is moontlik om hulle te kontroleer met behulp van **`trace`** of **`kdv`**: `kdv all | grep MIG`
+### Debug
 
-## Verwysings
+MIG 生成的代码还调用 `kernel_debug` 以生成有关进入和退出操作的日志。可以使用**`trace`**或**`kdv`**检查它们：`kdv all | grep MIG`
+
+## References
 
 * [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

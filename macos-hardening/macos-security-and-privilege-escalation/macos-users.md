@@ -1,60 +1,60 @@
-# macOS Gebruikers & Eksterne Rekeninge
+# macOS 用户与外部账户
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Algemene Gebruikers
+## 常见用户
 
-*   **Daemon**: Gebruiker gereserveer vir stelseldemons. Die standaard daemon rekeningname begin gewoonlik met 'n "\_":
+*   **守护进程**：保留给系统守护进程的用户。默认的守护进程账户名称通常以“\_”开头：
 
 ```bash
 _amavisd, _analyticsd, _appinstalld, _appleevents, _applepay, _appowner, _appserver, _appstore, _ard, _assetcache, _astris, _atsserver, _avbdeviced, _calendar, _captiveagent, _ces, _clamav, _cmiodalassistants, _coreaudiod, _coremediaiod, _coreml, _ctkd, _cvmsroot, _cvs, _cyrus, _datadetectors, _demod, _devdocs, _devicemgr, _diskimagesiod, _displaypolicyd, _distnote, _dovecot, _dovenull, _dpaudio, _driverkit, _eppc, _findmydevice, _fpsd, _ftp, _fud, _gamecontrollerd, _geod, _hidd, _iconservices, _installassistant, _installcoordinationd, _installer, _jabber, _kadmin_admin, _kadmin_changepw, _knowledgegraphd, _krb_anonymous, _krb_changepw, _krb_kadmin, _krb_kerberos, _krb_krbtgt, _krbfast, _krbtgt, _launchservicesd, _lda, _locationd, _logd, _lp, _mailman, _mbsetupuser, _mcxalr, _mdnsresponder, _mobileasset, _mysql, _nearbyd, _netbios, _netstatistics, _networkd, _nsurlsessiond, _nsurlstoraged, _oahd, _ondemand, _postfix, _postgres, _qtss, _reportmemoryexception, _rmd, _sandbox, _screensaver, _scsd, _securityagent, _softwareupdate, _spotlight, _sshd, _svn, _taskgated, _teamsserver, _timed, _timezone, _tokend, _trustd, _trustevaluationagent, _unknown, _update_sharing, _usbmuxd, _uucp, _warmd, _webauthserver, _windowserver, _www, _wwwproxy, _xserverdocs
 ```
-* **Gaste**: Rekening vir gaste met baie streng toestemmings
+* **访客**：权限非常严格的访客账户
 ```bash
 state=("automaticTime" "afpGuestAccess" "filesystem" "guestAccount" "smbGuestAccess")
 for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ```
 {% endcode %}
 
-* **Niemand**: Prosesse word met hierdie gebruiker uitgevoer wanneer minimale toestemmings benodig word
-* **Root**
+* **无人**：当需要最小权限时，进程以此用户身份执行
+* **根用户**
 
-## Gebruikersregte
+## 用户权限
 
-* **Standaard gebruiker:** Die mees basiese van gebruikers. Hierdie gebruiker benodig toestemmings wat deur 'n admin gebruiker toegestaan word wanneer hy probeer om sagteware te installeer of ander gevorderde take uit te voer. Hulle kan dit nie op hul eie doen nie.
-* **Admin gebruiker**: 'n Gebruiker wat die meeste van die tyd as 'n standaard gebruiker werk, maar ook toegelaat word om root aksies uit te voer soos om sagteware te installeer en ander administratiewe take. Alle gebruikers wat tot die admin-groep behoort, **kry toegang tot root via die sudoers-lêer**.
-* **Root**: Root is 'n gebruiker wat toegelaat word om byna enige aksie uit te voer (daar is beperkings wat deur beskermings soos Stelselintegriteitsbeskerming opgelê word).
-* Byvoorbeeld, root sal nie in staat wees om 'n lêer binne `/System` te plaas nie.
+* **标准用户**：最基本的用户。此用户在尝试安装软件或执行其他高级任务时需要管理员用户授予的权限。他们无法独立完成这些操作。
+* **管理员用户**：大多数时候作为标准用户操作，但也被允许执行根用户操作，如安装软件和其他管理任务。所有属于管理员组的用户**通过sudoers文件获得根用户访问权限**。
+* **根用户**：根用户被允许执行几乎所有操作（受系统完整性保护等限制）。
+* 例如，根用户无法将文件放置在`/System`内
 
-## Eksterne Rekeninge
+## 外部账户
 
-MacOS ondersteun ook om in te log via eksterne identiteitsverskaffers soos FaceBook, Google... Die hoof daemon wat hierdie werk uitvoer is `accountsd` (`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`) en dit is moontlik om plugins wat vir eksterne autentisering gebruik word, binne die gids `/System/Library/Accounts/Authentication/` te vind.\
-Boonop kry `accountsd` die lys van rekeningsoorte van `/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`.
+MacOS还支持通过外部身份提供者登录，如Facebook、Google等。执行此工作的主要守护进程是`accountsd`（`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`），可以在`/System/Library/Accounts/Authentication/`文件夹中找到用于外部身份验证的插件。\
+此外，`accountsd`从`/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`获取账户类型列表。
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践AWS黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

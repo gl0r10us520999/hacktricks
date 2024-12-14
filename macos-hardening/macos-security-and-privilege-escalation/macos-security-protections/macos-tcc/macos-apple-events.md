@@ -1,48 +1,48 @@
 # macOS Apple Events
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-**Apple Events** is 'n kenmerk in Apple se macOS wat toelaat dat toepassings met mekaar kommunikeer. Dit is deel van die **Apple Event Manager**, wat 'n komponent van die macOS bedryfstelsel is wat verantwoordelik is vir die hantering van interproseskommunikasie. Hierdie stelsel stel een toepassing in staat om 'n boodskap aan 'n ander toepassing te stuur om te vra dat dit 'n spesifieke operasie uitvoer, soos om 'n lêer te open, data te verkry, of 'n opdrag uit te voer.
+**Apple Events** 是苹果 macOS 中的一个功能，允许应用程序相互通信。它们是 **Apple Event Manager** 的一部分，这是 macOS 操作系统中负责处理进程间通信的组件。该系统使一个应用程序能够向另一个应用程序发送消息，请求其执行特定操作，例如打开文件、检索数据或执行命令。
 
-Die mina daemon is `/System/Library/CoreServices/appleeventsd` wat die diens `com.apple.coreservices.appleevents` registreer.
+mina 守护进程是 `/System/Library/CoreServices/appleeventsd`，它注册了服务 `com.apple.coreservices.appleevents`。
 
-Elke toepassing wat gebeurtenisse kan ontvang, sal met hierdie daemon nagaan deur sy Apple Event Mach Port te verskaf. En wanneer 'n app 'n gebeurtenis na dit wil stuur, sal die app hierdie poort van die daemon aan vra.
+每个可以接收事件的应用程序都会与此守护进程检查，提供其 Apple Event Mach Port。当一个应用程序想要向其发送事件时，该应用程序将向守护进程请求此端口。
 
-Sandboxed toepassings vereis voorregte soos `allow appleevent-send` en `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` om in staat te wees om gebeurtenisse te stuur. Let daarop dat regte soos `com.apple.security.temporary-exception.apple-events` kan beperk wie toegang het om gebeurtenisse te stuur wat regte soos `com.apple.private.appleevents` sal benodig.
+沙盒应用程序需要权限，如 `allow appleevent-send` 和 `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))`，才能发送事件。注意，像 `com.apple.security.temporary-exception.apple-events` 这样的授权可能会限制谁可以发送事件，这将需要像 `com.apple.private.appleevents` 这样的授权。
 
 {% hint style="success" %}
-Dit is moontlik om die omgevariable **`AEDebugSends`** te gebruik om inligting oor die gestuurde boodskap te log:
+可以使用环境变量 **`AEDebugSends`** 来记录发送的消息信息：
 ```bash
 AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
 {% endhint %}
 
 {% hint style="success" %}
-Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -17,22 +17,22 @@ Learn & practice GCP Hacking: <img src="../../../../.gitbook/assets/grte.png" al
 
 ## Basic Information
 
-MacOS Sandbox (aanvanklik Seatbelt genoem) **beperk toepassings** wat binne die sandbox loop na die **toegelate aksies wat in die Sandbox-profiel gespesifiseer is** waarmee die app loop. Dit help om te verseker dat **die toepassing slegs verwagte hulpbronne sal benader**.
+MacOS Sandbox（最初称为 Seatbelt）**限制应用程序**在沙箱内运行时的**允许操作，这些操作在应用程序运行的沙箱配置文件中指定**。这有助于确保**应用程序仅访问预期的资源**。
 
-Enige app met die **regte** **`com.apple.security.app-sandbox`** sal binne die sandbox uitgevoer word. **Apple-binaries** word gewoonlik binne 'n Sandbox uitgevoer, en alle toepassings van die **App Store het daardie regte**. Dus sal verskeie toepassings binne die sandbox uitgevoer word.
+任何具有**权限** **`com.apple.security.app-sandbox`**的应用程序都将在沙箱内执行。**Apple 二进制文件**通常在沙箱内执行，所有来自**App Store**的应用程序都有该权限。因此，多个应用程序将在沙箱内执行。
 
-Om te beheer wat 'n proses kan of nie kan doen nie, het die **Sandbox haakplekke** in byna enige operasie wat 'n proses mag probeer (insluitend die meeste syscalls) met behulp van **MACF**. egter, d**epending** op die **regte** van die app mag die Sandbox meer toelaatbaar wees met die proses.
+为了控制进程可以或不能做什么，**沙箱在几乎所有进程可能尝试的操作中都有钩子**（包括大多数系统调用），使用**MACF**。然而，**根据**应用程序的**权限**，沙箱可能对进程更加宽松。
 
-Sommige belangrike komponente van die Sandbox is:
+沙箱的一些重要组件包括：
 
-* Die **kernel-uitbreiding** `/System/Library/Extensions/Sandbox.kext`
-* Die **privaat raamwerk** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* 'n **daemon** wat in userland loop `/usr/libexec/sandboxd`
-* Die **houers** `~/Library/Containers`
+* **内核扩展** `/System/Library/Extensions/Sandbox.kext`
+* **私有框架** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* 在用户空间运行的**守护进程** `/usr/libexec/sandboxd`
+* **容器** `~/Library/Containers`
 
 ### Containers
 
-Elke sandboxed toepassing sal sy eie houer hê in `~/Library/Containers/{CFBundleIdentifier}` :
+每个沙箱应用程序将在 `~/Library/Containers/{CFBundleIdentifier}` 中拥有自己的容器：
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -43,7 +43,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-Binne elke bundel-id gids kan jy die **plist** en die **Data-gids** van die App vind met 'n struktuur wat die Huis-gids naboots:
+在每个 bundle id 文件夹内，您可以找到应用的 **plist** 和 **数据目录**，其结构模仿主目录：
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -67,10 +67,10 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-Let daarop dat selfs al is die symlinks daar om te "ontsnap" uit die Sandbox en ander mappen te benader, moet die App steeds **toestemmings hê** om toegang tot hulle te verkry. Hierdie toestemmings is binne die **`.plist`** in die `RedirectablePaths`.
+请注意，即使符号链接存在以“逃离”沙箱并访问其他文件夹，应用程序仍然需要**拥有权限**才能访问它们。这些权限在`RedirectablePaths`中的**`.plist`**内。
 {% endhint %}
 
-Die **`SandboxProfileData`** is die gecompileerde sandbox-profiel CFData wat na B64 ontsnap is.
+**`SandboxProfileData`**是编译后的沙箱配置文件CFData，已转义为B64。
 ```bash
 # Get container config
 ## You need FDA to access the file, not even just root can read it
@@ -120,14 +120,14 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 [...]
 ```
 {% hint style="warning" %}
-Alles wat deur 'n Sandboxed-toepassing geskep/gewysig word, sal die **kwarantynattribuut** ontvang. Dit sal 'n sandbox ruimte voorkom deur Gatekeeper te aktiveer as die sandbox-toepassing probeer om iets met **`open`** uit te voer.
+由沙盒应用程序创建/修改的所有内容将获得**隔离属性**。这将通过触发Gatekeeper来防止沙盒空间，如果沙盒应用程序尝试使用**`open`**执行某些操作。
 {% endhint %}
 
-## Sandbox Profiele
+## 沙盒配置文件
 
-Die Sandbox profiele is konfigurasie lêers wat aandui wat in daardie **Sandbox** **toegelaat/verbode** gaan wees. Dit gebruik die **Sandbox Profile Language (SBPL)**, wat die [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programmeertaal gebruik.
+沙盒配置文件是指示在该**沙盒**中将被**允许/禁止**的内容的配置文件。它使用**沙盒配置文件语言（SBPL）**，该语言使用[**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\))编程语言。
 
-Hier kan jy 'n voorbeeld vind:
+在这里您可以找到一个示例：
 ```scheme
 (version 1) ; First you get the version
 
@@ -146,24 +146,24 @@ Hier kan jy 'n voorbeeld vind:
 )
 ```
 {% hint style="success" %}
-Kontrollere hierdie [**navorsing**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **om meer aksies te kontroleer wat toegelaat of geweier kan word.**
+查看这个 [**研究**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **以检查更多可以被允许或拒绝的操作。**
 
-Let daarop dat in die saamgestelde weergawe van 'n profiel die name van die operasies vervang word deur hul inskrywings in 'n array wat deur die dylib en die kext bekend is, wat die saamgestelde weergawe korter en moeiliker leesbaar maak.
+请注意，在配置文件的编译版本中，操作的名称被其在 dylib 和 kext 中的条目替代，使得编译版本更短且更难阅读。
 {% endhint %}
 
-Belangrike **stelseldienste** loop ook binne hul eie pasgemaakte **sandbox** soos die `mdnsresponder` diens. Jy kan hierdie pasgemaakte **sandbox-profiele** binne kyk:
+重要的 **系统服务** 也在其自定义 **沙箱** 内运行，例如 `mdnsresponder` 服务。您可以在以下位置查看这些自定义 **沙箱配置文件**：
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**
-* Ander sandbox-profiele kan nagegaan word in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* 其他沙箱配置文件可以在 [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles) 中查看。
 
-**App Store** programme gebruik die **profiel** **`/System/Library/Sandbox/Profiles/application.sb`**. Jy kan in hierdie profiel kyk hoe regte soos **`com.apple.security.network.server`** 'n proses toelaat om die netwerk te gebruik.
+**App Store** 应用使用 **配置文件** **`/System/Library/Sandbox/Profiles/application.sb`**。您可以在此配置文件中检查诸如 **`com.apple.security.network.server`** 的权限如何允许进程使用网络。
 
-SIP is 'n Sandbox-profiel genaamd platform\_profile in /System/Library/Sandbox/rootless.conf
+SIP 是一个名为 platform\_profile 的沙箱配置文件，位于 /System/Library/Sandbox/rootless.conf
 
-### Sandbox Profiel Voorbeelde
+### 沙箱配置文件示例
 
-Om 'n toepassing met 'n **spesifieke sandbox-profiel** te begin, kan jy gebruik maak van:
+要使用 **特定沙箱配置文件** 启动应用程序，您可以使用：
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
@@ -218,19 +218,19 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Let daarop dat die **Apple-geskrewe** **programmatuur** wat op **Windows** loop, **nie addisionele sekuriteitsmaatreëls** het nie, soos toepassingsandboxing.
+请注意，**Apple 编写的** **软件** 在 **Windows** 上 **没有额外的安全措施**，例如应用程序沙箱。
 {% endhint %}
 
-Bypasses voorbeelde:
+绕过示例：
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (hulle kan lêers buite die sandbox skryf waarvan die naam met `~$` begin).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (他们能够写入以 `~$` 开头的沙箱外文件)。
 
-### Sandbox Tracing
+### 沙箱跟踪
 
-#### Via profiel
+#### 通过配置文件
 
-Dit is moontlik om al die kontroles wat die sandbox elke keer wanneer 'n aksie nagegaan word, uit te spoor. Skep net die volgende profiel: 
+可以跟踪每次检查操作时沙箱执行的所有检查。为此，只需创建以下配置文件：
 
 {% code title="trace.sb" %}
 ```scheme
@@ -239,36 +239,36 @@ Dit is moontlik om al die kontroles wat die sandbox elke keer wanneer 'n aksie n
 ```
 {% endcode %}
 
-En voer dan net iets uit met daardie profiel:
+然后只需使用该配置文件执行某些操作：
 ```bash
 sandbox-exec -f /tmp/trace.sb /bin/ls
 ```
-In `/tmp/trace.out` sal jy in staat wees om elke sandbox kontrole te sien wat uitgevoer is elke keer dit aangeroep is (dus, baie duplikate).
+在 `/tmp/trace.out` 中，您将能够看到每次调用时执行的每个沙箱检查（因此，有很多重复项）。
 
-Dit is ook moontlik om die sandbox te volg met die **`-t`** parameter: `sandbox-exec -t /path/trace.out -p "(version 1)" /bin/ls`
+还可以使用 **`-t`** 参数跟踪沙箱：`sandbox-exec -t /path/trace.out -p "(version 1)" /bin/ls`
 
-#### Via API
+#### 通过 API
 
-Die funksie `sandbox_set_trace_path` wat deur `libsystem_sandbox.dylib` uitgevoer word, laat jou toe om 'n trace lêernaam te spesifiseer waar sandbox kontroles geskryf sal word.\
-Dit is ook moontlik om iets soortgelyks te doen deur `sandbox_vtrace_enable()` aan te roep en dan die logs fout van die buffer te verkry deur `sandbox_vtrace_report()` aan te roep.
+`libsystem_sandbox.dylib` 导出的函数 `sandbox_set_trace_path` 允许指定一个跟踪文件名，沙箱检查将写入该文件。\
+还可以通过调用 `sandbox_vtrace_enable()` 来执行类似操作，然后通过调用 `sandbox_vtrace_report()` 从缓冲区获取日志错误。
 
-### Sandbox Inspeksie
+### 沙箱检查
 
-`libsandbox.dylib` voer 'n funksie genaamd sandbox\_inspect\_pid uit wat 'n lys van die sandbox toestand van 'n proses gee (insluitend uitbreidings). Maar, slegs platform binêre kan hierdie funksie gebruik.
+`libsandbox.dylib` 导出一个名为 sandbox\_inspect\_pid 的函数，该函数提供进程的沙箱状态列表（包括扩展）。但是，只有平台二进制文件可以使用此函数。
 
-### MacOS & iOS Sandbox Profiele
+### MacOS 和 iOS 沙箱配置文件
 
-MacOS stoor stelselsandbox profiele in twee plekke: **/usr/share/sandbox/** en **/System/Library/Sandbox/Profiles**.
+MacOS 将系统沙箱配置文件存储在两个位置：**/usr/share/sandbox/** 和 **/System/Library/Sandbox/Profiles**。
 
-En as 'n derdeparty toepassing die _**com.apple.security.app-sandbox**_ regte het, pas die stelsel die **/System/Library/Sandbox/Profiles/application.sb** profiel op daardie proses toe.
+如果第三方应用程序携带 _**com.apple.security.app-sandbox**_ 权限，则系统将 **/System/Library/Sandbox/Profiles/application.sb** 配置文件应用于该进程。
 
-In iOS, word die standaard profiel **container** genoem en ons het nie die SBPL teks voorstelling nie. In geheue, word hierdie sandbox voorgestel as 'n Toelaat/Weier binêre boom vir elke toestemming van die sandbox.
+在 iOS 中，默认配置文件称为 **container**，我们没有 SBPL 文本表示。在内存中，这个沙箱表示为每个权限的允许/拒绝二叉树。
 
-### Pasgemaakte SBPL in App Store toepassings
+### App Store 应用中的自定义 SBPL
 
-Dit kan moontlik wees vir maatskappye om hul toepassings te laat loop **met pasgemaakte Sandbox profiele** (in plaas van met die standaard een). Hulle moet die regte **`com.apple.security.temporary-exception.sbpl`** gebruik wat deur Apple goedgekeur moet word.
+公司可能会使其应用程序 **使用自定义沙箱配置文件**（而不是默认配置文件）。他们需要使用需要苹果授权的权限 **`com.apple.security.temporary-exception.sbpl`**。
 
-Dit is moontlik om die definisie van hierdie regte in **`/System/Library/Sandbox/Profiles/application.sb:`** te kontroleer.
+可以在 **`/System/Library/Sandbox/Profiles/application.sb:`** 中检查此权限的定义。
 ```scheme
 (sandbox-array-entitlement
 "com.apple.security.temporary-exception.sbpl"
@@ -276,29 +276,29 @@ Dit is moontlik om die definisie van hierdie regte in **`/System/Library/Sandbox
 (let* ((port (open-input-string string)) (sbpl (read port)))
 (with-transparent-redirection (eval sbpl)))))
 ```
-This will **eval die string na hierdie regte** as 'n Sandbox-profiel.
+这将**在此权限后评估字符串**作为沙箱配置文件。
 
-### Kompilering & dekompilering van 'n Sandbox-profiel
+### 编译和反编译沙箱配置文件
 
-Die **`sandbox-exec`** hulpmiddel gebruik die funksies `sandbox_compile_*` van `libsandbox.dylib`. Die hooffunksies wat ge-exporteer word is: `sandbox_compile_file` (verwag 'n lêer pad, param `-f`), `sandbox_compile_string` (verwag 'n string, param `-p`), `sandbox_compile_name` (verwag 'n naam van 'n houer, param `-n`), `sandbox_compile_entitlements` (verwag regte plist).
+**`sandbox-exec`** 工具使用 `libsandbox.dylib` 中的 `sandbox_compile_*` 函数。导出的主要函数有：`sandbox_compile_file`（期望文件路径，参数 `-f`），`sandbox_compile_string`（期望字符串，参数 `-p`），`sandbox_compile_name`（期望容器名称，参数 `-n`），`sandbox_compile_entitlements`（期望权限 plist）。
 
-Hierdie omgekeerde en [**oopbron weergawe van die hulpmiddel sandbox-exec**](https://newosxbook.com/src.jl?tree=listings\&file=/sandbox\_exec.c) laat toe dat **`sandbox-exec`** in 'n lêer die gecompileerde sandbox-profiel skryf.
+这个反向和[**开源版本的工具 sandbox-exec**](https://newosxbook.com/src.jl?tree=listings\&file=/sandbox\_exec.c) 允许 **`sandbox-exec`** 将编译后的沙箱配置文件写入文件。
 
-Boonop, om 'n proses binne 'n houer te beperk, kan dit `sandbox_spawnattrs_set[container/profilename]` aanroep en 'n houer of voorafbestaande profiel deurgee.
+此外，为了将进程限制在容器内，它可能会调用 `sandbox_spawnattrs_set[container/profilename]` 并传递一个容器或预先存在的配置文件。
 
-## Foutopsporing & Omseiling van Sandbox
+## 调试和绕过沙箱
 
-Op macOS, anders as iOS waar prosesse vanaf die begin deur die kern gesandboks is, **moet prosesse self in die sandbox opt-in**. Dit beteken op macOS, 'n proses is nie deur die sandbox beperk totdat dit aktief besluit om daarin te gaan, alhoewel App Store-apps altyd gesandboks is.
+在 macOS 上，与 iOS 不同，iOS 中的进程从一开始就被内核沙箱化，**进程必须主动选择进入沙箱**。这意味着在 macOS 上，进程在主动决定进入沙箱之前不会受到沙箱的限制，尽管 App Store 应用始终是沙箱化的。
 
-Prosesse word outomaties gesandboks vanaf gebruikersland wanneer hulle begin as hulle die regte het: `com.apple.security.app-sandbox`. Vir 'n gedetailleerde verduideliking van hierdie proses, kyk:
+如果进程具有权限 `com.apple.security.app-sandbox`，则它们在启动时会自动从用户空间沙箱化。有关此过程的详细说明，请查看：
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-## **Sandbox-uitbreidings**
+## **沙箱扩展**
 
-Uitbreidings laat toe om verdere voorregte aan 'n objek te gee en word verkry deur een van die funksies aan te roep:
+扩展允许为对象提供进一步的权限，并通过调用以下函数之一来实现：
 
 * `sandbox_issue_extension`
 * `sandbox_extension_issue_file[_with_new_type]`
@@ -308,18 +308,18 @@ Uitbreidings laat toe om verdere voorregte aan 'n objek te gee en word verkry de
 * `sandbox_extension_issue_generic`
 * `sandbox_extension_issue_posix_ipc`
 
-Die uitbreidings word in die tweede MACF etiketgleuf gestoor wat toeganklik is vanaf die proses kredensiale. Die volgende **`sbtool`** kan toegang tot hierdie inligting verkry.
+扩展存储在可从进程凭据访问的第二个 MACF 标签槽中。以下 **`sbtool`** 可以访问此信息。
 
-Let daarop dat uitbreidings gewoonlik toegeken word deur toegelate prosesse, byvoorbeeld, `tccd` sal die uitbreidings-token van `com.apple.tcc.kTCCServicePhotos` toeken wanneer 'n proses probeer het om toegang tot die foto's te verkry en in 'n XPC-boodskap toegelaat is. Dan sal die proses die uitbreidings-token moet verbruik sodat dit daaraan bygevoeg word.\
-Let daarop dat die uitbreidings-token lang heksadesimale is wat die toegekende toestemmings kodeer. Hulle het egter nie die toegelate PID hardgecodeer nie, wat beteken dat enige proses met toegang tot die token **deur verskeie prosesse verbruik kan word**.
+请注意，扩展通常由允许的进程授予，例如，当进程尝试访问照片并在 XPC 消息中被允许时，`tccd` 将授予 `com.apple.tcc.kTCCServicePhotos` 的扩展令牌。然后，进程需要消耗扩展令牌，以便将其添加到其中。\
+请注意，扩展令牌是长十六进制数，编码了授予的权限。然而，它们没有硬编码的允许 PID，这意味着任何可以访问令牌的进程可能会被**多个进程消耗**。
 
-Let daarop dat uitbreidings baie verwant is aan regte, so om sekere regte te hê, kan sekere uitbreidings outomaties toeken.
+请注意，扩展与权限密切相关，因此拥有某些权限可能会自动授予某些扩展。
 
-### **Kontroleer PID Voorregte**
+### **检查 PID 权限**
 
-[**Volgens hierdie**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), die **`sandbox_check`** funksies (dit is 'n `__mac_syscall`), kan **kontroleer of 'n operasie toegelaat word of nie** deur die sandbox in 'n sekere PID, oudit-token of unieke ID.
+[**根据这个**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`** 函数（它是一个 `__mac_syscall`），可以检查**某个 PID、审计令牌或唯一 ID 是否允许某个操作**。
 
-Die [**hulpmiddel sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) (vind dit [gecompileer hier](https://newosxbook.com/articles/hitsb.html)) kan kontroleer of 'n PID sekere aksies kan uitvoer:
+[**工具 sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c)（在这里找到[编译版本](https://newosxbook.com/articles/hitsb.html)）可以检查某个 PID 是否可以执行某些操作：
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
@@ -328,9 +328,9 @@ sbtool <pid> all
 ```
 ### \[un]suspend
 
-Dit is ook moontlik om die sandbox te suspend en te unsuspend met die funksies `sandbox_suspend` en `sandbox_unsuspend` van `libsystem_sandbox.dylib`.
+也可以使用 `libsystem_sandbox.dylib` 中的 `sandbox_suspend` 和 `sandbox_unsuspend` 函数来挂起和恢复沙箱。
 
-Let daarop dat om die suspend-funksie aan te roep, sommige regte nagegaan word om die oproeper te magtig om dit aan te roep soos:
+请注意，调用挂起函数时会检查一些权限，以授权调用者调用它，例如：
 
 * com.apple.private.security.sandbox-manager
 * com.apple.security.print
@@ -338,80 +338,80 @@ Let daarop dat om die suspend-funksie aan te roep, sommige regte nagegaan word o
 
 ## mac\_syscall
 
-Hierdie stelselaanroep (#381) verwag een string eerste argument wat die module sal aandui om te loop, en dan 'n kode in die tweede argument wat die funksie sal aandui om te loop. Dan sal die derde argument afhang van die funksie wat uitgevoer word.
+此系统调用 (#381) 期望第一个参数为一个字符串，指示要运行的模块，然后第二个参数为一个代码，指示要运行的函数。第三个参数将取决于执行的函数。
 
-Die funksie `___sandbox_ms` oproep verpak `mac_syscall` wat in die eerste argument `"Sandbox"` aandui net soos `___sandbox_msp` 'n wrapper van `mac_set_proc` (#387) is. Dan kan sommige van die ondersteunde kodes deur `___sandbox_ms` in hierdie tabel gevind word:
+函数 `___sandbox_ms` 调用封装了 `mac_syscall`，在第一个参数中指示 `"Sandbox"`，就像 `___sandbox_msp` 是 `mac_set_proc` (#387) 的封装一样。然后，`___sandbox_ms` 支持的一些代码可以在下表中找到：
 
-* **set\_profile (#0)**: Pas 'n gecompileerde of benoemde profiel op 'n proses toe.
-* **platform\_policy (#1)**: Handhaaf platform-spesifieke beleidskontroles (verskil tussen macOS en iOS).
-* **check\_sandbox (#2)**: Voer 'n handmatige kontrole van 'n spesifieke sandbox-operasie uit.
-* **note (#3)**: Voeg 'n annotasie by 'n Sandbox
-* **container (#4)**: Koppel 'n annotasie aan 'n sandbox, tipies vir debugging of identifikasie.
-* **extension\_issue (#5)**: Genereer 'n nuwe uitbreiding vir 'n proses.
-* **extension\_consume (#6)**: Verbruik 'n gegewe uitbreiding.
-* **extension\_release (#7)**: Vry die geheue wat aan 'n verbruikte uitbreiding gekoppel is.
-* **extension\_update\_file (#8)**: Wysig parameters van 'n bestaande lêer uitbreiding binne die sandbox.
-* **extension\_twiddle (#9)**: Pas 'n bestaande lêer uitbreiding aan of wysig (bv. TextEdit, rtf, rtfd).
-* **suspend (#10)**: Tydelik alle sandbox kontroles suspend (vereis toepaslike regte).
-* **unsuspend (#11)**: Herbegin alle voorheen gesuspendeerde sandbox kontroles.
-* **passthrough\_access (#12)**: Laat direkte passthrough toegang tot 'n hulpbron toe, wat sandbox kontroles omseil.
-* **set\_container\_path (#13)**: (slegs iOS) Stel 'n houer pad vir 'n app-groep of onderteken ID in.
-* **container\_map (#14)**: (slegs iOS) Verkry 'n houer pad van `containermanagerd`.
-* **sandbox\_user\_state\_item\_buffer\_send (#15)**: (iOS 10+) Stel gebruikersmodus metadata in die sandbox.
-* **inspect (#16)**: Verskaf debug-inligting oor 'n sandboxed proses.
-* **dump (#18)**: (macOS 11) Dump die huidige profiel van 'n sandbox vir analise.
-* **vtrace (#19)**: Volg sandbox operasies vir monitering of debugging.
-* **builtin\_profile\_deactivate (#20)**: (macOS < 11) Deaktiveer benoemde profiele (bv. `pe_i_can_has_debugger`).
-* **check\_bulk (#21)**: Voer verskeie `sandbox_check` operasies in 'n enkele oproep uit.
-* **reference\_retain\_by\_audit\_token (#28)**: Skep 'n verwysing vir 'n oudit token vir gebruik in sandbox kontroles.
-* **reference\_release (#29)**: Vry 'n voorheen behoue oudit token verwysing.
-* **rootless\_allows\_task\_for\_pid (#30)**: Verifieer of `task_for_pid` toegelaat word (soortgelyk aan `csr` kontroles).
-* **rootless\_whitelist\_push (#31)**: (macOS) Pas 'n Stelselintegriteitbeskerming (SIP) manifestlêer toe.
-* **rootless\_whitelist\_check (preflight) (#32)**: Kontroleer die SIP manifestlêer voor uitvoering.
-* **rootless\_protected\_volume (#33)**: (macOS) Pas SIP beskerming toe op 'n skyf of partisie.
-* **rootless\_mkdir\_protected (#34)**: Pas SIP/DataVault beskerming toe op 'n gids skep proses.
+* **set\_profile (#0)**: 将编译或命名的配置文件应用于进程。
+* **platform\_policy (#1)**: 强制执行特定于平台的策略检查（在 macOS 和 iOS 之间有所不同）。
+* **check\_sandbox (#2)**: 执行特定沙箱操作的手动检查。
+* **note (#3)**: 向沙箱添加注释。
+* **container (#4)**: 向沙箱附加注释，通常用于调试或识别。
+* **extension\_issue (#5)**: 为进程生成新扩展。
+* **extension\_consume (#6)**: 消耗给定的扩展。
+* **extension\_release (#7)**: 释放与已消耗扩展相关的内存。
+* **extension\_update\_file (#8)**: 修改沙箱内现有文件扩展的参数。
+* **extension\_twiddle (#9)**: 调整或修改现有文件扩展（例如，TextEdit、rtf、rtfd）。
+* **suspend (#10)**: 暂时挂起所有沙箱检查（需要适当的权限）。
+* **unsuspend (#11)**: 恢复所有先前挂起的沙箱检查。
+* **passthrough\_access (#12)**: 允许直接通过访问资源，绕过沙箱检查。
+* **set\_container\_path (#13)**: （仅限 iOS）为应用组或签名 ID 设置容器路径。
+* **container\_map (#14)**: （仅限 iOS）从 `containermanagerd` 检索容器路径。
+* **sandbox\_user\_state\_item\_buffer\_send (#15)**: （iOS 10+）在沙箱中设置用户模式元数据。
+* **inspect (#16)**: 提供有关沙箱进程的调试信息。
+* **dump (#18)**: （macOS 11）转储沙箱的当前配置文件以供分析。
+* **vtrace (#19)**: 跟踪沙箱操作以进行监控或调试。
+* **builtin\_profile\_deactivate (#20)**: （macOS < 11）停用命名配置文件（例如，`pe_i_can_has_debugger`）。
+* **check\_bulk (#21)**: 在单个调用中执行多个 `sandbox_check` 操作。
+* **reference\_retain\_by\_audit\_token (#28)**: 为审计令牌创建引用，以便在沙箱检查中使用。
+* **reference\_release (#29)**: 释放先前保留的审计令牌引用。
+* **rootless\_allows\_task\_for\_pid (#30)**: 验证是否允许 `task_for_pid`（类似于 `csr` 检查）。
+* **rootless\_whitelist\_push (#31)**: （macOS）应用系统完整性保护（SIP）清单文件。
+* **rootless\_whitelist\_check (preflight) (#32)**: 在执行之前检查 SIP 清单文件。
+* **rootless\_protected\_volume (#33)**: （macOS）将 SIP 保护应用于磁盘或分区。
+* **rootless\_mkdir\_protected (#34)**: 将 SIP/DataVault 保护应用于目录创建过程。
 
 ## Sandbox.kext
 
-Let daarop dat in iOS die kernuitbreiding **hardcoded al die profiele** binne die `__TEXT.__const` segment bevat om te verhoed dat hulle gewysig word. Die volgende is 'n paar interessante funksies van die kernuitbreiding:
+请注意，在 iOS 中，内核扩展包含 **硬编码的所有配置文件**，以避免被修改。以下是内核扩展中的一些有趣函数：
 
-* **`hook_policy_init`**: Dit haak `mpo_policy_init` en dit word genoem na `mac_policy_register`. Dit voer die meeste van die inisialisasies van die Sandbox uit. Dit inisialiseer ook SIP.
-* **`hook_policy_initbsd`**: Dit stel die sysctl-koppelvlak op wat `security.mac.sandbox.sentinel`, `security.mac.sandbox.audio_active` en `security.mac.sandbox.debug_mode` registreer (as dit met `PE_i_can_has_debugger` geboot is).
-* **`hook_policy_syscall`**: Dit word deur `mac_syscall` aangeroep met "Sandbox" as eerste argument en kode wat die operasie in die tweede aandui. 'n Skakel word gebruik om die kode te vind wat volgens die aangevraagde kode moet loop.
+* **`hook_policy_init`**: 它挂钩 `mpo_policy_init`，并在 `mac_policy_register` 之后调用。它执行沙箱的大部分初始化。它还初始化 SIP。
+* **`hook_policy_initbsd`**: 它设置 sysctl 接口，注册 `security.mac.sandbox.sentinel`、`security.mac.sandbox.audio_active` 和 `security.mac.sandbox.debug_mode`（如果与 `PE_i_can_has_debugger` 一起引导）。
+* **`hook_policy_syscall`**: 它由 `mac_syscall` 调用，第一个参数为 "Sandbox"，第二个参数为指示操作的代码。使用 switch 来根据请求的代码查找要运行的代码。
 
 ### MACF Hooks
 
-**`Sandbox.kext`** gebruik meer as 'n honderd haakies via MACF. Meeste van die haakies sal net 'n paar triviale gevalle kontroleer wat die aksie toelaat as dit nie, sal hulle **`cred_sb_evalutate`** met die **akkrediteer** van MACF en 'n nommer wat ooreenstem met die **operasie** wat uitgevoer moet word en 'n **buffer** vir die uitvoer aanroep.
+**`Sandbox.kext`** 通过 MACF 使用了超过一百个钩子。大多数钩子只会检查一些微不足道的情况，如果允许执行该操作，则会调用 **`cred_sb_evalutate`**，并传入来自 MACF 的 **凭据** 和一个对应于要执行的 **操作** 的数字，以及一个用于输出的 **缓冲区**。
 
-'n Goeie voorbeeld hiervan is die funksie **`_mpo_file_check_mmap`** wat **`mmap`** gehaak het en wat sal begin om te kontroleer of die nuwe geheue skryfbaar gaan wees (en as dit nie is nie, sal dit die uitvoering toelaat), dan sal dit kontroleer of dit vir die dyld gedeelde kas gebruik word en as dit so is, die uitvoering toelaat, en uiteindelik sal dit **`sb_evaluate_internal`** (of een van sy wrappers) aanroep om verdere toelaatbaarheid kontroles uit te voer.
+一个很好的例子是函数 **`_mpo_file_check_mmap`**，它挂钩了 **`mmap`**，并将开始检查新内存是否可写（如果不可写则允许执行），然后检查它是否用于 dyld 共享缓存，如果是，则允许执行，最后调用 **`sb_evaluate_internal`**（或其一个封装）以执行进一步的允许检查。
 
-Boonop, uit die honderd(s) haakies wat Sandbox gebruik, is daar 3 in die besonder wat baie interessant is:
+此外，在沙箱使用的数百个钩子中，有三个特别有趣：
 
-* `mpo_proc_check_for`: Dit pas die profiel toe indien nodig en as dit nie voorheen toegepas is nie.
-* `mpo_vnode_check_exec`: Geroep wanneer 'n proses die geassosieerde binêre laai, dan word 'n profielkontrole uitgevoer en ook 'n kontrole wat SUID/SGID uitvoerings verbied.
-* `mpo_cred_label_update_execve`: Dit word aangeroep wanneer die etiket toegeken word. Dit is die langste een aangesien dit aangeroep word wanneer die binêre ten volle gelaai is, maar dit nog nie uitgevoer is nie. Dit sal aksies uitvoer soos om die sandbox objek te skep, die sandbox struktuur aan die kauth akkrediteer te heg, toegang tot mach-poorte te verwyder...
+* `mpo_proc_check_for`: 如果需要并且之前未应用，则应用配置文件。
+* `mpo_vnode_check_exec`: 当进程加载相关二进制文件时调用，然后执行配置文件检查，并检查禁止 SUID/SGID 执行。
+* `mpo_cred_label_update_execve`: 当分配标签时调用。这是最长的一个，因为它在二进制文件完全加载但尚未执行时调用。它将执行诸如创建沙箱对象、将沙箱结构附加到 kauth 凭据、移除对 mach 端口的访问等操作。
 
-Let daarop dat **`_cred_sb_evalutate`** 'n wrapper oor **`sb_evaluate_internal`** is en hierdie funksie kry die akkrediteer wat oorgedra word en voer dan die evaluering uit met die **`eval`** funksie wat gewoonlik die **platform profiel** evalueer wat standaard op alle prosesse toegepas word en dan die **spesifieke proses profiel**. Let daarop dat die platform profiel een van die hoofkomponente van **SIP** in macOS is.
+请注意 **`_cred_sb_evalutate`** 是 **`sb_evaluate_internal`** 的封装，该函数获取传入的凭据，然后使用 **`eval`** 函数执行评估，该函数通常评估默认应用于所有进程的 **平台配置文件**，然后是 **特定进程配置文件**。请注意，平台配置文件是 **SIP** 在 macOS 中的主要组成部分之一。
 
 ## Sandboxd
 
-Sandbox het ook 'n gebruikersdemon wat die XPC Mach diens `com.apple.sandboxd` blootstel en die spesiale poort 14 (`HOST_SEATBELT_PORT`) bind wat die kernuitbreiding gebruik om met dit te kommunikeer. Dit blootstel 'n paar funksies met MIG.
+沙箱还有一个用户守护进程，暴露了 XPC Mach 服务 `com.apple.sandboxd` 并绑定特殊端口 14 (`HOST_SEATBELT_PORT`)，内核扩展使用该端口与其通信。它通过 MIG 暴露了一些函数。
 
 ## References
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

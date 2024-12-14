@@ -1,27 +1,27 @@
-# macOS Funksie Hak
+# macOS Function Hooking
 
 {% hint style="success" %}
-Leer & oefen AWS Hakwerk:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Kenner (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hakwerk: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Kenner (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Funksie Interposing
+## 函数插入
 
-Skep 'n **dylib** met 'n **`__interpose` (`__DATA___interpose`)** afdeling (of 'n afdeling gemerk met **`S_INTERPOSING`**) wat tuples van **funksieaanwysers** bevat wat na die **oorspronklike** en die **vervangings** funksies verwys.
+创建一个带有 **`__interpose` (`__DATA___interpose`)** 部分（或带有 **`S_INTERPOSING`** 标志的部分）的 **dylib**，该部分包含指向 **原始** 和 **替代** 函数的 **函数指针** 元组。
 
-Vervolgens, **inspuit** die dylib met **`DYLD_INSERT_LIBRARIES`** (die interposing moet plaasvind voordat die hoofprogram laai). Duidelik die [**beperkings** wat op die gebruik van **`DYLD_INSERT_LIBRARIES`** van toepassing is, geld ook hier](macos-library-injection/#check-restrictions).
+然后，使用 **`DYLD_INSERT_LIBRARIES`** 注入 dylib（插入需要在主应用程序加载之前发生）。显然，适用于 **`DYLD_INSERT_LIBRARIES`** 使用的 [**限制** 在这里也适用](macos-library-injection/#check-restrictions)。
 
-### Interpose printf
+### 插入 printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -95,16 +95,16 @@ DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
 {% hint style="warning" %}
-Die **`DYLD_PRINT_INTERPOSTING`** omgewingsveranderlike kan gebruik word om interposing te foutsoek en sal die interpose-proses druk.
+**`DYLD_PRINT_INTERPOSTING`** 环境变量可用于调试插入，并将打印插入过程。
 {% endhint %}
 
-Merk ook op dat interposing plaasvind tussen die proses en die gelaai biblioteke, dit werk nie met die gedeelde biblioteek-cache nie.
+还要注意，**插入发生在进程与加载的库之间**，它不适用于共享库缓存。
 
-### Dinamiese Interposing
+### 动态插入
 
-Dit is nou ook moontlik om dinamies 'n funksie te interposeer deur die funksie **`dyld_dynamic_interpose`** te gebruik. Dit maak dit moontlik om programmaties 'n funksie in run time te interposeer in plaas van dit net van die begin af te doen.
+现在也可以使用函数 **`dyld_dynamic_interpose`** 动态插入一个函数。这允许在运行时以编程方式插入一个函数，而不仅仅是在开始时进行。
 
-Dit is net nodig om die **tuples** van die **funksie om te vervang en die vervangings** funksie aan te dui.
+只需指明 **要替换的函数和替换函数的元组**。
 ```c
 struct dyld_interpose_tuple {
 const void* replacement;
@@ -113,23 +113,23 @@ const void* replacee;
 extern void dyld_dynamic_interpose(const struct mach_header* mh,
 const struct dyld_interpose_tuple array[], size_t count);
 ```
-## Metodeswizzling
+## 方法交换
 
-In ObjectiveC is dit hoe 'n metode geroep word: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+在 ObjectiveC 中，方法调用的方式是：**`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-Dit is nodig die **objek**, die **metode** en die **parameters**. En wanneer 'n metode geroep word, word 'n **boodskap gestuur** deur die funksie **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+需要 **对象**、**方法**和 **参数**。当调用一个方法时，使用函数 **`objc_msgSend`** 发送 **msg**：`int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-Die objek is **`someObject`**, die metode is **`@selector(method1p1:p2:)`** en die argumente is **value1**, **value2**.
+对象是 **`someObject`**，方法是 **`@selector(method1p1:p2:)`**，参数是 **value1**，**value2**。
 
-Deur die objekstrukture te volg, is dit moontlik om 'n **reeks metodes** te bereik waar die **name** en **pointers** na die metode-kode **geleë** is.
+根据对象结构，可以访问一个 **方法数组**，其中 **名称** 和 **指向方法代码的指针** 被 **存储**。
 
 {% hint style="danger" %}
-Let daarop dat omdat metodes en klasse gebaseer word op hul name, hierdie inligting in die binêre lêer gestoor word, sodat dit moontlik is om dit te herwin met `otool -ov </path/bin>` of [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+请注意，由于方法和类是基于其名称访问的，因此这些信息存储在二进制文件中，因此可以使用 `otool -ov </path/bin>` 或 [`class-dump </path/bin>`](https://github.com/nygard/class-dump) 检索它。
 {% endhint %}
 
-### Toegang tot die rou metodes
+### 访问原始方法
 
-Dit is moontlik om die inligting van die metodes soos naam, aantal parameters of adres te bereik soos in die volgende voorbeeld:
+可以访问方法的信息，例如名称、参数数量或地址，如以下示例所示：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -199,12 +199,12 @@ return 0;
 ```
 {% endcode %}
 
-### Metodeswizzling met method_exchangeImplementations
+### 方法交换与 method\_exchangeImplementations
 
-Die funksie **`method_exchangeImplementations`** maak dit moontlik om die **adres** van die **implementering** van **een funksie vir die ander** te **verander**.
+函数 **`method_exchangeImplementations`** 允许 **更改** **一个函数的实现地址为另一个函数的实现**。
 
 {% hint style="danger" %}
-Dus wanneer 'n funksie geroep word, word die **ander een uitgevoer**.
+因此，当调用一个函数时，**执行的是另一个函数**。
 {% endhint %}
 
 {% code overflow="wrap" %}
@@ -254,16 +254,16 @@ return 0;
 {% endcode %}
 
 {% hint style="warning" %}
-In hierdie geval, as die **implementeringskode van die regmatige** metode die **metode naam** **verifieer**, kan dit hierdie swizzling **opspoor** en voorkom dat dit uitgevoer word.
+在这种情况下，如果**合法**方法的**实现代码**对**方法**的**名称**进行**验证**，它可能会**检测到**这种交换并阻止其运行。
 
-Die volgende tegniek het nie hierdie beperking nie.
+以下技术没有这个限制。
 {% endhint %}
 
-### Metode Swizzling met method\_setImplementation
+### 使用 method\_setImplementation 进行方法交换
 
-Die vorige formaat is vreemd omdat jy die implementering van 2 metodes van mekaar verander. Deur die funksie **`method_setImplementation`** te gebruik, kan jy die **implementering** van 'n **metode vir die ander een** verander.
+之前的格式很奇怪，因为你正在将两个方法的实现互换。使用函数 **`method_setImplementation`** 你可以**更改**一个**方法的实现为另一个**。
 
-Onthou net om **die adres van die implementering van die oorspronklike een** te stoor as jy dit van die nuwe implementering gaan aanroep voordat jy dit oorskryf, omdat dit later baie moeilik sal wees om daardie adres te vind.
+只需记住，如果你打算在覆盖之前从新实现中调用原始实现，请**存储原始实现的地址**，因为稍后定位该地址会复杂得多。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -319,17 +319,17 @@ return 0;
 ```
 {% endcode %}
 
-## Hooking Aanval Metodologie
+## Hooking 攻击方法论
 
-Op hierdie bladsy is verskillende maniere bespreek om funksies te hak. Tog het hulle **hardloop kode binne die proses om aan te val**.
+在这一页中讨论了不同的函数钩取方法。然而，它们涉及到**在进程内部运行代码进行攻击**。
 
-Om dit te doen, is die maklikste tegniek om te gebruik om 'n [Dyld via omgewingsveranderlikes of kaping in te spuit](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Ek vermoed egter dat dit ook gedoen kan word deur [Dylib prosesinspuiting](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+为了做到这一点，最简单的技术是通过环境变量或劫持来注入一个 [Dyld](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)。不过，我想这也可以通过 [Dylib 进程注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) 来完成。
 
-Nietemin is beide opsies **beperk** tot **onbeskermde** bineê/prosesse. Kyk na elke tegniek om meer oor die beperkings te leer.
+然而，这两种选项都**限制**于**未保护**的二进制文件/进程。检查每种技术以了解更多关于限制的信息。
 
-Nietemin is 'n funksie hak aanval baie spesifiek, 'n aanvaller sal dit doen om **sensitiewe inligting binne 'n proses te steel** (as jy nie sou net 'n prosesinspuitingsaanval doen nie). En hierdie sensitiewe inligting kan geleë wees in gebruikers afgelaaide Programme soos MacPass.
+然而，函数钩取攻击是非常具体的，攻击者会这样做以**从进程内部窃取敏感信息**（否则你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，例如 MacPass。
 
-Dus sal die aanvaller vektor wees om óf 'n kwesbaarheid te vind óf die handtekening van die aansoek te verwyder, die **`DYLD_INSERT_LIBRARIES`** omgewingsveranderlike deur die Info.plist van die aansoek in te spuit deur iets soos by te voeg:
+因此，攻击者的途径是找到一个漏洞或去掉应用程序的签名，通过应用程序的 Info.plist 注入 **`DYLD_INSERT_LIBRARIES`** 环境变量，添加类似于：
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -337,7 +337,7 @@ Dus sal die aanvaller vektor wees om óf 'n kwesbaarheid te vind óf die handtek
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-en dan **herregistreer** die aansoek:
+然后**重新注册**应用程序：
 
 {% code overflow="wrap" %}
 ```bash
@@ -345,13 +345,13 @@ en dan **herregistreer** die aansoek:
 ```
 {% endcode %}
 
-Voeg in daardie biblioteek die hooking kode by om die inligting uit te sif: Wagwoorde, boodskappe...
+在该库中添加钩子代码以提取信息：密码、消息...
 
 {% hint style="danger" %}
-Let daarop dat in nuwer weergawes van macOS as jy die handtekening van die aansoek binêre lêer **verwyder** en dit voorheen uitgevoer is, sal macOS die aansoek nie meer uitvoer nie.
+请注意，在较新版本的macOS中，如果您**去除应用程序二进制文件的签名**并且它之前已被执行，macOS **将不再执行该应用程序**。
 {% endhint %}
 
-#### Biblioteek voorbeeld
+#### 库示例
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -391,21 +391,21 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 ```
 {% endcode %}
 
-## Verwysings
+## 参考
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

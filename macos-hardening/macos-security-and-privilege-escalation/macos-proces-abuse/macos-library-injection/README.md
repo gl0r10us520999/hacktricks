@@ -1,27 +1,27 @@
-# macOS Biblioteek Inspuiting
+# macOS Library Injection
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 {% hint style="danger" %}
-Die kode van **dyld is oopbron** en kan gevind word in [https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/) en kan afgelaai word as 'n tar met 'n **URL soos** [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+**dyld 的代码是开源的**，可以在 [https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/) 找到，并可以使用 **URL 如** [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) 下载为 tar 文件。
 {% endhint %}
 
-## **Dyld Proses**
+## **Dyld 进程**
 
-Kyk hoe Dyld biblioteke binne binêre laai in:
+查看 Dyld 如何在二进制文件中加载库：
 
 {% content-ref url="macos-dyld-process.md" %}
 [macos-dyld-process.md](macos-dyld-process.md)
@@ -29,72 +29,72 @@ Kyk hoe Dyld biblioteke binne binêre laai in:
 
 ## **DYLD\_INSERT\_LIBRARIES**
 
-Dit is soos die [**LD\_PRELOAD op Linux**](../../../../linux-hardening/privilege-escalation/#ld\_preload). Dit laat jou toe om 'n proses aan te dui wat gaan loop om 'n spesifieke biblioteek van 'n pad te laai (as die omgewing veranderlike geaktiveer is)
+这类似于 [**Linux 上的 LD\_PRELOAD**](../../../../linux-hardening/privilege-escalation/#ld\_preload)。它允许指示即将运行的进程从路径加载特定库（如果环境变量已启用）。
 
-Hierdie tegniek kan ook **gebruik word as 'n ASEP tegniek** aangesien elke toepassing wat geïnstalleer is 'n plist genaamd "Info.plist" het wat die **toewysing van omgewingsveranderlikes** met 'n sleutel genaamd `LSEnvironmental` toelaat.
+此技术也可以作为 **ASEP 技术** 使用，因为每个安装的应用程序都有一个名为 "Info.plist" 的 plist，允许使用名为 `LSEnvironmental` 的键 **分配环境变量**。
 
 {% hint style="info" %}
-Sedert 2012 het **Apple die mag van die** **`DYLD_INSERT_LIBRARIES`** **drasties verminder**.
+自 2012 年以来，**Apple 大幅减少了** **`DYLD_INSERT_LIBRARIES`** 的功能。
 
-Gaan na die kode en **kyk `src/dyld.cpp`**. In die funksie **`pruneEnvironmentVariables`** kan jy sien dat **`DYLD_*`** veranderlikes verwyder word.
+查看代码并 **检查 `src/dyld.cpp`**。在函数 **`pruneEnvironmentVariables`** 中，您可以看到 **`DYLD_*`** 变量被移除。
 
-In die funksie **`processRestricted`** word die rede vir die beperking gestel. Deur daardie kode te kyk kan jy sien dat die redes is:
+在函数 **`processRestricted`** 中设置了限制的原因。检查该代码，您可以看到原因包括：
 
-* Die binêre is `setuid/setgid`
-* Bestaans van `__RESTRICT/__restrict` afdeling in die macho binêre.
-* Die sagteware het regte (harde runtime) sonder [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) regte
-* Kyk **regte** van 'n binêre met: `codesign -dv --entitlements :- </path/to/bin>`
+* 二进制文件是 `setuid/setgid`
+* macho 二进制文件中存在 `__RESTRICT/__restrict` 部分。
+* 软件具有权限（强化运行时），但没有 [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) 权限。
+* 使用以下命令检查二进制文件的 **权限**：`codesign -dv --entitlements :- </path/to/bin>`
 
-In meer opgedateerde weergawes kan jy hierdie logika in die tweede deel van die funksie **`configureProcessRestrictions`** vind. Wat egter in nuwer weergawes uitgevoer word, is die **begin kontroles van die funksie** (jy kan die ifs wat verband hou met iOS of simulasie verwyder, aangesien dit nie in macOS gebruik sal word nie).
+在更新版本中，您可以在函数 **`configureProcessRestrictions`** 的第二部分找到此逻辑。然而，在较新版本中执行的是该函数的 **开始检查**（您可以删除与 iOS 或模拟相关的 if，因为这些在 macOS 中不会使用）。
 {% endhint %}
 
-### Biblioteek Validasie
+### 库验证
 
-Selfs as die binêre die **`DYLD_INSERT_LIBRARIES`** omgewing veranderlike toelaat, as die binêre die handtekening van die biblioteek kontroleer om dit te laai, sal dit nie 'n pasgemaakte laai nie.
+即使二进制文件允许使用 **`DYLD_INSERT_LIBRARIES`** 环境变量，如果二进制文件检查要加载的库的签名，它也不会加载自定义库。
 
-Om 'n pasgemaakte biblioteek te laai, moet die binêre **een van die volgende regte** hê:
+为了加载自定义库，二进制文件需要具有 **以下任一权限**：
 
 * [`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
 * [`com.apple.private.security.clear-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.private.security.clear-library-validation)
 
-of die binêre **moet nie** die **harde runtime vlag** of die **biblioteek validasie vlag** hê nie.
+或者二进制文件 **不应** 具有 **强化运行时标志** 或 **库验证标志**。
 
-Jy kan kyk of 'n binêre **harde runtime** het met `codesign --display --verbose <bin>` deur die vlag runtime in **`CodeDirectory`** te kontroleer soos: **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
+您可以使用 `codesign --display --verbose <bin>` 检查二进制文件是否具有 **强化运行时**，检查 **`CodeDirectory`** 中的 runtime 标志，如：**`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
 
-Jy kan ook 'n biblioteek laai as dit **onderteken is met dieselfde sertifikaat as die binêre**.
+如果库 **使用与二进制文件相同的证书签名**，您也可以加载该库。
 
-Vind 'n voorbeeld van hoe om dit te (mis)bruik en kyk na die beperkings in:
+找到一个示例，了解如何（滥用）此功能并检查限制：
 
 {% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
-## Dylib Hijacking
+## Dylib 劫持
 
 {% hint style="danger" %}
-Onthou dat **vorige Biblioteek Validasie beperkings ook van toepassing is** om Dylib hijacking aanvalle uit te voer.
+请记住，**之前的库验证限制也适用于** 执行 Dylib 劫持攻击。
 {% endhint %}
 
-Soos in Windows, kan jy ook **dylibs** in MacOS **hijack** om **toepassings** **arbitraire** **kode** te **laat uitvoer** (wel, eintlik kan dit nie moontlik wees vanaf 'n gewone gebruiker nie, aangesien jy dalk 'n TCC toestemming nodig het om binne 'n `.app` bundel te skryf en 'n biblioteek te hijack).\
-Die manier waarop **MacOS** toepassings **biblioteke laai** is egter **meer beperk** as in Windows. Dit impliseer dat **malware** ontwikkelaars steeds hierdie tegniek vir **stealth** kan gebruik, maar die waarskynlikheid om dit te misbruik om regte te verhoog is baie laer.
+与 Windows 一样，在 MacOS 中，您也可以 **劫持 dylibs** 使 **应用程序** **执行** **任意** **代码**（实际上，从普通用户的角度来看，这可能不可行，因为您可能需要 TCC 权限才能写入 `.app` 包并劫持库）。\
+然而，**MacOS** 应用程序 **加载** 库的方式 **比 Windows 更受限制**。这意味着 **恶意软件** 开发人员仍然可以使用此技术进行 **隐蔽**，但能够 **滥用此技术以提升权限的可能性要低得多**。
 
-Eerstens is dit **meer algemeen** om te vind dat **MacOS binêre die volle pad** na die biblioteke om te laai aandui. En tweedens, **MacOS soek nooit** in die vouers van die **$PATH** vir biblioteke nie.
+首先，**更常见** 的情况是 **MacOS 二进制文件指示要加载的库的完整路径**。其次，**MacOS 从不在** **$PATH** 的文件夹中搜索库。
 
-Die **hoof** deel van die **kode** wat met hierdie funksionaliteit verband hou, is in **`ImageLoader::recursiveLoadLibraries`** in `ImageLoader.cpp`.
+与此功能相关的 **主要** 代码部分在 **`ImageLoader::recursiveLoadLibraries`** 中，位于 `ImageLoader.cpp`。
 
-Daar is **4 verskillende kop Commando's** wat 'n macho binêre kan gebruik om biblioteke te laai:
+macho 二进制文件可以使用 **4 种不同的头命令** 来加载库：
 
-* **`LC_LOAD_DYLIB`** opdrag is die algemene opdrag om 'n dylib te laai.
-* **`LC_LOAD_WEAK_DYLIB`** opdrag werk soos die vorige een, maar as die dylib nie gevind word nie, gaan die uitvoering voort sonder enige fout.
-* **`LC_REEXPORT_DYLIB`** opdrag proxy (of her-exporteer) die simbole van 'n ander biblioteek.
-* **`LC_LOAD_UPWARD_DYLIB`** opdrag word gebruik wanneer twee biblioteke op mekaar afhanklik is (dit word 'n _opwaartse afhanklikheid_ genoem).
+* **`LC_LOAD_DYLIB`** 命令是加载 dylib 的常用命令。
+* **`LC_LOAD_WEAK_DYLIB`** 命令的工作方式与前者相同，但如果未找到 dylib，执行将继续而不会出现错误。
+* **`LC_REEXPORT_DYLIB`** 命令代理（或重新导出）来自不同库的符号。
+* **`LC_LOAD_UPWARD_DYLIB`** 命令在两个库相互依赖时使用（这称为 _向上依赖_）。
 
-Daar is egter **2 tipes dylib hijacking**:
+然而，有 **2 种类型的 dylib 劫持**：
 
-* **Ontbrekende swak gekoppelde biblioteke**: Dit beteken dat die toepassing sal probeer om 'n biblioteek te laai wat nie bestaan nie, geconfigureer met **LC\_LOAD\_WEAK\_DYLIB**. Dan, **as 'n aanvaller 'n dylib plaas waar dit verwag word om gelaai te word**.
-* Die feit dat die skakel "swak" is, beteken dat die toepassing sal voortgaan om te loop selfs as die biblioteek nie gevind word nie.
-* Die **kode wat hiermee verband hou** is in die funksie `ImageLoaderMachO::doGetDependentLibraries` van `ImageLoaderMachO.cpp` waar `lib->required` slegs `false` is wanneer `LC_LOAD_WEAK_DYLIB` waar is.
-* **Vind swak gekoppelde biblioteke** in binêre met (jy het later 'n voorbeeld van hoe om hijacking biblioteke te skep):
+* **缺失的弱链接库**：这意味着应用程序将尝试加载一个不存在的库，配置为 **LC\_LOAD\_WEAK\_DYLIB**。然后，**如果攻击者在预期加载的位置放置了一个 dylib**。
+* 链接是“弱”的事实意味着即使未找到库，应用程序仍将继续运行。
+* 与此相关的 **代码** 在 `ImageLoaderMachO::doGetDependentLibraries` 函数中，`lib->required` 仅在 `LC_LOAD_WEAK_DYLIB` 为 true 时为 `false`。
+* **在二进制文件中查找弱链接库**（稍后您将看到如何创建劫持库的示例）：
 * ```bash
 otool -l </path/to/bin> | grep LC_LOAD_WEAK_DYLIB -A 5 cmd LC_LOAD_WEAK_DYLIB
 cmdsize 56
@@ -103,96 +103,96 @@ time stamp 2 Wed Jun 21 12:23:31 1969
 current version 1.0.0
 compatibility version 1.0.0
 ```
-* **Geconfigureer met @rpath**: Mach-O binêre kan die opdragte **`LC_RPATH`** en **`LC_LOAD_DYLIB`** hê. Gebaseer op die **waardes** van daardie opdragte, sal **biblioteke** van **verskillende gidse** gelaai word.
-* **`LC_RPATH`** bevat die pades van sommige vouers wat gebruik word om biblioteke deur die binêre te laai.
-* **`LC_LOAD_DYLIB`** bevat die pad na spesifieke biblioteke om te laai. Hierdie pades kan **`@rpath`** bevat, wat deur die waardes in **`LC_RPATH`** vervang sal word. As daar verskeie pades in **`LC_RPATH`** is, sal almal gebruik word om die biblioteek te laai. Voorbeeld:
-* As **`LC_LOAD_DYLIB`** `@rpath/library.dylib` bevat en **`LC_RPATH`** `/application/app.app/Contents/Framework/v1/` en `/application/app.app/Contents/Framework/v2/` bevat. Beide vouers gaan gebruik word om `library.dylib` te laai.** As die biblioteek nie in `[...]/v1/` bestaan nie, kan 'n aanvaller dit daar plaas om die laai van die biblioteek in `[...]/v2/` te hijack, aangesien die volgorde van pades in **`LC_LOAD_DYLIB`** gevolg word.
-* **Vind rpath pades en biblioteke** in binêre met: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
+* **配置为 @rpath**：Mach-O 二进制文件可以具有 **`LC_RPATH`** 和 **`LC_LOAD_DYLIB`** 命令。根据这些命令的 **值**，**库** 将从 **不同目录** 加载。
+* **`LC_RPATH`** 包含用于通过二进制文件加载库的一些文件夹的路径。
+* **`LC_LOAD_DYLIB`** 包含要加载的特定库的路径。这些路径可以包含 **`@rpath`**，将被 **`LC_RPATH`** 中的值 **替换**。如果 **`LC_RPATH`** 中有多个路径，将使用所有路径来搜索要加载的库。例如：
+* 如果 **`LC_LOAD_DYLIB`** 包含 `@rpath/library.dylib`，而 **`LC_RPATH`** 包含 `/application/app.app/Contents/Framework/v1/` 和 `/application/app.app/Contents/Framework/v2/`。这两个文件夹将用于加载 `library.dylib`**。** 如果库在 `[...]/v1/` 中不存在，攻击者可以将其放置在那里以劫持在 `[...]/v2/` 中加载库，因为遵循 **`LC_LOAD_DYLIB`** 中路径的顺序。
+* **在二进制文件中查找 rpath 路径和库**：`otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
-**`@executable_path`**: Is die **pad** na die gids wat die **hoofd uitvoerbare lêer** bevat.
+**`@executable_path`**：是 **主可执行文件** 所在目录的 **路径**。
 
-**`@loader_path`**: Is die **pad** na die **gids** wat die **Mach-O binêre** bevat wat die laai opdrag bevat.
+**`@loader_path`**：是 **包含** **Mach-O 二进制文件** 的 **目录** 的 **路径**，该文件包含加载命令。
 
-* Wanneer dit in 'n uitvoerbare gebruik word, is **`@loader_path`** effektief die **dieselfde** as **`@executable_path`**.
-* Wanneer dit in 'n **dylib** gebruik word, gee **`@loader_path`** die **pad** na die **dylib**.
+* 在可执行文件中使用时，**`@loader_path`** 实际上与 **`@executable_path`** 相同。
+* 在 **dylib** 中使用时，**`@loader_path`** 给出 **dylib** 的 **路径**。
 {% endhint %}
 
-Die manier om **regte te verhoog** deur hierdie funksionaliteit te misbruik, sou in die seldsame geval wees dat 'n **toepassing** wat **deur** **root** uitgevoer word, **soek** na 'n **biblioteek in 'n gids waar die aanvaller skryfrechten het.**
+滥用此功能以 **提升权限** 的方式是在 **应用程序** 由 **root** 执行的情况下，**查找** 在攻击者具有写权限的某个文件夹中的 **库**。
 
 {% hint style="success" %}
-'n Goeie **scanner** om **ontbrekende biblioteke** in toepassings te vind, is [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) of 'n [**CLI weergawe**](https://github.com/pandazheng/DylibHijack).\
-'n Goeie **verslag met tegniese besonderhede** oor hierdie tegniek kan [**hier**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x) gevind word.
+一个很好的 **扫描器** 用于查找应用程序中的 **缺失库** 是 [**Dylib 劫持扫描器**](https://objective-see.com/products/dhs.html) 或 [**CLI 版本**](https://github.com/pandazheng/DylibHijack)。\
+关于此技术的 **技术细节** 的很好的 **报告** 可以在 [**这里**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x) 找到。
 {% endhint %}
 
-**Voorbeeld**
+**示例**
 
 {% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
-## Dlopen Hijacking
+## Dlopen 劫持
 
 {% hint style="danger" %}
-Onthou dat **vorige Biblioteek Validasie beperkings ook van toepassing is** om Dlopen hijacking aanvalle uit te voer.
+请记住，**之前的库验证限制也适用于** 执行 Dlopen 劫持攻击。
 {% endhint %}
 
-Van **`man dlopen`**:
+来自 **`man dlopen`**：
 
-* Wanneer die pad **nie 'n skuins streep karakter bevat nie** (d.w.s. dit is net 'n blaarnaam), **sal dlopen() soek**. As **`$DYLD_LIBRARY_PATH`** by die bekendstelling gestel is, sal dyld eers **in daardie gids kyk**. Volgende, as die aanroepende mach-o lêer of die hoofd uitvoerbare 'n **`LC_RPATH`** spesifiseer, sal dyld **in daardie** gidse kyk. Volgende, as die proses **onbeperk** is, sal dyld in die **huidige werksgids** soek. Laastens, vir ou binêre, sal dyld 'n paar terugval probeer. As **`$DYLD_FALLBACK_LIBRARY_PATH`** by die bekendstelling gestel is, sal dyld in **daardie gidse** soek, anders sal dyld in **`/usr/local/lib/`** kyk (as die proses onbeperk is), en dan in **`/usr/lib/`** (hierdie inligting is geneem van **`man dlopen`**).
+* 当路径 **不包含斜杠字符**（即它只是一个叶名称）时，**dlopen() 将进行搜索**。如果 **`$DYLD_LIBRARY_PATH`** 在启动时设置，dyld 将首先 **在该目录中查找**。接下来，如果调用的 mach-o 文件或主可执行文件指定了 **`LC_RPATH`**，则 dyld 将 **在这些** 目录中查找。接下来，如果进程是 **不受限制的**，dyld 将在 **当前工作目录** 中搜索。最后，对于旧二进制文件，dyld 将尝试一些后备方案。如果 **`$DYLD_FALLBACK_LIBRARY_PATH`** 在启动时设置，dyld 将在 **这些目录中搜索**，否则，dyld 将在 **`/usr/local/lib/`** 中查找（如果进程不受限制），然后在 **`/usr/lib/`** 中查找（此信息来自 **`man dlopen`**）。
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
-3. `CWD`(as onbeperk)
+3. `CWD`（如果不受限制）
 4. `$DYLD_FALLBACK_LIBRARY_PATH`
-5. `/usr/local/lib/` (as onbeperk)
+5. `/usr/local/lib/`（如果不受限制）
 6. `/usr/lib/`
 
 {% hint style="danger" %}
-As daar geen skuins strepies in die naam is nie, sal daar 2 maniere wees om 'n hijacking te doen:
+如果名称中没有斜杠，则有 2 种方式进行劫持：
 
-* As enige **`LC_RPATH`** **skryfrechten** het (maar die handtekening word gekontroleer, so hiervoor moet die binêre ook onbeperk wees)
-* As die binêre **onbeperk** is en dan is dit moontlik om iets van die CWD te laai (of een van die genoemde omgewingsveranderlikes te misbruik)
+* 如果任何 **`LC_RPATH`** 是 **可写的**（但签名会被检查，因此为此您还需要二进制文件不受限制）
+* 如果二进制文件是 **不受限制的**，然后可以从 CWD 加载某些内容（或滥用提到的环境变量之一）
 {% endhint %}
 
-* Wanneer die pad **soos 'n raamwerk** pad lyk (bv. `/stuff/foo.framework/foo`), as **`$DYLD_FRAMEWORK_PATH`** by die bekendstelling gestel is, sal dyld eers in daardie gids kyk vir die **raamwerk gedeeltelike pad** (bv. `foo.framework/foo`). Volgende, sal dyld die **verskafde pad soos dit is** probeer (met die huidige werksgids vir relatiewe pades). Laastens, vir ou binêre, sal dyld 'n paar terugval probeer. As **`$DYLD_FALLBACK_FRAMEWORK_PATH`** by die bekendstelling gestel is, sal dyld in daardie gidse soek. Anders sal dit in **`/Library/Frameworks`** soek (op macOS as die proses onbeperk is), dan **`/System/Library/Frameworks`**.
+* 当路径 **看起来像框架** 路径（例如 `/stuff/foo.framework/foo`）时，如果 **`$DYLD_FRAMEWORK_PATH`** 在启动时设置，dyld 将首先在该目录中查找 **框架部分路径**（例如 `foo.framework/foo`）。接下来，dyld 将尝试 **按原样使用提供的路径**（使用当前工作目录进行相对路径）。最后，对于旧二进制文件，dyld 将尝试一些后备方案。如果 **`$DYLD_FALLBACK_FRAMEWORK_PATH`** 在启动时设置，dyld 将在这些目录中搜索。否则，它将搜索 **`/Library/Frameworks`**（在 macOS 上，如果进程不受限制），然后 **`/System/Library/Frameworks`**。
 1. `$DYLD_FRAMEWORK_PATH`
-2. verskafde pad (met die huidige werksgids vir relatiewe pades as onbeperk)
+2. 提供的路径（如果不受限制，使用当前工作目录进行相对路径）
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
-4. `/Library/Frameworks` (as onbeperk)
+4. `/Library/Frameworks`（如果不受限制）
 5. `/System/Library/Frameworks`
 
 {% hint style="danger" %}
-As 'n raamwerk pad, sal die manier om dit te hijack wees:
+如果是框架路径，劫持它的方法将是：
 
-* As die proses **onbeperk** is, deur die **relatiewe pad van CWD** die genoemde omgewingsveranderlikes te misbruik (selfs al word dit nie in die dokumentasie gesê nie, as die proses beperk is, word DYLD\_\* omgewingsveranderlikes verwyder)
+* 如果进程是 **不受限制的**，滥用 **相对路径从 CWD** 提到的环境变量（即使文档中没有说明，如果进程受限，DYLD\_\* 环境变量会被移除）
 {% endhint %}
 
-* Wanneer die pad **'n skuins streep bevat maar nie 'n raamwerk pad is nie** (d.w.s. 'n volle pad of 'n gedeeltelike pad na 'n dylib), kyk dlopen() eers (as dit gestel is) in **`$DYLD_LIBRARY_PATH`** (met die blaardeel van die pad). Volgende, probeer dyld **die verskafde pad** (met die huidige werksgids vir relatiewe pades (maar slegs vir onbeperkte prosesse)). Laastens, vir ouer binêre, sal dyld terugval probeer. As **`$DYLD_FALLBACK_LIBRARY_PATH`** by die bekendstelling gestel is, sal dyld in daardie gidse soek, anders sal dyld in **`/usr/local/lib/`** kyk (as die proses onbeperk is), en dan in **`/usr/lib/`**.
+* 当路径 **包含斜杠但不是框架路径**（即到 dylib 的完整路径或部分路径）时，dlopen() 首先在（如果设置） **`$DYLD_LIBRARY_PATH`** 中查找（使用路径的叶部分）。接下来，dyld **尝试提供的路径**（使用当前工作目录进行相对路径（但仅适用于不受限制的进程））。最后，对于旧二进制文件，dyld 将尝试后备方案。如果 **`$DYLD_FALLBACK_LIBRARY_PATH`** 在启动时设置，dyld 将在这些目录中搜索，否则，dyld 将在 **`/usr/local/lib/`** 中查找（如果进程不受限制），然后在 **`/usr/lib/`** 中查找。
 1. `$DYLD_LIBRARY_PATH`
-2. verskafde pad (met die huidige werksgids vir relatiewe pades as onbeperk)
+2. 提供的路径（如果不受限制，使用当前工作目录进行相对路径）
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
-4. `/usr/local/lib/` (as onbeperk)
+4. `/usr/local/lib/`（如果不受限制）
 5. `/usr/lib/`
 
 {% hint style="danger" %}
-As daar skuins strepies in die naam is en dit nie 'n raamwerk is nie, sal die manier om dit te hijack wees:
+如果名称中有斜杠且不是框架，则劫持它的方法将是：
 
-* As die binêre **onbeperk** is en dan is dit moontlik om iets van die CWD of `/usr/local/lib` te laai (of een van die genoemde omgewingsveranderlikes te misbruik)
+* 如果二进制文件是 **不受限制的**，然后可以从 CWD 或 `/usr/local/lib` 加载某些内容（或滥用提到的环境变量之一）
 {% endhint %}
 
 {% hint style="info" %}
-Nota: Daar is **geen** konfigurasielêers om **dlopen soek** te **beheer** nie.
+注意：没有配置文件来 **控制 dlopen 搜索**。
 
-Nota: As die hoofd uitvoerbare 'n **set\[ug]id binêre of codesigned met regte** is, dan **word alle omgewing veranderlikes geïgnoreer**, en slegs 'n volle pad kan gebruik word ([kyk DYLD\_INSERT\_LIBRARIES beperkings](macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_librery-restrictions) vir meer gedetailleerde inligting)
+注意：如果主可执行文件是 **set\[ug]id 二进制文件或具有权限的代码签名**，则 **所有环境变量都将被忽略**，只能使用完整路径（[检查 DYLD\_INSERT\_LIBRARIES 限制](macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_librery-restrictions)以获取更详细的信息）。
 
-Nota: Apple platforms gebruik "universele" lêers om 32-bis en 64-bis biblioteke te kombineer. Dit beteken daar is **geen aparte 32-bis en 64-bis soekpades** nie.
+注意：Apple 平台使用“通用”文件来组合 32 位和 64 位库。这意味着没有单独的 32 位和 64 位搜索路径。
 
-Nota: Op Apple platforms is die meeste OS dylibs **gecombineer in die dyld kas** en bestaan nie op skyf nie. Daarom sal die oproep **`stat()`** om vooraf te kontroleer of 'n OS dylib bestaan **nie werk nie**. Maar, **`dlopen_preflight()`** gebruik dieselfde stappe as **`dlopen()`** om 'n geskikte mach-o lêer te vind.
+注意：在 Apple 平台上，大多数操作系统 dylibs 被 **组合到 dyld 缓存中**，并且在磁盘上不存在。因此，调用 **`stat()`** 以预检操作系统 dylib 是否存在 **将不起作用**。然而，**`dlopen_preflight()`** 使用与 **`dlopen()`** 相同的步骤来查找兼容的 mach-o 文件。
 {% endhint %}
 
-**Kontroleer pades**
+**检查路径**
 
-Kom ons kyk na al die opsies met die volgende kode:
+让我们使用以下代码检查所有选项：
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -235,27 +235,27 @@ fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
 return 0;
 }
 ```
-As jy dit saamstel en uitvoer, kan jy **sien waar elke biblioteek onsuksesvol gesoek is**. Jy kan ook **die FS-logs filter**:
+如果你编译并执行它，你可以看到**每个库未成功搜索的位置**。此外，你可以**过滤文件系统日志**：
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
-## Relatiewe Pad Hijacking
+## 相对路径劫持
 
-As 'n **bevoorregte binêre/app** (soos 'n SUID of 'n binêre met kragtige regte) 'n **relatiewe pad** biblioteek laai (byvoorbeeld deur `@executable_path` of `@loader_path` te gebruik) en **Biblioteekvalidasie gedeaktiveer** is, kan dit moontlik wees om die binêre na 'n plek te skuif waar die aanvaller die **relatiewe pad gelaaide biblioteek** kan **wysig**, en dit te misbruik om kode in die proses in te spuit.
+如果一个 **特权二进制文件/应用程序**（如 SUID 或某些具有强大权限的二进制文件）正在 **加载相对路径** 库（例如使用 `@executable_path` 或 `@loader_path`）并且 **禁用库验证**，攻击者可能会将二进制文件移动到一个位置，在那里攻击者可以 **修改相对路径加载的库**，并利用它在进程中注入代码。
 
-## Snoei `DYLD_*` en `LD_LIBRARY_PATH` omgewingsveranderlikes
+## 修剪 `DYLD_*` 和 `LD_LIBRARY_PATH` 环境变量
 
-In die lêer `dyld-dyld-832.7.1/src/dyld2.cpp` is dit moontlik om die funksie **`pruneEnvironmentVariables`** te vind, wat enige omgewingsveranderlike wat **begin met `DYLD_`** en **`LD_LIBRARY_PATH=`** sal verwyder.
+在文件 `dyld-dyld-832.7.1/src/dyld2.cpp` 中，可以找到函数 **`pruneEnvironmentVariables`**，该函数将删除任何 **以 `DYLD_` 开头** 和 **`LD_LIBRARY_PATH=`** 的环境变量。
 
-Dit sal ook spesifiek die omgewingsveranderlikes **`DYLD_FALLBACK_FRAMEWORK_PATH`** en **`DYLD_FALLBACK_LIBRARY_PATH`** vir **suid** en **sgid** binêre op **null** stel.
+它还将特定地将环境变量 **`DYLD_FALLBACK_FRAMEWORK_PATH`** 和 **`DYLD_FALLBACK_LIBRARY_PATH`** 设置为 **null**，适用于 **suid** 和 **sgid** 二进制文件。
 
-Hierdie funksie word vanaf die **`_main`** funksie van dieselfde lêer aangeroep as daar op OSX geteiken word soos volg:
+如果目标是 OSX，该函数会从同一文件的 **`_main`** 函数中调用，如下所示：
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
 pruneEnvironmentVariables(envp, &apple);
 ```
-en daardie booleaanse vlae word in dieselfde lêer in die kode gestel:
+这些布尔标志在代码中的同一文件中设置：
 ```cpp
 #if TARGET_OS_OSX
 // support chrooting from old kernel
@@ -286,11 +286,11 @@ gLinkContext.allowClassicFallbackPaths   = !isRestricted;
 gLinkContext.allowInsertFailures         = false;
 gLinkContext.allowInterposing         	 = true;
 ```
-Wat basies beteken dat as die binêre **suid** of **sgid** is, of 'n **RESTRICT** segment in die koppe het of dit met die **CS\_RESTRICT** vlag onderteken is, dan is **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** waar en die omgewing veranderlikes word gesnoei.
+这基本上意味着，如果二进制文件是 **suid** 或 **sgid**，或者在头文件中有 **RESTRICT** 段，或者它是用 **CS\_RESTRICT** 标志签名的，那么 **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** 为真，环境变量将被修剪。
 
-Let daarop dat as CS\_REQUIRE\_LV waar is, dan sal die veranderlikes nie gesnoei word nie, maar die biblioteekvalidasie sal nagaan of hulle dieselfde sertifikaat as die oorspronklike binêre gebruik.
+请注意，如果 CS\_REQUIRE\_LV 为真，则变量不会被修剪，但库验证将检查它们是否使用与原始二进制文件相同的证书。
 
-## Kontroleer Beperkings
+## 检查限制
 
 ### SUID & SGID
 ```bash
@@ -303,14 +303,14 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 # Remove suid
 sudo chmod -s hello
 ```
-### Afdeling `__RESTRICT` met segment `__restrict`
+### Section `__RESTRICT` with segment `__restrict`
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
 ```
-### Versterkte tydperk
+### 加固运行时
 
-Skep 'n nuwe sertifikaat in die Sleutelketting en gebruik dit om die binêre te teken:
+在钥匙串中创建一个新证书，并使用它来签署二进制文件：
 
 {% code overflow="wrap" %}
 ```bash
@@ -335,31 +335,31 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% endcode %}
 
 {% hint style="danger" %}
-Let daarop dat selfs al is daar binaire lêers wat met vlae **`0x0(none)`** onderteken is, kan hulle die **`CS_RESTRICT`** vlag dinamies kry wanneer dit uitgevoer word en daarom sal hierdie tegniek nie in hulle werk nie.
+请注意，即使有二进制文件带有标志 **`0x0(none)`**，它们在执行时也可以动态获得 **`CS_RESTRICT`** 标志，因此此技术在它们中将不起作用。
 
-Jy kan nagaan of 'n proses hierdie vlag het met (kry [**csops hier**](https://github.com/axelexic/CSOps)):
+您可以通过 (获取 [**csops 这里**](https://github.com/axelexic/CSOps)) 检查一个进程是否具有此标志：
 ```bash
 csops -status <pid>
 ```
-en kyk dan of die vlag 0x800 geaktiveer is.
+然后检查标志 0x800 是否启用。
 {% endhint %}
 
-## Verwysings
+## 参考文献
 
 * [https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/](https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/)
-* [**\*OS Internals, Volume I: User Mode. Deur Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

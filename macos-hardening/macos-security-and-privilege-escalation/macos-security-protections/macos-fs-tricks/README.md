@@ -1,56 +1,56 @@
 # macOS FS Tricks
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## POSIX toestemmingskombinasies
+## POSIX 权限组合
 
-Toestemmings in 'n **gids**:
+**目录**中的权限：
 
-* **lees** - jy kan die **gids** inskrywings **opnoem**
-* **skryf** - jy kan **verwyder/skryf** **lêers** in die gids en jy kan **leë vouers verwyder**.
-* Maar jy **kan nie nie-leë vouers verwyder/wysig** tensy jy skryftoestemmings daaroor het.
-* Jy **kan nie die naam van 'n vouer wysig** tensy jy dit besit nie.
-* **voer uit** - jy is **toegelaat om** die gids te **deursoek** - as jy nie hierdie reg het nie, kan jy nie enige lêers binne dit, of in enige subgidsen, toegang nie.
+* **读取** - 你可以**枚举**目录条目
+* **写入** - 你可以**删除/写入**目录中的**文件**，并且可以**删除空文件夹**。
+* 但你**不能删除/修改非空文件夹**，除非你对其拥有写入权限。
+* 你**不能修改文件夹的名称**，除非你拥有它。
+* **执行** - 你被**允许遍历**目录 - 如果你没有这个权限，你将无法访问其中的任何文件或任何子目录。
 
-### Gevaarlike Kombinasies
+### 危险组合
 
-**Hoe om 'n lêer/vouer wat deur root besit word te oorskryf**, maar:
+**如何覆盖一个由 root 拥有的文件/文件夹**，但：
 
-* Een ouer **gids eienaar** in die pad is die gebruiker
-* Een ouer **gids eienaar** in die pad is 'n **gebruikersgroep** met **skryftoegang**
-* 'n gebruikers **groep** het **skryf** toegang tot die **lêer**
+* 路径中的一个父**目录所有者**是用户
+* 路径中的一个父**目录所有者**是具有**写入权限**的**用户组**
+* 一个用户**组**对**文件**具有**写入**权限
 
-Met enige van die vorige kombinasies, kan 'n aanvaller 'n **sim/hard skakel** in die verwagte pad **inspuit** om 'n bevoorregte arbitrêre skryf te verkry.
+在任何上述组合中，攻击者可以**注入**一个**符号/硬链接**到预期路径，以获得特权的任意写入。
 
-### Vouer root R+X Spesiale geval
+### 文件夹 root R+X 特殊情况
 
-As daar lêers in 'n **gids** is waar **slegs root R+X toegang het**, is dit **nie toeganklik vir enige iemand anders nie**. So 'n kwesbaarheid wat toelaat om 'n lêer wat deur 'n gebruiker leesbaar is, wat nie gelees kan word weens daardie **beperking**, van hierdie gids **na 'n ander een** te beweeg, kan misbruik word om hierdie lêers te lees.
+如果在一个**目录**中，**只有 root 拥有 R+X 访问权限**，那么这些文件对**其他任何人都不可访问**。因此，允许将一个用户可读的**文件**（由于该**限制**而无法读取）从此文件夹**移动到另一个文件夹**的漏洞，可能被滥用以读取这些文件。
 
-Voorbeeld in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+示例在：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Simboliese Skakel / Hard Skakel
+## 符号链接 / 硬链接
 
-As 'n bevoorregte proses data in 'n **lêer** skryf wat **beheer** kan word deur 'n **laer bevoorregte gebruiker**, of wat **voorheen geskep** kan wees deur 'n laer bevoorregte gebruiker. Die gebruiker kan net **na 'n ander lêer wys** via 'n Simboliese of Hard skakel, en die bevoorregte proses sal op daardie lêer skryf.
+如果一个特权进程正在写入一个**文件**，该文件可能被**低权限用户控制**，或者可能是**之前由低权限用户创建**的。用户可以通过符号链接或硬链接**指向另一个文件**，特权进程将写入该文件。
 
-Kyk in die ander afdelings waar 'n aanvaller 'n **arbitrêre skryf kan misbruik om voorregte te verhoog**.
+查看其他部分，攻击者可能会**滥用任意写入以提升权限**。
 
 ## .fileloc
 
-Lêers met **`.fileloc`** uitbreiding kan na ander toepassings of binêre lêers wys, so wanneer hulle geopen word, sal die toepassing/binêre die een wees wat uitgevoer word.\
-Voorbeeld:
+具有**`.fileloc`** 扩展名的文件可以指向其他应用程序或二进制文件，因此当它们被打开时，将执行该应用程序/二进制文件。\
+示例：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -65,19 +65,19 @@ Voorbeeld:
 ```
 ## Arbitrary FD
 
-As jy 'n **proses kan laat 'n lêer of 'n gids met hoë voorregte oopmaak**, kan jy **`crontab`** misbruik om 'n lêer in `/etc/sudoers.d` met **`EDITOR=exploit.py`** oop te maak, sodat die `exploit.py` die FD na die lêer binne `/etc/sudoers` sal kry en dit kan misbruik.
+如果你能让一个 **进程以高权限打开一个文件或文件夹**，你可以利用 **`crontab`** 以 **`EDITOR=exploit.py`** 打开 `/etc/sudoers.d` 中的一个文件，这样 `exploit.py` 将获得对 `/etc/sudoers` 中文件的 FD 并加以利用。
 
-Byvoorbeeld: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
+例如: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Vermy kwarantyn xattrs truuks
+## Avoid quarantine xattrs tricks
 
-### Verwyder dit
+### Remove it
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### uchg / uchange / uimmutable vlag
+### uchg / uchange / uimmutable 标志
 
-As 'n lêer/gids hierdie onveranderlike eienskap het, sal dit nie moontlik wees om 'n xattr daarop te plaas nie.
+如果一个文件/文件夹具有此不可变属性，则无法在其上放置 xattr。
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -89,7 +89,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs mount
 
-'n **devfs** monteer **ondersteun nie xattr nie**, meer inligting in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+一个 **devfs** 挂载 **不支持 xattr**，更多信息请参见 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -100,7 +100,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-Hierdie ACL verhoed dat `xattrs` by die lêer gevoeg word
+此 ACL 防止向文件添加 `xattrs`
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -123,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** lêerformaat kopieer 'n lêer insluitend sy ACE's.
+**AppleDouble** 文件格式复制一个文件及其 ACE。
 
-In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedecomprimeerde lêer gestel gaan word. So, as jy 'n toepassing in 'n zip-lêer met **AppleDouble** lêerformaat saamgepers het met 'n ACL wat voorkom dat ander xattrs daarin geskryf kan word... was die kwarantyn xattr nie in die toepassing gestel nie:
+在 [**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) 中可以看到，存储在名为 **`com.apple.acl.text`** 的 xattr 中的 ACL 文本表示将被设置为解压缩文件中的 ACL。因此，如果你将一个应用程序压缩成一个带有 ACL 的 **AppleDouble** 文件格式的 zip 文件，该 ACL 阻止其他 xattrs 被写入... 那么隔离 xattr 并没有被设置到应用程序中：
 
-Kyk na die [**oorspronklike verslag**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) vir meer inligting.
+查看 [**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) 获取更多信息。
 
-Om dit te repliseer, moet ons eers die korrekte acl string kry:
+要复制这个，我们首先需要获取正确的 acl 字符串：
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -147,19 +147,19 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Note dat selfs al werk dit, die sandbox skryf die kwarantyn xattr voor)
+(Note that even if this works the sandbox write the quarantine xattr before)
 
-Nie regtig nodig nie, maar ek laat dit daar net ingeval:
+不是真的需要，但我留着以防万一：
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Omseil Kode Handtekeninge
+## 绕过代码签名
 
-Bundles bevat die lêer **`_CodeSignature/CodeResources`** wat die **hash** van elke enkele **lêer** in die **bundle** bevat. Let daarop dat die hash van CodeResources ook **ingebed is in die uitvoerbare**, so ons kan nie daarmee mors nie.
+Bundles 包含文件 **`_CodeSignature/CodeResources`**，其中包含每个 **file** 在 **bundle** 中的 **hash**。请注意，CodeResources 的 hash 也 **嵌入在可执行文件中**，因此我们也不能对其进行修改。
 
-Daar is egter 'n paar lêers waarvan die handtekening nie nagegaan sal word nie, hierdie het die sleutel omit in die plist, soos:
+然而，有一些文件的签名不会被检查，这些文件在 plist 中具有 omit 键，例如：
 ```xml
 <dict>
 ...
@@ -203,7 +203,7 @@ Daar is egter 'n paar lêers waarvan die handtekening nie nagegaan sal word nie,
 ...
 </dict>
 ```
-Dit is moontlik om die handtekening van 'n hulpbron vanaf die cli te bereken met: 
+可以通过命令行计算资源的签名： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -211,9 +211,9 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ```
 {% endcode %}
 
-## Monteer dmgs
+## 挂载 dmgs
 
-'n Gebruiker kan 'n pasgemaakte dmg monteer wat selfs bo-op sommige bestaande vouers geskep is. Dit is hoe jy 'n pasgemaakte dmg-pakket met pasgemaakte inhoud kan skep:
+用户可以挂载一个自定义的 dmg，即使是在某些现有文件夹上。这就是您如何创建一个包含自定义内容的自定义 dmg 包： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -238,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Gewoonlik monteer macOS skyf deur te kommunikeer met die `com.apple.DiskArbitrarion.diskarbitrariond` Mach diens (verskaf deur `/usr/libexec/diskarbitrationd`). As jy die param `-d` by die LaunchDaemons plist-lêer voeg en herbegin, sal dit logs stoor in `/var/log/diskarbitrationd.log`.\
-Dit is egter moontlik om gereedskap soos `hdik` en `hdiutil` te gebruik om direk met die `com.apple.driver.DiskImages` kext te kommunikeer.
+通常，macOS通过与`com.apple.DiskArbitrarion.diskarbitrariond` Mach服务（由`/usr/libexec/diskarbitrationd`提供）进行通信来挂载磁盘。如果在LaunchDaemons plist文件中添加参数`-d`并重启，它将把日志存储在`/var/log/diskarbitrationd.log`中。\
+然而，可以使用像`hdik`和`hdiutil`这样的工具直接与`com.apple.driver.DiskImages` kext进行通信。
 
-## Willekeurige Skrywe
+## 任意写入
 
-### Periodieke sh skripte
+### 定期sh脚本
 
-As jou skrip as 'n **shell skrip** geïnterpreteer kan word, kan jy die **`/etc/periodic/daily/999.local`** shell skrip oorskryf wat elke dag geaktiveer sal word.
+如果您的脚本可以被解释为**shell脚本**，您可以覆盖**`/etc/periodic/daily/999.local`** shell脚本，该脚本将每天触发。
 
-Jy kan 'n **vals** uitvoering van hierdie skrip maak met: **`sudo periodic daily`**
+您可以用以下命令**伪造**此脚本的执行：**`sudo periodic daily`**
 
-### Daemons
+### 守护进程
 
-Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** met 'n plist wat 'n willekeurige skrip uitvoer soos:
+编写一个任意的**LaunchDaemon**，如**`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**，其中plist执行一个任意脚本，如：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -272,17 +272,17 @@ Just generate the script `/Applications/Scripts/privesc.sh` with the **commands*
 
 ### Sudoers File
 
-If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
+如果你有 **任意写入** 权限，你可以在 **`/etc/sudoers.d/`** 文件夹内创建一个文件，授予自己 **sudo** 权限。
 
 ### PATH files
 
-The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
+文件 **`/etc/paths`** 是填充 PATH 环境变量的主要位置之一。你必须是 root 才能覆盖它，但如果 **特权进程** 执行某个 **命令而没有完整路径**，你可能能够通过修改此文件来 **劫持** 它。
 
-You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
+你也可以在 **`/etc/paths.d`** 中写入文件，以将新文件夹加载到 `PATH` 环境变量中。
 
-## Generate writable files as other users
+## 生成其他用户可写的文件
 
-This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
+这将生成一个属于 root 的文件，我可以写入（[**代码来自这里**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)）。这也可能作为提权工作：
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -294,13 +294,13 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-## POSIX Gedeelde Geheue
+## POSIX 共享内存
 
-**POSIX gedeelde geheue** laat prosesse in POSIX-konforme bedryfstelsels toe om toegang te verkry tot 'n gemeenskaplike geheuegebied, wat vinniger kommunikasie vergemaklik in vergelyking met ander inter-proses kommunikasie metodes. Dit behels die skep of oopmaak van 'n gedeelde geheue objek met `shm_open()`, die instelling van sy grootte met `ftruncate()`, en die kartering daarvan in die proses se adresruimte met `mmap()`. Prosesse kan dan direk lees van en skryf na hierdie geheuegebied. Om gelyktydige toegang te bestuur en data-beskadiging te voorkom, word sinchronisasie meganismes soos mutexes of semafore dikwels gebruik. Laastens, prosesse onkarter en sluit die gedeelde geheue met `munmap()` en `close()`, en verwyder opsioneel die geheue objek met `shm_unlink()`. Hierdie stelsel is veral effektief vir doeltreffende, vinnige IPC in omgewings waar verskeie prosesse vinnig toegang tot gedeelde data moet verkry.
+**POSIX 共享内存** 允许在 POSIX 兼容操作系统中的进程访问一个公共内存区域，与其他进程间通信方法相比，促进了更快的通信。它涉及使用 `shm_open()` 创建或打开一个共享内存对象，使用 `ftruncate()` 设置其大小，并使用 `mmap()` 将其映射到进程的地址空间。进程可以直接从这个内存区域读取和写入。为了管理并发访问并防止数据损坏，通常使用互斥锁或信号量等同步机制。最后，进程使用 `munmap()` 和 `close()` 解除映射并关闭共享内存，并可选择使用 `shm_unlink()` 删除内存对象。该系统在多个进程需要快速访问共享数据的环境中，尤其有效于高效、快速的 IPC。
 
 <details>
 
-<summary>Produsent Kode Voorbeeld</summary>
+<summary>生产者代码示例</summary>
 ```c
 // gcc producer.c -o producer -lrt
 #include <fcntl.h>
@@ -348,7 +348,7 @@ return 0;
 
 <details>
 
-<summary>Verbruikerskode Voorbeeld</summary>
+<summary>消费者代码示例</summary>
 ```c
 // gcc consumer.c -o consumer -lrt
 #include <fcntl.h>
@@ -390,31 +390,31 @@ return 0;
 ```
 </details>
 
-## macOS Bewaakte Beskrywings
+## macOS 受保护描述符
 
-**macOS bewaakte beskrywings** is 'n sekuriteitskenmerk wat in macOS bekendgestel is om die veiligheid en betroubaarheid van **lêer beskrywing operasies** in gebruikersaansoeke te verbeter. Hierdie bewaakte beskrywings bied 'n manier om spesifieke beperkings of "wagters" met lêer beskrywings te assosieer, wat deur die kern afgedwing word.
+**macOS 受保护描述符** 是在 macOS 中引入的一项安全功能，旨在增强用户应用程序中 **文件描述符操作** 的安全性和可靠性。这些受保护的描述符提供了一种将特定限制或“保护”与文件描述符关联的方法，这些限制由内核强制执行。
 
-Hierdie kenmerk is veral nuttig om sekere klasse van sekuriteitskwesbaarhede soos **ongemagtigde lêer toegang** of **wedloop toestande** te voorkom. Hierdie kwesbaarhede gebeur wanneer 'n draad byvoorbeeld 'n lêer beskrywing benader wat **'n ander kwesbare draad toegang gee** of wanneer 'n lêer beskrywing **geërf** word deur 'n kwesbare kind proses. Sommige funksies wat met hierdie funksionaliteit verband hou, is:
+此功能特别有助于防止某些类别的安全漏洞，例如 **未经授权的文件访问** 或 **竞争条件**。这些漏洞发生在例如一个线程正在访问一个文件描述符，导致 **另一个易受攻击的线程对其访问**，或者当一个文件描述符被 **继承** 给一个易受攻击的子进程时。与此功能相关的一些函数包括：
 
-* `guarded_open_np`: Oop 'n FD met 'n wagter
-* `guarded_close_np`: Sluit dit
-* `change_fdguard_np`: Verander wagter vlae op 'n beskrywing (selfs om die wagter beskerming te verwyder)
+* `guarded_open_np`: 以保护方式打开文件描述符
+* `guarded_close_np`: 关闭它
+* `change_fdguard_np`: 更改描述符上的保护标志（甚至移除保护）
 
-## Verwysings
+## 参考资料
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

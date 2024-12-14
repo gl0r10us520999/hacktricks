@@ -1,41 +1,57 @@
-# Wapen van Distroless
+# Weaponizing Distroless
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Wat is Distroless
+## 什么是 Distroless
 
-'n Distroless-container is 'n tipe container wat **slegs die nodige afhanklikhede bevat om 'n spesifieke toepassing te laat loop**, sonder enige addisionele sagteware of gereedskap wat nie benodig word nie. Hierdie containers is ontwerp om so **liggewig** en **veilig** as moontlik te wees, en hulle poog om die **aanvaloppervlak te minimaliseer** deur enige onnodige komponente te verwyder.
+Distroless 容器是一种只包含 **运行特定应用程序所需的必要依赖项** 的容器，不包含任何不必要的软件或工具。这些容器旨在尽可能 **轻量** 和 **安全**，并旨在通过去除任何不必要的组件来 **最小化攻击面**。
 
-Distroless-containers word dikwels in **produksie-omgewings gebruik waar veiligheid en betroubaarheid van die grootste belang is**.
+Distroless 容器通常用于 **安全性和可靠性至关重要的生产环境**。
 
-Sommige **voorbeelde** van **distroless-containers** is:
+一些 **distroless 容器的例子** 包括：
 
-* Verskaf deur **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
-* Verskaf deur **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+* 由 **Google** 提供：[https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
+* 由 **Chainguard** 提供：[https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Wapen van Distroless
+## 武器化 Distroless
 
-Die doel van die wapen van 'n distroless-container is om in staat te wees om **arbitraire binêre en payloads uit te voer selfs met die beperkings** wat deur **distroless** impliseer (gebrek aan algemene binêre in die stelsel) en ook beskermings wat algemeen in containers voorkom soos **lees-slegs** of **geen-uitvoering** in `/dev/shm`.
+武器化 distroless 容器的目标是能够 **在 distroless 所暗示的限制下执行任意二进制文件和有效负载**（系统中缺乏常见二进制文件），以及容器中常见的保护措施，如 **只读** 或 **不可执行** 在 `/dev/shm` 中。
 
-### Deur geheue
+### 通过内存
 
-Kom op 'n sekere punt in 2023...
+将在 2023 年的某个时候发布...
 
-### Via Bestaande binêre
+### 通过现有二进制文件
 
 #### openssl
 
-****[**In hierdie pos,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) word verduidelik dat die binêre **`openssl`** gereeld in hierdie containers gevind word, moontlik omdat dit **benodig** word deur die sagteware wat binne die container gaan loop.
+****[**在这篇文章中，**](https://www.form3.tech/engineering/content/exploiting-distroless-images) 解释了二进制文件 **`openssl`** 经常出现在这些容器中，可能是因为它是 **运行在容器内的软件所需的**。
+
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+
+</details>
+{% endhint %}

@@ -1,37 +1,37 @@
-# macOS Installers Abuse
+# macOS 安装程序滥用
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Pkg Basiese Inligting
+## pkg 基本信息
 
-'n macOS **installer pakket** (ook bekend as 'n `.pkg` lêer) is 'n lêerformaat wat deur macOS gebruik word om **programmatuur te versprei**. Hierdie lêers is soos 'n **doos wat alles bevat wat 'n stuk programmatuur** nodig het om korrek te installeer en te werk.
+macOS **安装包**（也称为 `.pkg` 文件）是一种文件格式，用于 macOS **分发软件**。这些文件就像一个 **包含软件安装和正常运行所需的一切的盒子**。
 
-Die pakketlêer self is 'n argief wat 'n **hiërargie van lêers en gidse bevat wat op die teiken** rekenaar geïnstalleer sal word. Dit kan ook **scripts** insluit om take voor en na die installasie uit te voer, soos om konfigurasielêers op te stel of ou weergawes van die programmatuur skoon te maak.
+包文件本身是一个存档，包含一个 **将在目标计算机上安装的文件和目录的层次结构**。它还可以包括 **脚本**，在安装前后执行任务，例如设置配置文件或清理旧版本的软件。
 
-### Hiërargie
+### 层次结构
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Verspreiding (xml)**: Aangepas (titel, verwelkoming teks…) en script/installasie kontroles
-* **PakketInligting (xml)**: Inligting, installasie vereistes, installasie ligging, paaie na scripts om uit te voer
-* **Materiaallys (bom)**: Lys van lêers om te installeer, op te dateer of te verwyder met lêer toestemmings
-* **Payload (CPIO argief gzip gecomprimeer)**: Lêers om te installeer in die `install-location` van PakketInligting
-* **Scripts (CPIO argief gzip gecomprimeer)**: Voor en na installasie scripts en meer hulpbronne wat na 'n tydelike gids onttrek is vir uitvoering.
+* **分发 (xml)**：自定义（标题、欢迎文本……）和脚本/安装检查
+* **PackageInfo (xml)**：信息、安装要求、安装位置、要运行的脚本路径
+* **材料清单 (bom)**：要安装、更新或删除的文件列表及文件权限
+* **有效载荷 (CPIO 存档 gzip 压缩)**：从 PackageInfo 中在 `install-location` 安装的文件
+* **脚本 (CPIO 存档 gzip 压缩)**：安装前和安装后的脚本以及提取到临时目录以供执行的更多资源。
 
-### Decomprimeer
+### 解压缩
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -45,37 +45,37 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-In order to visualize the contents of the installer without decompressing it manually you can also use the free tool [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
+为了在不手动解压缩的情况下可视化安装程序的内容，您还可以使用免费的工具 [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/)。
 
-## DMG Basiese Inligting
+## DMG 基本信息
 
-DMG-lêers, of Apple Disk Images, is 'n lêerformaat wat deur Apple se macOS vir skyfbeelde gebruik word. 'n DMG-lêer is in wese 'n **aansluitbare skyfbeeld** (dit bevat sy eie lêerstelsel) wat rou blokdata bevat wat tipies gecomprimeer en soms geënkripteer is. Wanneer jy 'n DMG-lêer oopmaak, **aansluit macOS dit asof dit 'n fisiese skyf is**, wat jou toelaat om toegang tot sy inhoud te verkry.
+DMG 文件，或称 Apple 磁盘映像，是苹果的 macOS 用于磁盘映像的文件格式。DMG 文件本质上是一个 **可挂载的磁盘映像**（它包含自己的文件系统），其中包含通常被压缩且有时被加密的原始块数据。当您打开 DMG 文件时，macOS **将其挂载，就像它是一个物理磁盘**，允许您访问其内容。
 
 {% hint style="danger" %}
-Let daarop dat **`.dmg`** installers **soveel formate** ondersteun dat sommige daarvan in die verlede wat kwesbaarhede bevat het, misbruik is om **kernel kode-uitvoering** te verkry.
+请注意，**`.dmg`** 安装程序支持 **如此多的格式**，以至于在过去，一些包含漏洞的格式被滥用以获得 **内核代码执行**。
 {% endhint %}
 
-### Hiërargie
+### 层级结构
 
 <figure><img src="../../../.gitbook/assets/image (225).png" alt=""><figcaption></figcaption></figure>
 
-Die hiërargie van 'n DMG-lêer kan verskil op grond van die inhoud. Dit volg egter gewoonlik hierdie struktuur vir toepassings DMGs:
+DMG 文件的层级结构可以根据内容而有所不同。然而，对于应用程序 DMG，它通常遵循以下结构：
 
-* Topvlak: Dit is die wortel van die skyfbeeld. Dit bevat dikwels die toepassing en moontlik 'n skakel na die Toepassings-gids.
-* Toepassing (.app): Dit is die werklike toepassing. In macOS is 'n toepassing tipies 'n pakket wat baie individuele lêers en gidse bevat wat die toepassing saamstel.
-* Toepassingskakel: Dit is 'n snelkoppeling na die Toepassings-gids in macOS. Die doel hiervan is om dit maklik vir jou te maak om die toepassing te installeer. Jy kan die .app-lêer na hierdie snelkoppeling sleep om die app te installeer.
+* 顶层：这是磁盘映像的根。它通常包含应用程序，并可能包含指向应用程序文件夹的链接。
+* 应用程序 (.app)：这就是实际的应用程序。在 macOS 中，应用程序通常是一个包含许多单独文件和文件夹的包，这些文件和文件夹构成了该应用程序。
+* 应用程序链接：这是指向 macOS 中应用程序文件夹的快捷方式。这样做的目的是方便您安装应用程序。您可以将 .app 文件拖到此快捷方式上以安装该应用程序。
 
-## Privesc via pkg misbruik
+## 通过 pkg 滥用进行权限提升
 
-### Uitvoering vanaf openbare gidse
+### 从公共目录执行
 
-As 'n vooraf of na-installasie skrip byvoorbeeld uitvoer vanaf **`/var/tmp/Installerutil`**, en 'n aanvaller daardie skrip kan beheer, kan hy privilige verhoog wanneer dit uitgevoer word. Of 'n ander soortgelyke voorbeeld:
+如果预安装或后安装脚本例如从 **`/var/tmp/Installerutil`** 执行，攻击者可以控制该脚本，从而在每次执行时提升权限。或者另一个类似的例子：
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) wat verskeie installers en opdaterings sal aanroep om **iets as root uit te voer**. Hierdie funksie aanvaar die **pad** van die **lêer** om **uit te voer** as parameter, egter, as 'n aanvaller hierdie lêer kan **wysig**, sal hy in staat wees om sy uitvoering met root te **misbruik** om **privilege te verhoog**.
+这是一个 [公共函数](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg)，多个安装程序和更新程序将调用它以 **以 root 身份执行某些操作**。此函数接受要 **执行** 的 **文件** 的 **路径** 作为参数，然而，如果攻击者能够 **修改** 此文件，他将能够 **滥用** 其以 root 身份执行以 **提升权限**。
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -83,27 +83,27 @@ Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/
 ```
 For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
-### Uitvoering deur montering
+### 执行通过挂载
 
-As 'n installer na `/tmp/fixedname/bla/bla` skryf, is dit moontlik om **'n montasie te skep** oor `/tmp/fixedname` sonder eienaars sodat jy **enige lêer tydens die installasie kan wysig** om die installasieproses te misbruik.
+如果安装程序写入 `/tmp/fixedname/bla/bla`，可以 **创建一个挂载** 在 `/tmp/fixedname` 上，没有所有者，这样你就可以 **在安装过程中修改任何文件** 来滥用安装过程。
 
-'n Voorbeeld hiervan is **CVE-2021-26089** wat daarin geslaag het om **'n periodieke skrip te oorskryf** om uitvoering as root te verkry. Vir meer inligting, kyk na die praatjie: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+一个例子是 **CVE-2021-26089**，它成功地 **覆盖了一个定期脚本** 以获得 root 权限。有关更多信息，请查看这个演讲: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-## pkg as malware
+## pkg 作为恶意软件
 
-### Leë Payload
+### 空载荷
 
-Dit is moontlik om net 'n **`.pkg`** lêer te genereer met **pre- en post-install skripte** sonder enige werklike payload behalwe die malware binne die skripte.
+可以仅生成一个 **`.pkg`** 文件，包含 **安装前和安装后脚本**，而没有任何实际载荷，除了脚本中的恶意软件。
 
-### JS in Verspreiding xml
+### 分发 xml 中的 JS
 
-Dit is moontlik om **`<script>`** etikette in die **verspreiding xml** lêer van die pakket toe te voeg en daardie kode sal uitgevoer word en dit kan **opdragte uitvoer** met behulp van **`system.run`**:
+可以在包的 **分发 xml** 文件中添加 **`<script>`** 标签，这段代码将被执行，并且可以 **使用 `system.run` 执行命令**：
 
 <figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
-### Backdoored Installer
+### 后门安装程序
 
-Kwaadwillige installer wat 'n skrip en JS-kode binne dist.xml gebruik
+恶意安装程序使用脚本和 dist.xml 中的 JS 代码
 ```bash
 # Package structure
 mkdir -p pkgroot/root/Applications/MyApp
@@ -164,24 +164,24 @@ EOF
 # Buil final
 productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pkg
 ```
-## Verwysings
+## 参考文献
 
-* [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne Macos Installer Pakkette En Algemene Sekuriteitsfoute**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
-* [**OBTS v4.0: "Die Wilde Wêreld van macOS Installeerders" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-* [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne MacOS Installer Pakkette**](https://www.youtube.com/watch?v=kCXhIYtODBg)
+* [**DEF CON 27 - 解包 Pkgs 深入了解 Macos 安装包及常见安全漏洞**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
+* [**OBTS v4.0: "macOS 安装程序的奇妙世界" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+* [**DEF CON 27 - 解包 Pkgs 深入了解 MacOS 安装包**](https://www.youtube.com/watch?v=kCXhIYtODBg)
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Ekspert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

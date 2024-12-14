@@ -1,70 +1,70 @@
-# macOS Bundels
+# macOS Bundles
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-Bundels in macOS dien as houers vir 'n verskeidenheid bronne insluitend toepassings, biblioteke, en ander nodige lêers, wat hulle laat voorkom as enkel voorwerpe in Finder, soos die bekende `*.app` lêers. Die mees algemeen aangetrefte bundel is die `.app` bundel, alhoewel ander tipes soos `.framework`, `.systemextension`, en `.kext` ook algemeen voorkom.
+macOS 中的 Bundles 作为各种资源的容器，包括应用程序、库和其他必要文件，使它们在 Finder 中看起来像单一对象，例如熟悉的 `*.app` 文件。最常见的 bundle 是 `.app` bundle，尽管 `.framework`、`.systemextension` 和 `.kext` 等其他类型也很普遍。
 
-### Essensiële Komponente van 'n Bundel
+### Bundle 的基本组件
 
-Binne 'n bundel, veral binne die `<toepassing>.app/Contents/` gids, word 'n verskeidenheid belangrike bronne gehuisves:
+在 bundle 中，特别是在 `<application>.app/Contents/` 目录下，存放着各种重要资源：
 
-* **\_CodeSignature**: Hierdie gids stoor kode-ondertekeningsbesonderhede wat noodsaaklik is vir die verifikasie van die toepassing se integriteit. Jy kan die kode-ondertekeningsinligting inspekteer met bevele soos: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
-* **MacOS**: Bevat die uitvoerbare binêre van die toepassing wat hardloop wanneer die gebruiker interaksie het.
-* **Hulpbronne**: 'n Berging vir die toepassing se gebruikerskoppelvlakkomponente insluitend beelde, dokumente, en koppelvlakbeskrywings (nib/xib lêers).
-* **Info.plist**: Tree op as die toepassing se hoofkonfigurasie lêer, noodsaaklik vir die stelsel om die toepassing toepaslik te herken en mee te interageer.
+* **\_CodeSignature**：此目录存储代码签名详细信息，对于验证应用程序的完整性至关重要。您可以使用以下命令检查代码签名信息： %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
+* **MacOS**：包含在用户交互时运行的应用程序的可执行二进制文件。
+* **Resources**：应用程序用户界面组件的存储库，包括图像、文档和界面描述（nib/xib 文件）。
+* **Info.plist**：作为应用程序的主要配置文件，对于系统正确识别和与应用程序交互至关重要。
 
-#### Belangrike Sleutels in Info.plist
+#### Info.plist 中的重要键
 
-Die `Info.plist` lêer is 'n hoeksteen vir toepassingskonfigurasie, wat sleutels soos bevat:
+`Info.plist` 文件是应用程序配置的基石，包含以下键：
 
-* **CFBundleExecutable**: Spesifiseer die naam van die hoofuitvoerbare lêer wat in die `Contents/MacOS` gids geleë is.
-* **CFBundleIdentifier**: Verskaf 'n globale identifiseerder vir die toepassing, wat wyd deur macOS gebruik word vir toepassingsbestuur.
-* **LSMinimumSystemVersion**: Dui die minimum weergawe van macOS aan wat vir die toepassing benodig word om te hardloop.
+* **CFBundleExecutable**：指定位于 `Contents/MacOS` 目录中的主可执行文件的名称。
+* **CFBundleIdentifier**：为应用程序提供全局标识符，macOS 在应用程序管理中广泛使用。
+* **LSMinimumSystemVersion**：指示运行应用程序所需的最低 macOS 版本。
 
-### Verken Bundels
+### 探索 Bundles
 
-Om die inhoud van 'n bundel te verken, soos `Safari.app`, kan die volgende bevel gebruik word: `bash ls -lR /Applications/Safari.app/Contents`
+要探索 bundle 的内容，例如 `Safari.app`，可以使用以下命令：`bash ls -lR /Applications/Safari.app/Contents`
 
-Hierdie verkenning onthul gids soos `_CodeSignature`, `MacOS`, `Hulpbronne`, en lêers soos `Info.plist`, wat elk 'n unieke doel dien vanaf die beveiliging van die toepassing tot die definisie van sy gebruikerskoppelvlak en operasionele parameters.
+此探索揭示了像 `_CodeSignature`、`MacOS`、`Resources` 这样的目录，以及像 `Info.plist` 这样的文件，每个文件都在保护应用程序、定义其用户界面和操作参数方面发挥独特作用。
 
-#### Addisionele Bundelgidse
+#### 其他 Bundle 目录
 
-Verder as die algemene gidse, kan bundels ook insluit:
+除了常见目录，bundles 还可能包括：
 
-* **Raamwerke**: Bevat gebundelde raamwerke wat deur die toepassing gebruik word. Raamwerke is soos dylibs met ekstra bronne.
-* **Inproppe**: 'n Gids vir inproppe en uitbreidings wat die toepassing se vermoëns verbeter.
-* **XPC-dienste**: Hou XPC-dienste wat deur die toepassing vir buiteproseskommunikasie gebruik word.
+* **Frameworks**：包含应用程序使用的捆绑框架。框架类似于带有额外资源的 dylibs。
+* **PlugIns**：用于增强应用程序功能的插件和扩展的目录。
+* **XPCServices**：保存应用程序用于进程间通信的 XPC 服务。
 
-Hierdie struktuur verseker dat alle nodige komponente binne die bundel ingesluit is, wat 'n modulêre en veilige toepassingsomgewing fasiliteer.
+这种结构确保所有必要组件都封装在 bundle 内，促进模块化和安全的应用程序环境。
 
-Vir meer gedetailleerde inligting oor `Info.plist` sleutels en hul betekenisse, bied die Apple-ontwikkelaardokumentasie uitgebreide bronne: [Apple Info.plist Sleutelverwysing](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+有关 `Info.plist` 键及其含义的更多详细信息，Apple 开发者文档提供了广泛的资源：[Apple Info.plist 键参考](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html)。
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

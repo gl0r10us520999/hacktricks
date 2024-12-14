@@ -1,16 +1,16 @@
-# macOS xattr-acls ekstra goed
+# macOS xattr-acls 额外内容
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ ACL in hex: \x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43
 ```
 <details>
 
-<summary>Kode van get_acls</summary>
+<summary>获取 ACL 的代码</summary>
 ```c
 // gcc -o get_acls get_acls
 #include <stdio.h>
@@ -68,31 +68,7 @@ acl_free(acl_text);
 return 0;
 }
 ```
-```markdown
-<details>
-<summary>MacOS XATTR, ACLs en ekstra goed</summary>
-
-In MacOS is daar verskeie maniere om lêers en gidsen te beveilig en te bestuur. Een van die maniere is deur die gebruik van Extended Attributes (XATTRs) en Access Control Lists (ACLs).
-
-### Extended Attributes (XATTRs)
-
-XATTRs is 'n manier om ekstra metadata aan lêers en gidsen toe te voeg. Dit kan gebruik word om spesifieke inligting oor die lêer te stoor, soos wie dit geskep het of wanneer dit laas gewysig is. Dit kan ook gebruik word om sekuriteitsmaatreëls toe te pas.
-
-### Access Control Lists (ACLs)
-
-ACLs bied 'n meer gedetailleerde benadering tot toegangsbeheer as tradisionele Unix-permissies. Dit laat jou toe om spesifieke toestemmings aan verskillende gebruikers of groepe toe te ken. Dit is nuttig in omgewings waar jy meer beheer oor toegang tot lêers en gidsen benodig.
-
-### Gebruik van XATTRs en ACLs
-
-Om XATTRs en ACLs te gebruik, kan jy die volgende opdragte in die terminal gebruik:
-
-- **XATTR**: `xattr -w <attribute> <value> <file>`
-- **ACL**: `chmod +a "<user>:<permissions>" <file>`
-
-Hierdie tegnieke kan help om jou MacOS-stelsels te beveilig teen ongewenste toegang en om jou data te beskerm.
-
 </details>
-```
 ```bash
 # Lets add the xattr com.apple.xxx.xxxx with the acls
 mkdir start
@@ -102,7 +78,7 @@ echo something > start/protected/something
 ```
 <details>
 
-<summary>Code van set_xattr</summary>
+<summary>set_xattr的代码</summary>
 ```c
 // gcc -o set_xattr set_xattr.c
 #include <stdio.h>
@@ -209,16 +185,16 @@ ditto -x -k --rsrc protected.zip .
 xattr -l protected
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

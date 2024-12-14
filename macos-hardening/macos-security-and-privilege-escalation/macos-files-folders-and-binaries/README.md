@@ -1,103 +1,101 @@
-# macOS Lêers, Lêers, Binêre & Geheue
+# macOS 文件、文件夹、二进制文件和内存
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Lêerhierargie uitleg
+## 文件层次结构
 
-* **/Toepassings**: Die geïnstalleerde programme behoort hier te wees. Alle gebruikers sal hulle kan bereik.
-* **/bin**: Opdraglyn-binêre
-* **/kerne**: Indien dit bestaan, word dit gebruik om kernafleidings te stoor
-* **/dev**: Alles word as 'n lêer hanteer, sodat jy hardewaretoestelle hier gestoor kan sien.
-* **/ ens**: Konfigurasie lêers
-* **/Biblioteek**: 'n Baie subdossiers en lêers wat verband hou met voorkeure, cache en logboeke kan hier gevind word. 'N Biblioteekvouer bestaan in die wortel en in elke gebruiker se gids.
-* **/privaat**: Onbeskryf, maar baie van die genoemde vouers is simboliese skakels na die privaatgids.
-* **/sbin**: Essensiële stelsel-binêre (verwant aan administrasie)
-* **/Stelsel**: Lêer om OS X te laat loop. Jy behoort meestal net Apple-spesifieke lêers hier te vind (nie derde party nie).
-* **/tmp**: Lêers word na 3 dae verwyder (dit is 'n sagte skakel na /privaat/tmp)
-* **/Gebruikers**: Tuisgids vir gebruikers.
-* **/usr**: Konfig en stelsel-binêre
-* **/var**: Loglêers
-* **/Volumes**: Die gemoniteerde aandrywings sal hier verskyn.
-* **/.vol**: Deur `stat a.txt` te hardloop, verkry jy iets soos `16777223 7545753 -rw-r--r-- 1 gebruikersnaam wiel ...` waar die eerste nommer die id-nommer van die volume waar die lêer bestaan, en die tweede een die inode-nommer is. Jy kan die inhoud van hierdie lêer benader deur /.vol/ met daardie inligting te hardloop `cat /.vol/16777223/7545753`
+* **/Applications**: 安装的应用程序应在此处。所有用户都可以访问它们。
+* **/bin**: 命令行二进制文件
+* **/cores**: 如果存在，用于存储核心转储
+* **/dev**: 一切都被视为文件，因此您可能会看到存储在此处的硬件设备。
+* **/etc**: 配置文件
+* **/Library**: 可以在此找到许多与偏好设置、缓存和日志相关的子目录和文件。根目录和每个用户目录中都有一个 Library 文件夹。
+* **/private**: 未记录，但许多提到的文件夹是指向私有目录的符号链接。
+* **/sbin**: 重要的系统二进制文件（与管理相关）
+* **/System**: 使 OS X 运行的文件。您应该在此处找到大多数仅与 Apple 相关的文件（而非第三方）。
+* **/tmp**: 文件在 3 天后被删除（这是一个指向 /private/tmp 的软链接）
+* **/Users**: 用户的主目录。
+* **/usr**: 配置和系统二进制文件
+* **/var**: 日志文件
+* **/Volumes**: 挂载的驱动器将在此处出现。
+* **/.vol**: 运行 `stat a.txt` 您将获得类似 `16777223 7545753 -rw-r--r-- 1 username wheel ...` 的内容，其中第一个数字是文件所在卷的 ID 号，第二个是 inode 号。您可以通过 /.vol/ 使用该信息访问此文件的内容，运行 `cat /.vol/16777223/7545753`
 
-### Toepassingsvouers
+### 应用程序文件夹
 
-* **Stelseltoepassings** is geleë onder `/Stelsel/Toepassings`
-* **Geïnstalleerde** toepassings is gewoonlik geïnstalleer in `/Toepassings` of in `~/Toepassings`
-* **Toepassingsdata** kan gevind word in `/Biblioteek/Toepassingondersteuning` vir toepassings wat as wortel hardloop en `~/Biblioteek/Toepassingondersteuning` vir toepassings wat as die gebruiker hardloop.
-* Derdeparty-toepassings **demone** wat **as wortel moet hardloop** is gewoonlik geleë in `/Biblioteek/BevoorregteHulpprogramme/`
-* **Sandboks**-toepassings word in die `~/Biblioteek/Houers`-vouer afgebeeld. Elke toep het 'n vouer wat volgens die toepassing se bondel-ID genoem word (`com.apple.Safari`).
-* Die **kerne** is geleë in `/Stelsel/Biblioteek/Kerne/kerne`
-* **Apple se kernuitbreidings** is geleë in `/Stelsel/Biblioteek/Uitbreidings`
-* **Derdeparty-kernuitbreidings** word gestoor in `/Biblioteek/Uitbreidings`
+* **系统应用程序**位于 `/System/Applications` 下
+* **已安装**的应用程序通常安装在 `/Applications` 或 `~/Applications` 中
+* **应用程序数据**可以在 `/Library/Application Support` 中找到，适用于以 root 身份运行的应用程序，以及在 `~/Library/Application Support` 中找到，适用于以用户身份运行的应用程序。
+* 需要以 root 身份运行的第三方应用程序 **守护进程** 通常位于 `/Library/PrivilegedHelperTools/`
+* **沙盒**应用程序映射到 `~/Library/Containers` 文件夹。每个应用程序都有一个根据应用程序的包 ID 命名的文件夹（`com.apple.Safari`）。
+* **内核**位于 `/System/Library/Kernels/kernel`
+* **Apple 的内核扩展**位于 `/System/Library/Extensions`
+* **第三方内核扩展**存储在 `/Library/Extensions`
 
-### Lêers met Sensitiewe Inligting
+### 包含敏感信息的文件
 
-macOS stoor inligting soos wagwoorde op verskeie plekke:
+MacOS 在多个地方存储信息，例如密码：
 
-{% content-ref url="macos-sensitiewe-plekke.md" %}
-[macos-sensitiewe-plekke.md](macos-sensitiewe-plekke.md)
+{% content-ref url="macos-sensitive-locations.md" %}
+[macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Kwesbare pkg-installeerders
+### 易受攻击的 pkg 安装程序
 
-{% content-ref url="macos-installeerders-misbruik.md" %}
-[macos-installeerders-misbruik.md](macos-installeerders-misbruik.md)
+{% content-ref url="macos-installers-abuse.md" %}
+[macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
-## OS X Spesifieke Uitbreidings
+## OS X 特定扩展
 
-* **`.dmg`**: Apple Skyfafbeeldingslêers is baie algemeen vir installeerders.
-* **`.kext`**: Dit moet 'n spesifieke struktuur volg en dit is die OS X-weergawe van 'n bestuurder. (Dit is 'n bondel)
-* **`.plist`**: Ook bekend as eienskapslys, stoor inligting in XML- of binêre formaat.
-* Dit kan XML of binêre wees. Binêre eenhede kan gelees word met:
-* `standaarde lees konfig.plist`
-* `/usr/libexec/PlistBuddy -c druk konfig.plsit`
-* `plutil -p ~/Biblioteek/Voorkeure/com.apple.screensaver.plist`
-* `plutil -omskakel xml1 ~/Biblioteek/Voorkeure/com.apple.screensaver.plist -o -`
-* `plutil -omskakel json ~/Biblioteek/Voorkeure/com.apple.screensaver.plist -o -`
-* **`.app`**: Apple-toepassings wat die gidsstruktuur volg (Dit is 'n bondel).
-* **`.dylib`**: Dinamiese biblioteke (soos Windows DLL-lêers)
-* **`.pkg`**: Is dieselfde as xar (Uitbreibare Argief-formaat). Die installeerderopdrag kan gebruik word om die inhoud van hierdie lêers te installeer.
-* **`.DS_Store`**: Hierdie lêer is in elke gids, dit stoor die eienskappe en aanpassings van die gids.
-* **`.Spotlight-V100`**: Hierdie vouer verskyn op die wortelgids van elke volume op die stelsel.
-* **`.metadata_never_index`**: As hierdie lêer aan die wortel van 'n volume is, sal Spotlight daardie volume nie indeks nie.
-* **`.noindex`**: Lêers en vouers met hierdie uitbreiding sal nie deur Spotlight geïndekseer word nie.
-* **`.sdef`**: Lêers binne bondels wat spesifiseer hoe dit moontlik is om met die toepassing te interaksieer vanuit 'n AppleScript.
+* **`.dmg`**: Apple 磁盘映像文件在安装程序中非常常见。
+* **`.kext`**: 必须遵循特定结构，是 OS X 版本的驱动程序。（这是一个包）
+* **`.plist`**: 也称为属性列表，以 XML 或二进制格式存储信息。
+* 可以是 XML 或二进制。二进制文件可以使用以下命令读取：
+* `defaults read config.plist`
+* `/usr/libexec/PlistBuddy -c print config.plsit`
+* `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
+* `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* **`.app`**: Apple 应用程序，遵循目录结构（这是一个包）。
+* **`.dylib`**: 动态库（如 Windows DLL 文件）
+* **`.pkg`**: 与 xar（可扩展归档格式）相同。安装命令可用于安装这些文件的内容。
+* **`.DS_Store`**: 此文件位于每个目录中，保存目录的属性和自定义设置。
+* **`.Spotlight-V100`**: 此文件夹出现在系统中每个卷的根目录上。
+* **`.metadata_never_index`**: 如果此文件位于卷的根目录，Spotlight 将不会索引该卷。
+* **`.noindex`**: 具有此扩展名的文件和文件夹将不会被 Spotlight 索引。
+* **`.sdef`**: 包内的文件，指定如何通过 AppleScript 与应用程序进行交互。
 
-### macOS Bondels
+### macOS 包
 
-'n Bondel is 'n **gids** wat **lyk soos 'n voorwerp in Finder** ( 'n Voorbeeld van 'n Bondel is `*.app` lêers).
+包是一个 **目录**，在 Finder 中 **看起来像一个对象**（包的示例是 `*.app` 文件）。
 
-{% content-ref url="macos-bondels.md" %}
-[macos-bondels.md](macos-bondels.md)
+{% content-ref url="macos-bundles.md" %}
+[macos-bundles.md](macos-bundles.md)
 {% endcontent-ref %}
 
-## Dyld Gedeelde Biblioteekkas (SLC)
+## Dyld 共享库缓存 (SLC)
 
-Op macOS (en iOS) word alle stelsel gedeelde biblioteke, soos raamwerke en dylibs, **gekombineer in 'n enkele lêer**, genaamd die **dyld gedeelde kas**. Dit het die werkverrigting verbeter, aangesien kode vinniger gelaai kan word.
+在 macOS（和 iOS）中，所有系统共享库，如框架和 dylibs，**合并为一个单一文件**，称为 **dyld 共享缓存**。这提高了性能，因为代码可以更快地加载。
 
-Dit is geleë in macOS in `/Stelsel/Volumes/Preboot/Cryptexes/OS/Stelsel/Biblioteek/dyld/` en in ouer weergawes kan jy die **gedeelde kas** dalk vind in **`/Stelsel/Biblioteek/dyld/`**.\
-In iOS kan jy hulle vind in **`/Stelsel/Biblioteek/Caches/com.apple.dyld/`**.
+在 macOS 中，这位于 `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/`，在旧版本中，您可能会在 **`/System/Library/dyld/`** 中找到 **共享缓存**。\
+在 iOS 中，您可以在 **`/System/Library/Caches/com.apple.dyld/`** 中找到它们。
 
-Soortgelyk aan die dyld gedeelde kas, word die kern en die kernuitbreidings ook saamgestel in 'n kernkas, wat by opstarttyd gelaai word.
+与 dyld 共享缓存类似，内核和内核扩展也被编译到内核缓存中，该缓存在启动时加载。
 
-Om die biblioteke uit die enkele lêer dylib gedeelde kas te onttrek, was dit moontlik om die binêre [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) te gebruik wat dalk nie meer werk nie, maar jy kan ook [**dyldextractor**](https://github.com/arandomdev/dyldextractor) gebruik:
-
-{% code overflow="wrap" %}
+为了从单一文件 dylib 共享缓存中提取库，可以使用二进制文件 [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip)，虽然现在可能无法使用，但您也可以使用 [**dyldextractor**](https://github.com/arandomdev/dyldextractor)：
 ```bash
 # dyld_shared_cache_util
 dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -110,112 +108,112 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 {% endcode %}
 
 {% hint style="success" %}
-Let wel dat selfs as die `dyld_shared_cache_util`-werktuig nie werk nie, kan jy die **gedeelde dyld-binêre lêer aan Hopper oorhandig** en sal Hopper in staat wees om al die biblioteke te identifiseer en jou **laat kies watter een** jy wil ondersoek:
+请注意，即使 `dyld_shared_cache_util` 工具无法工作，您也可以将 **共享 dyld 二进制文件传递给 Hopper**，Hopper 将能够识别所有库并让您 **选择要调查的库**：
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Sommige ekstrakteurs sal nie werk nie omdat dylibs vooraf gekoppel is met hardgekoppelde adresse en daarom moontlik na onbekende adresse kan spring.
+一些提取器可能无法工作，因为 dylibs 是与硬编码地址预链接的，因此它们可能会跳转到未知地址。
 
 {% hint style="success" %}
-Dit is ook moontlik om die Gedeelde Biblioteekkas van ander \*OS-toestelle in macOS af te laai deur 'n emulator in Xcode te gebruik. Hulle sal binne gelaai word: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, soos:`$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
+在 macos 中，使用 Xcode 中的模拟器也可以下载其他 \*OS 设备的共享库缓存。它们将下载到：ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`，例如：`$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
-### Inrigting van SLC
+### 映射 SLC
 
-**`dyld`** gebruik die systaalaanroep **`shared_region_check_np`** om te weet of die SLC in kaart gebring is (wat die adres teruggee) en **`shared_region_map_and_slide_np`** om die SLC in kaart te bring.
+**`dyld`** 使用系统调用 **`shared_region_check_np`** 来知道 SLC 是否已被映射（返回地址），并使用 **`shared_region_map_and_slide_np`** 来映射 SLC。
 
-Let wel dat selfs as die SLC op die eerste gebruik geskuif word, gebruik al die **prosesse** dieselfde kopie, wat die ASLR-beskerming **uitgeskakel het** as die aanvaller in staat was om prosesse in die stelsel uit te voer. Dit is eintlik in die verlede uitgebuit en reggestel met die gedeelde streekpager.
+请注意，即使 SLC 在第一次使用时被滑动，所有 **进程** 也使用 **相同的副本**，这 **消除了 ASLR** 保护，如果攻击者能够在系统中运行进程。这在过去实际上被利用过，并通过共享区域分页器修复。
 
-Takpoele is klein Mach-O-dylibs wat klein spasies tussen beeldafbeeldings skep wat dit onmoontlik maak om die funksies te interposeer.
+分支池是小的 Mach-O dylibs，它们在映像映射之间创建小空间，使得无法插入函数。
 
-### Oorskryf SLC's
+### 覆盖 SLCs
 
-Deur die omgewingsveranderlikes te gebruik:
+使用环境变量：
 
-* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Dit sal toelaat om 'n nuwe gedeelde biblioteekkas te laai
-* **`DYLD_SHARED_CACHE_DIR=avoid`** en vervang die biblioteke met simbole na die gedeelde kas met die regte een (jy sal hulle moet onttrek)
+* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> 这将允许加载新的共享库缓存
+* **`DYLD_SHARED_CACHE_DIR=avoid`** 并手动用指向共享缓存的符号链接替换库与真实库（您需要提取它们）
 
-## Spesiale Lêerregte
+## 特殊文件权限
 
-### Vouerregte
+### 文件夹权限
 
-In 'n **vouer** laat **lees** toe om dit te **lys**, **skryf** laat toe om dit te **verwyder** en **skryf** lêers daarop, en **uitvoer** laat toe om die gids te **deursoek**. Dus, byvoorbeeld, 'n gebruiker met **leesreg oor 'n lêer** binne 'n gids waar hy **nie uitvoerreg** het **nie sal nie in staat wees om** die lêer te lees.
+在一个 **文件夹** 中，**读取** 允许 **列出它**，**写入** 允许 **删除** 和 **写入** 其中的文件，**执行** 允许 **遍历** 目录。因此，例如，具有 **文件读取权限** 的用户在一个他 **没有执行** 权限的目录中 **将无法读取** 该文件。
 
-### Vlagmodifiseerders
+### 标志修饰符
 
-Daar is sekere vlae wat in die lêers ingestel kan word wat die lêer anders laat optree. Jy kan die vlae van die lêers binne 'n gids nagaan met `ls -lO /path/directory`
+文件中可以设置一些标志，这将使文件表现得不同。您可以使用 `ls -lO /path/directory` **检查目录中文件的标志**。
 
-* **`uchg`**: Bekend as **uchange**-vlag sal **enige aksie** wat die **lêer** verander of verwyder **voorkom**. Om dit in te stel doen: `chflags uchg file.txt`
-* Die root-gebruiker kan die vlag **verwyder** en die lêer wysig
-* **`restricted`**: Hierdie vlag maak die lêer **beskerm deur SIP** (jy kan nie hierdie vlag by 'n lêer voeg nie).
-* **`Sticky bit`**: As 'n gids met 'n plakkerige bit, kan **slegs** die **gidseienaar of root** lêers hernoem of verwyder. Tipies word dit op die /tmp-gids ingestel om gewone gebruikers te verhoed om ander gebruikers se lêers te verwyder of te skuif.
+* **`uchg`**：被称为 **uchange** 标志将 **防止任何操作** 更改或删除 **文件**。要设置它，请执行：`chflags uchg file.txt`
+* root 用户可以 **移除标志** 并修改文件
+* **`restricted`**：此标志使文件受到 **SIP 保护**（您无法将此标志添加到文件）。
+* **`Sticky bit`**：如果目录具有粘滞位，**只有** 该 **目录的所有者或 root 可以重命名或删除** 文件。通常，这在 /tmp 目录上设置，以防止普通用户删除或移动其他用户的文件。
 
-Al die vlae kan gevind word in die lêer `sys/stat.h` (vind dit met `mdfind stat.h | grep stat.h`) en is:
+所有标志可以在文件 `sys/stat.h` 中找到（使用 `mdfind stat.h | grep stat.h` 查找），并且是：
 
-* `UF_SETTABLE` 0x0000ffff: Masker van eienaar veranderbare vlae.
-* `UF_NODUMP` 0x00000001: Moet lêer nie dump nie.
-* `UF_IMMUTABLE` 0x00000002: Lêer mag nie verander word nie.
-* `UF_APPEND` 0x00000004: Skrywes na lêer mag slegs aangeheg word.
-* `UF_OPAQUE` 0x00000008: Gids is ondeursigtig t.o.v. unie.
-* `UF_COMPRESSED` 0x00000020: Lêer is saamgedruk (sekere lêersisteme).
-* `UF_TRACKED` 0x00000040: Geen kennisgewings vir verwyderings/hernoemings vir lêers met hierdie stel.
-* `UF_DATAVAULT` 0x00000080: Toestemming benodig vir lees en skryf.
-* `UF_HIDDEN` 0x00008000: Aanduiding dat hierdie item nie in 'n GUI vertoon moet word nie.
-* `SF_SUPPORTED` 0x009f0000: Masker van supergebruiker ondersteunde vlae.
-* `SF_SETTABLE` 0x3fff0000: Masker van supergebruiker veranderbare vlae.
-* `SF_SYNTHETIC` 0xc0000000: Masker van stelsel slegs-lees sintetiese vlae.
-* `SF_ARCHIVED` 0x00010000: Lêer is ge-argiveer.
-* `SF_IMMUTABLE` 0x00020000: Lêer mag nie verander word nie.
-* `SF_APPEND` 0x00040000: Skrywes na lêer mag slegs aangeheg word.
-* `SF_RESTRICTED` 0x00080000: Toestemming benodig vir skryf.
-* `SF_NOUNLINK` 0x00100000: Item mag nie verwyder, hernoem of aangeheg word nie.
-* `SF_FIRMLINK` 0x00800000: Lêer is 'n firmlink.
-* `SF_DATALESS` 0x40000000: Lêer is 'n datalose voorwerp.
+* `UF_SETTABLE` 0x0000ffff：可更改的所有者标志的掩码。
+* `UF_NODUMP` 0x00000001：不转储文件。
+* `UF_IMMUTABLE` 0x00000002：文件不可更改。
+* `UF_APPEND` 0x00000004：对文件的写入只能追加。
+* `UF_OPAQUE` 0x00000008：目录在联合方面是透明的。
+* `UF_COMPRESSED` 0x00000020：文件被压缩（某些文件系统）。
+* `UF_TRACKED` 0x00000040：对于设置此标志的文件，不会有删除/重命名的通知。
+* `UF_DATAVAULT` 0x00000080：读取和写入需要权限。
+* `UF_HIDDEN` 0x00008000：提示该项不应在 GUI 中显示。
+* `SF_SUPPORTED` 0x009f0000：超级用户支持标志的掩码。
+* `SF_SETTABLE` 0x3fff0000：超级用户可更改标志的掩码。
+* `SF_SYNTHETIC` 0xc0000000：系统只读合成标志的掩码。
+* `SF_ARCHIVED` 0x00010000：文件已归档。
+* `SF_IMMUTABLE` 0x00020000：文件不可更改。
+* `SF_APPEND` 0x00040000：对文件的写入只能追加。
+* `SF_RESTRICTED` 0x00080000：写入需要权限。
+* `SF_NOUNLINK` 0x00100000：项目不可被移除、重命名或挂载。
+* `SF_FIRMLINK` 0x00800000：文件是一个 firmlink。
+* `SF_DATALESS` 0x40000000：文件是无数据对象。
 
-### **Lêer ACL's**
+### **文件 ACLs**
 
-Lêer **ACL's** bevat **ACE** (Toegangsbeheerinskrywings) waar meer **fynkorrelige regte** aan verskillende gebruikers toegewys kan word.
+文件 **ACLs** 包含 **ACE**（访问控制条目），可以为不同用户分配更 **细粒度的权限**。
 
-Dit is moontlik om 'n **gids** hierdie regte toe te ken: `lys`, `soek`, `voeg_lêer_by`, `voeg_subgids_by`, `verwyder_kind`, `verwyder_kind`.\
-En aan 'n **lêer**: `lees`, `skryf`, `voeg_by`, `voer_uit`.
+可以为 **目录** 授予这些权限：`list`、`search`、`add_file`、`add_subdirectory`、`delete_child`、`delete_child`。\
+对于 **文件**：`read`、`write`、`append`、`execute`。
 
-Wanneer die lêer ACL's bevat, sal jy 'n "+" vind wanneer jy die regte lys soos in:
+当文件包含 ACLs 时，您将 **在列出权限时找到一个 "+"，如**：
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Jy kan **die ACL's lees** van die lêer met:
+您可以使用以下命令**读取文件的ACL**：
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Jy kan **alle lêers met ACLs vind** met (dit is baaaie stadig):
+您可以找到 **所有具有 ACL 的文件** 使用（这非常慢）：
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-### Uitgebreide Eienskappe
+### 扩展属性
 
-Uitgebreide eienskappe het 'n naam en enige gewenste waarde, en kan gesien word deur `ls -@` te gebruik en gemanipuleer word met behulp van die `xattr` bevel. Sommige algemene uitgebreide eienskappe is:
+扩展属性具有名称和任何所需的值，可以使用 `ls -@` 查看，并使用 `xattr` 命令进行操作。一些常见的扩展属性包括：
 
-* `com.apple.resourceFork`: Hulpbronvurkverenigbaarheid. Ook sigbaar as `lêernaam/..namedfork/rsrc`
-* `com.apple.quarantine`: MacOS: Gatekeeper karantynmeganisme (III/6)
-* `metadata:*`: MacOS: verskeie metadata, soos `_backup_excludeItem`, of `kMD*`
-* `com.apple.lastuseddate` (#PS): Datum van laaste lêergebruik
-* `com.apple.FinderInfo`: MacOS: Finder-inligting (bv., kleurmerke)
-* `com.apple.TextEncoding`: Spesifiseer teksenkodering van ASCII-tekslêers
-* `com.apple.logd.metadata`: Gebruik deur logd op lêers in `/var/db/diagnostics`
-* `com.apple.genstore.*`: Generasieopberging (`/.DocumentRevisions-V100` in die wortel van die lêersisteem)
-* `com.apple.rootless`: MacOS: Gebruik deur Stelselintegriteitsbeskerming om lêer te etiketteer (III/10)
-* `com.apple.uuidb.boot-uuid`: logd-merkings van opstarts met unieke UUID
-* `com.apple.decmpfs`: MacOS: Deursigtige lêerkompressie (II/7)
-* `com.apple.cprotect`: \*OS: Per-lêer-koderingsdata (III/11)
-* `com.apple.installd.*`: \*OS: Metadata wat deur installd gebruik word, bv., `installType`, `uniqueInstallID`
+* `com.apple.resourceFork`: 资源分叉兼容性。也可显示为 `filename/..namedfork/rsrc`
+* `com.apple.quarantine`: MacOS: Gatekeeper 隔离机制 (III/6)
+* `metadata:*`: MacOS: 各种元数据，例如 `_backup_excludeItem` 或 `kMD*`
+* `com.apple.lastuseddate` (#PS): 最后文件使用日期
+* `com.apple.FinderInfo`: MacOS: Finder 信息（例如，颜色标签）
+* `com.apple.TextEncoding`: 指定 ASCII 文本文件的文本编码
+* `com.apple.logd.metadata`: logd 在 `/var/db/diagnostics` 中使用的文件
+* `com.apple.genstore.*`: 代际存储（文件系统根目录中的 `/.DocumentRevisions-V100`）
+* `com.apple.rootless`: MacOS: 由系统完整性保护用于标记文件 (III/10)
+* `com.apple.uuidb.boot-uuid`: logd 对具有唯一 UUID 的启动时期的标记
+* `com.apple.decmpfs`: MacOS: 透明文件压缩 (II/7)
+* `com.apple.cprotect`: \*OS: 每个文件的加密数据 (III/11)
+* `com.apple.installd.*`: \*OS: installd 使用的元数据，例如 `installType`，`uniqueInstallID`
 
-### Hulpbronvurke | macOS ADS
+### 资源分叉 | macOS ADS
 
-Dit is 'n manier om **Alternatiewe Datastrome in MacOS**-toestelle te verkry. Jy kan inhoud binne 'n uitgebreide eienskap genaamd **com.apple.ResourceFork** binne 'n lêer stoor deur dit in **lêernaam/..namedfork/rsrc** te stoor.
+这是一种在 MacOS 机器中获取 **备用数据流** 的方法。您可以通过将内容保存在名为 **com.apple.ResourceFork** 的扩展属性中，将其保存在 **file/..namedfork/rsrc** 中。
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -226,7 +224,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Jy kan **alle lêers wat hierdie uitgebreide eienskap bevat, vind met:**
+您可以**找到所有包含此扩展属性的文件**，方法是： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -236,59 +234,59 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 ### decmpfs
 
-Die uitgebreide attribuut `com.apple.decmpfs` dui daarop dat die lêer versleutel is, `ls -l` sal 'n **grootte van 0** rapporteer en die saamgedrukte data is binne hierdie attribuut. Telkens wanneer die lêer geopen word, sal dit in die geheue ontsluit word.
+扩展属性 `com.apple.decmpfs` 表示文件是加密存储的，`ls -l` 将报告 **大小为 0**，压缩数据在此属性中。每当访问该文件时，它将在内存中解密。
 
-Hierdie attribuut kan gesien word met `ls -lO` aangedui as saamgedruk omdat saamgedrukte lêers ook gemerk word met die vlag `UF_COMPRESSED`. As 'n saamgedrukte lêer verwyder word, sal hierdie vlag met `chflags nocompressed </path/to/file>` verwyder word, die stelsel sal dan nie weet dat die lêer saamgedruk was nie en daarom sal dit nie kan ontsaamdruk en toegang tot die data hê nie (dit sal dink dat dit eintlik leeg is).
+此属性可以通过 `ls -lO` 查看，标记为压缩，因为压缩文件也带有标志 `UF_COMPRESSED`。如果通过 `chflags nocompressed </path/to/file>` 删除压缩文件的此标志，系统将不知道该文件是压缩的，因此无法解压并访问数据（它会认为文件实际上是空的）。
 
-Die instrument afscexpand kan gebruik word om 'n lêer kragtig te ontsaamdruk.
+工具 afscexpand 可用于强制解压文件。
 
-## **Universele lêers &** Mach-o-formaat
+## **通用二进制文件 &** Mach-o 格式
 
-Mac OS-lêers is gewoonlik saamgestel as **universele lêers**. 'n **Universele lêer** kan **verskeie argitekture in dieselfde lêer ondersteun**.
+Mac OS 二进制文件通常编译为 **通用二进制文件**。一个 **通用二进制文件** 可以 **在同一文件中支持多种架构**。
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## macOS-prosesgeheue
+## macOS 进程内存
 
-## macOS-geheue-onttrekking
+## macOS 内存转储
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Risikokategorie-lêers Mac OS
+## 风险类别文件 Mac OS
 
-Die gids `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` is waar inligting oor die **risiko wat met verskillende lêeruitbreidings geassosieer word, gestoor word**. Hierdie gids kategoriseer lêers in verskeie risikovlakke, wat beïnvloed hoe Safari hierdie lêers hanteer wanneer dit afgelaai word. Die kategorieë is as volg:
+目录 `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` 存储有关 **不同文件扩展名相关风险的信息**。该目录将文件分类为不同的风险级别，影响 Safari 下载这些文件时的处理方式。类别如下：
 
-* **LSRiskCategorySafe**: Lêers in hierdie kategorie word as **heeltemal veilig** beskou. Safari sal hierdie lêers outomaties oopmaak nadat hulle afgelaai is.
-* **LSRiskCategoryNeutral**: Hierdie lêers kom sonder waarskuwings en word **nie outomaties oopgemaak** deur Safari nie.
-* **LSRiskCategoryUnsafeExecutable**: Lêers onder hierdie kategorie **lok 'n waarskuwing** uit wat aandui dat die lêer 'n aansoek is. Dit dien as 'n sekuriteitsmaatreël om die gebruiker te waarsku.
-* **LSRiskCategoryMayContainUnsafeExecutable**: Hierdie kategorie is vir lêers, soos argiewe, wat 'n uitvoerbare lêer mag bevat. Safari sal 'n waarskuwing **uitlok** tensy dit kan verifieer dat alle inhoud veilig of neutraal is.
+* **LSRiskCategorySafe**：此类别中的文件被认为是 **完全安全的**。Safari 会在下载后自动打开这些文件。
+* **LSRiskCategoryNeutral**：这些文件没有警告，Safari **不会自动打开**。
+* **LSRiskCategoryUnsafeExecutable**：此类别下的文件 **触发警告**，指示该文件是一个应用程序。这是一个安全措施，用于提醒用户。
+* **LSRiskCategoryMayContainUnsafeExecutable**：此类别用于可能包含可执行文件的文件，例如归档文件。除非 Safari 能验证所有内容是安全或中性的，否则将 **触发警告**。
 
-## Log lêers
+## 日志文件
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Bevat inligting oor afgelaai lêers, soos die URL waarvandaan hulle afgelaai is.
-* **`/var/log/system.log`**: Hooflog van OSX-stelsels. com.apple.syslogd.plist is verantwoordelik vir die uitvoering van die stelsellog (jy kan nagaan of dit gedeaktiveer is deur te soek na "com.apple.syslogd" in `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: Dit is die Apple-stelsellogboeke wat dalk interessante inligting bevat.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Berg onlangs benaderde lêers en aansoeke deur "Finder" op.
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Berg items om te begin met die stelselopstart
-* **`$HOME/Library/Logs/DiskUtility.log`**: Log lêer vir die DiskUtility-toep (inligting oor aandrywings, insluitend USB's)
-* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data oor draadlose toegangspunte.
-* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Lys van gedeaktiveerde daemons.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**：包含有关下载文件的信息，例如下载来源的 URL。
+* **`/var/log/system.log`**：OSX 系统的主日志。com.apple.syslogd.plist 负责执行 syslogging（您可以通过在 `launchctl list` 中查找 "com.apple.syslogd" 来检查它是否被禁用）。
+* **`/private/var/log/asl/*.asl`**：这些是 Apple 系统日志，可能包含有趣的信息。
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**：通过 "Finder" 存储最近访问的文件和应用程序。
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**：存储系统启动时要启动的项目。
+* **`$HOME/Library/Logs/DiskUtility.log`**：DiskUtility 应用程序的日志文件（有关驱动器的信息，包括 USB）。
+* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**：有关无线接入点的数据。
+* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**：已停用的守护进程列表。
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

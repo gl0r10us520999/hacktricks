@@ -1,25 +1,25 @@
-# macOS Lêeruitbreiding & URL-skema-toepassingshanteraars
+# macOS 文件扩展名和 URL 方案应用程序处理程序
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## LaunchServices-databasis
+## LaunchServices 数据库
 
-Dit is 'n databasis van al die geïnstalleerde toepassings in die macOS wat ondervra kan word om inligting oor elke geïnstalleerde toepassing te verkry, soos URL-skemas wat dit ondersteun en MIME-tipes.
+这是一个包含 macOS 中所有已安装应用程序的数据库，可以查询以获取有关每个已安装应用程序的信息，例如它支持的 URL 方案和 MIME 类型。
 
-Dit is moontlik om hierdie databasis te dump met:
+可以使用以下命令转储此数据库：
 
 {% code overflow="wrap" %}
 ```
@@ -27,15 +27,15 @@ Dit is moontlik om hierdie databasis te dump met:
 ```
 {% endcode %}
 
-Of deur die hulpmiddel [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+或者使用工具 [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html)。
 
-**`/usr/libexec/lsd`** is die brein van die databasis. Dit voorsien **verskeie XPC-diens** soos `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, en meer. Maar dit **vereis ook sekere toestemmings** aan aansoeke om die blootgestelde XPC-funksies te kan gebruik, soos `.launchservices.changedefaulthandler` of `.launchservices.changeurlschemehandler` om verstekprogramme vir mime-tipes of url-skemas te verander en ander.
+**`/usr/libexec/lsd`** 是数据库的核心。它提供 **多个 XPC 服务**，如 `.lsd.installation`、`.lsd.open`、`.lsd.openurl` 等。但它也 **要求某些权限** 以便应用程序能够使用暴露的 XPC 功能，如 `.launchservices.changedefaulthandler` 或 `.launchservices.changeurlschemehandler` 来更改 MIME 类型或 URL 方案的默认应用程序等。
 
-**`/System/Library/CoreServices/launchservicesd`** eis die diens `com.apple.coreservices.launchservicesd` en kan ondervra word om inligting oor lopende aansoeke te kry. Dit kan ondervra word met die stelselhulpmiddel /**`usr/bin/lsappinfo`** of met [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+**`/System/Library/CoreServices/launchservicesd`** 声明服务 `com.apple.coreservices.launchservicesd`，可以查询以获取有关正在运行的应用程序的信息。可以使用系统工具 /**`usr/bin/lsappinfo`** 或 [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html) 进行查询。
 
-## Lêeruitbreiding & URL-skema-aansoekhanteraars
+## 文件扩展名和 URL 方案应用程序处理程序
 
-Die volgende lyn kan nuttig wees om die aansoeke te vind wat lêers kan oopmaak afhangende van die uitbreiding:
+以下行可以用于查找可以根据扩展名打开文件的应用程序： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -43,14 +43,14 @@ Die volgende lyn kan nuttig wees om die aansoeke te vind wat lêers kan oopmaak 
 ```
 {% endcode %}
 
-Of gebruik iets soos [**SwiftDefaultApps**](https://github.com/Lord-Kamina/SwiftDefaultApps):
+或者使用类似于 [**SwiftDefaultApps**](https://github.com/Lord-Kamina/SwiftDefaultApps)：
 ```bash
 ./swda getSchemes #Get all the available schemes
 ./swda getApps #Get all the apps declared
 ./swda getUTIs #Get all the UTIs
 ./swda getHandler --URL ftp #Get ftp handler
 ```
-Jy kan ook die uitbreidings wat deur 'n toepassing ondersteun word, nagaan deur:
+您还可以通过以下方式检查应用程序支持的扩展：
 ```
 cd /Applications/Safari.app/Contents
 grep -A3 CFBundleTypeExtensions Info.plist  | grep string
@@ -83,16 +83,16 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>svg</string>
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

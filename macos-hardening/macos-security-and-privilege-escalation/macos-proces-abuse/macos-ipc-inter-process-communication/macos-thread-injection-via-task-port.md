@@ -1,69 +1,69 @@
-# macOS Thread Injection via Task port
+# macOS 通过任务端口进行线程注入
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Code
+## 代码
 
 * [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
 
-## 1. Thread Hijacking
+## 1. 线程劫持
 
-Aanvanklik word die **`task_threads()`** funksie op die taakport aangeroep om 'n draadlys van die afstandlike taak te verkry. 'n Draad word gekies vir kaap. Hierdie benadering verskil van konvensionele kode-inspuitingsmetodes aangesien die skep van 'n nuwe afstandlike draad verbied word weens die nuwe versperring wat `thread_create_running()` blokkeer.
+最初，**`task_threads()`** 函数在任务端口上被调用，以从远程任务获取线程列表。选择一个线程进行劫持。这种方法与传统的代码注入方法不同，因为由于新的缓解措施阻止了 `thread_create_running()`，创建新的远程线程是被禁止的。
 
-Om die draad te beheer, word **`thread_suspend()`** aangeroep, wat die uitvoering stop.
+为了控制线程，调用 **`thread_suspend()`**，暂停其执行。
 
-Die enigste operasies wat op die afstandlike draad toegelaat word, behels **stop** en **begin**, **herwin** en **wysig** sy registerwaardes. Afstandlike funksie-aanroepe word geïnisieer deur registers `x0` tot `x7` op die **argumente** in te stel, **`pc`** te konfigureer om die gewenste funksie te teiken, en die draad te aktiveer. Om te verseker dat die draad nie cras nadat die terugkeer plaasvind nie, is dit nodig om die terugkeer te detecteer.
+在远程线程上允许的唯一操作是 **停止** 和 **启动** 它，**检索** 和 **修改** 其寄存器值。通过将寄存器 `x0` 到 `x7` 设置为 **参数**，配置 **`pc`** 以指向所需函数，并激活线程，来发起远程函数调用。确保线程在返回后不崩溃需要检测返回。
 
-Een strategie behels **die registrasie van 'n uitsonderinghandler** vir die afstandlike draad met behulp van `thread_set_exception_ports()`, wat die `lr` register op 'n ongeldige adres stel voor die funksie-aanroep. Dit veroorsaak 'n uitsondering na funksie-uitvoering, wat 'n boodskap na die uitsonderingport stuur, wat staatinspeksie van die draad moontlik maak om die terugkeerwaarde te herstel. Alternatiewelik, soos aangeneem van Ian Beer se triple\_fetch exploit, word `lr` op oneindig gelus. Die draad se registers word dan deurlopend gemonitor totdat **`pc` na daardie instruksie wys**.
+一种策略是使用 `thread_set_exception_ports()` 为远程线程 **注册异常处理程序**，在函数调用之前将 `lr` 寄存器设置为无效地址。这会在函数执行后触发异常，向异常端口发送消息，使得可以检查线程的状态以恢复返回值。或者，借鉴 Ian Beer 的 triple\_fetch 漏洞，将 `lr` 设置为无限循环。然后持续监控线程的寄存器，直到 **`pc` 指向该指令**。
 
-## 2. Mach ports for communication
+## 2. 用于通信的 Mach 端口
 
-Die volgende fase behels die vestiging van Mach-poorte om kommunikasie met die afstandlike draad te fasiliteer. Hierdie poorte is instrumenteel in die oordrag van arbitrêre stuur- en ontvangregte tussen take.
+接下来的阶段涉及建立 Mach 端口，以便与远程线程进行通信。这些端口在任务之间传输任意的发送和接收权限中起着重要作用。
 
-Vir bidireksionele kommunikasie word twee Mach ontvangregte geskep: een in die plaaslike en die ander in die afstandlike taak. Daarna word 'n stuurreg vir elke poort na die teenhanger-taak oorgedra, wat boodskapuitruiling moontlik maak.
+为了实现双向通信，创建两个 Mach 接收权限：一个在本地任务中，另一个在远程任务中。随后，将每个端口的发送权限转移到对应的任务，从而实现消息交换。
 
-Fokus op die plaaslike poort, die ontvangreg word deur die plaaslike taak gehou. Die poort word geskep met `mach_port_allocate()`. Die uitdaging lê in die oordrag van 'n stuurreg na hierdie poort in die afstandlike taak.
+关注本地端口，接收权限由本地任务持有。该端口通过 `mach_port_allocate()` 创建。挑战在于将此端口的发送权限转移到远程任务中。
 
-'n Strategie behels die benutting van `thread_set_special_port()` om 'n stuurreg na die plaaslike poort in die afstandlike draad se `THREAD_KERNEL_PORT` te plaas. Dan word die afstandlike draad aangesê om `mach_thread_self()` aan te roep om die stuurreg te verkry.
+一种策略是利用 `thread_set_special_port()` 将本地端口的发送权限放置在远程线程的 `THREAD_KERNEL_PORT` 中。然后，指示远程线程调用 `mach_thread_self()` 以检索发送权限。
 
-Vir die afstandlike poort is die proses basies omgekeer. Die afstandlike draad word aangestuur om 'n Mach-poort te genereer via `mach_reply_port()` (aangesien `mach_port_allocate()` onvanpas is weens sy terugkeermeganisme). Na poortskepping word `mach_port_insert_right()` in die afstandlike draad aangeroep om 'n stuurreg te vestig. Hierdie reg word dan in die kern gestoor met behulp van `thread_set_special_port()`. Terug in die plaaslike taak, word `thread_get_special_port()` op die afstandlike draad gebruik om 'n stuurreg na die nuut toegeken Mach-poort in die afstandlike taak te verkry.
+对于远程端口，过程基本上是反向的。指示远程线程通过 `mach_reply_port()` 生成一个 Mach 端口（因为 `mach_port_allocate()` 不适用，因其返回机制）。在端口创建后，在远程线程中调用 `mach_port_insert_right()` 以建立发送权限。然后使用 `thread_set_special_port()` 将该权限存储在内核中。在本地任务中，使用 `thread_get_special_port()` 在远程线程上获取对新分配的 Mach 端口的发送权限。
 
-Die voltooiing van hierdie stappe lei tot die vestiging van Mach-poorte, wat die grondslag lê vir bidireksionele kommunikasie.
+完成这些步骤后，建立了 Mach 端口，为双向通信奠定了基础。
 
-## 3. Basic Memory Read/Write Primitives
+## 3. 基本内存读/写原语
 
-In hierdie afdeling is die fokus op die benutting van die uitvoerprimitive om basiese geheue lees- en skryfprimitive te vestig. Hierdie aanvanklike stappe is van kardinale belang om meer beheer oor die afstandlike proses te verkry, alhoewel die primitive op hierdie stadium nie baie doeleindes sal dien nie. Binnekort sal hulle opgegradeer word na meer gevorderde weergawes.
+在本节中，重点是利用执行原语建立基本的内存读写原语。这些初步步骤对于获得对远程进程的更多控制至关重要，尽管此阶段的原语不会发挥太大作用。很快，它们将升级为更高级的版本。
 
-### Memory Reading and Writing Using Execute Primitive
+### 使用执行原语进行内存读取和写入
 
-Die doel is om geheue te lees en te skryf met behulp van spesifieke funksies. Vir die lees van geheue word funksies wat die volgende struktuur naboots, gebruik:
+目标是使用特定函数执行内存读取和写入。对于读取内存，使用类似以下结构的函数：
 ```c
 uint64_t read_func(uint64_t *address) {
 return *address;
 }
 ```
-En vir skryf na geheue, funksies soortgelyk aan hierdie struktuur word gebruik:
+并且用于写入内存的函数类似于这个结构：
 ```c
 void write_func(uint64_t *address, uint64_t value) {
 *address = value;
 }
 ```
-Hierdie funksies stem ooreen met die gegewe samestelling instruksies:
+这些函数对应于给定的汇编指令：
 ```
 _read_func:
 ldr x0, [x0]
@@ -72,110 +72,110 @@ _write_func:
 str x1, [x0]
 ret
 ```
-### Identifying Suitable Functions
+### 识别合适的函数
 
-'n Skandering van algemene biblioteke het geskikte kandidate vir hierdie operasies onthul:
+对常见库的扫描揭示了这些操作的合适候选者：
 
-1. **Reading Memory:**
-Die `property_getName()` funksie van die [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) word geïdentifiseer as 'n geskikte funksie om geheue te lees. Die funksie word hieronder uiteengesit:
+1. **读取内存：**
+`property_getName()` 函数来自 [Objective-C 运行时库](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html)，被识别为读取内存的合适函数。该函数如下所述：
 ```c
 const char *property_getName(objc_property_t prop) {
 return prop->name;
 }
 ```
-Hierdie funksie funksioneer effektief soos die `read_func` deur die eerste veld van `objc_property_t` terug te gee.
+这个函数有效地充当了 `read_func` 的角色，通过返回 `objc_property_t` 的第一个字段。
 
-2. **Skryf Geheue:**
-Om 'n voorafgeboude funksie vir die skryf van geheue te vind, is meer uitdagend. Tog is die `_xpc_int64_set_value()` funksie van libxpc 'n geskikte kandidaat met die volgende ontbinding:
+2. **写入内存：**
+找到一个预构建的写入内存的函数更具挑战性。然而，来自 libxpc 的 `_xpc_int64_set_value()` 函数是一个合适的候选者，具有以下反汇编：
 ```c
 __xpc_int64_set_value:
 str x1, [x0, #0x18]
 ret
 ```
-Om 'n 64-bis skrywe op 'n spesifieke adres uit te voer, is die afstandsoproep gestruktureer as:
+要在特定地址执行64位写入，远程调用的结构为：
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
-With these primitives established, the stage is set for creating shared memory, marking a significant progression in controlling the remote process.
+随着这些原语的建立，创建共享内存的阶段已经准备就绪，这标志着对远程进程控制的重大进展。
 
-## 4. Gedeelde Geheue Opstelling
+## 4. 共享内存设置
 
-Die doel is om gedeelde geheue tussen plaaslike en afstandstake te vestig, wat die oordrag van data vereenvoudig en die oproep van funksies met meerdere argumente fasiliteer. Die benadering behels die benutting van `libxpc` en sy `OS_xpc_shmem` objektipe, wat gebou is op Mach geheue-invoere.
+目标是在本地和远程任务之间建立共享内存，简化数据传输并促进带有多个参数的函数调用。该方法涉及利用 `libxpc` 及其基于 Mach 内存条目的 `OS_xpc_shmem` 对象类型。
 
-### Proses Oorsig:
+### 过程概述：
 
-1. **Geheue Toewysing**:
-- Toewys die geheue vir deel met `mach_vm_allocate()`.
-- Gebruik `xpc_shmem_create()` om 'n `OS_xpc_shmem` objek te skep vir die toegewyde geheuegebied. Hierdie funksie sal die skepping van die Mach geheue-invoer bestuur en die Mach stuurreg aan offset `0x18` van die `OS_xpc_shmem` objek stoor.
+1. **内存分配**：
+- 使用 `mach_vm_allocate()` 分配共享内存。
+- 使用 `xpc_shmem_create()` 为分配的内存区域创建 `OS_xpc_shmem` 对象。此函数将管理 Mach 内存条目的创建，并在 `OS_xpc_shmem` 对象的偏移量 `0x18` 存储 Mach 发送权限。
 
-2. **Skep Gedeelde Geheue in Afstandproses**:
-- Toewys geheue vir die `OS_xpc_shmem` objek in die afstandproses met 'n afstandoproep na `malloc()`.
-- Kopieer die inhoud van die plaaslike `OS_xpc_shmem` objek na die afstandproses. Hierdie aanvanklike kopie sal egter onakkurate Mach geheue-invoer name hê by offset `0x18`.
+2. **在远程进程中创建共享内存**：
+- 通过对 `malloc()` 的远程调用，在远程进程中为 `OS_xpc_shmem` 对象分配内存。
+- 将本地 `OS_xpc_shmem` 对象的内容复制到远程进程。然而，这个初始复制在偏移量 `0x18` 处将具有不正确的 Mach 内存条目名称。
 
-3. **Korrigeer die Mach Geheue Invoer**:
-- Gebruik die `thread_set_special_port()` metode om 'n stuurreg vir die Mach geheue-invoer in die afstandtaak in te voeg.
-- Korrigeer die Mach geheue-invoer veld by offset `0x18` deur dit te oorskryf met die naam van die afstand geheue-invoer.
+3. **修正 Mach 内存条目**：
+- 利用 `thread_set_special_port()` 方法将 Mach 内存条目的发送权限插入到远程任务中。
+- 通过用远程内存条目的名称覆盖偏移量 `0x18` 处的 Mach 内存条目字段来修正它。
 
-4. **Finaliseer Gedeelde Geheue Opstelling**:
-- Valideer die afstand `OS_xpc_shmem` objek.
-- Vestig die gedeelde geheue kaart met 'n afstandoproep na `xpc_shmem_remote()`.
+4. **完成共享内存设置**：
+- 验证远程 `OS_xpc_shmem` 对象。
+- 通过对 `xpc_shmem_remote()` 的远程调用建立共享内存映射。
 
-Deur hierdie stappe te volg, sal gedeelde geheue tussen die plaaslike en afstandstake doeltreffend opgestel word, wat vir eenvoudige data-oordragte en die uitvoering van funksies wat meerdere argumente vereis, toelaat.
+通过遵循这些步骤，本地和远程任务之间的共享内存将有效设置，允许简单的数据传输和执行需要多个参数的函数。
 
-## Bykomende Kode Snippets
+## 其他代码片段
 
-Vir geheue toewysing en gedeelde geheue objek skepping:
+用于内存分配和共享内存对象创建：
 ```c
 mach_vm_allocate();
 xpc_shmem_create();
 ```
-Vir die skep en regstelling van die gedeelde geheue objek in die afstandsproses:
+为了在远程进程中创建和修正共享内存对象：
 ```c
 malloc(); // for allocating memory remotely
 thread_set_special_port(); // for inserting send right
 ```
-Onthou om die besonderhede van Mach-poorte en geheue-ingangname korrek te hanteer om te verseker dat die gedeelde geheue-opstelling behoorlik funksioneer.
+记得正确处理Mach端口和内存条目名称的细节，以确保共享内存设置正常工作。
 
-## 5. Volle Beheer Bereik
+## 5. 实现完全控制
 
-By die suksesvolle vestiging van gedeelde geheue en die verkryging van arbitrêre uitvoeringsvermoëns, het ons in wese volle beheer oor die teikenproses verkry. Die sleutel funksies wat hierdie beheer moontlik maak, is:
+在成功建立共享内存并获得任意执行能力后，我们基本上获得了对目标进程的完全控制。实现这种控制的关键功能包括：
 
-1. **Arbitrêre Geheue Operasies**:
-- Voer arbitrêre geheue lees uit deur `memcpy()` aan te roep om data van die gedeelde streek te kopieer.
-- Voer arbitrêre geheue skrywe uit deur `memcpy()` te gebruik om data na die gedeelde streek oor te dra.
+1. **任意内存操作**：
+- 通过调用`memcpy()`从共享区域复制数据，执行任意内存读取。
+- 使用`memcpy()`将数据传输到共享区域，执行任意内存写入。
 
-2. **Hantering van Funksie-oproepe met Meerdere Argumente**:
-- Vir funksies wat meer as 8 argumente vereis, rangskik die addisionele argumente op die stapel in ooreenstemming met die oproepkonvensie.
+2. **处理多个参数的函数调用**：
+- 对于需要超过8个参数的函数，按照调用约定将额外参数安排在栈上。
 
-3. **Mach Port Oordrag**:
-- Oordrag van Mach-poorte tussen take deur Mach-boodskappe via voorheen gevestigde poorte.
+3. **Mach端口传输**：
+- 通过先前建立的端口，通过Mach消息在任务之间传输Mach端口。
 
-4. **Lêer Descriptor Oordrag**:
-- Oordrag van lêer descriptors tussen prosesse met behulp van fileports, 'n tegniek wat deur Ian Beer in `triple_fetch` beklemtoon is.
+4. **文件描述符传输**：
+- 使用fileports在进程之间传输文件描述符，这一技术由Ian Beer在`triple_fetch`中强调。
 
-Hierdie omvattende beheer is ingekapsuleer binne die [threadexec](https://github.com/bazad/threadexec) biblioteek, wat 'n gedetailleerde implementering en 'n gebruikersvriendelike API bied vir interaksie met die slagoffer proses.
+这种全面控制封装在[threadexec](https://github.com/bazad/threadexec)库中，提供了详细的实现和用户友好的API，以便与受害进程进行交互。
 
-## Belangrike Oorwegings:
+## 重要考虑事项：
 
-- Verseker behoorlike gebruik van `memcpy()` vir geheue lees/skrywe operasies om stelsels stabiliteit en data integriteit te handhaaf.
-- Wanneer Mach-poorte of lêer descriptors oorgedra word, volg behoorlike protokolle en hanteer hulpbronne verantwoordelik om lekkasies of onbedoelde toegang te voorkom.
+- 确保正确使用`memcpy()`进行内存读/写操作，以维护系统稳定性和数据完整性。
+- 在传输Mach端口或文件描述符时，遵循适当的协议并负责任地处理资源，以防止泄漏或意外访问。
 
-Deur hierdie riglyne na te kom en die `threadexec` biblioteek te benut, kan 'n mens doeltreffend prosesse op 'n fyn vlak bestuur en mee werk, wat volle beheer oor die teikenproses bereik.
+通过遵循这些指南并利用`threadexec`库，可以有效地管理和与进程进行细粒度交互，实现对目标进程的完全控制。
 
-## Verwysings
+## 参考文献
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家(ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家(GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

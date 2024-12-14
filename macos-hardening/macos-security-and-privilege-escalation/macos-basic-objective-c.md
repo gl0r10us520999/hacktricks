@@ -1,19 +1,18 @@
 # macOS Objective-C
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
-{% endhint %}
 {% endhint %}
 {% endhint %}
 {% endhint %}
@@ -32,22 +31,22 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 ## Objective-C
 
 {% hint style="danger" %}
-Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklarings **wanneer** **gecompileer** word in [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van:
+请注意，用 Objective-C 编写的程序在编译成 [Mach-O 二进制文件](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) 时 **保留** 其类声明。这样的类声明 **包括** 名称和类型：
 {% endhint %}
 
-* Die klas
-* Die klas metodes
-* Die klas instansie veranderlikes
+* 类
+* 类方法
+* 类实例变量
 
-Jy kan hierdie inligting verkry deur [**class-dump**](https://github.com/nygard/class-dump):
+您可以使用 [**class-dump**](https://github.com/nygard/class-dump) 获取此信息：
 ```bash
 class-dump Kindle.app
 ```
-Let daarop dat hierdie name obfuskeer kan word om die omkering van die binêre meer moeilik te maak.
+注意，这些名称可能会被混淆，以使二进制文件的逆向工程更加困难。
 
-## Klasse, Metodes & Objekte
+## 类、方法和对象
 
-### Koppelvlak, Eienskappe & Metodes
+### 接口、属性和方法
 ```objectivec
 // Declare the interface of the class
 @interface MyVehicle : NSObject
@@ -62,7 +61,7 @@ Let daarop dat hierdie name obfuskeer kan word om die omkering van die binêre m
 
 @end
 ```
-### **Klas**
+### **类**
 ```objectivec
 @implementation MyVehicle : NSObject
 
@@ -78,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Object & Call Method**
+### **对象与调用方法**
 
-Om 'n instansie van 'n klas te skep, word die **`alloc`** metode aangeroep wat **geheue toewys** vir elke **eienskap** en **nul** daardie toewysings. Dan word **`init`** aangeroep, wat die **eienskappe** tot die **vereiste waardes** **initaliseer**.
+要创建一个类的实例，调用 **`alloc`** 方法，该方法 **为每个属性分配内存** 并 **将这些分配置为零**。然后调用 **`init`**，该方法 **将属性初始化为所需的值**。
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -92,15 +91,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
-### **Klas Metodes**
+### **类方法**
 
-Klas metodes word gedefinieer met die **plusteken** (+) en nie die koppelteken (-) wat met instansiemetodes gebruik word nie. Soos die **NSString** klas metode **`stringWithString`**:
+类方法是用 **加号** (+) 定义的，而不是用于实例方法的 **减号** (-)。像 **NSString** 类方法 **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-Om **te stel** & **te kry** eienskappe, kan jy dit doen met 'n **puntnotasie** of soos asof jy 'n **metode aanroep**:
+要**设置**和**获取**属性，您可以使用**点表示法**或像**调用方法**一样进行：
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -110,20 +109,20 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Instansie Veranderlikes**
+### **实例变量**
 
-Alternatiewelik tot setter & getter metodes kan jy instansie veranderlikes gebruik. Hierdie veranderlikes het dieselfde naam as die eienskappe, maar begin met 'n "\_":
+与 setter 和 getter 方法不同，您可以使用实例变量。这些变量与属性同名，但以“\_”开头：
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
 NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
-### Protokolle
+### Protocols
 
-Protokolle is 'n stel metodeverklarings (sonder eienskappe). 'n Klas wat 'n protokol implementeer, implementeer die verklaarde metodes.
+协议是一组方法声明（没有属性）。实现协议的类实现声明的方法。
 
-Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **default** is 'n metode **verpligtend** (maar jy kan dit ook met 'n **`@required`** etiket aandui). Om aan te dui dat 'n metode opsioneel is, gebruik **`@optional`**.
+方法有两种类型：**必需**和**可选**。默认情况下，方法是**必需**的（但您也可以使用**`@required`**标签来指示）。要指示方法是可选的，请使用**`@optional`**。
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -133,7 +132,7 @@ Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **default** is '
 - (void) method3; //optional
 @end
 ```
-### Alles saam
+### 一起
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -183,9 +182,9 @@ NSLog(@"Number of wheels: %i", mySuperCar.numberOfWheels);
 [mySuperCar makeLongTruck];
 }
 ```
-### Basiese Klasse
+### 基本类
 
-#### String
+#### 字符串
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -196,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Basiese klasse is **onveranderlik**, so om 'n string aan 'n bestaande een toe te voeg, moet 'n **nuwe NSString geskep word**.
+基本类是**不可变的**，因此要将一个字符串附加到现有字符串上，**需要创建一个新的 NSString**。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -204,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Of jy kan ook 'n **mutable** string klas gebruik:
+或者你也可以使用一个**可变**字符串类：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -215,7 +214,7 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-#### Nommer
+#### 数字
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -236,7 +235,9 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-#### Array, Sets & Dictionary
+#### 数组、集合和字典
+
+{% code overflow="wrap" %}
 ```objectivec
 // Inmutable arrays
 NSArray *colorsArray1 = [NSArray arrayWithObjects:@"red", @"green", @"blue", nil];
@@ -284,9 +285,9 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 {% endcode %}
 
-### Blokke
+### Blocks
 
-Blokke is **funksies wat as objekte optree** sodat hulle aan funksies oorgedra kan word of **gestoor** kan word in **arrays** of **woordeboeke**. Ook, hulle kan **'n waarde verteenwoordig as hulle waardes gegee word** so dit is soortgelyk aan lambdas.
+Blocks 是 **作为对象行为的函数**，因此可以传递给函数或 **存储** 在 **数组** 或 **字典** 中。此外，如果给定值，它们可以 **表示一个值**，因此类似于 lambdas。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -303,7 +304,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-Dit is ook moontlik om **'n bloktipe te definieer wat as 'n parameter** in funksies gebruik kan word:
+也可以**定义一个块类型作为函数中的参数**：
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -325,7 +326,7 @@ genericLogger(^{
 NSLog(@"%@", @"This is my second block");
 });
 ```
-### Lêers
+### 文件
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -354,7 +355,7 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Dit is ook moontlik om lêers **te bestuur met `NSURL`-objekte in plaas van `NSString`**-objekte. Die metode name is soortgelyk, maar **met `URL` in plaas van `Path`**.
+也可以使用 **`NSURL` 对象而不是 `NSString` 对象** 来管理文件。方法名称类似，但 **使用 `URL` 而不是 `Path`**。
 ```objectivec
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

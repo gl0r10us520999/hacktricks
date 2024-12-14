@@ -1,16 +1,16 @@
-# Misbruik van Docker Socket vir Privilege Escalation
+# 利用 Docker Socket 进行权限提升
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -19,15 +19,15 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 {% endhint %}
 
-Daar is 'n paar geleenthede waar jy net **toegang tot die docker socket** het en jy dit wil gebruik om **privileges te verhoog**. Sommige aksies mag baie verdag wees en jy mag dit wil vermy, so hier kan jy verskillende vlae vind wat nuttig kan wees om privileges te verhoog:
+有些情况下你只需 **访问 docker socket**，并希望利用它来 **提升权限**。某些操作可能非常可疑，你可能想要避免它们，因此在这里你可以找到不同的标志，这些标志可能对提升权限有用：
 
-### Via mount
+### 通过挂载
 
-Jy kan **mount** verskillende dele van die **filesystem** in 'n container wat as root loop en dit **toegang** gee.\
-Jy kan ook 'n **mount misbruik om privileges** binne die container te verhoog.
+你可以在以 root 身份运行的容器中 **挂载** 文件系统的不同部分并 **访问** 它们。\
+你也可以 **利用挂载来提升容器内的权限**。
 
-* **`-v /:/host`** -> Mount die host filesystem in die container sodat jy die **host filesystem kan lees.**
-* As jy wil **voel soos jy in die host is** maar in die container is, kan jy ander verdedigingsmeganismes deaktiveer met vlae soos:
+* **`-v /:/host`** -> 在容器中挂载主机文件系统，以便你可以 **读取主机文件系统。**
+* 如果你想要 **感觉像是在主机上**，但实际上在容器中，你可以使用以下标志禁用其他防御机制：
 * `--privileged`
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -37,38 +37,38 @@ Jy kan ook 'n **mount misbruik om privileges** binne die container te verhoog.
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Dit is soortgelyk aan die vorige metode, maar hier **mount ons die toestel skyf**. Dan, binne die container, hardloop `mount /dev/sda1 /mnt` en jy kan die **host filesystem** in `/mnt` **toegang**.
-* Hardloop `fdisk -l` in die host om die `</dev/sda1>` toestel te vind om te mount.
-* **`-v /tmp:/host`** -> As jy om een of ander rede **net 'n gids** van die host kan **mount** en jy het toegang binne die host. Mount dit en skep 'n **`/bin/bash`** met **suid** in die gemounte gids sodat jy dit **van die host kan uitvoer en na root kan verhoog**.
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> 这与前一种方法类似，但这里我们是 **挂载设备磁盘**。然后，在容器内运行 `mount /dev/sda1 /mnt`，你可以在 `/mnt` 中 **访问** **主机文件系统**。
+* 在主机上运行 `fdisk -l` 找到 `</dev/sda1>` 设备以进行挂载。
+* **`-v /tmp:/host`** -> 如果由于某种原因你只能 **挂载主机的某个目录**，并且你可以在主机内访问。挂载它并在挂载目录中创建一个 **`/bin/bash`**，并设置 **suid**，这样你就可以 **从主机执行它并提升到 root**。
 
 {% hint style="info" %}
-Let daarop dat jy dalk nie die gids `/tmp` kan mount nie, maar jy kan 'n **ander skryfbare gids** mount. Jy kan skryfbare gidse vind met: `find / -writable -type d 2>/dev/null`
+请注意，也许你无法挂载 `/tmp` 文件夹，但你可以挂载一个 **不同的可写文件夹**。你可以使用以下命令查找可写目录：`find / -writable -type d 2>/dev/null`
 
-**Let daarop dat nie al die gidse in 'n linux masjien die suid bit sal ondersteun nie!** Om te kyk watter gidse die suid bit ondersteun, hardloop `mount | grep -v "nosuid"` Byvoorbeeld, gewoonlik ondersteun `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` en `/var/lib/lxcfs` nie die suid bit nie.
+**请注意，并非所有 Linux 机器上的目录都支持 suid 位！** 要检查哪些目录支持 suid 位，请运行 `mount | grep -v "nosuid"`。例如，通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup` 和 `/var/lib/lxcfs` 不支持 suid 位。
 
-Let ook daarop dat as jy **`/etc`** of enige ander gids **wat konfigurasie lêers bevat**, kan mount, jy dit mag verander vanuit die docker container as root om dit te **misbruik in die host** en privileges te verhoog (miskien deur `/etc/shadow` te verander).
+还要注意，如果你可以 **挂载 `/etc`** 或任何其他 **包含配置文件** 的文件夹，你可以在 docker 容器中以 root 身份更改它们，以便 **在主机上利用它们** 并提升权限（可能修改 `/etc/shadow`）。
 {% endhint %}
 
-### Ontsnap uit die container
+### 从容器中逃逸
 
-* **`--privileged`** -> Met hierdie vlag [verwyder jy al die isolasie van die container](docker-privileged.md#what-affects). Kyk tegnieke om [uit priviligeerde containers as root te ontsnap](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
-* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> Om [privileges te verhoog deur capabilities te misbruik](../linux-capabilities.md), **gee daardie vermoë aan die container** en deaktiveer ander beskermingsmetodes wat die uitbuiting mag verhinder om te werk.
+* **`--privileged`** -> 使用此标志，你可以 [移除容器的所有隔离](docker-privileged.md#what-affects)。查看技术以 [作为 root 从特权容器逃逸](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape)。
+* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> 为了 [通过能力提升](../linux-capabilities.md)，**将该能力授予容器**，并禁用可能阻止漏洞工作的其他保护方法。
 
 ### Curl
 
-Op hierdie bladsy het ons maniere bespreek om privileges te verhoog met behulp van docker vlae, jy kan **maniere vind om hierdie metodes met die curl** opdrag te misbruik op die bladsy:
+在本页中，我们讨论了使用 docker 标志提升权限的方法，你可以在页面中找到 **使用 curl 命令滥用这些方法的方式**：
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

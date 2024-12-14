@@ -1,91 +1,91 @@
-# macOS Universele bineêre & Mach-O-formaat
+# macOS Universal binaries & Mach-O Format
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-Mac OS-bineêre lêers is gewoonlik saamgestel as **universele bineêre lêers**. 'n **Universele bineêre lêer** kan **verskeie argitekture in dieselfde lêer ondersteun**.
+Mac OS 二进制文件通常被编译为 **universal binaries**。一个 **universal binary** 可以 **在同一个文件中支持多种架构**。
 
-Hierdie bineêre lêers volg die **Mach-O-struktuur** wat basies bestaan uit:
+这些二进制文件遵循 **Mach-O 结构**，基本上由以下部分组成：
 
-* Kop
-* Laai-opdragte
-* Data
+* 头部
+* 加载命令
+* 数据
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (470).png>)
 
-## Vet Kop
+## Fat Header
 
-Soek na die lêer met: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
+使用以下命令搜索文件： `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
 <pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
 </strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
 </strong>
 struct fat_header {
-<strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-</strong><strong>	uint32_t	nfat_arch;	/* aantal strukture wat volg */
+<strong>	uint32_t	magic;		/* FAT_MAGIC 或 FAT_MAGIC_64 */
+</strong><strong>	uint32_t	nfat_arch;	/* 后续结构的数量 */
 </strong>};
 
 struct fat_arch {
-cpu_type_t	cputype;	/* cpu spesifiseerder (int) */
-cpu_subtype_t	cpusubtype;	/* masjien spesifiseerder (int) */
-uint32_t	offset;		/* lêer-offset na hierdie objeklêer */
-uint32_t	size;		/* grootte van hierdie objeklêer */
-uint32_t	align;		/* uitlyn as 'n mag van 2 */
+cpu_type_t	cputype;	/* cpu 说明符 (int) */
+cpu_subtype_t	cpusubtype;	/* 机器说明符 (int) */
+uint32_t	offset;		/* 到此目标文件的文件偏移 */
+uint32_t	size;		/* 此目标文件的大小 */
+uint32_t	align;		/* 作为 2 的幂的对齐 */
 };
 </code></pre>
 
-Die kop het die **magic**-byte gevolg deur die **aantal** **argitekture** wat die lêer **bevat** (`nfat_arch`) en elke argitektuur sal 'n `fat_arch` struktuur hê.
+头部包含 **magic** 字节，后面是文件 **包含的** **架构** 的 **数量** (`nfat_arch`)，每个架构将有一个 `fat_arch` 结构。
 
-Kontroleer dit met:
+使用以下命令检查：
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
-/bin/ls: Mach-O universele bineêre met 2 argitekture: [x86_64:Mach-O 64-bietjie uitvoerbare x86_64] [arm64e:Mach-O 64-bietjie uitvoerbare arm64e]
-/bin/ls (vir argitektuur x86_64):	Mach-O 64-bietjie uitvoerbare x86_64
-/bin/ls (vir argitektuur arm64e):	Mach-O 64-bietjie uitvoerbare arm64e
+/bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
+/bin/ls (for architecture x86_64):	Mach-O 64-bit executable x86_64
+/bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
 
 % otool -f -v /bin/ls
-Vet koppe
+Fat headers
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
-</strong><strong>argitektuur x86_64
-</strong>    cputipe CPU_TYPE_X86_64
-cpusubtipe CPU_SUBTYPE_X86_64_ALL
-vermoëns 0x0
+</strong><strong>architecture x86_64
+</strong>    cputype CPU_TYPE_X86_64
+cpusubtype CPU_SUBTYPE_X86_64_ALL
+capabilities 0x0
 <strong>    offset 16384
-</strong><strong>    grootte 72896
-</strong>    uitlyn 2^14 (16384)
-<strong>argitektuur arm64e
-</strong>    cputipe CPU_TYPE_ARM64
-cpusubtipe CPU_SUBTYPE_ARM64E
-vermoëns PTR_AUTH_VERSION USERSPACE 0
+</strong><strong>    size 72896
+</strong>    align 2^14 (16384)
+<strong>architecture arm64e
+</strong>    cputype CPU_TYPE_ARM64
+cpusubtype CPU_SUBTYPE_ARM64E
+capabilities PTR_AUTH_VERSION USERSPACE 0
 <strong>    offset 98304
-</strong><strong>    grootte 88816
-</strong>    uitlyn 2^14 (16384)
+</strong><strong>    size 88816
+</strong>    align 2^14 (16384)
 </code></pre>
 
-of deur die [Mach-O View](https://sourceforge.net/projects/machoview/) gereedskap te gebruik:
+或者使用 [Mach-O View](https://sourceforge.net/projects/machoview/) 工具：
 
 <figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-Soos jy dalk dink, verdubbel 'n universele bineêre wat vir 2 argitekture saamgestel is die grootte van een wat net vir 1 argitektuur saamgestel is.
+正如你所想，通常为 2 种架构编译的 universal binary **大小是** 为 1 种架构编译的 **两倍**。
 
-## **Mach-O Kop**
+## **Mach-O Header**
 
-Die kop bevat basiese inligting oor die lêer, soos die magiese byte om dit as 'n Mach-O-lêer te identifiseer en inligting oor die teikenargitektuur. Jy kan dit vind in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含有关文件的基本信息，例如用于识别它为 Mach-O 文件的 magic 字节和有关目标架构的信息。你可以在以下位置找到它： `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -112,20 +112,20 @@ uint32_t	flags;		/* flags */
 uint32_t	reserved;	/* reserved */
 };
 ```
-### Mach-O Lêertipes
+### Mach-O 文件类型
 
-Daar is verskillende lêertipes, jy kan hulle gedefinieer vind in die [**bronkode byvoorbeeld hier**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h). Die belangrikste is:
+有不同的文件类型，可以在[**源代码中找到定义，例如这里**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h)。最重要的类型有：
 
-- `MH_OBJECT`: Herplaasbare objeklêer (tussenproduk van samestelling, nog nie uitvoerbare lêers nie).
-- `MH_EXECUTE`: Uitvoerbare lêers.
-- `MH_FVMLIB`: Vasgehegte VM-biblioteeklêer.
-- `MH_CORE`: Kode-afsettings
-- `MH_PRELOAD`: Voorafgelaai uitvoerbare lêer (nie meer ondersteun in XNU nie)
-- `MH_DYLIB`: Dinamiese Biblioteke
-- `MH_DYLINKER`: Dinamiese Skakelaar
-- `MH_BUNDLE`: "Inprop-lêers". Opgestel deur -bundle in gcc en eksplisiet gelaai deur `NSBundle` of `dlopen`.
-- `MH_DYSM`: Metgesel `.dSym` lêer (lêer met simbole vir foutopsporing).
-- `MH_KEXT_BUNDLE`: Kernel-uitbreidings.
+* `MH_OBJECT`: 可重定位目标文件（编译的中间产品，尚未成为可执行文件）。
+* `MH_EXECUTE`: 可执行文件。
+* `MH_FVMLIB`: 固定虚拟机库文件。
+* `MH_CORE`: 代码转储
+* `MH_PRELOAD`: 预加载的可执行文件（在 XNU 中不再支持）
+* `MH_DYLIB`: 动态库
+* `MH_DYLINKER`: 动态链接器
+* `MH_BUNDLE`: “插件文件”。使用 gcc 中的 -bundle 生成，并由 `NSBundle` 或 `dlopen` 显式加载。
+* `MH_DYSM`: 伴随的 `.dSym` 文件（用于调试的符号文件）。
+* `MH_KEXT_BUNDLE`: 内核扩展。
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -133,76 +133,76 @@ Mach header
 magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
-Of deur [Mach-O View](https://sourceforge.net/projects/machoview/) te gebruik:
+Or using [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
-## **Mach-O Vlae**
+## **Mach-O 标志**
 
-Die bronkode definieer ook verskeie vlae wat nuttig is vir die laai van biblioteke:
+源代码还定义了几个用于加载库的标志：
 
-* `MH_NOUNDEFS`: Geen ongedefinieerde verwysings (volledig gekoppel)
-* `MH_DYLDLINK`: Dyld koppeling
-* `MH_PREBOUND`: Dinamiese verwysings vooraf gebind.
-* `MH_SPLIT_SEGS`: Lêer verdeel r/o en r/w segmente.
-* `MH_WEAK_DEFINES`: Binêre het swak gedefinieerde simbole
-* `MH_BINDS_TO_WEAK`: Binêre gebruik swak simbole
-* `MH_ALLOW_STACK_EXECUTION`: Maak die stapel uitvoerbaar
-* `MH_NO_REEXPORTED_DYLIBS`: Biblioteek nie LC\_REEXPORT-opdragte nie
-* `MH_PIE`: Posisioneel Onafhanklike Uitvoerbare lêer
-* `MH_HAS_TLV_DESCRIPTORS`: Daar is 'n afdeling met draadlokale veranderlikes
-* `MH_NO_HEAP_EXECUTION`: Geen uitvoering vir heap/data-bladsye
-* `MH_HAS_OBJC`: Binêre het oBject-C afdelings
-* `MH_SIM_SUPPORT`: Simulator-ondersteuning
-* `MH_DYLIB_IN_CACHE`: Gebruik op dylibs/frameworks in gedeelde biblioteekkas.
+* `MH_NOUNDEFS`: 没有未定义的引用（完全链接）
+* `MH_DYLDLINK`: Dyld 链接
+* `MH_PREBOUND`: 动态引用预绑定。
+* `MH_SPLIT_SEGS`: 文件分割只读和读写段。
+* `MH_WEAK_DEFINES`: 二进制文件具有弱定义符号
+* `MH_BINDS_TO_WEAK`: 二进制文件使用弱符号
+* `MH_ALLOW_STACK_EXECUTION`: 使堆栈可执行
+* `MH_NO_REEXPORTED_DYLIBS`: 库没有 LC\_REEXPORT 命令
+* `MH_PIE`: 位置无关可执行文件
+* `MH_HAS_TLV_DESCRIPTORS`: 有一个包含线程局部变量的部分
+* `MH_NO_HEAP_EXECUTION`: 堆/数据页面不执行
+* `MH_HAS_OBJC`: 二进制文件具有 oBject-C 部分
+* `MH_SIM_SUPPORT`: 模拟器支持
+* `MH_DYLIB_IN_CACHE`: 用于共享库缓存中的 dylibs/frameworks。
 
-## **Mach-O Laai-opdragte**
+## **Mach-O 加载命令**
 
-Die **lêer se uitleg in geheue** word hier gespesifiseer, met inligting oor die **simbooltabel se ligging**, die konteks van die hoofdraad by uitvoerbegin, en die vereiste **gedeelde biblioteke**. Instruksies word aan die dinamiese laaier **(dyld)** verskaf oor die binêre se laaiproses in geheue.
+**文件在内存中的布局**在这里指定，详细说明了 **符号表的位置**、执行开始时主线程的上下文以及所需的 **共享库**。向动态加载器 **(dyld)** 提供了有关二进制文件加载到内存中的过程的指令。
 
-Dit maak gebruik van die **load\_command** struktuur, gedefinieer in die genoemde **`loader.h`**:
+它使用 **load\_command** 结构，定义在提到的 **`loader.h`** 中：
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-Daar is ongeveer **50 verskillende tipes laai-opdragte** wat die stelsel anders hanteer. Die mees algemene is: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB`, en `LC_CODE_SIGNATURE`.
+There are about **50 different types of load commands** that the system handles differently. The most common ones are: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB`, and `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Basies definieer hierdie tipe Laai-opdrag **hoe om die \_\_TEXT** (uitvoerbare kode) **en \_\_DATA** (data vir die proses) **segmente te laai** volgens die **offsets aangedui in die Data-seksie** wanneer die binêre lêer uitgevoer word.
+基本上，这种类型的加载命令定义了**如何加载 \_\_TEXT**（可执行代码）**和 \_\_DATA**（进程数据）**段**，根据**数据部分中指示的偏移量**在二进制文件执行时。
 {% endhint %}
 
-Hierdie opdragte **definieer segmente** wat in die **virtuele geheue-ruimte** van 'n proses ingevoeg word wanneer dit uitgevoer word.
+这些命令**定义了段**，在进程执行时被**映射**到**虚拟内存空间**中。
 
-Daar is **verskillende tipes** segmente, soos die **\_\_TEXT** segment, wat die uitvoerbare kode van 'n program bevat, en die **\_\_DATA** segment, wat data bevat wat deur die proses gebruik word. Hierdie **segmente is geleë in die data-seksie** van die Mach-O lêer.
+有**不同类型**的段，例如**\_\_TEXT**段，保存程序的可执行代码，以及**\_\_DATA**段，包含进程使用的数据。这些**段位于Mach-O文件的数据部分**中。
 
-**Elke segment** kan verder verdeel word in verskeie **seksies**. Die **laai-opdragstruktuur** bevat **inligting** oor **hierdie seksies** binne die betrokke segment.
+**每个段**可以进一步**划分**为多个**节**。**加载命令结构**包含关于**这些节**在各自段中的**信息**。
 
-In die kop vind jy die **segmentkop**:
+在头部，首先找到**段头**：
 
-<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* vir 64-bis-argitekture */
+<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* for 64-bit architectures */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
-uint32_t	cmdsize;	/* sluit die grootte van section_64 strukture in */
-char		segname[16];	/* segmentnaam */
-uint64_t	vmaddr;		/* geheue-adres van hierdie segment */
-uint64_t	vmsize;		/* geheuegrootte van hierdie segment */
-uint64_t	fileoff;	/* lêer-offset van hierdie segment */
-uint64_t	filesize;	/* hoeveelheid om van die lêer af te beeld */
-int32_t		maxprot;	/* maksimum VM-beskerming */
-int32_t		initprot;	/* aanvanklike VM-beskerming */
-<strong>	uint32_t	nsects;		/* aantal seksies in segment */
-</strong>	uint32_t	flags;		/* vlae */
+uint32_t	cmdsize;	/* includes sizeof section_64 structs */
+char		segname[16];	/* segment name */
+uint64_t	vmaddr;		/* memory address of this segment */
+uint64_t	vmsize;		/* memory size of this segment */
+uint64_t	fileoff;	/* file offset of this segment */
+uint64_t	filesize;	/* amount to map from the file */
+int32_t		maxprot;	/* maximum VM protection */
+int32_t		initprot;	/* initial VM protection */
+<strong>	uint32_t	nsects;		/* number of sections in segment */
+</strong>	uint32_t	flags;		/* flags */
 };
 </code></pre>
 
-Voorbeeld van segmentkop:
+Example of segment header:
 
 <figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
-Hierdie kop definieer die **aantal seksies waarvan die koppe daarna verskyn**:
+This header defines the **number of sections whose headers appear after** it:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -219,62 +219,62 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Voorbeeld van **seksie-kop**:
+示例 **节标题**：
 
 <figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
-As jy die **seksie-offset** (0x37DC) + die **offset** waar die **arg begin**, in hierdie geval `0x18000` byvoeg --> `0x37DC + 0x18000 = 0x1B7DC`
+如果你 **添加** **节偏移** (0x37DC) + **架构开始的偏移**，在这种情况下 `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
 <figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
-Dit is ook moontlik om **koppe-inligting** van die **opdraglyn** te kry met:
+也可以通过 **命令行** 获取 **头信息**：
 ```bash
 otool -lv /bin/ls
 ```
-Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
+常见的由此命令加载的段：
 
-* **`__PAGEZERO`:** Dit instrueer die kernel om die **adres nul** te **kaart** sodat dit **nie gelees, geskryf of uitgevoer kan word nie**. Die maxprot en minprot veranderlikes in die struktuur word na nul ingestel om aan te dui dat daar **geen lees-skuif-uitvoer regte op hierdie bladsy** is nie.
-* Hierdie toewysing is belangrik om **NULL-aanwyservulnerabiliteite te verminder**. Dit is omdat XNU 'n harde bladsy nul afdwing wat verseker dat die eerste bladsy (slegs die eerste) van geheue onbereikbaar is (behalwe in i386). 'n Binêre kan aan hierdie vereistes voldoen deur 'n klein \_\_PAGEZERO (met die `-pagezero_size`) te skep om die eerste 4k te dek en die res van die 32-bis geheue toeganklik te hê in beide gebruiker- en kernelmodus.
-* **`__TEXT`**: Bevat **uitvoerbare** **kode** met **lees** en **uitvoer** regte (nie skryfbare)**.** Gewone afdelings van hierdie segment:
-* `__text`: Opgestelde binêre kode
-* `__const`: Konstante data (slegs leesbaar)
-* `__[c/u/os_log]string`: C, Unicode of os-logstring konstantes
-* `__stubs` en `__stubs_helper`: Betrokke tydens die dinamiese biblioteeklaaiproses
-* `__unwind_info`: Stok ontwar data.
-* Let daarop dat al hierdie inhoud onderteken is maar ook as uitvoerbaar gemerk is (skep meer opsies vir uitbuiting van afdelings wat nie noodwendig hierdie voorreg nodig het nie, soos string-toegewyde afdelings).
-* **`__DATA`**: Bevat data wat **leesbaar** en **skryfbaar** is (nie uitvoerbaar)**.**
-* `__got:` Globale Verskuiwingstabel
-* `__nl_symbol_ptr`: Nie lui (bind by laai) simboolaanduider
-* `__la_symbol_ptr`: Lui (bind by gebruik) simboolaanduider
-* `__const`: Behoort lees-slegs data te wees (nie regtig)
-* `__cfstring`: CoreFoundation strings
-* `__data`: Globale veranderlikes (wat geïnisialiseer is)
-* `__bss`: Statiese veranderlikes (wat nie geïnisialiseer is nie)
-* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ens.): Inligting wat deur die Objective-C-uitvoertyd gebruik word
-* **`__DATA_CONST`**: \_\_DATA.\_\_const is nie gewaarborg om konstant te wees (skryfregte nie), en ook nie ander aanwysers en die GOT nie. Hierdie afdeling maak `__const`, sommige inisialiseerders en die GOT-tabel (eenmaal opgelos) **leesbaar slegs** deur `mprotect` te gebruik.
-* **`__LINKEDIT`**: Bevat inligting vir die koppelaar (dyld) soos simbool-, string- en herlokasie-tabelinskrywings. Dit is 'n generiese houer vir inhoud wat nie in `__TEXT` of `__DATA` is nie en sy inhoud word in ander laaibefehle beskryf.
-* dyld-inligting: Herbasis, Nie-luie/lui/swak bindopkode en uitvoer inligting
-* Funksies begin: Tabel van beginadresse van funksies
-* Data In Kode: Data-eilande in \_\_text
-* Simbooltabel: Simbole in binêr
-* Indirekte Simbooltabel: Aanduider/stub simbole
-* Stringtabel
-* Kodehandtekening
-* **`__OBJC`**: Bevat inligting wat deur die Objective-C-uitvoertyd gebruik word. Alhoewel hierdie inligting ook in die \_\_DATA-segment gevind kan word, binne verskeie in \_\_objc\_\* afdelings.
-* **`__RESTRICT`**: 'n Segment sonder inhoud met 'n enkele afdeling genaamd **`__restrict`** (ook leeg) wat verseker dat wanneer die binêre lopende is, dit DYLD-omgewingsveranderlikes ignoreer.
+* **`__PAGEZERO`:** 它指示内核**映射** **地址零**，以便**无法读取、写入或执行**。结构中的maxprot和minprot变量设置为零，以指示此页面上**没有读写执行权限**。
+* 此分配对于**缓解NULL指针解引用漏洞**非常重要。这是因为XNU强制执行一个硬页面零，确保内存的第一页（仅第一页）不可访问（在i386中除外）。一个二进制文件可以通过制作一个小的\_\_PAGEZERO（使用`-pagezero_size`）来满足这些要求，以覆盖前4k，并使其余的32位内存在用户模式和内核模式下均可访问。
+* **`__TEXT`**: 包含**可执行** **代码**，具有**读取**和**执行**权限（不可写）。此段的常见部分：
+* `__text`: 编译的二进制代码
+* `__const`: 常量数据（只读）
+* `__[c/u/os_log]string`: C、Unicode或os日志字符串常量
+* `__stubs`和`__stubs_helper`: 在动态库加载过程中涉及
+* `__unwind_info`: 堆栈展开数据。
+* 请注意，所有这些内容都是签名的，但也标记为可执行（为不一定需要此权限的部分（如专用字符串部分）创建更多的利用选项）。
+* **`__DATA`**: 包含**可读**和**可写**的数据（不可执行）。
+* `__got:` 全局偏移表
+* `__nl_symbol_ptr`: 非惰性（加载时绑定）符号指针
+* `__la_symbol_ptr`: 惰性（使用时绑定）符号指针
+* `__const`: 应该是只读数据（实际上不是）
+* `__cfstring`: CoreFoundation字符串
+* `__data`: 全局变量（已初始化）
+* `__bss`: 静态变量（未初始化）
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist等): Objective-C运行时使用的信息
+* **`__DATA_CONST`**: \_\_DATA.\_\_const不保证是常量（写权限），其他指针和GOT也不是。此部分使用`mprotect`使`__const`、一些初始化器和GOT表（解析后）**只读**。
+* **`__LINKEDIT`**: 包含链接器（dyld）所需的信息，如符号、字符串和重定位表条目。它是一个通用容器，包含不在`__TEXT`或`__DATA`中的内容，其内容在其他加载命令中描述。
+* dyld信息：重定位、非惰性/惰性/弱绑定操作码和导出信息
+* 函数开始：函数起始地址表
+* 代码中的数据：\_\_text中的数据岛
+* 符号表：二进制中的符号
+* 间接符号表：指针/存根符号
+* 字符串表
+* 代码签名
+* **`__OBJC`**: 包含Objective-C运行时使用的信息。尽管这些信息也可能在\_\_DATA段中找到，在各种\_\_objc\_\*部分内。
+* **`__RESTRICT`**: 一个没有内容的段，只有一个名为**`__restrict`**（也为空）的单一部分，确保在运行二进制文件时，它将忽略DYLD环境变量。
 
-Soos in die kode gesien kon word, **ondersteun segmente ook vlae** (al word hulle nie baie gebruik nie):
+正如在代码中所看到的，**段也支持标志**（尽管它们并不常用）：
 
-* `SG_HIGHVM`: Slegs kern (nie gebruik nie)
-* `SG_FVMLIB`: Nie gebruik nie
-* `SG_NORELOC`: Segment het geen herlokasie
-* `SG_PROTECTED_VERSION_1`: Versleuteling. Gebruik byvoorbeeld deur Finder om teks in `__TEXT`-segment te versleutel.
+* `SG_HIGHVM`: 仅核心（未使用）
+* `SG_FVMLIB`: 未使用
+* `SG_NORELOC`: 段没有重定位
+* `SG_PROTECTED_VERSION_1`: 加密。例如，Finder用于加密文本`__TEXT`段。
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`** bevat die ingangspunt in die **entryoff-eienskap.** Met laai-tyd voeg **dyld** eenvoudig hierdie waarde by die (in-geheue) **basis van die binêre**, spring dan na hierdie instruksie om die uitvoering van die binêre se kode te begin.
+**`LC_MAIN`**包含**entryoff属性**中的入口点。在加载时，**dyld**简单地**将**此值**添加**到（内存中的）**二进制文件基址**，然后**跳转**到此指令以开始执行二进制代码。
 
-**`LC_UNIXTHREAD`** bevat die waardes wat die register moet hê wanneer die hoofdraad begin. Dit is reeds verouderd maar **`dyld`** gebruik dit nog steeds. Dit is moontlik om die waardes van die register wat deur hierdie ingestel is, te sien met:
+**`LC_UNIXTHREAD`**包含启动主线程时寄存器必须具有的值。这已经被弃用，但**`dyld`**仍然使用它。可以通过以下方式查看此设置的寄存器值：
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -300,34 +300,34 @@ cpsr 0x00000000
 ```
 ### **`LC_CODE_SIGNATURE`**
 
-Bevat inligting oor die **kodesignatuur van die Macho-O-lêer**. Dit bevat slegs 'n **offset** wat na die **handtekeningblob** wys. Dit is tipies aan die einde van die lêer.\
-Jy kan egter inligting oor hierdie afdeling vind in [**hierdie blogpos**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) en hierdie [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+包含有关 **Mach-O 文件的代码签名** 的信息。它仅包含一个 **偏移量**，指向 **签名 blob**。这通常位于文件的最末尾。\
+然而，您可以在 [**这篇博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) 和这个 [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4) 中找到有关此部分的一些信息。
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
-Ondersteuning vir binêre versleuteling. Indien 'n aanvaller egter die proses kan kompromiteer, sal hy die geheue onversleuteld kan aflaai.
+支持二进制加密。然而，当然，如果攻击者设法破坏了该进程，他将能够以未加密的方式转储内存。
 
 ### **`LC_LOAD_DYLINKER`**
 
-Bevat die **pad na die dinamiese skakeluitvoerbare lêer** wat gedeelde biblioteke in die proses-adresruimte in kaart bring. Die **waarde is altyd ingestel op `/usr/lib/dyld`**. Dit is belangrik om daarop te let dat in macOS, dylib-afbeelding in **gebruikermodus** plaasvind, nie in kernelmodus nie.
+包含 **动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为 `/usr/lib/dyld`**。重要的是要注意，在 macOS 中，dylib 映射发生在 **用户模式**，而不是内核模式。
 
 ### **`LC_IDENT`**
 
-Verouderd, maar wanneer dit ingestel is om damps by paniek te genereer, word 'n Mach-O-kern-damp geskep en die kernweergawe word in die `LC_IDENT`-bevel ingestel.
+过时，但当配置为在崩溃时生成转储时，会创建一个 Mach-O 核心转储，并在 `LC_IDENT` 命令中设置内核版本。
 
 ### **`LC_UUID`**
 
-Willekeurige UUID. Dit is nie direk nuttig vir enigiets nie, maar XNU stoor dit saam met die res van die prosesinligting. Dit kan in botsingsverslae gebruik word.
+随机 UUID。它对任何直接的事情都很有用，但 XNU 会将其与其他进程信息一起缓存。它可以在崩溃报告中使用。
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
-Laat toe om omgewingsveranderlikes aan die dyld aan te dui voordat die proses uitgevoer word. Dit kan baie gevaarlik wees omdat dit kan toelaat om arbitrêre kode binne die proses uit te voer, dus word hierdie laai-bevel slegs gebruik in dyld-geboue met `#define SUPPORT_LC_DYLD_ENVIRONMENT` en beperk verdere verwerking slegs tot veranderlikes van die vorm `DYLD_..._PATH` wat laaipaaie spesifiseer.
+允许在进程执行之前向 dyld 指示环境变量。这可能非常危险，因为它可能允许在进程内部执行任意代码，因此此加载命令仅在使用 `#define SUPPORT_LC_DYLD_ENVIRONMENT` 构建的 dyld 中使用，并进一步限制处理仅限于形式为 `DYLD_..._PATH` 的变量，指定加载路径。
 
 ### **`LC_LOAD_DYLIB`**
 
-Hierdie laaibevolking beskryf 'n **dinamiese biblioteekafhanklikheid** wat die **laaier** (dyld) **instrueer om genoemde biblioteek te laai en te skakel**. Daar is 'n `LC_LOAD_DYLIB`-laaibevolking **vir elke biblioteek** wat die Mach-O-binêre lêer benodig.
+此加载命令描述了一个 **动态** **库** 依赖关系，**指示** **加载器** (dyld) **加载和链接该库**。每个 Mach-O 二进制文件所需的库都有一个 `LC_LOAD_DYLIB` 加载命令。
 
-* Hierdie laaibevolking is 'n struktuur van die tipe **`dylib_command`** (wat 'n struktuur dylib bevat wat die werklike afhanklike dinamiese biblioteek beskryf):
+* 此加载命令是 **`dylib_command`** 类型的结构（其中包含一个描述实际依赖动态库的 struct dylib）：
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -344,7 +344,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (486).png>)
 
-Jy kan ook hierdie inligting kry van die opdraggelynpunt met:
+您也可以通过命令行获取此信息：
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -352,59 +352,74 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-Some potensiële kwaadwillige biblioteke is:
+一些潜在的与恶意软件相关的库包括：
 
-* **DiskArbitration**: Monitering van USB-aandrywings
-* **AVFoundation:** Vang klank en video
-* **CoreWLAN**: Wifi-skanderings.
+* **DiskArbitration**: 监控 USB 驱动器
+* **AVFoundation:** 捕获音频和视频
+* **CoreWLAN**: Wifi 扫描。
 
 {% hint style="info" %}
-'n Mach-O binêre lêer kan een of **meer konstrukteurs** bevat, wat **uitgevoer sal word voor** die adres gespesifiseer in **LC\_MAIN**.\
-Die offsette van enige konstrukteurs word gehou in die **\_\_mod\_init\_func** afdeling van die **\_\_DATA\_CONST** segment.
+Mach-O 二进制文件可以包含一个或 **多个** **构造函数**，这些构造函数将在 **LC\_MAIN** 指定的地址 **之前** 被 **执行**。\
+任何构造函数的偏移量保存在 **\_\_mod\_init\_func** 部分的 **\_\_DATA\_CONST** 段中。
 {% endhint %}
 
-## **Mach-O Data**
+## **Mach-O 数据**
 
-In die kern van die lêer lê die data-gebied, wat bestaan uit verskeie segmente soos gedefinieer in die laai-opdragte-gebied. **'n Verskeidenheid data-afdelings kan binne elke segment gehuisves word**, met elke afdeling wat kode of data bevat wat spesifiek is vir 'n tipe.
+文件的核心是数据区域，由加载命令区域定义的几个段组成。**每个段中可以容纳多种数据部分**，每个部分 **包含特定类型的代码或数据**。
 
 {% hint style="success" %}
-Die data is basies die gedeelte wat al die **inligting** bevat wat deur die laai-opdragte **LC\_SEGMENTS\_64** gelaai word.
+数据基本上是包含所有由加载命令 **LC\_SEGMENTS\_64** 加载的 **信息** 的部分。
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
-Dit sluit in:
+这包括：
 
-* **Funksie-tabel:** Wat inligting oor die programfunksies bevat.
-* **Simbooltabel**: Wat inligting oor die eksterne funksie bevat wat deur die binêre gebruik word
-* Dit kan ook interne funksie, veranderlike name en meer bevat.
+* **函数表:** 包含有关程序函数的信息。
+* **符号表**: 包含有关二进制文件使用的外部函数的信息
+* 它还可以包含内部函数、变量名称等。
 
-Om dit te kontroleer, kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
+要检查它，您可以使用 [**Mach-O View**](https://sourceforge.net/projects/machoview/) 工具：
 
 <figure><img src="../../../.gitbook/assets/image (1120).png" alt=""><figcaption></figcaption></figure>
 
-Of vanaf die opdraglyn:
+或者从命令行：
 ```bash
 size -m /bin/ls
 ```
-## Objective-C Algemene Afdelings
+## Objetive-C 常见部分
 
-In die `__TEXT` segment (r-x):
+在 `__TEXT` 段 (r-x):
 
-- `__objc_classname`: Klasname (strings)
-- `__objc_methname`: Metode name (strings)
-- `__objc_methtype`: Metode tipes (strings)
+* `__objc_classname`: 类名 (字符串)
+* `__objc_methname`: 方法名 (字符串)
+* `__objc_methtype`: 方法类型 (字符串)
 
-In die `__DATA` segment (rw-):
+在 `__DATA` 段 (rw-):
 
-- `__objc_classlist`: Aanwysers na alle Objective-C klasse
-- `__objc_nlclslist`: Aanwysers na Nie-Luie Objective-C klasse
-- `__objc_catlist`: Aanwyser na Kategorieë
-- `__objc_nlcatlist`: Aanwyser na Nie-Luie Kategorieë
-- `__objc_protolist`: Protokolle lys
-- `__objc_const`: Konstante data
-- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
+* `__objc_classlist`: 所有 Objective-C 类的指针
+* `__objc_nlclslist`: 非懒加载 Objective-C 类的指针
+* `__objc_catlist`: 类别的指针
+* `__objc_nlcatlist`: 非懒加载类别的指针
+* `__objc_protolist`: 协议列表
+* `__objc_const`: 常量数据
+* `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
 
 ## Swift
 
-- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`
+* `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

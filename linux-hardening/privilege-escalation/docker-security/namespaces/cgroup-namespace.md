@@ -1,67 +1,67 @@
 # CGroup Namespace
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basic Information
+## 基本信息
 
-'n cgroup namespace is 'n Linux-kernfunksie wat **isolasie van cgroup hiërargieë vir prosesse wat binne 'n namespace loop** bied. Cgroups, kort vir **kontrole groepe**, is 'n kernfunksie wat toelaat dat prosesse in hiërargiese groepe georganiseer word om **grense op stelselhulpbronne** soos CPU, geheue en I/O te bestuur en af te dwing.
+Cgroup 命名空间是 Linux 内核的一项功能，提供了**对在命名空间内运行的进程的 cgroup 层次结构的隔离**。Cgroups，即**控制组**，是一个内核功能，允许将进程组织成层次组，以管理和强制**系统资源的限制**，如 CPU、内存和 I/O。
 
-Terwyl cgroup namespaces nie 'n aparte namespace tipe is soos die ander wat ons vroeër bespreek het nie (PID, mount, netwerk, ens.), is hulle verwant aan die konsep van namespace-isolasie. **Cgroup namespaces virtualiseer die uitsig van die cgroup hiërargie**, sodat prosesse wat binne 'n cgroup namespace loop 'n ander uitsig van die hiërargie het in vergelyking met prosesse wat in die gasheer of ander namespaces loop.
+虽然 cgroup 命名空间不是我们之前讨论的其他命名空间类型（PID、挂载、网络等）中的一种，但它们与命名空间隔离的概念相关。**Cgroup 命名空间虚拟化了 cgroup 层次结构的视图**，因此在 cgroup 命名空间内运行的进程与在主机或其他命名空间中运行的进程相比，具有不同的层次结构视图。
 
-### How it works:
+### 工作原理：
 
-1. Wanneer 'n nuwe cgroup namespace geskep word, **begin dit met 'n uitsig van die cgroup hiërargie gebaseer op die cgroup van die skepende proses**. Dit beteken dat prosesse wat in die nuwe cgroup namespace loop slegs 'n subset van die hele cgroup hiërargie sal sien, beperk tot die cgroup subboom wat op die skepende proses se cgroup gegrond is.
-2. Prosesse binne 'n cgroup namespace sal **hulle eie cgroup as die wortel van die hiërargie sien**. Dit beteken dat, vanuit die perspektief van prosesse binne die namespace, hulle eie cgroup as die wortel verskyn, en hulle kan nie cgroups buite hulle eie subboom sien of toegang daartoe kry nie.
-3. Cgroup namespaces bied nie direk isolasie van hulpbronne nie; **hulle bied slegs isolasie van die cgroup hiërargie uitsig**. **Hulpbronbeheer en isolasie word steeds afgedwing deur die cgroup** subsisteme (bv., cpu, geheue, ens.) self.
+1. 当创建新的 cgroup 命名空间时，**它以创建进程的 cgroup 为基础开始查看 cgroup 层次结构**。这意味着在新的 cgroup 命名空间中运行的进程将仅看到整个 cgroup 层次结构的一个子集，限制在以创建进程的 cgroup 为根的 cgroup 子树内。
+2. 在 cgroup 命名空间内的进程将**将自己的 cgroup 视为层次结构的根**。这意味着，从命名空间内进程的角度来看，它们自己的 cgroup 显示为根，并且它们无法看到或访问其自身子树之外的 cgroup。
+3. Cgroup 命名空间并不直接提供资源的隔离；**它们仅提供 cgroup 层次结构视图的隔离**。**资源控制和隔离仍然由 cgroup** 子系统（例如，cpu、内存等）本身强制执行。
 
-For more information about CGroups check:
+有关 CGroups 的更多信息，请查看：
 
 {% content-ref url="../cgroups.md" %}
 [cgroups.md](../cgroups.md)
 {% endcontent-ref %}
 
-## Lab:
+## 实验：
 
-### Create different Namespaces
+### 创建不同的命名空间
 
 #### CLI
 ```bash
 sudo unshare -C [--mount-proc] /bin/bash
 ```
-Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteernaamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
+通过挂载新的 `/proc` 文件系统，如果使用参数 `--mount-proc`，您可以确保新的挂载命名空间具有 **特定于该命名空间的进程信息的准确和隔离的视图**。
 
 <details>
 
-<summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
+<summary>错误：bash: fork: 无法分配内存</summary>
 
-Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+当 `unshare` 在没有 `-f` 选项的情况下执行时，由于 Linux 处理新 PID（进程 ID）命名空间的方式，会遇到错误。以下是关键细节和解决方案：
 
-1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan egter nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
-- Om `%unshare -p /bin/bash%` uit te voer, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, veroorsaak dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
+1. **问题说明**：
+- Linux 内核允许进程使用 `unshare` 系统调用创建新的命名空间。然而，启动新 PID 命名空间创建的进程（称为 "unshare" 进程）并不会进入新的命名空间；只有它的子进程会进入。
+- 运行 `%unshare -p /bin/bash%` 会在与 `unshare` 相同的进程中启动 `/bin/bash`。因此，`/bin/bash` 及其子进程位于原始 PID 命名空间中。
+- 新命名空间中 `/bin/bash` 的第一个子进程成为 PID 1。当该进程退出时，如果没有其他进程，它会触发命名空间的清理，因为 PID 1 具有收养孤儿进程的特殊角色。然后，Linux 内核将禁用该命名空间中的 PID 分配。
 
-2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
+2. **后果**：
+- 新命名空间中 PID 1 的退出导致 `PIDNS_HASH_ADDING` 标志的清理。这导致 `alloc_pid` 函数在创建新进程时无法分配新的 PID，从而产生 "无法分配内存" 的错误。
 
-3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
+3. **解决方案**：
+- 通过在 `unshare` 中使用 `-f` 选项可以解决此问题。此选项使 `unshare` 在创建新的 PID 命名空间后分叉一个新进程。
+- 执行 `%unshare -fp /bin/bash%` 确保 `unshare` 命令本身在新命名空间中成为 PID 1。然后，`/bin/bash` 及其子进程安全地包含在这个新命名空间中，防止 PID 1 的过早退出，并允许正常的 PID 分配。
 
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse funksioneer sonder om die geheue toewysing fout te ondervind.
+通过确保 `unshare` 以 `-f` 标志运行，新的 PID 命名空间得以正确维护，使得 `/bin/bash` 及其子进程能够正常运行，而不会遇到内存分配错误。
 
 </details>
 
@@ -69,12 +69,12 @@ Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamrui
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Kontroleer in watter naamruimte jou proses is
+### &#x20;检查您的进程所在的命名空间
 ```bash
 ls -l /proc/self/ns/cgroup
 lrwxrwxrwx 1 root root 0 Apr  4 21:19 /proc/self/ns/cgroup -> 'cgroup:[4026531835]'
 ```
-### Vind alle CGroup-namespaces
+### 查找所有 CGroup 命名空间
 
 {% code overflow="wrap" %}
 ```bash
@@ -84,26 +84,26 @@ sudo find /proc -maxdepth 3 -type l -name cgroup -exec ls -l  {} \; 2>/dev/null 
 ```
 {% endcode %}
 
-### Gaan binne in 'n CGroup naamruimte
+### 进入 CGroup 命名空间
 ```bash
 nsenter -C TARGET_PID --pid /bin/bash
 ```
-Ook, jy kan slegs **in 'n ander prosesnaamruimte ingaan as jy root is**. En jy **kan nie** **in** 'n ander naamruimte **ingaan sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/cgroup`).
+您只能**以root身份进入另一个进程命名空间**。并且您**不能**在没有指向它的**描述符**（如`/proc/self/ns/cgroup`）的情况下**进入**其他命名空间。
 
-## Verwysings
+## 参考
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,101 +1,101 @@
-# macOS Launch/Environment Constraints & Trust Cache
+# macOS 启动/环境约束与信任缓存
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basic Information
+## 基本信息
 
-Lanceringsbeperkings in macOS is ingestel om sekuriteit te verbeter deur **te reguleer hoe, wie, en van waar 'n proses geinitieer kan word**. Geïnisieer in macOS Ventura, bied dit 'n raamwerk wat **elke stelselbinarie in verskillende beperkingkategorieë kategoriseer**, wat gedefinieer word binne die **vertrou cache**, 'n lys wat stelselbinaries en hul onderskeie hashes bevat​. Hierdie beperkings strek na elke uitvoerbare binarie binne die stelsel, wat 'n stel **reëls** insluit wat die vereistes vir **die bekendstelling van 'n spesifieke binarie** uiteensit. Die reëls sluit selfbeperkings in wat 'n binarie moet nakom, ouerbeperkings wat deur sy ouerproses nagekom moet word, en verantwoordelike beperkings wat deur ander relevante entiteite nagekom moet word​.
+macOS 中的启动约束旨在通过**规范进程的启动方式、启动者和启动来源**来增强安全性。自 macOS Ventura 开始引入，它们提供了一个框架，将**每个系统二进制文件分类为不同的约束类别**，这些类别在**信任缓存**中定义，该列表包含系统二进制文件及其各自的哈希值。这些约束扩展到系统中的每个可执行二进制文件，包含一组**规则**，规定了**启动特定二进制文件的要求**。规则包括二进制文件必须满足的自我约束、其父进程必须满足的父约束，以及其他相关实体必须遵守的责任约束。
 
-Die meganisme strek na derdeparty-apps deur **Omgewingbeperkings**, wat begin vanaf macOS Sonoma, wat ontwikkelaars toelaat om hul apps te beskerm deur 'n **stel sleutels en waardes vir omgewingbeperkings te spesifiseer.**
+该机制通过**环境约束**扩展到第三方应用程序，自 macOS Sonoma 开始，允许开发者通过指定**一组环境约束的键和值**来保护他们的应用程序。
 
-Jy definieer **lanceringsomgewing en biblioteekbeperkings** in beperkingwoordeboeke wat jy of in **`launchd` eiendomlys lêers** stoor, of in **afsonderlike eiendomlys** lêers wat jy in kodeondertekening gebruik.
+您可以在约束字典中定义**启动环境和库约束**，这些字典可以保存在**`launchd` 属性列表文件**中，或在代码签名中使用的**单独属性列表**文件中。
 
-Daar is 4 tipes beperkings:
+约束有 4 种类型：
 
-* **Selfbeperkings**: Beperkings wat toegepas word op die **lopende** binarie.
-* **Ouerproses**: Beperkings wat toegepas word op die **ouer van die proses** (byvoorbeeld **`launchd`** wat 'n XP-diens uitvoer)
-* **Verantwoordelike beperkings**: Beperkings wat toegepas word op die **proses wat die diens aanroep** in 'n XPC-kommunikasie
-* **Biblioteeklaaibeperkings**: Gebruik biblioteeklaaibeperkings om selektief kode te beskryf wat gelaai kan word
+* **自我约束**：应用于**运行中的**二进制文件的约束。
+* **父进程**：应用于**进程的父进程**的约束（例如 **`launchd`** 运行 XP 服务）
+* **责任约束**：应用于**在 XPC 通信中调用服务的进程**的约束
+* **库加载约束**：使用库加载约束选择性地描述可以加载的代码
 
-So wanneer 'n proses probeer om 'n ander proses te begin — deur `execve(_:_:_:)` of `posix_spawn(_:_:_:_:_:_:)` aan te roep — kontroleer die bedryfstelsel dat die **uitvoerbare** lêer **aan sy** **eie selfbeperking** **voldoen**. Dit kontroleer ook dat die **ouer** **proses se** uitvoerbare **aan die uitvoerbare se** **ouerbeperking** **voldoen**, en dat die **verantwoordelike** **proses se** uitvoerbare **aan die uitvoerbare se verantwoordelike prosesbeperking** **voldoen**. As enige van hierdie lanceringsbeperkings nie nagekom word nie, sal die bedryfstelsel die program nie uitvoer nie.
+因此，当一个进程尝试通过调用 `execve(_:_:_:)` 或 `posix_spawn(_:_:_:_:_:_:)` 启动另一个进程时，操作系统会检查**可执行**文件是否**满足**其**自身的自我约束**。它还会检查**父进程**的可执行文件是否**满足**可执行文件的**父约束**，以及**责任进程**的可执行文件是否**满足**可执行文件的责任进程约束。如果这些启动约束中的任何一个不满足，操作系统将不会运行该程序。
 
-As enige deel van die **biblioteekbeperking nie waar is nie** wanneer 'n biblioteek gelaai word, **laai** jou proses **nie** die biblioteek nie.
+如果在加载库时任何部分的**库约束不成立**，您的进程**将不会加载**该库。
 
-## LC Categories
+## LC 类别
 
-'n LC is saamgestel uit **feite** en **logiese operasies** (en, of..) wat feite kombineer.
+LC 由**事实**和**逻辑操作**（与，或..）组成，结合事实。
 
-Die[ **feite wat 'n LC kan gebruik is gedokumenteer**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Byvoorbeeld:
+[**LC 可以使用的事实已记录**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints)。例如：
 
-* is-init-proc: 'n Booleaanse waarde wat aandui of die uitvoerbare die bedryfstelsel se inisialisasieproses (`launchd`) moet wees.
-* is-sip-beskerm: 'n Booleaanse waarde wat aandui of die uitvoerbare 'n lêer moet wees wat deur Stelselintegriteitsbeskerming (SIP) beskerm word.
-* `on-authorized-authapfs-volume:` 'n Booleaanse waarde wat aandui of die bedryfstelsel die uitvoerbare van 'n geverifieerde, geverifieerde APFS-volume gelaai het.
-* `on-authorized-authapfs-volume`: 'n Booleaanse waarde wat aandui of die bedryfstelsel die uitvoerbare van 'n geverifieerde, geverifieerde APFS-volume gelaai het.
-* Cryptexes volume
-* `on-system-volume:` 'n Booleaanse waarde wat aandui of die bedryfstelsel die uitvoerbare van die tans-gestarte stelselmengsel gelaai het.
-* Binne /System...
+* is-init-proc：一个布尔值，指示可执行文件是否必须是操作系统的初始化进程（`launchd`）。
+* is-sip-protected：一个布尔值，指示可执行文件是否必须是受系统完整性保护（SIP）保护的文件。
+* `on-authorized-authapfs-volume:` 一个布尔值，指示操作系统是否从授权的、经过身份验证的 APFS 卷加载了可执行文件。
+* `on-authorized-authapfs-volume`：一个布尔值，指示操作系统是否从授权的、经过身份验证的 APFS 卷加载了可执行文件。
+* Cryptexes 卷
+* `on-system-volume:` 一个布尔值，指示操作系统是否从当前启动的系统卷加载了可执行文件。
+* 在 /System 内...
 * ...
 
-Wanneer 'n Apple binarie onderteken word, **ken dit dit aan 'n LC-kategorie** binne die **vertrou cache** toe.
+当 Apple 二进制文件被签名时，它**将其分配到信任缓存**中的一个 LC 类别。
 
-* **iOS 16 LC-kategorieë** is [**omgekeer en hier gedokumenteer**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Huidige **LC-kategorieë (macOS 14** - Somona) is omgekeer en hul [**beskrywings kan hier gevind word**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **iOS 16 LC 类别**已在[**此处反向工程并记录**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)。
+* 当前 **LC 类别（macOS 14 - Sonoma）**已被反向工程，其[**描述可以在这里找到**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53)。
 
-Byvoorbeeld, Kategori 1 is:
+例如，类别 1 是：
 ```
 Category 1:
 Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
 Parent Constraint: is-init-proc
 ```
-* `(on-authorized-authapfs-volume || on-system-volume)`: Moet in die Stelsel of Cryptexes volume wees.
-* `launch-type == 1`: Moet 'n stelseldiens wees (plist in LaunchDaemons).
-* `validation-category == 1`: 'n Bedryfstelsel uitvoerbare lêer.
-* `is-init-proc`: Launchd
+* `(on-authorized-authapfs-volume || on-system-volume)`：必须在系统或Cryptexes卷中。
+* `launch-type == 1`：必须是系统服务（LaunchDaemons中的plist）。
+* `validation-category == 1`：操作系统可执行文件。
+* `is-init-proc`：Launchd
 
-### Omgekeerde LC Kategoriewe
+### 反向工程 LC 类别
 
-Jy het meer inligting [**hieroor**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), maar basies, hulle is gedefinieer in **AMFI (AppleMobileFileIntegrity)**, so jy moet die Kernel Development Kit aflaai om die **KEXT** te kry. Die simbole wat met **`kConstraintCategory`** begin, is die **interessante**. As jy hulle onttrek, sal jy 'n DER (ASN.1) geënkodeerde stroom kry wat jy moet dekodeer met [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) of die python-asn1 biblioteek en sy `dump.py` skrip, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) wat jou 'n meer verstaanbare string sal gee.
+您可以在这里找到更多信息 [**关于它**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints)，但基本上，它们在 **AMFI (AppleMobileFileIntegrity)** 中定义，因此您需要下载内核开发工具包以获取 **KEXT**。以 **`kConstraintCategory`** 开头的符号是 **有趣的**。提取它们后，您将获得一个 DER (ASN.1) 编码流，您需要使用 [ASN.1 解码器](https://holtstrom.com/michael/tools/asn1decoder.php) 或 python-asn1 库及其 `dump.py` 脚本 [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) 进行解码，这将为您提供一个更易于理解的字符串。
 
-## Omgewing Beperkings
+## 环境约束
 
-Dit is die Launch Beperkings wat in **derdeparty toepassings** gekonfigureer is. Die ontwikkelaar kan die **feite** en **logiese operateurs wat gebruik moet word** in sy toepassing kies om toegang tot homself te beperk.
+这些是配置在 **第三方应用程序** 中的启动约束。开发人员可以选择在其应用程序中使用的 **事实** 和 **逻辑运算符** 来限制对自身的访问。
 
-Dit is moontlik om die Omgewing Beperkings van 'n toepassing te enumerate met:
+可以使用以下命令枚举应用程序的环境约束：
 ```bash
 codesign -d -vvvv app.app
 ```
-## Vertroue Caches
+## 信任缓存
 
-In **macOS** is daar 'n paar vertroue caches:
+在 **macOS** 中有几个信任缓存：
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-En in iOS lyk dit of dit in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`** is.
+在 iOS 中，它看起来在 **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**。
 
 {% hint style="warning" %}
-Op macOS wat op Apple Silicon toestelle loop, as 'n Apple-onderteken binaire nie in die vertroue cache is nie, sal AMFI weier om dit te laai.
+在运行在 Apple Silicon 设备上的 macOS 上，如果 Apple 签名的二进制文件不在信任缓存中，AMFI 将拒绝加载它。
 {% endhint %}
 
-### Opname van Vertroue Caches
+### 枚举信任缓存
 
-Die vorige vertroue cache lêers is in formaat **IMG4** en **IM4P**, met IM4P die payload gedeelte van 'n IMG4 formaat.
+之前的信任缓存文件格式为 **IMG4** 和 **IM4P**，IM4P 是 IMG4 格式的有效载荷部分。
 
-Jy kan [**pyimg4**](https://github.com/m1stadev/PyIMG4) gebruik om die payload van databasisse te onttrek:
+您可以使用 [**pyimg4**](https://github.com/m1stadev/PyIMG4) 来提取数据库的有效载荷：
 
 {% code overflow="wrap" %}
 ```bash
@@ -115,9 +115,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(‘n Ander opsie kan wees om die hulpmiddel [**img4tool**](https://github.com/tihmstar/img4tool) te gebruik, wat selfs op M1 sal werk, selfs al is die weergawe oud, en vir x86\_64 as jy dit in die regte plekke installeer).
+(另一个选项是使用工具 [**img4tool**](https://github.com/tihmstar/img4tool)，即使发布较旧，它也可以在 M1 上运行，并且如果您将其安装在正确的位置，它也可以在 x86\_64 上运行)。
 
-Nou kan jy die hulpmiddel [**trustcache**](https://github.com/CRKatri/trustcache) gebruik om die inligting in 'n leesbare formaat te kry:
+现在您可以使用工具 [**trustcache**](https://github.com/CRKatri/trustcache) 以可读格式获取信息：
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -141,7 +141,7 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-Die vertrou cache volg die volgende struktuur, so Die **LC kategorie is die 4de kolom**
+信任缓存遵循以下结构，因此 **LC 类别是第 4 列**
 ```c
 struct trust_cache_entry2 {
 uint8_t cdhash[CS_CDHASH_LEN];
@@ -151,32 +151,32 @@ uint8_t constraintCategory;
 uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+然后，您可以使用像[**这个**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30)这样的脚本来提取数据。
 
-From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+从这些数据中，您可以检查具有**启动约束值为`0`**的应用程序，这些应用程序没有受到约束（[**在这里检查**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)每个值的含义）。
 
-## Aanval Mitigasies
+## 攻击缓解措施
 
-Launch Constrains sou verskeie ou aanvalle gemitigeer het deur **te verseker dat die proses nie in onverwagte toestande uitgevoer sal word:** Byvoorbeeld vanaf onverwagte plekke of deur 'n onverwagte ouer proses aangeroep word (as slegs launchd dit moet begin).
+启动约束将通过**确保进程不会在意外条件下执行**来缓解几种旧攻击：例如，从意外位置启动或被意外的父进程调用（如果只有launchd应该启动它）。
 
-Boonop **mitigeer Launch Constraints ook afgraderingsaanvalle.**
+此外，启动约束还**缓解降级攻击**。
 
-Egter, hulle **mitigeer nie algemene XPC** misbruik nie, **Electron** kode-inspuitings of **dylib inspuitings** sonder biblioteekvalidasie (tenzij die span-ID's wat biblioteke kan laai bekend is).
+然而，它们**并不缓解常见的XPC**滥用、**Electron**代码注入或**dylib注入**，而不进行库验证（除非可以加载库的团队ID是已知的）。
 
-### XPC Daemon Beskerming
+### XPC守护进程保护
 
-In die Sonoma vrystelling, is 'n noemenswaardige punt die daemon XPC diens se **verantwoordelikheid konfigurasie**. Die XPC diens is verantwoordelik vir homself, in teenstelling met die verbindende kliënt wat verantwoordelik is. Dit is gedokumenteer in die terugvoer verslag FB13206884. Hierdie opstelling mag gebrekkig voorkom, aangesien dit sekere interaksies met die XPC diens toelaat:
+在Sonoma版本中，一个显著的点是守护进程XPC服务的**责任配置**。XPC服务对自己负责，而不是连接的客户端负责。这在反馈报告FB13206884中有记录。这个设置可能看起来有缺陷，因为它允许与XPC服务进行某些交互：
 
-- **Die XPC Diens Begin**: As dit as 'n fout beskou word, laat hierdie opstelling nie toe om die XPC diens deur aanvallerskode te begin nie.
-- **Verbinding met 'n Aktiewe Diens**: As die XPC diens reeds loop (miskien geaktiveer deur sy oorspronklike toepassing), is daar geen hindernisse om met dit te verbind nie.
+- **启动XPC服务**：如果被认为是一个bug，这个设置不允许通过攻击者代码启动XPC服务。
+- **连接到活动服务**：如果XPC服务已经在运行（可能由其原始应用程序激活），则没有连接到它的障碍。
 
-Terwyl die implementering van beperkings op die XPC diens voordelig kan wees deur **die venster vir potensiële aanvalle te vernou**, adres dit nie die primêre bekommernis nie. Om die sekuriteit van die XPC diens te verseker, vereis fundamenteel **dat die verbindende kliënt effektief geverifieer word**. Dit bly die enigste metode om die diens se sekuriteit te versterk. Ook, dit is die moeite werd om te noem dat die genoemde verantwoordelikheid konfigurasie tans operasioneel is, wat dalk nie ooreenstem met die beoogde ontwerp nie.
+虽然对XPC服务实施约束可能通过**缩小潜在攻击的窗口**而有益，但它并没有解决主要问题。确保XPC服务的安全性根本上需要**有效验证连接的客户端**。这仍然是加强服务安全性的唯一方法。此外，值得注意的是，提到的责任配置目前是有效的，这可能与预期设计不符。
 
-### Electron Beskerming
+### Electron保护
 
-Selfs al is dit vereis dat die toepassing **deur LaunchService** geopen moet word (in die ouer beperkings). Dit kan bereik word deur **`open`** (wat omgewingsveranderlikes kan stel) of deur die **Launch Services API** (waar omgewingsveranderlikes aangedui kan word).
+即使要求应用程序必须**通过LaunchService打开**（在父约束中）。这可以通过使用**`open`**（可以设置环境变量）或使用**Launch Services API**（可以指示环境变量）来实现。
 
-## Verwysings
+## 参考文献
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -184,16 +184,16 @@ Selfs al is dit vereis dat die toepassing **deur LaunchService** geopen moet wor
 * [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR来分享黑客技巧。
 
 </details>
 {% endhint %}

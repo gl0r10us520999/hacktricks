@@ -1,47 +1,47 @@
 # macOS XPC
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basic Information
+## 基本信息
 
-XPC, wat staan vir XNU (die kern wat deur macOS gebruik word) inter-Process Communication, is 'n raamwerk vir **kommunikasie tussen prosesse** op macOS en iOS. XPC bied 'n mekanisme vir die maak van **veilige, asynchrone metode-oproepe tussen verskillende prosesse** op die stelsel. Dit is 'n deel van Apple se sekuriteitsparadigma, wat die **skepping van privilige-geskeide toepassings** moontlik maak waar elke **komponent** loop met **slegs die regte wat dit nodig het** om sy werk te doen, en so die potensiële skade van 'n gecompromitteerde proses beperk.
+XPC，即 XNU（macOS 使用的内核）进程间通信，是一个用于 macOS 和 iOS 上的**进程间通信**的框架。XPC 提供了一种机制，用于在系统上不同进程之间进行**安全的异步方法调用**。它是苹果安全范式的一部分，允许**创建特权分离的应用程序**，每个**组件**仅以**执行其工作所需的权限**运行，从而限制被攻陷进程可能造成的损害。
 
-XPC gebruik 'n vorm van Inter-Process Communication (IPC), wat 'n stel metodes is vir verskillende programme wat op dieselfde stelsel loop om data heen en weer te stuur.
+XPC 使用一种进程间通信（IPC）的形式，这是一组方法，允许在同一系统上运行的不同程序相互发送数据。
 
-Die primêre voordele van XPC sluit in:
+XPC 的主要优点包括：
 
-1. **Sekuriteit**: Deur werk in verskillende prosesse te skei, kan elke proses slegs die regte toegeken word wat dit nodig het. Dit beteken dat selfs al word 'n proses gecompromitteer, dit beperkte vermoë het om skade aan te rig.
-2. **Stabiliteit**: XPC help om crashes te isoleer na die komponent waar hulle voorkom. As 'n proses crash, kan dit herbegin word sonder om die res van die stelsel te beïnvloed.
-3. **Prestasie**: XPC maak dit maklik om gelijktijdigheid te hê, aangesien verskillende take gelyktydig in verskillende prosesse uitgevoer kan word.
+1. **安全性**：通过将工作分离到不同的进程中，每个进程只能被授予其所需的权限。这意味着即使一个进程被攻陷，它的危害能力也有限。
+2. **稳定性**：XPC 有助于将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以在不影响系统其余部分的情况下重新启动。
+3. **性能**：XPC 允许轻松并发，因为不同的任务可以在不同的进程中同时运行。
 
-Die enigste **nadeel** is dat **die skeiding van 'n toepassing in verskeie prosesse** wat via XPC kommunikeer **minder doeltreffend** is. Maar in vandag se stelsels is dit amper nie opmerklik nie en die voordele is beter.
+唯一的**缺点**是**将应用程序分离为多个进程**并通过 XPC 进行通信是**效率较低**的。但在今天的系统中，这几乎是不可察觉的，且其好处更为明显。
 
-## Application Specific XPC services
+## 应用特定的 XPC 服务
 
-Die XPC-komponente van 'n toepassing is **binne die toepassing self.** Byvoorbeeld, in Safari kan jy hulle vind in **`/Applications/Safari.app/Contents/XPCServices`**. Hulle het 'n uitbreiding **`.xpc`** (soos **`com.apple.Safari.SandboxBroker.xpc`**) en is **ook bundels** saam met die hoof-binary binne-in: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` en 'n `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+应用程序的 XPC 组件**位于应用程序内部**。例如，在 Safari 中，您可以在 **`/Applications/Safari.app/Contents/XPCServices`** 中找到它们。它们的扩展名为 **`.xpc`**（如 **`com.apple.Safari.SandboxBroker.xpc`**），并且**与主二进制文件一起打包**在其中：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` 和 `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Soos jy dalk dink, sal 'n **XPC-komponent verskillende regte en voorregte hê** as die ander XPC-komponente of die hoof-toepassing binary. BEHALWE as 'n XPC-diens geconfigureer is met [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) wat op “True” in sy **Info.plist**-lêer gestel is. In hierdie geval sal die XPC-diens in die **dieselfde sekuriteitsessie as die toepassing** wat dit aangeroep het, loop.
+正如您可能想到的，**XPC 组件将具有不同的权限和特权**，与其他 XPC 组件或主应用程序二进制文件不同。除非 XPC 服务在其 **Info.plist** 文件中配置了 [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) 设置为“True”。在这种情况下，XPC 服务将在**与调用它的应用程序相同的安全会话中运行**。
 
-XPC-dienste word **gestart** deur **launchd** wanneer nodig en **afgeskakel** sodra alle take **voltooi** is om stelselhulpbronne vry te maak. **Toepassing-spesifieke XPC-komponente kan slegs deur die toepassing gebruik word**, wat die risiko wat met potensiële kwesbaarhede geassosieer word, verminder.
+XPC 服务由 **launchd** 在需要时**启动**，并在所有任务**完成**后**关闭**以释放系统资源。**应用程序特定的 XPC 组件只能由该应用程序使用**，从而降低与潜在漏洞相关的风险。
 
-## System Wide XPC services
+## 系统范围的 XPC 服务
 
-Stelsel-wye XPC-dienste is beskikbaar vir alle gebruikers. Hierdie dienste, hetsy launchd of Mach-tipe, moet **gedefinieer word in plist** lêers wat in gespesifiseerde gidse soos **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, of **`/Library/LaunchAgents`** geleë is.
+系统范围的 XPC 服务对所有用户可用。这些服务，无论是 launchd 还是 Mach 类型，都需要在位于指定目录中的 plist 文件中**定义**，例如 **`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`** 或 **`/Library/LaunchAgents`**。
 
-Hierdie plists lêers sal 'n sleutel hê wat **`MachServices`** genoem word met die naam van die diens, en 'n sleutel wat **`Program`** genoem word met die pad na die binary:
+这些 plist 文件将具有一个名为 **`MachServices`** 的键，包含服务的名称，以及一个名为 **`Program`** 的键，包含二进制文件的路径：
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -75,82 +75,82 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
-Diegene in **`LaunchDameons`** word deur root uitgevoer. So as 'n nie-bevoegde proses met een van hierdie kan praat, kan dit in staat wees om bevoegdhede te verhoog.
+The ones in **`LaunchDameons`** 是由 root 运行的。因此，如果一个无权限的进程可以与其中一个进行通信，它可能能够提升权限。
 
-## XPC Objekte
+## XPC 对象
 
 * **`xpc_object_t`**
 
-Elke XPC boodskap is 'n woordeboek objek wat die serialisering en deserialisering vereenvoudig. Boonop verklaar `libxpc.dylib` die meeste van die datatipes, so dit is moontlik om te maak dat die ontvangde data van die verwagte tipe is. In die C API is elke objek 'n `xpc_object_t` (en sy tipe kan nagegaan word met `xpc_get_type(object)`).\
-Boonop kan die funksie `xpc_copy_description(object)` gebruik word om 'n string voorstelling van die objek te verkry wat nuttig kan wees vir foutopsporing.\
-Hierdie objekte het ook 'n paar metodes om te bel soos `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
+每个 XPC 消息都是一个字典对象，简化了序列化和反序列化。此外，`libxpc.dylib` 声明了大多数数据类型，因此可以确保接收到的数据是预期的类型。在 C API 中，每个对象都是 `xpc_object_t`（其类型可以使用 `xpc_get_type(object)` 检查）。\
+此外，函数 `xpc_copy_description(object)` 可用于获取对象的字符串表示，这对于调试目的非常有用。\
+这些对象还有一些可以调用的方法，如 `xpc_<object>_copy`、`xpc_<object>_equal`、`xpc_<object>_hash`、`xpc_<object>_serialize`、`xpc_<object>_deserialize`...
 
-Die `xpc_object_t` word geskep deur die `xpc_<objetType>_create` funksie aan te roep, wat intern `_xpc_base_create(Class, Size)` aanroep waar die tipe van die klas van die objek (een van `XPC_TYPE_*`) en die grootte daarvan aangedui word (sommige ekstra 40B sal by die grootte vir metadata gevoeg word). Dit beteken dat die data van die objek by die offset 40B sal begin.\
-Daarom is die `xpc_<objectType>_t` 'n soort subklas van die `xpc_object_t` wat 'n subklas van `os_object_t*` sou wees.
+`xpc_object_t` 是通过调用 `xpc_<objetType>_create` 函数创建的，该函数内部调用 `_xpc_base_create(Class, Size)`，其中指明了对象的类类型（`XPC_TYPE_*` 之一）和大小（额外的 40B 将被添加到大小以用于元数据）。这意味着对象的数据将从偏移量 40B 开始。\
+因此，`xpc_<objectType>_t` 是 `xpc_object_t` 的一种子类，后者又是 `os_object_t*` 的子类。
 
 {% hint style="warning" %}
-Let daarop dat dit die ontwikkelaar moet wees wat `xpc_dictionary_[get/set]_<objectType>` gebruik om die tipe en werklike waarde van 'n sleutel te kry of in te stel.
+请注意，应该由开发者使用 `xpc_dictionary_[get/set]_<objectType>` 来获取或设置键的类型和实际值。
 {% endhint %}
 
 * **`xpc_pipe`**
 
-'n **`xpc_pipe`** is 'n FIFO-pyp wat prosesse kan gebruik om te kommunikeer (die kommunikasie gebruik Mach-boodskappe).\
-Dit is moontlik om 'n XPC-bediener te skep deur `xpc_pipe_create()` of `xpc_pipe_create_from_port()` aan te roep om dit met 'n spesifieke Mach-poort te skep. Dan, om boodskappe te ontvang, is dit moontlik om `xpc_pipe_receive` en `xpc_pipe_try_receive` aan te roep.
+**`xpc_pipe`** 是一个 FIFO 管道，进程可以用来进行通信（通信使用 Mach 消息）。\
+可以通过调用 `xpc_pipe_create()` 或 `xpc_pipe_create_from_port()` 创建 XPC 服务器，后者使用特定的 Mach 端口。然后，要接收消息，可以调用 `xpc_pipe_receive` 和 `xpc_pipe_try_receive`。
 
-Let daarop dat die **`xpc_pipe`** objek 'n **`xpc_object_t`** is met inligting in sy struktuur oor die twee Mach-poorte wat gebruik word en die naam (indien enige). Die naam, byvoorbeeld, die daemon `secinitd` in sy plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` konfigureer die pyp genaamd `com.apple.secinitd`.
+请注意，**`xpc_pipe`** 对象是一个 **`xpc_object_t`**，其结构中包含有关使用的两个 Mach 端口和名称（如果有）的信息。例如，守护进程 `secinitd` 在其 plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` 中配置了名为 `com.apple.secinitd` 的管道。
 
-'n Voorbeeld van 'n **`xpc_pipe`** is die **bootstrap pyp** wat deur **`launchd`** geskep word wat die deel van Mach-poorte moontlik maak.
+**`xpc_pipe`** 的一个示例是 **`launchd`** 创建的 **bootstrap pipe**，使得共享 Mach 端口成为可能。
 
 * **`NSXPC*`**
 
-Dit is Objective-C hoëvlak objekte wat die abstraksie van XPC verbindings toelaat.\
-Boonop is dit makliker om hierdie objekte met DTrace te foutopspoor as die vorige.
+这些是 Objective-C 高级对象，允许对 XPC 连接进行抽象。\
+此外，使用 DTrace 调试这些对象比前面的对象更容易。
 
-* **`GCD Queues`**
+* **`GCD 队列`**
 
-XPC gebruik GCD om boodskappe oor te dra, boonop genereer dit sekere afleweringsqueues soos `xpc.transactionq`, `xpc.io`, `xpc-events.add-listenerq`, `xpc.service-instance`...
+XPC 使用 GCD 传递消息，此外它生成某些调度队列，如 `xpc.transactionq`、`xpc.io`、`xpc-events.add-listenerq`、`xpc.service-instance`...
 
-## XPC Dienste
+## XPC 服务
 
-Dit is **bundels met `.xpc`** uitbreiding wat binne die **`XPCServices`** gids van ander projekte geleë is en in die `Info.plist` het hulle die `CFBundlePackageType` op **`XPC!`** gestel.\
-Hierdie lêer het ander konfigurasiesleutels soos `ServiceType` wat kan wees Toepassing, Gebruiker, Stelsel of `_SandboxProfile` wat 'n sandbox kan definieer of `_AllowedClients` wat moontlik regte of ID kan aandui wat benodig word om die diens te kontak. Hierdie en ander konfigurasie opsies sal nuttig wees om die diens te konfigureer wanneer dit gelaai word.
+这些是位于其他项目的 **`XPCServices`** 文件夹中的 **`.xpc`** 扩展包，并且在 `Info.plist` 中将 `CFBundlePackageType` 设置为 **`XPC!`**。\
+该文件还有其他配置键，如 `ServiceType`，可以是 Application、User、System 或 `_SandboxProfile`，可以定义沙箱或 `_AllowedClients`，可能指示与服务联系所需的权限或 ID。这些和其他配置选项在服务启动时将有助于配置服务。
 
-### Begin 'n Diens
+### 启动服务
 
-Die app probeer om te **verbinde** met 'n XPC diens deur `xpc_connection_create_mach_service` te gebruik, dan lokaliseer launchd die daemon en begin **`xpcproxy`**. **`xpcproxy`** afdwing geconfigureerde beperkings en. spawn die diens met die verskafde FDs en Mach-poorte.
+应用程序尝试使用 `xpc_connection_create_mach_service` **连接** 到 XPC 服务，然后 launchd 定位守护进程并启动 **`xpcproxy`**。**`xpcproxy`** 强制执行配置的限制，并使用提供的 FDs 和 Mach 端口生成服务。
 
-Om die spoed van die soektog na die XPC diens te verbeter, word 'n kas gebruik.
+为了提高 XPC 服务搜索的速度，使用了缓存。
 
-Dit is moontlik om die aksies van `xpcproxy` te volg met:
+可以使用以下方式跟踪 `xpcproxy` 的操作：
 ```bash
 supraudit S -C -o /tmp/output /dev/auditpipe
 ```
-Die XPC-biblioteek gebruik `kdebug` om aksies te log wat `xpc_ktrace_pid0` en `xpc_ktrace_pid1` aanroep. Die kodes wat dit gebruik is nie gedokumenteer nie, so dit is nodig om dit by `/usr/share/misc/trace.codes` te voeg. Hulle het die voorvoegsel `0x29` en byvoorbeeld een is `0x29000004`: `XPC_serializer_pack`.\
-Die nut `xpcproxy` gebruik die voorvoegsel `0x22`, byvoorbeeld: `0x2200001c: xpcproxy:will_do_preexec`.
+The XPC library 使用 `kdebug` 来记录调用 `xpc_ktrace_pid0` 和 `xpc_ktrace_pid1` 的操作。它使用的代码是未记录的，因此需要将其添加到 `/usr/share/misc/trace.codes` 中。它们的前缀是 `0x29`，例如其中一个是 `0x29000004`: `XPC_serializer_pack`。\
+实用程序 `xpcproxy` 使用前缀 `0x22`，例如：`0x2200001c: xpcproxy:will_do_preexec`。
 
-## XPC Gebeurtenisboodskappe
+## XPC 事件消息
 
-Toepassings kan **subskribeer** op verskillende gebeurtenis **boodskappe**, wat hulle in staat stel om **op aanvraag geaktiveer** te word wanneer sulke gebeurtenisse plaasvind. Die **opstelling** vir hierdie dienste word in **launchd plist-lêers** gedoen, geleë in die **dieselfde gidse as die vorige** en bevat 'n ekstra **`LaunchEvent`** sleutel.
+应用程序可以 **订阅** 不同的事件 **消息**，使其能够在发生此类事件时 **按需启动**。这些服务的 **设置** 在 **launchd plist 文件** 中完成，位于 **与之前相同的目录** 中，并包含一个额外的 **`LaunchEvent`** 键。
 
-### XPC Verbinding Proses Kontrole
+### XPC 连接进程检查
 
-Wanneer 'n proses probeer om 'n metode via 'n XPC-verbinding aan te roep, moet die **XPC-diens kontroleer of daardie proses toegelaat word om te verbind**. Hier is die algemene maniere om dit te kontroleer en die algemene valstrikke:
+当一个进程尝试通过 XPC 连接调用一个方法时，**XPC 服务应该检查该进程是否被允许连接**。以下是检查的常见方法和常见陷阱：
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## XPC Magtiging
+## XPC 授权
 
-Apple laat ook toepassings toe om **sekere regte te konfigureer en hoe om dit te verkry**, so as die oproepende proses dit het, sal dit **toegelaat word om 'n metode** van die XPC-diens aan te roep:
+苹果还允许应用程序 **配置一些权限以及如何获取它们**，因此如果调用进程拥有这些权限，它将 **被允许调用** XPC 服务中的一个方法：
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC Sniffer
+## XPC 嗅探器
 
-Om die XPC-boodskappe te snuffel, kan jy [**xpcspy**](https://github.com/hot3eed/xpcspy) gebruik wat **Frida** gebruik.
+要嗅探 XPC 消息，可以使用 [**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用 **Frida**。
 ```bash
 # Install
 pip3 install xpcspy
@@ -161,9 +161,9 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-'n Ander moontlike hulpmiddel om te gebruik is [**XPoCe2**](https://newosxbook.com/tools/XPoCe2.html).
+另一个可能使用的工具是 [**XPoCe2**](https://newosxbook.com/tools/XPoCe2.html)。
 
-## XPC Kommunikasie C Kode Voorbeeld
+## XPC 通信 C 代码示例
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -295,7 +295,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPC Kommunikasie Objective-C Kode Voorbeeld
+## XPC 通信 Objective-C 代码示例
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -417,7 +417,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
-## Kliënt binne 'n Dylb kode
+## 客户端在 Dylb 代码中
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -453,14 +453,14 @@ return;
 ```
 ## Remote XPC
 
-Hierdie funksionaliteit wat deur `RemoteXPC.framework` (van `libxpc`) verskaf word, stel in staat om via XPC deur verskillende gasheer te kommunikeer.\
-Die dienste wat afstand XPC ondersteun, sal in hul plist die sleutel UsesRemoteXPC hê, soos die geval is met `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Tog, alhoewel die diens geregistreer sal wees met `launchd`, is dit `UserEventAgent` met die plugins `com.apple.remoted.plugin` en `com.apple.remoteservicediscovery.events.plugin` wat die funksionaliteit verskaf.
+此功能由 `RemoteXPC.framework`（来自 `libxpc`）提供，允许通过不同主机进行 XPC 通信。\
+支持远程 XPC 的服务将在其 plist 中具有键 UsesRemoteXPC，就像 `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist` 的情况一样。然而，尽管该服务将与 `launchd` 注册，但提供该功能的是 `UserEventAgent`，其插件为 `com.apple.remoted.plugin` 和 `com.apple.remoteservicediscovery.events.plugin`。
 
-Boonop stel die `RemoteServiceDiscovery.framework` in staat om inligting van die `com.apple.remoted.plugin` te verkry wat funksies soos `get_device`, `get_unique_device`, `connect`... blootstel.
+此外，`RemoteServiceDiscovery.framework` 允许从 `com.apple.remoted.plugin` 获取信息，暴露的函数包括 `get_device`、`get_unique_device`、`connect`...
 
-Sodra connect gebruik word en die socket `fd` van die diens versamel is, is dit moontlik om die `remote_xpc_connection_*` klas te gebruik.
+一旦使用 connect 并收集到服务的 socket `fd`，就可以使用 `remote_xpc_connection_*` 类。
 
-Dit is moontlik om inligting oor afstanddienste te verkry met die cli-gereedskap `/usr/libexec/remotectl` deur parameters soos:
+可以使用 CLI 工具 `/usr/libexec/remotectl` 获取有关远程服务的信息，使用的参数包括：
 ```bash
 /usr/libexec/remotectl list # Get bridge devices
 /usr/libexec/remotectl show ...# Get device properties and services
@@ -468,20 +468,20 @@ Dit is moontlik om inligting oor afstanddienste te verkry met die cli-gereedskap
 /usr/libexec/remotectl [netcat|relay] ... # Expose a service in a port
 ...
 ```
-Die kommunikasie tussen BridgeOS en die gasheer vind plaas deur 'n toegewyde IPv6-koppelvlak. Die `MultiverseSupport.framework` maak dit moontlik om sokkies te vestig waarvan die `fd` gebruik sal word vir kommunikasie.\
-Dit is moontlik om hierdie kommunikasies te vind met `netstat`, `nettop` of die oopbron opsie, `netbottom`.
+BridgeOS与主机之间的通信通过专用的IPv6接口进行。`MultiverseSupport.framework`允许建立套接字，其`fd`将用于通信。\
+可以使用`netstat`、`nettop`或开源选项`netbottom`找到这些通信。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

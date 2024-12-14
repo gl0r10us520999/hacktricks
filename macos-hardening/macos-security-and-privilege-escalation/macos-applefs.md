@@ -22,30 +22,29 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
-{% endhint %}
 
-## Apple Eienaarskap Lêerstelsel (APFS)
+## Apple 专有文件系统 (APFS)
 
-**Apple Lêerstelsel (APFS)** is 'n moderne lêerstelsel wat ontwerp is om die Hiërargiese Lêerstelsel Plus (HFS+) te vervang. Die ontwikkeling daarvan is gedryf deur die behoefte aan **verbeterde prestasie, sekuriteit en doeltreffendheid**.
+**Apple 文件系统 (APFS)** 是一种现代文件系统，旨在取代层次文件系统 Plus (HFS+)。其开发是为了满足对 **提高性能、安全性和效率** 的需求。
 
-Sommige noemenswaardige kenmerke van APFS sluit in:
+APFS 的一些显著特性包括：
 
-1. **Ruimte Deel**: APFS laat verskeie volumes toe om **diezelfde onderliggende vrye stoorplek** op 'n enkele fisiese toestel te **deel**. Dit stel meer doeltreffende ruimte benutting in staat, aangesien die volumes dinamies kan groei en krimp sonder die behoefte aan handmatige hergroting of herpartitionering.
-1. Dit beteken, in vergelyking met tradisionele partities in lêer skywe, **dat in APFS verskillende partities (volumes) al die skyf ruimte deel**, terwyl 'n gewone partisie gewoonlik 'n vaste grootte gehad het.
-2. **Snapshots**: APFS ondersteun **die skep van snapshots**, wat **lees-slegs**, punt-in-tyd instansies van die lêerstelsel is. Snapshots stel doeltreffende rugsteun en maklike stelsels terugrol in staat, aangesien hulle minimale addisionele stoorplek verbruik en vinnig geskep of teruggedraai kan word.
-3. **Klone**: APFS kan **lêer of gids klone skep wat diezelfde stoorplek** as die oorspronklike deel totdat of die kloon of die oorspronklike lêer gewysig word. Hierdie kenmerk bied 'n doeltreffende manier om kopieë van lêers of gidse te skep sonder om die stoorplek te dupliceer.
-4. **Enkripsie**: APFS **ondersteun van nature volle skyf enkripsie** sowel as per-lêer en per-gids enkripsie, wat datasekuriteit oor verskillende gebruiksgevalle verbeter.
-5. **Crash Beskerming**: APFS gebruik 'n **kopie-op-skryf metadata skema wat lêerstelsel konsekwentheid verseker** selfs in gevalle van skielike kragverlies of stelsels wat ineenstort, wat die risiko van datakorruptie verminder.
+1. **空间共享**：APFS 允许多个卷 **共享同一物理设备上的底层空闲存储**。这使得空间利用更加高效，因为卷可以动态增长和缩小，而无需手动调整大小或重新分区。
+1. 这意味着，与传统的文件磁盘分区相比，**在 APFS 中不同的分区（卷）共享所有磁盘空间**，而常规分区通常具有固定大小。
+2. **快照**：APFS 支持 **创建快照**，这些快照是 **只读的**、时间点的文件系统实例。快照使得高效备份和轻松系统回滚成为可能，因为它们消耗的额外存储极少，并且可以快速创建或恢复。
+3. **克隆**：APFS 可以 **创建与原始文件共享相同存储的文件或目录克隆**，直到克隆或原始文件被修改。此功能提供了一种高效的方式来创建文件或目录的副本，而无需重复存储空间。
+4. **加密**：APFS **原生支持全盘加密**以及逐文件和逐目录加密，增强了不同用例下的数据安全性。
+5. **崩溃保护**：APFS 使用 **写时复制元数据方案，确保文件系统一致性**，即使在突然断电或系统崩溃的情况下，也能减少数据损坏的风险。
 
-Algeheel bied APFS 'n meer moderne, buigsame en doeltreffende lêerstelsel vir Apple-toestelle, met 'n fokus op verbeterde prestasie, betroubaarheid en sekuriteit.
+总体而言，APFS 为 Apple 设备提供了一种更现代、灵活和高效的文件系统，重点在于提高性能、可靠性和安全性。
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
 ## Firmlinks
 
-Die `Data` volume is gemonteer in **`/System/Volumes/Data`** (jy kan dit nagaan met `diskutil apfs list`).
+`Data` 卷挂载在 **`/System/Volumes/Data`**（您可以使用 `diskutil apfs list` 检查这一点）。
 
-Die lys van firmlinks kan gevind word in die **`/usr/share/firmlinks`** lêer.
+firmlinks 的列表可以在 **`/usr/share/firmlinks`** 文件中找到。
 ```bash
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

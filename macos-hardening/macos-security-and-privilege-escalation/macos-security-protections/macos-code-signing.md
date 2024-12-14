@@ -1,28 +1,28 @@
-# macOS Code Signing
+# macOS 代码签名
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basic Information
+## 基本信息
 
-Mach-o binêre bevat 'n laaiopdrag genaamd **`LC_CODE_SIGNATURE`** wat die **offset** en **grootte** van die handtekeninge binne die binêre aandui. Trouens, deur die GUI-gereedskap MachOView te gebruik, is dit moontlik om aan die einde van die binêre 'n afdeling genaamd **Code Signature** met hierdie inligting te vind:
+Mach-o 二进制文件包含一个加载命令 **`LC_CODE_SIGNATURE`**，指示二进制文件内部签名的 **偏移量** 和 **大小**。实际上，使用 GUI 工具 MachOView，可以在二进制文件的末尾找到一个名为 **Code Signature** 的部分，其中包含这些信息：
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="431"><figcaption></figcaption></figure>
 
-Die magiese kop van die Code Signature is **`0xFADE0CC0`**. Dan het jy inligting soos die lengte en die aantal blobs van die superBlob wat hulle bevat.\
-Dit is moontlik om hierdie inligting in die [bronkode hier](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276) te vind:
+代码签名的魔法头是 **`0xFADE0CC0`**。然后你会看到一些信息，例如包含它们的 superBlob 的长度和 blob 数量。\
+可以在 [源代码这里](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276) 找到这些信息：
 ```c
 /*
 * Structure of an embedded-signature SuperBlob
@@ -51,14 +51,14 @@ char data[];
 } CS_GenericBlob
 __attribute__ ((aligned(1)));
 ```
-Common blobs contained are Code Directory, Requirements and Entitlements and a Cryptographic Message Syntax (CMS).\
-Boonop, let op hoe die data wat in die blobs gekodeer is, in **Big Endian** gekodeer is.
+常见的 blob 包含代码目录、要求和权限以及加密消息语法 (CMS)。\
+此外，请注意 blob 中编码的数据是以 **大端字节序** 编码的。
 
-Boonop, handtekeninge kan van die binaries losgemaak word en gestoor word in `/var/db/DetachedSignatures` (gebruik deur iOS).
+此外，签名可以从二进制文件中分离并存储在 `/var/db/DetachedSignatures`（iOS 使用）。
 
-## Code Directory Blob
+## 代码目录 Blob
 
-It's possible to find the declaration of the [Code Directory Blob in the code](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
+可以在代码中找到 [代码目录 Blob 的声明](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104)：
 ```c
 typedef struct __CodeDirectory {
 uint32_t magic;                                 /* magic number (CSMAGIC_CODEDIRECTORY) */
@@ -114,12 +114,12 @@ char end_withLinkage[0];
 } CS_CodeDirectory
 __attribute__ ((aligned(1)));
 ```
-Let daarop dat daar verskillende weergawes van hierdie struktuur is waar oues dalk minder inligting bevat.
+注意，这个结构有不同的版本，旧版本可能包含较少的信息。
 
-## Ondertekening van Kode Bladsye
+## 签名代码页面
 
-Hashing van die volle binêre sou ondoeltreffend en selfs nutteloos wees as dit net gedeeltelik in geheue gelaai word. Daarom is die kodehandtekening eintlik 'n hash van hashes waar elke binêre bladsy individueel gehasht word.\
-Eintlik kan jy in die vorige **Kodegids** kode sien dat die **bladgrootte gespesifiseer is** in een van sy velde. Boonop, as die grootte van die binêre nie 'n veelvoud van die grootte van 'n bladsy is nie, spesifiseer die veld **CodeLimit** waar die einde van die handtekening is.
+对完整二进制文件进行哈希会低效，甚至在其仅部分加载到内存时毫无意义。因此，代码签名实际上是哈希的哈希，其中每个二进制页面单独进行哈希。\
+实际上，在之前的 **Code Directory** 代码中，您可以看到 **页面大小在其字段中被指定**。此外，如果二进制文件的大小不是页面大小的倍数，字段 **CodeLimit** 指定了签名的结束位置。
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -157,25 +157,25 @@ openssl sha256 /tmp/*.page.*
 ```
 ## Entitlements Blob
 
-Let op dat toepassings ook 'n **entitlement blob** kan bevat waar al die regte gedefinieer is. Boonop kan sommige iOS-binaries hul regte spesifiek in die spesiale slot -7 hê (in plaas van in die -5 regte spesiale slot).
+注意，应用程序可能还包含一个 **entitlement blob**，其中定义了所有的权限。此外，一些 iOS 二进制文件可能在特殊槽 -7 中具体定义其权限（而不是在 -5 权限特殊槽中）。
 
 ## Special Slots
 
-MacOS-toepassings het nie alles wat hulle nodig het om binne die binêre uit te voer nie, maar hulle gebruik ook **eksterne hulpbronne** (gewoonlik binne die toepassings **bundel**). Daarom is daar 'n paar slots binne die binêre wat die hashes van sommige interessante eksterne hulpbronne sal bevat om te kontroleer dat hulle nie gewysig is nie.
+MacOS 应用程序并不具备执行所需的一切，它们还使用 **外部资源**（通常在应用程序的 **bundle** 内）。因此，二进制文件中有一些槽将包含一些有趣的外部资源的哈希，以检查它们是否被修改。
 
-Werklik, dit is moontlik om in die Code Directory strukture 'n parameter genaamd **`nSpecialSlots`** te sien wat die aantal spesiale slots aandui. Daar is nie 'n spesiale slot 0 nie en die mees algemene (van -1 tot -6) is:
+实际上，可以在 Code Directory 结构中看到一个名为 **`nSpecialSlots`** 的参数，指示特殊槽的数量。没有特殊槽 0，最常见的槽（从 -1 到 -6）是：
 
-* Hash van `info.plist` (of die een binne `__TEXT.__info__plist`).
-* Hash van die Vereistes
-* Hash van die Hulpbron Gids (hash van `_CodeSignature/CodeResources` lêer binne die bundel).
-* Toepassing spesifiek (onbenut)
-* Hash van die regte
-* DMG kode handtekeninge slegs
-* DER Regte
+* `info.plist` 的哈希（或在 `__TEXT.__info__plist` 内的那个）。
+* 需求的哈希
+* 资源目录的哈希（在 bundle 内的 `_CodeSignature/CodeResources` 文件的哈希）。
+* 应用程序特定（未使用）
+* 权限的哈希
+* 仅 DMG 代码签名
+* DER 权限
 
 ## Code Signing Flags
 
-Elke proses het 'n bitmasker wat bekend staan as die `status` wat deur die kernel begin word en sommige daarvan kan oorgeskryf word deur die **kodehandtekening**. Hierdie vlae wat ingesluit kan word in die kodehandtekening is [gedefinieer in die kode](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+每个进程都有一个相关的位掩码，称为 `status`，由内核启动，其中一些可以被 **代码签名** 重写。这些可以包含在代码签名中的标志在 [代码中定义](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36)：
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -220,15 +220,15 @@ CS_RESTRICT | CS_ENFORCEMENT | CS_REQUIRE_LV | CS_RUNTIME | CS_LINKER_SIGNED)
 
 #define CS_ENTITLEMENT_FLAGS        (CS_GET_TASK_ALLOW | CS_INSTALLER | CS_DATAVAULT_CONTROLLER | CS_NVRAM_UNRESTRICTED)
 ```
-Note dat die funksie [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) ook die `CS_EXEC_*` vlae dinamies kan byvoeg wanneer dit die uitvoering begin.
+注意，函数 [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) 在启动执行时也可以动态添加 `CS_EXEC_*` 标志。
 
-## Kode Handtekening Vereistes
+## 代码签名要求
 
-Elke toepassing stoor **vereistes** wat dit moet **tevrede stel** om uitgevoer te kan word. As die **toepassing vereistes bevat wat nie deur die toepassing tevrede gestel word nie**, sal dit nie uitgevoer word nie (soos dit waarskynlik gewysig is).
+每个应用程序存储一些 **要求**，它必须 **满足** 这些要求才能被执行。如果 **应用程序包含的要求未被应用程序满足**，则不会执行（因为它可能已被更改）。
 
-Die vereistes van 'n binêre gebruik 'n **spesiale grammatika** wat 'n stroom van **uitdrukkings** is en word as blobs gekodeer met `0xfade0c00` as die magiese waarde waarvan die **hash in 'n spesiale kode-slot gestoor word**.
+二进制文件的要求使用 **特殊语法**，这是一个 **表达式** 的流，并使用 `0xfade0c00` 作为魔法值编码为 blobs，其 **哈希存储在特殊代码槽中**。
 
-Die vereistes van 'n binêre kan gesien word deur te loop: 
+可以通过运行以下命令查看二进制文件的要求：
 
 {% code overflow="wrap" %}
 ```bash
@@ -243,10 +243,10 @@ designated => identifier "org.whispersystems.signal-desktop" and anchor apple ge
 {% endcode %}
 
 {% hint style="info" %}
-Let op hoe hierdie handtekeninge dinge soos sertifiseringsinligting, TeamID, ID's, regte en baie ander data kan nagaan.
+注意这些签名可以检查诸如认证信息、TeamID、ID、权限和许多其他数据。
 {% endhint %}
 
-Boonop is dit moontlik om 'n paar saamgestelde vereistes te genereer met die `csreq` hulpmiddel:
+此外，可以使用 `csreq` 工具生成一些编译的要求：
 
 {% code overflow="wrap" %}
 ```bash
@@ -262,57 +262,57 @@ od -A x -t x1 /tmp/output.csreq
 ```
 {% endcode %}
 
-Dit is moontlik om toegang tot hierdie inligting te verkry en vereistes te skep of te wysig met sommige API's van die `Security.framework` soos:
+可以通过 `Security.framework` 中的一些 API 访问此信息并创建或修改要求，例如：
 
-#### **Kontroleer Geldigheid**
+#### **检查有效性**
 
-* **`Sec[Static]CodeCheckValidity`**: Kontroleer die geldigheid van SecCodeRef per Vereiste.
-* **`SecRequirementEvaluate`**: Valideer vereiste in sertifikaat konteks
-* **`SecTaskValidateForRequirement`**: Valideer 'n lopende SecTask teen `CFString` vereiste.
+* **`Sec[Static]CodeCheckValidity`**：检查 SecCodeRef 是否符合要求的有效性。
+* **`SecRequirementEvaluate`**：在证书上下文中验证要求。
+* **`SecTaskValidateForRequirement`**：验证正在运行的 SecTask 是否符合 `CFString` 要求。
 
-#### **Skep en Bestuur Kode Vereistes**
+#### **创建和管理代码要求**
 
-* **`SecRequirementCreateWithData`:** Skep 'n `SecRequirementRef` uit binêre data wat die vereiste verteenwoordig.
-* **`SecRequirementCreateWithString`:** Skep 'n `SecRequirementRef` uit 'n stringuitdrukking van die vereiste.
-* **`SecRequirementCopy[Data/String]`**: Verkry die binêre data voorstelling van 'n `SecRequirementRef`.
-* **`SecRequirementCreateGroup`**: Skep 'n vereiste vir app-groep lidmaatskap
+* **`SecRequirementCreateWithData`：** 从表示要求的二进制数据创建 `SecRequirementRef`。
+* **`SecRequirementCreateWithString`：** 从要求的字符串表达式创建 `SecRequirementRef`。
+* **`SecRequirementCopy[Data/String]`**：检索 `SecRequirementRef` 的二进制数据表示。
+* **`SecRequirementCreateGroup`**：为应用程序组成员资格创建要求。
 
-#### **Toegang tot Kode Handtekening Inligting**
+#### **访问代码签名信息**
 
-* **`SecStaticCodeCreateWithPath`**: Inisialiseer 'n `SecStaticCodeRef` objek vanaf 'n lêerstelsel pad vir die inspeksie van kode handtekeninge.
-* **`SecCodeCopySigningInformation`**: Verkry handtekening inligting van 'n `SecCodeRef` of `SecStaticCodeRef`.
+* **`SecStaticCodeCreateWithPath`**：从文件系统路径初始化 `SecStaticCodeRef` 对象以检查代码签名。
+* **`SecCodeCopySigningInformation`**：从 `SecCodeRef` 或 `SecStaticCodeRef` 获取签名信息。
 
-#### **Wysig Kode Vereistes**
+#### **修改代码要求**
 
-* **`SecCodeSignerCreate`**: Skep 'n `SecCodeSignerRef` objek vir die uitvoering van kode handtekening operasies.
-* **`SecCodeSignerSetRequirement`**: Stel 'n nuwe vereiste vir die kode ondertekenaar in om tydens ondertekening toe te pas.
-* **`SecCodeSignerAddSignature`**: Voeg 'n handtekening by die kode wat onderteken word met die gespesifiseerde ondertekenaar.
+* **`SecCodeSignerCreate`**：创建 `SecCodeSignerRef` 对象以执行代码签名操作。
+* **`SecCodeSignerSetRequirement`**：为代码签名者设置在签名期间应用的新要求。
+* **`SecCodeSignerAddSignature`**：将签名添加到使用指定签名者签名的代码中。
 
-#### **Valideer Kode met Vereistes**
+#### **使用要求验证代码**
 
-* **`SecStaticCodeCheckValidity`**: Valideer 'n statiese kode objek teen gespesifiseerde vereistes.
+* **`SecStaticCodeCheckValidity`**：根据指定要求验证静态代码对象。
 
-#### **Addisionele Nuttige API's**
+#### **其他有用的 API**
 
-* **`SecCodeCopy[Internal/Designated]Requirement`: Kry SecRequirementRef van SecCodeRef**
-* **`SecCodeCopyGuestWithAttributes`**: Skep 'n `SecCodeRef` wat 'n kode objek verteenwoordig gebaseer op spesifieke eienskappe, nuttig vir sandboxing.
-* **`SecCodeCopyPath`**: Verkry die lêerstelsel pad geassosieer met 'n `SecCodeRef`.
-* **`SecCodeCopySigningIdentifier`**: Verkry die handtekening identifiseerder (bv. Span ID) van 'n `SecCodeRef`.
-* **`SecCodeGetTypeID`**: Gee die tipe identifiseerder vir `SecCodeRef` objek.
-* **`SecRequirementGetTypeID`**: Kry 'n CFTypeID van 'n `SecRequirementRef`
+* **`SecCodeCopy[Internal/Designated]Requirement`：从 SecCodeRef 获取 SecRequirementRef**
+* **`SecCodeCopyGuestWithAttributes`**：创建一个 `SecCodeRef`，表示基于特定属性的代码对象，适用于沙箱。
+* **`SecCodeCopyPath`**：检索与 `SecCodeRef` 关联的文件系统路径。
+* **`SecCodeCopySigningIdentifier`**：从 `SecCodeRef` 获取签名标识符（例如，团队 ID）。
+* **`SecCodeGetTypeID`**：返回 `SecCodeRef` 对象的类型标识符。
+* **`SecRequirementGetTypeID`**：获取 `SecRequirementRef` 的 CFTypeID。
 
-#### **Kode Handtekening Vlaggies en Konstanten**
+#### **代码签名标志和常量**
 
-* **`kSecCSDefaultFlags`**: Standaard vlaggies wat in baie Security.framework funksies vir kode handtekening operasies gebruik word.
-* **`kSecCSSigningInformation`**: Vlag wat gebruik word om aan te dui dat handtekening inligting verkry moet word.
+* **`kSecCSDefaultFlags`**：在许多 Security.framework 函数中用于代码签名操作的默认标志。
+* **`kSecCSSigningInformation`**：用于指定应检索签名信息的标志。
 
-## Kode Handtekening Afforcing
+## 代码签名强制执行
 
-Die **kernel** is die een wat **die kode handtekening nagaan** voordat dit die kode van die app toelaat om uit te voer. Boonop, een manier om in geheue nuwe kode te kan skryf en uitvoer, is om JIT te misbruik as `mprotect` met `MAP_JIT` vlag aangeroep word. Let daarop dat die toepassing 'n spesiale regte benodig om dit te kan doen.
+**内核**是在允许应用程序代码执行之前**检查代码签名**的。此外，能够在内存中写入和执行新代码的一种方法是滥用 JIT，如果 `mprotect` 以 `MAP_JIT` 标志调用。请注意，应用程序需要特殊的权限才能做到这一点。
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struktuur bevat die inligting oor die regte van die lopende proses daarop. `csb_platform_binary` dui ook aan of die toepassing 'n platform binêre is (wat op verskillende tye deur die OS nagegaan word om sekuriteitsmeganismes toe te pas soos om die SEND regte na die taakpoorte van hierdie prosesse te beskerm).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) 结构包含有关正在运行的进程的权限信息。 `csb_platform_binary` 还指示应用程序是否为平台二进制（操作系统在不同时间检查以应用安全机制，例如保护这些进程的任务端口的 SEND 权限）。
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;
@@ -371,21 +371,21 @@ bool csb_csm_managed;
 #endif
 };
 ```
-## Verwysings
+## 参考文献
 
-* [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
+* [**\*OS 内部结构 第三卷**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

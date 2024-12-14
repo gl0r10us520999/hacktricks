@@ -1,61 +1,61 @@
-# macOS Proseshandelinge
+# macOS 进程滥用
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Inligting oor Prosesse
+## 进程基本信息
 
-'n Proses is 'n instansie van 'n lopende uitvoerbare lêer, maar prosesse voer nie kode uit nie, dit is drade. Daarom **is prosesse net houers vir lopende drade** wat die geheue, beskrywers, poorte, toestemmings voorsien...
+进程是正在运行的可执行文件的实例，但进程并不运行代码，这些是线程。因此 **进程只是运行线程的容器**，提供内存、描述符、端口、权限...
 
-Tradisioneel is prosesse binne ander prosesse (behalwe PID 1) begin deur **`fork`** te roep wat 'n presiese kopie van die huidige proses sou skep en dan sou die **kindproses** gewoonlik **`execve`** roep om die nuwe uitvoerbare lêer te laai en dit uit te voer. Toe is **`vfork`** ingevoer om hierdie proses vinniger te maak sonder enige geheuekopie.\
-Toe is **`posix_spawn`** ingevoer wat **`vfork`** en **`execve`** in een oproep kombineer en vlae aanvaar:
+传统上，进程是在其他进程中启动的（除了 PID 1），通过调用 **`fork`** 创建当前进程的精确副本，然后 **子进程** 通常会调用 **`execve`** 来加载新的可执行文件并运行它。随后，引入了 **`vfork`** 以加快此过程而无需任何内存复制。\
+然后引入了 **`posix_spawn`**，将 **`vfork`** 和 **`execve`** 结合在一个调用中，并接受标志：
 
-* `POSIX_SPAWN_RESETIDS`: Stel effektiewe ids terug na regte ids
-* `POSIX_SPAWN_SETPGROUP`: Stel prosesgroepaffiliasie in
-* `POSUX_SPAWN_SETSIGDEF`: Stel seinstandaardgedrag in
-* `POSIX_SPAWN_SETSIGMASK`: Stel seinmasker in
-* `POSIX_SPAWN_SETEXEC`: Voer in dieselfde proses uit (soos `execve` met meer opsies)
-* `POSIX_SPAWN_START_SUSPENDED`: Begin opgeskort
-* `_POSIX_SPAWN_DISABLE_ASLR`: Begin sonder ASLR
-* `_POSIX_SPAWN_NANO_ALLOCATOR:` Gebruik libmalloc se Nano-toewysers
-* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Laat `rwx` toe op data-segmente
-* `POSIX_SPAWN_CLOEXEC_DEFAULT`: Sluit alle lêerbeskrywings op exec(2) standaard
-* `_POSIX_SPAWN_HIGH_BITS_ASLR:` Randomiseer hoë bietjies van ASLR skuif
+* `POSIX_SPAWN_RESETIDS`: 将有效 ID 重置为真实 ID
+* `POSIX_SPAWN_SETPGROUP`: 设置进程组归属
+* `POSUX_SPAWN_SETSIGDEF`: 设置信号默认行为
+* `POSIX_SPAWN_SETSIGMASK`: 设置信号掩码
+* `POSIX_SPAWN_SETEXEC`: 在同一进程中执行（类似于 `execve`，但有更多选项）
+* `POSIX_SPAWN_START_SUSPENDED`: 启动时挂起
+* `_POSIX_SPAWN_DISABLE_ASLR`: 启动时不使用 ASLR
+* `_POSIX_SPAWN_NANO_ALLOCATOR:` 使用 libmalloc 的 Nano 分配器
+* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` 允许数据段的 `rwx`
+* `POSIX_SPAWN_CLOEXEC_DEFAULT`: 默认情况下在 exec(2) 时关闭所有文件描述符
+* `_POSIX_SPAWN_HIGH_BITS_ASLR:` 随机化 ASLR 滑动的高位
 
-Verder laat `posix_spawn` toe om 'n reeks van **`posix_spawnattr`** te spesifiseer wat sekere aspekte van die geskepte proses beheer, en **`posix_spawn_file_actions`** om die toestand van die beskrywers te wysig.
+此外，`posix_spawn` 允许指定一个 **`posix_spawnattr`** 数组，以控制生成进程的某些方面，以及 **`posix_spawn_file_actions`** 来修改描述符的状态。
 
-Wanneer 'n proses sterf, stuur dit die **terugvoerkode na die ouerproses** (as die ouer sterf, is die nuwe ouer PID 1) met die sein `SIGCHLD`. Die ouer moet hierdie waarde kry deur `wait4()` of `waitid()` te roep en totdat dit gebeur bly die kind in 'n zombie-toestand waar dit nog gelys word maar nie hulpbronne verbruik nie.
+当进程终止时，它会向 **父进程发送返回代码**（如果父进程已终止，则新父进程为 PID 1），并发送信号 `SIGCHLD`。父进程需要通过调用 `wait4()` 或 `waitid()` 来获取此值，直到那时，子进程保持在僵尸状态，仍然被列出但不消耗资源。
 
 ### PIDs
 
-PIDs, prosesidentifiseerders, identifiseer 'n unieke proses. In XNU is die **PIDs** van **64-bits** wat monotonies toeneem en **nooit oorvloei** (om misbruik te voorkom).
+PID，进程标识符，标识一个唯一的进程。在 XNU 中，**PIDs** 是 **64 位**，单调递增且 **永不回绕**（以避免滥用）。
 
-### Prosesgroepe, Sessies & Coalisies
+### 进程组、会话与联盟
 
-**Prosesse** kan in **groepe** geplaas word om dit makliker te maak om hulle te hanteer. Byvoorbeeld, opdragte in 'n skulpskrip sal in dieselfde prosesgroep wees sodat dit moontlik is om hulle saam te **seineer** deur byvoorbeeld te doodmaak.\
-Dit is ook moontlik om **prosesse in sessies** te groepeer. Wanneer 'n proses 'n sessie begin (`setsid(2)`), word die kinderprosesse binne die sessie geplaas, tensy hulle hul eie sessie begin.
+**进程** 可以被插入到 **组** 中，以便更容易地处理它们。例如，shell 脚本中的命令将处于同一进程组中，因此可以使用 kill 等方式 **一起发送信号**。\
+也可以 **将进程分组到会话中**。当进程启动会话（`setsid(2)`）时，子进程被设置在会话内，除非它们启动自己的会话。
 
-Coalition is 'n ander manier om prosesse in Darwin te groepeer. 'n Proses wat by 'n coalisie aansluit, kan toegang verkry tot poelhulpbronne, 'n grootboek deel of Jetsam in die gesig staar. Coalisies het verskillende rolle: Leier, XPC-diens, Uitbreiding.
+联盟是另一种在 Darwin 中分组进程的方式。加入联盟的进程可以访问池资源，共享账本或面对 Jetsam。联盟有不同的角色：领导者、XPC 服务、扩展。
 
-### Gelde & Persone
+### 凭证与角色
 
-Elke proses hou **gelde** aan wat **sy voorregte identifiseer** in die stelsel. Elke proses sal een primêre `uid` en een primêre `gid` hê (alhoewel dit dalk tot verskeie groepe behoort).\
-Dit is ook moontlik om die gebruiker- en groep-id te verander as die binêre lêer die `setuid/setgid`-bietjie het.\
-Daar is verskeie funksies om **nuwe uids/gids** in te stel.
+每个进程持有 **凭证**，以 **识别其在系统中的权限**。每个进程将有一个主要的 `uid` 和一个主要的 `gid`（尽管可能属于多个组）。\
+如果二进制文件具有 `setuid/setgid` 位，也可以更改用户和组 ID。\
+有几个函数可以 **设置新的 uids/gids**。
 
-Die systaalaanroep **`persona`** bied 'n **alternatiewe** stel **gelde** aan. Die aanneem van 'n persona aanvaar sy uid, gid en groepslidmaatskappe **op een keer**. In die [**bronkode**](https://github.com/apple/darwin-xnu/blob/main/bsd/sys/persona.h) is dit moontlik om die struktuur te vind:
+系统调用 **`persona`** 提供了一组 **替代** 的 **凭证**。采用角色会同时假设其 uid、gid 和组成员资格。在 [**源代码**](https://github.com/apple/darwin-xnu/blob/main/bsd/sys/persona.h) 中可以找到该结构：
 ```c
 struct kpersona_info { uint32_t persona_info_version;
 uid_t    persona_id; /* overlaps with UID */
@@ -69,44 +69,44 @@ char     persona_name[MAXLOGNAME + 1];
 /* TODO: MAC policies?! */
 }
 ```
-## Drade Basiese Inligting
+## 线程基本信息
 
-1. **POSIX Drade (pthreads):** macOS ondersteun POSIX drade (`pthreads`), wat deel is van 'n standaard drade API vir C/C++. Die implementering van pthreads in macOS word gevind in `/usr/lib/system/libsystem_pthread.dylib`, wat afkomstig is van die openbarelik beskikbare `libpthread`-projek. Hierdie biblioteek voorsien die nodige funksies om drade te skep en te bestuur.
-2. **Skep Drade:** Die `pthread_create()`-funksie word gebruik om nuwe drade te skep. Intern, roep hierdie funksie `bsdthread_create()` aan, wat 'n laervlak-sisteemaanroep is wat spesifiek is vir die XNU-kernel (die kernel waarop macOS gebaseer is). Hierdie sisteemaanroep neem verskeie vlae afgelei van `pthread_attr` (eienskappe) wat drade se gedrag spesifiseer, insluitend skeduleringsbeleide en stokgrootte.
-* **Verstek Stokgrootte:** Die verstek stokgrootte vir nuwe drade is 512 KB, wat voldoende is vir tipiese werksaamhede, maar aangepas kan word via draadseienskappe as meer of minder spasie benodig word.
-3. **Draadinisialisering:** Die `__pthread_init()`-funksie is noodsaaklik tydens draadopstelling, waar die `env[]`-argument gebruik word om omgewingsveranderlikes te ontled wat besonderhede oor die stok se ligging en grootte kan insluit.
+1. **POSIX 线程 (pthreads):** macOS 支持 POSIX 线程（`pthreads`），这是 C/C++ 的标准线程 API 的一部分。macOS 中 pthreads 的实现位于 `/usr/lib/system/libsystem_pthread.dylib`，该库来自公开可用的 `libpthread` 项目。此库提供创建和管理线程所需的函数。
+2. **创建线程:** `pthread_create()` 函数用于创建新线程。内部，该函数调用 `bsdthread_create()`，这是一个特定于 XNU 内核的低级系统调用（macOS 基于的内核）。此系统调用接受来自 `pthread_attr`（属性）的各种标志，这些标志指定线程行为，包括调度策略和堆栈大小。
+* **默认堆栈大小:** 新线程的默认堆栈大小为 512 KB，足以满足典型操作，但如果需要更多或更少的空间，可以通过线程属性进行调整。
+3. **线程初始化:** `__pthread_init()` 函数在线程设置过程中至关重要，利用 `env[]` 参数解析环境变量，这些变量可以包含有关堆栈位置和大小的详细信息。
 
-#### Draad Beëindiging in macOS
+#### macOS 中的线程终止
 
-1. **Draad Uittree:** Drade word tipies beëindig deur `pthread_exit()` aan te roep. Hierdie funksie laat 'n draad toe om skoon uit te tree, nodige skoonmaakwerk te doen en die draad toe te laat om 'n terugvoerwaarde terug te stuur na enige aansluiters.
-2. **Draad Skoonmaak:** Na die aanroep van `pthread_exit()`, word die funksie `pthread_terminate()` geaktiveer, wat die verwydering van alle geassosieerde draadstrukture hanteer. Dit deallokeer Mach-draadpoorte (Mach is die kommunikasiestelsel in die XNU-kernel) en roep `bsdthread_terminate` aan, 'n sisteemaanroep wat die kernelvlakstrukture verwyder wat met die draad geassosieer is.
+1. **退出线程:** 线程通常通过调用 `pthread_exit()` 来终止。此函数允许线程干净地退出，执行必要的清理，并允许线程将返回值发送回任何加入者。
+2. **线程清理:** 调用 `pthread_exit()` 后，将调用 `pthread_terminate()` 函数，该函数处理所有相关线程结构的移除。它会释放 Mach 线程端口（Mach 是 XNU 内核中的通信子系统），并调用 `bsdthread_terminate`，这是一个移除与线程相关的内核级结构的系统调用。
 
-#### Sinksronisasie Meganismes
+#### 同步机制
 
-Om toegang tot gedeelde bronne te bestuur en wedloopvoorwaardes te vermy, voorsien macOS verskeie sinksronisasieprimitiewe. Hierdie is krities in multi-draad-omgewings om data-integriteit en stelselstabiliteit te verseker:
+为了管理对共享资源的访问并避免竞争条件，macOS 提供了几种同步原语。这些在多线程环境中对于确保数据完整性和系统稳定性至关重要：
 
-1. **Mutexes:**
-* **Gewone Mutex (Handtekening: 0x4D555458):** Standaard mutex met 'n geheueafdruk van 60 byte (56 byte vir die mutex en 4 byte vir die handtekening).
-* **Vinnige Mutex (Handtekening: 0x4d55545A):** Soortgelyk aan 'n gewone mutex, maar geoptimeer vir vinniger werksaamhede, ook 60 byte groot.
-2. **Toestandsveranderlikes:**
-* Gebruik vir wag vir sekere toestande om voor te kom, met 'n grootte van 44 byte (40 byte plus 'n 4-byte handtekening).
-* **Toestandsveranderlike Eienskappe (Handtekening: 0x434e4441):** Konfigurasie-eienskappe vir toestandsveranderlikes, grootte van 12 byte.
-3. **Eenkeer Veranderlike (Handtekening: 0x4f4e4345):**
-* Verseker dat 'n stuk inisialisasiekode slegs een keer uitgevoer word. Dit is 12 byte groot.
-4. **Lees-Skryfslotte:**
-* Laat meerdere lesers of een skrywer op 'n slag toe, wat doeltreffende toegang tot gedeelde data fasiliteer.
-* **Lees-Skryfslot (Handtekening: 0x52574c4b):** Grootte van 196 byte.
-* **Lees-Skryfslot Eienskappe (Handtekening: 0x52574c41):** Eienskappe vir lees-skryfsluite, grootte van 20 byte.
+1. **互斥锁:**
+* **常规互斥锁 (签名: 0x4D555458):** 标准互斥锁，内存占用为 60 字节（56 字节用于互斥锁，4 字节用于签名）。
+* **快速互斥锁 (签名: 0x4d55545A):** 类似于常规互斥锁，但经过优化以实现更快的操作，大小也为 60 字节。
+2. **条件变量:**
+* 用于等待某些条件发生，大小为 44 字节（40 字节加 4 字节签名）。
+* **条件变量属性 (签名: 0x434e4441):** 条件变量的配置属性，大小为 12 字节。
+3. **一次变量 (签名: 0x4f4e4345):**
+* 确保一段初始化代码仅执行一次。其大小为 12 字节。
+4. **读写锁:**
+* 允许多个读者或一个写者同时访问，促进对共享数据的高效访问。
+* **读写锁 (签名: 0x52574c4b):** 大小为 196 字节。
+* **读写锁属性 (签名: 0x52574c41):** 读写锁的属性，大小为 20 字节。
 
 {% hint style="success" %}
-Die laaste 4 byte van daardie voorwerpe word gebruik om oorvloei te bepaal.
+这些对象的最后 4 字节用于检测溢出。
 {% endhint %}
 
-### Draad Plaaslike Veranderlikes (TLV)
+### 线程局部变量 (TLV)
 
-**Draad Plaaslike Veranderlikes (TLV)** in die konteks van Mach-O-lêers (die formaat vir uitvoerbare lêers in macOS) word gebruik om veranderlikes te verklaar wat spesifiek is vir **elke draad** in 'n multi-draad-toepassing. Dit verseker dat elke draad sy eie aparte instansie van 'n veranderlike het, wat 'n manier bied om konflikte te vermy en data-integriteit te handhaaf sonder om eksplisiete sinksronisasie-meganismes soos mutexes nodig te hê.
+**线程局部变量 (TLV)** 在 Mach-O 文件（macOS 中可执行文件的格式）的上下文中用于声明特定于 **每个线程** 的变量，以便在多线程应用程序中使用。这确保每个线程都有自己独立的变量实例，提供了一种避免冲突和维护数据完整性的方法，而无需像互斥锁那样的显式同步机制。
 
-In C en verwante tale kan jy 'n draad-plaaslike veranderlike verklaar deur die **`__thread`** sleutelwoord te gebruik. Hier is hoe dit werk in jou voorbeeld:
+在 C 及相关语言中，可以使用 **`__thread`** 关键字声明线程局部变量。以下是它在您的示例中的工作方式：
 ```c
 cCopy code__thread int tlv_var;
 
@@ -114,140 +114,141 @@ void main (int argc, char **argv){
 tlv_var = 10;
 }
 ```
-Hierdie snipper definieer `tlv_var` as 'n draad-plaaslike veranderlike. Elke draad wat hierdie kode hardloop, sal sy eie `tlv_var` hê, en veranderinge wat een draad aan `tlv_var` maak, sal nie `tlv_var` in 'n ander draad beïnvloed nie.
+这个片段将 `tlv_var` 定义为线程局部变量。每个运行此代码的线程将拥有自己的 `tlv_var`，一个线程对 `tlv_var` 的更改不会影响另一个线程中的 `tlv_var`。
 
-In die Mach-O binêre lêer is die data wat verband hou met draad-plaaslike veranderlikes georganiseer in spesifieke seksies:
+在 Mach-O 二进制文件中，与线程局部变量相关的数据被组织成特定的部分：
 
-* **`__DATA.__thread_vars`**: Hierdie seksie bevat die metadata oor die draad-plaaslike veranderlikes, soos hul tipes en inisialisasiestatus.
-* **`__DATA.__thread_bss`**: Hierdie seksie word gebruik vir draad-plaaslike veranderlikes wat nie eksplisiet geïnisialiseer is nie. Dit is 'n deel van die geheue wat apart gesit word vir nul-geïnisialiseerde data.
+* **`__DATA.__thread_vars`**：此部分包含有关线程局部变量的元数据，如它们的类型和初始化状态。
+* **`__DATA.__thread_bss`**：此部分用于未显式初始化的线程局部变量。它是为零初始化数据保留的内存的一部分。
 
-Mach-O bied ook 'n spesifieke API genaamd **`tlv_atexit`** om draad-plaaslike veranderlikes te bestuur wanneer 'n draad eindig. Hierdie API laat jou toe om **destruktore te registreer**—spesiale funksies wat draad-plaaslike data skoonmaak wanneer 'n draad beëindig.
+Mach-O 还提供了一个特定的 API，称为 **`tlv_atexit`**，用于管理线程退出时的线程局部变量。此 API 允许您 **注册析构函数**——在线程终止时清理线程局部数据的特殊函数。
 
-### Draad Prioriteite
+### 线程优先级
 
-Die begrip van draad prioriteite behels om te kyk na hoe die bedryfstelsel besluit watter drade om uit te voer en wanneer. Hierdie besluit word beïnvloed deur die prioriteitsvlak wat aan elke draad toegewys is. In macOS en Unix-soortgelyke stelsels word dit hanteer deur konsepte soos `nice`, `renice`, en Kwaliteit van Diens (QoS) klasse.
+理解线程优先级涉及查看操作系统如何决定运行哪些线程以及何时运行。这一决定受到分配给每个线程的优先级级别的影响。在 macOS 和类 Unix 系统中，这通过 `nice`、`renice` 和服务质量 (QoS) 类等概念来处理。
 
-#### Nice en Renice
+#### Nice 和 Renice
 
 1. **Nice:**
-* Die `nice` waarde van 'n proses is 'n nommer wat sy prioriteit beïnvloed. Elke proses het 'n nice waarde wat wissel tussen -20 (die hoogste prioriteit) en 19 (die laagste prioriteit). Die verstek nice waarde wanneer 'n proses geskep word, is tipies 0.
-* 'n Laer nice waarde (nader aan -20) maak 'n proses meer "selfsugtig," en gee dit meer CPU-tyd in vergelyking met ander prosesse met hoër nice waardes.
+* 进程的 `nice` 值是一个影响其优先级的数字。每个进程的 nice 值范围从 -20（最高优先级）到 19（最低优先级）。进程创建时的默认 nice 值通常为 0。
+* 较低的 nice 值（接近 -20）使进程变得更加“自私”，相对于其他具有较高 nice 值的进程，给予其更多的 CPU 时间。
 2. **Renice:**
-* `renice` is 'n bevel wat gebruik word om die nice waarde van 'n reeds lopende proses te verander. Dit kan gebruik word om dinamies die prioriteit van prosesse aan te pas, deur hul CPU-tydtoekenning te verhoog of te verlaag gebaseer op nuwe nice waardes.
-* Byvoorbeeld, as 'n proses tydelik meer CPU-hulpbronne benodig, kan jy sy nice waarde verlaag met behulp van `renice`.
+* `renice` 是一个用于更改已运行进程的 nice 值的命令。这可以用于动态调整进程的优先级，基于新的 nice 值增加或减少其 CPU 时间分配。
+* 例如，如果一个进程暂时需要更多的 CPU 资源，您可以使用 `renice` 降低其 nice 值。
 
-#### Kwaliteit van Diens (QoS) Klasse
+#### 服务质量 (QoS) 类
 
-QoS klasse is 'n meer moderne benadering tot die hanteer van draad prioriteite, veral in stelsels soos macOS wat **Grand Central Dispatch (GCD)** ondersteun. QoS klasse laat ontwikkelaars toe om werk te **kategoriseer** in verskillende vlakke gebaseer op hul belangrikheid of dringendheid. macOS bestuur draad prioritisering outomaties gebaseer op hierdie QoS klasse:
+QoS 类是处理线程优先级的更现代的方法，特别是在支持 **Grand Central Dispatch (GCD)** 的系统中。QoS 类允许开发人员根据任务的重要性或紧急性将工作 **分类** 为不同级别。macOS 根据这些 QoS 类自动管理线程优先级：
 
-1. **Gebruiker Interaktief:**
-* Hierdie klas is vir take wat tans met die gebruiker interaksie het of onmiddellike resultate benodig om 'n goeie gebruikerervaring te bied. Hierdie take kry die hoogste prioriteit om die koppelvlak responsief te hou (bv. animasies of gebeurtenishantering).
-2. **Gebruiker Geïnisieer:**
-* Take wat die gebruiker inisieer en onmiddellike resultate verwag, soos die oopmaak van 'n dokument of die klik op 'n knoppie wat berekeninge benodig. Hierdie take is hoë prioriteit, maar onder gebruiker interaktief.
-3. **Hulpprogram:**
-* Hierdie take is langdurig en toon tipies 'n vordering aanwyser (bv. lêers aflaai, data invoer). Hulle is laer in prioriteit as gebruiker-geïnisieerde take en hoef nie onmiddellik klaar te wees nie.
-4. **Agtergrond:**
-* Hierdie klas is vir take wat in die agtergrond werk en nie sigbaar is vir die gebruiker nie. Dit kan take soos indeksering, sinchronisering, of rugsteun wees. Hulle het die laagste prioriteit en minimale impak op stelselverrigting.
+1. **用户交互：**
+* 此类用于当前与用户交互或需要立即结果以提供良好用户体验的任务。这些任务被赋予最高优先级，以保持界面的响应性（例如，动画或事件处理）。
+2. **用户启动：**
+* 用户启动并期望立即结果的任务，例如打开文档或单击需要计算的按钮。这些任务优先级较高，但低于用户交互。
+3. **实用程序：**
+* 这些任务是长时间运行的，通常显示进度指示器（例如，下载文件、导入数据）。它们的优先级低于用户启动的任务，不需要立即完成。
+4. **后台：**
+* 此类用于在后台运行且对用户不可见的任务。这些可以是索引、同步或备份等任务。它们的优先级最低，对系统性能的影响最小。
 
-Deur QoS klasse te gebruik, hoef ontwikkelaars nie die presiese prioriteitsgetalle te bestuur nie, maar eerder te fokus op die aard van die taak, en die stelsel optimaliseer die CPU-hulpbronne dienooreenkomstig.
+使用 QoS 类，开发人员不需要管理确切的优先级数字，而是专注于任务的性质，系统会相应优化 CPU 资源。
 
-Daarbenewens is daar verskillende **draad skeduleringsbeleide** wat vloei om 'n stel skeduleringsparameters te spesifiseer wat die skeduler in ag sal neem. Dit kan gedoen word met behulp van `thread_policy_[set/get]`. Dit kan nuttig wees in wedloopvoorwaarde aanvalle.
+此外，还有不同的 **线程调度策略**，用于指定调度器将考虑的一组调度参数。这可以通过 `thread_policy_[set/get]` 来完成。这在竞争条件攻击中可能会很有用。
 
-## MacOS Proseshandeling
+## MacOS 进程滥用
 
-MacOS, soos enige ander bedryfstelsel, bied 'n verskeidenheid metodes en meganismes vir **prosesse om te interaksieer, kommunikeer, en data te deel**. Terwyl hierdie tegnieke noodsaaklik is vir doeltreffende stelselwerking, kan dit ook misbruik word deur bedreigingsakteurs om **booswillige aktiwiteite uit te voer**.
+MacOS 像其他操作系统一样，提供多种方法和机制供 **进程交互、通信和共享数据**。虽然这些技术对系统的高效运行至关重要，但也可能被威胁行为者滥用以 **执行恶意活动**。
 
-### Biblioteekinspuiting
+### 库注入
 
-Biblioteekinspuiting is 'n tegniek waarin 'n aanvaller **'n proses dwing om 'n booswillige biblioteek te laai**. Sodra ingespuit, hardloop die biblioteek in die konteks van die teikenproses, wat die aanvaller dieselfde toestemmings en toegang gee as die proses.
+库注入是一种技术，攻击者 **强制进程加载恶意库**。一旦注入，库将在目标进程的上下文中运行，攻击者将获得与该进程相同的权限和访问权限。
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Funksiehaak
+### 函数钩子
 
-Funksiehaak behels **die onderskepping van funksie-oproepe** of boodskappe binne 'n sagtewarekode. Deur funksies te haak, kan 'n aanvaller **die gedrag** van 'n proses wysig, sensitiewe data waarneem, of selfs beheer oor die uitvoervloei verkry.
+函数钩子涉及 **拦截软件代码中的函数调用** 或消息。通过钩住函数，攻击者可以 **修改进程的行为**、观察敏感数据，甚至控制执行流程。
 
 {% content-ref url="macos-function-hooking.md" %}
 [macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Interproseskommunikasie
+### 进程间通信
 
-Interproseskommunikasie (IPC) verwys na verskillende metodes waardeur afsonderlike prosesse **data deel en uitruil**. Terwyl IPC fundamenteel is vir baie wettige toepassings, kan dit ook misbruik word om prosesisolasie te omseil, sensitiewe inligting te lek, of ongemagtigde aksies uit te voer.
+进程间通信 (IPC) 指的是不同方法，通过这些方法，独立进程 **共享和交换数据**。虽然 IPC 对许多合法应用程序至关重要，但也可能被滥用以破坏进程隔离、泄露敏感信息或执行未经授权的操作。
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Elektron Toepassingsinspuiting
+### Electron 应用程序注入
 
-Elektron-toepassings wat uitgevoer word met spesifieke omgewingsveranderlikes kan vatbaar wees vir prosesinspuiting:
+使用特定环境变量执行的 Electron 应用程序可能容易受到进程注入的攻击：
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Chromium Inspuiting
+### Chromium 注入
 
-Dit is moontlik om die vlae `--load-extension` en `--use-fake-ui-for-media-stream` te gebruik om 'n **man in die blaaier aanval** uit te voer wat toelaat om toetsaanslae, verkeer, koekies te steel, skripte in bladsye in te spuit...:
+可以使用标志 `--load-extension` 和 `--use-fake-ui-for-media-stream` 执行 **浏览器中的中间人攻击**，从而窃取击键、流量、cookie，在页面中注入脚本...：
 
 {% content-ref url="macos-chromium-injection.md" %}
 [macos-chromium-injection.md](macos-chromium-injection.md)
 {% endcontent-ref %}
 
-### Vuil NIB
+### 脏 NIB
 
-NIB-lêers **definieer gebruikerskoppelvlak (UI) elemente** en hul interaksies binne 'n toepassing. Tog kan hulle **willekeurige bevele uitvoer** en **Gatekeeper stop nie** 'n reeds uitgevoerde toepassing van uitvoering as 'n **NIB-lêer gewysig** word nie. Daarom kan hulle gebruik word om willekeurige programme willekeurige bevele te laat uitvoer:
+NIB 文件 **定义用户界面 (UI) 元素** 及其在应用程序中的交互。然而，它们可以 **执行任意命令**，而且 **Gatekeeper 不会阻止** 已执行的应用程序在 **NIB 文件被修改** 后再次执行。因此，它们可以用于使任意程序执行任意命令：
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Java Toepassingsinspuiting
+### Java 应用程序注入
 
-Dit is moontlik om sekere Java-vermoëns (soos die **`_JAVA_OPTS`** omgewingsveranderlike) te misbruik om 'n Java-toepassing **willekeurige kode/bevele** te laat uitvoer.
+可以滥用某些 Java 功能（如 **`_JAVA_OPTS`** 环境变量）使 Java 应用程序执行 **任意代码/命令**。
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### .Net Toepassingsinspuiting
+### .Net 应用程序注入
 
-Dit is moontlik om kode in .Net-toepassings in te spuit deur **die .Net aflynfunksionaliteit te misbruik** (nie beskerm deur macOS-beskermings soos harding van uitvoertyd).
+可以通过 **滥用 .Net 调试功能**（不受 macOS 保护，如运行时强化）向 .Net 应用程序注入代码。
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Perl Inspuiting
+### Perl 注入
 
-Kyk na verskillende opsies om 'n Perl-skrip willekeurige kode te laat uitvoer in:
+检查不同选项以使 Perl 脚本执行任意代码：
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
-### Ruby Inspuiting
+### Ruby 注入
 
-Dit is ook moontlik om Ruby-omgewingsveranderlikes te misbruik om willekeurige skripte willekeurige kode te laat uitvoer:
+也可以滥用 Ruby 环境变量使任意脚本执行任意代码：
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
-### Python Injectering
 
-Indien die omgewingsveranderlike **`PYTHONINSPECT`** ingestel is, sal die python-proses in 'n python-cli val sodra dit klaar is. Dit is ook moontlik om **`PYTHONSTARTUP`** te gebruik om 'n python-skrip aan te dui wat aan die begin van 'n interaktiewe sessie uitgevoer moet word.\
-Let egter daarop dat die **`PYTHONSTARTUP`** skrip nie uitgevoer sal word wanneer **`PYTHONINSPECT`** die interaktiewe sessie skep nie.
+### Python 注入
 
-Ander omgewingsveranderlikes soos **`PYTHONPATH`** en **`PYTHONHOME`** kan ook nuttig wees om 'n python-opdrag arbitrêre kode te laat uitvoer.
+如果环境变量 **`PYTHONINSPECT`** 被设置，Python 进程将在完成后进入 Python CLI。也可以使用 **`PYTHONSTARTUP`** 指定在交互会话开始时执行的 Python 脚本。\
+但是，请注意，当 **`PYTHONINSPECT`** 创建交互会话时，**`PYTHONSTARTUP`** 脚本不会被执行。
 
-Let daarop dat uitvoerbare lêers wat met **`pyinstaller`** saamgestel is, nie hierdie omgewingsveranderlikes sal gebruik nie, selfs as hulle uitgevoer word met 'n ingeslote python.
+其他环境变量如 **`PYTHONPATH`** 和 **`PYTHONHOME`** 也可能对使 Python 命令执行任意代码有用。
+
+请注意，使用 **`pyinstaller`** 编译的可执行文件即使在使用嵌入式 Python 运行时也不会使用这些环境变量。
 
 {% hint style="danger" %}
-Oor die algemeen kon ek nie 'n manier vind om python arbitrêre kode te laat uitvoer deur omgewingsveranderlikes te misbruik nie.\
-Meeste mense installeer egter pyhton met **Hombrew**, wat pyhton in 'n **skryfbare ligging** vir die verstek-admin-gebruiker sal installeer. Jy kan dit oorneem met iets soos:
+总体而言，我找不到通过滥用环境变量使 Python 执行任意代码的方法。\
+然而，大多数人使用 **Hombrew** 安装 Python，这将在 **可写位置** 为默认管理员用户安装 Python。您可以通过类似的方式劫持它：
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -257,42 +258,42 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-Selfs **root** sal hierdie kode hardloop wanneer python uitgevoer word.
+即使**root**在运行python时也会运行此代码。  
 {% endhint %}
 
-## Opmerking
+## 检测
 
-### Skild
+### Shield
 
-[**Skild**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is 'n oopbron toepassing wat **proses inspuiting kan opspoor en blokkeer**:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) 是一个开源应用程序，可以**检测和阻止进程注入**操作：
 
-* Deur **Omgewingsveranderlikes** te gebruik: Dit sal die teenwoordigheid van enige van die volgende omgewingsveranderlikes monitor: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** en **`ELECTRON_RUN_AS_NODE`**
-* Deur **`task_for_pid`** oproepe te gebruik: Om te vind wanneer een proses die **taakpoort van 'n ander** wil kry wat dit moontlik maak om kode in die proses in te spuit.
-* **Electron apps parameters**: Iemand kan **`--inspect`**, **`--inspect-brk`** en **`--remote-debugging-port`** bevellyn argument gebruik om 'n Electron app in afstemmingsmodus te begin, en sodoende kode daarin in te spuit.
-* Deur **symboliese skakels** of **harde skakels** te gebruik: Tipies is die mees algemene misbruik om 'n skakel met ons gebruikersbevoegdhede te **plaas**, en dit na 'n hoër bevoorregte ligging te **rig**. Die opsporing is baie eenvoudig vir beide harde skakels en simboliese skakels. As die proses wat die skakel skep 'n **verskillende bevoorregtingsvlak** as die teikenlêer het, skep ons 'n **waarskuwing**. Ongelukkig is blokkering in die geval van simboliese skakels nie moontlik nie, aangesien ons nie vooraf inligting oor die bestemming van die skakel het nie. Dit is 'n beperking van Apple se EndpointSecuriy-raamwerk.
+* 使用**环境变量**：它将监控以下环境变量的存在：**`DYLD_INSERT_LIBRARIES`**、**`CFNETWORK_LIBRARY_PATH`**、**`RAWCAMERA_BUNDLE_PATH`**和**`ELECTRON_RUN_AS_NODE`**
+* 使用**`task_for_pid`**调用：查找一个进程何时想要获取**另一个进程的任务端口**，这允许在该进程中注入代码。
+* **Electron应用参数**：有人可以使用**`--inspect`**、**`--inspect-brk`**和**`--remote-debugging-port`**命令行参数以调试模式启动Electron应用，从而向其注入代码。
+* 使用**符号链接**或**硬链接**：通常最常见的滥用是**以我们的用户权限放置一个链接**，并**指向更高权限**的位置。对于硬链接和符号链接，检测非常简单。如果创建链接的进程与目标文件具有**不同的权限级别**，我们会创建一个**警报**。不幸的是，在符号链接的情况下，无法阻止，因为我们在创建之前没有关于链接目标的信息。这是Apple的EndpointSecurity框架的一个限制。
 
-### Oproepe gemaak deur ander prosesse
+### 其他进程发出的调用
 
-In [**hierdie blogpos**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) kan jy vind hoe dit moontlik is om die funksie **`task_name_for_pid`** te gebruik om inligting oor ander **prosesse wat kode in 'n proses inspuit** te kry en dan inligting oor daardie ander proses te kry.
+在[**这篇博客文章**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html)中，您可以找到如何使用函数**`task_name_for_pid`**获取关于其他**进程在一个进程中注入代码**的信息，然后获取关于该其他进程的信息。
 
-Let daarop dat om daardie funksie te roep, moet jy **dieselfde uid** as die een wat die proses hardloop of **root** wees (en dit gee inligting oor die proses, nie 'n manier om kode in te spuit).
+请注意，要调用该函数，您需要与运行该进程的**相同uid**或**root**（并且它返回关于该进程的信息，而不是注入代码的方法）。
 
-## Verwysings
+## 参考
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,26 +1,26 @@
-# macOS Sensitiewe Lokasies & Interessante Daemons
+# macOS 敏感位置与有趣的守护进程
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Wagwoorde
+## 密码
 
-### Skadu Wagwoorde
+### Shadow 密码
 
-Skadu wagwoord word gestoor met die gebruiker se konfigurasie in plists geleë in **`/var/db/dslocal/nodes/Default/users/`**.\
-Die volgende eenlyn kan gebruik word om **alle inligting oor die gebruikers** (insluitend hash inligting) te dump: 
+Shadow 密码与用户的配置一起存储在 **`/var/db/dslocal/nodes/Default/users/`** 中的 plist 文件中。\
+以下单行命令可用于转储 **所有用户的信息**（包括哈希信息）：
 
 {% code overflow="wrap" %}
 ```bash
@@ -28,9 +28,9 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 ```
 {% endcode %}
 
-[**Scripts soos hierdie**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) of [**hierdie**](https://github.com/octomagon/davegrohl.git) kan gebruik word om die hash na **hashcat** **formaat** te transformeer.
+[**像这样的脚本**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) 或 [**这个**](https://github.com/octomagon/davegrohl.git) 可以用来将哈希转换为 **hashcat** **格式**。
 
-'n Alternatiewe een-liner wat die kredensiale van alle nie-diens rekeninge in hashcat formaat `-m 7100` (macOS PBKDF2-SHA512) sal dump: 
+一个替代的一行命令将以 hashcat 格式 `-m 7100`（macOS PBKDF2-SHA512）转储所有非服务账户的凭据：
 
 {% code overflow="wrap" %}
 ```bash
@@ -38,15 +38,15 @@ sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex
 ```
 {% endcode %}
 
-'n Ander manier om die `ShadowHashData` van 'n gebruiker te verkry, is deur `dscl` te gebruik: ``sudo dscl . -read /Users/`whoami` ShadowHashData``
+获取用户的 `ShadowHashData` 的另一种方法是使用 `dscl`: ``sudo dscl . -read /Users/`whoami` ShadowHashData``
 
 ### /etc/master.passwd
 
-Hierdie lêer word **slegs gebruik** wanneer die stelsel in **enkele-gebruiker modus** loop (so nie baie gereeld nie).
+此文件**仅在**系统以**单用户模式**运行时使用（因此不太频繁）。
 
-### Sleutelhouer Dump
+### 钥匙串转储
 
-Let daarop dat wanneer die sekuriteit-binary gebruik word om die **ontsleutelde wagwoorde te dump**, verskeie vrae die gebruiker sal vra om hierdie operasie toe te laat.
+请注意，当使用安全二进制文件**转储解密的密码**时，会有几个提示要求用户允许此操作。
 ```bash
 #security
 security dump-trust-settings [-s] [-d] #List certificates
@@ -58,44 +58,44 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
-Op grond van hierdie kommentaar [juuso/keychaindump#10 (comment)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) lyk dit of hierdie gereedskap nie meer werk in Big Sur nie.
+根据这个评论 [juuso/keychaindump#10 (comment)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760)，这些工具在 Big Sur 中似乎不再有效。
 {% endhint %}
 
-### Keychaindump Oorsig
+### Keychaindump 概述
 
-'n Gereedskap genaamd **keychaindump** is ontwikkel om wagwoorde uit macOS sleutelhouers te onttrek, maar dit ondervind beperkings op nuwer macOS weergawes soos Big Sur, soos aangedui in 'n [bespreking](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Die gebruik van **keychaindump** vereis dat die aanvaller toegang verkry en voorregte tot **root** verhoog. Die gereedskap benut die feit dat die sleutelhouer standaard ontgrendel is by gebruikersaanmelding vir gerief, wat toelaat dat toepassings toegang daartoe verkry sonder om die gebruiker se wagwoord herhaaldelik te vereis. As 'n gebruiker egter kies om hul sleutelhouer na elke gebruik te vergrendel, word **keychaindump** ondoeltreffend.
+一个名为 **keychaindump** 的工具被开发用来从 macOS 钥匙串中提取密码，但在像 Big Sur 这样的较新 macOS 版本上面临限制，如在 [讨论](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) 中所指出的。使用 **keychaindump** 需要攻击者获得访问权限并提升到 **root** 权限。该工具利用了钥匙串在用户登录时默认解锁的事实，以方便应用程序访问，而无需用户重复输入密码。然而，如果用户选择在每次使用后锁定他们的钥匙串，**keychaindump** 将变得无效。
 
-**Keychaindump** werk deur 'n spesifieke proses genaamd **securityd** te teiken, wat deur Apple beskryf word as 'n daemon vir magtiging en kriptografiese operasies, wat noodsaaklik is vir toegang tot die sleutelhouer. Die onttrekkingsproses behels die identifisering van 'n **Master Key** wat afgelei is van die gebruiker se aanmeldwagwoord. Hierdie sleutel is noodsaaklik om die sleutelhouer-lêer te lees. Om die **Master Key** te vind, skandeer **keychaindump** die geheuehoop van **securityd** met behulp van die `vmmap` opdrag, op soek na potensiële sleutels binne areas wat as `MALLOC_TINY` gemerk is. Die volgende opdrag word gebruik om hierdie geheue-lokasies te ondersoek:
+**Keychaindump** 通过针对一个特定的进程 **securityd** 来操作，Apple 将其描述为一个用于授权和加密操作的守护进程，对于访问钥匙串至关重要。提取过程涉及识别一个从用户登录密码派生的 **Master Key**。这个密钥对于读取钥匙串文件是必不可少的。为了找到 **Master Key**，**keychaindump** 使用 `vmmap` 命令扫描 **securityd** 的内存堆，寻找标记为 `MALLOC_TINY` 的区域中的潜在密钥。以下命令用于检查这些内存位置：
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Na die identifisering van potensiële meester sleutels, **keychaindump** soek deur die hoop vir 'n spesifieke patroon (`0x0000000000000018`) wat 'n kandidaat vir die meester sleutel aandui. Verdere stappe, insluitend deobfuscation, is nodig om hierdie sleutel te benut, soos uiteengesit in **keychaindump**'s bronkode. Ontleders wat op hierdie gebied fokus, moet oplet dat die belangrike data vir die ontsleuteling van die sleutelring binne die geheue van die **securityd** proses gestoor is. 'n Voorbeeldopdrag om **keychaindump** te loop is:
+在识别潜在的主密钥后，**keychaindump** 在堆中搜索特定模式（`0x0000000000000018`），这表明是主密钥的候选者。要利用此密钥，还需要进一步的步骤，包括去混淆，这在 **keychaindump** 的源代码中有说明。专注于该领域的分析师应注意，解密钥链的关键数据存储在 **securityd** 进程的内存中。运行 **keychaindump** 的示例命令是：
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) kan gebruik word om die volgende tipes inligting uit 'n OSX sleutelketting op 'n forensies-korrekte manier te onttrek:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) 可用于以法医可靠的方式从OSX钥匙串中提取以下类型的信息：
 
-* Gehashede Sleutelkettingswagwoord, geskik vir kraken met [hashcat](https://hashcat.net/hashcat/) of [John the Ripper](https://www.openwall.com/john/)
-* Internet Wagwoorde
-* Generiese Wagwoorde
-* Privaat Sleutels
-* Publieke Sleutels
-* X509 Sertifikate
-* Veilige Aantekeninge
-* Appleshare Wagwoorde
+* 哈希钥匙串密码，适合使用 [hashcat](https://hashcat.net/hashcat/) 或 [John the Ripper](https://www.openwall.com/john/) 破解
+* 互联网密码
+* 通用密码
+* 私钥
+* 公钥
+* X509证书
+* 安全笔记
+* Appleshare密码
 
-Gegewe die sleutelkettingsontsluitwagwoord, 'n meester sleutel verkry met behulp van [volafox](https://github.com/n0fate/volafox) of [volatility](https://github.com/volatilityfoundation/volatility), of 'n ontsluitlêer soos SystemKey, sal Chainbreaker ook plattekswagwoorde verskaf.
+给定钥匙串解锁密码、使用 [volafox](https://github.com/n0fate/volafox) 或 [volatility](https://github.com/volatilityfoundation/volatility) 获得的主密钥，或解锁文件如SystemKey，Chainbreaker 还将提供明文密码。
 
-Sonder een van hierdie metodes om die Sleutelketing te ontsluit, sal Chainbreaker al die ander beskikbare inligting vertoon.
+如果没有这些解锁钥匙串的方法，Chainbreaker 将显示所有其他可用信息。
 
-#### **Dump sleutelkettingsleutels**
+#### **Dump keychain keys**
 ```bash
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
-#### **Dump sleutelring sleutels (met wagwoorde) met SystemKey**
+#### **使用 SystemKey 转储钥匙串密钥（带密码）**
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -103,7 +103,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dump sleutelring sleutels (met wagwoorde) om die hash te kraak**
+#### **转储钥匙串密钥（带密码）破解哈希**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -112,9 +112,9 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dump sleutelring sleutels (met wagwoorde) met geheue-aflaai**
+#### **通过内存转储转储钥匙串密钥（带密码）**
 
-[Volg hierdie stappe](../#dumping-memory-with-osxpmem) om 'n **geheue-aflaai** uit te voer
+[按照这些步骤](../#dumping-memory-with-osxpmem) 执行 **内存转储**
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -123,23 +123,23 @@ python vol.py -i ~/Desktop/show/macosxml.mem -o keychaindump
 #Try to extract the passwords using the extracted keychain passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dump sleutelring sleutels (met wagwoorde) met die gebruiker se wagwoord**
+#### **使用用户密码转储钥匙串密钥（带密码）**
 
-As jy die gebruiker se wagwoord ken, kan jy dit gebruik om **sleutelrings wat aan die gebruiker behoort te dump en te ontsleutel**.
+如果您知道用户的密码，您可以使用它来**转储和解密属于该用户的钥匙串**。
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
 ```
 ### kcpassword
 
-Die **kcpassword** lêer is 'n lêer wat die **gebruikers se aanmeldwagwoord** bevat, maar slegs as die stelselaanvaarder **outomatiese aanmelding** geaktiveer het. Daarom sal die gebruiker outomaties aangemeld word sonder om vir 'n wagwoord gevra te word (wat nie baie veilig is nie).
+**kcpassword** 文件是一个保存 **用户登录密码** 的文件，但仅在系统所有者 **启用自动登录** 的情况下。 因此，用户将自动登录，而无需输入密码（这并不是很安全）。
 
-Die wagwoord word in die lêer **`/etc/kcpassword`** xored met die sleutel **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. As die gebruiker se wagwoord langer is as die sleutel, sal die sleutel hergebruik word.\
-Dit maak die wagwoord redelik maklik om te herstel, byvoorbeeld met behulp van skripte soos [**hierdie een**](https://gist.github.com/opshope/32f65875d45215c3677d).
+密码存储在文件 **`/etc/kcpassword`** 中，使用密钥 **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** 进行异或加密。 如果用户的密码长度超过密钥，密钥将被重复使用。\
+这使得密码相对容易恢复，例如使用像 [**这个**](https://gist.github.com/opshope/32f65875d45215c3677d) 的脚本。
 
-## Interessante Inligting in Databasisse
+## Interesting Information in Databases
 
-### Boodskappe
+### Messages
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -147,11 +147,11 @@ sqlite3 $HOME/Library/Messages/chat.db 'select * from attachment'
 sqlite3 $HOME/Library/Messages/chat.db 'select * from deleted_messages'
 sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 ```
-### Kennisgewings
+### 通知
 
-Jy kan die Kennisgewings data vind in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
+您可以在 `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/` 找到通知数据。
 
-Die meeste van die interessante inligting gaan in **blob** wees. So jy sal daardie inhoud moet **onttrek** en dit moet **omskakel** na **mens** **leesbaar** of gebruik **`strings`**. Om toegang te verkry kan jy doen: 
+大多数有趣的信息将位于 **blob** 中。因此，您需要 **提取** 该内容并 **转换** 为 **人类** **可读** 格式，或者使用 **`strings`**。要访问它，您可以执行： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -160,9 +160,9 @@ strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i
 ```
 {% endcode %}
 
-### Aantekeninge
+### 备注
 
-Die gebruikers **aantekeninge** kan gevind word in `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
+用户的 **备注** 可以在 `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite` 中找到
 
 {% code overflow="wrap" %}
 ```bash
@@ -173,18 +173,18 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 ```
 {% endcode %}
 
-## Voorkeure
+## 偏好设置
 
-In macOS toepassings is voorkeure geleë in **`$HOME/Library/Preferences`** en in iOS is dit in `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`.
+在 macOS 应用中，偏好设置位于 **`$HOME/Library/Preferences`**，而在 iOS 中则位于 `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`。
 
-In macOS kan die cli-gereedskap **`defaults`** gebruik word om die **Voorkeur lêer** te **wysig**.
+在 macOS 中，可以使用命令行工具 **`defaults`** 来 **修改偏好设置文件**。
 
-**`/usr/sbin/cfprefsd`** eis die XPC dienste `com.apple.cfprefsd.daemon` en `com.apple.cfprefsd.agent` en kan geroep word om aksies uit te voer soos om voorkeure te wysig.
+**`/usr/sbin/cfprefsd`** 声称 XPC 服务 `com.apple.cfprefsd.daemon` 和 `com.apple.cfprefsd.agent`，并可以被调用以执行诸如修改偏好设置等操作。
 
 ## OpenDirectory permissions.plist
 
-Die lêer `/System/Library/OpenDirectory/permissions.plist` bevat toestemmings wat op knoopattributen toegepas word en is beskerm deur SIP.\
-Hierdie lêer verleen toestemmings aan spesifieke gebruikers deur UUID (en nie uid nie) sodat hulle toegang kan verkry tot spesifieke sensitiewe inligting soos `ShadowHashData`, `HeimdalSRPKey` en `KerberosKeys` onder andere:
+文件 `/System/Library/OpenDirectory/permissions.plist` 包含应用于节点属性的权限，并受到 SIP 保护。\
+该文件通过 UUID（而不是 uid）授予特定用户权限，以便他们能够访问特定的敏感信息，如 `ShadowHashData`、`HeimdalSRPKey` 和 `KerberosKeys` 等：
 ```xml
 [...]
 <key>dsRecTypeStandard:Computers</key>
@@ -217,15 +217,15 @@ Hierdie lêer verleen toestemmings aan spesifieke gebruikers deur UUID (en nie u
 </array>
 [...]
 ```
-## Stelselskennisgewings
+## 系统通知
 
-### Darwin Kenner
+### Darwin 通知
 
-Die hoof daemon vir kennisgewings is **`/usr/sbin/notifyd`**. Om kennisgewings te ontvang, moet kliënte registreer deur die `com.apple.system.notification_center` Mach-poort (kontroleer dit met `sudo lsmp -p <pid notifyd>`). Die daemon is konfigureerbaar met die lêer `/etc/notify.conf`.
+主要的通知守护进程是 **`/usr/sbin/notifyd`**。为了接收通知，客户端必须通过 `com.apple.system.notification_center` Mach 端口注册（使用 `sudo lsmp -p <pid notifyd>` 检查它们）。该守护进程可以通过文件 `/etc/notify.conf` 进行配置。
 
-Die name wat vir kennisgewings gebruik word, is unieke omgekeerde DNS-notasies en wanneer 'n kennisgewing na een van hulle gestuur word, sal die kliënt(e) wat aangedui het dat hulle dit kan hanteer, dit ontvang.
+用于通知的名称是唯一的反向 DNS 表示法，当发送通知到其中一个名称时，已指示可以处理它的客户端将接收到该通知。
 
-Dit is moontlik om die huidige status te dump (en al die name te sien) deur die sein SIGUSR2 na die notifyd-proses te stuur en die gegenereerde lêer te lees: `/var/run/notifyd_<pid>.status`:
+可以通过向 notifyd 进程发送 SIGUSR2 信号并读取生成的文件 `/var/run/notifyd_<pid>.status` 来转储当前状态（并查看所有名称）：
 ```bash
 ps -ef | grep -i notifyd
 0   376     1   0 15Mar24 ??        27:40.97 /usr/sbin/notifyd
@@ -241,32 +241,32 @@ common: com.apple.CFPreferences._domainsChangedExternally
 common: com.apple.security.octagon.joined-with-bottle
 [...]
 ```
-### Verspreide Kennisgewing Sentrum
+### 分布式通知中心
 
-Die **Verspreide Kennisgewing Sentrum** waarvan die hoof-binary **`/usr/sbin/distnoted`** is, is 'n ander manier om kennisgewings te stuur. Dit stel 'n paar XPC-dienste bloot en dit voer 'n paar kontroles uit om te probeer om kliënte te verifieer.
+**分布式通知中心**的主要二进制文件是**`/usr/sbin/distnoted`**，是发送通知的另一种方式。它暴露了一些XPC服务，并执行一些检查以尝试验证客户端。
 
-### Apple Push Kennisgewings (APN)
+### 苹果推送通知 (APN)
 
-In hierdie geval kan toepassings registreer vir **onderwerpe**. Die kliënt sal 'n token genereer deur Apple se bedieners te kontak via **`apsd`**.\
-Dan sal verskaffers ook 'n token genereer en in staat wees om met Apple se bedieners te verbind om boodskappe aan die kliënte te stuur. Hierdie boodskappe sal plaaslik deur **`apsd`** ontvang word wat die kennisgewing aan die toepassing wat daarop wag, sal oordra.
+在这种情况下，应用程序可以注册**主题**。客户端将通过**`apsd`**联系苹果的服务器生成一个令牌。\
+然后，提供者也将生成一个令牌，并能够连接到苹果的服务器向客户端发送消息。这些消息将由**`apsd`**本地接收，并将通知转发给等待它的应用程序。
 
-Die voorkeure is geleë in `/Library/Preferences/com.apple.apsd.plist`.
+首选项位于`/Library/Preferences/com.apple.apsd.plist`。
 
-Daar is 'n plaaslike databasis van boodskappe geleë in macOS in `/Library/Application\ Support/ApplePushService/aps.db` en in iOS in `/var/mobile/Library/ApplePushService`. Dit het 3 tabelle: `incoming_messages`, `outgoing_messages` en `channel`.
+在macOS中，消息的本地数据库位于`/Library/Application\ Support/ApplePushService/aps.db`，在iOS中位于`/var/mobile/Library/ApplePushService`。它有3个表：`incoming_messages`、`outgoing_messages`和`channel`。
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
-Dit is ook moontlik om inligting oor die daemon en verbindings te verkry met:
+也可以使用以下命令获取有关守护进程和连接的信息：
 ```bash
 /System/Library/PrivateFrameworks/ApplePushService.framework/apsctl status
 ```
-## User Notifications
+## 用户通知
 
-Dit is kennisgewings wat die gebruiker op die skerm moet sien:
+这些是用户应该在屏幕上看到的通知：
 
-* **`CFUserNotification`**: Hierdie API bied 'n manier om 'n pop-up met 'n boodskap op die skerm te wys.
-* **Die Bulletin Board**: Dit wys in iOS 'n banner wat verdwyn en in die Kennisgewing Sentrum gestoor sal word.
-* **`NSUserNotificationCenter`**: Dit is die iOS bulletin board in MacOS. Die databasis met die kennisgewings is geleë in `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
+* **`CFUserNotification`**: 这个 API 提供了一种在屏幕上显示带有消息的弹出窗口的方法。
+* **公告板**: 这在 iOS 上显示一个会消失的横幅，并将存储在通知中心。
+* **`NSUserNotificationCenter`**: 这是 MacOS 中的 iOS 公告板。通知的数据库位于 `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -274,11 +274,11 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

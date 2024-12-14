@@ -17,33 +17,33 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## **Autoriserings DB**
+## **授权数据库**
 
-Die databasis geleë in `/var/db/auth.db` is 'n databasis wat gebruik word om toestemmings te stoor om sensitiewe operasies uit te voer. Hierdie operasies word heeltemal in **gebruikerspas** uitgevoer en word gewoonlik deur **XPC-dienste** gebruik wat moet nagaan **of die oproepende kliënt gemagtig is** om sekere aksies uit te voer deur hierdie databasis te kontroleer.
+位于 `/var/db/auth.db` 的数据库用于存储执行敏感操作的权限。这些操作完全在 **用户空间** 中执行，通常由 **XPC 服务** 使用，这些服务需要检查 **调用客户端是否被授权** 执行某些操作，通过检查该数据库。
 
-Aanvanklik word hierdie databasis geskep uit die inhoud van `/System/Library/Security/authorization.plist`. Dan kan sommige dienste hierdie databasis bywerk of wysig om ander toestemmings by te voeg.
+最初，该数据库是从 `/System/Library/Security/authorization.plist` 的内容创建的。然后，一些服务可能会添加或修改该数据库，以添加其他权限。
 
-Die reëls word in die `rules` tabel binne die databasis gestoor en bevat die volgende kolomme:
+规则存储在数据库中的 `rules` 表内，包含以下列：
 
-* **id**: 'n Unieke identifiseerder vir elke reël, outomaties verhoog en dien as die primêre sleutel.
-* **name**: Die unieke naam van die reël wat gebruik word om dit binne die autorisasiesisteem te identifiseer en te verwys.
-* **type**: Gee die tipe van die reël aan, beperk tot waardes 1 of 2 om sy autorisasielogika te definieer.
-* **class**: Kategoriseer die reël in 'n spesifieke klas, wat verseker dat dit 'n positiewe heelgetal is.
-* "allow" vir toelaat, "deny" vir weier, "user" as die groep eienskap 'n groep aandui waarvan lidmaatskap toegang toelaat, "rule" dui in 'n array 'n reël aan wat nagekom moet word, "evaluate-mechanisms" gevolg deur 'n `mechanisms` array wat of ingeboude funksies of 'n naam van 'n bundel binne `/System/Library/CoreServices/SecurityAgentPlugins/` of /Library/Security//SecurityAgentPlugins is.
-* **group**: Dui die gebruikersgroep aan wat met die reël geassosieer word vir groep-gebaseerde autorisasie.
-* **kofn**: Verteenwoordig die "k-of-n" parameter, wat bepaal hoeveel subreëls uit 'n totale aantal bevredig moet word.
-* **timeout**: Definieer die duur in sekondes voordat die autorisasie wat deur die reël toegestaan word, verval.
-* **flags**: Bevat verskeie vlae wat die gedrag en eienskappe van die reël wysig.
-* **tries**: Beperk die aantal toegelate autorisasiepogings om sekuriteit te verbeter.
-* **version**: Hou die weergawe van die reël dop vir weergawebeheer en opdaterings.
-* **created**: Registreer die tydstempel wanneer die reël geskep is vir ouditdoeleindes.
-* **modified**: Stoor die tydstempel van die laaste wysiging aan die reël.
-* **hash**: Hou 'n hash-waarde van die reël om sy integriteit te verseker en om te detecteer of daar gemanipuleer is.
-* **identifier**: Verskaf 'n unieke string identifiseerder, soos 'n UUID, vir eksterne verwysings na die reël.
-* **requirement**: Bevat geserialiseerde data wat die spesifieke autorisasievereistes en meganismes van die reël definieer.
-* **comment**: Bied 'n menslike leesbare beskrywing of opmerking oor die reël vir dokumentasie en duidelikheid.
+* **id**: 每条规则的唯一标识符，自动递增，作为主键。
+* **name**: 规则的唯一名称，用于在授权系统中识别和引用它。
+* **type**: 指定规则的类型，仅限于值 1 或 2，以定义其授权逻辑。
+* **class**: 将规则分类为特定类别，确保它是正整数。
+* "allow" 表示允许，"deny" 表示拒绝，"user" 如果组属性指示一个允许访问的组，"rule" 表示在数组中需要满足的规则，"evaluate-mechanisms" 后跟一个 `mechanisms` 数组，这些机制可以是内置的或是 `/System/Library/CoreServices/SecurityAgentPlugins/` 或 /Library/Security//SecurityAgentPlugins 中的一个包的名称。
+* **group**: 指示与规则相关联的用户组，用于基于组的授权。
+* **kofn**: 表示 "k-of-n" 参数，确定必须满足的子规则数量。
+* **timeout**: 定义规则授予的授权在多少秒后过期。
+* **flags**: 包含各种标志，以修改规则的行为和特征。
+* **tries**: 限制允许的授权尝试次数，以增强安全性。
+* **version**: 跟踪规则的版本，以便进行版本控制和更新。
+* **created**: 记录规则创建时的时间戳，以便审计。
+* **modified**: 存储对规则进行的最后修改的时间戳。
+* **hash**: 保存规则的哈希值，以确保其完整性并检测篡改。
+* **identifier**: 提供唯一的字符串标识符，例如 UUID，以供外部引用规则。
+* **requirement**: 包含序列化数据，定义规则的特定授权要求和机制。
+* **comment**: 提供规则的可读描述或注释，以便于文档和清晰性。
 
-### Voorbeeld
+### 示例
 ```bash
 # List by name and comments
 sudo sqlite3 /var/db/auth.db "select name, comment from rules"
@@ -71,7 +71,7 @@ security authorizationdb read com.apple.tcc.util.admin
 </dict>
 </plist>
 ```
-Boonop in [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/](https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/) is dit moontlik om die betekenis van `authenticate-admin-nonshared` te sien:
+此外，在 [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/](https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/) 可以查看 `authenticate-admin-nonshared` 的含义：
 ```json
 {
 'allow-root' : 'false',
@@ -88,11 +88,11 @@ Boonop in [https://www.dssw.co.uk/reference/authorization-rights/authenticate-ad
 ```
 ## Authd
 
-Dit is 'n daemon wat versoeke sal ontvang om kliënte te autoriseer om sensitiewe aksies uit te voer. Dit werk as 'n XPC-diens wat binne die `XPCServices/`-map gedefinieer is en gebruik om sy logs in `/var/log/authd.log` te skryf.
+它是一个守护进程，将接收请求以授权客户端执行敏感操作。它作为一个在 `XPCServices/` 文件夹中定义的 XPC 服务工作，并将日志写入 `/var/log/authd.log`。
 
-Boonop is dit moontlik om baie `Security.framework` API's te toets met die sekuriteitstoepassing. Byvoorbeeld, die `AuthorizationExecuteWithPrivileges` wat loop: `security execute-with-privileges /bin/ls`
+此外，使用安全工具可以测试许多 `Security.framework` API。例如，运行 `AuthorizationExecuteWithPrivileges`：`security execute-with-privileges /bin/ls`
 
-Dit sal `/usr/libexec/security_authtrampoline /bin/ls` as root fork en exec, wat toestemming sal vra in 'n prompt om ls as root uit te voer:
+这将以 root 身份分叉并执行 `/usr/libexec/security_authtrampoline /bin/ls`，这将提示请求权限以 root 身份执行 ls：
 
 <figure><img src="../../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
