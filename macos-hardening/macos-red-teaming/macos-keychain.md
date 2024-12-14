@@ -51,7 +51,7 @@ Ook kan die inskrywing die sleutel **`ACLAuthorizationPartitionID`** bevat, wat 
 
 ### Skep 'n Sleutelhanger Inskrywing
 
-Wanneer 'n **nuwe** **inskrywing** geskep word met **`Keychain Access.app`**, geld die volgende reëls:
+Wanneer 'n **nuwe** **inskrywing** geskep word met behulp van **`Keychain Access.app`**, geld die volgende reëls:
 
 * Alle apps kan versleuteld.
 * **Geen apps** kan uitvoer/ontcijfer (sonder om die gebruiker te vra).
@@ -91,7 +91,7 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 {% hint style="success" %}
 Die **keychain enumerasie en dumping** van geheime wat **nie 'n prompt sal genereer nie** kan gedoen word met die hulpmiddel [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 
-Ander API eindpunte kan gevind word in [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html) bronkode.
+Ander API eindpunte kan gevind word in die [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html) bronkode.
 {% endhint %}
 
 Lys en kry **inligting** oor elke keychain inskrywing met die **Security Framework** of jy kan ook die Apple se oopbron cli hulpmiddel [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Sommige API voorbeelde:
@@ -131,7 +131,7 @@ En dit is die **vereistes** om 'n **geheim sonder 'n prompt** te kan **eksportee
 {% hint style="danger" %}
 Daarom, as daar **1 toepassing gelys** is, moet jy **kode in daardie toepassing inspuit**.
 
-As **apple** aangedui word in die **partitionID**, kan jy dit met **`osascript`** benader, so enigiets wat al die toepassings met apple in die partitionID vertrou. **`Python`** kan ook hiervoor gebruik word.
+As **apple** aangedui word in die **partitionID**, kan jy dit toegang met **`osascript`** so enigiets wat al die toepassings met apple in die partitionID vertrou. **`Python`** kan ook hiervoor gebruik word.
 {% endhint %}
 
 ### Twee addisionele eienskappe
@@ -152,7 +152,7 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

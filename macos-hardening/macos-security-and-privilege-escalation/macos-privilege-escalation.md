@@ -25,7 +25,7 @@ As jy hier gekom het op soek na TCC privilege escalatie, gaan na:
 
 ## Linux Privesc
 
-Neem asseblief kennis dat **meeste van die truuks oor privilege escalasie wat Linux/Unix raak, ook MacOS** masjiene sal raak. So kyk na:
+Neem asseblief kennis dat **meeste van die truuks oor privilege escalatie wat Linux/Unix raak, ook MacOS** masjiene sal raak. So kyk na:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
@@ -56,7 +56,7 @@ Note dat 'n gebruiker wat die terminal gebruik hoogs waarskynlik **Homebrew geï
 
 ### Dock Imitasie
 
-Deur sommige **sosiale ingenieurswese** kan jy **byvoorbeeld Google Chrome imiteer** binne die dock en werklik jou eie skrip uitvoer:
+Deur sommige **sosiale ingenieurswese** te gebruik, kan jy **byvoorbeeld Google Chrome imiteer** binne die dock en eintlik jou eie skrip uitvoer:
 
 {% tabs %}
 {% tab title="Chrome Imitasie" %}
@@ -140,7 +140,7 @@ Sommige voorstelle:
 * Jy **kan nie Finder uit die Dock verwyder nie**, so as jy dit aan die Dock wil voeg, kan jy die vals Finder net langs die werklike een plaas. Hiervoor moet jy die **vals Finder inskrywing aan die begin van die Dock-array voeg**.
 * 'n Ander opsie is om dit nie in die Dock te plaas nie en net oop te maak, "Finder vra om Finder te beheer" is nie so vreemd nie.
 * 'n Ander opsie om **na root te eskaleer sonder om** die wagwoord met 'n vreeslike boks te vra, is om Finder regtig te laat vra vir die wagwoord om 'n bevoorregte aksie uit te voer:
-* Vra Finder om na **`/etc/pam.d`** 'n nuwe **`sudo`** lêer te kopieer (Die prompt wat om die wagwoord vra, sal aandui dat "Finder wil sudo kopieer")
+* Vra Finder om te kopieer na **`/etc/pam.d`** 'n nuwe **`sudo`** lêer (Die prompt wat om die wagwoord vra, sal aandui dat "Finder wil sudo kopieer")
 * Vra Finder om 'n nuwe **Magtigingsplugin** te kopieer (Jy kan die lêernaam beheer sodat die prompt wat om die wagwoord vra, sal aandui dat "Finder wil Finder.bundle kopieer")
 ```bash
 #!/bin/sh
@@ -219,7 +219,7 @@ killall Dock
 ### CVE-2020-9771 - mount\_apfs TCC omseiling en privilege escalasie
 
 **Enige gebruiker** (selfs onprivilegieerde) kan 'n tydmasjien-snapshot skep en monteer en **toegang hê tot AL die lêers** van daardie snapshot.\
-Die **enige privilegie** wat benodig word, is dat die toepassing wat gebruik word (soos `Terminal`) **Volledige Skyftoegang** (FDA) toegang (`kTCCServiceSystemPolicyAllfiles`) moet hê wat deur 'n admin toegestaan moet word.
+Die **enige privilegie** wat benodig word, is dat die toepassing wat gebruik word (soos `Terminal`) **Volledige Skyftoegang** (FDA) toegang moet hê (`kTCCServiceSystemPolicyAllfiles`) wat deur 'n admin toegestaan moet word.
 
 {% code overflow="wrap" %}
 ```bash

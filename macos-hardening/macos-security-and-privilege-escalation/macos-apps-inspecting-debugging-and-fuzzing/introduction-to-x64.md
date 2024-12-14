@@ -26,7 +26,7 @@ x64 brei op die x86 argitektuur uit, met **16 algemene registers** gemerk as `ra
 1. **`rax`** - Tradisioneel gebruik vir **terugwaardes** van funksies.
 2. **`rbx`** - Gereeld gebruik as 'n **basisregister** vir geheue operasies.
 3. **`rcx`** - Gewoonlik gebruik vir **lus tellers**.
-4. **`rdx`** - Gebruik in verskeie rolle insluitend uitgebreide aritmetiese operasies.
+4. **`rdx`** - Gebruik in verskeie rolle insluitend uitgebreide wiskundige operasies.
 5. **`rbp`** - **Basisaanwyser** vir die stapelraam.
 6. **`rsp`** - **Stapelaanwyser**, wat die bokant van die stapel dop hou.
 7. **`rsi`** en **`rdi`** - Gebruik vir **bron** en **bestemming** indekse in string/geheue operasies.
@@ -39,7 +39,7 @@ Die x64 aanroep konvensie verskil tussen bedryfstelsels. Byvoorbeeld:
 * **Windows**: Die eerste **vier parameters** word in die registers **`rcx`**, **`rdx`**, **`r8`**, en **`r9`** oorgedra. Verdere parameters word op die stapel geplaas. Die terugwaarde is in **`rax`**.
 * **System V (gewoonlik gebruik in UNIX-agtige stelsels)**: Die eerste **ses heelgetal of aanwyser parameters** word in registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, en **`r9`** oorgedra. Die terugwaarde is ook in **`rax`**.
 
-As die funksie meer as ses invoere het, sal die **oorige op die stapel oorgedra word**. **RSP**, die stapelaanwyser, moet **16 bytes geallineer** wees, wat beteken dat die adres waarna dit verwys deelbaar moet wees deur 16 voordat enige aanroep plaasvind. Dit beteken dat ons normaalweg moet verseker dat RSP behoorlik geallineer is in ons shellcode voordat ons 'n funksie aanroep. In praktyk werk stelselaanroepe egter baie keer selfs al word hierdie vereiste nie nagekom nie.
+As die funksie meer as ses invoere het, sal die **oorige op die stapel oorgedra word**. **RSP**, die stapelaanwyser, moet **16 bytes uitgelijnd** wees, wat beteken dat die adres waarna dit wys, deelbaar moet wees deur 16 voordat enige aanroep plaasvind. Dit beteken dat ons normaalweg moet verseker dat RSP behoorlik uitgelijnd is in ons shellcode voordat ons 'n funksie aanroep. In praktyk werk stelselaanroepe egter baie keer selfs al word hierdie vereiste nie nagekom nie.
 
 ### Calling Convention in Swift
 
@@ -57,7 +57,7 @@ x64 instruksies het 'n ryk stel, wat kompatibiliteit met vroeëre x86 instruksie
 * **`add`** en **`sub`**: **Optelling** en **aftrekking** operasies.
 * Voorbeeld: `add rax, rcx` — Voeg die waardes in `rax` en `rcx` by en stoor die resultaat in `rax`.
 * **`mul`** en **`div`**: **Vermenigvuldiging** en **deling** operasies. Let op: hierdie het spesifieke gedrag rakende operand gebruik.
-* **`call`** en **`ret`**: Gebruik om **aan te roep** en **terug te keer van funksies**.
+* **`call`** en **`ret`**: Gebruik om te **roep** en **terug te keer** van funksies.
 * **`int`**: Gebruik om 'n sagteware **onderbreking** te aktiveer. Byvoorbeeld, `int 0x80` is gebruik vir stelselaanroepe in 32-bis x86 Linux.
 * **`cmp`**: **Vergelyk** twee waardes en stel die CPU se vlae op grond van die resultaat.
 * Voorbeeld: `cmp rax, rdx` — Vergelyk `rax` met `rdx`.
@@ -74,7 +74,7 @@ x64 instruksies het 'n ryk stel, wat kompatibiliteit met vroeëre x86 instruksie
 
 ### **Function Epilogue**
 
-1. **Beweeg die huidige basisaanwyser na die stapelaanwyser**: `mov rsp, rbp` (deallokeer plaaslike veranderlikes)
+1. **Beweeg die huidige basisaanwyser na die stapelaanwyser**: `mov rsp, rbp` (deallocate plaaslike veranderlikes)
 2. **Pop die ou basisaanwyser van die stapel**: `pop rbp` (herstel die oproeper se basisaanwyser)
 3. **Terugkeer**: `ret` (gee beheer terug aan die oproeper)
 
@@ -82,7 +82,7 @@ x64 instruksies het 'n ryk stel, wat kompatibiliteit met vroeëre x86 instruksie
 
 ### syscalls
 
-Daar is verskillende klasse van syscalls, jy kan [**dit hier vind**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Daar is verskillende klasse van stelselaanroepe, jy kan [**dit hier vind**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -230,7 +230,7 @@ syscall
 
 #### Lees met cat
 
-Die doel is om `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` uit te voer, so die tweede argument (x1) is 'n array van parameters (wat in geheue beteken 'n stapel van die adresse).
+Die doel is om `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` uit te voer, so die tweede argument (x1) is 'n array van parameters (wat in geheue 'n stapel van die adresse beteken).
 ```armasm
 bits 64
 section .text
@@ -448,8 +448,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

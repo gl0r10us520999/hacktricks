@@ -31,13 +31,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-'n UTS (UNIX Time-Sharing System) namespace is 'n Linux-kernkenmerk wat i**solasie van twee stelselnommers** bied: die **hostname** en die **NIS** (Network Information Service) domeinnaam. Hierdie isolasie laat elke UTS namespace toe om sy **eie onafhanklike hostname en NIS domeinnaam** te hê, wat veral nuttig is in kontenerisasiescenario's waar elke kontener as 'n aparte stelsel met sy eie hostname moet verskyn.
+'n UTS (UNIX Time-Sharing System) namespace is 'n Linux-kernfunksie wat **isolasie van twee stelselnommers** bied: die **hostname** en die **NIS** (Network Information Service) domeinnaam. Hierdie isolasie laat elke UTS namespace toe om sy **eie onafhanklike hostname en NIS domeinnaam** te hê, wat veral nuttig is in kontenerisasiescenario's waar elke kontener as 'n aparte stelsel met sy eie hostname moet verskyn.
 
 ### How it works:
 
-1. Wanneer 'n nuwe UTS namespace geskep word, begin dit met 'n **kopie van die hostname en NIS domeinnaam van sy ouer namespace**. Dit beteken dat, by skepping, die nuwe namespace s**elf dieselfde identifiseerders as sy ouer deel**. egter, enige daaropvolgende veranderinge aan die hostname of NIS domeinnaam binne die namespace sal nie ander namespaces beïnvloed nie.
-2. Prosesse binne 'n UTS namespace **kan die hostname en NIS domeinnaam verander** deur die `sethostname()` en `setdomainname()` stelselaanroepe, onderskeidelik. Hierdie veranderinge is plaaslik vir die namespace en beïnvloed nie ander namespaces of die gasheerstelsel nie.
-3. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselaanroep of nuwe namespaces skep deur die `unshare()` of `clone()` stelselaanroepe met die `CLONE_NEWUTS` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die hostname en NIS domeinnaam wat met daardie namespace geassosieer word, te gebruik.
+1. Wanneer 'n nuwe UTS namespace geskep word, begin dit met 'n **kopie van die hostname en NIS domeinnaam van sy ouer namespace**. Dit beteken dat, by skepping, die nuwe namespace **die dieselfde identifiseerders as sy ouer deel**. egter, enige daaropvolgende veranderinge aan die hostname of NIS domeinnaam binne die namespace sal nie ander namespaces beïnvloed nie.
+2. Prosesse binne 'n UTS namespace **kan die hostname en NIS domeinnaam verander** deur die `sethostname()` en `setdomainname()` stelselaanroepe, onderskeidelik. Hierdie veranderinge is plaaslik tot die namespace en beïnvloed nie ander namespaces of die gasheerstelsel nie.
+3. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselaanroep of nuwe namespaces skep deur die `unshare()` of `clone()` stelselaanroepe met die `CLONE_NEWUTS` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die hostname en NIS domeinnaam wat met daardie namespace geassosieer is, te gebruik.
 
 ## Lab:
 
@@ -90,7 +90,7 @@ sudo find /proc -maxdepth 3 -type l -name uts -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
-### Gaan binne 'n UTS-namespaces in
+### Gaan binne 'n UTS-namespace in
 ```bash
 nsenter -u TARGET_PID --pid /bin/bash
 ```
@@ -106,6 +106,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
+</details>
+{% endhint %}
 </details>
 {% endhint %}
 </details>

@@ -15,23 +15,23 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## Pkg Basiese Inligting
+## Pkg Basic Information
 
-'n macOS **installer pakket** (ook bekend as 'n `.pkg` lêer) is 'n lêerformaat wat deur macOS gebruik word om **programmatuur te versprei**. Hierdie lêers is soos 'n **doos wat alles bevat wat 'n stuk programmatuur** nodig het om korrek te installeer en te werk.
+'n macOS **installer pakket** (ook bekend as 'n `.pkg` lêer) is 'n lêerformaat wat deur macOS gebruik word om **sagteware te versprei**. Hierdie lêers is soos 'n **doos wat alles bevat wat 'n stuk sagteware** nodig het om korrek te installeer en te werk.
 
-Die pakketlêer self is 'n argief wat 'n **hiërargie van lêers en gidse bevat wat op die teiken** rekenaar geïnstalleer sal word. Dit kan ook **scripts** insluit om take voor en na die installasie uit te voer, soos om konfigurasielêers op te stel of ou weergawes van die programmatuur skoon te maak.
+Die pakketlêer self is 'n argief wat 'n **hiërargie van lêers en gidse bevat wat op die teiken** rekenaar geïnstalleer sal word. Dit kan ook **scripts** insluit om take voor en na die installasie uit te voer, soos om konfigurasielêers op te stel of ou weergawes van die sagteware skoon te maak.
 
-### Hiërargie
+### Hierarchy
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Verspreiding (xml)**: Aangepas (titel, verwelkoming teks…) en script/installasie kontroles
-* **PakketInligting (xml)**: Inligting, installasie vereistes, installasie ligging, paaie na scripts om uit te voer
-* **Materiaallys (bom)**: Lys van lêers om te installeer, op te dateer of te verwyder met lêer toestemmings
-* **Payload (CPIO argief gzip gecomprimeer)**: Lêers om te installeer in die `install-location` van PakketInligting
-* **Scripts (CPIO argief gzip gecomprimeer)**: Voor en na installasie scripts en meer hulpbronne wat na 'n tydelike gids onttrek is vir uitvoering.
+* **Distribution (xml)**: Aangepas (titel, verwelkoming teks…) en script/installasie kontroles
+* **PackageInfo (xml)**: Inligting, installasie vereistes, installasie ligging, paaie na scripts om uit te voer
+* **Bill of materials (bom)**: Lys van lêers om te installeer, op te dateer of te verwyder met lêer toestemmings
+* **Payload (CPIO argief gzip gecomprimeer)**: Lêers om te installeer in die `install-location` van PackageInfo
+* **Scripts (CPIO argief gzip gecomprimeer)**: Voor- en na-installasie scripts en meer hulpbronne wat na 'n tydelike gids uitgehaal is vir uitvoering.
 
-### Decomprimeer
+### Decompress
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -63,7 +63,7 @@ Die hiërargie van 'n DMG-lêer kan verskil op grond van die inhoud. Dit volg eg
 
 * Topvlak: Dit is die wortel van die skyfbeeld. Dit bevat dikwels die toepassing en moontlik 'n skakel na die Toepassings-gids.
 * Toepassing (.app): Dit is die werklike toepassing. In macOS is 'n toepassing tipies 'n pakket wat baie individuele lêers en gidse bevat wat die toepassing saamstel.
-* Toepassingskakel: Dit is 'n snelkoppeling na die Toepassings-gids in macOS. Die doel hiervan is om dit maklik vir jou te maak om die toepassing te installeer. Jy kan die .app-lêer na hierdie snelkoppeling sleep om die app te installeer.
+* Toepassingskakel: Dit is 'n snelkoppeling na die Toepassings-gids in macOS. Die doel hiervan is om dit vir jou maklik te maak om die toepassing te installeer. Jy kan die .app-lêer na hierdie snelkoppeling sleep om die app te installeer.
 
 ## Privesc via pkg misbruik
 
@@ -75,7 +75,7 @@ As 'n vooraf of na-installasie skrip byvoorbeeld uitvoer vanaf **`/var/tmp/Insta
 
 ### AuthorizationExecuteWithPrivileges
 
-Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) wat verskeie installers en opdaterings sal aanroep om **iets as root uit te voer**. Hierdie funksie aanvaar die **pad** van die **lêer** om **uit te voer** as parameter, egter, as 'n aanvaller hierdie lêer kan **wysig**, sal hy in staat wees om sy uitvoering met root te **misbruik** om **privilege te verhoog**.
+Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) wat verskeie installers en opdaterings sal aanroep om **iets as root uit te voer**. Hierdie funksie aanvaar die **pad** van die **lêer** om te **uitvoer** as parameter, egter, as 'n aanvaller hierdie lêer kan **wysig**, sal hy in staat wees om sy uitvoering met root te **misbruik** om **privilege te verhoog**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -166,21 +166,21 @@ productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pk
 ```
 ## Verwysings
 
-* [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne Macos Installer Pakkette En Algemene Sekuriteitsfoute**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
-* [**OBTS v4.0: "Die Wilde Wêreld van macOS Installeerders" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+* [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne Macos Installer Pakkette en Algemene Sekuriteitsfoute**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
+* [**OBTS v4.0: "Die Wilde Wêreld van macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
 * [**DEF CON 27 - Ontpakking van Pkgs 'n Kyk Binne MacOS Installer Pakkette**](https://www.youtube.com/watch?v=kCXhIYtODBg)
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Ekspert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

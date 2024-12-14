@@ -72,24 +72,31 @@ return 0;
 <details>
 <summary>MacOS XATTR, ACLs en ekstra goed</summary>
 
-In MacOS is daar verskeie maniere om lêers en gidsen te beveilig en te bestuur. Een van die maniere is deur die gebruik van Extended Attributes (XATTRs) en Access Control Lists (ACLs).
+In MacOS is daar verskeie maniere om lêers en gidsen te beveilig deur gebruik te maak van Extended Attributes (XATTR) en Access Control Lists (ACLs). Hierdie tegnieke kan help om die sekuriteit van jou stelsels te verbeter en om ongewenste toegang te voorkom.
 
-### Extended Attributes (XATTRs)
+### Extended Attributes (XATTR)
 
-XATTRs is 'n manier om ekstra metadata aan lêers en gidsen toe te voeg. Dit kan gebruik word om spesifieke inligting oor die lêer te stoor, soos wie dit geskep het of wanneer dit laas gewysig is. Dit kan ook gebruik word om sekuriteitsmaatreëls toe te pas.
+XATTR is 'n manier om ekstra metadata aan lêers en gidsen toe te voeg. Dit kan gebruik word om spesifieke inligting oor 'n lêer te stoor, soos wie dit geskep het of wanneer dit laas gewysig is. Dit kan ook gebruik word om sekuriteitsmaatreëls toe te pas.
 
 ### Access Control Lists (ACLs)
 
-ACLs bied 'n meer gedetailleerde benadering tot toegangsbeheer as tradisionele Unix-permissies. Dit laat jou toe om spesifieke toestemmings aan verskillende gebruikers of groepe toe te ken. Dit is nuttig in omgewings waar jy meer beheer oor toegang tot lêers en gidsen benodig.
+ACLs bied 'n meer gedetailleerde benadering tot toegangsbeheer as tradisionele Unix-permissies. Met ACLs kan jy spesifieke toegangsregte aan verskillende gebruikers of groepe toeken. Dit maak dit moontlik om 'n meer fynbeheer oor wie toegang het tot wat op jou stelsel.
 
-### Gebruik van XATTRs en ACLs
+### Gebruik van XATTR en ACLs
 
-Om XATTRs en ACLs te gebruik, kan jy die volgende opdragte in die terminal gebruik:
+Om XATTR en ACLs te gebruik, kan jy die volgende opdragte in die terminale uitvoer:
 
-- **XATTR**: `xattr -w <attribute> <value> <file>`
-- **ACL**: `chmod +a "<user>:<permissions>" <file>`
+- Om 'n XATTR by 'n lêer toe te voeg:
+  ```bash
+  xattr -w myAttribute myValue myFile
+  ```
 
-Hierdie tegnieke kan help om jou MacOS-stelsels te beveilig teen ongewenste toegang en om jou data te beskerm.
+- Om 'n ACL by 'n lêer toe te voeg:
+  ```bash
+  chmod +a "user:username allow read,write" myFile
+  ```
+
+Deur hierdie tegnieke te gebruik, kan jy jou MacOS-stelsel se sekuriteit verbeter en die risiko van ongewenste toegang verminder.
 
 </details>
 ```
@@ -102,7 +109,7 @@ echo something > start/protected/something
 ```
 <details>
 
-<summary>Code van set_xattr</summary>
+<summary>Kode van set_xattr</summary>
 ```c
 // gcc -o set_xattr set_xattr.c
 #include <stdio.h>
@@ -216,8 +223,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,8 +1,8 @@
-# macOS Funksie Hooking
+# macOS Function Hooking
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -103,7 +103,7 @@ Die objek is **`someObject`**, die metode is **`@selector(method1p1:p2:)`** en d
 Volg die objekstrukture, dit is moontlik om 'n **array van metodes** te bereik waar die **name** en **pointers** na die metodekode **geleë** is.
 
 {% hint style="danger" %}
-Let daarop dat omdat metodes en klasse toeganklik is op grond van hul name, word hierdie inligting in die binêre gestoor, so dit is moontlik om dit te herwin met `otool -ov </path/bin>` of [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Let daarop dat omdat metodes en klasse toeganklik is op grond van hul name, hierdie inligting in die binêre gestoor word, so dit is moontlik om dit te herwin met `otool -ov </path/bin>` of [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
 ### Toegang tot die rou metodes
@@ -225,7 +225,7 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-In hierdie geval, as die **implementasiekode van die wettige** metode **verifieer** die **metode** **naam**, kan dit hierdie swizzling **opspoor** en dit verhinder om te loop.
+In hierdie geval, as die **implementasiekode van die wettige** metode **verifieer** die **metode** **naam** kan dit hierdie swizzling **opspoor** en dit verhinder om te loop.
 
 Die volgende tegniek het nie hierdie beperking nie.
 {% endhint %}
@@ -286,17 +286,17 @@ return 0;
 }
 }
 ```
-## Hooking Attack Methodology
+## Hooking Aanval Metodologie
 
-In hierdie bladsy is verskillende maniere om funksies te hook te bespreek. Dit het egter behels **om kode binne die proses te loop om aan te val**.
+In hierdie bladsy is verskillende maniere om funksies te hook bespreek. Dit het egter behels **om kode binne die proses te loop om aan te val**.
 
-Om dit te doen, is die maklikste tegniek om te gebruik om 'n [Dyld via omgewing veranderlikes of hijacking](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md) in te spuit. Ek vermoed dit kan ook gedoen word via [Dylib proses inspuiting](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Om dit te doen, is die maklikste tegniek om te gebruik om 'n [Dyld via omgewing veranderlikes of kaping](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md) in te spuit. Ek vermoed dit kan ook gedoen word via [Dylib proses inspuiting](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
-Beide opsies is egter **beperk** tot **onbeskermde** binêre/prosesse. Kyk na elke tegniek om meer oor die beperkings te leer.
+Albei opsies is egter **beperk** tot **onbeskermde** binêre/prosesse. Kyk na elke tegniek om meer oor die beperkings te leer.
 
 'n Funksie hooking aanval is egter baie spesifiek, 'n aanvaller sal dit doen om **sensitiewe inligting van binne 'n proses te steel** (as nie, sou jy net 'n proses inspuiting aanval doen). En hierdie sensitiewe inligting mag geleë wees in gebruiker afgelaaide toepassings soos MacPass.
 
-Die aanvallervector sou wees om of 'n kwesbaarheid te vind of die handtekening van die toepassing te verwyder, die **`DYLD_INSERT_LIBRARIES`** omgewing veranderlike deur die Info.plist van die toepassing in te spuit en iets soos:
+Die aanvaller se vektor sou wees om of 'n kwesbaarheid te vind of die handtekening van die toepassing te verwyder, die **`DYLD_INSERT_LIBRARIES`** omgewing veranderlike deur die Info.plist van die toepassing in te spuit en iets soos:
 ```xml
 <key>LSEnvironment</key>
 <dict>

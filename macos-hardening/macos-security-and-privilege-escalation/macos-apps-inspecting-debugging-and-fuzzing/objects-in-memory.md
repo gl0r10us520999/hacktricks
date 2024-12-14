@@ -1,25 +1,25 @@
-# Voorwerpe in geheue
+# Objects in memory
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-CF\* voorwerpe kom van CoreFOundation, wat meer as 50 klasse van voorwerpe soos `CFString`, `CFNumber` of `CFAllocatior` bied.
+CF\* objekte kom van CoreFoundation, wat meer as 50 klasse van objekte soos `CFString`, `CFNumber` of `CFAllocator` bied.
 
-Al hierdie klasse is instansies van die klas `CFRuntimeClass`, wat wanneer dit geroep word 'n indeks na die `__CFRuntimeClassTable` teruggee. Die CFRuntimeClass is gedefinieer in [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Al hierdie klasse is instansies van die klas `CFRuntimeClass`, wat wanneer dit aangeroep word, 'n indeks na die `__CFRuntimeClassTable` teruggee. Die CFRuntimeClass is gedefinieer in [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Gebruikte geheue-afdelings
+### Geheue seksies gebruik
 
-Die meeste van die data wat deur die ObjectiveC-runtime gebruik word, sal tydens die uitvoering verander, daarom gebruik dit sekere afdelings van die **\_\_DATA** segment in die geheue:
+Meeste van die data wat deur die ObjectiveC runtime gebruik word, sal tydens die uitvoering verander, daarom gebruik dit 'n paar seksies van die **\_\_DATA** segment in geheue:
 
-- **`__objc_msgrefs`** (`message_ref_t`): Boodskapverwysings
-- **`__objc_ivar`** (`ivar`): Instansie-veranderlikes
-- **`__objc_data`** (`...`): Veranderlike data
-- **`__objc_classrefs`** (`Class`): Klasverwysings
-- **`__objc_superrefs`** (`Class`): Superklasverwysings
-- **`__objc_protorefs`** (`protocol_t *`): Protokolverwysings
-- **`__objc_selrefs`** (`SEL`): Kieserverwysings
-- **`__objc_const`** (`...`): Klas `r/o` data en ander (hopelik) konstante data
-- **`__objc_imageinfo`** (`weergawe, vlae`): Gebruik tydens beeldlading: Weergawe tans `0`; Vlae spesifiseer vooraf geoptimeerde GC-ondersteuning, ens.
-- **`__objc_protolist`** (`protocol_t *`): Protokollys
-- **`__objc_nlcatlist`** (`category_t`): Verwysing na Nie-Luie Kategorieë wat in hierdie binêre lê
-- **`__objc_catlist`** (`category_t`): Verwysing na Kategorieë wat in hierdie binêre lê
-- **`__objc_nlclslist`** (`classref_t`): Verwysing na Nie-Luie Objective-C-klasse wat in hierdie binêre lê
-- **`__objc_classlist`** (`classref_t`): Verwysings na alle Objective-C-klasse wat in hierdie binêre lê
+* **`__objc_msgrefs`** (`message_ref_t`): Boodskap verwysings
+* **`__objc_ivar`** (`ivar`): Instansie veranderlikes
+* **`__objc_data`** (`...`): Veranderlike data
+* **`__objc_classrefs`** (`Class`): Klas verwysings
+* **`__objc_superrefs`** (`Class`): Superklas verwysings
+* **`__objc_protorefs`** (`protocol_t *`): Protokol verwysings
+* **`__objc_selrefs`** (`SEL`): Selektor verwysings
+* **`__objc_const`** (`...`): Klas `r/o` data en ander (hopelik) konstante data
+* **`__objc_imageinfo`** (`version, flags`): Gebruik tydens beeld laai: Huidige weergawe `0`; Vlaggies spesifiseer voor-geoptimaliseerde GC ondersteuning, ens.
+* **`__objc_protolist`** (`protocol_t *`): Protokol lys
+* **`__objc_nlcatlist`** (`category_t`): Wysiger na Nie-Lui Kategoriene gedefinieer in hierdie binêre
+* **`__objc_catlist`** (`category_t`): Wysiger na Kategoriene gedefinieer in hierdie binêre
+* **`__objc_nlclslist`** (`classref_t`): Wysiger na Nie-Lui Objective-C klasse gedefinieer in hierdie binêre
+* **`__objc_classlist`** (`classref_t`): Wysigers na alle Objective-C klasse gedefinieer in hierdie binêre
 
-Dit gebruik ook 'n paar afdelings in die **`__TEXT`** segment om konstante waardes te stoor as dit nie moontlik is om in hierdie afdeling te skryf nie:
+Dit gebruik ook 'n paar seksies in die **`__TEXT`** segment om konstante waardes te stoor as dit nie moontlik is om in hierdie seksie te skryf nie:
 
-- **`__objc_methname`** (C-String): Metode name
-- **`__objc_classname`** (C-String): Klasname
-- **`__objc_methtype`** (C-String): Metode tipes
+* **`__objc_methname`** (C-String): Metode name
+* **`__objc_classname`** (C-String): Klas name
+* **`__objc_methtype`** (C-String): Metode tipes
 
-### Tipe-kodering
+### Tipe Kodering
 
-Objective-C gebruik 'n bietjie verminking om die kieser- en veranderlike tipes van eenvoudige en komplekse tipes te kodeer:
+Objective-C gebruik 'n paar mangeling om selektor en veranderlike tipes van eenvoudige en komplekse tipes te kodeer:
 
-- Primitiewe tipes gebruik hul eerste letter van die tipe `i` vir `int`, `c` vir `char`, `l` vir `long`... en gebruik die hoofletter in die geval dit onderteken is (`L` vir `unsigned Long`).
-- Ander datatipes waarvan die letters gebruik word of spesiaal is, gebruik ander letters of simbole soos `q` vir `long long`, `b` vir `bitvelds`, `B` vir `booleans`, `#` vir `klasse`, `@` vir `id`, `*` vir `char-aanwysers`, `^` vir generiese `aanwysers` en `?` vir `onbepaalde`.
-- Arrays, strukture en unies gebruik `[`, `{` en `(`
+* Primitive tipes gebruik die eerste letter van die tipe `i` vir `int`, `c` vir `char`, `l` vir `long`... en gebruik die hoofletter in geval dit ongetekend is (`L` vir `unsigned Long`).
+* Ander datatipes waarvan die letters gebruik word of spesiaal is, gebruik ander letters of simbole soos `q` vir `long long`, `b` vir `bitfields`, `B` vir `booleans`, `#` vir `classes`, `@` vir `id`, `*` vir `char pointers`, `^` vir generiese `pointers` en `?` vir `undefined`.
+* Arrays, strukture en unies gebruik `[`, `{` en `(`
 
-#### Voorbeeld Metodeverklaring
+#### Voorbeeld Metode Deklarasie
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -109,31 +109,31 @@ Objective-C gebruik 'n bietjie verminking om die kieser- en veranderlike tipes v
 ```
 {% endcode %}
 
-Die kieser sal `processString:withOptions:andError:` wees
+Die selektor sou wees `processString:withOptions:andError:`
 
-#### Tipe Enkodering
+#### Tipe Kodering
 
-* `id` word enkodeer as `@`
-* `char *` word enkodeer as `*`
+* `id` word gekodeer as `@`
+* `char *` word gekodeer as `*`
 
-Die volledige tipe enkodering vir die metode is:
+Die volledige tipe kodering vir die metode is:
 ```less
 @24@0:8@16*20^@24
 ```
-#### Gedetailleerde Uiteensetting
+#### Gedetailleerde Ontleding
 
-1. **Retourtipe (`NSString *`)**: Opgesluit as `@` met lengte 24
-2. **`self` (objekinstansie)**: Opgesluit as `@`, by offset 0
-3. **`_cmd` (selekteerder)**: Opgesluit as `:`, by offset 8
-4. **Eerste argument (`char * input`)**: Opgesluit as `*`, by offset 16
-5. **Tweede argument (`NSDictionary * options`)**: Opgesluit as `@`, by offset 20
-6. **Derde argument (`NSError ** error`)**: Opgesluit as `^@`, by offset 24
+1. **Terug tipe (`NSString *`)**: Gecodeer as `@` met lengte 24
+2. **`self` (objek instansie)**: Gecodeer as `@`, by offset 0
+3. **`_cmd` (selektor)**: Gecodeer as `:`, by offset 8
+4. **Eerste argument (`char * input`)**: Gecodeer as `*`, by offset 16
+5. **Tweede argument (`NSDictionary * options`)**: Gecodeer as `@`, by offset 20
+6. **Derde argument (`NSError ** error`)**: Gecodeer as `^@`, by offset 24
 
-**Met die selekteerder + die enkodering kan jy die metode herkonstrueer.**
+**Met die selektor + die kodering kan jy die metode herbou.**
 
 ### **Klasse**
 
-Klasse in Objective-C is 'n struktuur met eienskappe, metode-aanwysers... Dit is moontlik om die struktuur `objc_class` in die [**bronkode**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) te vind:
+Klasse in Objective-C is 'n struktuur met eienskappe, metode wysers... Dit is moontlik om die struktuur `objc_class` in die [**bron kode**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) te vind:
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,22 @@ data()->setFlags(set);
 }
 [...]
 ```
-Hierdie klas gebruik 'n paar bietjies van die isa-veld om inligting oor die klas aan te dui.
+Hierdie klas gebruik 'n paar bits van die isa-veld om inligting oor die klas aan te dui.
 
-Dan het die struktuur 'n verwysing na die struktuur `class_ro_t` wat op die skyf gestoor word en eienskappe van die klas bevat soos sy naam, basiese metodes, eienskappe en instansie-veranderlikes.\
-Tydens hardlooptyd word 'n bykomende struktuur `class_rw_t` gebruik wat verwysings bevat wat verander kan word soos metodes, protokolle, eienskappe...
+Dan het die struktuur 'n wysiger na die struktuur `class_ro_t` wat op skyf gestoor is en wat eienskappe van die klas bevat soos sy naam, basismetodes, eienskappe en instansie veranderlikes.\
+Tydens uitvoering word 'n addisionele struktuur `class_rw_t` gebruik wat wysigers bevat wat verander kan word soos metodes, protokolle, eienskappe...
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

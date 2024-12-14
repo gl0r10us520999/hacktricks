@@ -55,13 +55,13 @@ In **7z** selfs met `--` voor `*` (let daarop dat `--` beteken dat die volgende 
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
-En jy kan lêers in die gids skep waar dit uitgevoer word, jy kan die lêer `@root.txt` en die lêer `root.txt` skep wat 'n **symlink** is na die lêer wat jy wil lees:
+En jy kan lêers in die gids skep waar dit uitgevoer word, jy kan die lêer `@root.txt` skep en die lêer `root.txt` wat 'n **symlink** na die lêer is wat jy wil lees:
 ```bash
 cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-Dan, wanneer **7z** uitgevoer word, sal dit `root.txt` behandel as 'n lêer wat die lys van lêers bevat wat dit moet saamgeperste (dit is wat die bestaan van `@root.txt` aandui) en wanneer 7z `root.txt` lees, sal dit `/file/you/want/to/read` lees en **aangesien die inhoud van hierdie lêer nie 'n lys van lêers is nie, sal dit 'n fout gooi** wat die inhoud wys.
+Dan, wanneer **7z** uitgevoer word, sal dit `root.txt` behandel as 'n lêer wat die lys van lêers bevat wat dit moet saamgeperste (dit is wat die bestaan van `@root.txt` aandui) en wanneer dit `root.txt` lees, sal dit `/file/you/want/to/read` lees en **aangesien die inhoud van hierdie lêer nie 'n lys van lêers is nie, sal dit 'n fout gooi** wat die inhoud wys.
 
 _Meer inligting in Write-ups van die boks CTF van HackTheBox._
 

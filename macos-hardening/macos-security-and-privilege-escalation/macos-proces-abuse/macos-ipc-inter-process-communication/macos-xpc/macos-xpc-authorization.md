@@ -6,24 +6,24 @@ Leer & oefen GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## XPC Authorization
 
-Apple stel ook 'n ander manier voor om te verifieer of die verbindingsproses **toestemmings het om 'n blootgestelde XPC-metode aan te roep**.
+Apple stel ook 'n ander manier voor om te verifieer of die verbindingsproses **regte het om 'n blootgestelde XPC-metode aan te roep**.
 
-Wanneer 'n toepassing **aksies as 'n bevoorregte gebruiker moet uitvoer**, installeer dit gewoonlik 'n HelperTool as 'n XPC-diens as root, in plaas daarvan om die app as 'n bevoorregte gebruiker te laat loop, wat van die app af aangeroep kan word om daardie aksies uit te voer. Die app wat die diens aanroep, moet egter genoeg toestemming hê.
+Wanneer 'n toepassing **aksies as 'n bevoorregte gebruiker moet uitvoer**, installeer dit gewoonlik 'n HelperTool as 'n XPC-diens as root wat vanaf die toepassing aangeroep kan word om daardie aksies uit te voer, eerder as om die toepassing as 'n bevoorregte gebruiker te laat loop. Die toepassing wat die diens aanroep, moet egter genoegsame magtiging hê.
 
 ### ShouldAcceptNewConnection altyd JA
 
-'n Voorbeeld kan gevind word in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` probeer dit om te **verbinde** met die **HelperTool**. En in `HelperTool/HelperTool.m` sal die funksie **`shouldAcceptNewConnection`** **nie enige** van die vereistes wat voorheen aangedui is, **kontroleer** nie. Dit sal altyd JA teruggee:
+'n Voorbeeld kan gevind word in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` probeer dit om te **verbinde** met die **HelperTool**. En in `HelperTool/HelperTool.m` sal die funksie **`shouldAcceptNewConnection`** **nie** enige van die vereistes wat voorheen aangedui is, **kontroleer** nie. Dit sal altyd JA teruggee:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -46,12 +46,12 @@ For more information about how to properly configure this check:
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Aansoekregte
+### Toepassing regte
 
-Daar is egter 'n bietjie **autorisering wat plaasvind wanneer 'n metode van die HelperTool aangeroep word**.
+Daar is egter 'n bietjie **autorisering aan die gang wanneer 'n metode van die HelperTool aangeroep word**.
 
-Die funksie **`applicationDidFinishLaunching`** van `App/AppDelegate.m` sal 'n leë autoriseringsverwysing skep nadat die aansoek begin het. Dit behoort altyd te werk.\
-Dan sal dit probeer om **'n paar regte** aan daardie autoriseringsverwysing toe te voeg deur `setupAuthorizationRights` aan te roep:
+Die funksie **`applicationDidFinishLaunching`** van `App/AppDelegate.m` sal 'n leë autoriseringsverwysing skep nadat die toepassing begin het. Dit behoort altyd te werk.\
+Dan sal dit probeer om **'n paar regte by daardie autoriseringsverwysing te voeg** deur `setupAuthorizationRights` aan te roep:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-Die funksie `setupAuthorizationRights` van `Common/Common.m` sal die regte van die aansoek in die auth databasis `/var/db/auth.db` stoor. Let op hoe dit slegs die regte sal byvoeg wat nog nie in die databasis is nie:
+Die funksie `setupAuthorizationRights` van `Common/Common.m` sal die regte van die aansoek in die auth-databasis `/var/db/auth.db` stoor. Let op hoe dit slegs die regte sal byvoeg wat nog nie in die databasis is nie:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -185,11 +185,11 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Dit beteken dat aan die einde van hierdie proses, die toestemmings wat binne `commandInfo` verklaar is, in `/var/db/auth.db` gestoor sal word. Let op hoe daar vir **elke metode** wat **verifikasie** benodig, **toestemming naam** en die **`kCommandKeyAuthRightDefault`** gevind kan word. Laasgenoemde **gee aan wie hierdie reg kan verkry**.
+Dit beteken dat aan die einde van hierdie proses, die toestemmings wat binne `commandInfo` verklaar is, in `/var/db/auth.db` gestoor sal word. Let op hoe daar vir **elke metode** wat **authentisering** sal vereis, **toestemming naam** en die **`kCommandKeyAuthRightDefault`** gevind kan word. Laasgenoemde **gee aan wie hierdie reg kan verkry**.
 
 Daar is verskillende skope om aan te dui wie toegang tot 'n reg kan hê. Sommige daarvan is gedefinieer in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (jy kan [almal daarvan hier vind](https://www.dssw.co.uk/reference/authorization-rights/)), maar as 'n opsomming:
 
-<table><thead><tr><th width="284.3333333333333">Naam</th><th width="165">Waarde</th><th>Beskrywing</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Enigeen</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Niks</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Huidige gebruiker moet 'n admin wees (binne admin groep)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Vra gebruiker om te verifieer.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Vra gebruiker om te verifieer. Hy moet 'n admin wees (binne admin groep)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Spesifiseer reëls</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Spesifiseer 'n paar ekstra kommentaar oor die reg</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Naam</th><th width="165">Waarde</th><th>Beskrywing</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Enigeen</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Niks</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Huidige gebruiker moet 'n admin wees (binne admin groep)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Vra gebruiker om te autentiseer.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Vra gebruiker om te autentiseer. Hy moet 'n admin wees (binne admin groep)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Spesifiseer reëls</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Spesifiseer 'n paar ekstra kommentaar oor die reg</td></tr></tbody></table>
 
 ### Regte Verifikasie
 
@@ -241,7 +241,7 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Let daarop dat om die **vereistes te kontroleer om die regte** te kry om daardie metode aan te roep, die funksie `authorizationRightForCommand` net die voorheen kommentaar objek **`commandInfo`** sal kontroleer. Dan sal dit **`AuthorizationCopyRights`** aanroep om te kontroleer **of dit die regte het** om die funksie aan te roep (let daarop dat die vlae interaksie met die gebruiker toelaat).
+Let daarop dat om die **vereistes te kontroleer om die regte** te verkry om daardie metode aan te roep, die funksie `authorizationRightForCommand` net die voorheen kommentaar objek **`commandInfo`** sal kontroleer. Dan sal dit **`AuthorizationCopyRights`** aanroep om te kontroleer **of dit die regte het** om die funksie aan te roep (let daarop dat die vlae interaksie met die gebruiker toelaat).
 
 In hierdie geval, om die funksie `readLicenseKeyAuthorization` aan te roep, is die `kCommandKeyAuthRightDefault` gedefinieer as `@kAuthorizationRuleClassAllow`. So **enige iemand kan dit aanroep**.
 
@@ -259,7 +259,7 @@ security authorizationdb read com.apple.safaridriver.allow
 ```
 ### Toegestane regte
 
-You can find **all the permissions configurations** [**in here**](https://www.dssw.co.uk/reference/authorization-rights/), but the combinations that won't require user interaction would be:
+Jy kan **alle die toestemmingskonfigurasies** [**hier**](https://www.dssw.co.uk/reference/authorization-rights/) vind, maar die kombinasies wat nie gebruikersinteraksie sal vereis nie, sal wees:
 
 1. **'authenticate-user': 'false'**
 * Dit is die mees direkte sleutel. As dit op `false` gestel is, spesifiseer dit dat 'n gebruiker nie hoef te autentiseer om hierdie reg te verkry nie.
@@ -269,9 +269,9 @@ You can find **all the permissions configurations** [**in here**](https://www.ds
 3. **'session-owner': 'true'**
 * As dit op `true` gestel is, sal die eienaar van die sessie (die tans ingelogde gebruiker) outomaties hierdie reg ontvang. Dit kan addisionele autentisering omseil as die gebruiker reeds ingelog is.
 4. **'shared': 'true'**
-* Hierdie sleutel verleen nie regte sonder autentisering nie. In plaas daarvan, as dit op `true` gestel is, beteken dit dat sodra die reg geverifieer is, dit onder verskeie prosesse gedeel kan word sonder dat elkeen weer moet autentiseer. Maar die aanvanklike toekenning van die reg sal steeds autentisering vereis tensy dit gekombineer word met ander sleutels soos `'authenticate-user': 'false'`.
+* Hierdie sleutel verleen nie regte sonder autentisering nie. In plaas daarvan, as dit op `true` gestel is, beteken dit dat sodra die reg geoutentiseer is, dit onder verskeie prosesse gedeel kan word sonder dat elkeen weer moet autentiseer. Maar die aanvanklike toekenning van die reg sal steeds autentisering vereis tensy dit gekombineer word met ander sleutels soos `'authenticate-user': 'false'`.
 
-You can [**use this script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
+Jy kan [**hierdie skrip gebruik**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) om die interessante regte te verkry:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)

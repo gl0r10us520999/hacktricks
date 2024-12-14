@@ -17,33 +17,33 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## **Autoriserings DB**
+## **Athorizarions DB**
 
-Die databasis geleë in `/var/db/auth.db` is 'n databasis wat gebruik word om toestemmings te stoor om sensitiewe operasies uit te voer. Hierdie operasies word heeltemal in **gebruikerspas** uitgevoer en word gewoonlik deur **XPC-dienste** gebruik wat moet nagaan **of die oproepende kliënt gemagtig is** om sekere aksies uit te voer deur hierdie databasis te kontroleer.
+Die databasis geleë in `/var/db/auth.db` is 'n databasis wat gebruik word om toestemmings te stoor om sensitiewe operasies uit te voer. Hierdie operasies word heeltemal in **gebruikerspas** uitgevoer en word gewoonlik gebruik deur **XPC-dienste** wat moet nagaan **of die oproepende kliënt gemagtig is** om sekere aksies uit te voer deur hierdie databasis te kontroleer.
 
 Aanvanklik word hierdie databasis geskep uit die inhoud van `/System/Library/Security/authorization.plist`. Dan kan sommige dienste hierdie databasis bywerk of wysig om ander toestemmings by te voeg.
 
 Die reëls word in die `rules` tabel binne die databasis gestoor en bevat die volgende kolomme:
 
-* **id**: 'n Unieke identifiseerder vir elke reël, outomaties verhoog en dien as die primêre sleutel.
-* **name**: Die unieke naam van die reël wat gebruik word om dit binne die autorisasiesisteem te identifiseer en te verwys.
-* **type**: Gee die tipe van die reël aan, beperk tot waardes 1 of 2 om sy autorisasielogika te definieer.
+* **id**: 'n unieke identifiseerder vir elke reël, outomaties verhoog en dien as die primêre sleutel.
+* **name**: Die unieke naam van die reël wat gebruik word om dit binne die magtigingstelsel te identifiseer en te verwys.
+* **type**: Spesifiseer die tipe van die reël, beperk tot waardes 1 of 2 om sy magtigingslogika te definieer.
 * **class**: Kategoriseer die reël in 'n spesifieke klas, wat verseker dat dit 'n positiewe heelgetal is.
 * "allow" vir toelaat, "deny" vir weier, "user" as die groep eienskap 'n groep aandui waarvan lidmaatskap toegang toelaat, "rule" dui in 'n array 'n reël aan wat nagekom moet word, "evaluate-mechanisms" gevolg deur 'n `mechanisms` array wat of ingeboude funksies of 'n naam van 'n bundel binne `/System/Library/CoreServices/SecurityAgentPlugins/` of /Library/Security//SecurityAgentPlugins is.
-* **group**: Dui die gebruikersgroep aan wat met die reël geassosieer word vir groep-gebaseerde autorisasie.
-* **kofn**: Verteenwoordig die "k-of-n" parameter, wat bepaal hoeveel subreëls uit 'n totale aantal bevredig moet word.
-* **timeout**: Definieer die duur in sekondes voordat die autorisasie wat deur die reël toegestaan word, verval.
+* **group**: Dui die gebruikersgroep aan wat met die reël geassosieer word vir groep-gebaseerde magtiging.
+* **kofn**: Verteenwoordig die "k-of-n" parameter, wat bepaal hoeveel subreëls uit 'n totale aantal nagekom moet word.
+* **timeout**: Definieer die duur in sekondes voordat die magtiging wat deur die reël toegestaan is, verval.
 * **flags**: Bevat verskeie vlae wat die gedrag en eienskappe van die reël wysig.
-* **tries**: Beperk die aantal toegelate autorisasiepogings om sekuriteit te verbeter.
+* **tries**: Beperk die aantal toegelate magtiging pogings om sekuriteit te verbeter.
 * **version**: Hou die weergawe van die reël dop vir weergawebeheer en opdaterings.
 * **created**: Registreer die tydstempel wanneer die reël geskep is vir ouditdoeleindes.
 * **modified**: Stoor die tydstempel van die laaste wysiging aan die reël.
 * **hash**: Hou 'n hash-waarde van die reël om sy integriteit te verseker en om te detecteer of daar gemanipuleer is.
 * **identifier**: Verskaf 'n unieke string identifiseerder, soos 'n UUID, vir eksterne verwysings na die reël.
-* **requirement**: Bevat geserialiseerde data wat die spesifieke autorisasievereistes en meganismes van die reël definieer.
+* **requirement**: Bevat geserialiseerde data wat die spesifieke magtiging vereistes en meganismes van die reël definieer.
 * **comment**: Bied 'n menslike leesbare beskrywing of opmerking oor die reël vir dokumentasie en duidelikheid.
 
-### Voorbeeld
+### Example
 ```bash
 # List by name and comments
 sudo sqlite3 /var/db/auth.db "select name, comment from rules"

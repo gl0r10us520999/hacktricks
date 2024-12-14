@@ -114,12 +114,12 @@ char end_withLinkage[0];
 } CS_CodeDirectory
 __attribute__ ((aligned(1)));
 ```
-Let daarop dat daar verskillende weergawes van hierdie struktuur is waar oues dalk minder inligting bevat.
+Let wel dat daar verskillende weergawes van hierdie struktuur is waar ouer weergawe dalk minder inligting bevat.
 
-## Ondertekening van Kode Bladsye
+## Onderteken Kode Bladsye
 
 Hashing van die volle binêre sou ondoeltreffend en selfs nutteloos wees as dit net gedeeltelik in geheue gelaai word. Daarom is die kodehandtekening eintlik 'n hash van hashes waar elke binêre bladsy individueel gehasht word.\
-Eintlik kan jy in die vorige **Kodegids** kode sien dat die **bladgrootte gespesifiseer is** in een van sy velde. Boonop, as die grootte van die binêre nie 'n veelvoud van die grootte van 'n bladsy is nie, spesifiseer die veld **CodeLimit** waar die einde van die handtekening is.
+Eintlik kan jy in die vorige **Kode Gids** kode sien dat die **bladgrootte gespesifiseer is** in een van sy velde. Boonop, as die grootte van die binêre nie 'n veelvoud van die grootte van 'n bladsy is nie, spesifiseer die veld **CodeLimit** waar die einde van die handtekening is.
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -157,17 +157,17 @@ openssl sha256 /tmp/*.page.*
 ```
 ## Entitlements Blob
 
-Let op dat toepassings ook 'n **entitlement blob** kan bevat waar al die regte gedefinieer is. Boonop kan sommige iOS-binaries hul regte spesifiek in die spesiale slot -7 hê (in plaas van in die -5 regte spesiale slot).
+Let daarop dat toepassings ook 'n **entitlement blob** kan bevat waar al die regte gedefinieer is. Boonop kan sommige iOS-binaries hul regte spesifiek in die spesiale slot -7 hê (in plaas van in die -5 regte spesiale slot).
 
 ## Special Slots
 
-MacOS-toepassings het nie alles wat hulle nodig het om binne die binêre uit te voer nie, maar hulle gebruik ook **eksterne hulpbronne** (gewoonlik binne die toepassings **bundel**). Daarom is daar 'n paar slots binne die binêre wat die hashes van sommige interessante eksterne hulpbronne sal bevat om te kontroleer dat hulle nie gewysig is nie.
+MacOS-toepassings het nie alles wat hulle nodig het om binne die binêre uit te voer nie, maar hulle gebruik ook **buitelandse hulpbronne** (gewoonlik binne die toepassings **bundle**). Daarom is daar 'n paar slots binne die binêre wat die hashes van 'n paar interessante buitelandse hulpbronne sal bevat om te kontroleer dat hulle nie gewysig is nie.
 
 Werklik, dit is moontlik om in die Code Directory strukture 'n parameter genaamd **`nSpecialSlots`** te sien wat die aantal spesiale slots aandui. Daar is nie 'n spesiale slot 0 nie en die mees algemene (van -1 tot -6) is:
 
 * Hash van `info.plist` (of die een binne `__TEXT.__info__plist`).
 * Hash van die Vereistes
-* Hash van die Hulpbron Gids (hash van `_CodeSignature/CodeResources` lêer binne die bundel).
+* Hash van die Hulpbron Gids (hash van `_CodeSignature/CodeResources` lêer binne die bundle).
 * Toepassing spesifiek (onbenut)
 * Hash van die regte
 * DMG kode handtekeninge slegs
@@ -175,7 +175,7 @@ Werklik, dit is moontlik om in die Code Directory strukture 'n parameter genaamd
 
 ## Code Signing Flags
 
-Elke proses het 'n bitmasker wat bekend staan as die `status` wat deur die kernel begin word en sommige daarvan kan oorgeskryf word deur die **kodehandtekening**. Hierdie vlae wat ingesluit kan word in die kodehandtekening is [gedefinieer in die kode](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+Elke proses het 'n bietjie-mas wat bekend staan as die `status` wat deur die kern gestarte word en sommige daarvan kan oorgeskryf word deur die **kodehandtekening**. Hierdie vlae wat in die kodehandtekening ingesluit kan word, is [gedefinieer in die kode](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -226,7 +226,7 @@ Note dat die funksie [**exec\_mach\_imgact**](https://github.com/apple-oss-distr
 
 Elke toepassing stoor **vereistes** wat dit moet **tevrede stel** om uitgevoer te kan word. As die **toepassing vereistes bevat wat nie deur die toepassing tevrede gestel word nie**, sal dit nie uitgevoer word nie (soos dit waarskynlik gewysig is).
 
-Die vereistes van 'n binêre gebruik 'n **spesiale grammatika** wat 'n stroom van **uitdrukkings** is en word as blobs gekodeer met `0xfade0c00` as die magiese waarde waarvan die **hash in 'n spesiale kode-slot gestoor word**.
+Die vereistes van 'n binêre gebruik 'n **spesiale grammatika** wat 'n stroom van **uitdrukkings** is en word as blobs gekodeer met `0xfade0c00` as die magie waarvan die **hash in 'n spesiale kode-slot gestoor word**.
 
 Die vereistes van 'n binêre kan gesien word deur te loop: 
 
@@ -308,11 +308,11 @@ Dit is moontlik om toegang tot hierdie inligting te verkry en vereistes te skep 
 
 ## Kode Handtekening Afforcing
 
-Die **kernel** is die een wat **die kode handtekening nagaan** voordat dit die kode van die app toelaat om uit te voer. Boonop, een manier om in geheue nuwe kode te kan skryf en uitvoer, is om JIT te misbruik as `mprotect` met `MAP_JIT` vlag aangeroep word. Let daarop dat die toepassing 'n spesiale regte benodig om dit te kan doen.
+Die **kernel** is die een wat die **kode handtekening** kontroleer voordat dit die kode van die app toelaat om uit te voer. Boonop, een manier om in geheue nuwe kode te kan skryf en uitvoer, is om JIT te misbruik as `mprotect` met `MAP_JIT` vlag aangeroep word. Let daarop dat die toepassing 'n spesiale regte benodig om dit te kan doen.
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struktuur bevat die inligting oor die regte van die lopende proses daarop. `csb_platform_binary` dui ook aan of die toepassing 'n platform binêre is (wat op verskillende tye deur die OS nagegaan word om sekuriteitsmeganismes toe te pas soos om die SEND regte na die taakpoorte van hierdie prosesse te beskerm).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struktuur bevat die inligting oor die regte van die lopende proses daarop. `csb_platform_binary` dui ook aan of die toepassing 'n platform binêre is (wat op verskillende tye deur die OS nagegaan word om sekuriteitsmeganismes toe te pas soos om die SEND regte na die taak poorte van hierdie prosesse te beskerm).
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;

@@ -1,4 +1,4 @@
-# macOS Apps - Inspekteer, debugg en Fuzzing
+# macOS Apps - Inspekteer, debugeer en Fuzzing
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -73,7 +73,7 @@ jtool2 -d __DATA.__const myipc_server | grep MIG
 ### Codesign / ldid
 
 {% hint style="success" %}
-**`Codesign`** kan in **macOS** gevind word terwyl **`ldid`** in **iOS** gevind kan word
+**`Codesign`** kan gevind word in **macOS** terwyl **`ldid`** gevind kan word in **iOS**
 {% endhint %}
 ```bash
 # Get signer
@@ -104,7 +104,7 @@ ldid -S/tmp/entl.xml <binary>
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) is 'n hulpmiddel wat nuttig is om **.pkg** lêers (installeerders) te inspekteer en te sien wat binne is voordat dit geïnstalleer word.\
-Hierdie installeerders het `preinstall` en `postinstall` bash-skripte wat malware-skrywers gewoonlik misbruik om **te** **volhard** **in** **die** **malware**.
+Hierdie installeerders het `preinstall` en `postinstall` bash-skripte wat malware-skrywers gewoonlik misbruik om **die** **malware** **te** **volhard**.
 
 ### hdiutil
 
@@ -114,7 +114,7 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
 It sal gemonteer word in `/Volumes`
 
-### Gepakte binêre
+### Gepakte binaire
 
 * Kontroleer vir hoë entropie
 * Kontroleer die strings (as daar amper geen verstaanbare string is, gepak)
@@ -125,7 +125,7 @@ It sal gemonteer word in `/Volumes`
 ### Metadata
 
 {% hint style="danger" %}
-Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklarings **wanneer** **gecompileer** in [Mach-O binêre](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van in:
+Let daarop dat programme wat in Objective-C geskryf is **die** klasverklarings **behou** **wanneer** **gecompileer** word in [Mach-O binaire](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van in:
 {% endhint %}
 
 * Die interfaces wat gedefinieer is
@@ -133,17 +133,17 @@ Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklar
 * Die interface instansie veranderlikes
 * Die protokolle wat gedefinieer is
 
-Let daarop dat hierdie name dalk obfuskeer kan word om die omkering van die binêre moeiliker te maak.
+Let daarop dat hierdie name dalk obfuskeer kan word om die omkering van die binaire moeiliker te maak.
 
 ### Funksie-aanroep
 
-Wanneer 'n funksie in 'n binêre wat Objective-C gebruik, aangeroep word, sal die gecompileerde kode in plaas daarvan om daardie funksie aan te roep, **`objc_msgSend`** aanroep. Dit sal die finale funksie aanroep:
+Wanneer 'n funksie in 'n binaire wat Objective-C gebruik, aangeroep word, sal die gecompileerde kode in plaas daarvan om daardie funksie aan te roep, **`objc_msgSend`** aanroep. Dit sal die finale funksie aanroep:
 
 ![](<../../../.gitbook/assets/image (305).png>)
 
 Die parameters wat hierdie funksie verwag is:
 
-* Die eerste parameter (**self**) is "n aanwijser wat na die **instansie van die klas wat die boodskap moet ontvang** wys". Of eenvoudiger gestel, dit is die objek waarop die metode aangeroep word. As die metode 'n klasmetode is, sal dit 'n instansie van die klasobjek (as 'n geheel) wees, terwyl dit vir 'n instansiemetode, self na 'n geïnstantieerde instansie van die klas as 'n objek sal wys.
+* Die eerste parameter (**self**) is "n aanduiding wat na die **instansie van die klas wat die boodskap moet ontvang** wys". Of eenvoudiger gestel, dit is die objek waarop die metode aangeroep word. As die metode 'n klasmetode is, sal dit 'n instansie van die klasobjek (as 'n geheel) wees, terwyl dit vir 'n instansiemetode, self na 'n geïnstantieerde instansie van die klas as 'n objek sal wys.
 * Die tweede parameter, (**op**), is "die selektor van die metode wat die boodskap hanteer". Weer eens, eenvoudiger gestel, dit is net die **naam van die metode.**
 * Die oorblywende parameters is enige **waardes wat deur die metode vereis word** (op).
 
@@ -169,7 +169,7 @@ x64:
 
 ### Dynadump
 
-[**Dynadump**](https://github.com/DerekSelander/dynadump) is 'n hulpmiddel om Objective-C binêre te klas-dump. Die github spesifiseer dylibs, maar dit werk ook met uitvoerbare lêers.
+[**Dynadump**](https://github.com/DerekSelander/dynadump) is 'n hulpmiddel om Objective-C binaire te klas-dump. Die github spesifiseer dylibs, maar dit werk ook met uitvoerbare lêers.
 ```bash
 ./dynadump dump /path/to/bin
 ```
@@ -229,7 +229,7 @@ Let daarop dat om binêre te debugeer, **SIP moet gedeaktiveer word** (`csrutil 
 {% endhint %}
 
 {% hint style="warning" %}
-Let daarop dat om **sisteembinêre te instrumenteer**, (soos `cloudconfigurationd`) op macOS, **SIP moet gedeaktiveer word** (net die handtekening verwyder sal nie werk nie).
+Let daarop dat om **sisteembinêre** (soos `cloudconfigurationd`) op macOS te **instrumenteer**, **SIP gedeaktiveer moet word** (net die handtekening verwyder sal nie werk nie).
 {% endhint %}
 
 ### API's
@@ -241,11 +241,11 @@ macOS stel 'n paar interessante API's bloot wat inligting oor die prosesse gee:
 
 ### Stackshot & mikrostackshots
 
-**Stackshotting** is 'n tegniek wat gebruik word om die toestand van die prosesse vas te vang, insluitend die oproepstapels van alle lopende drade. Dit is veral nuttig vir debuggings, prestasieanalise, en om die gedrag van die stelsel op 'n spesifieke tydstip te verstaan. Op iOS en macOS kan stackshotting uitgevoer word met verskeie gereedskap en metodes soos die gereedskap **`sample`** en **`spindump`**.
+**Stackshotting** is 'n tegniek wat gebruik word om die toestand van die prosesse vas te vang, insluitend die oproepstapels van alle lopende drade. Dit is veral nuttig vir debuggings, prestasieanalise, en om die gedrag van die sisteem op 'n spesifieke tydstip te verstaan. Op iOS en macOS kan stackshotting uitgevoer word met verskeie gereedskap en metodes soos die gereedskap **`sample`** en **`spindump`**.
 
 ### Sysdiagnose
 
-Hierdie gereedskap (`/usr/bini/ysdiagnose`) versamel basies baie inligting van jou rekenaar deur tientalle verskillende opdragte soos `ps`, `zprint`...
+Hierdie gereedskap (`/usr/bini/ysdiagnose`) versamel basies baie inligting van jou rekenaar deur 'n tiental verskillende opdragte soos `ps`, `zprint`... uit te voer.
 
 Dit moet as **root** uitgevoer word en die daemon `/usr/libexec/sysdiagnosed` het baie interessante regte soos `com.apple.system-task-ports` en `get-task-allow`.
 
@@ -257,7 +257,7 @@ Sy plist is geleë in `/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist
 
 ### Geünifiseerde Logs
 
-MacOS genereer 'n groot aantal logs wat baie nuttig kan wees wanneer 'n toepassing uitgevoer word om te probeer verstaan **wat dit doen**.
+MacOS genereer baie logs wat baie nuttig kan wees wanneer 'n toepassing uitgevoer word om te probeer verstaan **wat dit doen**.
 
 Boonop is daar 'n paar logs wat die etiket `<private>` sal bevat om **te verberg** sommige **gebruikers** of **rekenaar** **identifiseerbare** inligting. Dit is egter moontlik om **'n sertifikaat te installeer om hierdie inligting bekend te maak**. Volg die verduidelikings van [**hier**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
@@ -269,11 +269,11 @@ In die linker paneel van hopper is dit moontlik om die simbole (**Labels**) van 
 
 #### Middelpaneel
 
-In die middelpaneel kan jy die **gedissasembelde kode** sien. En jy kan dit as 'n **rauwe** disassemble, as **grafiek**, as **gedekodeer** en as **binêr** sien deur op die onderskeie ikoon te klik:
+In die middelpaneel kan jy die **gedissasembelde kode** sien. En jy kan dit as 'n **rauwe** disassemble, as **grafiek**, as **gedekompileerde** en as **binêre** sien deur op die onderskeie ikoon te klik:
 
 <figure><img src="../../../.gitbook/assets/image (343).png" alt=""><figcaption></figcaption></figure>
 
-Regsklik op 'n kode objek kan jy **verwysings na/van daardie objek** sien of selfs sy naam verander (dit werk nie in gedekodeerde pseudokode nie):
+Regsklik op 'n kode objek kan jy **verwysings na/vanaf daardie objek** sien of selfs sy naam verander (dit werk nie in gedekompileerde pseudokode nie):
 
 <figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
@@ -285,9 +285,9 @@ In die regter paneel kan jy interessante inligting sien soos die **navigasiegesk
 
 ### dtrace
 
-Dit stel gebruikers in staat om toegang tot toepassings op 'n uiters **lae vlak** te verkry en bied 'n manier vir gebruikers om **programmas** te **volg** en selfs hul uitvoeringsvloei te verander. Dtrace gebruik **probes** wat **oor die kernel geplaas is** en is op plekke soos die begin en einde van stelselaanroepe.
+Dit stel gebruikers in staat om toegang tot toepassings op 'n uiters **lae vlak** te verkry en bied 'n manier vir gebruikers om **programme** te **volg** en selfs hul uitvoeringsvloei te verander. Dtrace gebruik **probes** wat **oor die kernel geplaas is** en is op plekke soos die begin en einde van sisteemoproepe.
 
-DTrace gebruik die **`dtrace_probe_create`** funksie om 'n probe vir elke stelselaanroep te skep. Hierdie probes kan in die **toegang en uitgangspunt van elke stelselaanroep** geaktiveer word. Die interaksie met DTrace vind plaas deur /dev/dtrace wat slegs beskikbaar is vir die root gebruiker.
+DTrace gebruik die **`dtrace_probe_create`** funksie om 'n probe vir elke sisteemoproep te skep. Hierdie probes kan in die **toegang en uitgangspunt van elke sisteemoproep** geaktiveer word. Die interaksie met DTrace vind plaas deur /dev/dtrace wat slegs beskikbaar is vir die root gebruiker.
 
 {% hint style="success" %}
 Om Dtrace in te skakel sonder om SIP-beskerming heeltemal te deaktiveer, kan jy in herstelmodus uitvoer: `csrutil enable --without dtrace`
@@ -314,8 +314,6 @@ Om DTrace te konfigureer om probes te aktiveer en om te spesifiseer watter aksie
 #### Voorbeelde
 
 Voer `man -k dtrace` uit om die **DTrace skripte beskikbaar** te lys. Voorbeeld: `sudo dtruss -n binary`
-
-* In lyn
 ```bash
 #Count the number of syscalls of each running process
 sudo dtrace -n 'syscall:::entry {@[execname] = count()}'
@@ -371,7 +369,7 @@ Gereedskap soos `latency`, `sc_usage`, `fs_usage` en `trace` gebruik dit intern.
 
 Om met `kdebug` te kommunikeer, word `sysctl` gebruik oor die `kern.kdebug` naamruimte en die MIBs wat gebruik kan word, kan gevind word in `sys/sysctl.h` met die funksies geïmplementeer in `bsd/kern/kdebug.c`.
 
-Om met kdebug te kommunikeer met 'n pasgemaakte kliënt, is dit gewoonlik die stappe:
+Om met kdebug te interaksie met 'n pasgemaakte kliënt, is dit gewoonlik die stappe:
 
 * Verwyder bestaande instellings met KERN\_KDSETREMOVE
 * Stel trace in met KERN\_KDSETBUF en KERN\_KDSETUP
@@ -387,7 +385,7 @@ Om hierdie inligting te verkry, is dit moontlik om die Apple-gereedskap **`trace
 
 ### ktrace
 
-Die `ktrace_*` APIs kom van `libktrace.dylib` wat dié van `Kdebug` omhul. Dan kan 'n kliënt eenvoudig `ktrace_session_create` en `ktrace_events_[single/class]` aanroep om callbacks op spesifieke kodes in te stel en dit dan begin met `ktrace_start`.
+Die `ktrace_*` APIs kom van `libktrace.dylib` wat dié van `Kdebug` omhul. Dan kan 'n kliënt net `ktrace_session_create` en `ktrace_events_[single/class]` aanroep om callbacks op spesifieke kodes in te stel en dit dan begin met `ktrace_start`.
 
 Jy kan hierdie een selfs gebruik met **SIP geaktiveer**
 
@@ -405,16 +403,16 @@ Basies, die globale veranderlike `kernel_debug_active` word nagegaan en as dit i
 
 Kperf het ook 'n sysctl MIB tabel: (as root) `sysctl kperf`. Hierdie kode kan gevind word in `osfmk/kperf/kperfbsd.c`.
 
-Boonop, 'n substel van Kperf se funksionaliteit woon in `kpc`, wat inligting verskaf oor masjienprestasie tellers.
+Boonop woon 'n substel van Kperf se funksionaliteit in `kpc`, wat inligting verskaf oor masjienprestasie tellers.
 
 ### ProcessMonitor
 
-[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) is 'n baie nuttige hulpmiddel om die prosesverwante aksies wat 'n proses uitvoer na te gaan (byvoorbeeld, om te monitor watter nuwe prosesse 'n proses skep).
+[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) is 'n baie nuttige hulpmiddel om die prosesverwante aksies wat 'n proses uitvoer, na te gaan (byvoorbeeld, om te monitor watter nuwe prosesse 'n proses skep).
 
 ### SpriteTree
 
-[**SpriteTree**](https://themittenmac.com/tools/) is 'n hulpmiddel om die verhoudings tussen prosesse te druk.\
-Jy moet jou mac monitor met 'n opdrag soos **`sudo eslogger fork exec rename create > cap.json`** (die terminal wat dit begin het die nodige FDA). En dan kan jy die json in hierdie hulpmiddel laai om al die verhoudings te sien:
+[**SpriteTree**](https://themittenmac.com/tools/) is 'n hulpmiddel wat die verhoudings tussen prosesse druk.\
+Jy moet jou mac monitor met 'n opdrag soos **`sudo eslogger fork exec rename create > cap.json`** (die terminal wat hierdie vereiste FDA begin). En dan kan jy die json in hierdie hulpmiddel laai om al die verhoudings te sien:
 
 <figure><img src="../../../.gitbook/assets/image (1182).png" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -424,17 +422,17 @@ Jy moet jou mac monitor met 'n opdrag soos **`sudo eslogger fork exec rename cre
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) is 'n GUI-hulpmiddel met die voorkoms en gevoel wat Windows-gebruikers dalk van Microsoft Sysinternal se _Procmon_ ken. Hierdie hulpmiddel laat die opname van verskeie gebeurtenistipes toe om begin en gestop te word, laat die filtrering van hierdie gebeurtenisse deur kategorieë soos lêer, proses, netwerk, ens., en bied die funksionaliteit om die opgeneemde gebeurtenisse in 'n json-formaat te stoor.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) is 'n GUI-hulpmiddel met die voorkoms en gevoel wat Windows-gebruikers dalk van Microsoft Sysinternal se _Procmon_ ken. Hierdie hulpmiddel laat die opname van verskeie gebeurtenistipes toe om begin en gestop te word, laat die filtrering van hierdie gebeurtenisse deur kategorieë soos lêer, proses, netwerk, ens. toe, en bied die funksionaliteit om die opgeneemde gebeurtenisse in 'n json-formaat te stoor.
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) is deel van Xcode se Ontwikkelaarshulpmiddels – gebruik om toepassingsprestasie te monitor, geheue lekkasies te identifiseer en lêerstelselsaktiwiteit te volg.
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) is deel van Xcode se Ontwikkelaarshulpmiddels – gebruik om toepassingsprestasie te monitor, geheuelekas te identifiseer en lêfstelsaktiwiteit te volg.
 
 ![](<../../../.gitbook/assets/image (1138).png>)
 
 ### fs\_usage
 
-Laat toe om aksies wat deur prosesse uitgevoer word te volg:
+Laat toe om aksies wat deur prosesse uitgevoer word, te volg:
 ```bash
 fs_usage -w -f filesys ls #This tracks filesystem actions of proccess names containing ls
 fs_usage -w -f network curl #This tracks network actions
@@ -457,7 +455,7 @@ lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-U kan die intel-smaak instel wanneer u lldb gebruik deur 'n lêer genaamd **`.lldbinit`** in u tuisgids te skep met die volgende lyn:
+U kan die intel-smaak stel wanneer u lldb gebruik deur 'n lêer genaamd **`.lldbinit`** in u tuisgids te skep met die volgende lyn:
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
@@ -465,7 +463,7 @@ settings set target.x86-disassembly-flavor intel
 Binne lldb, dump 'n proses met `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Opdrag</strong></td><td><strong>Besonderhede</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Begin uitvoering, wat sonder onderbreking sal voortgaan totdat 'n breekpunt bereik word of die proses beëindig word.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Begin uitvoering wat by die toegangspunt stop</td></tr><tr><td><strong>continue (c)</strong></td><td>Voortgaan met die uitvoering van die gedebugde proses.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Voer die volgende instruksie uit. Hierdie opdrag sal funksie-oproepe oorslaan.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Voer die volgende instruksie uit. Anders as die nexti-opdrag, sal hierdie opdrag in funksie-oproepe stap.</td></tr><tr><td><strong>finish (f)</strong></td><td>Voer die res van die instruksies in die huidige funksie (“raam”) uit, keer terug en stop.</td></tr><tr><td><strong>control + c</strong></td><td>Pauzeer uitvoering. As die proses gedraai (r) of voortgegaan (c) is, sal dit die proses laat stop ... waar dit ook al tans uitvoer.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Enige funksie genoem main</p><p><code>b &#x3C;binname>`main</code> #Hoof funksie van die bin</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Hoof funksie van die aangeduide bin</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Enige NSFileManager metode</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Breek in alle funksies van daardie biblioteek</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Breekpunt lys</p><p><code>br e/dis &#x3C;num></code> #Aktiveer/Deaktiveer breekpunt</p><p>breekpunt verwyder &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breekpunt #Kry hulp met breekpunt opdrag</p><p>help geheue skryf #Kry hulp om in die geheue te skryf</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg lees</p><p>reg lees $rax</p><p>reg lees $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formaat</a>></p><p>reg skryf $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/geheue adres></strong></td><td>Vertoon die geheue as 'n null-beëindigde string.</td></tr><tr><td><strong>x/i &#x3C;reg/geheue adres></strong></td><td>Vertoon die geheue as assembly instruksie.</td></tr><tr><td><strong>x/b &#x3C;reg/geheue adres></strong></td><td>Vertoon die geheue as byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Dit sal die objek wat deur die param verwys word druk</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Let daarop dat die meeste van Apple se Objective-C API's of metodes objekte teruggee, en dus via die “print object” (po) opdrag vertoon moet word. As po nie 'n betekenisvolle uitvoer lewer nie, gebruik <code>x/b</code></p></td></tr><tr><td><strong>geheue</strong></td><td>geheue lees 0x000....<br>geheue lees $x0+0xf2a<br>geheue skryf 0x100600000 -s 4 0x41414141 #Skryf AAAA in daardie adres<br>geheue skryf -f s $rip+0x11f+7 "AAAA" #Skryf AAAA in die addr</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas huidige funksie</p><p>dis -n &#x3C;funcname> #Disas funksie</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas funksie<br>dis -c 6 #Disas 6 lyne<br>dis -c 0x100003764 -e 0x100003768 # Van een add tot die ander<br>dis -p -c 4 # Begin in huidige adres disassemble</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Kontroleer array van 3 komponente in x1 reg</td></tr><tr><td><strong>image dump sections</strong></td><td>Druk kaart van die huidige proses geheue</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Kry die adres van al die simbole van CoreNLP</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Opdrag</strong></td><td><strong>Besonderheid</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Begin uitvoering, wat ononderbroke sal voortgaan totdat 'n breekpunt bereik word of die proses beëindig.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Begin uitvoering wat by die ingangspunt stop</td></tr><tr><td><strong>continue (c)</strong></td><td>Voortgaan met die uitvoering van die gedebugde proses.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Voer die volgende instruksie uit. Hierdie opdrag sal funksie-oproepe oorslaan.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Voer die volgende instruksie uit. Anders as die nexti-opdrag, sal hierdie opdrag in funksie-oproepe stap.</td></tr><tr><td><strong>finish (f)</strong></td><td>Voer die res van die instruksies in die huidige funksie (“raam”) uit, keer terug en stop.</td></tr><tr><td><strong>control + c</strong></td><td>Pauzeer uitvoering. As die proses gedraai (r) of voortgegaan (c) is, sal dit die proses laat stop ... waar dit ook al tans uitvoer.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Enige funksie genoem main</p><p><code>b &#x3C;binname>`main</code> #Hoof funksie van die bin</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Hoof funksie van die aangeduide bin</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Enige NSFileManager metode</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Breek in alle funksies van daardie biblioteek</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Breekpunt lys</p><p><code>br e/dis &#x3C;num></code> #Aktiveer/deaktiveer breekpunt</p><p>breekpunt verwyder &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breekpunt #Kry hulp van breekpunt opdrag</p><p>help geheue skryf #Kry hulp om in die geheue te skryf</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg lees</p><p>reg lees $rax</p><p>reg lees $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formaat</a>></p><p>reg skryf $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/geheue adres></strong></td><td>Vertoon die geheue as 'n null-beëindigde string.</td></tr><tr><td><strong>x/i &#x3C;reg/geheue adres></strong></td><td>Vertoon die geheue as assembly instruksie.</td></tr><tr><td><strong>x/b &#x3C;reg/geheue adres></strong></td><td>Vertoon die geheue as byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Dit sal die objek wat deur die param verwys word druk</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Let daarop dat die meeste van Apple se Objective-C APIs of metodes objekte teruggee, en dus via die “print object” (po) opdrag vertoon moet word. As po nie 'n betekenisvolle uitvoer lewer nie, gebruik <code>x/b</code></p></td></tr><tr><td><strong>geheue</strong></td><td>geheue lees 0x000....<br>geheue lees $x0+0xf2a<br>geheue skryf 0x100600000 -s 4 0x41414141 #Skryf AAAA in daardie adres<br>geheue skryf -f s $rip+0x11f+7 "AAAA" #Skryf AAAA in die addr</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas huidige funksie</p><p>dis -n &#x3C;funcname> #Disas funksie</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas funksie<br>dis -c 6 #Disas 6 lyne<br>dis -c 0x100003764 -e 0x100003768 # Van een add tot die ander<br>dis -p -c 4 # Begin in huidige adres disassemble</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Kontroleer array van 3 komponente in x1 reg</td></tr><tr><td><strong>image dump sections</strong></td><td>Druk kaart van die huidige proses geheue</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Kry die adres van al die simbole van CoreNLP</td></tr></tbody></table>
 
 {% hint style="info" %}
 Wanneer die **`objc_sendMsg`** funksie aangeroep word, hou die **rsi** register die **naam van die metode** as 'n null-beëindigde (“C”) string. Om die naam via lldb te druk, doen:
@@ -487,16 +485,16 @@ Wanneer die **`objc_sendMsg`** funksie aangeroep word, hou die **rsi** register 
 * Sommige malware kan ook **opspoor** of die masjien **VMware** gebaseer is op die MAC adres (00:50:56).
 * Dit is ook moontlik om te vind **of 'n proses gedebug word** met 'n eenvoudige kode soos:
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //proses word gedebug }`
-* Dit kan ook die **`ptrace`** stelselskakel met die **`PT_DENY_ATTACH`** vlag aanroep. Dit **verhoed** dat 'n deb**u**gger aanheg en opspoor.
+* Dit kan ook die **`ptrace`** stelselsoproep met die **`PT_DENY_ATTACH`** vlag aanroep. Dit **verhoed** dat 'n deb**u**gger aanheg en opspoor.
 * Jy kan nagaan of die **`sysctl`** of **`ptrace`** funksie **geïmporteer** word (maar die malware kan dit dinamies invoer)
 * Soos opgemerk in hierdie skrywe, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-“_Die boodskap Proses # het met **status = 45 (0x0000002d)** verlaat, is gewoonlik 'n duidelike teken dat die debug-teiken **PT\_DENY\_ATTACH** gebruik_”
+“_Die boodskap Proses # het met **status = 45 (0x0000002d)** uitgegaan, is gewoonlik 'n duidelike teken dat die debug teiken **PT\_DENY\_ATTACH** gebruik_”
 
 ## Kern Dumps
 
 Kern dumps word geskep as:
 
-* `kern.coredump` sysctl is op 1 gestel (per standaard)
+* `kern.coredump` sysctl is op 1 (per standaard)
 * As die proses nie suid/sgid was nie of `kern.sugid_coredump` is 1 (per standaard is 0)
 * Die `AS_CORE` limiet laat die operasie toe. Dit is moontlik om die skepping van kode dumps te onderdruk deur `ulimit -c 0` aan te roep en dit weer in te skakel met `ulimit -c unlimited`.
 
@@ -522,9 +520,9 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.
 ```
 ### Slaap
 
-Terwyl jy fuzz in 'n MacOS, is dit belangrik om te verhoed dat die Mac slaap:
+Terwyl jy fuzz in 'n MacOS, is dit belangrik om nie toe te laat dat die Mac slaap nie:
 
-* systemsetup -setsleep Nooit
+* systemsetup -setsleep Never
 * pmset, Stelselsvoorkeure
 * [KeepingYouAwake](https://github.com/newmarcel/KeepingYouAwake)
 
@@ -532,7 +530,7 @@ Terwyl jy fuzz in 'n MacOS, is dit belangrik om te verhoed dat die Mac slaap:
 
 As jy via 'n SSH-verbinding fuzz, is dit belangrik om te verseker dat die sessie nie gaan doodgaan nie. So verander die sshd\_config-lêer met:
 
-* TCPKeepAlive Ja
+* TCPKeepAlive Yes
 * ClientAliveInterval 0
 * ClientAliveCountMax 0
 ```bash
@@ -541,7 +539,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Interne Hanteerders
 
-**Kyk na die volgende bladsy** om uit te vind hoe jy kan bepaal watter app verantwoordelik is vir **die hantering van die gespesifiseerde skema of protokol:**
+**Kyk na die volgende bladsy** om uit te vind hoe jy kan vind watter app verantwoordelik is vir **die hantering van die gespesifiseerde skema of protokol:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)

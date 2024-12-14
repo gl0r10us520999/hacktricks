@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" da
 
 Die **kern van macOS is XNU**, wat staan vir "X is Not Unix". Hierdie kern is fundamenteel saamgestel uit die **Mach mikrokerne**l (wat later bespreek sal word), **en** elemente van Berkeley Software Distribution (**BSD**). XNU bied ook 'n platform vir **kern bestuurders via 'n stelsel genaamd die I/O Kit**. Die XNU-kern is deel van die Darwin oopbronprojek, wat beteken **sy bronkode is vrylik beskikbaar**.
 
-Vanuit die perspektief van 'n sekuriteitsnavorser of 'n Unix-ontwikkelaar, kan **macOS** baie **soortgelyk** voel aan 'n **FreeBSD** stelsel met 'n elegante GUI en 'n verskeidenheid van pasgemaakte toepassings. Meeste toepassings wat vir BSD ontwikkel is, sal saamgestel en op macOS loop sonder dat aanpassings nodig is, aangesien die opdraglyn gereedskap wat bekend is aan Unix-gebruikers, almal in macOS teenwoordig is. Tog, omdat die XNU-kern Mach inkorporeer, is daar 'n paar beduidende verskille tussen 'n tradisionele Unix-agtige stelsel en macOS, en hierdie verskille kan potensiële probleme veroorsaak of unieke voordele bied.
+Vanuit die perspektief van 'n sekuriteitsnavorsers of 'n Unix-ontwikkelaar, kan **macOS** baie **soortgelyk** voel aan 'n **FreeBSD** stelsel met 'n elegante GUI en 'n verskeidenheid van pasgemaakte toepassings. Meeste toepassings wat vir BSD ontwikkel is, sal saamgestel en op macOS loop sonder dat aanpassings nodig is, aangesien die opdraglyn gereedskap wat bekend is aan Unix-gebruikers, almal in macOS teenwoordig is. egter, omdat die XNU-kern Mach inkorporeer, is daar 'n paar beduidende verskille tussen 'n tradisionele Unix-agtige stelsel en macOS, en hierdie verskille kan potensiële probleme veroorsaak of unieke voordele bied.
 
 Oopbron weergawe van XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
@@ -31,18 +31,18 @@ In XNU is Mach **verantwoordelik vir baie van die kritieke laagvlak operasies** 
 
 ### BSD
 
-Die XNU **kern** inkorporeer ook 'n beduidende hoeveelheid kode wat afkomstig is van die **FreeBSD** projek. Hierdie kode **loop as deel van die kern saam met Mach**, in dieselfde adresruimte. Tog, die FreeBSD kode binne XNU mag aansienlik verskil van die oorspronklike FreeBSD kode omdat aanpassings nodig was om sy kompatibiliteit met Mach te verseker. FreeBSD dra by tot baie kern operasies insluitend:
+Die XNU **kern** inkorporeer ook 'n beduidende hoeveelheid kode wat afkomstig is van die **FreeBSD** projek. Hierdie kode **loop as deel van die kern saam met Mach**, in dieselfde adresruimte. egter, die FreeBSD kode binne XNU mag aansienlik verskil van die oorspronklike FreeBSD kode omdat aanpassings nodig was om sy kompatibiliteit met Mach te verseker. FreeBSD dra by tot baie kern operasies insluitend:
 
 * Proses bestuur
 * Sein hantering
 * Basiese sekuriteitsmeganismes, insluitend gebruiker en groep bestuur
-* Stelselaanroep infrastruktuur
-* TCP/IP stapel en sokke
-* Vuurmuur en pakketfiltrering
+* Stelsels oproep infrastruktuur
+* TCP/IP stapel en sokkies
+* Vuurmuur en pakket filtrering
 
-Om die interaksie tussen BSD en Mach te verstaan, kan kompleks wees, as gevolg van hul verskillende konseptuele raamwerke. Byvoorbeeld, BSD gebruik prosesse as sy fundamentele uitvoerende eenheid, terwyl Mach werk op grond van drade. Hierdie verskil word in XNU versoen deur **elke BSD-proses te assosieer met 'n Mach-taak** wat presies een Mach-draad bevat. Wanneer BSD se fork() stelselaanroep gebruik word, gebruik die BSD kode binne die kern Mach funksies om 'n taak en 'n draadstruktuur te skep.
+Om die interaksie tussen BSD en Mach te verstaan, kan kompleks wees, as gevolg van hul verskillende konseptuele raamwerke. Byvoorbeeld, BSD gebruik prosesse as sy fundamentele uitvoerende eenheid, terwyl Mach werk op grond van drade. Hierdie verskil word in XNU versoen deur **elke BSD-proses te assosieer met 'n Mach-taak** wat presies een Mach-draad bevat. Wanneer BSD se fork() stelsels oproep gebruik word, gebruik die BSD kode binne die kern Mach funksies om 'n taak en 'n draadstruktuur te skep.
 
-Boonop, **Mach en BSD handhaaf elk verskillende sekuriteitsmodelle**: **Mach se** sekuriteitsmodel is gebaseer op **poortregte**, terwyl BSD se sekuriteitsmodel werk op grond van **prosesbesit**. Verskille tussen hierdie twee modelle het af en toe gelei tot plaaslike voorreg-verhoging kwesbaarhede. Afgesien van tipiese stelselaanroepe, is daar ook **Mach traps wat gebruikersruimte programme toelaat om met die kern te kommunikeer**. Hierdie verskillende elemente saam vorm die veelvlakkige, hibriede argitektuur van die macOS-kern.
+Boonop, **Mach en BSD handhaaf elk verskillende sekuriteitsmodelle**: **Mach se** sekuriteitsmodel is gebaseer op **poortregte**, terwyl BSD se sekuriteitsmodel werk op grond van **prosesbesit**. Verskille tussen hierdie twee modelle het af en toe gelei tot plaaslike voorreg-verhoging kwesbaarhede. Behalwe vir tipiese stelsels oproepe, is daar ook **Mach traps wat gebruikersruimte programme toelaat om met die kern te kommunikeer**. Hierdie verskillende elemente saam vorm die veelvlakkige, hibriede argitektuur van die macOS-kern.
 
 ### I/O Kit - Bestuurders
 
@@ -60,7 +60,7 @@ Die I/O Kit is 'n oopbron, objek-georiënteerde **toestel-bestuurder raamwerk** 
 
 ## macOS Kernel Extensions
 
-macOS is **baie beperkend om Kernel Extensions** (.kext) te laai weens die hoë voorregte wat kode sal loop. Trouens, standaard is dit feitlik onmoontlik (tenzij 'n omseiling gevind word).
+macOS is **super beperkend om Kernel Extensions** (.kext) te laai as gevolg van die hoë voorregte wat kode sal loop met. Trouens, standaard is dit feitlik onmoontlik (tenzij 'n omseiling gevind word).
 
 Op die volgende bladsy kan jy ook sien hoe om die `.kext` wat macOS binne sy **kernelcache** laai, te herstel:
 

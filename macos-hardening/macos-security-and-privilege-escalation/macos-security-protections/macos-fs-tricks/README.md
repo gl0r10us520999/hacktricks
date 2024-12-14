@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -20,9 +20,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 Toestemmings in 'n **gids**:
 
 * **lees** - jy kan die **gids** inskrywings **opnoem**
-* **skryf** - jy kan **verwyder/skryf** **lêers** in die gids en jy kan **leë vouers verwyder**.
-* Maar jy **kan nie nie-leë vouers verwyder/wysig** tensy jy skryftoestemmings daaroor het.
-* Jy **kan nie die naam van 'n vouer wysig** tensy jy dit besit nie.
+* **skryf** - jy kan **lêers** in die gids **verwyder/skryf** en jy kan **leë vouers** **verwyder**.
+* Maar jy **kan nie nie-leë vouers verwyder/modifiseer** tensy jy skryftoestemmings daaroor het.
+* Jy **kan nie die naam van 'n vouer modifiseer** tensy jy dit besit nie.
 * **voer uit** - jy is **toegelaat om** die gids te **deursoek** - as jy nie hierdie reg het nie, kan jy nie enige lêers binne dit, of in enige subgidsen, toegang nie.
 
 ### Gevaarlike Kombinasies
@@ -43,7 +43,7 @@ Voorbeeld in: [https://theevilbit.github.io/posts/exploiting\_directory\_permiss
 
 ## Simboliese Skakel / Hard Skakel
 
-As 'n bevoorregte proses data in 'n **lêer** skryf wat **beheer** kan word deur 'n **laer bevoorregte gebruiker**, of wat **voorheen geskep** kan wees deur 'n laer bevoorregte gebruiker. Die gebruiker kan net **na 'n ander lêer wys** via 'n Simboliese of Hard skakel, en die bevoorregte proses sal op daardie lêer skryf.
+As 'n bevoorregte proses data in 'n **lêer** skryf wat **beheer** kan word deur 'n **laer bevoorregte gebruiker**, of wat **voorheen geskep** kan wees deur 'n laer bevoorregte gebruiker. Die gebruiker kan eenvoudig **na 'n ander lêer wys** via 'n Simboliese of Hard skakel, en die bevoorregte proses sal op daardie lêer skryf.
 
 Kyk in die ander afdelings waar 'n aanvaller 'n **arbitrêre skryf kan misbruik om voorregte te verhoog**.
 
@@ -89,7 +89,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs mount
 
-'n **devfs** monteer **ondersteun nie xattr nie**, meer inligting in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+'n **devfs** monteer **ondersteun nie xattr** nie, meer inligting in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -100,7 +100,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-Hierdie ACL verhoed dat `xattrs` by die lêer gevoeg word
+Hierdie ACL verhoed dat `xattrs` by die lêer gevoeg word.
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -125,7 +125,7 @@ ls -le /tmp/test
 
 **AppleDouble** lêerformaat kopieer 'n lêer insluitend sy ACE's.
 
-In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedecomprimeerde lêer gestel gaan word. So, as jy 'n toepassing in 'n zip-lêer met **AppleDouble** lêerformaat saamgepers het met 'n ACL wat voorkom dat ander xattrs daarin geskryf kan word... was die kwarantyn xattr nie in die toepassing gestel nie:
+In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedecomprimeerde lêer gestel gaan word. So, as jy 'n toepassing in 'n zip-lêer met **AppleDouble** lêerformaat saamgepers het met 'n ACL wat voorkom dat ander xattrs daarin geskryf word... was die kwarantyn xattr nie in die toepassing gestel nie:
 
 Kyk na die [**oorspronklike verslag**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) vir meer inligting.
 
@@ -247,7 +247,7 @@ Dit is egter moontlik om gereedskap soos `hdik` en `hdiutil` te gebruik om direk
 
 As jou skrip as 'n **shell skrip** geïnterpreteer kan word, kan jy die **`/etc/periodic/daily/999.local`** shell skrip oorskryf wat elke dag geaktiveer sal word.
 
-Jy kan 'n **vals** uitvoering van hierdie skrip maak met: **`sudo periodic daily`**
+Jy kan 'n **valse** uitvoering van hierdie skrip maak met: **`sudo periodic daily`**
 
 ### Daemons
 
@@ -296,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX Gedeelde Geheue
 
-**POSIX gedeelde geheue** laat prosesse in POSIX-konforme bedryfstelsels toe om toegang te verkry tot 'n gemeenskaplike geheuegebied, wat vinniger kommunikasie vergemaklik in vergelyking met ander inter-proses kommunikasie metodes. Dit behels die skep of oopmaak van 'n gedeelde geheue objek met `shm_open()`, die instelling van sy grootte met `ftruncate()`, en die kartering daarvan in die proses se adresruimte met `mmap()`. Prosesse kan dan direk lees van en skryf na hierdie geheuegebied. Om gelyktydige toegang te bestuur en data-beskadiging te voorkom, word sinchronisasie meganismes soos mutexes of semafore dikwels gebruik. Laastens, prosesse onkarter en sluit die gedeelde geheue met `munmap()` en `close()`, en verwyder opsioneel die geheue objek met `shm_unlink()`. Hierdie stelsel is veral effektief vir doeltreffende, vinnige IPC in omgewings waar verskeie prosesse vinnig toegang tot gedeelde data moet verkry.
+**POSIX gedeelde geheue** stel prosesse in POSIX-konforme bedryfstelsels in staat om toegang te verkry tot 'n gemeenskaplike geheuegebied, wat vinniger kommunikasie vergemaklik in vergelyking met ander inter-proses kommunikasie metodes. Dit behels die skep of oopmaak van 'n gedeelde geheue objek met `shm_open()`, die grootte daarvan stel met `ftruncate()`, en dit in die proses se adresruimte kaart met `mmap()`. Prosesse kan dan direk lees van en skryf na hierdie geheuegebied. Om gelyktydige toegang te bestuur en data-korrupsie te voorkom, word sinchronisasie-meganismes soos mutexes of semafore dikwels gebruik. Laastens, prosesse ontkoppel en sluit die gedeelde geheue met `munmap()` en `close()`, en verwyder opsioneel die geheue objek met `shm_unlink()`. Hierdie stelsel is veral effektief vir doeltreffende, vinnige IPC in omgewings waar verskeie prosesse vinnig toegang tot gedeelde data moet verkry.
 
 <details>
 
@@ -348,7 +348,7 @@ return 0;
 
 <details>
 
-<summary>Verbruikerskode Voorbeeld</summary>
+<summary>Verbruikerskodevoorbeeld</summary>
 ```c
 // gcc consumer.c -o consumer -lrt
 #include <fcntl.h>
@@ -396,7 +396,7 @@ return 0;
 
 Hierdie kenmerk is veral nuttig om sekere klasse van sekuriteitskwesbaarhede soos **ongemagtigde lêer toegang** of **wedloop toestande** te voorkom. Hierdie kwesbaarhede gebeur wanneer 'n draad byvoorbeeld 'n lêer beskrywing benader wat **'n ander kwesbare draad toegang gee** of wanneer 'n lêer beskrywing **geërf** word deur 'n kwesbare kind proses. Sommige funksies wat met hierdie funksionaliteit verband hou, is:
 
-* `guarded_open_np`: Oop 'n FD met 'n wagter
+* `guarded_open_np`: Maak 'n FD met 'n wagter oop
 * `guarded_close_np`: Sluit dit
 * `change_fdguard_np`: Verander wagter vlae op 'n beskrywing (selfs om die wagter beskerming te verwyder)
 

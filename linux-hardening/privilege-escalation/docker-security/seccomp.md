@@ -63,7 +63,7 @@ printf("You will not see this message--the process will be killed first\n");
 
 ### Seccomp-bpf
 
-Hierdie modus laat **filtrering van stelselskille toe met 'n konfigureerbare beleid** wat geïmplementeer is met behulp van Berkeley Packet Filter-reëls.
+Hierdie modus laat **filtrering van stelselskille toe met 'n konfigureerbare beleid** wat geïmplementeer is met behulp van Berkeley Packet Filter reëls.
 
 {% code title="seccomp_bpf.c" %}
 ```c
@@ -117,7 +117,7 @@ printf("this process is %d\n", getpid());
 
 ## Seccomp in Docker
 
-**Seccomp-bpf** word deur **Docker** ondersteun om die **syscalls** van die houers te beperk, wat effektief die oppervlakarea verminder. Jy kan die **syscalls wat geblokkeer** is **per standaard** vind in [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) en die **standaard seccomp-profiel** kan hier gevind word [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+**Seccomp-bpf** word deur **Docker** ondersteun om die **syscalls** van die houers te beperk, wat effektief die oppervlakarea verminder. Jy kan die **syscalls wat geblokkeer is** deur **default** vind in [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) en die **default seccomp-profiel** kan hier gevind word [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
 Jy kan 'n docker-houer met 'n **ander seccomp** beleid uitvoer met:
 ```bash
 docker run --rm \
@@ -126,20 +126,20 @@ docker run --rm \
 hello-world
 ```
 As jy byvoorbeeld wil **verbied** dat 'n houer sekere **syscall** soos `uname` uitvoer, kan jy die standaardprofiel aflaai van [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) en net die **`uname` string uit die lys **verwyder.\
-As jy seker wil maak dat **'n sekere binêre nie binne 'n docker-houer werk nie**, kan jy strace gebruik om die syscalls wat die binêre gebruik, op te lys en hulle dan verbied.\
+As jy wil seker maak dat **'n sekere binêre nie binne 'n docker-houer werk nie**, kan jy strace gebruik om die syscalls wat die binêre gebruik, op te lys en hulle dan verbied.\
 In die volgende voorbeeld word die **syscalls** van `uname` ontdek:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-As jy **Docker net gebruik om 'n toepassing te begin**, kan jy dit **profiel** met **`strace`** en **net die syscalls** toelaat wat dit benodig
+As jy **Docker net gebruik om 'n toepassing te begin**, kan jy dit **profiel** met **`strace`** en **net die syscalls toelaat** wat dit benodig
 {% endhint %}
 
 ### Voorbeeld Seccomp-beleid
 
 [Voorbeeld hier vandaan](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Om die Seccomp-funksie te illustreer, kom ons skep 'n Seccomp-profiel wat die “chmod” stelselsoproep soos hieronder deaktiveer.
+Om die Seccomp-funksie te illustreer, laat ons 'n Seccomp-profiel skep wat die “chmod” stelselsoproep soos hieronder deaktiveer.
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -151,7 +151,7 @@ Om die Seccomp-funksie te illustreer, kom ons skep 'n Seccomp-profiel wat die �
 ]
 }
 ```
-In die bogenoemde profiel het ons die standaard aksie op "toelaat" gestel en 'n swartlys geskep om "chmod" te deaktiveer. Om veiliger te wees, kan ons die standaard aksie op "verwerp" stel en 'n witlys skep om stelsels oproepe selektief te aktiveer.\
+In die bogenoemde profiel het ons die standaard aksie op "toelaat" gestel en 'n swartlys geskep om "chmod" te deaktiveer. Om veiliger te wees, kan ons die standaard aksie op "drop" stel en 'n witlys skep om stelsels oproepe selektief te aktiveer.\
 Die volgende uitvoer toon die "chmod" oproep wat 'n fout teruggee omdat dit in die seccomp profiel gedeaktiveer is.
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts

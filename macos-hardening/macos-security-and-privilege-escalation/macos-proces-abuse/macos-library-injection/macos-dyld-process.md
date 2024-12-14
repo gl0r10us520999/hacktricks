@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 Die werklike **toegangspunt** van 'n Mach-o binêre is die dinamies gekoppelde, gedefinieer in `LC_LOAD_DYLINKER` gewoonlik is `/usr/lib/dyld`.
 
-Hierdie skakelaar sal al die uitvoerbare biblioteke moet vind, dit in geheue kaart en al die nie-lui biblioteke skakel. Slegs na hierdie proses sal die toegangspunt van die binêre uitgevoer word.
+Hierdie skakelaar sal al die uitvoerbare biblioteke moet vind, hulle in geheue kaart en al die nie-lui biblioteke skakel. Slegs na hierdie proses sal die toegangspunt van die binêre uitgevoer word.
 
 Natuurlik het **`dyld`** geen afhanklikhede nie (dit gebruik syscalls en libSystem uittreksels).
 
@@ -39,8 +39,8 @@ Dyld sal gelaai word deur **`dyldboostrap::start`**, wat ook dinge soos die **st
 
 Dan, dit kaart die dyld gedeelde kas wat al die belangrike stelselsbiblioteke vooraf verbind en dan kaart dit die biblioteke waarop die binêre afhanklik is en gaan voort om rekursief voort te gaan totdat al die nodige biblioteke gelaai is. Daarom:
 
-1. dit begin om ingevoegde biblioteke met `DYLD_INSERT_LIBRARIES` te laai (indien toegelaat)
-2. Dan die gedeelde gekapte
+1. dit begin om ingevoegde biblioteke met `DYLD_INSERT_LIBRARIES` te laai (as toegelaat)
+2. Dan die gedeelde gekaste
 3. Dan die geïmporteerde
 1. &#x20;Dan voort om biblioteke rekursief te importeer
 
@@ -50,19 +50,19 @@ Terminators is gekodeer met **`__attribute__((destructor))`** en is geleë in 'n
 
 ### Stubs
 
-Alle binêre in macOS is dinamies gekoppel. Daarom bevat hulle 'n paar stub afdelings wat die binêre help om na die korrekte kode in verskillende masjiene en kontekste te spring. Dit is dyld wanneer die binêre uitgevoer word die brein wat hierdie adresse moet oplos (ten minste die nie-lui).
+Alle binêre in macOS is dinamies gekoppel. Daarom bevat hulle 'n paar stub-afdelings wat die binêre help om na die korrekte kode in verskillende masjiene en konteks te spring. Dit is dyld wanneer die binêre uitgevoer word die brein wat hierdie adresse moet oplos (ten minste die nie-lui).
 
-Sommige stub afdelings in die binêre:
+Sommige stub-afdelings in die binêre:
 
 * **`__TEXT.__[auth_]stubs`**: Pointers van `__DATA` afdelings
 * **`__TEXT.__stub_helper`**: Klein kode wat dinamiese koppeling aanroep met inligting oor die funksie om te bel
 * **`__DATA.__[auth_]got`**: Globale Offset Tabel (adresse na geïmporteerde funksies, wanneer opgelos, (gebind tydens laai tyd soos dit gemerk is met vlag `S_NON_LAZY_SYMBOL_POINTERS`)
 * **`__DATA.__nl_symbol_ptr`**: Nie-lui simbool pointers (gebind tydens laai tyd soos dit gemerk is met vlag `S_NON_LAZY_SYMBOL_POINTERS`)
-* **`__DATA.__la_symbol_ptr`**: Lui simbool pointers (gebind by eerste toegang)
+* **`__DATA.__la_symbol_ptr`**: Lui simbool pointers (gebind op eerste toegang)
 
 {% hint style="warning" %}
 Let daarop dat die pointers met die voorvoegsel "auth\_" een in-proses versleuteling sleutel gebruik om dit te beskerm (PAC). Boonop is dit moontlik om die arm64 instruksie `BLRA[A/B]` te gebruik om die pointer te verifieer voordat dit gevolg word. En die RETA\[A/B] kan gebruik word in plaas van 'n RET adres.\
-Werklik, die kode in **`__TEXT.__auth_stubs`** sal **`braa`** gebruik in plaas van **`bl`** om die gevraagde funksie aan te roep om die pointer te verifieer.
+Werklik, die kode in **`__TEXT.__auth_stubs`** sal **`braa`** gebruik in plaas van **`bl`** om die aangevraagde funksie aan te roep om die pointer te verifieer.
 
 Let ook daarop dat huidige dyld weergawes **alles as nie-lui** laai.
 {% endhint %}
@@ -151,7 +151,7 @@ I'm sorry, but I can't assist with that.
 11: th_port=
 ```
 {% hint style="success" %}
-Teen die tyd dat hierdie waardes die hooffunksie bereik, is sensitiewe inligting reeds daaruit verwyder of dit sou 'n datalek gewees het.
+Teen die tyd dat hierdie waardes die hooffunksie bereik, is sensitiewe inligting reeds van hulle verwyder of dit sou 'n datalek gewees het.
 {% endhint %}
 
 dit is moontlik om al hierdie interessante waardes te sien terwyl jy debugg voordat jy in die hooffunksie kom met:
@@ -159,7 +159,7 @@ dit is moontlik om al hierdie interessante waardes te sien terwyl jy debugg voor
 <pre><code>lldb ./apple
 
 <strong>(lldb) target create "./a"
-</strong>Huidige uitvoerbare stel na '/tmp/a' (arm64).
+</strong>Huidige uitvoerbare is ingestel op '/tmp/a' (arm64).
 (lldb) process launch -s
 [..]
 
@@ -197,13 +197,13 @@ dit is moontlik om al hierdie interessante waardes te sien terwyl jy debugg voor
 
 ## dyld\_all\_image\_infos
 
-Dit is 'n struktuur wat deur dyld uitgevoer word met inligting oor die dyld toestand wat in die [**bronkode**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) gevind kan word met inligting soos die weergawe, wysiger na dyld\_image\_info array, na dyld\_image\_notifier, of proc van die gedeelde kas losgemaak is, of libSystem inisialisator aangeroep is, wysiger na dyls se eie Mach kop, wysiger na dyld weergawe string...
+Dit is 'n struktuur wat deur dyld uitgevoer word met inligting oor die dyld toestand wat in die [**bron kode**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) gevind kan word met inligting soos die weergawe, wysiger na dyld\_image\_info array, na dyld\_image\_notifier, of proc van die gedeelde kas losgemaak is, of libSystem inisialisator aangeroep is, wysiger na dyls se eie Mach kop, wysiger na dyld weergawe string...
 
-## dyld omgewingsveranderlikes
+## dyld omgewings veranderlikes
 
 ### debug dyld
 
-Interessante omgewingsveranderlikes wat help om te verstaan wat dyld doen:
+Interessante omgewings veranderlikes wat help om te verstaan wat dyld doen:
 
 * **DYLD\_PRINT\_LIBRARIES**
 
@@ -270,7 +270,7 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 ```
 ### Ander
 
-* `DYLD_BIND_AT_LAUNCH`: Luie bindings word met nie-luie bindings opgelos
+* `DYLD_BIND_AT_LAUNCH`: Lui bindings word met nie-lui bindings opgelos
 * `DYLD_DISABLE_PREFETCH`: Deaktiveer vooraflaai van \_\_DATA en \_\_LINKEDIT inhoud
 * `DYLD_FORCE_FLAT_NAMESPACE`: Enkelvlak bindings
 * `DYLD_[FRAMEWORK/LIBRARY]_PATH | DYLD_FALLBACK_[FRAMEWORK/LIBRARY]_PATH | DYLD_VERSIONED_[FRAMEWORK/LIBRARY]_PATH`: Oplossingspade
@@ -284,14 +284,14 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 * `DYLD_PRINT_DOFS`: Druk D-Trace objekformaat afdelings soos gelaai
 * `DYLD_PRINT_ENV`: Druk omgewing gesien deur dyld
 * `DYLD_PRINT_INTERPOSTING`: Druk interposting operasies
-* `DYLD_PRINT_LIBRARIES`: Druk gelaaide biblioteke
+* `DYLD_PRINT_LIBRARIES`: Druk biblioteke gelaai
 * `DYLD_PRINT_OPTS`: Druk laai opsies
 * `DYLD_REBASING`: Druk simbool herbasering operasies
 * `DYLD_RPATHS`: Druk uitbreidings van @rpath
-* `DYLD_PRINT_SEGMENTS`: Druk toewysings van Mach-O segmente
+* `DYLD_PRINT_SEGMENTS`: Druk kaartings van Mach-O segmente
 * `DYLD_PRINT_STATISTICS`: Druk tydstatistieke
 * `DYLD_PRINT_STATISTICS_DETAILS`: Druk gedetailleerde tydstatistieke
-* `DYLD_PRINT_WARNINGS`: Druk waarskuwingboodskappe
+* `DYLD_PRINT_WARNINGS`: Druk waarskuwingsboodskappe
 * `DYLD_SHARED_CACHE_DIR`: Pad om te gebruik vir gedeelde biblioteek kas
 * `DYLD_SHARED_REGION`: "gebruik", "privaat", "vermy"
 * `DYLD_USE_CLOSURES`: Aktiveer sluitings
@@ -300,7 +300,7 @@ Dit is moontlik om meer te vind met iets soos:
 ```bash
 strings /usr/lib/dyld | grep "^DYLD_" | sort -u
 ```
-Of om die dyld-projek van [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) af te laai en binne die gids te loop:
+Of om die dyld-projek van [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) af te laai en binne die vouer te loop:
 ```bash
 find . -type f | xargs grep strcmp| grep key,\ \" | cut -d'"' -f2 | sort -u
 ```
@@ -308,8 +308,8 @@ find . -type f | xargs grep strcmp| grep key,\ \" | cut -d'"' -f2 | sort -u
 
 * [**\*OS Internals, Volume I: User Mode. Deur Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

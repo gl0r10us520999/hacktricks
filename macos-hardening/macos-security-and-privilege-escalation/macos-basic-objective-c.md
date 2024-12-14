@@ -27,23 +27,22 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 {% endhint %}
 {% endhint %}
-{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklarings **wanneer** **gecompileer** word in [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van:
+Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklarings **wanneer** **gecompileer** word in [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van in:
 {% endhint %}
 
 * Die klas
 * Die klas metodes
 * Die klas instansie veranderlikes
 
-Jy kan hierdie inligting verkry deur [**class-dump**](https://github.com/nygard/class-dump):
+Jy kan hierdie inligting verkry met [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
-Let daarop dat hierdie name obfuskeer kan word om die omkering van die binêre meer moeilik te maak.
+Let wel, hierdie name kan obfuskeer word om die omkering van die binêre meer moeilik te maak.
 
 ## Klasse, Metodes & Objekte
 
@@ -78,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Object & Call Method**
+### **Objek & Roep Metode**
 
-Om 'n instansie van 'n klas te skep, word die **`alloc`** metode aangeroep wat **geheue toewys** vir elke **eienskap** en **nul** daardie toewysings. Dan word **`init`** aangeroep, wat die **eienskappe** tot die **vereiste waardes** **initaliseer**.
+Om 'n voorwerp van 'n klas te skep, word die **`alloc`** metode aangeroep wat **geheue toewys** vir elke **eienskap** en **nul** daardie toewysings. Dan word **`init`** aangeroep, wat die **eienskappe** tot die **vereiste waardes** **initaliseer**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -123,7 +122,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 
 Protokolle is 'n stel metodeverklarings (sonder eienskappe). 'n Klas wat 'n protokol implementeer, implementeer die verklaarde metodes.
 
-Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **default** is 'n metode **verpligtend** (maar jy kan dit ook met 'n **`@required`** etiket aandui). Om aan te dui dat 'n metode opsioneel is, gebruik **`@optional`**.
+Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **verstek** is 'n metode **verpligtend** (maar jy kan dit ook met 'n **`@required`** etiket aandui). Om aan te dui dat 'n metode opsioneel is, gebruik **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -236,7 +235,11 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-#### Array, Sets & Dictionary
+{% endcode %}
+
+#### Array, Stel & Woordeboek
+
+{% code overflow="wrap" %}
 ```objectivec
 // Inmutable arrays
 NSArray *colorsArray1 = [NSArray arrayWithObjects:@"red", @"green", @"blue", nil];
@@ -354,7 +357,7 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Dit is ook moontlik om lêers **te bestuur met `NSURL`-objekte in plaas van `NSString`**-objekte. Die metode name is soortgelyk, maar **met `URL` in plaas van `Path`**.
+Dit is ook moontlik om lêers **te bestuur met `NSURL`-objekte in plaas van `NSString`-objekte**. Die metode name is soortgelyk, maar **met `URL` in plaas van `Path`**.
 ```objectivec
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

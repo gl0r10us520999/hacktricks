@@ -1,160 +1,231 @@
 # macOS MDM
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hackingtruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Om meer te leer oor macOS MDM's kyk:**
+**Om meer te leer oor macOS MDM's, kyk:**
 
 * [https://www.youtube.com/watch?v=ku8jZe-MHUU](https://www.youtube.com/watch?v=ku8jZe-MHUU)
 * [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe)
 
-## Basies
+## Basiese beginsels
 
-### **MDM (Mobile Device Management) Oorsig**
+### **MDM (Mobiele Toestelbestuur) Oorsig**
 
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) word gebruik om verskeie eindgebruikers-toestelle soos slimfone, draagbare rekenaars en tablette te bestuur. Veral vir Apple se platforms (iOS, macOS, tvOS) behels dit 'n stel gespesialiseerde kenmerke, API's en praktyke. Die werking van MDM steun op 'n verenigbare MDM-bediener, wat of kommersieel beskikbaar is of oopbron, en moet die [MDM-protokol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) ondersteun. Sleutelpunte sluit in:
+[Mobiele Toestelbestuur](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) word gebruik om verskeie eindgebruikertoestelle soos slimfone, skootrekenaars en tablette te bestuur. Veral vir Apple se platforms (iOS, macOS, tvOS), dit behels 'n stel gespesialiseerde funksies, API's en praktyke. Die werking van MDM hang af van 'n versoenbare MDM-bediener, wat kommersieel beskikbaar of oopbron kan wees, en moet die [MDM-protokol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) ondersteun. Sleutelpunte sluit in:
 
-* Gekentraliseerde beheer oor toestelle.
-* Afhanklikheid van 'n MDM-bediener wat voldoen aan die MDM-protokol.
-* Vermoë van die MDM-bediener om verskeie bevele na toestelle te stuur, byvoorbeeld afstanddata-uitvee of opsetinstallasie.
+* Gekonsolideerde beheer oor toestelle.
+* Afhangend van 'n MDM-bediener wat aan die MDM-protokol voldoen.
+* Vermoë van die MDM-bediener om verskeie opdragte na toestelle te stuur, byvoorbeeld, afstandsdata-uitwissing of konfigurasie-installasie.
 
-### **Basiese beginsels van DEP (Device Enrollment Program)**
+### **Basiese beginsels van DEP (Toestelregistrasieprogram)**
 
-Die [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) wat deur Apple aangebied word, vereenvoudig die integrasie van Mobile Device Management (MDM) deur nul-aanraking-konfigurasie vir iOS, macOS en tvOS-toestelle te fasiliteer. DEP outomatiseer die intekeningsproses, wat toestelle in staat stel om reg uit die boks operasioneel te wees, met minimale gebruiker- of administratiewe ingryping. Belangrike aspekte sluit in:
+Die [Toestelregistrasieprogram](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) wat deur Apple aangebied word, stroomlyn die integrasie van Mobiele Toestelbestuur (MDM) deur nul-aanraaking konfigurasie vir iOS, macOS en tvOS toestelle te fasiliteer. DEP outomatiseer die registrasieproses, wat toestelle in staat stel om reg uit die boks te werk, met minimale gebruikers- of administratiewe ingryping. Belangrike aspekte sluit in:
 
-* Stel toestelle in staat om outomaties te registreer by 'n voorafbepaalde MDM-bediener met aanvanklike aktivering.
-* Hoofsaaklik voordelig vir splinternuwe toestelle, maar ook toepaslik vir toestelle wat herkonfigurasie ondergaan.
+* Stel toestelle in staat om outonoom te registreer met 'n vooraf gedefinieerde MDM-bediener by die aanvanklike aktivering.
+* Primêr voordelig vir splinternuwe toestelle, maar ook toepaslik vir toestelle wat herkonfigureer word.
 * Fasiliteer 'n eenvoudige opstelling, wat toestelle vinnig gereed maak vir organisatoriese gebruik.
 
-### **Sekuriteits oorwegings**
+### **Sekuriteitsoorweging**
 
-Dit is noodsaaklik om daarop te let dat die gemak van intekening wat deur DEP gebied word, terwyl dit voordelig is, ook sekuriteitsrisiko's kan inhou. As beskermende maatreëls nie voldoende afgedwing word vir MDM-intekening nie, kan aanvallers hierdie vereenvoudigde proses benut om hul toestel op die organisasie se MDM-bediener te registreer, wat as 'n korporatiewe toestel voorgee.
+Dit is belangrik om daarop te let dat die gemak van registrasie wat deur DEP verskaf word, terwyl dit voordelig is, ook sekuriteitsrisiko's kan inhou. As beskermingsmaatreëls nie voldoende afgedwing word vir MDM-registrasie nie, kan aanvallers hierdie gestroomlynde proses benut om hul toestel op die organisasie se MDM-bediener te registreer, terwyl hulle as 'n korporatiewe toestel voorgee.
 
 {% hint style="danger" %}
-**Sekuriteitswaarskuwing**: Vereenvoudigde DEP-intekening kan moontlik ongemagtigde toestelregistrasie op die organisasie se MDM-bediener toelaat as behoorlike beskermingsmaatreëls nie in plek is nie.
+**Sekuriteitswaarskuwing**: Vereenvoudigde DEP-registrasie kan moontlik ongeoorloofde toestelregistrasie op die organisasie se MDM-bediener toelaat as behoorlike beskermingsmaatreëls nie in plek is nie.
 {% endhint %}
 
-### Basies Wat is SCEP (Simple Certificate Enrolment Protocol)?
+### Basiese beginsels Wat is SCEP (Eenvoudige Sertifikaatregistrasieprotokol)?
 
-* 'n Relatief ou protokol, geskep voordat TLS en HTTPS wydverspreid was.
-* Gee kliënte 'n gestandaardiseerde manier om 'n **Certificate Signing Request** (CSR) te stuur vir die doel om 'n sertifikaat toegeken te word. Die kliënt sal die bediener vra om hom 'n ondertekende sertifikaat te gee.
+* 'n Relatief ou protokol, geskep voordat TLS en HTTPS algemeen was.
+* Gee kliënte 'n gestandaardiseerde manier om 'n **Sertifikaatondertekeningsversoek** (CSR) te stuur ten einde 'n sertifikaat te verkry. Die kliënt sal die bediener vra om vir hom 'n ondertekende sertifikaat te gee.
 
-### Wat is Konfigurasieprofiel (ook bekend as mobiele konfigurasies)?
+### Wat is Konfigurasieprofiele (ook bekend as mobileconfigs)?
 
-* Apple se amptelike manier om **sisteemkonfigurasie in te stel/af te dwing.**
-* Lêerformaat wat verskeie vragte kan bevat.
-* Gebaseer op eienskapslyste (die XML-soort).
-* "kan onderteken en versleutel word om hul oorsprong te valideer, hul integriteit te verseker, en hul inhoud te beskerm." Basiese beginsels - Bladsy 70, iOS-sekuriteitsgids, Januarie 2018.
+* Apple se amptelike manier om **stelselskonfigurasie in te stel/af te dwing.**
+* Lêerformaat wat verskeie payloads kan bevat.
+* Gebaseer op eiendomslyste (die XML-tipe).
+* “kan onderteken en geënkripteer word om hul oorsprong te valideer, hul integriteit te verseker, en hul inhoud te beskerm.” Basiese beginsels — Bladsy 70, iOS Sekuriteitsgids, Januarie 2018.
 
 ## Protokolle
 
 ### MDM
 
-* Kombinasie van APNs (**Apple-bediener**s) + RESTful API (**MDM-vennoot**-bedieners)
-* **Kommunikasie** vind plaas tussen 'n **toestel** en 'n bediener wat verband hou met 'n **toestelbestuursproduk**
-* **Bevele** wat van die MDM na die toestel gestuur word in **plist-gekodeerde woordeboeke**
-* Al oor **HTTPS**. MDM-bediener kan (en is gewoonlik) gepin.
-* Apple verleen die MDM-vennoot 'n **APNs-sertifikaat** vir verifikasie
+* Kombinasie van APNs (**Apple bediener**s) + RESTful API (**MDM** **verkoper** bedieners)
+* **Kommunikasie** vind plaas tussen 'n **toestel** en 'n bediener wat verband hou met 'n **toestel** **bestuur** **produk**
+* **Opdragte** gelewer van die MDM na die toestel in **plist-gecodeerde woordeboeke**
+* Oral oor **HTTPS**. MDM-bedieners kan (en is gewoonlik) geprik.
+* Apple gee die MDM-verkoper 'n **APNs sertifikaat** vir verifikasie
 
 ### DEP
 
-* **3 API's**: 1 vir wederverkopers, 1 vir MDM-vennote, 1 vir toestelidentiteit (ondokumenteer):
-* Die sogenaamde [DEP "wolkmeganisme" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Dit word deur MDM-bedieners gebruik om DEP-profiel met spesifieke toestelle te assosieer.
-* Die [DEP-API wat deur Apple Gemagtigde Wederverkopers gebruik word](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) om toestelle in te skryf, intekeningsstatus te kontroleer, en transaksiestatus te kontroleer.
-* Die ongedokumenteerde private DEP-API. Dit word deur Apple-toestelle gebruik om hul DEP-profiel aan te vra. Op macOS is die `cloudconfigurationd` binêre verantwoordelik vir kommunikasie oor hierdie API.
-* Meer moderne en **JSON**-gebaseer (vs. plist)
-* Apple verleen 'n **OAuth-token** aan die MDM-vennoot
+* **3 API's**: 1 vir herverkopers, 1 vir MDM-verkopers, 1 vir toestelidentiteit (nie gedokumenteer nie):
+* Die sogenaamde [DEP "cloud service" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Dit word deur MDM-bedieners gebruik om DEP-profiele met spesifieke toestelle te assosieer.
+* Die [DEP API wat deur Apple Geautoriseerde Herverkopers gebruik word](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) om toestelle te registreer, registrasiestatus te kontroleer, en transaksie-status te kontroleer.
+* Die nie-gedokumenteerde private DEP API. Dit word deur Apple Toestelle gebruik om hul DEP-profiel aan te vra. Op macOS is die `cloudconfigurationd` binêre verantwoordelik vir kommunikasie oor hierdie API.
+* Meer modern en **JSON** gebaseer (teenoor plist)
+* Apple gee 'n **OAuth-token** aan die MDM-verkoper
 
-**DEP "wolkmeganisme" API**
+**DEP "cloud service" API**
 
 * RESTful
-* sink toestelrekords van Apple na die MDM-bediener
-* sink "DEP-profiel" na Apple van die MDM-bediener (later deur Apple aan die toestel gelewer)
-* 'n DEP "profiel" bevat:
-* MDM-vennootbediener-URL
-* Addisionele vertroude sertifikate vir bediener-URL (opsionele pinning)
-* Ekstra instellings (bv. watter skerms om oor te slaan in die Opsetassistent)
+* sinkroniseer toestelrekords van Apple na die MDM-bediener
+* sinkroniseer “DEP-profiele” na Apple vanaf die MDM-bediener (later aan die toestel gelewer deur Apple)
+* 'n DEP “profiel” bevat:
+* MDM-verkoper bediener URL
+* Bykomende vertroude sertifikate vir bediener URL (opsionele prik)
+* Ekstra instellings (bv. watter skerms om in die Setup Assistant oor te slaan)
 
 ## Serienommer
 
-Apple-toestelle wat na 2010 vervaardig is, het oor die algemeen **12-karakter alfanumeriese** serienommers, met die **eerste drie syfers wat die vervaardigingsplek** verteenwoordig, die volgende **twee** wat die **jaar** en **week** van vervaardiging aandui, die volgende **drie** syfers wat 'n **unieke** **identifiseerder** voorsien, en die **laaste** **vier** syfers wat die **modelnommer** verteenwoordig.
+Apple-toestelle wat na 2010 vervaardig is, het oor die algemeen **12-karakter alfanumeriese** serienommers, met die **eerste drie syfers wat die vervaardigingsligging verteenwoordig**, die volgende **twee** wat die **jaar** en **week** van vervaardiging aandui, die volgende **drie** syfers wat 'n **unieke** **identifiseerder** verskaf, en die **laaste** **vier** syfers wat die **modelnommer** verteenwoordig.
 
 {% content-ref url="macos-serial-number.md" %}
 [macos-serial-number.md](macos-serial-number.md)
 {% endcontent-ref %}
 
-## Stappe vir intekening en bestuur
+## Stappe vir registrasie en bestuur
 
-1. Skep van toestelrekord (Wederverkoper, Apple): Die rekord vir die nuwe toestel word geskep
-2. Toestelrekordtoewysing (Kliënt): Die toestel word toegewys aan 'n MDM-bediener
-3. Toestelrekordsinkronisasie (MDM-vennoot): MDM sinkroniseer die toestelrekords en druk die DEP-profiel na Apple
-4. DEP-inloer (Toestel): Toestel kry sy DEP-profiel
+1. Toestelrekord skep (Herverkoper, Apple): Die rekord vir die nuwe toestel word geskep
+2. Toestelrekord toewys (Kliënt): Die toestel word aan 'n MDM-bediener toegeken
+3. Toestelrekord sinkroniseer (MDM-verkoper): MDM sinkroniseer die toestelrekords en druk die DEP-profiele na Apple
+4. DEP inligting (Toestel): Toestel ontvang sy DEP-profiel
 5. Profielherwinning (Toestel)
-6. Profielinstallasie (Toestel) a. insl. MDM, SCEP en stam CA-vragte
-7. MDM-beveluitreiking (Toestel)
+6. Profielinstallasie (Toestel) a. insluitend MDM, SCEP en wortel CA payloads
+7. MDM-opdrag uitreiking (Toestel)
 
 ![](<../../../.gitbook/assets/image (694).png>)
 
-Die lêer `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` voer funksies uit wat as **hoëvlak "stappe"** van die intekeningsproses beskou kan word.
-### Stap 4: DEP kontrole - Kry die Aktiveringsrekord
+Die lêer `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` voer funksies uit wat beskou kan word as **hoëvlak "stappe"** van die registrasieproses.
 
-Hierdie deel van die proses vind plaas wanneer 'n **gebruiker 'n Mac vir die eerste keer opstart** (of na 'n volledige vee)
+### Stap 4: DEP inligting - Verkryging van die Aktiveringsrekord
+
+Hierdie deel van die proses vind plaas wanneer 'n **gebruiker 'n Mac vir die eerste keer opstart** (of na 'n volledige skoonmaak)
 
 ![](<../../../.gitbook/assets/image (1044).png>)
 
-of wanneer die `sudo profiles show -type enrollment` uitgevoer word
+of wanneer `sudo profiles show -type enrollment` uitgevoer word
 
-* Bepaal **of toestel DEP-geaktiveer is**
-* Aktiveringsrekord is die interne naam vir **DEP "profiel"**
+* Bepaal **of toestel DEP geaktiveer is**
+* Aktiveringsrekord is die interne naam vir **DEP “profiel”**
 * Begin sodra die toestel aan die internet gekoppel is
 * Gedryf deur **`CPFetchActivationRecord`**
-* Geïmplementeer deur **`cloudconfigurationd`** via XPC. Die **"Opstelassistent**" (wanneer die toestel vir die eerste keer opgestart word) of die **`profiles`** bevel sal **hierdie daemon kontak** om die aktiveringsrekord te haal.
-* LaunchDaemon (hardloop altyd as root)
+* Geïmplementeer deur **`cloudconfigurationd`** via XPC. Die **"Setup Assistant"** (wanneer die toestel vir die eerste keer opgestart word) of die **`profiles`** opdrag sal **hierdie daemon** kontak om die aktiveringsrekord te verkry.
+* LaunchDaemon (loop altyd as root)
 
-Dit volg 'n paar stappe om die Aktiveringsrekord uit te voer deur **`MCTeslaConfigurationFetcher`**. Hierdie proses gebruik 'n enkripsie genaamd **Absinthe**
+Dit volg 'n paar stappe om die Aktiveringsrekord te verkry wat deur **`MCTeslaConfigurationFetcher`** uitgevoer word. Hierdie proses gebruik 'n enkripsie genaamd **Absinthe**
 
-1. Haal die **sertifikaat** op
-1. KRY [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Inisialiseer** toestand vanaf sertifikaat (**`NACInit`**)
-1. Gebruik verskeie toestel-spesifieke data (bv. **Serienommer via `IOKit`**)
-3. Haal die **sessiesleutel** op
+1. Verkry **sertifikaat**
+1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+2. **Begin** toestand vanaf sertifikaat (**`NACInit`**)
+1. Gebruik verskeie toestelspesifieke data (d.w.s. **Serienommer via `IOKit`**)
+3. Verkry **sessiesleutel**
 1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Stel die sessie op (**`NACKeyEstablishment`**)
-5. Doen die versoek
-1. POST na [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) deur die data te stuur `{ "aksie": "VersoekProfielkonfigurasie", "sn": "" }`
-2. Die JSON-lading word versleutel met Absinthe (**`NACSign`**)
-3. Alle versoek is oor HTTPs, ingeboude root-sertifikate word gebruik
+4. Vestig die sessie (**`NACKeyEstablishment`**)
+5. Maak die versoek
+1. POST na [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) en stuur die data `{ "action": "RequestProfileConfiguration", "sn": "" }`
+2. Die JSON payload is geënkripteer met Absinthe (**`NACSign`**)
+3. Alle versoeke oor HTTPs, ingeboude wortelsertifikate word gebruik
 
 ![](<../../../.gitbook/assets/image (566) (1).png>)
 
-Die reaksie is 'n JSON-woordeboek met belangrike data soos:
+Die antwoord is 'n JSON-woordeboek met belangrike data soos:
 
-* **url**: URL van die MDM-leweransiergasheer vir die aktiveringsprofiel
-* **anker-sertifikate**: Reeks DER-sertifikate wat as vertroude ankers gebruik word
+* **url**: URL van die MDM-verkoper gasheer vir die aktiveringsprofiel
+* **anchor-certs**: Array van DER-sertifikate wat as vertroude ankers gebruik word
 
 ### **Stap 5: Profielherwinning**
 
 ![](<../../../.gitbook/assets/image (444).png>)
 
-* Versoek gestuur na **url wat in DEP-profiel verskaf is**.
-* **Anker-sertifikate** word gebruik om **vertroue te evalueer** indien verskaf.
-* Herinnering: die **anker\_serts** eienskap van die DEP-profiel
+* Versoek gestuur na **url verskaf in DEP-profiel**.
+* **Ankersertifikate** word gebruik om **vertroue te evalueer** indien verskaf.
+* Herinnering: die **anchor\_certs** eienskap van die DEP-profiel
 * **Versoek is 'n eenvoudige .plist** met toestelidentifikasie
-* Voorbeelde: **UDID, OS-weergawe**.
-* CMS-onderteken, DER-gekodeer
-* Onderteken met die **toestelidentiteitsertifikaat (van APNS)**
-* **Sertifikaatketting** sluit vervalde **Apple iPhone-toestel-CA** in
+* Voorbeelde: **UDID, OS weergawe**.
+* CMS-onderteken, DER-gecodeer
+* Onderteken met die **toestelidentiteitssertifikaat (van APNS)**
+* **Sertifikaatchain** sluit vervalle **Apple iPhone Device CA** in
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
+
+### Stap 6: Profielinstallasie
+
+* Sodra verkry, **word profiel op die stelsel gestoor**
+* Hierdie stap begin outomaties (indien in **setup assistant**)
+* Gedryf deur **`CPInstallActivationProfile`**
+* Geïmplementeer deur mdmclient oor XPC
+* LaunchDaemon (as root) of LaunchAgent (as gebruiker), afhangende van konteks
+* Konfigurasieprofiele het verskeie payloads om te installeer
+* Raamwerk het 'n plugin-gebaseerde argitektuur vir die installering van profiele
+* Elke payload tipe is geassosieer met 'n plugin
+* Kan XPC (in raamwerk) of klassieke Cocoa (in ManagedClient.app) wees
+* Voorbeeld:
+* Sertifikaatpayloads gebruik CertificateService.xpc
+
+Tipies, **aktiveringsprofiel** verskaf deur 'n MDM-verkoper sal **die volgende payloads insluit**:
+
+* `com.apple.mdm`: om die toestel in MDM te **registreer**
+* `com.apple.security.scep`: om 'n **kliëntsertifikaat** veilig aan die toestel te verskaf.
+* `com.apple.security.pem`: om **vertroude CA-sertifikate** aan die toestel se Stelselsleutelhouer te installeer.
+* Die installering van die MDM-payload is gelyk aan **MDM inligting in die dokumentasie**
+* Payload **bevat sleutel eienskappe**:
+*
+* MDM Inligting URL (**`CheckInURL`**)
+* MDM Opdrag Polling URL (**`ServerURL`**) + APNs onderwerp om dit te aktiveer
+* Om MDM-payload te installeer, word 'n versoek gestuur na **`CheckInURL`**
+* Geïmplementeer in **`mdmclient`**
+* MDM-payload kan op ander payloads afhanklik wees
+* Laat **versoeke toe om aan spesifieke sertifikate geprik te word**:
+* Eienskap: **`CheckInURLPinningCertificateUUIDs`**
+* Eienskap: **`ServerURLPinningCertificateUUIDs`**
+* Gelewer via PEM payload
+* Laat die toestel toe om met 'n identiteitssertifikaat toegeskryf te word:
+* Eienskap: IdentityCertificateUUID
+* Gelewer via SCEP payload
+
+### **Stap 7: Luister vir MDM-opdragte**
+
+* Nadat MDM-inligting voltooi is, kan die verkoper **drukkennisgewings uitreik met behulp van APNs**
+* By ontvangs, hanteer deur **`mdmclient`**
+* Om vir MDM-opdragte te poll, word 'n versoek gestuur na ServerURL
+* Maak gebruik van die voorheen geïnstalleerde MDM-payload:
+* **`ServerURLPinningCertificateUUIDs`** vir prik versoek
+* **`IdentityCertificateUUID`** vir TLS kliëntsertifikaat
+
+## Aanvalle
+
+### Registrasie van Toestelle in Ander Organisasies
+
+Soos voorheen opgemerk, om te probeer om 'n toestel in 'n organisasie te registreer, **is slegs 'n Serienommer wat aan daardie Organisasie behoort, nodig**. Sodra die toestel geregistreer is, sal verskeie organisasies sensitiewe data op die nuwe toestel installeer: sertifikate, toepassings, WiFi-wagwoorde, VPN-konfigurasies [en so aan](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Daarom kan dit 'n gevaarlike toegangspunt vir aanvallers wees as die registrasieproses nie korrek beskerm word nie:
+
+{% content-ref url="enrolling-devices-in-other-organisations.md" %}
+[enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
+{% endcontent-ref %}
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Ondersteun HackTricks</summary>
+
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

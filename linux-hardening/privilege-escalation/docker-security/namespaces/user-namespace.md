@@ -1,16 +1,16 @@
 # User Namespace
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -23,16 +23,16 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Basic Information
 
-'n Gebruiker namespace is 'n Linux-kernfunksie wat **isolasie van gebruiker- en groep-ID-kaartings verskaf**, wat elke gebruiker namespace toelaat om sy **eie stel gebruiker- en groep-ID's** te hê. Hierdie isolasie stel prosesse wat in verskillende gebruiker namespaces loop in staat om **verskillende voorregte en eienaarskap te hê**, selfs al deel hulle dieselfde gebruiker- en groep-ID's numeries.
+'n gebruiker namespace is 'n Linux-kernkenmerk wat **isolasie van gebruiker- en groep-ID-kaartings bied**, wat elke gebruiker namespace in staat stel om sy **eie stel gebruiker- en groep-ID's** te hê. Hierdie isolasie stel prosesse wat in verskillende gebruiker namespaces loop in staat om **verskillende voorregte en eienaarskap te hê**, selfs al deel hulle dieselfde gebruiker- en groep-ID's numeries.
 
 Gebruiker namespaces is veral nuttig in containerisering, waar elke houer sy eie onafhanklike stel gebruiker- en groep-ID's moet hê, wat beter sekuriteit en isolasie tussen houers en die gasheerstelsel moontlik maak.
 
 ### How it works:
 
-1. Wanneer 'n nuwe gebruiker namespace geskep word, **begin dit met 'n leë stel van gebruiker- en groep-ID-kaartings**. Dit beteken dat enige proses wat in die nuwe gebruiker namespace loop, **aanvanklik geen voorregte buite die namespace sal hê**.
-2. ID-kaartings kan gevestig word tussen die gebruiker- en groep-ID's in die nuwe namespace en dié in die ouer (of gasheer) namespace. Dit **laat prosesse in die nuwe namespace toe om voorregte en eienaarskap te hê wat ooreenstem met gebruiker- en groep-ID's in die ouer namespace**. Die ID-kaartings kan egter beperk word tot spesifieke reekse en substelle van ID's, wat fyn beheer oor die voorregte wat aan prosesse in die nuwe namespace toegeken word, moontlik maak.
-3. Binne 'n gebruiker namespace kan **prosesse volle wortelvoorregte (UID 0) hê vir operasies binne die namespace**, terwyl hulle steeds beperkte voorregte buite die namespace het. Dit laat **houers toe om met wortelagtige vermoëns binne hul eie namespace te loop sonder om volle wortelvoorregte op die gasheerstelsel te hê**.
-4. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselskakel of nuwe namespaces te skep met die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWUSER` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die gebruiker- en groep-ID-kaartings wat met daardie namespace geassosieer is, te gebruik.
+1. Wanneer 'n nuwe gebruiker namespace geskep word, **begin dit met 'n leë stel gebruiker- en groep-ID-kaartings**. Dit beteken dat enige proses wat in die nuwe gebruiker namespace loop, **aanvanklik geen voorregte buite die namespace sal hê**.
+2. ID-kaartings kan gevestig word tussen die gebruiker- en groep-ID's in die nuwe namespace en dié in die ouer (of gasheer) namespace. Dit **stel prosesse in die nuwe namespace in staat om voorregte en eienaarskap te hê wat ooreenstem met gebruiker- en groep-ID's in die ouer namespace**. Die ID-kaartings kan egter beperk word tot spesifieke reekse en substelle van ID's, wat fynbeheer oor die voorregte wat aan prosesse in die nuwe namespace toegeken word, moontlik maak.
+3. Binne 'n gebruiker namespace kan **prosesse volle wortelvoorregte (UID 0) hê vir operasies binne die namespace**, terwyl hulle steeds beperkte voorregte buite die namespace het. Dit stel **houers in staat om met wortelagtige vermoëns binne hul eie namespace te loop sonder om volle wortelvoorregte op die gasheerstelsel te hê**.
+4. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselskakel te gebruik of nuwe namespaces te skep met die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWUSER` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die gebruiker- en groep-ID-kaartings wat met daardie namespace geassosieer is, te gebruik.
 
 ## Lab:
 
@@ -51,12 +51,12 @@ Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die paramet
 Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
 
 1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan egter nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
+- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) betree egter nie die nuwe naamruimte nie; slegs sy kindproses doen.
 - Om `%unshare -p /bin/bash%` te loop, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
 - Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
 
 2. **Gevolg**:
-- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout produseer.
+- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
 
 3. **Oplossing**:
 - Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
@@ -70,7 +70,7 @@ Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamrui
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-Om gebruikersnaamruimte te gebruik, moet die Docker-daemon begin word met **`--userns-remap=default`** (In ubuntu 14.04 kan dit gedoen word deur `/etc/default/docker` te wysig en dan `sudo service docker restart` uit te voer)
+Om die gebruikersnaamruimte te gebruik, moet die Docker-daemon begin word met **`--userns-remap=default`** (In ubuntu 14.04 kan dit gedoen word deur `/etc/default/docker` te wysig en dan `sudo service docker restart` uit te voer)
 
 ### &#x20;Kontroleer in watter naamruimte jou proses is
 ```bash
@@ -121,12 +121,12 @@ root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
 ### Herwinning van Vermoëns
 
-In die geval van gebruikersname ruimtes, **wanneer 'n nuwe gebruikersnaam ruimte geskep word, word die proses wat in die naamruimte ingaan 'n volle stel vermoëns binne daardie naamruimte toegeken**. Hierdie vermoëns stel die proses in staat om bevoorregte operasies uit te voer soos **montage** **lêerstelsels**, die skep van toestelle, of die verandering van eienaarskap van lêers, maar **slegs binne die konteks van sy gebruikersnaam ruimte**.
+In die geval van gebruikersname ruimtes, **wanneer 'n nuwe gebruikersnaam ruimte geskep word, word die proses wat in die ruimte ingaan 'n volle stel vermoëns binne daardie ruimte toegeken**. Hierdie vermoëns stel die proses in staat om bevoorregte operasies uit te voer soos **montage** **lêerstelsels**, die skep van toestelle, of die verandering van eienaarskap van lêers, maar **slegs binne die konteks van sy gebruikersnaam ruimte**.
 
-Byvoorbeeld, wanneer jy die `CAP_SYS_ADMIN` vermoë binne 'n gebruikersnaam ruimte het, kan jy operasies uitvoer wat tipies hierdie vermoë vereis, soos die montage van lêerstelsels, maar slegs binne die konteks van jou gebruikersnaam ruimte. Enige operasies wat jy met hierdie vermoë uitvoer, sal nie die gasheerstelsel of ander naamruimtes beïnvloed nie.
+Byvoorbeeld, wanneer jy die `CAP_SYS_ADMIN` vermoë binne 'n gebruikersnaam ruimte het, kan jy operasies uitvoer wat tipies hierdie vermoë vereis, soos die montage van lêerstelsels, maar slegs binne die konteks van jou gebruikersnaam ruimte. Enige operasies wat jy met hierdie vermoë uitvoer, sal nie die gasheerstelsel of ander naam ruimtes beïnvloed nie.
 
 {% hint style="warning" %}
-Daarom, selfs al sal die verkryging van 'n nuwe proses binne 'n nuwe gebruikersnaam ruimte **jou al die vermoëns teruggee** (CapEff: 000001ffffffffff), kan jy eintlik **slegs diegene wat met die naamruimte verband hou** gebruik (montage byvoorbeeld) maar nie elkeen nie. So, dit op sigself is nie genoeg om uit 'n Docker houer te ontsnap nie.
+Daarom, selfs al sal die verkryging van 'n nuwe proses binne 'n nuwe gebruikersnaam ruimte **jou al die vermoëns teruggee** (CapEff: 000001ffffffffff), kan jy eintlik **slegs diegene wat met die ruimte verband hou gebruik** (montage byvoorbeeld) maar nie elkeen nie. So, dit op sy eie is nie genoeg om uit 'n Docker houer te ontsnap nie.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:

@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 Wanneer jy 'n houer as bevoorregte uitvoer, is dit die beskermings wat jy deaktiveer:
 
-### Monteer /dev
+### Mount /dev
 
 In 'n bevoorregte houer kan alle **toestelle in `/dev/`** toeganklik wees. Daarom kan jy **ontsnap** deur die **disk** van die gasheer te **monteer**.
 
@@ -48,7 +48,7 @@ cpu              nbd0             pts              stdout           tty27       
 
 ### Lees-slegs kern lêerstelsels
 
-Kern lêerstelsels bied 'n mekanisme vir 'n proses om die gedrag van die kern te verander. egter, wanneer dit by houerprosesse kom, wil ons voorkom dat hulle enige veranderinge aan die kern aanbring. Daarom monteer ons kern lêerstelsels as **lees-slegs** binne die houer, wat verseker dat die houerprosesse nie die kern kan verander nie.
+Kern lêerstelsels bied 'n meganisme vir 'n proses om die gedrag van die kern te verander. egter, wanneer dit by houerprosesse kom, wil ons voorkom dat hulle enige veranderinge aan die kern aanbring. Daarom monteer ons kern lêerstelsels as **lees-slegs** binne die houer, wat verseker dat die houerprosesse nie die kern kan verander nie.
 
 {% tabs %}
 {% tab title="Binne standaard houer" %}
@@ -166,7 +166,7 @@ Ook, let daarop dat wanneer Docker (of ander CRI's) in 'n **Kubernetes** kluster
 
 ### AppArmor
 
-**AppArmor** is 'n kernverbetering om **houers** te beperk tot 'n **beperkte** stel **hulpbronne** met **per-program profiele**. Wanneer jy met die `--privileged` vlag loop, is hierdie beskerming gedeaktiveer.
+**AppArmor** is 'n kernverbetering om **houers** tot 'n **beperkte** stel **hulpbronne** met **per-program profiele** te beperk. Wanneer jy met die `--privileged` vlag loop, is hierdie beskerming gedeaktiveer.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -177,7 +177,7 @@ Ook, let daarop dat wanneer Docker (of ander CRI's) in 'n **Kubernetes** kluster
 ```
 ### SELinux
 
-Die uitvoering van 'n houer met die `--privileged` vlag deaktiveer **SELinux etikette**, wat veroorsaak dat dit die etiket van die houer enjin oorneem, tipies `unconfined`, wat volle toegang toeken aan die houer enjin. In rootless-modus gebruik dit `container_runtime_t`, terwyl in root-modus `spc_t` toegepas word.
+Die uitvoering van 'n houer met die `--privileged` vlag deaktiveer **SELinux etikette**, wat veroorsaak dat dit die etiket van die houer enjin erf, tipies `unconfined`, wat volle toegang toelaat soortgelyk aan die houer enjin. In rootless-modus gebruik dit `container_runtime_t`, terwyl in root-modus `spc_t` toegepas word.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -203,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="Binne --pid=host Houer" %}
+{% tab title="Binne --pid=host Container" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef

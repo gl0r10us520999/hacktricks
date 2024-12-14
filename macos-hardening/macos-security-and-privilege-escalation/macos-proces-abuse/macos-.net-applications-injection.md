@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-### **Die Vestiging van 'n Debugging Sessie** <a href="#net-core-debugging" id="net-core-debugging"></a>
+### **Stigting van 'n Debugging Sessie** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
 Die hantering van kommunikasie tussen die debugger en debuggee in .NET word bestuur deur [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Hierdie komponent stel twee benoemde pype per .NET proses op soos gesien in [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), wat geinitieer word via [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Hierdie pype is gesuffikseerd met **`-in`** en **`-out`**.
 
 Deur die gebruiker se **`$TMPDIR`** te besoek, kan 'n mens debugging FIFOs vind wat beskikbaar is vir debugging .Net toepassings.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) is verantwoordelik vir die bestuur van kommunikasie van 'n debugger. Om 'n nuwe debugging sessie te begin, moet 'n debugger 'n boodskap via die `out` pyp stuur wat begin met 'n `MessageHeader` struktuur, soos in die .NET bronskode uiteengesit:
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) is verantwoordelik vir die bestuur van kommunikasie van 'n debugger. Om 'n nuwe debugging sessie te begin, moet 'n debugger 'n boodskap via die `out` pyp stuur wat begin met 'n `MessageHeader` struktuur, soos in die .NET bronkode uiteengesit:
 ```c
 struct MessageHeader {
 MessageType   m_eType;        // Message type
@@ -44,7 +44,7 @@ DWORD         m_dwMinorVersion;
 BYTE          m_sMustBeZero[8];
 }
 ```
-Om 'n nuwe sessie aan te vra, word hierdie struktuur soos volg ingevul, wat die boodskap tipe op `MT_SessionRequest` stel en die protokol weergawe op die huidige weergawe:
+Om 'n nuwe sessie aan te vra, word hierdie struktuur soos volg ingevul, met die boodskap tipe op `MT_SessionRequest` en die protokol weergawe op die huidige weergawe:
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -61,7 +61,7 @@ write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-'n Leesoperasie op die `out`-pyp bevestig die sukses of mislukking van die debugging-sessie se vestiging:
+'n Leesoperasie op die `out` pyp bevestig die sukses of mislukking van die debugging sessie se totstandkoming:
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
@@ -98,7 +98,7 @@ Die geassosieerde POC is beskikbaar [hier](https://gist.github.com/xpn/7c3040a73
 
 ## .NET Core Kode Uitvoering <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-Om kode uit te voer, moet 'n geheuegebied met rwx-toestemmings geïdentifiseer word, wat gedoen kan word met vmmap -pages:
+Om kode uit te voer, moet 'n mens 'n geheuegebied met rwx-toestemmings identifiseer, wat gedoen kan word met vmmap -pages:
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"

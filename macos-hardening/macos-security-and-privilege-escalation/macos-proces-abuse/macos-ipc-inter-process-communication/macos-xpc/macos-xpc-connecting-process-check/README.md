@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Wanneer 'n verbinding met 'n XPC-diens tot stand gebring word, sal die bediener 
 * As dit **nie geverifieer is nie**, kan enige hulpmiddel **onderteken deur dieselfde org** gebruik word om met die XPC-diens te kommunikeer.
 4. (4 of 5) Kyk of die verbindende proses 'n **behoorlike sagteware weergawe nommer** het.
 * As dit **nie geverifieer is nie**, kan 'n ou, onveilige kliënt, kwesbaar vir proses inspuiting, gebruik word om met die XPC-diens te verbind, selfs met die ander kontroles in plek.
-5. (4 of 5) Kyk of die verbindende proses 'n geharde tydperk het sonder gevaarlike regte (soos dié wat toelaat om arbitrêre biblioteke te laai of DYLD omgewings veranderlikes te gebruik).
+5. (4 of 5) Kyk of die verbindende proses 'n geharde tydperk het sonder gevaarlike regte (soos dié wat toelaat om arbitrêre biblioteke te laai of DYLD omgewingsveranderlikes te gebruik).
 1. As dit **nie geverifieer is nie**, mag die kliënt **kwesbaar wees vir kode inspuiting**.
 6. Kyk of die verbindende proses 'n **regte** het wat dit toelaat om met die diens te verbind. Dit is van toepassing op Apple binêre.
 7. Die **verifikasie** moet **gebaseer** wees op die verbindende **kliënt se oudit token** **in plaas van** sy proses ID (**PID**) aangesien die eerste **PID hergebruik aanvalle** voorkom.
@@ -112,8 +112,8 @@ return Yes; // Accept connection
 {% endcode %}
 
 {% hint style="success" %}
-Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

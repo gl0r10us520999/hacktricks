@@ -1,4 +1,4 @@
-# IPC Naamruimte
+# IPC Namespace
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -8,8 +8,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -18,13 +18,13 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Basiese Inligting
 
-'n IPC (Inter-Process Communication) naamruimte is 'n Linux-kernfunksie wat **isolasie** van System V IPC-objekte bied, soos boodskapqueues, gedeelde geheue-segmente en semafore. Hierdie isolasie verseker dat prosesse in **verskillende IPC naamruimtes nie direk toegang kan verkry tot of mekaar se IPC-objekte kan verander nie**, wat 'n ekstra laag van sekuriteit en privaatheid tussen prosesgroepe bied.
+'n IPC (Inter-Process Communication) naamruimte is 'n Linux-kernkenmerk wat **isolasie** van System V IPC-objekte bied, soos boodskap rye, gedeelde geheue segmente, en semafore. Hierdie isolasie verseker dat prosesse in **verskillende IPC naamruimtes nie direk toegang kan verkry tot of mekaar se IPC-objekte kan verander nie**, wat 'n addisionele laag van sekuriteit en privaatheid tussen prosesgroepe bied.
 
 ### Hoe dit werk:
 
 1. Wanneer 'n nuwe IPC naamruimte geskep word, begin dit met 'n **heeltemal geïsoleerde stel van System V IPC-objekte**. Dit beteken dat prosesse wat in die nuwe IPC naamruimte loop nie toegang kan verkry tot of inmeng met die IPC-objekte in ander naamruimtes of die gasheerstelsel nie, per standaard.
 2. IPC-objekte wat binne 'n naamruimte geskep word, is sigbaar en **slegs toeganklik vir prosesse binne daardie naamruimte**. Elke IPC-objek word geïdentifiseer deur 'n unieke sleutel binne sy naamruimte. Alhoewel die sleutel identies kan wees in verskillende naamruimtes, is die objekte self geïsoleer en kan nie oor naamruimtes toeganklik wees nie.
-3. Prosesse kan tussen naamruimtes beweeg deur die `setns()` stelselskakel of nuwe naamruimtes skep met die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWIPC` vlag. Wanneer 'n proses na 'n nuwe naamruimte beweeg of een skep, sal dit begin om die IPC-objekte wat met daardie naamruimte geassosieer is, te gebruik.
+3. Prosesse kan tussen naamruimtes beweeg deur die `setns()` stelselskakel of nuwe naamruimtes skep deur die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWIPC` vlag. Wanneer 'n proses na 'n nuwe naamruimte beweeg of een skep, sal dit begin om die IPC-objekte wat met daardie naamruimte geassosieer is, te gebruik.
 
 ## Laboratorium:
 
@@ -44,7 +44,7 @@ Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind w
 
 1. **Probleemverklaring**:
 - Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) betree egter nie die nuwe naamruimte nie; slegs sy kindproses doen.
-- Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
+- Om `%unshare -p /bin/bash%` te loop, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
 - Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
 
 2. **Gevolg**:
@@ -52,7 +52,7 @@ Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind w
 
 3. **Oplossing**:
 - Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
-- Die uitvoering van `%unshare -fp /bin/bash%` verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
+- Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
 
 Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse kan werk sonder om die geheue toewysing fout te ondervind.
 

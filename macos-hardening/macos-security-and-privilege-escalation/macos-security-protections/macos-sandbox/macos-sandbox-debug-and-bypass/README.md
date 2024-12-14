@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -38,7 +38,7 @@ Dit is wat gedoen is in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-
 {% hint style="danger" %}
 Daarom, op die oomblik, as jy net in staat is om 'n gids met 'n naam wat eindig op **`.app`** is te skep sonder 'n kwarantyn eienskap, kan jy die sandbox ontsnap omdat macOS net **kontroleer** die **kwarantyn** eienskap in die **`.app` gids** en in die **hoof uitvoerbare** (en ons sal die hoof uitvoerbare na **`/bin/bash`** wys).
 
-Let daarop dat as 'n .app bundel reeds gemagtig is om te loop (dit het 'n kwarantyn xttr met die gemagtig om te loop vlag aan), kan jy dit ook misbruik... behalwe dat jy nou nie binne **`.app`** bundels kan skryf nie tensy jy 'n paar bevoorregte TCC toestemmings het (wat jy nie binne 'n sandbox hoog sal hê nie).
+Let daarop dat as 'n .app bundel reeds gemagtig is om te loop (dit het 'n kwarantyn xttr met die gemagtig om te loop vlag aan), kan jy dit ook misbruik... behalwe dat jy nou nie binne **`.app`** bundels kan skryf nie tensy jy 'n paar bevoorregte TCC regte het (wat jy nie binne 'n sandbox hoog sal hê nie).
 {% endhint %}
 
 ### Misbruik van Open funksionaliteit
@@ -52,11 +52,11 @@ In die [**laaste voorbeelde van Word sandbox omseiling**](macos-office-sandbox-b
 ### Begin Agents/Daemons
 
 Selfs al is 'n toepassing **bedoel om sandboxed te wees** (`com.apple.security.app-sandbox`), is dit moontlik om die sandbox te omseil as dit **uitgevoer word vanaf 'n LaunchAgent** (`~/Library/LaunchAgents`) byvoorbeeld.\
-Soos verduidelik in [**hierdie pos**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), as jy volharding wil verkry met 'n toepassing wat sandboxed is, kan jy dit laat outomaties uitgevoer word as 'n LaunchAgent en dalk kwaadwillige kode via DyLib omgewing veranderlikes inspuit.
+Soos verduidelik in [**hierdie pos**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), as jy volharding wil verkry met 'n toepassing wat sandboxed is, kan jy dit outomaties laat uitvoer as 'n LaunchAgent en dalk kwaadwillige kode via DyLib omgewing veranderlikes inspuit.
 
 ### Misbruik van Auto Begin Plekke
 
-As 'n sandboxed proses kan **skryf** in 'n plek waar **later 'n onsandboxed toepassing die binêre gaan uitvoer**, sal dit in staat wees om te **ontsnap net deur** daar die binêre te plaas. 'n Goeie voorbeeld van hierdie soort plekke is `~/Library/LaunchAgents` of `/System/Library/LaunchDaemons`.
+As 'n sandboxed proses kan **skryf** in 'n plek waar **later 'n onsandboxed toepassing die binêre gaan uitvoer**, sal dit in staat wees om **te ontsnap net deur** daar die binêre te plaas. 'n Goeie voorbeeld van hierdie soort plekke is `~/Library/LaunchAgents` of `/System/Library/LaunchDaemons`.
 
 Vir dit mag jy selfs **2 stappe** nodig hê: Om 'n proses met 'n **meer toelaatbare sandbox** (`file-read*`, `file-write*`) jou kode te laat uitvoer wat werklik in 'n plek sal skryf waar dit **onsandboxed uitgevoer sal word**.
 
@@ -74,7 +74,7 @@ As jy vanaf die sandbox proses in staat is om **ander prosesse te kompromitteer*
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Statiese Kompilering & Dynamies koppel
+### Statiese Kompilering & Dynamiese koppel
 
 [**Hierdie navorsing**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) het 2 maniere ontdek om die Sandbox te omseil. Omdat die sandbox van gebruikersland toegepas word wanneer die **libSystem** biblioteek gelaai word. As 'n binêre dit kan vermy om dit te laai, sal dit nooit sandboxed word nie:
 
@@ -217,7 +217,7 @@ system("cat ~/Desktop/del.txt");
 {% endtab %}
 {% endtabs %}
 
-Dan kompileer die aansoek:
+Dan kompileer die app:
 
 {% code overflow="wrap" %}
 ```bash
@@ -317,7 +317,7 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**Selfs met die Sandbox omseil TCC** sal die gebruiker vra of hy die proses wil toelaat om lêers van die lessenaar te lees
+**Selfs met die Sandbox omseil TCC** sal die gebruiker vra of hy wil toelaat dat die proses lêers van die lessenaar lees
 {% endhint %}
 
 ## References

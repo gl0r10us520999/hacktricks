@@ -21,7 +21,7 @@ Leer & oefen GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" da
 
 Nib (kort vir NeXT Interface Builder) lêers, deel van Apple se ontwikkelings-ekosisteem, is bedoel om **UI-elemente** en hul interaksies in toepassings te definieer. Hulle sluit geserialiseerde voorwerpe soos vensters en knoppies in, en word tydens uitvoering gelaai. Ten spyte van hul voortgesette gebruik, beveel Apple nou Storyboards aan vir 'n meer omvattende UI-stroomvisualisering.
 
-Die hoof Nib-lêer word verwys in die waarde **`NSMainNibFile`** binne die `Info.plist` lêer van die toepassing en word gelaai deur die funksie **`NSApplicationMain`** wat in die `main` funksie van die toepassing uitgevoer word.
+Die hoof Nib-lêer word in die waarde **`NSMainNibFile`** binne die `Info.plist` lêer van die toepassing verwys en word gelaai deur die funksie **`NSApplicationMain`** wat in die `main` funksie van die toepassing uitgevoer word.
 
 ### Dirty Nib Inspuitingsproses
 
@@ -31,7 +31,7 @@ Die hoof Nib-lêer word verwys in die waarde **`NSMainNibFile`** binne die `Info
 * Skep 'n nuwe NIB-lêer met XCode.
 * Voeg 'n objek by die koppelvlak, stel sy klas op `NSAppleScript`.
 * Konfigureer die aanvanklike `source` eienskap via Gebruiker Gedefinieerde Runtime Attribuut.
-2. **Kode-uitvoeringsgadget**:
+2. **Kode-uitvoering Gadget**:
 * Die opstelling fasiliteer die uitvoering van AppleScript op aanvraag.
 * Integreer 'n knoppie om die `Apple Script` objek te aktiveer, spesifiek die `executeAndReturnError:` selektor te aktiveer.
 3. **Toetsing**:
@@ -68,11 +68,11 @@ In die pos [https://sector7.computest.nl/post/2024-04-bringing-process-injection
 ### Aanspreek van Beginbeperkings
 
 * Beginbeperkings hinder app-uitvoering vanaf onverwagte plekke (bv. `/tmp`).
-* Dit is moontlik om apps te identifiseer wat nie deur Beginbeperkings beskerm word nie en hulle te teiken vir NIB-lêerinspuiting.
+* Dit is moontlik om apps te identifiseer wat nie deur Beginbeperkings beskerm word nie en hulle te teiken vir NIB-lêer inspuiting.
 
 ### Addisionele macOS Beskermings
 
-Vanaf macOS Sonoma is wysigings binne App-pakkette beperk. Eerder metodes het behels:
+Vanaf macOS Sonoma, is wysigings binne App-pakkette beperk. Eerder metodes het behels:
 
 1. Kopieer die app na 'n ander plek (bv. `/tmp/`).
 2. Hernoem gidse binne die app-pakket om aanvanklike beskermings te omseil.

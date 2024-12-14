@@ -36,7 +36,7 @@ Apple is die enigste wat die MAC Framework KPI kan gebruik.
 
 ### Etikette
 
-MACF gebruik **etikette** wat dan deur die beleide gebruik sal word om te kontroleer of hulle sekere toegang moet toestaan of nie. Die kode van die etikette struktuurdeklarasie kan [hier gevind word](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), wat dan binne die **`struct ucred`** in [**hier**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) in die **`cr_label`** deel gebruik word. Die etiket bevat vlae en 'n aantal **slots** wat deur **MACF beleide gebruik kan word om wysigers toe te ken**. Byvoorbeeld, Sanbox sal na die houerprofiel verwys.
+MACF gebruik **etikette** wat dan deur die beleids gebruik word om te kontroleer of hulle sekere toegang moet toestaan of nie. Die kode van die etikette struktuurdeklarasie kan [hier gevind word](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), wat dan binne die **`struct ucred`** in [**hier**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) in die **`cr_label`** deel gebruik word. Die etiket bevat vlae en 'n aantal **slots** wat deur **MACF beleids gebruik kan word om wysigers toe te ken**. Byvoorbeeld, Sanbox sal na die houerprofiel wys.
 
 ## MACF Beleide
 
@@ -111,10 +111,10 @@ MACF word baie vroeg geïnitialiseer. Dit word opgestel in XNU se `bootstrap_thr
 
 ## MACF Oproepe
 
-Dit is algemeen om oproepe na MACF te vind wat in kode gedefinieer is soos: **`#if CONFIG_MAC`** voorwaardelike blokke. Bovendien, binne hierdie blokke is dit moontlik om oproepe na `mac_proc_check*` te vind wat MACF aanroep om **toestemmings te kontroleer** om sekere aksies uit te voer. Boonop is die formaat van die MACF oproepe: **`mac_<object>_<opType>_opName`**.
+Dit is algemeen om oproepe na MACF te vind wat in kode gedefinieer is soos: **`#if CONFIG_MAC`** voorwaardelike blokke. Moreover, inside these blocks it's possible to find calls to `mac_proc_check*` which calls MACF to **check for permissions** to perform certain actions. Moreover, the format of the MACF callouts is: **`mac_<object>_<opType>_opName`**.
 
-Die objek is een van die volgende: `bpfdesc`, `cred`, `file`, `proc`, `vnode`, `mount`, `devfs`, `ifnet`, `inpcb`, `mbuf`, `ipq`, `pipe`, `sysv[msg/msq/shm/sem]`, `posix[shm/sem]`, `socket`, `kext`.\
-Die `opType` is gewoonlik check wat gebruik sal word om die aksie toe te laat of te weier. Dit is egter ook moontlik om `notify` te vind, wat die kext sal toelaat om op die gegewe aksie te reageer.
+The object is one of the following: `bpfdesc`, `cred`, `file`, `proc`, `vnode`, `mount`, `devfs`, `ifnet`, `inpcb`, `mbuf`, `ipq`, `pipe`, `sysv[msg/msq/shm/sem]`, `posix[shm/sem]`, `socket`, `kext`.\
+The `opType` is usually check which will be used to allow or deny the action. However, it's also possible to find `notify`, which will allow the kext to react to the given action.
 
 You can find an example in [https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_mman.c#L621](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_mman.c#L621):
 
@@ -171,10 +171,10 @@ error = mac_error_select(__step_err, error);         \
 });                                                             \
 } while (0)
 ```
-Wat al die geregistreerde mac-beleide sal deurgaan, hul funksies aanroep en die uitvoer binne die fout veranderlike stoor, wat slegs deur `mac_error_select` oorruilbaar sal wees deur sukses kodes, sodat as enige toets misluk, die volledige toets sal misluk en die aksie nie toegelaat sal word nie.
+Wat al die geregistreerde mac-beleide sal deurgaan, hul funksies aanroep en die uitvoer binne die foutvariabele stoor, wat slegs deur `mac_error_select` oorruilbaar sal wees deur sukses kodes, so as enige toets misluk, sal die volledige toets misluk en die aksie nie toegelaat word nie.
 
 {% hint style="success" %}
-Maar, onthou dat nie alle MACF-aanroepings slegs gebruik word om aksies te weier nie. Byvoorbeeld, `mac_priv_grant` roep die makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac_internal.h#L274) aan, wat die aangevraagde voorreg sal toeken as enige beleid met 'n 0 antwoordgee:
+Onthou egter dat nie alle MACF-aanroepings slegs gebruik word om aksies te weier nie. Byvoorbeeld, `mac_priv_grant` roep die makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274) aan, wat die aangevraagde voorreg sal toeken as enige beleid met 'n 0 antwoordgee:
 ```c
 /*
 * MAC_GRANT performs the designated check by walking the policy
@@ -202,7 +202,7 @@ DTRACE_MACF2(mac__rslt__ ## check, void *, mpc, int, __step_res); \
 ### priv\_check & priv\_grant
 
 Hierdie aanroepe is bedoel om (tens of) **privileges** te kontroleer en te verskaf soos gedefinieer in [**bsd/sys/priv.h**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/priv.h).\
-Sommige kernkode sal `priv_check_cred()` aanroep vanaf [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) met die KAuth geloofsbriewe van die proses en een van die privileges kode wat `mac_priv_check` sal aanroep om te sien of enige beleid **weier** om die privilege te gee en dan roep dit `mac_priv_grant` aan om te sien of enige beleid die `privilege` toeken. 
+Sommige kernkode sou `priv_check_cred()` aanroep vanaf [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) met die KAuth geloofsbriewe van die proses en een van die privileges kode wat `mac_priv_check` aanroep om te sien of enige beleid **weier** om die privilege te gee en dan roep dit `mac_priv_grant` aan om te sien of enige beleid die `privilege` toeken.
 
 ### proc\_check\_syscall\_unix
 
@@ -217,9 +217,9 @@ goto skip_syscall;
 }
 #endif /* CONFIG_MACF */
 ```
-Welke sal die oproepende proses **bitmask** nagaan of die huidige syscall `mac_proc_check_syscall_unix` moet aanroep. Dit is omdat syscalls so gereeld aangeroep word dat dit interessant is om te probeer om `mac_proc_check_syscall_unix` nie elke keer aan te roep nie.
+Welke sal die oproepende proses **bitmask** nagaan of die huidige syscall `mac_proc_check_syscall_unix` moet aanroep. Dit is omdat syscalls so gereeld aangeroep word dat dit interessant is om te vermy om `mac_proc_check_syscall_unix` elke keer aan te roep.
 
-Let daarop dat die funksie `proc_set_syscall_filter_mask()`, wat die bitmask syscalls in 'n proses stel, deur Sandbox aangeroep word om maskers op gesandboksde prosesse te stel.
+Let daarop dat die funksie `proc_set_syscall_filter_mask()`, wat die bitmask syscalls in 'n proses stel, deur Sandbox aangeroep word om masks op gesandboksde prosesse te stel.
 
 ## Blootgestelde MACF syscalls
 

@@ -69,7 +69,7 @@ As jy nie bekend is met macOS nie, moet jy begin om die basiese beginsels van ma
 
 ### MacOS MDM
 
-In maatskappye gaan **macOS** stelsels hoogs waarskynlik **bestuur word met 'n MDM**. Daarom is dit vanuit die perspektief van 'n aanvaller interessant om te weet **hoe dit werk**:
+In maatskappye **macOS** stelsels gaan hoogs waarskynlik **bestuur word met 'n MDM**. Daarom is dit vanuit 'n aanvaller se perspektief interessant om te weet **hoe dit werk**:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
@@ -119,7 +119,7 @@ Vreemde apps geregistreer deur lêeruitbreidings kan misbruik word en verskillen
 
 In macOS **toepassings en lêers kan toestemmings hê** om toegang te verkry tot gidsen of instellings wat hulle meer bevoorreg maak as ander.
 
-Daarom, 'n aanvaller wat suksesvol 'n macOS masjien wil kompromitteer, sal moet **sy TCC privileges verhoog** (of selfs **SIP omseil**, afhangende van sy behoeftes).
+Daarom, 'n aanvaller wat 'n macOS masjien suksesvol wil kompromitteer, sal moet **sy TCC privileges verhoog** (of selfs **SIP omseil**, afhangende van sy behoeftes).
 
 Hierdie privileges word gewoonlik gegee in die vorm van **entitlements** waarmee die toepassing onderteken is, of die toepassing mag sekere toegang versoek het en nadat die **gebruiker dit goedgekeur het**, kan dit in die **TCC databasisse** gevind word. 'n Ander manier waarop 'n proses hierdie privileges kan verkry, is deur 'n **kind van 'n proses** met daardie **privileges** te wees, aangesien dit gewoonlik **geërf** word.
 
@@ -127,7 +127,7 @@ Volg hierdie skakels om verskillende maniere te vind om [**privileges in TCC te 
 
 ## macOS Tradisionele Privilege Escalation
 
-Natuurlik, vanuit 'n rooi span perspektief, moet jy ook belangstel om na root te verhoog. Kyk na die volgende pos vir 'n paar wenke:
+Natuurlik, vanuit 'n rooi span se perspektief, moet jy ook belangstel om na root te verhoog. Kyk na die volgende pos vir 'n paar wenke:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)

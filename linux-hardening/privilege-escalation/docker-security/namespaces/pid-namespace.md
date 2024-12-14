@@ -18,18 +18,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Die PID (Process IDentifier) naamruimte is 'n kenmerk in die Linux-kern wat prosesisolasie bied deur 'n groep prosesse in staat te stel om hul eie stel unieke PID's te hê, geskei van die PID's in ander naamruimtes. Dit is veral nuttig in kontenerisering, waar prosesisolasie noodsaaklik is vir sekuriteit en hulpbronbestuur.
+Die PID (Process IDentifier) namespace is 'n kenmerk in die Linux-kern wat prosesisolasie bied deur 'n groep prosesse in staat te stel om hul eie stel unieke PIDs te hê, geskei van die PIDs in ander namespaces. Dit is veral nuttig in containerisering, waar prosesisolasie noodsaaklik is vir sekuriteit en hulpbronbestuur.
 
-Wanneer 'n nuwe PID naamruimte geskep word, word die eerste proses in daardie naamruimte aan PID 1 toegeken. Hierdie proses word die "init" proses van die nuwe naamruimte en is verantwoordelik vir die bestuur van ander prosesse binne die naamruimte. Elke daaropvolgende proses wat binne die naamruimte geskep word, sal 'n unieke PID binne daardie naamruimte hê, en hierdie PID's sal onafhanklik wees van PID's in ander naamruimtes.
+Wanneer 'n nuwe PID namespace geskep word, word die eerste proses in daardie namespace aan PID 1 toegeken. Hierdie proses word die "init" proses van die nuwe namespace en is verantwoordelik vir die bestuur van ander prosesse binne die namespace. Elke daaropvolgende proses wat binne die namespace geskep word, sal 'n unieke PID binne daardie namespace hê, en hierdie PIDs sal onafhanklik wees van PIDs in ander namespaces.
 
-Van die perspektief van 'n proses binne 'n PID naamruimte, kan dit slegs ander prosesse in dieselfde naamruimte sien. Dit is nie bewus van prosesse in ander naamruimtes nie, en dit kan nie met hulle interaksie hê nie met behulp van tradisionele prosesbestuur gereedskap (bv. `kill`, `wait`, ens.). Dit bied 'n vlak van isolasie wat help om te voorkom dat prosesse mekaar steur.
+Van die perspektief van 'n proses binne 'n PID namespace, kan dit slegs ander prosesse in dieselfde namespace sien. Dit is nie bewus van prosesse in ander namespaces nie, en dit kan nie met hulle interaksie hê nie met behulp van tradisionele prosesbestuur gereedskap (bv. `kill`, `wait`, ens.). Dit bied 'n vlak van isolasie wat help om te voorkom dat prosesse mekaar steur.
 
 ### How it works:
 
-1. Wanneer 'n nuwe proses geskep word (bv. deur die `clone()` stelselaanroep te gebruik), kan die proses aan 'n nuwe of bestaande PID naamruimte toegeken word. **As 'n nuwe naamruimte geskep word, word die proses die "init" proses van daardie naamruimte**.
-2. Die **kern** handhaaf 'n **kaart tussen die PID's in die nuwe naamruimte en die ooreenstemmende PID's** in die ouer naamruimte (d.w.s. die naamruimte waaruit die nuwe naamruimte geskep is). Hierdie kaart **stel die kern in staat om PID's te vertaal wanneer nodig**, soos wanneer dit seine tussen prosesse in verskillende naamruimtes stuur.
-3. **Prosesse binne 'n PID naamruimte kan slegs ander prosesse in dieselfde naamruimte sien en met hulle interaksie hê**. Hulle is nie bewus van prosesse in ander naamruimtes nie, en hul PID's is uniek binne hul naamruimte.
-4. Wanneer 'n **PID naamruimte vernietig word** (bv. wanneer die "init" proses van die naamruimte verlaat), **word alle prosesse binne daardie naamruimte beëindig**. Dit verseker dat alle hulpbronne wat met die naamruimte geassosieer word, behoorlik skoongemaak word.
+1. Wanneer 'n nuwe proses geskep word (bv. deur die `clone()` stelselaanroep te gebruik), kan die proses aan 'n nuwe of bestaande PID namespace toegeken word. **As 'n nuwe namespace geskep word, word die proses die "init" proses van daardie namespace**.
+2. Die **kern** handhaaf 'n **kaart tussen die PIDs in die nuwe namespace en die ooreenstemmende PIDs** in die ouer namespace (d.w.s. die namespace waaruit die nuwe namespace geskep is). Hierdie kaart **stel die kern in staat om PIDs te vertaal wanneer nodig**, soos wanneer dit seine tussen prosesse in verskillende namespaces stuur.
+3. **Prosesse binne 'n PID namespace kan slegs ander prosesse in dieselfde namespace sien en daarmee interaksie hê**. Hulle is nie bewus van prosesse in ander namespaces nie, en hul PIDs is uniek binne hul namespace.
+4. Wanneer 'n **PID namespace vernietig word** (bv. wanneer die "init" proses van die namespace verlaat), **word alle prosesse binne daardie namespace beëindig**. Dit verseker dat alle hulpbronne wat met die namespace geassosieer word, behoorlik skoongemaak word.
 
 ## Lab:
 
@@ -48,7 +48,7 @@ Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind w
 1. **Probleem Uitleg**:
 - Die Linux-kern laat 'n proses toe om nuwe name ruimtes te skep met die `unshare` stelselsoproep. egter, die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
 - Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
-- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weesprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
+- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, veroorsaak dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weesproses aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
 
 2. **Gevolg**:
 - Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die mislukking van die `alloc_pid` funksie om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
@@ -80,9 +80,9 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Let daarop dat die root gebruiker van die aanvanklike (standaard) PID naamruimte al die prosesse kan sien, selfs die in nuwe PID naamruimtes, daarom kan ons al die PID naamruimtes sien.
+Let daarop dat die root-gebruiker van die aanvanklike (standaard) PID-nameskeping al die prosesse kan sien, selfs die in nuwe PID-nameskeping, daarom kan ons al die PID-nameskeping sien.
 
-### Gaan binne 'n PID naamruimte in
+### Gaan binne 'n PID-nameskeping in
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```

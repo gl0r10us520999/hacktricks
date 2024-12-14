@@ -8,8 +8,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -394,7 +394,7 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Check" %}
+{% tab title="ObjectiveC - Kontrole" %}
 Kontroleer of die program toegang tot die kamera het.
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -442,7 +442,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 {% tabs %}
 {% tab title="ObjetiveC - Opname" %}
-Neem 5 sekondes se klank op en stoor dit in `/tmp/recording.m4a`
+Neem 5s van audio op en stoor dit in `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -586,11 +586,11 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Plek
 
 {% hint style="success" %}
-Vir 'n app om die plek te kry, **Plekdienste** (van Privaatheid & Sekuriteit) **moet geaktiveer wees,** anders kan dit nie toegang daartoe kry nie.
+Vir 'n app om die plek te kry, **Plekdienste** (van Privaatheid & Sekuriteit) **moet geaktiveer wees,** anders kan dit nie toegang daartoe verkry nie.
 {% endhint %}
 
 * **Regte**: `com.apple.security.personal-information.location`
-* **TCC**: Toegestaan in `/var/db/locationd/clients.plist`
+* **TCC**: Toegeken in `/var/db/locationd/clients.plist`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}

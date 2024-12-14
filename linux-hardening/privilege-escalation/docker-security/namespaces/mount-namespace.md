@@ -25,8 +25,8 @@ Mount namespaces is veral nuttig in containerisering, waar elke container sy eie
 
 1. Wanneer 'n nuwe mount namespace geskep word, word dit geïnitialiseer met 'n **kopie van die monteerpunte van sy ouer namespace**. Dit beteken dat, by skepping, die nuwe namespace dieselfde uitsig van die lêerstelsel as sy ouer deel. egter, enige daaropvolgende veranderinge aan die monteerpunte binne die namespace sal nie die ouer of ander namespaces beïnvloed nie.
 2. Wanneer 'n proses 'n monteerpunt binne sy namespace wysig, soos om 'n lêerstelsel te monteer of te demonteer, is die **verandering plaaslik tot daardie namespace** en beïnvloed nie ander namespaces nie. Dit laat elke namespace toe om sy eie onafhanklike lêerstelsel hiërargie te hê.
-3. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselskakel te gebruik, of nuwe namespaces te skep met die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWNS` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die monteerpunte wat met daardie namespace geassosieer is, te gebruik.
-4. **Lêerdeskriptoren en inodes word oor namespaces gedeel**, wat beteken dat as 'n proses in een namespace 'n oop lêerdeskriptor het wat na 'n lêer wys, dit kan **daardie lêerdeskriptor** aan 'n proses in 'n ander namespace oorhandig, en **albei prosesse sal dieselfde lêer benader**. egter, die lêer se pad mag nie dieselfde wees in beide namespaces nie weens verskille in monteerpunte.
+3. Prosesse kan tussen namespaces beweeg deur die `setns()` stelselaanroep te gebruik, of nuwe namespaces te skep met die `unshare()` of `clone()` stelselaanroepe met die `CLONE_NEWNS` vlag. Wanneer 'n proses na 'n nuwe namespace beweeg of een skep, sal dit begin om die monteerpunte wat met daardie namespace geassosieer is, te gebruik.
+4. **Lêerdescriptors en inodes word oor namespaces gedeel**, wat beteken dat as 'n proses in een namespace 'n oop lêerdescriptor het wat na 'n lêer wys, dit daardie lêerdescriptor aan 'n proses in 'n ander namespace kan **oorgee**, en **albei prosesse sal dieselfde lêer toegang**. egter, die lêer se pad mag nie dieselfde wees in beide namespaces nie weens verskille in monteerpunte.
 
 ## Lab:
 
@@ -45,8 +45,8 @@ Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die paramet
 Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
 
 1. **Probleemverklaring**:
-- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) betree egter nie die nuwe naamruimte nie; slegs sy kindproses doen.
-- Om `%unshare -p /bin/bash%` te loop, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
+- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan egter nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
+- Om `%unshare -p /bin/bash%` uit te voer, begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
 - Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
 
 2. **Gevolg**:
@@ -56,7 +56,7 @@ Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind w
 - Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
 - Om `%unshare -fp /bin/bash%` uit te voer, verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
 
-Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse kan werk sonder om die geheue toewysing fout te ondervind.
+Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse funksioneer sonder om die geheue toewysing fout te ondervind.
 
 </details>
 
@@ -85,7 +85,7 @@ findmnt
 ```
 {% endcode %}
 
-### Gaan binne 'n Mount naamruimte in
+### Gaan binne 'n Mount namespace in
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```

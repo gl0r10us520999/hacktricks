@@ -42,7 +42,7 @@ sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex
 
 ### /etc/master.passwd
 
-Hierdie lêer word **slegs gebruik** wanneer die stelsel in **enkele-gebruiker modus** loop (so nie baie gereeld nie).
+Hierdie lêer word **slegs gebruik** wanneer die stelsel in **enkele-gebruiker modus** loop (dus nie baie gereeld nie).
 
 ### Sleutelhouer Dump
 
@@ -63,9 +63,9 @@ Op grond van hierdie kommentaar [juuso/keychaindump#10 (comment)](https://github
 
 ### Keychaindump Oorsig
 
-'n Gereedskap genaamd **keychaindump** is ontwikkel om wagwoorde uit macOS sleutelhouers te onttrek, maar dit ondervind beperkings op nuwer macOS weergawes soos Big Sur, soos aangedui in 'n [bespreking](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Die gebruik van **keychaindump** vereis dat die aanvaller toegang verkry en voorregte tot **root** verhoog. Die gereedskap benut die feit dat die sleutelhouer standaard ontgrendel is by gebruikersaanmelding vir gerief, wat toelaat dat toepassings toegang daartoe verkry sonder om die gebruiker se wagwoord herhaaldelik te vereis. As 'n gebruiker egter kies om hul sleutelhouer na elke gebruik te vergrendel, word **keychaindump** ondoeltreffend.
+'n Gereedskap genaamd **keychaindump** is ontwikkel om wagwoorde uit macOS sleutelhouers te onttrek, maar dit ondervind beperkings op nuwer macOS weergawes soos Big Sur, soos aangedui in 'n [bespreking](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Die gebruik van **keychaindump** vereis dat die aanvaller toegang verkry en bevoegdhede tot **root** verhoog. Die gereedskap benut die feit dat die sleutelhouer standaard ontgrendel is by gebruikersaanmelding vir gerief, wat toelaat dat toepassings toegang daartoe verkry sonder om die gebruiker se wagwoord herhaaldelik te vereis. As 'n gebruiker egter kies om hul sleutelhouer na elke gebruik te vergrendel, word **keychaindump** ondoeltreffend.
 
-**Keychaindump** werk deur 'n spesifieke proses genaamd **securityd** te teiken, wat deur Apple beskryf word as 'n daemon vir magtiging en kriptografiese operasies, wat noodsaaklik is vir toegang tot die sleutelhouer. Die onttrekkingsproses behels die identifisering van 'n **Master Key** wat afgelei is van die gebruiker se aanmeldwagwoord. Hierdie sleutel is noodsaaklik om die sleutelhouer-lêer te lees. Om die **Master Key** te vind, skandeer **keychaindump** die geheuehoop van **securityd** met behulp van die `vmmap` opdrag, op soek na potensiële sleutels binne areas wat as `MALLOC_TINY` gemerk is. Die volgende opdrag word gebruik om hierdie geheue-lokasies te ondersoek:
+**Keychaindump** werk deur 'n spesifieke proses genaamd **securityd** te teiken, wat deur Apple beskryf word as 'n daemon vir magtiging en kriptografiese operasies, wat noodsaaklik is vir toegang tot die sleutelhouer. Die onttrekkingsproses behels die identifisering van 'n **Master Key** wat afgelei is van die gebruiker se aanmeldwagwoord. Hierdie sleutel is noodsaaklik om die sleutelhouer lêer te lees. Om die **Master Key** te vind, skandeer **keychaindump** die geheuehoop van **securityd** met behulp van die `vmmap` opdrag, op soek na potensiële sleutels binne areas wat as `MALLOC_TINY` gemerk is. Die volgende opdrag word gebruik om hierdie geheue plekke te ondersoek:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
@@ -75,9 +75,9 @@ sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) kan gebruik word om die volgende tipes inligting uit 'n OSX sleutelketting op 'n forensies-korrekte manier te onttrek:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) kan gebruik word om die volgende tipes inligting uit 'n OSX sleutelkettie op 'n forensies-korrekte manier te onttrek:
 
-* Gehashede Sleutelkettingswagwoord, geskik vir kraken met [hashcat](https://hashcat.net/hashcat/) of [John the Ripper](https://www.openwall.com/john/)
+* Gehashede Sleutelkettie wagwoord, geskik vir kraken met [hashcat](https://hashcat.net/hashcat/) of [John the Ripper](https://www.openwall.com/john/)
 * Internet Wagwoorde
 * Generiese Wagwoorde
 * Privaat Sleutels
@@ -86,11 +86,11 @@ sudo ./keychaindump
 * Veilige Aantekeninge
 * Appleshare Wagwoorde
 
-Gegewe die sleutelkettingsontsluitwagwoord, 'n meester sleutel verkry met behulp van [volafox](https://github.com/n0fate/volafox) of [volatility](https://github.com/volatilityfoundation/volatility), of 'n ontsluitlêer soos SystemKey, sal Chainbreaker ook plattekswagwoorde verskaf.
+Gegewe die sleutelkettie ontgrendel wagwoord, 'n meester sleutel verkry met behulp van [volafox](https://github.com/n0fate/volafox) of [volatility](https://github.com/volatilityfoundation/volatility), of 'n ontgrendel lêer soos SystemKey, sal Chainbreaker ook platte teks wagwoorde verskaf.
 
-Sonder een van hierdie metodes om die Sleutelketing te ontsluit, sal Chainbreaker al die ander beskikbare inligting vertoon.
+Sonder een van hierdie metodes om die Sleutelkettie te ontgrendel, sal Chainbreaker al die ander beskikbare inligting vertoon.
 
-#### **Dump sleutelkettingsleutels**
+#### **Dump sleutelkettie sleutels**
 ```bash
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
@@ -103,7 +103,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dump sleutelring sleutels (met wagwoorde) om die hash te kraak**
+#### **Dump sleutelring sleutels (met wagwoorde) kraak die hash**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -139,7 +139,7 @@ Dit maak die wagwoord redelik maklik om te herstel, byvoorbeeld met behulp van s
 
 ## Interessante Inligting in Databasisse
 
-### Boodskappe
+### Berigte
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -151,7 +151,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Jy kan die Kennisgewings data vind in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-Die meeste van die interessante inligting gaan in **blob** wees. So jy sal daardie inhoud moet **onttrek** en dit moet **omskakel** na **mens** **leesbaar** of gebruik **`strings`**. Om toegang te verkry kan jy doen: 
+Die meeste van die interessante inligting gaan in **blob** wees. So jy sal daardie inhoud moet **onttrek** en dit moet **transformeer** na **mens** **leesbaar** of gebruik **`strings`**. Om toegang te verkry kan jy doen: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -184,7 +184,7 @@ In macOS kan die cli-gereedskap **`defaults`** gebruik word om die **Voorkeur l�
 ## OpenDirectory permissions.plist
 
 Die lêer `/System/Library/OpenDirectory/permissions.plist` bevat toestemmings wat op knoopattributen toegepas word en is beskerm deur SIP.\
-Hierdie lêer verleen toestemmings aan spesifieke gebruikers deur UUID (en nie uid nie) sodat hulle toegang kan verkry tot spesifieke sensitiewe inligting soos `ShadowHashData`, `HeimdalSRPKey` en `KerberosKeys` onder andere:
+Hierdie lêer verleen toestemmings aan spesifieke gebruikers deur UUID (en nie uid) sodat hulle toegang kan verkry tot spesifieke sensitiewe inligting soos `ShadowHashData`, `HeimdalSRPKey` en `KerberosKeys` onder andere:
 ```xml
 [...]
 <key>dsRecTypeStandard:Computers</key>
@@ -243,11 +243,11 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Verspreide Kennisgewing Sentrum
 
-Die **Verspreide Kennisgewing Sentrum** waarvan die hoof-binary **`/usr/sbin/distnoted`** is, is 'n ander manier om kennisgewings te stuur. Dit stel 'n paar XPC-dienste bloot en dit voer 'n paar kontroles uit om te probeer om kliënte te verifieer.
+Die **Verspreide Kennisgewing Sentrum** waarvan die hoof binêre **`/usr/sbin/distnoted`** is, is 'n ander manier om kennisgewings te stuur. Dit stel 'n paar XPC-dienste bloot en dit voer 'n paar kontroles uit om te probeer om kliënte te verifieer.
 
 ### Apple Push Kennisgewings (APN)
 
-In hierdie geval kan toepassings registreer vir **onderwerpe**. Die kliënt sal 'n token genereer deur Apple se bedieners te kontak via **`apsd`**.\
+In hierdie geval kan toepassings registreer vir **onderwerpe**. Die kliënt sal 'n token genereer deur Apple se bedieners te kontak deur **`apsd`**.\
 Dan sal verskaffers ook 'n token genereer en in staat wees om met Apple se bedieners te verbind om boodskappe aan die kliënte te stuur. Hierdie boodskappe sal plaaslik deur **`apsd`** ontvang word wat die kennisgewing aan die toepassing wat daarop wag, sal oordra.
 
 Die voorkeure is geleë in `/Library/Preferences/com.apple.apsd.plist`.

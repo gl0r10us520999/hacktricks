@@ -1,101 +1,101 @@
-# macOS Lêers, Lêers, Binêre & Geheue
+# macOS Lêers, Gidse, Binaries & Geheue
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Lêerhierargie uitleg
+## Lêer hiërargie uitleg
 
-* **/Toepassings**: Die geïnstalleerde programme behoort hier te wees. Alle gebruikers sal hulle kan bereik.
-* **/bin**: Opdraglyn-binêre
-* **/kerne**: Indien dit bestaan, word dit gebruik om kernafleidings te stoor
-* **/dev**: Alles word as 'n lêer hanteer, sodat jy hardewaretoestelle hier gestoor kan sien.
-* **/ ens**: Konfigurasie lêers
-* **/Biblioteek**: 'n Baie subdossiers en lêers wat verband hou met voorkeure, cache en logboeke kan hier gevind word. 'N Biblioteekvouer bestaan in die wortel en in elke gebruiker se gids.
-* **/privaat**: Onbeskryf, maar baie van die genoemde vouers is simboliese skakels na die privaatgids.
-* **/sbin**: Essensiële stelsel-binêre (verwant aan administrasie)
-* **/Stelsel**: Lêer om OS X te laat loop. Jy behoort meestal net Apple-spesifieke lêers hier te vind (nie derde party nie).
-* **/tmp**: Lêers word na 3 dae verwyder (dit is 'n sagte skakel na /privaat/tmp)
-* **/Gebruikers**: Tuisgids vir gebruikers.
-* **/usr**: Konfig en stelsel-binêre
-* **/var**: Loglêers
-* **/Volumes**: Die gemoniteerde aandrywings sal hier verskyn.
-* **/.vol**: Deur `stat a.txt` te hardloop, verkry jy iets soos `16777223 7545753 -rw-r--r-- 1 gebruikersnaam wiel ...` waar die eerste nommer die id-nommer van die volume waar die lêer bestaan, en die tweede een die inode-nommer is. Jy kan die inhoud van hierdie lêer benader deur /.vol/ met daardie inligting te hardloop `cat /.vol/16777223/7545753`
+* **/Applications**: Die geïnstalleerde toepassings behoort hier te wees. Alle gebruikers sal toegang tot hulle hê.
+* **/bin**: Opdraglyn binaries
+* **/cores**: As dit bestaan, word dit gebruik om kernaflae te stoor
+* **/dev**: Alles word as 'n lêer behandel, so jy mag hardeware toestelle hier gestoor sien.
+* **/etc**: Konfigurasie lêers
+* **/Library**: 'n Baie van subgidse en lêers wat verband hou met voorkeure, kas en logs kan hier gevind word. 'n Biblioteek gids bestaan in die wortel en op elke gebruiker se gids.
+* **/private**: Nie gedokumenteer nie, maar baie van die genoemde gidse is simboliese skakels na die private gids.
+* **/sbin**: Essensiële stelselbinaries (verbonde aan administrasie)
+* **/System**: Lêer om OS X te laat loop. Jy behoort meestal net Apple spesifieke lêers hier te vind (nie derdeparty nie).
+* **/tmp**: Lêers word na 3 dae verwyder (dit is 'n sagte skakel na /private/tmp)
+* **/Users**: Tuisgids vir gebruikers.
+* **/usr**: Konfig en stelselbinaries
+* **/var**: Log lêers
+* **/Volumes**: Die gemonteerde skywe sal hier verskyn.
+* **/.vol**: Deur `stat a.txt` te loop, kry jy iets soos `16777223 7545753 -rw-r--r-- 1 username wheel ...` waar die eerste nommer die id nommer van die volume is waar die lêer bestaan en die tweede een die inode nommer is. Jy kan die inhoud van hierdie lêer deur /.vol/ met daardie inligting verkry deur `cat /.vol/16777223/7545753` te loop.
 
-### Toepassingsvouers
+### Toepassings Gidse
 
-* **Stelseltoepassings** is geleë onder `/Stelsel/Toepassings`
-* **Geïnstalleerde** toepassings is gewoonlik geïnstalleer in `/Toepassings` of in `~/Toepassings`
-* **Toepassingsdata** kan gevind word in `/Biblioteek/Toepassingondersteuning` vir toepassings wat as wortel hardloop en `~/Biblioteek/Toepassingondersteuning` vir toepassings wat as die gebruiker hardloop.
-* Derdeparty-toepassings **demone** wat **as wortel moet hardloop** is gewoonlik geleë in `/Biblioteek/BevoorregteHulpprogramme/`
-* **Sandboks**-toepassings word in die `~/Biblioteek/Houers`-vouer afgebeeld. Elke toep het 'n vouer wat volgens die toepassing se bondel-ID genoem word (`com.apple.Safari`).
-* Die **kerne** is geleë in `/Stelsel/Biblioteek/Kerne/kerne`
-* **Apple se kernuitbreidings** is geleë in `/Stelsel/Biblioteek/Uitbreidings`
-* **Derdeparty-kernuitbreidings** word gestoor in `/Biblioteek/Uitbreidings`
+* **Stelsel toepassings** is geleë onder `/System/Applications`
+* **Geïnstalleerde** toepassings word gewoonlik in `/Applications` of in `~/Applications` geïnstalleer
+* **Toepassing data** kan gevind word in `/Library/Application Support` vir die toepassings wat as wortel loop en `~/Library/Application Support` vir toepassings wat as die gebruiker loop.
+* Derdeparty toepassings **daemons** wat **as wortel moet loop** is gewoonlik geleë in `/Library/PrivilegedHelperTools/`
+* **Sandboxed** toepassings is in die `~/Library/Containers` gids gemap. Elke toepassing het 'n gids wat volgens die toepassing se bundel ID genoem word (`com.apple.Safari`).
+* Die **kernel** is geleë in `/System/Library/Kernels/kernel`
+* **Apple se kernel uitbreidings** is geleë in `/System/Library/Extensions`
+* **Derdeparty kernel uitbreidings** word gestoor in `/Library/Extensions`
 
 ### Lêers met Sensitiewe Inligting
 
-macOS stoor inligting soos wagwoorde op verskeie plekke:
+MacOS stoor inligting soos wagwoorde op verskeie plekke:
 
-{% content-ref url="macos-sensitiewe-plekke.md" %}
-[macos-sensitiewe-plekke.md](macos-sensitiewe-plekke.md)
+{% content-ref url="macos-sensitive-locations.md" %}
+[macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Kwesbare pkg-installeerders
+### Kwetsbare pkg installers
 
-{% content-ref url="macos-installeerders-misbruik.md" %}
-[macos-installeerders-misbruik.md](macos-installeerders-misbruik.md)
+{% content-ref url="macos-installers-abuse.md" %}
+[macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
 ## OS X Spesifieke Uitbreidings
 
-* **`.dmg`**: Apple Skyfafbeeldingslêers is baie algemeen vir installeerders.
-* **`.kext`**: Dit moet 'n spesifieke struktuur volg en dit is die OS X-weergawe van 'n bestuurder. (Dit is 'n bondel)
-* **`.plist`**: Ook bekend as eienskapslys, stoor inligting in XML- of binêre formaat.
-* Dit kan XML of binêre wees. Binêre eenhede kan gelees word met:
-* `standaarde lees konfig.plist`
-* `/usr/libexec/PlistBuddy -c druk konfig.plsit`
-* `plutil -p ~/Biblioteek/Voorkeure/com.apple.screensaver.plist`
-* `plutil -omskakel xml1 ~/Biblioteek/Voorkeure/com.apple.screensaver.plist -o -`
-* `plutil -omskakel json ~/Biblioteek/Voorkeure/com.apple.screensaver.plist -o -`
-* **`.app`**: Apple-toepassings wat die gidsstruktuur volg (Dit is 'n bondel).
-* **`.dylib`**: Dinamiese biblioteke (soos Windows DLL-lêers)
-* **`.pkg`**: Is dieselfde as xar (Uitbreibare Argief-formaat). Die installeerderopdrag kan gebruik word om die inhoud van hierdie lêers te installeer.
-* **`.DS_Store`**: Hierdie lêer is in elke gids, dit stoor die eienskappe en aanpassings van die gids.
-* **`.Spotlight-V100`**: Hierdie vouer verskyn op die wortelgids van elke volume op die stelsel.
-* **`.metadata_never_index`**: As hierdie lêer aan die wortel van 'n volume is, sal Spotlight daardie volume nie indeks nie.
-* **`.noindex`**: Lêers en vouers met hierdie uitbreiding sal nie deur Spotlight geïndekseer word nie.
-* **`.sdef`**: Lêers binne bondels wat spesifiseer hoe dit moontlik is om met die toepassing te interaksieer vanuit 'n AppleScript.
+* **`.dmg`**: Apple Disk Image lêers is baie algemeen vir installers.
+* **`.kext`**: Dit moet 'n spesifieke struktuur volg en dit is die OS X weergawe van 'n bestuurder. (dit is 'n bundel)
+* **`.plist`**: Ook bekend as eiendom lys stoor inligting in XML of binêre formaat.
+* Kan XML of binêr wees. Binêre kan gelees word met:
+* `defaults read config.plist`
+* `/usr/libexec/PlistBuddy -c print config.plsit`
+* `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
+* `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* **`.app`**: Apple toepassings wat die gidsstruktuur volg (dit is 'n bundel).
+* **`.dylib`**: Dinamiese biblioteke (soos Windows DLL lêers)
+* **`.pkg`**: Is dieselfde as xar (eXtensible Archive formaat). Die installer opdrag kan gebruik word om die inhoud van hierdie lêers te installeer.
+* **`.DS_Store`**: Hierdie lêer is op elke gids, dit stoor die eienskappe en aanpassings van die gids.
+* **`.Spotlight-V100`**: Hierdie gids verskyn op die wortelgids van elke volume op die stelsel.
+* **`.metadata_never_index`**: As hierdie lêer op die wortel van 'n volume is, sal Spotlight daardie volume nie indekseer nie.
+* **`.noindex`**: Lêers en gidse met hierdie uitbreiding sal nie deur Spotlight geïndekseer word nie.
+* **`.sdef`**: Lêers binne bundels wat spesifiseer hoe dit moontlik is om met die toepassing van 'n AppleScript te kommunikeer.
 
-### macOS Bondels
+### macOS Bundels
 
-'n Bondel is 'n **gids** wat **lyk soos 'n voorwerp in Finder** ( 'n Voorbeeld van 'n Bondel is `*.app` lêers).
+'n Bundel is 'n **gids** wat **soos 'n objek in Finder lyk** (n Bundel voorbeeld is `*.app` lêers).
 
-{% content-ref url="macos-bondels.md" %}
-[macos-bondels.md](macos-bondels.md)
+{% content-ref url="macos-bundles.md" %}
+[macos-bundles.md](macos-bundles.md)
 {% endcontent-ref %}
 
-## Dyld Gedeelde Biblioteekkas (SLC)
+## Dyld Gedeelde Biblioteek Kas (SLC)
 
-Op macOS (en iOS) word alle stelsel gedeelde biblioteke, soos raamwerke en dylibs, **gekombineer in 'n enkele lêer**, genaamd die **dyld gedeelde kas**. Dit het die werkverrigting verbeter, aangesien kode vinniger gelaai kan word.
+Op macOS (en iOS) is al die stelsel gedeelde biblioteke, soos raamwerke en dylibs, **gecombineer in 'n enkele lêer**, genoem die **dyld gedeelde kas**. Dit verbeter die prestasie, aangesien kode vinniger gelaai kan word.
 
-Dit is geleë in macOS in `/Stelsel/Volumes/Preboot/Cryptexes/OS/Stelsel/Biblioteek/dyld/` en in ouer weergawes kan jy die **gedeelde kas** dalk vind in **`/Stelsel/Biblioteek/dyld/`**.\
-In iOS kan jy hulle vind in **`/Stelsel/Biblioteek/Caches/com.apple.dyld/`**.
+Dit is geleë in macOS in `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/` en in ouer weergawes mag jy die **gedeelde kas** in **`/System/Library/dyld/`** vind.\
+In iOS kan jy hulle vind in **`/System/Library/Caches/com.apple.dyld/`**.
 
-Soortgelyk aan die dyld gedeelde kas, word die kern en die kernuitbreidings ook saamgestel in 'n kernkas, wat by opstarttyd gelaai word.
+Soos die dyld gedeelde kas, is die kernel en die kernel uitbreidings ook saamgecompileer in 'n kernel kas, wat by opstarttyd gelaai word.
 
-Om die biblioteke uit die enkele lêer dylib gedeelde kas te onttrek, was dit moontlik om die binêre [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) te gebruik wat dalk nie meer werk nie, maar jy kan ook [**dyldextractor**](https://github.com/arandomdev/dyldextractor) gebruik:
+Om die biblioteke uit die enkele lêer dylib gedeelde kas te onttrek, was dit moontlik om die binêre [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) te gebruik wat dalk nie vandag werk nie, maar jy kan ook [**dyldextractor**](https://github.com/arandomdev/dyldextractor) gebruik: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -110,112 +110,112 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 {% endcode %}
 
 {% hint style="success" %}
-Let wel dat selfs as die `dyld_shared_cache_util`-werktuig nie werk nie, kan jy die **gedeelde dyld-binêre lêer aan Hopper oorhandig** en sal Hopper in staat wees om al die biblioteke te identifiseer en jou **laat kies watter een** jy wil ondersoek:
+Let daarop dat selfs al werk die `dyld_shared_cache_util` hulpmiddel nie, kan jy die **gedeelde dyld-binary aan Hopper** oorhandig en Hopper sal in staat wees om al die biblioteke te identifiseer en jou te laat **kies watter een** jy wil ondersoek:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Sommige ekstrakteurs sal nie werk nie omdat dylibs vooraf gekoppel is met hardgekoppelde adresse en daarom moontlik na onbekende adresse kan spring.
+Sommige ekstrakteurs sal nie werk nie, aangesien dylibs vooraf gekoppel is met hard-gecodeerde adresse, wat beteken dat hulle na onbekende adresse kan spring.
 
 {% hint style="success" %}
-Dit is ook moontlik om die Gedeelde Biblioteekkas van ander \*OS-toestelle in macOS af te laai deur 'n emulator in Xcode te gebruik. Hulle sal binne gelaai word: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, soos:`$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
+Dit is ook moontlik om die Gedeelde Biblioteek Kaste van ander \*OS toestelle in macos af te laai deur 'n emulator in Xcode te gebruik. Hulle sal binne afgelaai word: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, soos: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
-### Inrigting van SLC
+### Kaart SLC
 
-**`dyld`** gebruik die systaalaanroep **`shared_region_check_np`** om te weet of die SLC in kaart gebring is (wat die adres teruggee) en **`shared_region_map_and_slide_np`** om die SLC in kaart te bring.
+**`dyld`** gebruik die syscall **`shared_region_check_np`** om te weet of die SLC gemap is (wat die adres teruggee) en **`shared_region_map_and_slide_np`** om die SLC te map.
 
-Let wel dat selfs as die SLC op die eerste gebruik geskuif word, gebruik al die **prosesse** dieselfde kopie, wat die ASLR-beskerming **uitgeskakel het** as die aanvaller in staat was om prosesse in die stelsel uit te voer. Dit is eintlik in die verlede uitgebuit en reggestel met die gedeelde streekpager.
+Let daarop dat selfs al is die SLC op die eerste gebruik geskuif, gebruik al die **prosesse** die **dieselfde kopie**, wat die **ASLR** beskerming uitgeskakel het as die aanvaller in staat was om prosesse in die stelsel te laat loop. Dit is eintlik in die verlede uitgebuit en reggestel met 'n gedeelde streek pager.
 
-Takpoele is klein Mach-O-dylibs wat klein spasies tussen beeldafbeeldings skep wat dit onmoontlik maak om die funksies te interposeer.
+Branch pools is klein Mach-O dylibs wat klein ruimtes tussen beeldmappings skep, wat dit onmoontlik maak om die funksies te interpose.
 
-### Oorskryf SLC's
+### Oorskry SLCs
 
-Deur die omgewingsveranderlikes te gebruik:
+Gebruik die omgewingsveranderlikes:
 
-* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Dit sal toelaat om 'n nuwe gedeelde biblioteekkas te laai
-* **`DYLD_SHARED_CACHE_DIR=avoid`** en vervang die biblioteke met simbole na die gedeelde kas met die regte een (jy sal hulle moet onttrek)
+* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Dit sal toelaat om 'n nuwe gedeelde biblioteek kas te laai.
+* **`DYLD_SHARED_CACHE_DIR=avoid`** en vervang handmatig die biblioteke met symlinks na die gedeelde kas met die werklike een (jy sal dit moet onttrek).
 
-## Spesiale Lêerregte
+## Spesiale Lêer Toestemmings
 
-### Vouerregte
+### Gids toestemmings
 
-In 'n **vouer** laat **lees** toe om dit te **lys**, **skryf** laat toe om dit te **verwyder** en **skryf** lêers daarop, en **uitvoer** laat toe om die gids te **deursoek**. Dus, byvoorbeeld, 'n gebruiker met **leesreg oor 'n lêer** binne 'n gids waar hy **nie uitvoerreg** het **nie sal nie in staat wees om** die lêer te lees.
+In 'n **gids**, **lees** laat jou toe om dit te **lys**, **skryf** laat jou toe om **te verwyder** en **te skryf** lêers daarop, en **uitvoer** laat jou toe om die gids te **deursoek**. So, byvoorbeeld, 'n gebruiker met **lees toestemming oor 'n lêer** binne 'n gids waar hy **nie uitvoer** toestemming het nie, **sal nie in staat wees om** die lêer te lees nie.
 
-### Vlagmodifiseerders
+### Vlag modifiers
 
-Daar is sekere vlae wat in die lêers ingestel kan word wat die lêer anders laat optree. Jy kan die vlae van die lêers binne 'n gids nagaan met `ls -lO /path/directory`
+Daar is 'n paar vlag wat in die lêers gestel kan word wat die lêer anders kan laat optree. Jy kan die **vlag** van die lêers binne 'n gids nagaan met `ls -lO /path/directory`
 
-* **`uchg`**: Bekend as **uchange**-vlag sal **enige aksie** wat die **lêer** verander of verwyder **voorkom**. Om dit in te stel doen: `chflags uchg file.txt`
-* Die root-gebruiker kan die vlag **verwyder** en die lêer wysig
-* **`restricted`**: Hierdie vlag maak die lêer **beskerm deur SIP** (jy kan nie hierdie vlag by 'n lêer voeg nie).
-* **`Sticky bit`**: As 'n gids met 'n plakkerige bit, kan **slegs** die **gidseienaar of root** lêers hernoem of verwyder. Tipies word dit op die /tmp-gids ingestel om gewone gebruikers te verhoed om ander gebruikers se lêers te verwyder of te skuif.
+* **`uchg`**: Bekend as **uchange** vlag sal **enige aksie** wat die **lêer** verander of verwyder, **voorkom**. Om dit in te stel, doen: `chflags uchg file.txt`
+* Die wortel gebruiker kan die **vlag verwyder** en die lêer wysig.
+* **`restricted`**: Hierdie vlag maak die lêer **beskerm deur SIP** (jy kan nie hierdie vlag aan 'n lêer toevoeg nie).
+* **`Sticky bit`**: As 'n gids met 'n sticky bit, **slegs** die **gids eienaar of wortel kan hernoem of verwyder** lêers. Tipies word dit op die /tmp gids gestel om gewone gebruikers te verhoed om ander gebruikers se lêers te verwyder of te skuif.
 
-Al die vlae kan gevind word in die lêer `sys/stat.h` (vind dit met `mdfind stat.h | grep stat.h`) en is:
+Al die vlae kan in die lêer `sys/stat.h` gevind word (vind dit met `mdfind stat.h | grep stat.h`) en is:
 
 * `UF_SETTABLE` 0x0000ffff: Masker van eienaar veranderbare vlae.
-* `UF_NODUMP` 0x00000001: Moet lêer nie dump nie.
+* `UF_NODUMP` 0x00000001: Moet nie lêer dump nie.
 * `UF_IMMUTABLE` 0x00000002: Lêer mag nie verander word nie.
-* `UF_APPEND` 0x00000004: Skrywes na lêer mag slegs aangeheg word.
-* `UF_OPAQUE` 0x00000008: Gids is ondeursigtig t.o.v. unie.
-* `UF_COMPRESSED` 0x00000020: Lêer is saamgedruk (sekere lêersisteme).
-* `UF_TRACKED` 0x00000040: Geen kennisgewings vir verwyderings/hernoemings vir lêers met hierdie stel.
-* `UF_DATAVAULT` 0x00000080: Toestemming benodig vir lees en skryf.
-* `UF_HIDDEN` 0x00008000: Aanduiding dat hierdie item nie in 'n GUI vertoon moet word nie.
-* `SF_SUPPORTED` 0x009f0000: Masker van supergebruiker ondersteunde vlae.
+* `UF_APPEND` 0x00000004: Skrywe na lêer mag slegs bygevoeg word.
+* `UF_OPAQUE` 0x00000008: Gids is ondoorgrondelik ten opsigte van unie.
+* `UF_COMPRESSED` 0x00000020: Lêer is gecomprimeer (sommige lêerstelsels).
+* `UF_TRACKED` 0x00000040: Geen kennisgewings vir verwyderings/hernoemings vir lêers met hierdie ingestel nie.
+* `UF_DATAVAULT` 0x00000080: Regte benodig vir lees en skryf.
+* `UF_HIDDEN` 0x00008000: Wenke dat hierdie item nie in 'n GUI vertoon moet word nie.
+* `SF_SUPPORTED` 0x009f0000: Masker van supergebruiker ondersteun vlae.
 * `SF_SETTABLE` 0x3fff0000: Masker van supergebruiker veranderbare vlae.
-* `SF_SYNTHETIC` 0xc0000000: Masker van stelsel slegs-lees sintetiese vlae.
-* `SF_ARCHIVED` 0x00010000: Lêer is ge-argiveer.
+* `SF_SYNTHETIC` 0xc0000000: Masker van stelsels lees-alleen sintetiese vlae.
+* `SF_ARCHIVED` 0x00010000: Lêer is geargiveer.
 * `SF_IMMUTABLE` 0x00020000: Lêer mag nie verander word nie.
-* `SF_APPEND` 0x00040000: Skrywes na lêer mag slegs aangeheg word.
-* `SF_RESTRICTED` 0x00080000: Toestemming benodig vir skryf.
-* `SF_NOUNLINK` 0x00100000: Item mag nie verwyder, hernoem of aangeheg word nie.
+* `SF_APPEND` 0x00040000: Skrywe na lêer mag slegs bygevoeg word.
+* `SF_RESTRICTED` 0x00080000: Regte benodig vir skryf.
+* `SF_NOUNLINK` 0x00100000: Item mag nie verwyder, hernoem of gemonteer word nie.
 * `SF_FIRMLINK` 0x00800000: Lêer is 'n firmlink.
-* `SF_DATALESS` 0x40000000: Lêer is 'n datalose voorwerp.
+* `SF_DATALESS` 0x40000000: Lêer is 'n dataloos objek.
 
-### **Lêer ACL's**
+### **Lêer ACLs**
 
-Lêer **ACL's** bevat **ACE** (Toegangsbeheerinskrywings) waar meer **fynkorrelige regte** aan verskillende gebruikers toegewys kan word.
+Lêer **ACLs** bevat **ACE** (Toegang Beheer Inskrywings) waar meer **fynere toestemmings** aan verskillende gebruikers toegeken kan word.
 
-Dit is moontlik om 'n **gids** hierdie regte toe te ken: `lys`, `soek`, `voeg_lêer_by`, `voeg_subgids_by`, `verwyder_kind`, `verwyder_kind`.\
-En aan 'n **lêer**: `lees`, `skryf`, `voeg_by`, `voer_uit`.
+Dit is moontlik om 'n **gids** hierdie toestemmings te gee: `lys`, `soek`, `voeg_lêer_by`, `voeg_subgids_by`, `verwyder_kind`, `verwyder_kind`.\
+En aan 'n **lêer**: `lees`, `skryf`, `byvoeg`, `uitvoer`.
 
-Wanneer die lêer ACL's bevat, sal jy 'n "+" vind wanneer jy die regte lys soos in:
+Wanneer die lêer ACLs bevat, sal jy **'n "+" vind wanneer jy die toestemmings lys soos in**:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Jy kan **die ACL's lees** van die lêer met:
+U kan die **ACLs** van die lêer lees met:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Jy kan **alle lêers met ACLs vind** met (dit is baaaie stadig):
+U kan **alle lêers met ACL's** vind met (dit is baie stadig):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-### Uitgebreide Eienskappe
+### Extended Attributes
 
-Uitgebreide eienskappe het 'n naam en enige gewenste waarde, en kan gesien word deur `ls -@` te gebruik en gemanipuleer word met behulp van die `xattr` bevel. Sommige algemene uitgebreide eienskappe is:
+Uitgebreide eienskappe het 'n naam en enige gewenste waarde, en kan gesien word met `ls -@` en gemanipuleer word met die `xattr` opdrag. Sommige algemene uitgebreide eienskappe is:
 
-* `com.apple.resourceFork`: Hulpbronvurkverenigbaarheid. Ook sigbaar as `lêernaam/..namedfork/rsrc`
-* `com.apple.quarantine`: MacOS: Gatekeeper karantynmeganisme (III/6)
+* `com.apple.resourceFork`: Hulpbronvork kompatibiliteit. Ook sigbaar as `filename/..namedfork/rsrc`
+* `com.apple.quarantine`: MacOS: Gatekeeper kwarantynmeganisme (III/6)
 * `metadata:*`: MacOS: verskeie metadata, soos `_backup_excludeItem`, of `kMD*`
-* `com.apple.lastuseddate` (#PS): Datum van laaste lêergebruik
-* `com.apple.FinderInfo`: MacOS: Finder-inligting (bv., kleurmerke)
-* `com.apple.TextEncoding`: Spesifiseer teksenkodering van ASCII-tekslêers
+* `com.apple.lastuseddate` (#PS): Laaste lêer gebruik datum
+* `com.apple.FinderInfo`: MacOS: Finder inligting (bv., kleur Tags)
+* `com.apple.TextEncoding`: Spesifiseer tekskodering van ASCII tekslêers
 * `com.apple.logd.metadata`: Gebruik deur logd op lêers in `/var/db/diagnostics`
-* `com.apple.genstore.*`: Generasieopberging (`/.DocumentRevisions-V100` in die wortel van die lêersisteem)
-* `com.apple.rootless`: MacOS: Gebruik deur Stelselintegriteitsbeskerming om lêer te etiketteer (III/10)
-* `com.apple.uuidb.boot-uuid`: logd-merkings van opstarts met unieke UUID
-* `com.apple.decmpfs`: MacOS: Deursigtige lêerkompressie (II/7)
-* `com.apple.cprotect`: \*OS: Per-lêer-koderingsdata (III/11)
-* `com.apple.installd.*`: \*OS: Metadata wat deur installd gebruik word, bv., `installType`, `uniqueInstallID`
+* `com.apple.genstore.*`: Generasionele berging (`/.DocumentRevisions-V100` in die wortel van die lêerstelsel)
+* `com.apple.rootless`: MacOS: Gebruik deur Stelselintegriteitbeskerming om lêer te merk (III/10)
+* `com.apple.uuidb.boot-uuid`: logd merkings van opstart epoches met unieke UUID
+* `com.apple.decmpfs`: MacOS: Deursigtige lêer kompressie (II/7)
+* `com.apple.cprotect`: \*OS: Per-lêer versleuteling data (III/11)
+* `com.apple.installd.*`: \*OS: Metadata gebruik deur installd, bv., `installType`, `uniqueInstallID`
 
-### Hulpbronvurke | macOS ADS
+### Resource Forks | macOS ADS
 
-Dit is 'n manier om **Alternatiewe Datastrome in MacOS**-toestelle te verkry. Jy kan inhoud binne 'n uitgebreide eienskap genaamd **com.apple.ResourceFork** binne 'n lêer stoor deur dit in **lêernaam/..namedfork/rsrc** te stoor.
+Dit is 'n manier om **Alternatiewe Data Strome in MacOS** masjiene te verkry. Jy kan inhoud binne 'n uitgebreide eienskap genaamd **com.apple.ResourceFork** binne 'n lêer stoor deur dit in **file/..namedfork/rsrc** te stoor.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -226,7 +226,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Jy kan **alle lêers wat hierdie uitgebreide eienskap bevat, vind met:**
+U kan **alle lêers wat hierdie uitgebreide attribuut bevat** vind met: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -236,59 +236,59 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 ### decmpfs
 
-Die uitgebreide attribuut `com.apple.decmpfs` dui daarop dat die lêer versleutel is, `ls -l` sal 'n **grootte van 0** rapporteer en die saamgedrukte data is binne hierdie attribuut. Telkens wanneer die lêer geopen word, sal dit in die geheue ontsluit word.
+Die uitgebreide attribuut `com.apple.decmpfs` dui aan dat die lêer versleuteld gestoor word, `ls -l` sal 'n **grootte van 0** rapporteer en die gecomprimeerde data is binne hierdie attribuut. Wanneer die lêer toegang verkry, sal dit in geheue ontsleutel word.
 
-Hierdie attribuut kan gesien word met `ls -lO` aangedui as saamgedruk omdat saamgedrukte lêers ook gemerk word met die vlag `UF_COMPRESSED`. As 'n saamgedrukte lêer verwyder word, sal hierdie vlag met `chflags nocompressed </path/to/file>` verwyder word, die stelsel sal dan nie weet dat die lêer saamgedruk was nie en daarom sal dit nie kan ontsaamdruk en toegang tot die data hê nie (dit sal dink dat dit eintlik leeg is).
+Hierdie attribuut kan gesien word met `ls -lO` wat as gecomprimeerd aangedui word omdat gecomprimeerde lêers ook met die vlag `UF_COMPRESSED` gemerk is. As 'n gecomprimeerde lêer verwyder word met hierdie vlag met `chflags nocompressed </path/to/file>`, sal die stelsel nie weet dat die lêer gecomprimeerd was nie en daarom sal dit nie in staat wees om die data te ontsluit en toegang te verkry nie (dit sal dink dat dit eintlik leeg is).
 
-Die instrument afscexpand kan gebruik word om 'n lêer kragtig te ontsaamdruk.
+Die hulpmiddel afscexpand kan gebruik word om 'n lêer te dwing om te ontsluit.
 
-## **Universele lêers &** Mach-o-formaat
+## **Universal binaries &** Mach-o Formaat
 
-Mac OS-lêers is gewoonlik saamgestel as **universele lêers**. 'n **Universele lêer** kan **verskeie argitekture in dieselfde lêer ondersteun**.
+Mac OS lêers word gewoonlik gecompileer as **universal binaries**. 'n **universal binary** kan **meerdere argitekture in dieselfde lêer ondersteun**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## macOS-prosesgeheue
+## macOS Proses Geheue
 
-## macOS-geheue-onttrekking
+## macOS geheue dumping
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Risikokategorie-lêers Mac OS
+## Risiko Kategorief lêers Mac OS
 
-Die gids `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` is waar inligting oor die **risiko wat met verskillende lêeruitbreidings geassosieer word, gestoor word**. Hierdie gids kategoriseer lêers in verskeie risikovlakke, wat beïnvloed hoe Safari hierdie lêers hanteer wanneer dit afgelaai word. Die kategorieë is as volg:
+Die gids `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` is waar inligting oor die **risiko geassosieer met verskillende lêer uitbreidings gestoor word**. Hierdie gids kategoriseer lêers in verskillende risikoniveaus, wat beïnvloed hoe Safari hierdie lêers hanteer wanneer hulle afgelaai word. Die kategorieë is soos volg:
 
-* **LSRiskCategorySafe**: Lêers in hierdie kategorie word as **heeltemal veilig** beskou. Safari sal hierdie lêers outomaties oopmaak nadat hulle afgelaai is.
+* **LSRiskCategorySafe**: Lêers in hierdie kategorie word beskou as **heeltemal veilig**. Safari sal hierdie lêers outomaties oopmaak nadat hulle afgelaai is.
 * **LSRiskCategoryNeutral**: Hierdie lêers kom sonder waarskuwings en word **nie outomaties oopgemaak** deur Safari nie.
-* **LSRiskCategoryUnsafeExecutable**: Lêers onder hierdie kategorie **lok 'n waarskuwing** uit wat aandui dat die lêer 'n aansoek is. Dit dien as 'n sekuriteitsmaatreël om die gebruiker te waarsku.
-* **LSRiskCategoryMayContainUnsafeExecutable**: Hierdie kategorie is vir lêers, soos argiewe, wat 'n uitvoerbare lêer mag bevat. Safari sal 'n waarskuwing **uitlok** tensy dit kan verifieer dat alle inhoud veilig of neutraal is.
+* **LSRiskCategoryUnsafeExecutable**: Lêers onder hierdie kategorie **aktiveer 'n waarskuwing** wat aandui dat die lêer 'n toepassing is. Dit dien as 'n sekuriteitsmaatreël om die gebruiker te waarsku.
+* **LSRiskCategoryMayContainUnsafeExecutable**: Hierdie kategorie is vir lêers, soos argiewe, wat 'n uitvoerbare lêer mag bevat. Safari sal **'n waarskuwing aktiveer** tensy dit kan verifieer dat alle inhoud veilig of neutraal is.
 
 ## Log lêers
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Bevat inligting oor afgelaai lêers, soos die URL waarvandaan hulle afgelaai is.
-* **`/var/log/system.log`**: Hooflog van OSX-stelsels. com.apple.syslogd.plist is verantwoordelik vir die uitvoering van die stelsellog (jy kan nagaan of dit gedeaktiveer is deur te soek na "com.apple.syslogd" in `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: Dit is die Apple-stelsellogboeke wat dalk interessante inligting bevat.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Berg onlangs benaderde lêers en aansoeke deur "Finder" op.
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Berg items om te begin met die stelselopstart
-* **`$HOME/Library/Logs/DiskUtility.log`**: Log lêer vir die DiskUtility-toep (inligting oor aandrywings, insluitend USB's)
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Bevat inligting oor afgelaaide lêers, soos die URL waarvandaan hulle afgelaai is.
+* **`/var/log/system.log`**: Hooflog van OSX stelsels. com.apple.syslogd.plist is verantwoordelik vir die uitvoering van syslogging (jy kan kyk of dit gedeaktiveer is deur te soek na "com.apple.syslogd" in `launchctl list`.
+* **`/private/var/log/asl/*.asl`**: Dit is die Apple Stelsellogs wat dalk interessante inligting kan bevat.
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Stoor onlangs toeganklike lêers en toepassings deur "Finder".
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Stoor items om te begin by stelselaan.
+* **`$HOME/Library/Logs/DiskUtility.log`**: Log lêer vir die DiskUtility App (inligting oor skywe, insluitend USB's)
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data oor draadlose toegangspunte.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Lys van gedeaktiveerde daemons.
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

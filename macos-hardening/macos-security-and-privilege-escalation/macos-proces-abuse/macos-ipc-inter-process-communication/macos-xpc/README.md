@@ -1,23 +1,23 @@
 # macOS XPC
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basic Information
+## Basiese Inligting
 
-XPC, wat staan vir XNU (die kern wat deur macOS gebruik word) inter-Process Communication, is 'n raamwerk vir **kommunikasie tussen prosesse** op macOS en iOS. XPC bied 'n mekanisme vir die maak van **veilige, asynchrone metode-oproepe tussen verskillende prosesse** op die stelsel. Dit is 'n deel van Apple se sekuriteitsparadigma, wat die **skepping van privilige-geskeide toepassings** moontlik maak waar elke **komponent** loop met **slegs die regte wat dit nodig het** om sy werk te doen, en so die potensiële skade van 'n gecompromitteerde proses beperk.
+XPC, wat staan vir XNU (die kern wat deur macOS gebruik word) inter-Process Communication, is 'n raamwerk vir **kommunikasie tussen prosesse** op macOS en iOS. XPC bied 'n meganisme vir die maak van **veilige, asynchrone metode-oproepe tussen verskillende prosesse** op die stelsel. Dit is 'n deel van Apple se sekuriteitsparadigma, wat die **skepping van privilige-geskeide toepassings** moontlik maak waar elke **komponent** loop met **slegs die regte wat dit nodig het** om sy werk te doen, en so die potensiële skade van 'n gecompromitteerde proses beperk.
 
 XPC gebruik 'n vorm van Inter-Process Communication (IPC), wat 'n stel metodes is vir verskillende programme wat op dieselfde stelsel loop om data heen en weer te stuur.
 
@@ -25,23 +25,23 @@ Die primêre voordele van XPC sluit in:
 
 1. **Sekuriteit**: Deur werk in verskillende prosesse te skei, kan elke proses slegs die regte toegeken word wat dit nodig het. Dit beteken dat selfs al word 'n proses gecompromitteer, dit beperkte vermoë het om skade aan te rig.
 2. **Stabiliteit**: XPC help om crashes te isoleer na die komponent waar hulle voorkom. As 'n proses crash, kan dit herbegin word sonder om die res van die stelsel te beïnvloed.
-3. **Prestasie**: XPC maak dit maklik om gelijktijdigheid te hê, aangesien verskillende take gelyktydig in verskillende prosesse uitgevoer kan word.
+3. **Prestasie**: XPC maak dit maklik om gelyktydigheid te hê, aangesien verskillende take gelyktydig in verskillende prosesse uitgevoer kan word.
 
-Die enigste **nadeel** is dat **die skeiding van 'n toepassing in verskeie prosesse** wat via XPC kommunikeer **minder doeltreffend** is. Maar in vandag se stelsels is dit amper nie opmerklik nie en die voordele is beter.
+Die enigste **nadeel** is dat **om 'n toepassing in verskeie prosesse te skei** wat via XPC kommunikeer **minder doeltreffend** is. Maar in vandag se stelsels is dit amper nie opmerklik nie en die voordele is beter.
 
-## Application Specific XPC services
+## Toepassing Spesifieke XPC dienste
 
-Die XPC-komponente van 'n toepassing is **binne die toepassing self.** Byvoorbeeld, in Safari kan jy hulle vind in **`/Applications/Safari.app/Contents/XPCServices`**. Hulle het 'n uitbreiding **`.xpc`** (soos **`com.apple.Safari.SandboxBroker.xpc`**) en is **ook bundels** saam met die hoof-binary binne-in: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` en 'n `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+Die XPC-komponente van 'n toepassing is **binne die toepassing self.** Byvoorbeeld, in Safari kan jy hulle vind in **`/Applications/Safari.app/Contents/XPCServices`**. Hulle het 'n uitbreiding **`.xpc`** (soos **`com.apple.Safari.SandboxBroker.xpc`**) en is **ook bundels** saam met die hoof-binary binne dit: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` en 'n `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Soos jy dalk dink, sal 'n **XPC-komponent verskillende regte en voorregte hê** as die ander XPC-komponente of die hoof-toepassing binary. BEHALWE as 'n XPC-diens geconfigureer is met [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) wat op “True” in sy **Info.plist**-lêer gestel is. In hierdie geval sal die XPC-diens in die **dieselfde sekuriteitsessie as die toepassing** wat dit aangeroep het, loop.
+Soos jy dalk dink, sal 'n **XPC-komponent verskillende regte en voorregte hê** as die ander XPC-komponente of die hoof-app binary. BEHALWE as 'n XPC-diens geconfigureer is met [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) wat op “True” in sy **Info.plist**-lêer gestel is. In hierdie geval sal die XPC-diens in die **dieselfde sekuriteitsessie as die toepassing** wat dit aangeroep het, loop.
 
 XPC-dienste word **gestart** deur **launchd** wanneer nodig en **afgeskakel** sodra alle take **voltooi** is om stelselhulpbronne vry te maak. **Toepassing-spesifieke XPC-komponente kan slegs deur die toepassing gebruik word**, wat die risiko wat met potensiële kwesbaarhede geassosieer word, verminder.
 
-## System Wide XPC services
+## Stelsel Wye XPC dienste
 
 Stelsel-wye XPC-dienste is beskikbaar vir alle gebruikers. Hierdie dienste, hetsy launchd of Mach-tipe, moet **gedefinieer word in plist** lêers wat in gespesifiseerde gidse soos **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, of **`/Library/LaunchAgents`** geleë is.
 
-Hierdie plists lêers sal 'n sleutel hê wat **`MachServices`** genoem word met die naam van die diens, en 'n sleutel wat **`Program`** genoem word met die pad na die binary:
+Hierdie plists lêers sal 'n sleutel genaamd **`MachServices`** met die naam van die diens hê, en 'n sleutel genaamd **`Program`** met die pad na die binary:
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -85,7 +85,7 @@ Elke XPC boodskap is 'n woordeboek objek wat die serialisering en deserialiserin
 Boonop kan die funksie `xpc_copy_description(object)` gebruik word om 'n string voorstelling van die objek te verkry wat nuttig kan wees vir foutopsporing.\
 Hierdie objekte het ook 'n paar metodes om te bel soos `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
 
-Die `xpc_object_t` word geskep deur die `xpc_<objetType>_create` funksie aan te roep, wat intern `_xpc_base_create(Class, Size)` aanroep waar die tipe van die klas van die objek (een van `XPC_TYPE_*`) en die grootte daarvan aangedui word (sommige ekstra 40B sal by die grootte vir metadata gevoeg word). Dit beteken dat die data van die objek by die offset 40B sal begin.\
+Die `xpc_object_t` word geskep deur die `xpc_<objetType>_create` funksie aan te roep, wat intern `_xpc_base_create(Class, Size)` aanroep waar die tipe van die klas van die objek (een van `XPC_TYPE_*`) en die grootte daarvan aangedui word (sommige ekstra 40B sal by die grootte gevoeg word vir metadata). Dit beteken dat die data van die objek by die offset 40B sal begin.\
 Daarom is die `xpc_<objectType>_t` 'n soort subklas van die `xpc_object_t` wat 'n subklas van `os_object_t*` sou wees.
 
 {% hint style="warning" %}
@@ -97,9 +97,9 @@ Let daarop dat dit die ontwikkelaar moet wees wat `xpc_dictionary_[get/set]_<obj
 'n **`xpc_pipe`** is 'n FIFO-pyp wat prosesse kan gebruik om te kommunikeer (die kommunikasie gebruik Mach-boodskappe).\
 Dit is moontlik om 'n XPC-bediener te skep deur `xpc_pipe_create()` of `xpc_pipe_create_from_port()` aan te roep om dit met 'n spesifieke Mach-poort te skep. Dan, om boodskappe te ontvang, is dit moontlik om `xpc_pipe_receive` en `xpc_pipe_try_receive` aan te roep.
 
-Let daarop dat die **`xpc_pipe`** objek 'n **`xpc_object_t`** is met inligting in sy struktuur oor die twee Mach-poorte wat gebruik word en die naam (indien enige). Die naam, byvoorbeeld, die daemon `secinitd` in sy plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` konfigureer die pyp genaamd `com.apple.secinitd`.
+Let daarop dat die **`xpc_pipe`** objek 'n **`xpc_object_t`** is met inligting in sy struktuur oor die twee Mach-poorte wat gebruik word en die naam (indien enige). Die naam, byvoorbeeld, die daemon `secinitd` in sy plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` konfigureer die pyp genoem `com.apple.secinitd`.
 
-'n Voorbeeld van 'n **`xpc_pipe`** is die **bootstrap pyp** wat deur **`launchd`** geskep word wat die deel van Mach-poorte moontlik maak.
+'n Voorbeeld van 'n **`xpc_pipe`** is die **bootstrap pyp** wat deur **`launchd`** geskep is wat die deel van Mach-poorte moontlik maak.
 
 * **`NSXPC*`**
 
@@ -112,12 +112,12 @@ XPC gebruik GCD om boodskappe oor te dra, boonop genereer dit sekere aflewerings
 
 ## XPC Dienste
 
-Dit is **bundels met `.xpc`** uitbreiding wat binne die **`XPCServices`** gids van ander projekte geleë is en in die `Info.plist` het hulle die `CFBundlePackageType` op **`XPC!`** gestel.\
+Dit is **bundels met `.xpc`** uitbreiding geleë binne die **`XPCServices`** gids van ander projekte en in die `Info.plist` het hulle die `CFBundlePackageType` op **`XPC!`** gestel.\
 Hierdie lêer het ander konfigurasiesleutels soos `ServiceType` wat kan wees Toepassing, Gebruiker, Stelsel of `_SandboxProfile` wat 'n sandbox kan definieer of `_AllowedClients` wat moontlik regte of ID kan aandui wat benodig word om die diens te kontak. Hierdie en ander konfigurasie opsies sal nuttig wees om die diens te konfigureer wanneer dit gelaai word.
 
 ### Begin 'n Diens
 
-Die app probeer om te **verbinde** met 'n XPC diens deur `xpc_connection_create_mach_service` te gebruik, dan lokaliseer launchd die daemon en begin **`xpcproxy`**. **`xpcproxy`** afdwing geconfigureerde beperkings en. spawn die diens met die verskafde FDs en Mach-poorte.
+Die app probeer om te **verbinde** met 'n XPC diens deur `xpc_connection_create_mach_service` te gebruik, dan lokaliseer launchd die daemon en begin **`xpcproxy`**. **`xpcproxy`** handhaaf geconfigureerde beperkings en. spawn die diens met die verskafde FDs en Mach-poorte.
 
 Om die spoed van die soektog na die XPC diens te verbeter, word 'n kas gebruik.
 
@@ -125,7 +125,7 @@ Dit is moontlik om die aksies van `xpcproxy` te volg met:
 ```bash
 supraudit S -C -o /tmp/output /dev/auditpipe
 ```
-Die XPC-biblioteek gebruik `kdebug` om aksies te log wat `xpc_ktrace_pid0` en `xpc_ktrace_pid1` aanroep. Die kodes wat dit gebruik is nie gedokumenteer nie, so dit is nodig om dit by `/usr/share/misc/trace.codes` te voeg. Hulle het die voorvoegsel `0x29` en byvoorbeeld een is `0x29000004`: `XPC_serializer_pack`.\
+Die XPC-biblioteek gebruik `kdebug` om aksies te log wat `xpc_ktrace_pid0` en `xpc_ktrace_pid1` aanroep. Die kodes wat dit gebruik is nie gedokumenteer nie, so dit is nodig om hulle by `/usr/share/misc/trace.codes` te voeg. Hulle het die voorvoegsel `0x29` en byvoorbeeld een is `0x29000004`: `XPC_serializer_pack`.\
 Die nut `xpcproxy` gebruik die voorvoegsel `0x22`, byvoorbeeld: `0x2200001c: xpcproxy:will_do_preexec`.
 
 ## XPC Gebeurtenisboodskappe
@@ -468,7 +468,7 @@ Dit is moontlik om inligting oor afstanddienste te verkry met die cli-gereedskap
 /usr/libexec/remotectl [netcat|relay] ... # Expose a service in a port
 ...
 ```
-Die kommunikasie tussen BridgeOS en die gasheer vind plaas deur 'n toegewyde IPv6-koppelvlak. Die `MultiverseSupport.framework` maak dit moontlik om sokkies te vestig waarvan die `fd` gebruik sal word vir kommunikasie.\
+Die kommunikasie tussen BridgeOS en die gasheer vind plaas deur 'n toegewyde IPv6-koppelvlak. Die `MultiverseSupport.framework` maak dit moontlik om sokke te vestig waarvan die `fd` gebruik sal word vir kommunikasie.\
 Dit is moontlik om hierdie kommunikasies te vind met `netstat`, `nettop` of die oopbron opsie, `netbottom`.
 
 {% hint style="success" %}
@@ -479,8 +479,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

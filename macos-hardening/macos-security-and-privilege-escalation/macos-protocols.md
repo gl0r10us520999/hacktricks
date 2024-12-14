@@ -18,7 +18,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 ## Afgeleë Toegang Dienste
 
 Dit is die algemene macOS dienste om hulle afgeleë te benader.\
-Jy kan hierdie dienste aktiveer/deaktiveer in `Stelselsinstellings` --> `Deel`
+Jy kan hierdie dienste in `Stelselsinstellings` --> `Deel`
 
 * **VNC**, bekend as “Skermdeling” (tcp:5900)
 * **SSH**, genoem “Afgeleë Aanmelding” (tcp:22)
@@ -37,38 +37,38 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD) is 'n verbeterde weergawe van [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) wat vir macOS aangepas is, en bied addisionele funksies. 'n Opmerklike kwesbaarheid in ARD is sy outentikasie metode vir die kontrole skerm wagwoord, wat slegs die eerste 8 karakters van die wagwoord gebruik, wat dit geneig maak tot [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) met gereedskap soos Hydra of [GoRedShell](https://github.com/ahhh/GoRedShell/), aangesien daar geen standaard koersbeperkings is nie.
+Apple Remote Desktop (ARD) is 'n verbeterde weergawe van [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) wat vir macOS aangepas is, en bied addisionele funksies. 'n Noemenswaardige kwesbaarheid in ARD is sy outentikasie metode vir die kontrole skerm wagwoord, wat slegs die eerste 8 karakters van die wagwoord gebruik, wat dit geneig maak tot [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) met gereedskap soos Hydra of [GoRedShell](https://github.com/ahhh/GoRedShell/), aangesien daar geen standaard koersbeperkings is nie.
 
 Kwetsbare instansies kan geïdentifiseer word met **nmap**'s `vnc-info` skrip. Dienste wat `VNC Authentication (2)` ondersteun, is veral vatbaar vir brute force attacks weens die 8-karakter wagwoord afkorting.
 
-Om ARD in te skakel vir verskeie administratiewe take soos privilige eskalasie, GUI toegang, of gebruiker monitering, gebruik die volgende opdrag:
+Om ARD in te stel vir verskeie administratiewe take soos privilige eskalasie, GUI toegang, of gebruikersmonitering, gebruik die volgende opdrag:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD bied veelsydige kontrole vlakke, insluitend waaksaamheid, gedeelde beheer, en volle beheer, met sessies wat voortduur selfs na gebruikerswagwoord veranderinge. Dit laat die stuur van Unix-opdragte direk toe, wat as root uitgevoer word vir administratiewe gebruikers. Taakbeplanning en Remote Spotlight soektog is noemenswaardige kenmerke, wat afgeleë, lae-impak soektogte vir sensitiewe lêers oor verskeie masjiene fasiliteer.
+ARD bied veelsydige kontrolevlakke, insluitend waaksaamheid, gedeelde beheer en volle beheer, met sessies wat voortduur selfs na gebruikerswagwoordveranderings. Dit stel gebruikers in staat om Unix-opdragte direk te stuur, en dit as root uit te voer vir administratiewe gebruikers. Taakbeplanning en Remote Spotlight-soektog is noemenswaardige kenmerke, wat afgeleë, lae-impak soektogte na sensitiewe lêers oor verskeie masjiene vergemaklik.
 
 ## Bonjour Protokol
 
-Bonjour, 'n Apple-ontwerpte tegnologie, laat **toestelle op dieselfde netwerk toe om mekaar se aangebied dienste te ontdek**. Ook bekend as Rendezvous, **Zero Configuration**, of Zeroconf, stel dit 'n toestel in staat om by 'n TCP/IP-netwerk aan te sluit, **automaties 'n IP-adres te kies**, en sy dienste aan ander netwerktoestelle te broadcast.
+Bonjour, 'n Apple-ontwerpte tegnologie, stel **toestelle op dieselfde netwerk in staat om mekaar se aangebied dienste te ontdek**. Ook bekend as Rendezvous, **Zero Configuration**, of Zeroconf, stel dit 'n toestel in staat om by 'n TCP/IP-netwerk aan te sluit, **automaties 'n IP-adres te kies**, en sy dienste aan ander netwerktoestelle te broadcast.
 
 Zero Configuration Networking, wat deur Bonjour verskaf word, verseker dat toestelle kan:
 * **Automaties 'n IP-adres verkry** selfs in die afwesigheid van 'n DHCP-bediener.
 * **Naam-naar-adres vertaling** uitvoer sonder om 'n DNS-bediener te vereis.
-* **Dienste** op die netwerk ontdek.
+* **Dienste ontdek** wat op die netwerk beskikbaar is.
 
-Toestelle wat Bonjour gebruik, sal vir hulleself 'n **IP-adres uit die 169.254/16 reeks toewys** en die uniekheid daarvan op die netwerk verifieer. Macs hou 'n routeringstabel inskrywing vir hierdie subnet, wat verifieer kan word via `netstat -rn | grep 169`.
+Toestelle wat Bonjour gebruik, sal vir hulleself 'n **IP-adres uit die 169.254/16 reeks toewys** en die uniekheid daarvan op die netwerk verifieer. Macs hou 'n routeringstabelinvoer vir hierdie subnet, wat verifieer kan word via `netstat -rn | grep 169`.
 
-Vir DNS gebruik Bonjour die **Multicast DNS (mDNS) protokol**. mDNS werk oor **poort 5353/UDP**, wat **standaard DNS-vrae** gebruik maar teiken die **multicast adres 224.0.0.251**. Hierdie benadering verseker dat alle luisterende toestelle op die netwerk die vrae kan ontvang en daarop kan reageer, wat die opdatering van hul rekords fasiliteer.
+Vir DNS gebruik Bonjour die **Multicast DNS (mDNS) protokol**. mDNS werk oor **poort 5353/UDP**, en gebruik **standaard DNS-vrae** maar teiken die **multicast adres 224.0.0.251**. Hierdie benadering verseker dat alle luisterende toestelle op die netwerk die vrae kan ontvang en daarop kan reageer, wat die opdatering van hul rekords vergemaklik.
 
-By die aansluiting by die netwerk, kies elke toestel self 'n naam, wat tipies eindig op **.local**, wat afgelei kan word van die gasheernaam of ewekansig gegenereer kan word.
+By die aansluiting op die netwerk, kies elke toestel self 'n naam, wat tipies eindig op **.local**, wat afgelei kan wees van die gasheernaam of ewekansig gegenereer kan word.
 
-Dienste ontdekking binne die netwerk word gefasiliteer deur **DNS Service Discovery (DNS-SD)**. Deur die formaat van DNS SRV rekords te benut, gebruik DNS-SD **DNS PTR rekords** om die lys van verskeie dienste moontlik te maak. 'n Kliënt wat 'n spesifieke diens soek, sal 'n PTR rekord vir `<Service>.<Domain>` aan vra, en in ruil 'n lys van PTR rekords ontvang wat geformateer is as `<Instance>.<Service>.<Domain>` indien die diens beskikbaar is van verskeie gasheer.
+Dienste ontdekking binne die netwerk word vergemaklik deur **DNS Service Discovery (DNS-SD)**. Deur die formaat van DNS SRV rekords te benut, gebruik DNS-SD **DNS PTR rekords** om die lys van verskeie dienste moontlik te maak. 'n Kliënt wat 'n spesifieke diens soek, sal 'n PTR rekord vir `<Service>.<Domain>` aan vra, en in ruil 'n lys van PTR rekords ontvang wat geformateer is as `<Instance>.<Service>.<Domain>` indien die diens beskikbaar is vanaf verskeie gasheer.
 
-Die `dns-sd` nut kan gebruik word vir **ontdekking en advertering van netwerkdienste**. Hier is 'n paar voorbeelde van sy gebruik:
+Die `dns-sd` nut kan gebruik word vir **die ontdekking en advertering van netwerkdienste**. Hier is 'n paar voorbeelde van sy gebruik:
 
 ### Soek na SSH Dienste
 
-Om na SSH dienste op die netwerk te soek, word die volgende opdrag gebruik:
+Om na SSH-dienste op die netwerk te soek, word die volgende opdrag gebruik:
 ```bash
 dns-sd -B _ssh._tcp
 ```
@@ -86,9 +86,9 @@ Om dan vir HTTP-dienste op die netwerk te soek:
 ```bash
 dns-sd -B _http._tcp
 ```
-Wanneer 'n diens begin, kondig dit sy beskikbaarheid aan vir alle toestelle op die subnet deur sy teenwoordigheid te multicast. Toestelle wat in hierdie dienste belangstel, hoef nie versoeke te stuur nie, maar luister eenvoudig na hierdie aankondigings.
+Wanneer 'n diens begin, kondig dit sy beskikbaarheid aan alle toestelle op die subnet aan deur sy teenwoordigheid te multicast. Toestelle wat in hierdie dienste belangstel, hoef nie versoeke te stuur nie, maar luister eenvoudig na hierdie aankondigings.
 
-Vir 'n meer gebruikersvriendelike koppelvlak kan die **Discovery - DNS-SD Browser** app beskikbaar op die Apple App Store die dienste wat op jou plaaslike netwerk aangebied word, visualiseer.
+Vir 'n meer gebruikersvriendelike koppelvlak kan die **Discovery - DNS-SD Browser**-aansoek beskikbaar op die Apple App Store die dienste wat op jou plaaslike netwerk aangebied word, visualiseer.
 
 Alternatiewelik kan pasgemaakte skripte geskryf word om dienste te blaai en te ontdek met behulp van die `python-zeroconf` biblioteek. Die [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) skrip demonstreer die skep van 'n diensblaaier vir `_http._tcp.local.` dienste, wat bygevoegde of verwyderde dienste druk:
 ```python
@@ -130,7 +130,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**intekening planne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

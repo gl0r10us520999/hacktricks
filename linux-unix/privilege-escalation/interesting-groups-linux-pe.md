@@ -15,7 +15,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskapstoestelle.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
@@ -40,7 +40,7 @@ sudo su
 ```
 ## PE - Metode 2
 
-Vind alle suid binaire en kyk of daar die binaire **Pkexec** is:
+Vind alle suid binêre en kyk of daar die binêre **Pkexec** is:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
@@ -49,7 +49,7 @@ Kontroleer die inhoud van:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Daar sal jy vind watter groepe toegelaat word om **pkexec** uit te voer en **per standaard** kan sommige van die groepe **sudo of admin** in linux **verskyn**.
+Daar sal jy vind watter groepe toegelaat word om **pkexec** uit te voer en **per standaard** kan sommige linux **verskyn** as een van die groepe **sudo of admin**.
 
 Om **root te word kan jy uitvoer**:
 ```bash
@@ -78,7 +78,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 {% endcode %}
 
-# Wheel Group
+# Wielgroep
 
 **Soms**, **per standaard** binne die **/etc/sudoers** lêer kan jy hierdie lyn vind:
 ```text
@@ -90,9 +90,9 @@ As dit die geval is, om **root te word kan jy net uitvoer**:
 ```text
 sudo su
 ```
-# Shadow Group
+# Shadow Groep
 
-Users from the **group shadow** can **read** the **/etc/shadow** file:
+Gebruikers van die **groep shadow** kan **lees** die **/etc/shadow** lêer:
 ```text
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
@@ -115,7 +115,7 @@ Let daarop dat jy met debugfs ook **lêers kan skryf**. Byvoorbeeld, om `/tmp/as
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-However, if you try to **write files owned by root** \(like `/etc/shadow` or `/etc/passwd`\) you will have a "**Toegang geweier**" error.
+However, if you try to **write files owned by root** \(like `/etc/shadow` or `/etc/passwd`\) you will have a "**Permission denied**" error.
 
 # Video Groep
 
@@ -125,14 +125,14 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-Die **tty1** beteken dat die gebruiker **yossi fisies ingelogde** is op 'n terminal op die masjien.
+Die **tty1** beteken dat die gebruiker **yossi fisies aan 'n terminal op die masjien ingelog** is.
 
-Die **video groep** het toegang om die skermuitset te sien. Basies kan jy die skerms observeer. Om dit te doen, moet jy die **huidige beeld op die skerm** in rou data gryp en die resolusie wat die skerm gebruik, kry. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm op `/sys/class/graphics/fb0/virtual_size` vind.
+Die **video-groep** het toegang om die skermuitset te sien. Basies kan jy die skerms observeer. Om dit te doen, moet jy die **huidige beeld op die skerm** in rou data gryp en die resolusie wat die skerm gebruik, kry. Die skermdata kan in `/dev/fb0` gestoor word en jy kan die resolusie van hierdie skerm op `/sys/class/graphics/fb0/virtual_size` vind.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Om die **rauwe beeld** te **open**, kan jy **GIMP** gebruik, kies die **`screen.raw`** lêer en kies as lêertipe **Raw image data**:
+Om die **rauwe beeld** te **open**, kan jy **GIMP** gebruik, die **`screen.raw`** lêer kies en as lêertipe **Raw image data** kies:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
@@ -164,7 +164,7 @@ Jy kan die wortel lêer stelsel van die gasheer masjien aan 'n instansie se volu
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Vandag Toegang:
+Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 

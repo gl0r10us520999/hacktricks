@@ -8,8 +8,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -46,7 +46,7 @@ printf("Hello, World!\n");
 return 0;
 }
 ```
-Injection:
+Inspuiting:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-So, dit is moontlik om dit te kaap! Skep 'n biblioteek wat **enige willekeurige kode uitvoer en dieselfde funksies as die wettige biblioteek uitvoer deur dit weer te herexporteer**. En onthou om dit te compileer met die verwagte weergawes:
+So, dit is moontlik om dit te kap! Skep 'n biblioteek wat **enige willekeurige kode uitvoer en dieselfde funksionaliteit as die regte biblioteek uitvoer deur dit weer te herexporteer**. En onthou om dit te compileer met die verwagte weergawes:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -118,7 +118,7 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-Kompile dit:
+Kompileer dit:
 
 {% code overflow="wrap" %}
 ```bash
@@ -159,7 +159,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 En **voer** die binêre uit en kyk of die **biblioteek gelaai is**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib gehuistak in /Applications/VulnDyld.app/Contents/Resources/lib/binary
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib gehuig in /Applications/VulnDyld.app/Contents/Resources/lib/binary
 </strong>Gebruik: [...]
 </code></pre>
 

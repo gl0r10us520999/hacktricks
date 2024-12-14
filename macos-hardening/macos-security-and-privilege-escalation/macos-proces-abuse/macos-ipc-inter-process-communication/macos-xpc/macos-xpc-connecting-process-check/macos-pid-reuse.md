@@ -17,21 +17,21 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## PID Hergebruik
 
-Wanneer 'n macOS **XPC diens** die aangeroep proses nagaan op grond van die **PID** en nie op die **audit token** nie, is dit kwesbaar vir 'n PID hergebruik aanval. Hierdie aanval is gebaseer op 'n **wedren toestand** waar 'n **ontploffing** **boodskappe na die XPC** diens **misbruik** van die funksionaliteit gaan **stuur** en net **na** dit, **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** met die **toegelate** binêre uitvoer.
+Wanneer 'n macOS **XPC diens** die aangeroep proses op grond van die **PID** nagaan en nie op die **audit token** nie, is dit kwesbaar vir 'n PID hergebruik aanval. Hierdie aanval is gebaseer op 'n **wedren toestand** waar 'n **ontploffing** **boodskappe na die XPC** diens **misbruik** van die funksionaliteit gaan **stuur** en net **na** dit, **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** met die **toegelate** binêre uitvoer.
 
-Hierdie funksie sal die **toegelate binêre die PID** laat besit, maar die **kwaadwillige XPC boodskap sou net voorheen gestuur gewees het**. So, as die **XPC** diens die **PID** gebruik om die sender te **verifieer** en dit **NÁ** die uitvoering van **`posix_spawn`** nagaan, sal dit dink dit kom van 'n **geautoriseerde** proses.
+Hierdie funksie sal die **toegelate binêre die PID** laat besit, maar die **kwaadwillige XPC boodskap sou net voorheen gestuur gewees het**. So, as die **XPC** diens die **PID** gebruik om die sender te **verifieer** en dit **NA** die uitvoering van **`posix_spawn`** nagaan, sal dit dink dit kom van 'n **geautoriseerde** proses.
 
 ### Ontploffing voorbeeld
 
-As jy die funksie **`shouldAcceptNewConnection`** of 'n funksie wat deur dit **aangeroep** word **`processIdentifier`** en nie **`auditToken`** aanroep nie, vind. Dit beteken hoogs waarskynlik dat dit die **proses PID** nagaan en nie die audit token nie.\
+As jy die funksie **`shouldAcceptNewConnection`** of 'n funksie wat deur dit aangeroep word **vind** wat **`processIdentifier`** aanroep en nie **`auditToken`** aanroep nie. Dit beteken hoogs waarskynlik dat dit die **proses PID** nagaan en nie die audit token nie.\
 Soos byvoorbeeld in hierdie beeld (geneem van die verwysing):
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
 Kyk na hierdie voorbeeld ontploffing (weer, geneem van die verwysing) om die 2 dele van die ontploffing te sien:
 
-* Een wat **verskeie vurkies genereer**
-* **Elke vurk** sal die **payload** na die XPC diens stuur terwyl dit **`posix_spawn`** net na die boodskap stuur.
+* Een wat **verskeie forks genereer**
+* **Elke fork** sal die **payload** na die XPC diens stuur terwyl dit **`posix_spawn`** net na die boodskap stuur.
 
 {% hint style="danger" %}
 Vir die ontploffing om te werk is dit belangrik om ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** of om binne die ontploffing te plaas:
@@ -306,8 +306,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

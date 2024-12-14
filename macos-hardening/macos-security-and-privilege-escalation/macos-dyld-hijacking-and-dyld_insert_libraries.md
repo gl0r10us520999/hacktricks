@@ -17,7 +17,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## DYLD\_INSERT\_LIBRARIES Basiese voorbeeld
 
-**Biblioteek om in te voeg** om 'n shell uit te voer:
+**Biblioteek om in te spuit** om 'n shell uit te voer:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -46,7 +46,7 @@ printf("Hello, World!\n");
 return 0;
 }
 ```
-Injection:
+Inspuiting:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```

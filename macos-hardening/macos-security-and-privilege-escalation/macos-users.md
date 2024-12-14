@@ -42,7 +42,7 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ## Eksterne Rekeninge
 
 MacOS ondersteun ook om in te log via eksterne identiteitsverskaffers soos FaceBook, Google... Die hoof daemon wat hierdie werk uitvoer is `accountsd` (`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`) en dit is moontlik om plugins wat vir eksterne autentisering gebruik word, binne die gids `/System/Library/Accounts/Authentication/` te vind.\
-Boonop kry `accountsd` die lys van rekeningsoorte van `/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`.
+Boonop kry `accountsd` die lys van rekening tipes van `/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

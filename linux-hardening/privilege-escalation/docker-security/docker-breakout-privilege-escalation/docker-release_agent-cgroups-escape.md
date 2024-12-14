@@ -40,15 +40,15 @@ mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
-3. **Konfigureer die Vrylating Agent:**
+3. **Konfigureer die Release Agent:**
 * Die pad van die houer op die gasheer word verkry uit die /etc/mtab-lêer.
-* Die release\_agent-lêer van die cgroup word dan gekonfigureer om 'n skrif met die naam /cmd uit te voer wat op die verkryde gasheerpad geleë is.
+* Die release\_agent-lêer van die cgroup word dan gekonfigureer om 'n skrif genaamd /cmd wat op die verkryde gasheerpad geleë is, uit te voer.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
 4. **Skep en Konfigureer die /cmd Skrip:**
-* Die /cmd skrip word binne die houer geskep en is geconfigureer om ps aux uit te voer, terwyl die uitvoer na 'n lêer met die naam /output in die houer herlei word. Die volle pad van /output op die gasheer word gespesifiseer.
+* Die /cmd skrip word binne die houer geskep en is geconfigureer om ps aux uit te voer, wat die uitvoer na 'n lêer met die naam /output in die houer herlei. Die volle pad van /output op die gasheer word gespesifiseer.
 ```shell
 echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd
