@@ -19,13 +19,13 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## **Sertifikalar ile Aktif Kullanıcı Kimlik Bilgisi Hırsızlığını Anlamak – PERSIST1**
 
-Bir kullanıcının alan kimlik doğrulamasına izin veren bir sertifika talep edebileceği bir senaryoda, bir saldırganın bu sertifikayı **talep etme** ve **çalma** fırsatı vardır; bu da bir ağda **sürekliliği sağlamak** için kullanılır. Varsayılan olarak, Active Directory'deki `User` şablonu bu tür taleplere izin verir, ancak bazen devre dışı bırakılabilir.
+Bir kullanıcının alan kimlik doğrulamasına izin veren bir sertifika talep edebileceği bir senaryoda, bir saldırganın bu sertifikayı **talep etme** ve **çalma** fırsatı vardır, böylece bir ağda **sürekliliği sağlama** imkanı bulur. Varsayılan olarak, Active Directory'deki `User` şablonu bu tür taleplere izin verir, ancak bazen devre dışı bırakılabilir.
 
 [**Certify**](https://github.com/GhostPack/Certify) adlı bir araç kullanarak, sürekli erişimi sağlayan geçerli sertifikaları aramak mümkündür:
 ```bash
 Certify.exe find /clientauth
 ```
-Bir sertifikanın gücünün, sertifikanın ait olduğu **kullanıcı olarak kimlik doğrulama** yeteneğinde yattığı vurgulanmaktadır; bu, sertifika **geçerli** kaldığı sürece, herhangi bir şifre değişikliğinden bağımsızdır.
+Bir sertifikanın gücünün, sertifikanın ait olduğu **kullanıcı olarak kimlik doğrulama** yeteneğinde yattığı vurgulanmaktadır; bu, sertifika **geçerli** olduğu sürece, herhangi bir şifre değişikliğinden bağımsızdır.
 
 Sertifikalar, `certmgr.msc` kullanarak grafik arayüz üzerinden veya `certreq.exe` ile komut satırından talep edilebilir. **Certify** ile, bir sertifika talep etme süreci aşağıdaki gibi basitleştirilmiştir:
 ```bash
@@ -35,15 +35,15 @@ Başarılı bir istek üzerine, `.pem` formatında bir sertifika ve ona ait öze
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-`.pfx` dosyası daha sonra bir hedef sisteme yüklenebilir ve kullanıcının Ticket Granting Ticket (TGT) talep etmesi için [**Rubeus**](https://github.com/GhostPack/Rubeus) adlı bir araçla kullanılabilir, saldırganın erişimini sertifika **geçerli** olduğu sürece (genellikle bir yıl) uzatır:
+`.pfx` dosyası daha sonra bir hedef sisteme yüklenebilir ve kullanıcının bir Ticket Granting Ticket (TGT) talep etmesi için [**Rubeus**](https://github.com/GhostPack/Rubeus) adlı bir araçla kullanılabilir, saldırganın erişimini sertifika **geçerli** olduğu sürece (genellikle bir yıl) uzatır:
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
-Önemli bir uyarı, bu tekniğin, **THEFT5** bölümünde belirtilen başka bir yöntemle birleştirildiğinde, bir saldırganın **NTLM hash**'ini sürekli olarak elde etmesine olanak tanıdığı ve Yerel Güvenlik Otoritesi Alt Sistemi Hizmeti (LSASS) ile etkileşime girmeden, yükseltilmemiş bir bağlamdan sağladığı, uzun vadeli kimlik bilgisi hırsızlığı için daha gizli bir yöntem sunduğunu paylaşmaktadır.
+Önemli bir uyarı, bu tekniğin, **THEFT5** bölümünde belirtilen başka bir yöntemle birleştirildiğinde, bir saldırganın Yerel Güvenlik Otoritesi Alt Sistemi Hizmeti (LSASS) ile etkileşime girmeden ve yükseltilmemiş bir bağlamdan bir hesabın **NTLM hash**'ini sürekli olarak elde etmesine olanak tanıdığını paylaşmaktadır. Bu, uzun vadeli kimlik bilgisi hırsızlığı için daha gizli bir yöntem sunar.
 
 ## **Sertifikalar ile Makine Sürekliliği Elde Etme - PERSIST2**
 
-Başka bir yöntem, bir tehlikeye atılmış sistemin makine hesabını bir sertifika için kaydettirmeyi içerir; bu, böyle eylemlere izin veren varsayılan `Machine` şablonunu kullanır. Bir saldırgan bir sistemde yükseltilmiş ayrıcalıklar elde ederse, **SYSTEM** hesabını kullanarak sertifika talep edebilir ve bu da bir tür **süreklilik** sağlar:
+Başka bir yöntem, bir tehlikeye atılmış sistemin makine hesabını bir sertifika için kaydetmektir; bu, böyle eylemlere izin veren varsayılan `Machine` şablonunu kullanır. Bir saldırgan bir sistemde yükseltilmiş ayrıcalıklar elde ederse, **SYSTEM** hesabını kullanarak sertifika talep edebilir ve bu da bir tür **süreklilik** sağlar:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
@@ -53,4 +53,4 @@ Bu erişim, saldırgana makine hesabı olarak **Kerberos**'a kimlik doğrulama y
 
 Son yöntem, sertifika şablonlarının **geçerlilik** ve **yenileme sürelerini** kullanmayı içerir. Bir sertifikayı süresi dolmadan önce **yenileyerek**, bir saldırgan, Sertifika Otoritesi (CA) sunucusunda iz bırakabilecek ek bilet kaydı gereksinimi olmadan Active Directory'ye kimlik doğrulamasını sürdürebilir.
 
-Bu yaklaşım, CA sunucusuyla daha az etkileşimle tespit edilme riskini en aza indirerek ve yöneticileri saldırıya karşı uyaran artefaktların üretilmesini önleyerek **uzatılmış kalıcılık** yöntemi sağlar.
+Bu yaklaşım, CA sunucusuyla daha az etkileşimle tespit edilme riskini en aza indirerek ve yöneticileri ihlale dair uyaran nesnelerin üretilmesini önleyerek **uzatılmış kalıcılık** yöntemi sağlar.

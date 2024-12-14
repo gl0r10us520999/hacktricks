@@ -1,16 +1,16 @@
 # SmbExec/ScExec
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
@@ -29,9 +29,9 @@ smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
 ### Binaries Olmadan Komut Çalıştırma
 
-- **Smbexec**, hedefte fiziksel binary'lere ihtiyaç duymadan, hizmet binPath'leri aracılığıyla doğrudan komut yürütmeyi sağlar.
-- Bu yöntem, bir Windows hedefinde tek seferlik komutlar yürütmek için faydalıdır. Örneğin, Metasploit'in `web_delivery` modülü ile eşleştirildiğinde, PowerShell hedefli ters Meterpreter yükünü çalıştırmak mümkündür.
-- Saldırganın makinesinde binPath'i cmd.exe aracılığıyla sağlanan komutu çalıştıracak şekilde ayarlayarak uzaktan bir hizmet oluşturmak, yükü başarıyla çalıştırmak ve Metasploit dinleyicisi ile geri çağırma ve yük yürütme sağlamak mümkündür; bu, hizmet yanıt hataları olsa bile geçerlidir.
+- **Smbexec**, hedefte fiziksel binary'lere ihtiyaç duymadan, hizmet binPath'leri aracılığıyla doğrudan komut çalıştırmayı sağlar.
+- Bu yöntem, bir Windows hedefinde tek seferlik komutlar çalıştırmak için faydalıdır. Örneğin, Metasploit'in `web_delivery` modülü ile birleştirildiğinde, PowerShell hedefli ters Meterpreter yükünün çalıştırılmasını sağlar.
+- Saldırganın makinesinde binPath'i cmd.exe aracılığıyla sağlanan komutu çalıştıracak şekilde ayarlayarak uzaktan bir hizmet oluşturmak, yükü başarıyla çalıştırmak ve Metasploit dinleyicisi ile geri çağırma ve yük çalıştırma elde etmek mümkündür; bu, hizmet yanıt hataları olsa bile gerçekleşir.
 
 ### Komutlar Örneği
 

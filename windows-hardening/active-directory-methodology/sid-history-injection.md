@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## SID History Injection Attack
 
-**SID History Injection Attack**'ın odak noktası, **kullanıcıların alanlar arasında taşınmasına** yardımcı olmak ve eski alanın kaynaklarına erişimi sürdürmektir. Bu, kullanıcının önceki Güvenlik Tanımlayıcısını (SID) yeni hesabının SID Geçmişine **ekleyerek** gerçekleştirilir. Özellikle, bu süreç, ana alanın yüksek ayrıcalıklı bir grubunun (örneğin, Enterprise Admins veya Domain Admins) SID'sini SID Geçmişine ekleyerek yetkisiz erişim sağlamak için manipüle edilebilir. Bu istismar, ana alandaki tüm kaynaklara erişim sağlar.
+**SID History Injection Attack**'ın odak noktası, **kullanıcıların alanlar arasında taşınmasına** yardımcı olmak ve eski alan kaynaklarına erişimi sürdürmektir. Bu, kullanıcının önceki Güvenlik Tanımlayıcısının (SID) yeni hesabının SID Geçmişine **eklenmesiyle** gerçekleştirilir. Özellikle, bu süreç, ana alanın yüksek ayrıcalıklı bir grubunun (örneğin, Enterprise Admins veya Domain Admins) SID'sini SID Geçmişine ekleyerek yetkisiz erişim sağlamak için manipüle edilebilir. Bu istismar, ana alandaki tüm kaynaklara erişim sağlar.
 
 Bu saldırıyı gerçekleştirmek için iki yöntem vardır: ya bir **Golden Ticket** ya da bir **Diamond Ticket** oluşturmak.
 
-**"Enterprise Admins"** grubunun SID'sini belirlemek için önce kök alanın SID'sini bulmak gerekir. Tanımlamanın ardından, Enterprise Admins grubunun SID'si kök alanın SID'sine `-519` eklenerek oluşturulabilir. Örneğin, kök alan SID'si `S-1-5-21-280534878-1496970234-700767426` ise, "Enterprise Admins" grubunun sonuçta elde edilen SID'si `S-1-5-21-280534878-1496970234-700767426-519` olacaktır.
+**"Enterprise Admins"** grubunun SID'sini belirlemek için önce kök alanın SID'si bulunmalıdır. Tanımlamanın ardından, Enterprise Admins grup SID'si kök alanın SID'sine `-519` eklenerek oluşturulabilir. Örneğin, kök alan SID'si `S-1-5-21-280534878-1496970234-700767426` ise, "Enterprise Admins" grubunun sonuçta elde edilen SID'si `S-1-5-21-280534878-1496970234-700767426-519` olacaktır.
 
 Ayrıca **Domain Admins** gruplarını da kullanabilirsiniz, bu gruplar **512** ile biter.
 
@@ -153,15 +153,15 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

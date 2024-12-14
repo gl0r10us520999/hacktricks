@@ -1,25 +1,25 @@
-# Dış Orman Alanı - Tek Yönlü (Çıkış)
+# External Forest Domain - One-Way (Outbound)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-Bu senaryoda **alanınız** bazı **yetkileri** **farklı alanlardan** bir **prensipe** **güvenmektedir**.
+Bu senaryoda **domaininiz** bazı **yetkileri** **farklı domainlerden** bir **prensipe** **güvenmektedir**.
 
-## Sayım
+## Enumeration
 
-### Çıkış Güveni
+### Outbound Trust
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -43,9 +43,9 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Trust Account Attack
 
-İki alan arasında bir güven ilişkisi kurulduğunda, burada alan **A** ve alan **B** olarak tanımlanan bir güvenlik açığı mevcuttur; alan **B**, alan **A**'ya güvenini genişletir. Bu yapılandırmada, alan **B** için alan **A**'da özel bir hesap oluşturulur ve bu hesap, iki alan arasındaki kimlik doğrulama sürecinde kritik bir rol oynar. Alan **B** ile ilişkilendirilen bu hesap, alanlar arasında hizmetlere erişim için biletleri şifrelemek amacıyla kullanılır.
+İki alan arasında bir güven ilişkisi kurulduğunda, burada alan **A** ve alan **B** olarak tanımlanan, alan **B**'nin alan **A**'ya güvenini genişlettiği durumlarda bir güvenlik açığı vardır. Bu yapılandırmada, alan **B** için alan **A**'da özel bir hesap oluşturulur; bu hesap, iki alan arasındaki kimlik doğrulama sürecinde kritik bir rol oynar. Alan **B** ile ilişkilendirilen bu hesap, alanlar arasında hizmetlere erişim için biletleri şifrelemek amacıyla kullanılır.
 
-Burada anlaşılması gereken kritik nokta, bu özel hesabın şifresi ve hash'inin, alan **A**'daki bir Alan Denetleyicisinden bir komut satırı aracı kullanılarak çıkarılabileceğidir. Bu işlemi gerçekleştirmek için kullanılan komut:
+Burada anlaşılması gereken kritik nokta, bu özel hesabın şifresinin ve hash'inin alan **A**'daki bir Alan Denetleyicisinden bir komut satırı aracı kullanılarak çıkarılabileceğidir. Bu işlemi gerçekleştirmek için kullanılan komut şudur:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
@@ -53,7 +53,7 @@ Bu çıkarım, adının ardından bir **$** ile tanımlanan hesabın aktif olmas
 
 **Uyarı:** Bu durumu, sınırlı izinlerle de olsa bir kullanıcı olarak **A** alanında bir yer edinmek için kullanmak mümkündür. Ancak, bu erişim **A** alanında numaralandırma yapmak için yeterlidir.
 
-`ext.local` güvenen alan ve `root.local` güvenilen alan olduğunda, `root.local` içinde `EXT$` adında bir kullanıcı hesabı oluşturulacaktır. Belirli araçlar aracılığıyla, Kerberos güven anahtarlarını dökerek `root.local` içindeki `EXT$` kimlik bilgilerini açığa çıkarmak mümkündür. Bunu başarmak için kullanılan komut:
+`ext.local` güvenen alan ve `root.local` güvenilen alan olduğunda, `root.local` içinde `EXT$` adında bir kullanıcı hesabı oluşturulacaktır. Belirli araçlar aracılığıyla, Kerberos güven anahtarlarını dökerek `root.local` içindeki `EXT$` kimlik bilgilerini açığa çıkarmak mümkündür. Bunu başarmak için kullanılan komut şudur:
 ```bash
 lsadump::trust /patch
 ```
@@ -73,9 +73,9 @@ Açık metin parolası, mimikatz'tan alınan \[ CLEAR ] çıktısını onaltıl�
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Bazen bir güven ilişkisi oluşturulurken, kullanıcı tarafından güven için bir parola girilmesi gerekir. Bu gösterimde, anahtar orijinal güven ilişkisi parolasıdır ve dolayısıyla insan tarafından okunabilir. Anahtar döngüye girdiğinde (30 gün), açık metin insan tarafından okunabilir olmayacak ancak teknik olarak hala kullanılabilir.
+Bazen bir güven ilişkisi oluşturulurken, kullanıcı tarafından güven için bir parola girilmesi gerekir. Bu gösterimde, anahtar orijinal güven ilişkisi parolasıdır ve dolayısıyla insan tarafından okunabilir. Anahtar döngüye girdiğinde (30 gün), açık metin insan tarafından okunabilir olmayacak ama teknik olarak yine de kullanılabilir.
 
-Açık metin parolası, güven hesabı olarak normal kimlik doğrulama gerçekleştirmek için kullanılabilir; bu, güven hesabının Kerberos gizli anahtarını kullanarak bir TGT talep etmenin bir alternatifidir. Burada, ext.local'dan Domain Admins üyeleri için root.local sorgulanıyor:
+Açık metin parolası, güven hesabı olarak normal kimlik doğrulama gerçekleştirmek için kullanılabilir; bu, güven hesabının Kerberos gizli anahtarını kullanarak bir TGT talep etmenin bir alternatifidir. Burada, ext.local'dan root.local'a Domain Admins üyeleri için sorgulama yapılmaktadır:
 
 ![](<../../.gitbook/assets/image (792).png>)
 

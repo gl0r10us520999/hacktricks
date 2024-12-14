@@ -22,12 +22,12 @@ GCP Hacking öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.png
 
 ![](<../../.gitbook/assets/image (762).png>)
 
-Bu araç, bir programın belleğinde **bir değerin** (genellikle bir sayı) **nerede saklandığını bulmak için çok yararlıdır**.\
-**Genellikle sayılar** **4bayt** formatında saklanır, ancak bunları **double** veya **float** formatlarında da bulabilirsiniz veya **bir sayıdan farklı bir şey** aramak isteyebilirsiniz. Bu nedenle, neyi **arama** yapmak istediğinizi **seçtiğinizden** emin olmalısınız:
+Bu araç, bir programın belleğinde **bir değerin** (genellikle bir sayı) **nerede saklandığını bulmak için çok yararlıdır.**\
+**Genellikle sayılar** **4bayt** formatında saklanır, ancak bunları **double** veya **float** formatlarında da bulabilirsiniz veya **bir sayıdan farklı bir şey** aramak isteyebilirsiniz. Bu nedenle, neyi **arama** istediğinizi **seçtiğinizden** emin olmalısınız:
 
 ![](<../../.gitbook/assets/image (324).png>)
 
-Ayrıca **farklı** türde **arama** seçenekleri belirtebilirsiniz:
+Ayrıca **farklı** türde **aramalar** belirtebilirsiniz:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
@@ -55,30 +55,30 @@ Ve son olarak, bellekteki değişikliği gerçekleştirmek için **onay kutusunu
 
 ## Değeri Arama
 
-Öyleyse, önemli bir değerin (kullanıcınızın hayatı gibi) olduğunu ve bu değeri bellekte geliştirmek istediğinizi varsayalım.
+Öyleyse, geliştirmek istediğiniz önemli bir değer (kullanıcınızın hayatı gibi) olduğunu varsayıyoruz ve bu değeri bellek içinde arıyorsunuz.
 
-### Bilinen bir değişim yoluyla
+### Bilinen bir değişim aracılığıyla
 
 100 değerini aradığınızı varsayalım, bu değeri aramak için bir **tarama** yapıyorsunuz ve birçok eşleşme buluyorsunuz:
 
 ![](<../../.gitbook/assets/image (108).png>)
 
-Sonra, **değerin değişmesini** sağlayacak bir şey yapıyorsunuz ve oyunu **durdurup** **bir sonraki taramayı** yapıyorsunuz:
+Sonra, **değerin değişmesi için** bir şey yapıyorsunuz ve oyunu **durdurup** **bir sonraki taramayı** yapıyorsunuz:
 
 ![](<../../.gitbook/assets/image (684).png>)
 
 Cheat Engine, **100'den yeni değere** geçen **değerleri** arayacaktır. Tebrikler, aradığınız değerin **adresini buldunuz**, şimdi onu değiştirebilirsiniz.\
-Eğer hala birkaç değer varsa, o değeri tekrar değiştirmek için bir şey yapın ve adresleri filtrelemek için bir başka "sonraki tarama" gerçekleştirin.
+_**Eğer hala birkaç değer varsa, o değeri tekrar değiştirmek için bir şey yapın ve adresleri filtrelemek için bir başka "sonraki tarama" yapın.**_
 
 ### Bilinmeyen Değer, bilinen değişim
 
-Değeri **bilmiyorsanız** ama **değişmesini nasıl sağlayacağınızı** biliyorsanız (ve hatta değişim değerini) numaranızı arayabilirsiniz.
+**Değeri bilmediğiniz** ancak **değişmesini nasıl sağlayacağınızı** (ve hatta değişimin değerini) bildiğiniz senaryoda, numaranızı arayabilirsiniz.
 
 Öyleyse, "**Bilinmeyen başlangıç değeri**" türünde bir tarama yaparak başlayın:
 
 ![](<../../.gitbook/assets/image (890).png>)
 
-Sonra, değerin değişmesini sağlayın, **değerin nasıl değiştiğini** belirtin (benim durumumda 1 azaldı) ve **bir sonraki taramayı** gerçekleştirin:
+Sonra, değerin değişmesini sağlayın, **değerin nasıl değiştiğini** belirtin (benim durumumda 1 azaldı) ve bir **sonraki tarama** yapın:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
@@ -94,7 +94,7 @@ Birçok **mümkün değişim** olduğunu ve sonuçları filtrelemek için bu **a
 
 ### Rastgele Bellek Adresi - Kodu Bulma
 
-Şimdiye kadar bir değeri saklayan bir adres bulmayı öğrendik, ancak **oyunun farklı çalıştırmalarında bu adresin bellekte farklı yerlerde olma olasılığı yüksektir**. Bu nedenle, bu adresi her zaman nasıl bulacağımızı öğrenelim.
+Şimdiye kadar bir değeri saklayan bir adres bulmayı öğrendik, ancak **oyunun farklı çalıştırmalarında bu adresin bellekte farklı yerlerde olma olasılığı yüksektir.** Bu nedenle, bu adresi her zaman nasıl bulacağımızı öğrenelim.
 
 Bahsedilen bazı ipuçlarını kullanarak, mevcut oyunun önemli değeri sakladığı adresi bulun. Sonra (isterseniz oyunu durdurarak) bulunan **adrese sağ tıklayın** ve "**Bu adrese neyin eriştiğini bul**" veya "**Bu adrese neyin yazdığını bul**" seçeneğini seçin:
 
@@ -123,8 +123,8 @@ Sonra, **"\[]"** arasındaki hex değerini aramak için yeni bir tarama yapın (
 
 ![](<../../.gitbook/assets/image (994).png>)
 
-(_Birden fazla görünüyorsa genellikle en küçük adresi almanız gerekir_)\
-Artık **ilgilendiğimiz değeri değiştirecek pointer'ı bulduk**.
+(_Birden fazla görünüyorsa genellikle en küçük adres olanı almanız gerekir_)\
+Artık **ilgilendiğimiz değeri değiştirecek pointer'ı bulduk.**
 
 "**Adresi Manuel Olarak Ekle**" seçeneğine tıklayın:
 
@@ -144,18 +144,18 @@ Artık, o değeri her değiştirdiğinizde, **değerin bulunduğu bellek adresi 
 
 ### Kod Enjeksiyonu
 
-Kod enjeksiyonu, hedef işleme bir kod parçası enjekte etme ve ardından kodun yürütülmesini kendi yazdığınız koddan geçirecek şekilde yönlendirme tekniğidir (örneğin, size puan vermek yerine puanları azaltmak).
+Kod enjeksiyonu, hedef işleme bir kod parçası enjekte ettiğiniz ve ardından kodun yürütülmesini kendi yazdığınız koddan geçecek şekilde yönlendirdiğiniz bir tekniktir (örneğin, size puan vermek yerine puanınızı azaltmak).
 
 Öyleyse, oyuncunuzun hayatından 1 çıkaran adresi bulduğunuzu hayal edin:
 
 ![](<../../.gitbook/assets/image (203).png>)
 
-**Ayrıştırıcı kodu** almak için "Ayrıştırıcıyı Göster" seçeneğine tıklayın.\
-Sonra, **CTRL+a** tuşlarına basarak Otomatik derleme penceresini açın ve _**Şablon --> Kod Enjeksiyonu**_ seçeneğini seçin:
+**Dizilimi göster** seçeneğine tıklayarak **dizilimi alın**.\
+Sonra, **CTRL+a** tuşlarına basarak Otomatik dizilim penceresini açın ve _**Şablon --> Kod Enjeksiyonu**_ seçeneğini seçin:
 
 ![](<../../.gitbook/assets/image (902).png>)
 
-Değiştirmek istediğiniz **talimatın adresini** doldurun (bu genellikle otomatik olarak doldurulur):
+**Değiştirmek istediğiniz talimatın adresini** doldurun (bu genellikle otomatik olarak doldurulur):
 
 ![](<../../.gitbook/assets/image (744).png>)
 
@@ -171,19 +171,4 @@ Bir şablon oluşturulacaktır:
 
 ## **Referanslar**
 
-* **Cheat Engine eğitimi, Cheat Engine ile başlamayı öğrenmek için tamamlayın**
-
-{% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>HackTricks'i Destekleyin</summary>
-
-* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
-
-</details>
-{% endhint %}
+* **Cheat Engine eğitimi, Cheat Engine ile nasıl başlayacağınızı öğrenmek için tamamlayın.**

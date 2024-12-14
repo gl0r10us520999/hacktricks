@@ -1,15 +1,15 @@
 # FZ - NFC
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -29,7 +29,7 @@ RFID ve NFC hakkında bilgi için aşağıdaki sayfayı kontrol edin:
 NFC kartlarının yanı sıra Flipper Zero, birkaç **Mifare** Classic ve Ultralight ile **NTAG** gibi **diğer yüksek frekanslı kart türlerini** de destekler.
 {% endhint %}
 
-Yeni NFC kart türleri desteklenen kartlar listesine eklenecektir. Flipper Zero aşağıdaki **NFC kart türü A**'yı (ISO 14443A) destekler:
+Yeni NFC kart türleri desteklenen kartlar listesine eklenecektir. Flipper Zero, aşağıdaki **NFC kart türü A**'yı (ISO 14443A) destekler:
 
 * ﻿**Banka kartları (EMV)** — yalnızca UID, SAK ve ATQA'yı okur, kaydetmez.
 * ﻿**Bilinmeyen kartlar** — (UID, SAK, ATQA) okur ve bir UID'yi taklit eder.
@@ -40,15 +40,15 @@ Yeni NFC kart türleri desteklenen kartlar listesine eklenecektir. Flipper Zero 
 
 #### Banka kartı (EMV) <a href="#kzmrp" id="kzmrp"></a>
 
-Flipper Zero yalnızca UID, SAK, ATQA ve banka kartlarındaki verileri **kaydetmeden** okuyabilir.
+Flipper Zero, banka kartlarında yalnızca UID, SAK, ATQA ve saklanan verileri **kaydetmeden** okuyabilir.
 
-Banka kartı okuma ekranıBanka kartları için Flipper Zero yalnızca verileri **kaydetmeden ve taklit etmeden** okuyabilir.
+Banka kartı okuma ekranıBanka kartları için Flipper Zero, verileri yalnızca **kaydetmeden ve taklit etmeden** okuyabilir.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
 #### Bilinmeyen kartlar <a href="#id-37eo8" id="id-37eo8"></a>
 
-Flipper Zero **NFC kartının türünü belirleyemediğinde**, yalnızca **UID, SAK ve ATQA** okunabilir ve **kaydedilebilir**.
+Flipper Zero, **NFC kartının türünü belirleyemediğinde**, yalnızca **UID, SAK ve ATQA** okunabilir ve **kaydedilebilir**.
 
 Bilinmeyen kart okuma ekranıBilinmeyen NFC kartları için Flipper Zero yalnızca bir UID'yi taklit edebilir.
 
@@ -75,7 +75,7 @@ Flipper Zero **NFC kartlarını okuyabilir**, ancak **ISO 14443'e dayanan tüm p
 Flipper'da 13.56 MHz etiketlerini okuma iki parçaya ayrılabilir:
 
 * **Düşük seviyeli okuma** — yalnızca UID, SAK ve ATQA'yı okur. Flipper, karttan okunan bu veriye dayanarak yüksek seviyeli protokolü tahmin etmeye çalışır. Bununla %100 emin olamazsınız, çünkü bu belirli faktörlere dayanan bir varsayımdır.
-* **Yüksek seviyeli okuma** — belirli bir yüksek seviyeli protokol kullanarak kartın belleğinden verileri okur. Bu, bir Mifare Ultralight üzerindeki verileri okumak, bir Mifare Classic'ten sektörleri okumak veya PayPass/Apple Pay'den kartın özelliklerini okumak anlamına gelir.
+* **Yüksek seviyeli okuma** — kartın belleğinden belirli bir yüksek seviyeli protokol kullanarak verileri okur. Bu, bir Mifare Ultralight'tan veri okumak, bir Mifare Classic'ten sektörleri okumak veya PayPass/Apple Pay'den kartın özelliklerini okumak anlamına gelir.
 
 ### Belirli Okuma
 
@@ -83,23 +83,23 @@ Flipper Zero, düşük seviyeli verilerden kart türünü bulamıyorsa, `Ekstra 
 
 #### EMV Banka Kartları (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
-Sadece UID'yi okumakla kalmayıp, bir banka kartından çok daha fazla veri çıkarabilirsiniz. **Tam kart numarasını** (kartın önündeki 16 haneli numara), **geçerlilik tarihini** ve bazı durumlarda **sahibinin adını** ve **en son işlemlerin** listesini almak mümkündür.\
-Ancak, bu şekilde **CVV'yi okuyamazsınız** (kartın arkasındaki 3 haneli numara). Ayrıca **banka kartları yeniden oynatma saldırılarından korunmaktadır**, bu nedenle Flipper ile kopyalamak ve ardından bir şeyler ödemek için taklit etmeye çalışmak işe yaramayacaktır.
+Sadece UID'yi okumakla kalmayıp, bir banka kartından çok daha fazla veri çıkarabilirsiniz. **Tam kart numarasını** (kartın önündeki 16 rakam), **geçerlilik tarihini** ve bazı durumlarda hatta **sahibinin adını** ve **en son işlemlerin** listesini almak mümkündür.\
+Ancak, bu şekilde **CVV'yi okuyamazsınız** (kartın arkasındaki 3 rakam). Ayrıca **banka kartları yeniden oynatma saldırılarından korunmaktadır**, bu nedenle Flipper ile kopyalayıp ardından bir şeyler ödemek için taklit etmeye çalışmak işe yaramayacaktır.
 
 ## Referanslar
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

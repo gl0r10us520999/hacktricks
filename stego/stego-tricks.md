@@ -19,7 +19,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ### **Binwalk**
 
-Gömülü gizli dosyaları ve verileri aramak için kullanılan bir araçtır. `apt` ile kurulur ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk) üzerinde mevcuttur.
+Gömülü gizli dosyalar ve veriler için ikili dosyaları arayan bir araçtır. `apt` ile kurulur ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk)'ta mevcuttur.
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -63,7 +63,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Karşılaştırma (cmp)**
 
-Çevrimiçi bulunan orijinal versiyonuyla değiştirilmiş bir dosyayı karşılaştırmak için kullanışlıdır.
+Çevrimiçi bulunan orijinal versiyonla değiştirilmiş bir dosyayı karşılaştırmak için kullanışlıdır.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
@@ -71,13 +71,13 @@ cmp original.jpg stego.jpg -b -l
 
 ### **Boşluklardaki Gizli Veriler**
 
-Görünüşte boş olan alanlardaki görünmez karakterler bilgi saklayabilir. Bu verileri çıkarmak için [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder) adresini ziyaret edin.
+Görünüşte boş alanlardaki görünmez karakterler bilgi saklayabilir. Bu verileri çıkarmak için [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder) adresini ziyaret edin.
 
-## **Görüntülerden Veri Çıkarılması**
+## **Görüntülerden Veri Çıkarma**
 
 ### **GraphicMagick ile Görüntü Ayrıntılarını Belirleme**
 
-[GraphicMagick](https://imagemagick.org/script/download.php), görüntü dosya türlerini belirlemek ve olası bozulmaları tanımlamak için kullanılır. Bir görüntüyü incelemek için aşağıdaki komutu çalıştırın:
+[GraphicMagick](https://imagemagick.org/script/download.php), görüntü dosyası türlerini belirlemek ve olası bozulmaları tanımlamak için hizmet eder. Bir görüntüyü incelemek için aşağıdaki komutu çalıştırın:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -131,7 +131,7 @@ Stegpy, PNG, BMP, GIF, WebP ve WAV gibi formatları destekleyerek bilgi gömülm
 
 ### **PNG Dosyası Analizi için Pngcheck**
 
-PNG dosyalarını analiz etmek veya doğruluklarını kontrol etmek için:
+PNG dosyalarını analiz etmek veya doğruluğunu kontrol etmek için:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png

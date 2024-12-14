@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -24,7 +24,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 **Overpass The Hash/Pass The Key (PTK)** saldırısı, geleneksel NTLM protokolünün kısıtlandığı ve Kerberos kimlik doğrulamasının öncelik kazandığı ortamlara yönelik olarak tasarlanmıştır. Bu saldırı, bir kullanıcının NTLM hash'ini veya AES anahtarlarını kullanarak Kerberos biletleri talep eder ve bu sayede bir ağ içindeki kaynaklara yetkisiz erişim sağlar.
 
-Bu saldırıyı gerçekleştirmek için ilk adım, hedef kullanıcının hesabının NTLM hash'ini veya şifresini edinmektir. Bu bilgiyi güvence altına aldıktan sonra, hesabın bir Ticket Granting Ticket (TGT) alması sağlanabilir ve bu da saldırganın kullanıcının izinleri olan hizmetlere veya makinelere erişmesine olanak tanır.
+Bu saldırıyı gerçekleştirmek için ilk adım, hedef kullanıcının hesabının NTLM hash'ini veya şifresini edinmektir. Bu bilgiyi güvence altına aldıktan sonra, hesabın bir Ticket Granting Ticket (TGT) alması sağlanabilir, bu da saldırganın kullanıcının izinlerine sahip olduğu hizmetlere veya makinelere erişmesine olanak tanır.
 
 İşlem, aşağıdaki komutlarla başlatılabilir:
 ```bash

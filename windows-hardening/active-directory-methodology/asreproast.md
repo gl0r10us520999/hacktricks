@@ -9,8 +9,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.p
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
@@ -32,13 +32,13 @@ Bugün [**Discord**](https://discord.com/invite/N3FrSbmwdy) üzerinden bize kat�
 
 ## ASREPRoast
 
-ASREPRoast, **Kerberos ön kimlik doğrulama gerekli niteliği** olmayan kullanıcıları hedef alan bir güvenlik saldırısıdır. Temelde, bu zafiyet, saldırganların kullanıcının şifresine ihtiyaç duymadan Domain Controller (DC) üzerinden bir kullanıcı için kimlik doğrulama talep etmelerine olanak tanır. DC, ardından kullanıcının şifresine dayalı anahtarla şifrelenmiş bir mesajla yanıt verir; saldırganlar bu mesajı çevrimdışı olarak kırmaya çalışarak kullanıcının şifresini keşfetmeye çalışabilirler.
+ASREPRoast, **Kerberos ön kimlik doğrulama gerektiren özellik** eksik olan kullanıcıları hedef alan bir güvenlik saldırısıdır. Temelde, bu zafiyet, saldırganların kullanıcının şifresine ihtiyaç duymadan Domain Controller (DC) üzerinden bir kullanıcı için kimlik doğrulama talep etmelerine olanak tanır. DC, ardından kullanıcının şifresine dayalı anahtarla şifrelenmiş bir mesajla yanıt verir; saldırganlar bu mesajı çevrimdışı olarak kırmaya çalışarak kullanıcının şifresini keşfetmeye çalışabilirler.
 
 Bu saldırı için ana gereksinimler şunlardır:
 
 * **Kerberos ön kimlik doğrulama eksikliği**: Hedef kullanıcıların bu güvenlik özelliği etkin olmamalıdır.
-* **Domain Controller (DC) ile bağlantı**: Saldırganların talepleri göndermek ve şifreli mesajları almak için DC'ye erişimleri olmalıdır.
-* **İsteğe bağlı domain hesabı**: Bir domain hesabına sahip olmak, saldırganların LDAP sorguları aracılığıyla savunmasız kullanıcıları daha verimli bir şekilde tanımlamalarını sağlar. Böyle bir hesap olmadan, saldırganlar kullanıcı adlarını tahmin etmek zorundadır.
+* **Domain Controller (DC) ile bağlantı**: Saldırganların talepleri gönderebilmesi ve şifrelenmiş mesajları alabilmesi için DC'ye erişim sağlaması gerekir.
+* **İsteğe bağlı domain hesabı**: Bir domain hesabına sahip olmak, saldırganların LDAP sorguları aracılığıyla savunmasız kullanıcıları daha verimli bir şekilde tanımlamasını sağlar. Böyle bir hesap olmadan, saldırganlar kullanıcı adlarını tahmin etmek zorundadır.
 
 #### Savunmasız kullanıcıları listeleme (domain kimlik bilgileri gerektirir)
 
@@ -52,8 +52,6 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-{% endcode %}
-
 #### AS\_REP mesajı isteği
 
 {% code title="Linux Kullanarak" %}
@@ -100,7 +98,7 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 ## ASREProast kimlik bilgisi olmadan
 
 Bir saldırgan, Kerberos ön kimlik doğrulamasının devre dışı bırakılmasına güvenmeden, AS-REP paketlerini ağda geçerken yakalamak için bir man-in-the-middle pozisyonu kullanabilir. Bu nedenle, VLAN'daki tüm kullanıcılar için çalışır.\
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) bunu yapmamıza olanak tanır. Ayrıca, araç, Kerberos müzakeresini değiştirerek istemci iş istasyonlarının RC4 kullanmasını zorlar.
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) bunu yapmamıza olanak tanır. Ayrıca, araç Kerberos müzakeresini değiştirerek istemci iş istasyonlarının RC4 kullanmasını zorlar.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP

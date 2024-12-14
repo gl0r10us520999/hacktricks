@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -17,12 +17,12 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## Proxmark3 ile RFID Sistemlerine Saldırmak
 
-Yapmanız gereken ilk şey bir [**Proxmark3**](https://proxmark.com) edinmek ve [**yazılımı ve bağımlılıklarını yüklemek**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Yapmanız gereken ilk şey bir [**Proxmark3**](https://proxmark.com) edinmek ve [**yazılımı ve bağımlılıklarını yüklemek**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**i**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### MIFARE Classic 1KB'ye Saldırmak
 
 **16 sektör** vardır, her birinde **4 blok** ve her blokta **16B** bulunur. UID, sektör 0 blok 0'da (ve değiştirilemez).\
-Her sektöre erişmek için **2 anahtara** (**A** ve **B**) ihtiyacınız var, bunlar **her sektörün blok 3'ünde** saklanır (sektör trailer). Sektör trailer ayrıca **okuma ve yazma** izinlerini veren **erişim bitlerini** saklar.\
+Her sektöre erişmek için **2 anahtara** (**A** ve **B**) ihtiyacınız var, bunlar **her sektörün blok 3'ünde** (sektör trailer) saklanır. Sektör trailer ayrıca **okuma ve yazma** izinlerini veren **erişim bitlerini** saklar.\
 2 anahtar, ilkini biliyorsanız okumak ve ikincisini biliyorsanız yazmak için izin vermek için kullanışlıdır (örneğin).
 
 Birçok saldırı gerçekleştirilebilir.
@@ -66,7 +66,7 @@ Proxmark3 yazılımı, basit görevleri yerine getirmek için kullanabileceğini
 ```
 proxmark3> script run mfkeys
 ```
-Bir **fuzz tag okuyucuları** oluşturmak için bir script yazabilirsiniz, böylece bir **geçerli kartın** verilerini kopyalamak için sadece bir **Lua scripti** yazın, bir veya daha fazla rastgele **byte**'ı **rastgeleleştirip** her iterasyonda **okuyucunun çöküp çökmediğini** kontrol edin.
+Bir **fuzz tag okuyucu** oluşturmak için bir script yazabilirsiniz, böylece bir **geçerli kartın** verilerini kopyalamak için bir **Lua scripti** yazın, bir veya daha fazla rastgele **byte**'ı **rastgeleleştirip** her iterasyonda **okuyucunun çöküp çökmediğini** kontrol edin.
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -77,8 +77,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* Hacking ipuçlarını [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

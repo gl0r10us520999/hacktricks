@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Temel Bilgiler
 
-Local Administrator Password Solution (LAPS), **benzersiz, rastgele ve sık sık değiştirilen** **yönetici şifrelerinin** alan katılımlı bilgisayarlara uygulandığı bir sistemi yönetmek için kullanılan bir araçtır. Bu şifreler, Active Directory içinde güvenli bir şekilde saklanır ve yalnızca Erişim Kontrol Listeleri (ACL'ler) aracılığıyla izin verilmiş kullanıcılara erişilebilir. İstemciden sunucuya şifre iletimlerinin güvenliği, **Kerberos sürüm 5** ve **Gelişmiş Şifreleme Standardı (AES)** kullanılarak sağlanır.
+Local Administrator Password Solution (LAPS), **yönetici şifrelerinin**, **eşsiz, rastgele ve sık sık değiştirilen** bir sistemde yönetilmesi için kullanılan bir araçtır ve bu şifreler alan katılımlı bilgisayarlara uygulanır. Bu şifreler, Active Directory içinde güvenli bir şekilde saklanır ve yalnızca Erişim Kontrol Listeleri (ACL'ler) aracılığıyla izin verilmiş kullanıcılara erişilebilir. İstemciden sunucuya şifre iletimlerinin güvenliği, **Kerberos sürüm 5** ve **Gelişmiş Şifreleme Standardı (AES)** kullanılarak sağlanır.
 
-Alan bilgisayar nesnelerinde, LAPS'ın uygulanması, **`ms-mcs-AdmPwd`** ve **`ms-mcs-AdmPwdExpirationTime`** adında iki yeni niteliğin eklenmesine yol açar. Bu nitelikler, sırasıyla **düz metin yönetici şifresini** ve **şifrenin sona erme zamanını** saklar.
+Alan bilgisayar nesnelerinde, LAPS'ın uygulanması, iki yeni niteliğin eklenmesiyle sonuçlanır: **`ms-mcs-AdmPwd`** ve **`ms-mcs-AdmPwdExpirationTime`**. Bu nitelikler, sırasıyla **düz metin yönetici şifresini** ve **şifrenin sona erme zamanını** saklar.
 
 ### Aktif olup olmadığını kontrol et
 ```bash
@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Parola Erişimi
 
-Ham LAPS politikasını `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` adresinden **indirebilir** ve ardından [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) paketinden **`Parse-PolFile`** kullanarak bu dosyayı insan tarafından okunabilir bir formata dönüştürebilirsiniz.
+Ham LAPS politikasını `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` adresinden **indirebilir** ve ardından bu dosyayı insan tarafından okunabilir bir formata dönüştürmek için [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) paketinden **`Parse-PolFile`** kullanılabilir.
 
 Ayrıca, erişim sağladığımız bir makinede yüklüyse **yerel LAPS PowerShell cmdlet'leri** de kullanılabilir:
 ```powershell
@@ -75,7 +75,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ### LAPSToolkit
 
 The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) LAPS'in birkaç işlevle sayımını kolaylaştırır.\
-Bunlardan biri, **LAPS etkin olan tüm bilgisayarlar için `ExtendedRights`**'ı ayrıştırmaktır. Bu, genellikle korunan gruplardaki kullanıcılar olan **LAPS şifrelerini okumak için özel olarak yetkilendirilmiş `grupları`** gösterecektir.\
+Bunlardan biri, **LAPS etkin olan tüm bilgisayarlar için `ExtendedRights`'ı** ayrıştırmaktır. Bu, genellikle korunan gruplardaki kullanıcılar olan **LAPS şifrelerini okumak için özel olarak yetkilendirilmiş grupları** gösterecektir.\
 Bir **hesap**, bir bilgisayarı bir domaine **katıldığında**, o ana bilgisayar üzerinde `Tüm Genişletilmiş Haklar` alır ve bu hak, **hesaba** **şifreleri okuma** yeteneği verir. Sayım, bir ana bilgisayarda LAPS şifresini okuyabilen bir kullanıcı hesabını gösterebilir. Bu, LAPS şifrelerini okuyabilen **belirli AD kullanıcılarını hedeflememize** yardımcı olabilir.
 ```powershell
 # Get groups that can read passwords
@@ -119,7 +119,7 @@ Password: 2Z@Ae)7!{9#Cq
 
 ### **Son Kullanma Tarihi**
 
-Bir yönetici olduğunda, **şifreleri elde etmek** ve bir makinenin **şifresini güncellemesini engellemek** için **son kullanma tarihini geleceğe ayarlamak** mümkündür.
+Bir kez yönetici olduğunuzda, **şifreleri elde etmek** ve bir makinenin **şifresini güncellemesini engellemek** için **son kullanma tarihini geleceğe ayarlamak** mümkündür.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -136,7 +136,7 @@ Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="2326099
 
 LAPS'ın orijinal kaynak kodu [burada](https://github.com/GreyCorbel/admpwd) bulunabilir, bu nedenle kodda (örneğin `Main/AdmPwd.PS/Main.cs` içindeki `Get-AdmPwdPassword` yönteminde) bir arka kapı koymak mümkündür; bu, bir şekilde **yeni şifreleri dışarı sızdıracak veya bir yere depolayacaktır**.
 
-Sonra, yeni `AdmPwd.PS.dll` dosyasını derleyin ve bunu `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` konumuna yükleyin (ve değiştirme zamanını değiştirin).
+Sonra, yeni `AdmPwd.PS.dll` dosyasını derleyin ve bunu `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` konumundaki makineye yükleyin (ve değiştirme zamanını değiştirin).
 
 ## Referanslar
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
@@ -146,8 +146,8 @@ Sonra, yeni `AdmPwd.PS.dll` dosyasını derleyin ve bunu `C:\Tools\admpwd\Main\A
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -155,7 +155,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

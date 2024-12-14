@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -19,7 +19,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 **Kızılötesi ışık insanlar için görünmezdir**. IR dalga boyu **0.7 ile 1000 mikron** arasındadır. Ev aletleri uzaktan kumandaları, veri iletimi için IR sinyali kullanır ve 0.75..1.4 mikron dalga boyu aralığında çalışır. Uzaktan kumandadaki bir mikrodenetleyici, dijital sinyali IR sinyaline dönüştürerek belirli bir frekansta bir kızılötesi LED'in yanıp sönmesini sağlar.
 
-IR sinyallerini almak için bir **fotoreceiver** kullanılır. Bu, **IR ışığını voltaj darbelerine dönüştürür**, bu da zaten **dijital sinyallerdir**. Genellikle, alıcının içinde **karanlık ışık filtresi** bulunur; bu, **yalnızca istenen dalga boyunun geçmesine izin verir** ve gürültüyü keser.
+IR sinyallerini almak için bir **fotoreceiver** kullanılır. Bu, **IR ışığını voltaj darbelerine dönüştürür**, bu da zaten **dijital sinyallerdir**. Genellikle, alıcının içinde **karanlık ışık filtresi** bulunur; bu, **yalnızca istenen dalga boyunun geçmesine** izin verir ve gürültüyü keser.
 
 ### IR Protokollerinin Çeşitliliği <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
@@ -33,7 +33,7 @@ IR protokolleri 3 faktörde farklılık gösterir:
 
 **1. Darbe Mesafe Kodlaması**
 
-Bitler, darbeler arasındaki boşluğun süresini modüle ederek kodlanır. Darbenin genişliği sabittir.
+Bitler, darbeler arasındaki boşluğun süresini modüle ederek kodlanır. Darbenin kendisinin genişliği sabittir.
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
@@ -45,14 +45,14 @@ Bitler, darbe genişliğinin modülasyonu ile kodlanır. Darbe patlamasından so
 
 **3. Faz Kodlaması**
 
-Manchester kodlaması olarak da bilinir. Mantıksal değer, darbe patlaması ile boşluk arasındaki geçişin polaritesi ile tanımlanır. "Boşluktan darbe patlamasına" mantık "0"ı, "darbe patlamasından boşluğa" mantık "1"i belirtir.
+Bu, Manchester kodlaması olarak da bilinir. Mantıksal değer, darbe patlaması ile boşluk arasındaki geçişin polaritesi ile tanımlanır. "Boşluktan darbe patlamasına" mantık "0"ı, "darbe patlamasından boşluğa" mantık "1"i belirtir.
 
 <figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
 
 **4. Öncekilerin ve diğer egzotiklerin kombinasyonu**
 
 {% hint style="info" %}
-Birçok cihaz türü için **evrensel olmaya çalışan** IR protokolleri vardır. En ünlüleri RC5 ve NEC'dir. Ne yazık ki, en ünlü **en yaygın anlamına gelmez**. Benim çevremde sadece iki NEC uzaktan kumandası gördüm ve hiç RC5 uzaktan kumandası görmedim.
+Bazı IR protokolleri, birkaç cihaz türü için **evrensel olmaya çalışmaktadır**. En ünlüleri RC5 ve NEC'dir. Ne yazık ki, en ünlü **en yaygın anlamına gelmez**. Benim çevremde sadece iki NEC uzaktan kumandası ile karşılaştım ve hiç RC5 uzaktan kumandası görmedim.
 
 Üreticiler, aynı cihaz aralığında bile kendi benzersiz IR protokollerini kullanmayı severler (örneğin, TV kutuları). Bu nedenle, farklı şirketlerden ve bazen aynı şirketin farklı modellerinden gelen uzaktan kumandalar, aynı türdeki diğer cihazlarla çalışamaz.
 {% endhint %}
@@ -73,11 +73,11 @@ NEC **komutu**, önsözün yanı sıra, cihazın ne yapılması gerektiğini anl
 
 **Tekrar kodu**, önsözden sonra bir "1" içerir, bu bir durdurma bitidir.
 
-**Mantık "0" ve "1" için** NEC, Darbe Mesafe Kodlaması kullanır: önce bir darbe patlaması iletilir, ardından bitin değerini belirleyen bir duraklama gelir.
+**Mantık "0" ve "1" için** NEC, Darbe Mesafe Kodlaması kullanır: önce bir darbe patlaması iletilir, ardından bir duraklama gelir; duraklamanın uzunluğu bitin değerini belirler.
 
 ### Klima Cihazları
 
-Diğer uzaktan kumandalardan farklı olarak, **klima cihazları yalnızca basılan butonun kodunu iletmez**. Ayrıca, **klimanın ve uzaktan kumandanın senkronize olduğunu sağlamak için** bir butona basıldığında tüm bilgileri iletir.\
+Diğer uzaktan kumandalardan farklı olarak, **klima cihazları yalnızca basılan butonun kodunu iletmez**. Ayrıca, **butona basıldığında tüm bilgileri iletir**; bu, **klima makinesi ve uzaktan kumandanın senkronize olmasını sağlamak** içindir.\
 Bu, 20ºC olarak ayarlanmış bir makinenin bir uzaktan kumanda ile 21ºC'ye çıkarılmasını ve ardından hala 20ºC olarak ayarlanmış başka bir uzaktan kumanda ile sıcaklığın daha da artırılmaya çalışıldığında, "21ºC"ye (ve 22ºC'ye değil, 21ºC'de olduğunu düşünerek) "arttırılmasını" önleyecektir.
 
 ### Saldırılar
@@ -101,7 +101,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

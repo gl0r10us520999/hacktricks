@@ -1,6 +1,6 @@
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -66,8 +66,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Varlıkları elde et
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Web BugBounty kontrol listesi
-* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Açık Yönlendirme'ye karşı bir alan listesini kontrol et
-* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Alanları, alt alanları ve IP'leri keşfetmek için Burp eklentisi, çevrimdışı analiz
+* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Bir alan listesini Açık Yönlendirme ile kontrol et
+* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burp eklentisi, alanları, alt alanları ve IP'leri keşfetmek için çevrimdışı analiz
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Farklı araçların listesi
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Açıkları bulmak için BurpSuite Eklentisi (SQLi, XSS, SSTI)
 * [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Post-mesaj fonksiyonlarını izlemek için Chrome uzantısı
@@ -80,7 +80,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL kutuları
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Süreklilik
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Windows Süreç Enjeksiyon teknikleri
-* [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Kırmızı Ekip betikleri
+* [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Kırmızı Takım betikleri
 * [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : Active Directory Grup Politikasında güvenlikle ilgili yanlış yapılandırmaları bul.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Securestring obfuscation
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Ebeveyn PID Sahteciliği
@@ -88,7 +88,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Gizli C2
 * [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Windows İç Yapıları hakkında bir dizi günlük
 * [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Bir belgenin kim tarafından açıldığını takip et
-* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directory Hile Sayfası
+* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directory Kontrol Listesi
 
 # Firmware
 
@@ -103,13 +103,13 @@ Post-krema:
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
 
-Firmware'ı çevrimiçi bulamazsak nasıl çıkarırız: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
+Firmware'ı çevrimiçi bulamazsak nasıl çıkarız: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
 
 Analiz edilecek zafiyetleri olan bir firmware: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
 ve burada firmware analiz etmek için owasp metodolojisi: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
-Firmware emülasyonu: FIRMADYNE (https://github.com/firmadyne/firmadyne/) Linux tabanlı firmware'lerin emülasyonunu ve dinamik analizini otomatikleştirmek için bir platformdur.
+Firmware emülasyonu: FIRMADYNE (https://github.com/firmadyne/firmadyne/) Linux tabanlı firmware'in emülasyonunu ve dinamik analizini otomatikleştirmek için bir platformdur.
 
 # DİĞER
 
@@ -119,7 +119,7 @@ Firmware emülasyonu: FIRMADYNE (https://github.com/firmadyne/firmadyne/) Linux 
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
 * [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Statik kod analizi
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : Sürekli bir banner gönderen SSH tarpit.
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : Yavaşça sonsuz bir afiş gönderen SSH tarpit.
 * AWS ve Bulut araçları: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
 * Phishing için IFS (Interplanetary File System): [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
 * IP döndürme hizmetleri: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
@@ -130,7 +130,7 @@ Firmware emülasyonu: FIRMADYNE (https://github.com/firmadyne/firmadyne/) Linux 
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Anahtar kelimeler
 * [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : IoT'yi hacklemek (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : taramayı otomatikleştirme
-* [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Bu liste, Electron.js güvenlik ile ilgili konuları kapsamayı amaçlamaktadır.
+* [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Bu liste Electron.js güvenlik ile ilgili konuları kapsamayı amaçlamaktadır.
 * [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : BB programları hakkında bilgi
 
 
@@ -140,8 +140,8 @@ Firmware emülasyonu: FIRMADYNE (https://github.com/firmadyne/firmadyne/) Linux 
 
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

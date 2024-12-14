@@ -14,12 +14,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Aşağıdaki kod **SeDebug ve SeImpersonate ayrıcalıklarını kullanarak** bir **SYSTEM olarak çalışan süreçten** token'ı kopyalar ve **tüm token ayrıcalıklarına** sahiptir. \
-Bu durumda, bu kod bir **Windows hizmeti ikili dosyası** olarak derlenip çalıştığını kontrol etmek için kullanılabilir.\
+Aşağıdaki kod **SeDebug ve SeImpersonate ayrıcalıklarını kullanarak** bir **SISTEM olarak çalışan bir süreçten** token'ı kopyalar ve **tüm token ayrıcalıklarına** sahiptir. \
+Bu durumda, bu kod bir **Windows hizmeti ikili dosyası** olarak derlenip kullanılabilir ve çalıştığını kontrol edebilirsiniz.\
 Ancak, **yükseltmenin gerçekleştiği ana kod kısmı** **`Exploit`** **fonksiyonu** içindedir.\
-O fonksiyonun içinde **_lsass.exe_** adlı **sürecin arandığını**, ardından **token'ının kopyalandığını** ve nihayetinde o token'ın kopyalanan token'ın tüm ayrıcalıklarıyla yeni bir _**cmd.exe**_ başlatmak için kullanıldığını görebilirsiniz.
+O fonksiyonun içinde **_**lsass.exe**_** sürecinin arandığını, ardından **token'ının kopyalandığını** ve son olarak o token'ın kopyalanan token'ın tüm ayrıcalıklarıyla yeni bir _**cmd.exe**_ başlatmak için kullanıldığını görebilirsiniz.
 
-**SYSTEM olarak çalışan ve tüm veya çoğu token ayrıcalığına sahip diğer süreçler**: **services.exe**, **svhost.exe** (ilklerden biri), **wininit.exe**, **csrss.exe**... (_korumalı bir süreçten token kopyalayamayacağınızı unutmayın_). Ayrıca, bir sürecin token'larını görmek için yönetici olarak çalışan [Process Hacker](https://processhacker.sourceforge.io/downloads.php) aracını kullanabilirsiniz.
+**SISTEM olarak çalışan ve token ayrıcalıklarının tamamına veya çoğuna sahip diğer süreçler**: **services.exe**, **svhost.exe** (ilklerden biri), **wininit.exe**, **csrss.exe**... (_korumalı bir süreçten token kopyalayamayacağınızı unutmayın_). Ayrıca, bir sürecin token'larını görmek için yönetici olarak çalışan [Process Hacker](https://processhacker.sourceforge.io/downloads.php) aracını kullanabilirsiniz.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>

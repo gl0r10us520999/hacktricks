@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 - Sertifikanın **Sahibi**, sertifikanın sahibini belirtir.
 - **Açık Anahtar**, sertifikayı gerçek sahibine bağlamak için özel bir anahtarla eşleştirilir.
 - **Geçerlilik Süresi**, **NotBefore** ve **NotAfter** tarihleri ile tanımlanır ve sertifikanın etkin süresini işaret eder.
-- Sertifika Otoritesi (CA) tarafından sağlanan benzersiz bir **Seri Numarası**, her sertifikayı tanımlar.
+- Sertifikayı tanımlayan benzersiz bir **Seri Numarası**, Sertifika Otoritesi (CA) tarafından sağlanır.
 - **Verici**, sertifikayı veren CA'yı ifade eder.
-- **SubjectAlternativeName**, kimlik tanımlama esnekliğini artırarak konu için ek adlar sağlar.
+- **SubjectAlternativeName**, konu için ek adlar sağlar ve tanımlama esnekliğini artırır.
 - **Temel Kısıtlamalar**, sertifikanın bir CA veya son varlık için olup olmadığını tanımlar ve kullanım kısıtlamalarını belirler.
 - **Genişletilmiş Anahtar Kullanımları (EKU'lar)**, sertifikanın belirli amaçlarını, örneğin kod imzalama veya e-posta şifreleme gibi, Nesne Tanımlayıcıları (OID'ler) aracılığıyla belirler.
 - **İmza Algoritması**, sertifikayı imzalamak için kullanılan yöntemi belirtir.
@@ -58,12 +58,12 @@ AD içinde tanımlanan bu şablonlar, sertifika vermek için ayarları ve izinle
 
 Sertifikalar için kayıt süreci, bir yöneticinin **bir sertifika şablonu oluşturması** ile başlar; bu şablon daha sonra bir Kurumsal Sertifika Otoritesi (CA) tarafından **yayınlanır**. Bu, şablonu istemci kaydı için kullanılabilir hale getirir; bu adım, şablonun adını bir Active Directory nesnesinin `certificatetemplates` alanına ekleyerek gerçekleştirilir.
 
-Bir istemcinin sertifika talep edebilmesi için, **kayıt hakları** verilmelidir. Bu haklar, sertifika şablonundaki güvenlik tanımlayıcıları ve Kurumsal CA'nın kendisi tarafından tanımlanır. Bir talebin başarılı olması için her iki konumda da izinler verilmelidir.
+Bir istemcinin sertifika talep edebilmesi için, **kayıt hakları** verilmelidir. Bu haklar, sertifika şablonundaki güvenlik tanımlayıcıları ve Kurumsal CA'nın kendisi tarafından tanımlanır. Başarılı bir talep için her iki konumda da izinler verilmelidir.
 
 ### Template Enrollment Rights
 
 Bu haklar, belirli izinleri detaylandıran Erişim Kontrol Girişleri (ACE'ler) aracılığıyla belirtilir:
-- **Sertifika-Kayıt** ve **Sertifika-OtomatikKayıt** hakları, her biri belirli GUID'lerle ilişkilidir.
+- **Sertifika-Kayıt** ve **Sertifika-Otomatik Kayıt** hakları, her biri belirli GUID'lerle ilişkilidir.
 - **GenişletilmişHaklar**, tüm genişletilmiş izinlere izin verir.
 - **TamKontrol/GeniGenericAll**, şablon üzerinde tam kontrol sağlar.
 
@@ -73,7 +73,7 @@ CA'nın hakları, Sertifika Otoritesi yönetim konsolu aracılığıyla erişile
 
 ### Additional Issuance Controls
 
-Bazı kontroller uygulanabilir, örneğin:
+Belirli kontroller uygulanabilir, örneğin:
 - **Yönetici Onayı**: Talepleri, bir sertifika yöneticisi tarafından onaylanana kadar beklemede tutar.
 - **Kayıt Temsilcileri ve Yetkili İmzalar**: Bir CSR üzerindeki gerekli imza sayısını ve gerekli Uygulama Politika OID'lerini belirtir.
 
@@ -83,8 +83,8 @@ Sertifikalar şu yöntemlerle talep edilebilir:
 1. **Windows İstemci Sertifika Kayıt Protokolü** (MS-WCCE), DCOM arayüzlerini kullanarak.
 2. **ICertPassage Uzak Protokolü** (MS-ICPR), adlandırılmış borular veya TCP/IP aracılığıyla.
 3. **Sertifika kayıt web arayüzü**, Sertifika Otoritesi Web Kayıt rolü yüklü olduğunda.
-4. **Sertifika Kayıt Servisi** (CES), Sertifika Kayıt Politikası (CEP) servisi ile birlikte.
-5. **Ağ Cihazı Kayıt Servisi** (NDES) için ağ cihazları, Basit Sertifika Kayıt Protokolü (SCEP) kullanarak.
+4. **Sertifika Kayıt Hizmeti** (CES), Sertifika Kayıt Politikası (CEP) hizmeti ile birlikte.
+5. **Ağ Cihazı Kayıt Hizmeti** (NDES) için ağ cihazları, Basit Sertifika Kayıt Protokolü (SCEP) kullanarak.
 
 Windows kullanıcıları ayrıca GUI (`certmgr.msc` veya `certlm.msc`) veya komut satırı araçları (`certreq.exe` veya PowerShell'in `Get-Certificate` komutu) aracılığıyla sertifika talep edebilir.
 ```powershell
@@ -97,7 +97,7 @@ Active Directory (AD), esas olarak **Kerberos** ve **Secure Channel (Schannel)**
 
 ### Kerberos Kimlik Doğrulama Süreci
 
-Kerberos kimlik doğrulama sürecinde, bir kullanıcının Ticket Granting Ticket (TGT) talebi, kullanıcının sertifikasının **özel anahtarı** ile imzalanır. Bu talep, alan denetleyicisi tarafından sertifikanın **geçerliliği**, **yolu** ve **iptal durumu** dahil olmak üzere birkaç doğrulamadan geçer. Doğrulamalar ayrıca sertifikanın güvenilir bir kaynaktan geldiğini doğrulamayı ve vericinin **NTAUTH sertifika deposu** içindeki varlığını onaylamayı içerir. Başarılı doğrulamalar, bir TGT'nin verilmesiyle sonuçlanır. AD'deki **`NTAuthCertificates`** nesnesi, şu konumda bulunur:
+Kerberos kimlik doğrulama sürecinde, bir kullanıcının Ticket Granting Ticket (TGT) talebi, kullanıcının sertifikasının **özel anahtarı** ile imzalanır. Bu talep, alan denetleyicisi tarafından sertifikanın **geçerliliği**, **yolu** ve **iptal durumu** dahil olmak üzere birkaç doğrulamadan geçer. Doğrulamalar ayrıca sertifikanın güvenilir bir kaynaktan geldiğini doğrulamayı ve vericinin **NTAUTH sertifika deposunda** varlığını onaylamayı içerir. Başarılı doğrulamalar, bir TGT'nin verilmesiyle sonuçlanır. AD'deki **`NTAuthCertificates`** nesnesi, şu adreste bulunur:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -105,7 +105,7 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel, güvenli TLS/SSL bağlantılarını kolaylaştırır; burada bir el sıkışma sırasında, istemci, başarılı bir şekilde doğrulanırsa erişimi yetkilendiren bir sertifika sunar. Bir sertifikanın bir AD hesabına eşlenmesi, Kerberos’un **S4U2Self** fonksiyonu veya sertifikanın **Subject Alternative Name (SAN)** gibi diğer yöntemleri içerebilir.
+Schannel, güvenli TLS/SSL bağlantılarını kolaylaştırır; burada bir el sıkışma sırasında, istemci, başarılı bir şekilde doğrulanırsa erişimi yetkilendiren bir sertifika sunar. Bir sertifikanın bir AD hesabına eşlenmesi, Kerberos'un **S4U2Self** fonksiyonu veya sertifikanın **Subject Alternative Name (SAN)** gibi diğer yöntemleri içerebilir.
 
 ### AD Certificate Services Enumeration
 
@@ -131,8 +131,8 @@ certutil -v -dstemplate
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

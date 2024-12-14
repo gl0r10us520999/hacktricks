@@ -26,7 +26,7 @@ Bunlar **HackTricks Projesinin değerleri**:
 * Topluluğun yayınladığı harika **hacking** tekniklerini **ORİJİNAL** **YAZARLARA** tüm **kredileri** vererek **Saklamak**.
 * **Başka insanlardan kredi almak istemiyoruz**, sadece herkes için havalı ipuçlarını saklamak istiyoruz.
 * HackTricks'te **kendi araştırmalarımızı** da yazıyoruz.
-* Birçok durumda, sadece **HackTricks'te tekniğin önemli kısımlarının bir özetini** yazacağız ve **daha fazla ayrıntı için okuyucuyu orijinal gönderiyi ziyaret etmeye teşvik edeceğiz**.
+* Birçok durumda, sadece **HackTricks'te tekniğin önemli kısımlarının bir özetini** yazacağız ve **okuyucuyu daha fazla ayrıntı için orijinal gönderiyi ziyaret etmeye teşvik edeceğiz**.
 * Kitaptaki tüm hacking tekniklerini **DÜZENLEMEK** böylece **DAHA ERİŞİLEBİLİR** hale getirmek.
 * HackTricks ekibi, insanların **daha hızlı öğrenebilmesi** için içeriği **sadece düzenlemek** amacıyla binlerce saat harcadı.
 {% endhint %}
@@ -36,10 +36,10 @@ Bunlar **HackTricks Projesinin değerleri**:
 ## HackTricks SSS
 
 {% hint style="success" %}
-* **Bu kaynaklar için çok teşekkür ederim, size nasıl teşekkür edebilirim?**
+* **Bu kaynaklar için çok teşekkür ederim, nasıl teşekkür edebilirim?**
 {% endhint %}
 
-HackTricks ekiplerine bu kaynakları bir tweet ile [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) mentionlayarak kamuya açık bir şekilde teşekkür edebilirsiniz.\
+HackTricks ekiplerine bu kaynakları bir tweet ile [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) mentionlayarak teşekkür edebilirsiniz.\
 Eğer özellikle minnettar iseniz, [**projeyi burada destekleyebilirsiniz**](https://github.com/sponsors/carlospolop).\
 Ve **Github projelerine bir yıldız vermeyi unutmayın!** (Aşağıdaki bağlantıları bulun).
 
@@ -64,7 +64,7 @@ Evet, yapabilirsiniz, ancak **içeriğin alındığı belirli bağlantıları** 
 * **HackTricks'in bir sayfasını nasıl alıntılayabilirim?**
 {% endhint %}
 
-Bilgiyi aldığınız sayfanın **bağlantısı** görünüyorsa yeterlidir.\
+Bilgiyi aldığınız sayfanın **bağlantısının** görünmesi yeterlidir.\
 Bir bibtex'e ihtiyacınız varsa, şöyle bir şey kullanabilirsiniz:
 ```latex
 @misc{hacktricks-bibtexing,
@@ -90,7 +90,7 @@ Kaybolacağından korkuyorsanız, sadece Github'da fork edin veya indirin, dedi�
 
 Eğer HackTricks kitaplarının **ticari amaçlar** için yapıldığını düşünüyorsanız, **TAMAMEN YANLIŞ** düşünüyorsunuz.
 
-Sponsorlarımız var çünkü, tüm içerik **ÜCRETSİZ** olsa da, topluluğa **çalışmamızı takdir etme imkanı sunmak** istiyoruz. Bu nedenle, insanlara HackTricks'e [**Github sponsorları**](https://github.com/sponsors/carlospolop) aracılığıyla bağış yapma seçeneği sunuyoruz ve **ilgili siber güvenlik şirketleri** HackTricks'i sponsor olarak destekleyip kitapta **bazı reklamlar** bulundurabiliyor. Bu **reklamlar** her zaman görünür ama öğrenme sürecini **rahatsız etmeyecek** yerlerde yer alıyor.
+Sponsorlarımız var çünkü, tüm içerik **ÜCRETSİZ** olsa da, topluluğa **çalışmamızı takdir etme imkanı sunmak** istiyoruz. Bu nedenle, insanlara HackTricks'e [**Github sponsorları**](https://github.com/sponsors/carlospolop) aracılığıyla bağış yapma seçeneği sunuyoruz ve **ilgili siber güvenlik şirketleri** HackTricks'i sponsor olarak destekleyip kitapta **bazı reklamlar** bulundurabiliyor, bu **reklamlar** her zaman görünür ama öğrenme sürecini **rahatsız etmeyecek** yerlerde yer alıyor.
 
 HackTricks, HackTricks'ten çok daha az içeriğe sahip diğer bloglar gibi rahatsız edici reklamlarla dolu değildir çünkü HackTricks ticari amaçlar için yapılmamıştır.
 
@@ -104,11 +104,11 @@ HackTricks, HackTricks'ten çok daha az içeriğe sahip diğer bloglar gibi raha
 * **Eğer HackTricks'te blogumdan içerik varsa ve orada olmasını istemiyorsam ne yapmalıyım?**
 {% endhint %}
 
-HackTricks'te sayfanıza bağlantıların bulunmasının:
+HackTricks'te sayfanıza bağlantı olmasının:
 
 * **SEO**'nu geliştirir
 * İçerik **15'ten fazla dile** çevrilir, bu da daha fazla insanın bu içeriğe erişmesini sağlar
-* **HackTricks**, insanların **sayfanızı kontrol etmelerini** teşvik eder (birçok kişi, HackTricks'te bazı sayfalarının bulunması nedeniyle daha fazla ziyaret aldıklarını belirtti)
+* **HackTricks,** insanları **sayfanızı kontrol etmeye** teşvik eder (birçok kişi, HackTricks'te bazı sayfalarının bulunması nedeniyle daha fazla ziyaret aldıklarını belirtmiştir)
 
 Ancak, eğer blogunuzun içeriğinin HackTricks'ten kaldırılmasını istiyorsanız, sadece bize bildirin ve kesinlikle **blogunuza olan her bağlantıyı** ve buna dayanan her içeriği **kaldıracağız**.
 
@@ -144,15 +144,15 @@ Bu lisans, içerikle ilgili herhangi bir ticari marka veya marka hakları vermez
 ## **Açıklama**
 
 {% hint style="danger" %}
-Bu kitap, 'HackTricks', yalnızca eğitim ve bilgilendirme amaçlıdır. Bu kitap içindeki içerik 'olduğu gibi' sunulmaktadır ve yazarlar ile yayıncılar, bu kitapta yer alan bilgilerin, ürünlerin, hizmetlerin veya ilgili grafiklerin tamamlığı, doğruluğu, güvenilirliği, uygunluğu veya kullanılabilirliği hakkında herhangi bir türde, açık veya zımni, herhangi bir beyan veya garanti vermez. Bu tür bilgilere dayanarak yaptığınız herhangi bir güven, tamamen kendi riskinizdedir.
+Bu kitap, 'HackTricks', yalnızca eğitim ve bilgilendirme amaçlıdır. Bu kitap içindeki içerik 'olduğu gibi' sunulmaktadır ve yazarlar ile yayıncılar, bu kitapta yer alan bilgilerin, ürünlerin, hizmetlerin veya ilgili grafiklerin tamamlığı, doğruluğu, güvenilirliği, uygunluğu veya kullanılabilirliği hakkında herhangi bir türde, açık veya zımni, herhangi bir temsil veya garanti vermez. Bu tür bilgilere dayanarak yaptığınız herhangi bir güven, tamamen kendi riskinizdedir.
 
 Yazarlar ve yayıncılar, bu kitabın kullanımından kaynaklanan veri kaybı veya kar kaybı dahil, dolaylı veya sonuç olarak ortaya çıkan kayıplar veya zararlar da dahil olmak üzere, herhangi bir kayıp veya zarardan sorumlu tutulamaz.
 
-Ayrıca, bu kitapta açıklanan teknikler ve ipuçları yalnızca eğitim ve bilgilendirme amaçlıdır ve herhangi bir yasa dışı veya kötü niyetli faaliyet için kullanılmamalıdır. Yazarlar ve yayıncılar, herhangi bir yasa dışı veya etik olmayan faaliyetleri onaylamaz veya desteklemez ve bu kitapta yer alan bilgilerin kullanımı, kullanıcının kendi risk ve takdirindedir.
+Ayrıca, bu kitapta açıklanan teknikler ve ipuçları yalnızca eğitim ve bilgilendirme amaçlıdır ve herhangi bir yasadışı veya kötü niyetli faaliyetler için kullanılmamalıdır. Yazarlar ve yayıncılar, herhangi bir yasadışı veya etik olmayan faaliyetleri onaylamaz veya desteklemez ve bu kitapta yer alan bilgilerin herhangi bir kullanımı, kullanıcının kendi risk ve takdirindedir.
 
 Kullanıcı, bu kitapta yer alan bilgilere dayanarak alınan herhangi bir eylemden tamamen sorumludur ve burada açıklanan teknikleri veya ipuçlarını uygulamaya çalışırken her zaman profesyonel tavsiye ve yardım almalıdır.
 
-Bu kitabı kullanarak, kullanıcı, yazarları ve yayıncıları, bu kitabın veya içindeki bilgilerin kullanımından kaynaklanabilecek herhangi bir zarar, kayıp veya zarardan muaf tutmayı kabul eder.
+Bu kitabı kullanarak, kullanıcı, yazarları ve yayıncıları, bu kitabın kullanımından veya içindeki bilgilerin herhangi birinden kaynaklanabilecek herhangi bir zarar, kayıp veya zarardan muaf tutmayı kabul eder.
 {% endhint %}
 
 {% hint style="success" %}

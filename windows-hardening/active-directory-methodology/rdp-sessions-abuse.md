@@ -1,4 +1,4 @@
-# RDP Oturum İstismarı
+# RDP Oturumları İstismarı
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -17,9 +17,9 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## RDP Süreç Enjeksiyonu
 
-Eğer **harici grup**, mevcut alandaki herhangi bir **bilgisayara RDP erişimine** sahipse, bir **saldırgan** o **bilgisayarı ele geçirip onu bekleyebilir**.
+Eğer **harici grup**, mevcut alandaki herhangi bir **bilgisayara RDP erişimine** sahipse, bir **saldırgan** o **bilgisayarı ele geçirebilir ve onu bekleyebilir**.
 
-O kullanıcı RDP üzerinden erişim sağladıktan sonra, **saldırgan o kullanıcının oturumuna geçiş yapabilir** ve harici alandaki izinlerini istismar edebilir.
+O kullanıcı RDP ile erişim sağladıktan sonra, **saldırgan o kullanıcının oturumuna geçebilir** ve harici alandaki izinlerini istismar edebilir.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access

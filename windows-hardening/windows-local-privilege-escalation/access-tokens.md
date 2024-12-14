@@ -90,12 +90,12 @@ Bu, ağdaki nesnelere erişim için geçerli kimlik bilgilerine sahip olduğunuz
 
 İki tür token mevcuttur:
 
-* **Birincil Token**: Bir sürecin güvenlik kimlik bilgilerini temsil eder. Birincil tokenların oluşturulması ve süreçlerle ilişkilendirilmesi, ayrıcalık ayrımını vurgulayan, yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama hizmeti token oluşturma işlemini üstlenirken, bir oturum açma hizmeti bunun kullanıcı işletim sistemi kabuğuyla ilişkilendirilmesini yönetir. Süreçlerin, oluşturulduklarında ebeveyn süreçlerinin birincil tokenını miras aldığını belirtmek gerekir.
+* **Birincil Token**: Bir sürecin güvenlik kimlik bilgilerini temsil eder. Birincil tokenların oluşturulması ve süreçlerle ilişkilendirilmesi, ayrıcalık ayrımını vurgulayan yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama hizmeti token oluşturma işlemlerinden sorumluyken, bir oturum açma hizmeti bunun kullanıcı işletim sistemi kabuğuyla ilişkilendirilmesini yönetir. Süreçlerin, oluşturulduklarında ebeveyn süreçlerinin birincil tokenını miras aldığını belirtmekte fayda var.
 * **Taklit Token**: Bir sunucu uygulamasının, güvenli nesnelere erişim için istemcinin kimliğini geçici olarak benimsemesini sağlar. Bu mekanizma dört işlem seviyesine ayrılmıştır:
-* **Anonim**: Sunucuya, tanımlanamayan bir kullanıcınınki gibi erişim sağlar.
-* **Kimlik Doğrulama**: Sunucunun, nesne erişimi için kullanmadan istemcinin kimliğini doğrulamasına olanak tanır.
+* **Anonim**: Sunucuya, tanımlanamayan bir kullanıcınınki gibi erişim izni verir.
+* **Kimlik Doğrulama**: Sunucunun, nesne erişimi için istemcinin kimliğini kullanmadan doğrulamasına olanak tanır.
 * **Taklit**: Sunucunun, istemcinin kimliği altında çalışmasını sağlar.
-* **Delege**: Taklit ile benzer, ancak sunucunun etkileşimde bulunduğu uzak sistemlere bu kimlik varsayımını genişletme yeteneğini içerir, kimlik bilgilerini korur.
+* **Delege**: Taklit ile benzer, ancak sunucunun etkileşimde bulunduğu uzak sistemlere bu kimlik varsayımını genişletme yeteneğini içerir ve kimlik bilgilerini korur.
 
 #### Taklit Tokenlar
 
@@ -109,7 +109,7 @@ Hangi **token ayrıcalıklarının ayrıcalıkları yükseltmek için kötüye k
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-[**tüm olası token ayrıcalıkları ve bu dış sayfadaki bazı tanımlar**](https://github.com/gtworek/Priv2Admin) için bir göz atın.
+[**tüm olası token ayrıcalıklarına ve bu dış sayfadaki bazı tanımlara**](https://github.com/gtworek/Priv2Admin) göz atın.
 
 ## Referanslar
 

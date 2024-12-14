@@ -1,6 +1,6 @@
 # LLM Training - Data Preparation
 
-**Bunlar, çok önerilen** [**https://www.manning.com/books/build-a-large-language-model-from-scratch**](https://www.manning.com/books/build-a-large-language-model-from-scratch) **kitabından aldığım notlar ve bazı ek bilgiler.**
+**Bu, çok tavsiye edilen** [**https://www.manning.com/books/build-a-large-language-model-from-scratch**](https://www.manning.com/books/build-a-large-language-model-from-scratch) **kitabından aldığım notlar ve bazı ek bilgiler.**
 
 ## Basic Information
 
@@ -36,7 +36,7 @@ Bu ikinci aşamanın amacı çok basit: **Girdi verilerini örneklemek ve genell
 Bu üçüncü aşamanın amacı çok basit: **Sözlükteki önceki her token'a modelin eğitimi için istenen boyutlarda bir vektör atamak.** Sözlükteki her kelime, X boyutlu bir uzayda bir nokta olacaktır.\
 Başlangıçta her kelimenin uzaydaki konumu "rastgele" başlatılır ve bu konumlar eğitilebilir parametrelerdir (eğitim sırasında geliştirilecektir).
 
-Ayrıca, token embedding sırasında **başka bir embedding katmanı oluşturulur** ki bu, **eğitim cümlesindeki kelimenin mutlak konumunu** temsil eder. Bu şekilde, cümledeki farklı konumlarda bir kelime farklı bir temsil (anlam) alacaktır.
+Ayrıca, token embedding sırasında **başka bir embedding katmanı oluşturulur** ki bu, **eğitim cümlesindeki kelimenin mutlak konumunu** temsil eder. Bu şekilde, cümledeki farklı konumlarda bir kelimenin farklı bir temsili (anlamı) olacaktır.
 {% endhint %}
 
 {% content-ref url="3.-token-embeddings.md" %}
@@ -57,7 +57,7 @@ Bunun için çok sayıda katman kullanılacak, bu nedenle çok sayıda eğitileb
 ## 5. LLM Architecture
 
 {% hint style="success" %}
-Bu beşinci aşamanın amacı çok basit: **Tam LLM'nin mimarisini geliştirmek**. Her şeyi bir araya getirin, tüm katmanları uygulayın ve metin oluşturmak veya metni kimliklere ve geriye dönüştürmek için tüm işlevleri oluşturun.
+Bu beşinci aşamanın amacı çok basit: **Tam LLM'nin mimarisini geliştirmek**. Her şeyi bir araya getirin, tüm katmanları uygulayın ve metin oluşturmak veya metni kimliklere ve geri dönüştürmek için tüm fonksiyonları oluşturun.
 
 Bu mimari, hem eğitim hem de eğitimden sonra metin tahmin etmek için kullanılacaktır.
 {% endhint %}
@@ -79,7 +79,7 @@ Bu altıncı aşamanın amacı çok basit: **Modeli sıfırdan eğitmek**. Bunun
 ## 7.0. LoRA Improvements in fine-tuning
 
 {% hint style="success" %}
-**LoRA'nın kullanımı,** zaten eğitilmiş modelleri **ince ayar yapmak için gereken hesaplamayı** büyük ölçüde azaltır.
+**LoRA'nın kullanımı, zaten eğitilmiş modelleri ince ayar yapmak için gereken hesaplamayı büyük ölçüde azaltır.**
 {% endhint %}
 
 {% content-ref url="7.0.-lora-improvements-in-fine-tuning.md" %}
@@ -99,7 +99,7 @@ Bu bölümün amacı, LLM'nin yeni metin oluşturmak yerine **verilen metnin her
 ## 7.2. Fine-Tuning to follow instructions
 
 {% hint style="success" %}
-Bu bölümün amacı, sadece metin oluşturmak yerine **talimatları takip etmek için zaten önceden eğitilmiş bir modeli nasıl ince ayar yapacağınızı** göstermektir; örneğin, bir sohbet botu olarak görevlere yanıt vermek.
+Bu bölümün amacı, metin oluşturmak yerine **talimatları takip etmek için zaten önceden eğitilmiş bir modeli nasıl ince ayar yapacağınızı** göstermektir; örneğin, bir sohbet botu olarak görevlere yanıt vermek.
 {% endhint %}
 
 {% content-ref url="7.2.-fine-tuning-to-follow-instructions.md" %}

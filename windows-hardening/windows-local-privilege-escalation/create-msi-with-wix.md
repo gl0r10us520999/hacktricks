@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 MSI yükleyicisinin oluşturulması wixtools kullanılarak yapılacaktır, özellikle [wixtools](http://wixtoolset.org) kullanılacaktır. Alternatif MSI oluşturucularının denendiği, ancak bu özel durumda başarılı olunamadığı belirtilmelidir.
 
-Wix MSI kullanım örnekleri hakkında kapsamlı bir anlayış için, [bu sayfaya](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with) danışılması önerilir. Burada, wix MSI kullanımını gösteren çeşitli örnekler bulabilirsiniz.
+Wix MSI kullanım örnekleri hakkında kapsamlı bir anlayış için, [bu sayfaya](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with) başvurulması önerilir. Burada, wix MSI kullanımını gösteren çeşitli örnekler bulabilirsiniz.
 
 Amaç, lnk dosyasını çalıştıracak bir MSI oluşturmaktır. Bunu başarmak için aşağıdaki XML kodu kullanılabilir ([xml buradan](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)):
 ```markup
@@ -59,7 +59,7 @@ candle.exe -out C:\tem\wix C:\tmp\Ethereal\msi.xml
 ```
 Ayrıca, gönderide komut ve çıktısını gösteren bir görüntü sağlandığına değinmekte fayda var. Görsel rehberlik için buna başvurabilirsiniz.
 
-Ayrıca, wixobject'ten MSI dosyası oluşturmak için wixtools'tan başka bir araç olan light.exe kullanılacaktır. Çalıştırılacak komut aşağıdaki gibidir:
+Ayrıca, wixtools'tan bir başka araç olan light.exe, wixobject'ten MSI dosyası oluşturmak için kullanılacaktır. Çalıştırılacak komut aşağıdaki gibidir:
 ```
 light.exe -out C:\tm\Ethereal\rick.msi C:\tmp\wix
 ```

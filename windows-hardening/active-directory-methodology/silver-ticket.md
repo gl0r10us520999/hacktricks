@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Silver ticket
 
-**Silver Ticket** saldırısı, Active Directory (AD) ortamlarında hizmet biletlerinin istismarını içerir. Bu yöntem, bir hizmet hesabının NTLM hash'ini, örneğin bir bilgisayar hesabı, elde etmeye dayanır ve böylece bir Ticket Granting Service (TGS) bileti oluşturulur. Bu sahte bilet ile bir saldırgan, genellikle yönetici ayrıcalıkları hedefleyerek, ağdaki belirli hizmetlere **herhangi bir kullanıcıyı taklit ederek** erişebilir. Biletleri sahtelemek için AES anahtarlarının kullanılmasının daha güvenli ve daha az tespit edilebilir olduğu vurgulanmaktadır.
+**Silver Ticket** saldırısı, Active Directory (AD) ortamlarında hizmet biletlerinin istismarını içerir. Bu yöntem, bir Ticket Granting Service (TGS) bileti oluşturmak için bir hizmet hesabının NTLM hash'ini **edinmeye** dayanır; bu, bir bilgisayar hesabı gibi bir hizmet hesabı olabilir. Bu sahte bilet ile bir saldırgan, genellikle yönetici ayrıcalıkları hedefleyerek, **herhangi bir kullanıcıyı taklit ederek** ağdaki belirli hizmetlere erişebilir. Biletleri sahtelemek için AES anahtarlarının kullanılmasının daha güvenli ve daha az tespit edilebilir olduğu vurgulanmaktadır.
 
 Bilet oluşturma için, işletim sistemine bağlı olarak farklı araçlar kullanılmaktadır:
 
@@ -58,9 +58,9 @@ CIFS servisi, kurbanın dosya sistemine erişim için yaygın bir hedef olarak �
 | Windows Dosya Paylaşımı, ayrıca psexec    | CIFS                                                                   |
 | LDAP işlemleri, DCSync dahil              | LDAP                                                                   |
 | Windows Uzak Sunucu Yönetim Araçları      | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                     |
-| Altın Biletler                             | krbtgt                                                                 |
+| Altın Biletler                            | krbtgt                                                                 |
 
-**Rubeus** kullanarak bu biletlerin hepsini şu parametre ile **isteyebilirsiniz**:
+**Rubeus** kullanarak bu biletlerin hepsini aşağıdaki parametre ile **isteyebilirsiniz**:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
@@ -155,7 +155,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Hata ödülü ipucu**: **Intigriti'ye kaydolun**, **hackerlar tarafından, hackerlar için oluşturulmuş premium bir hata ödülü platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresine katılın ve **$100,000**'a kadar ödüller kazanmaya başlayın!
+**Hata ödülü ipucu**: **Intigriti'ye kaydolun**, **hackerlar tarafından, hackerlar için oluşturulmuş premium bir hata ödülü platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresinde bize katılın ve **$100,000**'a kadar ödüller kazanmaya başlayın!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 

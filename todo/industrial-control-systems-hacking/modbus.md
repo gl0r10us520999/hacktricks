@@ -2,30 +2,30 @@
 
 ## Modbus Protokolüne Giriş
 
-Modbus protokolü Endüstriyel Otomasyon ve Kontrol Sistemlerinde yaygın olarak kullanılan bir protokoldür. Modbus, programlanabilir mantık denetleyicileri (PLC'ler), sensörler, aktüatörler ve diğer endüstriyel cihazlar gibi çeşitli cihazlar arasında iletişime olanak tanır. Modbus Protokolünü anlamak önemlidir çünkü bu, ICS'de en çok kullanılan iletişim protokolüdür ve PLC'lere komut sızdırma ve hatta enjekte etme potansiyeli için geniş bir saldırı yüzeyine sahiptir.
+Modbus protokolü, Endüstriyel Otomasyon ve Kontrol Sistemlerinde yaygın olarak kullanılan bir protokoldür. Modbus, programlanabilir mantık denetleyicileri (PLC'ler), sensörler, aktüatörler ve diğer endüstriyel cihazlar gibi çeşitli cihazlar arasında iletişim sağlar. Modbus Protokolünü anlamak, bu protokolün ICS'de en çok kullanılan iletişim protokolü olması ve PLC'lere komut enjekte etme potansiyeli nedeniyle önemlidir.
 
-Burada, protokolün bağlamını sağlayan kavramlar nokta nokta belirtilerek belirtilmiştir. ICS sistem güvenliğindeki en büyük zorluk, uygulama ve güncelleme maliyetidir. Bu protokoller ve standartlar, hala yaygın olarak kullanılan 80'ler ve 90'larda tasarlanmıştır. Bir endüstride birçok cihaz ve bağlantı olduğundan, cihazların güncellenmesi çok zordur, bu da hackerlara eski protokollerle başa çıkmaları için bir avantaj sağlar. Modbus'a yapılan saldırılar neredeyse kaçınılmazdır çünkü güncelleme yapılmadan kullanılacak ve işleyişi endüstri için kritik olan bir protokoldür.
+Burada, protokolün bağlamını ve çalışma doğasını sağlayan kavramlar madde madde belirtilmiştir. ICS sistem güvenliğindeki en büyük zorluk, uygulama ve yükseltme maliyetidir. Bu protokoller ve standartlar, hala yaygın olarak kullanılan 80'ler ve 90'ların başında tasarlanmıştır. Bir endüstrinin birçok cihazı ve bağlantısı olduğundan, cihazları yükseltmek çok zordur; bu da hacker'lara eski protokollerle başa çıkma avantajı sağlar. Modbus'a yönelik saldırılar, endüstrinin operasyonu kritik olduğu için yükseltme olmadan kullanılmaya devam edileceğinden pratikte kaçınılmaz gibidir.
 
 ## İstemci-Sunucu Mimarisi
 
-Modbus Protokolü genellikle İstemci Sunucu Mimarisi olarak kullanılır, burada bir ana cihaz (istemci) bir veya daha fazla köle cihazla (sunucular) iletişimi başlatır. Bu aynı zamanda SPI, I2C vb. ile elektronik ve IoT'de yaygın olarak kullanılan Usta-Köle mimarisi olarak da adlandırılır.
+Modbus Protokolü, genellikle bir ana cihazın (istemci) bir veya daha fazla köle cihazla (sunucu) iletişimi başlattığı İstemci Sunucu Mimarisi olarak kullanılır. Bu, elektronik ve IoT'de SPI, I2C vb. ile yaygın olarak kullanılan Ana-Köle mimarisi olarak da adlandırılır.
 
-## Seri ve Ethernet Sürümleri
+## Seri ve Ethernet Versiyonları
 
-Modbus Protokolü, Seri İletişim ve Ethernet İletişimi için tasarlanmıştır. Seri İletişim, eski sistemlerde yaygın olarak kullanılırken modern cihazlar Ethernet'i destekler ve yüksek veri hızları sunar, modern endüstriyel ağlar için daha uygundur.
+Modbus Protokolü, hem Seri İletişim hem de Ethernet İletişimi için tasarlanmıştır. Seri İletişim, eski sistemlerde yaygın olarak kullanılırken, modern cihazlar yüksek veri hızları sunan ve modern endüstriyel ağlar için daha uygun olan Ethernet'i destekler.
 
 ## Veri Temsili
 
 Veri, Modbus protokolünde ASCII veya İkili olarak iletilir, ancak ikili format, eski cihazlarla uyumluluğu nedeniyle kullanılır.
 
-## İşlev Kodları
+## Fonksiyon Kodları
 
-Modbus Protokolü, PLC'leri ve çeşitli kontrol cihazlarını çalıştırmak için kullanılan belirli işlev kodlarının iletilmesiyle çalışır. Bu bölüm, tekrar saldırılarının işlev kodlarını yeniden ileterek yapılabilmesi nedeniyle önemlidir. Eski cihazlar veri iletimine herhangi bir şifreleme desteği sağlamaz ve genellikle bunları bağlayan uzun tellere sahiptir, bu da bu tellerin manipüle edilmesine ve verinin yakalanmasına/enjekte edilmesine neden olur.
+ModBus Protokolü, PLC'leri ve çeşitli kontrol cihazlarını çalıştırmak için kullanılan belirli fonksiyon kodlarının iletimi ile çalışır. Bu bölüm, yeniden iletim saldırılarının fonksiyon kodlarını yeniden ileterek gerçekleştirilebileceği için önemlidir. Eski cihazlar, veri iletimi için herhangi bir şifreleme desteği sunmaz ve genellikle uzun kablolarla bağlanır; bu da bu kabloların manipüle edilmesine ve verilerin yakalanmasına/enjekte edilmesine yol açar.
 
-## Modbus Adresleme
+## Modbus'ın Adreslenmesi
 
-Ağdaki her cihazın iletişim için gerekli olan benzersiz bir adresi vardır. Modbus RTU, Modbus TCP vb. gibi protokoller adreslemeyi uygulamak için kullanılır ve veri iletimine bir taşıma katmanı gibi hizmet eder. Aktarılan veri, mesajı içeren Modbus protokol formatında olur.
+Ağdaki her cihazın, cihazlar arasında iletişim için gerekli olan benzersiz bir adresi vardır. Modbus RTU, Modbus TCP gibi protokoller, adreslemeyi uygulamak için kullanılır ve veri iletimi için bir taşıma katmanı işlevi görür. Aktarılan veri, mesajı içeren Modbus protokol formatındadır.
 
-Ayrıca, Modbus, iletilen verinin bütünlüğünü sağlamak için hata kontrolleri de uygular. Ancak en önemlisi, Modbus açık bir standarttır ve herkes cihazlarına uygulayabilir. Bu, bu protokolün küresel bir standart haline gelmesini sağladı ve endüstriyel otomasyon endüstrisinde yaygındır.
+Ayrıca, Modbus, iletilen verilerin bütünlüğünü sağlamak için hata kontrolleri de uygular. Ancak en önemlisi, Modbus bir Açık Standarttır ve herkes bunu cihazlarında uygulayabilir. Bu, protokolün küresel standart haline gelmesini sağladı ve endüstriyel otomasyon endüstrisinde yaygın hale geldi.
 
-Geniş çapta kullanılması ve güncellenmemesi nedeniyle Modbus'a saldırmak, saldırı yüzeyi ile önemli bir avantaj sağlar. ICS, cihazlar arasındaki iletişime son derece bağımlıdır ve bunlara yapılan saldırılar endüstriyel sistemlerin işleyişi için tehlikeli olabilir. Tekrar saldırıları, veri enjeksiyonu, veri sniffing ve sızdırma, Hizmet Reddi, veri sahteciliği vb. saldırılar, iletim ortamı saldırgan tarafından belirlenirse gerçekleştirilebilir.
+Büyük ölçekli kullanımı ve yükseltme eksikliği nedeniyle, Modbus'a saldırmak, saldırı yüzeyi ile önemli bir avantaj sağlar. ICS, cihazlar arasındaki iletişime yüksek derecede bağımlıdır ve bunlara yapılan herhangi bir saldırı, endüstriyel sistemlerin operasyonu için tehlikeli olabilir. Yeniden oynatma, veri enjekte etme, veri dinleme ve sızdırma, Hizmet Reddi, veri sahteciliği gibi saldırılar, iletim ortamı saldırgan tarafından tanımlanırsa gerçekleştirilebilir.

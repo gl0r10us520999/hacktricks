@@ -7,7 +7,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -132,11 +132,11 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## Fonksiyonları Çağırma
 
-* `entry_state` ve `full_init_state` içine `args` aracılığıyla bir argüman listesi ve `env` aracılığıyla bir ortam değişkenleri sözlüğü geçirebilirsiniz. Bu yapılardaki değerler string veya bitvector olabilir ve simüle edilen yürütme için argümanlar ve ortam olarak duruma serileştirilecektir. Varsayılan `args` boş bir listedir, bu nedenle analiz ettiğiniz program en az bir `argv[0]` bulmayı bekliyorsa, bunu her zaman sağlamalısınız!
-* `argc`'nin sembolik olmasını istiyorsanız, `entry_state` ve `full_init_state` yapıcılarına sembolik bir bitvector olarak `argc` geçirebilirsiniz. Ancak dikkatli olun: bunu yaparsanız, `args` içine geçirdiğiniz argüman sayısından daha büyük olamayacak şekilde sonuçlanan duruma bir kısıtlama eklemelisiniz.
-* Çağrı durumunu kullanmak için, `.call_state(addr, arg1, arg2, ...)` ile çağırmalısınız; burada `addr`, çağırmak istediğiniz fonksiyonun adresidir ve `argN`, o fonksiyona geçilecek N'inci argümandır; bu bir python tamsayı, string, dizi veya bitvector olabilir. Bellek tahsis edilmesini ve gerçekten bir nesneye işaretçi geçmesini istiyorsanız, bunu bir PointerWrapper içinde sarmalısınız, yani `angr.PointerWrapper("point to me!")`. Bu API'nin sonuçları biraz öngörülemez olabilir, ama bunun üzerinde çalışıyoruz.
+* `entry_state` ve `full_init_state` içine `args` aracılığıyla bir argüman listesi ve `env` aracılığıyla bir ortam değişkenleri sözlüğü geçirebilirsiniz. Bu yapılardaki değerler string veya bitvector olabilir ve simüle edilmiş yürütme için argümanlar ve ortam olarak duruma serileştirilecektir. Varsayılan `args` boş bir listedir, bu nedenle analiz ettiğiniz program en az bir `argv[0]` bulmayı bekliyorsa, bunu her zaman sağlamalısınız!
+* `argc`'nin sembolik olmasını istiyorsanız, `entry_state` ve `full_init_state` yapıcılarına sembolik bir bitvector olarak `argc` geçirebilirsiniz. Ancak dikkatli olun: bunu yaparsanız, `argc` için değerinizin `args` içine geçirdiğiniz argüman sayısından büyük olamayacağına dair bir kısıtlama da eklemelisiniz.
+* Çağrı durumunu kullanmak için, `.call_state(addr, arg1, arg2, ...)` ile çağırmalısınız; burada `addr`, çağırmak istediğiniz fonksiyonun adresidir ve `argN`, o fonksiyona geçilecek N'inci argümandır; bu argüman bir python tamsayı, string, dizi veya bitvector olabilir. Bellek tahsis edilmesini ve gerçekten bir nesneye işaretçi geçmek istiyorsanız, bunu bir PointerWrapper içinde sarmalısınız, yani `angr.PointerWrapper("point to me!")`. Bu API'nin sonuçları biraz öngörülemez olabilir, ama bunun üzerinde çalışıyoruz.
 
-## BitVectorlar
+## BitVectors
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -197,7 +197,7 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Ayrıca, sembolün bulunduğu adresi bağlamak için ilk argüman olarak bir sembol adı vererek `proj.hook_symbol(name, hook)` kullanabilirsiniz.
+Ayrıca, sembolün bulunduğu adresi bağlamak için ilk argüman olarak sembolün adını vererek `proj.hook_symbol(name, hook)` kullanabilirsiniz.
 
 # Örnekler
 
@@ -210,8 +210,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

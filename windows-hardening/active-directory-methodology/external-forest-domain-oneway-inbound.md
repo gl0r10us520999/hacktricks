@@ -73,7 +73,7 @@ IsDomain     : True
 
 ## İlk Erişim
 
-Eğer diğer alandaki kullanıcınızın herhangi bir **özel** erişimini bulamadıysanız, yine de AD Metodolojisine geri dönebilir ve **yetkisiz bir kullanıcıdan privesc** denemeye çalışabilirsiniz (örneğin kerberoasting gibi):
+Eğer diğer alandaki kullanıcınızın herhangi bir **özel** erişimini **bulamadıysanız**, yine de AD Metodolojisine geri dönebilir ve **yetkisiz bir kullanıcıdan privesc** denemeye çalışabilirsiniz (örneğin kerberoasting gibi):
 
 **Powerview fonksiyonlarını** kullanarak `-Domain` parametresi ile **diğer alanı** **sayım** yapmak için:
 ```powershell
@@ -87,18 +87,18 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 
 ### Giriş Yapma
 
-Dış domaine erişimi olan kullanıcıların kimlik bilgileriyle normal bir yöntem kullanarak erişim sağlamalısınız:
+Dış domaine erişimi olan kullanıcıların kimlik bilgilerini kullanarak normal bir yöntemle erişim sağlamalısınız:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### SID History Abuse
+### SID Tarihi İstismarı
 
-Bir orman güvenini kullanarak [**SID History**](sid-history-injection.md) kötüye kullanabilirsiniz.
+Bir orman güveni üzerinden [**SID Tarihi**](sid-history-injection.md) istismar edebilirsiniz.
 
-Eğer bir kullanıcı **bir ormandan diğerine** taşınırsa ve **SID Filtreleme etkin değilse**, **diğer ormandan bir SID eklemek** mümkün hale gelir ve bu **SID**, **güven üzerinden** kimlik doğrulama sırasında **kullanıcının token'ına** **eklenecektir**.
+Bir kullanıcı **bir ormandan diğerine** taşındığında ve **SID Filtrelemesi etkin değilse**, **diğer ormandan bir SID eklemek** mümkün hale gelir ve bu **SID**, **güven üzerinden** kimlik doğrulama sırasında **kullanıcının token'ına** **eklenecektir**.
 
 {% hint style="warning" %}
-Hatırlatmak gerekirse, imza anahtarını alabilirsiniz
+Hatırlatma olarak, imza anahtarını alabilirsiniz
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
@@ -138,7 +138,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

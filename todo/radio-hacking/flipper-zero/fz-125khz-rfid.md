@@ -1,8 +1,8 @@
 # FZ - 125kHz RFID
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -33,10 +33,10 @@ Bu tür etiketler hakkında daha fazla bilgi için [**bu girişi okuyun**](../pe
 
 ### Oku
 
-Kart bilgisini **okumaya** çalışır. Sonra bunları **taklit** edebilir.
+Kart bilgilerini **okumaya** çalışır. Sonra bunları **taklit** edebilir.
 
 {% hint style="warning" %}
-Bazı interkomların, okumadan önce bir yazma komutu göndererek kendilerini anahtar kopyalamaktan korumaya çalıştığını unutmayın. Yazma başarılı olursa, o etiket sahte olarak kabul edilir. Flipper RFID'yi taklit ettiğinde, okuyucunun bunu orijinalinden ayırt etmesi için bir yol yoktur, bu nedenle böyle bir sorun ortaya çıkmaz.
+Bazı interkomların, okumadan önce bir yazma komutu göndererek anahtar kopyalamaya karşı kendilerini korumaya çalıştığını unutmayın. Yazma başarılı olursa, o etiket sahte olarak kabul edilir. Flipper RFID'yi taklit ettiğinde, okuyucunun bunu orijinalinden ayırt etmesi için bir yol yoktur, bu nedenle böyle bir sorun ortaya çıkmaz.
 {% endhint %}
 
 ### Manuel Ekle
@@ -62,7 +62,7 @@ Bu HID kartında da aynı durum geçerlidir; burada yalnızca 3 bayttan 2'si kar
 
 ### Taklit/Yaz
 
-Bir kartı **kopyaladıktan** veya kimliği **manuel olarak girdikten** sonra, bunu Flipper Zero ile **taklit** etmek veya gerçek bir karta **yazmak** mümkündür.
+Bir kartı **kopyaladıktan** veya kimliği **manuel olarak girdikten** sonra, bunu Flipper Zero ile **taklit etmek** veya gerçek bir karta **yazmak** mümkündür.
 
 ## Referanslar
 
@@ -73,8 +73,8 @@ Bir kartı **kopyaladıktan** veya kimliği **manuel olarak girdikten** sonra, b
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

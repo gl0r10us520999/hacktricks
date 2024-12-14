@@ -29,7 +29,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Mimikatz'ın yapabileceği diğer şeyleri** [**bu sayfada**](credentials-mimikatz.md)** bulun.**
+**Mimikatz'in yapabileceği diğer şeyleri** [**bu sayfada**](credentials-mimikatz.md)** bulabilirsiniz.**
 
 ### Invoke-Mimikatz
 ```bash
@@ -86,13 +86,13 @@ mimikatz # sekurlsa::logonPasswords
 
 Bu işlem otomatik olarak [SprayKatz](https://github.com/aas-n/spraykatz) ile yapılır: `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Not**: Bazı **AV** **procdump.exe'nin lsass.exe'yi dökümlemesi** kullanımını **kötü amaçlı** olarak **tespit** edebilir, bu da **"procdump.exe" ve "lsass.exe"** dizesini **tespit** etmelerindendir. Bu nedenle, **lsass.exe'nin PID'sini** procdump'a **lsass.exe ismi yerine** bir **argüman** olarak **geçmek** daha **gizli**dir.
+**Not**: Bazı **AV** yazılımları **procdump.exe'nin lsass.exe'yi dökme** işlemini **kötü amaçlı** olarak **tespit** edebilir, bu da **"procdump.exe" ve "lsass.exe"** dizesini **tespit** etmelerindendir. Bu nedenle, **lsass.exe**'nin **PID**'sini procdump'a **lsass.exe** ismi yerine **argüman** olarak **geçmek** daha **gizli** bir yöntemdir.
 
-### **comsvcs.dll** ile lsass dökümü
+### **comsvcs.dll** ile lsass'ı dökme
 
-`C:\Windows\System32` içinde bulunan **comsvcs.dll** adlı bir DLL, bir çökme durumunda **işlem belleğini dökmekten** sorumludur. Bu DLL, `rundll32.exe` kullanılarak çağrılması için tasarlanmış **`MiniDumpW`** adlı bir **fonksiyon** içerir.\
-İlk iki argümanı kullanmak önemsizdir, ancak üçüncüsü üç bileşene ayrılır. Dökümü alınacak işlem kimliği ilk bileşeni, döküm dosyası konumu ikinciyi temsil eder ve üçüncü bileşen kesinlikle **full** kelimesidir. Alternatif seçenek yoktur.\
-Bu üç bileşen ayrıştırıldığında, DLL döküm dosyasını oluşturmak ve belirtilen işlemin belleğini bu dosyaya aktarmakla ilgilenir.\
+`C:\Windows\System32` dizininde bulunan **comsvcs.dll** adlı bir DLL, bir çökme durumunda **işlem belleğini dökme** işlemini gerçekleştirir. Bu DLL, `rundll32.exe` kullanılarak çağrılmak üzere tasarlanmış **`MiniDumpW`** adlı bir **fonksiyon** içerir.\
+İlk iki argümanı kullanmak önemsizdir, ancak üçüncü argüman üç bileşene ayrılır. Dökülecek işlem ID'si birinci bileşeni, döküm dosyası konumu ikinciyi temsil eder ve üçüncü bileşen kesinlikle **full** kelimesidir. Alternatif seçenek yoktur.\
+Bu üç bileşen ayrıştırıldığında, DLL döküm dosyasını oluşturmak ve belirtilen işlemin belleğini bu dosyaya aktarmak için devreye girer.\
 **comsvcs.dll** kullanımı, lsass işlemini dökmek için mümkündür, böylece procdump'ı yükleyip çalıştırma ihtiyacı ortadan kalkar. Bu yöntem [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords) adresinde ayrıntılı olarak açıklanmıştır.
 
 Aşağıdaki komut çalıştırmak için kullanılır:
@@ -104,9 +104,9 @@ rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ### **Görev Yöneticisi ile lsass Dökümü**
 
 1. Görev Çubuğuna sağ tıklayın ve Görev Yöneticisi'ni tıklayın
-2. Daha fazla ayrıntı'ya tıklayın
-3. İşlemler sekmesinde "Yerel Güvenlik Otoritesi Süreci" işlemini arayın
-4. "Yerel Güvenlik Otoritesi Süreci" işlemine sağ tıklayın ve "Döküm dosyası oluştur" seçeneğine tıklayın.
+2. Daha fazla ayrıntıya tıklayın
+3. İşlemler sekmesinde "Yerel Güvenlik Otoritesi Süreci"ni arayın
+4. "Yerel Güvenlik Otoritesi Süreci"ne sağ tıklayın ve "Döküm dosyası oluştur"u tıklayın.
 
 ### Procdump ile lsass Dökümü
 
@@ -166,7 +166,7 @@ reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Bu dosyaları** Kali makinenize **indirin** ve **hash'leri çıkartın**:
+**Bu dosyaları** Kali makinenize **indirin** ve **hash'leri çıkarın**:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
@@ -207,27 +207,27 @@ Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c
 ```
 ## **Active Directory Kimlik Bilgileri - NTDS.dit**
 
-**NTDS.dit** dosyası, **Active Directory**'nin kalbi olarak bilinir ve kullanıcı nesneleri, gruplar ve bunların üyelikleri hakkında kritik verileri tutar. Bu dosya, alan kullanıcıları için **şifre karma**'larının saklandığı yerdir. Bu dosya, **Genişletilebilir Depolama Motoru (ESE)** veritabanıdır ve **_%SystemRoom%/NTDS/ntds.dit_** konumunda bulunur.
+**NTDS.dit** dosyası, **Active Directory**'nin kalbi olarak bilinir ve kullanıcı nesneleri, gruplar ve bunların üyelikleri hakkında kritik verileri tutar. Bu dosya, etki alanı kullanıcıları için **şifre hash'lerini** depolar. Bu dosya, **Genişletilebilir Depolama Motoru (ESE)** veritabanıdır ve **_%SystemRoom%/NTDS/ntds.dit_** konumunda bulunur.
 
 Bu veritabanında üç ana tablo tutulur:
 
-- **Veri Tablosu**: Bu tablo, kullanıcılar ve gruplar gibi nesneler hakkında ayrıntıları saklamakla görevlidir.
-- **Bağlantı Tablosu**: Üyelikler gibi ilişkileri takip eder.
-- **SD Tablosu**: Her nesne için **Güvenlik tanımlayıcıları** burada tutulur ve saklanan nesnelerin güvenliği ve erişim kontrolünü sağlar.
+- **Veri Tablosu**: Bu tablo, kullanıcılar ve gruplar gibi nesneler hakkında ayrıntıları depolamakla görevlidir.
+- **Bağlantı Tablosu**: Grup üyelikleri gibi ilişkileri takip eder.
+- **SD Tablosu**: Her nesne için **Güvenlik tanımlayıcıları** burada tutulur ve depolanan nesnelerin güvenliği ve erişim kontrolünü sağlar.
 
 Bunun hakkında daha fazla bilgi: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows, bu dosyayla etkileşimde bulunmak için _Ntdsa.dll_ kullanır ve _lsass.exe_ tarafından kullanılır. Ardından, **NTDS.dit** dosyasının bir kısmı **`lsass`** belleğinde bulunabilir (performans iyileştirmesi nedeniyle muhtemelen en son erişilen verileri bulabilirsiniz, çünkü bir **önbellek** kullanılır).
+Windows, bu dosyayla etkileşimde bulunmak için _Ntdsa.dll_ kullanır ve _lsass.exe_ tarafından kullanılır. Ardından, **NTDS.dit** dosyasının bir kısmı **`lsass`** belleği içinde bulunabilir (performans iyileştirmesi nedeniyle muhtemelen en son erişilen verileri bulabilirsiniz, çünkü bir **önbellek** kullanılır).
 
-#### NTDS.dit içindeki karma değerlerini çözme
+#### NTDS.dit içindeki hash'leri çözme
 
-Karma, 3 kez şifrelenmiştir:
+Hash, 3 kez şifrelenmiştir:
 
-1. **BOOTKEY** ve **RC4** kullanarak Şifre Çözme Anahtarını (**PEK**) çözün.
-2. **PEK** ve **RC4** kullanarak **karma** değerini çözün.
-3. **DES** kullanarak **karma** değerini çözün.
+1. **BOOTKEY** ve **RC4** kullanarak Şifre Çözme Parola Anahtarını (**PEK**) çözün.
+2. **PEK** ve **RC4** kullanarak **hash**'i çözün.
+3. **DES** kullanarak **hash**'i çözün.
 
-**PEK**, **her alan denetleyicisinde** **aynı değere** sahiptir, ancak **alan denetleyicisinin SYSTEM dosyasının BOOTKEY**'i kullanılarak **NTDS.dit** dosyası içinde **şifrelenmiştir** (alan denetleyicileri arasında farklıdır). Bu nedenle, NTDS.dit dosyasından kimlik bilgilerini almak için **NTDS.dit ve SYSTEM dosyalarına ihtiyacınız var** (_C:\Windows\System32\config\SYSTEM_).
+**PEK**, **her etki alanı denetleyicisinde** **aynı değere** sahiptir, ancak **etki alanı denetleyicisinin SYSTEM dosyasının BOOTKEY**'i kullanılarak **NTDS.dit** dosyası içinde **şifrelenmiştir** (etki alanı denetleyicileri arasında farklıdır). Bu nedenle, NTDS.dit dosyasından kimlik bilgilerini almak için **NTDS.dit ve SYSTEM dosyalarına ihtiyacınız var** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Ntdsutil kullanarak NTDS.dit kopyalama
 
@@ -257,7 +257,7 @@ NTDS nesneleri, [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite) ile b
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-The `SYSTEM` hive isteğe bağlıdır ancak gizli bilgilerin şifre çözümlemesine olanak tanır (NT & LM hash'leri, düz metin şifreler gibi ek kimlik bilgileri, kerberos veya güven trust anahtarları, NT & LM şifre geçmişleri). Diğer bilgilerle birlikte, aşağıdaki veriler çıkarılır: kullanıcı ve makine hesapları ile hash'leri, UAC bayrakları, son oturum açma ve şifre değiştirme için zaman damgası, hesap açıklamaları, adlar, UPN, SPN, gruplar ve özyinelemeli üyelikler, organizasyonel birimler ağacı ve üyelik, güvenilir alanlar ile güven türü, yönü ve nitelikleri...
+The `SYSTEM` hive isteğe bağlıdır ancak gizli bilgilerin şifre çözümlemesine izin verir (NT & LM hash'leri, düz metin şifreler gibi ek kimlik bilgileri, kerberos veya güven trust anahtarları, NT & LM şifre geçmişleri). Diğer bilgilerle birlikte, aşağıdaki veriler çıkarılır: hash'leri ile kullanıcı ve makine hesapları, UAC bayrakları, son oturum açma ve şifre değiştirme için zaman damgası, hesap açıklamaları, adlar, UPN, SPN, gruplar ve özyinelemeli üyelikler, organizasyonel birimler ağacı ve üyelik, güvenilir alanlar ile güven türü, yönü ve nitelikleri...
 
 ## Lazagne
 
@@ -273,7 +273,7 @@ Bu araç, bellekten kimlik bilgilerini çıkarmak için kullanılabilir. Bunu bu
 
 ### fgdump
 
-SAM dosyasından kimlik bilgilerini çıkarın.
+SAM dosyasından kimlik bilgilerini çıkarın
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
@@ -288,22 +288,22 @@ type outpwdump
 ```
 ### PwDump7
 
-[ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) adresinden indirin ve sadece **çalıştırın** ve şifreler çıkarılacaktır.
+[http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) adresinden indirin ve sadece **çalıştırın**, şifreler çıkarılacaktır.
 
 ## Defanslar
 
-[**Burada bazı kimlik bilgisi korumalarını öğrenin.**](credentials-protections.md)
+[**Burada bazı kimlik bilgisi korumaları hakkında bilgi edinin.**](credentials-protections.md)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

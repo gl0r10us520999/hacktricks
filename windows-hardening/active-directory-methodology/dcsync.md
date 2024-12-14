@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -29,13 +29,13 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 **DCSync ile ilgili Önemli Notlar:**
 
-* **DCSync saldırısı, bir Alan Denetleyicisinin davranışını simüle eder ve diğer Alan Denetleyicilerinden bilgileri çoğaltmalarını ister**; bu, Directory Replication Service Remote Protocol (MS-DRSR) kullanılarak yapılır. MS-DRSR, Active Directory'nin geçerli ve gerekli bir işlevi olduğundan, kapatılamaz veya devre dışı bırakılamaz.
+* **DCSync saldırısı, bir Domain Controller'ın davranışını simüle eder ve diğer Domain Controller'lardan bilgileri çoğaltmalarını ister**; bu işlem Directory Replication Service Remote Protocol (MS-DRSR) kullanılarak gerçekleştirilir. MS-DRSR, Active Directory'nin geçerli ve gerekli bir işlevi olduğundan kapatılamaz veya devre dışı bırakılamaz.
 * Varsayılan olarak yalnızca **Domain Admins, Enterprise Admins, Administrators ve Domain Controllers** grupları gerekli ayrıcalıklara sahiptir.
 * Herhangi bir hesap parolası tersine çevrilebilir şifreleme ile saklanıyorsa, Mimikatz'ta parolayı düz metin olarak döndürmek için bir seçenek mevcuttur.
 
 ### Enumeration
 
-Bu izinlere kimin sahip olduğunu kontrol etmek için `powerview` kullanın:
+Bu izinlere sahip olanları `powerview` kullanarak kontrol edin:
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{($_.ObjectType -match 'replication-get') -or ($_.ActiveDirectoryRights -match 'GenericAll') -or ($_.ActiveDirectoryRights -match 'WriteDacl')}
 ```

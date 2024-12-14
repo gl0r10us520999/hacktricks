@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Diamond Ticket
 
-**Altın bilet gibi**, bir elmas bilet, **herhangi bir kullanıcı olarak herhangi bir hizmete erişmek için kullanılabilen bir TGT'dir**. Altın bilet tamamen çevrimdışı olarak sahte bir şekilde oluşturulur, o alanın krbtgt hash'i ile şifrelenir ve ardından kullanım için bir oturum açma oturumuna geçirilir. Alan denetleyicileri, TGT'leri izlememektedir, bu nedenle (veya onlar) meşru bir şekilde verilmiş olanları kabul ederler, kendi krbtgt hash'i ile şifrelenmiş TGT'leri memnuniyetle kabul ederler.
+**Altın bilet gibi**, bir elmas bilet, **herhangi bir kullanıcı olarak herhangi bir hizmete erişmek için kullanılabilen bir TGT'dir**. Altın bilet tamamen çevrimdışı olarak sahte bir şekilde oluşturulur, o alanın krbtgt hash'i ile şifrelenir ve ardından kullanım için bir oturum açma oturumuna geçirilir. Alan denetleyicileri, TGT'leri izlememektedir, bu nedenle (veya onlar) meşru olarak verilmiş olanları kabul ederler, kendi krbtgt hash'i ile şifrelenmiş TGT'leri memnuniyetle kabul ederler.
 
 Altın biletlerin kullanımını tespit etmek için iki yaygın teknik vardır:
 

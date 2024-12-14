@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## Nasıl Çalıştığı Açıklandı
 
-Kullanıcı adı ve ya şifre ya da hash bilindiğinde, WMI kullanılarak hostlarda işlemler açılabilir. Wmiexec, WMI kullanarak komutları çalıştırır ve yarı etkileşimli bir shell deneyimi sunar.
+Kullanıcı adı ve ya şifre ya da hash bilinen hostlarda işlemler açılabilir. Wmiexec kullanarak WMI ile komutlar çalıştırılır ve yarı etkileşimli bir shell deneyimi sağlanır.
 
 **dcomexec.py:** Farklı DCOM uç noktalarını kullanarak, bu script wmiexec.py'ye benzer yarı etkileşimli bir shell sunar ve özellikle ShellBrowserWindow DCOM nesnesini kullanır. Şu anda MMC20, Uygulama, Shell Windows ve Shell Browser Window nesnelerini desteklemektedir. (kaynak: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
@@ -25,7 +25,7 @@ Kullanıcı adı ve ya şifre ya da hash bilindiğinde, WMI kullanılarak hostla
 
 ### Namespace
 
-Dizin tarzı bir hiyerarşi içinde yapılandırılmış olan WMI'nın en üst düzey konteyneri \root'tur, bunun altında namespace olarak adlandırılan ek dizinler organize edilmiştir. 
+Dizin tarzı bir hiyerarşi içinde yapılandırılmış olan WMI'nın en üst düzey konteyneri \root'tur, altında namespace olarak adlandırılan ek dizinler organize edilmiştir.  
 Namespace'leri listelemek için komutlar:
 ```bash
 # Retrieval of Root namespaces
@@ -37,7 +37,7 @@ Get-WmiObject -Class "__Namespace" -Namespace "Root" -List -Recurse 2> $null | s
 # Listing of namespaces within "root\cimv2"
 Get-WmiObject -Class "__Namespace" -Namespace "root\cimv2" -List -Recurse 2> $null | select __Namespace | sort __Namespace
 ```
-Bir ad alanı içindeki sınıflar şu şekilde listelenebilir:
+Namespace içindeki sınıflar şu şekilde listelenebilir:
 ```bash
 gwmwi -List -Recurse # Defaults to "root\cimv2" if no namespace specified
 gwmi -Namespace "root/microsoft" -List -Recurse
@@ -50,7 +50,7 @@ Bir WMI sınıf adını, örneğin win32\_process, ve bulunduğu ad alanını bi
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
 gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
 ```
-Bir sınıfın çağrılması:
+Sınıfın çağrılması:
 ```bash
 # Defaults to "root/cimv2" when namespace isn't specified
 Get-WmiObject -Class win32_share
@@ -89,7 +89,7 @@ WMI aracılığıyla sistem ve süreç bilgilerini toplama:
 Get-WmiObject -ClassName win32_operatingsystem | select * | more
 Get-WmiObject win32_process | Select Name, Processid
 ```
-Saldırganlar için WMI, sistemler veya alanlar hakkında hassas verileri listelemek için güçlü bir araçtır.
+Saldırganlar için, WMI, sistemler veya alanlar hakkında hassas verileri listelemek için güçlü bir araçtır.
 ```bash
 wmic computerystem list full /format:list
 wmic process list /format:list

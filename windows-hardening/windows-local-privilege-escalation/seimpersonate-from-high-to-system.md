@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ### Kod
 
-Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir İşlem Kimliğini argüman olarak belirtmenizi** sağlar ve belirtilen işlemin **kullanıcısı olarak çalışan bir CMD** çalıştırılacaktır.\
+Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir İşlem Kimliğini argüman olarak belirtmenize** olanak tanır ve belirtilen işlemin **kullanıcısı olarak çalışan bir CMD** çalıştırılacaktır.\
 Yüksek Bütünlükte bir işlemde çalışırken, **Sistem olarak çalışan bir işlemin PID'sini belirtebilirsiniz** (winlogon, wininit gibi) ve cmd.exe'yi sistem olarak çalıştırabilirsiniz.
 ```cpp
 impersonateuser.exe 1234
@@ -182,7 +182,7 @@ Bu, Yüksek Bütünlük seviyesinde çalışıyor olsanız bile **yeterli izinle
 
 Önceki resim, "Yöneticiler"in seçilen süreç üzerindeki tüm ayrıcalıklarını içerir (gördüğünüz gibi `svchost.exe` durumunda yalnızca "Sorgulama" ayrıcalıklarına sahiptirler)
 
-`winlogon.exe` üzerindeki "Yöneticiler"in sahip olduğu ayrıcalıkları görün:
+"Yöneticiler"in `winlogon.exe` üzerindeki ayrıcalıklarını görün:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
@@ -197,7 +197,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

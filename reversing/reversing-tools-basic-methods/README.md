@@ -1,8 +1,8 @@
-# Reversing Tools & Basic Methods
+# Tersine Mühendislik Araçları ve Temel Yöntemler
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -21,7 +21,7 @@ Yazılım:
 
 * ReverseKit: [https://github.com/zer0condition/ReverseKit](https://github.com/zer0condition/ReverseKit)
 
-## Wasm decompiler / Wat derleyici
+## Wasm decompiler / Wat compiler
 
 Çevrimiçi:
 
@@ -40,7 +40,7 @@ Yazılım:
 
 dotPeek, **kütüphaneler** (.dll), **Windows meta veri dosyaları** (.winmd) ve **çalıştırılabilir dosyalar** (.exe) dahil olmak üzere **birden fazla formatı decompile** eden ve inceleyen bir decompiler'dır. Decompile edildikten sonra, bir assembly Visual Studio projesi (.csproj) olarak kaydedilebilir.
 
-Buradaki avantaj, kaybolan bir kaynak kodunun eski bir assembly'den geri yüklenmesi gerektiğinde, bu işlemin zaman kazandırmasıdır. Ayrıca, dotPeek, decompile edilmiş kod boyunca kullanışlı bir navigasyon sağlar ve bu da onu **Xamarin algoritma analizi** için mükemmel araçlardan biri yapar.
+Buradaki avantaj, kaybolmuş bir kaynak kodunun eski bir assembly'den geri yüklenmesi gerektiğinde, bu işlemin zaman kazandırmasıdır. Ayrıca, dotPeek, decompile edilmiş kod boyunca kullanışlı bir navigasyon sağlar ve bu da onu **Xamarin algoritma analizi** için mükemmel araçlardan biri yapar.
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -55,8 +55,8 @@ Kapsamlı bir eklenti modeli ve aracı tam ihtiyaçlarınıza uyacak şekilde ge
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Visual Studio Code için ILSpy eklentisi](https://github.com/icsharpcode/ilspy-vscode): Herhangi bir işletim sisteminde kullanabilirsiniz (VSCode'dan doğrudan yükleyebilirsiniz, git indirmeye gerek yok. **Extensions**'a tıklayın ve **ILSpy**'yi arayın).\
-Eğer **decompile**, **değiştir** ve tekrar **recompile** etmeniz gerekiyorsa [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) veya onun aktif olarak bakımı yapılan bir çatalı olan [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) kullanabilirsiniz. (**Sağ Tık -> Method'u Değiştir** ile bir fonksiyonun içindeki bir şeyi değiştirebilirsiniz).
+[Visual Studio Code için ILSpy eklentisi](https://github.com/icsharpcode/ilspy-vscode): Herhangi bir işletim sisteminde kullanabilirsiniz (doğrudan VSCode'dan yükleyebilirsiniz, git indirmeye gerek yok. **Extensions**'a tıklayın ve **ILSpy**'yi arayın).\
+Eğer **decompile**, **değiştir** ve tekrar **compile** etmeniz gerekiyorsa [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) veya onun aktif olarak bakımı yapılan bir çatalı olan [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) kullanabilirsiniz. (**Sağ Tık -> Metodu Değiştir** ile bir fonksiyonun içindeki bir şeyi değiştirebilirsiniz).
 
 ### DNSpy Günlüğü
 
@@ -70,7 +70,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 DNSpy kullanarak kodu hata ayıklamak için şunları yapmalısınız:
 
-Öncelikle, **hata ayıklama** ile ilgili **Assembly özelliklerini** değiştirin:
+Öncelikle, **hata ayıklama** ile ilgili **Assembly niteliklerini** değiştirin:
 
 ![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
@@ -128,7 +128,7 @@ Artık süreci hata ayıklıyoruz, zamanı durdurup tüm modülleri yükleme zam
 
 ### IDA Kullanarak
 
-* **rundll32'yi yükleyin** (64bit için C:\Windows\System32\rundll32.exe ve 32 bit için C:\Windows\SysWOW64\rundll32.exe)
+* **rundll32'yi yükleyin** (64bit C:\Windows\System32\rundll32.exe ve 32 bit C:\Windows\SysWOW64\rundll32.exe)
 * **Windbg** hata ayıklayıcısını seçin
 * "**Kütüphane yükleme/boşaltma sırasında askıya al**" seçeneğini seçin
 
@@ -138,18 +138,18 @@ Artık süreci hata ayıklıyoruz, zamanı durdurup tüm modülleri yükleme zam
 
 ![](<../../.gitbook/assets/image (704).png>)
 
-Ardından, hata ayıklamaya başladığınızda **her DLL yüklendiğinde yürütme durdurulacaktır**, daha sonra rundll32 DLL'nizi yüklediğinde yürütme durdurulacaktır.
+Ardından, hata ayıklamaya başladığınızda **her DLL yüklendiğinde yürütme durdurulacaktır**, ardından rundll32 DLL'nizi yüklediğinde yürütme durdurulacaktır.
 
 Ama, yüklenen DLL'nin koduna nasıl ulaşabilirsiniz? Bu yöntemi kullanarak, nasıl olduğunu bilmiyorum.
 
 ### x64dbg/x32dbg Kullanarak
 
-* **rundll32'yi yükleyin** (64bit için C:\Windows\System32\rundll32.exe ve 32 bit için C:\Windows\SysWOW64\rundll32.exe)
+* **rundll32'yi yükleyin** (64bit C:\Windows\System32\rundll32.exe ve 32 bit C:\Windows\SysWOW64\rundll32.exe)
 * **Komut Satırını Değiştirin** (_File --> Change Command Line_) ve DLL'nin yolunu ve çağırmak istediğiniz fonksiyonu ayarlayın, örneğin: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * _Options --> Settings_ kısmını değiştirin ve "**DLL Girişi**" seçeneğini seçin.
 * Ardından **yürütmeyi başlatın**, hata ayıklayıcı her DLL ana fonksiyonunda duracaktır, bir noktada **DLL'nizin girişinde duracaksınız**. Oradan, bir kesme noktası koymak istediğiniz yerleri arayın.
 
-Yürütme herhangi bir nedenle win64dbg'de durdurulduğunda, **nerede olduğunuzu** **win64dbg penceresinin üst kısmında** görebilirsiniz:
+Yürütme herhangi bir nedenle win64dbg'de durdurulduğunda, **nerede olduğunuzu** görebilirsiniz, **win64dbg penceresinin üst kısmında**:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
@@ -165,7 +165,7 @@ Ardından, yürütmenin durdurulduğu yeri görebilirsiniz, hata ayıklamak iste
 
 [**PiNCE**](https://github.com/korcankaraokcu/PINCE) GNU Proje Hata Ayıklayıcısı (GDB) için bir ön yüz/ters mühendislik aracıdır, oyunlara odaklanmıştır. Ancak, herhangi bir ters mühendislik ile ilgili şeyler için kullanılabilir.
 
-[**Decompiler Explorer**](https://dogbolt.org/) bir dizi dekompiler için bir web ön yüzüdür. Bu web hizmeti, küçük yürütülebilir dosyalar üzerinde farklı dekompilerin çıktısını karşılaştırmanıza olanak tanır.
+[**Decompiler Explorer**](https://dogbolt.org/) bir dizi dekompiler için bir web ön yüzüdür. Bu web hizmeti, küçük yürütülebilir dosyalar üzerindeki farklı dekompilerin çıktısını karşılaştırmanıza olanak tanır.
 
 ## ARM & MIPS
 
@@ -178,7 +178,7 @@ Ardından, yürütmenin durdurulduğu yeri görebilirsiniz, hata ayıklamak iste
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) **shellcode'u** bir bellek alanında **ayıracak**, shellcode'un ayrıldığı **bellek adresini** size **gösterecek** ve yürütmeyi **durduracaktır**.\
 Ardından, bir **hata ayıklayıcıyı** (Ida veya x64dbg) sürece eklemeniz ve belirtilen bellek adresinde bir **kesme noktası** koymanız ve yürütmeyi **devam ettirmeniz** gerekir. Bu şekilde shellcode'u hata ayıklayacaksınız.
 
-Yayınların github sayfası, derlenmiş sürümleri içeren zip dosyaları içerir: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Yayınlar github sayfası, derlenmiş sürümleri içeren zip dosyaları içerir: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Aşağıdaki bağlantıda Blobrunner'ın biraz değiştirilmiş bir versiyonunu bulabilirsiniz. Derlemek için sadece **Visual Studio Code'da bir C/C++ projesi oluşturun, kodu kopyalayıp yapıştırın ve derleyin**.
 
 {% content-ref url="blobrunner.md" %}
@@ -187,11 +187,11 @@ Aşağıdaki bağlantıda Blobrunner'ın biraz değiştirilmiş bir versiyonunu 
 
 ### jmp2it ile bir shellcode'u hata ayıklama
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) blobrunner'a çok benzer. **Shellcode'u** bir bellek alanında **ayıracak** ve bir **sonsuz döngü** başlatacaktır. Ardından, sürece **hata ayıklayıcıyı eklemeniz**, **başlat düğmesine basmanız, 2-5 saniye beklemeniz ve durdurmanız** gerekir ve kendinizi **sonsuz döngüde** bulacaksınız. Sonsuz döngünün bir sonraki talimatına atlayın çünkü bu shellcode'a bir çağrı olacaktır ve sonunda shellcode'u yürütmeye başlayacaksınız.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) blobrunner'a çok benzer. **Shellcode'u** bir bellek alanında **ayıracak** ve bir **sonsuz döngü** başlatacaktır. Ardından, sürece **hata ayıklayıcıyı eklemeniz**, **başlatmayı beklemeniz, 2-5 saniye beklemeniz ve durdurmanız** gerekir ve kendinizi **sonsuz döngüde** bulacaksınız. Sonsuz döngünün bir sonraki talimatına atlayın çünkü bu shellcode'a bir çağrı olacaktır ve sonunda shellcode'u yürütmeye başlayacaksınız.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
-Derlenmiş bir versiyonunu [jmp2it'in yayınlar sayfasından](https://github.com/adamkramer/jmp2it/releases/) indirebilirsiniz.
+Derlenmiş bir versiyonu [jmp2it'in yayınlar sayfasından](https://github.com/adamkramer/jmp2it/releases/) indirebilirsiniz.
 
 ### Cutter kullanarak shellcode'u hata ayıklama
 
@@ -201,7 +201,7 @@ Cutter'ın "Dosya Aç" ve "Shellcode Aç" seçeneklerini sunduğunu unutmayın. 
 
 ![](<../../.gitbook/assets/image (562).png>)
 
-İstediğiniz yerden emülasyonu başlatmak için orada bir kesme noktası ayarlayın ve görünüşe göre cutter oradan emülasyonu otomatik olarak başlatacaktır:
+Emülasyonu başlatmak istediğiniz yerden başlatmak için oraya bir bp koyun ve görünüşe göre cutter oradan emülasyonu otomatik olarak başlatacaktır:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
@@ -227,7 +227,7 @@ scDbg ayrıca istediğiniz seçenekleri seçip shellcode'u çalıştırabileceğ
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-**Create Dump** seçeneği, shellcode'da dinamik olarak herhangi bir değişiklik yapıldığında son shellcode'u dökecektir (kodlanmış shellcode'u indirmek için faydalıdır). **start offset** belirli bir offset'te shellcode'u başlatmak için faydalı olabilir. **Debug Shell** seçeneği, shellcode'u scDbg terminali kullanarak hata ayıklamak için faydalıdır (ancak bu konuda daha önce açıklanan seçeneklerin herhangi birinin daha iyi olduğunu düşünüyorum çünkü Ida veya x64dbg kullanabileceksiniz).
+**Create Dump** seçeneği, shellcode'da dinamik olarak herhangi bir değişiklik yapıldığında son shellcode'u dökecektir (kodlanmış shellcode'u indirmek için faydalıdır). **start offset** belirli bir offset'te shellcode'u başlatmak için faydalı olabilir. **Debug Shell** seçeneği, scDbg terminalini kullanarak shellcode'u hata ayıklamak için faydalıdır (ancak bu konuda daha önce açıklanan seçeneklerin herhangi birinin daha iyi olduğunu düşünüyorum çünkü Ida veya x64dbg kullanabileceksiniz).
 
 ### CyberChef kullanarak ayrıştırma
 
@@ -235,7 +235,7 @@ Shellcode dosyanızı girdi olarak yükleyin ve onu decompile etmek için aşağ
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Bu obfuscator **tüm `mov` talimatlarını değiştirir** (evet, gerçekten havalı). Ayrıca yürütme akışlarını değiştirmek için kesintiler kullanır. Nasıl çalıştığı hakkında daha fazla bilgi için:
+Bu obfuscator **`mov` için tüm talimatları değiştirir** (evet, gerçekten havalı). Ayrıca yürütme akışlarını değiştirmek için kesintiler kullanır. Nasıl çalıştığı hakkında daha fazla bilgi için:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
@@ -255,8 +255,8 @@ Eğer bir **CTF oynuyorsanız, bayrağı bulmak için bu geçici çözüm** çok
 
 ![](<../../.gitbook/assets/image (1080).png>)
 
-Bu durumda ikili dosya authenticator olarak adlandırılmış, bu yüzden bu ilginç ana fonksiyon olduğu oldukça açık.\
-Çağrılan **fonksiyonların** **isimlerini** öğrendikten sonra, **girdileri** ve **çıktıları** hakkında bilgi edinmek için bunları **İnternet**'te arayın.
+Bu durumda ikili dosya authenticator olarak adlandırılmış, bu yüzden bu ilginç ana fonksiyon olduğu oldukça açıktır.\
+Çağrılan **fonksiyonların** **isimlerini** öğrendikten sonra, **girdi** ve **çıktıları** hakkında bilgi edinmek için bunları **İnternet**'te arayın.
 
 ## **Delphi**
 
@@ -286,16 +286,16 @@ Bu sayfada bir ELF/EXE python derlenmiş ikili dosyasından python kodunu nasıl
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
-## GBA - Oyun Gövdesi İleri
+## GBA - Game Body Advance
 
-Bir GBA oyununun **ikilisini** alırsanız, onu **emüle** etmek ve **hata ayıklamak** için farklı araçlar kullanabilirsiniz:
+Bir GBA oyununun **ikili dosyasını** alırsanız, onu **emüle** etmek ve **hata ayıklamak** için farklı araçlar kullanabilirsiniz:
 
 * [**no$gba**](https://problemkaputt.de/gba.htm) (_Hata ayıklama sürümünü indirin_) - Arayüz ile birlikte bir hata ayıklayıcı içerir
-* [**mgba** ](https://mgba.io)- CLI hata ayıklayıcı içerir
+* [**mgba** ](https://mgba.io) - CLI hata ayıklayıcı içerir
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra eklentisi
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra eklentisi
 
-[**no$gba**](https://problemkaputt.de/gba.htm) içinde, _**Seçenekler --> Emülasyon Ayarı --> Kontroller**_\*\* \*\* kısmında Game Boy Advance **düğmelerine** nasıl basılacağını görebilirsiniz.
+[**no$gba**](https://problemkaputt.de/gba.htm) içinde, _**Options --> Emulation Setup --> Controls**_\*\* \*\* bölümünde Game Boy Advance **düğmelerini** nasıl basacağınızı görebilirsiniz.
 
 ![](<../../.gitbook/assets/image (581).png>)
 
@@ -312,7 +312,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Bu tür bir programda, ilginç kısım **programın kullanıcı girdisini nasıl işlediği** olacaktır. Adres **0x4000130**'da yaygın olarak bulunan fonksiyonu bulacaksınız: **KEYINPUT**.
+Bu tür bir programda, ilginç kısım **programın kullanıcı girdisini nasıl işlediği** olacaktır. Adres **0x4000130**'da yaygın olarak bulunan fonksiyonu: **KEYINPUT** bulacaksınız.
 
 ![](<../../.gitbook/assets/image (447).png>)
 
@@ -351,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Son if, **`uVar4`**'ün **son Tuşlar** içinde olup olmadığını ve mevcut tuş olmadığını kontrol ediyor, ayrıca bir düğmeyi bırakma olarak da adlandırılır (mevcut tuş **`uVar1`**'de saklanır).
+Son if, **`uVar4`**'ün **son Anahtarlar** içinde olup olmadığını ve mevcut anahtar olmadığını kontrol ediyor, ayrıca bir düğmeyi bırakma olarak da adlandırılıyor (mevcut anahtar **`uVar1`**'de saklanıyor).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -385,7 +385,7 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 * Sonra, **değer 8** ile karşılaştırılıyor (**START** butonu): Bu zorlukta bu, kodun bayrağı almak için geçerli olup olmadığını kontrol ediyor.
 * Bu durumda **`DAT_030000d8`** değişkeni 0xf3 ile karşılaştırılıyor ve eğer değer aynıysa bazı kodlar çalıştırılıyor.
 * Diğer durumlarda, bazı cont (`DAT_030000d4`) kontrol ediliyor. Bu bir cont çünkü koda girdikten hemen sonra 1 ekliyor.\
-**E**ğer 8'den küçükse, **`DAT_030000d8`**'e değerler **eklemeyi** içeren bir işlem yapılıyor (temelde, cont 8'den küçük olduğu sürece bu değişkende basılan tuşların değerlerini topluyor).
+**Eğer** 8'den küçükse, **`DAT_030000d8`**'e değerler **eklemek** ile ilgili bir şey yapılıyor (temelde, cont 8'den küçük olduğu sürece bu değişkende basılan tuşların değerlerini topluyor).
 
 Bu zorlukta, butonların değerlerini bilerek, **sonuçta toplamı 0xf3 olan 8'den küçük bir uzunlukta bir kombinasyonu basmanız gerekiyordu.**
 

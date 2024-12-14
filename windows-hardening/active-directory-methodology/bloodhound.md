@@ -43,13 +43,13 @@ From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundA
 
 > BloodHound, [Linkurious](http://linkurio.us/) üzerine inşa edilmiş, [Electron](http://electron.atom.io/) ile derlenmiş, C# veri toplayıcı tarafından beslenen bir [Neo4j](https://neo4j.com/) veritabanına sahip tek sayfa Javascript web uygulamasıdır.
 
-BloodHound, bir Active Directory veya Azure ortamındaki gizli ve genellikle istenmeyen ilişkileri ortaya çıkarmak için grafik teorisini kullanır. Saldırganlar, BloodHound'u kullanarak, aksi takdirde hızlı bir şekilde tanımlanması imkansız olan son derece karmaşık saldırı yollarını kolayca belirleyebilirler. Savunucular, BloodHound'u kullanarak aynı saldırı yollarını tanımlayıp ortadan kaldırabilirler. Hem mavi hem de kırmızı takımlar, BloodHound'u kullanarak bir Active Directory veya Azure ortamındaki ayrıcalık ilişkilerini daha derinlemesine anlamak için kolayca faydalanabilirler.
+BloodHound, bir Active Directory veya Azure ortamındaki gizli ve genellikle istenmeyen ilişkileri ortaya çıkarmak için grafik teorisini kullanır. Saldırganlar, BloodHound'u kullanarak, aksi takdirde hızlı bir şekilde tanımlanması imkansız olan son derece karmaşık saldırı yollarını kolayca belirleyebilirler. Savunucular, BloodHound'u kullanarak aynı saldırı yollarını tanımlayıp ortadan kaldırabilirler. Hem mavi hem de kırmızı ekipler, BloodHound'u kullanarak bir Active Directory veya Azure ortamındaki ayrıcalık ilişkilerini daha derinlemesine anlamak için kolayca faydalanabilirler.
 
 Bu nedenle, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound) otomatik olarak bir alanı listeleyebilen, tüm bilgileri kaydedebilen, olası ayrıcalık yükseltme yollarını bulabilen ve tüm bilgileri grafikler kullanarak gösterebilen harika bir araçtır.
 
 BloodHound, 2 ana bölümden oluşur: **veri toplayıcılar** ve **görselleştirme uygulaması**.
 
-**Veri toplayıcılar**, alanı **listelemek ve tüm bilgileri** görselleştirme uygulamasının anlayacağı bir formatta çıkarmak için kullanılır.
+**Veri toplayıcılar**, **alanı listelemek ve tüm bilgileri** görselleştirme uygulamasının anlayacağı bir formatta çıkarmak için kullanılır.
 
 **Görselleştirme uygulaması, tüm bilgilerin nasıl ilişkili olduğunu göstermek ve alandaki ayrıcalıkları yükseltmenin farklı yollarını göstermek için neo4j kullanır.**
 
@@ -92,7 +92,7 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **AD ortamının güvenlik durumunu değerlendirir** ve grafiklerle güzel bir **rapor** sunar.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **AD ortamının güvenlik durumunu değerlendirir** ve güzel bir **rapor** ile grafikler sunar.
 
 Bunu çalıştırmak için, `PingCastle.exe` ikili dosyasını çalıştırabilir ve seçeneklerin bir menüsünü sunan bir **etkileşimli oturum** başlatır. Kullanılacak varsayılan seçenek **`healthcheck`** olup, **alan** hakkında bir temel **genel bakış** oluşturacak ve **yanlış yapılandırmaları** ve **zayıflıkları** bulacaktır.&#x20;
 

@@ -1,15 +1,15 @@
 # FZ - Sub-GHz
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -24,7 +24,7 @@ Flipper Zero, **uzaktan kumandaları okuyabilen, kaydedebilen ve taklit edebilen
 
 ## Sub-GHz donanımı <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 çipi](https://www.ti.com/lit/ds/symlink/cc1101.pdf) ve bir radyo anteni (maksimum menzil 50 metredir) ile donatılmış yerleşik bir sub-1 GHz modülüne sahiptir. Hem CC1101 çipi hem de antena, 300-348 MHz, 387-464 MHz ve 779-928 MHz bantlarında çalışacak şekilde tasarlanmıştır.
+Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 çipi](https://www.ti.com/lit/ds/symlink/cc1101.pdf) ve bir radyo anteni (maksimum menzil 50 metredir) temelinde yerleşik bir sub-1 GHz modülüne sahiptir. Hem CC1101 çipi hem de antena, 300-348 MHz, 387-464 MHz ve 779-928 MHz bantlarında çalışacak şekilde tasarlanmıştır.
 
 <figure><img src="../../../.gitbook/assets/image (923).png" alt=""><figcaption></figcaption></figure>
 
@@ -36,13 +36,13 @@ Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101
 Uzaktan kumandanın hangi frekansı kullandığını nasıl bulabilirsiniz
 {% endhint %}
 
-Analiz sırasında, Flipper Zero, frekans yapılandırmasında mevcut olan tüm frekanslarda sinyal gücünü (RSSI) tarar. Flipper Zero, -90 [dBm](https://en.wikipedia.org/wiki/DBm) değerinden daha yüksek sinyal gücüne sahip en yüksek RSSI değerine sahip frekansı görüntüler.
+Analiz sırasında, Flipper Zero, frekans yapılandırmasında mevcut olan tüm frekanslarda sinyal gücünü (RSSI) tarar. Flipper Zero, -90 [dBm](https://en.wikipedia.org/wiki/DBm) değerinden daha yüksek sinyal gücüne sahip en yüksek RSSI değerine sahip frekansı gösterir.
 
 Uzaktan kumandanın frekansını belirlemek için aşağıdakileri yapın:
 
 1. Uzaktan kumandayı Flipper Zero'nun soluna çok yakın bir yere yerleştirin.
 2. **Ana Menü** **→ Sub-GHz**'ye gidin.
-3. **Frekans Analizörü**'nü seçin, ardından analiz etmek istediğiniz uzaktan kumanda üzerindeki düğmeye basılı tutun.
+3. **Frekans Analizörü**'nü seçin, ardından analiz etmek istediğiniz uzaktan kumandadaki düğmeye basılı tutun.
 4. Ekrandaki frekans değerini gözden geçirin.
 
 ### Oku
@@ -51,14 +51,14 @@ Uzaktan kumandanın frekansını belirlemek için aşağıdakileri yapın:
 Kullanılan frekans hakkında bilgi bulun (aynı zamanda hangi frekansın kullanıldığını bulmanın başka bir yolu)
 {% endhint %}
 
-**Oku** seçeneği, belirtilen modülasyonda **yapılandırılmış frekansta dinler**: varsayılan olarak 433.92 AM. Eğer **okuma sırasında bir şey bulunursa**, ekranda **bilgi verilir**. Bu bilgi, gelecekte sinyali çoğaltmak için kullanılabilir.
+**Oku** seçeneği, belirtilen modülasyonda **yapılandırılmış frekansta** dinler: varsayılan olarak 433.92 AM. Eğer **bir şey bulunursa** okuma sırasında, ekranda **bilgi verilir**. Bu bilgi, gelecekte sinyali çoğaltmak için kullanılabilir.
 
-Okuma kullanılırken, **sol düğmeye** basıp **yapılandırmak** mümkündür.\
+Okuma sırasında, **sol düğmeye** basarak **yapılandırma** yapabilirsiniz.\
 Bu anda **4 modülasyon** (AM270, AM650, FM328 ve FM476) ve **birçok ilgili frekans** saklanmıştır:
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-**İlginizi çeken herhangi birini** ayarlayabilirsiniz, ancak eğer **uzaktan kumandanızın hangi frekansı kullanabileceğinden emin değilseniz**, **Hopping'i AÇIK** (varsayılan olarak Kapalı) ayarlayın ve Flipper bunu yakalayana kadar düğmeye birkaç kez basın, ardından frekansı ayarlamak için ihtiyacınız olan bilgiyi alırsınız.
+**İlginizi çeken herhangi birini** ayarlayabilirsiniz, ancak eğer **uzaktan kumandanızın hangi frekansı kullanabileceğinden emin değilseniz**, **Hopping'i AÇIK** (varsayılan olarak Kapalı) ayarlayın ve Flipper bunu yakalayana kadar düğmeye birkaç kez basın ve frekansı ayarlamak için ihtiyacınız olan bilgiyi alın.
 
 {% hint style="danger" %}
 Frekanslar arasında geçiş yapmak biraz zaman alır, bu nedenle geçiş sırasında iletilen sinyaller kaçırılabilir. Daha iyi sinyal alımı için, Frekans Analizörü tarafından belirlenen sabit bir frekans ayarlayın.
@@ -72,16 +72,16 @@ Yapılandırılmış frekansta bir sinyali çalın (ve tekrar edin)
 
 **Ham Oku** seçeneği, dinleme frekansında gönderilen sinyalleri **kaydeder**. Bu, bir sinyali **çalmak** ve **tekrar etmek** için kullanılabilir.
 
-Varsayılan olarak **Ham Oku da 433.92 AM650**'de bulunmaktadır, ancak Okuma seçeneği ile ilginizi çeken sinyalin **farklı bir frekans/modülasyonda olduğunu bulursanız, bunu da değiştirebilirsiniz** (Ham Oku seçeneği içindeyken sola basarak).
+Varsayılan olarak **Ham Oku da 433.92 AM650**'dedir, ancak Okuma seçeneği ile ilginizi çeken sinyalin **farklı bir frekans/modülasyonda olduğunu bulursanız, bunu da** sol düğmeye basarak değiştirebilirsiniz (Ham Oku seçeneği içindeyken).
 
 ### Kaba Kuvvet
 
-Eğer garaj kapısı tarafından kullanılan protokolü biliyorsanız, **tüm kodları üretebilir ve bunları Flipper Zero ile gönderebilirsiniz.** Bu, genel yaygın garaj türlerini destekleyen bir örnektir: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Eğer garaj kapısında kullanılan protokolü biliyorsanız, **tüm kodları üretebilir ve bunları Flipper Zero ile gönderebilirsiniz.** Bu, genel yaygın garaj türlerini destekleyen bir örnektir: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Manuel Ekle
 
 {% hint style="info" %}
-Yapılandırılmış bir protokol listesinde sinyalleri ekleyin
+Yapılandırılmış bir protokol listesinden sinyalleri ekleyin
 {% endhint %}
 
 #### [desteklenen protokoller](https://docs.flipperzero.one/sub-ghz/add-new-remote) listesi <a href="#id-3iglu" id="id-3iglu"></a>
@@ -105,11 +105,11 @@ Yapılandırılmış bir protokol listesinde sinyalleri ekleyin
 
 ### Desteklenen Sub-GHz satıcıları
 
-[https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors) adresindeki listeyi kontrol edin.
+[https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors) adresinde listeyi kontrol edin.
 
 ### Bölgeye göre desteklenen frekanslar
 
-[https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies) adresindeki listeyi kontrol edin.
+[https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies) adresinde listeyi kontrol edin.
 
 ### Test
 
@@ -122,15 +122,15 @@ Kaydedilen frekansların dBms'ini alın
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

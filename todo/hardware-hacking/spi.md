@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -27,17 +27,17 @@ MOSI (Master Out, Slave In) ve MISO (Master In, Slave Out) veri gönderme ve alm
 
 Firmware dökümü, firmware'i analiz etmek ve içindeki zayıflıkları bulmak için yararlı olabilir. Çoğu zaman, firmware internette mevcut değildir veya model numarası, versiyon gibi faktörlerin varyasyonları nedeniyle alakasızdır. Bu nedenle, tehditleri avlarken spesifik olmak için firmware'i doğrudan fiziksel cihazdan çıkarmak faydalı olabilir.
 
-Seri Konsol almak faydalı olabilir, ancak çoğu zaman dosyaların yalnızca okunabilir olduğu durumlarla karşılaşılır. Bu, çeşitli nedenlerden dolayı analizi kısıtlar. Örneğin, paketleri göndermek ve almak için gereken araçlar firmware'de bulunmayabilir. Bu nedenle, ikili dosyaları tersine mühendislik yapmak için çıkarmak mümkün değildir. Bu nedenle, sistemde tüm firmware'in dökülmesi ve analiz için ikili dosyaların çıkarılması çok faydalı olabilir.
+Seri Konsol almak faydalı olabilir, ancak çoğu zaman dosyaların yalnızca okunabilir olduğu durumlar olur. Bu, çeşitli nedenlerden dolayı analizi kısıtlar. Örneğin, paketleri göndermek ve almak için gereken araçlar firmware'de bulunmayabilir. Bu nedenle, ikili dosyaları tersine mühendislik yapmak için çıkarmak mümkün değildir. Bu nedenle, sistemde tüm firmware'in dökülmesi ve analiz için ikili dosyaların çıkarılması çok faydalı olabilir.
 
-Ayrıca, kırmızı takım çalışması sırasında cihazlara fiziksel erişim sağlarken, firmware dökümü dosyaları değiştirmek veya kötü niyetli dosyalar eklemek ve ardından bunları belleğe yeniden yüklemek için yardımcı olabilir; bu da cihazda bir arka kapı yerleştirmek için faydalı olabilir. Bu nedenle, firmware dökümü ile açılabilecek birçok olasılık vardır.
+Ayrıca, kırmızı takım çalışması sırasında ve cihazlara fiziksel erişim sağlarken, firmware dökümü dosyaları değiştirmek veya kötü niyetli dosyalar eklemek ve ardından bunları belleğe yeniden yüklemek için yardımcı olabilir; bu da cihazda bir arka kapı yerleştirmek için faydalı olabilir. Bu nedenle, firmware dökümü ile açılabilecek birçok olasılık vardır.
 
 ### CH341A EEPROM Programlayıcı ve Okuyucu
 
-Bu cihaz, EEPROM'lerden firmware dökmek ve bunları firmware dosyaları ile yeniden yüklemek için uygun fiyatlı bir araçtır. Bilgisayar BIOS yongaları (sadece EEPROM'lar) ile çalışmak için popüler bir seçim olmuştur. Bu cihaz USB üzerinden bağlanır ve başlamak için minimum araç gerektirir. Ayrıca, genellikle işi hızlı bir şekilde halleder, bu nedenle fiziksel cihaz erişiminde de faydalı olabilir.
+Bu cihaz, EEPROM'lerden firmware dökmek ve ayrıca firmware dosyaları ile yeniden yüklemek için uygun fiyatlı bir araçtır. Bilgisayar BIOS yongaları (sadece EEPROM'lar) ile çalışmak için popüler bir seçim olmuştur. Bu cihaz USB üzerinden bağlanır ve başlamak için minimum araç gerektirir. Ayrıca, genellikle görevi hızlı bir şekilde tamamlar, bu nedenle fiziksel cihaz erişiminde de faydalı olabilir.
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-EEPROM belleği CH341a Programlayıcı ile bağlayın ve cihazı bilgisayara takın. Cihaz algılanmıyorsa, bilgisayara sürücü yüklemeyi deneyin. Ayrıca, EEPROM'un doğru yönde bağlandığından emin olun (genellikle, VCC Pin'ini USB konektörüne ters yönde yerleştirin), aksi takdirde yazılım çipi algılayamaz. Gerekirse diyagrama bakın:
+EEPROM belleğini CH341a Programlayıcı ile bağlayın ve cihazı bilgisayara takın. Cihaz algılanmıyorsa, bilgisayara sürücü yüklemeyi deneyin. Ayrıca, EEPROM'un doğru yönde bağlandığından emin olun (genellikle, VCC Pin'ini USB konektörüne ters yönde yerleştirin) aksi takdirde yazılım çipi algılayamaz. Gerekirse diyagrama bakın:
 
 ![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
@@ -45,13 +45,13 @@ Son olarak, firmware'i dökmek için flashrom, G-Flash (GUI) gibi yazılımlar k
 
 ![drawing](../../.gitbook/assets/connected\_status\_ch341a.jpg)
 
-Firmware döküldükten sonra, analiz ikili dosyalar üzerinde yapılabilir. Strings, hexdump, xxd, binwalk gibi araçlar, firmware hakkında ve tüm dosya sistemi hakkında çok fazla bilgi çıkarmak için kullanılabilir.
+Firmware döküldükten sonra, ikili dosyalar üzerinde analiz yapılabilir. Strings, hexdump, xxd, binwalk gibi araçlar, firmware hakkında ve ayrıca tüm dosya sistemi hakkında çok fazla bilgi çıkarmak için kullanılabilir.
 
 Firmware'den içerik çıkarmak için binwalk kullanılabilir. Binwalk, hex imzalarını analiz eder ve ikili dosyadaki dosyaları tanımlar ve bunları çıkarmak için yeteneklidir.
 ```
 binwalk -e <filename>
 ```
-Bu, kullanılan araçlar ve yapılandırmalara göre .bin veya .rom olabilir.
+The can be .bin veya .rom kullanılan araçlar ve yapılandırmalara bağlıdır.
 
 {% hint style="danger" %}
 Firmware çıkarımının hassas bir süreç olduğunu ve çok fazla sabır gerektirdiğini unutmayın. Herhangi bir yanlış işlem, firmware'i bozabilir veya tamamen silip cihazı kullanılamaz hale getirebilir. Firmware'i çıkarmaya çalışmadan önce belirli cihazı incelemeniz önerilir.
@@ -61,7 +61,7 @@ Firmware çıkarımının hassas bir süreç olduğunu ve çok fazla sabır gere
 
 ![](<../../.gitbook/assets/image (910).png>)
 
-Pirate Bus'un PINOUT'u **MOSI** ve **MISO** için SPI'ye bağlanacak pinleri gösterse de, bazı SPIs pinleri DI ve DO olarak gösterebilir. **MOSI -> DI, MISO -> DO**
+Pirate Bus'un PINOUT'u **MOSI** ve **MISO** pinlerini SPI'ye bağlamak için gösterse de, bazı SPIs pinleri DI ve DO olarak gösterebilir. **MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (360).png>)
 
@@ -83,7 +83,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

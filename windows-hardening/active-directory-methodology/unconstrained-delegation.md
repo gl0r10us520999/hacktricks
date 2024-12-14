@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Unconstrained delegation
 
-Bu, bir Alan Yöneticisinin alan içindeki herhangi bir **Bilgisayara** ayarlayabileceği bir özelliktir. Daha sonra, bir **kullanıcı Bilgisayara giriş yaptığında**, o kullanıcının **TGT'sinin bir kopyası** **DC tarafından sağlanan TGS'ye** **gönderilecek ve LSASS'te bellekte saklanacaktır**. Yani, makinede Yönetici ayrıcalıklarınız varsa, **biletleri dökebilir ve kullanıcıları taklit edebilirsiniz**.
+Bu, bir Alan Yöneticisinin alan içindeki herhangi bir **Bilgisayara** ayarlayabileceği bir özelliktir. Daha sonra, bir **kullanıcı Bilgisayara giriş yaptığında**, o kullanıcının **TGT'sinin bir kopyası** **DC tarafından sağlanan TGS'ye** **gönderilecek ve LSASS'ta bellekte saklanacaktır**. Yani, makinede Yönetici ayrıcalıklarınız varsa, **biletleri dökebilir ve kullanıcıları taklit edebilirsiniz**.
 
-Eğer bir alan yöneticisi "Sınırsız Delegasyon" özelliği etkin olan bir Bilgisayara giriş yaparsa ve o makinede yerel yönetici ayrıcalıklarınız varsa, bileti dökebilir ve Alan Yöneticisini her yerde taklit edebilirsiniz (alan privesc).
+Bu nedenle, bir alan yöneticisi "Sınırsız Delegasyon" özelliği etkinleştirilmiş bir Bilgisayara giriş yaparsa ve o makinede yerel yönetici ayrıcalıklarınız varsa, bileti dökebilir ve Alan Yöneticisini her yerde taklit edebilirsiniz (alan privesc).
 
 Bu **özelliğe sahip Bilgisayar nesnelerini bulabilirsiniz**; [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) niteliğinin [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) içerip içermediğini kontrol ederek. Bunu ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’ LDAP filtresi ile yapabilirsiniz; bu, powerview'ün yaptığıdır:
 
@@ -36,20 +36,20 @@ kerberos::list /export #Başka bir yol
 # Girişleri izleyin ve yeni biletleri dışa aktarın
 .\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Yeni TGT'ler için her 10 saniyede bir kontrol et</code></pre>
 
-Yönetici (veya kurban kullanıcının) biletini bellekte **Mimikatz** veya **Rubeus ile yükleyin** [**Bileti Geç**](pass-the-ticket.md)**.**\
+Yönetici (veya kurban kullanıcının) biletini bellekte **Mimikatz** veya **Rubeus ile yükleyin** [**Pass the Ticket**](pass-the-ticket.md)** için.**\
 Daha fazla bilgi: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
 [**Sınırsız delegasyon hakkında daha fazla bilgi ired.team'de.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
 
 ### **Zorla Kimlik Doğrulama**
 
 Eğer bir saldırgan **"Sınırsız Delegasyona" izin verilen bir bilgisayarı ele geçirebilirse**, bir **Yazıcı sunucusunu** **otomatik olarak giriş yapmaya** **kandırabilir** ve bu da sunucunun belleğinde bir TGT **kaydedebilir**.\
-Daha sonra, saldırgan **Bileti Geç saldırısı yaparak** yazıcı sunucu bilgisayar hesabını taklit edebilir.
+Daha sonra, saldırgan **Kullanıcı Yazıcı sunucu bilgisayar hesabını taklit etmek için bir Pass the Ticket saldırısı gerçekleştirebilir**.
 
 Bir yazıcı sunucusunu herhangi bir makineye giriş yapması için [**SpoolSample**](https://github.com/leechristensen/SpoolSample) kullanabilirsiniz:
 ```bash
 .\SpoolSample.exe <printmachine> <unconstrinedmachine>
 ```
-Eğer TGT bir etki alanı denetleyicisinden (DC) geliyorsa, bir [**DCSync attack**](acl-persistence-abuse/#dcsync) gerçekleştirebilir ve DC'den tüm hash'leri elde edebilirsiniz.\
+Eğer TGT bir etki alanı denetleyicisinden geliyorsa, bir [**DCSync attack**](acl-persistence-abuse/#dcsync) gerçekleştirebilir ve DC'den tüm hash'leri elde edebilirsiniz.\
 [**Bu saldırı hakkında daha fazla bilgi ired.team'de.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
 
 **Kimlik doğrulamayı zorlamak için diğer yollar:**
@@ -60,7 +60,7 @@ Eğer TGT bir etki alanı denetleyicisinden (DC) geliyorsa, bir [**DCSync attack
 
 ### Mitigasyon
 
-* DA/Yönetici girişlerini belirli hizmetlerle sınırlayın
+* DA/Admin girişlerini belirli hizmetlerle sınırlayın
 * Ayrıcalıklı hesaplar için "Hesap hassas ve devredilemez" ayarını yapın.
 
 {% hint style="success" %}

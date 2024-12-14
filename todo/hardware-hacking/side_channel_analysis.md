@@ -1,7 +1,7 @@
-# Yan Kanal Analizi Saldırıları
+# Side Channel Analysis Attacks
 
-Yan Kanal Analizi Saldırıları, bir cihazdan veya varlıktan bilgi elde etmeyi, dolaylı olarak etkisi olan başka bir kanal veya kaynaktan belirlemeyi ve bilgi çıkarılmasını ifade eder. Bu bir örnek ile daha iyi açıklanabilir:
+Side Channel Analysis Attacks, bir cihazdan veya varlıktan dolaylı bir etki ile başka bir kanal veya kaynak aracılığıyla bilgi belirlemeyi ifade eder ve bu bilgiden çıkarım yapılabilir. Bu, bir örnekle daha iyi açıklanabilir:
 
-Erişilemeyen bir ses kaynağına yakın olan cam levhalarındaki titreşimlerin analiz edilmesi. Camdaki titreşimler, ses kaynağından etkilenir ve izlenip analiz edilirse, ses çözümlenebilir ve yorumlanabilir.
+Ses kaynağına yakın cam levhalardaki titreşimlerin analizi, ancak ses kaynağına erişim yok. Camdaki titreşimler ses kaynağından etkilenir ve izlenip analiz edilirse, ses çözümlenip yorumlanabilir.
 
-Bu saldırılar, özel anahtar gibi verilerin sızdırılması veya işlemcilerdeki işlemlerin bulunması gibi durumlarda çok popülerdir. Bir elektronik devre, sürekli olarak bilgi sızdıran birçok kanala sahiptir. İzleme ve analiz yapmak, devre ve iç yapısı hakkında birçok bilgi açığa çıkarılmasında faydalı olabilir.
+Bu saldırılar, özel anahtarlar gibi veri sızıntısı durumlarında veya işlemcilerdeki işlemleri bulmada oldukça popülerdir. Bir elektronik devre, sürekli olarak bilgi sızdıran birçok kanala sahiptir. İzleme ve analiz, devre ve iç yapısı hakkında birçok bilginin açığa çıkarılması için faydalı olabilir.

@@ -1,4 +1,4 @@
-# Parola Spraying / Brute Force
+# Şifre Spraying / Brute Force
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -9,30 +9,30 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza göre kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika alın:
+**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza göre ilerleyerek iOS ve Android güvenliğini öğrenin ve sertifika alın:
 
 {% embed url="https://academy.8ksec.io/" %}
 
-## **Parola Spraying**
+## **Şifre Spraying**
 
-Birçok **geçerli kullanıcı adı** bulduktan sonra, her bir keşfedilen kullanıcı ile en **yaygın parolaları** deneyebilirsiniz (ortamın parola politikasını göz önünde bulundurun).\
-**Varsayılan** olarak **minimum** **parola** **uzunluğu** **7**'dir.
+Birçok **geçerli kullanıcı adı** bulduktan sonra, her bir keşfedilen kullanıcı ile en **yaygın şifreleri** deneyebilirsiniz (ortamın şifre politikalarını göz önünde bulundurun).\
+**Varsayılan** olarak **minimum** **şifre** **uzunluğu** **7**'dir.
 
 Yaygın kullanıcı adları listeleri de faydalı olabilir: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-Birden fazla yanlış parola denerseniz bazı hesapların kilitlenebileceğini unutmayın (varsayılan olarak 10'dan fazla).
+Birden fazla yanlış şifre denerseniz bazı hesapların kilitlenebileceğini unutmayın (varsayılan olarak 10'dan fazla).
 
-### Parola politikasını öğrenin
+### Şifre politikasını öğrenin
 
-Bazı kullanıcı kimlik bilgilerine veya bir alan kullanıcısı olarak bir shell'e sahipseniz, **parola politikasını** **şu şekilde alabilirsiniz**:
+Bazı kullanıcı kimlik bilgilerine veya bir alan kullanıcısı olarak bir shell'e sahipseniz, **şifre politikasını** şu şekilde **öğrenebilirsiniz**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -49,7 +49,7 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### Linux'tan Sömürü (veya hepsi)
+### Linux'tan (veya tümü) Sömürü
 
 * **crackmapexec** kullanarak:
 ```bash
@@ -150,7 +150,7 @@ Bu araçlardan herhangi birini kullanmak için bir kullanıcı listesine ve bir 
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza göre kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika kazanın:
+Mobil Güvenlik konusundaki uzmanlığınızı **8kSec Academy** ile derinleştirin. Kendi hızınıza göre kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika kazanın:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -163,7 +163,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

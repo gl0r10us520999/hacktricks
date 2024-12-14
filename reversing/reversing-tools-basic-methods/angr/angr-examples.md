@@ -421,7 +421,7 @@ Sembolik dosyanın, sembolik verilerle birleştirilmiş sabit veriler de içereb
 ### Kısıtlamaların Uygulanması
 
 {% hint style="info" %}
-Bazen 16 karakter uzunluğundaki 2 kelimeyi **karakter karakter** karşılaştırmak gibi basit insan işlemleri, **angr** için çok maliyetli olabilir çünkü her bir if için 1 dal oluşturması gerektiğinden **üstel** olarak dallar üretmek zorundadır: `2^16`\
+Bazen 16 karakter uzunluğundaki 2 kelimeyi **karakter karakter** (döngü) karşılaştırmak gibi basit insan işlemleri, **angr** için çok maliyetli olabilir çünkü her bir if için 1 dal oluşturması gerektiğinden **üstel** olarak dallar üretmesi gerekir: `2^16`\
 Bu nedenle, **angr'dan önceki bir noktaya dönmesini istemek** (gerçek zor kısmın zaten yapıldığı yer) ve **bu kısıtlamaları manuel olarak ayarlamak** daha kolaydır.
 {% endhint %}
 ```python
@@ -695,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Birden Fazla Parametre ile scanf Simülasyonu
+### Birden Fazla Parametre ile scanf'ı Simüle Etmek
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.

@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Golden ticket
 
-Bir **Golden Ticket** saldırısı, **NTLM hash'ini kullanarak herhangi bir kullanıcıyı taklit eden meşru bir Ticket Granting Ticket (TGT) oluşturulmasından** oluşur. Bu teknik, taklit edilen kullanıcı olarak **alan içindeki herhangi bir hizmete veya makineye erişim sağlar**. **krbtgt hesabının kimlik bilgileri asla otomatik olarak güncellenmez** olduğunu hatırlamak önemlidir.
+Bir **Golden Ticket** saldırısı, **herhangi bir kullanıcıyı taklit ederek meşru bir Ticket Granting Ticket (TGT) oluşturulması** ile ilgilidir ve bu işlem **Active Directory (AD) krbtgt hesabının NTLM hash'ini** kullanarak gerçekleştirilir. Bu teknik, taklit edilen kullanıcı olarak **alan içindeki herhangi bir hizmete veya makineye erişim sağlar**. **Krbtgt hesabının kimlik bilgileri asla otomatik olarak güncellenmez** olduğunu hatırlamak önemlidir.
 
-**krbtgt hesabının NTLM hash'ini elde etmek için** çeşitli yöntemler kullanılabilir. Bu hash, alan içindeki herhangi bir Domain Controller (DC) üzerindeki **Local Security Authority Subsystem Service (LSASS) sürecinden** veya **NT Directory Services (NTDS.dit) dosyasından** çıkarılabilir. Ayrıca, **DCsync saldırısı gerçekleştirmek**, bu NTLM hash'ini elde etmenin bir başka stratejisidir; bu, Mimikatz'taki **lsadump::dcsync modülü** veya Impacket tarafından sağlanan **secretsdump.py scripti** gibi araçlar kullanılarak yapılabilir. Bu işlemleri gerçekleştirmek için genellikle **alan yöneticisi ayrıcalıkları veya benzer bir erişim seviyesi gereklidir**.
+**Krbtgt hesabının NTLM hash'ini elde etmek için** çeşitli yöntemler kullanılabilir. Bu hash, **Yerel Güvenlik Otoritesi Alt Sistem Servisi (LSASS) sürecinden** veya alan içindeki herhangi bir Alan Denetleyicisi (DC) üzerinde bulunan **NT Directory Services (NTDS.dit) dosyasından** çıkarılabilir. Ayrıca, **DCsync saldırısı gerçekleştirmek**, bu NTLM hash'ini elde etmenin bir başka stratejisidir ve bu işlem, Mimikatz'taki **lsadump::dcsync modülü** veya Impacket tarafından sağlanan **secretsdump.py scripti** gibi araçlar kullanılarak yapılabilir. Bu işlemleri gerçekleştirmek için genellikle **alan yöneticisi ayrıcalıkları veya benzer bir erişim seviyesi gereklidir**.
 
-NTLM hash'i bu amaç için geçerli bir yöntem olsa da, operasyonel güvenlik nedenleriyle **Gelişmiş Şifreleme Standardı (AES) Kerberos anahtarları (AES128 ve AES256)** kullanarak biletlerin **sahte olarak oluşturulması** **şiddetle tavsiye edilir**. 
+NTLM hash'i bu amaç için geçerli bir yöntem olsa da, operasyonel güvenlik nedenleriyle **Gelişmiş Şifreleme Standardı (AES) Kerberos anahtarları (AES128 ve AES256)** kullanarak biletlerin **sahte belgelenmesi** şiddetle önerilir.
 
 {% code title="From Linux" %}
 ```bash
@@ -55,9 +55,9 @@ Başlangıç ofsetini, süreyi ve maksimum yenilemeleri kontrol etmek için `/st
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-Üzgünüm, TGT'nin ömrü 4769'da kaydedilmediği için bu bilgiyi Windows olay günlüklerinde bulamazsınız. Ancak, **önceki 4768 olmadan 4769'ları görmek** ile ilişkilendirebilirsiniz. **TGT olmadan bir TGS talep etmek mümkün değildir** ve eğer bir TGT'nin verildiğine dair bir kayıt yoksa, bunun çevrimdışı olarak sahte olduğunu çıkarabiliriz.
+Üzgünüm, TGT'nin ömrü 4769'da kaydedilmediği için bu bilgiyi Windows olay günlüklerinde bulamazsınız. Ancak, **önceki 4768 olmadan 4769 görmek** ile ilişkilendirebilirsiniz. **TGT olmadan bir TGS talep etmek mümkün değildir** ve eğer bir TGT'nin verildiğine dair bir kayıt yoksa, bunun çevrimdışı olarak sahte olduğunu çıkarabiliriz.
 
-Bu **algılama** kontrolünü **bypass etmek** için elmas biletleri kontrol edin:
+Bu **algılama** aşamasını **bypass etmek** için elmas biletlerini kontrol edin:
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -69,7 +69,7 @@ Bu **algılama** kontrolünü **bypass etmek** için elmas biletleri kontrol edi
 * 4672: Yönetici Girişi
 * `Get-WinEvent -FilterHashtable @{Logname='Security';ID=4672} -MaxEvents 1 | Format-List –Property`
 
-Savunucuların yapabileceği diğer küçük numaralar, **varsayılan etki alanı yöneticisi hesabı gibi hassas kullanıcılar için 4769'lar üzerinde uyarı vermektir**.
+Savunucuların yapabileceği diğer küçük numaralar, **varsayılan etki alanı yöneticisi hesabı gibi hassas kullanıcılar için 4769'da uyarı vermektir**.
 
 ## Referanslar
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
@@ -85,7 +85,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking numaralarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
+* **Hacking numaralarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

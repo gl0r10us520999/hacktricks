@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Bu, temel [Constrained Delegation](constrained-delegation.md) ile benzerdir ancak **bir nesneye** **bir hizmete karşı herhangi bir kullanıcıyı taklit etme** izni vermek yerine, Resource-based Constrained Delegation **nesnede** **ona karşı herhangi bir kullanıcıyı taklit edebilecek olanı** **belirler**.
 
-Bu durumda, kısıtlı nesne, herhangi bir kullanıcının ona karşı taklit edebileceği kullanıcının adıyla birlikte _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ adlı bir niteliğe sahip olacaktır.
+Bu durumda, kısıtlı nesne, ona karşı herhangi bir kullanıcıyı taklit edebilecek kullanıcının adıyla birlikte _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ adlı bir niteliğe sahip olacaktır.
 
 Bu Kısıtlı Delegasyonun diğer delegasyonlardan önemli bir farkı, **makine hesabı üzerinde yazma izinlerine sahip** herhangi bir kullanıcının (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ değerini ayarlayabilmesidir (Diğer Delegasyon türlerinde alan adı yöneticisi ayrıcalıkları gerekiyordu).
 
@@ -32,7 +32,7 @@ Bu Kısıtlı Delegasyonun diğer delegasyonlardan önemli bir farkı, **makine 
 Kısıtlı Delegasyonda, kullanıcının _userAccountControl_ değerindeki **`TrustedToAuthForDelegation`** bayrağının **S4U2Self** gerçekleştirmek için gerekli olduğu söylenmişti. Ancak bu tamamen doğru değil.\
 Gerçek şu ki, o değer olmadan bile, eğer bir **hizmet** (bir SPN'e sahipseniz) iseniz, herhangi bir kullanıcıya karşı **S4U2Self** gerçekleştirebilirsiniz, ancak eğer **`TrustedToAuthForDelegation`** varsa, döndürülen TGS **Forwardable** olacaktır ve eğer o bayrağa sahip değilseniz, döndürülen TGS **Forwardable** **olmayacaktır**.
 
-Ancak, **S4U2Proxy**'de kullanılan **TGS** **Forwardable DEĞİLSE**, temel bir **Constrain Delegation**'ı kötüye kullanmaya çalışmak **çalışmayacaktır**. Ancak bir **Resource-Based constrain delegation**'ı istismar etmeye çalışıyorsanız, bu **çalışacaktır** (bu bir güvenlik açığı değil, görünüşe göre bir özelliktir).
+Ancak, **S4U2Proxy**'de kullanılan **TGS** **Forwardable DEĞİLSE**, temel bir **Constrained Delegation**'ı kötüye kullanmaya çalışmak **çalışmayacaktır**. Ancak bir **Resource-Based constrained delegation**'ı istismar etmeye çalışıyorsanız, bu **çalışacaktır** (bu bir güvenlik açığı değil, görünüşe göre bir özelliktir).
 
 ### Saldırı Yapısı
 
@@ -40,13 +40,13 @@ Ancak, **S4U2Proxy**'de kullanılan **TGS** **Forwardable DEĞİLSE**, temel bir
 
 Saldırganın zaten **kurban bilgisayarı üzerinde yazma eşdeğer ayrıcalıklarına** sahip olduğunu varsayalım.
 
-1. Saldırgan, bir **SPN**'ye sahip bir hesabı **ele geçirir** veya **oluşturur** (“Hizmet A”). Herhangi bir _Admin User_'ın başka bir özel ayrıcalığı olmadan **10'a kadar Bilgisayar nesnesi** (_**MachineAccountQuota**_) **oluşturabileceğini** unutmayın ve bunlara bir **SPN** ayarlayabilir. Bu nedenle, saldırgan sadece bir Bilgisayar nesnesi oluşturup bir SPN ayarlayabilir.
-2. Saldırgan, kurban bilgisayar (ServiceB) üzerindeki **YAZMA ayrıcalığını** kötüye kullanarak **HizmetA'nın kurban bilgisayar (ServiceB) üzerinde herhangi bir kullanıcıyı taklit etmesine izin verecek şekilde kaynak tabanlı kısıtlı delegasyonu yapılandırır**.
+1. Saldırgan, bir **SPN**'ye sahip bir hesabı **ele geçirir** veya **oluşturur** (“Hizmet A”). Herhangi bir _Admin User_'ın başka bir özel ayrıcalığı olmadan **10'a kadar Bilgisayar nesnesi** (_**MachineAccountQuota**_) **oluşturabileceğini** ve bunlara bir **SPN** ayarlayabileceğini unutmayın. Bu nedenle, saldırgan sadece bir Bilgisayar nesnesi oluşturup bir SPN ayarlayabilir.
+2. Saldırgan, kurban bilgisayar (ServiceB) üzerindeki **yazma ayrıcalığını** kötüye kullanarak **HizmetA'nın o kurban bilgisayara (ServiceB) karşı herhangi bir kullanıcıyı taklit etmesine izin verecek şekilde kaynak tabanlı kısıtlı delegasyonu yapılandırır**.
 3. Saldırgan, **Hizmet B'ye ayrıcalıklı erişimi olan bir kullanıcı** için Hizmet A'dan Hizmet B'ye **tam bir S4U saldırısı** (S4U2Self ve S4U2Proxy) gerçekleştirmek için Rubeus'u kullanır.
    1. S4U2Self (ele geçirilen/oluşturulan SPN hesabından): **Yönetici için bana bir TGS iste** (Forwardable DEĞİL).
    2. S4U2Proxy: Önceki adımda **Forwardable DEĞİL** olan TGS'yi kullanarak **Yönetici**'den **kurban ana bilgisayara** bir **TGS** istemek.
-   3. Forwardable DEĞİL bir TGS kullanıyor olsanız bile, Resource-based constrained delegation'ı istismar ettiğiniz için bu **çalışacaktır**.
-   4. Saldırgan, **ticket'ı geçirebilir** ve kullanıcıyı **kurban ServiceB'ye erişim sağlamak için taklit edebilir**.
+   3. Forwardable DEĞİL bir TGS kullanıyor olsanız bile, kaynak tabanlı kısıtlı delegasyonu istismar ettiğiniz için bu **çalışacaktır**.
+   4. Saldırgan, **ticket'ı geçirebilir** ve **kullanıcıyı taklit ederek kurban ServiceB'ye erişim elde edebilir**.
 
 Alan adının _**MachineAccountQuota**_ değerini kontrol etmek için şunu kullanabilirsiniz:
 ```powershell
@@ -97,7 +97,7 @@ Bu, o hesap için RC4 ve AES hash'lerini yazdıracaktır.\
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-Rubeus'un `/altservice` parametresini kullanarak sadece bir kez istekte bulunarak daha fazla bilet oluşturabilirsiniz:
+Rubeus'un `/altservice` parametresini kullanarak sadece bir kez isteyerek daha fazla bilet oluşturabilirsiniz:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
@@ -107,8 +107,8 @@ Kullanıcıların "**Delege edilemez**" adında bir özelliği olduğunu unutmay
 
 ### Erişim
 
-Son komut satırı, **tam S4U saldırısını gerçekleştirecek ve TGS'yi** Administrator'dan kurban makinesine **belleğe** enjekte edecektir.\
-Bu örnekte, Administrator'dan **CIFS** servisi için bir TGS talep edilmiştir, böylece **C$**: erişebileceksiniz.
+Son komut satırı, **tam S4U saldırısını gerçekleştirecek ve TGS'yi** Administrator'dan kurban hostuna **bellekte** enjekte edecektir.\
+Bu örnekte, Administrator'dan **CIFS** servisi için bir TGS talep edilmiştir, böylece **C$**'ye erişebileceksiniz:
 ```bash
 ls \\victim.domain.local\C$
 ```
@@ -121,8 +121,8 @@ ls \\victim.domain.local\C$
 * **`KDC_ERR_ETYPE_NOTSUPP`**: Bu, kerberos'un DES veya RC4 kullanmayacak şekilde yapılandırıldığı ve yalnızca RC4 hash'ini sağladığınız anlamına gelir. Rubeus'a en az AES256 hash'ini (veya sadece rc4, aes128 ve aes256 hash'lerini sağlayın) verin. Örnek: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
 * **`KRB_AP_ERR_SKEW`**: Bu, mevcut bilgisayarın zamanının DC'nin zamanından farklı olduğu ve kerberos'un düzgün çalışmadığı anlamına gelir.
 * **`preauth_failed`**: Bu, verilen kullanıcı adı + hash'lerin giriş yapmak için çalışmadığı anlamına gelir. Hash'leri oluştururken kullanıcı adının içine "$" koymayı unutmuş olabilirsiniz (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
-* **`KDC_ERR_BADOPTION`**: Bu, şunları ifade edebilir:
-* Taklit etmeye çalıştığınız kullanıcı istenen hizmete erişemiyor (çünkü onu taklit edemezsiniz veya yeterli ayrıcalıklara sahip değildir)
+* **`KDC_ERR_BADOPTION`**: Bu, aşağıdakilerden birini ifade edebilir:
+* Taklit etmeye çalıştığınız kullanıcı, istenen hizmete erişemiyor (çünkü onu taklit edemezsiniz veya yeterli ayrıcalıklara sahip değildir)
 * İstenen hizmet mevcut değil (eğer winrm için bir bilet isterseniz ama winrm çalışmıyorsa)
 * Oluşturulan fakecomputer, savunmasız sunucu üzerindeki ayrıcalıklarını kaybetti ve bunları geri vermeniz gerekiyor.
 
@@ -138,8 +138,8 @@ ls \\victim.domain.local\C$
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

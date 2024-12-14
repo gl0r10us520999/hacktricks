@@ -17,14 +17,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Integrity Levels
 
-Windows Vista ve sonraki sürümlerde, tüm korunan öğeler bir **bütünlük seviyesi** etiketi ile gelir. Bu yapı, genellikle dosyalara ve kayıt defteri anahtarlarına "orta" bir bütünlük seviyesi atar, Internet Explorer 7'nin düşük bütünlük seviyesinde yazabileceği belirli klasörler ve dosyalar hariç. Varsayılan davranış, standart kullanıcılar tarafından başlatılan süreçlerin orta bir bütünlük seviyesine sahip olmasıdır, oysa hizmetler genellikle bir sistem bütünlük seviyesinde çalışır. Yüksek bir bütünlük etiketi, kök dizini korur.
+Windows Vista ve sonraki sürümlerde, tüm korunan öğeler bir **bütünlük seviyesi** etiketi ile gelir. Bu yapı, genellikle dosyalara ve kayıt defteri anahtarlarına "orta" bir bütünlük seviyesi atar, Internet Explorer 7'nin düşük bütünlük seviyesinde yazabileceği belirli klasörler ve dosyalar hariç. Varsayılan davranış, standart kullanıcılar tarafından başlatılan süreçlerin orta bütünlük seviyesine sahip olmasıdır, oysa hizmetler genellikle sistem bütünlük seviyesinde çalışır. Yüksek bir bütünlük etiketi, kök dizini korur.
 
 Ana kural, nesnelerin, nesnenin seviyesinden daha düşük bir bütünlük seviyesine sahip süreçler tarafından değiştirilemeyeceğidir. Bütünlük seviyeleri şunlardır:
 
-* **Güvenilmez**: Bu seviye, anonim oturum açma ile süreçler içindir. %%%Örnek: Chrome%%%
+* **Güvenilmez**: Bu seviye, anonim oturum açma ile çalışan süreçler içindir. %%%Örnek: Chrome%%%
 * **Düşük**: Temelde internet etkileşimleri için, özellikle Internet Explorer'ın Korunan Modu'nda, ilişkili dosyaları ve süreçleri etkileyen ve **Geçici İnternet Klasörü** gibi belirli klasörler için. Düşük bütünlük seviyesine sahip süreçler, kayıt defteri yazma erişimi olmaması ve sınırlı kullanıcı profili yazma erişimi dahil olmak üzere önemli kısıtlamalarla karşılaşır.
-* **Orta**: Çoğu etkinlik için varsayılan seviye, standart kullanıcılara ve belirli bir bütünlük seviyesine sahip olmayan nesnelere atanır. Yöneticiler grubunun üyeleri bile varsayılan olarak bu seviyede çalışır.
-* **Yüksek**: Yöneticiler için ayrılmıştır, onlara daha düşük bütünlük seviyelerindeki nesneleri değiştirme yetkisi verir, bunlar arasında yüksek seviyedeki nesneler de bulunur.
+* **Orta**: Çoğu etkinlik için varsayılan seviye, standart kullanıcılara ve belirli bütünlük seviyeleri olmayan nesnelere atanır. Yöneticiler grubunun üyeleri bile varsayılan olarak bu seviyede çalışır.
+* **Yüksek**: Yöneticiler için ayrılmıştır, onlara daha düşük bütünlük seviyelerindeki nesneleri değiştirme yetkisi verir, yüksek seviyedeki nesneleri de içerir.
 * **Sistem**: Windows çekirdeği ve temel hizmetler için en yüksek operasyonel seviyedir, yöneticiler için bile erişilemez, kritik sistem işlevlerinin korunmasını sağlar.
 * **Yükleyici**: Diğer tüm seviyelerin üzerinde yer alan benzersiz bir seviyedir, bu seviyedeki nesnelerin herhangi bir diğer nesneyi kaldırmasına olanak tanır.
 
@@ -38,7 +38,7 @@ Ayrıca `whoami /groups` komutunu kullanarak **mevcut bütünlük seviyenizi** d
 
 ### Integrity Levels in File-system
 
-Dosya sistemindeki bir nesne, bir **minimum bütünlük seviyesi gereksinimi** gerektirebilir ve bir süreç bu bütünlük seviyesine sahip değilse onunla etkileşimde bulunamaz.\
+Dosya sistemindeki bir nesne, bir **minimum bütünlük seviyesi gereksinimi** gerektirebilir ve eğer bir süreç bu bütünlük seviyesine sahip değilse, onunla etkileşimde bulunamayacaktır.\
 Örneğin, **standart bir kullanıcı konsolundan bir dosya oluşturalım ve izinleri kontrol edelim**:
 ```
 echo asd >asd.txt
@@ -50,7 +50,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Şimdi, dosyaya **Yüksek** bir minimum bütünlük seviyesi atayalım. Bu **bir yönetici olarak çalışan bir konsoldan** **yapılmalıdır**, çünkü **normal bir konsol** Orta Bütünlük seviyesinde çalışacak ve bir nesneye Yüksek Bütünlük seviyesi atamasına **izin verilmeyecektir**:
+Şimdi, dosyaya **Yüksek** bir minimum bütünlük seviyesi atayalım. Bu **bir yönetici olarak çalışan bir konsoldan** yapılmalıdır çünkü **normal bir konsol** Orta Bütünlük seviyesinde çalışacak ve bir nesneye Yüksek Bütünlük seviyesi atamasına **izin verilmeyecektir**:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -65,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-Bu noktada işler ilginçleşiyor. `DESKTOP-IDJHTKP\user` kullanıcısının dosya üzerinde **TAM yetkileri** olduğunu görebilirsiniz (aslında bu dosyayı oluşturan kullanıcıydı), ancak uygulanan minimum bütünlük seviyesi nedeniyle, artık dosyayı değiştiremeyecek, yalnızca Yüksek Bütünlük Seviyesi içinde çalışıyorsa (not edin ki dosyayı okuyabilecektir):
+Bu noktada işler ilginçleşiyor. `DESKTOP-IDJHTKP\user` kullanıcısının dosya üzerinde **TAM yetkileri** olduğunu görebilirsiniz (aslında bu dosyayı oluşturan kullanıcıydı), ancak uygulanan minimum bütünlük seviyesi nedeniyle, Yüksek Bütünlük Seviyesi içinde çalışmadığı sürece dosyayı bir daha değiştiremeyecek (okuyabileceğini unutmayın):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -80,7 +80,7 @@ Access is denied.
 
 ### Binaries'deki Bütünlük Seviyeleri
 
-`cmd.exe` dosyasının bir kopyasını `C:\Windows\System32\cmd-low.exe` konumuna aldım ve ona **bir yönetici konsolundan düşük bir bütünlük seviyesi atadım:**
+`cmd.exe` dosyasının bir kopyasını `C:\Windows\System32\cmd-low.exe` olarak oluşturdum ve bunu bir **yönetici konsolundan düşük bir bütünlük seviyesi olarak ayarladım:**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)

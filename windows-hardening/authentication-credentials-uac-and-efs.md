@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -27,7 +27,7 @@ Bugün Erişim Alın:
 Bir uygulama beyaz listesi, bir sistemde bulunmasına ve çalıştırılmasına izin verilen onaylı yazılım uygulamaları veya yürütülebilir dosyaların listesidir. Amaç, ortamı zararlı kötü amaçlı yazılımlardan ve bir organizasyonun belirli iş ihtiyaçlarıyla uyumlu olmayan onaylanmamış yazılımlardan korumaktır.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) Microsoft'un **uygulama beyaz listeleme çözümüdür** ve sistem yöneticilerine **kullanıcıların hangi uygulamaları ve dosyaları çalıştırabileceği üzerinde kontrol sağlar**. Yürütülebilir dosyalar, betikler, Windows yükleyici dosyaları, DLL'ler, paketlenmiş uygulamalar ve paketlenmiş uygulama yükleyicileri üzerinde **ince kontrol** sağlar.\
-Organizasyonların **cmd.exe ve PowerShell.exe'yi** engellemesi ve belirli dizinlere yazma erişimini kısıtlaması yaygındır, **ancak bunların hepsi atlatılabilir**.
+Organizasyonların **cmd.exe ve PowerShell.exe'yi** engellemesi ve belirli dizinlere yazma erişimi sağlaması yaygındır, **ancak bunların hepsi atlatılabilir**.
 
 ### Kontrol
 
@@ -40,24 +40,24 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-Bu kayıt yolu, AppLocker tarafından uygulanan yapılandırmaları ve politikaları içerir ve sistemdeki mevcut kural setini gözden geçirme yolu sağlar:
+Bu kayıt defteri yolu, AppLocker tarafından uygulanan yapılandırmaları ve politikaları içerir ve sistemdeki mevcut kural setini gözden geçirme yolu sağlar:
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 ### Bypass
 
-* AppLocker Politikasını atlamak için **Yazılabilir klasörler**: Eğer AppLocker `C:\Windows\System32` veya `C:\Windows` içindeki herhangi bir şeyi çalıştırmaya izin veriyorsa, bunu **atlamak** için kullanabileceğiniz **yazılabilir klasörler** vardır.
+* AppLocker Politikasını atlamak için **Yazılabilir klasörler**: Eğer AppLocker `C:\Windows\System32` veya `C:\Windows` içindeki herhangi bir şeyi çalıştırmaya izin veriyorsa, bunu **atlamak için** kullanabileceğiniz **yazılabilir klasörler** vardır.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Yaygın olarak **güvenilir** [**"LOLBAS's"**](https://lolbas-project.github.io/) ikili dosyaları AppLocker'ı atlatmak için de yararlı olabilir.
+* Yaygın olarak **güvenilir** [**"LOLBAS's"**](https://lolbas-project.github.io/) ikili dosyaları, AppLocker'ı atlatmak için de yararlı olabilir.
 * **Kötü yazılmış kurallar da atlatılabilir**
-* Örneğin, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, istediğiniz herhangi bir yere **`allowed`** adında bir **klasör oluşturabilirsiniz** ve bu izinli olacaktır.
+* Örneğin, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, istediğiniz herhangi bir yere **`allowed`** adında bir **klasör oluşturabilirsiniz** ve bu izin verilecektir.
 * Kuruluşlar genellikle **`%System32%\WindowsPowerShell\v1.0\powershell.exe`** yürütülebilir dosyasını **engellemeye** odaklanır, ancak **diğer** [**PowerShell yürütülebilir dosya konumlarını**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) unutur, örneğin `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` veya `PowerShell_ISE.exe`.
-* **DLL uygulaması çok nadiren etkinleştirilir** çünkü sistem üzerinde ek yük oluşturabilir ve hiçbir şeyin bozulmayacağından emin olmak için gereken test miktarı yüksektir. Bu nedenle **DLL'leri arka kapı olarak kullanmak AppLocker'ı atlatmaya yardımcı olacaktır**.
+* **DLL uygulaması çok nadiren etkinleştirilir** çünkü sistem üzerinde ek yük oluşturabilir ve hiçbir şeyin bozulmayacağından emin olmak için gereken test miktarı yüksektir. Bu nedenle, **DLL'leri arka kapı olarak kullanmak AppLocker'ı atlatmaya yardımcı olacaktır**.
 * [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) veya [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) kullanarak **Powershell** kodunu herhangi bir süreçte çalıştırabilir ve AppLocker'ı atlatabilirsiniz. Daha fazla bilgi için kontrol edin: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Kimlik Bilgileri Depolama
@@ -150,7 +150,7 @@ Ayrıca, bir klasör içinde `cipher /e` ve `cipher /d` komutlarını kullanarak
 
 #### Yetki Sistemi Olmak
 
-Bu yöntem, **kurban kullanıcının** ana bilgisayar içinde bir **işlem** çalıştırmasını gerektirir. Eğer durum buysa, `meterpreter` oturumları kullanarak kullanıcının işlem token'ını taklit edebilirsiniz (`incognito`'dan `impersonate_token`). Ya da sadece kullanıcının işlemine `migrate` yapabilirsiniz.
+Bu yöntem, **kurban kullanıcının** ana bilgisayar içinde bir **işlem** çalıştırmasını gerektirir. Eğer durum buysa, `meterpreter` oturumları kullanarak kullanıcının işleminin token'ını taklit edebilirsiniz (`incognito`'dan `impersonate_token`). Ya da sadece kullanıcının işlemine `migrate` yapabilirsiniz.
 
 #### Kullanıcının şifresini bilmek
 
@@ -161,12 +161,12 @@ Bu yöntem, **kurban kullanıcının** ana bilgisayar içinde bir **işlem** ça
 Microsoft, IT altyapılarındaki hizmet hesaplarının yönetimini basitleştirmek için **Grup Yönetilen Hizmet Hesapları (gMSA)** geliştirmiştir. Geleneksel hizmet hesaplarının genellikle "**Şifre asla süresi dolmaz**" ayarı etkinken, gMSA'lar daha güvenli ve yönetilebilir bir çözüm sunar:
 
 * **Otomatik Şifre Yönetimi**: gMSA'lar, alan veya bilgisayar politikasına göre otomatik olarak değişen karmaşık, 240 karakterli bir şifre kullanır. Bu süreç, Microsoft'un Anahtar Dağıtım Servisi (KDC) tarafından yönetilir ve manuel şifre güncellemeleri gereksiz hale gelir.
-* **Gelişmiş Güvenlik**: Bu hesaplar kilitlenmelere karşı bağışık olup, etkileşimli oturum açmak için kullanılamaz, böylece güvenliklerini artırır.
+* **Geliştirilmiş Güvenlik**: Bu hesaplar kilitlenmelere karşı bağışık olup, etkileşimli oturum açmak için kullanılamaz, bu da güvenliklerini artırır.
 * **Birden Fazla Ana Bilgisayar Desteği**: gMSA'lar, birden fazla ana bilgisayar arasında paylaşılabilir, bu da onları birden fazla sunucuda çalışan hizmetler için ideal hale getirir.
-* **Planlı Görev Yeteneği**: Yönetilen hizmet hesaplarının aksine, gMSA'lar planlı görevlerin çalıştırılmasını destekler.
+* **Zamanlanmış Görev Yeteneği**: Yönetilen hizmet hesaplarının aksine, gMSA'lar zamanlanmış görevlerin çalıştırılmasını destekler.
 * **Basitleştirilmiş SPN Yönetimi**: Sistem, bilgisayarın sAMaccount ayrıntıları veya DNS adı değiştiğinde Hizmet Prensip Adını (SPN) otomatik olarak güncelleyerek SPN yönetimini basitleştirir.
 
-gMSA'lar için şifreler, LDAP özelliği _**msDS-ManagedPassword**_ içinde saklanır ve Alan Denetleyicileri (DC'ler) tarafından her 30 günde bir otomatik olarak sıfırlanır. Bu şifre, [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e) olarak bilinen şifrelenmiş bir veri bloğudur ve yalnızca yetkili yöneticiler ve gMSA'ların kurulu olduğu sunucular tarafından alınabilir, böylece güvenli bir ortam sağlanır. Bu bilgilere erişmek için, LDAPS gibi güvenli bir bağlantı gereklidir veya bağlantı 'Sealing & Secure' ile kimlik doğrulaması yapılmalıdır.
+gMSA'ların şifreleri, LDAP özelliği _**msDS-ManagedPassword**_ içinde saklanır ve Alan Denetleyicileri (DC'ler) tarafından her 30 günde bir otomatik olarak sıfırlanır. Bu şifre, [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e) olarak bilinen şifrelenmiş bir veri bloğudur ve yalnızca yetkili yöneticiler ve gMSA'ların kurulu olduğu sunucular tarafından alınabilir, bu da güvenli bir ortam sağlar. Bu bilgilere erişmek için, LDAPS gibi güvenli bir bağlantı gereklidir veya bağlantı 'Sealing & Secure' ile kimlik doğrulaması yapılmalıdır.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -176,7 +176,7 @@ Bu şifreyi [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordRe
 ```
 [**Bu yazıda daha fazla bilgi bulun**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Ayrıca, **gMSA**'nın **şifresini okumak** için nasıl bir **NTLM relay attack** gerçekleştireceğinizi anlatan bu [web sayfasını](https://cube0x0.github.io/Relaying-for-gMSA/) kontrol edin.
+Ayrıca, **gMSA**'nın **şifresini** **okumak** için nasıl bir **NTLM relay attack** gerçekleştireceğinizi anlatan bu [web sayfasını](https://cube0x0.github.io/Relaying-for-gMSA/) kontrol edin.
 
 ## LAPS
 
@@ -188,7 +188,7 @@ Ayrıca, **gMSA**'nın **şifresini okumak** için nasıl bir **NTLM relay attac
 
 ## PS Kısıtlı Dil Modu
 
-PowerShell [**Kısıtlı Dil Modu**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) PowerShell'i etkili bir şekilde kullanmak için gereken birçok özelliği **kısıtlar**, örneğin COM nesnelerini engelleme, yalnızca onaylı .NET türlerine, XAML tabanlı iş akışlarına, PowerShell sınıflarına ve daha fazlasına izin verme.
+PowerShell [**Kısıtlı Dil Modu**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **PowerShell'i etkili bir şekilde kullanmak için gereken birçok özelliği** kısıtlar, örneğin COM nesnelerini engelleme, yalnızca onaylı .NET türlerine, XAML tabanlı iş akışlarına, PowerShell sınıflarına ve daha fazlasına izin verme.
 
 ### **Kontrol Et**
 ```powershell
@@ -277,16 +277,16 @@ Bugün Erişim Alın:
 ***
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

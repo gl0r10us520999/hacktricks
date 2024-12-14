@@ -1,8 +1,8 @@
 # Firmware Analizi
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Hacking ipuçlarını paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
@@ -32,16 +32,16 @@ Firmware, cihazların doğru bir şekilde çalışmasını sağlayan, donanım b
 - Mimari ve akış diyagramları
 - Güvenlik değerlendirmeleri ve belirlenen açıklar
 
-Bu amaçla, **açık kaynak istihbaratı (OSINT)** araçları çok değerlidir; ayrıca mevcut açık kaynak yazılım bileşenlerinin manuel ve otomatik inceleme süreçleriyle analizi de önemlidir. [Coverity Scan](https://scan.coverity.com) ve [Semmle’nin LGTM](https://lgtm.com/#explore) gibi araçlar, potansiyel sorunları bulmak için kullanılabilecek ücretsiz statik analiz sunar.
+Bu amaçla, **açık kaynak istihbarat (OSINT)** araçları çok değerlidir, ayrıca mevcut açık kaynak yazılım bileşenlerinin manuel ve otomatik inceleme süreçleriyle analizi de önemlidir. [Coverity Scan](https://scan.coverity.com) ve [Semmle’nin LGTM](https://lgtm.com/#explore) gibi araçlar, potansiyel sorunları bulmak için kullanılabilecek ücretsiz statik analiz sunar.
 
 ## **Firmware'i Edinme**
 
 Firmware edinme, her biri kendi karmaşıklık seviyesine sahip çeşitli yollarla gerçekleştirilebilir:
 
-- **Kaynaktan** (geliştiriciler, üreticiler) **doğrudan**
+- **Kaynaklardan** (geliştiriciler, üreticiler) **doğrudan**
 - Verilen talimatlardan **oluşturarak**
 - Resmi destek sitelerinden **indirerek**
-- Barındırılan firmware dosyalarını bulmak için **Google dork** sorgularını kullanarak
+- Barındırılan firmware dosyalarını bulmak için **Google dork** sorguları kullanarak
 - [S3Scanner](https://github.com/sa7mon/S3Scanner) gibi araçlarla **bulut depolama**'ya doğrudan erişerek
 - Man-in-the-middle teknikleriyle **güncellemeleri** yakalayarak
 - **UART**, **JTAG** veya **PICit** gibi bağlantılar aracılığıyla cihazdan **çıkararak**
@@ -61,7 +61,7 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-Eğer bu araçlarla pek bir şey bulamazsanız, görüntünün **entropisini** `binwalk -E <bin>` ile kontrol edin, düşük entropi varsa, muhtemelen şifrelenmemiştir. Yüksek entropi varsa, muhtemelen şifrelenmiştir (ya da bir şekilde sıkıştırılmıştır).
+Eğer bu araçlarla pek bir şey bulamazsanız, görüntünün **entropisini** `binwalk -E <bin>` ile kontrol edin, düşük entropi varsa, muhtemelen şifrelenmemiştir. Yüksek entropi varsa, muhtemelen şifrelenmiştir (veya bir şekilde sıkıştırılmıştır).
 
 Ayrıca, bu araçları **firmware içinde gömülü dosyaları çıkarmak için** kullanabilirsiniz:
 
@@ -69,9 +69,9 @@ Ayrıca, bu araçları **firmware içinde gömülü dosyaları çıkarmak için*
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Ya da dosyayı incelemek için [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) kullanabilirsiniz.
+Veya dosyayı incelemek için [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) kullanabilirsiniz.
 
-### Dosya Sistemini Elde Etme
+### Dosya Sistemini Alma
 
 Önceki bahsedilen araçlarla `binwalk -ev <bin>` kullanarak **dosya sistemini çıkarmış olmalısınız**.\
 Binwalk genellikle bunu **dosya sistemi türüyle adlandırılan bir klasörün içine çıkarır**, bu genellikle aşağıdakilerden biridir: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
@@ -90,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Aşağıdaki **dd komutunu** çalıştırarak Squashfs dosya sistemini çıkarın.
+Aşağıdaki **dd komutunu** çalıştırarak Squashfs dosya sistemini kesin.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -146,7 +146,7 @@ Görüntünün şifreleme durumunu değerlendirmek için **entropy** `binwalk -E
 
 ### Dosya Sistemini Çıkarma
 
-`binwalk -ev <bin>` kullanarak genellikle dosya sistemi çıkarılabilir, genellikle dosya sistemi türüyle adlandırılmış bir dizine (örneğin, squashfs, ubifs) çıkarılır. Ancak, **binwalk** sihirli baytların eksikliği nedeniyle dosya sistemi türünü tanımadığında, manuel çıkarım gereklidir. Bu, `binwalk` kullanarak dosya sisteminin ofsetini bulmayı ve ardından dosya sistemini çıkarmak için `dd` komutunu kullanmayı içerir:
+`binwalk -ev <bin>` kullanarak, genellikle dosya sistemini çıkarmak mümkündür, genellikle dosya sistemi türüyle adlandırılan bir dizine (örneğin, squashfs, ubifs) çıkar. Ancak, **binwalk** sihirli baytların eksikliği nedeniyle dosya sistemi türünü tanımadığında, manuel çıkarma gereklidir. Bu, `binwalk` kullanarak dosya sisteminin ofsetini bulmayı ve ardından dosya sistemini çıkarmak için `dd` komutunu kullanmayı içerir:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
@@ -206,7 +206,7 @@ ARM ikili dosyaları için süreç benzerdir, emülasyon için `qemu-arm` emüla
 
 ## Pratikte Dinamik Analiz
 
-Bu aşamada, analiz için gerçek veya emüle edilmiş bir cihaz ortamı kullanılır. OS ve dosya sistemine shell erişimini sürdürmek önemlidir. Emülasyon, donanım etkileşimlerini mükemmel bir şekilde taklit etmeyebilir, bu nedenle ara sıra emülasyonun yeniden başlatılması gerekebilir. Analiz, dosya sistemini yeniden gözden geçirmeli, açığa çıkan web sayfalarını ve ağ hizmetlerini istismar etmeli ve önyükleyici zafiyetlerini keşfetmelidir. Firmware bütünlüğü testleri, potansiyel arka kapı zafiyetlerini belirlemek için kritik öneme sahiptir.
+Bu aşamada, analiz için gerçek veya emüle edilmiş bir cihaz ortamı kullanılır. OS ve dosya sistemine shell erişimini sürdürmek önemlidir. Emülasyon, donanım etkileşimlerini mükemmel bir şekilde taklit etmeyebilir, bu nedenle ara sıra emülasyonun yeniden başlatılması gerekebilir. Analiz, dosya sistemini yeniden gözden geçirmeli, açığa çıkan web sayfalarını ve ağ hizmetlerini istismar etmeli ve önyükleyici zafiyetlerini keşfetmelidir. Firmware bütünlüğü testleri, potansiyel arka kapı zafiyetlerini tanımlamak için kritik öneme sahiptir.
 
 ## Çalışma Zamanı Analiz Teknikleri
 
@@ -214,7 +214,7 @@ Bu aşamada, analiz için gerçek veya emüle edilmiş bir cihaz ortamı kullan�
 
 ## İkili İstismar ve Kanıt-of-Kavram
 
-Belirlenen zafiyetler için bir PoC geliştirmek, hedef mimarinin derin bir anlayışını ve daha düşük seviyeli dillerde programlama bilgisi gerektirir. Gömülü sistemlerde ikili çalışma zamanı korumaları nadirdir, ancak mevcut olduğunda, Return Oriented Programming (ROP) gibi teknikler gerekli olabilir.
+Tanımlanan zafiyetler için bir PoC geliştirmek, hedef mimarinin derin bir anlayışını ve daha düşük seviyeli dillerde programlama bilgisi gerektirir. Gömülü sistemlerde ikili çalışma zamanı korumaları nadirdir, ancak mevcut olduğunda, Return Oriented Programming (ROP) gibi teknikler gerekli olabilir.
 
 ## Firmware Analizi için Hazırlanmış İşletim Sistemleri
 
@@ -260,7 +260,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

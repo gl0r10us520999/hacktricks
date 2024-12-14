@@ -30,7 +30,7 @@ Ve bu, yapılandırmanın en önemli kısmıdır:
 
 (Lütfen, kendi ikili dosyanızı paketlemeye çalışırsanız bu değerleri değiştirebileceğinizi unutmayın)
 
-Buradan sadece **sonraki butonlara** tıklayın ve son **oluştur butonu** ile yükleyiciniz/sarmalayıcınız oluşturulacaktır. 
+Buradan sadece **sonraki butonlara** tıklayın ve son **oluşturma butonu** ile yükleyiciniz/sarmalayıcınız oluşturulacaktır. 
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

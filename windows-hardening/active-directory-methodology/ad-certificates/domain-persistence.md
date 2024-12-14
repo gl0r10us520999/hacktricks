@@ -23,7 +23,7 @@ Bir sertifikanın CA sertifikası olduğunu nasıl anlarsınız?
 
 Bir sertifikanın CA sertifikası olduğu, birkaç koşulun sağlanması durumunda belirlenebilir:
 
-- Sertifika, CA sunucusunda depolanır ve özel anahtarı makinenin DPAPI'si veya işletim sistemi bunu destekliyorsa TPM/HSM gibi bir donanım tarafından korunur.
+- Sertifika, CA sunucusunda depolanır ve özel anahtarı makinenin DPAPI'si veya işletim sistemi bunu destekliyorsa bir TPM/HSM gibi donanım tarafından korunur.
 - Sertifikanın Hem Verici (Issuer) hem de Konu (Subject) alanları CA'nın ayırt edici adıyla eşleşir.
 - CA sertifikalarında yalnızca "CA Version" uzantısı bulunur.
 - Sertifika, Genişletilmiş Anahtar Kullanımı (EKU) alanlarından yoksundur.
@@ -49,19 +49,19 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-Sertifika sahteciliği hedeflenen kullanıcının aktif olması ve Active Directory'de kimlik doğrulama yapabilmesi gerekmektedir. krbtgt gibi özel hesaplar için sertifika sahteciliği etkisizdir.
+Sertifika sahteciliği hedeflenen kullanıcının, sürecin başarılı olması için Active Directory'de aktif ve kimlik doğrulama yapabilen biri olması gerekir. krbtgt gibi özel hesaplar için sertifika sahteciliği etkisizdir.
 {% endhint %}
 
-Bu sahte sertifika, belirtilen son tarihine kadar **geçerli** olacak ve **kök CA sertifikası geçerli olduğu sürece** (genellikle 5 ila **10+ yıl** arasında) geçerliliğini koruyacaktır. Ayrıca, **makineler** için de geçerlidir, bu nedenle **S4U2Self** ile birleştirildiğinde, bir saldırgan **herhangi bir alan makinesinde kalıcılığı sürdürebilir** kök CA sertifikası geçerli olduğu sürece.\
-Ayrıca, bu yöntemle **oluşturulan sertifikalar** **iptal edilemez** çünkü CA bunlardan haberdar değildir.
+Bu sahte sertifika, belirtilen son tarihe kadar **geçerli** olacak ve **kök CA sertifikası geçerli olduğu sürece** (genellikle 5 ila **10+ yıl** arasında) geçerliliğini koruyacaktır. Ayrıca, **makineler** için de geçerlidir, bu nedenle **S4U2Self** ile birleştirildiğinde, bir saldırgan **herhangi bir alan makinesinde kalıcılığı sürdürebilir** kök CA sertifikası geçerli olduğu sürece.\
+Ayrıca, bu yöntemle **üretilecek sertifikalar** **iptal edilemez** çünkü CA bunlardan haberdar değildir.
 
 ## Sahte CA Sertifikalarına Güvenme - DPERSIST2
 
-`NTAuthCertificates` nesnesi, Active Directory'nin (AD) kullandığı `cacertificate` niteliği içinde bir veya daha fazla **CA sertifikası** içerecek şekilde tanımlanmıştır. **Alan denetleyicisi** tarafından yapılan doğrulama süreci, kimlik doğrulama **sertifikası** için İhraççı alanında belirtilen **CA ile eşleşen** bir girişi kontrol etmeyi içerir. Eşleşme bulunursa kimlik doğrulama devam eder.
+`NTAuthCertificates` nesnesi, Active Directory'nin (AD) kullandığı `cacertificate` niteliği içinde bir veya daha fazla **CA sertifikası** içerecek şekilde tanımlanmıştır. **Alan denetleyicisi** tarafından yapılan doğrulama süreci, kimlik doğrulama **sertifikasının** İhraççı alanında belirtilen **CA ile** eşleşen bir girişi kontrol etmek için `NTAuthCertificates` nesnesini incelemeyi içerir. Eşleşme bulunursa kimlik doğrulama devam eder.
 
-Bir saldırgan, bu AD nesnesi üzerinde kontrol sahibi olduğu sürece `NTAuthCertificates` nesnesine kendinden imzalı bir CA sertifikası ekleyebilir. Normalde, yalnızca **Enterprise Admin** grubunun üyeleri ile **Domain Admins** veya **orman kök alanındaki** **Yönetici**'ler bu nesneyi değiştirme iznine sahiptir. `certutil.exe` kullanarak `NTAuthCertificates` nesnesini `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` komutuyla veya [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool) kullanarak düzenleyebilirler.
+Bir saldırgan, bu AD nesnesi üzerinde kontrol sahibi olduğu sürece `NTAuthCertificates` nesnesine kendinden imzalı bir CA sertifikası ekleyebilir. Normalde, yalnızca **Enterprise Admin** grubunun üyeleri ile **Domain Admins** veya **orman kök alanındaki** **Yönetici** grubu bu nesneyi değiştirme iznine sahiptir. `certutil.exe` kullanarak `NTAuthCertificates` nesnesini `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` komutuyla veya [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool) kullanarak düzenleyebilirler.
 
-Bu yetenek, daha önce belirtilen ForgeCert yöntemini kullanarak dinamik olarak sertifikalar oluşturmakla birleştirildiğinde özellikle önemlidir.
+Bu yetenek, daha önce belirtilen ForgeCert yöntemini dinamik olarak sertifikalar oluşturmak için kullanıldığında özellikle önemlidir.
 
 ## Kötü Amaçlı Yanlış Yapılandırma - DPERSIST3
 
@@ -70,7 +70,7 @@ AD CS bileşenlerinin **güvenlik tanımlayıcıları** üzerinde **kalıcılık
 - **CA sunucusunun AD bilgisayar** nesnesi
 - **CA sunucusunun RPC/DCOM sunucusu**
 - **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** içindeki herhangi bir **torun AD nesnesi veya konteyner** (örneğin, Sertifika Şablonları konteyneri, Sertifikasyon Otoriteleri konteyneri, NTAuthCertificates nesnesi vb.)
-- **AD CS'yi kontrol etme haklarına sahip AD grupları**, varsayılan olarak veya organizasyon tarafından (örneğin, yerleşik Sertifika Yayıncıları grubu ve üyeleri)
+- **AD CS'yi kontrol etme yetkisi verilmiş AD grupları** varsayılan olarak veya organizasyon tarafından (örneğin, yerleşik Sertifika Yayıncıları grubu ve üyeleri)
 
 Kötü niyetli bir uygulama örneği, alan içinde **yükseltilmiş izinlere** sahip bir saldırganın, **`User`** sertifika şablonuna **`WriteOwner`** iznini eklemesi olacaktır; burada saldırgan, bu hakkın sahibi olur. Bunu istismar etmek için, saldırgan önce **`User`** şablonunun sahipliğini kendisine değiştirecektir. Ardından, **`mspki-certificate-name-flag`** şablonda **1** olarak ayarlanacak ve **`ENROLLEE_SUPPLIES_SUBJECT`** etkinleştirilecektir; bu, bir kullanıcının talepte bir Subject Alternative Name sağlamasına olanak tanır. Sonrasında, saldırgan **şablonu** kullanarak, alternatif ad olarak bir **alan yöneticisi** adı seçerek **kayıt** olabilir ve elde edilen sertifikayı DA olarak kimlik doğrulama için kullanabilir.
 

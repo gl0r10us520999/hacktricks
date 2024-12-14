@@ -43,7 +43,7 @@ sudo nc -k -v -l -p 386
 Ancak, bu yöntemin başarısı değişkenlik gösterir.
 
 ### Yöntem 2: Tam LDAP Sunucusu ile Slapd
-Daha güvenilir bir yaklaşım, tam bir LDAP sunucusu kurmaktır çünkü yazıcı, kimlik bilgisi bağlamadan önce bir null bind ve ardından bir sorgu gerçekleştirir.
+Daha güvenilir bir yaklaşım, yazıcının kimlik bilgisi bağlamadan önce bir null bind ve ardından bir sorgu gerçekleştirdiği için tam bir LDAP sunucusu kurmaktır.
 
 1. **LDAP Sunucu Kurulumu**: Kılavuz, [bu kaynaktan](https://www.server-world.info/en/note?os=Fedora_26&p=openldap) adımları takip eder.
 2. **Ana Adımlar**:
@@ -52,7 +52,7 @@ Daha güvenilir bir yaklaşım, tam bir LDAP sunucusu kurmaktır çünkü yazıc
 - Temel şemaları içe aktarın.
 - LDAP DB üzerinde alan adını ayarlayın.
 - LDAP TLS'yi yapılandırın.
-3. **LDAP Servisi Çalıştırma**: Kurulduktan sonra, LDAP servisi şu komutla çalıştırılabilir:
+3. **LDAP Servisi Çalıştırma**: Kurulduktan sonra, LDAP servisi şu şekilde çalıştırılabilir:
 ```bash
 slapd -d 2
 ```
@@ -69,7 +69,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

@@ -26,7 +26,7 @@ Bunu kullanarak bir Alan yöneticisi, bir bilgisayarın bir makinenin **hizmeti*
 
 Bu, eğer **hizmetin hash'ini ele geçirirseniz**, **kullanıcıları taklit edebileceğiniz** ve onların adına **hizmete erişim** elde edebileceğiniz anlamına gelir (mümkün **privesc**).
 
-Ayrıca, **kullanıcının taklit edebileceği hizmete** erişiminiz olmayacak, aynı zamanda **herhangi bir hizmete** de erişiminiz olacak çünkü SPN (istenen hizmet adı) kontrol edilmez, sadece ayrıcalıklar kontrol edilir. Bu nedenle, eğer **CIFS hizmetine** erişiminiz varsa, Rubeus'ta `/altservice` bayrağını kullanarak **HOST hizmetine** de erişiminiz olabilir.
+Ayrıca, **kullanıcının taklit edebileceği hizmete** erişiminiz olmayacak, aynı zamanda **herhangi bir hizmete** de erişiminiz olacak çünkü SPN (talep edilen hizmet adı) kontrol edilmez, sadece ayrıcalıklar kontrol edilir. Bu nedenle, eğer **CIFS hizmetine** erişiminiz varsa, Rubeus'ta `/altservice` bayrağını kullanarak **HOST hizmetine** de erişiminiz olabilir.
 
 Ayrıca, **DC üzerindeki LDAP hizmet erişimi**, bir **DCSync**'i istismar etmek için gereklidir.
 
@@ -63,7 +63,7 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-**TGT biletini** veya **RC4** ya da **AES256**'yı elde etmenin **başka yolları** vardır, bunlar arasında Yazıcı Hatası ve kısıtlanmamış delegasyon, NTLM ile iletim ve Active Directory Sertifika Servisi istismarı bulunmaktadır.
+**TGT biletini** veya **RC4** ya da **AES256**'yı elde etmenin **başka yolları** vardır, bunlar arasında Yazıcı Hatası ve kısıtlanmamış delegasyon, NTLM ile yönlendirme ve Active Directory Sertifika Servisi istismarı bulunmaktadır.
 
 **Sadece bu TGT biletine (veya hash'ine) sahip olarak, tüm bilgisayarı tehlikeye atmadan bu saldırıyı gerçekleştirebilirsiniz.**
 {% endhint %}
@@ -111,7 +111,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

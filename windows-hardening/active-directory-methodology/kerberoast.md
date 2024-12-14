@@ -33,13 +33,13 @@ Kerberoasting, **Active Directory (AD)** altında **kullanıcı hesapları** ile
 
 * **Kerberoasting**, **AD** içindeki **kullanıcı-hesap hizmetleri** için **TGS biletlerini** hedef alır.
 * **Kullanıcı şifrelerinden** gelen anahtarlarla şifrelenmiş biletler **çevrimdışı** kırılabilir.
-* Bir hizmet, boş olmayan bir **ServicePrincipalName** ile tanımlanır.
+* Bir hizmet, **null olmayan** bir **ServicePrincipalName** ile tanımlanır.
 * **Özel ayrıcalıklar** gerekmez, sadece **geçerli alan kimlik bilgileri** yeterlidir.
 
 ### **Saldırı**
 
 {% hint style="warning" %}
-**Kerberoasting araçları**, saldırıyı gerçekleştirirken ve TGS-REQ isteklerini başlatırken genellikle **`RC4 şifrelemesi`** talep eder. Bunun nedeni, **RC4'ün** [**daha zayıf**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) olması ve Hashcat gibi araçlarla çevrimdışı kırılmasının, AES-128 ve AES-256 gibi diğer şifreleme algoritmalarına göre daha kolay olmasıdır.\
+**Kerberoasting araçları**, saldırıyı gerçekleştirirken ve TGS-REQ isteklerini başlatırken genellikle **`RC4 şifrelemesi`** talep eder. Bunun nedeni, **RC4'ün** [**daha zayıf**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) olması ve Hashcat gibi araçlarla çevrimdışı kırılmasının diğer şifreleme algoritmalarına (AES-128 ve AES-256 gibi) göre daha kolay olmasıdır.\
 RC4 (tip 23) hash'leri **`$krb5tgs$23$*`** ile başlarken, AES-256 (tip 18) **`$krb5tgs$18$*`** ile başlar.`
 {% endhint %}
 
@@ -137,7 +137,7 @@ If you find this **error** from Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW
 
 ### Mitigation
 
-Kerberoasting, eğer istismar edilebiliyorsa, yüksek bir gizlilik derecesi ile gerçekleştirilebilir. Bu etkinliği tespit etmek için, bir Kerberos biletinin talep edildiğini gösteren **Security Event ID 4769**'a dikkat edilmelidir. Ancak, bu olayın yüksek sıklığı nedeniyle, şüpheli etkinlikleri izole etmek için belirli filtreler uygulanmalıdır:
+Kerberoasting, eğer istismar edilebiliyorsa, yüksek bir gizlilik derecesiyle gerçekleştirilebilir. Bu etkinliği tespit etmek için, bir Kerberos biletinin talep edildiğini gösteren **Güvenlik Olayı ID 4769**'a dikkat edilmelidir. Ancak, bu olayın yüksek sıklığı nedeniyle, şüpheli etkinlikleri izole etmek için belirli filtreler uygulanmalıdır:
 
 * Hizmet adı **krbtgt** olmamalıdır, çünkü bu normal bir taleptir.
 * **$** ile biten hizmet adları, hizmetler için kullanılan makine hesaplarını dahil etmemek için hariç tutulmalıdır.
@@ -149,14 +149,14 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 ```
 Kerberoasting riskini azaltmak için:
 
-* **Hizmet Hesabı Parolalarının tahmin edilmesi zor olmasını** sağlayın, **25 karakterden** daha uzun bir uzunluk önerilmektedir.
+* **Hizmet Hesabı Parolalarının tahmin edilmesi zor olmasını** sağlayın, **25 karakterden** uzun bir uzunluk önerilmektedir.
 * **Yönetilen Hizmet Hesaplarını** kullanın; bu, **otomatik parola değişiklikleri** ve **devredilmiş Hizmet Prensip Adı (SPN) Yönetimi** gibi avantajlar sunarak bu tür saldırılara karşı güvenliği artırır.
 
 Bu önlemleri uygulayarak, kuruluşlar Kerberoasting ile ilişkili riski önemli ölçüde azaltabilir.
 
 ## Kerberoast w/o domain account
 
-**Eylül 2022**'de, Charlie Clark adında bir araştırmacı tarafından bir sistemin istismar edilmesi için yeni bir yol ortaya çıkarıldı ve bu, [exploit.ph](https://exploit.ph/) platformu aracılığıyla paylaşıldı. Bu yöntem, herhangi bir Active Directory hesabı üzerinde kontrol gerektirmeden **KRB\_AS\_REQ** isteği aracılığıyla **Hizmet Biletleri (ST)** edinilmesine olanak tanır. Temelde, bir prensip, ön kimlik doğrulama gerektirmeyecek şekilde ayarlandığında—siber güvenlik alanında **AS-REP Roasting saldırısı** olarak bilinen bir senaryoya benzer—bu özellik, istek sürecini manipüle etmek için kullanılabilir. Özellikle, isteğin gövdesindeki **sname** niteliğini değiştirerek, sistemin standart şifreli Bilet Verme Bileti (TGT) yerine bir **ST** vermesi sağlanır.
+**Eylül 2022**'de, Charlie Clark adında bir araştırmacı tarafından bir sistemin istismar edilmesi için yeni bir yol ortaya çıkarıldı ve bu, [exploit.ph](https://exploit.ph/) platformu aracılığıyla paylaşıldı. Bu yöntem, herhangi bir Active Directory hesabı üzerinde kontrol gerektirmeden **KRB\_AS\_REQ** isteği aracılığıyla **Hizmet Biletleri (ST)** edinilmesine olanak tanır. Temelde, bir ilkenin ön kimlik doğrulama gerektirmeyecek şekilde ayarlandığı bir senaryo—siber güvenlik alanında **AS-REP Roasting saldırısı** olarak bilinen bir duruma benzer—bu özellik, istek sürecini manipüle etmek için kullanılabilir. Özellikle, isteğin gövdesindeki **sname** niteliğini değiştirerek, sistemin standart şifreli Bilet Verme Bileti (TGT) yerine bir **ST** vermesi sağlanır.
 
 Teknik, bu makalede tam olarak açıklanmaktadır: [Semperis blog yazısı](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -183,15 +183,15 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Özetle: Eğer bir kullanıcı/bilgisayarın **msDS-KeyCredentialLink** özelliğine yazabiliyorsanız, o nesnenin **NT hash'ini** alabilirsiniz.
 
-Gönderide, hedefin NTLM hash'ini içeren benzersiz bir **Service Ticket** almak için **public-private key authentication credentials** kurma yöntemi özetlenmiştir. Bu süreç, şifrelenmiş NTLM_SUPPLEMENTAL_CREDENTIAL'in de bulunduğu Privilege Attribute Certificate (PAC) ile ilgilidir ve bu, deşifre edilebilir.
+Gönderide, hedefin NTLM hash'ini içeren benzersiz bir **Service Ticket** almak için **public-private key authentication credentials** kurma yöntemi özetlenmiştir. Bu süreç, şifrelenmiş NTLM_SUPPLEMENTAL_CREDENTIAL'in deşifre edilebileceği Privilege Attribute Certificate (PAC) içindeki NTLM_SUPPLEMENTAL_CREDENTIAL'i içerir.
 
 ### Requirements
 
@@ -35,7 +35,7 @@ Bu tekniği uygulamak için belirli koşulların sağlanması gerekir:
 
 Bilgisayar nesneleri için Key Trust'un kötüye kullanımı, Ticket Granting Ticket (TGT) ve NTLM hash'ini elde etmenin ötesinde adımlar içerir. Seçenekler şunlardır:
 1. Hedef ana bilgisayarda ayrıcalıklı kullanıcılar olarak hareket etmek için bir **RC4 silver ticket** oluşturmak.
-2. **S4U2Self** ile TGT'yi kullanarak **ayrıcalıklı kullanıcıların** taklit edilmesi, bu da hizmet adını eklemek için Service Ticket'te değişiklikler gerektirir.
+2. **S4U2Self** ile TGT'yi kullanarak **ayrıcalıklı kullanıcıların** taklit edilmesi, bu da hizmet adını eklemek için Service Ticket'ta değişiklikler gerektirir.
 
 Key Trust kötüye kullanımının önemli bir avantajı, saldırgan tarafından üretilen özel anahtarla sınırlı olmasıdır; bu, potansiyel olarak savunmasız hesaplara devredilmesini önler ve kaldırılması zor olabilecek bir bilgisayar hesabı oluşturulmasını gerektirmez.
 
@@ -55,13 +55,13 @@ Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.loc
 ```
 ### [pyWhisker](https://github.com/ShutdownRepo/pywhisker)
 
-Whisker işlevselliğini **UNIX tabanlı sistemler** için genişletir, kapsamlı istismar yetenekleri için Impacket ve PyDSInternals'dan yararlanarak KeyCredentials'ı listeleme, ekleme ve kaldırma işlemlerini gerçekleştirir ve bunları JSON formatında içe ve dışa aktarır.
+Whisker işlevselliğini **UNIX tabanlı sistemler** için genişletir, kapsamlı istismar yetenekleri için Impacket ve PyDSInternals'dan yararlanarak KeyCredentials'ı listeleme, ekleme ve kaldırma işlemlerinin yanı sıra bunları JSON formatında içe ve dışa aktarma işlemlerini de içerir.
 ```shell
 python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target "user2" --action "list"
 ```
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray, **genel kullanıcı gruplarının alan nesneleri üzerinde sahip olabileceği GenericWrite/GenericAll izinlerini istismar etmeyi** amaçlar ve ShadowCredentials'ı geniş bir şekilde uygulamak için kullanılır. Bu, alanın işlevsel seviyesini doğrulamak, alan nesnelerini listelemek ve TGT edinimi ve NT hash ifşası için KeyCredentials eklemeye çalışmak üzere alanına giriş yapmayı içerir. Temizlik seçenekleri ve yinelemeli istismar taktikleri, kullanımını artırır.
+ShadowSpray, **genel kullanıcı gruplarının alan nesneleri üzerinde sahip olabileceği GenericWrite/GenericAll izinlerini istismar etmeyi** amaçlar ve ShadowCredentials'ı geniş bir şekilde uygulamayı hedefler. Bu, alanın içine giriş yapmayı, alanın işlevsel seviyesini doğrulamayı, alan nesnelerini listelemeyi ve TGT edinimi ve NT hash ifşası için KeyCredentials eklemeye çalışmayı içerir. Temizlik seçenekleri ve yinelemeli istismar taktikleri, kullanımını artırır.
 
 
 ## References
