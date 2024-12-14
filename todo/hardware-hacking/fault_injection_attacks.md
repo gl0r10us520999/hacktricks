@@ -1,5 +1,5 @@
-# 결함 주입 공격
+# Fault Injection Attacks
 
-결함 주입 공격에는 전자 회로에 외부 간섭을 도입하여 그 동작에 영향을 미치게 하여 정보를 노출하거나 회로의 특정 제한을 우회하는 것이 포함됩니다. 이러한 공격은 전자 회로를 공격하는 다양한 가능성을 엽니다. 이 공격은 또한 전자 회로의 글리칭으로도 알려져 있습니다.
+Fault injections attacks includes introducing external disturbance in electronic circuits to influence its behaviour, resulting to disclose information or even bypass certain restrictions in the circuit. This attacks opens a lot of possibilities for attacking electronic circuits. This attack is also referred as glitching of electronic circuits.
 
-전자 회로에 결함을 주입하는 데는 많은 방법과 매체가 있습니다.
+전자 회로에 결함을 주입하는 방법과 매체는 다양합니다.

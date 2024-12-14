@@ -21,8 +21,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 - 인증서의 **주체**는 소유자를 나타냅니다.
 - **공개 키**는 개인 키와 쌍을 이루어 인증서를 정당한 소유자와 연결합니다.
-- **유효 기간**은 **NotBefore** 및 **NotAfter** 날짜로 정의되며 인증서의 유효 기간을 표시합니다.
-- 인증서마다 고유한 **일련 번호**가 있으며, 이는 인증 기관(CA)에서 제공합니다.
+- **유효 기간**은 **NotBefore** 및 **NotAfter** 날짜로 정의되며, 인증서의 유효 기간을 표시합니다.
+- 고유한 **일련 번호**는 인증 기관(CA)에서 제공하며 각 인증서를 식별합니다.
 - **발급자**는 인증서를 발급한 CA를 나타냅니다.
 - **SubjectAlternativeName**은 주체에 대한 추가 이름을 허용하여 식별 유연성을 향상시킵니다.
 - **기본 제약 조건**은 인증서가 CA용인지 최종 엔티티용인지 식별하고 사용 제한을 정의합니다.
@@ -32,7 +32,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Special Considerations
 
-- **주체 대체 이름(SANs)**는 인증서의 적용 범위를 여러 신원으로 확장하여 여러 도메인을 가진 서버에 중요합니다. 공격자가 SAN 사양을 조작하여 사칭 위험을 피하기 위해 안전한 발급 프로세스가 필수적입니다.
+- **주체 대체 이름(SANs)**는 인증서의 적용 범위를 여러 신원으로 확장하여 여러 도메인을 가진 서버에 중요합니다. 안전한 발급 프로세스는 공격자가 SAN 사양을 조작하여 사칭 위험을 피하는 데 필수적입니다.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
@@ -56,16 +56,16 @@ AD 내에서 정의된 이러한 템플릿은 인증서 발급을 위한 설정 
 
 ## Certificate Enrollment
 
-인증서 등록 프로세스는 관리자가 **인증서 템플릿을 생성**하는 것으로 시작되며, 이후 **엔터프라이즈 인증 기관(CA)**에 의해 **게시**됩니다. 이는 템플릿을 클라이언트 등록에 사용할 수 있도록 하며, 이는 Active Directory 객체의 `certificatetemplates` 필드에 템플릿 이름을 추가하여 달성됩니다.
+인증서 등록 프로세스는 관리자가 **인증서 템플릿을 생성**하는 것으로 시작되며, 이후 **엔터프라이즈 인증 기관(CA)**에 의해 **게시**됩니다. 이는 템플릿을 클라이언트 등록을 위해 사용할 수 있게 하며, 이는 Active Directory 객체의 `certificatetemplates` 필드에 템플릿 이름을 추가하여 달성됩니다.
 
 클라이언트가 인증서를 요청하려면 **등록 권한**이 부여되어야 합니다. 이러한 권한은 인증서 템플릿 및 엔터프라이즈 CA 자체의 보안 설명자에 의해 정의됩니다. 요청이 성공하려면 두 위치 모두에서 권한이 부여되어야 합니다.
 
 ### Template Enrollment Rights
 
 이러한 권한은 Access Control Entries (ACEs)를 통해 지정되며, 다음과 같은 권한을 자세히 설명합니다:
-- **Certificate-Enrollment** 및 **Certificate-AutoEnrollment** 권한, 각각 특정 GUID와 연결됩니다.
-- **ExtendedRights**, 모든 확장 권한을 허용합니다.
-- **FullControl/GenericAll**, 템플릿에 대한 완전한 제어를 제공합니다.
+- **Certificate-Enrollment** 및 **Certificate-AutoEnrollment** 권한은 각각 특정 GUID와 연결됩니다.
+- **ExtendedRights**는 모든 확장 권한을 허용합니다.
+- **FullControl/GenericAll**은 템플릿에 대한 완전한 제어를 제공합니다.
 
 ### Enterprise CA Enrollment Rights
 
@@ -105,7 +105,7 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel은 TLS/SSL 연결을 안전하게 하는데 도움을 주며, 핸드셰이크 중 클라이언트는 인증서를 제시하고, 성공적으로 검증되면 접근이 허가됩니다. 인증서를 AD 계정에 매핑하는 과정은 Kerberos의 **S4U2Self** 기능이나 인증서의 **Subject Alternative Name (SAN)** 등을 포함할 수 있습니다.
+Schannel은 TLS/SSL 연결을 안전하게 하는 데 도움을 주며, 핸드셰이크 중 클라이언트는 인증서를 제시하고, 성공적으로 검증되면 접근이 허가됩니다. 인증서를 AD 계정에 매핑하는 것은 Kerberos의 **S4U2Self** 기능이나 인증서의 **Subject Alternative Name (SAN)** 등을 포함한 여러 방법을 사용할 수 있습니다.
 
 ### AD Certificate Services Enumeration
 

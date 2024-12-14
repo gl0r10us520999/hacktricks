@@ -26,7 +26,7 @@ IP 주소가 계정을 등록하는 봇과 관련이 있는지 확인합니다. 
 ## [Hunter](https://hunter.io/)
 
 이메일을 찾고 확인합니다.\
-일부 무료 API 요청이 있으며, 더 많은 요청은 비용이 필요합니다.\
+일부 무료 API 요청이 있으며, 더 많은 요청은 유료입니다.\
 상업적?
 
 ## [AlientVault](https://otx.alienvault.com/api)
@@ -67,7 +67,7 @@ IP 주소에서 기본 정보를 얻습니다. 월 최대 100K 테스트할 수 
 
 ## [securitytrails](https://securitytrails.com/app/account)
 
-이 플랫폼은 IP 내의 도메인 또는 도메인 서버 내의 도메인, 이메일로 소유된 도메인(관련 도메인 찾기), 도메인의 IP 기록(CloudFlare 뒤의 호스트 찾기), 모든 도메인이 사용하는 네임서버 등 도메인 및 IP 주소에 대한 정보를 제공합니다.\
+이 플랫폼은 IP 내의 도메인 또는 도메인 서버 내의 도메인, 이메일에 의해 소유된 도메인(관련 도메인 찾기), 도메인의 IP 기록(CloudFlare 뒤의 호스트 찾기), 모든 도메인이 사용하는 네임서버 등과 같은 도메인 및 IP 주소에 대한 정보를 제공합니다.\
 일부 무료 접근이 가능합니다.
 
 ## [fullcontact](https://www.fullcontact.com/)
@@ -104,12 +104,12 @@ Shodan과 매우 유사합니다.
 
 ## [Dehashed](https://www.dehashed.com/data)
 
-이메일 및 도메인의 유출된 자격 증명을 찾습니다.\
+유출된 이메일 및 도메인의 자격 증명을 찾습니다.\
 상업적?
 
 ## [psbdmp](https://psbdmp.ws/)
 
-이메일이 나타난 pastebin을 검색합니다. 상업적?
+이메일이 나타난 페이스트빈을 검색합니다. 상업적?
 
 ## [emailrep.io](https://emailrep.io/key)
 
@@ -125,7 +125,7 @@ IP에서 흥미로운 정보를 얻습니다.
 
 ## [haveibeenpwned](https://haveibeenpwned.com/)
 
-도메인 및 이메일로 검색하고 pwned 여부와 비밀번호를 확인합니다. 상업적?
+도메인 및 이메일로 검색하고 해당 도메인이나 이메일이 pwned되었는지 및 비밀번호를 확인합니다. 상업적?
 
 ### [IP2Location.io](https://www.ip2location.io/)
 

@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-SPI (Serial Peripheral Interface)는 IC(집적 회로) 간의 단거리 통신을 위해 임베디드 시스템에서 사용되는 동기식 직렬 통신 프로토콜입니다. SPI 통신 프로토콜은 클럭 및 칩 선택 신호에 의해 조정되는 마스터-슬레이브 아키텍처를 사용합니다. 마스터-슬레이브 아키텍처는 EEPROM, 센서, 제어 장치 등과 같은 외부 주변 장치를 관리하는 마스터(일반적으로 마이크로프로세서)로 구성되며, 이들은 슬레이브로 간주됩니다.
+SPI (직렬 주변 장치 인터페이스)는 IC(집적 회로) 간의 단거리 통신을 위해 임베디드 시스템에서 사용되는 동기 직렬 통신 프로토콜입니다. SPI 통신 프로토콜은 클럭 및 칩 선택 신호에 의해 조정되는 마스터-슬레이브 아키텍처를 사용합니다. 마스터-슬레이브 아키텍처는 EEPROM, 센서, 제어 장치 등과 같은 외부 주변 장치를 관리하는 마스터(일반적으로 마이크로프로세서)로 구성되며, 이들은 슬레이브로 간주됩니다.
 
-여러 슬레이브가 마스터에 연결될 수 있지만 슬레이브끼리는 서로 통신할 수 없습니다. 슬레이브는 클럭 및 칩 선택의 두 핀으로 관리됩니다. SPI는 동기식 통신 프로토콜이므로 입력 및 출력 핀은 클럭 신호를 따릅니다. 칩 선택은 마스터가 슬레이브를 선택하고 상호작용하는 데 사용됩니다. 칩 선택이 높을 때 슬레이브 장치는 선택되지 않으며, 낮을 때는 칩이 선택되어 마스터가 슬레이브와 상호작용하게 됩니다.
+여러 슬레이브가 마스터에 연결될 수 있지만 슬레이브끼리는 서로 통신할 수 없습니다. 슬레이브는 클럭 및 칩 선택의 두 핀으로 관리됩니다. SPI는 동기 통신 프로토콜이므로 입력 및 출력 핀은 클럭 신호를 따릅니다. 칩 선택은 마스터가 슬레이브를 선택하고 상호작용하는 데 사용됩니다. 칩 선택이 높을 때 슬레이브 장치는 선택되지 않으며, 낮을 때는 칩이 선택되어 마스터가 슬레이브와 상호작용하게 됩니다.
 
-MOSI(마스터 아웃, 슬레이브 인) 및 MISO(마스터 인, 슬레이브 아웃)는 데이터 전송 및 수신을 담당합니다. 데이터는 MOSI 핀을 통해 슬레이브 장치로 전송되며, 이때 칩 선택은 낮게 유지됩니다. 입력 데이터는 슬레이브 장치 공급업체의 데이터 시트에 따라 명령, 메모리 주소 또는 데이터가 포함됩니다. 유효한 입력이 있을 경우 MISO 핀은 마스터로 데이터를 전송하는 역할을 합니다. 출력 데이터는 입력이 끝난 다음 클럭 주기에서 정확히 전송됩니다. MISO 핀은 데이터가 완전히 전송될 때까지 또는 마스터가 칩 선택 핀을 높게 설정할 때까지 데이터를 전송합니다(이 경우 슬레이브는 전송을 중단하고 마스터는 그 다음 클럭 주기 이후로는 듣지 않습니다).
+MOSI(마스터 아웃, 슬레이브 인) 및 MISO(마스터 인, 슬레이브 아웃)는 데이터 전송 및 수신을 담당합니다. 데이터는 MOSI 핀을 통해 슬레이브 장치로 전송되며, 이때 칩 선택은 낮게 유지됩니다. 입력 데이터는 슬레이브 장치 공급업체의 데이터 시트에 따라 명령, 메모리 주소 또는 데이터를 포함합니다. 유효한 입력이 있을 경우, MISO 핀은 마스터에게 데이터를 전송하는 역할을 합니다. 출력 데이터는 입력이 끝난 다음 클럭 주기에서 정확히 전송됩니다. MISO 핀은 데이터가 완전히 전송될 때까지 또는 마스터가 칩 선택 핀을 높게 설정할 때까지 데이터를 전송합니다(이 경우 슬레이브는 전송을 중단하고 마스터는 이후 클럭 주기에서 듣지 않습니다).
 
 ## Dumping Firmware from EEPROMs
 
@@ -37,7 +37,7 @@ MOSI(마스터 아웃, 슬레이브 인) 및 MISO(마스터 인, 슬레이브 �
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-CH341a 프로그래머와 EEPROM 메모리를 연결하고 장치를 컴퓨터에 연결합니다. 장치가 감지되지 않는 경우 컴퓨터에 드라이버를 설치해 보십시오. 또한 EEPROM이 올바른 방향으로 연결되어 있는지 확인하십시오(일반적으로 VCC 핀을 USB 커넥터와 반대 방향으로 배치) 그렇지 않으면 소프트웨어가 칩을 감지할 수 없습니다. 필요시 다이어그램을 참조하십시오:
+CH341a 프로그래머와 EEPROM 메모리를 연결하고 장치를 컴퓨터에 연결합니다. 장치가 감지되지 않는 경우, 컴퓨터에 드라이버를 설치해 보십시오. 또한 EEPROM이 올바른 방향으로 연결되어 있는지 확인하십시오(일반적으로 VCC 핀을 USB 커넥터와 반대 방향으로 배치) 그렇지 않으면 소프트웨어가 칩을 감지할 수 없습니다. 필요시 다이어그램을 참조하십시오:
 
 ![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
@@ -45,9 +45,9 @@ CH341a 프로그래머와 EEPROM 메모리를 연결하고 장치를 컴퓨터�
 
 ![drawing](../../.gitbook/assets/connected\_status\_ch341a.jpg)
 
-펌웨어를 덤프한 후 이진 파일에 대한 분석을 수행할 수 있습니다. strings, hexdump, xxd, binwalk 등의 도구를 사용하여 펌웨어 및 전체 파일 시스템에 대한 많은 정보를 추출할 수 있습니다.
+펌웨어를 덤프한 후, 이진 파일에 대한 분석을 수행할 수 있습니다. strings, hexdump, xxd, binwalk 등의 도구를 사용하여 펌웨어 및 전체 파일 시스템에 대한 많은 정보를 추출할 수 있습니다.
 
-펌웨어에서 내용을 추출하기 위해 binwalk를 사용할 수 있습니다. Binwalk는 헥스 서명을 분석하고 이진 파일에서 파일을 식별하며 이를 추출할 수 있는 기능이 있습니다.
+펌웨어에서 내용을 추출하기 위해 binwalk를 사용할 수 있습니다. Binwalk는 헥사 서명을 분석하고 이진 파일에서 파일을 식별하며 이를 추출할 수 있는 기능이 있습니다.
 ```
 binwalk -e <filename>
 ```
@@ -65,7 +65,7 @@ Pirate Bus의 PINOUT이 SPI에 연결할 **MOSI** 및 **MISO** 핀을 나타내�
 
 ![](<../../.gitbook/assets/image (360).png>)
 
-Windows 또는 Linux에서 [**`flashrom`**](https://www.flashrom.org/Flashrom) 프로그램을 사용하여 다음과 같은 명령을 실행하여 플래시 메모리의 내용을 덤프할 수 있습니다:
+Windows 또는 Linux에서 [**`flashrom`**](https://www.flashrom.org/Flashrom) 프로그램을 사용하여 다음과 같이 플래시 메모리의 내용을 덤프할 수 있습니다:
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -84,7 +84,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

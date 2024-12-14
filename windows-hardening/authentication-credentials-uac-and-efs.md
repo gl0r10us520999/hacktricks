@@ -27,7 +27,7 @@ Get Access Today:
 애플리케이션 화이트리스트는 시스템에서 존재하고 실행할 수 있는 승인된 소프트웨어 애플리케이션 또는 실행 파일의 목록입니다. 목표는 환경을 유해한 맬웨어와 특정 조직의 비즈니스 요구에 맞지 않는 승인되지 않은 소프트웨어로부터 보호하는 것입니다.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)는 Microsoft의 **애플리케이션 화이트리스트 솔루션**으로, 시스템 관리자가 **사용자가 실행할 수 있는 애플리케이션 및 파일**을 제어할 수 있게 해줍니다. 이는 실행 파일, 스크립트, Windows 설치 파일, DLL, 패키지 앱 및 패키지 앱 설치 프로그램에 대한 **세부적인 제어**를 제공합니다.\
-조직에서는 **cmd.exe와 PowerShell.exe** 및 특정 디렉터리에 대한 쓰기 접근을 **차단하는 것이 일반적이지만**, 이는 모두 우회될 수 있습니다.
+조직에서는 **cmd.exe와 PowerShell.exe** 및 특정 디렉터리에 대한 쓰기 접근을 차단하는 것이 일반적이지만, **이 모든 것은 우회될 수 있습니다**.
 
 ### Check
 
@@ -46,19 +46,19 @@ $a.rulecollections
 
 ### 우회
 
-* AppLocker 정책을 우회하기 위한 **쓰기 가능한 폴더**: AppLocker가 `C:\Windows\System32` 또는 `C:\Windows` 내의 모든 실행을 허용하는 경우, 이를 **우회하기 위해 사용할 수 있는 **쓰기 가능한 폴더**가 있습니다.
+* AppLocker 정책을 우회하기 위한 **쓰기 가능한 폴더**: AppLocker가 `C:\Windows\System32` 또는 `C:\Windows` 내의 모든 것을 실행하도록 허용하는 경우, 이를 **우회하기 위해 사용할 수 있는 **쓰기 가능한 폴더**가 있습니다.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* 일반적으로 **신뢰된** [**"LOLBAS's"**](https://lolbas-project.github.io/) 바이너리는 AppLocker를 우회하는 데 유용할 수 있습니다.
+* 일반적으로 **신뢰할 수 있는** [**"LOLBAS's"**](https://lolbas-project.github.io/) 바이너리는 AppLocker를 우회하는 데 유용할 수 있습니다.
 * **잘못 작성된 규칙은 우회될 수 있습니다.**
-* 예를 들어, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**를 사용하면 **어디에나 `allowed`라는 폴더를 만들 수 있으며** 허용됩니다.
+* 예를 들어, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, 어디에나 **`allowed`라는 폴더를 생성하면** 허용됩니다.
 * 조직은 종종 **`%System32%\WindowsPowerShell\v1.0\powershell.exe` 실행 파일을 차단하는 데 집중하지만**, **다른** [**PowerShell 실행 파일 위치**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)인 `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` 또는 `PowerShell_ISE.exe`를 잊어버립니다.
-* **DLL 강제 적용은 시스템에 추가 부하를 줄 수 있기 때문에 매우 드물게 활성화되며**, 아무것도 고장 나지 않도록 보장하기 위해 필요한 테스트 양이 많습니다. 따라서 **DLL을 백도어로 사용하면 AppLocker를 우회하는 데 도움이 됩니다.**
-* [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) 또는 [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)을 사용하여 **Powershell** 코드를 모든 프로세스에서 실행하고 AppLocker를 우회할 수 있습니다. 자세한 내용은 다음을 확인하세요: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+* **DLL 강제 적용은 시스템에 추가 부하를 줄 수 있기 때문에 매우 드물게 활성화됩니다.** 따라서 **DLL을 백도어로 사용하는 것은 AppLocker를 우회하는 데 도움이 됩니다.**
+* [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) 또는 [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)를 사용하여 **Powershell** 코드를 어떤 프로세스에서든 실행하고 AppLocker를 우회할 수 있습니다. 자세한 내용은 다음을 확인하세요: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## 자격 증명 저장소
 
@@ -89,11 +89,11 @@ Active Directory의 데이터베이스입니다. 도메인 컨트롤러에만 �
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)는 Windows 10 및 Windows 11, 그리고 Windows Server 버전에서 사용할 수 있는 안티바이러스입니다. **일반적인** pentesting 도구인 **`WinPEAS`**를 **차단**합니다. 그러나 이러한 보호를 **우회하는 방법**이 있습니다.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)는 Windows 10 및 Windows 11, 그리고 Windows Server 버전에서 사용할 수 있는 안티바이러스입니다. **일반적인 pentesting 도구인 **`WinPEAS`**를 **차단합니다**. 그러나 이러한 보호를 **우회하는 방법이 있습니다.**
 
 ### 확인
 
-**Defender**의 **상태**를 확인하려면 PS cmdlet **`Get-MpComputerStatus`**를 실행할 수 있습니다 (활성 여부를 알기 위해 **`RealTimeProtectionEnabled`** 값을 확인하세요):
+**Defender**의 **상태**를 확인하려면 PS cmdlet **`Get-MpComputerStatus`**를 실행할 수 있습니다 (활성화 여부를 알기 위해 **`RealTimeProtectionEnabled`** 값을 확인하세요):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -127,7 +127,7 @@ EFS는 **대칭 키**인 **파일 암호화 키 (FEK)**를 사용하여 파일�
 
 **사용자 개입 없이 복호화되는 시나리오**는 다음과 같습니다:
 
-* 파일이나 폴더가 [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table)와 같은 비 EFS 파일 시스템으로 이동되면 자동으로 복호화됩니다.
+* 파일이나 폴더가 [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table)와 같은 비 EFS 파일 시스템으로 이동될 때, 자동으로 복호화됩니다.
 * SMB/CIFS 프로토콜을 통해 네트워크로 전송된 암호화된 파일은 전송 전에 복호화됩니다.
 
 이 암호화 방법은 소유자에게 암호화된 파일에 대한 **투명한 접근**을 허용합니다. 그러나 소유자의 비밀번호를 단순히 변경하고 로그인하는 것만으로는 복호화가 허용되지 않습니다.
@@ -149,7 +149,7 @@ EFS는 **대칭 키**인 **파일 암호화 키 (FEK)**를 사용하여 파일�
 
 #### 권한 시스템이 되기
 
-이 방법은 **피해자 사용자**가 호스트 내에서 **프로세스**를 **실행**하고 있어야 합니다. 그런 경우, `meterpreter` 세션을 사용하여 사용자의 프로세스 토큰을 가장할 수 있습니다 (`incognito`의 `impersonate_token`). 또는 사용자의 프로세스로 `migrate`할 수도 있습니다.
+이 방법은 **피해자 사용자**가 호스트 내에서 **프로세스**를 **실행**하고 있어야 합니다. 그런 경우, `meterpreter` 세션을 사용하여 사용자의 프로세스 토큰을 가장할 수 있습니다 (`incognito`의 `impersonate_token`). 또는 사용자의 프로세스로 `migrate`할 수 있습니다.
 
 #### 사용자의 비밀번호 알기
 
@@ -157,15 +157,15 @@ EFS는 **대칭 키**인 **파일 암호화 키 (FEK)**를 사용하여 파일�
 
 ## Group Managed Service Accounts (gMSA)
 
-Microsoft는 IT 인프라에서 서비스 계정 관리를 단순화하기 위해 **그룹 관리 서비스 계정 (gMSA)**를 개발했습니다. 전통적인 서비스 계정은 종종 "**비밀번호 만료 안 함**" 설정이 활성화되어 있는 반면, gMSA는 보다 안전하고 관리하기 쉬운 솔루션을 제공합니다:
+Microsoft는 IT 인프라에서 서비스 계정 관리를 단순화하기 위해 **그룹 관리 서비스 계정 (gMSA)**를 개발했습니다. 전통적인 서비스 계정은 종종 "**비밀번호 만료 안 함**" 설정이 활성화되어 있는 반면, gMSA는 더 안전하고 관리하기 쉬운 솔루션을 제공합니다:
 
 * **자동 비밀번호 관리**: gMSA는 도메인 또는 컴퓨터 정책에 따라 자동으로 변경되는 복잡한 240자 비밀번호를 사용합니다. 이 과정은 Microsoft의 키 배포 서비스 (KDC)가 처리하여 수동 비밀번호 업데이트의 필요성을 없앱니다.
 * **강화된 보안**: 이러한 계정은 잠금에 면역이며 대화형 로그인을 위해 사용할 수 없어 보안이 강화됩니다.
 * **다중 호스트 지원**: gMSA는 여러 호스트에서 공유할 수 있어 여러 서버에서 실행되는 서비스에 적합합니다.
 * **예약 작업 기능**: 관리 서비스 계정과 달리 gMSA는 예약 작업 실행을 지원합니다.
-* **간소화된 SPN 관리**: 시스템은 컴퓨터의 sAMaccount 세부정보 또는 DNS 이름에 변경이 있을 때 자동으로 서비스 주체 이름 (SPN)을 업데이트하여 SPN 관리를 간소화합니다.
+* **단순화된 SPN 관리**: 시스템은 컴퓨터의 sAMaccount 세부정보 또는 DNS 이름에 변경이 있을 때 자동으로 서비스 주체 이름 (SPN)을 업데이트하여 SPN 관리를 단순화합니다.
 
-gMSA의 비밀번호는 LDAP 속성 _**msDS-ManagedPassword**_에 저장되며 도메인 컨트롤러 (DC)에 의해 30일마다 자동으로 재설정됩니다. 이 비밀번호는 [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)로 알려진 암호화된 데이터 블롭으로, 권한이 있는 관리자와 gMSA가 설치된 서버만 검색할 수 있어 안전한 환경을 보장합니다. 이 정보에 접근하려면 LDAPS와 같은 보안 연결이 필요하거나 'Sealing & Secure'로 인증된 연결이어야 합니다.
+gMSA의 비밀번호는 LDAP 속성 _**msDS-ManagedPassword**_에 저장되며 도메인 컨트롤러 (DC)에 의해 30일마다 자동으로 재설정됩니다. 이 비밀번호는 [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)로 알려진 암호화된 데이터 블롭이며, 권한이 있는 관리자와 gMSA가 설치된 서버만 검색할 수 있어 안전한 환경을 보장합니다. 이 정보를 접근하려면 LDAPS와 같은 보안 연결이 필요하거나 'Sealing & Secure'로 인증된 연결이어야 합니다.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -199,8 +199,8 @@ $ExecutionContext.SessionState.LanguageMode
 #Easy bypass
 Powershell -version 2
 ```
-현재 Windows에서는 이 우회가 작동하지 않지만 [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM)를 사용할 수 있습니다.\
-**컴파일하려면** **다음이 필요할 수 있습니다** **_참조 추가_** -> _찾아보기_ -> _찾아보기_ -> `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll`를 추가하고 **프로젝트를 .Net4.5로 변경하십시오**.
+현재 Windows에서는 이 우회 방법이 작동하지 않지만 [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM)를 사용할 수 있습니다.\
+**컴파일하려면** **다음이 필요할 수 있습니다** **_참조 추가_** -> _찾아보기_ -> _찾아보기_ -> `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll`을 추가하고 **프로젝트를 .Net4.5로 변경하십시오**.
 
 #### 직접 우회:
 ```bash
@@ -234,15 +234,15 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
-더 많은 내용은 [여기](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)에서 확인할 수 있습니다.
+More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 
-## 보안 지원 공급자 인터페이스 (SSPI)
+## Security Support Provider Interface (SSPI)
 
 사용자를 인증하는 데 사용할 수 있는 API입니다.
 
-SSPI는 통신을 원하는 두 머신에 적합한 프로토콜을 찾는 역할을 합니다. 이를 위한 선호 방법은 Kerberos입니다. 그런 다음 SSPI는 사용할 인증 프로토콜을 협상합니다. 이러한 인증 프로토콜은 보안 지원 공급자(SSP)라고 하며, 각 Windows 머신 내에서 DLL 형태로 위치하고 두 머신 모두 통신할 수 있도록 동일한 것을 지원해야 합니다.
+SSPI는 통신하려는 두 머신에 적합한 프로토콜을 찾는 역할을 합니다. 이를 위한 선호 방법은 Kerberos입니다. 그런 다음 SSPI는 사용할 인증 프로토콜을 협상합니다. 이러한 인증 프로토콜은 Security Support Provider (SSP)라고 하며, 각 Windows 머신 내에서 DLL 형태로 위치하고 두 머신 모두 통신할 수 있도록 동일한 것을 지원해야 합니다.
 
-### 주요 SSP
+### Main SSPs
 
 * **Kerberos**: 선호되는 프로토콜
 * %windir%\Windows\System32\kerberos.dll
@@ -252,14 +252,14 @@ SSPI는 통신을 원하는 두 머신에 적합한 프로토콜을 찾는 역�
 * %windir%\Windows\System32\Wdigest.dll
 * **Schannel**: SSL 및 TLS
 * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: 사용할 프로토콜을 협상하는 데 사용됩니다(기본값은 Kerberos인 Kerberos 또는 NTLM)
+* **Negotiate**: 사용할 프로토콜을 협상하는 데 사용됩니다 (Kerberos 또는 NTLM, 기본값은 Kerberos)
 * %windir%\Windows\System32\lsasrv.dll
 
 #### 협상은 여러 방법을 제공할 수 있거나 하나만 제공할 수 있습니다.
 
-## UAC - 사용자 계정 컨트롤
+## UAC - User Account Control
 
-[사용자 계정 컨트롤 (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works)는 **승격된 활동에 대한 동의 프롬프트**를 활성화하는 기능입니다.
+[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works)는 **승격된 활동에 대한 동의 프롬프트**를 활성화하는 기능입니다.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
@@ -268,24 +268,24 @@ SSPI는 통신을 원하는 두 머신에 적합한 프로토콜을 찾는 역�
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
-지금 액세스하세요:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ***
 
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop)을 확인하세요!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

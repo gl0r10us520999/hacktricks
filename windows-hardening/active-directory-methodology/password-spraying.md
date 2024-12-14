@@ -87,7 +87,7 @@ done
 ```
 #### From Windows
 
-* [Rubeus](https://github.com/Zer1t0/Rubeus)의 브루트 모듈이 포함된 버전:
+* [Rubeus](https://github.com/Zer1t0/Rubeus) 브루트 모듈이 포함된 버전:
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -113,7 +113,7 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 ## Outlook Web Access
 
-p**assword spraying outlook**를 위한 여러 도구가 있습니다.
+Outlook에 대한 p**assword spraying**을 위한 여러 도구가 있습니다.
 
 * [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/) 사용
 * [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/) 사용

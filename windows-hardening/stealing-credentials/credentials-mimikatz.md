@@ -26,11 +26,11 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## LM 및 메모리의 평문
 
-Windows 8.1 및 Windows Server 2012 R2 이후로, 자격 증명 도난 방지를 위한 중요한 조치가 시행되었습니다:
+Windows 8.1 및 Windows Server 2012 R2 이후로, 자격 증명 도난을 방지하기 위한 중요한 조치가 구현되었습니다:
 
 - **LM 해시 및 평문 비밀번호**는 보안을 강화하기 위해 더 이상 메모리에 저장되지 않습니다. 특정 레지스트리 설정인 _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_을 DWORD 값 `0`으로 설정하여 Digest Authentication을 비활성화해야 하며, 이를 통해 "평문" 비밀번호가 LSASS에 캐시되지 않도록 합니다.
 
-- **LSA 보호**는 로컬 보안 권한(LSA) 프로세스를 무단 메모리 읽기 및 코드 주입으로부터 보호하기 위해 도입되었습니다. 이는 LSASS를 보호된 프로세스로 표시하여 달성됩니다. LSA 보호를 활성화하려면:
+- **LSA 보호**는 무단 메모리 읽기 및 코드 주입으로부터 로컬 보안 권한(LSA) 프로세스를 보호하기 위해 도입되었습니다. 이는 LSASS를 보호된 프로세스로 표시하여 달성됩니다. LSA 보호를 활성화하려면:
 1. _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_에서 레지스트리를 수정하여 `RunAsPPL`을 `dword:00000001`로 설정합니다.
 2. 관리되는 장치에서 이 레지스트리 변경을 시행하는 그룹 정책 개체(GPO)를 구현합니다.
 
@@ -176,7 +176,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **PRIVILEGE::Debug**: 디버그 권한을 얻습니다.
 - `mimikatz "privilege::debug" exit`
 
-### 자격 증명 덤핑
+### 자격 증명 덤프
 
 - **SEKURLSA::LogonPasswords**: 로그인한 사용자의 자격 증명을 표시합니다.
 - `mimikatz "sekurlsa::logonpasswords" exit`

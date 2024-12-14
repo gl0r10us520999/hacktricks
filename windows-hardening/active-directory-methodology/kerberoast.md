@@ -17,8 +17,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입하거나** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 **팔로우하세요.**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 **공유하세요.**
 
 </details>
 {% endhint %}
@@ -112,7 +112,7 @@ TGS가 요청될 때, Windows 이벤트 `4769 - Kerberos 서비스 티켓이 요
 
 \
 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
-오늘 바로 액세스하세요:
+지금 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
@@ -156,7 +156,7 @@ Kerberoasting의 위험을 완화하기 위해:
 
 ## 도메인 계정 없이 Kerberoast
 
-**2022년 9월**, Charlie Clark라는 연구자가 자신의 플랫폼 [exploit.ph](https://exploit.ph/)를 통해 시스템을 악용하는 새로운 방법을 공개했습니다. 이 방법은 **KRB_AS_REQ** 요청을 통해 **서비스 티켓(ST)**를 획득할 수 있게 해주며, 놀랍게도 어떤 Active Directory 계정에 대한 제어도 필요하지 않습니다. 본질적으로, 주체가 사전 인증을 요구하지 않도록 설정된 경우—사이버 보안 영역에서 **AS-REP Roasting 공격**으로 알려진 시나리오와 유사한 경우—이 특성을 활용하여 요청 프로세스를 조작할 수 있습니다. 구체적으로, 요청 본문 내의 **sname** 속성을 변경함으로써 시스템이 표준 암호화된 티켓 부여 티켓(TGT) 대신 **ST**를 발급하도록 속일 수 있습니다.
+**2022년 9월**, Charlie Clark라는 연구자가 자신의 플랫폼 [exploit.ph](https://exploit.ph/)를 통해 시스템을 악용하는 새로운 방법을 밝혔습니다. 이 방법은 **KRB_AS_REQ** 요청을 통해 **서비스 티켓(ST)**를 획득할 수 있게 하며, 놀랍게도 어떤 Active Directory 계정에 대한 제어도 필요하지 않습니다. 본질적으로, 주체가 사전 인증을 요구하지 않도록 설정된 경우—사이버 보안 영역에서 **AS-REP Roasting 공격**으로 알려진 시나리오와 유사한 경우—이 특성을 활용하여 요청 프로세스를 조작할 수 있습니다. 구체적으로, 요청 본문 내의 **sname** 속성을 변경함으로써 시스템이 표준 암호화된 티켓 부여 티켓(TGT) 대신 **ST**를 발급하도록 속일 수 있습니다.
 
 이 기술은 이 기사에서 완전히 설명되어 있습니다: [Semperis 블로그 게시물](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -192,7 +192,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

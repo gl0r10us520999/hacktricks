@@ -61,7 +61,7 @@ strings -e b -n 6 file # 16bit strings (big-endian)
 strings -e L -n 6 file # 32bit strings (little-endian)
 strings -e B -n 6 file # 32bit strings (big-endian)
 ```
-### **Comparison (cmp)**
+### **비교 (cmp)**
 
 온라인에서 찾은 원본 버전과 수정된 파일을 비교하는 데 유용합니다.
 ```bash
@@ -71,7 +71,7 @@ cmp original.jpg stego.jpg -b -l
 
 ### **공간에서 숨겨진 데이터**
 
-겉보기에는 비어 있는 공간의 보이지 않는 문자들이 정보를 숨길 수 있습니다. 이 데이터를 추출하려면 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder) 를 방문하세요.
+겉보기에는 비어 있는 공간에 보이지 않는 문자가 정보를 숨길 수 있습니다. 이 데이터를 추출하려면 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder) 를 방문하세요.
 
 ## **이미지에서 데이터 추출하기**
 
@@ -104,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg for PNG and BMP Files**
 
-zsteg는 PNG 및 BMP 파일에서 숨겨진 데이터를 발견하는 데 특화되어 있습니다. 설치는 `gem install zsteg`를 통해 이루어지며, [GitHub 소스](https://github.com/zed-0xff/zsteg)에서 확인할 수 있습니다.
+zsteg는 PNG 및 BMP 파일에서 숨겨진 데이터를 발견하는 데 특화되어 있습니다. 설치는 `gem install zsteg`를 통해 이루어지며, [소스는 GitHub에 있습니다](https://github.com/zed-0xff/zsteg).
 
 **Commands:**
 
@@ -115,7 +115,7 @@ zsteg는 PNG 및 BMP 파일에서 숨겨진 데이터를 발견하는 데 특화
 
 **stegoVeritas**는 메타데이터를 확인하고, 이미지 변환을 수행하며, LSB 무차별 대입 공격을 적용하는 등 다양한 기능을 제공합니다. 전체 옵션 목록은 `stegoveritas.py -h`를 사용하고, 모든 검사를 실행하려면 `stegoveritas.py stego.jpg`를 사용하세요.
 
-**Stegsolve**는 이미지를 통해 숨겨진 텍스트나 메시지를 드러내기 위해 다양한 색상 필터를 적용합니다. [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)에서 사용할 수 있습니다.
+**Stegsolve**는 다양한 색상 필터를 적용하여 이미지 내 숨겨진 텍스트나 메시지를 드러냅니다. [GitHub에서](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) 사용할 수 있습니다.
 
 ### **FFT for Hidden Content Detection**
 
@@ -127,7 +127,7 @@ Fast Fourier Transform (FFT) 기술은 이미지에서 숨겨진 콘텐츠를 �
 
 ### **Stegpy for Audio and Image Files**
 
-Stegpy는 PNG, BMP, GIF, WebP 및 WAV와 같은 형식을 지원하여 이미지 및 오디오 파일에 정보를 삽입할 수 있습니다. [GitHub](https://github.com/dhsdshdhk/stegpy)에서 사용할 수 있습니다.
+Stegpy는 PNG, BMP, GIF, WebP 및 WAV와 같은 형식을 지원하여 이미지 및 오디오 파일에 정보를 삽입할 수 있습니다. [GitHub에서](https://github.com/dhsdshdhk/stegpy) 사용할 수 있습니다.
 
 ### **Pngcheck for PNG File Analysis**
 
@@ -138,7 +138,7 @@ pngcheck stego.png
 ```
 ### **이미지 분석을 위한 추가 도구**
 
-더 많은 탐색을 원하신다면 다음을 방문해 보세요:
+더 많은 탐색을 원하시면 다음을 방문해 보세요:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -166,7 +166,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg은 가장 덜 중요한 비트 전략을 사용하여 WAV 파일 내에서 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 접근할 수 있습니다. 명령어는 다음과 같습니다:
+WavSteg는 가장 낮은 유의 비트 전략을 사용하여 WAV 파일 내에서 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 접근할 수 있습니다. 명령어는 다음과 같습니다:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -213,8 +213,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

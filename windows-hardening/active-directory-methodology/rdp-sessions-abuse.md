@@ -1,4 +1,4 @@
-# RDP 세션 남용
+# RDP 세션 악용
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -10,7 +10,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 **외부 그룹**이 현재 도메인의 **어떤 컴퓨터**에 **RDP 접근** 권한이 있다면, **공격자**는 **해당 컴퓨터를 손상시키고 그를 기다릴 수 있습니다**.
 
-해당 사용자가 RDP를 통해 접근하면, **공격자는 그 사용자의 세션으로 피벗할 수 있으며** 외부 도메인에서 그 권한을 남용할 수 있습니다.
+해당 사용자가 RDP를 통해 접근하면, **공격자는 그 사용자의 세션으로 피벗할 수 있으며** 외부 도메인에서 그 권한을 악용할 수 있습니다.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -47,7 +47,7 @@ Check **other ways to steal sessions with other tools** [**in this page.**](../.
 
 ## RDPInception
 
-사용자가 **RDP를 통해 머신에 접근**할 때, **공격자**가 그를 **기다리고** 있다면, 공격자는 **사용자의 RDP 세션에 비콘을 주입**할 수 있으며, 만약 **희생자가 RDP를 통해 접근할 때 드라이브를 마운트**했다면, **공격자는 그것에 접근할 수 있습니다**.
+사용자가 **RDP를 통해 머신에 접근**할 때 **공격자**가 그를 **기다리고** 있다면, 공격자는 **사용자의 RDP 세션에 비콘을 주입**할 수 있으며, 만약 **희생자가 RDP를 통해 접근할 때 드라이브를 마운트**했다면, **공격자는 그것에 접근할 수** 있습니다.
 
 이 경우, **희생자의** **원래 컴퓨터**를 **백도어**를 **시작 폴더**에 작성하여 **타락**시킬 수 있습니다.
 ```powershell
@@ -90,7 +90,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>

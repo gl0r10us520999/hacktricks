@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-로컬 관리자 비밀번호 솔루션(Local Administrator Password Solution, LAPS)은 **고유하고 무작위이며 자주 변경되는** **관리자 비밀번호**를 도메인에 가입된 컴퓨터에 적용하기 위해 사용되는 도구입니다. 이러한 비밀번호는 Active Directory 내에 안전하게 저장되며, Access Control Lists (ACLs)를 통해 권한이 부여된 사용자만 접근할 수 있습니다. 클라이언트에서 서버로의 비밀번호 전송 보안은 **Kerberos 버전 5**와 **고급 암호화 표준(AES)**를 사용하여 보장됩니다.
+로컬 관리자 비밀번호 솔루션(Local Administrator Password Solution, LAPS)은 **고유하고 무작위이며 자주 변경되는** **관리자 비밀번호**가 도메인에 가입된 컴퓨터에 적용되는 시스템을 관리하는 데 사용되는 도구입니다. 이러한 비밀번호는 Active Directory 내에 안전하게 저장되며, Access Control Lists (ACLs)를 통해 권한이 부여된 사용자만 접근할 수 있습니다. 클라이언트에서 서버로의 비밀번호 전송 보안은 **Kerberos 버전 5**와 **고급 암호화 표준(Advanced Encryption Standard, AES)**를 사용하여 보장됩니다.
 
-도메인의 컴퓨터 객체에서 LAPS의 구현은 두 개의 새로운 속성인 **`ms-mcs-AdmPwd`**와 **`ms-mcs-AdmPwdExpirationTime`**을 추가합니다. 이 속성들은 각각 **평문 관리자 비밀번호**와 **만료 시간**을 저장합니다.
+도메인의 컴퓨터 객체에서 LAPS의 구현은 두 개의 새로운 속성인 **`ms-mcs-AdmPwd`**와 **`ms-mcs-AdmPwdExpirationTime`**의 추가로 이어집니다. 이 속성들은 각각 **평문 관리자 비밀번호**와 **만료 시간**을 저장합니다.
 
 ### Check if activated
 ```bash
@@ -41,9 +41,9 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS 비밀번호 접근
 
-`\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol`에서 **원시 LAPS 정책을 다운로드**한 다음, [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) 패키지의 **`Parse-PolFile`**를 사용하여 이 파일을 사람이 읽을 수 있는 형식으로 변환할 수 있습니다.
+당신은 **원시 LAPS 정책을 다운로드할 수 있습니다** `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` 그리고 **`Parse-PolFile`**를 사용하여 [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) 패키지에서 이 파일을 사람이 읽을 수 있는 형식으로 변환할 수 있습니다.
 
-또한, **네이티브 LAPS PowerShell cmdlets**는 우리가 접근할 수 있는 머신에 설치되어 있다면 사용할 수 있습니다:
+게다가, **네이티브 LAPS PowerShell cmdlet**을 사용할 수 있습니다, 만약 우리가 접근할 수 있는 머신에 설치되어 있다면:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -155,7 +155,7 @@ GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

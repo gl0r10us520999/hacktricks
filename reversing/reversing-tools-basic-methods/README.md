@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 온라인:
 
-* [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html)를 사용하여 **디컴파일**합니다 (wasm(바이너리)에서 wat(명확한 텍스트)로)
+* [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html)를 사용하여 **디컴파일**합니다 (wasm (이진)에서 wat (명확한 텍스트)로)
 * [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/)를 사용하여 **컴파일**합니다 (wat에서 wasm으로)
 * [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/)를 사용하여 디컴파일할 수도 있습니다.
 
@@ -38,9 +38,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek는 **라이브러리**(.dll), **Windows 메타데이터 파일**(.winmd), 및 **실행 파일**(.exe)을 포함한 여러 형식을 **디컴파일**하고 검사하는 디컴파일러입니다. 디컴파일된 후, 어셈블리는 Visual Studio 프로젝트(.csproj)로 저장할 수 있습니다.
+dotPeek는 **라이브러리** (.dll), **Windows 메타데이터 파일** (.winmd), 및 **실행 파일** (.exe)을 포함한 여러 형식을 **디컴파일하고 검사**하는 디컴파일러입니다. 디컴파일된 후, 어셈블리는 Visual Studio 프로젝트 (.csproj)로 저장할 수 있습니다.
 
-여기서의 장점은 잃어버린 소스 코드를 레거시 어셈블리에서 복원해야 할 경우, 이 작업이 시간을 절약할 수 있다는 것입니다. 또한, dotPeek는 디컴파일된 코드 전반에 걸쳐 유용한 탐색 기능을 제공하여 **Xamarin 알고리즘 분석**에 적합한 도구 중 하나입니다.
+여기서의 장점은 잃어버린 소스 코드를 레거시 어셈블리에서 복원해야 할 경우, 이 작업이 시간을 절약할 수 있다는 것입니다. 또한, dotPeek는 디컴파일된 코드 전반에 걸쳐 편리한 탐색을 제공하여 **Xamarin 알고리즘 분석**에 적합한 도구 중 하나입니다.
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -48,7 +48,7 @@ dotPeek는 **라이브러리**(.dll), **Windows 메타데이터 파일**(.winmd)
 
 * 라이브러리 또는 구성 요소를 통해 데이터가 흐르는 방식을 통찰합니다.
 * .NET 언어 및 프레임워크의 구현 및 사용에 대한 통찰을 제공합니다.
-* 사용된 API 및 기술에서 더 많은 것을 얻기 위해 문서화되지 않은 기능을 찾습니다.
+* 사용된 API 및 기술에서 더 많은 것을 얻기 위해 문서화되지 않은 기능과 노출되지 않은 기능을 찾습니다.
 * 의존성과 다양한 어셈블리를 찾습니다.
 * 코드, 서드파티 구성 요소 및 라이브러리에서 오류의 정확한 위치를 추적합니다.
 * 작업하는 모든 .NET 코드의 소스에서 디버깅합니다.
@@ -56,7 +56,7 @@ dotPeek는 **라이브러리**(.dll), **Windows 메타데이터 파일**(.winmd)
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [Visual Studio Code용 ILSpy 플러그인](https://github.com/icsharpcode/ilspy-vscode): 모든 운영 체제에서 사용할 수 있습니다 (VSCode에서 직접 설치할 수 있으며, git을 다운로드할 필요가 없습니다. **Extensions**를 클릭하고 **ILSpy**를 검색하세요).\
-**디컴파일**, **수정** 및 **다시 컴파일**해야 하는 경우 [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) 또는 그 활발히 유지되는 포크인 [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)를 사용할 수 있습니다. (**우클릭 -> 메서드 수정**하여 함수 내부의 내용을 변경합니다).
+**디컴파일**, **수정** 및 **다시 컴파일**해야 하는 경우 [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) 또는 그 활발히 유지되는 포크인 [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)를 사용할 수 있습니다. (**우클릭 -> 메서드 수정**으로 함수 내부의 내용을 변경합니다).
 
 ### DNSpy 로깅
 
@@ -91,7 +91,7 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-이것은 필요합니다. 왜냐하면 이렇게 하지 않으면 **runtime** 동안 여러 **optimisations**가 코드에 적용되고, 디버깅 중에 **break-point가 결코 도달되지 않거나** 일부 **변수가 존재하지 않을 수 있기 때문입니다**.
+이것은 필요합니다. 왜냐하면 이렇게 하지 않으면 **runtime** 동안 여러 **optimisations**가 코드에 적용되고, 디버깅 중에 **break-point가 전혀 도달하지 않거나** 일부 **변수가 존재하지 않을 수 있기 때문입니다**.
 
 그런 다음, .NET 애플리케이션이 **IIS**에 의해 **run**되고 있다면, 다음과 같이 **restart**할 수 있습니다:
 ```
@@ -147,9 +147,9 @@ iisreset /noforce
 * **rundll32 로드** (C:\Windows\System32\rundll32.exe의 64비트 및 C:\Windows\SysWOW64\rundll32.exe의 32비트)
 * **명령줄 변경** (_File --> Change Command Line_) 및 DLL의 경로와 호출하려는 함수를 설정합니다. 예: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * _Options --> Settings_에서 "**DLL Entry**"를 선택합니다.
-* 그런 다음 **실행 시작**하면 디버거가 각 DLL의 메인에서 중지되며, 어느 시점에서 **당신의 DLL의 DLL Entry에서 중지**됩니다. 거기서 중단점을 설정하고 싶은 지점을 검색하면 됩니다.
+* 그런 다음 **실행 시작**을 클릭하면 디버거가 각 DLL 메인에서 중지되며, 어느 시점에서 **당신의 DLL의 DLL Entry에서 중지**됩니다. 거기서 중단점을 설정하고 싶은 지점을 검색하면 됩니다.
 
-실행이 어떤 이유로 win64dbg에서 중지되면 **어떤 코드에 있는지** win64dbg 창의 **상단**에서 확인할 수 있습니다:
+실행이 어떤 이유로 win64dbg에서 중지되면 **win64dbg 창의 상단**에서 **어떤 코드에 있는지** 확인할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
@@ -157,13 +157,13 @@ iisreset /noforce
 
 ## GUI 앱 / 비디오 게임
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php)는 실행 중인 게임의 메모리 내에서 중요한 값이 저장된 위치를 찾고 이를 변경하는 데 유용한 프로그램입니다. 더 많은 정보는:
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php)는 실행 중인 게임의 메모리 내에서 중요한 값이 저장된 위치를 찾고 이를 변경하는 데 유용한 프로그램입니다. 자세한 정보는:
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE)는 GNU Project Debugger (GDB)를 위한 프론트엔드/리버스 엔지니어링 도구로, 게임에 중점을 두고 있습니다. 그러나 리버스 엔지니어링 관련 작업에 사용할 수 있습니다.
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE)는 GNU Project Debugger (GDB)를 위한 프론트엔드/리버스 엔지니어링 도구로, 게임에 중점을 두고 있습니다. 그러나 리버스 엔지니어링 관련 작업에 모두 사용할 수 있습니다.
 
 [**Decompiler Explorer**](https://dogbolt.org/)는 여러 디컴파일러에 대한 웹 프론트엔드입니다. 이 웹 서비스는 작은 실행 파일에 대한 다양한 디컴파일러의 출력을 비교할 수 있게 해줍니다.
 
@@ -171,12 +171,12 @@ iisreset /noforce
 
 {% embed url="https://github.com/nongiach/arm_now" %}
 
-## 쉘코드
+## Shellcodes
 
-### blobrunner로 쉘코드 디버깅
+### blobrunner로 shellcode 디버깅
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner)는 **쉘코드**를 메모리 공간에 **할당**하고, 쉘코드가 할당된 **메모리 주소**를 **지시**하며 실행을 **중지**합니다.\
-그런 다음, 프로세스에 **디버거**(Ida 또는 x64dbg)를 연결하고 **지정된 메모리 주소에 중단점**을 설정한 후 **실행을 재개**해야 합니다. 이렇게 하면 쉘코드를 디버깅할 수 있습니다.
+[**Blobrunner**](https://github.com/OALabs/BlobRunner)는 **shellcode**를 메모리 공간에 **할당**하고, shellcode가 할당된 **메모리 주소**를 **지시**하며 실행을 **중지**합니다.\
+그런 다음, 프로세스에 **디버거**(Ida 또는 x64dbg)를 연결하고 **지정된 메모리 주소에 중단점**을 설정한 후 실행을 **재개**해야 합니다. 이렇게 하면 shellcode를 디버깅할 수 있습니다.
 
 릴리스 GitHub 페이지에는 컴파일된 릴리스를 포함하는 zip 파일이 있습니다: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Blobrunner의 약간 수정된 버전은 다음 링크에서 찾을 수 있습니다. 컴파일하려면 **Visual Studio Code에서 C/C++ 프로젝트를 생성하고 코드를 복사하여 붙여넣고 빌드**하면 됩니다.
@@ -185,23 +185,23 @@ Blobrunner의 약간 수정된 버전은 다음 링크에서 찾을 수 있습�
 [blobrunner.md](blobrunner.md)
 {% endcontent-ref %}
 
-### jmp2it로 쉘코드 디버깅
+### jmp2it로 shellcode 디버깅
 
-[**jmp2it**](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)는 blobrunner와 매우 유사합니다. **쉘코드**를 메모리 공간에 **할당**하고 **영원한 루프**를 시작합니다. 그런 다음 프로세스에 **디버거를 연결**하고, **시작을 누른 후 2-5초 기다렸다가 중지**를 누르면 **영원한 루프** 안에 있게 됩니다. 영원한 루프의 다음 명령으로 점프하면 쉘코드에 대한 호출이 있을 것이며, 결국 쉘코드를 실행하게 됩니다.
+[**jmp2it**](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)는 blobrunner와 매우 유사합니다. **shellcode**를 메모리 공간에 **할당**하고 **영원한 루프**를 시작합니다. 그런 다음 프로세스에 **디버거를 연결**하고, **시작을 누르고 2-5초 기다린 후 중지**를 누르면 **영원한 루프** 안에 있게 됩니다. 영원한 루프의 다음 명령으로 점프하면 shellcode에 대한 호출이 이루어지고, 결국 shellcode를 실행하게 됩니다.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
 컴파일된 버전은 [릴리스 페이지에서 jmp2it를 다운로드](https://github.com/adamkramer/jmp2it/releases/)할 수 있습니다.
 
-### Cutter를 사용한 쉘코드 디버깅
+### Cutter를 사용한 shellcode 디버깅
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0)는 radare의 GUI입니다. Cutter를 사용하면 쉘코드를 에뮬레이트하고 동적으로 검사할 수 있습니다.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0)는 radare의 GUI입니다. Cutter를 사용하면 shellcode를 에뮬레이트하고 동적으로 검사할 수 있습니다.
 
-Cutter는 "파일 열기"와 "쉘코드 열기"를 허용합니다. 제 경우에는 쉘코드를 파일로 열었을 때 올바르게 디컴파일되었지만, 쉘코드로 열었을 때는 그렇지 않았습니다:
+Cutter는 "파일 열기"와 "shellcode 열기"를 허용합니다. 제 경우에는 shellcode를 파일로 열었을 때 올바르게 디컴파일되었지만, shellcode로 열었을 때는 그렇지 않았습니다:
 
 ![](<../../.gitbook/assets/image (562).png>)
 
-원하는 위치에서 에뮬레이션을 시작하려면 그곳에 bp를 설정하면 Cutter가 자동으로 그곳에서 에뮬레이션을 시작할 것입니다:
+원하는 위치에서 에뮬레이션을 시작하려면 그곳에 bp를 설정하면 Cutter가 자동으로 그곳에서 에뮬레이션을 시작합니다:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
@@ -211,10 +211,10 @@ Cutter는 "파일 열기"와 "쉘코드 열기"를 허용합니다. 제 경우�
 
 ![](<../../.gitbook/assets/image (186).png>)
 
-### 쉘코드 디코딩 및 실행된 함수 가져오기
+### shellcode의 디코딩 및 실행된 함수 가져오기
 
 [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152)를 시도해 보세요.\
-이 도구는 **어떤 함수**가 쉘코드에서 사용되고 있는지, 그리고 쉘코드가 메모리에서 **자기 자신을 디코딩**하고 있는지 알려줍니다.
+이 도구는 **어떤 함수**가 shellcode에서 사용되고 있는지, 그리고 shellcode가 메모리에서 **자기 자신을 디코딩**하고 있는지 알려줍니다.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -227,7 +227,7 @@ scDbg는 원하는 옵션을 선택하고 shellcode를 실행할 수 있는 그�
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-**Create Dump** 옵션은 메모리에서 shellcode에 동적으로 변경이 이루어질 경우 최종 shellcode를 덤프합니다(디코딩된 shellcode를 다운로드하는 데 유용합니다). **start offset**은 특정 오프셋에서 shellcode를 시작하는 데 유용할 수 있습니다. **Debug Shell** 옵션은 scDbg 터미널을 사용하여 shellcode를 디버깅하는 데 유용합니다(하지만 이 문제에 대해서는 이전에 설명한 옵션이 더 좋다고 생각합니다. 왜냐하면 Ida 또는 x64dbg를 사용할 수 있기 때문입니다).
+**Create Dump** 옵션은 메모리에서 shellcode에 동적으로 변경이 이루어질 경우 최종 shellcode를 덤프합니다(디코딩된 shellcode를 다운로드하는 데 유용합니다). **start offset**은 특정 오프셋에서 shellcode를 시작하는 데 유용할 수 있습니다. **Debug Shell** 옵션은 scDbg 터미널을 사용하여 shellcode를 디버깅하는 데 유용합니다(하지만 이 문제에 대해서는 이전에 설명한 옵션들이 더 나은 것 같습니다. 왜냐하면 Ida나 x64dbg를 사용할 수 있기 때문입니다).
 
 ### CyberChef를 사용한 디스어셈블링
 
@@ -235,12 +235,12 @@ shellcode 파일을 입력으로 업로드하고 다음 레시피를 사용하�
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-이 난독화 도구는 **모든 `mov` 명령어를 수정합니다**(정말 멋집니다). 또한 실행 흐름을 변경하기 위해 인터럽트를 사용합니다. 작동 방식에 대한 자세한 정보는 다음을 참조하십시오:
+이 오브퓨스케이터는 **모든 `mov` 명령어를 수정합니다**(정말 멋집니다). 또한 실행 흐름을 변경하기 위해 인터럽트를 사용합니다. 작동 방식에 대한 자세한 정보는 다음을 참조하십시오:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-운이 좋다면 [demovfuscator](https://github.com/kirschju/demovfuscator)가 이진 파일을 디오브스케이트할 것입니다. 여러 종속성이 있습니다.
+운이 좋다면 [demovfuscator](https://github.com/kirschju/demovfuscator)가 바이너리를 디오브퓨스케이트할 것입니다. 여러 종속성이 있습니다.
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -260,9 +260,9 @@ Having the **name** of the **functions** being called, search for them on the **
 
 ## **Delphi**
 
-For Delphi compiled binaries you can use [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+For Delphi 컴파일된 바이너리에는 [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)를 사용할 수 있습니다.
 
-If you have to reverse a Delphi binary I would suggest you to use the IDA plugin [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Delphi 바이너리를 리버스해야 한다면 IDA 플러그인 [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)를 사용하는 것을 추천합니다.
 
 Just press **ATL+f7** (import python plugin in IDA) and select the python plugin.
 
@@ -351,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-마지막 if는 **`uVar4`**가 **마지막 Keys**에 있고 현재 키가 아닌지 확인하고 있으며, 현재 키는 **`uVar1`**에 저장됩니다.
+마지막 if는 **`uVar4`**가 **마지막 Keys**에 있는지 확인하고 현재 키가 아닌지 확인합니다. 현재 키는 **`uVar1`**에 저장됩니다.
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -382,23 +382,23 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 이전 코드에서 **uVar1** (누른 버튼의 **값**이 있는 곳)을 몇 가지 값과 비교하고 있는 것을 볼 수 있습니다:
 
 * 먼저, **값 4** (**SELECT** 버튼)와 비교됩니다: 이 챌린지에서 이 버튼은 화면을 지웁니다.
-* 다음으로, **값 8** (**START** 버튼)과 비교됩니다: 이 챌린지에서 이 버튼은 코드가 플래그를 얻기 위한 유효한지 확인합니다.
-* 이 경우 **`DAT_030000d8`** 변수가 0xf3과 비교되며, 값이 같으면 일부 코드가 실행됩니다.
+* 그 다음, **값 8** (**START** 버튼)과 비교됩니다: 이 챌린지에서 이 버튼은 코드가 플래그를 얻기 위한 유효한지 확인합니다.
+* 이 경우 var **`DAT_030000d8`**는 0xf3과 비교되며, 값이 같으면 일부 코드가 실행됩니다.
 * 다른 경우에는 일부 cont (`DAT_030000d4`)가 확인됩니다. 이는 코드에 들어간 직후 1을 더하기 때문에 cont입니다.\
 **8보다 작으면** **`DAT_030000d8`**에 값을 **더하는** 작업이 수행됩니다 (기본적으로 cont가 8보다 작을 때 이 변수에 눌린 키의 값을 더하고 있습니다).
 
-따라서 이 챌린지에서는 버튼의 값을 알고, **결과적으로 더한 값이 0xf3이 되도록 8보다 작은 길이의 조합을 눌러야 했습니다.**
+따라서 이 챌린지에서는 버튼의 값을 알고, **결과적으로 더한 값이 0xf3이 되도록 길이가 8보다 작은 조합을 눌러야 했습니다.**
 
 **이 튜토리얼의 참고자료:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
-## 게임 보이
+## Game Boy
 
 {% embed url="https://www.youtube.com/watch?v=VVbRe7wr3G4" %}
 
-## 강좌
+## Courses
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (이진 역난독화)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (이진 디오브퓨스케이션)
 
 {% hint style="success" %}
 AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

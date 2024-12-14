@@ -92,8 +92,8 @@ runas /user:domain\username /netonly cmd.exe
 
 * **기본 토큰**: 프로세스의 보안 자격 증명을 나타냅니다. 기본 토큰의 생성 및 프로세스와의 연관은 권한 상승이 필요한 작업으로, 권한 분리 원칙을 강조합니다. 일반적으로 인증 서비스가 토큰 생성을 담당하고, 로그온 서비스가 사용자 운영 체제 셸과의 연관을 처리합니다. 프로세스는 생성 시 부모 프로세스의 기본 토큰을 상속받는다는 점도 주목할 만합니다.
 * **임시 토큰**: 서버 애플리케이션이 클라이언트의 신원을 일시적으로 채택하여 보안 객체에 접근할 수 있도록 합니다. 이 메커니즘은 네 가지 운영 수준으로 나뉩니다:
-* **익명**: 신원 불명의 사용자와 유사한 서버 접근을 허용합니다.
-* **식별**: 서버가 객체 접근을 위해 클라이언트의 신원을 활용하지 않고 확인할 수 있도록 합니다.
+* **익명**: 신원 미상의 사용자와 유사한 서버 접근을 허용합니다.
+* **식별**: 서버가 객체 접근을 위해 클라이언트의 신원을 사용하지 않고 확인할 수 있도록 합니다.
 * **임시**: 서버가 클라이언트의 신원으로 작동할 수 있게 합니다.
 * **위임**: 임시와 유사하지만, 서버가 상호작용하는 원격 시스템에 이 신원 가정을 확장할 수 있는 능력을 포함하여 자격 증명을 보존합니다.
 
@@ -115,7 +115,6 @@ runas /user:domain\username /netonly cmd.exe
 
 이 튜토리얼에서 토큰에 대해 더 알아보세요: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) 및 [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-
 {% hint style="success" %}
 AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -126,7 +125,7 @@ GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

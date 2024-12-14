@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Folders
 
-모든 **시작 폴더에 위치한 바이너리들은 시작 시 실행됩니다**. 일반적인 시작 폴더는 다음에 나열된 폴더들이지만, 시작 폴더는 레지스트리에 표시됩니다. [여기를 읽어 어디에 있는지 알아보세요.](privilege-escalation-with-autorun-binaries.md#startup-path)
+모든 **시작 폴더에 위치한 바이너리 파일은 시작 시 실행됩니다**. 일반적인 시작 폴더는 다음에 나열된 폴더들이지만, 시작 폴더는 레지스트리에 표시됩니다. [여기를 읽어보세요.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -55,7 +55,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## 레지스트리
 
 {% hint style="info" %}
-[여기에서 참고](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** 레지스트리 항목은 64비트 Windows 버전을 실행하고 있음을 나타냅니다. 운영 체제는 이 키를 사용하여 64비트 Windows 버전에서 실행되는 32비트 응용 프로그램에 대한 HKEY\_LOCAL\_MACHINE\SOFTWARE의 별도 보기를 표시합니다.
+[여기에서 참고](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** 레지스트리 항목은 64비트 Windows 버전을 실행하고 있음을 나타냅니다. 운영 체제는 이 키를 사용하여 64비트 Windows 버전에서 실행되는 32비트 응용 프로그램을 위한 HKEY\_LOCAL\_MACHINE\SOFTWARE의 별도 보기를 표시합니다.
 {% endhint %}
 
 ### 실행
@@ -92,7 +92,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Windows Vista 및 이후 버전에서는 **Run** 및 **RunOnce** 레지스트리 키가 자동으로 생성되지 않습니다. 이러한 키의 항목은 프로그램을 직접 시작하거나 종속성으로 지정할 수 있습니다. 예를 들어, 로그인 시 DLL 파일을 로드하려면 **RunOnceEx** 레지스트리 키와 "Depend" 키를 함께 사용할 수 있습니다. 이는 시스템 시작 시 "C:\temp\evil.dll"을 실행하는 레지스트리 항목을 추가하여 보여줍니다:
+Windows Vista 및 이후 버전에서는 **Run** 및 **RunOnce** 레지스트리 키가 자동으로 생성되지 않습니다. 이러한 키의 항목은 프로그램을 직접 시작하거나 종속성으로 지정할 수 있습니다. 예를 들어, 로그인 시 DLL 파일을 로드하려면 **RunOnceEx** 레지스트리 키와 "Depend" 키를 함께 사용할 수 있습니다. 이는 시스템 시작 시 "C:\temp\evil.dll"을 실행하는 레지스트리 항목을 추가하여 보여집니다:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
@@ -212,18 +212,18 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 ### 안전 모드 명령 프롬프트 변경
 
-Windows 레지스트리의 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 아래에 기본적으로 `cmd.exe`로 설정된 **`AlternateShell`** 값이 있습니다. 이는 시작 시 "명령 프롬프트가 있는 안전 모드"를 선택할 때(F8 키를 눌러서) `cmd.exe`가 사용된다는 것을 의미합니다. 그러나 F8을 눌러 수동으로 선택하지 않고도 이 모드에서 자동으로 시작하도록 컴퓨터를 설정할 수 있습니다.
+Windows 레지스트리의 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 아래에 기본적으로 `cmd.exe`로 설정된 **`AlternateShell`** 값이 있습니다. 이는 시작 시 "명령 프롬프트가 있는 안전 모드"를 선택할 때(F8 키를 눌러) `cmd.exe`가 사용됨을 의미합니다. 그러나 F8을 눌러 수동으로 선택하지 않고도 이 모드에서 자동으로 시작하도록 컴퓨터를 설정할 수 있습니다.
 
 "명령 프롬프트가 있는 안전 모드"에서 자동으로 시작하는 부팅 옵션을 만들기 위한 단계:
 
 1. `boot.ini` 파일의 속성을 변경하여 읽기 전용, 시스템 및 숨김 플래그를 제거합니다: `attrib c:\boot.ini -r -s -h`
-2. 편집을 위해 `boot.ini`를 엽니다.
+2. `boot.ini`를 편집을 위해 엽니다.
 3. 다음과 같은 줄을 삽입합니다: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. `boot.ini`에 대한 변경 사항을 저장합니다.
 5. 원래 파일 속성을 다시 적용합니다: `attrib c:\boot.ini +r +s +h`
 
 * **Exploit 1:** **AlternateShell** 레지스트리 키를 변경하면 사용자 정의 명령 셸 설정이 가능해져, 무단 접근이 발생할 수 있습니다.
-* **Exploit 2 (PATH 쓰기 권한):** 시스템 **PATH** 변수의 어떤 부분에든 쓰기 권한이 있는 경우, 특히 `C:\Windows\system32` 이전에, 사용자 정의 `cmd.exe`를 실행할 수 있으며, 이는 시스템이 안전 모드에서 시작될 경우 백도어가 될 수 있습니다.
+* **Exploit 2 (PATH 쓰기 권한):** 시스템 **PATH** 변수의 어떤 부분에든 쓰기 권한이 있으면, 특히 `C:\Windows\system32` 이전에, 사용자 정의 `cmd.exe`를 실행할 수 있으며, 이는 시스템이 안전 모드에서 시작될 경우 백도어가 될 수 있습니다.
 * **Exploit 3 (PATH 및 boot.ini 쓰기 권한):** `boot.ini`에 대한 쓰기 접근은 자동 안전 모드 시작을 가능하게 하여, 다음 재부팅 시 무단 접근을 용이하게 합니다.
 
 현재 **AlternateShell** 설정을 확인하려면 다음 명령을 사용하십시오:
@@ -233,7 +233,7 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 ```
 ### Installed Component
 
-Active Setup은 **바탕 화면 환경이 완전히 로드되기 전에 시작되는** Windows의 기능입니다. 이는 특정 명령의 실행을 우선시하며, 사용자 로그온이 진행되기 전에 완료되어야 합니다. 이 과정은 Run 또는 RunOnce 레지스트리 섹션의 다른 시작 항목이 트리거되기 전에도 발생합니다.
+Active Setup은 **바탕 화면 환경이 완전히 로드되기 전에 시작되는** Windows의 기능입니다. 이는 사용자 로그온이 진행되기 전에 완료해야 하는 특정 명령의 실행을 우선시합니다. 이 과정은 Run 또는 RunOnce 레지스트리 섹션의 다른 시작 항목이 트리거되기 전에도 발생합니다.
 
 Active Setup은 다음 레지스트리 키를 통해 관리됩니다:
 
@@ -247,14 +247,14 @@ Active Setup은 다음 레지스트리 키를 통해 관리됩니다:
 * **IsInstalled:**
 * `0`은 구성 요소의 명령이 실행되지 않음을 나타냅니다.
 * `1`은 명령이 각 사용자에 대해 한 번 실행됨을 의미하며, 이는 `IsInstalled` 값이 없을 경우의 기본 동작입니다.
-* **StubPath:** Active Setup에 의해 실행될 명령을 정의합니다. `notepad`를 실행하는 것과 같은 유효한 명령줄일 수 있습니다.
+* **StubPath:** Active Setup에 의해 실행될 명령을 정의합니다. 이는 `notepad`를 실행하는 것과 같은 유효한 명령줄일 수 있습니다.
 
 **Security Insights:**
 
-* **`IsInstalled`**가 `"1"`로 설정된 키를 특정 **`StubPath`**로 수정하거나 쓰는 것은 무단 명령 실행으로 이어질 수 있으며, 이는 권한 상승을 초래할 수 있습니다.
-* 어떤 **`StubPath`** 값에서 참조된 이진 파일을 변경하는 것도 충분한 권한이 주어지면 권한 상승을 달성할 수 있습니다.
+* **`IsInstalled`**가 `"1"`로 설정된 키를 특정 **`StubPath`**로 수정하거나 작성하면 무단 명령 실행이 발생할 수 있으며, 이는 권한 상승으로 이어질 수 있습니다.
+* 어떤 **`StubPath`** 값에서 참조된 이진 파일을 변경하는 것도 충분한 권한이 있을 경우 권한 상승을 달성할 수 있습니다.
 
-Active Setup 구성 요소 전반에 걸쳐 **`StubPath`** 구성을 검사하기 위해 다음 명령을 사용할 수 있습니다:
+Active Setup 구성 요소 전반에 걸쳐 **`StubPath`** 구성을 검사하려면 다음 명령을 사용할 수 있습니다:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -267,7 +267,7 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 Browser Helper Objects (BHOs)는 Microsoft의 Internet Explorer에 추가 기능을 제공하는 DLL 모듈입니다. 이들은 각 시작 시 Internet Explorer와 Windows Explorer에 로드됩니다. 그러나 **NoExplorer** 키를 1로 설정하면 실행이 차단되어 Windows Explorer 인스턴스와 함께 로드되지 않도록 할 수 있습니다.
 
-BHOs는 Internet Explorer 11을 통해 Windows 10과 호환되지만, 최신 버전의 Windows에서 기본 브라우저인 Microsoft Edge에서는 지원되지 않습니다.
+BHOs는 Internet Explorer 11을 통해 Windows 10과 호환되지만, 최신 Windows 버전의 기본 브라우저인 Microsoft Edge에서는 지원되지 않습니다.
 
 시스템에 등록된 BHOs를 탐색하려면 다음 레지스트리 키를 검사할 수 있습니다:
 
@@ -281,14 +281,14 @@ BHOs는 Internet Explorer 11을 통해 Windows 10과 호환되지만, 최신 버
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
-### Internet Explorer Extensions
+### Internet Explorer 확장
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
 레지스트리에는 각 dll마다 1개의 새로운 레지스트리가 포함되며, 이는 **CLSID**로 표시됩니다. CLSID 정보는 `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`에서 찾을 수 있습니다.
 
-### Font Drivers
+### 글꼴 드라이버
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
@@ -337,16 +337,16 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.
 
 </details>
 {% endhint %}

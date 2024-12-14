@@ -1,4 +1,4 @@
-# 체크리스트 - 로컬 Windows 권한 상승
+# 체크리스트 - 로컬 윈도우 권한 상승
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -10,18 +10,18 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
 
-### **Windows 로컬 권한 상승 벡터를 찾기 위한 최고의 도구:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **윈도우 로컬 권한 상승 벡터를 찾기 위한 최고의 도구:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [시스템 정보](windows-local-privilege-escalation/#system-info)
 
 * [ ] [**시스템 정보**](windows-local-privilege-escalation/#system-info) 얻기
-* [ ] **커널** [**익스플로잇을 스크립트로 검색**](windows-local-privilege-escalation/#version-exploits)
-* [ ] **Google로 커널 익스플로잇 검색하기**
+* [ ] **커널** [**익스플로잇 스크립트 검색**](windows-local-privilege-escalation/#version-exploits)
+* [ ] **구글로 커널 익스플로잇 검색하기**
 * [ ] **searchsploit로 커널 익스플로잇 검색하기**
 * [ ] [**환경 변수**](windows-local-privilege-escalation/#environment)에서 흥미로운 정보?
 * [ ] [**PowerShell 기록**](windows-local-privilege-escalation/#powershell-history)에서 비밀번호?
@@ -86,7 +86,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * [ ] 네트워크 열거 (공유, 인터페이스, 경로, 이웃 등 ...)
 * [ ] 로컬호스트(127.0.0.1)에서 수신 대기 중인 네트워크 서비스에 특별히 주목하세요.
 
-### [Windows 자격 증명](windows-local-privilege-escalation/#windows-credentials)
+### [윈도우 자격 증명](windows-local-privilege-escalation/#windows-credentials)
 
 * [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials) 자격 증명
 * [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) 자격 증명을 사용할 수 있나요?
@@ -134,7 +134,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

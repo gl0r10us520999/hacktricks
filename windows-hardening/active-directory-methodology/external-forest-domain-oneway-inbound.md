@@ -69,13 +69,13 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-이전 열거에서 사용자 **`crossuser`**가 **외부 도메인**의 **DC** 내에서 **관리자 액세스**를 가진 **`External Admins`** 그룹에 속해 있는 것으로 확인되었습니다.
+이전 열거에서 **`crossuser`** 사용자가 **외부 도메인**의 **DC** 내에서 **관리자 액세스**를 가진 **`External Admins`** 그룹에 속해 있는 것으로 확인되었습니다.
 
 ## 초기 액세스
 
-다른 도메인에서 사용자에 대한 **특별한** 액세스를 **찾지 못한 경우**, AD 방법론으로 돌아가서 **비특권 사용자에서 권한 상승을 시도**할 수 있습니다(예: kerberoasting과 같은 것):
+다른 도메인에서 사용자에 대한 **특별한** 액세스를 **찾지 못한 경우**, AD 방법론으로 돌아가서 **비특권 사용자에서 권한 상승을 시도**할 수 있습니다 (예: kerberoasting과 같은):
 
-`-Domain` 매개변수를 사용하여 **Powerview 함수**를 사용하여 **다른 도메인**을 **열거**할 수 있습니다:
+**Powerview 함수**를 사용하여 `-Domain` 매개변수를 사용하여 **다른 도메인**을 **열거**할 수 있습니다:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -83,9 +83,9 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 [.](./)
 {% endcontent-ref %}
 
-## Impersonation
+## 임시 사용자
 
-### Logging in
+### 로그인
 
 외부 도메인에 접근할 수 있는 사용자의 자격 증명을 사용하여 일반적인 방법으로 로그인하면 다음에 접근할 수 있어야 합니다:
 ```powershell
@@ -95,7 +95,7 @@ Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\admini
 
 당신은 또한 숲 신뢰를 통해 [**SID History**](sid-history-injection.md)를 남용할 수 있습니다.
 
-사용자가 **한 숲에서 다른 숲으로** 마이그레이션되고 **SID 필터링이 활성화되지 않은 경우**, **다른 숲의 SID를 추가하는** 것이 가능해지며, 이 **SID**는 **신뢰를 통해 인증할 때** **사용자의 토큰**에 **추가**됩니다.
+사용자가 **한 숲에서 다른 숲으로** 마이그레이션되고 **SID 필터링이 활성화되지 않은 경우**, **다른 숲의 SID를 추가하는 것이 가능**해지며, 이 **SID**는 **신뢰를 통해 인증할 때** **사용자의 토큰**에 **추가**됩니다.
 
 {% hint style="warning" %}
 상기 사항을 상기시키기 위해, 서명 키를 얻을 수 있습니다.

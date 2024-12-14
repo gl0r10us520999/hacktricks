@@ -56,9 +56,9 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-이전 명령줄에서 0개의 오류가 발견되었다고 표시된 것을 볼 수 있습니다. 이는 구매 후 또는 펌웨어를 플래시한 후에 작동하는지 확인하는 데 매우 유용합니다.
+앞서 명령줄에서 0개의 오류를 발견했다고 나와 있습니다. 이는 구매 후 또는 펌웨어를 플래싱한 후에 작동하는지 확인하는 데 매우 유용합니다.
 
-버스 파이레와 연결하려면 문서를 참조할 수 있습니다:
+버스 파이레와 연결하려면 문서를 참조하세요:
 
 ![](<../../.gitbook/assets/image (484).png>)
 
@@ -66,8 +66,8 @@ Found 0 errors.
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-버스 파이레와 대화하기 위해 Tera Term을 사용하여 파이레 버스 COM 포트에 연결했습니다. 설정 --> 직렬 포트 --> 속도 115200으로 설정했습니다.\
-다음 통신에서는 버스 파이레를 I2C로 대화하도록 준비하는 방법과 메모리에서 읽고 쓰는 방법을 찾을 수 있습니다(주석은 "#"을 사용하여 나타나며, 통신에서 해당 부분을 기대하지 마십시오):
+버스 파이레와 통신하기 위해 Tera Term을 사용하여 파이레 버스 COM 포트에 연결했습니다. 설정 --> 직렬 포트 --> 속도를 115200으로 설정했습니다.\
+다음 통신에서는 I2C와 대화하기 위해 버스 파이레를 준비하는 방법과 메모리에서 읽고 쓰는 방법을 찾을 수 있습니다(주석은 "#"을 사용하여 나타나며, 통신에서 해당 부분을 기대하지 마세요):
 ```bash
 # Check communication with buspirate
 i
@@ -168,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-이 시나리오에서는 아두이노와 이전 EPROM 간의 I2C 통신을 스니핑할 것입니다. 두 장치를 통신한 다음 버스 해적을 SCL, SDA 및 GND 핀에 연결하기만 하면 됩니다:
+이 시나리오에서는 아두이노와 이전 EPROM 간의 I2C 통신을 스니핑할 것입니다. 두 장치를 통신한 다음, 버스 해적을 SCL, SDA 및 GND 핀에 연결하기만 하면 됩니다:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -225,8 +225,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

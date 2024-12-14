@@ -4,7 +4,7 @@
 
 \
 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=dcsync)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
-지금 액세스하세요:
+지금 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=dcsync" %}
 
@@ -17,8 +17,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입하거나** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
@@ -29,7 +29,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 **DCSync에 대한 중요 사항:**
 
-* **DCSync 공격은 도메인 컨트롤러의 동작을 시뮬레이션하고 다른 도메인 컨트롤러에 정보를 복제하도록 요청합니다**. 이는 디렉터리 복제 서비스 원격 프로토콜(MS-DRSR)을 사용합니다. MS-DRSR은 Active Directory의 유효하고 필요한 기능이므로 끄거나 비활성화할 수 없습니다.
+* **DCSync 공격은 도메인 컨트롤러의 동작을 시뮬레이션하고 다른 도메인 컨트롤러에 정보를 복제하도록 요청합니다**. 이는 디렉터리 복제 서비스 원격 프로토콜(MS-DRSR)을 사용합니다. MS-DRSR은 Active Directory의 유효하고 필요한 기능이므로 끌 수 없거나 비활성화할 수 없습니다.
 * 기본적으로 **도메인 관리자, 엔터프라이즈 관리자, 관리자 및 도메인 컨트롤러** 그룹만이 필요한 권한을 가지고 있습니다.
 * reversible encryption으로 저장된 계정 비밀번호가 있는 경우, Mimikatz에서 비밀번호를 평문으로 반환하는 옵션이 제공됩니다.
 
@@ -54,7 +54,7 @@ secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 
 * 하나는 **NTLM 해시**
 * 하나는 **Kerberos 키**
-* 하나는 [**가역 암호화**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption)가 활성화된 모든 계정의 NTDS에서 평문 비밀번호입니다. 가역 암호화가 활성화된 사용자를 얻으려면
+* 하나는 NTDS에서 [**가역 암호화**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption)가 활성화된 모든 계정의 평문 비밀번호입니다. 가역 암호화가 활성화된 사용자를 얻으려면
 
 ```powershell
 Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
@@ -77,7 +77,7 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 * 보안 이벤트 ID 4670 (객체에 대한 감사 정책이 활성화되어야 함) – 객체의 권한이 변경되었습니다.
 * AD ACL 스캐너 - ACL의 생성 및 비교 보고서를 생성합니다. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
 
-## 참고문헌
+## 참조
 
 * [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/dump-password-hashes-from-domain-controller-with-dcsync](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/dump-password-hashes-from-domain-controller-with-dcsync)
 * [https://yojimbosecurity.ninja/dcsync/](https://yojimbosecurity.ninja/dcsync/)

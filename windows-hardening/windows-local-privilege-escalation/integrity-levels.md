@@ -28,7 +28,7 @@ Windows Vista 및 이후 버전에서는 모든 보호된 항목에 **무결성 
 * **시스템**: Windows 커널 및 핵심 서비스의 가장 높은 운영 수준으로, 관리자조차도 접근할 수 없으며, 중요한 시스템 기능을 보호합니다.
 * **설치자**: 모든 다른 수준 위에 있는 고유한 수준으로, 이 수준의 객체가 다른 모든 객체를 제거할 수 있도록 합니다.
 
-**Process Explorer**를 사용하여 프로세스의 무결성 수준을 확인할 수 있으며, 프로세스의 **속성**에 접근하고 "**보안**" 탭을 확인합니다:
+**Process Explorer**를 사용하여 프로세스의 무결성 수준을 확인할 수 있으며, 프로세스의 **속성**에 접근하고 "**보안**" 탭을 확인하면 됩니다:
 
 ![](<../../.gitbook/assets/image (824).png>)
 
@@ -50,7 +50,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-이제 파일에 최소 무결성 수준을 **높음**으로 설정합시다. 이는 **관리자로 실행되는 콘솔**에서 **반드시 수행해야** 하며, **일반 콘솔**은 중간 무결성 수준에서 실행되므로 객체에 높은 무결성 수준을 할당할 수 **없습니다**:
+이제 파일에 최소 무결성 수준을 **높음**으로 설정합시다. 이는 **관리자**로 실행되는 **콘솔**에서 **반드시 수행해야** 하며, **일반 콘솔**은 중간 무결성 수준에서 실행되므로 객체에 높은 무결성 수준을 할당할 수 **없습니다**:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -65,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-이제 흥미로운 부분입니다. 사용자 `DESKTOP-IDJHTKP\user`가 파일에 대해 **전체 권한**을 가지고 있는 것을 볼 수 있습니다(실제로 이 사용자가 파일을 생성했습니다). 그러나 최소 무결성 수준이 구현되어 있기 때문에, 그는 더 이상 파일을 수정할 수 없습니다. 그가 높은 무결성 수준에서 실행되지 않는 한 말이죠(그는 파일을 읽을 수는 있습니다):
+이제 흥미로운 부분입니다. 사용자 `DESKTOP-IDJHTKP\user`가 파일에 대해 **전체 권한**을 가지고 있는 것을 볼 수 있습니다(실제로 이 사용자가 파일을 생성했습니다). 그러나 구현된 최소 무결성 수준으로 인해 그는 더 이상 파일을 수정할 수 없으며, High Integrity Level 내에서 실행하지 않는 한 수정할 수 없습니다(읽기는 가능하다는 점에 유의하십시오):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -98,22 +98,6 @@ Mandatory Label\Low Mandatory Level:(NW)
 
 ### 프로세스의 무결성 수준
 
-모든 파일과 폴더가 최소 무결성 수준을 가지는 것은 아닙니다, **하지만 모든 프로세스는 무결성 수준에서 실행됩니다**. 파일 시스템에서 발생한 것과 유사하게, **프로세스가 다른 프로세스 내부에 쓰기를 원할 경우 최소한 동일한 무결성 수준을 가져야 합니다**. 이는 낮은 무결성 수준을 가진 프로세스가 중간 무결성 수준을 가진 프로세스에 대한 전체 액세스 핸들을 열 수 없음을 의미합니다.
+모든 파일과 폴더가 최소 무결성 수준을 가지는 것은 아니지만, **모든 프로세스는 무결성 수준에서 실행됩니다**. 파일 시스템에서 발생한 것과 유사하게, **프로세스가 다른 프로세스 내부에 쓰기를 원할 경우 최소한 동일한 무결성 수준을 가져야 합니다**. 이는 낮은 무결성 수준을 가진 프로세스가 중간 무결성 수준을 가진 프로세스에 대한 전체 액세스 핸들을 열 수 없음을 의미합니다.
 
-이 섹션과 이전 섹션에서 언급된 제한으로 인해, 보안 관점에서 볼 때, 항상 **가능한 낮은 무결성 수준에서 프로세스를 실행하는 것이 권장됩니다**.
-
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
+이 섹션과 이전 섹션에서 언급된 제한 사항으로 인해, 보안 관점에서 볼 때, 항상 **가능한 낮은 무결성 수준에서 프로세스를 실행하는 것이 권장됩니다**.

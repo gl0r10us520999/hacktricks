@@ -31,7 +31,7 @@ New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F
 ```
 ### Hijackable Task Scheduler COM components
 
-Windows Tasks는 COM 객체를 호출하기 위해 Custom Triggers를 사용하며, Task Scheduler를 통해 실행되기 때문에 언제 트리거될지 예측하기가 더 쉽습니다.
+Windows Tasks는 COM 객체를 호출하기 위해 Custom Triggers를 사용하며, Task Scheduler를 통해 실행되기 때문에 언제 트리거될지를 예측하기가 더 쉽습니다.
 
 <pre class="language-powershell"><code class="lang-powershell"># Show COM CLSIDs
 $Tasks = Get-ScheduledTask
@@ -62,9 +62,9 @@ Write-Host
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [more like the previous one...]</code></pre>
 
-출력을 확인하면 **사용자가 로그인할 때마다** 실행될 작업을 선택할 수 있습니다.
+출력을 확인하면 예를 들어 **사용자가 로그인할 때마다** 실행될 작업을 선택할 수 있습니다.
 
-이제 **HKEY\_**_**CLASSES\_**_**ROOT\CLSID**와 HKLM 및 HKCU에서 CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}**를 검색하면, 일반적으로 HKCU에 값이 존재하지 않는 것을 발견할 수 있습니다.
+이제 **HKEY\_**_**CLASSES\_**_**ROOT\CLSID**와 HKLM 및 HKCU에서 CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}**를 검색하면, 일반적으로 HKCU에 해당 값이 존재하지 않는 것을 발견할 수 있습니다.
 ```bash
 # Exists in HKCR\CLSID\
 Get-ChildItem -Path "Registry::HKCR\CLSID\{1936ED8A-BD93-3213-E325-F38D112938EF}"

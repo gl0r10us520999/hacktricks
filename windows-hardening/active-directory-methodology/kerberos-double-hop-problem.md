@@ -24,27 +24,27 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Kerberos "Double Hop" 문제는 공격자가 **PowerShell**/**WinRM**을 사용하여 **두 번의 홉**을 통해 **Kerberos 인증**을 시도할 때 발생합니다.
 
-**Kerberos**를 통해 **인증**이 발생할 때, **자격 증명**은 **메모리**에 캐시되지 않습니다. 따라서 사용자가 프로세스를 실행하고 있더라도 mimikatz를 실행하면 해당 사용자의 **자격 증명**을 찾을 수 없습니다.
+**Kerberos**를 통해 **인증**이 발생할 때, **자격 증명**이 **메모리**에 캐시되지 않습니다. 따라서 사용자가 프로세스를 실행하고 있더라도 mimikatz를 실행하면 해당 사용자의 **자격 증명**을 찾을 수 없습니다.
 
 Kerberos로 연결할 때의 단계는 다음과 같습니다:
 
 1. User1이 자격 증명을 제공하고 **도메인 컨트롤러**가 User1에게 Kerberos **TGT**를 반환합니다.
 2. User1이 **TGT**를 사용하여 **Server1**에 연결하기 위한 **서비스 티켓**을 요청합니다.
-3. User1이 **Server1**에 **연결**하고 **서비스 티켓**을 제공합니다.
+3. User1이 **Server1**에 연결하고 **서비스 티켓**을 제공합니다.
 4. **Server1**은 User1의 **자격 증명**이나 User1의 **TGT**를 캐시하지 않습니다. 따라서 Server1의 User1이 두 번째 서버에 로그인하려고 할 때 **인증할 수 없습니다**.
 
 ### Unconstrained Delegation
 
-PC에서 **제한 없는 위임**이 활성화되어 있으면, **서버**가 접근하는 각 사용자의 **TGT**를 **얻기** 때문에 이러한 일이 발생하지 않습니다. 또한, 제한 없는 위임을 사용하면 **도메인 컨트롤러**를 **타격**할 수 있습니다.\
+PC에서 **제한 없는 위임**이 활성화되어 있으면, **서버**가 접근하는 각 사용자의 **TGT**를 **얻기** 때문에 이러한 일이 발생하지 않습니다. 또한, 제한 없는 위임을 사용하면 **도메인 컨트롤러**를 **타격할 수** 있습니다.\
 [**제한 없는 위임 페이지에서 더 많은 정보**](unconstrained-delegation.md).
 
 ### CredSSP
 
 이 문제를 피하는 또 다른 방법은 [**상당히 안전하지 않은**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) **자격 증명 보안 지원 공급자**입니다. Microsoft에서:
 
-> CredSSP 인증은 로컬 컴퓨터에서 원격 컴퓨터로 사용자 자격 증명을 위임합니다. 이 관행은 원격 작업의 보안 위험을 증가시킵니다. 원격 컴퓨터가 손상되면 자격 증명이 전달될 때 해당 자격 증명을 사용하여 네트워크 세션을 제어할 수 있습니다.
+> CredSSP 인증은 로컬 컴퓨터에서 원격 컴퓨터로 사용자 자격 증명을 위임합니다. 이 관행은 원격 작업의 보안 위험을 증가시킵니다. 원격 컴퓨터가 손상되면 자격 증명이 전달될 때 자격 증명을 사용하여 네트워크 세션을 제어할 수 있습니다.
 
-보안 문제로 인해 **CredSSP**는 프로덕션 시스템, 민감한 네트워크 및 유사한 환경에서 비활성화하는 것이 강력히 권장됩니다. **CredSSP**가 활성화되어 있는지 확인하려면 `Get-WSManCredSSP` 명령을 실행할 수 있습니다. 이 명령은 **CredSSP 상태를 확인**할 수 있으며, **WinRM**이 활성화되어 있으면 원격으로도 실행할 수 있습니다.
+보안 문제로 인해 **CredSSP**는 프로덕션 시스템, 민감한 네트워크 및 유사한 환경에서 비활성화하는 것이 강력히 권장됩니다. **CredSSP**가 활성화되어 있는지 확인하려면 `Get-WSManCredSSP` 명령을 실행할 수 있습니다. 이 명령은 **CredSSP 상태를 확인**할 수 있으며, **WinRM**이 활성화되어 있는 경우 원격으로도 실행할 수 있습니다.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -54,7 +54,7 @@ Get-WSManCredSSP
 
 ### Invoke Command
 
-더블 홉 문제를 해결하기 위해 중첩된 `Invoke-Command`를 사용하는 방법이 제시됩니다. 이는 문제를 직접적으로 해결하지는 않지만 특별한 구성이 필요 없는 우회 방법을 제공합니다. 이 접근 방식은 초기 공격 머신에서 실행된 PowerShell 명령어 또는 첫 번째 서버와 이전에 설정된 PS-Session을 통해 보조 서버에서 명령어(`hostname`)를 실행할 수 있게 합니다. 방법은 다음과 같습니다:
+더블 홉 문제를 해결하기 위해 중첩된 `Invoke-Command`를 사용하는 방법이 제시됩니다. 이는 문제를 직접적으로 해결하지는 않지만 특별한 구성이 필요 없는 우회 방법을 제공합니다. 이 접근 방식은 초기 공격 머신에서 실행된 PowerShell 명령어를 통해 또는 첫 번째 서버와 이전에 설정된 PS-Session을 통해 보조 서버에서 명령(`hostname`)을 실행할 수 있게 합니다. 방법은 다음과 같습니다:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
@@ -74,7 +74,7 @@ klist
 ```
 ### PortForwarding
 
-중간 대상의 로컬 관리자에게 포트 포워딩은 요청을 최종 서버로 전송할 수 있게 해줍니다. `netsh`를 사용하여 포트 포워딩을 위한 규칙을 추가하고, 포워딩된 포트를 허용하기 위해 Windows 방화벽 규칙을 추가할 수 있습니다.
+중간 대상의 로컬 관리자에게 포트 포워딩은 요청을 최종 서버로 전송할 수 있게 해줍니다. `netsh`를 사용하여 포트 포워딩을 위한 규칙을 추가할 수 있으며, 포워딩된 포트를 허용하기 위해 Windows 방화벽 규칙도 추가해야 합니다.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
@@ -87,7 +87,7 @@ winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-첫 번째 서버에 OpenSSH를 설치하면 더블 홉 문제에 대한 우회 방법이 가능해지며, 특히 점프 박스 시나리오에 유용합니다. 이 방법은 Windows용 OpenSSH의 CLI 설치 및 설정을 요구합니다. 비밀번호 인증을 위해 구성되면, 중간 서버가 사용자를 대신하여 TGT를 얻을 수 있습니다.
+첫 번째 서버에 OpenSSH를 설치하면 더블 홉 문제에 대한 우회 방법이 가능해지며, 특히 점프 박스 시나리오에 유용합니다. 이 방법은 Windows용 OpenSSH의 CLI 설치 및 설정이 필요합니다. 비밀번호 인증을 위해 구성되면, 중간 서버가 사용자를 대신하여 TGT를 얻을 수 있습니다.
 
 #### OpenSSH 설치 단계
 
@@ -111,16 +111,16 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

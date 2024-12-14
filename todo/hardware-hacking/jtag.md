@@ -30,11 +30,11 @@ Arduino에서 케이블을 연결한 후(핀 2에서 11까지를 JTAG 핀에 연
 ![](<../../.gitbook/assets/image (578).png>)
 
 **"No line ending" 및 115200baud**로 설정합니다.\
-스캔을 시작하려면 s 명령을 보냅니다:
+스캔을 시작하려면 명령 s를 보냅니다:
 
 ![](<../../.gitbook/assets/image (774).png>)
 
-JTAG에 연결하고 있다면 **FOUND!**로 시작하는 하나 이상의 **라인을 찾을 수 있습니다**. 이는 JTAG의 핀을 나타냅니다.
+JTAG에 연결되어 있다면 **FOUND!**로 시작하는 하나 이상의 **라인을 찾을 수 있습니다**. 이는 JTAG의 핀을 나타냅니다.
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

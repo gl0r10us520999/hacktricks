@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Silver ticket
 
-**Silver Ticket** 공격은 Active Directory (AD) 환경에서 서비스 티켓을 악용하는 것입니다. 이 방법은 **서비스 계정의 NTLM 해시를 획득하는 것**에 의존하여 Ticket Granting Service (TGS) 티켓을 위조합니다. 이 위조된 티켓을 사용하여 공격자는 네트워크의 특정 서비스에 접근할 수 있으며, **임의의 사용자를 가장할 수 있습니다**, 일반적으로 관리 권한을 목표로 합니다. 티켓을 위조할 때 AES 키를 사용하는 것이 더 안전하고 탐지하기 어렵다는 점이 강조됩니다.
+**Silver Ticket** 공격은 Active Directory (AD) 환경에서 서비스 티켓을 악용하는 것입니다. 이 방법은 **서비스 계정의 NTLM 해시를 획득하는 것**에 의존하여 Ticket Granting Service (TGS) 티켓을 위조합니다. 이 위조된 티켓을 사용하여 공격자는 네트워크의 특정 서비스에 접근할 수 있으며, **임의의 사용자를 가장할 수 있습니다**, 일반적으로 관리 권한을 목표로 합니다. 티켓을 위조할 때 AES 키를 사용하는 것이 더 안전하고 덜 탐지된다는 점이 강조됩니다.
 
 티켓 제작을 위해 운영 체제에 따라 다양한 도구가 사용됩니다:
 
@@ -52,15 +52,15 @@ The CIFS 서비스는 피해자의 파일 시스템에 접근하기 위한 일�
 | 서비스 유형                                 | 서비스 실버 티켓                                                        |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell 원격 제어                       | <p>HOST</p><p>HTTP</p><p>운영 체제에 따라:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>경우에 따라: WINRM을 요청할 수 있습니다</p> |
+| PowerShell 원격 관리                       | <p>HOST</p><p>HTTP</p><p>운영 체제에 따라:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>경우에 따라: WINRM 요청 가능</p>               |
 | 예약된 작업                                | HOST                                                                       |
 | Windows 파일 공유, 또한 psexec            | CIFS                                                                       |
 | LDAP 작업, DCSync 포함                     | LDAP                                                                       |
 | Windows 원격 서버 관리 도구                | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | 골든 티켓                                  | krbtgt                                                                     |
 
-**Rubeus**를 사용하여 다음 매개변수를 사용하여 **모든** 티켓을 **요청할 수 있습니다**:
+**Rubeus**를 사용하여 다음 매개변수를 사용하여 **모든** 티켓을 **요청할 수** 있습니다:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
@@ -76,7 +76,7 @@ The CIFS 서비스는 피해자의 파일 시스템에 접근하기 위한 일�
 
 ### CIFS
 
-이 티켓을 사용하면 `C$` 및 `ADMIN$` 폴더에 **SMB**를 통해 접근할 수 있으며(노출된 경우) 원격 파일 시스템의 일부에 파일을 복사할 수 있습니다.
+이 티켓을 사용하면 `C$` 및 `ADMIN$` 폴더에 **SMB**를 통해 접근할 수 있으며(노출된 경우) 원격 파일 시스템의 일부에 파일을 복사할 수 있습니다. 단순히 다음과 같은 작업을 수행하면 됩니다:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
@@ -114,7 +114,7 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-더 많은 **wmiexec에 대한 정보**는 다음 페이지에서 확인하세요:
+더 많은 **wmiexec** 정보는 다음 페이지에서 확인하세요:
 
 {% content-ref url="../lateral-movement/wmiexec.md" %}
 [wmiexec.md](../lateral-movement/wmiexec.md)
@@ -133,7 +133,7 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-**winrm이 원격 컴퓨터에서 활성화되어 있고 수신 대기 중이어야** 액세스할 수 있습니다.
+**winrm이 원격 컴퓨터에서 활성화되고 수신 대기 중이어야** 액세스할 수 있습니다.
 {% endhint %}
 
 ### LDAP
@@ -155,7 +155,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**버그 바운티 팁**: **Intigriti**에 **가입하세요**, 해커를 위해 해커가 만든 프리미엄 **버그 바운티 플랫폼**입니다! 오늘 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)에서 저희와 함께하고 최대 **$100,000**의 보상을 받기 시작하세요!
+**버그 바운티 팁**: **가입하세요** **Intigriti**, 해커를 위해 해커가 만든 프리미엄 **버그 바운티 플랫폼**! 오늘 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)에서 저희와 함께하고 최대 **$100,000**의 보상을 받기 시작하세요!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -169,7 +169,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

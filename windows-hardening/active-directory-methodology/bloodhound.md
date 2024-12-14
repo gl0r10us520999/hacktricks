@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 [AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer)는 Sysinternal Suite의 도구입니다:
 
-> 고급 Active Directory (AD) 뷰어 및 편집기입니다. AD Explorer를 사용하여 AD 데이터베이스를 쉽게 탐색하고, 즐겨찾기 위치를 정의하고, 대화 상자를 열지 않고도 객체 속성과 속성을 보고, 권한을 편집하고, 객체의 스키마를 보고, 저장하고 다시 실행할 수 있는 정교한 검색을 수행할 수 있습니다.
+> 고급 Active Directory (AD) 뷰어 및 편집기입니다. AD Explorer를 사용하여 AD 데이터베이스를 쉽게 탐색하고, 즐겨찾기 위치를 정의하고, 대화 상자를 열지 않고도 객체 속성과 특성을 보고, 권한을 편집하고, 객체의 스키마를 보고, 저장하고 다시 실행할 수 있는 정교한 검색을 수행할 수 있습니다.
 
 ### Snapshots
 
@@ -45,7 +45,7 @@ From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundA
 
 BloodHound는 그래프 이론을 사용하여 Active Directory 또는 Azure 환경 내의 숨겨진 관계와 종종 의도하지 않은 관계를 드러냅니다. 공격자는 BloodHound를 사용하여 빠르게 식별하기 불가능한 복잡한 공격 경로를 쉽게 식별할 수 있습니다. 방어자는 BloodHound를 사용하여 동일한 공격 경로를 식별하고 제거할 수 있습니다. 블루 팀과 레드 팀 모두 BloodHound를 사용하여 Active Directory 또는 Azure 환경에서 권한 관계에 대한 더 깊은 이해를 쉽게 얻을 수 있습니다.
 
-그래서, [Bloodhound](https://github.com/BloodHoundAD/BloodHound)는 도메인을 자동으로 열거하고 모든 정보를 저장하며 가능한 권한 상승 경로를 찾고 모든 정보를 그래프를 사용하여 보여줄 수 있는 놀라운 도구입니다.
+따라서 [Bloodhound](https://github.com/BloodHoundAD/BloodHound)는 도메인을 자동으로 열거하고 모든 정보를 저장하며 가능한 권한 상승 경로를 찾고 모든 정보를 그래프를 사용하여 보여줄 수 있는 놀라운 도구입니다.
 
 BloodHound는 **ingestors**와 **visualisation application**의 두 가지 주요 부분으로 구성됩니다.
 
@@ -62,7 +62,7 @@ BloodHound CE가 생성된 후, 전체 프로젝트는 Docker 사용의 용이�
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
 3. Docker Compose의 터미널 출력에서 무작위로 생성된 비밀번호를 찾습니다.  
-4. 브라우저에서 http://localhost:8080/ui/login으로 이동합니다. 사용자 이름으로 admin을 입력하고 로그에서 가져온 무작위로 생성된 비밀번호로 로그인합니다.  
+4. 브라우저에서 http://localhost:8080/ui/login으로 이동합니다. 사용자 이름으로 admin을 입력하고 로그에서 무작위로 생성된 비밀번호로 로그인합니다.  
 
 이후 무작위로 생성된 비밀번호를 변경해야 하며, 새로운 인터페이스가 준비되어 ingestors를 직접 다운로드할 수 있습니다.  
 
@@ -92,9 +92,9 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **는 AD 환경의 보안 태세를 평가**하고 멋진 **보고서**를 그래프와 함께 제공합니다.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **는 AD 환경의 보안 태세를 평가**하고 **그래프**가 포함된 멋진 **보고서**를 제공합니다.
 
-실행하려면 이진 파일 `PingCastle.exe`를 실행하면 **인터랙티브 세션**이 시작되어 옵션 메뉴를 표시합니다. 기본 옵션은 **`healthcheck`**로, **도메인**의 **개요**를 설정하고 **구성 오류** 및 **취약점**을 찾습니다.&#x20;
+실행하려면 이진 파일 `PingCastle.exe`를 실행하면 **옵션 메뉴**를 제공하는 **대화형 세션**이 시작됩니다. 기본 옵션은 **`healthcheck`**로, **도메인**의 **개요**를 설정하고 **구성 오류** 및 **취약점**을 찾습니다.&#x20;
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

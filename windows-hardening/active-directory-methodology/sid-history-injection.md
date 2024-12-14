@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **SID History Injection Attack**의 초점은 **도메인 간 사용자 마이그레이션**을 지원하면서 이전 도메인의 리소스에 대한 지속적인 접근을 보장하는 것입니다. 이는 **사용자의 이전 보안 식별자(SID)를 새 계정의 SID History에 통합함으로써** 이루어집니다. 특히, 이 과정은 부모 도메인에서 고급 권한 그룹(예: Enterprise Admins 또는 Domain Admins)의 SID를 SID History에 추가하여 무단 접근을 부여하도록 조작될 수 있습니다. 이 악용은 부모 도메인 내의 모든 리소스에 대한 접근을 부여합니다.
 
-이 공격을 실행하는 방법은 **Golden Ticket** 또는 **Diamond Ticket**의 생성을 통해 두 가지가 있습니다.
+이 공격을 실행하는 두 가지 방법이 있습니다: **Golden Ticket** 또는 **Diamond Ticket**의 생성입니다.
 
-**"Enterprise Admins"** 그룹의 SID를 찾으려면 먼저 루트 도메인의 SID를 찾아야 합니다. 식별 후, Enterprise Admins 그룹 SID는 루트 도메인 SID에 `-519`를 추가하여 구성할 수 있습니다. 예를 들어, 루트 도메인 SID가 `S-1-5-21-280534878-1496970234-700767426`인 경우, "Enterprise Admins" 그룹의 결과 SID는 `S-1-5-21-280534878-1496970234-700767426-519`가 됩니다.
+**"Enterprise Admins"** 그룹의 SID를 찾으려면 먼저 루트 도메인의 SID를 찾아야 합니다. 식별 후, Enterprise Admins 그룹 SID는 루트 도메인의 SID에 `-519`를 추가하여 구성할 수 있습니다. 예를 들어, 루트 도메인 SID가 `S-1-5-21-280534878-1496970234-700767426`인 경우, "Enterprise Admins" 그룹의 결과 SID는 `S-1-5-21-280534878-1496970234-700767426-519`가 됩니다.
 
 **Domain Admins** 그룹도 사용할 수 있으며, 이는 **512**로 끝납니다.
 
-다른 도메인의 그룹(SID, 예: "Domain Admins")을 찾는 또 다른 방법은 다음과 같습니다:
+다른 도메인의 그룹(SID, 예: "Domain Admins")의 SID를 찾는 또 다른 방법은 다음과 같습니다:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -164,7 +164,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

@@ -54,15 +54,15 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * [https://github.com/hahwul/XSpear](https://github.com/hahwul/XSpear)
 * [https://github.com/BitTheByte/Monitorizer/](https://github.com/BitTheByte/Monitorizer/)
 * [https://github.com/spinkham/skipfish](https://github.com/spinkham/skipfish)
-* [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : 비동기적으로 도메인 이름 무작위 대입
-* [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : 서브도메인 무작위 대입
+* [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : 비동기적으로 도메인 이름을 무작위로 시도
+* [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : 서브도메인 무작위 시도
 * [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): 도메인 내 웹 서버 접근 가능 여부 확인
 * [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : 서브도메인 발견
 * [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : GitHub에서 서브도메인 발견
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : 빠른 포트 스캔
 * [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : 웹의 JS 파일에서 서브도메인 및 URL 추출
 * [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : 웹 파일 사전
-* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : 여러 개의 리피터 탭을 피하기 위한 BurpExtension
+* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : 수십 개의 리피터 탭을 피하기 위한 BurpExtension
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : 자산 획득
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : 웹 버그 바운티 체크리스트
@@ -87,7 +87,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Powershell 페이로드 암호화
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : 스텔스 C2
 * [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Windows 내부에 대한 로그 시리즈
-* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : 문서를 연 사람 추적
+* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : 문서를 열어본 사람 추적
 * [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directory 치트 시트
 
 # 펌웨어
@@ -119,14 +119,14 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
 * [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : 정적 코드 분석
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : 느리게 끝없는 배너를 보내는 SSH 타르핏.
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : 느리게 끝없는 배너를 전송하는 SSH 타르핏.
 * AWS 및 클라우드 도구: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
 * 피싱을 위한 IFS (Interplanetary File System): [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
 * IP 회전 서비스: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
 * 리눅스 루트킷: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
 * [https://theia-ide.org/](https://theia-ide.org) : 온라인 IDE
 * [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : 버그 바운티 시작을 위한 자료
-* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS 침투 테스트 도구
+* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS 펜테스팅 도구
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : 키워드
 * [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : IoT 해킹 (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : 스캐닝 자동화

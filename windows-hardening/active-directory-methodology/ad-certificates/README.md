@@ -32,16 +32,16 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Special Considerations
 
-- **주체 대체 이름(SANs)**는 인증서의 적용 범위를 여러 신원으로 확장하며, 여러 도메인을 가진 서버에 중요합니다. 공격자가 SAN 사양을 조작하여 사칭 위험을 피하기 위해 안전한 발급 프로세스가 필수적입니다.
+- **주체 대체 이름(SANs)**은 인증서의 적용 범위를 여러 신원으로 확장하며, 여러 도메인을 가진 서버에 중요합니다. 안전한 발급 프로세스는 공격자가 SAN 사양을 조작하여 사칭 위험을 피하는 데 필수적입니다.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS는 지정된 컨테이너를 통해 AD 포리스트에서 CA 인증서를 인식하며, 각 컨테이너는 고유한 역할을 수행합니다:
+AD CS는 AD 포리스트 내에서 지정된 컨테이너를 통해 CA 인증서를 인식하며, 각 컨테이너는 고유한 역할을 수행합니다:
 
 - **인증 기관** 컨테이너는 신뢰할 수 있는 루트 CA 인증서를 보유합니다.
 - **등록 서비스** 컨테이너는 엔터프라이즈 CA 및 해당 인증서 템플릿을 자세히 설명합니다.
 - **NTAuthCertificates** 객체는 AD 인증을 위해 승인된 CA 인증서를 포함합니다.
-- **AIA (Authority Information Access)** 컨테이너는 중간 및 교차 CA 인증서를 통해 인증서 체인 검증을 용이하게 합니다.
+- **AIA (Authority Information Access)** 컨테이너는 중간 및 교차 CA 인증서를 사용하여 인증서 체인 검증을 용이하게 합니다.
 
 ### Certificate Acquisition: Client Certificate Request Flow
 
@@ -56,20 +56,20 @@ AD 내에서 정의된 이러한 템플릿은 인증서 발급을 위한 설정 
 
 ## Certificate Enrollment
 
-인증서 등록 프로세스는 관리자가 **인증서 템플릿을 생성**하는 것으로 시작되며, 이후 **엔터프라이즈 인증 기관(CA)**에 의해 **게시**됩니다. 이는 템플릿을 클라이언트 등록을 위해 사용할 수 있게 하며, 이는 Active Directory 객체의 `certificatetemplates` 필드에 템플릿 이름을 추가하여 달성됩니다.
+인증서 등록 프로세스는 관리자가 **인증서 템플릿을 생성**하는 것으로 시작되며, 이후 **엔터프라이즈 인증 기관(CA)**에 의해 **게시**됩니다. 이는 템플릿을 클라이언트 등록을 위해 사용할 수 있도록 하며, 이는 Active Directory 객체의 `certificatetemplates` 필드에 템플릿 이름을 추가하여 달성됩니다.
 
 클라이언트가 인증서를 요청하려면 **등록 권한**이 부여되어야 합니다. 이러한 권한은 인증서 템플릿 및 엔터프라이즈 CA 자체의 보안 설명자에 의해 정의됩니다. 요청이 성공하려면 두 위치 모두에서 권한이 부여되어야 합니다.
 
 ### Template Enrollment Rights
 
-이러한 권한은 Access Control Entries (ACEs)를 통해 지정되며, 다음과 같은 권한을 자세히 설명합니다:
+이러한 권한은 접근 제어 항목(ACE)을 통해 지정되며, 다음과 같은 권한을 자세히 설명합니다:
 - **Certificate-Enrollment** 및 **Certificate-AutoEnrollment** 권한은 각각 특정 GUID와 연결됩니다.
 - **ExtendedRights**는 모든 확장 권한을 허용합니다.
 - **FullControl/GenericAll**은 템플릿에 대한 완전한 제어를 제공합니다.
 
 ### Enterprise CA Enrollment Rights
 
-CA의 권한은 보안 설명서에 요약되어 있으며, 인증 기관 관리 콘솔을 통해 접근할 수 있습니다. 일부 설정은 낮은 권한의 사용자에게 원격 접근을 허용할 수 있으며, 이는 보안 문제를 일으킬 수 있습니다.
+CA의 권한은 보안 설명자에 요약되어 있으며, 인증 기관 관리 콘솔을 통해 접근할 수 있습니다. 일부 설정은 낮은 권한의 사용자에게 원격 접근을 허용할 수 있으며, 이는 보안 문제를 일으킬 수 있습니다.
 
 ### Additional Issuance Controls
 
@@ -80,8 +80,8 @@ CA의 권한은 보안 설명서에 요약되어 있으며, 인증 기관 관리
 ### Methods to Request Certificates
 
 인증서는 다음을 통해 요청할 수 있습니다:
-1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), DCOM 인터페이스를 사용합니다.
-2. **ICertPassage Remote Protocol** (MS-ICPR), 명명된 파이프 또는 TCP/IP를 통해.
+1. **Windows 클라이언트 인증서 등록 프로토콜** (MS-WCCE), DCOM 인터페이스를 사용합니다.
+2. **ICertPassage 원격 프로토콜** (MS-ICPR), 명명된 파이프 또는 TCP/IP를 통해.
 3. **인증서 등록 웹 인터페이스**, 인증 기관 웹 등록 역할이 설치된 경우.
 4. **인증서 등록 서비스** (CES), 인증서 등록 정책(CEP) 서비스와 함께.
 5. **네트워크 장치 등록 서비스** (NDES) 네트워크 장치를 위한, 간단한 인증서 등록 프로토콜(SCEP)을 사용합니다.
@@ -97,7 +97,7 @@ Active Directory (AD)는 인증서 인증을 지원하며, 주로 **Kerberos** �
 
 ### Kerberos 인증 프로세스
 
-Kerberos 인증 프로세스에서 사용자의 Ticket Granting Ticket (TGT) 요청은 사용자의 인증서의 **개인 키**를 사용하여 서명됩니다. 이 요청은 도메인 컨트롤러에 의해 인증서의 **유효성**, **경로**, 및 **폐기 상태**를 포함한 여러 검증을 거칩니다. 검증에는 인증서가 신뢰할 수 있는 출처에서 왔는지 확인하고 발급자의 존재를 **NTAUTH 인증서 저장소**에서 확인하는 것도 포함됩니다. 검증이 성공하면 TGT가 발급됩니다. AD의 **`NTAuthCertificates`** 객체는 다음 위치에 있습니다:
+Kerberos 인증 프로세스에서 사용자의 Ticket Granting Ticket (TGT) 요청은 사용자의 인증서의 **개인 키**를 사용하여 서명됩니다. 이 요청은 도메인 컨트롤러에 의해 인증서의 **유효성**, **경로**, 및 **폐기 상태**를 포함한 여러 검증을 거칩니다. 검증에는 인증서가 신뢰할 수 있는 출처에서 왔는지 확인하고 발급자의 존재를 **NTAUTH 인증서 저장소**에서 확인하는 것도 포함됩니다. 검증이 성공적으로 완료되면 TGT가 발급됩니다. AD의 **`NTAuthCertificates`** 객체는 다음 위치에 있습니다:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -105,7 +105,7 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel은 TLS/SSL 연결을 안전하게 하는데 도움을 주며, 핸드셰이크 중 클라이언트가 인증서를 제시하고, 성공적으로 검증되면 접근을 허가합니다. 인증서를 AD 계정에 매핑하는 과정은 Kerberos의 **S4U2Self** 기능이나 인증서의 **Subject Alternative Name (SAN)** 등을 포함할 수 있습니다.
+Schannel은 TLS/SSL 연결을 안전하게 하는데 도움을 주며, 핸드셰이크 중 클라이언트는 인증서를 제시하고, 성공적으로 검증되면 접근이 허가됩니다. 인증서를 AD 계정에 매핑하는 과정은 Kerberos의 **S4U2Self** 기능이나 인증서의 **Subject Alternative Name (SAN)** 등을 포함할 수 있습니다.
 
 ### AD Certificate Services Enumeration
 

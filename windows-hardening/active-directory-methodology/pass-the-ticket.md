@@ -25,7 +25,7 @@ Get Access Today:
 
 ## Pass The Ticket (PTT)
 
-In the **Pass The Ticket (PTT)** attack method, attackers **사용자의 인증 티켓을 훔칩니다** 대신 **비밀번호나 해시 값**을. 이 훔친 티켓은 **사용자를 가장하는 데 사용되어**, 네트워크 내의 리소스와 서비스에 대한 무단 액세스를 얻습니다.
+In the **Pass The Ticket (PTT)** attack method, attackers **사용자의 인증 티켓을 훔칩니다** 대신 **비밀번호나 해시 값**을 훔칩니다. 이 훔친 티켓은 **사용자를 가장하는 데 사용되며**, 네트워크 내의 리소스와 서비스에 대한 무단 액세스를 얻습니다.
 
 **읽기**:
 
@@ -42,7 +42,7 @@ Converting ccache => kirbi
 python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-Windows에서는 [Kekeo](https://github.com/gentilkiwi/kekeo)를 사용할 수 있습니다.
+In Windows [Kekeo](https://github.com/gentilkiwi/kekeo)를 사용할 수 있습니다.
 
 ### Pass The Ticket Attack
 
@@ -71,7 +71,7 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 
 \
 [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
-오늘 바로 접근하세요:
+오늘 바로 이용하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pass-the-ticket" %}
 
@@ -84,8 +84,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 **팔로우**하세요.**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
 
 </details>
 {% endhint %}

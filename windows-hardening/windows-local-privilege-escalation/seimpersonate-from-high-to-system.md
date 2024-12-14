@@ -168,7 +168,7 @@ return 0;
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-이것은 높은 무결성 수준에서 실행 중이더라도 **충분한 권한이 없다는 것을 의미합니다**.\
+이것은 당신이 높은 무결성 수준에서 실행 중이더라도 **충분한 권한이 없다는 것을 의미합니다**.\
 현재 `svchost.exe` 프로세스에 대한 관리자 권한을 **프로세스 탐색기**(또는 프로세스 해커를 사용할 수도 있음)로 확인해 보겠습니다:
 
 1. `svchost.exe` 프로세스를 선택합니다.

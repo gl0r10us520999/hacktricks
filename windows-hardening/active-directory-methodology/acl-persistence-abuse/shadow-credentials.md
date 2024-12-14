@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Check the original post for [all the information about this technique](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
 
-요약하자면: 사용자의 **msDS-KeyCredentialLink** 속성에 쓸 수 있다면, 해당 객체의 **NT 해시**를 가져올 수 있습니다.
+**요약**: 사용자의 **msDS-KeyCredentialLink** 속성에 쓸 수 있다면, 해당 객체의 **NT 해시**를 가져올 수 있습니다.
 
 게시물에서는 **공개-비공개 키 인증 자격 증명**을 설정하여 대상의 NTLM 해시를 포함하는 고유한 **서비스 티켓**을 획득하는 방법이 설명되어 있습니다. 이 과정에는 복호화할 수 있는 Privilege Attribute Certificate (PAC) 내의 암호화된 NTLM_SUPPLEMENTAL_CREDENTIAL이 포함됩니다.
 
@@ -34,10 +34,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Abuse
 
 컴퓨터 객체에 대한 Key Trust의 남용은 티켓 부여 티켓(TGT) 및 NTLM 해시를 얻는 것을 넘어서는 단계를 포함합니다. 옵션은 다음과 같습니다:
-1. 의도한 호스트에서 특권 사용자의 역할을 수행하기 위해 **RC4 실버 티켓**을 생성합니다.
-2. **S4U2Self**와 함께 TGT를 사용하여 **특권 사용자**를 가장하며, 서비스 이름에 서비스 클래스를 추가하기 위해 서비스 티켓을 변경해야 합니다.
+1. 의도한 호스트에서 특권 사용자를 가장하기 위해 **RC4 실버 티켓**을 생성합니다.
+2. **S4U2Self**와 함께 TGT를 사용하여 **특권 사용자**를 가장하며, 서비스 이름에 서비스 클래스를 추가하기 위해 서비스 티켓을 수정해야 합니다.
 
-Key Trust 남용의 중요한 이점은 공격자가 생성한 개인 키로 제한되어 있어 잠재적으로 취약한 계정으로의 위임을 피하고, 제거하기 어려울 수 있는 컴퓨터 계정을 생성할 필요가 없다는 점입니다.
+Key Trust 남용의 중요한 장점은 공격자가 생성한 개인 키로 제한되어 있어 잠재적으로 취약한 계정으로의 위임을 피하고, 제거하기 어려울 수 있는 컴퓨터 계정을 생성할 필요가 없다는 점입니다.
 
 ## Tools
 
@@ -61,7 +61,7 @@ python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target 
 ```
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray는 **도메인 객체에 대해 넓은 사용자 그룹이 가질 수 있는 GenericWrite/GenericAll 권한을 악용하여 ShadowCredentials를 광범위하게 적용하는 것을 목표로 합니다.** 여기에는 도메인에 로그인하고, 도메인의 기능 수준을 확인하고, 도메인 객체를 나열하며, TGT 획득 및 NT 해시 공개를 위한 KeyCredentials 추가를 시도하는 과정이 포함됩니다. 정리 옵션과 재귀적 악용 전술이 유용성을 높입니다.
+ShadowSpray는 **도메인 객체에 대해 넓은 사용자 그룹이 가질 수 있는 GenericWrite/GenericAll 권한을 악용하여 ShadowCredentials를 광범위하게 적용하는 것을 목표로 합니다.** 이는 도메인에 로그인하고, 도메인의 기능 수준을 확인하고, 도메인 객체를 나열하며, TGT 획득 및 NT 해시 공개를 위한 KeyCredentials 추가를 시도하는 과정을 포함합니다. 정리 옵션과 재귀적 악용 전술은 그 유용성을 향상시킵니다.
 
 
 ## References

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Intro
 
-iButton은 **동전 모양의 금속 용기**에 포장된 전자 식별 키의 일반적인 이름입니다. **Dallas Touch** Memory 또는 접촉 메모리라고도 불립니다. 종종 “자기” 키로 잘못 언급되지만, 그 안에는 **자기적인 것**이 전혀 없습니다. 사실, **디지털 프로토콜**로 작동하는 완전한 **마이크로칩**이 내부에 숨겨져 있습니다.
+iButton은 **동전 모양의 금속 용기**에 포장된 전자 식별 키의 일반적인 이름입니다. **Dallas Touch** Memory 또는 접촉 메모리라고도 불립니다. 종종 “자기” 키로 잘못 언급되지만, 실제로는 **자기적인 것**이 전혀 없습니다. 사실, **디지털 프로토콜**로 작동하는 완전한 **마이크로칩**이 내부에 숨겨져 있습니다.
 
 <figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
@@ -27,7 +27,7 @@ iButton은 **동전 모양의 금속 용기**에 포장된 전자 식별 키의 
 
 <figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
-키가 리더에 도달하면 **접점이 접촉**하고 키가 **전원 공급**을 받아 ID를 **전송**합니다. 때때로 키가 **즉시 읽히지 않는** 경우가 있는데, 이는 **인터콤의 접촉 PSD가 너무 크기** 때문입니다. 그래서 키와 리더의 외곽이 접촉하지 못할 수 있습니다. 그런 경우에는 리더의 벽 중 하나에 키를 눌러야 합니다.
+키가 리더에 도달하면 **접점이 접촉**하고 키가 **ID를 전송하기 위해 전원이 공급**됩니다. 때때로 키가 **즉시 읽히지 않는** 경우가 있는데, 이는 **인터콤의 접촉 PSD가 너무 크기** 때문입니다. 그래서 키와 리더의 외곽이 접촉하지 못할 수 있습니다. 그런 경우에는 리더의 벽 중 하나에 키를 눌러야 합니다.
 
 <figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 

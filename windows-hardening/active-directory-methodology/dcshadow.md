@@ -35,7 +35,7 @@ lsadump::dcshadow /push
 ```
 {% endcode %}
 
-**`elevate::token`**는 `mimikatz1` 세션에서 작동하지 않음을 주의하세요. 이는 스레드의 권한을 상승시키지만, 우리는 **프로세스의 권한**을 상승시켜야 합니다.\
+**`elevate::token`**는 `mimikatz1` 세션에서 작동하지 않음을 주의하세요. 이는 스레드의 권한을 상승시켰지만, 우리는 **프로세스의 권한을 상승시켜야** 합니다.\
 "LDAP" 객체를 선택할 수도 있습니다: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
 DA 또는 최소한의 권한을 가진 사용자로부터 변경 사항을 푸시할 수 있습니다:
@@ -62,7 +62,7 @@ lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-28053487
 ```
 {% endcode %}
 
-{% code title="주 그룹 ID 변경 (사용자를 도메인 관리자 그룹의 구성원으로 추가)" %}
+{% code title="기본 그룹 ID 변경 (사용자를 도메인 관리자 그룹의 구성원으로 추가)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
@@ -77,7 +77,7 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - DCShadow 권한 부여하기 (수정된 권한 로그 없음)
+## Shadowception - DCShadow를 사용하여 DCShadow 권한 부여 (수정된 권한 로그 없음)
 
 다음 ACE를 사용자 SID와 함께 추가해야 합니다:
 
@@ -89,11 +89,11 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 * 대상 사용자 객체에서: `(A;;WP;;;UserSID)`
 * 구성 컨테이너의 사이트 객체에서: `(A;CI;CCDC;;;UserSID)`
 
-객체의 현재 ACE를 가져오려면: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=local")).psbase.ObjectSecurity.sddl`
+객체의 현재 ACE를 가져오려면: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-이 경우 **여러 변경을** 해야 한다는 점에 유의하세요, 단 하나의 변경만이 아닙니다. 따라서 **mimikatz1 세션** (RPC 서버)에서 변경하고자 하는 각 변경에 대해 **`/stack`** 매개변수를 사용하세요. 이렇게 하면 **`/push`**를 한 번만 수행하여 모든 스택된 변경을 악성 서버에서 수행할 수 있습니다.
+이 경우 **여러 변경을** 해야 하며, 단 하나의 변경만 하는 것이 아닙니다. 따라서 **mimikatz1 세션** (RPC 서버)에서 변경하려는 각 변경에 대해 **`/stack`** 매개변수를 사용하세요. 이렇게 하면 **`/push`**를 한 번만 수행하여 모든 스택된 변경을 악성 서버에서 수행할 수 있습니다.
 
-[**DCShadow에 대한 더 많은 정보는 ired.team에서 확인하세요.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+[**ired.team에서 DCShadow에 대한 더 많은 정보.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
 {% hint style="success" %}
 AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -105,7 +105,7 @@ GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
