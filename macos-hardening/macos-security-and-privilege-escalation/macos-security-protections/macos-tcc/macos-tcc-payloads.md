@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### डेस्कटॉप
+### Desktop
 
-* **अधिकार**: कोई नहीं
+* **Entitlement**: कोई नहीं
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
@@ -435,7 +435,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 {% endtab %}
 {% endtabs %}
 
-### माइक्रोफोन
+### माइक्रोफ़ोन
 
 * **अधिकार**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
@@ -714,7 +714,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
+{% tab title="शेल" %}
 मुख्य स्क्रीन को 5 सेकंड के लिए रिकॉर्ड करें
 {% endtab %}
 ```bash
@@ -728,7 +728,7 @@ screencapture -V 5 /tmp/screen.mov
 * **अधिकार**: कोई नहीं
 * **TCC**: `kTCCServiceAccessibility`
 
-TCC विशेषाधिकार का उपयोग करें ताकि Finder के नियंत्रण को स्वीकार किया जा सके, एंटर दबाकर और इस तरह TCC को बायपास किया जा सके
+TCC विशेषाधिकार का उपयोग करें ताकि Finder के नियंत्रण को स्वीकार किया जा सके, एंटर दबाकर और इस तरह TCC को बायपास किया जा सके।
 
 {% tabs %}
 {% tab title="TCC स्वीकार करें" %}
@@ -897,16 +897,16 @@ return 0;
 {% endhint %}
 
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
-* **हमारे साथ जुड़ें** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
-* **हैकिंग ट्रिक्स साझा करें PRs को** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में सबमिट करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

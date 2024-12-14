@@ -27,9 +27,9 @@ Kernel extensions (Kexts) **पैकेज** हैं जिनका **`.kext
 
 <figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* कर्नेल एक्सटेंशन को **कर्नेल कोड साइनिंग सर्टिफिकेट** के साथ **साइन** किया जाना चाहिए, जिसे केवल **Apple** द्वारा **प्रदान** किया जा सकता है। जो कंपनी और इसके आवश्यक होने के कारणों की विस्तार से समीक्षा करेगा।
+* कर्नेल एक्सटेंशन को **कर्नेल कोड साइनिंग सर्टिफिकेट** के साथ **साइन** किया जाना चाहिए, जिसे केवल **Apple** द्वारा **प्रदान** किया जा सकता है। जो कंपनी की समीक्षा करेगा और यह क्यों आवश्यक है।
 * कर्नेल एक्सटेंशन को भी **नोटराइज** किया जाना चाहिए, Apple इसे मैलवेयर के लिए जांच सकेगा।
-* फिर, **रूट** उपयोगकर्ता ही **कर्नेल एक्सटेंशन को लोड** कर सकता है और पैकेज के अंदर की फ़ाइलें **रूट** की होनी चाहिए।
+* फिर, **रूट** उपयोगकर्ता ही **कर्नेल एक्सटेंशन को लोड** कर सकता है और पैकेज के अंदर की फ़ाइलें **रूट की होनी चाहिए**।
 * अपलोड प्रक्रिया के दौरान, पैकेज को **संरक्षित नॉन-रूट स्थान** में तैयार किया जाना चाहिए: `/Library/StagedExtensions` (इसके लिए `com.apple.rootless.storage.KernelExtensionManagement` ग्रांट की आवश्यकता होती है)।
 * अंत में, जब इसे लोड करने का प्रयास किया जाता है, तो उपयोगकर्ता [**एक पुष्टि अनुरोध प्राप्त करेगा**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) और, यदि स्वीकार किया गया, तो कंप्यूटर को इसे लोड करने के लिए **रीस्टार्ट** करना होगा।
 
@@ -41,9 +41,9 @@ Kernel extensions (Kexts) **पैकेज** हैं जिनका **`.kext
 * यह **`kextd`** से **Mach सेवा** का उपयोग करके बात करेगा।
 2. **`kextd`** कई चीजों की जांच करेगा, जैसे **हस्ताक्षर**
 * यह **`syspolicyd`** से बात करेगा ताकि यह **जांच सके** कि क्या एक्सटेंशन को **लोड** किया जा सकता है।
-3. **`syspolicyd`** **उपयोगकर्ता** से **प्रॉम्प्ट** करेगा यदि एक्सटेंशन पहले लोड नहीं किया गया है।
+3. **`syspolicyd`** उपयोगकर्ता को **प्रॉम्प्ट** करेगा यदि एक्सटेंशन पहले लोड नहीं किया गया है।
 * **`syspolicyd`** परिणाम को **`kextd`** को रिपोर्ट करेगा
-4. अंततः **`kextd`** कर्नेल को एक्सटेंशन लोड करने के लिए **बताने में सक्षम होगा**
+4. अंततः **`kextd`** कर्नेल को एक्सटेंशन को **लोड करने** के लिए **बताने** में सक्षम होगा
 
 यदि **`kextd`** उपलब्ध नहीं है, तो **`kextutil`** वही जांच कर सकता है।
 
@@ -66,7 +66,7 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 ### स्थानीय कर्नेलकैश
 
 iOS में यह **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** में स्थित है, macOS में आप इसे इस कमांड से खोज सकते हैं: **`find / -name "kernelcache" 2>/dev/null`** \
-मेरे मामले में macOS में मैंने इसे निम्नलिखित स्थान पर पाया:
+मेरे मामले में macOS में मैंने इसे इस स्थान पर पाया:
 
 * `/System/Volumes/Preboot/1BAEB4B5-180B-4C46-BD53-51152B7D92DA/boot/DAD35E7BC0CDA79634C20BD1BD80678DFB510B2AAD3D25C1228BB34BCD0A711529D3D571C93E29E1D0C1264750FA043F/System/Library/Caches/com.apple.kernelcaches/kernelcache`
 
@@ -107,13 +107,13 @@ nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 ```
 * [**theapplewiki.com**](https://theapplewiki.com/wiki/Firmware/Mac/14.x)**,** [**ipsw.me**](https://ipsw.me/)**,** [**theiphonewiki.com**](https://www.theiphonewiki.com/)
 
-कभी-कभी Apple **kernelcache** को **symbols** के साथ जारी करता है। आप उन पृष्ठों पर दिए गए लिंक का पालन करके कुछ firmware को symbols के साथ डाउनलोड कर सकते हैं। firmware में अन्य फ़ाइलों के साथ **kernelcache** शामिल होगा।
+कभी-कभी Apple **kernelcache** को **symbols** के साथ जारी करता है। आप उन पृष्ठों पर दिए गए लिंक का पालन करके कुछ firmware डाउनलोड कर सकते हैं जिनमें symbols होते हैं। इन firmware में अन्य फ़ाइलों के साथ **kernelcache** शामिल होगा।
 
-फ़ाइलों को **extract** करने के लिए, पहले `.ipsw` से `.zip` में एक्सटेंशन बदलें और फिर **unzip** करें।
+फ़ाइलों को **extract** करने के लिए, पहले एक्सटेंशन को `.ipsw` से `.zip` में बदलें और फिर **unzip** करें।
 
-Firmware को extract करने के बाद आपको एक फ़ाइल मिलेगी जैसे: **`kernelcache.release.iphone14`**। यह **IMG4** प्रारूप में है, आप दिलचस्प जानकारी को निकालने के लिए:
+Firmware को extract करने के बाद आपको एक फ़ाइल मिलेगी जैसे: **`kernelcache.release.iphone14`**। यह **IMG4** प्रारूप में है, आप इसे निम्नलिखित के साथ दिलचस्प जानकारी निकाल सकते हैं:
 
-[**pyimg4**](https://github.com/m1stadev/PyIMG4)**:**
+[**pyimg4**](https://github.com/m1stadev/PyIMG4)**:** 
 
 {% code overflow="wrap" %}
 ```bash
@@ -127,7 +127,7 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
 ### Inspecting kernelcache
 
-जांचें कि क्या kernelcache में प्रतीक हैं
+जांचें कि क्या kernelcache में प्रतीक हैं जिनके साथ
 ```bash
 nm -a kernelcache.release.iphone14.e | wc -l
 ```

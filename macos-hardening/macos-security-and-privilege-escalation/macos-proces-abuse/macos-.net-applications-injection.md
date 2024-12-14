@@ -44,7 +44,7 @@ DWORD         m_dwMinorVersion;
 BYTE          m_sMustBeZero[8];
 }
 ```
-नए सत्र का अनुरोध करने के लिए, इस संरचना को इस प्रकार भरा जाता है, संदेश प्रकार को `MT_SessionRequest` और प्रोटोकॉल संस्करण को वर्तमान संस्करण पर सेट किया जाता है:
+इस नए सत्र का अनुरोध करने के लिए, इस संरचना को निम्नलिखित रूप से भरा जाता है, संदेश प्रकार को `MT_SessionRequest` और प्रोटोकॉल संस्करण को वर्तमान संस्करण पर सेट करते हुए:
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -78,11 +78,11 @@ bool readMemory(void *addr, int len, unsigned char **output) {
 return true;
 }
 ```
-पूर्ण प्रमाण अवधारणा (POC) [यहाँ](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b) उपलब्ध है।
+The complete proof of concept (POC) is available [here](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
 
-## मेमोरी लिखना
+## Writing Memory
 
-इसी तरह, `writeMemory` फ़ंक्शन का उपयोग करके मेमोरी लिखी जा सकती है। प्रक्रिया में संदेश प्रकार को `MT_WriteMemory` पर सेट करना, डेटा का पता और लंबाई निर्दिष्ट करना, और फिर डेटा भेजना शामिल है:
+इसी तरह, मेमोरी को `writeMemory` फ़ंक्शन का उपयोग करके लिखा जा सकता है। प्रक्रिया में संदेश प्रकार को `MT_WriteMemory` पर सेट करना, डेटा का पता और लंबाई निर्दिष्ट करना, और फिर डेटा भेजना शामिल है:
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location
@@ -98,12 +98,12 @@ return true;
 
 ## .NET Core कोड निष्पादन <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-कोड निष्पादित करने के लिए, एक को मेमोरी क्षेत्र की पहचान करनी होती है जिसमें rwx अनुमतियाँ होती हैं, जिसे vmmap -pages: का उपयोग करके किया जा सकता है।
+कोड निष्पादित करने के लिए, एक को मेमोरी क्षेत्र की पहचान करनी होती है जिसमें rwx अनुमतियाँ होती हैं, जिसे vmmap -pages का उपयोग करके किया जा सकता है।
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-एक फ़ंक्शन पॉइंटर को ओवरराइट करने के लिए स्थान ढूंढना आवश्यक है, और .NET Core में, यह **डायनामिक फ़ंक्शन टेबल (DFT)** को लक्षित करके किया जा सकता है। यह तालिका, जो [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) में विस्तृत है, रनटाइम द्वारा JIT संकलन सहायक फ़ंक्शनों के लिए उपयोग की जाती है।
+एक फ़ंक्शन पॉइंटर को ओवरराइट करने के लिए स्थान ढूंढना आवश्यक है, और .NET Core में, यह **Dynamic Function Table (DFT)** को लक्षित करके किया जा सकता है। यह तालिका, जो [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) में विस्तृत है, रनटाइम द्वारा JIT संकलन सहायक फ़ंक्शनों के लिए उपयोग की जाती है।
 
 x64 सिस्टम के लिए, सिग्नेचर हंटिंग का उपयोग `libcorclr.dll` में प्रतीक `_hlpDynamicFuncTable` के संदर्भ को खोजने के लिए किया जा सकता है।
 

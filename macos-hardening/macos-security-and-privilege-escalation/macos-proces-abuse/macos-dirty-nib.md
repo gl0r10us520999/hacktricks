@@ -32,7 +32,7 @@ Nib (NeXT इंटरफेस बिल्डर के लिए संक्
 * इंटरफ़ेस में एक ऑब्जेक्ट जोड़ें, इसकी कक्षा को `NSAppleScript` सेट करें।
 * उपयोगकर्ता परिभाषित रनटाइम विशेषताओं के माध्यम से प्रारंभिक `source` प्रॉपर्टी को कॉन्फ़िगर करें।
 2. **Code Execution Gadget**:
-* सेटअप मांग पर AppleScript चलाने की सुविधा प्रदान करता है।
+* सेटअप AppleScript को मांग पर चलाने की सुविधा प्रदान करता है।
 * `Apple Script` ऑब्जेक्ट को सक्रिय करने के लिए एक बटन एकीकृत करें, विशेष रूप से `executeAndReturnError:` चयनकर्ता को ट्रिगर करना।
 3. **Testing**:
 * परीक्षण उद्देश्यों के लिए एक सरल Apple Script:
@@ -63,23 +63,23 @@ display dialog theDialogText
 
 ### Other Example
 
-पोस्ट [https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) में आप एक गंदे nib बनाने के लिए ट्यूटोरियल पा सकते हैं।&#x20;
+पोस्ट [https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) में आप एक गंदे निब बनाने के लिए ट्यूटोरियल पा सकते हैं।&#x20;
 
 ### Addressing Launch Constraints
 
-* लॉन्च प्रतिबंध ऐप के निष्पादन को अप्रत्याशित स्थानों (जैसे, `/tmp`) से रोकते हैं।
+* लॉन्च प्रतिबंध ऐप के अप्रत्याशित स्थानों (जैसे, `/tmp`) से निष्पादन को रोकते हैं।
 * यह पहचानना संभव है कि कौन से ऐप लॉन्च प्रतिबंधों से सुरक्षित नहीं हैं और उन्हें NIB फ़ाइल इंजेक्शन के लिए लक्षित करें।
 
 ### Additional macOS Protections
 
-macOS सोनोमा से आगे, ऐप बंडलों के अंदर संशोधन प्रतिबंधित हैं। हालाँकि, पहले के तरीकों में शामिल थे:
+macOS सोनोमा से आगे, ऐप बंडल के अंदर संशोधन प्रतिबंधित हैं। हालाँकि, पहले के तरीकों में शामिल थे:
 
 1. ऐप को एक अलग स्थान (जैसे, `/tmp/`) में कॉपी करना।
 2. प्रारंभिक सुरक्षा को बायपास करने के लिए ऐप बंडल के भीतर निर्देशिकाओं का नाम बदलना।
-3. गेटकीपर के साथ पंजीकरण करने के लिए ऐप को चलाने के बाद, ऐप बंडल में संशोधन करना (जैसे, MainMenu.nib को Dirty.nib से बदलना)।
+3. गेटकीपर के साथ पंजीकरण करने के लिए ऐप को चलाने के बाद, ऐप बंडल को संशोधित करना (जैसे, MainMenu.nib को Dirty.nib से बदलना)।
 4. निर्देशिकाओं का नाम वापस बदलना और इंजेक्ट की गई NIB फ़ाइल को निष्पादित करने के लिए ऐप को फिर से चलाना।
 
-**Note**: हाल के macOS अपडेट ने गेटकीपर कैशिंग के बाद ऐप बंडलों के भीतर फ़ाइल संशोधनों को रोककर इस शोषण को कम कर दिया है, जिससे यह शोषण अप्रभावी हो गया है।
+**Note**: हाल के macOS अपडेट ने गेटकीपर कैशिंग के बाद ऐप बंडल के भीतर फ़ाइल संशोधनों को रोककर इस शोषण को कम कर दिया है, जिससे यह शोषण अप्रभावी हो गया है।
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\

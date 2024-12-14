@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 हर अनुप्रयोग जो घटनाएँ प्राप्त कर सकता है, इस डेमन के साथ अपने Apple Event Mach Port की जांच करेगा। और जब एक ऐप इसे एक घटना भेजना चाहता है, तो ऐप इस पोर्ट को डेमन से अनुरोध करेगा।
 
-सैंडबॉक्स किए गए अनुप्रयोगों को घटनाएँ भेजने के लिए `allow appleevent-send` और `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` जैसे विशेषाधिकार की आवश्यकता होती है। ध्यान दें कि `com.apple.security.temporary-exception.apple-events` जैसे अधिकार उन लोगों को प्रतिबंधित कर सकते हैं जिनके पास घटनाएँ भेजने की अनुमति है, जिसके लिए `com.apple.private.appleevents` जैसे अधिकार की आवश्यकता होगी।
+सैंडबॉक्स किए गए अनुप्रयोगों को घटनाएँ भेजने के लिए `allow appleevent-send` और `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` जैसी विशेषाधिकारों की आवश्यकता होती है। ध्यान दें कि `com.apple.security.temporary-exception.apple-events` जैसी अधिकार सीमित कर सकती है कि कौन घटनाएँ भेजने के लिए पहुँच रखता है, जिसके लिए `com.apple.private.appleevents` जैसी विशेषाधिकारों की आवश्यकता होगी।
 
 {% hint style="success" %}
 It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:
@@ -33,8 +33,8 @@ AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 {% endhint %}
 
 {% hint style="success" %}
-सीखें और AWS हैकिंग का अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-सीखें और GCP हैकिंग का अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+सीखें और अभ्यास करें AWS हैकिंग:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+सीखें और अभ्यास करें GCP हैकिंग: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

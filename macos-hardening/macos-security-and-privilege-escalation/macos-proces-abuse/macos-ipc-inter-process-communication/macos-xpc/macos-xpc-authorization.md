@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png"
 
 ## XPC Authorization
 
-Apple एक और तरीका प्रस्तावित करता है जिससे यह प्रमाणित किया जा सके कि क्या कनेक्टिंग प्रक्रिया के पास **एक एक्सपोज़्ड XPC मेथड को कॉल करने की अनुमति है**।
+Apple एक और तरीका प्रस्तावित करता है कि कैसे यह प्रमाणित किया जाए कि कनेक्टिंग प्रक्रिया के पास **एक एक्सपोज़्ड XPC मेथड को कॉल करने की अनुमति है**।
 
-जब एक एप्लिकेशन को **एक विशेषाधिकार प्राप्त उपयोगकर्ता के रूप में क्रियाएँ निष्पादित करने की आवश्यकता होती है**, तो यह आमतौर पर विशेषाधिकार प्राप्त उपयोगकर्ता के रूप में एप्लिकेशन चलाने के बजाय एक HelperTool को रूट के रूप में एक XPC सेवा के रूप में स्थापित करता है जिसे एप्लिकेशन से उन क्रियाओं को करने के लिए कॉल किया जा सकता है। हालाँकि, सेवा को कॉल करने वाले एप्लिकेशन के पास पर्याप्त प्राधिकरण होना चाहिए।
+जब एक एप्लिकेशन को **एक विशेषाधिकार प्राप्त उपयोगकर्ता के रूप में क्रियाएँ निष्पादित करने की आवश्यकता होती है**, तो यह आमतौर पर विशेषाधिकार प्राप्त उपयोगकर्ता के रूप में एप्लिकेशन चलाने के बजाय एक हेल्पर टूल को रूट के रूप में XPC सेवा के रूप में स्थापित करता है, जिसे एप्लिकेशन से उन क्रियाओं को करने के लिए कॉल किया जा सकता है। हालाँकि, सेवा को कॉल करने वाले एप्लिकेशन के पास पर्याप्त प्राधिकरण होना चाहिए।
 
 ### ShouldAcceptNewConnection हमेशा YES
 
@@ -48,10 +48,10 @@ For more information about how to properly configure this check:
 
 ### Application rights
 
-हालांकि, जब HelperTool से एक विधि को कॉल किया जाता है, तो कुछ **अधिकार प्राप्त हो रहे हैं**।
+हालांकि, जब HelperTool से एक विधि को कॉल किया जाता है, तो कुछ **अधिकार प्राधिकरण हो रहा है**।
 
-`App/AppDelegate.m` से **`applicationDidFinishLaunching`** फ़ंक्शन ऐप के शुरू होने के बाद एक खाली अधिकार संदर्भ बनाएगा। यह हमेशा काम करना चाहिए।\
-फिर, यह उस अधिकार संदर्भ में **कुछ अधिकार जोड़ने** की कोशिश करेगा `setupAuthorizationRights` को कॉल करके:
+`App/AppDelegate.m` से **`applicationDidFinishLaunching`** फ़ंक्शन ऐप के शुरू होने के बाद एक खाली प्राधिकरण संदर्भ बनाएगा। यह हमेशा काम करना चाहिए।\
+फिर, यह उस प्राधिकरण संदर्भ में **कुछ अधिकार जोड़ने** की कोशिश करेगा `setupAuthorizationRights` को कॉल करके:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-फंक्शन `setupAuthorizationRights` से `Common/Common.m` अधिकारों को एप्लिकेशन के लिए ऑथ डेटाबेस `/var/db/auth.db` में स्टोर करेगा। ध्यान दें कि यह केवल उन अधिकारों को जोड़ेगा जो अभी तक डेटाबेस में नहीं हैं:
+फंक्शन `setupAuthorizationRights` जो `Common/Common.m` से है, एप्लिकेशन के अधिकारों को ऑथ डेटाबेस `/var/db/auth.db` में स्टोर करेगा। ध्यान दें कि यह केवल उन अधिकारों को जोड़ेगा जो अभी तक डेटाबेस में नहीं हैं:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -185,7 +185,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-यह मतलब है कि इस प्रक्रिया के अंत में, `commandInfo` के अंदर घोषित अनुमतियाँ `/var/db/auth.db` में संग्रहीत की जाएँगी। ध्यान दें कि वहाँ आप **प्रत्येक विधि** के लिए पा सकते हैं जो **प्रमाणीकरण की आवश्यकता** होगी, **अनुमति नाम** और **`kCommandKeyAuthRightDefault`**। बाद वाला **यह संकेत करता है कि कौन इस अधिकार को प्राप्त कर सकता है**।
+यह मतलब है कि इस प्रक्रिया के अंत में, `commandInfo` के अंदर घोषित अनुमतियाँ `/var/db/auth.db` में संग्रहीत की जाएँगी। ध्यान दें कि वहाँ आप **प्रत्येक विधि** के लिए पा सकते हैं जो **प्रमाणीकरण** की आवश्यकता होगी, **अनुमति नाम** और **`kCommandKeyAuthRightDefault`**। बाद वाला **यह संकेत करता है कि यह अधिकार कौन प्राप्त कर सकता है**।
 
 एक अधिकार तक पहुँचने के लिए विभिन्न दायरे हैं। इनमें से कुछ [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) में परिभाषित हैं (आप [यहाँ सभी पा सकते हैं](https://www.dssw.co.uk/reference/authorization-rights/)), लेकिन संक्षेप में:
 
@@ -193,7 +193,7 @@ block(authRightName, authRightDefault, authRightDesc);
 
 ### अधिकारों की सत्यापन
 
-`HelperTool/HelperTool.m` में फ़ंक्शन **`readLicenseKeyAuthorization`** यह जांचता है कि क्या कॉलर को **ऐसी विधि** को **कार्यान्वित करने** के लिए अधिकृत किया गया है, फ़ंक्शन **`checkAuthorization`** को कॉल करके। यह फ़ंक्शन यह जांचेगा कि कॉलिंग प्रक्रिया द्वारा भेजा गया **authData** **सही प्रारूप** में है और फिर यह जांचेगा कि **विशिष्ट विधि** को कॉल करने के लिए **क्या आवश्यक है**। यदि सब कुछ ठीक है तो **वापसी `error` `nil` होगी**:
+`HelperTool/HelperTool.m` में फ़ंक्शन **`readLicenseKeyAuthorization`** यह जांचता है कि क्या कॉलर को **ऐसी विधि** को **कार्यान्वित** करने के लिए अधिकृत किया गया है, फ़ंक्शन **`checkAuthorization`** को कॉल करके। यह फ़ंक्शन यह जांचेगा कि कॉलिंग प्रक्रिया द्वारा भेजा गया **authData** **सही प्रारूप** में है और फिर यह जांचेगा कि **विशिष्ट विधि** को कॉल करने के लिए **क्या आवश्यक है**। यदि सब कुछ ठीक है तो **वापसी `error` `nil` होगी**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,9 +241,9 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-नोट करें कि **उस विधि को कॉल करने के लिए आवश्यकताओं की जांच करने के लिए** फ़ंक्शन `authorizationRightForCommand` केवल पहले से टिप्पणी किए गए ऑब्जेक्ट **`commandInfo`** की जांच करेगा। फिर, यह **`AuthorizationCopyRights`** को कॉल करेगा यह जांचने के लिए **क्या इसके पास अधिकार हैं** फ़ंक्शन को कॉल करने के लिए (नोट करें कि फ्लैग उपयोगकर्ता के साथ इंटरैक्शन की अनुमति देते हैं)।
+ध्यान दें कि उस विधि को कॉल करने के लिए आवश्यकताओं की **जांच करने के लिए** फ़ंक्शन `authorizationRightForCommand` केवल पहले से टिप्पणी किए गए ऑब्जेक्ट **`commandInfo`** की जांच करेगा। फिर, यह **`AuthorizationCopyRights`** को कॉल करेगा यह जांचने के लिए कि **क्या इसके पास अधिकार हैं** फ़ंक्शन को कॉल करने के लिए (ध्यान दें कि फ्लैग उपयोगकर्ता के साथ इंटरैक्शन की अनुमति देते हैं)।
 
-इस मामले में, फ़ंक्शन `readLicenseKeyAuthorization` को कॉल करने के लिए `kCommandKeyAuthRightDefault` को `@kAuthorizationRuleClassAllow` पर परिभाषित किया गया है। तो **कोई भी इसे कॉल कर सकता है**।
+इस मामले में, फ़ंक्शन `readLicenseKeyAuthorization` को कॉल करने के लिए `kCommandKeyAuthRightDefault` को `@kAuthorizationRuleClassAllow` पर परिभाषित किया गया है। इसलिए **कोई भी इसे कॉल कर सकता है**।
 
 ### DB जानकारी
 
@@ -259,19 +259,19 @@ security authorizationdb read com.apple.safaridriver.allow
 ```
 ### Permissive rights
 
-आप **सभी अनुमति कॉन्फ़िगरेशन** [**यहां**](https://www.dssw.co.uk/reference/authorization-rights/) पा सकते हैं, लेकिन संयोजन जो उपयोगकर्ता इंटरैक्शन की आवश्यकता नहीं होगी वे हैं:
+You can find **all the permissions configurations** [**in here**](https://www.dssw.co.uk/reference/authorization-rights/), but the combinations that won't require user interaction would be:
 
 1. **'authenticate-user': 'false'**
 * यह सबसे सीधा कुंजी है। यदि इसे `false` पर सेट किया गया है, तो यह निर्दिष्ट करता है कि एक उपयोगकर्ता को इस अधिकार को प्राप्त करने के लिए प्रमाणीकरण प्रदान करने की आवश्यकता नहीं है।
-* इसका उपयोग **नीचे दिए गए 2 में से एक के साथ या उपयोगकर्ता को संबंधित समूह** को इंगित करने के लिए किया जाता है।
+* इसका उपयोग **नीचे दिए गए 2 में से एक के साथ या उपयोगकर्ता को संबंधित समूह को इंगित करने के लिए** किया जाता है।
 2. **'allow-root': 'true'**
-* यदि एक उपयोगकर्ता रूट उपयोगकर्ता के रूप में कार्य कर रहा है (जिसके पास उच्च अनुमति है), और यह कुंजी `true` पर सेट है, तो रूट उपयोगकर्ता संभावित रूप से इस अधिकार को बिना किसी अतिरिक्त प्रमाणीकरण के प्राप्त कर सकता है। हालाँकि, आमतौर पर, रूट उपयोगकर्ता स्थिति प्राप्त करने के लिए पहले से ही प्रमाणीकरण की आवश्यकता होती है, इसलिए यह अधिकांश उपयोगकर्ताओं के लिए "कोई प्रमाणीकरण नहीं" परिदृश्य नहीं है।
+* यदि एक उपयोगकर्ता रूट उपयोगकर्ता के रूप में कार्य कर रहा है (जिसके पास उच्च अनुमतियाँ हैं), और यह कुंजी `true` पर सेट है, तो रूट उपयोगकर्ता संभावित रूप से बिना किसी अतिरिक्त प्रमाणीकरण के इस अधिकार को प्राप्त कर सकता है। हालाँकि, आमतौर पर, रूट उपयोगकर्ता स्थिति प्राप्त करने के लिए पहले से ही प्रमाणीकरण की आवश्यकता होती है, इसलिए यह अधिकांश उपयोगकर्ताओं के लिए "कोई प्रमाणीकरण नहीं" परिदृश्य नहीं है।
 3. **'session-owner': 'true'**
-* यदि इसे `true` पर सेट किया गया है, तो सत्र का मालिक (वर्तमान में लॉग इन किया हुआ उपयोगकर्ता) स्वचालित रूप से इस अधिकार को प्राप्त करेगा। यदि उपयोगकर्ता पहले से ही लॉग इन है तो यह अतिरिक्त प्रमाणीकरण को बायपास कर सकता है।
+* यदि इसे `true` पर सेट किया गया है, तो सत्र का मालिक (वर्तमान में लॉग इन किया हुआ उपयोगकर्ता) स्वचालित रूप से इस अधिकार को प्राप्त करेगा। यदि उपयोगकर्ता पहले से ही लॉग इन है, तो यह अतिरिक्त प्रमाणीकरण को बायपास कर सकता है।
 4. **'shared': 'true'**
-* यह कुंजी प्रमाणीकरण के बिना अधिकार नहीं देती है। इसके बजाय, यदि इसे `true` पर सेट किया गया है, तो इसका मतलब है कि एक बार जब अधिकार को प्रमाणीकरण किया गया है, तो इसे कई प्रक्रियाओं के बीच साझा किया जा सकता है बिना प्रत्येक को फिर से प्रमाणीकरण की आवश्यकता के। लेकिन अधिकार का प्रारंभिक अनुदान अभी भी प्रमाणीकरण की आवश्यकता होगी जब तक कि इसे `'authenticate-user': 'false'` जैसे अन्य कुंजी के साथ संयोजित नहीं किया जाता है।
+* यह कुंजी प्रमाणीकरण के बिना अधिकार नहीं देती है। इसके बजाय, यदि इसे `true` पर सेट किया गया है, तो इसका अर्थ है कि एक बार जब अधिकार को प्रमाणीकरण किया गया है, तो इसे कई प्रक्रियाओं के बीच साझा किया जा सकता है बिना प्रत्येक को फिर से प्रमाणीकरण की आवश्यकता के। लेकिन अधिकार का प्रारंभिक अनुदान अभी भी प्रमाणीकरण की आवश्यकता होगी जब तक कि इसे `'authenticate-user': 'false'` जैसी अन्य कुंजियों के साथ संयोजित नहीं किया जाता है।
 
-आप [**इस स्क्रिप्ट का उपयोग कर सकते हैं**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) दिलचस्प अधिकार प्राप्त करने के लिए:
+You can [**use this script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -298,13 +298,13 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 फिर, आपको XPC सेवा के साथ संचार स्थापित करने के लिए प्रोटोकॉल स्कीमा खोजने की आवश्यकता है।
 
-फ़ंक्शन **`shouldAcceptNewConnection`** निर्यात किए जा रहे प्रोटोकॉल को इंगित करता है:
+फ़ंक्शन **`shouldAcceptNewConnection`** निर्यातित प्रोटोकॉल को इंगित करता है:
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
 इस मामले में, हमारे पास EvenBetterAuthorizationSample में वही है, [**इस पंक्ति की जांच करें**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)।
 
-उपयोग किए गए प्रोटोकॉल का नाम जानने पर, आप **इसके हेडर परिभाषा को डंप करना** संभव है:
+उपयोग किए गए प्रोटोकॉल का नाम जानने पर, आप **इसके हेडर परिभाषा को डंप** कर सकते हैं:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -342,7 +342,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 इस उदाहरण में बनाया गया है:
 
 * प्रोटोकॉल की परिभाषा जिसमें फ़ंक्शन शामिल हैं
-* उपयोग के लिए एक खाली auth जो एक्सेस के लिए पूछता है
+* उपयोग के लिए एक खाली auth जो एक्सेस मांगने के लिए है
 * XPC सेवा से एक कनेक्शन
 * यदि कनेक्शन सफल था तो फ़ंक्शन को कॉल करना
 ```objectivec
@@ -422,7 +422,7 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
-## अन्य XPC विशेषाधिकार सहायक का दुरुपयोग
+## अन्य XPC विशेषाधिकार सहायक जो दुरुपयोग किए गए
 
 * [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
 

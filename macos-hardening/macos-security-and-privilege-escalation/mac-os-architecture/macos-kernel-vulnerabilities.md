@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## [Pwning OTA](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
 
-[**इस रिपोर्ट में**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) कई कमजोरियों को समझाया गया है जिन्होंने सॉफ़्टवेयर अपडेटर को समझौता करके कर्नेल को समझौता करने की अनुमति दी।\
+[**इस रिपोर्ट में**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) कई कमजोरियों को समझाया गया है जिन्होंने सॉफ़्टवेयर अपडेटर को समझौता करते हुए कर्नेल को प्रभावित किया।\
 [**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722).
 
 {% hint style="success" %}

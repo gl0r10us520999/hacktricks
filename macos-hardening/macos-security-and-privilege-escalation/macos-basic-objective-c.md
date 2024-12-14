@@ -31,12 +31,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Objective-C
 
 {% hint style="danger" %}
-ध्यान दें कि Objective-C में लिखे गए प्रोग्राम **जब** [Mach-O बाइनरीज़](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) में **संकलित** होते हैं, तो **अपनी** वर्ग घोषणाएँ **रखते** हैं। ऐसी वर्ग घोषणाएँ **शामिल** करती हैं:
+ध्यान दें कि Objective-C में लिखे गए प्रोग्राम **जब** [Mach-O बाइनरीज़](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) में **संकलित** होते हैं, तो **अपनी** वर्ग घोषणाएँ **रखते** हैं। ऐसी वर्ग घोषणाएँ **शामिल** करती हैं नाम और प्रकार:
 {% endhint %}
 
-* वर्ग का नाम
-* वर्ग के तरीके
-* वर्ग के उदाहरण चर
+* वर्ग
+* वर्ग विधियाँ
+* वर्ग उदाहरण चर
 
 आप इस जानकारी को [**class-dump**](https://github.com/nygard/class-dump) का उपयोग करके प्राप्त कर सकते हैं:
 ```bash
@@ -93,13 +93,13 @@ MyVehicle *newVehicle = [MyVehicle new];
 ```
 ### **क्लास मेथड्स**
 
-क्लास मेथड्स को **प्लस साइन** (+) के साथ परिभाषित किया जाता है, न कि हाइफ़न (-) के साथ जो इंस्टेंस मेथड्स के साथ उपयोग किया जाता है। जैसे कि **NSString** क्लास मेथड **`stringWithString`**:
+क्लास मेथड्स को **प्लस साइन** (+) के साथ परिभाषित किया जाता है, न कि हाइफ़न (-) के साथ जो इंस्टेंस मेथड्स के लिए उपयोग किया जाता है। जैसे कि **NSString** क्लास मेथड **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-गुणों को **सेट** और **गेट** करने के लिए, आप इसे **डॉट नोटेशन** के साथ या जैसे कि आप **एक विधि को कॉल** कर रहे हों, कर सकते हैं:
+गुणों को **सेट** और **गेट** करने के लिए, आप इसे **डॉट नोटेशन** के साथ या जैसे आप **एक विधि को कॉल** कर रहे हों, कर सकते हैं:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;

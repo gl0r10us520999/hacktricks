@@ -20,24 +20,24 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 Permissions in a **directory**:
 
 * **read** - आप **directory entries** को **enumerate** कर सकते हैं
-* **write** - आप directory में **files** को **delete/write** कर सकते हैं और आप **empty folders** को **delete** कर सकते हैं।
+* **write** - आप directory में **files** को **delete/write** कर सकते हैं और आप **खाली फोल्डर** को **delete** कर सकते हैं।
 * लेकिन आप **non-empty folders** को **delete/modify** नहीं कर सकते जब तक कि आपके पास इसके ऊपर write permissions न हों।
 * आप **folder का नाम** **modify** नहीं कर सकते जब तक कि आप इसके मालिक न हों।
-* **execute** - आपको directory को **traverse** करने की **अनुमति** है - यदि आपके पास यह अधिकार नहीं है, तो आप इसके अंदर या किसी भी subdirectories में कोई files तक पहुँच नहीं सकते।
+* **execute** - आपको directory को **traverse** करने की **अनुमति** है - यदि आपके पास यह अधिकार नहीं है, तो आप इसके अंदर या किसी भी subdirectories में कोई files तक नहीं पहुँच सकते।
 
 ### Dangerous Combinations
 
 **कैसे root द्वारा स्वामित्व वाली file/folder को overwrite करें**, लेकिन:
 
-* पथ में एक parent **directory owner** उपयोगकर्ता है
-* पथ में एक parent **directory owner** एक **users group** है जिसमें **write access** है
+* पथ में एक माता-पिता **directory owner** उपयोगकर्ता है
+* पथ में एक माता-पिता **directory owner** एक **users group** है जिसमें **write access** है
 * एक users **group** को **file** पर **write** access है
 
 पिछले किसी भी संयोजन के साथ, एक हमलावर **inject** कर सकता है एक **sym/hard link** अपेक्षित पथ पर एक विशेषाधिकार प्राप्त मनमाना write प्राप्त करने के लिए।
 
 ### Folder root R+X Special case
 
-यदि एक **directory** में files हैं जहाँ **केवल root को R+X access** है, तो वे **किसी और के लिए उपलब्ध नहीं हैं**। इसलिए एक vulnerability जो **एक file को स्थानांतरित करने की अनुमति देती है जिसे एक उपयोगकर्ता द्वारा पढ़ा जा सकता है**, जिसे उस **restriction** के कारण नहीं पढ़ा जा सकता, इस folder **से एक अलग में**, इन files को पढ़ने के लिए दुरुपयोग किया जा सकता है।
+यदि एक **directory** में files हैं जहाँ **केवल root को R+X access** है, तो वे **किसी और के लिए उपलब्ध नहीं हैं**। इसलिए एक भेद्यता जो **एक file को स्थानांतरित करने की अनुमति देती है जिसे एक उपयोगकर्ता द्वारा पढ़ा जा सकता है**, जिसे उस **restriction** के कारण नहीं पढ़ा जा सकता, इस फोल्डर से **किसी अन्य में**, इन files को पढ़ने के लिए दुरुपयोग किया जा सकता है।
 
 Example in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
@@ -49,7 +49,7 @@ Check in the other sections where an attacker could **abuse an arbitrary write t
 
 ## .fileloc
 
-**`.fileloc`** एक्सटेंशन वाली files अन्य applications या binaries की ओर इशारा कर सकती हैं ताकि जब वे खोली जाएं, तो application/binary वह होगी जो निष्पादित होगी।\
+**`.fileloc`** एक्सटेंशन वाली files अन्य applications या binaries की ओर इशारा कर सकती हैं ताकि जब वे खोली जाती हैं, तो application/binary वही होगी जो निष्पादित होगी।\
 Example:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -89,7 +89,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs mount
 
-एक **devfs** माउंट **xattr का समर्थन नहीं करता**, अधिक जानकारी के लिए [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+एक **devfs** माउंट **xattr का समर्थन नहीं करता**, अधिक जानकारी के लिए [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html) देखें।
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -125,7 +125,7 @@ ls -le /tmp/test
 
 **AppleDouble** फ़ाइल प्रारूप एक फ़ाइल को उसकी ACEs सहित कॉपी करता है।
 
-[**स्रोत कोड**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) में यह देखना संभव है कि xattr के अंदर संग्रहीत ACL पाठ प्रतिनिधित्व **`com.apple.acl.text`** के रूप में सेट किया जाएगा। इसलिए, यदि आपने एक एप्लिकेशन को **AppleDouble** फ़ाइल प्रारूप में एक ज़िप फ़ाइल में संकुचित किया है जिसमें एक ACL है जो अन्य xattrs को इसमें लिखने से रोकता है... तो क्वारंटाइन xattr एप्लिकेशन में सेट नहीं किया गया था:
+[**स्रोत कोड**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) में यह देखना संभव है कि xattr के अंदर संग्रहीत ACL पाठ प्रतिनिधित्व जिसे **`com.apple.acl.text`** कहा जाता है, को डिकंप्रेस की गई फ़ाइल में ACL के रूप में सेट किया जाएगा। इसलिए, यदि आपने एक एप्लिकेशन को **AppleDouble** फ़ाइल प्रारूप में एक ज़िप फ़ाइल में संकुचित किया है जिसमें एक ACL है जो अन्य xattrs को इसमें लिखने से रोकता है... तो क्वारंटाइन xattr एप्लिकेशन में सेट नहीं किया गया था:
 
 अधिक जानकारी के लिए [**मूल रिपोर्ट**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) की जांच करें।
 
@@ -211,7 +211,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ```
 {% endcode %}
 
-## Mount dmgs
+## dmgs माउंट करें
 
 एक उपयोगकर्ता एक कस्टम dmg को माउंट कर सकता है जो कुछ मौजूदा फ़ोल्डरों के ऊपर भी बनाया गया है। इस तरह आप कस्टम सामग्री के साथ एक कस्टम dmg पैकेज बना सकते हैं:
 
@@ -243,7 +243,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ## मनमाने लेखन
 
-### आवधिक शेल स्क्रिप्ट
+### आवधिक श स्क्रिप्ट
 
 यदि आपकी स्क्रिप्ट को **शेल स्क्रिप्ट** के रूप में व्याख्यायित किया जा सकता है, तो आप **`/etc/periodic/daily/999.local`** शेल स्क्रिप्ट को ओवरराइट कर सकते हैं, जो हर दिन ट्रिगर होगी।
 
@@ -251,7 +251,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### डेमन
 
-एक मनमाना **LaunchDaemon** लिखें जैसे **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** जिसमें एक plist हो जो एक मनमानी स्क्रिप्ट को निष्पादित करे जैसे:
+एक मनमाना **LaunchDaemon** लिखें जैसे **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** जिसमें एक plist हो जो एक मनमानी स्क्रिप्ट निष्पादित करे जैसे:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -282,7 +282,7 @@ You can also write files in **`/etc/paths.d`** to load new folders into the `PAT
 
 ## Generate writable files as other users
 
-यह एक फ़ाइल उत्पन्न करेगा जो रूट की है जो मेरे द्वारा लिखी जा सकती है ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). यह privesc के रूप में भी काम कर सकता है:
+यह एक फ़ाइल उत्पन्न करेगा जो रूट की है और जिसे मैं लिख सकता हूँ ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). यह privesc के रूप में भी काम कर सकता है:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -294,9 +294,9 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-## POSIX Shared Memory
+## POSIX साझा मेमोरी
 
-**POSIX साझा मेमोरी** POSIX-अनुरूप ऑपरेटिंग सिस्टम में प्रक्रियाओं को एक सामान्य मेमोरी क्षेत्र तक पहुँचने की अनुमति देती है, जो अन्य इंटर-प्रोसेस संचार विधियों की तुलना में तेज़ संचार को सुविधाजनक बनाती है। इसमें `shm_open()` के साथ एक साझा मेमोरी ऑब्जेक्ट बनाना या खोलना, `ftruncate()` के साथ इसका आकार सेट करना, और `mmap()` का उपयोग करके इसे प्रक्रिया के पते के स्थान में मैप करना शामिल है। प्रक्रियाएँ फिर सीधे इस मेमोरी क्षेत्र से पढ़ और लिख सकती हैं। समवर्ती पहुँच को प्रबंधित करने और डेटा भ्रष्टाचार को रोकने के लिए, समन्वय तंत्र जैसे म्यूटेक्स या सेमाफोर का अक्सर उपयोग किया जाता है। अंततः, प्रक्रियाएँ `munmap()` और `close()` के साथ साझा मेमोरी को अनमैप और बंद करती हैं, और वैकल्पिक रूप से `shm_unlink()` के साथ मेमोरी ऑब्जेक्ट को हटा देती हैं। यह प्रणाली विशेष रूप से उन वातावरणों में कुशल, तेज IPC के लिए प्रभावी है जहाँ कई प्रक्रियाओं को तेजी से साझा डेटा तक पहुँचने की आवश्यकता होती है।
+**POSIX साझा मेमोरी** POSIX-संगत ऑपरेटिंग सिस्टम में प्रक्रियाओं को एक सामान्य मेमोरी क्षेत्र तक पहुँचने की अनुमति देती है, जो अन्य इंटर-प्रोसेस संचार विधियों की तुलना में तेज़ संचार को सुविधाजनक बनाती है। इसमें `shm_open()` के साथ एक साझा मेमोरी ऑब्जेक्ट बनाना या खोलना, `ftruncate()` के साथ इसका आकार सेट करना, और इसे प्रक्रिया के पते की जगह में `mmap()` का उपयोग करके मैप करना शामिल है। प्रक्रियाएँ फिर सीधे इस मेमोरी क्षेत्र से पढ़ और लिख सकती हैं। समवर्ती पहुँच को प्रबंधित करने और डेटा भ्रष्टाचार को रोकने के लिए, समन्वय तंत्र जैसे म्यूटेक्स या सेमाफोर का अक्सर उपयोग किया जाता है। अंततः, प्रक्रियाएँ `munmap()` और `close()` के साथ साझा मेमोरी को अनमैप और बंद करती हैं, और वैकल्पिक रूप से `shm_unlink()` के साथ मेमोरी ऑब्जेक्ट को हटा देती हैं। यह प्रणाली विशेष रूप से उन वातावरणों में कुशल, तेज IPC के लिए प्रभावी है जहाँ कई प्रक्रियाओं को तेजी से साझा डेटा तक पहुँचने की आवश्यकता होती है।
 
 <details>
 
@@ -392,9 +392,9 @@ return 0;
 
 ## macOS Guarded Descriptors
 
-**macOSCguarded descriptors** एक सुरक्षा विशेषता है जो macOS में उपयोगकर्ता अनुप्रयोगों में **फाइल डिस्क्रिप्टर ऑपरेशंस** की सुरक्षा और विश्वसनीयता को बढ़ाने के लिए पेश की गई है। ये संरक्षित डिस्क्रिप्टर एक विशेष प्रतिबंध या "गार्ड" को फाइल डिस्क्रिप्टर के साथ जोड़ने का एक तरीका प्रदान करते हैं, जिसे कर्नेल द्वारा लागू किया जाता है।
+**macOSCguarded descriptors** एक सुरक्षा विशेषता है जो macOS में उपयोगकर्ता अनुप्रयोगों में **फाइल डिस्क्रिप्टर ऑपरेशंस** की सुरक्षा और विश्वसनीयता को बढ़ाने के लिए पेश की गई है। ये संरक्षित डिस्क्रिप्टर एक विशेष तरीके से फाइल डिस्क्रिप्टर के साथ विशिष्ट प्रतिबंध या "गार्ड" को जोड़ने का एक तरीका प्रदान करते हैं, जिन्हें कर्नेल द्वारा लागू किया जाता है।
 
-यह विशेषता कुछ प्रकार की सुरक्षा कमजोरियों जैसे **अनधिकृत फाइल एक्सेस** या **रेस कंडीशंस** को रोकने के लिए विशेष रूप से उपयोगी है। ये कमजोरियाँ तब होती हैं जब, उदाहरण के लिए, एक थ्रेड एक फाइल डिस्क्रिप्शन को एक्सेस कर रहा होता है जिससे **दूसरे कमजोर थ्रेड को उस पर एक्सेस मिलता है** या जब एक फाइल डिस्क्रिप्टर को **एक कमजोर चाइल्ड प्रोसेस द्वारा विरासत में लिया जाता है**। इस कार्यक्षमता से संबंधित कुछ कार्य हैं:
+यह विशेषता कुछ प्रकार की सुरक्षा कमजोरियों जैसे **अनधिकृत फ़ाइल पहुँच** या **रेस कंडीशंस** को रोकने के लिए विशेष रूप से उपयोगी है। ये कमजोरियाँ तब होती हैं जब, उदाहरण के लिए, एक थ्रेड एक फ़ाइल विवरण को एक्सेस कर रहा है जिससे **दूसरे कमजोर थ्रेड को उस पर पहुँच मिलती है** या जब एक फ़ाइल डिस्क्रिप्टर को **एक कमजोर चाइल्ड प्रोसेस द्वारा विरासत में लिया जाता है**। इस कार्यक्षमता से संबंधित कुछ फ़ंक्शन हैं:
 
 * `guarded_open_np`: एक गार्ड के साथ FD खोलें
 * `guarded_close_np`: इसे बंद करें

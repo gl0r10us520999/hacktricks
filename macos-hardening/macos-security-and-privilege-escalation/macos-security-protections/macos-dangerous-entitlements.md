@@ -31,28 +31,28 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **`com.apple.system-task-ports` (पहले `task_for_pid-allow` कहा जाता था)**
 
-यह अधिकार किसी भी प्रक्रिया के लिए **कार्य पोर्ट प्राप्त करने** की अनुमति देता है, सिवाय कर्नेल के। अधिक जानकारी के लिए [यहाँ देखें](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+यह अधिकार किसी भी प्रक्रिया के लिए **कार्य पोर्ट प्राप्त करने** की अनुमति देता है, सिवाय कर्नेल के। अधिक जानकारी के लिए [**यहाँ देखें**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-यह अधिकार अन्य प्रक्रियाओं को **`com.apple.security.cs.debugger`** अधिकार के साथ उस प्रक्रिया के कार्य पोर्ट को प्राप्त करने और **इस पर कोड इंजेक्ट करने** की अनुमति देता है जो इस अधिकार के साथ बाइनरी द्वारा चलायी जाती है। अधिक जानकारी के लिए [यहाँ देखें](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+यह अधिकार अन्य प्रक्रियाओं को **`com.apple.security.cs.debugger`** अधिकार के साथ उस प्रक्रिया के कार्य पोर्ट को प्राप्त करने और **इस पर कोड इंजेक्ट करने** की अनुमति देता है। अधिक जानकारी के लिए [**यहाँ देखें**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-डिबगिंग टूल अधिकार वाले ऐप्स `task_for_pid()` को कॉल करके बिना हस्ताक्षरित और तीसरे पक्ष के ऐप्स के लिए मान्य कार्य पोर्ट प्राप्त कर सकते हैं जिनका `Get Task Allow` अधिकार `true` पर सेट है। हालाँकि, डिबगिंग टूल अधिकार के साथ भी, एक डिबगर **उन प्रक्रियाओं के कार्य पोर्ट प्राप्त नहीं कर सकता** जिनके पास `Get Task Allow` अधिकार नहीं है, और जो इसलिए सिस्टम इंटीग्रिटी प्रोटेक्शन द्वारा सुरक्षित हैं। अधिक जानकारी के लिए [यहाँ देखें](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+डिबगिंग टूल अधिकार वाले ऐप्स `task_for_pid()` को कॉल कर सकते हैं ताकि बिना हस्ताक्षरित और तीसरे पक्ष के ऐप्स के लिए मान्य कार्य पोर्ट प्राप्त किया जा सके जिनका `Get Task Allow` अधिकार `true` पर सेट है। हालाँकि, डिबगिंग टूल अधिकार के साथ भी, एक डिबगर **उन प्रक्रियाओं के कार्य पोर्ट प्राप्त नहीं कर सकता** जिनके पास **`Get Task Allow` अधिकार नहीं है**, और जो इसलिए सिस्टम इंटीग्रिटी प्रोटेक्शन द्वारा सुरक्षित हैं। अधिक जानकारी के लिए [**यहाँ देखें**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-यह अधिकार **फ्रेमवर्क, प्लग-इन, या पुस्तकालयों को लोड करने** की अनुमति देता है बिना Apple द्वारा हस्ताक्षरित होने या मुख्य निष्पादन योग्य के समान टीम आईडी के साथ हस्ताक्षरित होने के, इसलिए एक हमलावर कुछ मनमाने पुस्तकालय लोड का दुरुपयोग करके कोड इंजेक्ट कर सकता है। अधिक जानकारी के लिए [यहाँ देखें](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+यह अधिकार **फ्रेमवर्क, प्लग-इन, या पुस्तकालयों को लोड करने** की अनुमति देता है बिना Apple द्वारा हस्ताक्षरित होने या मुख्य निष्पादन योग्य के समान टीम आईडी के साथ हस्ताक्षरित होने के, इसलिए एक हमलावर कुछ मनमाने पुस्तकालय लोड का दुरुपयोग करके कोड इंजेक्ट कर सकता है। अधिक जानकारी के लिए [**यहाँ देखें**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-यह अधिकार **`com.apple.security.cs.disable-library-validation`** के बहुत समान है लेकिन **सीधे** पुस्तकालय मान्यता को **निष्क्रिय** करने के बजाय, यह प्रक्रिया को **`csops` सिस्टम कॉल करने की अनुमति देता है** ताकि इसे निष्क्रिय किया जा सके।\
-अधिक जानकारी के लिए [यहाँ देखें](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
+यह अधिकार **`com.apple.security.cs.disable-library-validation`** के समान है लेकिन **सीधे** पुस्तकालय मान्यता को **निष्क्रिय करने** के बजाय, यह प्रक्रिया को **इसे निष्क्रिय करने के लिए `csops` सिस्टम कॉल करने** की अनुमति देता है।\
+अधिक जानकारी के लिए [**यहाँ देखें**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-यह अधिकार **DYLD पर्यावरण चर** का उपयोग करने की अनुमति देता है जो पुस्तकालयों और कोड को इंजेक्ट करने के लिए उपयोग किया जा सकता है। अधिक जानकारी के लिए [यहाँ देखें](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+यह अधिकार **DYLD पर्यावरण चर** का उपयोग करने की अनुमति देता है जो पुस्तकालयों और कोड को इंजेक्ट करने के लिए उपयोग किए जा सकते हैं। अधिक जानकारी के लिए [**यहाँ देखें**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` या `com.apple.rootless.storage`.`TCC`
 
@@ -60,11 +60,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **`system.install.apple-software`** और **`system.install.apple-software.standar-user`**
 
-ये अधिकार **उपयोगकर्ता से अनुमति पूछे बिना** सॉफ़्टवेयर **स्थापित** करने की अनुमति देते हैं, जो **अधिकार वृद्धि** के लिए सहायक हो सकता है।
+ये अधिकार **उपयोगकर्ता से अनुमति पूछे बिना सॉफ़्टवेयर स्थापित करने** की अनुमति देते हैं, जो **अधिकार वृद्धि** के लिए सहायक हो सकता है।
 
 ### `com.apple.private.security.kext-management`
 
-कर्नेल को कर्नेल एक्सटेंशन लोड करने के लिए पूछने के लिए आवश्यक अधिकार।
+अधिकार जो **कर्नेल से कर्नेल एक्सटेंशन लोड करने** के लिए पूछने की आवश्यकता है।
 
 ### **`com.apple.private.icloud-account-access`**
 
@@ -72,7 +72,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **iMovie** और **Garageband** के पास यह अधिकार था।
 
-इस अधिकार से **icloud टोकन** प्राप्त करने के लिए **शोषण** के बारे में अधिक जानकारी के लिए बात देखें: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+इस अधिकार से **icloud टोकन** प्राप्त करने के लिए **जानकारी** के लिए इस वार्ता की जांच करें: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -101,11 +101,11 @@ TODO: [**इस रिपोर्ट में**](https://jhftss.github.io/The-
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-**पूर्ण डिस्क एक्सेस** अनुमतियाँ देता है, जो TCC की सबसे उच्च अनुमतियों में से एक है जो आपके पास हो सकती है।
+पूर्ण डिस्क एक्सेस अनुमतियाँ देता है, जो TCC की सबसे उच्च अनुमतियों में से एक है जो आपके पास हो सकती है।
 
 ### **`kTCCServiceAppleEvents`**
 
-ऐप को अन्य अनुप्रयोगों को **कार्य स्वचालित करने** के लिए घटनाएँ भेजने की अनुमति देता है। अन्य ऐप्स को नियंत्रित करते हुए, यह इन अन्य ऐप्स को दी गई अनुमतियों का दुरुपयोग कर सकता है।
+ऐप को अन्य अनुप्रयोगों को घटनाएँ भेजने की अनुमति देता है जो सामान्यतः **कार्य स्वचालित करने** के लिए उपयोग किए जाते हैं। अन्य ऐप्स को नियंत्रित करते हुए, यह इन अन्य ऐप्स को दी गई अनुमतियों का दुरुपयोग कर सकता है।
 
 जैसे कि उन्हें उपयोगकर्ता से उसका पासवर्ड पूछने के लिए बनाना: 
 
@@ -153,7 +153,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-यह अधिकार **अपने स्वयं के निष्पादन योग्य फ़ाइलों** के खंडों को संशोधित करने की अनुमति देता है ताकि बलात्कारी रूप से बाहर निकल सके। अधिक जानकारी के लिए [**यह देखें**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
+यह अधिकार **अपने स्वयं के निष्पादन योग्य फ़ाइलों** के खंडों को संशोधित करने की अनुमति देता है ताकि बलात्कारी निकासी की जा सके। अधिक जानकारी के लिए [**यह देखें**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
 
 {% hint style="danger" %}
 Disable Executable Memory Protection Entitlement एक चरम अधिकार है जो आपके ऐप से एक मौलिक सुरक्षा सुरक्षा को हटा देता है, जिससे एक हमलावर को आपके ऐप के निष्पादन योग्य कोड को बिना पहचान के फिर से लिखने की अनुमति मिलती है। यदि संभव हो तो संकीर्ण अधिकारों को प्राथमिकता दें।

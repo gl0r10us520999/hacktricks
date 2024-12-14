@@ -30,12 +30,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Firewalls
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): यह प्रत्येक प्रक्रिया द्वारा बनाए गए हर कनेक्शन की निगरानी करेगा। मोड के आधार पर (चुपचाप कनेक्शन की अनुमति देना, चुपचाप कनेक्शन को अस्वीकार करना और चेतावनी देना) यह **आपको एक चेतावनी दिखाएगा** हर बार जब एक नया कनेक्शन स्थापित होता है। इसमें सभी जानकारी देखने के लिए एक बहुत अच्छा GUI भी है।
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): यह प्रत्येक प्रक्रिया द्वारा बनाए गए हर कनेक्शन की निगरानी करेगा। मोड के आधार पर (चुपचाप कनेक्शन की अनुमति, चुपचाप कनेक्शन को अस्वीकार करना और चेतावनी) यह हर बार जब एक नया कनेक्शन स्थापित होता है, आपको **एक चेतावनी दिखाएगा**। इसमें सभी जानकारी देखने के लिए एक बहुत अच्छा GUI भी है।
 * [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See फ़ायरवॉल। यह एक बुनियादी फ़ायरवॉल है जो संदिग्ध कनेक्शनों के लिए आपको चेतावनी देगा (इसमें एक GUI है लेकिन यह Little Snitch के GUI जितना शानदार नहीं है)।
 
 ## Persistence detection
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See एप्लिकेशन जो कई स्थानों में खोज करेगा जहाँ **malware स्थायी हो सकता है** (यह एक एकल-शॉट उपकरण है, निगरानी सेवा नहीं)।
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See एप्लिकेशन जो कई स्थानों में खोज करेगा जहां **malware स्थायी हो सकता है** (यह एक एकल-शॉट उपकरण है, निगरानी सेवा नहीं)।
 * [**BlockBlock**](https://objective-see.org/products/blockblock.html): KnockKnock की तरह, जो स्थिरता उत्पन्न करने वाली प्रक्रियाओं की निगरानी करता है।
 
 ## Keyloggers detection
