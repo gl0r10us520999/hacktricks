@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Tokens
 
-If you **ne savez pas ce que sont les jetons d'accès Windows**, lisez cette page avant de continuer :
+Si vous **ne savez pas ce que sont les jetons d'accès Windows**, lisez cette page avant de continuer :
 
 {% content-ref url="access-tokens.md" %}
 [access-tokens.md](access-tokens.md)
@@ -49,7 +49,7 @@ Si vous avez activé ce jeton, vous pouvez utiliser **KERB\_S4U\_LOGON** pour ob
 
 ### SeBackupPrivilege
 
-Le système est amené à **accorder tous les accès en lecture** à tout fichier (limité aux opérations de lecture) par ce privilège. Il est utilisé pour **lire les hachages de mot de passe des comptes Administrateur locaux** à partir du registre, après quoi, des outils comme "**psexec**" ou "**wmiexec**" peuvent être utilisés avec le hachage (technique Pass-the-Hash). Cependant, cette technique échoue sous deux conditions : lorsque le compte Administrateur local est désactivé, ou lorsqu'une politique est en place qui retire les droits administratifs des Administrateurs locaux se connectant à distance.\
+Le système est amené à **accorder tous les droits de lecture** sur tout fichier (limité aux opérations de lecture) par ce privilège. Il est utilisé pour **lire les hachages de mot de passe des comptes Administrateur locaux** à partir du registre, après quoi, des outils comme "**psexec**" ou "**wmiexec**" peuvent être utilisés avec le hachage (technique Pass-the-Hash). Cependant, cette technique échoue sous deux conditions : lorsque le compte Administrateur local est désactivé, ou lorsqu'une politique est en place qui retire les droits administratifs des Administrateurs locaux se connectant à distance.\
 Vous pouvez **abuser de ce privilège** avec :
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
@@ -77,7 +77,7 @@ SeCreateTokenPrivilege est une permission puissante, particulièrement utile lor
 
 ### SeLoadDriverPrivilege
 
-Ce privilège permet de **charger et décharger des pilotes de périphériques** avec la création d'une entrée de registre avec des valeurs spécifiques pour `ImagePath` et `Type`. Étant donné que l'accès en écriture direct à `HKLM` (HKEY\_LOCAL\_MACHINE) est restreint, `HKCU` (HKEY\_CURRENT\_USER) doit être utilisé à la place. Cependant, pour rendre `HKCU` reconnaissable par le noyau pour la configuration des pilotes, un chemin spécifique doit être suivi.
+Ce privilège permet de **charger et décharger des pilotes de périphériques** en créant une entrée de registre avec des valeurs spécifiques pour `ImagePath` et `Type`. Étant donné que l'accès en écriture direct à `HKLM` (HKEY\_LOCAL\_MACHINE) est restreint, `HKCU` (HKEY\_CURRENT\_USER) doit être utilisé à la place. Cependant, pour rendre `HKCU` reconnaissable par le noyau pour la configuration des pilotes, un chemin spécifique doit être suivi.
 
 Ce chemin est `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, où `<RID>` est l'identifiant relatif de l'utilisateur actuel. À l'intérieur de `HKCU`, ce chemin entier doit être créé, et deux valeurs doivent être définies :
 
@@ -164,11 +164,11 @@ Ou le **script** intégré dans ce [**post**](https://www.leeholmes.com/adjustin
 
 ## Table
 
-Cheatsheet complète des privilèges de jeton à [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), le résumé ci-dessous ne listera que les moyens directs d'exploiter le privilège pour obtenir une session admin ou lire des fichiers sensibles.
+Feuille de triche complète des privilèges de jeton à [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), le résumé ci-dessous ne listera que les moyens directs d'exploiter le privilège pour obtenir une session admin ou lire des fichiers sensibles.
 
 | Privilège                  | Impact      | Outil                   | Chemin d'exécution                                                                                                                                                                                                                                                                                                                                     | Remarques                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`SeAssignPrimaryToken`** | _**Admin**_ | Outil tiers             | _"Cela permettrait à un utilisateur d'imiter des jetons et de s'élever vers le système nt en utilisant des outils tels que potato.exe, rottenpotato.exe et juicypotato.exe"_                                                                                                                                                                      | Merci à [Aurélien Chalot](https://twitter.com/Defte\_) pour la mise à jour. J'essaierai de reformuler cela en quelque chose de plus ressemblant à une recette bientôt.                                                                                                                                                       |
+| **`SeAssignPrimaryToken`** | _**Admin**_ | Outil tiers             | _"Cela permettrait à un utilisateur d'imiter des jetons et de s'élever vers le système nt en utilisant des outils tels que potato.exe, rottenpotato.exe et juicypotato.exe"_                                                                                                                                                                      | Merci à [Aurélien Chalot](https://twitter.com/Defte\_) pour la mise à jour. J'essaierai de reformuler cela en quelque chose de plus ressemblant à une recette bientôt.                                                                                                                                                          |
 | **`SeBackup`**             | **Menace**  | _**Commandes intégrées**_ | Lire des fichiers sensibles avec `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Peut être plus intéressant si vous pouvez lire %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (et robocopy) n'est pas utile lorsqu'il s'agit de fichiers ouverts.<br><br>- Robocopy nécessite à la fois SeBackup et SeRestore pour fonctionner avec le paramètre /b.</p>                                                                      |
 | **`SeCreateToken`**        | _**Admin**_ | Outil tiers             | Créer un jeton arbitraire incluant des droits d'administrateur local avec `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
 | **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Dupliquer le jeton `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script à trouver sur [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
@@ -191,8 +191,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

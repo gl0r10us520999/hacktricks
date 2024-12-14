@@ -43,11 +43,11 @@ Le processus d'accès à un fichier implique que le système vérifie le descrip
 
 Chaque session utilisateur est associée à un jeton d'accès qui contient des informations de sécurité pertinentes pour cette session, y compris les identités d'utilisateur, de groupe et les privilèges. Ce jeton inclut également un SID de connexion qui identifie de manière unique la session.
 
-L'Autorité de Sécurité Locale (LSASS) traite les demandes d'accès aux objets en examinant la DACL pour les ACE qui correspondent au principal de sécurité tentant d'accéder. L'accès est immédiatement accordé si aucune ACE pertinente n'est trouvée. Sinon, LSASS compare les ACE avec le SID du principal de sécurité dans le jeton d'accès pour déterminer l'éligibilité à l'accès.
+L'Autorité de Sécurité Locale (LSASS) traite les demandes d'accès aux objets en examinant la DACL pour des ACE qui correspondent au principal de sécurité tentant d'accéder. L'accès est immédiatement accordé si aucune ACE pertinente n'est trouvée. Sinon, LSASS compare les ACE avec le SID du principal de sécurité dans le jeton d'accès pour déterminer l'éligibilité à l'accès.
 
 ### **Processus Résumé**
 
-* **ACLs :** Définissent les permissions d'accès via les DACL et les règles d'audit via les SACL.
+* **ACLs :** Définissent les permissions d'accès via des DACL et des règles d'audit via des SACL.
 * **Jeton d'Accès :** Contient des informations sur l'utilisateur, le groupe et les privilèges pour une session.
 * **Décision d'Accès :** Prise en comparant les ACE de la DACL avec le jeton d'accès ; les SACL sont utilisés pour l'audit.
 
@@ -66,7 +66,7 @@ Chaque ACE a **quatre composants critiques** :
 3. Des **drapeaux d'héritage** qui déterminent si les objets enfants peuvent hériter de l'ACE de leur parent.
 4. Un [**masque d'accès**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), une valeur de 32 bits spécifiant les droits accordés à l'objet.
 
-La détermination d'accès est effectuée en examinant séquentiellement chaque ACE jusqu'à ce que :
+La détermination de l'accès est effectuée en examinant séquentiellement chaque ACE jusqu'à ce que :
 
 * Une **ACE d'Accès Refusé** refuse explicitement les droits demandés à un fiduciaire identifié dans le jeton d'accès.
 * Des **ACE d'Accès Autorisé** accordent explicitement tous les droits demandés à un fiduciaire dans le jeton d'accès.
@@ -74,9 +74,9 @@ La détermination d'accès est effectuée en examinant séquentiellement chaque 
 
 ### Ordre des ACEs
 
-La façon dont les **ACEs** (règles qui disent qui peut ou ne peut pas accéder à quelque chose) sont mises dans une liste appelée **DACL** est très importante. Cela est dû au fait qu'une fois que le système accorde ou refuse l'accès en fonction de ces règles, il cesse de regarder le reste.
+La façon dont les **ACEs** (règles qui disent qui peut ou ne peut pas accéder à quelque chose) sont mises dans une liste appelée **DACL** est très importante. En effet, une fois que le système accorde ou refuse l'accès en fonction de ces règles, il cesse de regarder le reste.
 
-Il existe une meilleure façon d'organiser ces ACE, et elle s'appelle **"ordre canonique."** Cette méthode aide à s'assurer que tout fonctionne de manière fluide et équitable. Voici comment cela se passe pour des systèmes comme **Windows 2000** et **Windows Server 2003** :
+Il existe une meilleure façon d'organiser ces ACE, appelée **"ordre canonique."** Cette méthode aide à s'assurer que tout fonctionne de manière fluide et équitable. Voici comment cela se passe pour des systèmes comme **Windows 2000** et **Windows Server 2003** :
 
 * D'abord, mettez toutes les règles qui sont faites **spécifiquement pour cet élément** avant celles qui viennent d'ailleurs, comme un dossier parent.
 * Dans ces règles spécifiques, placez celles qui disent **"non" (refuser)** avant celles qui disent **"oui" (autoriser)**.
@@ -105,7 +105,7 @@ Obtenez l'accès aujourd'hui :
 
 [**Exemple d'ici**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 
-Voici l'onglet de sécurité classique d'un dossier montrant l'ACL, DACL et ACEs :
+Voici l'onglet de sécurité classique d'un dossier montrant l'ACL, la DACL et les ACE :
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
@@ -137,15 +137,15 @@ Disons que Bob, le directeur marketing, a besoin d'accéder au dossier Coût, m�
 
 Les ACE sont les règles individuelles dans une ACL. Elles identifient les utilisateurs ou groupes, spécifient quel accès est autorisé ou refusé, et déterminent comment ces règles s'appliquent aux sous-éléments (héritage). Il existe deux principaux types d'ACE :
 
-* **ACEs Génériques :** Celles-ci s'appliquent largement, affectant soit tous les types d'objets, soit ne distinguant qu'entre les conteneurs (comme les dossiers) et les non-conteneurs (comme les fichiers). Par exemple, une règle qui permet aux utilisateurs de voir le contenu d'un dossier mais pas d'accéder aux fichiers à l'intérieur.
-* **ACEs Spécifiques à l'Objet :** Celles-ci fournissent un contrôle plus précis, permettant de définir des règles pour des types d'objets spécifiques ou même des propriétés individuelles au sein d'un objet. Par exemple, dans un annuaire d'utilisateurs, une règle pourrait permettre à un utilisateur de mettre à jour son numéro de téléphone mais pas ses heures de connexion.
+* **ACE Génériques :** Celles-ci s'appliquent largement, affectant soit tous les types d'objets, soit ne distinguant qu'entre les conteneurs (comme les dossiers) et les non-conteneurs (comme les fichiers). Par exemple, une règle qui permet aux utilisateurs de voir le contenu d'un dossier mais pas d'accéder aux fichiers à l'intérieur.
+* **ACE Spécifiques à l'Objet :** Celles-ci fournissent un contrôle plus précis, permettant de définir des règles pour des types d'objets spécifiques ou même des propriétés individuelles au sein d'un objet. Par exemple, dans un annuaire d'utilisateurs, une règle pourrait permettre à un utilisateur de mettre à jour son numéro de téléphone mais pas ses heures de connexion.
 
 Chaque ACE contient des informations importantes comme à qui la règle s'applique (en utilisant un Identifiant de Sécurité ou SID), ce que la règle autorise ou refuse (en utilisant un masque d'accès), et comment elle est héritée par d'autres objets.
 
 #### Différences Clés Entre les Types d'ACE
 
-* **ACEs Génériques** sont adaptées pour des scénarios de contrôle d'accès simples, où la même règle s'applique à tous les aspects d'un objet ou à tous les objets au sein d'un conteneur.
-* **ACEs Spécifiques à l'Objet** sont utilisées pour des scénarios plus complexes, en particulier dans des environnements comme Active Directory, où vous pourriez avoir besoin de contrôler l'accès à des propriétés spécifiques d'un objet différemment.
+* **ACE Génériques** sont adaptées pour des scénarios de contrôle d'accès simples, où la même règle s'applique à tous les aspects d'un objet ou à tous les objets au sein d'un conteneur.
+* **ACE Spécifiques à l'Objet** sont utilisées pour des scénarios plus complexes, en particulier dans des environnements comme Active Directory, où vous pourriez avoir besoin de contrôler l'accès à des propriétés spécifiques d'un objet différemment.
 
 En résumé, les ACL et les ACE aident à définir des contrôles d'accès précis, garantissant que seules les bonnes personnes ou groupes ont accès à des informations ou ressources sensibles, avec la capacité d'adapter les droits d'accès jusqu'au niveau des propriétés individuelles ou des types d'objets.
 
@@ -154,8 +154,8 @@ En résumé, les ACL et les ACE aident à définir des contrôles d'accès préc
 | Champ ACE   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Type        | Drapeau qui indique le type d'ACE. Windows 2000 et Windows Server 2003 prennent en charge six types d'ACE : Trois types d'ACE génériques qui sont attachés à tous les objets sécurisables. Trois types d'ACE spécifiques à l'objet qui peuvent se produire pour des objets Active Directory.                                                                                                                                                                                                                                                            |
-| Drapeaux    | Ensemble de drapeaux binaires qui contrôlent l'héritage et l'audit.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Taille      | Nombre d'octets de mémoire qui sont alloués pour l'ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Drapeaux    | Ensemble de drapeaux de bits qui contrôlent l'héritage et l'audit.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Taille      | Nombre d'octets de mémoire alloués pour l'ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | Masque d'accès | Valeur de 32 bits dont les bits correspondent aux droits d'accès pour l'objet. Les bits peuvent être activés ou désactivés, mais la signification du paramètre dépend du type d'ACE. Par exemple, si le bit qui correspond au droit de lire les permissions est activé, et que le type d'ACE est Refuser, l'ACE refuse le droit de lire les permissions de l'objet. Si le même bit est activé mais que le type d'ACE est Autoriser, l'ACE accorde le droit de lire les permissions de l'objet. Plus de détails sur le masque d'accès apparaissent dans le tableau suivant. |
 | SID         | Identifie un utilisateur ou un groupe dont l'accès est contrôlé ou surveillé par cette ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 

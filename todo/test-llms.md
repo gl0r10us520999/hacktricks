@@ -8,7 +8,7 @@ Hugging Face Transformers est l'une des bibliothèques open-source les plus popu
 
 ### [**LangChain**](https://github.com/langchain-ai/langchain)
 
-LangChain est un cadre conçu pour construire des applications avec des LLMs. Il permet aux développeurs de connecter des modèles de langage avec des sources de données externes, des API, et des bases de données. LangChain fournit des outils pour l'ingénierie de prompt avancée, la gestion de l'historique des conversations, et l'intégration des LLMs dans des flux de travail complexes.
+LangChain est un cadre conçu pour construire des applications avec des LLMs. Il permet aux développeurs de connecter des modèles de langage avec des sources de données externes, des API et des bases de données. LangChain fournit des outils pour l'ingénierie de prompt avancée, la gestion de l'historique des conversations, et l'intégration des LLMs dans des flux de travail complexes.
 
 ### [**LitGPT**](https://github.com/Lightning-AI/litgpt)
 
@@ -31,7 +31,7 @@ Axolotl est une plateforme basée sur le cloud conçue pour rationaliser le dép
 Elle propose plusieurs sections comme :
 
 * **Modèles** : Un vaste répertoire de **modèles d'apprentissage automatique pré-entraînés** où les utilisateurs peuvent parcourir, télécharger, et intégrer des modèles pour diverses tâches comme la génération de texte, la traduction, la reconnaissance d'images, et plus encore.
-* **Ensembles de données :** Une **collection complète d'ensembles de données** utilisées pour entraîner et évaluer des modèles. Elle facilite l'accès facile à diverses sources de données, permettant aux utilisateurs de trouver et d'utiliser des données pour leurs projets d'apprentissage automatique spécifiques.
+* **Ensembles de données :** Une **collection complète d'ensembles de données** utilisées pour entraîner et évaluer des modèles. Elle facilite l'accès facile à des sources de données diverses, permettant aux utilisateurs de trouver et d'utiliser des données pour leurs projets d'apprentissage automatique spécifiques.
 * **Espaces :** Une plateforme pour héberger et partager des **applications et démos d'apprentissage automatique interactives**. Elle permet aux développeurs de **présenter** leurs modèles en action, de créer des interfaces conviviales, et de collaborer avec d'autres en partageant des démos en direct.
 
 ## [**TensorFlow Hub**](https://www.tensorflow.org/hub) **&** [**Kaggle**](https://www.kaggle.com/)
@@ -39,7 +39,7 @@ Elle propose plusieurs sections comme :
 **TensorFlow Hub** est un répertoire complet de modules d'apprentissage automatique réutilisables développés par Google. Il se concentre sur la facilitation du partage et du déploiement de modèles d'apprentissage automatique, en particulier ceux construits avec TensorFlow.
 
 * **Modules :** Une vaste collection de modèles pré-entraînés et de composants de modèles où les utilisateurs peuvent parcourir, télécharger, et intégrer des modules pour des tâches telles que la classification d'images, l'incorporation de texte, et plus encore.
-* **Tutoriels :** Des guides et exemples étape par étape qui aident les utilisateurs à comprendre comment mettre en œuvre et affiner des modèles en utilisant TensorFlow Hub.
+* **Tutoriels :** Des guides et exemples étape par étape qui aident les utilisateurs à comprendre comment implémenter et affiner des modèles en utilisant TensorFlow Hub.
 * **Documentation :** Des guides complets et des références API qui aident les développeurs à utiliser efficacement les ressources du répertoire.
 
 ## [**Replicate**](https://replicate.com/home)

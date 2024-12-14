@@ -22,7 +22,7 @@ Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
-## Comment ils fonctionnent
+## Comment cela fonctionne
 
 Le processus est décrit dans les étapes ci-dessous, illustrant comment les binaires de service sont manipulés pour obtenir une exécution à distance sur une machine cible via SMB :
 
@@ -62,7 +62,7 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) pour créer et **automatiser des workflows** facilement grâce aux **outils communautaires les plus avancés** au monde.\
-Obtenez l'accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 

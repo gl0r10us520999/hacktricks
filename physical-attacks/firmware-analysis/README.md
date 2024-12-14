@@ -9,7 +9,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
@@ -17,7 +17,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ## **Introduction**
 
-Le firmware est un logiciel essentiel qui permet aux appareils de fonctionner correctement en gérant et en facilitant la communication entre les composants matériels et le logiciel avec lequel les utilisateurs interagissent. Il est stocké dans une mémoire permanente, garantissant que l'appareil peut accéder à des instructions vitales dès qu'il est allumé, ce qui conduit au lancement du système d'exploitation. L'examen et la modification potentielle du firmware sont une étape critique pour identifier les vulnérabilités de sécurité.
+Le firmware est un logiciel essentiel qui permet aux appareils de fonctionner correctement en gérant et en facilitant la communication entre les composants matériels et le logiciel avec lequel les utilisateurs interagissent. Il est stocké dans une mémoire permanente, garantissant que l'appareil peut accéder à des instructions vitales dès qu'il est allumé, ce qui conduit au lancement du système d'exploitation. L'examen et la modification potentielle du firmware est une étape critique pour identifier les vulnérabilités de sécurité.
 
 ## **Collecte d'Informations**
 
@@ -38,7 +38,7 @@ Le firmware est un logiciel essentiel qui permet aux appareils de fonctionner co
 
 L'obtention du firmware peut être abordée par divers moyens, chacun ayant son propre niveau de complexité :
 
-- **Directement** à partir de la source (développeurs, fabricants)
+- **Directement** à la source (développeurs, fabricants)
 - **En le construisant** à partir des instructions fournies
 - **En le téléchargeant** depuis les sites de support officiels
 - En utilisant des requêtes **Google dork** pour trouver des fichiers firmware hébergés
@@ -90,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Exécutez la commande **dd suivante** pour extraire le système de fichiers Squashfs.
+Exécutez la **commande dd** suivante pour extraire le système de fichiers Squashfs.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -129,7 +129,7 @@ Les fichiers seront dans le répertoire "`squashfs-root`" par la suite.
 
 Une fois le firmware obtenu, il est essentiel de le disséquer pour comprendre sa structure et ses vulnérabilités potentielles. Ce processus implique l'utilisation de divers outils pour analyser et extraire des données précieuses de l'image du firmware.
 
-### Outils d'Analyse Initiale
+### Outils d'Analyse Initiaux
 
 Un ensemble de commandes est fourni pour l'inspection initiale du fichier binaire (appelé `<bin>`). Ces commandes aident à identifier les types de fichiers, extraire des chaînes, analyser des données binaires et comprendre les détails de la partition et du système de fichiers :
 ```bash
@@ -160,7 +160,7 @@ Avec le système de fichiers extrait, la recherche de failles de sécurité comm
 
 **Emplacements clés** et **éléments** à inspecter incluent :
 
-- **etc/shadow** et **etc/passwd** pour les identifiants utilisateurs
+- **etc/shadow** et **etc/passwd** pour les identifiants des utilisateurs
 - Certificats SSL et clés dans **etc/ssl**
 - Fichiers de configuration et scripts pour d'éventuelles vulnérabilités
 - Binaires intégrés pour une analyse plus approfondie
@@ -170,7 +170,7 @@ Plusieurs outils aident à découvrir des informations sensibles et des vulnéra
 
 - [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) et [**Firmwalker**](https://github.com/craigz28/firmwalker) pour la recherche d'informations sensibles
 - [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) pour une analyse complète du firmware
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), et [**EMBA**](https://github.com/e-m-b-a/emba) pour l'analyse statique et dynamique
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), et [**EMBA**](https://github.com/e-m-b-a/emba) pour une analyse statique et dynamique
 
 ### Vérifications de Sécurité sur les Binaires Compilés
 
@@ -178,7 +178,7 @@ Le code source et les binaires compilés trouvés dans le système de fichiers d
 
 ## Émulation de Firmware pour Analyse Dynamique
 
-Le processus d'émulation de firmware permet une **analyse dynamique** soit du fonctionnement d'un appareil, soit d'un programme individuel. Cette approche peut rencontrer des défis liés aux dépendances matérielles ou d'architecture, mais le transfert du système de fichiers racine ou de binaires spécifiques vers un appareil avec une architecture et un ordre d'octets correspondants, comme un Raspberry Pi, ou vers une machine virtuelle préconstruite, peut faciliter des tests supplémentaires.
+Le processus d'émulation de firmware permet une **analyse dynamique** soit du fonctionnement d'un appareil, soit d'un programme individuel. Cette approche peut rencontrer des défis liés aux dépendances matérielles ou d'architecture, mais le transfert du système de fichiers racine ou de binaires spécifiques vers un appareil avec une architecture et un ordre d'octets correspondants, comme un Raspberry Pi, ou vers une machine virtuelle pré-construite, peut faciliter des tests supplémentaires.
 
 ### Émulation de Binaires Individuels
 
@@ -257,11 +257,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux dépôts github de** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

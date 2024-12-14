@@ -64,10 +64,9 @@ Pour escalader les privilèges, la meilleure chance que nous avons est de pouvoi
 Vous pouvez voir l'**ordre de recherche des DLL sur les systèmes 32 bits** ci-dessous :
 
 1. Le répertoire à partir duquel l'application a été chargée.
-2. Le répertoire système. Utilisez la fonction [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) pour obtenir le chemin de ce répertoire.(_C:\Windows\System32_)
-3. Le répertoire système 16 bits. Il n'existe pas de fonction qui obtient le chemin de ce répertoire, mais il est recherché. (_C:\Windows\System_)
-4. Le répertoire Windows. Utilisez la fonction [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) pour obtenir le chemin de ce répertoire.
-1. (_C:\Windows_)
+2. Le répertoire système. Utilisez la fonction [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) pour obtenir le chemin de ce répertoire. (_C:\Windows\System32_)
+3. Le répertoire système 16 bits. Il n'existe pas de fonction qui obtienne le chemin de ce répertoire, mais il est recherché. (_C:\Windows\System_)
+4. Le répertoire Windows. Utilisez la fonction [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) pour obtenir le chemin de ce répertoire. (_C:\Windows_)
 5. Le répertoire courant.
 6. Les répertoires qui sont listés dans la variable d'environnement PATH. Notez que cela n'inclut pas le chemin par application spécifié par la clé de registre **App Paths**. La clé **App Paths** n'est pas utilisée lors du calcul du chemin de recherche des DLL.
 
@@ -77,14 +76,14 @@ Si la fonction [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desk
 
 Enfin, notez qu'**un dll pourrait être chargé en indiquant le chemin absolu au lieu du nom**. Dans ce cas, ce dll est **uniquement recherché dans ce chemin** (si le dll a des dépendances, elles seront recherchées comme si elles étaient chargées par nom).
 
-Il existe d'autres façons de modifier l'ordre de recherche, mais je ne vais pas les expliquer ici.
+Il existe d'autres moyens de modifier l'ordre de recherche, mais je ne vais pas les expliquer ici.
 
-#### Exceptions sur l'ordre de recherche des dll selon la documentation Windows
+#### Exceptions on dll search order from Windows docs
 
 Certaines exceptions à l'ordre de recherche standard des DLL sont notées dans la documentation Windows :
 
 * Lorsqu'un **DLL qui partage son nom avec un déjà chargé en mémoire** est rencontré, le système contourne la recherche habituelle. Au lieu de cela, il effectue une vérification de redirection et un manifeste avant de se rabattre sur le DLL déjà en mémoire. **Dans ce scénario, le système ne procède pas à une recherche pour le DLL**.
-* Dans les cas où le DLL est reconnu comme un **DLL connu** pour la version actuelle de Windows, le système utilisera sa version du DLL connu, ainsi que toutes ses DLL dépendantes, **en omettant le processus de recherche**. La clé de registre **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contient une liste de ces DLL connus.
+* Dans les cas où le DLL est reconnu comme un **DLL connu** pour la version actuelle de Windows, le système utilisera sa version du DLL connu, ainsi que toutes ses DLL dépendantes, **en omettant le processus de recherche**. La clé de registre **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contient une liste de ces DLL connues.
 * Si un **DLL a des dépendances**, la recherche de ces DLL dépendantes est effectuée comme si elles étaient indiquées uniquement par leurs **noms de module**, peu importe si le DLL initial a été identifié par un chemin complet.
 
 ### Escalating Privileges
@@ -95,7 +94,7 @@ Certaines exceptions à l'ordre de recherche standard des DLL sont notées dans 
 * Assurez-vous qu'un **accès en écriture** est disponible pour tout **répertoire** dans lequel le **DLL** sera **recherché**. Cet emplacement pourrait être le répertoire de l'exécutable ou un répertoire dans le chemin système.
 
 Oui, les exigences sont compliquées à trouver car **par défaut, il est un peu étrange de trouver un exécutable privilégié manquant d'un dll** et c'est encore **plus étrange d'avoir des permissions d'écriture sur un dossier de chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
-Dans le cas où vous avez de la chance et que vous remplissez les exigences, vous pourriez vérifier le projet [UACME](https://github.com/hfiref0x/UACME). Même si le **but principal du projet est de contourner UAC**, vous pourriez y trouver un **PoC** d'un Dll hijacking pour la version de Windows que vous pouvez utiliser (probablement juste en changeant le chemin du dossier où vous avez des permissions d'écriture).
+Dans le cas où vous avez de la chance et que vous remplissez les exigences, vous pourriez vérifier le projet [UACME](https://github.com/hfiref0x/UACME). Même si le **principal objectif du projet est de contourner UAC**, vous pourriez y trouver un **PoC** d'un Dll hijacking pour la version de Windows que vous pouvez utiliser (probablement juste en changeant le chemin du dossier où vous avez des permissions d'écriture).
 
 Notez que vous pouvez **vérifier vos permissions dans un dossier** en faisant :
 ```bash
@@ -252,7 +251,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

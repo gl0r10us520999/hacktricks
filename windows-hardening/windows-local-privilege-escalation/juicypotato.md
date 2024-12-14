@@ -1,22 +1,22 @@
 # JuicyPotato
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
 {% hint style="warning" %}
-**JuicyPotato ne fonctionne pas** sur Windows Server 2019 et Windows 10 build 1809 et versions ultérieures. Cependant, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) peuvent être utilisés pour **exploiter les mêmes privilèges et obtenir un accès de niveau `NT AUTHORITY\SYSTEM`**. _**Vérifiez :**_
+**JuicyPotato ne fonctionne pas** sur Windows Server 2019 et Windows 10 build 1809 et ultérieurs. Cependant, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) peuvent être utilisés pour **exploiter les mêmes privilèges et obtenir un accès de niveau `NT AUTHORITY\SYSTEM`**. _**Vérifiez :**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -39,9 +39,9 @@ Nous avons décidé d'armement [RottenPotatoNG](https://github.com/breenmachine/
 
 > Pour la théorie, voir [Rotten Potato - Escalade de privilèges des comptes de service à SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) et suivez la chaîne de liens et de références.
 
-Nous avons découvert que, en plus de `BITS`, il existe plusieurs serveurs COM que nous pouvons exploiter. Ils doivent simplement :
+Nous avons découvert que, en plus de `BITS`, il existe plusieurs serveurs COM que nous pouvons abuser. Ils doivent simplement :
 
-1. être instanciables par l'utilisateur actuel, normalement un "utilisateur de service" qui a des privilèges d'imitation
+1. être instanciables par l'utilisateur actuel, normalement un « utilisateur de service » qui a des privilèges d'imitation
 2. implémenter l'interface `IMarshal`
 3. s'exécuter en tant qu'utilisateur élevé (SYSTEM, Administrateur, …)
 
@@ -89,13 +89,13 @@ Si l'utilisateur a les privilèges `SeImpersonate` ou `SeAssignPrimaryToken`, al
 
 Il est presque impossible d'empêcher l'abus de tous ces serveurs COM. Vous pourriez penser à modifier les permissions de ces objets via `DCOMCNFG`, mais bonne chance, cela va être difficile.
 
-La véritable solution est de protéger les comptes et applications sensibles qui s'exécutent sous les comptes `* SERVICE`. Arrêter `DCOM` inhiberait certainement cette exploitation, mais pourrait avoir un impact sérieux sur le système d'exploitation sous-jacent.
+La solution réelle est de protéger les comptes et applications sensibles qui s'exécutent sous les comptes `* SERVICE`. Arrêter `DCOM` inhiberait certainement cette exploitation, mais pourrait avoir un impact sérieux sur le système d'exploitation sous-jacent.
 
-De: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
+De : [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 ## Examples
 
-Note: Visitez [cette page](https://ohpe.it/juicy-potato/CLSID/) pour une liste de CLSIDs à essayer.
+Note : Visitez [cette page](https://ohpe.it/juicy-potato/CLSID/) pour une liste de CLSIDs à essayer.
 
 ### Get a nc.exe reverse shell
 ```
@@ -147,7 +147,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

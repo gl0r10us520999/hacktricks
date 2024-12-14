@@ -45,7 +45,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 * [ ] Vérifiez les [**privilèges de l'utilisateur actuel**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Êtes-vous [**membre d'un groupe privilégié**](windows-local-privilege-escalation/#privileged-groups)?
 * [ ] Vérifiez si vous avez [l'un de ces jetons activés](windows-local-privilege-escalation/#token-manipulation) : **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [ ] [**Sessions utilisateurs**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] [**Sessions des utilisateurs**](windows-local-privilege-escalation/#logged-users-sessions)?
 * [ ] Vérifiez [**les répertoires des utilisateurs**](windows-local-privilege-escalation/#home-folders) (accès ?)
 * [ ] Vérifiez la [**politique de mot de passe**](windows-local-privilege-escalation/#password-policy)
 * [ ] Qu'est-ce qu'il y a [**dans le Presse-papiers**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
@@ -57,7 +57,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ### [Processus en cours d'exécution](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Permissions des fichiers et dossiers des binaires [**des processus**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] Permissions des fichiers et dossiers des **binaires des processus**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [ ] [**Extraction de mots de passe en mémoire**](windows-local-privilege-escalation/#memory-password-mining)
 * [ ] [**Applications GUI non sécurisées**](windows-local-privilege-escalation/#insecure-gui-apps)
 * [ ] Voler des identifiants avec **des processus intéressants** via `ProcDump.exe` ? (firefox, chrome, etc ...)
@@ -84,7 +84,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 ### [Réseau](windows-local-privilege-escalation/#network)
 
 * [ ] Énumérez le réseau (partages, interfaces, routes, voisins, ...)
-* [ ] Portez une attention particulière aux services réseau écoutant sur localhost (127.0.0.1)
+* [ ] Faites particulièrement attention aux services réseau écoutant sur localhost (127.0.0.1)
 
 ### [Identifiants Windows](windows-local-privilege-escalation/#windows-credentials)
 
@@ -110,8 +110,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 * [ ] Mot de passe dans le [**fichier de configuration IIS Web**](windows-local-privilege-escalation/#iis-web-config) ?
 * [ ] Informations intéressantes dans [**les journaux web**](windows-local-privilege-escalation/#logs) ?
 * [ ] Voulez-vous [**demander des identifiants**](windows-local-privilege-escalation/#ask-for-credentials) à l'utilisateur ?
-* [ ] Fichiers intéressants [**dans la Corbeille**](windows-local-privilege-escalation/#credentials-in-the-recyclebin) ?
-* [ ] Autres [**registres contenant des identifiants**](windows-local-privilege-escalation/#inside-the-registry) ?
+* [ ] Informations intéressantes sur [**les fichiers dans la Corbeille**](windows-local-privilege-escalation/#credentials-in-the-recyclebin) ?
+* [ ] Autre [**registre contenant des identifiants**](windows-local-privilege-escalation/#inside-the-registry) ?
 * [ ] À l'intérieur des [**données du navigateur**](windows-local-privilege-escalation/#browsers-history) (dbs, historique, signets, ...) ?
 * [ ] [**Recherche de mots de passe génériques**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) dans les fichiers et le registre
 * [ ] [**Outils**](windows-local-privilege-escalation/#tools-that-search-for-passwords) pour rechercher automatiquement des mots de passe

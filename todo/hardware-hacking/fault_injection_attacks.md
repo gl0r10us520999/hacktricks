@@ -1,5 +1,5 @@
-# Attaques par Injection de Faute
+# Attaques par Injection de Panne
 
-Les attaques par injection de faute consistent à introduire des perturbations externes dans des circuits électroniques pour influencer leur comportement, ce qui peut conduire à la divulgation d'informations ou même à contourner certaines restrictions dans le circuit. Ces attaques ouvrent de nombreuses possibilités pour attaquer des circuits électroniques. Cette attaque est également appelée glitching de circuits électroniques.
+Les attaques par injection de panne incluent l'introduction de perturbations externes dans des circuits électroniques pour influencer leur comportement, entraînant la divulgation d'informations ou même le contournement de certaines restrictions dans le circuit. Ces attaques ouvrent de nombreuses possibilités pour attaquer des circuits électroniques. Cette attaque est également appelée glitching des circuits électroniques.
 
-Il existe de nombreuses méthodes et moyens pour injecter une faute dans un circuit électronique.
+Il existe de nombreuses méthodes et moyens pour injecter des pannes dans un circuit électronique.

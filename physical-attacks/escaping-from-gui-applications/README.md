@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,7 +16,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 # Vérifiez les actions possibles dans l'application GUI
 
-**Dialogues communs** sont ces options de **sauvegarde d'un fichier**, **ouverture d'un fichier**, sélection d'une police, d'une couleur... La plupart d'entre eux **offriront une fonctionnalité Explorer complète**. Cela signifie que vous pourrez accéder aux fonctionnalités d'Explorer si vous pouvez accéder à ces options :
+**Les dialogues communs** sont ces options de **sauvegarde d'un fichier**, **ouverture d'un fichier**, sélection d'une police, d'une couleur... La plupart d'entre eux **offriront une fonctionnalité Explorer complète**. Cela signifie que vous pourrez accéder aux fonctionnalités d'Explorer si vous pouvez accéder à ces options :
 
 * Fermer/Fermer sous
 * Ouvrir/Ouvrir avec
@@ -34,7 +34,7 @@ Vous devriez vérifier si vous pouvez :
 
 ## Exécution de commandes
 
-Peut-être **en utilisant une option `Ouvrir avec`** vous pouvez ouvrir/exécuter une sorte de shell.
+Peut-être qu'en **utilisant une option `Ouvrir avec`**, vous pouvez ouvrir/exécuter une sorte de shell.
 
 ### Windows
 
@@ -89,7 +89,7 @@ Explorer : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/]
 
 ## Raccourcis
 
-* Touches de maintien – Appuyez sur SHIFT 5 fois
+* Touches rémanentes – Appuyez sur SHIFT 5 fois
 * Touches de souris – SHIFT+ALT+NUMLOCK
 * Contraste élevé – SHIFT+ALT+PRINTSCN
 * Touches de basculement – Maintenez NUMLOCK pendant 5 secondes
@@ -106,7 +106,7 @@ Explorer : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/]
 * F1 – Aide F3 – Recherche
 * F6 – Barre d'adresse
 * F11 – Basculer en plein écran dans Internet Explorer
-* CTRL+H – Historique Internet Explorer
+* CTRL+H – Historique d'Internet Explorer
 * CTRL+T – Internet Explorer – Nouvel onglet
 * CTRL+N – Internet Explorer – Nouvelle page
 * CTRL+O – Ouvrir un fichier
@@ -123,7 +123,7 @@ Explorer : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/]
 
 ### 'Barre d'outils d'image'
 
-C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle est cliquée. Vous pourrez Enregistrer, Imprimer, Mailto, Ouvrir "Mes images" dans l'explorateur. Le Kiosk doit utiliser Internet Explorer.
+C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle est cliquée. Vous pourrez enregistrer, imprimer, envoyer par mail, ouvrir "Mes images" dans l'explorateur. Le Kiosk doit utiliser Internet Explorer.
 
 ### Protocole Shell
 
@@ -171,19 +171,19 @@ Source : https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de1981
 
 * Glissez vers le haut avec quatre (ou cinq) doigts / Double-tapez sur le bouton Accueil : Pour voir la vue multitâche et changer d'application
 
-* Glissez d'un côté ou de l'autre avec quatre ou cinq doigts : Pour changer vers l'application suivante/dernière
+* Glissez d'un côté ou de l'autre avec quatre ou cinq doigts : Pour changer vers l'application suivante/précédente
 
 * Pincez l'écran avec cinq doigts / Touchez le bouton Accueil / Glissez vers le haut avec 1 doigt depuis le bas de l'écran en un mouvement rapide vers le haut : Pour accéder à l'accueil
 
-* Glissez un doigt depuis le bas de l'écran juste 1-2 pouces (lentement) : Le dock apparaîtra
+* Glissez un doigt depuis le bas de l'écran sur seulement 1-2 pouces (lentement) : Le dock apparaîtra
 
 * Glissez vers le bas depuis le haut de l'affichage avec 1 doigt : Pour voir vos notifications
 
 * Glissez vers le bas avec 1 doigt dans le coin supérieur droit de l'écran : Pour voir le centre de contrôle de l'iPad Pro
 
-* Glissez 1 doigt depuis la gauche de l'écran 1-2 pouces : Pour voir la vue Aujourd'hui
+* Glissez 1 doigt depuis la gauche de l'écran sur 1-2 pouces : Pour voir la vue Aujourd'hui
 
-* Glissez rapidement 1 doigt depuis le centre de l'écran vers la droite ou la gauche : Pour changer vers l'application suivante/dernière
+* Glissez rapidement 1 doigt depuis le centre de l'écran vers la droite ou la gauche : Pour changer vers l'application suivante/précédente
 
 * Appuyez et maintenez le bouton On/**Off**/Veille dans le coin supérieur droit de l'**iPad +** Déplacez le curseur "Éteindre" complètement vers la droite : Pour éteindre
 
@@ -246,10 +246,10 @@ Ces raccourcis sont pour les paramètres visuels et sonores, selon l'utilisation
 | ↑↓ (Flèche haut, Flèche bas)                        | Appuyez simultanément sur l'élément sélectionné        |
 | ⌥ ↓ (Option-Flèche bas)                             | Faire défiler vers le bas                               |
 | ⌥↑ (Option-Flèche haut)                             | Faire défiler vers le haut                              |
-| ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler à gauche ou à droite                      |
+| ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite               |
 | ^⌥S (Contrôle-Option-S)                             | Activer ou désactiver la synthèse vocale               |
 | ⌘⇧⇥ (Commande-Shift-Tab)                            | Passer à l'application précédente                       |
-| ⌘⇥ (Commande-Tab)                                   | Revenir à l'application d'origine                       |
+| ⌘⇥ (Commande-Tab)                                   | Revenir à l'application d'origine                        |
 | ←+→, puis Option + ← ou Option+→                   | Naviguer à travers le Dock                              |
 
 ### Raccourcis Safari
@@ -260,10 +260,10 @@ Ces raccourcis sont pour les paramètres visuels et sonores, selon l'utilisation
 | ⌘T                      | Ouvrir un nouvel onglet                          |
 | ⌘W                      | Fermer l'onglet actuel                           |
 | ⌘R                      | Actualiser l'onglet actuel                       |
-| ⌘.                      | Arrêter le chargement de l'onglet actuel        |
+| ⌘.                      | Arrêter de charger l'onglet actuel              |
 | ^⇥                      | Passer à l'onglet suivant                        |
 | ^⇧⇥ (Contrôle-Shift-Tab) | Passer à l'onglet précédent                      |
-| ⌘L                      | Sélectionner le champ de saisie de texte/URL pour le modifier |
+| ⌘L                      | Sélectionner le champ de saisie/URL pour le modifier |
 | ⌘⇧T (Commande-Shift-T)   | Ouvrir le dernier onglet fermé (peut être utilisé plusieurs fois) |
 | ⌘\[                     | Reculer d'une page dans votre historique de navigation |
 | ⌘]                      | Avancer d'une page dans votre historique de navigation |
@@ -274,10 +274,10 @@ Ces raccourcis sont pour les paramètres visuels et sonores, selon l'utilisation
 | Raccourci                   | Action                       |
 | -------------------------- | ---------------------------- |
 | ⌘L                         | Ouvrir l'emplacement         |
-| ⌘T                         | Ouvrir un nouvel onglet      |
+| ⌘T                         | Ouvrir un nouvel onglet       |
 | ⌘W                         | Fermer l'onglet actuel       |
 | ⌘R                         | Actualiser l'onglet actuel   |
-| ⌘.                         | Arrêter le chargement de l'onglet |
+| ⌘.                         | Arrêter de charger l'onglet  |
 | ⌘⌥F (Commande-Option/Alt-F) | Rechercher dans votre boîte aux lettres |
 
 # Références
@@ -289,16 +289,16 @@ Ces raccourcis sont pour les paramètres visuels et sonores, selon l'utilisation
 
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

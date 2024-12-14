@@ -9,7 +9,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
@@ -19,7 +19,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 [Depuis la documentation](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language) : Le langage de définition de descripteur de sécurité (SDDL) définit le format utilisé pour décrire un descripteur de sécurité. SDDL utilise des chaînes ACE pour DACL et SACL : `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
 
-Les **descripteurs de sécurité** sont utilisés pour **stocker** les **permissions** qu'un **objet** a **sur** un **objet**. Si vous pouvez simplement **faire** un **petit changement** dans le **descripteur de sécurité** d'un objet, vous pouvez obtenir des privilèges très intéressants sur cet objet sans avoir besoin d'être membre d'un groupe privilégié.
+Les **descripteurs de sécurité** sont utilisés pour **stocker** les **permissions** qu'un **objet** a **sur** un **objet**. Si vous pouvez juste **faire** un **petit changement** dans le **descripteur de sécurité** d'un objet, vous pouvez obtenir des privilèges très intéressants sur cet objet sans avoir besoin d'être membre d'un groupe privilégié.
 
 Ensuite, cette technique de persistance est basée sur la capacité à obtenir chaque privilège nécessaire contre certains objets, afin de pouvoir effectuer une tâche qui nécessite généralement des privilèges d'administrateur mais sans avoir besoin d'être administrateur.
 
@@ -39,7 +39,7 @@ Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Remove #Remo
 ```
 ### Accès à distance aux hashes
 
-Accédez au **registre** et **dump les hashes** en créant une **backdoor Reg en utilisant** [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** afin de pouvoir à tout moment récupérer le **hash de l'ordinateur**, le **SAM** et tout **credential AD mis en cache** sur l'ordinateur. Il est donc très utile de donner cette permission à un **utilisateur régulier contre un ordinateur de contrôleur de domaine** :
+Accédez au **registre** et **dump les hashes** en créant une **porte dérobée Reg** en utilisant [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** afin que vous puissiez à tout moment récupérer le **hash de l'ordinateur**, le **SAM** et tout **credential AD mis en cache** sur l'ordinateur. Il est donc très utile de donner cette permission à un **utilisateur régulier contre un ordinateur de contrôleur de domaine** :
 ```bash
 # allows for the remote retrieval of a system's machine and local account hashes, as well as its domain cached credentials.
 Add-RemoteRegBackdoor -ComputerName <remotehost> -Trustee student1 -Verbose
@@ -65,7 +65,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

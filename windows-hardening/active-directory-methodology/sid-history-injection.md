@@ -1,8 +1,8 @@
 # Injection de l'historique SID
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,14 +10,14 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
-## Attaque par injection de l'historique SID
+## Attaque par injection d'historique SID
 
-L'objectif de l'**attaque par injection de l'historique SID** est d'aider à **la migration des utilisateurs entre les domaines** tout en garantissant un accès continu aux ressources de l'ancien domaine. Cela est accompli en **incorporant l'identifiant de sécurité (SID) précédent de l'utilisateur dans l'historique SID** de son nouveau compte. Notamment, ce processus peut être manipulé pour accorder un accès non autorisé en ajoutant le SID d'un groupe à privilèges élevés (tel que les Administrateurs d'Entreprise ou les Administrateurs de Domaine) du domaine parent à l'historique SID. Cette exploitation confère l'accès à toutes les ressources au sein du domaine parent.
+L'objectif de l'**attaque par injection d'historique SID** est d'aider à la **migration des utilisateurs entre les domaines** tout en garantissant un accès continu aux ressources de l'ancien domaine. Cela est accompli en **incorporant l'identifiant de sécurité (SID) précédent de l'utilisateur dans l'historique SID** de son nouveau compte. Notamment, ce processus peut être manipulé pour accorder un accès non autorisé en ajoutant le SID d'un groupe à privilèges élevés (tel que les Administrateurs d'Entreprise ou les Administrateurs de Domaine) du domaine parent à l'historique SID. Cette exploitation confère l'accès à toutes les ressources au sein du domaine parent.
 
 Deux méthodes existent pour exécuter cette attaque : par la création d'un **Golden Ticket** ou d'un **Diamond Ticket**.
 
@@ -163,7 +163,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

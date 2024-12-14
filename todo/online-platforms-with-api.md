@@ -1,8 +1,8 @@
 # Plateformes en ligne avec API
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -67,7 +67,7 @@ Obtient des informations de base à partir d'une adresse IP. Vous pouvez tester 
 
 ## [securitytrails](https://securitytrails.com/app/account)
 
-Cette plateforme fournit des informations sur les domaines et les adresses IP, comme les domaines à l'intérieur d'une IP ou d'un serveur de domaine, les domaines possédés par un e-mail (trouver des domaines liés), l'historique IP des domaines (trouver l'hôte derrière CloudFlare), tous les domaines utilisant un serveur de noms....\
+Cette plateforme fournit des informations sur les domaines et les adresses IP, comme les domaines à l'intérieur d'une IP ou à l'intérieur d'un serveur de domaine, les domaines possédés par un e-mail (trouver des domaines liés), l'historique IP des domaines (trouver l'hôte derrière CloudFlare), tous les domaines utilisant un serveur de noms....\
 Vous avez un accès gratuit.
 
 ## [fullcontact](https://www.fullcontact.com/)
@@ -88,7 +88,7 @@ Recherchez par IP et rassemblez des informations liées à des activités suspec
 
 ## [Greynoise](https://viz.greynoise.io/)
 
-Recherchez par IP ou plage d'IP et obtenez des informations sur les IP scannant Internet. 15 jours d'accès gratuit.
+Recherchez par IP ou plage d'IP et obtenez des informations sur les IP scannant Internet. Accès gratuit de 15 jours.
 
 ## [Shodan](https://www.shodan.io/)
 
@@ -96,7 +96,7 @@ Obtenez des informations de scan d'une adresse IP. Dispose de certains accès AP
 
 ## [Censys](https://censys.io/)
 
-Très similaire à shodan.
+Très similaire à shodan
 
 ## [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
@@ -104,7 +104,7 @@ Trouvez des buckets S3 ouverts en recherchant par mot-clé.
 
 ## [Dehashed](https://www.dehashed.com/data)
 
-Trouvez des identifiants compromis d'e-mails et même de domaines.\
+Trouvez des identifiants divulgués d'e-mails et même de domaines\
 Commercial ?
 
 ## [psbdmp](https://psbdmp.ws/)
@@ -117,19 +117,19 @@ Obtenez la réputation d'un e-mail. Commercial ?
 
 ## [ghostproject](https://ghostproject.fr/)
 
-Obtenez des mots de passe à partir d'e-mails compromis. Commercial ?
+Obtenez des mots de passe à partir d'e-mails divulgués. Commercial ?
 
 ## [Binaryedge](https://www.binaryedge.io/)
 
-Obtenez des informations intéressantes à partir des IP.
+Obtenez des informations intéressantes à partir des IP
 
 ## [haveibeenpwned](https://haveibeenpwned.com/)
 
-Recherchez par domaine et e-mail et obtenez s'il a été compromis et les mots de passe. Commercial ?
+Recherchez par domaine et e-mail et obtenez s'il a été pwned et les mots de passe. Commercial ?
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
-Il détecte la géolocalisation IP, le centre de données, l'ASN et même les informations VPN. Il offre 30K requêtes gratuites par mois.
+Il détecte la géolocalisation IP, le centre de données, ASN et même des informations VPN. Il offre 30K requêtes gratuites par mois.
 
 
 
@@ -140,8 +140,8 @@ Il détecte la géolocalisation IP, le centre de données, l'ASN et même les in
 [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (dans un outil commercial ?)
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -149,7 +149,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

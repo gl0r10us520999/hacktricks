@@ -26,13 +26,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 - L'**Émetteur** fait référence à la CA qui a émis le certificat.
 - **SubjectAlternativeName** permet d'ajouter des noms supplémentaires pour le sujet, améliorant la flexibilité d'identification.
 - **Basic Constraints** identifient si le certificat est destiné à une CA ou à une entité finale et définissent les restrictions d'utilisation.
-- Les **Utilisations de Clé Étendues (EKUs)** délimitent les objectifs spécifiques du certificat, comme la signature de code ou le chiffrement des e-mails, à travers des Identifiants d'Objet (OIDs).
+- **Extended Key Usages (EKUs)** délimitent les objectifs spécifiques du certificat, comme la signature de code ou le chiffrement des e-mails, à travers des Identifiants d'Objet (OIDs).
 - L'**Algorithme de Signature** spécifie la méthode de signature du certificat.
 - La **Signature**, créée avec la clé privée de l'émetteur, garantit l'authenticité du certificat.
 
 ### Special Considerations
 
-- Les **Noms Alternatifs de Sujet (SANs)** étendent l'applicabilité d'un certificat à plusieurs identités, crucial pour les serveurs avec plusieurs domaines. Des processus d'émission sécurisés sont vitaux pour éviter les risques d'usurpation par des attaquants manipulant la spécification SAN.
+- Les **Noms Alternatifs du Sujet (SANs)** étendent l'applicabilité d'un certificat à plusieurs identités, crucial pour les serveurs avec plusieurs domaines. Des processus d'émission sécurisés sont vitaux pour éviter les risques d'usurpation par des attaquants manipulant la spécification SAN.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
@@ -74,8 +74,8 @@ Les droits de la CA sont décrits dans son descripteur de sécurité, accessible
 ### Additional Issuance Controls
 
 Certaines contrôles peuvent s'appliquer, tels que :
-- **Approbation du Manager** : Place les demandes dans un état en attente jusqu'à approbation par un gestionnaire de certificats.
-- **Agents d'Inscription et Signatures Autorisées** : Spécifient le nombre de signatures requises sur un CSR et les OIDs de Politique d'Application nécessaires.
+- **Manager Approval** : Place les demandes dans un état en attente jusqu'à approbation par un gestionnaire de certificats.
+- **Enrolment Agents and Authorized Signatures** : Spécifient le nombre de signatures requises sur un CSR et les OIDs de Politique d'Application nécessaires.
 
 ### Methods to Request Certificates
 
@@ -84,7 +84,7 @@ Les certificats peuvent être demandés via :
 2. Le **Protocole à Distance ICertPassage** (MS-ICPR), à travers des pipes nommés ou TCP/IP.
 3. L'**interface web d'inscription de certificats**, avec le rôle d'Inscription Web de l'Autorité de Certification installé.
 4. Le **Service d'Inscription de Certificat** (CES), en conjonction avec le service de Politique d'Inscription de Certificat (CEP).
-5. Le **Service d'Inscription de Dispositif Réseau** (NDES) pour les dispositifs réseau, utilisant le Protocole Simple d'Inscription de Certificat (SCEP).
+5. Le **Service d'Inscription de Dispositifs Réseau** (NDES) pour les dispositifs réseau, utilisant le Protocole Simple d'Inscription de Certificat (SCEP).
 
 Les utilisateurs Windows peuvent également demander des certificats via l'interface graphique (`certmgr.msc` ou `certlm.msc`) ou des outils en ligne de commande (`certreq.exe` ou la commande `Get-Certificate` de PowerShell).
 ```powershell
@@ -97,19 +97,19 @@ Active Directory (AD) prend en charge l'authentification par certificat, utilisa
 
 ### Processus d'authentification Kerberos
 
-Dans le processus d'authentification Kerberos, la demande d'un utilisateur pour un Ticket Granting Ticket (TGT) est signée à l'aide de la **clé privée** du certificat de l'utilisateur. Cette demande subit plusieurs validations par le contrôleur de domaine, y compris la **validité**, le **chemin** et le **statut de révocation** du certificat. Les validations incluent également la vérification que le certificat provient d'une source de confiance et la confirmation de la présence de l'émetteur dans le **magasin de certificats NTAUTH**. Des validations réussies entraînent l'émission d'un TGT. L'objet **`NTAuthCertificates`** dans AD, trouvé à :
+Dans le processus d'authentification Kerberos, la demande d'un utilisateur pour un Ticket Granting Ticket (TGT) est signée à l'aide de la **clé privée** du certificat de l'utilisateur. Cette demande subit plusieurs validations par le contrôleur de domaine, y compris la **validité** du certificat, le **chemin** et le **statut de révocation**. Les validations incluent également la vérification que le certificat provient d'une source de confiance et la confirmation de la présence de l'émetteur dans le **magasin de certificats NTAUTH**. Des validations réussies entraînent l'émission d'un TGT. L'objet **`NTAuthCertificates`** dans AD, se trouve à :
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-est central à l'établissement de la confiance pour l'authentification par certificat.
+is central to establishing trust for certificate authentication.
 
-### Authentification Secure Channel (Schannel)
+### Secure Channel (Schannel) Authentication
 
-Schannel facilite les connexions TLS/SSL sécurisées, où, lors d'une poignée de main, le client présente un certificat qui, s'il est validé avec succès, autorise l'accès. La correspondance d'un certificat à un compte AD peut impliquer la fonction **S4U2Self** de Kerberos ou le **Nom Alternatif du Sujet (SAN)** du certificat, entre autres méthodes.
+Schannel facilite des connexions TLS/SSL sécurisées, où, lors d'une poignée de main, le client présente un certificat qui, s'il est validé avec succès, autorise l'accès. La correspondance d'un certificat à un compte AD peut impliquer la fonction **S4U2Self** de Kerberos ou le **Subject Alternative Name (SAN)** du certificat, entre autres méthodes.
 
-### Énumération des Services de Certificat AD
+### AD Certificate Services Enumeration
 
-Les services de certificat AD peuvent être énumérés via des requêtes LDAP, révélant des informations sur les **Autorités de Certification (CA) d'Entreprise** et leurs configurations. Cela est accessible par tout utilisateur authentifié de domaine sans privilèges spéciaux. Des outils comme **[Certify](https://github.com/GhostPack/Certify)** et **[Certipy](https://github.com/ly4k/Certipy)** sont utilisés pour l'énumération et l'évaluation des vulnérabilités dans les environnements AD CS.
+Les services de certificats AD peuvent être énumérés via des requêtes LDAP, révélant des informations sur les **Enterprise Certificate Authorities (CAs)** et leurs configurations. Cela est accessible par tout utilisateur authentifié dans le domaine sans privilèges spéciaux. Des outils comme **[Certify](https://github.com/GhostPack/Certify)** et **[Certipy](https://github.com/ly4k/Certipy)** sont utilisés pour l'énumération et l'évaluation des vulnérabilités dans les environnements AD CS.
 
 Les commandes pour utiliser ces outils incluent :
 ```bash
@@ -139,7 +139,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Comment ça fonctionne
 
-Des processus peuvent être ouverts sur des hôtes où le nom d'utilisateur et soit le mot de passe soit le hash sont connus grâce à l'utilisation de WMI. Les commandes sont exécutées en utilisant WMI par Wmiexec, offrant une expérience de shell semi-interactive.
+Des processus peuvent être ouverts sur des hôtes où le nom d'utilisateur et soit le mot de passe soit le hash sont connus grâce à l'utilisation de WMI. Les commandes sont exécutées en utilisant WMI par Wmiexec, fournissant une expérience de shell semi-interactive.
 
-**dcomexec.py :** En utilisant différents points de terminaison DCOM, ce script offre un shell semi-interactif semblable à wmiexec.py, tirant spécifiquement parti de l'objet DCOM ShellBrowserWindow. Il prend actuellement en charge les objets MMC20. Application, Shell Windows et Shell Browser Window. (source : [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py :** En utilisant différents points de terminaison DCOM, ce script offre un shell semi-interactif semblable à wmiexec.py, exploitant spécifiquement l'objet DCOM ShellBrowserWindow. Il prend actuellement en charge les objets Application MMC20, Shell Windows et Shell Browser Window. (source : [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Fondamentaux de WMI
 
@@ -104,7 +104,7 @@ Interrogation à distance de WMI pour des informations spécifiques, telles que 
 
 L'identification discrète des administrateurs locaux sur une machine distante et des utilisateurs connectés peut être réalisée grâce à des requêtes WMI spécifiques. `wmic` prend également en charge la lecture à partir d'un fichier texte pour exécuter des commandes sur plusieurs nœuds simultanément.
 
-Pour exécuter à distance un processus via WMI, tel que le déploiement d'un agent Empire, la structure de commande suivante est utilisée, avec une exécution réussie indiquée par une valeur de retour de "0" :
+Pour exécuter à distance un processus via WMI, comme le déploiement d'un agent Empire, la structure de commande suivante est utilisée, avec une exécution réussie indiquée par une valeur de retour de "0" :
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```

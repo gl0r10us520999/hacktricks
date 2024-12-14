@@ -28,8 +28,8 @@ Quelques blogs sur le sujet :
 
 ## Configuration de l'imprimante
 - **Emplacement** : La liste des serveurs LDAP se trouve à : `Network > LDAP Setting > Setting Up LDAP`.
-- **Comportement** : L'interface permet des modifications du serveur LDAP sans avoir à réintroduire les identifiants, visant la commodité de l'utilisateur mais posant des risques de sécurité.
-- **Exploitation** : L'exploitation consiste à rediriger l'adresse du serveur LDAP vers une machine contrôlée et à utiliser la fonction "Tester la connexion" pour capturer les identifiants.
+- **Comportement** : L'interface permet des modifications du serveur LDAP sans avoir à ressaisir les identifiants, visant la commodité de l'utilisateur mais posant des risques de sécurité.
+- **Exploitation** : L'exploitation consiste à rediriger l'adresse du serveur LDAP vers une machine contrôlée et à utiliser la fonction "Test de connexion" pour capturer les identifiants.
 
 ## Capture des identifiants
 

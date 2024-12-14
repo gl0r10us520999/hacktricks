@@ -19,7 +19,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ## WDigest
 
-Le protocole [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396), introduit avec Windows XP, est conçu pour l'authentification via le protocole HTTP et est **activé par défaut sur Windows XP jusqu'à Windows 8.0 et Windows Server 2003 à Windows Server 2012**. Ce paramètre par défaut entraîne un **stockage des mots de passe en texte clair dans LSASS** (Service de sous-système de sécurité local). Un attaquant peut utiliser Mimikatz pour **extraire ces identifiants** en exécutant :
+Le protocole [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396), introduit avec Windows XP, est conçu pour l'authentification via le protocole HTTP et est **activé par défaut sur Windows XP jusqu'à Windows 8.0 et Windows Server 2003 à Windows Server 2012**. Ce paramètre par défaut entraîne un **stockage des mots de passe en texte clair dans LSASS** (Local Security Authority Subsystem Service). Un attaquant peut utiliser Mimikatz pour **extraire ces identifiants** en exécutant :
 ```bash
 sekurlsa::wdigest
 ```
@@ -45,17 +45,17 @@ Il est possible de contourner cette protection en utilisant le pilote Mimikatz m
 
 Par défaut, **Credential Guard** n'est pas actif et nécessite une activation manuelle au sein d'une organisation. Il est crucial pour améliorer la sécurité contre des outils comme **Mimikatz**, qui sont entravés dans leur capacité à extraire des identifiants. Cependant, des vulnérabilités peuvent encore être exploitées par l'ajout de **Security Support Providers (SSP)** personnalisés pour capturer les identifiants en texte clair lors des tentatives de connexion.
 
-Pour vérifier l'état d'activation de **Credential Guard**, la clé de registre _**LsaCfgFlags**_ sous _**HKLM\System\CurrentControlSet\Control\LSA**_ peut être inspectée. Une valeur de "**1**" indique une activation avec **UEFI lock**, "**2**" sans verrou, et "**0**" signifie qu'il n'est pas activé. Cette vérification de registre, bien qu'indicateur fort, n'est pas la seule étape pour activer Credential Guard. Des conseils détaillés et un script PowerShell pour activer cette fonctionnalité sont disponibles en ligne.
+Pour vérifier l'état d'activation de **Credential Guard**, la clé de registre _**LsaCfgFlags**_ sous _**HKLM\System\CurrentControlSet\Control\LSA**_ peut être inspectée. Une valeur de "**1**" indique une activation avec **UEFI lock**, "**2**" sans verrou, et "**0**" signifie qu'il n'est pas activé. Cette vérification de registre, bien qu'indicative, n'est pas la seule étape pour activer Credential Guard. Des conseils détaillés et un script PowerShell pour activer cette fonctionnalité sont disponibles en ligne.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
-Pour une compréhension complète et des instructions sur l'activation de **Credential Guard** dans Windows 10 et son activation automatique dans les systèmes compatibles de **Windows 11 Enterprise et Education (version 22H2)**, consultez [la documentation de Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
+Pour une compréhension complète et des instructions sur l'activation de **Credential Guard** dans Windows 10 et son activation automatique dans les systèmes compatibles de **Windows 11 Enterprise et Education (version 22H2)**, visitez [la documentation de Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
 Des détails supplémentaires sur la mise en œuvre de SSP personnalisés pour la capture de credentials sont fournis dans [ce guide](../active-directory-methodology/custom-ssp.md).
 
 ## Mode RestrictedAdmin RDP
 
-**Windows 8.1 et Windows Server 2012 R2** ont introduit plusieurs nouvelles fonctionnalités de sécurité, y compris le _**mode Restricted Admin pour RDP**_. Ce mode a été conçu pour améliorer la sécurité en atténuant les risques associés aux attaques de [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/).
+**Windows 8.1 et Windows Server 2012 R2** ont introduit plusieurs nouvelles fonctionnalités de sécurité, y compris le _**mode Restricted Admin pour RDP**_. Ce mode a été conçu pour améliorer la sécurité en atténuant les risques associés aux attaques [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/).
 
 Traditionnellement, lors de la connexion à un ordinateur distant via RDP, vos credentials sont stockés sur la machine cible. Cela pose un risque de sécurité significatif, surtout lors de l'utilisation de comptes avec des privilèges élevés. Cependant, avec l'introduction du _**mode Restricted Admin**_, ce risque est considérablement réduit.
 
@@ -67,7 +67,7 @@ Cette fonctionnalité marque un pas en avant significatif dans la sécurisation 
 
 ![](../../.gitbook/assets/RAM.png)
 
-Pour des informations plus détaillées, consultez [cette ressource](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
+Pour des informations plus détaillées, visitez [cette ressource](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
 
 ## Credentials mises en cache
 
@@ -95,7 +95,7 @@ L'appartenance au **groupe des Utilisateurs protégés** introduit plusieurs am�
 
 Ces protections sont activées dès qu'un utilisateur, membre du **groupe des Utilisateurs protégés**, se connecte à l'appareil. Cela garantit que des mesures de sécurité critiques sont en place pour protéger contre diverses méthodes de compromission des informations d'identification.
 
-Pour des informations plus détaillées, consultez la [documentation](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group) officielle.
+Pour des informations plus détaillées, consultez la [documentation officielle](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 
 **Tableau provenant de** [**la documentation**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 

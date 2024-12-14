@@ -1,23 +1,23 @@
 # Groupes Privilégiés
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) pour construire et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) pour construire et **automatiser des workflows** facilement grâce aux **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
@@ -30,7 +30,7 @@ Accédez dès aujourd'hui :
 
 ## Opérateurs de Compte
 
-Ce groupe est habilité à créer des comptes et des groupes qui ne sont pas des administrateurs sur le domaine. De plus, il permet la connexion locale au Contrôleur de Domaine (DC).
+Ce groupe est habilité à créer des comptes et des groupes qui ne sont pas des administrateurs sur le domaine. De plus, il permet une connexion locale au Contrôleur de Domaine (DC).
 
 Pour identifier les membres de ce groupe, la commande suivante est exécutée :
 ```powershell
@@ -146,7 +146,7 @@ wbadmin get versions
 echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
 ```
 
-Pour une démonstration pratique, voir [VIDÉO DE DÉMO AVEC IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+Pour une démonstration pratique, voir [VIDÉO DE DÉMONSTRATION AVEC IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
 
 ## DnsAdmins
 
@@ -192,7 +192,7 @@ Il est également possible d'utiliser mimilib.dll pour l'exécution de commandes
 Les DnsAdmins peuvent manipuler les enregistrements DNS pour effectuer des attaques Man-in-the-Middle (MitM) en créant un enregistrement WPAD après avoir désactivé la liste de blocage des requêtes globales. Des outils comme Responder ou Inveigh peuvent être utilisés pour le spoofing et la capture du trafic réseau.
 
 ### Lecteurs de journaux d'événements
-Les membres peuvent accéder aux journaux d'événements, trouvant potentiellement des informations sensibles telles que des mots de passe en clair ou des détails sur l'exécution de commandes :
+Les membres peuvent accéder aux journaux d'événements, trouvant potentiellement des informations sensibles telles que des mots de passe en clair ou des détails d'exécution de commandes :
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
@@ -214,11 +214,11 @@ Le service de maintenance de Mozilla Firefox peut être exploité par les admini
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-Note : L'exploitation des liens durs a été atténuée dans les mises à jour récentes de Windows.
+Note: L'exploitation des liens durs a été atténuée dans les mises à jour récentes de Windows.
 
 ## Gestion de l'organisation
 
-Dans les environnements où **Microsoft Exchange** est déployé, un groupe spécial connu sous le nom de **Gestion de l'organisation** détient des capacités significatives. Ce groupe a le privilège d'**accéder aux boîtes aux lettres de tous les utilisateurs du domaine** et maintient **un contrôle total sur l'Unité d'Organisation 'Groupes de sécurité Microsoft Exchange'**. Ce contrôle inclut le groupe **`Exchange Windows Permissions`**, qui peut être exploité pour l'escalade de privilèges.
+Dans les environnements où **Microsoft Exchange** est déployé, un groupe spécial connu sous le nom de **Gestion de l'organisation** détient des capacités significatives. Ce groupe a le privilège **d'accéder aux boîtes aux lettres de tous les utilisateurs du domaine** et maintient **un contrôle total sur l'Unité d'Organisation 'Groupes de sécurité Microsoft Exchange'**. Ce contrôle inclut le groupe **`Exchange Windows Permissions`**, qui peut être exploité pour l'escalade de privilèges.
 
 ### Exploitation des privilèges et commandes
 
@@ -232,7 +232,7 @@ Get-NetGroupMember -Identity "Print Operators" -Recurse
 Pour des techniques d'exploitation plus détaillées liées à **`SeLoadDriverPrivilege`**, il convient de consulter des ressources de sécurité spécifiques.
 
 #### Utilisateurs du Bureau à Distance
-Les membres de ce groupe se voient accorder l'accès aux PC via le Protocole de Bureau à Distance (RDP). Pour énumérer ces membres, des commandes PowerShell sont disponibles :
+Les membres de ce groupe se voient accorder l'accès aux PC via le protocole de bureau à distance (RDP). Pour énumérer ces membres, des commandes PowerShell sont disponibles :
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
@@ -285,7 +285,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

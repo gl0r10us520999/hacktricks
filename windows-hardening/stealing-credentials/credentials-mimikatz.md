@@ -53,22 +53,22 @@ Cela permet de vider la mémoire de `lsass.exe` dans un fichier, qui peut ensuit
 
 La falsification des journaux d'événements dans Mimikatz implique deux actions principales : effacer les journaux d'événements et patcher le service d'événements pour empêcher l'enregistrement de nouveaux événements. Voici les commandes pour effectuer ces actions :
 
-#### Effacement des Journaux d'Événements
+#### Effacement des journaux d'événements
 
 - **Commande** : Cette action vise à supprimer les journaux d'événements, rendant plus difficile le suivi des activités malveillantes.
-- Mimikatz ne fournit pas de commande directe dans sa documentation standard pour effacer les journaux d'événements directement via sa ligne de commande. Cependant, la manipulation des journaux d'événements implique généralement l'utilisation d'outils système ou de scripts en dehors de Mimikatz pour effacer des journaux spécifiques (par exemple, en utilisant PowerShell ou le Visualiseur d'Événements Windows).
+- Mimikatz ne fournit pas de commande directe dans sa documentation standard pour effacer les journaux d'événements directement via sa ligne de commande. Cependant, la manipulation des journaux d'événements implique généralement l'utilisation d'outils système ou de scripts en dehors de Mimikatz pour effacer des journaux spécifiques (par exemple, en utilisant PowerShell ou le Visualiseur d'événements Windows).
 
-#### Fonctionnalité Expérimentale : Patcher le Service d'Événements
+#### Fonctionnalité expérimentale : Patchage du service d'événements
 
 - **Commande** : `event::drop`
-- Cette commande expérimentale est conçue pour modifier le comportement du Service d'Enregistrement des Événements, empêchant effectivement l'enregistrement de nouveaux événements.
+- Cette commande expérimentale est conçue pour modifier le comportement du service d'enregistrement des événements, empêchant effectivement l'enregistrement de nouveaux événements.
 - Exemple : `mimikatz "privilege::debug" "event::drop" exit`
 
 - La commande `privilege::debug` garantit que Mimikatz fonctionne avec les privilèges nécessaires pour modifier les services système.
 - La commande `event::drop` patch alors le service d'enregistrement des événements.
 
 
-### Attaques de Tickets Kerberos
+### Attaques de tickets Kerberos
 
 ### Création de Golden Ticket
 
@@ -77,10 +77,10 @@ Un Golden Ticket permet une usurpation d'accès à l'échelle du domaine. Comman
 - Commande : `kerberos::golden`
 - Paramètres :
 - `/domain` : Le nom de domaine.
-- `/sid` : L'Identifiant de Sécurité (SID) du domaine.
+- `/sid` : L'identifiant de sécurité (SID) du domaine.
 - `/user` : Le nom d'utilisateur à usurper.
 - `/krbtgt` : Le hachage NTLM du compte de service KDC du domaine.
-- `/ptt` : Injecte directement le ticket dans la mémoire.
+- `/ptt` : Injecte directement le ticket en mémoire.
 - `/ticket` : Enregistre le ticket pour une utilisation ultérieure.
 
 Exemple :
@@ -209,7 +209,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Approfondissez votre expertise en **Sécurité Mobile** avec 8kSec Academy. Maîtrisez la sécurité iOS et Android grâce à nos cours auto-dirigés et obtenez une certification :
+Approfondissez votre expertise en **Sécurité Mobile** avec 8kSec Academy. Maîtrisez la sécurité iOS et Android grâce à nos cours à votre rythme et obtenez une certification :
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -223,7 +223,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

@@ -147,13 +147,13 @@ Mais, comment pouvez-vous accéder au code de la DLL qui a été chargée ? En u
 * **Charger rundll32** (64 bits dans C:\Windows\System32\rundll32.exe et 32 bits dans C:\Windows\SysWOW64\rundll32.exe)
 * **Changer la ligne de commande** (_Fichier --> Changer la ligne de commande_) et définir le chemin de la dll et la fonction que vous souhaitez appeler, par exemple : "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Changez _Options --> Paramètres_ et sélectionnez "**Entrée DLL**".
-* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque entrée principale de DLL, à un moment donné, vous **vous arrêterez dans l'entrée DLL de votre DLL**. À partir de là, il suffit de rechercher les points où vous souhaitez mettre un point d'arrêt.
+* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque entrée principale de dll, à un moment donné vous **vous arrêterez dans l'entrée de la dll** que vous souhaitez déboguer. À partir de là, recherchez simplement les points où vous souhaitez mettre un point d'arrêt.
 
 Remarquez que lorsque l'exécution est arrêtée pour une raison quelconque dans win64dbg, vous pouvez voir **dans quel code vous êtes** en regardant en **haut de la fenêtre win64dbg** :
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêtée dans la DLL que vous souhaitez déboguer.
+Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêtée dans la dll que vous souhaitez déboguer.
 
 ## Applications GUI / Jeux vidéo
 
@@ -187,7 +187,7 @@ Vous pouvez trouver une version légèrement modifiée de Blobrunner dans le lie
 
 ### Débogage d'un shellcode avec jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace de mémoire et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **jouer démarrer attendre 2-5 secondes et appuyer sur arrêter** et vous vous retrouverez dans la **boucle éternelle**. Sautez à l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin, vous vous retrouverez à exécuter le shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace de mémoire et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **jouer démarrer attendre 2-5 secondes et appuyer sur arrêter** et vous vous retrouverez dans la **boucle éternelle**. Sautez à l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin vous vous retrouverez à exécuter le shellcode.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -312,7 +312,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Donc, dans ce type de programme, la partie intéressante sera **comment le programme traite l'entrée de l'utilisateur**. À l'adresse **0x4000130**, vous trouverez la fonction couramment rencontrée : **KEYINPUT**.
+Alors, dans ce type de programme, la partie intéressante sera **comment le programme traite l'entrée de l'utilisateur**. À l'adresse **0x4000130**, vous trouverez la fonction couramment rencontrée : **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (447).png>)
 
@@ -385,7 +385,7 @@ Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endro
 * Ensuite, il est comparé avec la **valeur 8** (bouton **START**) : Dans le défi, cela vérifie si le code est valide pour obtenir le drapeau.
 * Dans ce cas, la var **`DAT_030000d8`** est comparée avec 0xf3 et si la valeur est la même, un certain code est exécuté.
 * Dans tous les autres cas, un cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après être entré dans le code.\
-**Si** moins de 8, quelque chose qui implique **d'ajouter** des valeurs à \*\*`DAT_030000d8` \*\* est fait (en gros, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
+**S**i moins de 8, quelque chose qui implique **d'ajouter** des valeurs à \*\*`DAT_030000d8` \*\* est fait (en gros, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
 
 Donc, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuyer sur une combinaison d'une longueur inférieure à 8 dont l'addition résultante est 0xf3.**
 

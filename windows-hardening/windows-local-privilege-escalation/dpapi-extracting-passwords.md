@@ -10,7 +10,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -23,17 +23,17 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ## Qu'est-ce que DPAPI
 
-L'API de protection des données (DPAPI) est principalement utilisée dans le système d'exploitation Windows pour le **chiffrement symétrique des clés privées asymétriques**, s'appuyant soit sur des secrets utilisateur, soit sur des secrets système comme source significative d'entropie. Cette approche simplifie le chiffrement pour les développeurs en leur permettant de chiffrer des données à l'aide d'une clé dérivée des secrets de connexion de l'utilisateur ou, pour le chiffrement système, des secrets d'authentification de domaine du système, évitant ainsi aux développeurs de gérer eux-mêmes la protection de la clé de chiffrement.
+L'API de protection des données (DPAPI) est principalement utilisée au sein du système d'exploitation Windows pour le **chiffrement symétrique des clés privées asymétriques**, tirant parti des secrets utilisateur ou système comme source significative d'entropie. Cette approche simplifie le chiffrement pour les développeurs en leur permettant de chiffrer des données à l'aide d'une clé dérivée des secrets de connexion de l'utilisateur ou, pour le chiffrement système, des secrets d'authentification de domaine du système, évitant ainsi aux développeurs de gérer eux-mêmes la protection de la clé de chiffrement.
 
 ### Données protégées par DPAPI
 
 Parmi les données personnelles protégées par DPAPI, on trouve :
 
 * Les mots de passe et les données de saisie automatique d'Internet Explorer et de Google Chrome
-* Les mots de passe des comptes e-mail et FTP internes pour des applications comme Outlook et Windows Mail
+* Les mots de passe des e-mails et des comptes FTP internes pour des applications comme Outlook et Windows Mail
 * Les mots de passe pour les dossiers partagés, les ressources, les réseaux sans fil et Windows Vault, y compris les clés de chiffrement
 * Les mots de passe pour les connexions de bureau à distance, .NET Passport et les clés privées pour divers usages de chiffrement et d'authentification
-* Les mots de passe réseau gérés par le Gestionnaire d'identifiants et les données personnelles dans des applications utilisant CryptProtectData, telles que Skype, MSN Messenger, et plus encore
+* Les mots de passe réseau gérés par le Gestionnaire d'identifiants et les données personnelles dans des applications utilisant CryptProtectData, telles que Skype, MSN messenger, et plus encore
 
 ## Liste Vault
 ```bash
@@ -81,7 +81,7 @@ Voici à quoi ressemble un ensemble de clés maîtresses d'un utilisateur :
 
 ![](<../../.gitbook/assets/image (1121).png>)
 
-En général, **chaque clé maîtresse est une clé symétrique chiffrée qui peut déchiffrer d'autres contenus**. Par conséquent, **extraire** la **clé maîtresse chiffrée** est intéressant afin de **déchiffrer** plus tard ce **contenu** chiffré avec elle.
+En général, **chaque clé maîtresse est une clé symétrique chiffrée qui peut déchiffrer d'autres contenus**. Par conséquent, **extraire** la **clé maîtresse chiffrée** est intéressant afin de **décrypter** plus tard ce **contenu** chiffré avec elle.
 
 ### Extraire la clé maîtresse et déchiffrer
 
@@ -122,11 +122,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

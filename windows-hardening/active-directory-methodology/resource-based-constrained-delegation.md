@@ -21,7 +21,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ## Notions de Base de la Délégation Contraignante Basée sur les Ressources
 
-Ceci est similaire à la [Délégation Contraignante](constrained-delegation.md) de base mais **au lieu** de donner des permissions à un **objet** pour **imposer n'importe quel utilisateur contre un service**. La Délégation Contraignante Basée sur les Ressources **définit** dans **l'objet qui peut imposer n'importe quel utilisateur contre lui**.
+Ceci est similaire à la [Délégation Contraignante](constrained-delegation.md) de base mais **au lieu** de donner des permissions à un **objet** pour **imposer n'importe quel utilisateur contre un service**. La Délégation Contraignante Basée sur les Ressources **définit** dans **l'objet qui est capable d'imposer n'importe quel utilisateur contre lui**.
 
 Dans ce cas, l'objet contraint aura un attribut appelé _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ avec le nom de l'utilisateur qui peut imposer n'importe quel autre utilisateur contre lui.
 
@@ -32,7 +32,7 @@ Une autre différence importante entre cette Délégation Contraignante et les a
 Dans la Délégation Contraignante, il a été dit que le **`TrustedToAuthForDelegation`** drapeau à l'intérieur de la valeur _userAccountControl_ de l'utilisateur est nécessaire pour effectuer un **S4U2Self.** Mais ce n'est pas complètement vrai.\
 La réalité est que même sans cette valeur, vous pouvez effectuer un **S4U2Self** contre n'importe quel utilisateur si vous êtes un **service** (avez un SPN) mais, si vous **avez `TrustedToAuthForDelegation`** le TGS retourné sera **Transférable** et si vous **n'avez pas** ce drapeau, le TGS retourné **ne sera pas** **Transférable**.
 
-Cependant, si le **TGS** utilisé dans **S4U2Proxy** **n'est PAS Transférable**, essayer d'abuser d'une **délégation contraignante de base** **ne fonctionnera pas**. Mais si vous essayez d'exploiter une **délégation contraignante basée sur les ressources, cela fonctionnera** (ce n'est pas une vulnérabilité, c'est une fonctionnalité, apparemment).
+Cependant, si le **TGS** utilisé dans **S4U2Proxy** **n'est PAS Transférable**, essayer d'abuser d'une **Délégation Contraignante de base** **ne fonctionnera pas**. Mais si vous essayez d'exploiter une **délégation contraignante basée sur les ressources, cela fonctionnera** (ce n'est pas une vulnérabilité, c'est une fonctionnalité, apparemment).
 
 ### Structure de l'Attaque
 
@@ -40,13 +40,13 @@ Cependant, si le **TGS** utilisé dans **S4U2Proxy** **n'est PAS Transférable**
 
 Supposons que l'attaquant a déjà **des privilèges d'écriture équivalents sur l'ordinateur de la victime**.
 
-1. L'attaquant **compromet** un compte qui a un **SPN** ou **en crée un** (“Service A”). Notez que **tout** _Utilisateur Admin_ sans aucun autre privilège spécial peut **créer** jusqu'à 10 **objets d'ordinateur (**_**MachineAccountQuota**_**)** et leur attribuer un **SPN**. Donc, l'attaquant peut simplement créer un objet d'ordinateur et définir un SPN.
+1. L'attaquant **compromet** un compte qui a un **SPN** ou **en crée un** (“Service A”). Notez que **tout** _Utilisateur Administrateur_ sans aucun autre privilège spécial peut **créer** jusqu'à 10 **objets d'ordinateur (**_**MachineAccountQuota**_**)** et leur attribuer un **SPN**. Donc, l'attaquant peut simplement créer un objet d'ordinateur et définir un SPN.
 2. L'attaquant **abuse de son privilège d'ÉCRITURE** sur l'ordinateur de la victime (ServiceB) pour configurer **la délégation contraignante basée sur les ressources pour permettre à ServiceA d'imposer n'importe quel utilisateur** contre cet ordinateur de la victime (ServiceB).
 3. L'attaquant utilise Rubeus pour effectuer une **attaque S4U complète** (S4U2Self et S4U2Proxy) de Service A à Service B pour un utilisateur **avec un accès privilégié à Service B**.
 1. S4U2Self (depuis le compte SPN compromis/créé) : Demander un **TGS d'Administrateur pour moi** (Non Transférable).
-2. S4U2Proxy : Utiliser le **TGS non Transférable** de l'étape précédente pour demander un **TGS** de **l'Administrateur** à l'**hôte victime**.
+2. S4U2Proxy : Utiliser le **TGS non Transférable** de l'étape précédente pour demander un **TGS** de **l'Administrateur** au **hôte victime**.
 3. Même si vous utilisez un TGS non Transférable, comme vous exploitez la délégation contraignante basée sur les ressources, cela fonctionnera.
-4. L'attaquant peut **passer le ticket** et **imposer** l'utilisateur pour obtenir **l'accès au ServiceB de la victime**.
+4. L'attaquant peut **passer le ticket** et **imposer** l'utilisateur pour obtenir **un accès au ServiceB de la victime**.
 
 Pour vérifier le _**MachineAccountQuota**_ du domaine, vous pouvez utiliser :
 ```powershell
@@ -64,9 +64,9 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
-### Configurer la R**eprésentation basée sur la délégation contrainte**
+### Configurer la Délégation Contraignante Basée sur les Ressources
 
-**Utiliser le module PowerShell activedirectory**
+**Utilisation du module PowerShell activedirectory**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
@@ -108,7 +108,7 @@ Notez que les utilisateurs ont un attribut appelé "**Ne peut pas être délégu
 ### Accès
 
 La dernière ligne de commande effectuera l'**attaque S4U complète et injectera le TGS** de l'Administrateur vers l'hôte victime en **mémoire**.\
-Dans cet exemple, un TGS pour le service **CIFS** a été demandé à l'Administrateur, vous pourrez donc accéder à **C$** :
+Dans cet exemple, un TGS a été demandé pour le service **CIFS** de l'Administrateur, vous pourrez donc accéder à **C$** :
 ```bash
 ls \\victim.domain.local\C$
 ```

@@ -17,7 +17,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 ## Introduction
 
-**Réseau à Large Portée et Faible Consommation** (LPWAN) est un groupe de technologies de réseau sans fil, à faible consommation, conçues pour des **communications à longue portée** à un faible débit binaire.\
+**Le Réseau à Large Portée et Faible Consommation** (LPWAN) est un groupe de technologies de réseau sans fil, à faible consommation, conçues pour des **communications à longue portée** à un faible débit binaire.\
 Ils peuvent atteindre plus de **six miles** et leurs **batteries** peuvent durer jusqu'à **20 ans**.
 
 Long Range (**LoRa**) est populaire dans plusieurs pays et a une spécification open source appelée **LoRaWAN**.

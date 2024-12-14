@@ -23,7 +23,7 @@ L'objectif de cette phase initiale est très simple : **Diviser l'entrée en tok
 ## 2. Data Sampling
 
 {% hint style="success" %}
-L'objectif de cette deuxième phase est très simple : **Échantillonner les données d'entrée et les préparer pour la phase d'entraînement, généralement en séparant le jeu de données en phrases d'une longueur spécifique et en générant également la réponse attendue.**
+L'objectif de cette deuxième phase est très simple : **Échantillonner les données d'entrée et les préparer pour la phase d'entraînement généralement en séparant le jeu de données en phrases d'une longueur spécifique et en générant également la réponse attendue.**
 {% endhint %}
 
 {% content-ref url="2.-data-sampling.md" %}
@@ -69,7 +69,7 @@ Cette architecture sera utilisée pour l'entraînement et la prédiction de text
 ## 6. Pre-training & Loading models
 
 {% hint style="success" %}
-L'objectif de cette sixième phase est très simple : **Entraîner le modèle depuis zéro**. Pour cela, l'architecture LLM précédente sera utilisée avec quelques boucles parcourant les jeux de données en utilisant les fonctions de perte et l'optimiseur définis pour entraîner tous les paramètres du modèle.
+L'objectif de cette sixième phase est très simple : **Entraîner le modèle depuis zéro**. Pour cela, l'architecture LLM précédente sera utilisée avec quelques boucles parcourant les ensembles de données en utilisant les fonctions de perte et l'optimiseur définis pour entraîner tous les paramètres du modèle.
 {% endhint %}
 
 {% content-ref url="6.-pre-training-and-loading-models.md" %}
@@ -89,7 +89,7 @@ L'utilisation de **LoRA réduit beaucoup le calcul** nécessaire pour **affiner*
 ## 7.1. Fine-Tuning for Classification
 
 {% hint style="success" %}
-L'objectif de cette section est de montrer comment affiner un modèle déjà pré-entraîné afin qu'au lieu de générer un nouveau texte, le LLM donnera les **probabilités que le texte donné soit catégorisé dans chacune des catégories données** (comme si un texte est un spam ou non).
+L'objectif de cette section est de montrer comment affiner un modèle déjà pré-entraîné afin qu'au lieu de générer un nouveau texte, le LLM sélectionne les **probabilités que le texte donné soit catégorisé dans chacune des catégories données** (comme si un texte est un spam ou non).
 {% endhint %}
 
 {% content-ref url="7.1.-fine-tuning-for-classification.md" %}

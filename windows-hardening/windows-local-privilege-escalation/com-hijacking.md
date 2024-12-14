@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 Comme les valeurs de HKCU peuvent être modifiées par les utilisateurs, **COM Hijacking** pourrait être utilisé comme un **mécanisme persistant**. En utilisant `procmon`, il est facile de trouver des enregistrements COM recherchés qui n'existent pas et qu'un attaquant pourrait créer pour persister. Filtres :
 
 * opérations **RegOpenKey**.
-* où le _Résultat_ est **NOM NON TROUVÉ**.
+* où le _Résultat_ est **NOM INCONNU**.
 * et le _Chemin_ se termine par **InprocServer32**.
 
 Une fois que vous avez décidé quel COM inexistant imiter, exécutez les commandes suivantes. _Soyez prudent si vous décidez d'imiter un COM qui est chargé toutes les quelques secondes, car cela pourrait être excessif._
@@ -62,7 +62,7 @@ Write-Host
 # CLSID :  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [plus comme le précédent...]</code></pre>
 
-En vérifiant la sortie, vous pouvez en sélectionner une qui va être exécutée **à chaque fois qu'un utilisateur se connecte**, par exemple.
+En vérifiant la sortie, vous pouvez en sélectionner une qui va être exécutée **chaque fois qu'un utilisateur se connecte**, par exemple.
 
 Maintenant, en recherchant le CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** dans **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** et dans HKLM et HKCU, vous constaterez généralement que la valeur n'existe pas dans HKCU.
 ```bash
@@ -85,7 +85,7 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-Alors, vous pouvez simplement créer l'entrée HKCU et chaque fois que l'utilisateur se connecte, votre backdoor sera activée.
+Alors, vous pouvez simplement créer l'entrée HKCU et chaque fois que l'utilisateur se connecte, votre backdoor sera déclenchée.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

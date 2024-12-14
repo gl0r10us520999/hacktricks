@@ -55,7 +55,7 @@ Pour plus de détails, consultez [https://blog.ropnop.com/using-credentials-to-o
 
 <figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Obtenez la perspective d'un hacker sur vos applications web, votre réseau et le cloud**
+**Obtenez la perspective d'un hacker sur vos applications web, votre réseau et votre cloud**
 
 **Trouvez et signalez des vulnérabilités critiques et exploitables ayant un impact commercial réel.** Utilisez nos 20+ outils personnalisés pour cartographier la surface d'attaque, trouver des problèmes de sécurité qui vous permettent d'escalader les privilèges, et utilisez des exploits automatisés pour collecter des preuves essentielles, transformant votre travail acharné en rapports convaincants.
 

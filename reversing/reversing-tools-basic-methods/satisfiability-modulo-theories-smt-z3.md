@@ -88,7 +88,7 @@ print(simplify(a == b)) #This is False
 ```
 ## Nombres Signés/Non Signés
 
-Z3 fournit des versions spéciales signées des opérations arithmétiques où il est important que le **bit-vector soit traité comme signé ou non signé**. Dans Z3Py, les opérateurs **<, <=, >, >=, /, % et >>** correspondent aux versions **signées**. Les opérateurs **non signés** correspondants sont **ULT, ULE, UGT, UGE, UDiv, URem et LShR.**
+Z3 fournit des versions spéciales signées des opérations arithmétiques où il est important que le **vecteur de bits soit traité comme signé ou non signé**. Dans Z3Py, les opérateurs **<, <=, >, >=, /, % et >>** correspondent aux versions **signées**. Les opérateurs **non signés** correspondants sont **ULT, ULE, UGT, UGE, UDiv, URem et LShR.**
 ```python
 from z3 import *
 

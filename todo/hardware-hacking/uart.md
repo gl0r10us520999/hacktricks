@@ -57,9 +57,9 @@ Il est important de noter que dans ce protocole, vous devez connecter le TX d'un
 
 ## Adaptateur CP210X UART à TTY
 
-La puce CP210X est utilisée dans de nombreuses cartes de prototypage comme NodeMCU (avec esp8266) pour la communication série. Ces adaptateurs sont relativement peu coûteux et peuvent être utilisés pour se connecter à l'interface UART de la cible. L'appareil a 5 broches : 5V, GND, RXD, TXD, 3.3V. Assurez-vous de connecter la tension comme supportée par la cible pour éviter tout dommage. Enfin, connectez la broche RXD de l'adaptateur au TXD de la cible et la broche TXD de l'adaptateur au RXD de la cible.
+La puce CP210X est utilisée dans de nombreuses cartes de prototypage comme NodeMCU (avec esp8266) pour la communication série. Ces adaptateurs sont relativement peu coûteux et peuvent être utilisés pour se connecter à l'interface UART de la cible. L'appareil a 5 broches : 5V, GND, RXD, TXD, 3.3V. Assurez-vous de connecter la tension comme supportée par la cible pour éviter tout dommage. Enfin, connectez la broche RXD de l'adaptateur à TXD de la cible et la broche TXD de l'adaptateur à RXD de la cible.
 
-Dans le cas où l'adaptateur n'est pas détecté, assurez-vous que les pilotes CP210X sont installés sur le système hôte. Une fois l'adaptateur détecté et connecté, des outils comme picocom, minicom ou screen peuvent être utilisés.
+En cas de non-détection de l'adaptateur, assurez-vous que les pilotes CP210X sont installés sur le système hôte. Une fois l'adaptateur détecté et connecté, des outils comme picocom, minicom ou screen peuvent être utilisés.
 
 Pour lister les appareils connectés aux systèmes Linux/MacOS :
 ```
@@ -79,15 +79,15 @@ Après la configuration, utilisez la commande `minicom` pour démarrer la consol
 
 ## UART Via Arduino UNO R3 (Cartes à puce Atmel 328p amovibles)
 
-Dans le cas où des adaptateurs UART Serial vers USB ne sont pas disponibles, l'Arduino UNO R3 peut être utilisé avec un hack rapide. Étant donné que l'Arduino UNO R3 est généralement disponible partout, cela peut faire gagner beaucoup de temps.
+Dans le cas où des adaptateurs UART Série vers USB ne sont pas disponibles, l'Arduino UNO R3 peut être utilisé avec un hack rapide. Étant donné que l'Arduino UNO R3 est généralement disponible partout, cela peut faire gagner beaucoup de temps.
 
-L'Arduino UNO R3 dispose d'un adaptateur USB vers série intégré sur la carte elle-même. Pour obtenir une connexion UART, il suffit de retirer la puce microcontrôleur Atmel 328p de la carte. Ce hack fonctionne sur les variantes de l'Arduino UNO R3 ayant l'Atmel 328p non soudé sur la carte (la version SMD est utilisée). Connectez la broche RX de l'Arduino (broche numérique 0) à la broche TX de l'interface UART et la broche TX de l'Arduino (broche numérique 1) à la broche RX de l'interface UART.
+L'Arduino UNO R3 dispose d'un adaptateur USB vers Série intégré sur la carte elle-même. Pour obtenir une connexion UART, il suffit de retirer la puce microcontrôleur Atmel 328p de la carte. Ce hack fonctionne sur les variantes d'Arduino UNO R3 ayant l'Atmel 328p non soudé sur la carte (la version SMD est utilisée). Connectez la broche RX de l'Arduino (broche numérique 0) à la broche TX de l'interface UART et la broche TX de l'Arduino (broche numérique 1) à la broche RX de l'interface UART.
 
 Enfin, il est recommandé d'utiliser l'IDE Arduino pour obtenir la console série. Dans la section `outils` du menu, sélectionnez l'option `Console série` et définissez le baud rate selon l'interface UART.
 
 ## Bus Pirate
 
-Dans ce scénario, nous allons intercepter la communication UART de l'Arduino qui envoie toutes les impressions du programme au Moniteur Série.
+Dans ce scénario, nous allons intercepter la communication UART de l'Arduino qui envoie tous les affichages du programme au Moniteur Série.
 ```bash
 # Check the modes
 UART>m
@@ -161,13 +161,13 @@ waiting a few secs to repeat....
 ```
 ## Dumping Firmware with UART Console
 
-Le console UART offre un excellent moyen de travailler avec le firmware sous-jacent dans un environnement d'exécution. Mais lorsque l'accès à la console UART est en lecture seule, cela peut introduire de nombreuses contraintes. Dans de nombreux dispositifs embarqués, le firmware est stocké dans des EEPROM et exécuté dans des processeurs qui ont une mémoire volatile. Par conséquent, le firmware est maintenu en lecture seule puisque le firmware original lors de la fabrication est à l'intérieur de l'EEPROM lui-même et tout nouveau fichier serait perdu en raison de la mémoire volatile. Ainsi, le dumping du firmware est un effort précieux lors du travail avec des firmwares embarqués.
+Le console UART offre un excellent moyen de travailler avec le firmware sous-jacent dans un environnement d'exécution. Mais lorsque l'accès à la console UART est en lecture seule, cela peut introduire de nombreuses contraintes. Dans de nombreux dispositifs embarqués, le firmware est stocké dans des EEPROM et exécuté dans des processeurs ayant une mémoire volatile. Par conséquent, le firmware est maintenu en lecture seule puisque le firmware original lors de la fabrication est à l'intérieur de l'EEPROM elle-même et tout nouveau fichier serait perdu en raison de la mémoire volatile. Ainsi, le dumping du firmware est un effort précieux lors du travail avec des firmwares embarqués.
 
-Il existe de nombreuses façons de le faire et la section SPI couvre les méthodes pour extraire le firmware directement de l'EEPROM avec divers dispositifs. Cependant, il est recommandé d'essayer d'abord de dumper le firmware avec UART, car le dumping du firmware avec des dispositifs physiques et des interactions externes peut être risqué.
+Il existe de nombreuses façons de le faire et la section SPI couvre les méthodes pour extraire le firmware directement de l'EEPROM avec divers dispositifs. Bien qu'il soit recommandé d'essayer d'abord de dumper le firmware avec UART, car le dumping du firmware avec des dispositifs physiques et des interactions externes peut être risqué.
 
 Dumper le firmware depuis la console UART nécessite d'abord d'accéder aux bootloaders. De nombreux fournisseurs populaires utilisent uboot (Universal Bootloader) comme leur bootloader pour charger Linux. Par conséquent, obtenir l'accès à uboot est nécessaire.
 
-Pour accéder au bootloader, connectez le port UART à l'ordinateur et utilisez l'un des outils de console série tout en maintenant l'alimentation de l'appareil déconnectée. Une fois la configuration prête, appuyez sur la touche Entrée et maintenez-la enfoncée. Enfin, connectez l'alimentation à l'appareil et laissez-le démarrer.
+Pour accéder au bootloader, connectez le port UART à l'ordinateur et utilisez l'un des outils de console série tout en maintenant l'alimentation du dispositif déconnectée. Une fois la configuration prête, appuyez sur la touche Entrée et maintenez-la enfoncée. Enfin, connectez l'alimentation au dispositif et laissez-le démarrer.
 
 Faire cela interrompra le chargement de uboot et fournira un menu. Il est recommandé de comprendre les commandes uboot et d'utiliser le menu d'aide pour les lister. Cela pourrait être la commande `help`. Étant donné que différents fournisseurs utilisent différentes configurations, il est nécessaire de comprendre chacune d'elles séparément.
 
@@ -177,13 +177,13 @@ md
 ```
 qui signifie "vidage de mémoire". Cela affichera le contenu de la mémoire (contenu EEPROM) à l'écran. Il est recommandé de consigner la sortie de la console série avant de commencer la procédure pour capturer le vidage de mémoire.
 
-Enfin, il suffit de supprimer toutes les données inutiles du fichier journal et de stocker le fichier sous `filename.rom` et d'utiliser binwalk pour extraire le contenu :
+Enfin, il suffit de supprimer toutes les données inutiles du fichier journal et de stocker le fichier sous le nom `filename.rom` et d'utiliser binwalk pour extraire le contenu :
 ```
 binwalk -e <filename.rom>
 ```
 Cela listera les contenus possibles de l'EEPROM selon les signatures trouvées dans le fichier hexadécimal.
 
-Cependant, il est nécessaire de noter qu'il n'est pas toujours vrai que le uboot est déverrouillé même s'il est utilisé. Si la touche Entrée ne fait rien, vérifiez d'autres touches comme la touche Espace, etc. Si le bootloader est verrouillé et n'est pas interrompu, cette méthode ne fonctionnera pas. Pour vérifier si uboot est le bootloader de l'appareil, vérifiez la sortie sur la console UART pendant le démarrage de l'appareil. Il pourrait mentionner uboot pendant le démarrage.
+Cependant, il est nécessaire de noter qu'il n'est pas toujours vrai que le uboot est déverrouillé même s'il est utilisé. Si la touche Entrée ne fait rien, vérifiez d'autres touches comme la touche Espace, etc. Si le bootloader est verrouillé et ne s'interrompt pas, cette méthode ne fonctionnera pas. Pour vérifier si uboot est le bootloader de l'appareil, vérifiez la sortie sur la console UART pendant le démarrage de l'appareil. Il pourrait mentionner uboot pendant le démarrage.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

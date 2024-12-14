@@ -18,20 +18,20 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
 
 ## Kerberoast
 
-Kerberoasting se concentre sur l'acquisition de **tickets TGS**, spécifiquement ceux liés aux services fonctionnant sous des **comptes d'utilisateur** dans **Active Directory (AD)**, à l'exclusion des **comptes d'ordinateur**. Le chiffrement de ces tickets utilise des clés qui proviennent des **mots de passe des utilisateurs**, permettant la possibilité de **craquer les identifiants hors ligne**. L'utilisation d'un compte utilisateur en tant que service est indiquée par une propriété **"ServicePrincipalName"** non vide.
+Kerberoasting se concentre sur l'acquisition de **tickets TGS**, spécifiquement ceux liés aux services fonctionnant sous des **comptes d'utilisateur** dans **Active Directory (AD)**, excluant les **comptes d'ordinateur**. Le chiffrement de ces tickets utilise des clés provenant des **mots de passe des utilisateurs**, permettant la possibilité de **craquer les identifiants hors ligne**. L'utilisation d'un compte utilisateur en tant que service est indiquée par une propriété **"ServicePrincipalName"** non vide.
 
-Pour exécuter **Kerberoasting**, un compte de domaine capable de demander des **tickets TGS** est essentiel ; cependant, ce processus ne nécessite pas de **privilèges spéciaux**, le rendant accessible à quiconque possède des **identifiants de domaine valides**.
+Pour exécuter **Kerberoasting**, un compte de domaine capable de demander des **tickets TGS** est essentiel ; cependant, ce processus ne nécessite pas de **privilèges spéciaux**, le rendant accessible à quiconque ayant des **identifiants de domaine valides**.
 
 ### Points clés :
 
-* **Kerberoasting** cible les **tickets TGS** pour les **services de comptes d'utilisateur** au sein de **AD**.
+* **Kerberoasting** cible les **tickets TGS** pour les **services de comptes d'utilisateur** au sein de **l'AD**.
 * Les tickets chiffrés avec des clés provenant des **mots de passe des utilisateurs** peuvent être **craqués hors ligne**.
 * Un service est identifié par un **ServicePrincipalName** qui n'est pas nul.
 * **Aucun privilège spécial** n'est nécessaire, juste des **identifiants de domaine valides**.
@@ -40,7 +40,7 @@ Pour exécuter **Kerberoasting**, un compte de domaine capable de demander des *
 
 {% hint style="warning" %}
 Les **outils de Kerberoasting** demandent généralement le **`chiffrement RC4`** lors de l'exécution de l'attaque et de l'initiation des requêtes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à craquer hors ligne en utilisant des outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
-Les hachages RC4 (type 23) commencent par **`$krb5tgs$23$*`** tandis que ceux d'AES-256 (type 18) commencent par **`$krb5tgs$18$*`**.` 
+Les hachages RC4 (type 23) commencent par **`$krb5tgs$23$*`** tandis que ceux d'AES-256 (type 18) commencent par **`$krb5tgs$18$*`**`.
 {% endhint %}
 
 #### **Linux**
@@ -111,7 +111,7 @@ Lorsqu'un TGS est demandé, l'événement Windows `4769 - Un ticket de service K
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) pour créer et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) pour créer facilement et **automatiser des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
 Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
@@ -141,8 +141,8 @@ Le kerberoasting peut être mené avec un haut degré de discrétion s'il est ex
 
 * Le nom du service ne doit pas être **krbtgt**, car il s'agit d'une demande normale.
 * Les noms de service se terminant par **$** doivent être exclus pour éviter d'inclure des comptes machines utilisés pour des services.
-* Les demandes provenant de machines doivent être filtrées en excluant les noms de compte formatés comme **machine@domaine**.
-* Seules les demandes de ticket réussies doivent être considérées, identifiées par un code d'échec de **'0x0'**.
+* Les demandes provenant de machines doivent être filtrées en excluant les noms de compte formatés comme **machine@domain**.
+* Seules les demandes de ticket réussies doivent être prises en compte, identifiées par un code d'échec de **'0x0'**.
 * **Le plus important**, le type de cryptage du ticket doit être **0x17**, qui est souvent utilisé dans les attaques de kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
@@ -150,7 +150,7 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 Pour atténuer le risque de Kerberoasting :
 
 * Assurez-vous que **les mots de passe des comptes de service sont difficiles à deviner**, en recommandant une longueur de plus de **25 caractères**.
-* Utilisez des **comptes de service gérés**, qui offrent des avantages tels que **des changements de mot de passe automatiques** et **une gestion déléguée des noms de principal de service (SPN)**, renforçant la sécurité contre de telles attaques.
+* Utilisez des **comptes de service gérés**, qui offrent des avantages tels que **des changements de mot de passe automatiques** et **la gestion déléguée des noms de principal de service (SPN)**, renforçant la sécurité contre de telles attaques.
 
 En mettant en œuvre ces mesures, les organisations peuvent réduire considérablement le risque associé au Kerberoasting.
 
@@ -166,7 +166,7 @@ Vous devez fournir une liste d'utilisateurs car nous n'avons pas de compte valid
 
 #### Linux
 
-* [impacket/GetUserSPNs.py de la PR #1413](https://github.com/fortra/impacket/pull/1413):
+* [impacket/GetUserSPNs.py from PR #1413](https://github.com/fortra/impacket/pull/1413):
 ```bash
 GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
 ```
@@ -191,7 +191,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
@@ -200,7 +200,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) pour construire et **automatiser des workflows** facilement grâce aux **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) pour créer facilement et **automatiser des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
 Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}

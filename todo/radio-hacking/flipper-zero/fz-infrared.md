@@ -27,7 +27,7 @@ Pour plus d'informations sur le fonctionnement de l'infrarouge, consultez :
 
 Flipper utilise un récepteur de signal IR numérique TSOP, qui **permet d'intercepter les signaux des télécommandes IR**. Il existe des **smartphones** comme Xiaomi, qui ont également un port IR, mais gardez à l'esprit que **la plupart d'entre eux ne peuvent que transmettre** des signaux et sont **incapables de les recevoir**.
 
-Le récepteur infrarouge de Flipper est **assez sensible**. Vous pouvez même **attraper le signal** tout en restant **quelque part entre** la télécommande et la télévision. Il n'est pas nécessaire de pointer la télécommande directement vers le port IR de Flipper. Cela est pratique lorsque quelqu'un change de chaîne tout en se tenant près de la télévision, et que vous et Flipper êtes à une certaine distance.
+Le récepteur infrarouge de Flipper est **assez sensible**. Vous pouvez même **attraper le signal** tout en restant **quelque part entre** la télécommande et la télévision. Il n'est pas nécessaire de pointer la télécommande directement sur le port IR de Flipper. Cela est pratique lorsque quelqu'un change de chaîne tout en se tenant près de la télévision, et que vous et Flipper êtes à une certaine distance.
 
 Comme le **décodage du signal infrarouge** se fait du côté **logiciel**, Flipper Zero prend potentiellement en charge la **réception et la transmission de tous les codes de télécommande IR**. Dans le cas de protocoles **inconnus** qui ne peuvent pas être reconnus - il **enregistre et rejoue** le signal brut exactement tel qu'il a été reçu.
 

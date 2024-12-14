@@ -9,8 +9,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -55,7 +55,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## Registre
 
 {% hint style="info" %}
-[Note from here](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f) : L'entrée de registre **Wow6432Node** indique que vous exécutez une version 64 bits de Windows. Le système d'exploitation utilise cette clé pour afficher une vue séparée de HKEY\_LOCAL\_MACHINE\SOFTWARE pour les applications 32 bits qui s'exécutent sur des versions 64 bits de Windows.
+[Note from here](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): L'entrée de registre **Wow6432Node** indique que vous exécutez une version 64 bits de Windows. Le système d'exploitation utilise cette clé pour afficher une vue séparée de HKEY\_LOCAL\_MACHINE\SOFTWARE pour les applications 32 bits qui s'exécutent sur des versions 64 bits de Windows.
 {% endhint %}
 
 ### Exécutions
@@ -76,7 +76,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 
 Les clés de registre connues sous le nom de **Run** et **RunOnce** sont conçues pour exécuter automatiquement des programmes chaque fois qu'un utilisateur se connecte au système. La ligne de commande assignée en tant que valeur de données d'une clé est limitée à 260 caractères ou moins.
 
-**Exécutions de service** (peut contrôler le démarrage automatique des services pendant le démarrage) :
+**Exécutions de service** (peuvent contrôler le démarrage automatique des services lors du démarrage) :
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -97,11 +97,11 @@ Sur Windows Vista et les versions ultérieures, les clés de registre **Run** et
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Exploit 1** : Si vous pouvez écrire à l'intérieur de l'un des registres mentionnés dans **HKLM**, vous pouvez élever les privilèges lorsqu'un autre utilisateur se connecte.
+**Exploitation 1** : Si vous pouvez écrire à l'intérieur de l'un des registres mentionnés dans **HKLM**, vous pouvez élever les privilèges lorsqu'un autre utilisateur se connecte.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres à l'intérieur de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un autre utilisateur se connecte et élever les privilèges.
+**Exploitation 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres à l'intérieur de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un autre utilisateur se connecte et élever les privilèges.
 {% endhint %}
 ```bash
 #CMD
@@ -212,7 +212,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 ### Changer l'invite de commande en mode sans échec
 
-Dans le Registre Windows sous `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, il y a une valeur **`AlternateShell`** définie par défaut sur `cmd.exe`. Cela signifie que lorsque vous choisissez "Mode sans échec avec invite de commande" au démarrage (en appuyant sur F8), `cmd.exe` est utilisé. Mais, il est possible de configurer votre ordinateur pour démarrer automatiquement en mode sans échec sans avoir besoin d'appuyer sur F8 et de le sélectionner manuellement.
+Dans le Registre Windows sous `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, il y a une valeur **`AlternateShell`** définie par défaut sur `cmd.exe`. Cela signifie que lorsque vous choisissez "Mode sans échec avec invite de commande" au démarrage (en appuyant sur F8), `cmd.exe` est utilisé. Mais, il est possible de configurer votre ordinateur pour démarrer automatiquement dans ce mode sans avoir besoin d'appuyer sur F8 et de le sélectionner manuellement.
 
 Étapes pour créer une option de démarrage pour démarrer automatiquement en "Mode sans échec avec invite de commande" :
 

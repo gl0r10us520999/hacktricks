@@ -9,7 +9,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
@@ -50,7 +50,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Maintenant, assignons un niveau d'intégrité minimum de **High** au fichier. Cela **doit être fait depuis une console** exécutée en tant qu'**administrateur**, car une **console régulière** fonctionnera à un niveau d'intégrité Medium et **ne sera pas autorisée** à attribuer un niveau d'intégrité High à un objet :
+Maintenant, assignons un niveau d'intégrité minimum de **High** au fichier. Cela **doit être fait à partir d'une console** exécutée en tant qu'**administrateur**, car une **console régulière** fonctionnera à un niveau d'intégrité Medium et **ne sera pas autorisée** à attribuer un niveau d'intégrité High à un objet :
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -65,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-C'est ici que les choses deviennent intéressantes. Vous pouvez voir que l'utilisateur `DESKTOP-IDJHTKP\user` a **tous les privilèges** sur le fichier (en effet, c'était l'utilisateur qui a créé le fichier), cependant, en raison du niveau d'intégrité minimum mis en œuvre, il ne pourra plus modifier le fichier à moins qu'il ne fonctionne à l'intérieur d'un niveau d'intégrité élevé (notez qu'il pourra le lire) :
+C'est ici que les choses deviennent intéressantes. Vous pouvez voir que l'utilisateur `DESKTOP-IDJHTKP\user` a **tous les privilèges** sur le fichier (en effet, c'était l'utilisateur qui a créé le fichier), cependant, en raison du niveau d'intégrité minimum mis en œuvre, il ne pourra plus modifier le fichier à moins qu'il ne fonctionne dans un niveau d'intégrité élevé (notez qu'il pourra le lire) :
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -75,7 +75,7 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Par conséquent, lorsqu'un fichier a un niveau d'intégrité minimum, pour le modifier, vous devez être exécuté au moins à ce niveau d'intégrité.**
+**Par conséquent, lorsqu'un fichier a un niveau d'intégrité minimum, pour le modifier, vous devez fonctionner au moins à ce niveau d'intégrité.**
 {% endhint %}
 
 ### Niveaux d'intégrité dans les binaires

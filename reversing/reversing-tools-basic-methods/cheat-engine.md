@@ -10,7 +10,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png"
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -43,7 +43,7 @@ Dans _**Édition --> Paramètres --> Raccourcis**_, vous pouvez définir différ
 
 ## Modification de la valeur
 
-Une fois que vous **avez trouvé** où se trouve la **valeur** que vous **cherchez** (plus d'informations à ce sujet dans les étapes suivantes), vous pouvez **la modifier** en double-cliquant dessus, puis en double-cliquant sur sa valeur :
+Une fois que vous **avez trouvé** où se trouve la **valeur** que vous **cherchez** (plus à ce sujet dans les étapes suivantes), vous pouvez **la modifier** en double-cliquant dessus, puis en double-cliquant sur sa valeur :
 
 ![](<../../.gitbook/assets/image (563).png>)
 
@@ -82,7 +82,7 @@ Ensuite, faites changer la valeur, indiquez **comment** la **valeur** **a chang�
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Vous serez présenté avec **toutes les valeurs qui ont été modifiées de la manière sélectionnée** :
+Vous serez présenté **toutes les valeurs qui ont été modifiées de la manière sélectionnée** :
 
 ![](<../../.gitbook/assets/image (569).png>)
 
@@ -94,7 +94,7 @@ Notez qu'il y a un **grand nombre de changements possibles** et vous pouvez fair
 
 ### Adresse mémoire aléatoire - Trouver le code
 
-Jusqu'à présent, nous avons appris à trouver une adresse stockant une valeur, mais il est très probable que lors de **différentes exécutions du jeu, cette adresse se trouve à différents endroits de la mémoire**. Alors découvrons comment toujours trouver cette adresse.
+Jusqu'à présent, nous avons appris à trouver une adresse stockant une valeur, mais il est très probable que dans **différentes exécutions du jeu, cette adresse se trouve à différents endroits de la mémoire**. Alors découvrons comment toujours trouver cette adresse.
 
 En utilisant certains des trucs mentionnés, trouvez l'adresse où votre jeu actuel stocke la valeur importante. Ensuite (en arrêtant le jeu si vous le souhaitez), faites un **clic droit** sur l'**adresse** trouvée et sélectionnez "**Découvrir ce qui accède à cette adresse**" ou "**Découvrir ce qui écrit à cette adresse**" :
 
@@ -130,7 +130,7 @@ Cliquez sur "**Ajouter l'adresse manuellement**" :
 
 ![](<../../.gitbook/assets/image (990).png>)
 
-Maintenant, cochez la case "Pointeur" et ajoutez l'adresse trouvée dans la zone de texte (dans ce scénario, l'adresse trouvée dans l'image précédente était "Tutorial-i386.exe"+2426B0) :
+Maintenant, cliquez sur la case "Pointeur" et ajoutez l'adresse trouvée dans la zone de texte (dans ce scénario, l'adresse trouvée dans l'image précédente était "Tutorial-i386.exe"+2426B0) :
 
 ![](<../../.gitbook/assets/image (392).png>)
 
@@ -163,7 +163,7 @@ Un modèle sera généré :
 
 ![](<../../.gitbook/assets/image (944).png>)
 
-Alors, insérez votre nouveau code d'assemblage dans la section "**newmem**" et retirez le code original de la section "**originalcode**" si vous ne souhaitez pas qu'il soit exécuté\*\*.\*\* Dans cet exemple, le code injecté ajoutera 2 points au lieu de soustraire 1 :
+Donc, insérez votre nouveau code d'assemblage dans la section "**newmem**" et retirez le code original de la section "**originalcode**" si vous ne souhaitez pas qu'il soit exécuté\*\*.\*\* Dans cet exemple, le code injecté ajoutera 2 points au lieu de soustraire 1 :
 
 ![](<../../.gitbook/assets/image (521).png>)
 
@@ -172,18 +172,3 @@ Alors, insérez votre nouveau code d'assemblage dans la section "**newmem**" et 
 ## **Références**
 
 * **Tutoriel Cheat Engine, complétez-le pour apprendre à commencer avec Cheat Engine**
-
-{% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
-
-</details>
-{% endhint %}

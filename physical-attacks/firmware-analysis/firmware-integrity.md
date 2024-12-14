@@ -29,7 +29,7 @@ Le **firmware personnalisé et/ou les binaires compilés peuvent être télécha
 10. Le firmware modifié peut être reconditionné en utilisant FMK.
 11. Le firmware avec backdoor peut être testé en l'émulant avec l'outil d'analyse de firmware (FAT) et en se connectant à l'IP et au port de la backdoor cible en utilisant netcat.
 
-Si un shell root a déjà été obtenu par analyse dynamique, manipulation du bootloader ou test de sécurité matériel, des binaires malveillants précompilés tels que des implants ou des shells inversés peuvent être exécutés. Des outils de charge utile/implant automatisés comme le framework Metasploit et 'msfvenom' peuvent être utilisés en suivant les étapes suivantes :
+Si un shell root a déjà été obtenu par analyse dynamique, manipulation du chargeur de démarrage ou test de sécurité matériel, des binaires malveillants précompilés tels que des implants ou des shells inversés peuvent être exécutés. Des outils de charge utile/implant automatisés comme le framework Metasploit et 'msfvenom' peuvent être utilisés en suivant les étapes suivantes :
 
 1. L'architecture et l'endianness du firmware cible doivent être identifiées.
 2. Msfvenom peut être utilisé pour spécifier la charge utile cible, l'IP de l'hôte attaquant, le numéro de port d'écoute, le type de fichier, l'architecture, la plateforme et le fichier de sortie.

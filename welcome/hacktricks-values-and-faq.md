@@ -1,21 +1,21 @@
-# HackTricks Values & FAQ
+# HackTricks Valeurs & FAQ
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
-## HackTricks Values
+## Valeurs de HackTricks
 
 {% hint style="success" %}
 Voici les **valeurs du projet HackTricks** :
@@ -23,17 +23,17 @@ Voici les **valeurs du projet HackTricks** :
 * Offrir un accès **GRATUIT** aux ressources de **FORMATION en hacking** à **TOUT** Internet.
 * Le hacking est une question d'apprentissage, et l'apprentissage devrait être aussi gratuit que possible.
 * Le but de ce livre est de servir de **ressource éducative** complète.
-* **STOCKER** d'incroyables **techniques de hacking** que la communauté publie en donnant tous les **crédits** aux **AUTEURS ORIGINAUX**.
+* **STOCKER** des techniques de **hacking** incroyables que la communauté publie en donnant tous les **crédits** aux **AUTEURS ORIGINAUX**.
 * **Nous ne voulons pas le crédit des autres**, nous voulons juste stocker des astuces intéressantes pour tout le monde.
 * Nous écrivons également **nos propres recherches** dans HackTricks.
-* Dans plusieurs cas, nous allons simplement écrire **dans HackTricks un résumé des parties importantes** de la technique et **encourager le lecteur à visiter le post original** pour plus de détails.
+* Dans plusieurs cas, nous écrirons simplement **dans HackTricks un résumé des parties importantes** de la technique et **encouragerons le lecteur à visiter le post original** pour plus de détails.
 * **ORGANISER** toutes les techniques de hacking dans le livre afin qu'elles soient **PLUS ACCESSIBLES**.
 * L'équipe de HackTricks a consacré des milliers d'heures gratuitement **uniquement pour organiser le contenu** afin que les gens puissent **apprendre plus rapidement**.
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
 
-## HackTricks faq
+## FAQ de HackTricks
 
 {% hint style="success" %}
 * **Merci beaucoup pour ces ressources, comment puis-je vous remercier ?**
@@ -41,7 +41,7 @@ Voici les **valeurs du projet HackTricks** :
 
 Vous pouvez remercier publiquement les équipes de HackTricks pour avoir rassemblé toutes ces ressources publiquement dans un tweet en mentionnant [**@hacktricks\_live**](https://twitter.com/hacktricks\_live).\
 Si vous êtes particulièrement reconnaissant, vous pouvez également [**sponsoriser le projet ici**](https://github.com/sponsors/carlospolop).\
-Et n'oubliez pas de **donner une étoile aux projets Github !** (Trouvez les liens ci-dessous).
+Et n'oubliez pas de **donner une étoile dans les projets Github !** (Trouvez les liens ci-dessous).
 
 {% hint style="success" %}
 * **Comment puis-je contribuer au projet ?**
@@ -52,7 +52,7 @@ Vous pouvez **partager de nouveaux conseils et astuces avec la communauté ou co
 * [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
 * [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
 
-N'oubliez pas de **donner une étoile aux projets Github !**
+N'oubliez pas de **donner une étoile dans les projets Github !**
 
 {% hint style="success" %}
 * **Puis-je copier du contenu de HackTricks et le mettre sur mon blog ?**
@@ -75,7 +75,7 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 }
 ```
 {% hint style="warning" %}
-* **Puis-je copier tous les HackTricks dans mon blog ?**
+* **Puis-je copier tous les HackTricks sur mon blog ?**
 {% endhint %}
 
 **Je préférerais que non**. Cela **ne bénéficiera à personne** car tout le **contenu est déjà disponible publiquement** dans les livres officiels de HackTricks gratuitement.
@@ -110,7 +110,7 @@ Notez que le fait d'avoir des liens vers votre page dans HackTricks :
 * Le contenu est **traduit en plus de 15 langues**, permettant à plus de personnes d'accéder à ce contenu
 * **HackTricks encourage** les gens à **vérifier votre page** (plusieurs personnes nous ont mentionné que depuis qu'une de leurs pages est dans HackTricks, elles reçoivent plus de visites)
 
-Cependant, si vous souhaitez toujours que le contenu de votre blog soit supprimé de HackTricks, faites-le nous savoir et nous **supprimerons définitivement chaque lien vers votre blog**, ainsi que tout contenu basé sur celui-ci.
+Cependant, si vous souhaitez toujours que le contenu de votre blog soit retiré de HackTricks, faites-le nous savoir et nous **retirerons définitivement chaque lien vers votre blog**, ainsi que tout contenu basé sur celui-ci.
 
 {% hint style="danger" %}
 * **Que dois-je faire si je trouve du contenu copié-collé dans HackTricks ?**
@@ -148,11 +148,11 @@ Ce livre, 'HackTricks', est destiné à des fins éducatives et d'information un
 
 Les auteurs et éditeurs ne sauraient en aucun cas être tenus responsables de toute perte ou dommage, y compris, sans limitation, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage de quelque nature que ce soit résultant de la perte de données ou de bénéfices découlant de, ou en relation avec, l'utilisation de ce livre.
 
-De plus, les techniques et conseils décrits dans ce livre sont fournis à des fins éducatives et d'information uniquement, et ne doivent pas être utilisés pour des activités illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait à vos propres risques et à votre discrétion.
+De plus, les techniques et conseils décrits dans ce livre sont fournis à des fins éducatives et d'information uniquement, et ne doivent pas être utilisés pour des activités illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre est à vos propres risques et à votre discrétion.
 
 L'utilisateur est seul responsable de toute action entreprise sur la base des informations contenues dans ce livre, et doit toujours demander des conseils et une assistance professionnels lorsqu'il tente de mettre en œuvre l'une des techniques ou conseils décrits ici.
 
-En utilisant ce livre, l'utilisateur accepte de dégager les auteurs et éditeurs de toute responsabilité et de toute obligation pour tout dommage, perte ou préjudice pouvant résulter de l'utilisation de ce livre ou de l'une des informations qu'il contient.
+En utilisant ce livre, l'utilisateur accepte de dégager les auteurs et éditeurs de toute responsabilité et de toute obligation pour tout dommage, perte ou préjudice pouvant résulter de l'utilisation de ce livre ou de toute information qu'il contient.
 {% endhint %}
 
 {% hint style="success" %}

@@ -1,16 +1,16 @@
-# External Forest Domain - One-Way (Outbound)
+# Domaine de forêt externe - Unidirectionnel (Sortant)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -45,7 +45,7 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 
 Une vulnérabilité de sécurité existe lorsqu'une relation de confiance est établie entre deux domaines, identifiés ici comme le domaine **A** et le domaine **B**, où le domaine **B** étend sa confiance au domaine **A**. Dans cette configuration, un compte spécial est créé dans le domaine **A** pour le domaine **B**, qui joue un rôle crucial dans le processus d'authentification entre les deux domaines. Ce compte, associé au domaine **B**, est utilisé pour chiffrer les tickets d'accès aux services entre les domaines.
 
-L'aspect critique à comprendre ici est que le mot de passe et le hachage de ce compte spécial peuvent être extraits d'un contrôleur de domaine dans le domaine **A** en utilisant un outil en ligne de commande. La commande pour effectuer cette action est :
+L'aspect critique à comprendre ici est que le mot de passe et le hachage de ce compte spécial peuvent être extraits d'un contrôleur de domaine dans le domaine **A** à l'aide d'un outil en ligne de commande. La commande pour effectuer cette action est :
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
@@ -73,7 +73,7 @@ Le mot de passe en clair peut être obtenu en convertissant la sortie \[ CLEAR ]
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Parfois, lors de la création d'une relation de confiance, un mot de passe doit être saisi par l'utilisateur pour la confiance. Dans cette démonstration, la clé est le mot de passe de confiance original et donc lisible par l'homme. Au fur et à mesure que la clé change (tous les 30 jours), le mot de passe en clair ne sera pas lisible par l'homme mais techniquement toujours utilisable.
+Parfois, lors de la création d'une relation de confiance, un mot de passe doit être saisi par l'utilisateur pour la confiance. Dans cette démonstration, la clé est le mot de passe de confiance original et donc lisible par un humain. Au fur et à mesure que la clé change (tous les 30 jours), le mot de passe en clair ne sera pas lisible par un humain mais techniquement toujours utilisable.
 
 Le mot de passe en clair peut être utilisé pour effectuer une authentification régulière en tant que compte de confiance, une alternative à la demande d'un TGT en utilisant la clé secrète Kerberos du compte de confiance. Ici, interrogation de root.local depuis ext.local pour les membres des Domain Admins :
 

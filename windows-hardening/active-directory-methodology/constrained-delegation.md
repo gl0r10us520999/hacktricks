@@ -24,7 +24,7 @@ En utilisant cela, un administrateur de domaine peut **permettre** à un ordinat
 
 **Remarque** : Si un utilisateur est marqué comme ‘_Le compte est sensible et ne peut pas être délégué_’ dans AD, vous **ne pourrez pas vous faire passer** pour lui.
 
-Cela signifie que si vous **compromettez le hash du service**, vous pouvez **vous faire passer pour des utilisateurs** et obtenir **un accès** en leur nom au **service configuré** (possible **privesc**).
+Cela signifie que si vous **compromettez le hash du service**, vous pouvez **vous faire passer pour des utilisateurs** et obtenir **l'accès** en leur nom au **service configuré** (possible **privesc**).
 
 De plus, vous **n'aurez pas seulement accès au service que l'utilisateur peut imiter, mais aussi à tout service** car le SPN (le nom du service demandé) n'est pas vérifié, seulement les privilèges. Par conséquent, si vous avez accès au **service CIFS**, vous pouvez également avoir accès au **service HOST** en utilisant le drapeau `/altservice` dans Rubeus.
 
@@ -68,7 +68,7 @@ Il existe **d'autres moyens d'obtenir un ticket TGT** ou le **RC4** ou **AES256*
 **Il suffit d'avoir ce ticket TGT (ou haché) pour effectuer cette attaque sans compromettre l'ensemble de l'ordinateur.**
 {% endhint %}
 
-{% code title="Utilisation de Rubeus" %}
+{% code title="Using Rubeus" %}
 ```bash
 #Obtain a TGS of the Administrator user to self
 .\Rubeus.exe s4u /ticket:TGT_websvc.kirbi /impersonateuser:Administrator /outfile:TGS_administrator
@@ -103,8 +103,8 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 [**Plus d'informations sur ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

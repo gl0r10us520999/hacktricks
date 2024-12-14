@@ -51,14 +51,14 @@ Pour déterminer la fréquence de la télécommande, procédez comme suit :
 Trouvez des informations sur la fréquence utilisée (aussi une autre façon de trouver quelle fréquence est utilisée)
 {% endhint %}
 
-L'option **Lire** **écoute sur la fréquence configurée** sur la modulation indiquée : 433.92 AM par défaut. Si **quelque chose est trouvé** lors de la lecture, **des informations sont données** à l'écran. Ces informations peuvent être utilisées pour reproduire le signal à l'avenir.
+L'option **Lire** **écoute sur la fréquence configurée** sur la modulation indiquée : 433.92 AM par défaut. Si **quelque chose est trouvé** lors de la lecture, **des informations sont fournies** à l'écran. Ces informations pourraient être utilisées pour reproduire le signal à l'avenir.
 
 Pendant que Lire est en cours d'utilisation, il est possible d'appuyer sur le **bouton gauche** et **de le configurer**.\
 À ce moment, il a **4 modulations** (AM270, AM650, FM328 et FM476), et **plusieurs fréquences pertinentes** stockées :
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Vous pouvez définir **n'importe laquelle qui vous intéresse**, cependant, si vous **n'êtes pas sûr de la fréquence** qui pourrait être celle utilisée par la télécommande que vous avez, **activez le Hopping** (désactivé par défaut), et appuyez sur le bouton plusieurs fois jusqu'à ce que Flipper la capture et vous donne les informations dont vous avez besoin pour définir la fréquence.
+Vous pouvez définir **n'importe quelle qui vous intéresse**, cependant, si vous **n'êtes pas sûr de quelle fréquence** pourrait être celle utilisée par la télécommande que vous avez, **activez le Hopping** (désactivé par défaut), et appuyez sur le bouton plusieurs fois jusqu'à ce que Flipper la capture et vous donne les informations dont vous avez besoin pour définir la fréquence.
 
 {% hint style="danger" %}
 Le changement entre les fréquences prend du temps, donc les signaux transmis au moment du changement peuvent être manqués. Pour une meilleure réception du signal, définissez une fréquence fixe déterminée par l'Analyseur de Fréquence.
@@ -72,7 +72,7 @@ Voler (et rejouer) un signal à la fréquence configurée
 
 L'option **Lire Brut** **enregistre les signaux** envoyés à la fréquence d'écoute. Cela peut être utilisé pour **voler** un signal et **le répéter**.
 
-Par défaut, **Lire Brut est également à 433.92 en AM650**, mais si avec l'option Lire vous avez trouvé que le signal qui vous intéresse est à une **fréquence/modulation différente, vous pouvez également le modifier** en appuyant à gauche (tout en étant dans l'option Lire Brut).
+Par défaut, **Lire Brut est également à 433.92 en AM650**, mais si avec l'option Lire vous avez trouvé que le signal qui vous intéresse est à une **fréquence/modulation différente, vous pouvez également modifier cela** en appuyant à gauche (tout en étant dans l'option Lire Brut).
 
 ### Brute-Force
 
@@ -81,7 +81,7 @@ Si vous connaissez le protocole utilisé par exemple par la porte de garage, il 
 ### Ajouter Manuellement
 
 {% hint style="info" %}
-Ajouter des signaux à partir d'une liste de protocoles configurés
+Ajouter des signaux à partir d'une liste de protocoles configurée
 {% endhint %}
 
 #### Liste des [protocoles pris en charge](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>

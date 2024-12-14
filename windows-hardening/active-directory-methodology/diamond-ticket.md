@@ -24,7 +24,7 @@ Il existe deux techniques courantes pour détecter l'utilisation de tickets en o
 * Rechercher des TGS-REQ qui n'ont pas de AS-REQ correspondant.
 * Rechercher des TGT qui ont des valeurs absurdes, comme la durée de vie par défaut de 10 ans de Mimikatz.
 
-Un **ticket en diamant** est créé en **modifiant les champs d'un TGT légitime qui a été émis par un DC**. Cela est réalisé en **demandant** un **TGT**, en **le décryptant** avec le hash krbtgt du domaine, en **modifiant** les champs souhaités du ticket, puis en **le recryptant**. Cela **surmonte les deux inconvénients mentionnés précédemment** d'un ticket en or car :
+Un **ticket en diamant** est créé en **modifiant les champs d'un TGT légitime qui a été émis par un DC**. Cela est réalisé en **demandant** un **TGT**, en **le décryptant** avec le hash krbtgt du domaine, en **modifiant** les champs souhaités du ticket, puis en **le recryptant**. Cela **surmonte les deux inconvénients mentionnés précédemment** d'un ticket en or parce que :
 
 * Les TGS-REQ auront un AS-REQ précédent.
 * Le TGT a été émis par un DC, ce qui signifie qu'il aura tous les détails corrects de la politique Kerberos du domaine. Même si ceux-ci peuvent être forgés avec précision dans un ticket en or, c'est plus complexe et sujet à des erreurs.

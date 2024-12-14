@@ -1,16 +1,16 @@
 # UAC - Contrôle de Compte Utilisateur
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos GitHub.
 
 </details>
 {% endhint %}
@@ -32,11 +32,11 @@ Pour plus d'informations sur les niveaux d'intégrité :
 [niveaux-d'intégrité.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Lorsque l'UAC est en place, un utilisateur administrateur reçoit 2 jetons : une clé d'utilisateur standard, pour effectuer des actions régulières au niveau régulier, et une avec les privilèges d'administrateur.
+Lorsque l'UAC est en place, un utilisateur administrateur reçoit 2 jetons : une clé d'utilisateur standard, pour effectuer des actions régulières au niveau régulier, et une avec les privilèges administratifs.
 
-Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) discute en profondeur du fonctionnement de l'UAC et inclut le processus de connexion, l'expérience utilisateur et l'architecture de l'UAC. Les administrateurs peuvent utiliser des politiques de sécurité pour configurer le fonctionnement de l'UAC spécifique à leur organisation au niveau local (en utilisant secpol.msc), ou configuré et déployé via des Objets de Politique de Groupe (GPO) dans un environnement de domaine Active Directory. Les différents paramètres sont discutés en détail [ici](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Il existe 10 paramètres de Politique de Groupe qui peuvent être définis pour l'UAC. Le tableau suivant fournit des détails supplémentaires :
+Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) discute en profondeur du fonctionnement de l'UAC et inclut le processus de connexion, l'expérience utilisateur et l'architecture de l'UAC. Les administrateurs peuvent utiliser des politiques de sécurité pour configurer le fonctionnement de l'UAC spécifique à leur organisation au niveau local (en utilisant secpol.msc), ou configuré et déployé via des objets de stratégie de groupe (GPO) dans un environnement de domaine Active Directory. Les différents paramètres sont discutés en détail [ici](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Il existe 10 paramètres de stratégie de groupe qui peuvent être définis pour l'UAC. Le tableau suivant fournit des détails supplémentaires :
 
-| Paramètre de Politique de Groupe                                                                                                                                                                                                                                                                                                                                                           | Clé de Registre            | Paramètre par Défaut                                        |
+| Paramètre de Stratégie de Groupe                                                                                                                                                                                                                                                                                                                                                           | Clé de Registre            | Paramètre par Défaut                                        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
 | [Contrôle de Compte Utilisateur : Mode d'Approbation Admin pour le compte Administrateur intégré](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Désactivé                                                   |
 | [Contrôle de Compte Utilisateur : Autoriser les applications UIAccess à demander une élévation sans utiliser le bureau sécurisé](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Désactivé                                                   |
@@ -53,7 +53,7 @@ Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protecti
 
 Certains programmes sont **auto-élévés automatiquement** si l'**utilisateur appartient** au **groupe administrateur**. Ces binaires ont à l'intérieur de leurs _**Manifests**_ l'option _**autoElevate**_ avec la valeur _**True**_. Le binaire doit également être **signé par Microsoft**.
 
-Ensuite, pour **contourner** l'**UAC** (élever du **niveau** d'intégrité **moyen** **au niveau élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un **processus de niveau d'intégrité élevé**.
+Ensuite, pour **contourner** l'**UAC** (élever du **niveau** d'intégrité **moyen** **au niveau élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un **processus à niveau d'intégrité élevé**.
 
 Vous pouvez **vérifier** le _**Manifest**_ d'un binaire en utilisant l'outil _**sigcheck.exe**_ de Sysinternals. Et vous pouvez **voir** le **niveau d'intégrité** des processus en utilisant _Process Explorer_ ou _Process Monitor_ (de Sysinternals).
 
@@ -66,7 +66,7 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Si c'est **`1`**, alors UAC est **activé**, si c'est **`0`** ou s'il **n'existe pas**, alors UAC est **inactif**.
+Si c'est **`1`**, alors UAC est **activé**, si c'est **`0`** ou qu'il **n'existe pas**, alors UAC est **inactif**.
 
 Ensuite, vérifiez **quel niveau** est configuré :
 ```
@@ -77,7 +77,7 @@ ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
 * Si **`0`**, alors, UAC ne demandera pas (comme **désactivé**)
 * Si **`1`**, l'administrateur est **demandé pour le nom d'utilisateur et le mot de passe** pour exécuter le binaire avec des droits élevés (sur le Bureau Sécurisé)
-* Si **`2`** (**Toujours me notifier**) UAC demandera toujours confirmation à l'administrateur lorsqu'il essaie d'exécuter quelque chose avec des privilèges élevés (sur le Bureau Sécurisé)
+* Si **`2`** (**Toujours me notifier**) UAC demandera toujours une confirmation à l'administrateur lorsqu'il essaie d'exécuter quelque chose avec des privilèges élevés (sur le Bureau Sécurisé)
 * Si **`3`**, comme `1` mais pas nécessaire sur le Bureau Sécurisé
 * Si **`4`**, comme `2` mais pas nécessaire sur le Bureau Sécurisé
 * si **`5`**(**par défaut**) il demandera à l'administrateur de confirmer pour exécuter des binaires non Windows avec des privilèges élevés
@@ -114,7 +114,7 @@ Il est important de mentionner qu'il est **beaucoup plus difficile de contourner
 
 ### UAC désactivé
 
-Si l'UAC est déjà désactivé (`ConsentPromptBehaviorAdmin` est **`0`**), vous pouvez **exécuter un shell inversé avec des privilèges administratifs** (niveau d'intégrité élevé) en utilisant quelque chose comme :
+Si l'UAC est déjà désactivé (`ConsentPromptBehaviorAdmin` est **`0`**), vous pouvez **exécuter un shell inversé avec des privilèges d'administrateur** (niveau d'intégrité élevé) en utilisant quelque chose comme :
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
@@ -172,11 +172,11 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page you get the Windows release `1607` from the build versions.
+Aussi, en utilisant [cette](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page, vous obtenez la version Windows `1607` à partir des versions de build.
 
 #### Plus de contournement UAC
 
-**Toutes** les techniques utilisées ici pour contourner l'AUC **nécessitent** un **shell interactif complet** avec la victime (un shell nc.exe classique ne suffit pas).
+**Toutes** les techniques utilisées ici pour contourner l'AUC **nécessitent** un **shell interactif complet** avec la victime (un shell nc.exe commun n'est pas suffisant).
 
 Vous pouvez obtenir cela en utilisant une session **meterpreter**. Migrez vers un **processus** qui a la valeur **Session** égale à **1** :
 
@@ -186,7 +186,7 @@ Vous pouvez obtenir cela en utilisant une session **meterpreter**. Migrez vers u
 
 ### Contournement UAC avec GUI
 
-Si vous avez accès à une **GUI, vous pouvez simplement accepter l'invite UAC** lorsque vous l'obtenez, vous n'avez pas vraiment besoin d'un contournement. Donc, avoir accès à une GUI vous permettra de contourner l'UAC.
+Si vous avez accès à une **GUI, vous pouvez simplement accepter l'invite UAC** lorsque vous l'obtenez, vous n'avez pas vraiment besoin d'un contournement. Donc, obtenir accès à une GUI vous permettra de contourner l'UAC.
 
 De plus, si vous obtenez une session GUI que quelqu'un utilisait (potentiellement via RDP), il y a **certains outils qui s'exécuteront en tant qu'administrateur** à partir desquels vous pourriez **exécuter** un **cmd** par exemple **en tant qu'admin** directement sans être à nouveau invité par l'UAC comme [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Cela pourrait être un peu plus **discret**.
 
@@ -207,26 +207,26 @@ Si vous jetez un œil à **UACME**, vous remarquerez que **la plupart des contou
 
 ### Une autre technique de contournement UAC
 
-Consiste à surveiller si un **binaire auto-élévé** essaie de **lire** dans le **registre** le **nom/le chemin** d'un **binaire** ou d'une **commande** à exécuter (c'est plus intéressant si le binaire recherche cette information à l'intérieur du **HKCU**).
+Consiste à surveiller si un **binaire auto-élévé** essaie de **lire** dans le **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à exécuter (c'est plus intéressant si le binaire recherche cette information à l'intérieur du **HKCU**).
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
+Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

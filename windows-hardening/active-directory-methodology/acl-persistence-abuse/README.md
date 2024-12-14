@@ -10,7 +10,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -34,7 +34,7 @@ Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 ```
 ## **Droits GenericAll sur le Groupe**
 
-Ce privilège permet à un attaquant de manipuler les appartenances aux groupes s'il a des droits `GenericAll` sur un groupe comme `Domain Admins`. Après avoir identifié le nom distinctif du groupe avec `Get-NetGroup`, l'attaquant peut :
+Ce privilège permet à un attaquant de manipuler les adhésions aux groupes s'il a des droits `GenericAll` sur un groupe comme `Domain Admins`. Après avoir identifié le nom distingué du groupe avec `Get-NetGroup`, l'attaquant peut :
 
 * **S'ajouter au Groupe des Domain Admins** : Cela peut être fait via des commandes directes ou en utilisant des modules comme Active Directory ou PowerSploit.
 ```powershell
@@ -85,7 +85,7 @@ rpcclient -U KnownUsername 10.10.10.192
 ```
 ## **WriteOwner sur le groupe**
 
-Si un attaquant découvre qu'il a des droits `WriteOwner` sur un groupe, il peut changer la propriété du groupe à son avantage. Cela a un impact particulier lorsque le groupe en question est `Domain Admins`, car changer la propriété permet un contrôle plus large sur les attributs et l'appartenance du groupe. Le processus implique d'identifier l'objet correct via `Get-ObjectAcl` puis d'utiliser `Set-DomainObjectOwner` pour modifier le propriétaire, soit par SID, soit par nom.
+Si un attaquant découvre qu'il a des droits `WriteOwner` sur un groupe, il peut changer la propriété du groupe à son avantage. Cela est particulièrement impactant lorsque le groupe en question est `Domain Admins`, car changer la propriété permet un contrôle plus large sur les attributs et l'appartenance du groupe. Le processus implique d'identifier l'objet correct via `Get-ObjectAcl` puis d'utiliser `Set-DomainObjectOwner` pour modifier le propriétaire, soit par SID soit par nom.
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainObjectOwner -Identity S-1-5-21-2552734371-813931464-1050690807-512 -OwnerIdentity "spotless" -Verbose
@@ -109,7 +109,7 @@ Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'use
 ```
 ## **WriteDACL + WriteOwner**
 
-Posséder un objet AD et avoir des privilèges `WriteDACL` sur celui-ci permet à un attaquant de se donner des privilèges `GenericAll` sur l'objet. Cela est accompli par la manipulation ADSI, permettant un contrôle total sur l'objet et la capacité de modifier ses appartenances de groupe. Malgré cela, des limitations existent lors de l'exploitation de ces privilèges en utilisant les cmdlets `Set-Acl` / `Get-Acl` du module Active Directory.
+Posséder un objet AD et avoir des privilèges `WriteDACL` sur celui-ci permet à un attaquant de se donner des privilèges `GenericAll` sur l'objet. Cela est accompli par la manipulation d'ADSI, permettant un contrôle total sur l'objet et la capacité de modifier ses appartenances de groupe. Malgré cela, des limitations existent lors de l'exploitation de ces privilèges en utilisant les cmdlets `Set-Acl` / `Get-Acl` du module Active Directory.
 ```powershell
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -139,11 +139,11 @@ Pour identifier les GPO mal configurés, les cmdlets de PowerSploit peuvent êtr
 
 ### Abuser GPO - New-GPOImmediateTask
 
-Les GPO mal configurés peuvent être exploités pour exécuter du code, par exemple, en créant une tâche planifiée immédiate. Cela peut être fait pour ajouter un utilisateur au groupe des administrateurs locaux sur les machines affectées, élevant ainsi considérablement les privilèges :
+Les GPO mal configurés peuvent être exploités pour exécuter du code, par exemple, en créant une tâche planifiée immédiate. Cela peut être fait pour ajouter un utilisateur au groupe des administrateurs locaux sur les machines affectées, élevant considérablement les privilèges :
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
-### Module GroupPolicy - Abus de GPO
+### GroupPolicy module - Abuse GPO
 
 Le module GroupPolicy, s'il est installé, permet la création et le lien de nouveaux GPO, ainsi que la définition de préférences telles que des valeurs de registre pour exécuter des backdoors sur les ordinateurs affectés. Cette méthode nécessite que le GPO soit mis à jour et qu'un utilisateur se connecte à l'ordinateur pour l'exécution :
 ```powershell
@@ -168,7 +168,7 @@ La structure de la tâche, comme indiqué dans le fichier de configuration XML g
 
 ### Users and Groups
 
-Les GPO permettent également la manipulation des adhésions des utilisateurs et des groupes sur les systèmes cibles. En modifiant directement les fichiers de politique des Utilisateurs et des Groupes, les attaquants peuvent ajouter des utilisateurs à des groupes privilégiés, tels que le groupe `administrators` local. Cela est possible grâce à la délégation des permissions de gestion des GPO, qui permet la modification des fichiers de politique pour inclure de nouveaux utilisateurs ou changer les adhésions aux groupes.
+Les GPO permettent également la manipulation des adhésions des utilisateurs et des groupes sur les systèmes cibles. En modifiant directement les fichiers de politique des Utilisateurs et des Groupes, les attaquants peuvent ajouter des utilisateurs à des groupes privilégiés, tels que le groupe local `administrators`. Cela est possible grâce à la délégation des permissions de gestion des GPO, qui permet la modification des fichiers de politique pour inclure de nouveaux utilisateurs ou changer les adhésions aux groupes.
 
 Le fichier de configuration XML pour les Utilisateurs et les Groupes décrit comment ces changements sont mis en œuvre. En ajoutant des entrées à ce fichier, des utilisateurs spécifiques peuvent se voir accorder des privilèges élevés sur les systèmes affectés. Cette méthode offre une approche directe pour l'élévation des privilèges par la manipulation des GPO.
 

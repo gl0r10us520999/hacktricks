@@ -49,16 +49,16 @@ Le service CIFS est mis en avant comme une cible commune pour accéder au systè
 
 ## Services Disponibles
 
-| Type de Service                            | Tickets Silver de Service                                                |
-| ------------------------------------------ | ----------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                               |
+| Type de Service                            | Tickets Silver de Service                                                  |
+| ------------------------------------------ | -------------------------------------------------------------------------- |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Selon le système d'exploitation également :</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certaines occasions, vous pouvez simplement demander : WINRM</p> |
-| Tâches Planifiées                          | HOST                                                                  |
-| Partage de Fichiers Windows, également psexec | CIFS                                                                  |
-| Opérations LDAP, y compris DCSync         | LDAP                                                                  |
-| Outils d'Administration de Serveur à Distance Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                    |
-| Golden Tickets                             | krbtgt                                                                |
+| Tâches Planifiées                          | HOST                                                                       |
+| Partage de Fichiers Windows, aussi psexec | CIFS                                                                       |
+| Opérations LDAP, y compris DCSync         | LDAP                                                                       |
+| Outils d'Administration de Serveur à Distance Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
+| Golden Tickets                             | krbtgt                                                                     |
 
 En utilisant **Rubeus**, vous pouvez **demander tous** ces tickets en utilisant le paramètre :
 
@@ -76,7 +76,7 @@ Dans les exemples suivants, imaginons que le ticket est récupéré en usurpant 
 
 ### CIFS
 
-Avec ce ticket, vous pourrez accéder aux dossiers `C$` et `ADMIN$` via **SMB** (s'ils sont exposés) et copier des fichiers vers une partie du système de fichiers distant en faisant simplement quelque chose comme :
+Avec ce ticket, vous serez en mesure d'accéder au dossier `C$` et `ADMIN$` via **SMB** (s'ils sont exposés) et de copier des fichiers vers une partie du système de fichiers distant en faisant quelque chose comme :
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$

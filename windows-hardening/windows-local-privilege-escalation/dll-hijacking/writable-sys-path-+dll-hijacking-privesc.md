@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Si vous avez découvert que vous pouvez **écrire dans un dossier de chemin système** (notez que cela ne fonctionnera pas si vous pouvez écrire dans un dossier de chemin utilisateur), il est possible que vous puissiez **escalader les privilèges** dans le système.
 
-Pour ce faire, vous pouvez abuser d'un **Dll Hijacking** où vous allez **détourner une bibliothèque chargée** par un service ou un processus avec **plus de privilèges** que vous, et parce que ce service charge une Dll qui ne existe probablement même pas dans tout le système, il va essayer de la charger depuis le chemin système où vous pouvez écrire.
+Pour ce faire, vous pouvez abuser d'un **Dll Hijacking** où vous allez **détourner une bibliothèque chargée** par un service ou un processus avec **plus de privilèges** que vous, et parce que ce service charge une Dll qui n'existe probablement même pas dans tout le système, il va essayer de la charger depuis le chemin système où vous pouvez écrire.
 
 Pour plus d'informations sur **ce qu'est le Dll Hijacking**, consultez :
 
@@ -31,7 +31,7 @@ Pour plus d'informations sur **ce qu'est le Dll Hijacking**, consultez :
 
 ### Trouver une Dll manquante
 
-La première chose dont vous avez besoin est d'**identifier un processus** s'exécutant avec **plus de privilèges** que vous qui essaie de **charger une Dll depuis le chemin système** dans lequel vous pouvez écrire.
+La première chose dont vous avez besoin est d'**identifier un processus** s'exécutant avec **plus de privilèges** que vous et qui essaie de **charger une Dll depuis le chemin système** dans lequel vous pouvez écrire.
 
 Le problème dans ces cas est que ces processus sont probablement déjà en cours d'exécution. Pour trouver quelles Dlls manquent aux services, vous devez lancer procmon dès que possible (avant que les processus ne soient chargés). Donc, pour trouver les .dll manquantes, faites :
 
@@ -74,7 +74,7 @@ Dans ce cas, les .exe sont inutiles, donc ignorez-les, les DLL manquantes proven
 | Service de politique de diagnostic (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`              |
 
-Après avoir trouvé cela, j'ai trouvé cet article de blog intéressant qui explique également comment [**abuser de WptsExtensions.dll pour l'élévation de privilèges**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Ce que nous **allons faire maintenant**.
+Après avoir trouvé cela, j'ai trouvé cet article de blog intéressant qui explique également comment [**abuser de WptsExtensions.dll pour l'élévation de privilèges**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). C'est ce que nous **allons faire maintenant**.
 
 ### Exploitation
 
@@ -84,7 +84,7 @@ Vous pouvez [**essayer d'utiliser l'un de ces exemples**](./#creating-and-compil
 
 {% hint style="warning" %}
 Notez que **tous les services ne sont pas exécutés** avec **`NT AUTHORITY\SYSTEM`**, certains sont également exécutés avec **`NT AUTHORITY\LOCAL SERVICE`**, qui a **moins de privilèges** et vous **ne pourrez pas créer un nouvel utilisateur** en abusant de ses permissions.\
-Cependant, cet utilisateur a le privilège **`seImpersonate`**, donc vous pouvez utiliser la [**suite potato pour élever les privilèges**](../roguepotato-and-printspoofer.md). Donc, dans ce cas, un shell inversé est une meilleure option que d'essayer de créer un utilisateur.
+Cependant, cet utilisateur a le privilège **`seImpersonate`**, donc vous pouvez utiliser le [**potato suite pour élever les privilèges**](../roguepotato-and-printspoofer.md). Donc, dans ce cas, un shell inversé est une meilleure option que d'essayer de créer un utilisateur.
 {% endhint %}
 
 Au moment de l'écriture, le service **Planificateur de tâches** est exécuté avec **Nt AUTHORITY\SYSTEM**.
@@ -99,11 +99,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

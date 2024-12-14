@@ -54,7 +54,7 @@ L'objet **MMC20.Application** a été identifié comme manquant de "LaunchPermis
 Deux objets spécifiques, `ShellBrowserWindow` et `ShellWindows`, ont été mis en évidence en raison de leur manque de permissions de lancement explicites. L'absence d'une entrée de registre `LaunchPermission` sous `HKCR:\AppID\{guid}` signifie qu'il n'y a pas de permissions explicites.
 
 ###  ShellWindows
-Pour `ShellWindows`, qui manque d'un ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation d'objets en utilisant son AppID. Ce processus utilise OleView .NET pour récupérer le CLSID pour `ShellWindows`. Une fois instancié, l'interaction est possible via la méthode `WindowsShell.Item`, conduisant à des invocations de méthodes comme `Document.Application.ShellExecute`.
+Pour `ShellWindows`, qui manque d'un ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation de l'objet en utilisant son AppID. Ce processus utilise OleView .NET pour récupérer le CLSID pour `ShellWindows`. Une fois instancié, l'interaction est possible via la méthode `WindowsShell.Item`, conduisant à des invocations de méthodes comme `Document.Application.ShellExecute`.
 
 Des exemples de commandes PowerShell ont été fournis pour instancier l'objet et exécuter des commandes à distance :
 ```powershell

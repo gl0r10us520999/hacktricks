@@ -9,15 +9,15 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)est un analyseur de signal numérique gratuit pour GNU/Linux et macOS, conçu pour extraire des informations de signaux radio inconnus. Il prend en charge une variété de dispositifs SDR via SoapySDR, et permet une démodulation ajustable des signaux FSK, PSK et ASK, décode la vidéo analogique, analyse les signaux bursty et écoute les canaux vocaux analogiques (tout en temps réel).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)est un analyseur de signaux numériques gratuit pour GNU/Linux et macOS, conçu pour extraire des informations de signaux radio inconnus. Il prend en charge une variété de dispositifs SDR via SoapySDR, et permet une démodulation ajustable des signaux FSK, PSK et ASK, décode la vidéo analogique, analyse les signaux bursty et écoute les canaux vocaux analogiques (tout en temps réel).
 
 ### Configuration de base
 
@@ -40,7 +40,7 @@ Si vous réalisez que votre PC ne capture pas les choses, essayez de désactiver
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* Le **Tuner** de SigDigger aide à **capturer de meilleurs signaux** (mais cela peut aussi les dégrader). Idéalement, commencez à 0 et continuez à **l'augmenter jusqu'à** ce que vous trouviez que le **bruit** introduit est **plus grand** que l'**amélioration du signal** dont vous avez besoin).
+* Le **Tuner** de SigDigger aide à **capturer de meilleurs signaux** (mais cela peut aussi les dégrader). Idéalement, commencez avec 0 et continuez à **l'augmenter jusqu'à** ce que vous trouviez que le **bruit** introduit est **plus grand** que l'**amélioration du signal** dont vous avez besoin).
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
@@ -69,7 +69,7 @@ Si vous vérifiez un signal, il existe différentes façons d'essayer de déterm
 
 ![](<../../.gitbook/assets/image (788).png>)
 
-* **Détection AM** : Si dans le graphique IQ apparaissent par exemple **2 cercles** (probablement un à 0 et l'autre à une amplitude différente), cela pourrait signifier qu'il s'agit d'un signal AM. Cela est dû au fait que dans le graphique IQ, la distance entre le 0 et le cercle est l'amplitude du signal, donc il est facile de visualiser différentes amplitudes utilisées.
+* **Détection AM** : Si dans le graphique IQ apparaissent par exemple **2 cercles** (probablement un à 0 et un autre à une amplitude différente), cela pourrait signifier qu'il s'agit d'un signal AM. Cela est dû au fait que dans le graphique IQ, la distance entre le 0 et le cercle est l'amplitude du signal, donc il est facile de visualiser différentes amplitudes utilisées.
 * **Détection PM** : Comme dans l'image précédente, si vous trouvez de petits cercles non liés entre eux, cela signifie probablement qu'une modulation de phase est utilisée. Cela est dû au fait que dans le graphique IQ, l'angle entre le point et le 0,0 est la phase du signal, ce qui signifie que 4 phases différentes sont utilisées.
 * Notez que si l'information est cachée dans le fait qu'une phase est changée et non dans la phase elle-même, vous ne verrez pas différentes phases clairement différenciées.
 * **Détection FM** : IQ n'a pas de champ pour identifier les fréquences (la distance au centre est l'amplitude et l'angle est la phase).\
@@ -102,7 +102,7 @@ Par exemple, si vous sélectionnez la Fréquence au lieu de l'Amplitude dans ce 
 
 ![](<../../.gitbook/assets/image (732).png>)
 
-Si vous trouvez beaucoup de fréquences, cela ne sera probablement pas une FM, probablement la fréquence du signal a juste été modifiée à cause du canal.
+Si vous trouvez beaucoup de fréquences, cela ne sera probablement pas un FM, probablement la fréquence du signal a juste été modifiée à cause du canal.
 
 #### Avec IQ
 
@@ -143,7 +143,7 @@ Maintenant, pour faire comprendre à SigDigger **où se trouve la plage** du niv
 
 ![](<../../.gitbook/assets/image (439).png>)
 
-S'il y avait par exemple **4 niveaux d'amplitude différents**, vous devriez avoir besoin de configurer les **Bits par symbole à 2** et sélectionner du plus petit au plus grand.
+S'il y avait par exemple **4 niveaux d'amplitude différents**, vous devriez configurer les **Bits par symbole à 2** et sélectionner du plus petit au plus grand.
 
 Enfin, **en augmentant** le **Zoom** et **en changeant la taille de la ligne**, vous pouvez voir les bits (et vous pouvez tout sélectionner et copier pour obtenir tous les bits) :
 
@@ -151,7 +151,7 @@ Enfin, **en augmentant** le **Zoom** et **en changeant la taille de la ligne**, 
 
 Si le signal a plus d'1 bit par symbole (par exemple 2), SigDigger n'a **aucune façon de savoir quel symbole est** 00, 01, 10, 11, donc il utilisera différentes **échelles de gris** pour représenter chacun (et si vous copiez les bits, il utilisera **des nombres de 0 à 3**, vous devrez les traiter).
 
-De plus, utilisez des **codifications** telles que **Manchester**, et **up+down** peut être **1 ou 0** et un down+up peut être un 1 ou 0. Dans ces cas, vous devez **traiter les ups (1) et downs (0) obtenus** pour substituer les paires de 01 ou 10 par des 0s ou 1s.
+De plus, utilisez des **codifications** telles que **Manchester**, et **up+down** peut être **1 ou 0** et un down+up peut être un 1 ou 0. Dans ces cas, vous devez **traiter les ups obtenus (1) et downs (0)** pour substituer les paires de 01 ou 10 par des 0s ou 1s.
 
 ## Exemple FM
 
@@ -218,8 +218,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

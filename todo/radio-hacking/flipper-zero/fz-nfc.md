@@ -10,7 +10,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -48,7 +48,7 @@ Flipper Zero ne peut lire qu'un UID, SAK, ATQA et les données stockées sur les
 
 #### Cartes inconnues <a href="#id-37eo8" id="id-37eo8"></a>
 
-Lorsque Flipper Zero est **incapable de déterminer le type de carte NFC**, alors seul un **UID, SAK et ATQA** peuvent être **lus et sauvegardés**.
+Lorsque Flipper Zero est **incapable de déterminer le type de carte NFC**, alors seul un **UID, SAK et ATQA** peut être **lu et sauvegardé**.
 
 Écran de lecture de carte inconnuePour les cartes NFC inconnues, Flipper Zero peut émuler uniquement un UID.
 
@@ -62,7 +62,7 @@ Pour les **cartes NFC de types B, F et V**, Flipper Zero peut uniquement **lire 
 
 ## Actions
 
-Pour une introduction sur NFC, [**lisez cette page**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Pour une introduction sur NFC [**lisez cette page**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Lire
 
@@ -74,7 +74,7 @@ Flipper Zero peut **lire les cartes NFC**, cependant, il **ne comprend pas tous 
 
 Dans Flipper, la lecture des étiquettes à 13,56 MHz peut être divisée en deux parties :
 
-* **Lecture de bas niveau** — lit uniquement l'UID, SAK et ATQA. Flipper essaie de deviner le protocole de haut niveau basé sur ces données lues à partir de la carte. Vous ne pouvez pas être sûr à 100 % de cela, car c'est juste une hypothèse basée sur certains facteurs.
+* **Lecture de bas niveau** — lit uniquement l'UID, SAK et ATQA. Flipper essaie de deviner le protocole de haut niveau basé sur ces données lues à partir de la carte. Vous ne pouvez pas être sûr à 100 % de cela, car c'est juste une supposition basée sur certains facteurs.
 * **Lecture de haut niveau** — lit les données de la mémoire de la carte en utilisant un protocole de haut niveau spécifique. Cela consisterait à lire les données sur un Mifare Ultralight, lire les secteurs d'un Mifare Classic, ou lire les attributs de la carte depuis PayPass/Apple Pay.
 
 ### Lire Spécifique
@@ -100,7 +100,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

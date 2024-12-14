@@ -15,8 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Les étapes suivantes sont recommandées pour modifier les configurations de démarrage des appareils et les bootloaders comme U-boot :
 
-1. **Accéder à l'Interpréteur Shell du Bootloader** :
-- Pendant le démarrage, appuyez sur "0", espace, ou d'autres "codes magiques" identifiés pour accéder à l'interpréteur shell du bootloader.
+1. **Accéder à l'Interpréteur du Bootloader** :
+- Pendant le démarrage, appuyez sur "0", espace, ou d'autres "codes magiques" identifiés pour accéder à l'interpréteur du bootloader.
 
 2. **Modifier les Arguments de Démarrage** :
 - Exécutez les commandes suivantes pour ajouter '`init=/bin/sh`' aux arguments de démarrage, permettant l'exécution d'une commande shell :
@@ -50,7 +50,7 @@ Les étapes suivantes sont recommandées pour modifier les configurations de dé
 7. **Configurer un Serveur DHCP Malveillant** :
 - Configurez un serveur DHCP malveillant avec des paramètres malveillants pour qu'un appareil les ingère lors d'un démarrage PXE. Utilisez des outils comme le serveur auxiliaire DHCP de Metasploit (MSF). Modifiez le paramètre 'FILENAME' avec des commandes d'injection de commande telles que `'a";/bin/sh;#'` pour tester la validation des entrées pour les procédures de démarrage de l'appareil.
 
-**Remarque** : Les étapes impliquant une interaction physique avec les broches de l'appareil (*marquées par des astérisques) doivent être abordées avec une extrême prudence pour éviter d'endommager l'appareil.
+**Remarque** : Les étapes impliquant une interaction physique avec les broches de l'appareil (*marquées d'astérisques) doivent être abordées avec une extrême prudence pour éviter d'endommager l'appareil.
 
 
 ## Références

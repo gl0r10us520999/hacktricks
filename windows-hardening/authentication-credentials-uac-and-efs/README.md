@@ -1,8 +1,8 @@
 # Contrôles de sécurité Windows
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -40,7 +40,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-Ce chemin de registre contient les configurations et politiques appliquées par AppLocker, fournissant un moyen de revoir l'ensemble actuel des règles appliquées sur le système :
+Ce chemin de registre contient les configurations et les politiques appliquées par AppLocker, fournissant un moyen de revoir l'ensemble actuel des règles appliquées sur le système :
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
@@ -53,7 +53,7 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Les binaires **"LOLBAS"** [**communs**](https://lolbas-project.github.io/) peuvent également être utiles pour contourner AppLocker.
+* Les binaires **"LOLBAS"** [**de confiance**](https://lolbas-project.github.io/) peuvent également être utiles pour contourner AppLocker.
 * **Des règles mal écrites peuvent également être contournées**
 * Par exemple, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, vous pouvez créer un **dossier appelé `allowed`** n'importe où et il sera autorisé.
 * Les organisations se concentrent souvent sur le **blocage de l'exécutable `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, mais oublient les **autres** [**emplacements d'exécutables PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) tels que `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
@@ -69,7 +69,7 @@ Les identifiants locaux sont présents dans ce fichier, les mots de passe sont h
 ### Autorité de sécurité locale (LSA) - LSASS
 
 Les **identifiants** (hachés) sont **enregistrés** dans la **mémoire** de ce sous-système pour des raisons de Single Sign-On.\
-**LSA** administre la **politique de sécurité locale** (politique de mot de passe, permissions des utilisateurs...), **authentification**, **jetons d'accès**...\
+**LSA** administre la **politique de sécurité** locale (politique de mot de passe, permissions des utilisateurs...), **authentification**, **jetons d'accès**...\
 LSA sera celui qui **vérifiera** les identifiants fournis dans le fichier **SAM** (pour une connexion locale) et **communiquera** avec le **contrôleur de domaine** pour authentifier un utilisateur de domaine.
 
 Les **identifiants** sont **enregistrés** dans le **processus LSASS** : tickets Kerberos, hachages NT et LM, mots de passe facilement déchiffrés.
@@ -121,11 +121,11 @@ sc query windefend
 #Delete all rules of Defender (useful for machines without internet access)
 "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 ```
-## Encrypted File System (EFS)
+## Système de fichiers chiffré (EFS)
 
 EFS sécurise les fichiers grâce au chiffrement, utilisant une **clé symétrique** connue sous le nom de **File Encryption Key (FEK)**. Cette clé est chiffrée avec la **clé publique** de l'utilisateur et stockée dans le **flux de données alternatif** $EFS du fichier chiffré. Lorsque le déchiffrement est nécessaire, la **clé privée** correspondante du certificat numérique de l'utilisateur est utilisée pour déchiffrer le FEK à partir du flux $EFS. Plus de détails peuvent être trouvés [ici](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
 
-**Les scénarios de déchiffrement sans initiation de l'utilisateur** incluent :
+**Scénarios de déchiffrement sans initiation de l'utilisateur** incluent :
 
 * Lorsque des fichiers ou des dossiers sont déplacés vers un système de fichiers non-EFS, comme [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), ils sont automatiquement déchiffrés.
 * Les fichiers chiffrés envoyés sur le réseau via le protocole SMB/CIFS sont déchiffrés avant la transmission.
@@ -136,7 +136,7 @@ Cette méthode de chiffrement permet un **accès transparent** aux fichiers chif
 
 * EFS utilise un FEK symétrique, chiffré avec la clé publique de l'utilisateur.
 * Le déchiffrement utilise la clé privée de l'utilisateur pour accéder au FEK.
-* Le déchiffrement automatique se produit dans des conditions spécifiques, comme le copier sur FAT32 ou la transmission réseau.
+* Le déchiffrement automatique se produit dans des conditions spécifiques, comme le copier sur FAT32 ou la transmission sur le réseau.
 * Les fichiers chiffrés sont accessibles au propriétaire sans étapes supplémentaires.
 
 ### Vérifier les informations EFS
@@ -152,21 +152,21 @@ Vous pouvez également utiliser `cipher /e` et `cipher /d` dans un dossier pour 
 
 Cette méthode nécessite que l'**utilisateur victime** soit **en train d'exécuter** un **processus** à l'intérieur de l'hôte. Si c'est le cas, en utilisant une session `meterpreter`, vous pouvez usurper le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pourriez simplement `migrer` vers le processus de l'utilisateur.
 
-#### Connaître le mot de passe des utilisateurs
+#### Connaître le mot de passe de l'utilisateur
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
-## Group Managed Service Accounts (gMSA)
+## Comptes de service gérés par groupe (gMSA)
 
-Microsoft a développé les **Group Managed Service Accounts (gMSA)** pour simplifier la gestion des comptes de service dans les infrastructures informatiques. Contrairement aux comptes de service traditionnels qui ont souvent le paramètre "**Le mot de passe n'expire jamais**" activé, les gMSA offrent une solution plus sécurisée et gérable :
+Microsoft a développé les **Comptes de service gérés par groupe (gMSA)** pour simplifier la gestion des comptes de service dans les infrastructures informatiques. Contrairement aux comptes de service traditionnels qui ont souvent le paramètre "**Le mot de passe n'expire jamais**" activé, les gMSA offrent une solution plus sécurisée et gérable :
 
-* **Gestion Automatique des Mots de Passe** : les gMSA utilisent un mot de passe complexe de 240 caractères qui change automatiquement selon la politique de domaine ou d'ordinateur. Ce processus est géré par le Service de Distribution de Clés (KDC) de Microsoft, éliminant le besoin de mises à jour manuelles des mots de passe.
-* **Sécurité Renforcée** : ces comptes sont immunisés contre les verrouillages et ne peuvent pas être utilisés pour des connexions interactives, renforçant leur sécurité.
-* **Support Multi-Hôte** : les gMSA peuvent être partagés entre plusieurs hôtes, ce qui les rend idéaux pour les services fonctionnant sur plusieurs serveurs.
-* **Capacité de Tâches Planifiées** : contrairement aux comptes de service gérés, les gMSA prennent en charge l'exécution de tâches planifiées.
-* **Gestion Simplifiée des SPN** : le système met automatiquement à jour le Nom Principal de Service (SPN) lorsqu'il y a des changements dans les détails sAMaccount de l'ordinateur ou le nom DNS, simplifiant la gestion des SPN.
+* **Gestion automatique des mots de passe** : les gMSA utilisent un mot de passe complexe de 240 caractères qui change automatiquement selon la politique de domaine ou d'ordinateur. Ce processus est géré par le Service de distribution de clés (KDC) de Microsoft, éliminant le besoin de mises à jour manuelles des mots de passe.
+* **Sécurité renforcée** : ces comptes sont immunisés contre les verrouillages et ne peuvent pas être utilisés pour des connexions interactives, renforçant leur sécurité.
+* **Support multi-hôte** : les gMSA peuvent être partagés entre plusieurs hôtes, ce qui les rend idéaux pour les services fonctionnant sur plusieurs serveurs.
+* **Capacité de tâche planifiée** : contrairement aux comptes de service gérés, les gMSA prennent en charge l'exécution de tâches planifiées.
+* **Gestion simplifiée des SPN** : le système met automatiquement à jour le nom principal de service (SPN) lorsqu'il y a des changements dans les détails du sAMaccount de l'ordinateur ou le nom DNS, simplifiant la gestion des SPN.
 
-Les mots de passe pour les gMSA sont stockés dans la propriété LDAP _**msDS-ManagedPassword**_ et sont automatiquement réinitialisés tous les 30 jours par les Contrôleurs de Domaine (DC). Ce mot de passe, un blob de données chiffrées connu sous le nom de [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), ne peut être récupéré que par des administrateurs autorisés et les serveurs sur lesquels les gMSA sont installés, garantissant un environnement sécurisé. Pour accéder à ces informations, une connexion sécurisée telle que LDAPS est requise, ou la connexion doit être authentifiée avec 'Sealing & Secure'.
+Les mots de passe pour les gMSA sont stockés dans la propriété LDAP _**msDS-ManagedPassword**_ et sont automatiquement réinitialisés tous les 30 jours par les contrôleurs de domaine (DC). Ce mot de passe, un blob de données chiffrées connu sous le nom de [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), ne peut être récupéré que par des administrateurs autorisés et les serveurs sur lesquels les gMSA sont installés, garantissant un environnement sécurisé. Pour accéder à ces informations, une connexion sécurisée telle que LDAPS est requise, ou la connexion doit être authentifiée avec 'Sealing & Secure'.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../../.gitbook/assets/asd1.png)
 
@@ -176,7 +176,7 @@ Vous pouvez lire ce mot de passe avec [**GMSAPasswordReader**](https://github.co
 ```
 [**Trouvez plus d'infos dans ce post**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Aussi, consultez cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/) sur comment effectuer une **attaque de relais NTLM** pour **lire** le **mot de passe** de **gMSA**.
+Aussi, consultez cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/) sur comment effectuer une **attaque par relais NTLM** pour **lire** le **mot de passe** de **gMSA**.
 
 ## LAPS
 
@@ -188,7 +188,7 @@ La **Solution de Mot de Passe d'Administrateur Local (LAPS)**, disponible en té
 
 ## Mode de Langage Contraint PS
 
-PowerShell [**Mode de Langage Contraint**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille de nombreuses fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, n'autorisant que les types .NET approuvés, les workflows basés sur XAML, les classes PowerShell, et plus encore.
+PowerShell [**Mode de Langage Contraint**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille de nombreuses fonctionnalités** nécessaires pour utiliser PowerShell efficacement, comme le blocage des objets COM, n'autorisant que les types .NET approuvés, les workflows basés sur XAML, les classes PowerShell, et plus encore.
 
 ### **Vérifiez**
 ```powershell
@@ -237,13 +237,13 @@ $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.T
 ```
 More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 
-## Interface de fournisseur de support de sécurité (SSPI)
+## Security Support Provider Interface (SSPI)
 
 Est l'API qui peut être utilisée pour authentifier les utilisateurs.
 
-Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui souhaitent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera quel protocole d'authentification sera utilisé, ces protocoles d'authentification sont appelés fournisseur de support de sécurité (SSP), sont situés à l'intérieur de chaque machine Windows sous la forme d'un DLL et les deux machines doivent prendre en charge le même pour pouvoir communiquer.
+Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui souhaitent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera quel protocole d'authentification sera utilisé, ces protocoles d'authentification sont appelés Security Support Provider (SSP), se trouvent à l'intérieur de chaque machine Windows sous la forme d'un DLL et les deux machines doivent prendre en charge le même pour pouvoir communiquer.
 
-### Principaux SSPs
+### Main SSPs
 
 * **Kerberos** : Le préféré
 * %windir%\Windows\System32\kerberos.dll
@@ -258,9 +258,9 @@ Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui sou
 
 #### La négociation pourrait offrir plusieurs méthodes ou seulement une.
 
-## UAC - Contrôle de compte d'utilisateur
+## UAC - User Account Control
 
-[Le contrôle de compte d'utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet un **message de consentement pour des activités élevées**.
+[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet un **message de consentement pour des activités élevées**.
 
 {% content-ref url="uac-user-account-control.md" %}
 [uac-user-account-control.md](uac-user-account-control.md)
@@ -282,9 +282,9 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

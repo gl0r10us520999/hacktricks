@@ -1,25 +1,25 @@
 # WmiExec
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
 ## Comment ça fonctionne
 
-Des processus peuvent être ouverts sur des hôtes où le nom d'utilisateur et soit le mot de passe soit le hash sont connus grâce à l'utilisation de WMI. Les commandes sont exécutées en utilisant WMI par Wmiexec, offrant une expérience de shell semi-interactive.
+Des processus peuvent être ouverts sur des hôtes où le nom d'utilisateur et soit le mot de passe soit le hash sont connus grâce à l'utilisation de WMI. Les commandes sont exécutées en utilisant WMI par Wmiexec, fournissant une expérience de shell semi-interactive.
 
-**dcomexec.py :** En utilisant différents points de terminaison DCOM, ce script offre un shell semi-interactif semblable à wmiexec.py, tirant spécifiquement parti de l'objet DCOM ShellBrowserWindow. Il prend actuellement en charge les objets MMC20. Application, Shell Windows et Shell Browser Window. (source : [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py :** En utilisant différents points de terminaison DCOM, ce script offre un shell semi-interactif semblable à wmiexec.py, tirant spécifiquement parti de l'objet DCOM ShellBrowserWindow. Il prend actuellement en charge les objets Application MMC20, Shell Windows et Shell Browser Window. (source : [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Fondamentaux de WMI
 
@@ -98,17 +98,17 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-Interroger à distance WMI pour des informations spécifiques, telles que les administrateurs locaux ou les utilisateurs connectés, est réalisable avec une construction de commande soigneuse.
+Interrogation à distance de WMI pour des informations spécifiques, telles que les administrateurs locaux ou les utilisateurs connectés, est réalisable avec une construction de commande soigneuse.
 
 ### **Interrogation WMI à distance manuelle**
 
 L'identification discrète des administrateurs locaux sur une machine distante et des utilisateurs connectés peut être réalisée grâce à des requêtes WMI spécifiques. `wmic` prend également en charge la lecture à partir d'un fichier texte pour exécuter des commandes sur plusieurs nœuds simultanément.
 
-Pour exécuter à distance un processus via WMI, comme le déploiement d'un agent Empire, la structure de commande suivante est utilisée, avec une exécution réussie indiquée par une valeur de retour de "0" :
+Pour exécuter à distance un processus via WMI, tel que le déploiement d'un agent Empire, la structure de commande suivante est utilisée, avec une exécution réussie indiquée par une valeur de retour de "0" :
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Ce processus illustre la capacité de WMI pour l'exécution à distance et l'énumération du système, mettant en évidence son utilité tant pour l'administration système que pour le pentesting.
+Ce processus illustre la capacité de WMI à exécuter des commandes à distance et à énumérer des systèmes, mettant en évidence son utilité tant pour l'administration système que pour le pentesting.
 
 ## Références
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
@@ -132,8 +132,8 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

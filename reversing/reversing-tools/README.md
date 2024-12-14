@@ -4,11 +4,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
@@ -20,7 +20,7 @@ Dans le domaine de **WebAssembly**, les outils pour **décompiler** et **compile
 ## Outils en ligne
 
 - Pour **décompiler** Wasm en Wat, l'outil disponible sur [la démo wasm2wat de Wabt](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) est très utile.
-- Pour **compiler** Wat en Wasm, [la démo wat2wasm de Wabt](https://webassembly.github.io/wabt/demo/wat2wasm/) sert à cet effet.
+- Pour **compiler** Wat en Wasm, [la démo wat2wasm de Wabt](https://webassembly.github.io/wabt/demo/wat2wasm/) remplit cet objectif.
 - Une autre option de décompilation peut être trouvée sur [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
 
 ## Solutions logicielles
@@ -64,7 +64,7 @@ Pour décompiler le bytecode Java, ces outils peuvent être très utiles :
 ## **Débogage des DLL**
 ### Utilisation d'IDA
 - **Rundll32** est chargé à partir de chemins spécifiques pour les versions 64 bits et 32 bits.
-- **Windbg** est sélectionné comme débogueur avec l'option de suspension lors du chargement/déchargement de la bibliothèque activée.
+- **Windbg** est sélectionné comme débogueur avec l'option de suspendre lors du chargement/déchargement de la bibliothèque activée.
 - Les paramètres d'exécution incluent le chemin de la DLL et le nom de la fonction. Cette configuration interrompt l'exécution lors du chargement de chaque DLL.
 
 ### Utilisation de x64dbg/x32dbg
@@ -87,7 +87,7 @@ Pour décompiler le bytecode Java, ces outils peuvent être très utiles :
 ### Déobfuscation et analyse
 - **scdbg** fournit des informations sur les fonctions de shellcode et les capacités de déobfuscation.
 %%%bash
-scdbg.exe -f shellcode # Informations de base
+scdbg.exe -f shellcode # Infos de base
 scdbg.exe -f shellcode -r # Rapport d'analyse
 scdbg.exe -f shellcode -i -r # Hooks interactifs
 scdbg.exe -f shellcode -d # Dump du shellcode décodé
@@ -99,7 +99,7 @@ scdbg.exe -f shellcode /foff 0x0000004D # Exécuter à partir du décalage
 
 ## **Movfuscator**
 - Un obfuscateur qui remplace toutes les instructions par `mov`.
-- Les ressources utiles incluent une [explication YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) et [des diapositives PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
+- Les ressources utiles incluent une [explication YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) et des [diapositives PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
 - **demovfuscator** pourrait inverser l'obfuscation de movfuscator, nécessitant des dépendances comme `libcapstone-dev` et `libz3-dev`, et l'installation de [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
 
 ## **Delphi**
@@ -119,11 +119,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

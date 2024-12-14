@@ -35,7 +35,7 @@ Pour appliquer cette technique, certaines conditions doivent être remplies :
 
 L'abus de Key Trust pour les objets informatiques englobe des étapes au-delà de l'obtention d'un Ticket Granting Ticket (TGT) et du hash NTLM. Les options incluent :
 1. Créer un **ticket argent RC4** pour agir en tant qu'utilisateurs privilégiés sur l'hôte prévu.
-2. Utiliser le TGT avec **S4U2Self** pour l'imitation des **utilisateurs privilégiés**, nécessitant des modifications du Ticket de Service pour ajouter une classe de service au nom du service.
+2. Utiliser le TGT avec **S4U2Self** pour l'usurpation d'identité de **utilisateurs privilégiés**, nécessitant des modifications du Ticket de Service pour ajouter une classe de service au nom du service.
 
 Un avantage significatif de l'abus de Key Trust est sa limitation à la clé privée générée par l'attaquant, évitant la délégation à des comptes potentiellement vulnérables et ne nécessitant pas la création d'un compte d'ordinateur, ce qui pourrait être difficile à supprimer.
 
@@ -43,13 +43,13 @@ Un avantage significatif de l'abus de Key Trust est sa limitation à la clé pri
 
 ### [**Whisker**](https://github.com/eladshamir/Whisker)
 
-Il est basé sur DSInternals fournissant une interface C# pour cette attaque. Whisker et son homologue Python, **pyWhisker**, permettent de manipuler l'attribut `msDS-KeyCredentialLink` pour prendre le contrôle des comptes Active Directory. Ces outils prennent en charge diverses opérations telles que l'ajout, la liste, la suppression et l'effacement des informations d'identification clés de l'objet cible.
+Il est basé sur DSInternals fournissant une interface C# pour cette attaque. Whisker et son homologue Python, **pyWhisker**, permettent de manipuler l'attribut `msDS-KeyCredentialLink` pour prendre le contrôle des comptes Active Directory. Ces outils prennent en charge diverses opérations telles que l'ajout, la liste, la suppression et l'effacement des informations d'identification de clé de l'objet cible.
 
 Les fonctions de **Whisker** incluent :
-- **Add** : Génère une paire de clés et ajoute une information d'identification clé.
-- **List** : Affiche toutes les entrées d'informations d'identification clés.
-- **Remove** : Supprime une information d'identification clé spécifiée.
-- **Clear** : Efface toutes les informations d'identification clés, perturbant potentiellement l'utilisation légitime de WHfB.
+- **Add** : Génère une paire de clés et ajoute une information d'identification de clé.
+- **List** : Affiche toutes les entrées d'informations d'identification de clé.
+- **Remove** : Supprime une information d'identification de clé spécifiée.
+- **Clear** : Efface toutes les informations d'identification de clé, perturbant potentiellement l'utilisation légitime de WHfB.
 ```shell
 Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.local /path:C:\path\to\file.pfx /password:P@ssword1
 ```

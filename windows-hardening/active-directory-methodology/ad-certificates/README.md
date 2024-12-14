@@ -32,7 +32,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Special Considerations
 
-- Les **Noms Alternatifs de Sujet (SANs)** étendent l'applicabilité d'un certificat à plusieurs identités, crucial pour les serveurs avec plusieurs domaines. Des processus d'émission sécurisés sont vitaux pour éviter les risques d'usurpation par des attaquants manipulant la spécification SAN.
+- Les **Noms Alternatifs du Sujet (SANs)** étendent l'applicabilité d'un certificat à plusieurs identités, crucial pour les serveurs avec plusieurs domaines. Des processus d'émission sécurisés sont vitaux pour éviter les risques d'usurpation par des attaquants manipulant la spécification SAN.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
@@ -101,15 +101,15 @@ Dans le processus d'authentification Kerberos, la demande d'un utilisateur pour 
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-est central pour établir la confiance pour l'authentification par certificat.
+is central à l'établissement de la confiance pour l'authentification par certificat.
 
-### Authentification Secure Channel (Schannel)
+### Authentification par canal sécurisé (Schannel)
 
-Schannel facilite les connexions TLS/SSL sécurisées, où lors d'une poignée de main, le client présente un certificat qui, s'il est validé avec succès, autorise l'accès. La correspondance d'un certificat à un compte AD peut impliquer la fonction **S4U2Self** de Kerberos ou le **Nom Alternatif du Sujet (SAN)** du certificat, entre autres méthodes.
+Schannel facilite les connexions TLS/SSL sécurisées, où, lors d'une poignée de main, le client présente un certificat qui, s'il est validé avec succès, autorise l'accès. La correspondance d'un certificat à un compte AD peut impliquer la fonction **S4U2Self** de Kerberos ou le **Nom alternatif du sujet (SAN)** du certificat, entre autres méthodes.
 
-### Énumération des Services de Certificat AD
+### Énumération des services de certificats AD
 
-Les services de certificat AD peuvent être énumérés via des requêtes LDAP, révélant des informations sur les **Autorités de Certification (CA) d'Entreprise** et leurs configurations. Cela est accessible par tout utilisateur authentifié de domaine sans privilèges spéciaux. Des outils comme **[Certify](https://github.com/GhostPack/Certify)** et **[Certipy](https://github.com/ly4k/Certipy)** sont utilisés pour l'énumération et l'évaluation des vulnérabilités dans les environnements AD CS.
+Les services de certificats AD peuvent être énumérés via des requêtes LDAP, révélant des informations sur les **Autorités de certification (CA) d'entreprise** et leurs configurations. Cela est accessible par tout utilisateur authentifié dans le domaine sans privilèges spéciaux. Des outils comme **[Certify](https://github.com/GhostPack/Certify)** et **[Certipy](https://github.com/ly4k/Certipy)** sont utilisés pour l'énumération et l'évaluation des vulnérabilités dans les environnements AD CS.
 
 Les commandes pour utiliser ces outils incluent :
 ```bash
@@ -138,7 +138,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

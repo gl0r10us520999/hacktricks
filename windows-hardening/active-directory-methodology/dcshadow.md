@@ -41,17 +41,17 @@ Vous pouvez également sélectionner un objet "LDAP" : `/object:CN=Administrator
 Vous pouvez pousser les changements depuis un DA ou depuis un utilisateur avec ces permissions minimales :
 
 * Dans l'**objet de domaine** :
-* _DS-Install-Replica_ (Ajouter/Retirer un Replica dans le Domaine)
+* _DS-Install-Replica_ (Ajouter/Retirer Réplica dans le Domaine)
 * _DS-Replication-Manage-Topology_ (Gérer la Topologie de Réplication)
 * _DS-Replication-Synchronize_ (Synchronisation de Réplication)
 * L'**objet Sites** (et ses enfants) dans le **conteneur de Configuration** :
-* _CreateChild et DeleteChild_
+* _CreateChild and DeleteChild_
 * L'objet de l'**ordinateur qui est enregistré comme un DC** :
 * _WriteProperty_ (Pas Écrire)
 * L'**objet cible** :
 * _WriteProperty_ (Pas Écrire)
 
-Vous pouvez utiliser [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) pour donner ces privilèges à un utilisateur non privilégié (notez que cela laissera des logs). C'est beaucoup plus restrictif que d'avoir des privilèges DA.\
+Vous pouvez utiliser [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) pour donner ces privilèges à un utilisateur non privilégié (remarquez que cela laissera des logs). C'est beaucoup plus restrictif que d'avoir des privilèges DA.\
 Par exemple : `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` Cela signifie que le nom d'utilisateur _**student1**_ lorsqu'il est connecté sur la machine _**mcorp-student1**_ a des permissions DCShadow sur l'objet _**root1user**_.
 
 ## Utiliser DCShadow pour créer des portes dérobées

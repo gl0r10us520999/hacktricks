@@ -20,13 +20,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% embed url="https://websec.nl/" %}
 
 
-## Basic Information
+## Informations de base
 
-La solution de mot de passe d'administrateur local (LAPS) est un outil utilisé pour gérer un système où les **mots de passe administrateurs**, qui sont **uniques, aléatoires et fréquemment changés**, sont appliqués aux ordinateurs joints au domaine. Ces mots de passe sont stockés en toute sécurité dans Active Directory et ne sont accessibles qu'aux utilisateurs qui ont reçu l'autorisation via des listes de contrôle d'accès (ACL). La sécurité des transmissions de mots de passe du client au serveur est assurée par l'utilisation de **Kerberos version 5** et de **Advanced Encryption Standard (AES)**.
+La solution de mot de passe d'administrateur local (LAPS) est un outil utilisé pour gérer un système où les **mots de passe d'administrateur**, qui sont **uniques, aléatoires et fréquemment changés**, sont appliqués aux ordinateurs joints au domaine. Ces mots de passe sont stockés en toute sécurité dans Active Directory et ne sont accessibles qu'aux utilisateurs qui ont reçu l'autorisation par le biais des listes de contrôle d'accès (ACL). La sécurité des transmissions de mots de passe du client au serveur est assurée par l'utilisation de **Kerberos version 5** et de **l'Advanced Encryption Standard (AES)**.
 
-Dans les objets d'ordinateur du domaine, la mise en œuvre de LAPS entraîne l'ajout de deux nouveaux attributs : **`ms-mcs-AdmPwd`** et **`ms-mcs-AdmPwdExpirationTime`**. Ces attributs stockent respectivement le **mot de passe administrateur en texte clair** et **son heure d'expiration**.
+Dans les objets d'ordinateur du domaine, la mise en œuvre de LAPS entraîne l'ajout de deux nouveaux attributs : **`ms-mcs-AdmPwd`** et **`ms-mcs-AdmPwdExpirationTime`**. Ces attributs stockent respectivement le **mot de passe d'administrateur en texte clair** et **son heure d'expiration**.
 
-### Check if activated
+### Vérifier si activé
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -101,7 +101,7 @@ ComputerName                Password       Expiration
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
 ## **Dumping LAPS Passwords With Crackmapexec**
-Si l'accès à PowerShell n'est pas disponible, vous pouvez abuser de ce privilège à distance via LDAP en utilisant
+Si l'accès à un powershell n'est pas disponible, vous pouvez abuser de ce privilège à distance via LDAP en utilisant
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
@@ -134,11 +134,11 @@ Le mot de passe sera toujours réinitialisé si un **admin** utilise la **`Reset
 
 ### Backdoor
 
-Le code source original de LAPS peut être trouvé [ici](https://github.com/GreyCorbel/admpwd), il est donc possible d'ajouter une backdoor dans le code (dans la méthode `Get-AdmPwdPassword` dans `Main/AdmPwd.PS/Main.cs` par exemple) qui **exfiltrera de nouveaux mots de passe ou les stockera quelque part**.
+Le code source original pour LAPS peut être trouvé [ici](https://github.com/GreyCorbel/admpwd), il est donc possible d'ajouter une porte dérobée dans le code (dans la méthode `Get-AdmPwdPassword` dans `Main/AdmPwd.PS/Main.cs` par exemple) qui **exfiltrera de nouveaux mots de passe ou les stockera quelque part**.
 
 Ensuite, il suffit de compiler le nouveau `AdmPwd.PS.dll` et de le télécharger sur la machine dans `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (et de changer l'heure de modification).
 
-## Références
+## References
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
@@ -146,8 +146,8 @@ Ensuite, il suffit de compiler le nouveau `AdmPwd.PS.dll` et de le télécharger
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -155,7 +155,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

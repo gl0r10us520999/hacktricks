@@ -55,7 +55,7 @@ L'utilisateur ciblé pour la falsification de certificat doit être actif et cap
 Ce certificat falsifié sera **valide** jusqu'à la date de fin spécifiée et **tant que le certificat CA racine est valide** (généralement de 5 à **10+ ans**). Il est également valide pour les **machines**, donc combiné avec **S4U2Self**, un attaquant peut **maintenir une persistance sur n'importe quelle machine de domaine** tant que le certificat CA est valide.\
 De plus, les **certificats générés** avec cette méthode **ne peuvent pas être révoqués** car la CA n'en est pas consciente.
 
-## Faire confiance aux certificats CA malveillants - DPERSIST2
+## Confiance aux certificats CA malveillants - DPERSIST2
 
 L'objet `NTAuthCertificates` est défini pour contenir un ou plusieurs **certificats CA** dans son attribut `cacertificate`, que Active Directory (AD) utilise. Le processus de vérification par le **contrôleur de domaine** implique de vérifier l'objet `NTAuthCertificates` pour une entrée correspondant à la **CA spécifiée** dans le champ Émetteur du **certificat** authentifiant. L'authentification se poursuit si une correspondance est trouvée.
 
@@ -65,7 +65,7 @@ Cette capacité est particulièrement pertinente lorsqu'elle est utilisée en co
 
 ## Mauvaise configuration malveillante - DPERSIST3
 
-Les opportunités de **persistance** à travers les **modifications de descripteurs de sécurité des composants AD CS** sont nombreuses. Les modifications décrites dans la section "[Domain Escalation](domain-escalation.md)" peuvent être mises en œuvre de manière malveillante par un attaquant ayant un accès élevé. Cela inclut l'ajout de "droits de contrôle" (par exemple, WriteOwner/WriteDACL/etc.) à des composants sensibles tels que :
+Les opportunités de **persistance** par le biais de **modifications de descripteurs de sécurité des composants AD CS** sont nombreuses. Les modifications décrites dans la section "[Domain Escalation](domain-escalation.md)" peuvent être mises en œuvre de manière malveillante par un attaquant ayant un accès élevé. Cela inclut l'ajout de "droits de contrôle" (par exemple, WriteOwner/WriteDACL/etc.) à des composants sensibles tels que :
 
 - L'objet **ordinateur AD du serveur CA**
 - Le **serveur RPC/DCOM du serveur CA**

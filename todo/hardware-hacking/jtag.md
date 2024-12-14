@@ -6,7 +6,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -19,7 +19,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 [**JTAGenum** ](https://github.com/cyphunk/JTAGenum) est un outil qui peut être utilisé avec un Raspberry PI ou un Arduino pour essayer de trouver les broches JTAG d'une puce inconnue.\
 Dans l'**Arduino**, connectez les **broches de 2 à 11 à 10 broches potentiellement appartenant à un JTAG**. Chargez le programme dans l'Arduino et il essaiera de brute-forcer toutes les broches pour déterminer si l'une d'elles appartient à JTAG et laquelle est laquelle.\
-Dans le **Raspberry PI**, vous ne pouvez utiliser que **les broches de 1 à 6** (6 broches, donc vous avancerez plus lentement en testant chaque broche JTAG potentielle).
+Dans le **Raspberry PI**, vous ne pouvez utiliser que **les broches de 1 à 6** (6 broches, donc vous irez plus lentement en testant chaque broche JTAG potentielle).
 
 ### Arduino
 
@@ -42,7 +42,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -19,7 +19,7 @@ Avec [**Flipper Zero**](https://flipperzero.one/) vous pouvez :
 
 * **Écouter/Capturer/Rejouer des fréquences radio :** [**Sub-GHz**](fz-sub-ghz.md)
 * **Lire/Capturer/Émuler des cartes NFC :** [**NFC**](fz-nfc.md)
-* **Lire/Capturer/Émuler des tags 125kHz :** [**125kHz RFID**](fz-125khz-rfid.md)
+* **Lire/Capturer/Émuler des étiquettes 125kHz :** [**125kHz RFID**](fz-125khz-rfid.md)
 * **Lire/Capturer/Envoyer des signaux infrarouges :** [**Infrarouge**](fz-infrared.md)
 * **Lire/Capturer/Émuler des iButtons :** [**iButton**](../ibutton.md)
 * **L'utiliser comme Bad USB**

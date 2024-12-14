@@ -134,7 +134,7 @@ simgr.active[0].regs.rip #Get RIP from the last state
 
 * Vous pouvez passer une liste d'arguments via `args` et un dictionnaire de variables d'environnement via `env` dans `entry_state` et `full_init_state`. Les valeurs dans ces structures peuvent être des chaînes de caractères ou des bitvectors, et seront sérialisées dans l'état en tant qu'arguments et environnement pour l'exécution simulée. La valeur par défaut de `args` est une liste vide, donc si le programme que vous analysez s'attend à trouver au moins un `argv[0]`, vous devez toujours le fournir !
 * Si vous souhaitez que `argc` soit symbolique, vous pouvez passer un bitvector symbolique comme `argc` aux constructeurs `entry_state` et `full_init_state`. Faites attention, cependant : si vous faites cela, vous devez également ajouter une contrainte à l'état résultant selon laquelle votre valeur pour argc ne peut pas être supérieure au nombre d'args que vous avez passés dans `args`.
-* Pour utiliser l'état d'appel, vous devez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous souhaitez appeler et `argN` est le Nème argument de cette fonction, soit en tant qu'entier python, chaîne de caractères, ou tableau, ou un bitvector. Si vous souhaitez allouer de la mémoire et passer réellement un pointeur vers un objet, vous devez l'encapsuler dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous y travaillons.
+* Pour utiliser l'état d'appel, vous devez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous souhaitez appeler et `argN` est le N-ième argument de cette fonction, soit en tant qu'entier python, chaîne de caractères, ou tableau, ou un bitvector. Si vous souhaitez allouer de la mémoire et réellement passer un pointeur vers un objet, vous devez l'encapsuler dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous y travaillons.
 
 ## BitVectors
 ```python
@@ -179,7 +179,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Accrochage
+## Hooking
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -207,11 +207,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Supportez HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

@@ -21,11 +21,11 @@ La première chose que vous devez faire est d'avoir un [**Proxmark3**](https://p
 
 ### Attaquer MIFARE Classic 1KB
 
-Il a **16 secteurs**, chacun d'eux a **4 blocs** et chaque bloc contient **16B**. Le UID est dans le secteur 0 bloc 0 (et ne peut pas être modifié).\
+Il a **16 secteurs**, chacun d'eux a **4 blocs** et chaque bloc contient **16B**. L'UID est dans le secteur 0 bloc 0 (et ne peut pas être modifié).\
 Pour accéder à chaque secteur, vous avez besoin de **2 clés** (**A** et **B**) qui sont stockées dans **le bloc 3 de chaque secteur** (secteur trailer). Le secteur trailer stocke également les **bits d'accès** qui donnent les **permissions de lecture et d'écriture** sur **chaque bloc** en utilisant les 2 clés.\
 2 clés sont utiles pour donner des permissions de lecture si vous connaissez la première et d'écriture si vous connaissez la seconde (par exemple).
 
-Plusieurs attaques peuvent être effectuées
+Plusieurs attaques peuvent être effectuées.
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -66,19 +66,19 @@ Le logiciel Proxmark3 est livré avec une liste préchargée de **scripts d'auto
 ```
 proxmark3> script run mfkeys
 ```
-Vous pouvez créer un script pour **fuzz tag readers**, donc en copiant les données d'une **carte valide**, il suffit d'écrire un **script Lua** qui **randomise** un ou plusieurs **octets** aléatoires et vérifie si le **lecteur plante** avec une itération quelconque.
+Vous pouvez créer un script pour **fuzz tag readers**, donc en copiant les données d'une **carte valide**, il suffit d'écrire un **script Lua** qui **randomise** un ou plusieurs **octets** aléatoires et vérifie si le **lecteur plante** avec chaque itération.
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
