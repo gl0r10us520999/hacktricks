@@ -50,7 +50,7 @@ Da biste registrovali uređaj u MDM, potrebno je da instalirate **`mobileconfig`
 
 ### Zloupotreba JAMF PRO
 
-JAMF može pokretati **prilagođene skripte** (skripte koje razvija sysadmin), **nativne payload-e** (kreiranje lokalnog naloga, postavljanje EFI lozinke, praćenje datoteka/procesa...) i **MDM** (konfiguracije uređaja, sertifikati uređaja...).
+JAMF može pokretati **prilagođene skripte** (skripte koje je razvio sysadmin), **nativne payload-e** (kreiranje lokalnog naloga, postavljanje EFI lozinke, praćenje datoteka/procesa...) i **MDM** (konfiguracije uređaja, sertifikati uređaja...).
 
 #### JAMF samoregistracija
 
@@ -69,7 +69,7 @@ Možete koristiti skriptu [**JamfSniper.py**](https://github.com/WithSecureLabs/
 **`jamf`** binarni sadržao je tajnu za otvaranje keychain-a koja je u vreme otkrića bila **deljena** među svima i bila je: **`jk23ucnq91jfu9aj`**.\
 Štaviše, jamf **persistira** kao **LaunchDaemon** u **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### Preuzimanje uređaja JAMF
+#### JAMF preuzimanje uređaja
 
 **JSS** (Jamf Software Server) **URL** koji će **`jamf`** koristiti nalazi se u **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Ova datoteka u suštini sadrži URL:
@@ -113,7 +113,7 @@ Sa ovom informacijom, **napravite VM** sa **ukradenim** Hardver **UUID** i sa **
 
 Takođe možete pratiti lokaciju `/Library/Application Support/Jamf/tmp/` za **prilagođene skripte** koje administratori možda žele da izvrše putem Jamf-a, jer su **ovde smeštene, izvršene i uklonjene**. Ove skripte **mogu sadržati akreditive**.
 
-Međutim, **akreditivi** se mogu proslediti ovim skriptama kao **parametri**, pa bi trebalo da pratite `ps aux | grep -i jamf` (čak i bez da budete root).
+Međutim, **akreditivi** se mogu proslediti ovim skriptama kao **parametri**, pa biste trebali pratiti `ps aux | grep -i jamf` (čak i bez da budete root).
 
 Skripta [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) može slušati nove datoteke koje se dodaju i nove argumente procesa.
 
@@ -127,7 +127,7 @@ I takođe o **MacOS** "posebnim" **mrežnim** **protokolima**:
 
 ## Active Directory
 
-U nekim slučajevima ćete otkriti da je **MacOS računar povezan sa AD**. U ovom scenariju trebali biste pokušati da **enumerišete** aktivni direktorijum kao što ste navikli. Pronađite neku **pomoć** na sledećim stranicama:
+U nekim slučajevima ćete otkriti da je **MacOS računar povezan na AD**. U ovom scenariju trebali biste pokušati da **enumerišete** aktivni direktorijum kao što ste navikli. Pronađite neku **pomoć** na sledećim stranicama:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -241,7 +241,7 @@ MacOS Red Teaming se razlikuje od regularnog Windows Red Teaming-a jer je običn
 
 ### Safari
 
-Kada se datoteka preuzme u Safariju, ako je to "sigurna" datoteka, biće **automatski otvorena**. Dakle, na primer, ako **preuzmete zip**, biće automatski raspakovana:
+Kada se fajl preuzme u Safariju, ako je to "siguran" fajl, biće **automatski otvoren**. Tako da, na primer, ako **preuzmete zip**, biće automatski raspakovan:
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 

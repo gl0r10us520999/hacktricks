@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## PID Reuse
 
-Kada **XPC servis** na macOS-u proverava pozvani proces na osnovu **PID-a** a ne na osnovu **audit token-a**, ranjiv je na napad ponovne upotrebe PID-a. Ovaj napad se zasniva na **trci** gde će **eksploit** **slati poruke XPC** servisu **zloupotrebljavajući** funkcionalnost i tek **nakon** toga izvršiti **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** sa **dozvoljenim** binarnim fajlom.
+Kada **XPC servis** na macOS-u proverava pozvani proces na osnovu **PID-a** a ne na osnovu **audit token-a**, ranjiv je na napad ponovne upotrebe PID-a. Ovaj napad se zasniva na **trci** gde će **eksploit** **slati poruke** XPC servisu **zloupotrebljavajući** funkcionalnost i tek **nakon** toga izvršiti **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** sa **dozvoljenim** binarnim fajlom.
 
-Ova funkcija će učiniti da **dozvoljeni binarni fajl preuzme PID**, ali bi **maliciozna XPC poruka bila poslata** neposredno pre toga. Dakle, ako **XPC** servis **koristi** **PID** za **autentifikaciju** pošiljaoca i proverava ga **Nakon** izvršenja **`posix_spawn`**, misliće da dolazi iz **ovlašćenog** procesa.
+Ova funkcija će učiniti da **dozvoljeni binarni fajl preuzme PID**, ali će **maliciozna XPC poruka biti poslata** neposredno pre toga. Dakle, ako **XPC** servis **koristi** **PID** za **autentifikaciju** pošiljaoca i proverava ga **Nakon** izvršenja **`posix_spawn`**, misliće da dolazi iz **ovlašćenog** procesa.
 
 ### Primer eksploita
 

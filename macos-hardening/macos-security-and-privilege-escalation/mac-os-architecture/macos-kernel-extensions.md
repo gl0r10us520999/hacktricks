@@ -35,7 +35,7 @@ Očigledno, ovo je toliko moćno da je **komplikovano učitati kernel ekstenziju
 
 ### Loading process
 
-U Catalini je to izgledalo ovako: Zanimljivo je napomenuti da se **proceso verifikacije** dešava u **userland-u**. Međutim, samo aplikacije sa **`com.apple.private.security.kext-management`** dozvolom mogu **zatražiti od kernela da učita ekstenziju**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+U Catalina je to bilo ovako: Zanimljivo je napomenuti da se **proceso verifikacije** dešava u **userland-u**. Međutim, samo aplikacije sa **`com.apple.private.security.kext-management`** dozvolom mogu **zatražiti od kernela da učita ekstenziju**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
 1. **`kextutil`** cli **pokreće** **proceso verifikacije** za učitavanje ekstenzije
 * Razgovaraće sa **`kextd`** slanjem putem **Mach servisa**.
@@ -58,10 +58,10 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 ## Kernelcache
 
 {% hint style="danger" %}
-Iako se očekuje da su kernel ekstenzije u `/System/Library/Extensions/`, ako odete u ovu fasciklu **nećete pronaći nijedan binarni** fajl. To je zbog **kernelcache** i da biste obrnuli jedan `.kext` potrebno je da pronađete način da ga dobijete.
+Iako se očekuje da su kernel ekstenzije u `/System/Library/Extensions/`, ako odete u ovu fasciklu **nećete pronaći nijedan binarni fajl**. To je zbog **kernelcache** i da biste obrnuli jedan `.kext` potrebno je da pronađete način da ga dobijete.
 {% endhint %}
 
-**Kernelcache** je **prekompajlirana i prelinkovana verzija XNU kernela**, zajedno sa osnovnim uređajskim **drajverima** i **kernel ekstenzijama**. Čuva se u **komprimovanom** formatu i dekompresuje se u memoriji tokom procesa pokretanja. Kernelcache omogućava **brže vreme pokretanja** tako što ima spremnu verziju kernela i ključnih drajvera, smanjujući vreme i resurse koji bi inače bili potrošeni na dinamičko učitavanje i povezivanje ovih komponenti prilikom pokretanja.
+**Kernelcache** je **prekompajlirana i prelinkovana verzija XNU kernela**, zajedno sa esencijalnim uređajnim **drajverima** i **kernel ekstenzijama**. Čuva se u **kompresovanom** formatu i dekompresuje se u memoriju tokom procesa pokretanja. Kernelcache omogućava **brže vreme pokretanja** tako što ima spremnu verziju kernela i ključnih drajvera, smanjujući vreme i resurse koji bi inače bili potrošeni na dinamičko učitavanje i povezivanje ovih komponenti prilikom pokretanja.
 
 ### Lokalni Kernelcache
 
@@ -77,7 +77,7 @@ IMG4 format fajla je kontejnerski format koji koristi Apple u svojim iOS i macOS
 Obično se sastoji od sledećih komponenti:
 
 * **Payload (IM4P)**:
-* Često komprimovan (LZFSE4, LZSS, …)
+* Često kompresovan (LZFSE4, LZSS, …)
 * Opcionalno enkriptovan
 * **Manifest (IM4M)**:
 * Sadrži potpis
@@ -107,7 +107,7 @@ nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 ```
 * [**theapplewiki.com**](https://theapplewiki.com/wiki/Firmware/Mac/14.x)**,** [**ipsw.me**](https://ipsw.me/)**,** [**theiphonewiki.com**](https://www.theiphonewiki.com/)
 
-Ponekad Apple objavljuje **kernelcache** sa **simbolima**. Možete preuzeti neke firmvere sa simbolima prateći linkove na tim stranicama. Firmveri će sadržati **kernelcache** među ostalim datotekama.
+Ponekad Apple objavljuje **kernelcache** sa **symbolima**. Možete preuzeti neke firmvere sa simbolima prateći linkove na tim stranicama. Firmveri će sadržati **kernelcache** među ostalim datotekama.
 
 Da **izvucite** datoteke, počnite tako što ćete promeniti ekstenziju sa `.ipsw` na `.zip` i **raspakovati** je.
 

@@ -1,16 +1,16 @@
-# macOS Sensitive Locations & Interesting Daemons
+# macOS Osetljive Lokacije & Zanimljivi Daemoni
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
@@ -19,8 +19,8 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ### Shadow Lozinke
 
-Shadow lozinka se čuva sa korisničkom konfiguracijom u plists lociranim u **`/var/db/dslocal/nodes/Default/users/`**.\
-Sledeća komanda može se koristiti za ispis **sve informacije o korisnicima** (uključujući informacije o hešu):
+Shadow lozinka se čuva sa konfiguracijom korisnika u plists smeštenim u **`/var/db/dslocal/nodes/Default/users/`**.\
+Sledeći oneliner može se koristiti za iskopavanje **sve informacije o korisnicima** (uključujući informacije o hash-u):
 
 {% code overflow="wrap" %}
 ```bash
@@ -46,7 +46,7 @@ Ova datoteka se **koristi samo** kada sistem radi u **jedno-korisničkom režimu
 
 ### Keychain Dump
 
-Imajte na umu da prilikom korišćenja sigurnosne binarne datoteke za **izvlačenje dekriptovanih lozinki**, nekoliko upita će tražiti od korisnika da dozvoli ovu operaciju.
+Imajte na umu da prilikom korišćenja binarne datoteke za sigurnost da **izbacite dekriptovane lozinke**, nekoliko prompteva će tražiti od korisnika da dozvoli ovu operaciju.
 ```bash
 #security
 security dump-trust-settings [-s] [-d] #List certificates
@@ -63,9 +63,9 @@ Na osnovu ovog komentara [juuso/keychaindump#10 (comment)](https://github.com/ju
 
 ### Pregled Keychaindump-a
 
-Alat pod nazivom **keychaindump** razvijen je za ekstrakciju lozinki iz macOS ključanika, ali se suočava sa ograničenjima na novijim verzijama macOS-a kao što je Big Sur, kako je naznačeno u [diskusiji](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Korišćenje **keychaindump** zahteva od napadača da dobije pristup i eskalira privilegije na **root**. Alat koristi činjenicu da je ključanik po defaultu otključan prilikom prijave korisnika radi pogodnosti, omogućavajući aplikacijama da mu pristupe bez ponovnog traženja lozinke korisnika. Međutim, ako korisnik odluči da zaključa svoj ključanik nakon svake upotrebe, **keychaindump** postaje neefikasan.
+Alat pod nazivom **keychaindump** razvijen je za ekstrakciju lozinki iz macOS ključanika, ali se suočava sa ograničenjima na novijim verzijama macOS-a poput Big Sur-a, kako je naznačeno u [diskusiji](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Korišćenje **keychaindump** zahteva od napadača da dobije pristup i eskalira privilegije na **root**. Alat koristi činjenicu da je ključanik po defaultu otključan prilikom prijave korisnika radi pogodnosti, omogućavajući aplikacijama da mu pristupaju bez ponovnog traženja lozinke korisnika. Međutim, ako korisnik odluči da zaključa svoj ključanik nakon svake upotrebe, **keychaindump** postaje neefikasan.
 
-**Keychaindump** funkcioniše tako što cilja specifičan proces nazvan **securityd**, koji Apple opisuje kao demon za autorizaciju i kriptografske operacije, što je ključno za pristup ključaniku. Proces ekstrakcije uključuje identifikaciju **Master Key**-a izvedenog iz lozinke za prijavu korisnika. Ovaj ključ je neophodan za čitanje datoteke ključanika. Da bi locirao **Master Key**, **keychaindump** skenira memorijski heap **securityd** koristeći komandu `vmmap`, tražeći potencijalne ključeve unutar oblasti označenih kao `MALLOC_TINY`. Sledeća komanda se koristi za inspekciju ovih memorijskih lokacija:
+**Keychaindump** funkcioniše tako što cilja specifičan proces nazvan **securityd**, koji Apple opisuje kao demon za autorizaciju i kriptografske operacije, što je ključno za pristup ključaniku. Proces ekstrakcije uključuje identifikaciju **Master Key**-a izvedenog iz lozinke za prijavu korisnika. Ova ključna informacija je neophodna za čitanje datoteke ključanika. Da bi locirao **Master Key**, **keychaindump** skenira memorijski heap **securityd** koristeći komandu `vmmap`, tražeći potencijalne ključeve unutar oblasti označenih kao `MALLOC_TINY`. Sledeća komanda se koristi za inspekciju ovih memorijskih lokacija:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
@@ -132,10 +132,10 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 ```
 ### kcpassword
 
-Datoteka **kcpassword** je datoteka koja sadrži **lozinku za prijavu korisnika**, ali samo ako je vlasnik sistema **omogućio automatsku prijavu**. Stoga, korisnik će biti automatski prijavljen bez traženja lozinke (što nije baš sigurno).
+Fajl **kcpassword** je fajl koji sadrži **lozinku za prijavu korisnika**, ali samo ako je vlasnik sistema **omogućio automatsku prijavu**. Stoga, korisnik će biti automatski prijavljen bez traženja lozinke (što nije baš sigurno).
 
-Lozinka se čuva u datoteci **`/etc/kcpassword`** xored sa ključem **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Ako je lozinka korisnika duža od ključa, ključ će se ponovo koristiti.\
-To čini lozinku prilično lakom za oporavak, na primer koristeći skripte poput [**ove**](https://gist.github.com/opshope/32f65875d45215c3677d).
+Lozinka se čuva u fajlu **`/etc/kcpassword`** xored sa ključem **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Ako je lozinka korisnika duža od ključa, ključ će se ponovo koristiti.\
+To čini lozinku prilično lakom za oporavak, na primer koristeći skripte kao [**ovu**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Zanimljive informacije u bazama podataka
 
@@ -217,13 +217,13 @@ Ova datoteka dodeljuje dozvole specifičnim korisnicima po UUID-u (a ne uid-u) k
 </array>
 [...]
 ```
-## Sistemske Notifikacije
+## Sistemske obaveštenja
 
-### Darwin Notifikacije
+### Darwin obaveštenja
 
-Glavni daemon za notifikacije je **`/usr/sbin/notifyd`**. Da bi primali notifikacije, klijenti moraju da se registruju preko `com.apple.system.notification_center` Mach porta (proverite ih sa `sudo lsmp -p <pid notifyd>`). Daemon se može konfigurisati sa datotekom `/etc/notify.conf`.
+Glavni demon za obaveštenja je **`/usr/sbin/notifyd`**. Da bi primali obaveštenja, klijenti moraju da se registruju putem `com.apple.system.notification_center` Mach porta (proverite ih sa `sudo lsmp -p <pid notifyd>`). Demon se može konfigurisati datotekom `/etc/notify.conf`.
 
-Imena koja se koriste za notifikacije su jedinstvene obrnute DNS notacije i kada se notifikacija pošalje jednom od njih, klijent(i) koji su naznačili da mogu da je obrade će je primiti.
+Imena koja se koriste za obaveštenja su jedinstvene obrnute DNS notacije i kada se obaveštenje pošalje jednom od njih, klijent(i) koji su naznačili da mogu da ga obrade će ga primiti.
 
 Moguće je dumpovati trenutni status (i videti sva imena) slanjem signala SIGUSR2 procesu notifyd i čitanjem generisane datoteke: `/var/run/notifyd_<pid>.status`:
 ```bash
@@ -256,7 +256,7 @@ Postoji lokalna baza podataka poruka koja se nalazi u macOS-u u `/Library/Applic
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
-Takođe je moguće dobiti informacije o daemonu i vezama koristeći:
+Takođe je moguće dobiti informacije o daemon-u i vezama koristeći:
 ```bash
 /System/Library/PrivateFrameworks/ApplePushService.framework/apsctl status
 ```
@@ -264,7 +264,7 @@ Takođe je moguće dobiti informacije o daemonu i vezama koristeći:
 
 Ovo su obaveštenja koja korisnik treba da vidi na ekranu:
 
-* **`CFUserNotification`**: Ovaj API pruža način da se na ekranu prikaže iskačuća poruka.
+* **`CFUserNotification`**: Ovaj API pruža način da se na ekranu prikaže iskačuće obaveštenje sa porukom.
 * **Oglasna tabla**: Ovo prikazuje u iOS-u baner koji nestaje i biće sačuvan u Centru za obaveštenja.
 * **`NSUserNotificationCenter`**: Ovo je oglasna tabla u iOS-u na MacOS-u. Baza podataka sa obaveštenjima se nalazi u `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
 
@@ -274,11 +274,11 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

@@ -15,13 +15,13 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## Basic Information
+## Osnovne informacije
 
 **MACF** označava **Okvir obaveznog pristupa**, koji je bezbednosni sistem ugrađen u operativni sistem kako bi pomogao u zaštiti vašeg računara. Funkcioniše tako što postavlja **stroga pravila o tome ko ili šta može pristupiti određenim delovima sistema**, kao što su datoteke, aplikacije i sistemski resursi. Sprovodeći ova pravila automatski, MACF osigurava da samo ovlašćeni korisnici i procesi mogu izvršavati određene radnje, smanjujući rizik od neovlašćenog pristupa ili zlonamernih aktivnosti.
 
-Napomena: MACF zapravo ne donosi nikakve odluke, već samo **presreće** radnje, ostavljajući odluke **modulima politike** (kernel ekstenzije) koje poziva, kao što su `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext`, `TMSafetyNet.kext` i `mcxalr.kext`.
+Napomena: MACF zapravo ne donosi nikakve odluke, već samo **presreće** radnje, ostavljajući odluke **modulima politike** (kernel ekstenzijama) koje poziva, kao što su `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext`, `TMSafetyNet.kext` i `mcxalr.kext`.
 
-### Flow
+### Tok
 
 1. Proces izvršava syscall/mach trap
 2. Relevantna funkcija se poziva unutar kernela
@@ -34,11 +34,11 @@ Napomena: MACF zapravo ne donosi nikakve odluke, već samo **presreće** radnje,
 Apple je jedini koji može koristiti MAC Framework KPI.
 {% endhint %}
 
-### Labels
+### Oznake
 
-MACF koristi **oznake** koje zatim politike koriste da provere da li treba da odobre neki pristup ili ne. Kod deklaracije strukture oznaka može se [pronaći ovde](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), koja se zatim koristi unutar **`struct ucred`** [**ovde**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) u delu **`cr_label`**. Oznaka sadrži zastavice i broj **slotova** koji se mogu koristiti od strane **MACF politika za dodelu pokazivača**. Na primer, Sandbox će ukazivati na profil kontejnera.
+MACF koristi **oznake** koje će zatim politike koristiti da provere da li treba da odobre neki pristup ili ne. Kod deklaracije strukture oznaka može se [pronaći ovde](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), koja se zatim koristi unutar **`struct ucred`** u [**ovde**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) u delu **`cr_label`**. Oznaka sadrži zastavice i broj **slotova** koji se mogu koristiti od strane **MACF politika za dodeljivanje pokazivača**. Na primer, Sanbox će ukazivati na profil kontejnera.
 
-## MACF Policies
+## MACF Politike
 
 MACF politika definiše **pravila i uslove koji se primenjuju u određenim operacijama kernela**.&#x20;
 
@@ -83,7 +83,7 @@ Lako je identifikovati kernel ekstenzije koje konfigurišu ove politike proverom
 
 Napomena da se MACF politike mogu registrovati i deregistrovati takođe **dinamički**.
 
-Jedno od glavnih polja `mac_policy_conf` je **`mpc_ops`**. Ovo polje specificira koje operacije politika zanima. Napomena da ih ima stotine, tako da je moguće postaviti sve na nulu, a zatim izabrati samo one koje politiku zanimaju. Od [ovde](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
+Jedno od glavnih polja `mac_policy_conf` je **`mpc_ops`**. Ovo polje specificira koje operacije politika zanima. Napomena da ih ima stotine, tako da je moguće postaviti sve na nulu, a zatim izabrati samo one koje su politici zanimljive. Od [ovde](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
 ```c
 struct mac_policy_ops {
 mpo_audit_check_postselect_t		*mpo_audit_check_postselect;
@@ -171,7 +171,7 @@ error = mac_error_select(__step_err, error);         \
 });                                                             \
 } while (0)
 ```
-Koji će proći kroz sve registrovane mac politike pozivajući njihove funkcije i čuvajući izlaz unutar promenljive error, koja će biti prepisiva samo od strane `mac_error_select` pomoću kodova uspeha, tako da ako bilo koja provera ne uspe, cela provera će pasti i akcija neće biti dozvoljena.
+Koji će proći kroz sve registrovane mac politike pozivajući njihove funkcije i čuvajući izlaz unutar promenljive greške, koja će biti prepisiva samo od strane `mac_error_select` pomoću kodova uspeha, tako da ako bilo koja provera ne uspe, cela provera će pasti i akcija neće biti dozvoljena.
 
 {% hint style="success" %}
 Međutim, zapamtite da se ne koriste svi MACF pozivi samo za odbijanje akcija. Na primer, `mac_priv_grant` poziva makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274), koji će odobriti traženu privilegiju ako bilo koja politika odgovori sa 0:
@@ -206,7 +206,7 @@ Neki kernel kod bi pozvao `priv_check_cred()` iz [**bsd/kern/kern\_priv.c**](htt
 
 ### proc\_check\_syscall\_unix
 
-Ova tačka omogućava presretanje svih sistemskih poziva. U `bsd/dev/[i386|arm]/systemcalls.c` moguće je videti deklarisanu funkciju [`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25), koja sadrži ovaj kod:
+Ova funkcija omogućava presretanje svih sistemskih poziva. U `bsd/dev/[i386|arm]/systemcalls.c` moguće je videti deklarisanu funkciju [`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25), koja sadrži ovaj kod:
 ```c
 #if CONFIG_MACF
 if (__improbable(proc_syscall_filter_mask(proc) != NULL && !bitstr_test(proc_syscall_filter_mask(proc), syscode))) {
@@ -248,7 +248,7 @@ int      __mac_syscall(const char *_policyname, int _call, void *_arg);
 __END_DECLS
 #endif /*__APPLE_API_PRIVATE*/
 ```
-## References
+## Reference
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 

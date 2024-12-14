@@ -38,7 +38,7 @@ mal.scpt: AppleScript compiled
 ```
 i u ovom slučaju sadržaj se ne može dekompilirati čak ni sa `osadecompile`
 
-Međutim, još uvek postoje neki alati koji se mogu koristiti za razumevanje ovakvih izvršnih datoteka, [**pročitajte ovo istraživanje za više informacija**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Alat [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) sa [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) biće veoma koristan za razumevanje kako skripta funkcioniše.
+Međutim, postoje još alati koji se mogu koristiti za razumevanje ovakvih izvršnih datoteka, [**pročitajte ovo istraživanje za više informacija**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Alat [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) sa [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) biće veoma koristan za razumevanje kako skripta funkcioniše.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

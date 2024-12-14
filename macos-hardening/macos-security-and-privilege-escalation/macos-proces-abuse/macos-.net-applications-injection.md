@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Ovo je sažetak posta [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Proverite ga za dalje detalje!**
+**Ovo je sažetak posta [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Proverite ga za dodatne detalje!**
 
 ## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
@@ -82,7 +82,7 @@ Kompletan dokaz koncepta (POC) je dostupan [ovde](https://gist.github.com/xpn/95
 
 ## Pisanje u Memoriju
 
-Slično tome, memorija se može pisati koristeći funkciju `writeMemory`. Proces uključuje postavljanje tipa poruke na `MT_WriteMemory`, određivanje adrese i dužine podataka, a zatim slanje podataka:
+Slično, memorija se može pisati koristeći funkciju `writeMemory`. Proces uključuje postavljanje tipa poruke na `MT_WriteMemory`, određivanje adrese i dužine podataka, a zatim slanje podataka:
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location

@@ -20,7 +20,7 @@ Ovaj odeljak se u velikoj meri oslanja na seriju blogova [**Beyond the good ol' 
 ## Sandbox Bypass
 
 {% hint style="success" %}
-Ovde možete pronaći lokacije za pokretanje korisne za **sandbox bypass** koje vam omogućavaju da jednostavno izvršite nešto tako što ćete **to napisati u datoteku** i **čekati** na veoma **uobičajenu** **akciju**, određenu **količinu vremena** ili **akciju koju obično možete izvršiti** iznutra sandbox-a bez potrebe za root dozvolama.
+Ovde možete pronaći lokacije za pokretanje korisne za **sandbox bypass** koje vam omogućavaju da jednostavno izvršite nešto **upisivanjem u datoteku** i **čekanjem** na veoma **uobičajenu** **akciju**, određenu **količinu vremena** ili **akciju koju obično možete izvršiti** iznutra sandbox-a bez potrebe za root dozvolama.
 {% endhint %}
 
 ### Launchd
@@ -55,14 +55,14 @@ Naravno, ne može se modifikovati zbog potpisivanja koda.
 
 #### Opis i Eksploatacija
 
-**`launchd`** je **prvi** **proces** koji izvršava OX S kernel prilikom pokretanja i poslednji koji se završava prilikom gašenja. Uvek bi trebao imati **PID 1**. Ovaj proces će **pročitati i izvršiti** konfiguracije navedene u **ASEP** **plist-ovima** u:
+**`launchd`** je **prvi** **proces** koji izvršava OX S kernel prilikom pokretanja i poslednji koji se završava prilikom gašenja. Uvek bi trebao imati **PID 1**. Ovaj proces će **pročitati i izvršiti** konfiguracije navedene u **ASEP** **plistama** u:
 
 * `/Library/LaunchAgents`: Agenti po korisniku instalirani od strane administratora
 * `/Library/LaunchDaemons`: Daemoni na nivou sistema instalirani od strane administratora
 * `/System/Library/LaunchAgents`: Agenti po korisniku koje pruža Apple.
 * `/System/Library/LaunchDaemons`: Daemoni na nivou sistema koje pruža Apple.
 
-Kada se korisnik prijavi, plist-ovi smešteni u `/Users/$USER/Library/LaunchAgents` i `/Users/$USER/Library/LaunchDemons` se pokreću sa **dozvolama prijavljenih korisnika**.
+Kada se korisnik prijavi, plistovi smešteni u `/Users/$USER/Library/LaunchAgents` i `/Users/$USER/Library/LaunchDemons` se pokreću sa **dozvolama prijavljenih korisnika**.
 
 **Glavna razlika između agenata i daemona je ta što se agenti učitavaju kada se korisnik prijavi, a daemoni se učitavaju prilikom pokretanja sistema** (jer postoje usluge poput ssh koje treba izvršiti pre nego što bilo koji korisnik pristupi sistemu). Takođe, agenti mogu koristiti GUI dok daemoni moraju raditi u pozadini.
 ```xml
@@ -90,13 +90,13 @@ Kada se korisnik prijavi, plist-ovi smešteni u `/Users/$USER/Library/LaunchAgen
 Postoje slučajevi kada **agent treba da se izvrši pre nego što se korisnik prijavi**, ovi se nazivaju **PreLoginAgents**. Na primer, ovo je korisno za pružanje asistivne tehnologije prilikom prijavljivanja. Mogu se naći i u `/Library/LaunchAgents`(vidi [**ovde**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) primer).
 
 {% hint style="info" %}
-Nove konfiguracione datoteke za Daemons ili Agents će biti **učitane nakon sledećeg ponovnog pokretanja ili korišćenjem** `launchctl load <target.plist>` Takođe je **moguće učitati .plist datoteke bez te ekstenzije** sa `launchctl -F <file>` (međutim, te plist datoteke neće biti automatski učitane nakon ponovnog pokretanja).\
+Novi Daemons ili Agent konfiguracioni fajlovi će biti **učitani nakon sledećeg ponovnog pokretanja ili korišćenjem** `launchctl load <target.plist>` Takođe je **moguće učitati .plist fajlove bez te ekstenzije** sa `launchctl -F <file>` (međutim, ti plist fajlovi neće biti automatski učitani nakon ponovnog pokretanja).\
 Takođe je moguće **isključiti** sa `launchctl unload <target.plist>` (proces na koji se ukazuje biće prekinut),
 
 Da se **osigura** da ne postoji **ništa** (kao što je preklapanje) **što sprečava** **Agent** ili **Daemon** **da** **radi** pokrenite: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
 {% endhint %}
 
-Prikazati sve agente i daemone učitane od strane trenutnog korisnika:
+Prikaži sve agente i daemone učitane od strane trenutnog korisnika:
 ```bash
 launchctl list
 ```
@@ -124,7 +124,7 @@ Jedna od prvih stvari koje `launchd` radi je da **pokrene** sve **daemone** kao 
 * **Mach port:**
 * `com.apple.xscertd-helper.plist`: Ukazuje u `MachServices` unosa na ime `com.apple.xscertd.helper`
 * **UserEventAgent:**
-* Ovo se razlikuje od prethodnog. Omogućava launchd-u da pokreće aplikacije kao odgovor na određene događaje. Međutim, u ovom slučaju, glavni binarni fajl koji je uključen nije `launchd` već `/usr/libexec/UserEventAgent`. Učitava dodatke iz SIP ograničenog foldera /System/Library/UserEventPlugins/ gde svaki dodatak ukazuje na svog inicijalizatora u `XPCEventModuleInitializer` ključa ili, u slučaju starijih dodataka, u `CFPluginFactories` rečniku pod ključem `FB86416D-6164-2070-726F-70735C216EC0` svog `Info.plist`.
+* Ovo se razlikuje od prethodnog. Omogućava launchd-u da pokreće aplikacije kao odgovor na određeni događaj. Međutim, u ovom slučaju, glavni binarni fajl koji je uključen nije `launchd` već `/usr/libexec/UserEventAgent`. Učitava dodatke iz SIP ograničenog foldera /System/Library/UserEventPlugins/ gde svaki dodatak ukazuje na svoj inicijalizator u `XPCEventModuleInitializer` ključa ili, u slučaju starijih dodataka, u `CFPluginFactories` rečniku pod ključem `FB86416D-6164-2070-726F-70735C216EC0` njegovog `Info.plist`.
 
 ### shell startup files
 
@@ -159,7 +159,7 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 Kada se inicira shell okruženje kao što su `zsh` ili `bash`, **izvode se određeni startup fajlovi**. macOS trenutno koristi `/bin/zsh` kao podrazumevani shell. Ovaj shell se automatski pristupa kada se pokrene aplikacija Terminal ili kada se uređaj pristupi putem SSH. Dok su `bash` i `sh` takođe prisutni u macOS-u, moraju se eksplicitno pozvati da bi se koristili.
 
-Man stranica za zsh, koju možemo pročitati sa **`man zsh`** ima dug opis startup fajlova.
+Man stranica zsh, koju možemo pročitati sa **`man zsh`** ima dug opis startup fajlova.
 ```bash
 # Example executino via ~/.zshrc
 echo "touch /tmp/hacktricks" >> ~/.zshrc
@@ -184,7 +184,7 @@ Konfigurisanje naznačenog iskorišćavanja i odjavljivanje i prijavljivanje ili
 
 Sve aplikacije koje treba ponovo otvoriti su unutar plist-a `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
 
-Dakle, da ponovo otvorene aplikacije pokrenu vašu, samo treba da **dodate svoju aplikaciju na listu**.
+Dakle, da ponovo otvorene aplikacije pokrenu vašu, samo treba da **dodate vašu aplikaciju na listu**.
 
 UUID se može pronaći listanjem tog direktorijuma ili sa `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
@@ -239,7 +239,7 @@ Ova konfiguracija se odražava u datoteci **`~/Library/Preferences/com.apple.Ter
 }
 [...]
 ```
-Dakle, ako se plist podešavanja terminala u sistemu može prepisati, tada se **`open`** funkcionalnost može koristiti za **otvaranje terminala i ta komanda će biti izvršena**.
+Dakle, ako se plist postavki terminala u sistemu može prepisati, tada se **`open`** funkcionalnost može koristiti za **otvaranje terminala i ta komanda će biti izvršena**.
 
 Možete to dodati iz CLI-a sa: 
 
@@ -254,7 +254,7 @@ Možete to dodati iz CLI-a sa:
 ```
 {% endcode %}
 
-### Terminal skripte / Ostale ekstenzije datoteka
+### Terminal skripte / Druge ekstenzije datoteka
 
 * Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
 * TCC zaobilaženje: [✅](https://emojipedia.org/check-mark-button)
@@ -300,7 +300,7 @@ open /tmp/test.terminal
 Možete takođe koristiti ekstenzije **`.command`**, **`.tool`**, sa sadržajem običnih shell skripti i one će takođe biti otvorene u Terminalu.
 
 {% hint style="danger" %}
-Ako terminal ima **Potpunu Disk Pristup**, moći će da izvrši tu akciju (napomena: izvršena komanda će biti vidljiva u terminal prozoru).
+Ako terminal ima **Potpunu pristup disku**, moći će da izvrši tu radnju (napomena: komanda koja se izvršava biće vidljiva u prozoru terminala).
 {% endhint %}
 
 ### Audio Pluginovi
@@ -308,7 +308,7 @@ Ako terminal ima **Potpunu Disk Pristup**, moći će da izvrši tu akciju (napom
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
 Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
-* Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
+* Korisno za zaobilaženje sandboxes: [✅](https://emojipedia.org/check-mark-button)
 * TCC zaobilaženje: [🟠](https://emojipedia.org/large-orange-circle)
 * Možda ćete dobiti dodatni TCC pristup
 
@@ -334,7 +334,7 @@ Prema prethodnim writeup-ima, moguće je **kompilirati neke audio pluginove** i 
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
-* Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
+* Korisno za zaobilaženje sandboxes: [✅](https://emojipedia.org/check-mark-button)
 * TCC zaobilaženje: [🟠](https://emojipedia.org/large-orange-circle)
 * Možda ćete dobiti dodatni TCC pristup
 
@@ -348,9 +348,9 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.
 
 #### Opis & Eksploatacija
 
-QuickLook pluginovi mogu biti izvršeni kada **pokrenete pregled datoteke** (pritisnite razmaknicu sa izabranom datotekom u Finder-u) i **plugin koji podržava taj tip datoteke** je instaliran.
+QuickLook pluginovi mogu se izvršiti kada **pokrenete pregled datoteke** (pritisnite razmaknicu sa izabranom datotekom u Finderu) i **plugin koji podržava taj tip datoteke** je instaliran.
 
-Moguće je kompilirati svoj vlastiti QuickLook plugin, postaviti ga u jednu od prethodnih lokacija da bi ga učitali, a zatim otići do podržane datoteke i pritisnuti razmaknicu da ga pokrenete.
+Moguće je kompilirati svoj vlastiti QuickLook plugin, postaviti ga u jednu od prethodnih lokacija da bi se učitao, a zatim otići do podržane datoteke i pritisnuti razmaknicu da ga pokrenete.
 
 ### ~~Login/Logout Hooks~~
 
@@ -360,7 +360,7 @@ Ovo nije radilo za mene, ni sa korisničkim LoginHook-om ni sa root LogoutHook-o
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
 
-* Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
+* Korisno za zaobilaženje sandboxes: [✅](https://emojipedia.org/check-mark-button)
 * TCC zaobilaženje: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Lokacija
@@ -415,7 +415,7 @@ Ovde možete pronaći lokacije za pokretanje korisne za **zaobilaženje peskovni
 #### Lokacija
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-* Root je potreban za direktan pristup pisanju. Nije potreban root ako možete izvršiti `crontab <file>`
+* Root je potreban za direktan pristup pisanju. Nema root-a potreban ako možete izvršiti `crontab <file>`
 * **Okidač**: Zavisi od cron posla
 
 #### Opis i eksploatacija
@@ -431,9 +431,9 @@ Na MacOS-u se nekoliko foldera koji izvršavaju skripte sa **određenom frekvenc
 # The one with the cron jobs is /usr/lib/cron/tabs/
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
-Tamo možete pronaći redovne **cron** **poslove**, **at** **poslove** (koji se ne koriste često) i **periodične** **poslove** (koji se uglavnom koriste za čišćenje privremenih datoteka). Dnevni periodični poslovi mogu se izvršiti, na primer, sa: `periodic daily`.
+Тамо можете пронаћи редовне **cron** **послове**, **at** **послове** (не много коришћене) и **периодичне** **послове** (углавном коришћене за чишћење привремених датотека). Дневни периодични послови могу се извршити, на пример, са: `periodic daily`.
 
-Da biste programatski dodali **korisnički cronjob**, moguće je koristiti:
+Да бисте програматски додали **кориснички cronjob**, можете користити:
 ```bash
 echo '* * * * * /bin/bash -c "touch /tmp/cron3"' > /tmp/cron
 crontab /tmp/cron
@@ -487,13 +487,13 @@ Skripta **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** će t
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
-Podešavanja iTerm2 koja se nalaze u **`~/Library/Preferences/com.googlecode.iterm2.plist`** mogu **ukazivati na komandu koja će se izvršiti** kada se iTerm2 terminal otvori.
+Podešavanja iTerm2 se nalaze u **`~/Library/Preferences/com.googlecode.iterm2.plist`** i mogu **ukazivati na komandu koja će se izvršiti** kada se otvori iTerm2 terminal.
 
-Ova postavka može biti konfigurisana u iTerm2 podešavanjima:
+Ova podešavanja se mogu konfigurisati u iTerm2 podešavanjima:
 
 <figure><img src="../.gitbook/assets/image (37).png" alt="" width="563"><figcaption></figcaption></figure>
 
-A komanda se odražava u podešavanjima:
+I komanda se odražava u podešavanjima:
 ```bash
 plutil -p com.googlecode.iterm2.plist
 {
@@ -555,12 +555,12 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 * TCC zaobilaženje: [✅](https://emojipedia.org/check-mark-button)
 * Zahteva dozvole za pristup
 
-#### Location
+#### Lokacija
 
 * **`~/.hammerspoon/init.lua`**
-* **Trigger**: Kada se izvrši hammerspoon
+* **Okidač**: Kada se izvrši hammerspoon
 
-#### Description
+#### Opis
 
 [**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) služi kao platforma za automatizaciju za **macOS**, koristeći **LUA skriptni jezik** za svoje operacije. Značajno, podržava integraciju kompletnog AppleScript koda i izvršavanje shell skripti, značajno poboljšavajući svoje skriptne mogućnosti.
 
@@ -604,7 +604,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.
 * Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
 * Ali ssh mora biti omogućen i korišćen
 * TCC zaobilaženje: [✅](https://emojipedia.org/check-mark-button)
-* SSH koristi za FDA pristup
+* SSH koristi FDA pristup
 
 #### Lokacija
 
@@ -623,7 +623,7 @@ sudo systemsetup -setremotelogin on
 
 #### Opis i Eksploatacija
 
-Po default-u, osim ako nije `PermitUserRC no` u `/etc/ssh/sshd_config`, kada se korisnik **prijavi putem SSH** skripte **`/etc/ssh/sshrc`** i **`~/.ssh/rc`** će biti izvršene.
+Po defaultu, osim ako nije `PermitUserRC no` u `/etc/ssh/sshd_config`, kada se korisnik **prijavi putem SSH** skripte **`/etc/ssh/sshrc`** i **`~/.ssh/rc`** će biti izvršene.
 
 ### **Stvari za prijavu**
 
@@ -656,7 +656,7 @@ osascript -e 'tell application "System Events" to make login item at end with pr
 #Remove an item:
 osascript -e 'tell application "System Events" to delete login item "itemname"'
 ```
-Ovi stavovi se čuvaju u datoteci **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
+Ovi stavci se čuvaju u datoteci **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
 
 **Stvari za prijavu** mogu **takođe** biti označene korišćenjem API-ja [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc) koji će sačuvati konfiguraciju u **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
 
@@ -670,9 +670,9 @@ Druga opcija bi bila da se kreiraju datoteke **`.bash_profile`** i **`.zshenv`**
 
 ### At
 
-Izveštaj: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.github.io/beyond/beyond\_0014/)
+Pisanje: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.github.io/beyond/beyond\_0014/)
 
-* Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
+* Korisno za zaobilaženje sandboxes: [✅](https://emojipedia.org/check-mark-button)
 * Ali morate **izvršiti** **`at`** i mora biti **omogućeno**
 * TCC zaobilaženje: [🔴](https://emojipedia.org/large-red-circle)
 
@@ -682,7 +682,7 @@ Izveštaj: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbi
 
 #### **Opis**
 
-`at` zadaci su dizajnirani za **zakazivanje jednokratnih zadataka** koji će se izvršiti u određenim vremenima. Za razliku od cron poslova, `at` zadaci se automatski uklanjaju nakon izvršenja. Važno je napomenuti da su ovi zadaci postojani kroz ponovna pokretanja sistema, što ih označava kao potencijalne bezbednosne probleme pod određenim uslovima.
+`at` zadaci su dizajnirani za **zakazivanje jednokratnih zadataka** koji će se izvršiti u određenim vremenima. Za razliku od cron poslova, `at` zadaci se automatski uklanjaju nakon izvršenja. Važno je napomenuti da su ovi zadaci postojani tokom ponovnog pokretanja sistema, što ih označava kao potencijalne bezbednosne probleme pod određenim uslovima.
 
 Po **podrazumevanoj** postavci su **onemogućeni**, ali **root** korisnik može **omogućiti** **ih** sa:
 ```bash
@@ -742,13 +742,13 @@ total 32
 -r--------  1 root  wheel  803 Apr 27 00:46 a00019019bdcd2
 -rwx------  1 root  wheel  803 Apr 27 00:46 a0001a019bdcd2
 ```
-The filename contains the queue, the job number, and the time it’s scheduled to run. For example let’s take a loot at `a0001a019bdcd2`.
+Naziv datoteke sadrži red, broj posla i vreme kada je zakazano da se izvrši. Na primer, uzmimo u obzir `a0001a019bdcd2`.
 
 * `a` - ovo je red
 * `0001a` - broj posla u heksadecimalnom formatu, `0x1a = 26`
-* `019bdcd2` - vreme u heksadecimalnom formatu. Predstavlja minute koje su prošle od epohe. `0x019bdcd2` je `26991826` u decimalnom formatu. Ako to pomnožimo sa 60 dobijamo `1619509560`, što je `GMT: 27. april 2021., utorak 7:46:00`.
+* `019bdcd2` - vreme u heksadecimalnom formatu. Predstavlja minute koje su prošle od epohe. `0x019bdcd2` je `26991826` u decimalnom formatu. Ako ga pomnožimo sa 60 dobijamo `1619509560`, što je `GMT: 27. april 2021., utorak 7:46:00`.
 
-If we print the job file, we find that it contains the same information we got using `at -c`.
+Ako odštampamo datoteku posla, otkrivamo da sadrži iste informacije koje smo dobili koristeći `at -c`.
 
 ### Folder Actions
 
@@ -756,30 +756,30 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.
 Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
 * Korisno za zaobilaženje sandbox-a: [✅](https://emojipedia.org/check-mark-button)
-* Ali morate moći da pozovete `osascript` sa argumentima da biste kontaktirali **`System Events`** kako biste mogli da konfigurišete Folder Actions
+* Ali morate moći da pozovete `osascript` sa argumentima da kontaktirate **`System Events`** kako biste mogli da konfigurišete Folder Actions
 * TCC zaobilaženje: [🟠](https://emojipedia.org/large-orange-circle)
 * Ima neka osnovna TCC dopuštenja kao što su Desktop, Documents i Downloads
 
-#### Location
+#### Lokacija
 
 * **`/Library/Scripts/Folder Action Scripts`**
 * Potrebna je root privilegija
-* **Okidač**: Pristup određenom folderu
+* **Okidač**: Pristup određenoj fascikli
 * **`~/Library/Scripts/Folder Action Scripts`**
-* **Okidač**: Pristup određenom folderu
+* **Okidač**: Pristup određenoj fascikli
 
-#### Description & Exploitation
+#### Opis i Eksploatacija
 
-Folder Actions su skripte koje se automatski pokreću promenama u folderu kao što su dodavanje, uklanjanje stavki ili druge akcije poput otvaranja ili promena veličine prozora foldera. Ove akcije se mogu koristiti za razne zadatke i mogu se pokrenuti na različite načine kao što su korišćenje Finder UI ili terminalskih komandi.
+Folder Actions su skripte koje se automatski pokreću promenama u fascikli kao što su dodavanje, uklanjanje stavki ili druge radnje poput otvaranja ili promena veličine prozora fascikle. Ove radnje se mogu koristiti za razne zadatke i mogu se pokrenuti na različite načine, kao što su korišćenje Finder UI ili terminalskih komandi.
 
 Da biste postavili Folder Actions, imate opcije kao što su:
 
 1. Kreiranje Folder Action radnog toka sa [Automator](https://support.apple.com/guide/automator/welcome/mac) i instaliranje kao uslugu.
-2. Ručno povezivanje skripte putem Folder Actions Setup u kontekstualnom meniju foldera.
+2. Ručno povezivanje skripte putem Folder Actions Setup u kontekstualnom meniju fascikle.
 3. Korišćenje OSAScript-a za slanje Apple Event poruka `System Events.app` za programatsko postavljanje Folder Action.
-* Ova metoda je posebno korisna za ugrađivanje akcije u sistem, nudeći nivo postojanosti.
+* Ova metoda je posebno korisna za ugrađivanje radnje u sistem, nudeći nivo postojanosti.
 
-The following script is an example of what can be executed by a Folder Action:
+Sledeća skripta je primer onoga što može biti izvršeno putem Folder Action:
 ```applescript
 // source.js
 var app = Application.currentApplication();
@@ -867,7 +867,7 @@ Izveštaj: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbi
 * `~/Library/Preferences/com.apple.dock.plist`
 * **Okidač**: Kada korisnik klikne na aplikaciju unutar dock-a
 
-#### Opis i Eksploatacija
+#### Opis i eksploatacija
 
 Sve aplikacije koje se pojavljuju u Dock-u su navedene unutar plist-a: **`~/Library/Preferences/com.apple.dock.plist`**
 
@@ -883,7 +883,7 @@ killall Dock
 ```
 {% endcode %}
 
-Korišćenjem neke **socijalne inženjering** mogli biste **imitirati na primer Google Chrome** unutar dock-a i zapravo izvršiti svoj skript:
+Korišćenjem nekih **socijalnih inženjeringa** mogli biste **imitirati na primer Google Chrome** unutar dock-a i zapravo izvršiti svoj skript:
 ```bash
 #!/bin/sh
 
@@ -941,11 +941,11 @@ killall Dock
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
 
 * Korisno za zaobilaženje sandboxes: [🟠](https://emojipedia.org/large-orange-circle)
-* Potrebna je vrlo specifična akcija
+* Mora se desiti vrlo specifična akcija
 * Završićete u drugom sandboxu
 * TCC zaobilaženje: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Lokacija
 
 * `/Library/ColorPickers`
 * Potrebna je root privilegija
@@ -953,13 +953,13 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 * `~/Library/ColorPickers`
 * Okidač: Koristite selektor boja
 
-#### Description & Exploit
+#### Opis & Eksploatacija
 
 **Kompajlirajte paket** selektora boja sa vašim kodom (možete koristiti [**ovaj na primer**](https://github.com/viktorstrate/color-picker-plus)) i dodajte konstruktor (kao u [odeljku za screensaver](macos-auto-start-locations.md#screen-saver)) i kopirajte paket u `~/Library/ColorPickers`.
 
 Zatim, kada se selektor boja aktivira, vaš kod bi takođe trebao da se izvrši.
 
-Napomena da binarni fajl koji učitava vašu biblioteku ima **veoma restriktivan sandbox**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+Napomena: Binarni fajl koji učitava vašu biblioteku ima **veoma restriktivan sandbox**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
 {% code overflow="wrap" %}
 ```bash
@@ -1033,7 +1033,7 @@ Timestamp                       (process)[PID]
 {% endcode %}
 
 {% hint style="danger" %}
-Imajte na umu da se unutar prava binarnog koda koji učitava ovaj kod (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) može naći **`com.apple.security.app-sandbox`**, tako da ćete biti **unutar zajedničkog aplikacionog sandboks-a**.
+Imajte na umu da se unutar prava binarnog koda koji učitava ovaj kod (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) može naći **`com.apple.security.app-sandbox`** što znači da ćete biti **unutar zajedničkog aplikacionog sandboks-a**.
 {% endhint %}
 
 Saver code:
@@ -1127,7 +1127,7 @@ writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.
 
 #### Description & Exploitation
 
-Spotlight je ugrađena pretraga u macOS-u, dizajnirana da korisnicima omogući **brz i sveobuhvatan pristup podacima na njihovim računarima**.\
+Spotlight je ugrađena funkcija pretrage u macOS-u, dizajnirana da korisnicima omogući **brz i sveobuhvatan pristup podacima na njihovim računarima**.\
 Da bi olakšao ovu brzu pretragu, Spotlight održava **proprietarnu bazu podataka** i kreira indeks **parsanjem većine fajlova**, omogućavajući brze pretrage kroz imena fajlova i njihov sadržaj.
 
 Osnovni mehanizam Spotlight-a uključuje centralni proces nazvan 'mds', što znači **'metadata server'.** Ovaj proces orchestrira celu Spotlight uslugu. Pored toga, postoje višestruki 'mdworker' daemoni koji obavljaju razne zadatke održavanja, kao što je indeksiranje različitih tipova fajlova (`ps -ef | grep mdworker`). Ovi zadaci su omogućeni kroz Spotlight importer plugine, ili **".mdimporter bundles**", koji omogućavaju Spotlight-u da razume i indeksira sadržaj kroz raznovrsne formate fajlova.
@@ -1143,7 +1143,7 @@ Paths: id(501) (
 "/System/Library/Spotlight/PDF.mdimporter",
 [...]
 ```
-I na primer **/Library/Spotlight/iBooksAuthor.mdimporter** se koristi za parsiranje ovih tipova datoteka (ekstenzije `.iba` i `.book` među ostalima):
+I za primer **/Library/Spotlight/iBooksAuthor.mdimporter** se koristi za parsiranje ovih tipova datoteka (ekstenzije `.iba` i `.book` među ostalima):
 ```json
 plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 
@@ -1185,7 +1185,7 @@ Ako proverite Plist drugih `mdimporter`, možda nećete pronaći unos **`UTTypeC
 Pored toga, sistemski podrazumevani dodaci uvek imaju prioritet, tako da napadač može pristupiti samo datotekama koje nisu inače indeksirane od strane Apple-ovih `mdimporters`.
 {% endhint %}
 
-Da biste kreirali svoj vlastiti uvoznik, možete početi sa ovim projektom: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) i zatim promeniti ime, **`CFBundleDocumentTypes`** i dodati **`UTImportedTypeDeclarations`** kako bi podržao ekstenziju koju želite da podržite i reflektujte ih u **`schema.xml`**.\
+Da biste kreirali svoj vlastiti importer, možete početi sa ovim projektom: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) i zatim promeniti ime, **`CFBundleDocumentTypes`** i dodati **`UTImportedTypeDeclarations`** kako bi podržao ekstenziju koju želite da podržite i reflektujte ih u **`schema.xml`**.\
 Zatim **promenite** kod funkcije **`GetMetadataForFile`** da izvršite svoj payload kada se kreira datoteka sa obrađenom ekstenzijom.
 
 Na kraju **izgradite i kopirajte svoj novi `.mdimporter`** na jednu od prethodnih lokacija i možete proveriti da li je učitan **prateći logove** ili proveravajući **`mdimport -L.`**
@@ -1193,7 +1193,7 @@ Na kraju **izgradite i kopirajte svoj novi `.mdimporter`** na jednu od prethodni
 ### ~~Preference Pane~~
 
 {% hint style="danger" %}
-Ne izgleda da ovo više radi.
+Ne izgleda da ovo više funkcioniše.
 {% endhint %}
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
@@ -1210,7 +1210,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.
 
 #### Opis
 
-Ne izgleda da ovo više radi.
+Ne izgleda da ovo više funkcioniše.
 
 ## Root Sandbox Bypass
 
@@ -1272,7 +1272,7 @@ total 8
 ```
 {% endcode %}
 
-Postoje drugi periodični skripti koji će biti izvršeni, a koji su navedeni u **`/etc/defaults/periodic.conf`**:
+Postoje drugi periodični skripti koji će biti izvršeni, a koji su naznačeni u **`/etc/defaults/periodic.conf`**:
 ```bash
 grep "Local scripts" /etc/defaults/periodic.conf
 daily_local="/etc/daily.local"				# Local scripts
@@ -1282,7 +1282,7 @@ monthly_local="/etc/monthly.local"			# Local scripts
 Ako uspete da napišete bilo koji od fajlova `/etc/daily.local`, `/etc/weekly.local` ili `/etc/monthly.local`, biće **izvršen pre ili kasnije**.
 
 {% hint style="warning" %}
-Napomena: periodični skript će biti **izvršen kao vlasnik skripta**. Dakle, ako običan korisnik poseduje skript, biće izvršen kao taj korisnik (to može sprečiti napade na eskalaciju privilegija).
+Napomena da će periodični skript biti **izvršen kao vlasnik skripta**. Dakle, ako običan korisnik poseduje skript, biće izvršen kao taj korisnik (to može sprečiti napade eskalacije privilegija).
 {% endhint %}
 
 ### PAM
@@ -1290,7 +1290,7 @@ Napomena: periodični skript će biti **izvršen kao vlasnik skripta**. Dakle, a
 Writeup: [Linux Hacktricks PAM](../linux-hardening/linux-post-exploitation/pam-pluggable-authentication-modules.md)\
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.github.io/beyond/beyond\_0005/)
 
-* Korisno za zaobilaženje sandbox-a: [🟠](https://emojipedia.org/large-orange-circle)
+* Korisno za zaobilaženje sandboxes: [🟠](https://emojipedia.org/large-orange-circle)
 * Ali morate biti root
 * TCC zaobilaženje: [🔴](https://emojipedia.org/large-red-circle)
 
@@ -1310,7 +1310,7 @@ Tehnika postojanosti/povećanja privilegija koja zloupotrebljava PAM je jednosta
 ```bash
 auth       sufficient     pam_permit.so
 ```
-Tako će **izgledati** nešto poput ovoga:
+Dakle, izgledaće kao nešto ovako:
 ```bash
 # sudo: auth account password session
 auth       sufficient     pam_permit.so
@@ -1324,7 +1324,7 @@ session    required       pam_permit.so
 I stoga će svaki pokušaj korišćenja **`sudo` raditi**.
 
 {% hint style="danger" %}
-Napomena da je ovaj direktorijum zaštićen TCC-om, tako da je veoma verovatno da će korisnik dobiti obaveštenje koje traži pristup.
+Napomena: Ova direktorija je zaštićena TCC-om, tako da je veoma verovatno da će korisnik dobiti obaveštenje za pristup.
 {% endhint %}
 
 Još jedan lep primer je su, gde možete videti da je takođe moguće dati parametre PAM modulima (i takođe možete dodati backdoor u ovu datoteku):
@@ -1355,7 +1355,7 @@ Writeup: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 #### Description & Exploitation
 
-Možete kreirati autorizacioni plugin koji će se izvršiti kada se korisnik prijavi kako bi održao postojanost. Za više informacija o tome kako da kreirate jedan od ovih pluginova, pogledajte prethodne izveštaje (i budite oprezni, loše napisan može vas zaključati i biće potrebno da očistite vaš mac iz režima oporavka).
+Možete kreirati autorizacioni plugin koji će se izvršiti kada se korisnik prijavi kako bi se održala postojanost. Za više informacija o tome kako da kreirate jedan od ovih pluginova, proverite prethodne izveštaje (i budite oprezni, loše napisan može vas zaključati i biće vam potrebno da očistite vaš mac iz režima oporavka).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1370,7 +1370,7 @@ NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
 system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-**Premestite** paket na lokaciju koja treba da se učita:
+**Premestite** paket na lokaciju koja će biti učitana:
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
@@ -1393,19 +1393,19 @@ EOF
 
 security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```
-**`evaluate-mechanisms`** će reći okviru za autorizaciju da će morati da **pozove spoljašnji mehanizam za autorizaciju**. Štaviše, **`privileged`** će omogućiti da se izvrši kao root.
+**`evaluate-mechanisms`** će reći okviru za autorizaciju da će morati da **pozove eksterni mehanizam za autorizaciju**. Štaviše, **`privileged`** će omogućiti da se izvrši kao root.
 
 Pokrenite ga sa:
 ```bash
 security authorize com.asdf.asdf
 ```
-I onda **grupa staff treba da ima** sudo pristup (proverite `/etc/sudoers` da potvrdite).
+I onda **grupa osoblja treba da ima sudo** pristup (pročitajte `/etc/sudoers` da potvrdite).
 
 ### Man.conf
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
 
-* Korisno za zaobilaženje sandbox-a: [🟠](https://emojipedia.org/large-orange-circle)
+* Korisno za zaobilaženje sandboxes: [🟠](https://emojipedia.org/large-orange-circle)
 * Ali morate biti root i korisnik mora koristiti man
 * TCC zaobilaženje: [🔴](https://emojipedia.org/large-red-circle)
 
@@ -1448,7 +1448,7 @@ touch /tmp/manconf
 
 #### Opis & Eksploatacija
 
-Možete naznačiti u `/etc/apache2/httpd.conf` da učitate modul dodajući liniju kao što je:
+Možete naznačiti u `/etc/apache2/httpd.conf` da učitate modul dodajući liniju kao što je: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -1582,7 +1582,7 @@ XQuartz više **nije instaliran u macOS**, pa ako želite više informacija, pro
 ### ~~kext~~
 
 {% hint style="danger" %}
-Veoma je komplikovano instalirati kext čak i kao root, tako da ovo neću smatrati za izlazak iz sandboxes ili čak za postojanost (osim ako nemate eksploataciju)
+Veoma je komplikovano instalirati kext čak i kao root, tako da ovo neću smatrati za izlazak iz sandboksova ili čak za postojanost (osim ako nemate eksploataciju)
 {% endhint %}
 
 #### Lokacija
@@ -1611,11 +1611,11 @@ Pisanje: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.
 #### Lokacija
 
 * **`/usr/local/bin/amstoold`**
-* Potrebne su administratorske privilegije
+* Potrebne su privilegije root-a
 
 #### Opis i eksploatacija
 
-Naizgled, `plist` iz `/System/Library/LaunchAgents/com.apple.amstoold.plist` je koristio ovu binarnu datoteku dok je izlagao XPC servis... stvar je u tome što binarna datoteka nije postojala, tako da ste mogli staviti nešto tamo i kada se XPC servis pozove, vaša binarna datoteka će biti pozvana.
+Naizgled, `plist` iz `/System/Library/LaunchAgents/com.apple.amstoold.plist` je koristio ovu binarnu datoteku dok je izlagao XPC servis... stvar je u tome što binarna datoteka nije postojala, tako da ste mogli staviti nešto tamo i kada se pozove XPC servis, vaša binarna datoteka će biti pozvana.
 
 Više ne mogu da pronađem ovo na svom macOS-u.
 
@@ -1626,12 +1626,12 @@ Pisanje: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 #### Lokacija
 
 * **`/Library/Preferences/Xsan/.xsanrc`**
-* Potrebne su administratorske privilegije
+* Potrebne su privilegije root-a
 * **Okidač**: Kada se servis pokrene (retko)
 
 #### Opis i eksploatacija
 
-Naizgled, nije baš uobičajeno pokretati ovaj skript i nisam mogao ni da ga pronađem na svom macOS-u, tako da ako želite više informacija, pogledajte pisanje.
+Naizgled, nije baš uobičajeno pokretati ovaj skript i nisam mogao ni da ga pronađem na svom macOS-u, tako da ako želite više informacija, proverite pisanje.
 
 ### ~~/etc/rc.common~~
 
@@ -1639,7 +1639,7 @@ Naizgled, nije baš uobičajeno pokretati ovaj skript i nisam mogao ni da ga pro
 **Ovo ne funkcioniše u modernim verzijama MacOS-a**
 {% endhint %}
 
-Takođe je moguće ovde postaviti **komande koje će se izvršavati prilikom pokretanja.** Primer regularnog rc.common skripta:
+Takođe je moguće ovde postaviti **komande koje će se izvršavati prilikom pokretanja.** Primer je regularni rc.common skript:
 ```bash
 #
 # Common setup for startup scripts.

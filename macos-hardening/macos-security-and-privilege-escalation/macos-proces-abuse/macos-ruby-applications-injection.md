@@ -27,7 +27,7 @@ puts `whoami`
 ```
 {% endcode %}
 
-Kreirajte bilo gde Ruby skriptu kao:
+Kreirajte bilo gde ruby skriptu kao:
 
 {% code title="hello.rb" %}
 ```ruby
@@ -35,11 +35,11 @@ puts 'Hello, World!'
 ```
 {% endcode %}
 
-Zatim napravite proizvoljan ruby skript koji ga učitava sa:
+Zatim napravite proizvoljni ruby skript koji ga učitava sa:
 ```bash
 RUBYOPT="-I/tmp -rinject" ruby hello.rb
 ```
-Fun fact, to radi čak i sa param **`--disable-rubyopt`**:
+Фунта чињеница, ради чак и са параметром **`--disable-rubyopt`**:
 ```bash
 RUBYOPT="-I/tmp -rinject" ruby hello.rb --disable-rubyopt
 ```

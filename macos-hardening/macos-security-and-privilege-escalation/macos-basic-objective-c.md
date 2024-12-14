@@ -37,7 +37,7 @@ Napomena da programi napisani u Objective-C **zadržavaju** svoje deklaracije kl
 
 * Klase
 * Metode klase
-* Varijable instanci klase
+* Varijable instance klase
 
 Možete dobiti ove informacije koristeći [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
@@ -80,7 +80,7 @@ self.numberOfWheels += value;
 ```
 ### **Objekat & Pozivanje Metode**
 
-Da biste kreirali instancu klase, poziva se metoda **`alloc`** koja **alokira memoriju** za svaku **svojstvo** i **postavlja** te alokacije na **nulu**. Zatim se poziva **`init`**, koja **inicijalizuje svojstva** na **potrebne vrednosti**.
+Da bi se kreirala instanca klase, poziva se metoda **`alloc`** koja **alokira memoriju** za svaku **svojstvo** i **postavlja** te alokacije na **nulu**. Zatim se poziva **`init`**, koja **inicijalizuje svojstva** na **potrebne vrednosti**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -110,9 +110,9 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Instance Variables**
+### **Instancne promenljive**
 
-Alternativno setter i getter metodama možete koristiti instance varijable. Ove varijable imaju isto ime kao svojstva, ali počinju sa "\_":
+Alternativno setter i getter metodama, možete koristiti instancne promenljive. Ove promenljive imaju isto ime kao svojstva, ali počinju sa "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;

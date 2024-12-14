@@ -22,7 +22,7 @@ PID (Process IDentifier) namespace je funkcija u Linux kernelu koja obezbeđuje 
 
 Kada se kreira novi PID namespace, prvi proces u tom namespace-u dobija PID 1. Ovaj proces postaje "init" proces novog namespace-a i odgovoran je za upravljanje drugim procesima unutar namespace-a. Svaki sledeći proces kreiran unutar namespace-a će imati jedinstven PID unutar tog namespace-a, a ovi PID-ovi će biti nezavisni od PID-ova u drugim namespace-ima.
 
-Sa stanovišta procesa unutar PID namespace-a, može videti samo druge procese u istom namespace-u. Nije svesno procesa u drugim namespace-ima i ne može interagovati s njima koristeći tradicionalne alate za upravljanje procesima (npr., `kill`, `wait`, itd.). Ovo obezbeđuje nivo izolacije koji pomaže u sprečavanju ometanja procesa jednih drugima.
+Iz perspektive procesa unutar PID namespace-a, može videti samo druge procese u istom namespace-u. Nije svesno procesa u drugim namespace-ima i ne može interagovati s njima koristeći tradicionalne alate za upravljanje procesima (npr., `kill`, `wait`, itd.). Ovo obezbeđuje nivo izolacije koji pomaže u sprečavanju ometanja procesa jednih drugima.
 
 ### How it works:
 
@@ -41,23 +41,23 @@ sudo unshare -pf --mount-proc /bin/bash
 ```
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Greška: bash: fork: Ne može da dodeli memoriju</summary>
 
 Kada se `unshare` izvrši bez `-f` opcije, dolazi do greške zbog načina na koji Linux upravlja novim PID (ID procesa) prostorima imena. Ključni detalji i rešenje su navedeni u nastavku:
 
 1. **Objašnjenje problema**:
 - Linux kernel omogućava procesu da kreira nove prostore imena koristeći `unshare` sistemski poziv. Međutim, proces koji inicira kreiranje novog PID prostora imena (poznat kao "unshare" proces) ne ulazi u novi prostor imena; samo njegovi podprocesi to čine.
 - Pokretanjem `%unshare -p /bin/bash%` pokreće se `/bin/bash` u istom procesu kao `unshare`. Kao rezultat, `/bin/bash` i njegovi podprocesi su u originalnom PID prostoru imena.
-- Prvi podproces `/bin/bash` u novom prostoru imena postaje PID 1. Kada ovaj proces izađe, pokreće čišćenje prostora imena ako nema drugih procesa, jer PID 1 ima posebnu ulogu usvajanja siročadi. Linux kernel će tada onemogućiti alokaciju PID-a u tom prostoru imena.
+- Prvi podproces `/bin/bash` u novom prostoru imena postaje PID 1. Kada ovaj proces izađe, pokreće čišćenje prostora imena ako nema drugih procesa, jer PID 1 ima posebnu ulogu usvajanja siročadi. Linux kernel će tada onemogućiti dodelu PID-a u tom prostoru imena.
 
 2. **Posledica**:
-- Izlazak PID 1 u novom prostoru imena dovodi do čišćenja `PIDNS_HASH_ADDING` oznake. To rezultira neuspehom funkcije `alloc_pid` da alocira novi PID prilikom kreiranja novog procesa, što proizvodi grešku "Cannot allocate memory".
+- Izlazak PID 1 u novom prostoru imena dovodi do čišćenja `PIDNS_HASH_ADDING` oznake. To rezultira neuspehom funkcije `alloc_pid` da dodeli novi PID prilikom kreiranja novog procesa, što proizvodi grešku "Ne može da dodeli memoriju".
 
 3. **Rešenje**:
 - Problem se može rešiti korišćenjem `-f` opcije sa `unshare`. Ova opcija čini da `unshare` fork-uje novi proces nakon kreiranja novog PID prostora imena.
-- Izvršavanje `%unshare -fp /bin/bash%` osigurava da sam `unshare` komanda postane PID 1 u novom prostoru imena. `/bin/bash` i njegovi podprocesi su tada sigurno sadržani unutar ovog novog prostora imena, sprečavajući preuranjeni izlazak PID 1 i omogućavajući normalnu alokaciju PID-a.
+- Izvršavanje `%unshare -fp /bin/bash%` osigurava da sam `unshare` komanda postane PID 1 u novom prostoru imena. `/bin/bash` i njegovi podprocesi su tada sigurno sadržani unutar ovog novog prostora imena, sprečavajući prevremeni izlazak PID 1 i omogućavajući normalnu dodelu PID-a.
 
-Osiguravanjem da `unshare` radi sa `-f` oznakom, novi PID prostor imena se ispravno održava, omogućavajući `/bin/bash` i njegove podprocese da funkcionišu bez susretanja greške u alokaciji memorije.
+Osiguravanjem da `unshare` radi sa `-f` oznakom, novi PID prostor imena se ispravno održava, omogućavajući `/bin/bash` i njegove podprocese da funkcionišu bez susretanja greške u dodeli memorije.
 
 </details>
 

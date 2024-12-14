@@ -22,7 +22,7 @@ Get Access Today:
 
 # Sudo/Admin Groups
 
-## **PE - Metoda 1**
+## **PE - Method 1**
 
 **Ponekad**, **podrazumevano \(ili zato što neki softver to zahteva\)** unutar **/etc/sudoers** datoteke možete pronaći neke od ovih linija:
 ```bash
@@ -125,24 +125,24 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-**tty1** значи да је корисник **yossi физички пријављен** на терминал на машини.
+**tty1** znači da je korisnik **yossi fizički prijavljen** na terminalu na mašini.
 
-**video group** има приступ за преглед излаза на екрану. У основи, можете посматрати екране. Да бисте то урадили, потребно је да **узмете тренутну слику на екрану** у сировим подацима и добијете резолуцију коју екран користи. Податке о екрану можете сачувати у `/dev/fb0`, а резолуцију овог екрана можете пронаћи на `/sys/class/graphics/fb0/virtual_size`
+**video grupa** ima pristup za pregled izlaza sa ekrana. U suštini, možete posmatrati ekrane. Da biste to uradili, potrebno je da **uhvatite trenutnu sliku na ekranu** u sirovim podacima i dobijete rezoluciju koju ekran koristi. Podaci sa ekrana mogu se sačuvati u `/dev/fb0`, a rezoluciju ovog ekrana možete pronaći na `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Da biste **otvorili** **sirovu sliku**, možete koristiti **GIMP**, odabrati **`screen.raw`** datoteku i odabrati tip datoteke **Raw image data**:
+Da biste **otvorili** **sirovu sliku**, možete koristiti **GIMP**, odabrati **`screen.raw`** datoteku i odabrati tip datoteke **Sirovi podaci o slici**:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Zatim modifikujte Širinu i Visinu na one koje koristi ekran i proverite različite Tipove slika \(i odaberite onaj koji bolje prikazuje ekran\):
+Zatim promenite Širinu i Visinu na one koje koristi ekran i proverite različite Tipove slika \(i odaberite onaj koji bolje prikazuje ekran\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
 # Root Grupa
 
-Izgleda da po defaultu **članovi root grupe** mogu imati pristup da **modifikuju** neke **konfiguracione** datoteke servisa ili neke **biblioteke** ili **druge zanimljive stvari** koje se mogu koristiti za eskalaciju privilegija...
+Izgleda da po defaultu **članovi root grupe** mogu imati pristup **modifikaciji** nekih **konfiguracionih** datoteka za **usluge** ili nekih **biblioteka** ili **drugih interesantnih stvari** koje bi mogle biti korišćene za eskalaciju privilegija...
 
 **Proverite koje datoteke članovi root grupe mogu modifikovati**:
 ```bash
@@ -159,7 +159,6 @@ Možete montirati root datotečni sistem host mašine na volumen instance, tako 
 # lxc/lxd Grupa
 
 [lxc - Eskalacija privilegija](lxd-privilege-escalation.md)
-
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 

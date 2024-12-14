@@ -42,7 +42,7 @@ echo 1 > /tmp/cgrp/x/notify_on_release
 ```
 3. **Konfigurišite Release Agent:**
 * Putanja kontejnera na hostu se dobija iz /etc/mtab datoteke.
-* release\_agent datoteka cgrupa se zatim konfiguriše da izvrši skriptu pod nazivom /cmd smeštenu na dobijenoj putanji hosta.
+* release\_agent datoteka cgrupa se zatim konfiguriše da izvrši skriptu nazvanu /cmd smeštenu na dobijenoj putanji hosta.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent

@@ -22,15 +22,15 @@ Docker Auth dodaci su **spoljni** **dodaci** koje možete koristiti da **dozvoli
 
 **[Sledeće informacije su iz dokumentacije](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Kada se **HTTP** **zahtev** šalje Docker **demonu** putem CLI-a ili putem Engine API-ja, **sistem** **autentifikacije** **prosledi** zahtev instaliranom **autentifikacionom** **dodatku**(cima). Zahtev sadrži korisnika (pozivaoca) i kontekst komande. **Dodatak** je odgovoran za odlučivanje da li da **dozvoli** ili **odbaci** zahtev.
+Kada se napravi **HTTP** **zahtev** ka Docker **demonu** putem CLI ili putem Engine API, **sistem** **autentifikacije** **prosledi** zahtev instaliranom **autentifikacionom** **dodatku**(cima). Zahtev sadrži korisnika (pozivaoca) i kontekst komande. **Dodatak** je odgovoran za odlučivanje da li da **dozvoli** ili **odbaci** zahtev.
 
-Sekvencijalni dijagrami u nastavku prikazuju tok autorizacije dozvola i odbijanja:
+Dijagrami sekvenci ispod prikazuju tok autorizacije dozvola i odbijanja:
 
 ![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Svaki zahtev poslat dodatku **uključuje autentifikovanog korisnika, HTTP zaglavlja i telo zahteva/odgovora**. Samo se **ime korisnika** i **metoda autentifikacije** koriste prosleđuju dodatku. Najvažnije, **nema** korisničkih **akreditiva** ili tokena koji se prosleđuju. Na kraju, **ne šalju se sva tela zahteva/odgovora** autorizacionom dodatku. Samo ona tela zahteva/odgovora gde je `Content-Type` ili `text/*` ili `application/json` se šalju.
+Svaki zahtev poslat dodatku **uključuje autentifikovanog korisnika, HTTP zaglavlja i telo zahteva/odgovora**. Samo se **ime korisnika** i **metoda autentifikacije** koriste prosleđuju dodatku. Najvažnije, **nema** korisničkih **akreditiva** ili tokena koji se prosleđuju. Na kraju, **ne šalju se svi zahtevi/tela odgovora** autorizacionom dodatku. Samo ona tela zahteva/odgovora gde je `Content-Type` ili `text/*` ili `application/json` se šalju.
 
 Za komande koje potencijalno mogu preuzeti HTTP vezu (`HTTP Upgrade`), kao što je `exec`, autorizacioni dodatak se poziva samo za inicijalne HTTP zahteve. Kada dodatak odobri komandu, autorizacija se ne primenjuje na ostatak toka. Konkretno, streaming podaci se ne prosleđuju autorizacionim dodacima. Za komande koje vraćaju delimične HTTP odgovore, kao što su `logs` i `events`, samo se HTTP zahtev šalje autorizacionim dodacima.
 
@@ -38,7 +38,7 @@ Tokom obrade zahteva/odgovora, neki tokovi autorizacije mogu zahtevati dodatne u
 
 ## Nekoliko dodataka
 
-Vi ste odgovorni za **registraciju** vašeg **dodatka** kao deo **pokretanja** Docker demona. Možete instalirati **više dodataka i povezati ih**. Ova veza može biti uređena. Svaki zahtev ka demonu prolazi redom kroz vezu. Samo kada **svi dodaci odobre pristup** resursu, pristup se odobrava.
+Vi ste odgovorni za **registraciju** vašeg **dodatka** kao deo **pokretanja** Docker demona. Možete instalirati **više dodataka i povezati ih**. Ova veza može biti uređena. Svaki zahtev ka demonu prolazi redom kroz lanac. Samo kada **svi dodaci odobre pristup** resursu, pristup se odobrava.
 
 # Primeri dodataka
 
@@ -94,7 +94,7 @@ Sada, korisnik može da pobegne iz kontejnera koristeći neku od [**prethodno di
 
 ## Montiranje Writable Folder-a
 
-U ovom slučaju, sysadmin je **zabranio korisnicima da pokreću kontejnere sa `--privileged` flag-om** ili daju bilo kakvu dodatnu sposobnost kontejneru, i dozvolio je samo montiranje `/tmp` folder-a:
+U ovom slučaju, sysadmin je **zabranio korisnicima da pokreću kontejnere sa `--privileged` flag-om** ili daju bilo kakvu dodatnu sposobnost kontejneru, i dozvolio je samo montiranje `/tmp` foldera:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -108,12 +108,12 @@ Napomena da možda ne možete montirati folder `/tmp`, ali možete montirati **d
 
 **Napomena da ne podržavaju svi direktorijumi na linux mašini suid bit!** Da biste proverili koji direktorijumi podržavaju suid bit, pokrenite `mount | grep -v "nosuid"`. Na primer, obično `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` i `/var/lib/lxcfs` ne podržavaju suid bit.
 
-Takođe, napomena da ako možete **montirati `/etc`** ili bilo koji drugi folder **koji sadrži konfiguracione fajlove**, možete ih promeniti iz docker kontejnera kao root kako biste **zloupotrebili na hostu** i eskalirali privilegije (možda modifikovanjem `/etc/shadow`)
+Takođe, napomena da ako možete **montirati `/etc`** ili bilo koji drugi folder **koji sadrži konfiguracione fajlove**, možete ih menjati iz docker kontejnera kao root kako biste **zloupotrebili na hostu** i eskalirali privilegije (možda menjajući `/etc/shadow`)
 {% endhint %}
 
 ## Nepроверени API Endpoint
 
-Odgovornost sysadmin-a koji konfiguriše ovaj plugin biće da kontroliše koje akcije i sa kojim privilegijama svaki korisnik može da izvrši. Stoga, ako admin preuzme pristup **crnoj listi** sa endpoint-ima i atributima, može **zaboraviti neke od njih** koji bi mogli omogućiti napadaču da **eskalira privilegije.**
+Odgovornost sysadmin-a koji konfiguriše ovaj plugin bi bila da kontroliše koje akcije i sa kojim privilegijama svaki korisnik može da izvrši. Stoga, ako admin uzme pristup **crnoj listi** sa endpoint-ima i atributima, može **zaboraviti neke od njih** koji bi mogli omogućiti napadaču da **eskalira privilegije.**
 
 Možete proveriti docker API na [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
@@ -133,7 +133,7 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-Obratite pažnju na to kako u ovom primeru koristimo **`Binds`** parametar kao ključ na vrhunskom nivou u JSON-u, ali u API-ju se pojavljuje pod ključem **`HostConfig`**
+Obratite pažnju kako u ovom primeru koristimo **`Binds`** parametar kao ključ na vrhu u JSON-u, ali u API-ju se pojavljuje pod ključem **`HostConfig`**
 {% endhint %}
 
 ### Binds u HostConfig
@@ -167,12 +167,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`** je ključ koji obično sadrži **zanimljive** **privilegije** za izlazak iz kontejnera. Međutim, kao što smo prethodno razgovarali, obratite pažnju na to kako korišćenje Binds van njega takođe funkcioniše i može vam omogućiti da zaobiđete ograničenja.
+**`HostConfig`** је кључ који обично садржи **занимљиве** **привилегије** за бекство из контејнера. Међутим, као што смо раније расправљали, приметите како коришћење Binds ван њега такође функционише и може вам омогућити да заобиђете ограничења.
 {% endhint %}
 
-## Onemogućavanje Plugina
+## Онемогућавање Плугинa
 
-Ako je **sistem administrator** **zaboravio** da **zabraniti** mogućnost **onemogućavanja** **plugina**, možete iskoristiti ovo da ga potpuno onemogućite!
+Ако је **систем администратор** **заборавио** да **забрани** могућност **онемогућавања** **плугинa**, можете искористити ово да га потпуно онемогућите!
 ```bash
 docker plugin list #Enumerate plugins
 

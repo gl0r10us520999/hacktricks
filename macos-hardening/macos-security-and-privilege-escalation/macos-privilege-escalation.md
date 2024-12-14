@@ -218,8 +218,8 @@ killall Dock
 
 ### CVE-2020-9771 - mount\_apfs TCC zaobilaženje i eskalacija privilegija
 
-**Bilo koji korisnik** (čak i oni bez privilegija) može kreirati i montirati snapshot vremenske mašine i **pristupiti SVIM datotekama** tog snapshot-a.\
-**Jedina privilegija** koja je potrebna je da aplikacija koja se koristi (kao što je `Terminal`) ima **Pristup celom disku** (FDA) (`kTCCServiceSystemPolicyAllfiles`) koji mora odobriti administrator. 
+**Bilo koji korisnik** (čak i oni bez privilegija) može da kreira i montira snapshot vremenske mašine i **pristupi SVI datotekama** tog snapshot-a.\
+**Jedina privilegija** koja je potrebna je da aplikacija koja se koristi (kao što je `Terminal`) ima **Pristup celom disku** (FDA) (`kTCCServiceSystemPolicyAllfiles`) koji mora da odobri administrator.
 
 {% code overflow="wrap" %}
 ```bash
@@ -245,7 +245,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 Detaljnije objašnjenje može se [**pronaći u originalnom izveštaju**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-## Osetljive informacije
+## Osetljive Informacije
 
 Ovo može biti korisno za eskalaciju privilegija:
 
@@ -259,7 +259,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

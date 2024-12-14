@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## DYLD\_INSERT\_LIBRARIES Osnovni primer
 
-**Biblioteka za injekciju** za izvršavanje shelle:
+**Biblioteka za ubrizgavanje** za izvršavanje shelle:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -35,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Binary za napad:
+Бинарни фајл за напад:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -118,7 +118,7 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-Sastavite to:
+Kompajlirajte to:
 
 {% code overflow="wrap" %}
 ```bash

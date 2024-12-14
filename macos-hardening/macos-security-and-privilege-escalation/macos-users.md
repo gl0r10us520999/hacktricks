@@ -34,14 +34,14 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 
 ## Korisničke privilegije
 
-* **Standardni korisnik:** Najosnovniji korisnik. Ovaj korisnik treba dozvole koje dodeljuje admin korisnik kada pokušava da instalira softver ili izvrši druge napredne zadatke. Ne može to učiniti sam.
-* **Admin korisnik**: Korisnik koji većinu vremena radi kao standardni korisnik, ali mu je takođe dozvoljeno da izvršava root akcije kao što su instalacija softvera i drugi administrativni zadaci. Svi korisnici koji pripadaju admin grupi su **dodeljeni pristup root-u putem sudoers datoteke**.
+* **Standardni korisnik:** Najosnovniji korisnik. Ovaj korisnik treba dozvole koje dodeljuje admin korisnik kada pokušava da instalira softver ili izvrši druge napredne zadatke. Ne može to da uradi sam.
+* **Admin korisnik**: Korisnik koji većinu vremena radi kao standardni korisnik, ali mu je takođe dozvoljeno da izvršava root akcije kao što su instalacija softvera i drugi administrativni zadaci. Svi korisnici koji pripadaju admin grupi su **dobijeni pristup root-u putem sudoers datoteke**.
 * **Root**: Root je korisnik kojem je dozvoljeno da izvrši gotovo svaku akciju (postoje ograničenja koja nameću zaštite poput System Integrity Protection).
 * Na primer, root neće moći da postavi datoteku unutar `/System`
 
 ## Eksterni nalozi
 
-MacOS takođe podržava prijavu putem eksternih provajdera identiteta kao što su FaceBook, Google... Glavni demon koji obavlja ovaj posao je `accountsd` (`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`) i moguće je pronaći dodatke koji se koriste za eksternu autentifikaciju unutar fascikle `/System/Library/Accounts/Authentication/`.\
+MacOS takođe podržava prijavu putem eksternih provajdera identiteta kao što su FaceBook, Google... Glavni demon koji obavlja ovaj posao je `accountsd` (`/System/Library/Frameworks/Accounts.framework//Versions/A/Support/accountsd`) i moguće je pronaći dodatke koji se koriste za eksternu autentifikaciju unutar foldera `/System/Library/Accounts/Authentication/`.\
 Pored toga, `accountsd` dobija listu tipova naloga iz `/Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist`.
 
 {% hint style="success" %}

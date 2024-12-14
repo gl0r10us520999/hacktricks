@@ -19,7 +19,7 @@ Ako pripadate _**lxd**_ **ili** _**lxc**_ **grupi**, možete postati root
 
 ## Eksploatacija bez interneta
 
-### Metoda 1
+### Metod 1
 
 Možete instalirati na vašem računaru ovaj distro builder: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(pratite uputstva sa github-a):
 ```bash
@@ -46,7 +46,7 @@ sudo $HOME/go/bin/distrobuilder build-lxd alpine.yaml -o image.release=3.18
 ## Using build-lxc
 sudo $HOME/go/bin/distrobuilder build-lxc alpine.yaml -o image.release=3.18
 ```
-Uploadujte fajlove **lxd.tar.xz** i **rootfs.squashfs**, dodajte sliku u repozitorijum i kreirajte kontejner:
+Otpremite datoteke **lxd.tar.xz** i **rootfs.squashfs**, dodajte sliku u repozitorijum i kreirajte kontejner:
 ```bash
 lxc image import lxd.tar.xz rootfs.squashfs --alias alpine
 

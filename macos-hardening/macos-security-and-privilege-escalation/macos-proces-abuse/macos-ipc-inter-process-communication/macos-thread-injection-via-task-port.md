@@ -29,7 +29,7 @@ Da bi se kontrolisala nit, poziva se **`thread_suspend()`**, zaustavljajući nje
 
 Jedine operacije dozvoljene na udaljenoj niti uključuju **zaustavljanje** i **pokretanje** nje, **dobijanje** i **modifikovanje** vrednosti njenih registara. Udaljeni pozivi funkcija se iniciraju postavljanjem registara `x0` do `x7` na **argumente**, konfigurišući **`pc`** da cilja željenu funkciju, i aktiviranjem niti. Osiguranje da nit ne sruši nakon povratka zahteva detekciju povratka.
 
-Jedna strategija uključuje **registraciju handler-a za izuzetke** za udaljenu nit koristeći `thread_set_exception_ports()`, postavljajući `lr` registar na nevažeću adresu pre poziva funkcije. Ovo pokreće izuzetak nakon izvršenja funkcije, šaljući poruku na port izuzetaka, omogućavajući inspekciju stanja niti da se povrati povratna vrednost. Alternativno, kao što je preuzeto iz Ian Beer-ovog triple\_fetch exploit-a, `lr` se postavlja da beskonačno petlja. Registri niti se zatim neprekidno prate dok **`pc` ne ukazuje na tu instrukciju**.
+Jedna strategija uključuje **registraciju handler-a za izuzetke** za udaljenu nit koristeći `thread_set_exception_ports()`, postavljajući `lr` registar na nevalidnu adresu pre poziva funkcije. Ovo pokreće izuzetak nakon izvršenja funkcije, šaljući poruku na port izuzetaka, omogućavajući inspekciju stanja niti da se povrati povratna vrednost. Alternativno, kao što je preuzeto iz Ian Beer-ovog triple\_fetch exploit-a, `lr` se postavlja da se beskonačno ponavlja. Registri niti se zatim kontinuirano prate dok **`pc` ne ukazuje na tu instrukciju**.
 
 ## 2. Mach ports for communication
 
@@ -47,7 +47,7 @@ Završetak ovih koraka rezultira uspostavljanjem Mach portova, postavljajući te
 
 ## 3. Basic Memory Read/Write Primitives
 
-U ovom odeljku, fokus je na korišćenju izvršnog primitiva za uspostavljanje osnovnih primitiva za čitanje i pisanje u memoriju. Ovi inicijalni koraci su ključni za sticanje veće kontrole nad udaljenim procesom, iako primitivi u ovoj fazi neće služiti mnogim svrhama. Ubrzo će biti unapređeni na naprednije verzije.
+U ovom odeljku, fokus je na korišćenju izvršne primitive za uspostavljanje osnovnih primitiva za čitanje i pisanje u memoriju. Ovi inicijalni koraci su ključni za sticanje veće kontrole nad udaljenim procesom, iako primitivi u ovoj fazi neće služiti mnogim svrhama. Ubrzo će biti unapređeni na naprednije verzije.
 
 ### Memory Reading and Writing Using Execute Primitive
 
@@ -74,10 +74,10 @@ ret
 ```
 ### Identifying Suitable Functions
 
-Skeneranje uobičajenih biblioteka otkrilo je odgovarajuće kandidate za ove operacije:
+A scan of common libraries revealed appropriate candidates for these operations:
 
 1. **Reading Memory:**
-Funkcija `property_getName()` iz [Objective-C runtime biblioteke](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) je identifikovana kao pogodna funkcija za čitanje memorije. Funkcija je opisana u nastavku:
+Funkcija `property_getName()` iz [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) je identifikovana kao pogodna funkcija za čitanje memorije. Funkcija je opisana u nastavku:
 ```c
 const char *property_getName(objc_property_t prop) {
 return prop->name;
@@ -96,7 +96,7 @@ Da biste izvršili 64-bitno pisanje na specifičnu adresu, dalji poziv se strukt
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
-Sa ovim postavljenim osnovama, scena je postavljena za kreiranje deljene memorije, što predstavlja značajan napredak u kontroli udaljenog procesa.
+Sa ovim postavljenim primitivima, scena je postavljena za kreiranje deljene memorije, što predstavlja značajan napredak u kontroli udaljenog procesa.
 
 ## 4. Postavljanje Deljene Memorije
 
@@ -106,14 +106,14 @@ Cilj je uspostaviti deljenu memoriju između lokalnih i udaljenih zadataka, poje
 
 1. **Alokacija Memorije**:
 - Alocirajte memoriju za deljenje koristeći `mach_vm_allocate()`.
-- Koristite `xpc_shmem_create()` za kreiranje `OS_xpc_shmem` objekta za alociranu memorijsku oblast. Ova funkcija će upravljati kreiranjem Mach memorijskog unosa i čuvati Mach pravo slanja na offsetu `0x18` objekta `OS_xpc_shmem`.
+- Koristite `xpc_shmem_create()` za kreiranje `OS_xpc_shmem` objekta za alociranu memorijsku oblast. Ova funkcija će upravljati kreiranjem Mach memorijskog unosa i čuvati Mach send pravo na offsetu `0x18` objekta `OS_xpc_shmem`.
 
 2. **Kreiranje Deljene Memorije u Udaljenom Procesu**:
 - Alocirajte memoriju za `OS_xpc_shmem` objekat u udaljenom procesu sa udaljenim pozivom na `malloc()`.
 - Kopirajte sadržaj lokalnog `OS_xpc_shmem` objekta u udaljeni proces. Međutim, ova inicijalna kopija će imati netačne nazive Mach memorijskih unosa na offsetu `0x18`.
 
 3. **Ispravljanje Mach Memorijskog Unosa**:
-- Iskoristite metodu `thread_set_special_port()` da umetnete pravo slanja za Mach memorijski unos u udaljeni zadatak.
+- Iskoristite metodu `thread_set_special_port()` da umetnete send pravo za Mach memorijski unos u udaljeni zadatak.
 - Ispravite polje Mach memorijskog unosa na offsetu `0x18` prepisivanjem sa imenom udaljenog memorijskog unosa.
 
 4. **Finalizacija Postavljanja Deljene Memorije**:
@@ -122,7 +122,7 @@ Cilj je uspostaviti deljenu memoriju između lokalnih i udaljenih zadataka, poje
 
 Prateći ove korake, deljena memorija između lokalnih i udaljenih zadataka biće efikasno postavljena, omogućavajući jednostavne prenose podataka i izvršavanje funkcija koje zahtevaju više argumenata.
 
-## Dodatni Kodni Isječci
+## Dodatni Kodni Snippets
 
 Za alokaciju memorije i kreiranje objekta deljene memorije:
 ```c
@@ -141,7 +141,7 @@ Zapamtite da pravilno obradite detalje Mach portova i imena ulaza u memoriju kak
 Nakon uspešnog uspostavljanja deljene memorije i sticanja sposobnosti proizvoljnog izvršavanja, suštinski smo stekli potpunu kontrolu nad ciljnim procesom. Ključne funkcionalnosti koje omogućavaju ovu kontrolu su:
 
 1. **Proizvoljne Operacije sa Memorijom**:
-- Izvršite proizvoljna čitanja iz memorije pozivajući `memcpy()` da kopira podatke iz deljene oblasti.
+- Izvršite proizvoljna čitanja iz memorije pozivanjem `memcpy()` za kopiranje podataka iz deljene oblasti.
 - Izvršite proizvoljna pisanja u memoriju koristeći `memcpy()` za prenos podataka u deljenu oblast.
 
 2. **Obrada Poziva Funkcija sa Više Argumenta**:
@@ -153,7 +153,7 @@ Nakon uspešnog uspostavljanja deljene memorije i sticanja sposobnosti proizvolj
 4. **Prenos Fajl Deskriptora**:
 - Prenesite fajl deskriptore između procesa koristeći fileports, tehniku koju je istakao Ian Beer u `triple_fetch`.
 
-Ova sveobuhvatna kontrola je obuhvaćena unutar [threadexec](https://github.com/bazad/threadexec) biblioteke, koja pruža detaljnu implementaciju i korisnički prijateljski API za interakciju sa procesom žrtve.
+Ova sveobuhvatna kontrola je obuhvaćena u [threadexec](https://github.com/bazad/threadexec) biblioteci, koja pruža detaljnu implementaciju i korisnički prijateljski API za interakciju sa žrtvovim procesom.
 
 ## Važne Napomene:
 
@@ -166,16 +166,16 @@ Pridržavanjem ovih smernica i korišćenjem `threadexec` biblioteke, može se e
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

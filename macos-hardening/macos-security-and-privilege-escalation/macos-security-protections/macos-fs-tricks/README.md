@@ -33,7 +33,7 @@ Dozvole u **direktorijumu**:
 * Jedan roditeljski **vlasnik direktorijuma** u putanji je **grupa korisnika** sa **pristupom za pisanje**
 * Grupa korisnika ima **pristup za pisanje** do **fajla**
 
-Sa bilo kojom od prethodnih kombinacija, napadač bi mogao **ubaciti** **sim/link** na očekivanu putanju da bi dobio privilegovano proizvoljno pisanje.
+Sa bilo kojom od prethodnih kombinacija, napadač bi mogao **ubaciti** **sim/hard link** na očekivanu putanju da bi dobio privilegovano proizvoljno pisanje.
 
 ### Folder root R+X Poseban slučaj
 
@@ -41,9 +41,9 @@ Ako postoje fajlovi u **direktorijumu** gde **samo root ima R+X pristup**, ti fa
 
 Primer u: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Simbolička veza / Hard veza
+## Simbolički Link / Hard Link
 
-Ako privilegovani proces piše podatke u **fajl** koji bi mogao biti **kontrolisan** od strane **korisnika sa nižim privilegijama**, ili koji bi mogao biti **prethodno kreiran** od strane korisnika sa nižim privilegijama. Korisnik bi mogao samo **usmeriti na drugi fajl** putem simboličke ili hard veze, i privilegovani proces će pisati na taj fajl.
+Ako privilegovani proces piše podatke u **fajl** koji bi mogao biti **kontrolisan** od strane **korisnika sa nižim privilegijama**, ili koji bi mogao biti **prethodno kreiran** od strane korisnika sa nižim privilegijama. Korisnik bi mogao samo **usmeriti na drugi fajl** putem simboličkog ili hard linka, i privilegovani proces će pisati na taj fajl.
 
 Proverite u drugim sekcijama gde bi napadač mogao **iskoristiti proizvoljno pisanje za eskalaciju privilegija**.
 
@@ -157,7 +157,7 @@ Nije baš potrebno, ali ostavljam to tu za svaki slučaj:
 
 ## Obilaženje kodnih potpisa
 
-Paketi sadrže datoteku **`_CodeSignature/CodeResources`** koja sadrži **hash** svake pojedinačne **datoteke** u **paketu**. Imajte na umu da je hash CodeResources takođe **ugrađen u izvršni fajl**, tako da ne možemo ni s tim da se igramo.
+Paketi sadrže datoteku **`_CodeSignature/CodeResources`** koja sadrži **hash** svake pojedinačne **datoteke** u **paketu**. Imajte na umu da je hash CodeResources takođe **ugrađen u izvršnu datoteku**, tako da ne možemo ni s tim da se igramo.
 
 Međutim, postoje neke datoteke čiji se potpis neće proveravati, ove imaju ključ omit u plist-u, kao:
 ```xml
@@ -247,7 +247,7 @@ Međutim, moguće je koristiti alate kao što su `hdik` i `hdiutil` za direktnu 
 
 Ako vaša skripta može biti interpretirana kao **shell skripta**, mogli biste prepisati **`/etc/periodic/daily/999.local`** shell skriptu koja će se pokretati svaki dan.
 
-Možete **fingirati** izvršenje ove skripte sa: **`sudo periodic daily`**
+Možete **falsifikovati** izvršenje ove skripte sa: **`sudo periodic daily`**
 
 ### Daemoni
 
@@ -282,7 +282,7 @@ You can also write files in **`/etc/paths.d`** to load new folders into the `PAT
 
 ## Generate writable files as other users
 
-This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
+Ovo će generisati datoteku koja pripada root-u koja je zapisiva od strane mene ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Ovo takođe može raditi kao privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -296,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX Deljena Memorija
 
-**POSIX deljena memorija** omogućava procesima u POSIX-kompatibilnim operativnim sistemima da pristupaju zajedničkom memorijskom prostoru, olakšavajući bržu komunikaciju u poređenju sa drugim metodama međuprocesne komunikacije. To uključuje kreiranje ili otvaranje objekta deljene memorije pomoću `shm_open()`, postavljanje njegove veličine pomoću `ftruncate()`, i mapiranje u adresni prostor procesa koristeći `mmap()`. Procesi zatim mogu direktno čitati i pisati u ovaj memorijski prostor. Da bi se upravljalo istovremenim pristupom i sprečila korupcija podataka, mehanizmi sinhronizacije kao što su mutexi ili semafori se često koriste. Na kraju, procesi demapiraju i zatvaraju deljenu memoriju pomoću `munmap()` i `close()`, i opcionalno uklanjaju objekat memorije pomoću `shm_unlink()`. Ovaj sistem je posebno efikasan za brzu IPC u okruženjima gde više procesa treba brzo da pristupi deljenim podacima.
+**POSIX deljena memorija** omogućava procesima u POSIX-kompatibilnim operativnim sistemima da pristupaju zajedničkom memorijskom prostoru, olakšavajući bržu komunikaciju u poređenju sa drugim metodama međuprocesne komunikacije. Uključuje kreiranje ili otvaranje objekta deljene memorije pomoću `shm_open()`, postavljanje njegove veličine pomoću `ftruncate()`, i mapiranje u adresni prostor procesa koristeći `mmap()`. Procesi mogu direktno čitati i pisati u ovaj memorijski prostor. Da bi se upravljalo istovremenim pristupom i sprečila korupcija podataka, mehanizmi sinhronizacije kao što su mutexi ili semafori se često koriste. Na kraju, procesi demapiraju i zatvaraju deljenu memoriju pomoću `munmap()` i `close()`, i opcionalno uklanjaju objekat memorije pomoću `shm_unlink()`. Ovaj sistem je posebno efikasan za brzu IPC u okruženjima gde više procesa treba brzo da pristupi deljenim podacima.
 
 <details>
 

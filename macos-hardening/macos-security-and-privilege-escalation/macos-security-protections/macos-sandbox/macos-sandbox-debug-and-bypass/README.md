@@ -31,14 +31,14 @@ Na kraju, sandbox će biti aktiviran pozivom **`__sandbox_ms`** koji će pozvati
 
 ### Bypassing quarantine attribute
 
-**Fajlovi koje kreiraju procesi u sandbox-u** dobijaju **atribut karantina** kako bi se sprečilo bekstvo iz sandbox-a. Međutim, ako uspete da **napravite `.app` folder bez atributa karantina** unutar aplikacije u sandbox-u, mogli biste da usmerite binarni fajl aplikacije na **`/bin/bash`** i dodate neke env varijable u **plist** da zloupotrebite **`open`** kako biste **pokrenuli novu aplikaciju bez sandbox-a**.
+**Fajlovi kreirani od strane sandboxovanih procesa** dobijaju **atribut karantina** kako bi se sprečilo bekstvo iz sandbox-a. Međutim, ako uspete da **napravite `.app` folder bez atributa karantina** unutar sandboxovane aplikacije, mogli biste da usmerite binarni paket aplikacije na **`/bin/bash`** i dodate neke env varijable u **plist** da zloupotrebite **`open`** kako biste **pokrenuli novu aplikaciju bez sandbox-a**.
 
 To je ono što je učinjeno u [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-Stoga, u ovom trenutku, ako ste samo sposobni da kreirate folder sa imenom koje se završava na **`.app`** bez atributa karantina, možete pobjeći iz sandbox-a jer macOS samo **proverava** **atribut karantina** u **`.app` folderu** i u **glavnom izvršnom fajlu** (a mi ćemo usmeriti glavni izvršni fajl na **`/bin/bash`**).
+Dakle, u ovom trenutku, ako ste samo sposobni da kreirate folder sa imenom koje se završava na **`.app`** bez atributa karantina, možete pobegnuti iz sandbox-a jer macOS samo **proverava** **atribut karantina** u **`.app` folderu** i u **glavnom izvršnom fajlu** (a mi ćemo usmeriti glavni izvršni fajl na **`/bin/bash`**).
 
-Imajte na umu da ako je .app paket već autorizovan za pokretanje (ima atribut karantina sa oznakom autorizacije za pokretanje), takođe biste mogli da ga zloupotrebite... osim što sada ne možete pisati unutar **`.app`** paketa osim ako nemate neka privilegovana TCC dopuštenja (koja nećete imati unutar visokog sandbox-a).
+Imajte na umu da ako je .app paket već autorizovan za pokretanje (ima atribut karantina sa oznakom autorizacije za pokretanje), takođe biste mogli da ga zloupotrebite... osim što sada ne možete pisati unutar **`.app`** paketa osim ako nemate neka privilegovana TCC dozvola (koje nećete imati unutar sandbox-a visoko).
 {% endhint %}
 
 ### Abusing Open functionality
@@ -52,13 +52,13 @@ U [**poslednjim primerima za zaobilaženje Word sandbox-a**](macos-office-sandbo
 ### Launch Agents/Daemons
 
 Čak i ako je aplikacija **namenjena za sandbox** (`com.apple.security.app-sandbox`), moguće je zaobići sandbox ako se **izvrši iz LaunchAgent-a** (`~/Library/LaunchAgents`), na primer.\
-Kao što je objašnjeno u [**ovom postu**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ako želite da dobijete postojanost sa aplikacijom koja je u sandbox-u, mogli biste je automatski izvršiti kao LaunchAgent i možda injektovati zloćudni kod putem DyLib varijabli okruženja.
+Kao što je objašnjeno u [**ovom postu**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ako želite da dobijete postojanost sa aplikacijom koja je sandboxovana, mogli biste da je automatski izvršite kao LaunchAgent i možda injektujete zloćudni kod putem DyLib varijabli okruženja.
 
 ### Abusing Auto Start Locations
 
-Ako proces u sandbox-u može **pisati** na mesto gde **kasnije nesandbox aplikacija planira da pokrene binarni fajl**, moći će da **pobegne jednostavno postavljanjem** binarnog fajla tamo. Dobar primer ovakvih lokacija su `~/Library/LaunchAgents` ili `/System/Library/LaunchDaemons`.
+Ako sandboxovani proces može **pisati** na mestu gde **kasnije nesandboxovana aplikacija planira da pokrene binarni fajl**, moći će da **pobegne jednostavno postavljanjem** binarnog fajla tamo. Dobar primer ovakvih lokacija su `~/Library/LaunchAgents` ili `/System/Library/LaunchDaemons`.
 
-Za ovo možda čak i trebate **2 koraka**: Da napravite proces sa **permisivnijim sandbox-om** (`file-read*`, `file-write*`) koji će izvršiti vaš kod koji će zapravo pisati na mesto gde će biti **izvršen bez sandbox-a**.
+Za ovo možda čak i treba **2 koraka**: Da se proces sa **permisivnijim sandbox-om** (`file-read*`, `file-write*`) izvrši vaš kod koji će zapravo pisati na mestu gde će biti **izvršen bez sandbox-a**.
 
 Proverite ovu stranicu o **Auto Start lokacijama**:
 
@@ -68,7 +68,7 @@ Proverite ovu stranicu o **Auto Start lokacijama**:
 
 ### Abusing other processes
 
-Ako iz sandbox procesa uspete da **kompromitujete druge procese** koji se izvršavaju u manje restriktivnim sandbox-ima (ili nijednom), moći ćete da pobegnete u njihove sandbox-e:
+Ako iz sandboxovanog procesa uspete da **kompromitujete druge procese** koji se izvršavaju u manje restriktivnim sandbox-ima (ili nijednom), moći ćete da pobegnete u njihove sandbox-e:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -76,14 +76,14 @@ Ako iz sandbox procesa uspete da **kompromitujete druge procese** koji se izvrš
 
 ### Static Compiling & Dynamically linking
 
-[**Ova istraživanja**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) otkrila su 2 načina za zaobilaženje Sandbox-a. Zato što se sandbox primenjuje iz korisničkog prostora kada se **libSystem** biblioteka učita. Ako bi binarni fajl mogao da izbegne učitavanje, nikada ne bi bio pod sandbox-om:
+[**Ova istraživanja**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) su otkrila 2 načina za zaobilaženje Sandbox-a. Zato što se sandbox primenjuje iz korisničkog prostora kada se **libSystem** biblioteka učita. Ako bi binarni fajl mogao da izbegne učitavanje, nikada ne bi bio sandboxovan:
 
 * Ako je binarni fajl **potpuno statički kompajliran**, mogao bi da izbegne učitavanje te biblioteke.
 * Ako **binarni fajl ne bi trebao da učita nijednu biblioteku** (jer je linker takođe u libSystem), ne bi trebao da učita libSystem.
 
 ### Shellcodes
 
-Imajte na umu da **čak i shellcodes** u ARM64 treba da budu povezani u `libSystem.dylib`:
+Imajte na umu da **čak i shellcodes** u ARM64 moraju biti povezani u `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64

@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Aplikacija koristi **prilagođeni Sandbox** koristeći pravo **`com.apple.security.temporary-exception.sbpl`** i ovaj prilagođeni sandbox omogućava pisanje fajlova bilo gde sve dok ime fajla počinje sa `~$`: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
 
-Stoga, bekstvo je bilo lako kao **pisanje `plist`** LaunchAgent-a u `~/Library/LaunchAgents/~$escape.plist`.
+Stoga, bekstvo je bilo lako kao **pisanje `plist`** LaunchAgent u `~/Library/LaunchAgents/~$escape.plist`.
 
 Check the [**original report here**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
 
@@ -39,7 +39,7 @@ Check the [**original report here**](https://objective-see.org/blog/blog\_0x4B.h
 
 Međutim, prethodna tehnika imala je ograničenje, ako folder **`~/Library/LaunchAgents`** postoji jer ga je neka druga aplikacija kreirala, to bi propalo. Tako je otkrivena drugačija lanac Login Items za ovo.
 
-Napadač bi mogao kreirati fajlove **`.bash_profile`** i **`.zshenv`** sa teretom za izvršavanje, a zatim ih zipovati i **pisati zip u folder korisnika žrtve**: **`~/~$escape.zip`**.
+Napadač bi mogao kreirati fajlove **`.bash_profile`** i **`.zshenv`** sa teretom za izvršavanje, a zatim ih zipovati i **pisati zip u korisnički** folder žrtve: **`~/~$escape.zip`**.
 
 Zatim, dodajte zip fajl u **Login Items** i zatim aplikaciju **`Terminal`**. Kada se korisnik ponovo prijavi, zip fajl bi bio raspakovan u korisničkom folderu, prepisujući **`.bash_profile`** i **`.zshenv`** i stoga će terminal izvršiti jedan od ovih fajlova (u zavisnosti od toga da li se koristi bash ili zsh).
 
@@ -49,7 +49,7 @@ Check the [**original report here**](https://desi-jarvis.medium.com/office365-ma
 
 Iz sandboxovanih procesa još uvek je moguće pozvati druge procese koristeći **`open`** alat. Štaviše, ovi procesi će se izvršavati **unutar svog vlastitog sandbox-a**.
 
-Otkriveno je da open alat ima opciju **`--env`** za pokretanje aplikacije sa **specifičnim env** varijablama. Stoga, bilo je moguće kreirati **`.zshenv` fajl** unutar foldera **unutar** **sandbox-a** i koristiti `open` sa `--env` postavljajući **`HOME` varijablu** na taj folder otvarajući aplikaciju `Terminal`, koja će izvršiti `.zshenv` fajl (iz nekog razloga takođe je bilo potrebno postaviti varijablu `__OSINSTALL_ENVIROMENT`).
+Otkriveno je da open alat ima opciju **`--env`** za pokretanje aplikacije sa **specifičnim env** varijablama. Stoga, bilo je moguće kreirati **`.zshenv` fajl** unutar foldera **unutar** **sandbox-a** i koristiti `open` sa `--env` postavljajući **`HOME` varijablu** na taj folder otvarajući tu `Terminal` aplikaciju, koja će izvršiti `.zshenv` fajl (iz nekog razloga takođe je bilo potrebno postaviti varijablu `__OSINSTALL_ENVIROMENT`).
 
 Check the [**original report here**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
 
@@ -57,7 +57,7 @@ Check the [**original report here**](https://perception-point.io/blog/technical-
 
 Alat **`open`** takođe podržava parametar **`--stdin`** (i nakon prethodnog zaobilaženja više nije bilo moguće koristiti `--env`).
 
-Stvar je u tome da čak i ako je **`python`** potpisan od strane Apple-a, **neće izvršiti** skriptu sa **`quarantine`** atributom. Međutim, bilo je moguće proslediti mu skriptu iz stdin-a tako da neće proveravati da li je bila u karantinu ili ne:&#x20;
+Stvar je u tome da čak i ako je **`python`** potpisan od strane Apple-a, **neće izvršiti** skriptu sa atributom **`quarantine`**. Međutim, bilo je moguće proslediti mu skriptu iz stdin-a tako da neće proveravati da li je bila u karantinu ili ne:&#x20;
 
 1. Postavite **`~$exploit.py`** fajl sa proizvoljnim Python komandama.
 2. Pokrenite _open_ **`–stdin='~$exploit.py' -a Python`**, što pokreće Python aplikaciju sa našim postavljenim fajlom kao njenim standardnim ulazom. Python rado izvršava naš kod, a pošto je to podproces _launchd_, nije vezan za pravila Word-ovog sandbox-a.

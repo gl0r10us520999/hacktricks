@@ -17,12 +17,12 @@ Učite i vežbajte GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt
 
 ## Osnovne Informacije
 
-Mach-o binarni fajlovi sadrže komandu za učitavanje pod nazivom **`LC_CODE_SIGNATURE`** koja označava **offset** i **veličinu** potpisa unutar binarnog fajla. U stvari, koristeći GUI alat MachOView, moguće je pronaći na kraju binarnog fajla sekciju pod nazivom **Code Signature** sa ovim informacijama:
+Mach-o binarni fajlovi sadrže komandu za učitavanje pod nazivom **`LC_CODE_SIGNATURE`** koja označava **offset** i **veličinu** potpisa unutar binarnog fajla. U stvari, koristeći GUI alat MachOView, moguće je pronaći na kraju binarnog fajla sekciju pod nazivom **Code Signature** sa ovom informacijom:
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="431"><figcaption></figcaption></figure>
 
 Magični header Code Signature je **`0xFADE0CC0`**. Zatim imate informacije kao što su dužina i broj blobova superBlob-a koji ih sadrži.\
-Moguće je pronaći ove informacije u [izvoru ovde](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276):
+Moguće je pronaći ove informacije u [izvoru koda ovde](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276):
 ```c
 /*
 * Structure of an embedded-signature SuperBlob
@@ -56,9 +56,9 @@ Pored toga, obratite pažnju na to kako su podaci kodirani u blobovima kodirani 
 
 Pored toga, potpisi se mogu odvojiti od binarnih datoteka i čuvati u `/var/db/DetachedSignatures` (koristi se u iOS-u).
 
-## Blob direktorijuma koda
+## Blob Direktorij koda
 
-Moguće je pronaći deklaraciju [Blob direktorijuma koda u kodu](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
+Moguće je pronaći deklaraciju [Blob-a Direktorij koda u kodu](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
 ```c
 typedef struct __CodeDirectory {
 uint32_t magic;                                 /* magic number (CSMAGIC_CODEDIRECTORY) */
@@ -116,10 +116,10 @@ __attribute__ ((aligned(1)));
 ```
 Napomena da postoje različite verzije ove strukture gde starije mogu sadržati manje informacija.
 
-## Stranice potpisanog koda
+## Stranice za potpisivanje koda
 
-Hashovanje celog binarnog fajla bi bilo neefikasno i čak beskorisno ako je učitan samo delimično u memoriji. Stoga, potpis koda je zapravo hash hash-eva gde je svaka binarna stranica hash-ovana pojedinačno.\
-U stvari, u prethodnom **Direktorijumu koda** možete videti da je **veličina stranice navedena** u jednom od njegovih polja. Štaviše, ako veličina binarnog fajla nije višekratnik veličine stranice, polje **CodeLimit** specificira gde je kraj potpisa.
+Hashiranje celog binarnog fajla bi bilo neefikasno i čak beskorisno ako je učitan samo delimično u memoriji. Stoga, potpis koda je zapravo hash hash-eva gde je svaka binarna stranica hash-ovana pojedinačno.\
+U stvari, u prethodnom **Direktorijumu koda** možete videti da je **veličina stranice specificirana** u jednom od njegovih polja. Štaviše, ako veličina binarnog fajla nije višekratnik veličine stranice, polje **CodeLimit** specificira gde je kraj potpisa.
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -161,13 +161,13 @@ Napomena da aplikacije mogu sadržati **entitlement blob** gde su svi entitlemen
 
 ## Special Slots
 
-MacOS aplikacije nemaju sve što im je potrebno za izvršavanje unutar binarnog fajla, već takođe koriste **spoljne resurse** (obično unutar aplikacionog **bundle**). Stoga, postoje neki slotovi unutar binarnog fajla koji će sadržati hashove nekih interesantnih spoljašnjih resursa kako bi se proverilo da nisu modifikovani.
+MacOS aplikacije nemaju sve što im je potrebno za izvršavanje unutar binarnog fajla, već koriste i **spoljne resurse** (obično unutar aplikacionog **bundle**). Stoga, postoje neki slotovi unutar binarnog fajla koji će sadržati hash-eve nekih interesantnih spoljašnjih resursa kako bi se proverilo da nisu modifikovani.
 
-U stvari, moguće je videti u strukturi Code Directory parametar nazvan **`nSpecialSlots`** koji označava broj posebnih slotova. Ne postoji poseban slot 0, a najčešći (od -1 do -6) su:
+U stvari, moguće je videti u Code Directory strukturama parametar nazvan **`nSpecialSlots`** koji označava broj posebnih slotova. Ne postoji poseban slot 0, a najčešći (od -1 do -6) su:
 
 * Hash `info.plist` (ili onaj unutar `__TEXT.__info__plist`).
 * Hash Zahteva
-* Hash Resursnog Direktorijuma (hash fajla `_CodeSignature/CodeResources` unutar bundle-a).
+* Hash Resursnog Direktorijuma (hash `_CodeSignature/CodeResources` fajla unutar bundle-a).
 * Specifično za aplikaciju (neiskorišćeno)
 * Hash entitlements
 * DMG kodni potpisi samo
@@ -226,7 +226,7 @@ Napomena da funkcija [**exec\_mach\_imgact**](https://github.com/apple-oss-distr
 
 Svaka aplikacija čuva neke **zahteve** koje mora **ispuniti** da bi mogla da se izvrši. Ako **aplikacija sadrži zahteve koji nisu ispunjeni od strane aplikacije**, neće biti izvršena (jer je verovatno izmenjena).
 
-Zahtevi binarnog fajla koriste **posebnu gramatiku** koja je niz **izraza** i kodirani su kao blobovi koristeći `0xfade0c00` kao magični broj čiji je **hash sačuvan u posebnom slotu za kod**.
+Zahtevi binarnog fajla koriste **posebnu gramatiku** koja je niz **izraza** i kodirani su kao blobovi koristeći `0xfade0c00` kao magični broj čiji je **hash sačuvan u posebnom kodnom slotu**.
 
 Zahtevi binarnog fajla mogu se videti pokretanjem: 
 
@@ -285,8 +285,8 @@ Moguće je pristupiti ovim informacijama i kreirati ili modifikovati zahteve pom
 #### **Modifikovanje Kodnih Zahteva**
 
 * **`SecCodeSignerCreate`**: Kreira `SecCodeSignerRef` objekat za izvođenje operacija potpisivanja koda.
-* **`SecCodeSignerSetRequirement`**: Postavlja novi zahtev za potpisivača koda koji će se primeniti tokom potpisivanja.
-* **`SecCodeSignerAddSignature`**: Dodaje potpis kodu koji se potpisuje sa specificiranim potpisivačem.
+* **`SecCodeSignerSetRequirement`**: Postavlja novi zahtev za potpisnika koda koji će se primeniti tokom potpisivanja.
+* **`SecCodeSignerAddSignature`**: Dodaje potpis kodu koji se potpisuje sa specificiranim potpisnikom.
 
 #### **Validacija Koda sa Zahtevima**
 
@@ -304,7 +304,7 @@ Moguće je pristupiti ovim informacijama i kreirati ili modifikovati zahteve pom
 #### **Zastavice i Konstantne Vrednosti za Potpisivanje Koda**
 
 * **`kSecCSDefaultFlags`**: Podrazumevane zastavice korišćene u mnogim funkcijama Security.framework za operacije potpisivanja koda.
-* **`kSecCSSigningInformation`**: Zastavica koja se koristi za specificiranje da treba preuzeti informacije o potpisivanju.
+* **`kSecCSSigningInformation`**: Zastavica koja se koristi za specificiranje da informacije o potpisivanju treba da budu preuzete.
 
 ## Sprovođenje Potpisa Koda
 
@@ -312,7 +312,7 @@ Moguće je pristupiti ovim informacijama i kreirati ili modifikovati zahteve pom
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struktura sadrži informacije o dozvoli pokrenutog procesa na njemu. `csb_platform_binary` takođe obaveštava da li je aplikacija platformni binarni (što OS proverava u različitim momentima da bi primenio bezbednosne mehanizme kao što su zaštita SEND prava na portovima zadataka ovih procesa).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struktura sadrži informacije o dozvolama pokrenutog procesa na njemu. `csb_platform_binary` takođe obaveštava da li je aplikacija platformni binarni (što OS proverava u različitim momentima da bi primenio bezbednosne mehanizme kao što su zaštita SEND prava na portovima zadataka ovih procesa).
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;
@@ -371,7 +371,7 @@ bool csb_csm_managed;
 #endif
 };
 ```
-## References
+## Reference
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
@@ -381,7 +381,7 @@ Učite i vežbajte GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**

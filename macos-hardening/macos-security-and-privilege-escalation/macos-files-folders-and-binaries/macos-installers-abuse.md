@@ -17,19 +17,19 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## Pkg Basic Information
 
-macOS **instalacioni paket** (poznat i kao `.pkg` datoteka) je format datoteke koji koristi macOS za **distribuciju softvera**. Ove datoteke su poput **kutije koja sadrži sve što je komadu softvera** potrebno da se ispravno instalira i pokrene.
+A macOS **installer package** (also known as a `.pkg` file) is a file format used by macOS to **distribute software**. Ove datoteke su poput **kutije koja sadrži sve što je komadu softvera** potrebno da se ispravno instalira i pokrene.
 
-Datoteka paketa je arhiva koja sadrži **hijerarhiju datoteka i direktorijuma koji će biti instalirani na ciljni** računar. Takođe može uključivati **skripte** za obavljanje zadataka pre i posle instalacije, kao što su postavljanje konfiguracionih datoteka ili čišćenje starih verzija softvera.
+The package file itself is an archive that holds a **hierarchy of files and directories that will be installed on the target** computer. Takođe može uključivati **skripte** za obavljanje zadataka pre i posle instalacije, kao što su postavljanje konfiguracionih datoteka ili čišćenje starih verzija softvera.
 
 ### Hierarchy
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Distribucija (xml)**: Prilagođavanja (naslov, tekst dobrodošlice…) i provere skripti/instalacije
+* **Distribution (xml)**: Prilagođavanja (naslov, tekst dobrodošlice…) i provere skripti/instalacije
 * **PackageInfo (xml)**: Informacije, zahtevi za instalaciju, lokacija instalacije, putevi do skripti koje treba pokrenuti
 * **Bill of materials (bom)**: Lista datoteka za instalaciju, ažuriranje ili uklanjanje sa dozvolama datoteka
-* **Payload (CPIO arhiva gzip kompresovana)**: Datoteke za instalaciju u `install-location` iz PackageInfo
-* **Skripte (CPIO arhiva gzip kompresovana)**: Pre i post instalacione skripte i drugi resursi ekstraktovani u privremeni direktorijum za izvršavanje.
+* **Payload (CPIO archive gzip compresses)**: Datoteke za instalaciju u `install-location` iz PackageInfo
+* **Scripts (CPIO archive gzip compressed)**: Pre i post instalacione skripte i drugi resursi ekstraktovani u privremeni direktorijum za izvršavanje.
 
 ### Decompress
 ```bash
@@ -45,14 +45,14 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-Da biste vizualizovali sadržaj instalatera bez ručnog dekompresovanja, možete koristiti besplatan alat [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
+In order to visualize the contents of the installer without decompressing it manually you can also use the free tool [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
 
 ## DMG Osnovne Informacije
 
-DMG datoteke, ili Apple Disk Images, su format datoteka koji koristi Apple-ov macOS za disk slike. DMG datoteka je u suštini **montabilna disk slika** (sadrži sopstveni fajl sistem) koja sadrži sirove blok podatke obično kompresovane i ponekad enkriptovane. Kada otvorite DMG datoteku, macOS **montira** je kao da je fizički disk, omogućavajući vam pristup njenom sadržaju.
+DMG datoteke, ili Apple Disk Images, su format datoteka koji koristi Apple-ov macOS za disk slike. DMG datoteka je u suštini **montabilna disk slika** (sadrži sopstveni fajl sistem) koja sadrži sirove blok podatke obično kompresovane i ponekad enkriptovane. Kada otvorite DMG datoteku, macOS **montira kao da je fizički disk**, omogućavajući vam pristup njenom sadržaju.
 
 {% hint style="danger" %}
-Napomena da **`.dmg`** instalateri podržavaju **toliko formata** da su u prošlosti neki od njih koji su sadržavali ranjivosti zloupotrebljavani za dobijanje **izvršavanja kernel koda**.
+Napomena da **`.dmg`** instalateri podržavaju **toliko formata** da su u prošlosti neki od njih koji su sadržavali ranjivosti zloupotrebljavani za dobijanje **kernel code execution**.
 {% endhint %}
 
 ### Hijerarhija
@@ -69,7 +69,7 @@ Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međut
 
 ### Izvršavanje iz javnih direktorijuma
 
-Ako pre ili post instalacioni skript, na primer, izvršava iz **`/var/tmp/Installerutil`**, napadač može kontrolisati taj skript kako bi eskalirao privilegije svaki put kada se izvrši. Ili drugi sličan primer:
+Ako pre ili post instalacioni skript, na primer, izvršava iz **`/var/tmp/Installerutil`**, napadač bi mogao kontrolisati taj skript kako bi eskalirao privilegije svaki put kada se izvrši. Ili drugi sličan primer:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
@@ -87,7 +87,7 @@ Za više informacija pogledajte ovaj govor: [https://www.youtube.com/watch?v=lTO
 
 Ako instalater piše u `/tmp/fixedname/bla/bla`, moguće je **napraviti montiranje** preko `/tmp/fixedname` bez vlasnika, tako da možete **modifikovati bilo koju datoteku tokom instalacije** da biste zloupotrebili proces instalacije.
 
-Primer za to je **CVE-2021-26089** koji je uspeo da **prepiše periodični skript** kako bi dobio izvršenje kao root. Za više informacija pogledajte govor: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Primer za to je **CVE-2021-26089** koji je uspeo da **prepiše periodični skript** da bi dobio izvršenje kao root. Za više informacija pogledajte govor: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg kao malware
 
@@ -101,7 +101,7 @@ Moguće je dodati **`<script>`** tagove u **distribution xml** datoteku paketa i
 
 <figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
-### Installer sa backdoor-om
+### Backdoored Installer
 
 Zlonameran instalater koristi skriptu i JS kod unutar dist.xml
 ```bash

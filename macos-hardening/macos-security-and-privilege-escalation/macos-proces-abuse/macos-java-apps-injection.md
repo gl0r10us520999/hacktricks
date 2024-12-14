@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Enumeration
 
-Pronađite Java aplikacije instalirane na vašem sistemu. Primećeno je da Java aplikacije u **Info.plist** sadrže neke java parametre koji sadrže string **`java.`**, tako da možete pretraživati za tim:
+Pronađite Java aplikacije instalirane na vašem sistemu. Primećeno je da Java aplikacije u **Info.plist** sadrže neke java parametre koji sadrže string **`java.`**, pa možete pretraživati to:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -27,7 +27,7 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Promenljiva okruženja **`_JAVA_OPTIONS`** može se koristiti za ubrizgavanje proizvoljnih java parametara u izvršavanje java kompajlirane aplikacije:
+Promenljiva okruženja **`_JAVA_OPTIONS`** može se koristiti za injektovanje proizvoljnih java parametara u izvršavanje java kompajlirane aplikacije:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
@@ -132,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-I zatim eksportujte env varijablu i pokrenite java aplikaciju kao:
+I zatim izvezite env varijablu i pokrenite java aplikaciju kao:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -144,7 +144,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 ## vmoptions datoteka
 
 Ova datoteka podržava specifikaciju **Java parametara** kada se Java izvršava. Možete koristiti neke od prethodnih trikova da promenite java parametre i **naterate proces da izvrši proizvoljne komande**.\
-Štaviše, ova datoteka može takođe **uključivati druge** sa `include` direktorijumom, tako da možete promeniti i uključenu datoteku.
+Pored toga, ova datoteka može takođe **uključivati druge** sa `include` direktorijumom, tako da možete promeniti i uključenu datoteku.
 
 Još više, neke Java aplikacije će **učitati više od jedne `vmoptions`** datoteke.
 

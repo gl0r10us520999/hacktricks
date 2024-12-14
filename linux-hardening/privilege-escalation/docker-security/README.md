@@ -1,16 +1,16 @@
-# Bezbednost Docker-a
+# Docker Security
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -18,50 +18,50 @@ Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
-Dobijte pristup danas:
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-security" %}
 
-## **Osnovna Bezbednost Docker Engine-a**
+## **Osnovna sigurnost Docker Engine-a**
 
-**Docker engine** koristi Linux kernel-ove **Namespaces** i **Cgroups** da izoluju kontejnere, pružajući osnovni sloj bezbednosti. Dodatna zaštita se obezbeđuje kroz **Capabilities dropping**, **Seccomp**, i **SELinux/AppArmor**, poboljšavajući izolaciju kontejnera. **Auth plugin** može dodatno ograničiti korisničke akcije.
+**Docker engine** koristi **Namespaces** i **Cgroups** Linux kernela za izolaciju kontejnera, pružajući osnovni sloj sigurnosti. Dodatna zaštita se obezbeđuje kroz **Capabilities dropping**, **Seccomp** i **SELinux/AppArmor**, poboljšavajući izolaciju kontejnera. **Auth plugin** može dodatno ograničiti akcije korisnika.
 
 ![Docker Security](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
 
-### Bezbedan Pristup Docker Engine-u
+### Siguran pristup Docker Engine-u
 
-Docker engine se može pristupiti lokalno putem Unix soketa ili udaljeno korišćenjem HTTP-a. Za udaljeni pristup, bitno je koristiti HTTPS i **TLS** kako bi se osigurala poverljivost, integritet i autentifikacija.
+Docker engine može se pristupiti lokalno putem Unix soketa ili daljinski koristeći HTTP. Za daljinski pristup, neophodno je koristiti HTTPS i **TLS** kako bi se obezbedila poverljivost, integritet i autentifikacija.
 
-Docker engine, po podrazumevanim podešavanjima, osluškuje Unix soket na `unix:///var/run/docker.sock`. Na Ubuntu sistemima, Docker-ova startna podešavanja se definišu u `/etc/default/docker`. Da biste omogućili udaljeni pristup Docker API-ju i klijentu, izložite Docker daemon preko HTTP soketa dodavanjem sledećih podešavanja:
+Docker engine, po defaultu, sluša na Unix soketu na `unix:///var/run/docker.sock`. Na Ubuntu sistemima, opcije pokretanja Dockera su definisane u `/etc/default/docker`. Da biste omogućili daljinski pristup Docker API-ju i klijentu, izložite Docker demon preko HTTP soketa dodavanjem sledećih podešavanja:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H tcp://192.168.56.101:2376"
 sudo service docker restart
 ```
-Međutim, izlaganje Docker demona preko HTTP-a nije preporučljivo zbog sigurnosnih razloga. Preporučljivo je obezbediti veze korišćenjem HTTPS-a. Postoje dva glavna pristupa obezbeđivanju veze:
+Međutim, izlaganje Docker demona preko HTTP-a nije preporučljivo zbog bezbednosnih problema. Preporučuje se osiguranje veza korišćenjem HTTPS-a. Postoje dva glavna pristupa za osiguranje veze:
 
-1. Klijent proverava identitet servera.
-2. Klijent i server međusobno autentično proveravaju identitet.
+1. Klijent verifikuje identitet servera.
+2. I klijent i server međusobno autentifikuju identitet jedan drugog.
 
 Sertifikati se koriste za potvrdu identiteta servera. Za detaljne primere oba metoda, pogledajte [**ovaj vodič**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/).
 
 ### Bezbednost slika kontejnera
 
-Slike kontejnera mogu se čuvati u privatnim ili javnim repozitorijumima. Docker nudi nekoliko opcija za skladištenje slika kontejnera:
+Slike kontejnera mogu biti smeštene u privatnim ili javnim repozitorijumima. Docker nudi nekoliko opcija za skladištenje slika kontejnera:
 
-* [**Docker Hub**](https://hub.docker.com): Javna usluga registra od strane Dockera.
-* [**Docker Registry**](https://github.com/docker/distribution): Projekat otvorenog koda koji korisnicima omogućava da hostuju svoj sopstveni registar.
-* [**Docker Trusted Registry**](https://www.docker.com/docker-trusted-registry): Komercijalna ponuda Dockera, koja uključuje autentikaciju korisnika zasnovanu na ulogama i integraciju sa LDAP direktorijumskim servisima.
+* [**Docker Hub**](https://hub.docker.com): Javni registar usluga od Docker-a.
+* [**Docker Registry**](https://github.com/docker/distribution): Open-source projekat koji omogućava korisnicima da hostuju svoj registar.
+* [**Docker Trusted Registry**](https://www.docker.com/docker-trusted-registry): Komercijalna ponuda Docker-ovog registra, koja sadrži autentifikaciju korisnika zasnovanu na rolama i integraciju sa LDAP servisima.
 
-### Skeniranje slika
+### Skener slika
 
-Kontejneri mogu imati **sigurnosne ranjivosti** ili zbog osnovne slike ili zbog softvera instaliranog na vrhu osnovne slike. Docker radi na projektu pod nazivom **Nautilus** koji vrši sigurnosno skeniranje kontejnera i navodi ranjivosti. Nautilus radi tako što upoređuje svaki sloj slike kontejnera sa repozitorijumom ranjivosti kako bi identifikovao sigurnosne propuste.
+Kontejneri mogu imati **bezbednosne ranjivosti** ili zbog osnovne slike ili zbog softvera instaliranog na osnovnoj slici. Docker radi na projektu pod nazivom **Nautilus** koji vrši bezbednosno skeniranje kontejnera i navodi ranjivosti. Nautilus funkcioniše tako što upoređuje svaku sloj slike kontejnera sa repozitorijumom ranjivosti kako bi identifikovao bezbednosne rupe.
 
 Za više [**informacija pročitajte ovo**](https://docs.docker.com/engine/scan/).
 
 * **`docker scan`**
 
-Komanda **`docker scan`** omogućava vam skeniranje postojećih Docker slika koristeći ime ili ID slike. Na primer, pokrenite sledeću komandu da skenirate sliku hello-world:
+Komanda **`docker scan`** vam omogućava da skenirate postojeće Docker slike koristeći ime ili ID slike. Na primer, pokrenite sledeću komandu da skenirate hello-world sliku:
 ```bash
 docker scan hello-world
 
@@ -89,59 +89,59 @@ snyk container test <image> --json-file-output=<output file> --severity-threshol
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
-### Potpisivanje Docker slike
+### Docker Image Signing
 
-Potpisivanje Docker slike osigurava sigurnost i integritet slika korišćenih u kontejnerima. Evo sažetog objašnjenja:
+Docker image signing osigurava sigurnost i integritet slika korišćenih u kontejnerima. Evo sažetka:
 
-- **Docker Content Trust** koristi Notary projekat, zasnovan na The Update Framework (TUF), za upravljanje potpisivanjem slika. Za više informacija, pogledajte [Notary](https://github.com/docker/notary) i [TUF](https://theupdateframework.github.io).
-- Da biste aktivirali Docker content trust, postavite `export DOCKER_CONTENT_TRUST=1`. Ova funkcija je isključena po podrazumevanju u Docker verziji 1.10 i kasnijim verzijama.
-- Sa ovom funkcijom omogućenom, mogu se preuzimati samo potpisane slike. Početni unos slike zahteva postavljanje lozinki za korenske i oznake ključeva, pri čemu Docker takođe podržava Yubikey za unapređenu sigurnost. Više detalja možete pronaći [ovde](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
-- Pokušaj preuzimanja nepotpisane slike sa omogućenim content trust-om rezultira greškom "No trust data for latest".
-- Za unos slika nakon prvog, Docker traži lozinku ključa repozitorijuma za potpisivanje slike.
+* **Docker Content Trust** koristi Notary projekat, zasnovan na The Update Framework (TUF), za upravljanje potpisivanjem slika. Za više informacija, pogledajte [Notary](https://github.com/docker/notary) i [TUF](https://theupdateframework.github.io).
+* Da aktivirate Docker content trust, postavite `export DOCKER_CONTENT_TRUST=1`. Ova funkcija je isključena po defaultu u Docker verziji 1.10 i novijim.
+* Sa ovom funkcijom aktiviranom, samo potpisane slike mogu biti preuzete. Prvo slanje slike zahteva postavljanje lozinki za root i tagging ključeve, pri čemu Docker takođe podržava Yubikey za poboljšanu sigurnost. Više detalja možete pronaći [ovde](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
+* Pokušaj preuzimanja nepodpisane slike sa aktiviranim content trust rezultira greškom "No trust data for latest".
+* Za slanja slika nakon prvog, Docker traži lozinku repozitorijumskog ključa za potpisivanje slike.
 
-Za bekapovanje vaših privatnih ključeva, koristite komandu:
+Da biste napravili rezervnu kopiju svojih privatnih ključeva, koristite komandu:
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
-Kada prebacujete Docker domaćine, neophodno je premestiti root i repozitorijum ključeve kako biste održali operacije.
+Kada se prebacujete između Docker hostova, neophodno je premestiti root i repozitorijum ključeve kako bi se održale operacije.
 
 ***
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatima** zajednice.\
+Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-security" %}
 
-## Funkcije Sigurnosti Kontejnera
+## Bezbednosne karakteristike kontejnera
 
 <details>
 
-<summary>Rezime Funkcija Sigurnosti Kontejnera</summary>
+<summary>Sažetak bezbednosnih karakteristika kontejnera</summary>
 
-**Glavne Funkcije Izolacije Glavnog Procesa**
+**Glavne karakteristike izolacije procesa**
 
-U kontejnerizovanim okruženjima, izolacija projekata i njihovih procesa je od suštinskog značaja za sigurnost i upravljanje resursima. Evo pojednostavljenog objašnjenja ključnih koncepata:
+U kontejnerizovanim okruženjima, izolacija projekata i njihovih procesa je od suštinskog značaja za bezbednost i upravljanje resursima. Evo pojednostavljenog objašnjenja ključnih koncepata:
 
-**Prostori Imena (Namespaces)**
+**Namespaces**
 
-* **Svrha**: Osigurati izolaciju resursa poput procesa, mreže i fajl sistema. Posebno u Docker-u, prostori imena čuvaju procese kontejnera odvojene od domaćina i drugih kontejnera.
-* **Korišćenje `unshare`**: Komanda `unshare` (ili odgovarajući sistemski poziv) se koristi za kreiranje novih prostora imena, pružajući dodatni sloj izolacije. Međutim, iako Kubernetes inherentno ne blokira ovo, Docker to čini.
-* **Ograničenje**: Kreiranje novih prostora imena ne dozvoljava procesu da se vrati na podrazumevane prostore imena domaćina. Da bi prodro u prostore imena domaćina, obično bi bio potreban pristup direktorijumu `/proc` domaćina, koristeći `nsenter` za ulaz.
+* **Svrha**: Osiguranje izolacije resursa kao što su procesi, mreža i datotečni sistemi. Posebno u Docker-u, namespaces drže procese kontejnera odvojene od hosta i drugih kontejnera.
+* **Korišćenje `unshare`**: Komanda `unshare` (ili osnovni syscall) se koristi za kreiranje novih namespaces, pružajući dodatni sloj izolacije. Međutim, dok Kubernetes to ne blokira inherentno, Docker to čini.
+* **Ograničenje**: Kreiranje novih namespaces ne omogućava procesu da se vrati na podrazumevane namespaces hosta. Da bi se penetriralo u namespaces hosta, obično bi bilo potrebno pristupiti `/proc` direktorijumu hosta, koristeći `nsenter` za ulazak.
 
-**Grupisanje Kontrola (CGroups)**
+**Kontrolne grupe (CGroups)**
 
-* **Funkcija**: Prvenstveno se koristi za dodelu resursa među procesima.
-* **Aspekt Sigurnosti**: Same CGroups ne nude sigurnost izolacije, osim funkcije `release_agent`, koja, ako nije ispravno konfigurisana, potencijalno može biti iskorišćena za neovlašćeni pristup.
+* **Funkcija**: Primarno se koristi za dodeljivanje resursa među procesima.
+* **Aspekt bezbednosti**: CGroups same po sebi ne nude bezbednost izolacije, osim za `release_agent` funkciju, koja, ako je pogrešno konfigurisana, može potencijalno biti iskorišćena za neovlašćen pristup.
 
-**Odbacivanje Mogućnosti (Capability Drop)**
+**Smanjenje sposobnosti**
 
-* **Značaj**: To je ključna sigurnosna funkcija za izolaciju procesa.
-* **Funkcionalnost**: Ona ograničava akcije koje root proces može izvršiti odbacivanjem određenih mogućnosti. Čak i ako proces radi sa privilegijama root-a, nedostatak neophodnih mogućnosti sprečava ga da izvršava privilegovane akcije, jer će sistemski pozivi propasti zbog nedovoljnih dozvola.
+* **Značaj**: To je ključna bezbednosna karakteristika za izolaciju procesa.
+* **Funkcionalnost**: Ograničava radnje koje root proces može izvesti smanjenjem određenih sposobnosti. Čak i ako proces radi sa root privilegijama, nedostatak potrebnih sposobnosti sprečava ga da izvršava privilegovane radnje, jer će syscalls propasti zbog nedovoljnih dozvola.
 
-Ovo su **preostale mogućnosti** nakon što proces odbaci ostale:
+Ovo su **preostale sposobnosti** nakon što proces smanji ostale:
 
 {% code overflow="wrap" %}
 ```
@@ -151,20 +151,20 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 **Seccomp**
 
-Podrazumevano je omogućeno u Dockeru. Pomaže da se **još više ograniče syscalls** koje proces može pozvati.\
-Podrazumevani Docker Seccomp profil može se pronaći na [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
+Omogućeno je po defaultu u Docker-u. Pomaže da se **dodatno ograniče syscalls** koje proces može pozvati.\
+**Default Docker Seccomp profil** može se pronaći na [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
 
 **AppArmor**
 
-Docker ima predložak koji možete aktivirati: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+Docker ima šablon koji možete aktivirati: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-Ovo će omogućiti smanjenje mogućnosti, syscalls, pristup fajlovima i fasciklama...
+Ovo će omogućiti smanjenje sposobnosti, syscalls, pristupa datotekama i folderima...
 
 </details>
 
 ### Namespaces
 
-**Namespaces** su funkcija Linux kernela koja **deli resurse kernela** tako da jedan skup **procesa** **vidi** jedan skup **resursa** dok **drugi** skup **procesa** vidi **drugi** skup resursa. Ova funkcija radi tako što ima isti namespace za skup resursa i procesa, ali ti namespace-ovi se odnose na različite resurse. Resursi mogu postojati u više prostora.
+**Namespaces** su funkcija Linux kernela koja **particionira kernel resurse** tako da jedan skup **procesa** **vidi** jedan skup **resursa** dok **drugi** skup **procesa** vidi **drugi** skup resursa. Funkcija radi tako što ima isti namespace za skup resursa i procesa, ali ti namespace-ovi se odnose na različite resurse. Resursi mogu postojati u više prostora.
 
 Docker koristi sledeće Linux kernel Namespaces za postizanje izolacije kontejnera:
 
@@ -174,7 +174,7 @@ Docker koristi sledeće Linux kernel Namespaces za postizanje izolacije kontejne
 * ipc namespace
 * UTS namespace
 
-Za **više informacija o namespace-ovima** pogledajte sledeću stranicu:
+Za **više informacija o namespaces** proverite sledeću stranicu:
 
 {% content-ref url="namespaces/" %}
 [namespaces](namespaces/)
@@ -182,8 +182,8 @@ Za **više informacija o namespace-ovima** pogledajte sledeću stranicu:
 
 ### cgroups
 
-Linux kernel funkcija **cgroups** omogućava mogućnost da se **ograniče resursi poput cpu, memorije, io, propusnosti mreže među** skupom procesa. Docker omogućava kreiranje kontejnera koristeći cgroup funkciju koja omogućava kontrolu resursa za određeni kontejner.\
-Sledeći je kontejner kreiran sa ograničenjem memorije korisničkog prostora na 500m, ograničenjem kernel memorije na 50m, deljenjem cpu-a na 512, blkioweight na 400. Deljenje CPU-a je odnos koji kontroliše upotrebu CPU-a kontejnera. Ima podrazumevanu vrednost od 1024 i opseg između 0 i 1024. Ako tri kontejnera imaju isto deljenje CPU-a od 1024, svaki kontejner može zauzeti do 33% CPU-a u slučaju sukoba resursa CPU-a. blkio-weight je odnos koji kontroliše IO kontejnera. Ima podrazumevanu vrednost od 500 i opseg između 10 i 1000.
+Funkcija Linux kernela **cgroups** pruža mogućnost da **ograniči resurse kao što su cpu, memorija, io, propusnost mreže među** skupom procesa. Docker omogućava kreiranje kontejnera koristeći cgroup funkciju koja omogućava kontrolu resursa za specifični kontejner.\
+Sledeći je kontejner kreiran sa memorijom korisničkog prostora ograničenom na 500m, memorijom kernela ograničenom na 50m, deljenjem cpu na 512, blkioweight na 400. Deljenje CPU-a je odnos koji kontroliše korišćenje CPU-a kontejnera. Ima podrazumevanu vrednost od 1024 i opseg između 0 i 1024. Ako tri kontejnera imaju isto deljenje CPU-a od 1024, svaki kontejner može uzeti do 33% CPU-a u slučaju sukoba resursa CPU-a. blkio-weight je odnos koji kontroliše IO kontejnera. Ima podrazumevanu vrednost od 500 i opseg između 10 i 1000.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
@@ -193,47 +193,47 @@ docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian contain
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
-Za više informacija pogledajte:
+Za više informacija proverite:
 
 {% content-ref url="cgroups.md" %}
 [cgroups.md](cgroups.md)
 {% endcontent-ref %}
 
-### Mogućnosti
+### Kapaciteti
 
-Mogućnosti omogućavaju **finiju kontrolu mogućnosti koje se mogu dozvoliti** za korisnika root. Docker koristi mogućnost funkcije jezgra Linux-a da **ograniči operacije koje se mogu obaviti unutar kontejnera** bez obzira na vrstu korisnika.
+Kapaciteti omogućavaju **finer control za kapacitete koji mogu biti dozvoljeni** za root korisnika. Docker koristi funkciju kapaciteta Linux kernela da **ograniči operacije koje se mogu izvesti unutar kontejnera** bez obzira na tip korisnika.
 
-Kada se pokrene docker kontejner, **proces odbacuje osetljive mogućnosti koje bi proces mogao koristiti da pobegne iz izolacije**. Ovo pokušava da osigura da proces neće moći da obavlja osetljive radnje i pobegne:
+Kada se docker kontejner pokrene, **proces odbacuje osetljive kapacitete koje bi proces mogao koristiti da pobegne iz izolacije**. Ovo pokušava da osigura da proces neće moći da izvrši osetljive radnje i pobegne:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
-### Seccomp u Docker-u
+### Seccomp u Dockeru
 
-Ovo je sigurnosna funkcija koja omogućava Docker-u da **ograniči syscalls** koji se mogu koristiti unutar kontejnera:
+Ovo je bezbednosna funkcija koja omogućava Dockeru da **ograniči syscalls** koji se mogu koristiti unutar kontejnera:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
-### AppArmor u Docker-u
+### AppArmor u Dockeru
 
-**AppArmor** je poboljšanje jezgra za ograničavanje **kontejnera** na **ograničen** skup **resursa** sa **profilima po programu**.:
+**AppArmor** je poboljšanje kernela koje ograničava **kontejnere** na **ograničen** skup **resursa** sa **profilima po programu**.:
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
 
-### SELinux u Docker-u
+### SELinux u Dockeru
 
 * **Sistem označavanja**: SELinux dodeljuje jedinstvenu oznaku svakom procesu i objektu datotečnog sistema.
-* **Sprovođenje politike**: Sprovodi sigurnosne politike koje definišu koje radnje oznaka procesa može obavljati na drugim oznakama unutar sistema.
-* **Oznake procesa kontejnera**: Kada motori kontejnera pokrenu procese kontejnera, obično im se dodeljuje ograničena SELinux oznaka, obično `container_t`.
+* **Sprovođenje politika**: Sprovodi bezbednosne politike koje definišu koje radnje oznaka procesa može izvesti na drugim oznakama unutar sistema.
+* **Oznake procesa kontejnera**: Kada motori kontejnera pokreću procese kontejnera, obično im se dodeljuje ograničena SELinux oznaka, obično `container_t`.
 * **Označavanje datoteka unutar kontejnera**: Datoteke unutar kontejnera obično su označene kao `container_file_t`.
-* **Pravila politike**: SELinux politika pretežno osigurava da procesi sa oznakom `container_t` mogu samo da interaguju (čitaju, pišu, izvršavaju) sa datotekama označenim kao `container_file_t`.
+* **Pravila politike**: SELinux politika prvenstveno osigurava da procesi sa oznakom `container_t` mogu da interaguju (čitaju, pišu, izvršavaju) samo sa datotekama označenim kao `container_file_t`.
 
-Ovaj mehanizam osigurava da čak i ako je proces unutar kontejnera kompromitovan, ograničen je na interakciju samo sa objektima koji imaju odgovarajuće oznake, značajno ograničavajući potencijalnu štetu od takvih kompromitovanja.
+Ovaj mehanizam osigurava da čak i ako je proces unutar kontejnera kompromitovan, on je ograničen na interakciju samo sa objektima koji imaju odgovarajuće oznake, značajno ograničavajući potencijalnu štetu od takvih kompromitovanja.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -241,12 +241,12 @@ Ovaj mehanizam osigurava da čak i ako je proces unutar kontejnera kompromitovan
 
 ### AuthZ & AuthN
 
-U Docker-u, autorizacioni dodatak igra ključnu ulogu u sigurnosti odlučujući da li da dozvoli ili blokira zahteve ka Docker demonu. Ova odluka se donosi ispitivanjem dva ključna konteksta:
+U Dockeru, autorizacioni dodatak igra ključnu ulogu u bezbednosti odlučujući da li da dozvoli ili blokira zahteve ka Docker demon-u. Ova odluka se donosi ispitivanjem dva ključna konteksta:
 
 * **Kontekst autentifikacije**: Ovo uključuje sveobuhvatne informacije o korisniku, kao što su ko su i kako su se autentifikovali.
-* **Kontekst komande**: Ovo obuhvata sve relevantne podatke vezane za zahtev koji se pravi.
+* **Kontekst komande**: Ovo obuhvata sve relevantne podatke vezane za zahtev koji se podnosi.
 
-Ovi konteksti pomažu da se osigura da se obrađuju samo legitimni zahtevi od autentifikovanih korisnika, poboljšavajući sigurnost Docker operacija.
+Ovi konteksti pomažu da se osigura da se obrađuju samo legitimni zahtevi od autentifikovanih korisnika, poboljšavajući bezbednost Docker operacija.
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
@@ -254,7 +254,7 @@ Ovi konteksti pomažu da se osigura da se obrađuju samo legitimni zahtevi od au
 
 ## DoS iz kontejnera
 
-Ako pravilno ne ograničavate resurse koje kontejner može koristiti, kompromitovan kontejner može DoS-ovati host na kojem se izvršava.
+Ako ne ograničavate pravilno resurse koje kontejner može koristiti, kompromitovani kontejner bi mogao izazvati DoS na hostu na kojem se pokreće.
 
 * CPU DoS
 ```bash
@@ -264,7 +264,7 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
-* Napad na propusnost (Bandwidth DoS)
+* Bandwidth DoS
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -272,7 +272,7 @@ nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444;
 
 ### --privileged zastavica
 
-Na sledećoj stranici možete saznati **šta podrazumeva zastavica `--privileged`**:
+Na sledećoj stranici možete saznati **šta podrazumeva `--privileged` zastavica**:
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
@@ -282,13 +282,13 @@ Na sledećoj stranici možete saznati **šta podrazumeva zastavica `--privileged
 
 #### no-new-privileges
 
-Ako pokrećete kontejner gde napadač uspe da dobije pristup kao korisnik sa niskim privilegijama. Ako imate **pogrešno konfigurisan suid binarni fajl**, napadač može zloupotrebiti to i **povećati privilegije unutar** kontejnera. Što mu može omogućiti da pobegne iz njega.
+Ako pokrećete kontejner u kojem napadač uspe da dobije pristup kao korisnik sa niskim privilegijama. Ako imate **loše konfigurisanu suid binarnu datoteku**, napadač može da je zloupotrebi i **eskalira privilegije unutar** kontejnera. Što mu može omogućiti da pobegne iz njega.
 
-Pokretanje kontejnera sa opcijom **`no-new-privileges`** omogućiće **sprečavanje ovakvog povećanja privilegija**.
+Pokretanje kontejnera sa **`no-new-privileges`** opcijom omogućenom će **sprečiti ovu vrstu eskalacije privilegija**.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
-#### Ostalo
+#### Остало
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -303,29 +303,29 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-Za više **`--security-opt`** opcija proverite: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
+For more **`--security-opt`** options check: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
 
-## Ostale bezbednosne razmatranja
+## Other Security Considerations
 
-### Upravljanje Tajnama: Najbolje Prakse
+### Managing Secrets: Best Practices
 
-Važno je izbegavati ugradnju tajni direktno u Docker slike ili korišćenje okružnih promenljivih, jer ovi metodi izlažu vaše osetljive informacije svakome ko ima pristup kontejneru putem komandi poput `docker inspect` ili `exec`.
+Važno je izbegavati ugrađivanje tajni direktno u Docker slike ili korišćenje promenljivih okruženja, jer ove metode izlažu vaše osetljive informacije svima koji imaju pristup kontejneru putem komandi kao što su `docker inspect` ili `exec`.
 
-**Docker volumeni** su sigurnija alternativa, preporučena za pristup osetljivim informacijama. Mogu se koristiti kao privremeni fajl sistem u memoriji, smanjujući rizike povezane sa `docker inspect` i logovanjem. Međutim, korisnici sa administratorskim pravima i oni sa `exec` pristupom kontejneru i dalje mogu pristupiti tajnama.
+**Docker volumeni** su sigurnija alternativa, preporučena za pristup osetljivim informacijama. Mogu se koristiti kao privremeni fajl sistem u memoriji, smanjujući rizike povezane sa `docker inspect` i logovanjem. Međutim, korisnici sa root privilegijama i oni sa `exec` pristupom kontejneru i dalje mogu pristupiti tajnama.
 
-**Docker tajne** nude još sigurniji metod za rukovanje osetljivim informacijama. Za instance koje zahtevaju tajne tokom faze izgradnje slike, **BuildKit** predstavlja efikasno rešenje sa podrškom za tajne tokom izgradnje, poboljšavajući brzinu izgradnje i pružajući dodatne funkcije.
+**Docker tajne** nude još sigurniju metodu za rukovanje osetljivim informacijama. Za instance koje zahtevaju tajne tokom faze izgradnje slike, **BuildKit** predstavlja efikasno rešenje sa podrškom za tajne u vreme izgradnje, poboljšavajući brzinu izgradnje i pružajući dodatne funkcije.
 
 Da biste iskoristili BuildKit, može se aktivirati na tri načina:
 
-1. Putem okružne promenljive: `export DOCKER_BUILDKIT=1`
-2. Dodavanjem prefiksa komandama: `DOCKER_BUILDKIT=1 docker build .`
-3. Omogućavanjem kao podrazumevano u Docker konfiguraciji: `{ "features": { "buildkit": true } }`, praćeno restartovanjem Docker-a.
+1. Kroz promenljivu okruženja: `export DOCKER_BUILDKIT=1`
+2. Prefiksiranjem komandi: `DOCKER_BUILDKIT=1 docker build .`
+3. Omogućavanjem po defaultu u Docker konfiguraciji: `{ "features": { "buildkit": true } }`, nakon čega sledi restart Dockera.
 
-BuildKit omogućava korišćenje tajni tokom izgradnje sa opcijom `--secret`, obezbeđujući da ove tajne nisu uključene u keš izgradnje slike ili konačnu sliku, korišćenjem komande poput:
+BuildKit omogućava korišćenje tajni u vreme izgradnje sa opcijom `--secret`, osiguravajući da ove tajne nisu uključene u keš izgradnje slike ili konačnu sliku, koristeći komandu kao:
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
-Za tajne potrebne u pokrenutom kontejneru, **Docker Compose i Kubernetes** nude robustna rešenja. Docker Compose koristi ključ `secrets` u definiciji servisa za specificiranje tajnih fajlova, kako je prikazano u primeru `docker-compose.yml`:
+Za tajne potrebne u pokrenutom kontejneru, **Docker Compose i Kubernetes** nude robusna rešenja. Docker Compose koristi `secrets` ključ u definiciji usluge za specificiranje tajnih datoteka, kao što je prikazano u `docker-compose.yml` primeru:
 ```yaml
 version: "3.7"
 services:
@@ -338,95 +338,95 @@ secrets:
 my_secret:
 file: ./my_secret_file.txt
 ```
-Ova konfiguracija omogućava korišćenje tajni prilikom pokretanja usluga pomoću Docker Compose-a.
+Ova konfiguracija omogućava korišćenje tajni prilikom pokretanja servisa sa Docker Compose.
 
-U Kubernetes okruženjima, tajne su podržane na nivou platforme i mogu se dalje upravljati alatima poput [Helm-Secrets](https://github.com/futuresimple/helm-secrets). Upravljanje tajnama u Kubernetes-u putem Role Based Access Controls (RBAC) poboljšava sigurnost upravljanja tajnama, slično kao u Docker Enterprise-u.
+U Kubernetes okruženjima, tajne su nativno podržane i mogu se dodatno upravljati alatima kao što je [Helm-Secrets](https://github.com/futuresimple/helm-secrets). Kontrole pristupa zasnovane na rolama (RBAC) u Kubernetes-u poboljšavaju bezbednost upravljanja tajnama, slično kao u Docker Enterprise.
 
 ### gVisor
 
-**gVisor** je aplikaciono jezgro napisano u Go-u, koje implementira značajan deo Linux sistemskog interfejsa. Uključuje [Open Container Initiative (OCI)](https://www.opencontainers.org) pokretač zvani `runsc` koji pruža **izolacionu granicu između aplikacije i host jezgra**. Pokretač `runsc` se integriše sa Dockerom i Kubernetes-om, čime se olakšava pokretanje kontejnera u pesku.
+**gVisor** je aplikacioni kernel, napisan u Go, koji implementira značajan deo Linux sistemske površine. Uključuje [Open Container Initiative (OCI)](https://www.opencontainers.org) runtime pod nazivom `runsc` koji pruža **granicu izolacije između aplikacije i host kernela**. `runsc` runtime se integriše sa Docker-om i Kubernetes-om, što olakšava pokretanje sandboxed kontejnera.
 
 {% embed url="https://github.com/google/gvisor" %}
 
 ### Kata Containers
 
-**Kata Containers** je zajednica otvorenog koda koja radi na izgradnji sigurnog pokretača kontejnera sa lakim virtuelnim mašinama koje se ponašaju i izvode kao kontejneri, ali pružaju **jaču izolaciju radnog opterećenja korišćenjem tehnologije hardverske virtualizacije** kao drugog sloja odbrane.
+**Kata Containers** je zajednica otvorenog koda koja radi na izgradnji sigurnog kontejnerskog runtime-a sa laganim virtuelnim mašinama koje se ponašaju i performiraju kao kontejneri, ali pružaju **jaču izolaciju radnog opterećenja koristeći tehnologiju hardverske virtualizacije** kao drugu liniju odbrane.
 
 {% embed url="https://katacontainers.io/" %}
 
-### Saveti za rezime
+### Sažetak Saveta
 
-* **Ne koristite `--privileged` zastavicu ili montirajte** [**Docker socket unutar kontejnera**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Docker socket omogućava pokretanje kontejnera, pa je to jednostavan način da se preuzme potpuna kontrola nad hostom, na primer, pokretanjem drugog kontejnera sa `--privileged` zastavicom.
-* Ne pokrećite kao root unutar kontejnera. Koristite **različitog korisnika** i **user namespaces**. Root u kontejneru je isti kao na hostu osim ako nije preusmeren pomoću user namespaces-a. On je samo delimično ograničen, pretežno, Linux namespaces-ima, mogućnostima i cgroups-ima.
-* [**Odbacite sve mogućnosti**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) i omogućite samo one koje su potrebne** (`--cap-add=...`). Mnogi radni opterećenja ne zahtevaju nikakve mogućnosti, a dodavanje istih povećava obim potencijalnog napada.
-* [**Koristite opciju bez novih privilegija**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) da sprečite procese da steknu više privilegija, na primer putem suid binarnih fajlova.
-* [**Ograničite resurse dostupne kontejneru**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Ograničenja resursa mogu zaštititi mašinu od napada uskraćivanjem usluge.
-* **Prilagodite** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ili SELinux)** profile da ograniče radnje i sistemske pozive dostupne kontejneru na minimum potreban.
-* **Koristite** [**zvanične Docker slike**](https://docs.docker.com/docker-hub/official\_images/) **i zahtevajte potpise** ili izgradite svoje zasnovane na njima. Ne nasleđujte ili ne koristite [zaražene](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) slike. Takođe čuvajte root ključeve, lozinke na sigurnom mestu. Docker ima planove za upravljanje ključevima sa UCP-om.
-* **Redovno** **ponovo izgradite** svoje slike da **primenite sigurnosne zakrpe na hostu i slikama.**
-* Mudro upravljajte **svojim tajnama** kako bi bilo teško napadaču da im pristupi.
-* Ako **izlažete Docker demon koristite HTTPS** sa autentifikacijom klijenta i servera.
-* U svom Dockerfile-u, **favorizujte KOPY umesto DODAJ**. DODAJ automatski izvlači zipovane fajlove i može kopirati fajlove sa URL-ova. KOPY nema ove mogućnosti. Kad god je moguće, izbegavajte korišćenje DODAJ kako ne biste bili podložni napadima putem udaljenih URL-ova i Zip fajlova.
-* Imajte **posebne kontejnere za svaku mikro-s**ervis
-* **Ne stavljajte ssh** unutar kontejnera, "docker exec" se može koristiti za ssh na kontejner.
-* Imajte **manje** slike **kontejnera**
+* **Ne koristite `--privileged` flag ili montirajte** [**Docker socket unutar kontejnera**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Docker socket omogućava pokretanje kontejnera, tako da je to lak način da preuzmete potpunu kontrolu nad hostom, na primer, pokretanjem drugog kontejnera sa `--privileged` flag-om.
+* **Ne pokrećite kao root unutar kontejnera. Koristite** [**drugog korisnika**](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) **i** [**user namespaces**](https://docs.docker.com/engine/security/userns-remap/)**.** Root u kontejneru je isti kao na hostu osim ako nije premapiran sa user namespaces. Samo je blago ograničen, prvenstveno, Linux namespaces, sposobnostima i cgroups.
+* [**Uklonite sve sposobnosti**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) i omogućite samo one koje su potrebne** (`--cap-add=...`). Mnoge radne opterećenja ne zahtevaju nikakve sposobnosti i njihovo dodavanje povećava opseg potencijalnog napada.
+* [**Koristite opciju bez novih privilegija**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) da sprečite procese da dobiju više privilegija, na primer kroz suid binarne datoteke.
+* [**Ograničite resurse dostupne kontejneru**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Ograničenja resursa mogu zaštititi mašinu od napada uskraćivanja usluga.
+* **Prilagodite** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ili SELinux)** profile da ograničite radnje i syscalls dostupne za kontejner na minimum potreban.
+* **Koristite** [**službene docker slike**](https://docs.docker.com/docker-hub/official_images/) **i zahtevajte potpise** ili izgradite svoje na osnovu njih. Ne nasleđujte ili koristite [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) slike. Takođe, čuvajte root ključeve, lozinke na sigurnom mestu. Docker planira da upravlja ključevima sa UCP.
+* **Redovno** **ponovo izgradite** svoje slike da **primenite bezbednosne zakrpe na host i slike.**
+* Pametno upravljajte svojim **tajnama** kako bi napadaču bilo teško da im pristupi.
+* Ako **izlažete docker daemon koristite HTTPS** sa autentifikacijom klijenta i servera.
+* U vašem Dockerfile-u, **favorizujte COPY umesto ADD**. ADD automatski ekstraktuje zipovane datoteke i može kopirati datoteke sa URL-ova. COPY nema te mogućnosti. Kada god je to moguće, izbegavajte korišćenje ADD kako ne biste bili podložni napadima putem udaljenih URL-ova i zip datoteka.
+* Imate **odvojene kontejnere za svaku mikro-s**lužbu.
+* **Ne stavljajte ssh** unutar kontejnera, “docker exec” se može koristiti za ssh u kontejner.
+* Imate **manje** slike kontejnera.
 
-## Bekstvo iz Docker-a / Eskalacija privilegija
+## Docker Breakout / Eskalacija privilegija
 
-Ako ste **unutar Docker kontejnera** ili imate pristup korisniku u **docker grupi**, možete pokušati **pobegnuti i eskalirati privilegije**:
+Ako ste **unutar docker kontejnera** ili imate pristup korisniku u **docker grupi**, možete pokušati da **pobegnete i eskalirate privilegije**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
 {% endcontent-ref %}
 
-## Bajpasovanje Docker autentifikacionog dodatka
+## Zaobilaženje Docker Authentication Plugin-a
 
-Ako imate pristup Docker socket-u ili imate pristup korisniku u **docker grupi ali vaše akcije su ograničene Docker autentifikacionim dodatkom**, proverite da li ga možete **bajpasovati:**
+Ako imate pristup docker socket-u ili imate pristup korisniku u **docker grupi, ali su vaše akcije ograničene docker auth plugin-om**, proverite da li možete **da ga zaobiđete:**
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
-## Ojačavanje Docker-a
+## Ojačavanje Dockera
 
-* Alat [**docker-bench-security**](https://github.com/docker/docker-bench-security) je skripta koja proverava desetine uobičajenih najboljih praksi oko implementacije Docker kontejnera u produkciji. Testovi su svi automatizovani i zasnovani na [CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/).\
-Morate pokrenuti alat sa hosta koji pokreće Docker ili iz kontejnera sa dovoljno privilegija. Saznajte **kako ga pokrenuti u README-u:** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
+* Alat [**docker-bench-security**](https://github.com/docker/docker-bench-security) je skripta koja proverava desetine uobičajenih najboljih praksi oko implementacije Docker kontejnera u produkciji. Testovi su svi automatizovani i zasnovani su na [CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/).\
+Morate pokrenuti alat sa hosta koji pokreće docker ili iz kontejnera sa dovoljno privilegija. Saznajte **kako ga pokrenuti u README:** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
 
 ## Reference
 
 * [https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)
-* [https://twitter.com/\_fel1x/status/1151487051986087936](https://twitter.com/\_fel1x/status/1151487051986087936)
+* [https://twitter.com/_fel1x/status/1151487051986087936](https://twitter.com/_fel1x/status/1151487051986087936)
 * [https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html](https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-1overview/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-1overview/)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/)
 * [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-4container-image/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-4container-image/)
-* [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
+* [https://en.wikipedia.org/wiki/Linux_namespaces](https://en.wikipedia.org/wiki/Linux_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
-* [https://docs.docker.com/engine/extend/plugins\_authorization](https://docs.docker.com/engine/extend/plugins\_authorization)
+* [https://docs.docker.com/engine/extend/plugins_authorization](https://docs.docker.com/engine/extend/plugins_authorization)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 * [https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/](https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/)
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=docker-security) da lako izgradite i **automatizujete radne tokove** pokretane od strane **najnaprednijih** alata zajednice.\
+Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-security" %}
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

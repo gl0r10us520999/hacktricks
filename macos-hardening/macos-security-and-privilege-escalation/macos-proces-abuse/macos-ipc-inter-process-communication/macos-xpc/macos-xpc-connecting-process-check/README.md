@@ -26,13 +26,13 @@ Kada se uspostavi veza sa XPC servisom, server će proveriti da li je veza dozvo
 3. Proveri da li proces koji se povezuje **sadrži odgovarajući bundle ID**.
 * Ako ovo **nije verifikovano**, bilo koji alat **potpisan od iste organizacije** mogao bi se koristiti za interakciju sa XPC servisom.
 4. (4 ili 5) Proveri da li proces koji se povezuje ima **odgovarajući broj verzije softvera**.
-* Ako ovo **nije verifikovano**, stari, nesigurni klijenti, ranjivi na injekciju procesa mogli bi se koristiti za povezivanje sa XPC servisom čak i uz druge provere.
-5. (4 ili 5) Proveri da li proces koji se povezuje ima ojačanu runtime bez opasnih prava (kao što su ona koja omogućavaju učitavanje proizvoljnih biblioteka ili korišćenje DYLD env varijabli).
+* Ako ovo **nije verifikovano**, stari, nesigurni klijenti, ranjivi na injekciju procesa mogli bi se koristiti za povezivanje sa XPC servisom čak i sa ostalim proverama na snazi.
+5. (4 ili 5) Proveri da li proces koji se povezuje ima **hardened runtime bez opasnih prava** (kao što su ona koja omogućavaju učitavanje proizvoljnih biblioteka ili korišćenje DYLD env varijabli).
 * Ako ovo **nije verifikovano**, klijent bi mogao biti **ranjiv na injekciju koda**.
 6. Proveri da li proces koji se povezuje ima **pravo** koje mu omogućava povezivanje sa servisom. Ovo se primenjuje na Apple binarne datoteke.
 7. **Verifikacija** mora biti **zasnovana** na **audit token-u klijenta** **umesto** na njegovom ID-u procesa (**PID**) jer prvi sprečava **napade ponovne upotrebe PID-a**.
 * Programeri **retko koriste audit token** API poziv jer je **privatan**, tako da Apple može **promeniti** u bilo kojem trenutku. Pored toga, korišćenje privatnog API-ja nije dozvoljeno u aplikacijama Mac App Store-a.
-* Ako se koristi metoda **`processIdentifier`**, može biti ranjiva.
+* Ako se metoda **`processIdentifier`** koristi, može biti ranjiva.
 * **`xpc_dictionary_get_audit_token`** treba koristiti umesto **`xpc_connection_get_audit_token`**, jer bi poslednji mogao biti [ranjiv u određenim situacijama](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
 ### Communication Attacks
@@ -51,7 +51,7 @@ Za više informacija o napadu **`xpc_connection_get_audit_token`** proverite:
 
 ### Trustcache - Downgrade Attacks Prevention
 
-Trustcache je odbrambena metoda uvedena u Apple Silicon mašinama koja čuva bazu podataka CDHSAH Apple binarnih datoteka tako da samo dozvoljene neizmenjene binarne datoteke mogu biti izvršene. Što sprečava izvršavanje verzija sa smanjenim nivoom.
+Trustcache je odbrambena metoda uvedena na Apple Silicon mašinama koja čuva bazu podataka CDHSAH Apple binarnih datoteka tako da samo dozvoljene neizmenjene binarne datoteke mogu biti izvršene. Što sprečava izvršavanje verzija sa smanjenim funkcionalnostima.
 
 ### Code Examples
 

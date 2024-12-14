@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## Main Keychains
 
-* **Korisnički ključ** (`~/Library/Keychains/login.keychain-db`), koji se koristi za čuvanje **korisničkih kredencijala** kao što su lozinke za aplikacije, lozinke za internet, korisnički generisani sertifikati, lozinke za mrežu i korisnički generisani javni/privatni ključevi.
-* **Sistemski ključ** (`/Library/Keychains/System.keychain`), koji čuva **sistemske kredencijale** kao što su WiFi lozinke, sistemski root sertifikati, sistemski privatni ključevi i lozinke za sistemske aplikacije.
-* Mogu se pronaći i drugi sastavni delovi kao što su sertifikati u `/System/Library/Keychains/*`
+* **Korisnički ključ** (`~/Library/Keychains/login.keychain-db`), koji se koristi za čuvanje **korisničkih kredencijala** kao što su lozinke aplikacija, lozinke za internet, korisnički generisani sertifikati, lozinke za mrežu i korisnički generisani javni/privatni ključevi.
+* **Sistemski ključ** (`/Library/Keychains/System.keychain`), koji čuva **sistemske kredencijale** kao što su WiFi lozinke, sistemski root sertifikati, sistemski privatni ključevi i lozinke aplikacija sistema.
+* Moguće je pronaći druge komponente kao što su sertifikati u `/System/Library/Keychains/*`
 * U **iOS-u** postoji samo jedan **ključ** smešten u `/private/var/Keychains/`. Ova fascikla takođe sadrži baze podataka za `TrustStore`, sertifikacione autoritete (`caissuercache`) i OSCP unose (`ocspache`).
 * Aplikacije će biti ograničene u ključu samo na njihovu privatnu oblast na osnovu njihovog identifikatora aplikacije.
 
 ### Pristup lozinkama u ključu
 
-Ove datoteke, iako nemaju inherentnu zaštitu i mogu se **preuzeti**, su enkriptovane i zahtevaju **korisničku lozinku u čistom tekstu za dekripciju**. Alat kao što je [**Chainbreaker**](https://github.com/n0fate/chainbreaker) može se koristiti za dekripciju.
+Ove datoteke, iako nemaju inherentnu zaštitu i mogu biti **preuzete**, su enkriptovane i zahtevaju **korisničku lozinku u čistom tekstu za dešifrovanje**. Alat kao što je [**Chainbreaker**](https://github.com/n0fate/chainbreaker) može se koristiti za dešifrovanje.
 
 ## Zaštita unosa u ključ
 
@@ -54,7 +54,7 @@ Takođe, unos može sadržati ključ **`ACLAuthorizationPartitionID`,** koji se 
 Kada se **novi** **unos** kreira koristeći **`Keychain Access.app`**, sledeća pravila se primenjuju:
 
 * Sve aplikacije mogu enkriptovati.
-* **Nijedna aplikacija** ne može izvesti/dekripovati (bez traženja potvrde od korisnika).
+* **Nijedna aplikacija** ne može izvesti/dešifrovati (bez traženja potvrde od korisnika).
 * Sve aplikacije mogu videti proveru integriteta.
 * Nijedna aplikacija ne može menjati ACL-ove.
 * **partitionID** je postavljen na **`apple`**.
@@ -62,7 +62,7 @@ Kada se **novi** **unos** kreira koristeći **`Keychain Access.app`**, sledeća 
 Kada **aplikacija kreira unos u ključ**, pravila su malo drugačija:
 
 * Sve aplikacije mogu enkriptovati.
-* Samo **aplikacija koja kreira** (ili bilo koja druga aplikacija eksplicitno dodata) može izvesti/dekripovati (bez traženja potvrde od korisnika).
+* Samo **aplikacija koja kreira** (ili bilo koje druge aplikacije eksplicitno dodate) može izvesti/dešifrovati (bez traženja potvrde od korisnika).
 * Sve aplikacije mogu videti proveru integriteta.
 * Nijedna aplikacija ne može menjati ACL-ove.
 * **partitionID** je postavljen na **`teamid:[teamID ovde]`**.
@@ -98,14 +98,14 @@ Lista i dobijanje **informacija** o svakom unosu u keychain koristeći **Securit
 
 * API **`SecItemCopyMatching`** daje informacije o svakom unosu i postoje neki atributi koje možete postaviti prilikom korišćenja:
 * **`kSecReturnData`**: Ako je tačno, pokušaće da dekriptuje podatke (postavite na netačno da biste izbegli potencijalne iskačuće prozore)
-* **`kSecReturnRef`**: Takođe dobijate referencu na unos u keychain (postavite na tačno u slučaju da kasnije vidite da možete dekriptovati bez iskačućeg prozora)
+* **`kSecReturnRef`**: Takođe dobijate referencu na stavku keychain-a (postavite na tačno u slučaju da kasnije vidite da možete dekriptovati bez iskačućeg prozora)
 * **`kSecReturnAttributes`**: Dobijate metapodatke o unosima
 * **`kSecMatchLimit`**: Koliko rezultata da vrati
 * **`kSecClass`**: Koja vrsta unosa u keychain
 
 Dobijte **ACL** svakog unosa:
 
-* Sa API-jem **`SecAccessCopyACLList`** možete dobiti **ACL za unos u keychain**, i vratiće listu ACL-ova (kao što su `ACLAuhtorizationExportClear` i ostali prethodno pomenuti) gde svaka lista ima:
+* Sa API-jem **`SecAccessCopyACLList`** možete dobiti **ACL za stavku keychain-a**, i vratiće listu ACL-ova (kao što su `ACLAuhtorizationExportClear` i ostali prethodno pomenuti) gde svaka lista ima:
 * Opis
 * **Lista pouzdanih aplikacija**. Ovo može biti:
 * Aplikacija: /Applications/Slack.app
@@ -114,7 +114,7 @@ Dobijte **ACL** svakog unosa:
 
 Izvezite podatke:
 
-* API **`SecKeychainItemCopyContent`** dobija običan tekst
+* API **`SecKeychainItemCopyContent`** dobija plaintext
 * API **`SecItemExport`** izvozi ključeve i sertifikate, ali možda će biti potrebno postaviti lozinke za izvoz sadržaja šifrovanog
 
 I ovo su **zahtevi** da biste mogli da **izvezete tajnu bez prompta**:
@@ -131,7 +131,7 @@ I ovo su **zahtevi** da biste mogli da **izvezete tajnu bez prompta**:
 {% hint style="danger" %}
 Dakle, ako postoji **1 aplikacija navedena**, potrebno je **ubaciti kod u tu aplikaciju**.
 
-Ako je **apple** naznačen u **partitionID**, mogli biste mu pristupiti pomoću **`osascript`** tako da bilo šta što veruje svim aplikacijama sa apple u partitionID. **`Python`** se takođe može koristiti za ovo.
+Ako je **apple** naznačen u **partitionID**, mogli biste mu pristupiti pomoću **`osascript`**, tako da bilo šta što veruje svim aplikacijama sa apple u partitionID. **`Python`** se takođe može koristiti za ovo.
 {% endhint %}
 
 ### Dva dodatna atributa

@@ -1,4 +1,4 @@
-# macOS Security & Privilege Escalation
+# macOS Bezbednost & Eskalacija Privilegija
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -19,20 +19,20 @@ Učite i vežbajte GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt=""
 
 Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na greške!
 
-**Hakerski uvidi**\
-Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
+**Hakerski Uvidi**\
+Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 
-**Vesti o hakovanju u realnom vremenu**\
+**Vesti o Haku u Realnom Vremenu**\
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Najnovija obaveštenja**\
+**Najnovija Obaveštenja**\
 Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platforme
 
 **Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
 ## Osnovni MacOS
 
-Ako niste upoznati sa macOS-om, trebali biste početi da učite osnove macOS-a:
+Ako niste upoznati sa macOS, trebali biste početi da učite osnove macOS-a:
 
 * Specijalni macOS **fajlovi i dozvole:**
 
@@ -69,37 +69,37 @@ Ako niste upoznati sa macOS-om, trebali biste početi da učite osnove macOS-a:
 
 ### MacOS MDM
 
-U kompanijama **macOS** sistemi će verovatno biti **upravljani MDM-om**. Stoga, iz perspektive napadača, zanimljivo je znati **kako to funkcioniše**:
+U kompanijama **macOS** sistemi će verovatno biti **upravljani putem MDM-a**. Stoga, iz perspektive napadača, zanimljivo je znati **kako to funkcioniše**:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Istraživanje, debagovanje i fuzzing
+### MacOS - Istraživanje, Debagovanje i Fuzzing
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## MacOS Bezbednosne zaštite
+## MacOS Bezbednosne Zaštite
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Površina napada
+## Površina Napada
 
-### Dozvole fajlova
+### Dozvole Fajlova
 
-Ako **proces koji se izvršava kao root piše** fajl koji može kontrolisati korisnik, korisnik bi mogao da iskoristi ovo da **poveća privilegije**.\
+Ako **proces koji se izvršava kao root piše** fajl koji može kontrolisati korisnik, korisnik bi to mogao zloupotrebiti da **eskalira privilegije**.\
 To se može dogoditi u sledećim situacijama:
 
 * Fajl koji se koristi je već kreiran od strane korisnika (u vlasništvu korisnika)
 * Fajl koji se koristi je zapisiv od strane korisnika zbog grupe
-* Fajl koji se koristi je unutar direktorijuma koji je u vlasništvu korisnika (korisnik može da kreira fajl)
-* Fajl koji se koristi je unutar direktorijuma koji je u vlasništvu root-a, ali korisnik ima pristup za pisanje zbog grupe (korisnik može da kreira fajl)
+* Fajl koji se koristi je unutar direktorijuma koji je u vlasništvu korisnika (korisnik može kreirati fajl)
+* Fajl koji se koristi je unutar direktorijuma koji je u vlasništvu root-a, ali korisnik ima pristup za pisanje zbog grupe (korisnik može kreirati fajl)
 
-Mogućnost da **kreirate fajl** koji će biti **korišćen od strane root-a**, omogućava korisniku da **iskoristi njegov sadržaj** ili čak da kreira **symlinks/hardlinks** da ga usmeri na drugo mesto.
+Mogućnost da **kreirate fajl** koji će biti **koristen od strane root-a**, omogućava korisniku da **iskoristi njegov sadržaj** ili čak kreira **simlinkove/hardlinkove** da ga usmeri na drugo mesto.
 
 Za ovu vrstu ranjivosti ne zaboravite da **proverite ranjive `.pkg` instalere**:
 
@@ -107,7 +107,7 @@ Za ovu vrstu ranjivosti ne zaboravite da **proverite ranjive `.pkg` instalere**:
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-### Ekstenzije fajlova i URL sheme aplikacija
+### Ekstenzije Fajlova & URL sheme aplikacija
 
 Čudne aplikacije registrovane po ekstenzijama fajlova mogle bi biti zloupotrebljene, a različite aplikacije mogu biti registrovane da otvore specifične protokole
 
@@ -115,19 +115,19 @@ Za ovu vrstu ranjivosti ne zaboravite da **proverite ranjive `.pkg` instalere**:
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## macOS TCC / SIP Povećanje privilegija
+## macOS TCC / SIP Eskalacija Privilegija
 
-U macOS-u **aplikacije i binarni fajlovi mogu imati dozvole** za pristup folderima ili podešavanjima koja ih čine privilegovanijim od drugih.
+U macOS **aplikacije i binarni fajlovi mogu imati dozvole** za pristup folderima ili podešavanjima koja ih čine privilegovanijim od drugih.
 
-Stoga, napadač koji želi da uspešno kompromituje macOS mašinu moraće da **poveća svoje TCC privilegije** (ili čak **obiđe SIP**, u zavisnosti od njegovih potreba).
+Stoga, napadač koji želi da uspešno kompromituje macOS mašinu mora da **eskalira svoje TCC privilegije** (ili čak **obiđe SIP**, u zavisnosti od njegovih potreba).
 
-Ove privilegije se obično daju u obliku **entitlements** sa kojima je aplikacija potpisana, ili aplikacija može zatražiti neka pristupanja i nakon što **korisnik odobri** mogu se naći u **TCC bazama podataka**. Drugi način na koji proces može dobiti ove privilegije je da bude **dete procesa** sa tim **privilegijama** jer se obično **nasleđuju**.
+Ove privilegije se obično daju u obliku **entiteta** sa kojima je aplikacija potpisana, ili aplikacija može zatražiti neka pristupanja i nakon što **korisnik odobri** mogu se naći u **TCC bazama podataka**. Drugi način na koji proces može dobiti ove privilegije je da bude **dete procesa** sa tim **privilegijama** jer se obično **nasleđuju**.
 
-Pratite ove linkove da pronađete različite načine za [**povećanje privilegija u TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), da [**obiđete TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) i kako je u prošlosti [**SIP bio oboren**](macos-security-protections/macos-sip.md#sip-bypasses).
+Pratite ove linkove da pronađete različite načine za [**eskalaciju privilegija u TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), da [**obiđete TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) i kako je u prošlosti [**SIP bio oboren**](macos-security-protections/macos-sip.md#sip-bypasses).
 
-## macOS Tradicionalno povećanje privilegija
+## macOS Tradicionalna Eskalacija Privilegija
 
-Naravno, iz perspektive crvenih timova, takođe biste trebali biti zainteresovani za povećanje na root. Proverite sledeći post za neke savete:
+Naravno, iz perspektive crvenih timova, trebali biste biti zainteresovani i za eskalaciju na root. Proverite sledeći post za neke savete:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
@@ -149,13 +149,13 @@ Naravno, iz perspektive crvenih timova, takođe biste trebali biti zainteresovan
 
 Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na greške!
 
-**Hakerski uvidi**\
-Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
+**Hakerski Uvidi**\
+Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 
-**Vesti o hakovanju u realnom vremenu**\
+**Vesti o Haku u Realnom Vremenu**\
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Najnovija obaveštenja**\
+**Najnovija Obaveštenja**\
 Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platforme
 
 **Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!

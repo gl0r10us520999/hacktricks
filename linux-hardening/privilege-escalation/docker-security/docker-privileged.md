@@ -70,7 +70,7 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Maskiranje nad datotečnim sistemima jezgra
+### Maskiranje nad kernel datotečnim sistemima
 
 **/proc** datotečni sistem je selektivno zapisiv, ali iz bezbednosnih razloga, određeni delovi su zaštićeni od pisanja i čitanja preklapanjem sa **tmpfs**, osiguravajući da procesi kontejnera ne mogu pristupiti osetljivim oblastima.
 
@@ -106,7 +106,7 @@ Motori kontejnera pokreću kontejnere sa **ograničenim brojem sposobnosti** kak
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Unutar defaultnog kontejnera" %}
+{% tab title="Unutar default kontejnera" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -177,7 +177,7 @@ Takođe, imajte na umu da kada se Docker (ili drugi CRI) koriste u **Kubernetes*
 ```
 ### SELinux
 
-Pokretanje kontejnera sa `--privileged` zastavicom onemogućava **SELinux oznake**, uzrokujući da nasledi oznaku kontejnerskog motora, obično `unconfined`, što omogućava pun pristup sličan kontejnerskom motoru. U rootless režimu, koristi `container_runtime_t`, dok se u root režimu primenjuje `spc_t`.
+Pokretanje kontejnera sa `--privileged` zastavicom onemogućava **SELinux oznake**, uzrokujući da nasledi oznaku kontejnerskog motora, obično `unconfined`, što omogućava pun pristup sličan kontejnerskom motoru. U režimu bez root privilegija koristi `container_runtime_t`, dok se u root režimu primenjuje `spc_t`.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -190,7 +190,7 @@ Pokretanje kontejnera sa `--privileged` zastavicom onemogućava **SELinux oznake
 
 ### Namespaces
 
-Namespaces **NISU pogođeni** `--privileged` oznakom. Iako nemaju omogućena sigurnosna ograničenja, **ne vide sve procese na sistemu ili host mreži, na primer**. Korisnici mogu onemogućiti pojedinačne namespaces koristeći **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** oznake kontejnerskog motora.
+Namespaces **NISU pogođeni** `--privileged` oznakom. Iako nemaju omogućena bezbednosna ograničenja, **ne vide sve procese na sistemu ili host mreži, na primer**. Korisnici mogu onemogućiti pojedinačne namespaces koristeći **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** oznake kontejnerskih motora.
 
 {% tabs %}
 {% tab title="Unutar podrazumevanog privilegovanog kontejnera" %}

@@ -16,63 +16,63 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 {% hint style="warning" %}
-Napomena: ovlašćenja koja počinju sa **`com.apple`** nisu dostupna trećim stranama, samo Apple može da ih dodeli.
+Napomena: entitlements koji počinju sa **`com.apple`** nisu dostupni trećim stranama, samo Apple može da ih dodeli.
 {% endhint %}
 
 ## High
 
 ### `com.apple.rootless.install.heritable`
 
-Ovlašćenje **`com.apple.rootless.install.heritable`** omogućava **obiđite SIP**. Proverite [ovo za više informacija](macos-sip.md#com.apple.rootless.install.heritable).
+Entitlement **`com.apple.rootless.install.heritable`** omogućava **obiđi SIP**. Proverite [ovo za više informacija](macos-sip.md#com.apple.rootless.install.heritable).
 
 ### **`com.apple.rootless.install`**
 
-Ovlašćenje **`com.apple.rootless.install`** omogućava **obiđite SIP**. Proverite [ovo za više informacija](macos-sip.md#com.apple.rootless.install).
+Entitlement **`com.apple.rootless.install`** omogućava **obiđi SIP**. Proverite [ovo za više informacija](macos-sip.md#com.apple.rootless.install).
 
-### **`com.apple.system-task-ports` (ranije nazvano `task_for_pid-allow`)**
+### **`com.apple.system-task-ports` (ranije nazvan `task_for_pid-allow`)**
 
-Ovo ovlašćenje omogućava dobijanje **task porta za bilo koji** proces, osim jezgra. Proverite [**ovo za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Ovaj entitlement omogućava dobijanje **task porta za bilo koji** proces, osim za kernel. Proverite [**ovo za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Ovo ovlašćenje omogućava drugim procesima sa ovlašćenjem **`com.apple.security.cs.debugger`** da dobiju task port procesa koji pokreće binarni fajl sa ovim ovlašćenjem i **ubace kod u njega**. Proverite [**ovo za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Ovaj entitlement omogućava drugim procesima sa **`com.apple.security.cs.debugger`** entitlement da dobiju task port procesa koji pokreće binarni fajl sa ovim entitlementom i **ubace kod u njega**. Proverite [**ovo za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Aplikacije sa ovlašćenjem Debugging Tool mogu pozvati `task_for_pid()` da dobiju važeći task port za nesignirane i treće strane aplikacije sa ovlašćenjem `Get Task Allow` postavljenim na `true`. Međutim, čak i sa ovlašćenjem alata za debagovanje, debager **ne može dobiti task portove** procesa koji **nemaju ovlašćenje `Get Task Allow`**, i koji su stoga zaštićeni zaštitom integriteta sistema. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Aplikacije sa Debugging Tool Entitlement mogu pozvati `task_for_pid()` da dobiju validan task port za nesignirane i treće strane aplikacije sa `Get Task Allow` entitlement postavljenim na `true`. Međutim, čak i sa entitlementom za debugging alat, debugger **ne može dobiti task portove** procesa koji **nemaju `Get Task Allow` entitlement**, i koji su stoga zaštićeni System Integrity Protection. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Ovo ovlašćenje omogućava **učitavanje okvira, dodataka ili biblioteka bez da budu potpisani od strane Apple-a ili potpisani sa istim Team ID** kao glavni izvršni fajl, tako da napadač može zloupotrebiti učitavanje neke proizvoljne biblioteke da ubaci kod. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Ovaj entitlement omogućava **učitavanje frameworka, plug-inova ili biblioteka bez da budu potpisani od strane Apple-a ili potpisani sa istim Team ID** kao glavni izvršni fajl, tako da napadač može zloupotrebiti učitavanje neke proizvoljne biblioteke da ubaci kod. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-Ovo ovlašćenje je veoma slično **`com.apple.security.cs.disable-library-validation`** ali **umesto** da **direktno onemogući** validaciju biblioteka, omogućava procesu da **pozove `csops` sistemski poziv da ga onemogući**.\
+Ovaj entitlement je veoma sličan **`com.apple.security.cs.disable-library-validation`** ali **umesto** da **direktno onemogući** validaciju biblioteka, omogućava procesu da **pozove `csops` sistemski poziv da ga onemogući**.\
 Proverite [**ovo za više informacija**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Ovo ovlašćenje omogućava **korišćenje DYLD promenljivih okruženja** koje se mogu koristiti za ubacivanje biblioteka i koda. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Ovaj entitlement omogućava **korišćenje DYLD promenljivih okruženja** koje se mogu koristiti za ubacivanje biblioteka i koda. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` ili `com.apple.rootless.storage`.`TCC`
 
-[**Prema ovom blogu**](https://objective-see.org/blog/blog\_0x4C.html) **i** [**ovom blogu**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ova ovlašćenja omogućavaju **modifikaciju** **TCC** baze podataka.
+[**Prema ovom blogu**](https://objective-see.org/blog/blog\_0x4C.html) **i** [**ovom blogu**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ovi entitlements omogućavaju **modifikaciju** **TCC** baze podataka.
 
 ### **`system.install.apple-software`** i **`system.install.apple-software.standar-user`**
 
-Ova ovlašćenja omogućavaju **instalaciju softvera bez traženja dozvola** od korisnika, što može biti korisno za **povećanje privilegija**.
+Ovi entitlements omogućavaju **instalaciju softvera bez traženja dozvola** od korisnika, što može biti korisno za **povećanje privilegija**.
 
 ### `com.apple.private.security.kext-management`
 
-Ovlašćenje potrebno za traženje od **jezgra da učita kernel ekstenziju**.
+Entitlement potreban za traženje od **kernela da učita kernel ekstenziju**.
 
 ### **`com.apple.private.icloud-account-access`**
 
-Ovlašćenje **`com.apple.private.icloud-account-access`** omogućava komunikaciju sa **`com.apple.iCloudHelper`** XPC servisom koji će **obezbediti iCloud tokene**.
+Entitlement **`com.apple.private.icloud-account-access`** omogućava komunikaciju sa **`com.apple.iCloudHelper`** XPC servisom koji će **obezbediti iCloud tokene**.
 
-**iMovie** i **Garageband** su imale ovo ovlašćenje.
+**iMovie** i **Garageband** su imali ovaj entitlement.
 
-Za više **informacija** o eksploatu za **dobijanje iCloud tokena** iz tog ovlašćenja proverite predavanje: [**#OBTS v5.0: "Šta se dešava na vašem Mac-u, ostaje na Apple-ovom iCloud-u?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Za više **informacija** o eksploatu za **dobijanje iCloud tokena** iz tog entitlementa proverite predavanje: [**#OBTS v5.0: "Šta se dešava na vašem Mac-u, ostaje na Apple-ovom iCloud-u?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -80,15 +80,15 @@ TODO: Ne znam šta ovo omogućava
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: U [**ovoj izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenog sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR, molim vas!
+TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenog sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR, molim vas!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: U [**ovoj izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenog sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR, molim vas!
+TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenog sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR, molim vas!
 
 ### `keychain-access-groups`
 
-Ovo ovlašćenje lista **keychain** grupe kojima aplikacija ima pristup:
+Ovaj entitlement lista **keychain** grupa kojima aplikacija ima pristup:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -101,13 +101,13 @@ Ovo ovlašćenje lista **keychain** grupe kojima aplikacija ima pristup:
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Daje **Potpunu pristup disku** dozvole, jedna od najviših TCC dozvola koje možete imati.
+Daje **potpuni pristup disku** dozvole, jedna od najviših TCC dozvola koje možete imati.
 
 ### **`kTCCServiceAppleEvents`**
 
 Omogućava aplikaciji da šalje događaje drugim aplikacijama koje se obično koriste za **automatizaciju zadataka**. Kontrolisanjem drugih aplikacija, može zloupotrebiti dozvole koje su dodeljene tim drugim aplikacijama.
 
-Kao što je navođenje njih da traže od korisnika njegovu lozinku:
+Kao što je da ih natera da traže od korisnika njegovu lozinku:
 
 {% code overflow="wrap" %}
 ```bash
@@ -115,7 +115,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-Ili da ih natera da izvrše **arbitrarne radnje**.
+Ili ih naterati da izvrše **arbitrarne radnje**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
@@ -123,7 +123,7 @@ Omogućava, između ostalog, da **piše u TCC bazu podataka korisnika**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Omogućava da **promeni** **`NFSHomeDirectory`** atribut korisnika koji menja putanju svog domaćeg foldera i tako omogućava da **obiđe TCC**.
+Omogućava da **promeni** **`NFSHomeDirectory`** atribut korisnika koji menja putanju njegove početne fascikle i tako omogućava da **obiđe TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
@@ -135,7 +135,7 @@ Moguće je proveriti ko ima ovaj pristup u _System Settings_ > _Privacy & Securi
 
 ### `kTCCServiceAccessibility`
 
-Proces će moći da **zloupotrebi macOS funkcije pristupa**, što znači da će, na primer, moći da pritisne tastere. Tako bi mogao da zatraži pristup za kontrolu aplikacije kao što je Finder i odobri dijalog sa ovom dozvolom.
+Proces će moći da **zloupotrebi macOS pristupne funkcije**, što znači da će, na primer, moći da pritisne tastere. Tako bi mogao da zatraži pristup za kontrolu aplikacije kao što je Finder i odobri dijalog sa ovom dozvolom.
 
 ## Medium
 
@@ -153,10 +153,10 @@ Uključivanje ove dozvole izlaže vašu aplikaciju uobičajenim ranjivostima u j
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Ova dozvola omogućava da se **modifikuju sekcije vlastitih izvršnih fajlova** na disku kako bi se prisilno izašlo. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Ova dozvola omogućava da se **modifikuju sekcije sopstvenih izvršnih fajlova** na disku kako bi se prisilno izašlo. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Dozvola za onemogućavanje zaštite izvršne memorije je ekstremna dozvola koja uklanja fundamentalnu sigurnosnu zaštitu iz vaše aplikacije, čineći mogućim da napadač prepisuje izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uže dozvole ako je moguće.
+Dozvola za onemogućavanje zaštite izvršne memorije je ekstremna dozvola koja uklanja fundamentalnu sigurnosnu zaštitu iz vaše aplikacije, omogućavajući napadaču da prepiše izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uže dozvole ako je moguće.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`

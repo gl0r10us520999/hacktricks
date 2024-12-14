@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 Ključni mehanizam Gatekeeper-a leži u njegovom **procesu verifikacije**. Proverava da li je preuzeti softver **potpisan od strane priznatog programera**, osiguravajući autentičnost softvera. Pored toga, utvrđuje da li je softver **notarisan od strane Apple-a**, potvrđujući da je bez poznatog zlonamernog sadržaja i da nije menjan nakon notarizacije.
 
-Pored toga, Gatekeeper jača kontrolu i bezbednost korisnika tako što **traži od korisnika da odobre otvaranje** preuzetog softvera prvi put. Ova zaštita pomaže u sprečavanju korisnika da nenamerno pokrenu potencijalno štetan izvršni kod koji su mogli zamisliti kao bezopasan podatkovni fajl.
+Pored toga, Gatekeeper jača kontrolu i bezbednost korisnika tako što **traži od korisnika da odobre otvaranje** preuzetog softvera po prvi put. Ova zaštita pomaže u sprečavanju korisnika da nenamerno pokrenu potencijalno štetan izvršni kod koji su mogli zamisliti kao bezopasan podatkovni fajl.
 
 ### Application Signatures
 
@@ -43,7 +43,7 @@ Počevši od macOS Catalina, **Gatekeeper takođe proverava da li je aplikacija 
 
 #### Check Signatures
 
-Kada proveravate neki **uzorak zlonamernog softvera**, uvek treba da **proverite potpis** binarnog fajla jer **programer** koji ga je potpisao može već biti **povezan** sa **zlonamernim softverom.**
+Kada proveravate neki **uzorak zlonamernog softvera**, uvek biste trebali **proveriti potpis** binarnog fajla jer **programer** koji ga je potpisao može već biti **povezan** sa **zlonamernim softverom.**
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -62,11 +62,11 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarizacija
 
-Apple-ov proces notarizacije služi kao dodatna zaštita za korisnike od potencijalno štetnog softvera. Uključuje **razvijanje aplikacije za ispitivanje** od strane **Apple-ove Notarizacione Usluge**, što se ne sme mešati sa Pregledom Aplikacija. Ova usluga je **automatski sistem** koji pažljivo ispituje dostavljeni softver na prisustvo **malicioznog sadržaja** i bilo kakvih potencijalnih problema sa potpisivanjem koda.
+Apple-ov proces notarizacije služi kao dodatna zaštita za korisnike od potencijalno štetnog softvera. Uključuje **razvijanje aplikacije koja se šalje na ispitivanje** od strane **Apple-ove Notarizacione Usluge**, što se ne sme mešati sa Pregledom Aplikacija. Ova usluga je **automatski sistem** koji pažljivo ispituje dostavljeni softver na prisustvo **malicioznog sadržaja** i bilo kakvih potencijalnih problema sa potpisivanjem koda.
 
-Ako softver **prođe** ovu inspekciju bez podizanja bilo kakvih zabrinutosti, Notarizacijska Usluga generiše tiket notarizacije. Razvijač je zatim obavezan da **priključi ovaj tiket svom softveru**, proces poznat kao 'stapling.' Pored toga, tiket notarizacije se takođe objavljuje online gde mu Gatekeeper, Apple-ova sigurnosna tehnologija, može pristupiti.
+Ako softver **prođe** ovu inspekciju bez podizanja bilo kakvih zabrinutosti, Notarizacijska Usluga generiše tiket notarizacije. Razvijatelj je zatim obavezan da **priključi ovaj tiket svom softveru**, proces poznat kao 'stapling.' Pored toga, tiket notarizacije se takođe objavljuje online gde mu Gatekeeper, Apple-ova sigurnosna tehnologija, može pristupiti.
 
-Prilikom prve instalacije ili izvršavanja softvera od strane korisnika, postojanje tiketa notarizacije - bilo da je priključen na izvršni fajl ili pronađen online - **obaveštava Gatekeeper da je softver notarizovan od strane Apple-a**. Kao rezultat, Gatekeeper prikazuje opisnu poruku u inicijalnom dijalogu za pokretanje, ukazujući da je softver prošao provere za maliciozni sadržaj od strane Apple-a. Ovaj proces tako poboljšava poverenje korisnika u sigurnost softvera koji instaliraju ili pokreću na svojim sistemima.
+Prilikom prve instalacije ili izvršavanja softvera od strane korisnika, postojanje tiketa notarizacije - bilo da je priključen na izvršni fajl ili pronađen online - **obaveštava Gatekeeper da je softver notarizovan od strane Apple-a**. Kao rezultat, Gatekeeper prikazuje opisnu poruku u dijalogu za početno pokretanje, ukazujući da je softver prošao provere za maliciozni sadržaj od strane Apple-a. Ovaj proces tako poboljšava poverenje korisnika u sigurnost softvera koji instaliraju ili pokreću na svojim sistemima.
 
 ### spctl & syspolicyd
 
@@ -80,7 +80,7 @@ Napomena da od verzije Sequoia, **`spctl`** više ne dozvoljava modifikaciju kon
 spctl --status
 ```
 {% hint style="danger" %}
-Napomena da se provere potpisa GateKeeper-a vrše samo za **datoteke sa atributom karantina**, a ne za svaku datoteku.
+Napomena da se provere potpisa GateKeeper-a vrše samo za **fajlove sa atributom Quarantine**, a ne za svaki fajl.
 {% endhint %}
 
 GateKeeper će proveriti da li prema **postavkama i potpisu** može da se izvrši binarni fajl:
@@ -89,7 +89,7 @@ GateKeeper će proveriti da li prema **postavkama i potpisu** može da se izvrš
 
 **`syspolicyd`** je glavni daemon odgovoran za sprovođenje Gatekeeper-a. Održava bazu podataka smeštenu u `/var/db/SystemPolicy` i moguće je pronaći kod koji podržava [bazu podataka ovde](https://opensource.apple.com/source/Security/Security-58286.240.4/OSX/libsecurity\_codesigning/lib/policydb.cpp) i [SQL šablon ovde](https://opensource.apple.com/source/Security/Security-58286.240.4/OSX/libsecurity\_codesigning/lib/syspolicy.sql). Napomena da baza podataka nije ograničena SIP-om i da je moguće pisati u nju kao root, a baza podataka `/var/db/.SystemPolicy-default` se koristi kao originalna rezervna kopija u slučaju da se druga ošteti.
 
-Pored toga, paketi **`/var/db/gke.bundle`** i **`/var/db/gkopaque.bundle`** sadrže datoteke sa pravilima koja se ubacuju u bazu podataka. Možete proveriti ovu bazu podataka kao root sa:
+Pored toga, paketi **`/var/db/gke.bundle`** i **`/var/db/gkopaque.bundle`** sadrže fajlove sa pravilima koja se ubacuju u bazu podataka. Možete proveriti ovu bazu podataka kao root sa:
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -103,12 +103,12 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
-**`syspolicyd`** takođe izlaže XPC server sa različitim operacijama kao što su `assess`, `update`, `record` i `cancel` koje su takođe dostupne koristeći **`Security.framework`'s `SecAssessment*`** API-je, a **`xpctl`** zapravo komunicira sa **`syspolicyd`** putem XPC.
+**`syspolicyd`** takođe izlaže XPC server sa različitim operacijama kao što su `assess`, `update`, `record` i `cancel` koje su takođe dostupne koristeći **`Security.framework`'s `SecAssessment*`** API-je i **`xpctl`** zapravo komunicira sa **`syspolicyd`** putem XPC.
 
-Obratite pažnju na to kako je prvo pravilo završilo u "**App Store**" i drugo u "**Developer ID**" i da je u prethodnoj slici bilo **omogućeno izvršavanje aplikacija iz App Store-a i identifikovanih developera**.\
+Obratite pažnju na to kako je prvo pravilo završilo u "**App Store**" a drugo u "**Developer ID**" i da je u prethodnoj slici bilo **omogućeno izvršavanje aplikacija iz App Store-a i identifikovanih developera**.\
 Ako **izmenite** tu postavku na App Store, pravila "**Notarized Developer ID" će nestati**.
 
-Takođe postoji hiljade pravila **tipa GKE**:
+Takođe postoji hiljade pravila **tipa GKE** :
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -171,7 +171,7 @@ Upon **downloading** an application or file, specific macOS **applications** suc
 In the case where the **quarantine flag is not present** (as with files downloaded via some BitTorrent clients), Gatekeeper's **checks may not be performed**. Thus, users should exercise caution when opening files downloaded from less secure or unknown sources.
 
 {% hint style="info" %}
-**Proveravanje** **validnosti** potpisa koda je **resursno intenzivan** proces koji uključuje generisanje kriptografskih **hash-eva** koda i svih njegovih pratećih resursa. Furthermore, checking certificate validity involves doing an **online check** to Apple's servers to see if it has been revoked after it was issued. For these reasons, a full code signature and notarization check is **impractical to run every time an app is launched**.
+**Proveravanje** **validnosti** potpisa koda je **resursno intenzivan** proces koji uključuje generisanje kriptografskih **hash-ova** koda i svih njegovih pratećih resursa. Furthermore, checking certificate validity involves doing an **online check** to Apple's servers to see if it has been revoked after it was issued. For these reasons, a full code signature and notarization check is **impractical to run every time an app is launched**.
 
 Therefore, these checks are **only run when executing apps with the quarantined attribute.**
 {% endhint %}
@@ -179,7 +179,7 @@ Therefore, these checks are **only run when executing apps with the quarantined 
 {% hint style="warning" %}
 Ova oznaka mora biti **postavljena od strane aplikacije koja kreira/preuzima** datoteku.
 
-Međutim, datoteke koje su u sandbox-u će imati ovu oznaku postavljenu na svaku datoteku koju kreiraju. A aplikacije koje nisu u sandbox-u mogu je postaviti same, ili odrediti [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) ključ u **Info.plist** koji će omogućiti sistemu da postavi `com.apple.quarantine` proširenu oznaku na kreiranim datotekama,
+However, files that are sandboxed will have this attribute set to every file they create. And non sandboxed apps can set it themselves, or specify the [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) key in the **Info.plist** which will make the system set the `com.apple.quarantine` extended attribute on the files created,
 {% endhint %}
 
 Moreover, all files created by a process calling **`qtn_proc_apply_to_self`** are quarantined. Or the API **`qtn_file_apply_to_path`** adds the quarantine attribute to a specified file path.
@@ -193,13 +193,13 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-Možete takođe **proveriti da li datoteka ima prošireni atribut karantina** sa:
+Možete takođe **proveriti da li datoteka ima prošireni atribut karantina** pomoću:
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
-Proverite **vrednost** **proširenih** **atributa** i saznajte aplikaciju koja je napisala atribut karantina sa:
+Proverite **vrednost** **proširenih** **atributa** i saznajte koja aplikacija je napisala atribut karantina sa:
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -215,7 +215,7 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-Zapravo, proces "može postaviti zastavice karantina na datoteke koje kreira" (već sam pokušao da primenim USER_APPROVED zastavicu na kreiranoj datoteci, ali se ona neće primeniti):
+Zapravo, proces "može postaviti zastavice karantina na datoteke koje kreira" (već sam pokušao da primenim USER_APPROVED zastavicu na kreiranoj datoteci, ali se neće primeniti):
 
 <details>
 
@@ -295,7 +295,7 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 ```
 {% endcode %}
 
-Informacije o karantinu se takođe čuvaju u centralnoj bazi podataka koju upravlja LaunchServices u **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**, što omogućava GUI-ju da dobije podatke o poreklu datoteka. Štaviše, ovo može biti prepisano od strane aplikacija koje možda žele da sakriju svoje poreklo. Takođe, ovo se može uraditi putem LaunchServices APIS.
+Informacije o karantinu se takođe čuvaju u centralnoj bazi podataka koju upravlja LaunchServices u **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**, što omogućava GUI-ju da dobije podatke o poreklu datoteka. Štaviše, ovo može biti prepisano od strane aplikacija koje bi mogle biti zainteresovane da sakriju svoje poreklo. Takođe, ovo se može uraditi putem LaunchServices APIS.
 
 #### **libquarantine.dylb**
 
@@ -307,7 +307,7 @@ Ova biblioteka izvozi nekoliko funkcija koje omogućavaju manipulaciju poljima p
 
 Kernel ekstenzija je dostupna samo kroz **kernel cache na sistemu**; međutim, _možete_ preuzeti **Kernel Debug Kit sa** [**https://developer.apple.com/**](https://developer.apple.com/), koji će sadržati simboličku verziju ekstenzije.
 
-Ovaj Kext će uhvatiti putem MACF nekoliko poziva kako bi uhvatio sve događaje životnog ciklusa datoteka: Kreiranje, otvaranje, preimenovanje, hard-linkovanje... čak i `setxattr` kako bi sprečio postavljanje `com.apple.quarantine` proširenog atributa.
+Ovaj Kext će uhvatiti putem MACF nekoliko poziva kako bi uhvatio sve događaje životnog ciklusa datoteka: Kreiranje, otvaranje, preimenovanje, hard-linkovanje... čak i `setxattr` da spreči postavljanje `com.apple.quarantine` proširenog atributa.
 
 Takođe koristi nekoliko MIB-ova:
 
@@ -335,7 +335,7 @@ XProtect se nalazi na. SIP zaštićenoj lokaciji **/Library/Apple/System/Library
 * **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Omogućava kodu sa tim cdhash-ovima da koristi legacijske privilegije.
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: Lista dodataka i ekstenzija koje nisu dozvoljene za učitavanje putem BundleID i TeamID ili koje označavaju minimalnu verziju.
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Yara pravila za otkrivanje malvera.
-* **`XProtect.bundle/Contents/Resources/gk.db`**: SQLite3 baza podataka sa hash-evima blokiranih aplikacija i TeamID-ima.
+* **`XProtect.bundle/Contents/Resources/gk.db`**: SQLite3 baza podataka sa hešovima blokiranih aplikacija i TeamID-ova.
 
 Napomena da postoji još jedna aplikacija u **`/Library/Apple/System/Library/CoreServices/XProtect.app`** koja je povezana sa XProtect-om, a koja nije uključena u proces Gatekeeper-a.
 
@@ -351,11 +351,11 @@ Međutim, sada to nije moguće jer macOS **sprečava modifikaciju datoteka** unu
 
 ## Obilaženje Gatekeeper-a
 
-Svaki način da se zaobiđe Gatekeeper (uspeti da se korisnik natera da preuzme nešto i izvrši to kada bi Gatekeeper trebao da to onemogući) smatra se ranjivošću u macOS-u. Ovo su neki CVE-ovi dodeljeni tehnikama koje su omogućile zaobilaženje Gatekeeper-a u prošlosti:
+Svaki način za obilaženje Gatekeeper-a (uspeti da naterate korisnika da preuzme nešto i izvrši to kada bi Gatekeeper trebao da to onemogući) smatra se ranjivošću u macOS-u. Ovo su neki CVE-ovi dodeljeni tehnikama koje su omogućile obilaženje Gatekeeper-a u prošlosti:
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
-Primećeno je da ako se **Archive Utility** koristi za ekstrakciju, datoteke sa **putanjama dužim od 886 karaktera** ne dobijaju prošireni atribut com.apple.quarantine. Ova situacija nenamerno omogućava tim datotekama da **zaobiđu Gatekeeper-ove** sigurnosne provere.
+Primećeno je da ako se **Archive Utility** koristi za ekstrakciju, datoteke sa **putanjama dužim od 886 karaktera** ne dobijaju proširenu atribut com.apple.quarantine. Ova situacija nenamerno omogućava tim datotekama da **obiđu Gatekeeper-ove** sigurnosne provere.
 
 Proverite [**originalni izveštaj**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) za više informacija.
 
@@ -371,7 +371,7 @@ Proverite [**originalni izveštaj**](https://ronmasas.com/posts/bypass-macos-gat
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-U ovom zaobilaženju kreirana je zip datoteka sa aplikacijom koja počinje da kompresuje iz `application.app/Contents` umesto iz `application.app`. Stoga, **atribut karantene** je primenjen na sve **datoteke iz `application.app/Contents`** ali **ne na `application.app`**, što je Gatekeeper proveravao, tako da je Gatekeeper zaobiđen jer kada je `application.app` aktiviran, **nije imao atribut karantene.**
+U ovom obilaženju kreirana je zip datoteka sa aplikacijom koja počinje da kompresuje iz `application.app/Contents` umesto iz `application.app`. Stoga, **atribut karantene** je primenjen na sve **datoteke iz `application.app/Contents`** ali **ne na `application.app`**, što je Gatekeeper proveravao, tako da je Gatekeeper bio obilažen jer kada je `application.app` aktiviran nije imao atribut karantene.
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -436,7 +436,7 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Mogućnost kreiranja datoteke koja neće imati postavljen atribut karantina, bilo je **moguće zaobići Gatekeeper.** Trik je bio **napraviti DMG datoteku aplikacije** koristeći AppleDouble naziv konvenciju (početi je sa `._`) i kreirati **vidljivu datoteku kao simboličku vezu na ovu skrivenu** datoteku bez atributa karantina.\
+Mogućnost kreiranja datoteke koja neće imati postavljen atribut karantina, **omogućila je zaobilaženje Gatekeeper-a.** Trik je bio **napraviti DMG datoteku aplikacije** koristeći AppleDouble konvenciju imena (početi sa `._`) i kreirati **vidljivu datoteku kao simboličku vezu ka ovoj skrivenoj** datoteci bez atributa karantina.\
 Kada se **dmg datoteka izvrši**, pošto nema atribut karantina, ona će **zaobići Gatekeeper.**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
@@ -455,16 +455,16 @@ aa archive -d s/ -o app.aar
 ```
 ### uchg (from this [talk](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
 
-* Napravite direktorijum koji sadrži aplikaciju.
+* Kreirajte direktorijum koji sadrži aplikaciju.
 * Dodajte uchg aplikaciji.
 * Kompresujte aplikaciju u tar.gz datoteku.
 * Pošaljite tar.gz datoteku žrtvi.
 * Žrtva otvara tar.gz datoteku i pokreće aplikaciju.
 * Gatekeeper ne proverava aplikaciju.
 
-### Sprečavanje Quarantine xattr
+### Sprečavanje karantina xattr
 
-U ".app" paketu, ako quarantine xattr nije dodat, prilikom izvršavanja **Gatekeeper neće biti aktiviran**.
+U ".app" paketu, ako karantina xattr nije dodata, prilikom izvršavanja **Gatekeeper neće biti aktiviran**.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 

@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 I/O Kit je open-source, objektno-orijentisani **okvir drajvera uređaja** u XNU kernelu, koji upravlja **dinamički učitanim drajverima uređaja**. Omogućava dodavanje modularnog koda u kernel u hodu, podržavajući raznovrsni hardver.
 
-IOKit drajveri će u osnovi **izvoziti funkcije iz kernela**. Ovi parametri funkcija su **preddefinisani** i verifikovani. Štaviše, slično XPC-u, IOKit je samo još jedan sloj **iznad Mach poruka**.
+IOKit drajveri će u osnovi **izvoziti funkcije iz kernela**. Ovi parametri funkcija **tipovi** su **preddefinisani** i verifikovani. Štaviše, slično XPC-u, IOKit je samo još jedan sloj **iznad Mach poruka**.
 
 **IOKit XNU kernel kod** je open-source od strane Apple-a na [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Takođe, komponente IOKit korisničkog prostora su takođe open-source [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
@@ -36,19 +36,19 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **izložene funkcije** mogu izvršiti **dodatne provere bezbednosti** kada klijent pokuša da pozove funkciju, ali imajte na umu da su aplikacije obično **ograničene** od strane **sandbox-a** sa kojima IOKit funkcije mogu da komuniciraju.
+IOKit **izložene funkcije** mogu izvršiti **dodatne bezbednosne provere** kada klijent pokuša da pozove funkciju, ali imajte na umu da su aplikacije obično **ograničene** od strane **sandbox-a** sa kojima IOKit funkcije mogu da komuniciraju.
 {% endhint %}
 
 ## Drajveri
 
-U macOS se nalaze u:
+U macOS-u se nalaze u:
 
 * **`/System/Library/Extensions`**
 * KEXT datoteke ugrađene u OS X operativni sistem.
 * **`/Library/Extensions`**
 * KEXT datoteke instalirane od strane softvera trećih strana
 
-U iOS se nalaze u:
+U iOS-u se nalaze u:
 
 * **`/System/Library/Extensions`**
 ```bash
@@ -68,7 +68,7 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
 9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
 10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-Dok broj 9, navedeni drajveri su **učitani na adresi 0**. To znači da to nisu pravi drajveri već **deo kernela i ne mogu se ukloniti**.
+Dok broj 9, navedeni drajveri su **učitani na adresi 0**. To znači da to nisu pravi drajveri već **deo jezgra i ne mogu se ukloniti**.
 
 Da biste pronašli specifične ekstenzije, možete koristiti:
 ```bash
@@ -176,7 +176,7 @@ Možete početi dekompilaciju funkcije **`externalMethod`** jer je to funkcija d
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-Ta strašna pozivna demanglovana znači:
+Ta strašna pozivna demagled znači:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -198,7 +198,7 @@ IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgu
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-Sa ovom informacijom možete prepraviti Ctrl+Desno -> `Edit function signature` i postaviti poznate tipove:
+Sa ovim informacijama možete prepraviti Ctrl+Desno -> `Edit function signature` i postaviti poznate tipove:
 
 <figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
@@ -206,7 +206,7 @@ Novi dekompilirani kod će izgledati ovako:
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Za sledeći korak potrebno je da definišemo **`IOExternalMethodDispatch2022`** strukturu. Ona je otvorenog koda na [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), možete je definisati:
+Za sledeći korak potrebno je definisati **`IOExternalMethodDispatch2022`** strukturu. Ona je otvorenog koda na [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), možete je definisati:
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
@@ -214,7 +214,7 @@ Sada, prateći `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` možete
 
 <figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Promenite Tip Podataka u **`IOExternalMethodDispatch2022:`**
+Promenite tip podataka u **`IOExternalMethodDispatch2022:`**
 
 <figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -231,7 +231,7 @@ Nakon što je niz kreiran, možete videti sve eksportovane funkcije:
 <figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Ako se sećate, da **pozovete** **eksportovanu** funkciju iz korisničkog prostora, ne treba da pozivate ime funkcije, već **broj selektora**. Ovde možete videti da je selektor **0** funkcija **`initializeDecoder`**, selektor **1** je **`startDecoder`**, selektor **2** **`initializeEncoder`**...
+Ako se sećate, da **pozovete** **eksportovanu** funkciju iz korisničkog prostora, ne treba da pozivate ime funkcije, već **broj selektora**. Ovde možete videti da je selektor **0** funkcija **`initializeDecoder`**, selektor **1** je **`startDecoder`**, selektor **2** je **`initializeEncoder`**...
 {% endhint %}
 
 {% hint style="success" %}

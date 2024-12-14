@@ -1,31 +1,31 @@
-# macOS Mrežne Usluge i Protokoli
+# macOS Network Services & Protocols
 
 {% hint style="success" %}
-Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Usluge Daljinskog Pristupa
+## Usluge daljinskog pristupa
 
-Ovo su uobičajene macOS usluge za daljinski pristup.\
+Ovo su uobičajene macOS usluge za pristup na daljinu.\
 Možete omogućiti/isključiti ove usluge u `System Settings` --> `Sharing`
 
-* **VNC**, poznat kao “Deljenje Ekrana” (tcp:5900)
-* **SSH**, nazvan “Daljinska Prijava” (tcp:22)
-* **Apple Remote Desktop** (ARD), ili “Daljinsko Upravljanje” (tcp:3283, tcp:5900)
-* **AppleEvent**, poznat kao “Daljinski Apple Događaj” (tcp:3031)
+* **VNC**, poznat kao “Deljenje ekrana” (tcp:5900)
+* **SSH**, nazvan “Daljinska prijava” (tcp:22)
+* **Apple Remote Desktop** (ARD), ili “Daljinsko upravljanje” (tcp:3283, tcp:5900)
+* **AppleEvent**, poznat kao “Daljinski Apple događaj” (tcp:3031)
 
-Proverite da li je neka od ovih usluga omogućena pokretanjem:
+Proverite da li je neka od njih omogućena pokretanjem:
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -47,7 +47,7 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 ```
 ARD pruža svestrane nivoe kontrole, uključujući posmatranje, deljenu kontrolu i punu kontrolu, sa sesijama koje traju čak i nakon promene korisničke lozinke. Omogućava slanje Unix komandi direktno, izvršavajući ih kao root za administrativne korisnike. Planiranje zadataka i daljinsko Spotlight pretraživanje su značajne karakteristike, olakšavajući daljinsko, niskoprofilno pretraživanje osetljivih datoteka na više mašina.
 
-## Bonjour Protokol
+## Bonjour protokol
 
 Bonjour, tehnologija koju je dizajnirao Apple, omogućava **uređajima na istoj mreži da otkriju usluge koje nude jedni drugima**. Poznat i kao Rendezvous, **Zero Configuration**, ili Zeroconf, omogućava uređaju da se pridruži TCP/IP mreži, **automatski odabere IP adresu**, i emitira svoje usluge drugim mrežnim uređajima.
 
@@ -62,11 +62,11 @@ Za DNS, Bonjour koristi **Multicast DNS (mDNS) protokol**. mDNS funkcioniše pre
 
 Prilikom pridruživanja mreži, svaki uređaj samostalno bira ime, obično završava sa **.local**, koje može biti izvedeno iz imena hosta ili nasumično generisano.
 
-Otkrivanje usluga unutar mreže olakšano je **DNS Service Discovery (DNS-SD)**. Iskorišćavajući format DNS SRV zapisa, DNS-SD koristi **DNS PTR zapise** da omogući listanje više usluga. Klijent koji traži određenu uslugu će zatražiti PTR zapis za `<Service>.<Domain>`, primajući zauzvrat listu PTR zapisa formatiranih kao `<Instance>.<Service>.<Domain>` ako je usluga dostupna sa više hostova.
+Otkrivanje usluga unutar mreže olakšano je **DNS Service Discovery (DNS-SD)**. Koristeći format DNS SRV zapisa, DNS-SD koristi **DNS PTR zapise** da omogući listanje više usluga. Klijent koji traži određenu uslugu će zatražiti PTR zapis za `<Service>.<Domain>`, primajući zauzvrat listu PTR zapisa formatiranih kao `<Instance>.<Service>.<Domain>` ako je usluga dostupna sa više hostova.
 
 Alat `dns-sd` može se koristiti za **otkrivanje i oglašavanje mrežnih usluga**. Evo nekoliko primera njegove upotrebe:
 
-### Pretraživanje SSH Usluga
+### Pretraživanje SSH usluga
 
 Da biste pretražili SSH usluge na mreži, koristi se sledeća komanda:
 ```bash
@@ -80,17 +80,17 @@ Da biste oglasili HTTP servis, možete koristiti:
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
-Ova komanda registruje HTTP servis pod imenom "Index" na portu 80 sa putanjom `/index.html`.
+Ova komanda registruje HTTP servis nazvan "Index" na portu 80 sa putanjom `/index.html`.
 
 Da biste zatim pretražili HTTP servise na mreži:
 ```bash
 dns-sd -B _http._tcp
 ```
-Kada usluga počne, ona najavljuje svoju dostupnost svim uređajima na podmreži putem multicast-a. Uređaji zainteresovani za ove usluge ne moraju slati zahteve, već jednostavno slušaju ove najave.
+Kada usluga počne, ona oglašava svoju dostupnost svim uređajima na podmreži putem multicast-a. Uređaji zainteresovani za ove usluge ne moraju slati zahteve, već jednostavno slušaju ova obaveštenja.
 
 Za korisnički prijatniji interfejs, aplikacija **Discovery - DNS-SD Browser** dostupna na Apple App Store-u može vizualizovati usluge koje se nude na vašoj lokalnoj mreži.
 
-Alternativno, mogu se napisati prilagođeni skripti za pretraživanje i otkrivanje usluga koristeći `python-zeroconf` biblioteku. Skripta [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) demonstrira kreiranje pretraživača usluga za `_http._tcp.local.` usluge, štampajući dodate ili uklonjene usluge:
+Alternativno, mogu se napisati prilagođeni skripti za pretraživanje i otkrivanje usluga koristeći biblioteku `python-zeroconf`. Skripta [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) demonstrira kreiranje pretraživača usluga za `_http._tcp.local.` usluge, štampajući dodate ili uklonjene usluge:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
@@ -111,12 +111,12 @@ input("Press enter to exit...\n\n")
 finally:
 zeroconf.close()
 ```
-### Onemogućavanje Bonjour
+### Onemogućavanje Bonjour-a
 Ako postoje zabrinutosti u vezi sa bezbednošću ili drugi razlozi za onemogućavanje Bonjour-a, može se isključiti pomoću sledeće komande:
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-## References
+## Reference
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)

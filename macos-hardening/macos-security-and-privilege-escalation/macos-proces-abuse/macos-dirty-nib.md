@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-**Za više detalja o tehnici pogledajte originalni post sa:** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/) i sledeći post od [**https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/**](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/)**.** Evo sažetak:
+**Za više detalja o tehnici, proverite originalni post sa:** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/) i sledeći post od [**https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/**](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/)**.** Evo sažetak:
 
 ### Šta su Nib datoteke
 
@@ -23,17 +23,17 @@ Nib (skraćeno od NeXT Interface Builder) datoteke, deo Apple-ovog razvojnog eko
 
 Glavna Nib datoteka se poziva u vrednosti **`NSMainNibFile`** unutar `Info.plist` datoteke aplikacije i učitava je funkcija **`NSApplicationMain`** koja se izvršava u `main` funkciji aplikacije.
 
-### Proces Injekcije Prljavog Niba
+### Proces Injekcije Prljavog Nib-a
 
 #### Kreiranje i Postavljanje NIB Datoteke
 
 1. **Početna Konfiguracija**:
 * Kreirajte novu NIB datoteku koristeći XCode.
 * Dodajte objekat u interfejs, postavljajući njegovu klasu na `NSAppleScript`.
-* Konfigurišite početnu `source` osobinu putem User Defined Runtime Attributes.
+* Konfigurišite početnu `source` osobinu putem korisnički definisanih runtime atributa.
 2. **Gadget za Izvršavanje Koda**:
 * Konfiguracija omogućava pokretanje AppleScript-a na zahtev.
-* Integrisati dugme za aktiviranje `Apple Script` objekta, posebno pokrećući `executeAndReturnError:` selektor.
+* Integrisati dugme za aktiviranje `Apple Script` objekta, posebno pokrećući selektor `executeAndReturnError:`.
 3. **Testiranje**:
 *   Jednostavan Apple Script za testiranje:
 
@@ -46,12 +46,12 @@ display dialog theDialogText
 #### Ciljanje Aplikacije (Primer: Pages)
 
 1. **Priprema**:
-* Kopirajte ciljan app (npr., Pages) u poseban direktorijum (npr., `/tmp/`).
-* Pokrenite aplikaciju da biste izbegli probleme sa Gatekeeper-om i keširali je.
+* Kopirajte ciljanju aplikaciju (npr., Pages) u poseban direktorijum (npr., `/tmp/`).
+* Pokrenite aplikaciju da biste zaobišli probleme sa Gatekeeper-om i keširali je.
 2. **Prepisivanje NIB Datoteke**:
 * Zamenite postojeću NIB datoteku (npr., About Panel NIB) sa kreiranom DirtyNIB datotekom.
 3. **Izvršavanje**:
-* Pokrenite izvršavanje interakcijom sa aplikacijom (npr., odabirom `About` menija).
+* Pokrenite izvršavanje interakcijom sa aplikacijom (npr., odabirom stavke iz menija `About`).
 
 #### Dokaz Koncepta: Pristupanje Korisničkim Podacima
 
@@ -75,9 +75,9 @@ U postu [https://sector7.computest.nl/post/2024-04-bringing-process-injection-in
 Od macOS Sonoma nadalje, modifikacije unutar App bundle-a su ograničene. Međutim, ranije metode su uključivale:
 
 1. Kopiranje aplikacije na drugo mesto (npr., `/tmp/`).
-2. Preimenovanje direktorijuma unutar app bundle-a da bi se zaobišle početne zaštite.
+2. Preimenovanje direktorijuma unutar app bundle-a kako bi se zaobišle početne zaštite.
 3. Nakon pokretanja aplikacije da se registruje sa Gatekeeper-om, modifikovanje app bundle-a (npr., zamenjivanje MainMenu.nib sa Dirty.nib).
-4. Ponovno preimenovanje direktorijuma i ponovo pokretanje aplikacije da se izvrši injektovana NIB datoteka.
+4. Ponovno preimenovanje direktorijuma i ponovo pokretanje aplikacije da bi se izvršila injektovana NIB datoteka.
 
 **Napomena**: Nedavne macOS nadogradnje su ublažile ovu eksploataciju sprečavanjem modifikacija datoteka unutar app bundle-a nakon keširanja Gatekeeper-a, čime je eksploatacija postala neefikasna.
 

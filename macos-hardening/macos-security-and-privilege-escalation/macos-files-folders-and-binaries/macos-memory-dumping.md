@@ -38,7 +38,7 @@ Još jedna važna datoteka vezana za memoriju u MacOS sistemima je **log memorij
 
 Da biste dumpovali memoriju na MacOS mašini, možete koristiti [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
 
-**Napomena**: Sledeće instrukcije će raditi samo za Mac računare sa Intel arhitekturom. Ovaj alat je sada arhiviran i poslednje izdanje je bilo 2017. Preuzeta binarna datoteka koristeći sledeće instrukcije cilja Intel čipove, jer Apple Silicon nije postojao 2017. Možda će biti moguće kompajlirati binarnu datoteku za arm64 arhitekturu, ali to ćete morati da probate sami.
+**Napomena**: Sledeće instrukcije će raditi samo za Mac računare sa Intel arhitekturom. Ovaj alat je sada arhiviran i poslednje izdanje je bilo 2017. Preuzeta binarna datoteka koristeći sledeće instrukcije cilja Intel čipove, jer Apple Silicon nije postojao 2017. Moguće je da se binarna datoteka može kompajlirati za arm64 arhitekturu, ali to ćete morati da probate sami.
 ```bash
 #Dump raw format
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
@@ -46,16 +46,16 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 #Dump aff4 format
 sudo osxpmem.app/osxpmem -o /tmp/dump_mem.aff4
 ```
-Ako pronađete ovu grešku: `osxpmem.app/MacPmem.kext nije uspeo da se učita - (libkern/kext) neuspeh autentifikacije (vlasništvo/dozvole datoteke); proverite sistemske/kernel logove za greške ili pokušajte sa kextutil(8)` Možete to popraviti na sledeći način:
+Ako pronađete ovu grešku: `osxpmem.app/MacPmem.kext nije uspeo da se učita - (libkern/kext) greška u autentifikaciji (vlasništvo/dozvole datoteke); proverite sistemske/kernel logove za greške ili pokušajte kextutil(8)` Možete to popraviti na sledeći način:
 ```bash
 sudo cp -r osxpmem.app/MacPmem.kext "/tmp/"
 sudo kextutil "/tmp/MacPmem.kext"
 #Allow the kext in "Security & Privacy --> General"
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-**Druge greške** mogu biti ispravljene **dozvoljavanjem učitavanja kext-a** u "Bezbednost i privatnost --> Opšte", samo **dozvolite** to.
+**Drugi greške** mogu biti ispravljene **dozvoljavanjem učitavanja kext-a** u "Sigurnost i privatnost --> Opšte", samo **dozvolite** to.
 
-Možete takođe koristiti ovu **jednolinijsku komandu** da preuzmete aplikaciju, učitate kext i ispraznite memoriju:
+Možete takođe koristiti ovu **jednolinijsku komandu** za preuzimanje aplikacije, učitavanje kext-a i dumpovanje memorije:
 
 {% code overflow="wrap" %}
 ```bash

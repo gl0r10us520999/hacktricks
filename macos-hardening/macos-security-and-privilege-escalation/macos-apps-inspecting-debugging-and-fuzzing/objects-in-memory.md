@@ -1,25 +1,25 @@
-# Objekti u memoriji
+# Објекти у меморији
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-CF\* objekti potiču iz CoreFOundation-a, koji pruža više od 50 klasa objekata poput `CFString`, `CFNumber` ili `CFAllocatior`.
+CF\* објекти долазе из CoreFoundation, који пружа више од 50 класа објеката као што су `CFString`, `CFNumber` или `CFAllocator`.
 
-Sve ove klase su instance klase `CFRuntimeClass`, koja kada se pozove vraća indeks u `__CFRuntimeClassTable`. CFRuntimeClass je definisan u [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Све ове класе су инстанце класе `CFRuntimeClass`, која када се позове враћа индекс у `__CFRuntimeClassTable`. CFRuntimeClass је дефинисан у [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Korišćeni delovi memorije
+### Memory sections used
 
-Većina podataka koje koristi ObjectiveC tokom izvršavanja će se menjati, stoga koristi neke sekcije iz **\_\_DATA** segmenta u memoriji:
+Većina podataka koje koristi ObjectiveC runtime će se menjati tokom izvršavanja, stoga koristi neke sekcije iz **\_\_DATA** segmenta u memoriji:
 
 * **`__objc_msgrefs`** (`message_ref_t`): Reference poruka
-* **`__objc_ivar`** (`ivar`): Instance promenljive
+* **`__objc_ivar`** (`ivar`): Instancne promenljive
 * **`__objc_data`** (`...`): Promenljivi podaci
 * **`__objc_classrefs`** (`Class`): Reference klasa
-* **`__objc_superrefs`** (`Class`): Reference nadklasa
+* **`__objc_superrefs`** (`Class`): Reference superklasa
 * **`__objc_protorefs`** (`protocol_t *`): Reference protokola
 * **`__objc_selrefs`** (`SEL`): Reference selektora
-* **`__objc_const`** (`...`): Klasni `r/o` podaci i drugi (nadam se) konstantni podaci
-* **`__objc_imageinfo`** (`version, flags`): Korišćeno tokom učitavanja slike: Trenutna verzija je `0`; Zastave specificiraju preoptimizovanu podršku za GC, itd.
+* **`__objc_const`** (`...`): Klasa `r/o` podaci i drugi (nadamo se) konstantni podaci
+* **`__objc_imageinfo`** (`version, flags`): Koristi se tokom učitavanja slike: Verzija trenutno `0`; Zastavice specificiraju unapred optimizovanu GC podršku, itd.
 * **`__objc_protolist`** (`protocol_t *`): Lista protokola
-* **`__objc_nlcatlist`** (`category_t`): Pokazivač na Non-Lazy kategorije definisane u ovom binarnom fajlu
-* **`__objc_catlist`** (`category_t`): Pokazivač na kategorije definisane u ovom binarnom fajlu
-* **`__objc_nlclslist`** (`classref_t`): Pokazivač na Non-Lazy Objective-C klase definisane u ovom binarnom fajlu
-* **`__objc_classlist`** (`classref_t`): Pokazivači na sve Objective-C klase definisane u ovom binarnom fajlu
+* **`__objc_nlcatlist`** (`category_t`): Pokazivač na Non-Lazy Kategorije definisane u ovoj binarnoj datoteci
+* **`__objc_catlist`** (`category_t`): Pokazivač na Kategorije definisane u ovoj binarnoj datoteci
+* **`__objc_nlclslist`** (`classref_t`): Pokazivač na Non-Lazy Objective-C klase definisane u ovoj binarnoj datoteci
+* **`__objc_classlist`** (`classref_t`): Pokazivači na sve Objective-C klase definisane u ovoj binarnoj datoteci
 
-Takođe koristi nekoliko sekcija u **`__TEXT`** segmentu da bi sačuvao konstantne vrednosti ako nije moguće pisati u ovu sekciju:
+Takođe koristi nekoliko sekcija u **`__TEXT`** segmentu za čuvanje konstantnih vrednosti ako nije moguće pisati u ovu sekciju:
 
 * **`__objc_methname`** (C-String): Imena metoda
 * **`__objc_classname`** (C-String): Imena klasa
 * **`__objc_methtype`** (C-String): Tipovi metoda
 
-### Kodiranje tipova
+### Type Encoding
 
-Objective-C koristi neko prepravljanje za enkodiranje selektora i tipova promenljivih jednostavnih i složenih tipova:
+Objective-C koristi određeno mangle-ovanje za kodiranje selektora i tipova promenljivih jednostavnih i složenih tipova:
 
-* Primitivni tipovi koriste prvo slovo tipa `i` za `int`, `c` za `char`, `l` za `long`... i koristi veliko slovo u slučaju da je unsigned (`L` za `unsigned Long`).
-* Ostali tipovi podataka čija su slova već zauzeta ili su specijalna, koriste druga slova ili simbole poput `q` za `long long`, `b` za `bitfields`, `B` za `booleans`, `#` za `classes`, `@` za `id`, `*` za `char pokazivače`, `^` za generičke `pokazivače` i `?` za `nedefinisane`.
+* Primitivni tipovi koriste prvo slovo tipa `i` za `int`, `c` za `char`, `l` za `long`... i koristi veliko slovo u slučaju da je bez znakova (`L` za `unsigned Long`).
+* Drugi tipovi podataka čija su slova korišćena ili su posebna, koriste druga slova ili simbole kao što su `q` za `long long`, `b` za `bitfields`, `B` za `booleans`, `#` za `classes`, `@` za `id`, `*` za `char pointers`, `^` za generičke `pointers` i `?` za `undefined`.
 * Nizovi, strukture i unije koriste `[`, `{` i `(`
 
-#### Primer Deklaracije Metoda
+#### Example Method Declaration
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -113,27 +113,27 @@ Selektor bi bio `processString:withOptions:andError:`
 
 #### Kodiranje tipa
 
-* `id` je kodiran kao `@`
-* `char *` je kodiran kao `*`
+* `id` se kodira kao `@`
+* `char *` se kodira kao `*`
 
-Potpuno kodiranje tipa za metod je:
+Puno kodiranje tipa za metodu je:
 ```less
 @24@0:8@16*20^@24
 ```
-#### Detaljna analiza
+#### Detailed Breakdown
 
-1. **Tip povratne vrednosti (`NSString *`)**: Kodiran kao `@` sa dužinom 24
-2. **`self` (instanca objekta)**: Kodirano kao `@`, na offsetu 0
+1. **Return Type (`NSString *`)**: Kodiran kao `@` sa dužinom 24
+2. **`self` (instanca objekta)**: Kodiran kao `@`, na offsetu 0
 3. **`_cmd` (selektor)**: Kodiran kao `:`, na offsetu 8
 4. **Prvi argument (`char * input`)**: Kodiran kao `*`, na offsetu 16
 5. **Drugi argument (`NSDictionary * options`)**: Kodiran kao `@`, na offsetu 20
 6. **Treći argument (`NSError ** error`)**: Kodiran kao `^@`, na offsetu 24
 
-**Sa selektorom + kodiranjem možete rekonstruisati metod.**
+**Sa selektorom + kodiranjem možete rekonstruisati metodu.**
 
-### **Klase**
+### **Classes**
 
-Klase u Objective-C-u su struktura sa svojstvima, pokazivačima na metode... Moguće je pronaći strukturu `objc_class` u [**izvornom kodu**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
+Klase u Objective-C su strukture sa svojstvima, pokazivačima na metode... Moguće je pronaći strukturu `objc_class` u [**izvornom kodu**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,22 @@ data()->setFlags(set);
 }
 [...]
 ```
-Ova klasa koristi neke bitove polja isa da bi označila informacije o klasi.
+Ova klasa koristi neke bitove polja isa da bi ukazala na određene informacije o klasi.
 
-Zatim, struktura ima pokazivač na strukturu `class_ro_t` koja je smeštena na disku i sadrži atribute klase poput njenog imena, osnovnih metoda, svojstava i instanci varijabli.\
-Tokom izvršavanja, dodatna struktura `class_rw_t` se koristi koja sadrži pokazivače koji mogu biti promenjeni poput metoda, protokola, svojstava...
+Zatim, struktura ima pokazivač na strukturu `class_ro_t` koja je smeštena na disku i sadrži atribute klase kao što su njeno ime, osnovne metode, svojstva i instance varijable.\
+Tokom izvršavanja, dodatna struktura `class_rw_t` se koristi i sadrži pokazivače koji se mogu menjati, kao što su metode, protokoli, svojstva...
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

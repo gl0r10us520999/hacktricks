@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Osnovne informacije
+## Basic Information
 
-Ograničenja pokretanja u macOS-u su uvedena kako bi se poboljšala sigurnost **regulisanjem kako, ko i odakle se proces može pokrenuti**. Uvedena u macOS Ventura, pružaju okvir koji kategorizuje **svaki sistemski binarni fajl u različite kategorije ograničenja**, koje su definisane unutar **trust cache**, liste koja sadrži sistemske binarne fajlove i njihove odgovarajuće heš vrednosti. Ova ograničenja se protežu na svaki izvršni binarni fajl unutar sistema, podrazumevajući skup **pravila** koja definišu zahteve za **pokretanje određenog binarnog fajla**. Pravila obuhvataju samoprocenjivanja koja binarni fajl mora zadovoljiti, roditeljska ograničenja koja moraju biti ispunjena od strane njegovog roditeljskog procesa, i odgovorna ograničenja koja moraju poštovati druge relevantne entitete.
+Ograničenja pokretanja u macOS-u su uvedena kako bi se poboljšala sigurnost **regulisanjem kako, ko i odakle se proces može pokrenuti**. Uvedena u macOS Ventura, pružaju okvir koji kategorizuje **svaki sistemski binarni fajl u različite kategorije ograničenja**, koje su definisane unutar **trust cache**, liste koja sadrži sistemske binarne fajlove i njihove odgovarajuće hash-eve. Ova ograničenja se protežu na svaki izvršni binarni fajl unutar sistema, podrazumevajući skup **pravila** koja definišu zahteve za **pokretanje određenog binarnog fajla**. Pravila obuhvataju samoprocenjivanja koja binarni fajl mora zadovoljiti, roditeljska ograničenja koja moraju biti ispunjena od strane njegovog roditeljskog procesa, i odgovorna ograničenja koja moraju poštovati druge relevantne entitete.
 
 Mehanizam se proteže na aplikacije trećih strana putem **Environment Constraints**, počevši od macOS Sonoma, omogućavajući programerima da zaštite svoje aplikacije tako što će odrediti **skup ključeva i vrednosti za ograničenja okruženja.**
 
@@ -34,7 +34,7 @@ Dakle, kada proces pokuša da pokrene drugi proces — pozivajući `execve(_:_:_
 
 Ako prilikom učitavanja biblioteke bilo koji deo **ograničenja biblioteke nije tačan**, vaš proces **ne učitava** biblioteku.
 
-## LC Kategorije
+## LC Categories
 
 LC se sastoji od **činjenica** i **logičkih operacija** (i, ili..) koje kombinuju činjenice.
 
@@ -65,15 +65,15 @@ Parent Constraint: is-init-proc
 * `validation-category == 1`: Izvršna datoteka operativnog sistema.
 * `is-init-proc`: Launchd
 
-### Reversing LC Categories
+### Obrtanje LC Kategorija
 
-Imate više informacija [**o tome ovde**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ali u suštini, one su definisane u **AMFI (AppleMobileFileIntegrity)**, tako da treba da preuzmete Kernel Development Kit da biste dobili **KEXT**. Simboli koji počinju sa **`kConstraintCategory`** su **zanimljivi**. Ekstrakcijom ćete dobiti DER (ASN.1) kodirani tok koji ćete morati da dekodirate pomoću [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ili python-asn1 biblioteke i njenog `dump.py` skripta, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) koji će vam dati razumljiviji string.
+Imate više informacija [**ovde**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ali u suštini, one su definisane u **AMFI (AppleMobileFileIntegrity)**, tako da treba da preuzmete Kernel Development Kit da biste dobili **KEXT**. Simboli koji počinju sa **`kConstraintCategory`** su **zanimljivi**. Ekstrakcijom ćete dobiti DER (ASN.1) kodirani tok koji ćete morati da dekodirate pomoću [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ili python-asn1 biblioteke i njenog `dump.py` skripta, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) koji će vam dati razumljiviju string.
 
-## Environment Constraints
+## Ograničenja Okruženja
 
-Ovo su Launch Constraints postavljeni u **aplikacijama trećih strana**. Razvijač može odabrati **činjenice** i **logičke operatore koje će koristiti** u svojoj aplikaciji da bi ograničio pristup samom sebi.
+Ovo su Launch Ograničenja postavljena u **aplikacijama trećih strana**. Razvijač može odabrati **činjenice** i **logičke operande koje će koristiti** u svojoj aplikaciji da bi ograničio pristup samom sebi.
 
-Moguće je enumerisati Environment Constraints aplikacije sa:
+Moguće je enumerisati Ograničenja Okruženja aplikacije sa:
 ```bash
 codesign -d -vvvv app.app
 ```
@@ -93,9 +93,9 @@ Na macOS-u koji radi na Apple Silicon uređajima, ako Apple potpisani binarni fa
 
 ### Enumerating Trust Caches
 
-Prethodni fajlovi keša poverenja su u formatu **IMG4** i **IM4P**, pri čemu je IM4P deo sa podacima formata IMG4.
+Prethodni fajlovi keša poverenja su u formatu **IMG4** i **IM4P**, pri čemu je IM4P deo sa payload-om formata IMG4.
 
-Možete koristiti [**pyimg4**](https://github.com/m1stadev/PyIMG4) za ekstrakciju podataka iz baza: 
+Možete koristiti [**pyimg4**](https://github.com/m1stadev/PyIMG4) za ekstrakciju payload-a iz baza podataka:
 
 {% code overflow="wrap" %}
 ```bash
@@ -115,7 +115,7 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Druga opcija bi mogla biti korišćenje alata [**img4tool**](https://github.com/tihmstar/img4tool), koji će raditi čak i na M1, čak i ako je verzija stara, i za x86\_64 ako ga instalirate na odgovarajuće lokacije).
+(Druga opcija bi mogla biti korišćenje alata [**img4tool**](https://github.com/tihmstar/img4tool), koji će raditi čak i na M1, čak i ako je verzija stara, i za x86\_64 ako ga instalirate na odgovarajućim mestima).
 
 Sada možete koristiti alat [**trustcache**](https://github.com/CRKatri/trustcache) da dobijete informacije u čitljivom formatu:
 ```bash
@@ -151,32 +151,32 @@ uint8_t constraintCategory;
 uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-Zatim, možete koristiti skriptu kao što je [**ova**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) da izvučete podatke.
+Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
 
-Iz tih podataka možete proveriti aplikacije sa **vrednošću ograničenja pokretanja `0`**, koje su one koje nisu ograničene ([**proverite ovde**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) šta svaka vrednost znači).
+From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
 
-## Ublažavanje napada
+## Attack Mitigations
 
-Ograničenja pokretanja bi ublažila nekoliko starih napada tako što bi **osigurala da proces neće biti izvršen u neočekivanim uslovima:** Na primer, iz neočekivanih lokacija ili da bude pozvan od neočekivanog roditeljskog procesa (ako samo launchd treba da ga pokrene).
+Launch Constrains would have mitigated several old attacks by **making sure that the process won't be executed in unexpected conditions:** For example from unexpected locations or being invoked by an unexpected parent process (if only launchd should be launching it)
 
-Štaviše, Ograničenja pokretanja takođe **ublažavaju napade na smanjenje nivoa.**
+Moreover, Launch Constraints also **mitigates downgrade attacks.**
 
-Međutim, ona **ne ublažavaju uobičajene XPC** zloupotrebe, **Electron** injekcije koda ili **dylib injekcije** bez validacije biblioteka (osim ako su ID-ovi timova koji mogu učitati biblioteke poznati).
+However, they **don't mitigate common XPC** abuses, **Electron** code injections or **dylib injections** without library validation (unless the team IDs that can load libraries are known).
 
-### Zaštita XPC Daemona
+### XPC Daemon Protection
 
-U Sonoma izdanju, značajna tačka je **konfiguracija odgovornosti** XPC servisnog daemona. XPC servis je odgovoran za sebe, za razliku od povezane klijentske aplikacije koja je odgovorna. Ovo je dokumentovano u izveštaju o povratnim informacijama FB13206884. Ova postavka može izgledati kao greška, jer omogućava određene interakcije sa XPC servisom:
+In the Sonoma release, a notable point is the daemon XPC service's **responsibility configuration**. The XPC service is accountable for itself, as opposed to the connecting client being responsible. This is documented in the feedback report FB13206884. This setup might seem flawed, as it allows certain interactions with the XPC service:
 
-- **Pokretanje XPC servisa**: Ako se smatra greškom, ova postavka ne dozvoljava pokretanje XPC servisa putem koda napadača.
-- **Povezivanje sa aktivnim servisom**: Ako je XPC servis već pokrenut (moguće aktiviran njegovom originalnom aplikacijom), nema prepreka za povezivanje sa njim.
+- **Launching the XPC Service**: If assumed to be a bug, this setup does not permit initiating the XPC service through attacker code.
+- **Connecting to an Active Service**: If the XPC service is already running (possibly activated by its original application), there are no barriers to connecting to it.
 
-Iako implementacija ograničenja na XPC servis može biti korisna **sužavanjem prozora za potencijalne napade**, to ne rešava primarnu zabrinutost. Osiguranje bezbednosti XPC servisa fundamentalno zahteva **efikasnu validaciju povezane klijentske aplikacije**. Ovo ostaje jedini način da se ojača bezbednost servisa. Takođe, vredi napomenuti da je pomenuta konfiguracija odgovornosti trenutno operativna, što možda nije u skladu sa predviđenim dizajnom.
+While implementing constraints on the XPC service might be beneficial by **narrowing the window for potential attacks**, it doesn't address the primary concern. Ensuring the security of the XPC service fundamentally requires **validating the connecting client effectively**. This remains the sole method to fortify the service's security. Also, it's worth noting that the mentioned responsibility configuration is currently operational, which might not align with the intended design.
 
-### Zaštita Electron
+### Electron Protection
 
-Čak i ako je potrebno da aplikacija bude **otvorena putem LaunchService** (u roditeljskim ograničenjima). To se može postići korišćenjem **`open`** (koji može postaviti env promenljive) ili korišćenjem **Launch Services API** (gde se mogu naznačiti env promenljive).
+Even if it's required that the application has to be **opened by LaunchService** (in the parents constraints). This can be achieved using **`open`** (which can set env variables) or using the **Launch Services API** (where env variables can be indicated).
 
-## Reference
+## References
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)

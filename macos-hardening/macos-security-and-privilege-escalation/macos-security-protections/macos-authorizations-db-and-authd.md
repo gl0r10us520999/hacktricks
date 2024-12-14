@@ -27,7 +27,7 @@ Pravila se čuvaju u `rules` tabeli unutar baze podataka i sadrže sledeće kolo
 
 * **id**: Jedinstveni identifikator za svako pravilo, automatski se povećava i služi kao primarni ključ.
 * **name**: Jedinstveno ime pravila koje se koristi za identifikaciju i referenciranje unutar sistema autorizacije.
-* **type**: Specifikuje tip pravila, ograničeno na vrednosti 1 ili 2 za definisanje njegove logike autorizacije.
+* **type**: Određuje tip pravila, ograničeno na vrednosti 1 ili 2 za definisanje njegove logike autorizacije.
 * **class**: Kategorizuje pravilo u određenu klasu, osiguravajući da je pozitivni ceo broj.
 * "allow" za dozvolu, "deny" za odbijanje, "user" ako grupna svojstva ukazuju na grupu članstvo koje omogućava pristup, "rule" ukazuje u nizu na pravilo koje treba ispuniti, "evaluate-mechanisms" praćeno nizom `mechanisms` koji su ili ugrađeni ili naziv paketa unutar `/System/Library/CoreServices/SecurityAgentPlugins/` ili /Library/Security//SecurityAgentPlugins
 * **group**: Ukazuje na korisničku grupu povezanu sa pravilom za autorizaciju zasnovanu na grupi.
@@ -71,7 +71,7 @@ security authorizationdb read com.apple.tcc.util.admin
 </dict>
 </plist>
 ```
-Osim toga, na [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/](https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/) moguće je videti značenje `authenticate-admin-nonshared`:
+Pored toga, na [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/](https://www.dssw.co.uk/reference/authorization-rights/authenticate-admin-nonshared/) je moguće videti značenje `authenticate-admin-nonshared`:
 ```json
 {
 'allow-root' : 'false',

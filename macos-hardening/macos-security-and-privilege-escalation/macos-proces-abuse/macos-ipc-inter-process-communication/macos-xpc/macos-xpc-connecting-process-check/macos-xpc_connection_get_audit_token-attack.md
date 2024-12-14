@@ -40,7 +40,7 @@ If you don't know how a XPC connection is established check:
 
 What is interesting for you to know is that **XPC’s abstraction is a one-to-one connection**, but it is based on top of a technology which **can have multiple senders, so:**
 
-* Mach portovi su jedini prijemnik, **više pošiljalaca**.
+* Mach portovi su jedini prijemnici, **više pošiljalaca**.
 * Audit token XPC veze je audit token **kopiran iz najnovije primljene poruke**.
 * Dobijanje **audit token** XPC veze je ključno za mnoge **provere bezbednosti**.
 
@@ -56,12 +56,12 @@ Two different methods this might be exploitable:
 * Servis **B** može pozvati **privilegovan funkcionalnost** u servisu A koju korisnik ne može
 * Servis **A** poziva **`xpc_connection_get_audit_token`** dok _**nije**_ unutar **rukovaoca događajem** za vezu u **`dispatch_async`**.
 * Tako bi **druga** poruka mogla **prepisati Audit Token** jer se šalje asinhrono van rukovaoca događajem.
-* Eksploit prosleđuje **servisu B pravo SLANJA servisu A**.
+* Eksploit prosleđuje **servisu B pravo SLANJA na servis A**.
 * Tako će svc **B** zapravo **slati** **poruke** servisu **A**.
 * **Eksploit** pokušava da **pozove** **privilegovanu akciju.** U RC svc **A** **proverava** autorizaciju ove **akcije** dok **svc B prepisuje Audit token** (dajući eksploitu pristup da pozove privilegovanu akciju).
 2. Variant 2:
 * Servis **B** može pozvati **privilegovan funkcionalnost** u servisu A koju korisnik ne može
-* Eksploit se povezuje sa **servisom A** koji **šalje** eksploitu **poruku očekujući odgovor** u specifičnom **portu za odgovor**.
+* Eksploit se povezuje sa **servisom A** koji **šalje** eksploitu **poruku očekujući odgovor** na specifičnom **portu za odgovor**.
 * Eksploit šalje **servisu** B poruku prosleđujući **taj port za odgovor**.
 * Kada servis **B odgovara**, on **šalje poruku servisu A**, **dok** **eksploit** šalje drugačiju **poruku servisu A** pokušavajući da **dođe do privilegovane funkcionalnosti** i očekujući da će odgovor servisa B prepisati Audit token u savršenom trenutku (Race Condition).
 
@@ -75,7 +75,7 @@ Scenario:
 * Za ovu proveru autorizacije, **`A`** dobija audit token asinhrono, na primer pozivajući `xpc_connection_get_audit_token` iz **`dispatch_async`**.
 
 {% hint style="danger" %}
-U ovom slučaju, napadač bi mogao izazvati **Race Condition** praveći **eksploit** koji **traži od A da izvrši akciju** više puta dok **B šalje poruke `A`**. Kada je RC **uspešan**, **audit token** **B** će biti kopiran u memoriji **dok** se zahtev našeg **eksploita** obrađuje od strane A, dajući mu **pristup privilegovanoj akciji koju je samo B mogao zatražiti**.
+U ovom slučaju, napadač bi mogao izazvati **Race Condition** praveći **eksploit** koji **traži od A da izvrši akciju** nekoliko puta dok **B šalje poruke `A`**. Kada je RC **uspešan**, **audit token** **B** će biti kopiran u memoriji **dok** se zahtev našeg **eksploita** obrađuje od strane A, dajući mu **pristup privilegovanoj akciji koju je samo B mogao zatražiti**.
 {% endhint %}
 
 Ovo se dogodilo sa **`A`** kao `smd` i **`B`** kao `diagnosticd`. Funkcija [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) iz smb može se koristiti za instalaciju novog privilegovanog pomoćnog alata (kao **root**). Ako **proces koji radi kao root kontaktira** **smd**, neće se izvršiti druge provere.
@@ -86,21 +86,21 @@ Da bi se izvršio napad:
 
 1. Inicirajte **vezu** sa servisom nazvanim `smd` koristeći standardni XPC protokol.
 2. Formirajte sekundarnu **vezu** sa `diagnosticd`. Suprotno normalnoj proceduri, umesto da kreira i šalje dva nova mach porta, pravo slanja klijentskog porta se zamenjuje duplikatom **prava slanja** povezanog sa `smd` vezom.
-3. Kao rezultat, XPC poruke mogu se slati `diagnosticd`, ali odgovori iz `diagnosticd` se preusmeravaju na `smd`. Za `smd`, izgleda kao da poruke od korisnika i `diagnosticd` potiču iz iste veze.
+3. Kao rezultat, XPC poruke mogu biti poslati `diagnosticd`, ali odgovori iz `diagnosticd` se preusmeravaju na `smd`. Za `smd`, izgleda kao da poruke od korisnika i `diagnosticd` potiču iz iste veze.
 
 ![Image depicting the exploit process](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 
-4. Sledeći korak uključuje davanje instrukcija `diagnosticd` da započne praćenje odabranog procesa (potencijalno korisnikovog). Paralelno, poplava rutinskih 1004 poruka se šalje `smd`. Cilj ovde je instalirati alat sa povišenim privilegijama.
-5. Ova akcija pokreće trku uslov unutar funkcije `handle_bless`. Tajming je kritičan: poziv funkcije `xpc_connection_get_pid` mora vratiti PID korisnikovog procesa (jer se privilegovani alat nalazi u korisničkom paketu aplikacije). Međutim, funkcija `xpc_connection_get_audit_token`, posebno unutar podrutine `connection_is_authorized`, mora se pozivati na audit token koji pripada `diagnosticd`.
+4. Sledeći korak uključuje davanje instrukcija `diagnosticd` da započne praćenje odabranog procesa (potencijalno korisnikovog). Istovremeno, poplava rutinskih 1004 poruka se šalje `smd`. Cilj ovde je instalirati alat sa povišenim privilegijama.
+5. Ova akcija pokreće trku uslov unutar funkcije `handle_bless`. Vreme je ključno: poziv funkcije `xpc_connection_get_pid` mora vratiti PID korisnikovog procesa (jer se privilegovani alat nalazi u korisničkom paketu aplikacije). Međutim, funkcija `xpc_connection_get_audit_token`, posebno unutar podrutine `connection_is_authorized`, mora se pozivati na audit token koji pripada `diagnosticd`.
 
 ## Variant 2: reply forwarding
 
-U XPC (komunikacija između procesa) okruženju, iako rukovaoci događajima ne izvršavaju se konkurentno, obrada odgovarajućih poruka ima jedinstveno ponašanje. Konkretno, postoje dva različita metoda za slanje poruka koje očekuju odgovor:
+U XPC (Međuprocesna komunikacija) okruženju, iako rukovaoci događajima ne izvršavaju se konkurentno, obrada odgovarajućih poruka ima jedinstveno ponašanje. Konkretno, postoje dva različita metoda za slanje poruka koje očekuju odgovor:
 
 1. **`xpc_connection_send_message_with_reply`**: Ovde se XPC poruka prima i obrađuje na određenoj redi.
 2. **`xpc_connection_send_message_with_reply_sync`**: Suprotno tome, u ovoj metodi, XPC poruka se prima i obrađuje na trenutnoj redi za raspodelu.
 
-Ova razlika je ključna jer omogućava mogućnost da **paketi odgovora budu obrađeni konkurentno sa izvršenjem XPC rukovaoca događajem**. Važno je napomenuti da, iako `_xpc_connection_set_creds` implementira zaključavanje kako bi se zaštitilo od delimičnog prepisivanja audit tokena, ova zaštita se ne proširuje na ceo objekat veze. Kao rezultat, to stvara ranjivost gde audit token može biti zamenjen tokom intervala između obrade paketa i izvršenja njegovog rukovaoca događajem.
+Ova razlika je ključna jer omogućava mogućnost da **paketi odgovora budu obrađeni konkurentno sa izvršenjem XPC rukovaoca događajem**. Imajte na umu da, iako `_xpc_connection_set_creds` implementira zaključavanje kako bi se zaštitilo od delimičnog prepisivanja audit tokena, ova zaštita se ne proširuje na ceo objekat veze. Kao rezultat, ovo stvara ranjivost gde audit token može biti zamenjen tokom intervala između obrade paketa i izvršenja njegovog rukovaoca događajem.
 
 Da bi se iskoristila ova ranjivost, potrebna je sledeća postavka:
 
@@ -111,7 +111,7 @@ Da bi se iskoristila ova ranjivost, potrebna je sledeća postavka:
 
 Proces eksploatacije uključuje sledeće korake:
 
-1. Sačekajte da servis **`A`** pošalje poruku koja očekuje odgovor.
+1. Čekajte da servis **`A`** pošalje poruku koja očekuje odgovor.
 2. Umesto da direktno odgovara **`A`**, port za odgovor se otima i koristi za slanje poruke servisu **`B`**.
 3. Zatim se šalje poruka koja uključuje zabranjenu akciju, uz očekivanje da će biti obrađena konkurentno sa odgovorom iz **`B`**.
 
@@ -123,7 +123,7 @@ Below is a visual representation of the described attack scenario:
 
 ## Discovery Problems
 
-* **Difficulties in Locating Instances**: Pretraga za instancama korišćenja `xpc_connection_get_audit_token` bila je izazovna, kako statički tako i dinamički.
+* **Difficulties in Locating Instances**: Pretraga instanci `xpc_connection_get_audit_token` korišćenja bila je izazovna, kako statički tako i dinamički.
 * **Methodology**: Frida je korišćena za povezivanje funkcije `xpc_connection_get_audit_token`, filtrirajući pozive koji ne potiču iz rukovaoca događajem. Međutim, ova metoda je bila ograničena na povezani proces i zahtevala aktivnu upotrebu.
 * **Analysis Tooling**: Alati poput IDA/Ghidra korišćeni su za ispitivanje dostupnih mach servisa, ali je proces bio dugotrajan, otežan pozivima koji uključuju dyld deljenu keš memoriju.
 * **Scripting Limitations**: Pokušaji da se skriptuje analiza poziva `xpc_connection_get_audit_token` iz `dispatch_async` blokova bili su ometeni složenostima u analizi blokova i interakcijama sa dyld deljenom keš memorijom.

@@ -1,24 +1,24 @@
-# Proizvoljno pisanje datoteka u root
+# Arbitrary File Write to Root
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-Ova datoteka se ponaša kao **`LD_PRELOAD`** env promenljiva ali takođe radi i sa **SUID binarnim fajlovima**.\
-Ako možete da je kreirate ili modifikujete, možete jednostavno dodati **putanju do biblioteke koja će biti učitana** sa svakim izvršenim binarnim fajlom.
+Ova datoteka se ponaša kao **`LD_PRELOAD`** env varijabla, ali takođe funkcioniše u **SUID binarnim datotekama**.\
+Ako možete da je kreirate ili modifikujete, možete jednostavno dodati **putanju do biblioteke koja će biti učitana** sa svakom izvršenom binarnom datotekom.
 
 Na primer: `echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
@@ -35,11 +35,11 @@ system("/bin/bash");
 //cd /tmp
 //gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-### Git kuke
+### Git hooks
 
-[**Git kuke**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) su **skripte** koje se **pokreću** pri različitim **događajima** u git repozitorijumu, kao što je kreiranje commit-a, spajanje... Dakle, ako **privilegovani skript ili korisnik** često obavljaju ove akcije i mogu **pisati u `.git` folder**, to može biti korišćeno za **privesc**.
+[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) su **skripte** koje se **izvršavaju** na raznim **događajima** u git repozitorijumu, kao što su kada se kreira commit, merge... Dakle, ako **privilegovana skripta ili korisnik** često obavljaju ove radnje i moguće je **pisati u `.git` folder**, ovo se može iskoristiti za **privesc**.
 
-Na primer, moguće je **generisati skriptu** u git repozitorijumu u **`.git/hooks`** tako da se uvek izvršava kada je kreiran novi commit:
+Na primer, moguće je **generisati skriptu** u git repozitorijumu u **`.git/hooks`** tako da se uvek izvršava kada se kreira novi commit:
 
 {% code overflow="wrap" %}
 ```bash
@@ -48,29 +48,29 @@ chmod +x pre-commit
 ```
 {% endcode %}
 
-### Cron & Time fajlovi
+### Cron & Time files
 
 TODO
 
-### Service & Socket fajlovi
+### Service & Socket files
 
 TODO
 
 ### binfmt\_misc
 
-Fajl koji se nalazi u `/proc/sys/fs/binfmt_misc` pokazuje koji binarni fajl treba da izvrši koji tip fajlova. TODO: proveriti zahteve kako iskoristiti ovo da bi se izvršio reverzibilni shell kada je otvoren zajednički tip fajla.
+Datoteka koja se nalazi u `/proc/sys/fs/binfmt_misc` označava koji binarni fajl treba da izvrši koji tip fajlova. TODO: proveriti zahteve za zloupotrebu ovoga da se izvrši rev shell kada je otvoren uobičajen tip fajla.
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

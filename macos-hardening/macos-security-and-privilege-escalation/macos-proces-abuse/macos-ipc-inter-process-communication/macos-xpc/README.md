@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-XPC, što znači XNU (jezgro koje koristi macOS) međuprocesna komunikacija, je okvir za **komunikaciju između procesa** na macOS-u i iOS-u. XPC pruža mehanizam za **sigurne, asinhrone pozive metoda između različitih procesa** na sistemu. To je deo Apple-ove sigurnosne paradigme, koja omogućava **kreiranje aplikacija sa odvojenim privilegijama** gde svaki **komponent** radi sa **samo onim dozvolama koje su mu potrebne** da obavi svoj posao, čime se ograničava potencijalna šteta od kompromitovanog procesa.
+XPC, što je skraćenica za XNU (jezgro koje koristi macOS) međuprocesna komunikacija, je okvir za **komunikaciju između procesa** na macOS-u i iOS-u. XPC pruža mehanizam za **sigurne, asinhrone pozive metoda između različitih procesa** na sistemu. To je deo Apple-ove sigurnosne paradigme, koja omogućava **kreiranje aplikacija sa odvojenim privilegijama** gde svaki **komponent** radi sa **samo onim dozvolama koje su mu potrebne** da obavi svoj posao, čime se ograničava potencijalna šteta od kompromitovanog procesa.
 
 XPC koristi oblik međuprocesne komunikacije (IPC), što je skup metoda za različite programe koji rade na istom sistemu da šalju podatke napred-nazad.
 
 Primarne prednosti XPC-a uključuju:
 
-1. **Sigurnost**: Razdvajanjem posla u različite procese, svaki proces može dobiti samo one dozvole koje su mu potrebne. To znači da čak i ako je proces kompromitovan, ima ograničenu sposobnost da nanese štetu.
+1. **Sigurnost**: Razdvajanjem posla u različite procese, svaki proces može dobiti samo dozvole koje su mu potrebne. To znači da čak i ako je proces kompromitovan, ima ograničenu sposobnost da nanese štetu.
 2. **Stabilnost**: XPC pomaže da se srušavanja izoluju na komponentu gde se dešavaju. Ako proces padne, može se ponovo pokrenuti bez uticaja na ostatak sistema.
 3. **Performanse**: XPC omogućava laku konkurentnost, jer se različiti zadaci mogu izvoditi istovremeno u različitim procesima.
 
@@ -35,7 +35,7 @@ XPC komponente aplikacije su **unutar same aplikacije.** Na primer, u Safariju i
 
 Kao što možda mislite, **XPC komponenta će imati različite privilegije i ovlašćenja** od drugih XPC komponenti ili glavnog binarnog fajla aplikacije. OSIM ako je XPC usluga konfigurisana sa [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) postavljenim na “True” u svom **Info.plist** fajlu. U ovom slučaju, XPC usluga će raditi u **istoim sigurnosnoj sesiji kao aplikacija** koja je pozvala.
 
-XPC usluge se **pokreću** od strane **launchd** kada je to potrebno i **zatvaraju** se kada su svi zadaci **završeni** kako bi se oslobodili sistemski resursi. **Komponente XPC specifične za aplikaciju mogu koristiti samo aplikacija**, čime se smanjuje rizik povezan sa potencijalnim ranjivostima.
+XPC usluge se **pokreću** od strane **launchd** kada je to potrebno i **zatvaraju** se kada su svi zadaci **završeni** kako bi se oslobodili sistemski resursi. **Specifične XPC komponente aplikacije mogu koristiti samo aplikacija**, čime se smanjuje rizik povezan sa potencijalnim ranjivostima.
 
 ## System Wide XPC services
 
@@ -85,8 +85,8 @@ Svaka XPC poruka je objekat rečnika koji pojednostavljuje serijalizaciju i dese
 Pored toga, funkcija `xpc_copy_description(object)` može se koristiti za dobijanje string reprezentacije objekta koja može biti korisna za svrhe debagovanja.\
 Ovi objekti takođe imaju neke metode koje se mogu pozvati kao što su `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
 
-`xpc_object_t` se kreiraju pozivanjem `xpc_<objetType>_create` funkcije, koja interno poziva `_xpc_base_create(Class, Size)` gde se navodi tip klase objekta (jedan od `XPC_TYPE_*`) i veličina objekta (neka dodatna 40B će biti dodata veličini za metapodatke). Što znači da će podaci objekta početi na offsetu 40B.\
-Dakle, `xpc_<objectType>_t` je neka vrsta podklase `xpc_object_t` koja bi bila podklasa `os_object_t*`.
+`xpc_object_t` se kreiraju pozivanjem `xpc_<objetType>_create` funkcije, koja interno poziva `_xpc_base_create(Class, Size)` gde se navodi tip klase objekta (jedan od `XPC_TYPE_*`) i veličina (neka dodatna 40B će biti dodata veličini za metapodatke). Što znači da će podaci objekta početi na offsetu 40B.\
+Stoga, `xpc_<objectType>_t` je neka vrsta podklase `xpc_object_t` koja bi bila podklasa `os_object_t*`.
 
 {% hint style="warning" %}
 Napomena da bi developer trebao koristiti `xpc_dictionary_[get/set]_<objectType>` da dobije ili postavi tip i stvarnu vrednost ključa.
@@ -95,11 +95,11 @@ Napomena da bi developer trebao koristiti `xpc_dictionary_[get/set]_<objectType>
 * **`xpc_pipe`**
 
 **`xpc_pipe`** je FIFO cev koju procesi mogu koristiti za komunikaciju (komunikacija koristi Mach poruke).\
-Moguće je kreirati XPC server pozivom `xpc_pipe_create()` ili `xpc_pipe_create_from_port()` da bi se kreirao koristeći specifičnu Mach port. Zatim, da bi primili poruke, moguće je pozvati `xpc_pipe_receive` i `xpc_pipe_try_receive`.
+Moguće je kreirati XPC server pozivajući `xpc_pipe_create()` ili `xpc_pipe_create_from_port()` da ga kreirate koristeći specifičnu Mach port. Zatim, da primite poruke, moguće je pozvati `xpc_pipe_receive` i `xpc_pipe_try_receive`.
 
-Napomena da je objekat **`xpc_pipe`** **`xpc_object_t`** sa informacijama u svojoj strukturi o dva korišćena Mach porta i imenu (ako postoji). Ime, na primer, demon `secinitd` u svom plist-u `/System/Library/LaunchDaemons/com.apple.secinitd.plist` konfiguriše cev nazvanu `com.apple.secinitd`.
+Napomena da je objekat **`xpc_pipe`** **`xpc_object_t`** sa informacijama u svojoj strukturi o dva korišćena Mach porta i imenu (ako postoji). Ime, na primer, daemon `secinitd` u svom plist-u `/System/Library/LaunchDaemons/com.apple.secinitd.plist` konfiguriše cev nazvanu `com.apple.secinitd`.
 
-Primer **`xpc_pipe`** je **bootstrap pipe** koju kreira **`launchd`** čime se omogućava deljenje Mach portova.
+Primer **`xpc_pipe`** je **bootstrap pip**e koju kreira **`launchd`** čime se omogućava deljenje Mach portova.
 
 * **`NSXPC*`**
 
@@ -113,44 +113,44 @@ XPC koristi GCD za slanje poruka, štaviše generiše određene redove za raspor
 ## XPC Servisi
 
 Ovo su **paketi sa `.xpc`** ekstenzijom smešteni unutar **`XPCServices`** foldera drugih projekata i u `Info.plist` imaju `CFBundlePackageType` postavljen na **`XPC!`**.\
-Ovaj fajl ima druge konfiguracione ključeve kao što su `ServiceType` koji može biti Application, User, System ili `_SandboxProfile` koji može definisati sandbox ili `_AllowedClients` koji može ukazivati na prava ili ID potrebne za kontaktiranje servisa. Ove i druge konfiguracione opcije će biti korisne za konfiguraciju servisa prilikom pokretanja.
+Ovaj fajl ima druge konfiguracione ključeve kao što su `ServiceType` koji može biti Aplikacija, Korisnik, Sistem ili `_SandboxProfile` koji može definisati sandbox ili `_AllowedClients` koji može ukazivati na prava ili ID potrebne za kontaktiranje servisa. Ove i druge konfiguracione opcije će biti korisne za konfiguraciju servisa prilikom pokretanja.
 
 ### Pokretanje Servisa
 
-Aplikacija pokušava da **poveže** sa XPC servisom koristeći `xpc_connection_create_mach_service`, zatim launchd locira demon i pokreće **`xpcproxy`**. **`xpcproxy`** sprovodi konfigurisana ograničenja i pokreće servis sa obezbeđenim FDs i Mach portovima.
+Aplikacija pokušava da **poveže** sa XPC servisom koristeći `xpc_connection_create_mach_service`, zatim launchd locira daemon i pokreće **`xpcproxy`**. **`xpcproxy`** sprovodi konfigurisana ograničenja i pokreće servis sa obezbeđenim FDs i Mach portovima.
 
-Da bi se poboljšala brzina pretrage XPC servisa, koristi se keš.
+Kako bi se poboljšala brzina pretrage XPC servisa, koristi se keš.
 
 Moguće je pratiti akcije `xpcproxy` koristeći:
 ```bash
 supraudit S -C -o /tmp/output /dev/auditpipe
 ```
-XPC biblioteka koristi `kdebug` za logovanje akcija pozivajući `xpc_ktrace_pid0` i `xpc_ktrace_pid1`. Kodovi koje koristi nisu dokumentovani, pa je potrebno dodati ih u `/usr/share/misc/trace.codes`. Imaju prefiks `0x29`, a na primer jedan je `0x29000004`: `XPC_serializer_pack`.\
-Utiliti `xpcproxy` koristi prefiks `0x22`, na primer: `0x2200001c: xpcproxy:will_do_preexec`.
+XPC библиотека користи `kdebug` за логовање акција позивајући `xpc_ktrace_pid0` и `xpc_ktrace_pid1`. Кодови које користи нису документовани, па је потребно додати их у `/usr/share/misc/trace.codes`. Имају префикс `0x29`, а на пример један је `0x29000004`: `XPC_serializer_pack`.\
+Утилита `xpcproxy` користи префикс `0x22`, на пример: `0x2200001c: xpcproxy:will_do_preexec`.
 
-## XPC Event Messages
+## XPC Догађајне Поруке
 
-Aplikacije mogu **pretplatiti** na različite događaje **poruke**, omogućavajući im da budu **inicirane na zahtev** kada se takvi događaji dogode. **Podešavanje** za ove usluge se vrši u **launchd plist datotekama**, smeštenim u **iste direktorijume kao prethodne** i sadrže dodatni **`LaunchEvent`** ključ.
+Апликације могу **пријавити** различите догађајне **поруке**, омогућавајући им да буду **инициране на захтев** када се такви догађаји догоде. **Подешавање** за ове услуге се ради у **launchd plist датотекама**, смештеним у **истим директоријумима као и претходне** и садрже додатни **`LaunchEvent`** кључ.
 
-### XPC Connecting Process Check
+### XPC Провера Процеса Повезивања
 
-Kada proces pokuša da pozove metodu putem XPC veze, **XPC usluga treba da proveri da li je taj proces dozvoljen da se poveže**. Evo uobičajenih načina da se to proveri i uobičajenih zamki:
+Када процес покуша да позове методу преко XPC везе, **XPC услуга треба да провери да ли је том процесу дозвољено да се повеже**. Ево уобичајених начина да се то провери и уобичајених замки:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## XPC Authorization
+## XPC Овлашћење
 
-Apple takođe omogućava aplikacijama da **konfigurišu neka prava i kako ih dobiti**, tako da ako pozivajući proces ima ta prava, biće **dozvoljeno da pozove metodu** iz XPC usluge:
+Apple такође омогућава апликацијама да **конфигуришу нека права и како их добити**, тако да ако позивни процес има та права, биће **дозвољено да позове методу** из XPC услуге:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC Sniffer
+## XPC Снифер
 
-Da biste presreli XPC poruke, možete koristiti [**xpcspy**](https://github.com/hot3eed/xpcspy) koji koristi **Frida**.
+Да бисте прислушкивали XPC поруке, можете користити [**xpcspy**](https://github.com/hot3eed/xpcspy) који користи **Frida**.
 ```bash
 # Install
 pip3 install xpcspy
@@ -295,7 +295,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPC komunikacija Primer Objective-C koda
+## XPC Communication Objective-C Code Example
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -454,13 +454,13 @@ return;
 ## Remote XPC
 
 Ova funkcionalnost koju pruža `RemoteXPC.framework` (iz `libxpc`) omogućava komunikaciju putem XPC između različitih hostova.\
-Servisi koji podržavaju daljinski XPC će imati u svom plist ključ UsesRemoteXPC kao što je slučaj sa `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Međutim, iako će servis biti registrovan sa `launchd`, to je `UserEventAgent` sa pluginovima `com.apple.remoted.plugin` i `com.apple.remoteservicediscovery.events.plugin` koji pruža funkcionalnost.
+Usluge koje podržavaju daljinski XPC će imati u svom plist ključ UsesRemoteXPC kao što je slučaj sa `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Međutim, iako će usluga biti registrovana sa `launchd`, to je `UserEventAgent` sa pluginovima `com.apple.remoted.plugin` i `com.apple.remoteservicediscovery.events.plugin` koji pruža funkcionalnost.
 
 Štaviše, `RemoteServiceDiscovery.framework` omogućava dobijanje informacija iz `com.apple.remoted.plugin` izlažući funkcije kao što su `get_device`, `get_unique_device`, `connect`...
 
-Kada se koristi connect i socket `fd` servisa se prikupi, moguće je koristiti klasu `remote_xpc_connection_*`.
+Kada se koristi connect i socket `fd` usluge se prikupi, moguće je koristiti klasu `remote_xpc_connection_*`.
 
-Moguće je dobiti informacije o daljinskim servisima koristeći cli alat `/usr/libexec/remotectl` koristeći parametre kao:
+Moguće je dobiti informacije o daljinskim uslugama koristeći cli alat `/usr/libexec/remotectl` koristeći parametre kao:
 ```bash
 /usr/libexec/remotectl list # Get bridge devices
 /usr/libexec/remotectl show ...# Get device properties and services
@@ -469,7 +469,7 @@ Moguće je dobiti informacije o daljinskim servisima koristeći cli alat `/usr/l
 ...
 ```
 Komunikacija između BridgeOS-a i hosta se odvija putem posvećenog IPv6 interfejsa. `MultiverseSupport.framework` omogućava uspostavljanje soketa čiji će `fd` biti korišćen za komunikaciju.\
-Moguće je pronaći te komunikacije koristeći `netstat`, `nettop` ili otvorenu opciju, `netbottom`.
+Moguće je pronaći ove komunikacije koristeći `netstat`, `nettop` ili otvorenu opciju, `netbottom`.
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

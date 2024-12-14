@@ -1,63 +1,63 @@
 # macOS GCD - Grand Central Dispatch
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Osnovne informacije
+## Basic Information
 
-**Grand Central Dispatch (GCD),** takođe poznat kao **libdispatch** (`libdispatch.dyld`), dostupan je i na macOS-u i iOS-u. To je tehnologija koju je Apple razvio kako bi optimizovao podršku aplikacija za konkurentno (višenitno) izvršavanje na višejezgarnom hardveru.
+**Grand Central Dispatch (GCD),** poznat i kao **libdispatch** (`libdispatch.dyld`), dostupan je i na macOS i na iOS. To je tehnologija koju je razvila Apple kako bi optimizovala podršku aplikacijama za konkurentno (multithreaded) izvršavanje na višekore hardveru.
 
-**GCD** obezbeđuje i upravlja **FIFO redovima** u koje vaša aplikacija može **podneti zadatke** u obliku **blok objekata**. Blokovi podneti dispečerskim redovima se **izvršavaju na skupu niti** potpuno upravljanih od strane sistema. GCD automatski kreira niti za izvršavanje zadataka u dispečerskim redovima i raspoređuje te zadatke da se izvrše na dostupnim jezgrima.
+**GCD** pruža i upravlja **FIFO redovima** u koje vaša aplikacija može **slati zadatke** u obliku **blok objekata**. Blokovi poslati u redove za dispatch se **izvršavaju na skupu niti** koje u potpunosti upravlja sistem. GCD automatski kreira niti za izvršavanje zadataka u redovima za dispatch i zakazuje te zadatke da se izvrše na dostupnim jezgrama.
 
 {% hint style="success" %}
-U suštini, da bi se izvršio kod **paralelno**, procesi mogu poslati **blokove koda GCD-u**, koji će se pobrinuti za njihovo izvršavanje. Dakle, procesi ne stvaraju nove niti; **GCD izvršava dati kod sa svojim sopstvenim skupom niti** (koji se može povećati ili smanjiti po potrebi).
+Ukratko, da bi se izvršio kod u **paraleli**, procesi mogu slati **blokove koda GCD-u**, koji će se pobrinuti za njihovo izvršavanje. Stoga, procesi ne kreiraju nove niti; **GCD izvršava dati kod sa svojim sopstvenim skupom niti** (koji se može povećavati ili smanjivati po potrebi).
 {% endhint %}
 
-Ovo je veoma korisno za uspešno upravljanje paralelnim izvršavanjem, značajno smanjujući broj niti koje procesi kreiraju i optimizujući paralelno izvršavanje. Ovo je idealno za zadatke koji zahtevaju **veliku paralelnost** (bruteforcing?) ili za zadatke koji ne bi trebalo da blokiraju glavnu nit: Na primer, glavna nit na iOS-u upravlja interakcijama sa korisničkim interfejsom, pa se na ovaj način upravlja svaka druga funkcionalnost koja bi mogla da učini da aplikacija zastane (pretraga, pristup vebu, čitanje fajla...).
+Ovo je veoma korisno za uspešno upravljanje paralelnim izvršavanjem, značajno smanjujući broj niti koje procesi kreiraju i optimizujući paralelno izvršavanje. Ovo je idealno za zadatke koji zahtevaju **veliki paralelizam** (brute-forcing?) ili za zadatke koji ne bi trebali blokirati glavnu nit: Na primer, glavna nit na iOS-u upravlja UI interakcijama, tako da se svaka druga funkcionalnost koja bi mogla da uzrokuje zamrzavanje aplikacije (pretraga, pristup vebu, čitanje datoteke...) upravlja na ovaj način.
 
-### Blokovi
+### Blocks
 
-Blok je **samo-sadržani deo koda** (kao funkcija sa argumentima koji vraćaju vrednost) i može takođe specificirati vezane promenljive.\
-Međutim, na nivou kompajlera blokovi ne postoje, oni su `os_object`-i. Svaki od ovih objekata se sastoji od dve strukture:
+Blok je **samostalna sekcija koda** (poput funkcije sa argumentima koja vraća vrednost) i može takođe specificirati vezane promenljive.\
+Međutim, na nivou kompajlera blokovi ne postoje, oni su `os_object`s. Svaki od ovih objekata se sastoji od dve strukture:
 
-* **blok literal**:&#x20;
-* Počinje sa poljem **`isa`**, koje pokazuje na klasu bloka:
+* **block literal**:&#x20;
+* Počinje sa **`isa`** poljem, koje pokazuje na klasu bloka:
 * `NSConcreteGlobalBlock` (blokovi iz `__DATA.__const`)
-* `NSConcreteMallocBlock` (blokovi u hipu)
-* `NSConcreateStackBlock` (blokovi na steku)
-* Ima **`flags`** (koji ukazuju na polja prisutna u opisu bloka) i nekoliko rezervisanih bajtova
+* `NSConcreteMallocBlock` (blokovi u heap-u)
+* `NSConcreateStackBlock` (blokovi u steku)
+* Ima **`flags`** (koji označavaju polja prisutna u opisu bloka) i nekoliko rezervisanih bajtova
 * Pokazivač na funkciju koja se poziva
 * Pokazivač na opis bloka
-* Uvezeni blokovi promenljivih (ako ih ima)
-* **opis bloka**: Njegova veličina zavisi od podataka koji su prisutni (kako je naznačeno u prethodnim zastavicama)
+* Uvezene promenljive bloka (ako ih ima)
+* **block descriptor**: Njegova veličina zavisi od podataka koji su prisutni (kako je naznačeno u prethodnim flagovima)
 * Ima nekoliko rezervisanih bajtova
-* Veličina
-* Obično će imati pokazivač na potpis u stilu Objective-C da bi se znalo koliko prostora je potrebno za parametre (zastava `BLOCK_HAS_SIGNATURE`)
-* Ako se referišu promenljive, ovaj blok će takođe imati pokazivače na pomoćnika za kopiranje (kopiranje vrednosti na početku) i pomoćnika za oslobađanje (oslobađanje).
+* Njegova veličina
+* Obično će imati pokazivač na Objective-C stil potpis kako bi znao koliko prostora je potrebno za parametre (flag `BLOCK_HAS_SIGNATURE`)
+* Ako su promenljive referencirane, ovaj blok će takođe imati pokazivače na pomoćnika za kopiranje (kopiranje vrednosti na početku) i pomoćnika za oslobađanje (oslobađanje).
 
-### Redovi
+### Queues
 
-Dispečerski red je nazivani objekat koji obezbeđuje FIFO redosled blokova za izvršavanje.
+Red za dispatch je imenovani objekat koji pruža FIFO redosled blokova za izvršavanje.
 
-Blokovi se postavljaju u redove da bi se izvršili, i oni podržavaju 2 moda: `DISPATCH_QUEUE_SERIAL` i `DISPATCH_QUEUE_CONCURRENT`. Naravno, **serijski** neće imati probleme sa trkom za resursima jer blok neće biti izvršen dok prethodni ne završi. Ali **drugi tip reda može imati**.
+Blokovi se postavljaju u redove za izvršavanje, a ovi podržavaju 2 moda: `DISPATCH_QUEUE_SERIAL` i `DISPATCH_QUEUE_CONCURRENT`. Naravno, **serijski** neće imati probleme sa trkačkim uslovima jer blok neće biti izvršen dok prethodni ne završi. Ali **drugi tip reda može imati**.
 
-Podrazumevani redovi:
+Podrazumevajući redovi:
 
 * `.main-thread`: Iz `dispatch_get_main_queue()`
-* `.libdispatch-manager`: Menadžer redova GCD-a
-* `.root.libdispatch-manager`: Menadžer redova GCD-a
+* `.libdispatch-manager`: GCD-ov menadžer redova
+* `.root.libdispatch-manager`: GCD-ov menadžer redova
 * `.root.maintenance-qos`: Zadaci najniže prioriteta
 * `.root.maintenance-qos.overcommit`
 * `.root.background-qos`: Dostupno kao `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
@@ -71,37 +71,37 @@ Podrazumevani redovi:
 * `.root.user-interactive-qos`: Najviši prioritet
 * `.root.background-qos.overcommit`
 
-Primetite da će sistem odlučiti **koje niti rukuju kojim redovima u svakom trenutku** (više niti može raditi u istom redu ili ista nit može raditi u različitim redovima u nekom trenutku)
+Primetite da će sistem odlučiti **koje niti upravljaju kojim redovima u svakom trenutku** (više niti može raditi u istom redu ili ista nit može raditi u različitim redovima u nekom trenutku)
 
-#### Atributi
+#### Attributtes
 
-Prilikom kreiranja reda sa **`dispatch_queue_create`** treći argument je `dispatch_queue_attr_t`, koji obično može biti ili `DISPATCH_QUEUE_SERIAL` (što je zapravo NULL) ili `DISPATCH_QUEUE_CONCURRENT` koji je pokazivač na strukturu `dispatch_queue_attr_t` koja omogućava kontrolu nekih parametara reda.
+Kada kreirate red sa **`dispatch_queue_create`** treći argument je `dispatch_queue_attr_t`, koji obično može biti ili `DISPATCH_QUEUE_SERIAL` (što je zapravo NULL) ili `DISPATCH_QUEUE_CONCURRENT` koji je pokazivač na `dispatch_queue_attr_t` strukturu koja omogućava kontrolu nekih parametara reda.
 
-### Dispečerski objekti
+### Dispatch objects
 
-Postoji nekoliko objekata koje libdispatch koristi i redovi i blokovi su samo 2 od njih. Moguće je kreirati ove objekte sa `dispatch_object_create`:
+Postoji nekoliko objekata koje libdispatch koristi, a redovi i blokovi su samo 2 od njih. Moguće je kreirati ove objekte sa `dispatch_object_create`:
 
-* `blok`
+* `block`
 * `data`: Blokovi podataka
-* `grupa`: Grupa blokova
+* `group`: Grupa blokova
 * `io`: Asinhroni I/O zahtevi
 * `mach`: Mach portovi
 * `mach_msg`: Mach poruke
-* `pthread_root_queue`: Red sa pthread baziranim bazenom niti i ne radnim redovima
-* `red`
-* `semafor`
-* `izvor`: Izvor događaja
+* `pthread_root_queue`: Red sa pthread nitnim bazenom, a ne radnim redovima
+* `queue`
+* `semaphore`
+* `source`: Izvor događaja
 
 ## Objective-C
 
-U Objective-C-u postoje različite funkcije za slanje bloka da se izvrši paralelno:
+U Objective-C postoje različite funkcije za slanje bloka na izvršavanje u paraleli:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Podnosi blok za asinhrono izvršavanje na dispečerskom redu i odmah se vraća.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Podnosi blok za izvršavanje i vraća se nakon što se taj blok završi sa izvršavanjem.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Izvršava blok samo jednom za vreme trajanja aplikacije.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Podnosi radnu stavku za izvršavanje i vraća se tek nakon što se završi izvršavanje. Za razliku od [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), ova funkcija poštuje sve atribute reda kada izvršava blok.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Podnosi blok za asinhrono izvršavanje na redu za dispatch i odmah se vraća.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Podnosi blok objekat za izvršavanje i vraća se nakon što taj blok završi sa izvršavanjem.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Izvršava blok objekat samo jednom tokom trajanja aplikacije.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Podnosi radni predmet za izvršavanje i vraća se samo nakon što završi sa izvršavanjem. Za razliku od [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), ova funkcija poštuje sve atribute reda kada izvršava blok.
 
-Ove funkcije očekuju ove parametre: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
+Ove funkcije očekuju sledeće parametre: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
 Ovo je **struktura Bloka**:
 ```c
@@ -146,8 +146,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** je biblioteka koja pruža **Swift veze** sa Grand Central Dispatch (GCD) okvirom koji je originalno napisan u C jeziku.\
-Biblioteka **`libswiftDispatch`** omotava C GCD API-je u interfejs koji je prijateljskiji za Swift, čineći ga lakšim i intuitivnijim za rad sa GCD-om.
+**`libswiftDispatch`** je biblioteka koja pruža **Swift vezu** sa Grand Central Dispatch (GCD) okvirom koji je prvobitno napisan u C.\
+Biblioteka **`libswiftDispatch`** obavija C GCD API-je u više Swift-prijateljski interfejs, olakšavajući i čineći intuitivnijim za Swift programere rad sa GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -184,7 +184,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Sledeći Frida skript može se koristiti za **povezivanje na nekoliko `dispatch`** funkcija i izvlačenje imena reda, steka poziva i bloka: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Sledeći Frida skript može se koristiti za **hook-ovanje u nekoliko `dispatch`** funkcija i ekstrakciju imena reda, backtrace-a i bloka: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -199,9 +199,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Trenutno Ghidra ne razume ni strukturu ObjectiveC **`dispatch_block_t`**, ni **`swift_dispatch_block`**.
+Trenutno Ghidra ne razume ni ObjectiveC **`dispatch_block_t`** strukturu, ni **`swift_dispatch_block`**.
 
-Dakle, ako želite da ih razume, jednostavno ih možete **deklarisati**:
+Dakle, ako želite da je razume, možete jednostavno **deklarisati**:
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -209,15 +209,15 @@ Dakle, ako želite da ih razume, jednostavno ih možete **deklarisati**:
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Zatim pronađite mesto u kodu gde se oni **koriste**:
+Zatim, pronađite mesto u kodu gde se **koriste**:
 
 {% hint style="success" %}
-Zabeležite sve reference na "block" kako biste razumeli kako možete utvrditi da se struktura koristi.
+Zabeležite sve reference na "block" da biste razumeli kako možete da shvatite da se struktura koristi.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Desni klik na promenljivu -> Promeni tip promenljive i izaberite u ovom slučaju **`swift_dispatch_block`**:
+Desni klik na promenljivu -> Ponovno definiši promenljivu i izaberite u ovom slučaju **`swift_dispatch_block`**:
 
 <figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -225,6 +225,21 @@ Ghidra će automatski prepraviti sve:
 
 <figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Reference
+## References
 
 * [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

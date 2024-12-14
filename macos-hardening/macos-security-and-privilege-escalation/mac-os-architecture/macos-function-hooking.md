@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Interpozicija funkcija
 
-Kreirajte **dylib** sa **`__interpose`** sekcijom (ili sekcijom označenom sa **`S_INTERPOSING`**) koja sadrži parove **pokazivača na funkcije** koji se odnose na **originalne** i **zamenske** funkcije.
+Kreirajte **dylib** sa **`__interpose`** sekcijom (ili sekcijom označenom sa **`S_INTERPOSING`**) koja sadrži parove **pokazivača na funkcije** koje se odnose na **originalne** i **zamenske** funkcije.
 
 Zatim, **ubacite** dylib sa **`DYLD_INSERT_LIBRARIES`** (interpozicija treba da se desi pre nego što se glavna aplikacija učita). Očigledno, [**ograničenja** koja se primenjuju na korišćenje **`DYLD_INSERT_LIBRARIES`** važe i ovde](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
@@ -103,12 +103,12 @@ Objekat je **`someObject`**, metoda je **`@selector(method1p1:p2:)`**, a argumen
 Prateći strukture objekata, moguće je doći do **niza metoda** gde su **imena** i **pokazivači** na kod metoda **locirani**.
 
 {% hint style="danger" %}
-Napomena: pošto se metode i klase pristupaju na osnovu njihovih imena, ove informacije se čuvaju u binarnom formatu, tako da je moguće povući ih sa `otool -ov </path/bin>` ili [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Napomena: pošto se metode i klase pristupaju na osnovu njihovih imena, ove informacije se čuvaju u binarnom formatu, tako da je moguće povući ih pomoću `otool -ov </path/bin>` ili [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
-### Accessing the raw methods
+### Pristupanje sirovim metodama
 
-Moguće je pristupiti informacijama o metodama kao što su ime, broj parametara ili adresa kao u sledećem primeru:
+Moguće je pristupiti informacijama o metodama kao što su ime, broj parametara ili adresa, kao u sledećem primeru:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -179,7 +179,7 @@ return 0;
 Funkcija **`method_exchangeImplementations`** omogućava da se **promeni** **adresa** **implementacije** **jedne funkcije za drugu**.
 
 {% hint style="danger" %}
-Dakle, kada se funkcija pozove, ono što je **izvršeno je drugo**.
+Dakle, kada se funkcija pozove, ono što se **izvršava je druga funkcija**.
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -225,12 +225,12 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-U ovom slučaju, ako **implementacija koda legitimne** metode **proverava** **ime** **metode**, mogla bi **otkriti** ovo swizzling i sprečiti njegovo izvršavanje.
+U ovom slučaju, ako **implementacija koda legitimne** metode **proverava** **ime** **metode**, mogla bi **otkriti** ovo prebacivanje i sprečiti njegovo izvršavanje.
 
 Sledeća tehnika nema ovo ograničenje.
 {% endhint %}
 
-### Method Swizzling with method\_setImplementation
+### Prebacivanje metoda sa method\_setImplementation
 
 Prethodni format je čudan jer menjate implementaciju 2 metode jednu za drugu. Koristeći funkciju **`method_setImplementation`**, možete **promeniti** **implementaciju** **metode za drugu**.
 
@@ -292,11 +292,11 @@ Na ovoj stranici su diskutovani različiti načini za hook-ovanje funkcija. Međ
 
 Da bi se to postiglo, najlakša tehnika koja se može koristiti je injekcija [Dyld putem promenljivih okruženja ili otmice](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Međutim, pretpostavljam da se to takođe može uraditi putem [Dylib procesne injekcije](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
-Međutim, obe opcije su **ograničene** na **nezaštićene** binarne/procese. Proverite svaku tehniku da biste saznali više o ograničenjima.
+Međutim, obe opcije su **ograničene** na **nezaštićene** binarne datoteke/procese. Proverite svaku tehniku da biste saznali više o ograničenjima.
 
-Međutim, napad putem hook-ovanja funkcija je veoma specifičan, napadač će to uraditi da bi **ukrao osetljive informacije iznutra procesa** (ako ne, jednostavno biste uradili napad injekcijom procesa). A te osetljive informacije mogu biti smeštene u aplikacijama preuzetim od strane korisnika, kao što je MacPass.
+Međutim, napad putem hook-ovanja funkcija je veoma specifičan, napadač će to uraditi da bi **ukrao osetljive informacije iznutra procesa** (ako ne, jednostavno biste uradili napad injekcijom procesa). A te osetljive informacije mogu biti smeštene u aplikacijama preuzetim od strane korisnika kao što je MacPass.
 
-Dakle, vektor napadača bi bio da pronađe ranjivost ili ukloni potpis aplikacije, injektuje **`DYLD_INSERT_LIBRARIES`** env promenljivu kroz Info.plist aplikacije dodajući nešto poput:
+Dakle, vektor napadača bi bio da pronađe ranjivost ili da ukloni potpis aplikacije, injektuje **`DYLD_INSERT_LIBRARIES`** env promenljivu kroz Info.plist aplikacije dodajući nešto poput:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -315,7 +315,7 @@ Dakle, vektor napadača bi bio da pronađe ranjivost ili ukloni potpis aplikacij
 Dodajte u tu biblioteku kod za hooking kako biste eksfiltrirali informacije: Lozinke, poruke...
 
 {% hint style="danger" %}
-Imajte na umu da u novijim verzijama macOS-a, ako **uklonite potpis** aplikacionog binarnog fajla i ako je prethodno bio izvršen, macOS **neće više izvršavati aplikaciju**.
+Imajte na umu da u novijim verzijama macOS-a, ako **uklonite potpis** aplikacionog binarnog fajla i ako je prethodno izvršen, macOS **neće više izvršavati aplikaciju**.
 {% endhint %}
 
 #### Primer biblioteke

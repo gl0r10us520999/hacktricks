@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-AppArmor je **poboljšanje jezgra dizajnirano da ograniči resurse dostupne programima kroz profile po programu**, efikasno implementirajući Obaveznu Kontrolu Pristupa (MAC) vezivanjem atributa kontrole pristupa direktno za programe umesto za korisnike. Ovaj sistem funkcioniše tako što **učitava profile u jezgro**, obično tokom pokretanja, a ovi profili određuju koje resurse program može da pristupi, kao što su mrežne veze, pristup sirovim soketima i dozvole za datoteke.
+AppArmor je **poboljšanje jezgra dizajnirano da ograniči resurse dostupne programima kroz profile po programu**, efikasno implementirajući Obaveznu Kontrolu Pristupa (MAC) vezivanjem atributa kontrole pristupa direktno za programe umesto za korisnike. Ovaj sistem funkcioniše tako što **učitava profile u jezgro**, obično tokom pokretanja, a ovi profili diktiraju koje resurse program može da pristupi, kao što su mrežne veze, pristup sirovim soketima i dozvole za datoteke.
 
 Postoje dva operativna moda za AppArmor profile:
 
-* **Režim sprovođenja**: Ovaj režim aktivno sprovodi politike definisane unutar profila, blokirajući radnje koje krše te politike i beležeći sve pokušaje da ih prekrše kroz sisteme kao što su syslog ili auditd.
+* **Režim sprovođenja**: Ovaj režim aktivno sprovodi politike definisane unutar profila, blokirajući radnje koje krše te politike i beležeći sve pokušaje da ih se prekrši kroz sisteme kao što su syslog ili auditd.
 * **Režim žalbe**: Za razliku od režima sprovođenja, režim žalbe ne blokira radnje koje su protiv politike profila. Umesto toga, beleži ove pokušaje kao kršenja politike bez sprovođenja ograničenja.
 
 ### Components of AppArmor
@@ -54,19 +54,19 @@ aa-mergeprof  #used to merge the policies
 * Da biste označili pristup koji će binarni fajl imati nad **fajlovima**, mogu se koristiti sledeće **kontrole pristupa**:
 * **r** (čitati)
 * **w** (pisati)
-* **m** (mapiranje u memoriju kao izvršno)
+* **m** (mapiranje memorije kao izvršno)
 * **k** (zaključavanje fajlova)
 * **l** (kreiranje tvrdih linkova)
 * **ix** (izvršiti drugi program sa novim programom koji nasleđuje politiku)
 * **Px** (izvršiti pod drugim profilom, nakon čišćenja okruženja)
-* **Cx** (izvršiti pod profilom deteta, nakon čišćenja okruženja)
+* **Cx** (izvršiti pod detetom profilom, nakon čišćenja okruženja)
 * **Ux** (izvršiti bez ograničenja, nakon čišćenja okruženja)
 * **Promenljive** se mogu definisati u profilima i mogu se manipulisati izvan profila. Na primer: @{PROC} i @{HOME} (dodajte #include \<tunables/global> u fajl profila)
 * **Pravila odbijanja su podržana da bi nadjačala pravila dozvole**.
 
 ### aa-genprof
 
-Da biste lako započeli kreiranje profila, apparmor vam može pomoći. Moguće je da **apparmor ispita radnje koje izvršava binarni fajl i zatim vam omogući da odlučite koje radnje želite da dozvolite ili odbijete**.\
+Da biste lako započeli kreiranje profila, apparmor vam može pomoći. Moguće je da **apparmor ispita radnje koje izvršni fajl obavlja i zatim vam omogući da odlučite koje radnje želite da dozvolite ili odbijete**.\
 Samo treba da pokrenete:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -136,7 +136,7 @@ apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
 ## Logs
 
-Primer **AUDIT** i **DENIED** logova iz _/var/log/audit/audit.log_ izvršnog fajla **`service_bin`**:
+Primer **AUDIT** i **DENIED** logova iz _/var/log/audit/audit.log_ izvršnog **`service_bin`**:
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
@@ -161,7 +161,7 @@ For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
 ## Apparmor u Dockeru
 
-Napomena kako se profil **docker-profile** dockera učitava po defaultu:
+Obratite pažnju na to kako se profil **docker-profile** dockera učitava po defaultu:
 ```bash
 sudo aa-status
 apparmor module is loaded.

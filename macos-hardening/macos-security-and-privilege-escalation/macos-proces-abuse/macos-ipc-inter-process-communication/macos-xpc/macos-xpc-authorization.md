@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png"
 
 ## XPC Authorization
 
-Apple takođe predlaže još jedan način za autentifikaciju ako povezani proces ima **dozvole da pozove izloženu XPC metodu**.
+Apple takođe predlaže još jedan način za autentifikaciju da li povezani proces ima **dozvole da pozove izloženu XPC metodu**.
 
-Kada aplikacija treba da **izvrši radnje kao privilegovani korisnik**, umesto da pokreće aplikaciju kao privilegovanog korisnika, obično instalira kao root HelperTool kao XPC servis koji se može pozvati iz aplikacije da izvrši te radnje. Međutim, aplikacija koja poziva servis treba da ima dovoljno autorizacije.
+Kada aplikacija treba da **izvrši radnje kao privilegovani korisnik**, umesto da pokreće aplikaciju kao privilegovani korisnik, obično instalira kao root HelperTool kao XPC servis koji može biti pozvan iz aplikacije da izvrši te radnje. Međutim, aplikacija koja poziva servis treba da ima dovoljno autorizacije.
 
 ### ShouldAcceptNewConnection uvek DA
 
@@ -193,7 +193,7 @@ Postoje različiti opsezi koji ukazuju ko može pristupiti pravu. Neki od njih s
 
 ### Provera prava
 
-U `HelperTool/HelperTool.m` funkcija **`readLicenseKeyAuthorization`** proverava da li je pozivalac autorizovan da **izvrši takvu metodu** pozivajući funkciju **`checkAuthorization`**. Ova funkcija će proveriti da li **authData** poslata od strane pozivnog procesa ima **ispravan format** i zatim će proveriti **šta je potrebno da se dobije pravo** da se pozove specifična metoda. Ako sve prođe dobro, **vraćena `error` će biti `nil`**:
+U `HelperTool/HelperTool.m` funkcija **`readLicenseKeyAuthorization`** proverava da li je pozivalac ovlašćen da **izvrši takvu metodu** pozivajući funkciju **`checkAuthorization`**. Ova funkcija će proveriti da li **authData** poslata od strane pozivnog procesa ima **ispravan format** i zatim će proveriti **šta je potrebno da se dobije pravo** da se pozove specifična metoda. Ako sve prođe dobro, **vraćena `error` će biti `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -263,13 +263,13 @@ Možete pronaći **sve konfiguracije dozvola** [**ovde**](https://www.dssw.co.uk
 
 1. **'authenticate-user': 'false'**
 * Ovo je najdirektnija ključ. Ako je postavljeno na `false`, to označava da korisnik ne mora da pruži autentifikaciju da bi dobio ovo pravo.
-* Ovo se koristi u **kombinaciji sa jednim od 2 ispod ili označavanjem grupe** kojoj korisnik mora pripadati.
+* Ovo se koristi u **kombinaciji sa jednim od 2 ispod ili ukazujući na grupu** kojoj korisnik mora pripadati.
 2. **'allow-root': 'true'**
 * Ako korisnik radi kao root korisnik (koji ima povišene privilegije), i ovaj ključ je postavljen na `true`, root korisnik bi potencijalno mogao dobiti ovo pravo bez dalјe autentifikacije. Međutim, obično, dobijanje statusa root korisnika već zahteva autentifikaciju, tako da ovo nije scenario "bez autentifikacije" za većinu korisnika.
 3. **'session-owner': 'true'**
 * Ako je postavljeno na `true`, vlasnik sesije (trenutno prijavljeni korisnik) bi automatski dobio ovo pravo. Ovo bi moglo zaobići dodatnu autentifikaciju ako je korisnik već prijavljen.
 4. **'shared': 'true'**
-* Ovaj ključ ne dodeljuje prava bez autentifikacije. Umesto toga, ako je postavljen na `true`, to znači da, jednom kada je pravo autentifikovano, može se deliti među više procesa bez potrebe da se svaki ponovo autentifikuje. Ali inicijalno dodeljivanje prava bi i dalje zahtevalo autentifikaciju osim ako nije kombinovano sa drugim ključevima kao što su `'authenticate-user': 'false'`.
+* Ovaj ključ ne dodeljuje prava bez autentifikacije. Umesto toga, ako je postavljen na `true`, to znači da kada je pravo autentifikovano, može se deliti među više procesa bez potrebe da se svaki od njih ponovo autentifikuje. Ali inicijalno dodeljivanje prava bi i dalje zahtevalo autentifikaciju osim ako nije kombinovano sa drugim ključevima kao što su `'authenticate-user': 'false'`.
 
 Možete [**koristiti ovaj skript**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) da dobijete zanimljiva prava:
 ```bash
@@ -304,7 +304,7 @@ Funkcija **`shouldAcceptNewConnection`** ukazuje na protokol koji se izlaže:
 
 U ovom slučaju, imamo isto kao u EvenBetterAuthorizationSample, [**proverite ovu liniju**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Znajući ime korišćenog protokola, moguće je **izvršiti dump njegove definicije zaglavlja** sa:
+Znajući naziv korišćenog protokola, moguće je **izvršiti dump njegove definicije zaglavlja** sa:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -337,14 +337,14 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### Exploit Example
+### Пример експлоатације
 
-U ovom primeru je kreirano:
+У овом примеру је креирано:
 
-* Definicija protokola sa funkcijama
-* Prazna autentifikacija koja se koristi za traženje pristupa
-* Veza sa XPC servisom
-* Poziv funkcije ako je veza bila uspešna
+* Дефиниција протокола са функцијама
+* Празан auth који се користи за захтев за приступ
+* Повезивање на XPC сервис
+* Позив функције ако је повезивање било успешно
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 

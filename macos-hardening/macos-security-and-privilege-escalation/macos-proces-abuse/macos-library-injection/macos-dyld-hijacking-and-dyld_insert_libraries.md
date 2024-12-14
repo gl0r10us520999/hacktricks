@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## DYLD\_INSERT\_LIBRARIES Osnovni primer
 
-**Biblioteka za injekciju** za izvršavanje shelle:
+**Biblioteka za injekciju** za izvršavanje shel-a:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -127,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Putanja za ponovni izvoz kreirana u biblioteci je relativna prema učitaču, hajde da je promenimo u apsolutnu putanju do biblioteke za izvoz:
+Putanja reeksporta kreirana u biblioteci je relativna prema učitavaču, hajde da je promenimo u apsolutnu putanju do biblioteke za izvoz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -159,12 +159,12 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 I **izvršite** binarni fajl i proverite da li je **biblioteka učitana**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib je preuzet u /Applications/VulnDyld.app/Contents/Resources/lib/binary
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib je otet u /Applications/VulnDyld.app/Contents/Resources/lib/binary
 </strong>Upotreba: [...]
 </code></pre>
 
 {% hint style="info" %}
-Lep članak o tome kako iskoristiti ovu ranjivost za zloupotrebu dozvola kamere Telegram-a može se naći na [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Lep članak o tome kako iskoristiti ovu ranjivost za zloupotrebu dozvola za kameru u telegramu može se naći na [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Veća Skala

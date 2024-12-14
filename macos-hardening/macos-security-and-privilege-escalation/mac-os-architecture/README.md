@@ -25,7 +25,7 @@ Open source verzija XNU: [https://opensource.apple.com/source/xnu/](https://open
 
 ### Mach
 
-Mach je **mikrokerne**l dizajniran da bude **UNIX-kompatibilan**. Jedno od njegovih ključnih dizajnerskih načela bilo je da **minimizuje** količinu **koda** koji se izvršava u **kernel** prostoru i umesto toga dozvoli mnogim tipičnim kernel funkcijama, kao što su sistem datoteka, umrežavanje i I/O, da **rade kao korisnički zadaci**.
+Mach je **mikrokerne**l dizajniran da bude **UNIX-kompatibilan**. Jedno od njegovih ključnih dizajnerskih načela bilo je da **minimizuje** količinu **koda** koji se izvršava u **kernel** prostoru i umesto toga dozvoli mnogim tipičnim kernel funkcijama, kao što su sistem datoteka, umrežavanje i I/O, da **rade kao zadaci na korisničkom nivou**.
 
 U XNU, Mach je **odgovoran za mnoge kritične niskonivo operacije** koje kernel obično obrađuje, kao što su planiranje procesora, multitasking i upravljanje virtuelnom memorijom.
 
@@ -70,7 +70,7 @@ Na sledećoj stranici možete takođe videti kako da povratite `.kext` koji macO
 
 ### macOS System Extensions
 
-Umesto korišćenja Kernel Extensions, macOS je stvorio System Extensions, koje nude API-je na korisničkom nivou za interakciju sa kernelom. Na ovaj način, programeri mogu da izbegnu korišćenje kernel ekstenzija.
+Umesto korišćenja Kernel Extensions, macOS je kreirao System Extensions, koje nude API-je na korisničkom nivou za interakciju sa kernelom. Na ovaj način, programeri mogu da izbegnu korišćenje kernel ekstenzija.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)

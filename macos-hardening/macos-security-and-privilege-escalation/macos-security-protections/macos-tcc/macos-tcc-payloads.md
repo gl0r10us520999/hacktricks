@@ -164,7 +164,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### Biblioteka fotografija
 
-* **Ovlašćenje**: `com.apple.security.personal-information.photos-library`
+* **Pravo**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
@@ -428,7 +428,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Napravite fotografiju pomoću kamere
+Napravite fotografiju kamerom
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```

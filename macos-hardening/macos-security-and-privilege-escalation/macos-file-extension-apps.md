@@ -1,25 +1,25 @@
-# macOS Aplikacije za obradu ekstenzija datoteka i URL šema
+# macOS File Extension & URL scheme app handlers
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Baza podataka LaunchServices
+## LaunchServices Database
 
-Ovo je baza podataka svih instaliranih aplikacija u macOS-u koja se može upitati kako bi se dobile informacije o svakoj instaliranoj aplikaciji, kao što su URL šeme koje podržava i MIME tipovi.
+Ovo je baza podataka svih instaliranih aplikacija u macOS-u koja se može pretraživati da bi se dobile informacije o svakoj instaliranoj aplikaciji, kao što su URL sheme koje podržava i MIME tipovi.
 
-Moguće je izbaciti ovu bazu podataka sa:
+Moguće je izvući ovu bazu podataka sa:
 
 {% code overflow="wrap" %}
 ```
@@ -29,13 +29,13 @@ Moguće je izbaciti ovu bazu podataka sa:
 
 Ili korišćenjem alata [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-**`/usr/libexec/lsd`** je mozak baze podataka. Pruža **nekoliko XPC usluga** poput `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, i više. Ali takođe **zahteva određene privilegije** aplikacijama da bi mogle koristiti izložene XPC funkcionalnosti, poput `.launchservices.changedefaulthandler` ili `.launchservices.changeurlschemehandler` za promenu podrazumevanih aplikacija za mime tipove ili URL šeme i drugo.
+**`/usr/libexec/lsd`** je mozak baze podataka. Pruža **several XPC services** kao što su `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, i još mnogo toga. Ali takođe **zahteva neka prava** za aplikacije da bi mogle da koriste izložene XPC funkcionalnosti, kao što su `.launchservices.changedefaulthandler` ili `.launchservices.changeurlschemehandler` za promenu podrazumevanih aplikacija za mime tipove ili url sheme i druge.
 
-**`/System/Library/CoreServices/launchservicesd`** zahteva uslugu `com.apple.coreservices.launchservicesd` i može se ispitati radi dobijanja informacija o pokrenutim aplikacijama. Može se ispitati sistemskim alatom /**`usr/bin/lsappinfo`** ili sa [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+**`/System/Library/CoreServices/launchservicesd`** zahteva uslugu `com.apple.coreservices.launchservicesd` i može se upititi da bi se dobile informacije o pokrenutim aplikacijama. Može se upititi pomoću sistemskog alata /**`usr/bin/lsappinfo`** ili sa [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-## Aplikacije za rukovanje ekstenzijama fajlova i URL šemama
+## Rukovaoci aplikacija za ekstenzije datoteka i URL sheme
 
-Sledeća linija može biti korisna za pronalaženje aplikacija koje mogu otvoriti fajlove u zavisnosti od ekstenzije:
+Sledeća linija može biti korisna za pronalaženje aplikacija koje mogu otvoriti datoteke u zavisnosti od ekstenzije:
 
 {% code overflow="wrap" %}
 ```bash
@@ -50,7 +50,7 @@ Ili koristite nešto poput [**SwiftDefaultApps**](https://github.com/Lord-Kamina
 ./swda getUTIs #Get all the UTIs
 ./swda getHandler --URL ftp #Get ftp handler
 ```
-Možete takođe proveriti ekstenzije podržane od strane aplikacije koristeći:
+Možete takođe proveriti ekstenzije koje podržava aplikacija tako što ćete uraditi:
 ```
 cd /Applications/Safari.app/Contents
 grep -A3 CFBundleTypeExtensions Info.plist  | grep string
@@ -83,16 +83,16 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>svg</string>
 ```
 {% hint style="success" %}
-Učite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks obuka AWS Red Tim Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks obuka GCP Red Tim Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
