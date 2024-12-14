@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Процеси можуть бути відкриті на хостах, де відомі ім'я користувача та або пароль, або хеш, за допомогою WMI. Команди виконуються за допомогою WMI через Wmiexec, що забезпечує напівінтерактивний досвід оболонки.
 
-**dcomexec.py:** Використовуючи різні кінцеві точки DCOM, цей скрипт пропонує напівінтерактивну оболонку, подібну до wmiexec.py, спеціально використовуючи об'єкт DCOM ShellBrowserWindow. Наразі підтримуються об'єкти MMC20. Application, Shell Windows та Shell Browser Window. (джерело: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Використовуючи різні кінцеві точки DCOM, цей скрипт пропонує напівінтерактивну оболонку, подібну до wmiexec.py, спеціально використовуючи об'єкт DCOM ShellBrowserWindow. Наразі підтримує об'єкти MMC20. Application, Shell Windows та Shell Browser Window. (джерело: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Основи WMI
 
@@ -56,7 +56,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
 Get-WmiObject -Class win32_share
 Get-WmiObject -Namespace "root/microsoft/windows/defender" -Class MSFT_MpComputerStatus
 ```
-### Methods
+### Методи
 
 Методи, які є однією або кількома виконуваними функціями класів WMI, можуть бути виконані.
 ```bash
@@ -72,7 +72,7 @@ Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Descrip
 ```
 ## WMI Перерахунок
 
-### Статус служби WMI
+### Стан служби WMI
 
 Команди для перевірки, чи працює служба WMI:
 ```bash
@@ -98,7 +98,7 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-Запит віддаленого WMI для отримання конкретної інформації, такої як локальні адміністратори або користувачі, що увійшли в систему, можливий за умови ретельного складання команд.
+Запит віддаленого WMI для отримання конкретної інформації, такої як локальні адміністратори або користувачі, що увійшли в систему, є можливим за умови ретельного складання команд.
 
 ### **Ручне віддалене запитування WMI**
 
@@ -108,7 +108,7 @@ wmic sysaccount list /format:list
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Цей процес ілюструє можливості WMI для віддаленого виконання та перерахунку системи, підкреслюючи його корисність як для адміністрування системи, так і для тестування на проникнення.
+Цей процес ілюструє можливості WMI для віддаленого виконання та перерахунку системи, підкреслюючи його корисність як для системного адміністрування, так і для тестування на проникнення.
 
 ## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
@@ -133,7 +133,7 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

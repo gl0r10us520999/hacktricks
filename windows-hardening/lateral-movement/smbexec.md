@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Отримайте перспективу хакера щодо ваших веб-додатків, мережі та хмари**
 
-**Знайдіть і повідомте про критичні, експлуатовані вразливості з реальним бізнес-імпактом.** Використовуйте наші 20+ спеціальних інструментів для картографування поверхні атаки, знаходження проблем безпеки, які дозволяють вам підвищити привілеї, і використовуйте автоматизовані експлойти для збору важливих доказів, перетворюючи вашу важку працю на переконливі звіти.
+**Знайдіть і повідомте про критичні, експлуатовані вразливості з реальним бізнес-імпактом.** Використовуйте наші 20+ спеціальних інструментів для картографування атакуючої поверхні, знаходження проблем безпеки, які дозволяють вам підвищити привілеї, і використовуйте автоматизовані експлойти для збору важливих доказів, перетворюючи вашу важку працю на переконливі звіти.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -38,7 +38,7 @@ smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ### Виконання команд без бінарних файлів
 
 - **Smbexec** дозволяє безпосереднє виконання команд через binPaths сервісу, усуваючи необхідність у фізичних бінарних файлах на цілі.
-- Цей метод корисний для виконання одноразових команд на цільовій Windows системі. Наприклад, поєднання його з модулем `web_delivery` Metasploit дозволяє виконати зворотний Meterpreter payload, націлений на PowerShell.
+- Цей метод корисний для виконання одноразових команд на цільовій системі Windows. Наприклад, поєднання його з модулем `web_delivery` Metasploit дозволяє виконати зворотний Meterpreter payload, націлений на PowerShell.
 - Створивши віддалений сервіс на машині зловмисника з binPath, налаштованим для виконання наданої команди через cmd.exe, можна успішно виконати payload, досягнувши зворотного виклику та виконання payload з прослуховувачем Metasploit, навіть якщо виникають помилки у відповіді сервісу.
 
 ### Приклад команд
@@ -49,6 +49,7 @@ sc create [ServiceName] binPath= "cmd.exe /c [PayloadCommand]"
 sc start [ServiceName]
 ```
 FOr further details check [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+
 
 ## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)

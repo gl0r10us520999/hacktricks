@@ -34,7 +34,7 @@
 
 - [ILSpy](https://github.com/icsharpcode/ILSpy), який також пропонує [плагін для Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), що дозволяє крос-платформне використання.
 - Для завдань, що включають **декомпіляцію**, **модифікацію** та **рекомпіляцію**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) настійно рекомендується. **Клацання правою кнопкою** на методі та вибір **Modify Method** дозволяє вносити зміни в код.
-- [JetBrains' dotPeek](https://www.jetbrains.com/es-es/decompiler/) є ще одним альтернативним інструментом для декомпіляції .Net збірок.
+- [dotPeek від JetBrains](https://www.jetbrains.com/es-es/decompiler/) є ще одним альтернативним інструментом для декомпіляції .Net збірок.
 
 ## Покращення налагодження та ведення журналів з DNSpy
 
@@ -50,7 +50,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ### Налагодження DNSpy
 Для ефективного налагодження з DNSpy рекомендується виконати послідовність кроків для налаштування **атрибутів збірки** для налагодження, забезпечуючи, щоб оптимізації, які можуть заважати налагодженню, були вимкнені. Цей процес включає зміну налаштувань `DebuggableAttribute`, рекомпіляцію збірки та збереження змін.
 
-Більше того, щоб налагодити .Net додаток, запущений через **IIS**, виконання `iisreset /noforce` перезапускає IIS. Щоб приєднати DNSpy до процесу IIS для налагодження, посібник інструктує про вибір процесу **w3wp.exe** в DNSpy та початок сесії налагодження.
+Крім того, щоб налагодити .Net додаток, запущений через **IIS**, виконання `iisreset /noforce` перезапускає IIS. Щоб приєднати DNSpy до процесу IIS для налагодження, посібник інструктує про вибір процесу **w3wp.exe** в DNSpy та початок сесії налагодження.
 
 Для всебічного перегляду завантажених модулів під час налагодження рекомендується отримати доступ до вікна **Modules** в DNSpy, після чого відкрити всі модулі та відсортувати збірки для легшої навігації та налагодження.
 
@@ -63,7 +63,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 ## **Налагодження DLL**
 ### Використання IDA
-- **Rundll32** завантажується з певних шляхів для 64-бітних та 32-бітних версій.
+- **Rundll32** завантажується з конкретних шляхів для 64-бітних та 32-бітних версій.
 - **Windbg** обирається як налагоджувач з можливістю призупинення при завантаженні/вивантаженні бібліотеки.
 - Параметри виконання включають шлях до DLL та ім'я функції. Ця конфігурація зупиняє виконання при кожному завантаженні DLL.
 
@@ -95,7 +95,7 @@ scdbg.exe -f shellcode /findsc # Знайти початковий зсув
 scdbg.exe -f shellcode /foff 0x0000004D # Виконати з зсуву
 %%%
 
-- **CyberChef** для дизасемблювання shellcode: [Рецепт CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- **CyberChef** для дизасемблювання shellcode: [рецепт CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
 - Обфускатор, який замінює всі інструкції на `mov`.
@@ -103,7 +103,7 @@ scdbg.exe -f shellcode /foff 0x0000004D # Виконати з зсуву
 - **demovfuscator** може скасувати обфускацію movfuscator, вимагаючи залежностей, таких як `libcapstone-dev` та `libz3-dev`, а також встановлення [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
 
 ## **Delphi**
-- Для бінарних файлів Delphi рекомендується [IDR](https://github.com/crypto2011/IDR).
+- Для бінарників Delphi рекомендується [IDR](https://github.com/crypto2011/IDR).
 
 
 # Курси

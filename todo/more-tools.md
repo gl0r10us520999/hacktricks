@@ -4,7 +4,7 @@
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Підтримати HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -66,13 +66,13 @@
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Отримати активи
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Чек-лист веб BugBounty
-* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Перевірте список доменів на відкриту редирекцію
+* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Перевірте список доменів на наявність відкритої редирекції
 * [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Плагін Burp, офлайн-аналіз для виявлення доменів, піддоменів та IP-адрес
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Список різних інструментів
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Плагін BurpSuite для виявлення вразливостей (SQLi, XSS, SSTI)
 * [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Розширення Chrome для відстеження функцій пост-повідомлень
 * [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Автоматичні тести аутентифікації (видалити куки та спробувати надіслати запит)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross - це реконструкція, сканер та інструмент для тестування на проникнення / BugBounty. Цей інструмент був створений для тестування вразливостей (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross - це реконструкція, сканер і інструмент для тестування на проникнення / BugBounty. Цей інструмент був створений для тестування вразливостей (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
 
 # Windows
 
@@ -145,7 +145,7 @@
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Підтримати HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

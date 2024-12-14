@@ -1,24 +1,24 @@
 # Привілейовані групи
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, подаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) для легкого створення та **автоматизації робочих процесів**, підтримуваних **найсучаснішими** інструментами спільноти.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
@@ -32,7 +32,7 @@ Get Access Today:
 
 Ця група має право створювати облікові записи та групи, які не є адміністраторами домену. Крім того, вона дозволяє локальний вхід до контролера домену (DC).
 
-Щоб визначити членів цієї групи, виконується наступна команда:
+Щоб ідентифікувати членів цієї групи, виконується наступна команда:
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
@@ -74,7 +74,7 @@ C:\> .\PsService.exe security AppReadiness
 
 ## Backup Operators
 
-Членство в групі `Backup Operators` надає доступ до файлової системи `DC01` завдяки привілеям `SeBackup` та `SeRestore`. Ці привілеї дозволяють проходження через папки, їх перелік та копіювання файлів, навіть без явних дозволів, використовуючи прапорець `FILE_FLAG_BACKUP_SEMANTICS`. Для цього процесу необхідно використовувати специфічні скрипти.
+Членство в групі `Backup Operators` надає доступ до файлової системи `DC01` завдяки привілеям `SeBackup` та `SeRestore`. Ці привілеї дозволяють проходження по папках, їх перелік та копіювання файлів, навіть без явних дозволів, використовуючи прапорець `FILE_FLAG_BACKUP_SEMANTICS`. Для цього процесу необхідно використовувати специфічні скрипти.
 
 Щоб перерахувати членів групи, виконайте:
 ```powershell
@@ -146,7 +146,7 @@ wbadmin get versions
 echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
 ```
 
-Для практичної демонстрації дивіться [ВІДЕО ДЕМО З IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+Для практичної демонстрації дивіться [ДЕМО ВІДЕО З IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
 
 ## DnsAdmins
 
@@ -186,7 +186,7 @@ sc.exe \\dc01 start dns
 Для отримання додаткової інформації про цей вектор атаки зверніться до ired.team.
 
 #### Mimilib.dll
-Також можливо використовувати mimilib.dll для виконання команд, модифікувавши його для виконання конкретних команд або реверсних шелів. [Перегляньте цей пост](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) для отримання додаткової інформації.
+Також можливо використовувати mimilib.dll для виконання команд, модифікуючи його для виконання конкретних команд або реверсних шелів. [Перегляньте цей пост](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) для отримання додаткової інформації.
 
 ### WPAD запис для MitM
 DnsAdmins можуть маніпулювати DNS записами для виконання атак Man-in-the-Middle (MitM), створюючи WPAD запис після вимкнення глобального списку блокування запитів. Інструменти, такі як Responder або Inveigh, можуть бути використані для спуфінгу та захоплення мережевого трафіку.
@@ -205,7 +205,7 @@ Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Va
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
 ## Hyper-V Адміністратори
-Hyper-V Адміністратори мають повний доступ до Hyper-V, що може бути використано для отримання контролю над віртуалізованими Контролерами Домену. Це включає клонування живих DC та витягування NTLM хешів з файлу NTDS.dit.
+Hyper-V Адміністратори мають повний доступ до Hyper-V, що може бути використано для отримання контролю над віртуалізованими Контролерами Домену. Це включає клонування живих КД і витягування NTLM хешів з файлу NTDS.dit.
 
 ### Приклад експлуатації
 Службу обслуговування Mozilla Firefox можна експлуатувати адміністраторами Hyper-V для виконання команд від імені SYSTEM. Це передбачає створення жорсткого посилання на захищений файл SYSTEM і заміну його на шкідливий виконуваний файл:
@@ -237,9 +237,9 @@ Get-NetGroupMember -Identity "Print Operators" -Recurse
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
-Додаткову інформацію про експлуатацію RDP можна знайти в спеціалізованих ресурсах з пентестингу.
+Додаткову інформацію про експлуатацію RDP можна знайти в спеціалізованих ресурсах для пентестингу.
 
-#### Користувачі віддаленого керування
+#### Користувачі віддаленого управління
 Члени можуть отримувати доступ до ПК через **Windows Remote Management (WinRM)**. Перерахування цих членів досягається через:
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
@@ -286,7 +286,7 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 {% endhint %}

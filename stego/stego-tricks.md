@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **Binwalk**
 
-Інструмент для пошуку бінарних файлів на наявність вбудованих прихованих файлів і даних. Він встановлюється через `apt`, а його вихідний код доступний на [GitHub](https://github.com/ReFirmLabs/binwalk).
+Інструмент для пошуку бінарних файлів на наявність вбудованих прихованих файлів та даних. Він встановлюється через `apt`, а його вихідний код доступний на [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -104,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg для PNG та BMP файлів**
 
-zsteg спеціалізується на виявленні прихованих даних у PNG та BMP файлах. Встановлення здійснюється через `gem install zsteg`, з [джерелом на GitHub](https://github.com/zed-0xff/zsteg).
+zsteg спеціалізується на виявленні прихованих даних у PNG та BMP файлах. Встановлення виконується через `gem install zsteg`, з [джерелом на GitHub](https://github.com/zed-0xff/zsteg).
 
 **Команди:**
 
@@ -141,7 +141,7 @@ pngcheck stego.png
 Для подальшого дослідження, розгляньте можливість відвідування:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Аналіз рівня помилок зображення](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -182,13 +182,13 @@ Deepsound дозволяє шифрувати та виявляти інформ
 
 ### **DTMF Tones - Dial Tones**
 
-Виявлення DTMF тонів в аудіофайлах можна здійснити за допомогою онлайн-інструментів, таких як [цей DTMF детектор](https://unframework.github.io/dtmf-detect/) та [DialABC](http://dialabc.com/sound/detect/index.html).
+Виявлення DTMF тонів в аудіофайлах можна здійснити за допомогою онлайн-інструментів, таких як [цей детектор DTMF](https://unframework.github.io/dtmf-detect/) та [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Other Techniques**
 
 ### **Binary Length SQRT - QR Code**
 
-Бінарні дані, які підносяться до квадрату, можуть представляти QR-код. Використовуйте цей фрагмент коду для перевірки:
+Бінарні дані, які квадратуються до цілого числа, можуть представляти QR-код. Використовуйте цей фрагмент коду для перевірки:
 ```python
 import math
 math.sqrt(2500) #50

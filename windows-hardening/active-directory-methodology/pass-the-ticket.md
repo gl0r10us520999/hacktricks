@@ -25,7 +25,7 @@ Get Access Today:
 
 ## Pass The Ticket (PTT)
 
-У методі атаки **Pass The Ticket (PTT)** зловмисники **викрадають квиток аутентифікації користувача** замість його пароля або хеш-значень. Цей викрадений квиток потім використовується для **видавання себе за користувача**, отримуючи несанкціонований доступ до ресурсів і сервісів у мережі.
+У методі атаки **Pass The Ticket (PTT)** зловмисники **викрадають квиток аутентифікації користувача** замість його пароля або хеш-значень. Цей викрадений квиток потім використовується для **видавання себе за користувача**, отримуючи несанкціонований доступ до ресурсів і послуг у мережі.
 
 **Read**:
 
@@ -42,7 +42,7 @@ Converting ccache => kirbi
 python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-В Windows [Kekeo](https://github.com/gentilkiwi/kekeo) може бути використаний.
+В Windows [Kekeo](https://github.com/gentilkiwi/kekeo) може бути використано.
 
 ### Атака Pass The Ticket
 
@@ -84,8 +84,8 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 <summary>Підтримати HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

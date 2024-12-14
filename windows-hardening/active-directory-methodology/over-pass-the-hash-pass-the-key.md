@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Атака **Overpass The Hash/Pass The Key (PTK)** призначена для середовищ, де традиційний протокол NTLM обмежений, а аутентифікація Kerberos має перевагу. Ця атака використовує NTLM хеш або AES ключі користувача для отримання квитків Kerberos, що дозволяє несанкціонований доступ до ресурсів у мережі.
 
-Для виконання цієї атаки перший крок полягає в отриманні NTLM хешу або пароля цільового облікового запису користувача. Після отримання цієї інформації можна отримати Квиток на надання квитків (TGT) для облікового запису, що дозволяє зловмиснику отримати доступ до сервісів або машин, до яких має доступ користувач.
+Для виконання цієї атаки перший крок полягає в отриманні NTLM хешу або пароля цільового облікового запису користувача. Після отримання цієї інформації можна отримати Квиток на отримання квитків (TGT) для облікового запису, що дозволяє зловмиснику отримати доступ до сервісів або машин, до яких має доступ користувач.
 
 Процес можна ініціювати за допомогою наступних команд:
 ```bash
@@ -32,7 +32,7 @@ python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2
 export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
 python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
-Для сценаріїв, що вимагають AES256, можна використовувати опцію `-aesKey [AES key]`. Крім того, отриманий квиток може бути використаний з різними інструментами, включаючи smbexec.py або wmiexec.py, розширюючи обсяг атаки.
+Для сценаріїв, що вимагають AES256, можна використовувати опцію `-aesKey [AES key]`. Крім того, отриманий квиток може бути використаний з різними інструментами, такими як smbexec.py або wmiexec.py, розширюючи обсяг атаки.
 
 Проблеми, такі як _PyAsn1Error_ або _KDC cannot find the name_, зазвичай вирішуються шляхом оновлення бібліотеки Impacket або використанням імені хоста замість IP-адреси, що забезпечує сумісність з Kerberos KDC.
 
@@ -47,7 +47,7 @@ python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```bash
 .\Rubeus.exe asktgt /user:<USERNAME> /domain:<DOMAIN> /aes256:HASH /nowrap /opsec
 ```
-## References
+## Посилання
 
 * [https://www.tarlogic.com/es/blog/como-atacar-kerberos/](https://www.tarlogic.com/es/blog/como-atacar-kerberos/)
 

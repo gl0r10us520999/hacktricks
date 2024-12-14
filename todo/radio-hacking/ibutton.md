@@ -45,7 +45,7 @@ Flipper може працювати як у режимі Master, так і в р
 
 ### Attacks
 
-iButtons можуть бути атаковані за допомогою Flipper Zero:
+iButtons можна атакувати за допомогою Flipper Zero:
 
 {% content-ref url="flipper-zero/fz-ibutton.md" %}
 [fz-ibutton.md](flipper-zero/fz-ibutton.md)

@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 {% hint style="warning" %}
-**JuicyPotato не працює** на Windows Server 2019 та Windows 10 версії 1809 і новіших. Однак, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) можуть бути використані для **отримання тих же привілеїв і доступу на рівні `NT AUTHORITY\SYSTEM`**. _**Перевірте:**_
+**JuicyPotato не працює** на Windows Server 2019 та Windows 10 версії 1809 і вище. Однак, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) можуть бути використані для **отримання тих же привілеїв і доступу на рівні `NT AUTHORITY\SYSTEM`**. _**Перевірте:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -35,14 +35,14 @@ _Цукрова версія_ [_RottenPotatoNG_](https://github.com/breenmachine
 
 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) та його [варіанти](https://github.com/decoder-it/lonelypotato) використовують ланцюг підвищення привілеїв на основі [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [сервісу](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126), маючи MiTM слухача на `127.0.0.1:6666`, і коли у вас є привілеї `SeImpersonate` або `SeAssignPrimaryToken`. Під час огляду збірки Windows ми виявили налаштування, де `BITS` був навмисно вимкнений, а порт `6666` був зайнятий.
 
-Ми вирішили озброїти [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Привітайте Juicy Potato**.
+Ми вирішили озброїти [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Скажіть привіт Juicy Potato**.
 
 > Для теорії дивіться [Rotten Potato - Підвищення привілеїв з облікових записів служб до SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) і слідкуйте за ланцюгом посилань і посилань.
 
-Ми виявили, що, окрім `BITS`, є кілька COM-серверів, які ми можемо зловживати. Вони просто повинні:
+Ми виявили, що, окрім `BITS`, є кілька COM серверів, які ми можемо зловживати. Вони просто повинні:
 
 1. бути інстанційованими поточним користувачем, зазвичай "користувачем служби", який має привілеї імперсонації
-2. реалізовувати інтерфейс `IMarshal`
+2. реалізувати інтерфейс `IMarshal`
 3. працювати як підвищений користувач (SYSTEM, Адміністратор, …)
 
 Після деяких тестувань ми отримали та протестували розширений список [цікавих CLSID](http://ohpe.it/juicy-potato/CLSID/) на кількох версіях Windows.
@@ -53,15 +53,15 @@ JuicyPotato дозволяє вам:
 
 * **Цільовий CLSID** _виберіть будь-який CLSID, який ви хочете._ [_Тут_](http://ohpe.it/juicy-potato/CLSID/) _ви можете знайти список, організований за ОС._
 * **COM порт прослуховування** _визначте COM порт прослуховування, який ви віддаєте перевагу (замість зашитого 6666)_
-* **IP-адреса прослуховування COM** _прив'яжіть сервер до будь-якої IP-адреси_
-* **Режим створення процесу** _в залежності від привілеїв імперсованого користувача ви можете вибрати з:_
+* **IP адреса прослуховування COM** _прив'яжіть сервер до будь-якої IP_
+* **Режим створення процесу** _в залежності від привілеїв імперсонованого користувача ви можете вибрати з:_
 * `CreateProcessWithToken` (потрібен `SeImpersonate`)
 * `CreateProcessAsUser` (потрібен `SeAssignPrimaryToken`)
 * `обидва`
 * **Процес для запуску** _запустіть виконуваний файл або скрипт, якщо експлуатація успішна_
 * **Аргумент процесу** _налаштуйте аргументи запущеного процесу_
-* **Адреса RPC-сервера** _для прихованого підходу ви можете аутентифікуватися на зовнішньому RPC-сервері_
-* **Порт RPC-сервера** _корисно, якщо ви хочете аутентифікуватися на зовнішньому сервері, а брандмауер блокує порт `135`…_
+* **Адреса RPC сервера** _для прихованого підходу ви можете аутентифікуватися на зовнішньому RPC сервері_
+* **Порт RPC сервера** _корисно, якщо ви хочете аутентифікуватися на зовнішньому сервері, а брандмауер блокує порт `135`…_
 * **РЕЖИМ ТЕСТУ** _в основному для тестування, тобто тестування CLSID. Він створює DCOM і виводить користувача токена. Дивіться_ [_тут для тестування_](http://ohpe.it/juicy-potato/Test/)
 
 ### Використання <a href="#usage" id="usage"></a>
@@ -83,9 +83,9 @@ Optional args:
 ```
 ### Final thoughts <a href="#final-thoughts" id="final-thoughts"></a>
 
-[**З juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
+[**З Readme juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
-Якщо у користувача є привілеї `SeImpersonate` або `SeAssignPrimaryToken`, то ви **SYSTEM**.
+Якщо у користувача є привілеї `SeImpersonate` або `SeAssignPrimaryToken`, то ви є **SYSTEM**.
 
 Майже неможливо запобігти зловживанню всіма цими COM-серверами. Ви можете подумати про зміну дозволів цих об'єктів через `DCOMCNFG`, але удачі, це буде складно.
 
@@ -95,7 +95,7 @@ Optional args:
 
 ## Examples
 
-Note: Visit [this page](https://ohpe.it/juicy-potato/CLSID/) for a list of CLSIDs to try.
+Note: Відвідайте [цю сторінку](https://ohpe.it/juicy-potato/CLSID/) для списку CLSID, які можна спробувати.
 
 ### Get a nc.exe reverse shell
 ```
