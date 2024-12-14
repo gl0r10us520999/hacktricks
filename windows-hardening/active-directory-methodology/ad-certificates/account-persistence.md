@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**To jest małe podsumowanie rozdziałów dotyczących utrzymywania maszyn w świetnym badaniu z [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
+**To jest małe podsumowanie rozdziałów dotyczących utrzymywania maszyn w niesamowitym badaniu z [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
 ## **Zrozumienie kradzieży poświadczeń aktywnego użytkownika za pomocą certyfikatów – PERSIST1**
 
@@ -25,9 +25,9 @@ Używając narzędzia o nazwie [**Certify**](https://github.com/GhostPack/Certif
 ```bash
 Certify.exe find /clientauth
 ```
-Zaznaczone jest, że moc certyfikatu polega na jego zdolności do **uwierzytelniania jako użytkownik**, do którego należy, niezależnie od jakichkolwiek zmian hasła, pod warunkiem, że certyfikat pozostaje **ważny**.
+Zaznaczone jest, że moc certyfikatu polega na jego zdolności do **uwierzytelniania jako użytkownik**, do którego należy, niezależnie od jakichkolwiek zmian haseł, pod warunkiem, że certyfikat pozostaje **ważny**.
 
-Certyfikaty można żądać za pomocą interfejsu graficznego przy użyciu `certmgr.msc` lub za pomocą wiersza poleceń z `certreq.exe`. Dzięki **Certify** proces żądania certyfikatu jest uproszczony w następujący sposób:
+Certyfikaty można żądać za pomocą interfejsu graficznego, używając `certmgr.msc`, lub za pomocą wiersza poleceń z `certreq.exe`. Dzięki **Certify** proces żądania certyfikatu jest uproszczony w następujący sposób:
 ```bash
 Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```
@@ -35,7 +35,7 @@ Po pomyślnym żądaniu, certyfikat wraz z jego kluczem prywatnym jest generowan
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-Plik `.pfx` może być następnie przesłany do docelowego systemu i użyty z narzędziem o nazwie [**Rubeus**](https://github.com/GhostPack/Rubeus) do żądania Ticket Granting Ticket (TGT) dla użytkownika, przedłużając dostęp atakującego tak długo, jak certyfikat jest **ważny** (zazwyczaj przez rok):
+Plik `.pfx` może być następnie przesłany do systemu docelowego i użyty z narzędziem o nazwie [**Rubeus**](https://github.com/GhostPack/Rubeus) do żądania Ticket Granting Ticket (TGT) dla użytkownika, przedłużając dostęp atakującego tak długo, jak certyfikat jest **ważny** (zazwyczaj przez rok):
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
@@ -47,10 +47,10 @@ Inna metoda polega na zarejestrowaniu konta maszyny skompromitowanego systemu dl
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
-Tożsamość ta umożliwia atakującemu uwierzytelnienie się do **Kerberos** jako konto maszyny i wykorzystanie **S4U2Self** do uzyskania biletów serwisowych Kerberos dla dowolnej usługi na hoście, co skutecznie przyznaje atakującemu trwały dostęp do maszyny.
+Ten dostęp umożliwia atakującemu uwierzytelnienie się do **Kerberos** jako konto maszyny i wykorzystanie **S4U2Self** do uzyskania biletów serwisowych Kerberos dla dowolnej usługi na hoście, co skutecznie przyznaje atakującemu trwały dostęp do maszyny.
 
 ## **Rozszerzanie trwałości poprzez odnawianie certyfikatów - PERSIST3**
 
-Ostatnia omawiana metoda polega na wykorzystaniu **ważności** i **okresów odnawiania** szablonów certyfikatów. Poprzez **odnowienie** certyfikatu przed jego wygaśnięciem, atakujący może utrzymać uwierzytelnienie do Active Directory bez potrzeby dodatkowych rejestracji biletów, co mogłoby pozostawić ślady na serwerze Urzędu Certyfikacji (CA).
+Ostatnia omawiana metoda polega na wykorzystaniu **ważności** i **okresów odnawiania** szablonów certyfikatów. Poprzez **odnawianie** certyfikatu przed jego wygaśnięciem, atakujący może utrzymać uwierzytelnienie do Active Directory bez potrzeby dodatkowych rejestracji biletów, co mogłoby pozostawić ślady na serwerze Urzędu Certyfikacji (CA).
 
-Podejście to pozwala na metodę **rozszerzonej trwałości**, minimalizując ryzyko wykrycia poprzez mniejsze interakcje z serwerem CA i unikanie generowania artefaktów, które mogłyby zaalarmować administratorów o intruzji.
+Podejście to pozwala na metodę **rozszerzonej trwałości**, minimalizując ryzyko wykrycia poprzez mniejszą liczbę interakcji z serwerem CA i unikanie generowania artefaktów, które mogłyby zaalarmować administratorów o intruzji.

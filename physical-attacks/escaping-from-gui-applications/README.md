@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -34,11 +34,11 @@ Powinieneś sprawdzić, czy możesz:
 
 ## Wykonywanie poleceń
 
-Możliwe, że **używając opcji `Otwórz za pomocą`** możesz otworzyć/wykonać jakiś rodzaj powłoki.
+Może **używając opcji `Otwórz za pomocą`** możesz otworzyć/wykonać jakiś rodzaj powłoki.
 
 ### Windows
 
-Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdź więcej binarnych plików, które mogą być używane do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdź więcej binarek, które mogą być używane do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
@@ -54,7 +54,7 @@ _bash, sh, zsh..._ Więcej tutaj: [https://gtfobins.github.io/](https://gtfobins
 * **Skróty**: CTRL+N (otwórz nową sesję), CTRL+R (wykonaj polecenia), CTRL+SHIFT+ESC (Menadżer zadań), Windows+E (otwórz eksplorator), CTRL-B, CTRL-I (Ulubione), CTRL-H (Historia), CTRL-L, CTRL-O (Plik/Otwórz), CTRL-P (Okno drukowania), CTRL-S (Zapisz jako)
 * Ukryte menu administracyjne: CTRL-ALT-F8, CTRL-ESC-F9
 * **URI powłoki**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **Ścieżki UNC**: Ścieżki do połączenia z folderami udostępnionymi. Powinieneś spróbować połączyć się z C$ lokalnej maszyny ("\\\127.0.0.1\c$\Windows\System32")
+* **Ścieżki UNC**: Ścieżki do połączenia z udostępnionymi folderami. Powinieneś spróbować połączyć się z C$ lokalnej maszyny ("\\\127.0.0.1\c$\Windows\System32")
 * **Więcej ścieżek UNC:**
 
 | UNC                       | UNC            | UNC                  |
@@ -69,7 +69,7 @@ _bash, sh, zsh..._ Więcej tutaj: [https://gtfobins.github.io/](https://gtfobins
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-## Pobierz swoje pliki binarne
+## Pobierz swoje binarki
 
 Konsola: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Eksplorator: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
@@ -89,19 +89,19 @@ Edytor rejestru: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 
 ## Skróty
 
-* Klawisze Sticky – Naciśnij SHIFT 5 razy
-* Klawisze myszy – SHIFT+ALT+NUMLOCK
-* Wysoki kontrast – SHIFT+ALT+PRINTSCN
-* Klawisze przełączające – Przytrzymaj NUMLOCK przez 5 sekund
-* Klawisze filtrujące – Przytrzymaj prawy SHIFT przez 12 sekund
-* WINDOWS+F1 – Wyszukiwanie w systemie Windows
+* Sticky Keys – Naciśnij SHIFT 5 razy
+* Mouse Keys – SHIFT+ALT+NUMLOCK
+* High Contrast – SHIFT+ALT+PRINTSCN
+* Toggle Keys – Przytrzymaj NUMLOCK przez 5 sekund
+* Filter Keys – Przytrzymaj prawy SHIFT przez 12 sekund
+* WINDOWS+F1 – Wyszukiwanie w Windows
 * WINDOWS+D – Pokaż pulpit
 * WINDOWS+E – Uruchom Eksplorator Windows
 * WINDOWS+R – Uruchom
 * WINDOWS+U – Centrum ułatwień dostępu
 * WINDOWS+F – Szukaj
 * SHIFT+F10 – Menu kontekstowe
-* CTRL+SHIFT+ESC – Menedżer zadań
+* CTRL+SHIFT+ESC – Menadżer zadań
 * CTRL+ALT+DEL – Ekran powitalny w nowszych wersjach Windows
 * F1 – Pomoc F3 – Szukaj
 * F6 – Pasek adresu
@@ -157,7 +157,7 @@ Sprawdź tę stronę, aby uzyskać więcej informacji: [https://www.howtohaven.c
 
 # Sztuczki przeglądarek
 
-Kopie zapasowe wersji iKat:
+Kopia zapasowa wersji iKat:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
@@ -173,9 +173,9 @@ Utwórz wspólne okno dialogowe za pomocą JavaScript i uzyskaj dostęp do ekspl
 
 * Przesuń w jedną lub drugą stronę czterema lub pięcioma palcami: Aby przełączyć się na następną/ostatnią aplikację
 
-* Złap ekran pięcioma palcami / Naciśnij przycisk Home / Przesuń w górę jednym palcem od dołu ekranu w szybkim ruchu do góry: Aby uzyskać dostęp do ekranu głównego
+* Złap ekran pięcioma palcami / Naciśnij przycisk Home / Przesuń w górę jednym palcem z dolnej części ekranu w szybkim ruchu do góry: Aby uzyskać dostęp do ekranu głównego
 
-* Przesuń jednym palcem od dołu ekranu tylko 1-2 cale (wolno): Pojawi się dock
+* Przesuń jednym palcem z dolnej części ekranu tylko 1-2 cale (wolno): Pojawi się dock
 
 * Przesuń w dół z górnej części wyświetlacza jednym palcem: Aby wyświetlić powiadomienia
 
@@ -193,7 +193,7 @@ Utwórz wspólne okno dialogowe za pomocą JavaScript i uzyskaj dostęp do ekspl
 
 ## Skróty
 
-Powinieneś mieć klawiaturę iPada lub adapter klawiatury USB. Tylko skróty, które mogą pomóc w ucieczce z aplikacji, będą tutaj pokazane.
+Powinieneś mieć klawiaturę iPada lub adapter USB do klawiatury. Tutaj zostaną pokazane tylko skróty, które mogą pomóc w ucieczce z aplikacji.
 
 | Klawisz | Nazwa         |
 | --- | ------------ |
@@ -233,7 +233,7 @@ Te skróty dotyczą ustawień wizualnych i dźwiękowych, w zależności od uży
 | ⌘ (Space)                                          | Otwórz Spotlight                                          |
 | ⌘⇥ (Command-Tab)                                   | Lista ostatnich dziesięciu używanych aplikacji                                 |
 | ⌘\~                                                | Przejdź do ostatniej aplikacji                                       |
-| ⌘⇧3 (Command-Shift-3)                              | Zrzut ekranu (unosi się w lewym dolnym rogu, aby zapisać lub działać na nim) |
+| ⌘⇧3 (Command-Shift-3)                              | Zrzut ekranu (pojawia się w lewym dolnym rogu, aby zapisać lub działać na nim) |
 | ⌘⇧4                                                | Zrzut ekranu i otwórz go w edytorze                    |
 | Naciśnij i przytrzymaj ⌘                                   | Lista skrótów dostępnych dla aplikacji                 |
 | ⌘⌥D (Command-Option/Alt-D)                         | Wywołuje dock                                      |
@@ -244,9 +244,9 @@ Te skróty dotyczą ustawień wizualnych i dźwiękowych, w zależności od uży
 | → (Strzałka w prawo)                                    | Następny element                                               |
 | ← (Strzałka w lewo)                                     | Poprzedni element                                           |
 | ↑↓ (Strzałka w górę, Strzałka w dół)                          | Jednoczesne dotknięcie wybranego elementu                        |
-| ⌥ ↓ (Strzałka w dół)                            | Przewiń w dół                                             |
-| ⌥↑ (Strzałka w górę)                               | Przewiń w górę                                               |
-| ⌥← lub ⌥→ (Strzałka w lewo lub Strzałka w prawo) | Przewiń w lewo lub w prawo                                    |
+| ⌥ ↓ (Option-Down arrow)                            | Przewiń w dół                                             |
+| ⌥↑ (Option-Up arrow)                               | Przewiń w górę                                               |
+| ⌥← lub ⌥→ (Option-Left arrow lub Option-Right arrow) | Przewiń w lewo lub w prawo                                    |
 | ^⌥S (Control-Option-S)                             | Włącz lub wyłącz mowę VoiceOver                         |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | Przełącz do poprzedniej aplikacji                              |
 | ⌘⇥ (Command-Tab)                                   | Przełącz z powrotem do oryginalnej aplikacji                         |
@@ -265,7 +265,7 @@ Te skróty dotyczą ustawień wizualnych i dźwiękowych, w zależności od uży
 | ^⇧⇥ (Control-Shift-Tab) | Przejdź do poprzedniej karty                         |
 | ⌘L                      | Wybierz pole tekstowe/URL, aby je zmodyfikować     |
 | ⌘⇧T (Command-Shift-T)   | Otwórz ostatnio zamkniętą kartę (można używać wielokrotnie) |
-| ⌘\[                     | Wróć do jednej strony w historii przeglądania      |
+| ⌘\[                     | Wróć o jedną stronę w historii przeglądania      |
 | ⌘]                      | Przejdź do przodu o jedną stronę w historii przeglądania   |
 | ⌘⇧R                     | Aktywuj tryb czytnika                             |
 
@@ -289,16 +289,16 @@ Te skróty dotyczą ustawień wizualnych i dźwiękowych, w zależności od uży
 
 
 {% hint style="success" %}
-Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

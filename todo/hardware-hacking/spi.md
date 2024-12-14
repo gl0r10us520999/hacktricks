@@ -19,21 +19,21 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 SPI (Serial Peripheral Interface) to synchroniczny protokół komunikacji szeregowej używany w systemach wbudowanych do komunikacji na krótkie odległości między układami scalonymi (IC). Protokół komunikacji SPI wykorzystuje architekturę master-slave, która jest sterowana przez sygnał zegara i sygnał wyboru układu. Architektura master-slave składa się z mastera (zwykle mikroprocesora), który zarządza zewnętrznymi urządzeniami peryferyjnymi, takimi jak EEPROM, czujniki, urządzenia sterujące itp., które są uważane za niewolników.
 
-Wielu niewolników może być podłączonych do mastera, ale niewolnicy nie mogą komunikować się ze sobą. Niewolnicy są zarządzani przez dwa piny: zegar i wybór układu. Ponieważ SPI jest synchronicznym protokołem komunikacji, piny wejściowe i wyjściowe podążają za sygnałami zegara. Wybór układu jest używany przez mastera do wyboru niewolnika i interakcji z nim. Gdy wybór układu jest wysoki, urządzenie niewolnika nie jest wybrane, natomiast gdy jest niski, układ został wybrany, a master będzie interagował z niewolnikiem.
+Wielu niewolników może być podłączonych do mastera, ale niewolnicy nie mogą komunikować się ze sobą. Niewolnicy są zarządzani przez dwa piny: zegar i wybór układu. Ponieważ SPI jest synchronicznym protokołem komunikacji, piny wejściowe i wyjściowe podążają za sygnałami zegara. Wybór układu jest używany przez mastera do wyboru niewolnika i interakcji z nim. Gdy wybór układu jest wysoki, urządzenie niewolnika nie jest wybrane, natomiast gdy jest niski, układ został wybrany, a master będzie wchodził w interakcję z niewolnikiem.
 
-MOSI (Master Out, Slave In) i MISO (Master In, Slave Out) są odpowiedzialne za wysyłanie i odbieranie danych. Dane są wysyłane do urządzenia niewolnika przez pin MOSI, podczas gdy wybór układu jest utrzymywany na niskim poziomie. Dane wejściowe zawierają instrukcje, adresy pamięci lub dane zgodnie z kartą katalogową dostawcy urządzenia niewolnika. Po poprawnym wejściu pin MISO jest odpowiedzialny za przesyłanie danych do mastera. Dane wyjściowe są wysyłane dokładnie w następnym cyklu zegara po zakończeniu wejścia. Piny MISO przesyłają dane, aż dane zostaną w pełni przesłane lub master ustawi pin wyboru układu na wysoki (w takim przypadku niewolnik przestanie przesyłać, a master nie będzie słuchał po tym cyklu zegara).
+MOSI (Master Out, Slave In) i MISO (Master In, Slave Out) są odpowiedzialne za wysyłanie i odbieranie danych. Dane są wysyłane do urządzenia niewolnika przez pin MOSI, podczas gdy wybór układu jest utrzymywany w stanie niskim. Dane wejściowe zawierają instrukcje, adresy pamięci lub dane zgodnie z kartą katalogową dostawcy urządzenia niewolnika. Po poprawnym wejściu pin MISO jest odpowiedzialny za przesyłanie danych do mastera. Dane wyjściowe są wysyłane dokładnie w następnym cyklu zegara po zakończeniu wejścia. Piny MISO przesyłają dane, aż dane zostaną w pełni przesłane lub master ustawi pin wyboru układu w stan wysoki (w takim przypadku niewolnik przestanie przesyłać, a master nie będzie słuchał po tym cyklu zegara).
 
 ## Zrzut oprogramowania układowego z EEPROM
 
-Zrzut oprogramowania układowego może być przydatny do analizy oprogramowania i znajdowania w nim luk. Często oprogramowanie układowe nie jest dostępne w Internecie lub jest nieistotne z powodu różnych czynników, takich jak numer modelu, wersja itp. Dlatego wydobycie oprogramowania układowego bezpośrednio z fizycznego urządzenia może być pomocne w poszukiwaniu zagrożeń.
+Zrzut oprogramowania układowego może być przydatny do analizy oprogramowania i znajdowania w nim luk. Często oprogramowanie układowe nie jest dostępne w internecie lub jest nieistotne z powodu różnych czynników, takich jak numer modelu, wersja itp. Dlatego wydobycie oprogramowania układowego bezpośrednio z fizycznego urządzenia może być pomocne w poszukiwaniu zagrożeń.
 
-Uzyskanie konsoli szeregowej może być pomocne, ale często zdarza się, że pliki są tylko do odczytu. Ogranicza to analizę z różnych powodów. Na przykład, narzędzia, które są wymagane do wysyłania i odbierania pakietów, mogą nie być obecne w oprogramowaniu układowym. Dlatego wydobycie binarnych plików do inżynierii odwrotnej nie jest wykonalne. Dlatego posiadanie całego oprogramowania układowego zrzutowanego na systemie i wydobycie binarnych plików do analizy może być bardzo pomocne.
+Uzyskanie konsoli szeregowej może być pomocne, ale często zdarza się, że pliki są tylko do odczytu. Ogranicza to analizę z różnych powodów. Na przykład, narzędzia, które są potrzebne do wysyłania i odbierania pakietów, mogą nie być obecne w oprogramowaniu układowym. Dlatego wydobycie binarnych plików do inżynierii odwrotnej nie jest wykonalne. Dlatego posiadanie całego oprogramowania układowego zrzutowanego na system i wydobycie binarnych plików do analizy może być bardzo pomocne.
 
 Ponadto, podczas red teaming i uzyskiwania fizycznego dostępu do urządzeń, zrzut oprogramowania układowego może pomóc w modyfikacji plików lub wstrzykiwaniu złośliwych plików, a następnie ponownym wgrywaniu ich do pamięci, co może być pomocne w implantacji tylnej furtki w urządzeniu. Dlatego istnieje wiele możliwości, które można odblokować dzięki zrzutom oprogramowania układowego.
 
 ### Programator i czytnik EEPROM CH341A
 
-To urządzenie jest niedrogim narzędziem do zrzutowania oprogramowania układowego z EEPROM i ponownego wgrywania ich z plikami oprogramowania układowego. To popularny wybór do pracy z chipami BIOS komputerów (które są po prostu EEPROM). To urządzenie łączy się przez USB i wymaga minimalnych narzędzi, aby rozpocząć. Ponadto zazwyczaj szybko wykonuje zadanie, więc może być pomocne również w przypadku fizycznego dostępu do urządzenia.
+To urządzenie jest niedrogim narzędziem do zrzutowania oprogramowania układowego z EEPROM i ponownego wgrywania go z plikami oprogramowania układowego. To popularny wybór do pracy z chipami BIOS komputerów (które są po prostu EEPROM). To urządzenie łączy się przez USB i wymaga minimalnych narzędzi, aby rozpocząć. Ponadto zazwyczaj szybko wykonuje zadanie, więc może być pomocne również w przypadku fizycznego dostępu do urządzenia.
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
@@ -80,10 +80,10 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DSRM Credentials
 
-Istnieje konto **lokalnego administratora** w każdym **DC**. Posiadając uprawnienia administratora na tej maszynie, możesz użyć mimikatz do **zrzucenia hasha lokalnego administratora**. Następnie, modyfikując rejestr, możesz **aktywować to hasło**, aby uzyskać zdalny dostęp do tego lokalnego użytkownika administratora.\
+Istnieje konto **lokalnego administratora** w każdym **DC**. Mając uprawnienia administratora na tej maszynie, możesz użyć mimikatz do **zrzucenia hasha lokalnego administratora**. Następnie, modyfikując rejestr, możesz **aktywować to hasło**, aby uzyskać zdalny dostęp do tego lokalnego użytkownika administratora.\
 Najpierw musimy **zrzucić** **hash** użytkownika **lokalnego administratora** w DC:
 ```bash
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"'

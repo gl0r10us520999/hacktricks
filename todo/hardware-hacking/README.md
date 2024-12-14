@@ -34,13 +34,13 @@ Możesz natknąć się na te instrukcje, gdy używasz narzędzia takiego jak JTA
 
 ### Port dostępu do testów
 
-Skanowanie granic obejmuje testy czteroprzewodowego **Portu Dostępu do Testów (TAP)**, ogólnego portu, który zapewnia **dostęp do funkcji wsparcia testów JTAG** wbudowanych w komponent. TAP używa następujących pięciu sygnałów:
+Skanowania granic obejmują testy czteroprzewodowego **Portu Dostępu do Testów (TAP)**, ogólnego portu, który zapewnia **dostęp do funkcji wsparcia testów JTAG** wbudowanych w komponent. TAP używa następujących pięciu sygnałów:
 
 * Wejście zegara testowego (**TCK**) TCK to **zegarek**, który definiuje, jak często kontroler TAP podejmie pojedynczą akcję (innymi słowy, przeskoczy do następnego stanu w maszynie stanów).
 * Wejście wyboru trybu testowego (**TMS**) TMS kontroluje **maszynę stanów skończonych**. Przy każdym uderzeniu zegara kontroler TAP JTAG urządzenia sprawdza napięcie na pinie TMS. Jeśli napięcie jest poniżej określonego progu, sygnał jest uważany za niski i interpretowany jako 0, natomiast jeśli napięcie jest powyżej określonego progu, sygnał jest uważany za wysoki i interpretowany jako 1.
 * Wejście danych testowych (**TDI**) TDI to pin, który wysyła **dane do układu przez komórki skanowania**. Każdy producent jest odpowiedzialny za zdefiniowanie protokołu komunikacyjnego przez ten pin, ponieważ JTAG tego nie definiuje.
 * Wyjście danych testowych (**TDO**) TDO to pin, który wysyła **dane z układu**.
-* Wejście resetu testowego (**TRST**) Opcjonalny TRST resetuje maszynę stanów skończonych **do znanego dobrego stanu**. Alternatywnie, jeśli TMS jest utrzymywany na 1 przez pięć kolejnych cykli zegara, wywołuje reset, w ten sam sposób, w jaki zrobiłby to pin TRST, dlatego TRST jest opcjonalny.
+* Wejście resetu testowego (**TRST**) Opcjonalny TRST resetuje maszynę stanów skończonych **do znanego dobrego stanu**. Alternatywnie, jeśli TMS jest utrzymywany na 1 przez pięć kolejnych cykli zegara, wywołuje reset, w taki sam sposób, jak pin TRST, dlatego TRST jest opcjonalny.
 
 Czasami będziesz mógł znaleźć te piny oznaczone na PCB. W innych przypadkach możesz potrzebować **je znaleźć**.
 
@@ -48,7 +48,7 @@ Czasami będziesz mógł znaleźć te piny oznaczone na PCB. W innych przypadkac
 
 Naj szybszym, ale najdroższym sposobem na wykrycie portów JTAG jest użycie **JTAGulator**, urządzenia stworzonego specjalnie w tym celu (choć może **również wykrywać pinouty UART**).
 
-Ma **24 kanały**, które możesz podłączyć do pinów płyty. Następnie wykonuje **atak BF** wszystkich możliwych kombinacji, wysyłając polecenia skanowania granic **IDCODE** i **BYPASS**. Jeśli otrzyma odpowiedź, wyświetla kanał odpowiadający każdemu sygnałowi JTAG.
+Ma **24 kanały**, które możesz podłączyć do pinów płyty. Następnie przeprowadza **atak BF** wszystkich możliwych kombinacji, wysyłając polecenia skanowania granic **IDCODE** i **BYPASS**. Jeśli otrzyma odpowiedź, wyświetla kanał odpowiadający każdemu sygnałowi JTAG.
 
 Tańszym, ale znacznie wolniejszym sposobem identyfikacji pinów JTAG jest użycie [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) załadowanego na mikrokontrolerze kompatybilnym z Arduino.
 
@@ -60,7 +60,7 @@ Używając **JTAGenum**, najpierw **zdefiniujesz piny urządzenia sondy**, któr
 
 SWD to protokół specyficzny dla ARM zaprojektowany do debugowania.
 
-Interfejs SWD wymaga **dwóch pinów**: dwukierunkowego sygnału **SWDIO**, który jest odpowiednikiem pinów **TDI i TDO JTAG** oraz zegara, i **SWCLK**, który jest odpowiednikiem **TCK** w JTAG. Wiele urządzeń wspiera **Port Debugowania Szeregowego lub Port Debugowania JTAG (SWJ-DP)**, połączony interfejs JTAG i SWD, który umożliwia podłączenie sondy SWD lub JTAG do celu.
+Interfejs SWD wymaga **dwóch pinów**: dwukierunkowego sygnału **SWDIO**, który jest odpowiednikiem pinów **TDI i TDO JTAG** oraz zegara, i **SWCLK**, który jest odpowiednikiem **TCK** w JTAG. Wiele urządzeń wspiera **Port Debugowania Szeregowego lub JTAG (SWJ-DP)**, połączony interfejs JTAG i SWD, który umożliwia podłączenie sondy SWD lub JTAG do celu.
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

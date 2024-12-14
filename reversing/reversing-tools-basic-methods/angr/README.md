@@ -4,16 +4,16 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}
 
-Część tego arkusza oszukańczego opiera się na [dokumentacji angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
+Część tego arkusza oszustw opiera się na [dokumentacji angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
 
 # Instalacja
 ```bash
@@ -134,7 +134,7 @@ simgr.active[0].regs.rip #Get RIP from the last state
 
 * Możesz przekazać listę argumentów przez `args` oraz słownik zmiennych środowiskowych przez `env` do `entry_state` i `full_init_state`. Wartości w tych strukturach mogą być ciągami znaków lub bitwektorami i będą serializowane do stanu jako argumenty i środowisko do symulowanej egzekucji. Domyślne `args` to pusta lista, więc jeśli program, który analizujesz, oczekuje przynajmniej `argv[0]`, zawsze powinieneś to podać!
 * Jeśli chcesz, aby `argc` był symboliczny, możesz przekazać symboliczny bitwektor jako `argc` do konstruktorów `entry_state` i `full_init_state`. Bądź jednak ostrożny: jeśli to zrobisz, powinieneś również dodać ograniczenie do wynikowego stanu, że twoja wartość dla argc nie może być większa niż liczba argumentów, które przekazałeś do `args`.
-* Aby użyć stanu wywołania, powinieneś go wywołać za pomocą `.call_state(addr, arg1, arg2, ...)`, gdzie `addr` to adres funkcji, którą chcesz wywołać, a `argN` to N-ty argument tej funkcji, jako liczba całkowita Pythona, ciąg znaków lub tablica, lub bitwektor. Jeśli chcesz, aby pamięć była przydzielona i faktycznie przekazać wskaźnik do obiektu, powinieneś owinąć go w PointerWrapper, tj. `angr.PointerWrapper("point to me!")`. Wyniki tego interfejsu API mogą być nieco nieprzewidywalne, ale pracujemy nad tym.
+* Aby użyć stanu wywołania, powinieneś go wywołać za pomocą `.call_state(addr, arg1, arg2, ...)`, gdzie `addr` to adres funkcji, którą chcesz wywołać, a `argN` to N-ty argument tej funkcji, jako liczba całkowita w Pythonie, ciąg znaków lub tablica, lub bitwektor. Jeśli chcesz, aby pamięć była przydzielona i faktycznie przekazać wskaźnik do obiektu, powinieneś owinąć to w PointerWrapper, tj. `angr.PointerWrapper("point to me!")`. Wyniki tego interfejsu API mogą być nieco nieprzewidywalne, ale pracujemy nad tym.
 
 ## Bitwektory
 ```python
@@ -207,7 +207,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

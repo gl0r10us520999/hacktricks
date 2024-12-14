@@ -23,13 +23,13 @@ Protokół [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.
 ```bash
 sekurlsa::wdigest
 ```
-Aby **wyłączyć lub włączyć tę funkcję**, klucze rejestru _**UseLogonCredential**_ i _**Negotiate**_ w _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ muszą być ustawione na "1". Jeśli te klucze są **nieobecne lub ustawione na "0"**, WDigest jest **wyłączony**:
+Aby **włączyć lub wyłączyć tę funkcję**, klucze rejestru _**UseLogonCredential**_ i _**Negotiate**_ w _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ muszą być ustawione na "1". Jeśli te klucze są **nieobecne lub ustawione na "0"**, WDigest jest **wyłączony**:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
 ```
 ## Ochrona LSA
 
-Począwszy od **Windows 8.1**, Microsoft poprawił bezpieczeństwo LSA, aby **zablokować nieautoryzowane odczyty pamięci lub wstrzykiwanie kodu przez nieufne procesy**. To ulepszenie utrudnia typowe działanie poleceń takich jak `mimikatz.exe sekurlsa:logonpasswords`. Aby **włączyć tę ulepszoną ochronę**, wartość _**RunAsPPL**_ w _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ powinna zostać ustawiona na 1:
+Począwszy od **Windows 8.1**, Microsoft poprawił bezpieczeństwo LSA, aby **zablokować nieautoryzowane odczyty pamięci lub wstrzykiwanie kodu przez nieufne procesy**. To ulepszenie utrudnia typowe działanie poleceń takich jak `mimikatz.exe sekurlsa:logonpasswords`. Aby **włączyć tę ulepszoną ochronę**, wartość _**RunAsPPL**_ w _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ powinna być ustawiona na 1:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
@@ -41,11 +41,11 @@ Możliwe jest obejście tej ochrony za pomocą sterownika Mimikatz mimidrv.sys:
 
 ## Credential Guard
 
-**Credential Guard**, funkcja dostępna wyłącznie w **Windows 10 (edycje Enterprise i Education)**, zwiększa bezpieczeństwo poświadczeń maszyny za pomocą **Virtual Secure Mode (VSM)** i **Virtualization Based Security (VBS)**. Wykorzystuje rozszerzenia wirtualizacji CPU do izolacji kluczowych procesów w chronionej przestrzeni pamięci, z dala od zasięgu głównego systemu operacyjnego. Ta izolacja zapewnia, że nawet jądro nie ma dostępu do pamięci w VSM, skutecznie chroniąc poświadczenia przed atakami takimi jak **pass-the-hash**. **Local Security Authority (LSA)** działa w tym bezpiecznym środowisku jako trustlet, podczas gdy proces **LSASS** w głównym systemie operacyjnym działa jedynie jako komunikator z LSA VSM.
+**Credential Guard**, funkcja dostępna wyłącznie w **Windows 10 (edycje Enterprise i Education)**, zwiększa bezpieczeństwo poświadczeń maszyny, korzystając z **Virtual Secure Mode (VSM)** i **Virtualization Based Security (VBS)**. Wykorzystuje rozszerzenia wirtualizacji CPU do izolacji kluczowych procesów w chronionej przestrzeni pamięci, z dala od zasięgu głównego systemu operacyjnego. Ta izolacja zapewnia, że nawet jądro nie ma dostępu do pamięci w VSM, skutecznie chroniąc poświadczenia przed atakami takimi jak **pass-the-hash**. **Local Security Authority (LSA)** działa w tym bezpiecznym środowisku jako trustlet, podczas gdy proces **LSASS** w głównym systemie operacyjnym działa jedynie jako komunikator z LSA VSM.
 
-Domyślnie **Credential Guard** nie jest aktywny i wymaga ręcznej aktywacji w organizacji. Jest to kluczowe dla zwiększenia bezpieczeństwa przed narzędziami takimi jak **Mimikatz**, które mają ograniczone możliwości wydobywania poświadczeń. Jednakże, luki mogą być nadal wykorzystywane poprzez dodanie niestandardowych **Security Support Providers (SSP)** do przechwytywania poświadczeń w postaci czystego tekstu podczas prób logowania.
+Domyślnie **Credential Guard** nie jest aktywny i wymaga ręcznej aktywacji w organizacji. Jest to kluczowe dla zwiększenia bezpieczeństwa przed narzędziami takimi jak **Mimikatz**, które mają ograniczone możliwości wydobywania poświadczeń. Jednak luki w zabezpieczeniach mogą być nadal wykorzystywane poprzez dodanie niestandardowych **Security Support Providers (SSP)** do przechwytywania poświadczeń w postaci czystego tekstu podczas prób logowania.
 
-Aby zweryfikować status aktywacji **Credential Guard**, można sprawdzić klucz rejestru _**LsaCfgFlags**_ w _**HKLM\System\CurrentControlSet\Control\LSA**_. Wartość "**1**" oznacza aktywację z **UEFI lock**, "**2**" bez blokady, a "**0**" oznacza, że nie jest włączona. To sprawdzenie rejestru, chociaż jest silnym wskaźnikiem, nie jest jedynym krokiem do włączenia Credential Guard. Szczegółowe wskazówki oraz skrypt PowerShell do włączenia tej funkcji są dostępne online.
+Aby zweryfikować status aktywacji **Credential Guard**, można sprawdzić klucz rejestru _**LsaCfgFlags**_ w _**HKLM\System\CurrentControlSet\Control\LSA**_. Wartość "**1**" oznacza aktywację z **UEFI lock**, "**2**" bez blokady, a "**0**" oznacza, że nie jest włączona. To sprawdzenie rejestru, choć jest silnym wskaźnikiem, nie jest jedynym krokiem do włączenia Credential Guard. Szczegółowe wskazówki oraz skrypt PowerShell do włączenia tej funkcji są dostępne online.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
@@ -55,13 +55,13 @@ Dalsze szczegóły dotyczące wdrażania niestandardowych SSP do przechwytywania
 
 ## Tryb RestrictedAdmin RDP
 
-**Windows 8.1 i Windows Server 2012 R2** wprowadziły kilka nowych funkcji zabezpieczeń, w tym _**tryb Restricted Admin dla RDP**_. Tryb ten został zaprojektowany w celu zwiększenia bezpieczeństwa poprzez ograniczenie ryzyka związanego z [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/) atakami.
+**Windows 8.1 i Windows Server 2012 R2** wprowadziły kilka nowych funkcji zabezpieczeń, w tym _**tryb Restricted Admin dla RDP**_. Tryb ten został zaprojektowany w celu zwiększenia bezpieczeństwa poprzez łagodzenie ryzyk związanych z [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/) atakami.
 
-Tradycyjnie, podczas łączenia się zdalnie z komputerem za pomocą RDP, twoje poświadczenia są przechowywane na docelowej maszynie. Stanowi to znaczące ryzyko bezpieczeństwa, szczególnie przy użyciu kont z podwyższonymi uprawnieniami. Jednak dzięki wprowadzeniu _**trybu Restricted Admin**_, to ryzyko jest znacznie zredukowane.
+Tradycyjnie, podczas łączenia się zdalnie z komputerem za pomocą RDP, twoje poświadczenia są przechowywane na docelowej maszynie. Stanowi to istotne ryzyko bezpieczeństwa, szczególnie przy użyciu kont z podwyższonymi uprawnieniami. Jednak dzięki wprowadzeniu _**trybu Restricted Admin**_, to ryzyko jest znacznie zredukowane.
 
 Podczas inicjowania połączenia RDP za pomocą polecenia **mstsc.exe /RestrictedAdmin**, uwierzytelnienie do zdalnego komputera odbywa się bez przechowywania twoich poświadczeń na nim. Takie podejście zapewnia, że w przypadku infekcji złośliwym oprogramowaniem lub jeśli złośliwy użytkownik uzyska dostęp do zdalnego serwera, twoje poświadczenia nie zostaną skompromitowane, ponieważ nie są przechowywane na serwerze.
 
-Ważne jest, aby zauważyć, że w **trybie Restricted Admin**, próby dostępu do zasobów sieciowych z sesji RDP nie będą używać twoich osobistych poświadczeń; zamiast tego używana jest **tożsamość maszyny**.
+Ważne jest, aby zauważyć, że w **trybie Restricted Admin** próby dostępu do zasobów sieciowych z sesji RDP nie będą używać twoich osobistych poświadczeń; zamiast tego używana jest **tożsamość maszyny**.
 
 Funkcja ta stanowi znaczący krok naprzód w zabezpieczaniu połączeń pulpitu zdalnego i ochronie wrażliwych informacji przed ujawnieniem w przypadku naruszenia bezpieczeństwa.
 
@@ -71,9 +71,9 @@ Aby uzyskać bardziej szczegółowe informacje, odwiedź [ten zasób](https://bl
 
 ## Pamiętane Poświadczenia
 
-Windows zabezpiecza **poświadczenia domeny** za pomocą **Local Security Authority (LSA)**, wspierając procesy logowania z protokołami zabezpieczeń takimi jak **Kerberos** i **NTLM**. Kluczową cechą systemu Windows jest jego zdolność do pamiętania **ostatnich dziesięciu logowań do domeny**, aby zapewnić użytkownikom dostęp do komputerów, nawet jeśli **kontroler domeny jest offline**—co jest korzystne dla użytkowników laptopów często poza siecią swojej firmy.
+Windows zabezpiecza **poświadczenia domeny** za pomocą **Local Security Authority (LSA)**, wspierając procesy logowania z protokołami zabezpieczeń takimi jak **Kerberos** i **NTLM**. Kluczową cechą systemu Windows jest jego zdolność do pamiętania **ostatnich dziesięciu logowań do domeny**, aby zapewnić użytkownikom dostęp do ich komputerów, nawet jeśli **kontroler domeny jest offline**—co jest korzystne dla użytkowników laptopów, którzy często są poza siecią swojej firmy.
 
-Liczba pamiętanych logowań jest regulowana za pomocą konkretnego **klucza rejestru lub polityki grupowej**. Aby wyświetlić lub zmienić to ustawienie, wykorzystuje się następujące polecenie:
+Liczba pamiętanych logowań jest regulowana za pomocą konkretnego **klucza rejestru lub polityki grupowej**. Aby wyświetlić lub zmienić to ustawienie, używa się następującego polecenia:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
@@ -81,19 +81,19 @@ Dostęp do tych pamiętanych poświadczeń jest ściśle kontrolowany, a jedynie
 
 **Mimikatz** może być użyty do wyodrębnienia tych pamiętanych poświadczeń za pomocą polecenia `lsadump::cache`.
 
-Aby uzyskać więcej szczegółów, oryginalne [źródło](http://juggernaut.wikidot.com/cached-credentials) zawiera szczegółowe informacje.
+Aby uzyskać więcej szczegółów, oryginalne [źródło](http://juggernaut.wikidot.com/cached-credentials) dostarcza kompleksowych informacji.
 
 ## Chronieni Użytkownicy
 
-Członkostwo w **grupie Chronionych Użytkowników** wprowadza kilka ulepszeń bezpieczeństwa dla użytkowników, zapewniając wyższy poziom ochrony przed kradzieżą i nadużywaniem poświadczeń:
+Członkostwo w grupie **Chronionych Użytkowników** wprowadza kilka ulepszeń bezpieczeństwa dla użytkowników, zapewniając wyższy poziom ochrony przed kradzieżą i nadużywaniem poświadczeń:
 
 * **Delegacja Poświadczeń (CredSSP)**: Nawet jeśli ustawienie zasad grupy dla **Zezwól na delegowanie domyślnych poświadczeń** jest włączone, poświadczenia w postaci czystego tekstu Chronionych Użytkowników nie będą pamiętane.
 * **Windows Digest**: Począwszy od **Windows 8.1 i Windows Server 2012 R2**, system nie będzie pamiętał poświadczeń w postaci czystego tekstu Chronionych Użytkowników, niezależnie od statusu Windows Digest.
 * **NTLM**: System nie będzie pamiętał poświadczeń w postaci czystego tekstu Chronionych Użytkowników ani funkcji jednokierunkowych NT (NTOWF).
-* **Kerberos**: Dla Chronionych Użytkowników, uwierzytelnianie Kerberos nie wygeneruje **kluczy DES** ani **RC4**, ani nie będzie pamiętać poświadczeń w postaci czystego tekstu ani kluczy długoterminowych poza początkowym uzyskaniem biletu TGT (Ticket-Granting Ticket).
-* **Logowanie Offline**: Chronieni Użytkownicy nie będą mieli utworzonego pamiętanego weryfikatora podczas logowania lub odblokowywania, co oznacza, że logowanie offline nie jest obsługiwane dla tych kont.
+* **Kerberos**: Dla Chronionych Użytkowników, uwierzytelnianie Kerberos nie wygeneruje **kluczy DES** ani **RC4**, ani nie będzie pamiętać poświadczeń w postaci czystego tekstu ani kluczy długoterminowych poza początkowym uzyskaniem biletu Ticket-Granting Ticket (TGT).
+* **Logowanie Offline**: Chronieni Użytkownicy nie będą mieli utworzonego pamiętanego weryfikatora podczas logowania lub odblokowywania, co oznacza, że logowanie offline nie jest wspierane dla tych kont.
 
-Te zabezpieczenia są aktywowane w momencie, gdy użytkownik, który jest członkiem **grupy Chronionych Użytkowników**, loguje się do urządzenia. Zapewnia to, że krytyczne środki bezpieczeństwa są wprowadzone, aby chronić przed różnymi metodami kompromitacji poświadczeń.
+Te zabezpieczenia są aktywowane w momencie, gdy użytkownik, który jest członkiem grupy **Chronionych Użytkowników**, loguje się do urządzenia. Zapewnia to, że krytyczne środki bezpieczeństwa są wprowadzone, aby chronić przed różnymi metodami kompromitacji poświadczeń.
 
 Aby uzyskać bardziej szczegółowe informacje, zapoznaj się z oficjalną [dokumentacją](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 

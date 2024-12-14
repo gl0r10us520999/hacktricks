@@ -23,12 +23,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 - **Klucz publiczny** jest sparowany z kluczem prywatnym, aby powiązać certyfikat z jego prawowitym właścicielem.
 - **Okres ważności**, określony przez daty **NotBefore** i **NotAfter**, oznacza czas obowiązywania certyfikatu.
 - Unikalny **Numer seryjny**, dostarczony przez Urząd Certyfikacji (CA), identyfikuje każdy certyfikat.
-- **Wydawca** odnosi się do CA, który wydał certyfikat.
+- **Wystawca** odnosi się do CA, który wydał certyfikat.
 - **SubjectAlternativeName** pozwala na dodatkowe nazwy dla podmiotu, zwiększając elastyczność identyfikacji.
-- **Podstawowe ograniczenia** identyfikują, czy certyfikat jest dla CA, czy dla podmiotu końcowego, oraz definiują ograniczenia użytkowania.
-- **Rozszerzone zastosowania kluczy (EKU)** określają konkretne cele certyfikatu, takie jak podpisywanie kodu lub szyfrowanie e-maili, za pomocą identyfikatorów obiektów (OID).
+- **Podstawowe ograniczenia** identyfikują, czy certyfikat jest dla CA czy podmiotu końcowego oraz definiują ograniczenia użytkowania.
+- **Rozszerzone zastosowania kluczy (EKU)** określają konkretne cele certyfikatu, takie jak podpisywanie kodu czy szyfrowanie e-maili, za pomocą identyfikatorów obiektów (OID).
 - **Algorytm podpisu** określa metodę podpisywania certyfikatu.
-- **Podpis**, stworzony za pomocą klucza prywatnego wydawcy, gwarantuje autentyczność certyfikatu.
+- **Podpis**, stworzony za pomocą klucza prywatnego wystawcy, gwarantuje autentyczność certyfikatu.
 
 ### Specjalne uwagi
 
@@ -39,24 +39,24 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 AD CS uznaje certyfikaty CA w lesie AD poprzez wyznaczone kontenery, z których każdy pełni unikalne role:
 
 - Kontener **Certification Authorities** przechowuje zaufane certyfikaty głównych CA.
-- Kontener **Enrolment Services** zawiera szczegóły dotyczące Enterprise CA i ich szablonów certyfikatów.
+- Kontener **Enrolment Services** szczegółowo opisuje Enterprise CA i ich szablony certyfikatów.
 - Obiekt **NTAuthCertificates** zawiera certyfikaty CA autoryzowane do uwierzytelniania AD.
 - Kontener **AIA (Authority Information Access)** ułatwia walidację łańcucha certyfikatów z certyfikatami pośrednimi i krzyżowymi CA.
 
 ### Pozyskiwanie certyfikatów: Proces żądania certyfikatu klienta
 
 1. Proces żądania rozpoczyna się od znalezienia przez klientów Enterprise CA.
-2. Tworzony jest CSR, zawierający klucz publiczny i inne szczegóły, po wygenerowaniu pary kluczy publiczno-prywatnych.
+2. CSR jest tworzony, zawierający klucz publiczny i inne szczegóły, po wygenerowaniu pary kluczy publiczno-prywatnych.
 3. CA ocenia CSR w odniesieniu do dostępnych szablonów certyfikatów, wydając certyfikat na podstawie uprawnień szablonu.
-4. Po zatwierdzeniu, CA podpisuje certyfikat swoim kluczem prywatnym i zwraca go klientowi.
+4. Po zatwierdzeniu, CA podpisuje certyfikat swoim kluczem prywatnym i zwraca go do klienta.
 
 ### Szablony certyfikatów
 
-Zdefiniowane w AD, te szablony określają ustawienia i uprawnienia do wydawania certyfikatów, w tym dozwolone EKU oraz prawa do rejestracji lub modyfikacji, co jest kluczowe dla zarządzania dostępem do usług certyfikacyjnych.
+Zdefiniowane w AD, te szablony określają ustawienia i uprawnienia do wydawania certyfikatów, w tym dozwolone EKU oraz prawa do rejestracji lub modyfikacji, co jest kluczowe dla zarządzania dostępem do usług certyfikatów.
 
 ## Rejestracja certyfikatów
 
-Proces rejestracji certyfikatów inicjuje administrator, który **tworzy szablon certyfikatu**, który następnie jest **publikowany** przez Enterprise Certificate Authority (CA). Umożliwia to klientom rejestrację, co osiąga się poprzez dodanie nazwy szablonu do pola `certificatetemplates` obiektu Active Directory.
+Proces rejestracji certyfikatów jest inicjowany przez administratora, który **tworzy szablon certyfikatu**, który następnie jest **publikowany** przez Enterprise Certificate Authority (CA). To sprawia, że szablon jest dostępny do rejestracji przez klientów, co osiąga się poprzez dodanie nazwy szablonu do pola `certificatetemplates` obiektu Active Directory.
 
 Aby klient mógł zażądać certyfikatu, muszą być przyznane **prawa rejestracji**. Prawa te są określone przez deskryptory zabezpieczeń na szablonie certyfikatu oraz samym Enterprise CA. Uprawnienia muszą być przyznane w obu lokalizacjach, aby żądanie mogło być skuteczne.
 
@@ -97,7 +97,7 @@ Active Directory (AD) wspiera uwierzytelnianie za pomocą certyfikatów, główn
 
 ### Proces Uwierzytelniania Kerberos
 
-W procesie uwierzytelniania Kerberos, żądanie użytkownika o Ticket Granting Ticket (TGT) jest podpisywane za pomocą **klucza prywatnego** certyfikatu użytkownika. To żądanie przechodzi przez kilka walidacji przez kontroler domeny, w tym **ważność**, **ścieżkę** i **status unieważnienia** certyfikatu. Walidacje obejmują również weryfikację, że certyfikat pochodzi z zaufanego źródła oraz potwierdzenie obecności wystawcy w **magazynie certyfikatów NTAUTH**. Pomyślne walidacje skutkują wydaniem TGT. Obiekt **`NTAuthCertificates`** w AD, znajdujący się pod:
+W procesie uwierzytelniania Kerberos, żądanie użytkownika o Ticket Granting Ticket (TGT) jest podpisywane za pomocą **klucza prywatnego** certyfikatu użytkownika. To żądanie przechodzi przez kilka walidacji przez kontroler domeny, w tym **ważność** certyfikatu, **ścieżkę** oraz **status unieważnienia**. Walidacje obejmują również weryfikację, że certyfikat pochodzi z zaufanego źródła oraz potwierdzenie obecności wystawcy w **magazynie certyfikatów NTAUTH**. Pomyślne walidacje skutkują wydaniem TGT. Obiekt **`NTAuthCertificates`** w AD, znajdujący się pod:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -105,7 +105,7 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel ułatwia bezpieczne połączenia TLS/SSL, w których podczas handshake klient przedstawia certyfikat, który, jeśli zostanie pomyślnie zweryfikowany, upoważnia do dostępu. Mapowanie certyfikatu do konta AD może obejmować funkcję Kerberos **S4U2Self** lub **Subject Alternative Name (SAN)** certyfikatu, między innymi metody.
+Schannel ułatwia bezpieczne połączenia TLS/SSL, w których podczas handshake klient przedstawia certyfikat, który, jeśli zostanie pomyślnie zweryfikowany, autoryzuje dostęp. Mapowanie certyfikatu do konta AD może obejmować funkcję Kerberos **S4U2Self** lub **Subject Alternative Name (SAN)** certyfikatu, między innymi metody.
 
 ### AD Certificate Services Enumeration
 
@@ -139,7 +139,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

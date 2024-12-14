@@ -14,7 +14,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -54,14 +54,14 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Narzędzia wielofunkcyjne, w tym zrzut użytkowników podatnych na kerberoast:
+Narzędzia wielofunkcyjne, w tym zrzut użytkowników podatnych na kerberoasting:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Wymień użytkowników podatnych na Kerberoast**
+* **Enumeruj użytkowników podatnych na Kerberoasting**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
@@ -132,7 +132,7 @@ Możesz znaleźć przydatne **narzędzia** do ataków **kerberoast** tutaj: [htt
 
 Jeśli napotkasz ten **błąd** z systemu Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`**, to z powodu lokalnego czasu, musisz zsynchronizować hosta z DC. Istnieje kilka opcji:
 
-* `ntpdate <IP of DC>` - Nieaktualne od Ubuntu 16.04
+* `ntpdate <IP of DC>` - Przestarzałe od Ubuntu 16.04
 * `rdate -n <IP of DC>`
 
 ### Mitigacja
@@ -156,9 +156,9 @@ Wdrażając te środki, organizacje mogą znacznie zmniejszyć ryzyko związane 
 
 ## Kerberoast bez konta domenowego
 
-W **wrześniu 2022** roku nowy sposób na wykorzystanie systemu został ujawniony przez badacza o imieniu Charlie Clark, udostępniony za pośrednictwem jego platformy [exploit.ph](https://exploit.ph/). Metoda ta pozwala na pozyskanie **Biletów Serwisowych (ST)** za pomocą żądania **KRB\_AS\_REQ**, które, co niezwykłe, nie wymaga kontroli nad żadnym kontem Active Directory. Zasadniczo, jeśli główny podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji—scenariusz podobny do tego, co w dziedzinie cyberbezpieczeństwa nazywa się atakiem **AS-REP Roasting**—ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w treści żądania, system jest oszukiwany do wydania **ST** zamiast standardowego zaszyfrowanego biletu przyznawania biletów (TGT).
+W **wrześniu 2022** roku nowy sposób na wykorzystanie systemu został ujawniony przez badacza o imieniu Charlie Clark, udostępniony za pośrednictwem jego platformy [exploit.ph](https://exploit.ph/). Metoda ta pozwala na pozyskanie **Biletów Serwisowych (ST)** za pomocą żądania **KRB\_AS\_REQ**, które w sposób niezwykły nie wymaga kontroli nad żadnym kontem Active Directory. Zasadniczo, jeśli główny podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji—scenariusz podobny do tego, co w dziedzinie cyberbezpieczeństwa nazywa się atakiem **AS-REP Roasting**—ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w treści żądania, system jest oszukiwany do wydania **ST** zamiast standardowego zaszyfrowanego biletu przyznawania biletów (TGT).
 
-Technika jest w pełni wyjaśniona w tym artykule: [Semperis blog post](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+Technika jest w pełni wyjaśniona w tym artykule: [Post na blogu Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
 Musisz dostarczyć listę użytkowników, ponieważ nie mamy ważnego konta do zapytania LDAP przy użyciu tej techniki.
@@ -192,7 +192,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

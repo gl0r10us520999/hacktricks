@@ -9,15 +9,15 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}
 
 ## **Wprowadzenie**
 
-Oprogramowanie układowe to niezbędne oprogramowanie, które umożliwia urządzeniom prawidłowe działanie, zarządzając i ułatwiając komunikację między komponentami sprzętowymi a oprogramowaniem, z którym użytkownicy wchodzą w interakcję. Jest przechowywane w pamięci trwałej, co zapewnia, że urządzenie może uzyskać dostęp do istotnych instrukcji od momentu włączenia, prowadząc do uruchomienia systemu operacyjnego. Badanie i potencjalne modyfikowanie oprogramowania układowego jest kluczowym krokiem w identyfikacji luk w zabezpieczeniach.
+Oprogramowanie układowe to niezbędne oprogramowanie, które umożliwia urządzeniom prawidłowe działanie, zarządzając i ułatwiając komunikację między komponentami sprzętowymi a oprogramowaniem, z którym użytkownicy wchodzą w interakcję. Jest przechowywane w pamięci trwałej, co zapewnia, że urządzenie może uzyskać dostęp do istotnych instrukcji od momentu włączenia, prowadząc do uruchomienia systemu operacyjnego. Badanie i potencjalna modyfikacja oprogramowania układowego to kluczowy krok w identyfikacji luk w zabezpieczeniach.
 
 ## **Zbieranie informacji**
 
@@ -26,13 +26,13 @@ Oprogramowanie układowe to niezbędne oprogramowanie, które umożliwia urządz
 - Architektury CPU i systemu operacyjnego, na którym działa
 - Szczegółów bootloadera
 - Układu sprzętowego i kart katalogowych
-- Metryk kodu źródłowego i lokalizacji źródeł
+- Metryk bazy kodu i lokalizacji źródłowych
 - Zewnętrznych bibliotek i typów licencji
 - Historii aktualizacji i certyfikacji regulacyjnych
 - Diagramów architektonicznych i przepływowych
 - Oceny bezpieczeństwa i zidentyfikowanych luk
 
-W tym celu narzędzia **inteligencji open-source (OSINT)** są nieocenione, podobnie jak analiza dostępnych komponentów oprogramowania open-source poprzez ręczne i zautomatyzowane procesy przeglądowe. Narzędzia takie jak [Coverity Scan](https://scan.coverity.com) i [Semmle’s LGTM](https://lgtm.com/#explore) oferują darmową analizę statyczną, która może być wykorzystana do znalezienia potencjalnych problemów.
+W tym celu narzędzia **inteligencji open-source (OSINT)** są nieocenione, podobnie jak analiza wszelkich dostępnych komponentów oprogramowania open-source poprzez ręczne i zautomatyzowane procesy przeglądowe. Narzędzia takie jak [Coverity Scan](https://scan.coverity.com) i [Semmle’s LGTM](https://lgtm.com/#explore) oferują darmową analizę statyczną, która może być wykorzystana do znalezienia potencjalnych problemów.
 
 ## **Pozyskiwanie oprogramowania układowego**
 
@@ -142,11 +142,11 @@ fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
 Aby ocenić status szyfrowania obrazu, sprawdzana jest **entropia** za pomocą `binwalk -E <bin>`. Niska entropia sugeruje brak szyfrowania, podczas gdy wysoka entropia wskazuje na możliwe szyfrowanie lub kompresję.
 
-Do **wyodrębniania plików osadzonych** zaleca się korzystanie z narzędzi i zasobów, takich jak dokumentacja **file-data-carving-recovery-tools** oraz **binvis.io** do inspekcji plików.
+Do **wyodrębniania plików osadzonych** zaleca się korzystanie z dokumentacji **file-data-carving-recovery-tools** oraz **binvis.io** do inspekcji plików.
 
 ### Wyodrębnianie systemu plików
 
-Używając `binwalk -ev <bin>`, można zazwyczaj wyodrębnić system plików, często do katalogu nazwanego na cześć typu systemu plików (np. squashfs, ubifs). Jednak gdy **binwalk** nie rozpoznaje typu systemu plików z powodu brakujących bajtów magicznych, konieczne jest ręczne wyodrębnienie. Wymaga to użycia `binwalk` do zlokalizowania offsetu systemu plików, a następnie polecenia `dd` do wycięcia systemu plików:
+Używając `binwalk -ev <bin>`, zazwyczaj można wyodrębnić system plików, często do katalogu o nazwie odpowiadającej typowi systemu plików (np. squashfs, ubifs). Jednak gdy **binwalk** nie rozpoznaje typu systemu plików z powodu brakujących bajtów magicznych, konieczne jest ręczne wyodrębnienie. Wymaga to użycia `binwalk` do zlokalizowania offsetu systemu plików, a następnie polecenia `dd` do wycięcia systemu plików:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
@@ -210,7 +210,7 @@ Na tym etapie używa się rzeczywistego lub emulowanego środowiska urządzenia 
 
 ## Techniki analizy w czasie rzeczywistym
 
-Analiza w czasie rzeczywistym polega na interakcji z procesem lub binarnym w jego środowisku operacyjnym, wykorzystując narzędzia takie jak gdb-multiarch, Frida i Ghidra do ustawiania punktów przerwania i identyfikacji luk poprzez fuzzing i inne techniki.
+Analiza w czasie rzeczywistym polega na interakcji z procesem lub binarnym w jego środowisku operacyjnym, przy użyciu narzędzi takich jak gdb-multiarch, Frida i Ghidra do ustawiania punktów przerwania i identyfikacji luk poprzez fuzzing i inne techniki.
 
 ## Eksploatacja binarna i dowód koncepcji
 
@@ -225,9 +225,9 @@ Systemy operacyjne takie jak [AttifyOS](https://github.com/adi0x90/attifyos) i [
 * [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS to dystrybucja mająca na celu pomoc w przeprowadzaniu oceny bezpieczeństwa i testów penetracyjnych urządzeń Internetu Rzeczy (IoT). Oszczędza dużo czasu, zapewniając wstępnie skonfigurowane środowisko z wszystkimi niezbędnymi narzędziami.
 * [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): System operacyjny do testowania bezpieczeństwa wbudowanego, oparty na Ubuntu 18.04, wstępnie załadowany narzędziami do testowania bezpieczeństwa firmware.
 
-## Wrażliwe firmware do ćwiczeń
+## Wrażliwe firmware do praktyki
 
-Aby ćwiczyć odkrywanie luk w firmware, użyj następujących projektów firmware jako punktu wyjścia.
+Aby ćwiczyć odkrywanie luk w firmware, użyj następujących wrażliwych projektów firmware jako punktu wyjścia.
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
@@ -261,7 +261,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

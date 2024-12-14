@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Security Descriptors
 
-[Z dokumentacji](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Język definicji deskryptora zabezpieczeń (SDDL) definiuje format, który jest używany do opisu deskryptora zabezpieczeń. SDDL używa ciągów ACE dla DACL i SACL: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
+[From the docs](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Security Descriptor Definition Language (SDDL) definiuje format, który jest używany do opisu opisu zabezpieczeń. SDDL używa ciągów ACE dla DACL i SACL: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
 
-**Deskryptory zabezpieczeń** są używane do **przechowywania** **uprawnień**, jakie **obiekt** ma **nad** innym **obiektem**. Jeśli możesz **wprowadzić** **niewielką zmianę** w **deskryptorze zabezpieczeń** obiektu, możesz uzyskać bardzo interesujące uprawnienia nad tym obiektem bez potrzeby bycia członkiem grupy z uprawnieniami.
+**Deskriptory zabezpieczeń** są używane do **przechowywania** **uprawnień**, które **obiekt** ma **nad** **obiektem**. Jeśli możesz **wprowadzić** **małą zmianę** w **deskriptorze zabezpieczeń** obiektu, możesz uzyskać bardzo interesujące uprawnienia nad tym obiektem bez potrzeby bycia członkiem grupy z uprawnieniami.
 
 Ta technika utrzymywania dostępu opiera się na zdolności do zdobycia każdego potrzebnego uprawnienia wobec określonych obiektów, aby móc wykonać zadanie, które zazwyczaj wymaga uprawnień administratora, ale bez potrzeby bycia administratorem.
 

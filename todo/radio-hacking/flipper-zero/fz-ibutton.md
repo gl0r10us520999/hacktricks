@@ -25,7 +25,7 @@ Aby uzyskać więcej informacji na temat tego, czym jest iButton, sprawdź:
 
 ## Design
 
-Niebieska część poniższego obrazu to sposób, w jaki należy umieścić prawdziwy iButton, aby Flipper mógł go odczytać. Zielona część to sposób, w jaki należy dotknąć czytnika Flipperem zero, aby poprawnie emulować iButton.
+**Niebieska** część poniższego obrazu to sposób, w jaki należy **umieścić prawdziwy iButton**, aby Flipper mógł **go odczytać.** **Zielona** część to sposób, w jaki należy **dotknąć czytnika** Flipperem zero, aby **prawidłowo emulować iButton**.
 
 <figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
@@ -33,18 +33,18 @@ Niebieska część poniższego obrazu to sposób, w jaki należy umieścić praw
 
 ### Read
 
-W trybie odczytu Flipper czeka na dotknięcie klucza iButton i jest w stanie przetworzyć dowolny z trzech typów kluczy: Dallas, Cyfral i Metakom. Flipper samodzielnie określi typ klucza. Nazwa protokołu klucza zostanie wyświetlona na ekranie powyżej numeru ID.
+W trybie odczytu Flipper czeka na dotknięcie klucza iButton i jest w stanie przetworzyć dowolny z trzech typów kluczy: **Dallas, Cyfral i Metakom**. Flipper **samoistnie ustali typ klucza**. Nazwa protokołu klucza będzie wyświetlana na ekranie powyżej numeru ID.
 
 ### Add manually
 
-Możliwe jest ręczne dodanie iButtona typu: Dallas, Cyfral i Metakom.
+Możliwe jest **ręczne dodanie** iButtona typu: **Dallas, Cyfral i Metakom**
 
 ### **Emulate**
 
-Możliwe jest emulowanie zapisanych iButtonów (odczytanych lub dodanych ręcznie).
+Możliwe jest **emulowanie** zapisanych iButtonów (odczytanych lub dodanych ręcznie).
 
 {% hint style="info" %}
-Jeśli nie możesz sprawić, aby oczekiwane styki Flippera Zero dotknęły czytnika, możesz użyć zewnętrznego GPIO:
+Jeśli nie możesz sprawić, aby oczekiwane styki Flippera Zero dotknęły czytnika, możesz **użyć zewnętrznego GPIO:**
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>

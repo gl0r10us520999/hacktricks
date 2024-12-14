@@ -34,14 +34,14 @@ python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
 Dla scenariuszy wymagających AES256, opcja `-aesKey [AES key]` może być wykorzystana. Ponadto, uzyskany bilet może być użyty z różnymi narzędziami, w tym smbexec.py lub wmiexec.py, poszerzając zakres ataku.
 
-Napotykanie problemów takich jak _PyAsn1Error_ lub _KDC cannot find the name_ jest zazwyczaj rozwiązywane przez aktualizację biblioteki Impacket lub użycie nazwy hosta zamiast adresu IP, zapewniając zgodność z Kerberos KDC.
+Napotykanie problemów takich jak _PyAsn1Error_ lub _KDC cannot find the name_ zazwyczaj rozwiązuje się poprzez aktualizację biblioteki Impacket lub użycie nazwy hosta zamiast adresu IP, zapewniając zgodność z Kerberos KDC.
 
 Alternatywna sekwencja poleceń używająca Rubeus.exe demonstruje inny aspekt tej techniki:
 ```bash
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-Ta metoda odzwierciedla podejście **Pass the Key**, koncentrując się na przejęciu i wykorzystaniu biletu bezpośrednio do celów uwierzytelniania. Ważne jest, aby zauważyć, że inicjacja żądania TGT wyzwala zdarzenie `4768: A Kerberos authentication ticket (TGT) was requested`, co oznacza domyślne użycie RC4-HMAC, chociaż nowoczesne systemy Windows preferują AES256.
+Ta metoda odzwierciedla podejście **Pass the Key**, koncentrując się na przejęciu i wykorzystaniu biletu bezpośrednio do celów uwierzytelniania. Ważne jest, aby zauważyć, że inicjacja żądania TGT wywołuje zdarzenie `4768: A Kerberos authentication ticket (TGT) was requested`, co oznacza domyślne użycie RC4-HMAC, chociaż nowoczesne systemy Windows preferują AES256.
 
 Aby dostosować się do bezpieczeństwa operacyjnego i używać AES256, można zastosować następujące polecenie:
 ```bash

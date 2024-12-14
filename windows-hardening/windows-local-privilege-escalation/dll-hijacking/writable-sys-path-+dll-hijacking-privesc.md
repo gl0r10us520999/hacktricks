@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Jeśli odkryłeś, że możesz **zapisywać w folderze System Path** (zauważ, że to nie zadziała, jeśli możesz zapisywać w folderze User Path), istnieje możliwość, że możesz **eskalować uprawnienia** w systemie.
 
-Aby to zrobić, możesz wykorzystać **Dll Hijacking**, gdzie zamierzasz **przejąć bibliotekę ładowaną** przez usługę lub proces z **wyższymi uprawnieniami** niż twoje, a ponieważ ta usługa ładuje Dll, która prawdopodobnie nawet nie istnieje w całym systemie, spróbuje załadować ją z System Path, w którym możesz zapisywać.
+Aby to zrobić, możesz wykorzystać **Dll Hijacking**, gdzie zamierzasz **przechwycić bibliotekę ładowaną** przez usługę lub proces z **większymi uprawnieniami** niż twoje, a ponieważ ta usługa ładuje Dll, która prawdopodobnie nawet nie istnieje w całym systemie, spróbuje załadować ją z System Path, w którym możesz zapisywać.
 
 Aby uzyskać więcej informacji na temat **czym jest Dll Hijacking**, sprawdź:
 
@@ -31,7 +31,7 @@ Aby uzyskać więcej informacji na temat **czym jest Dll Hijacking**, sprawdź:
 
 ### Znalezienie brakującej Dll
 
-Pierwszą rzeczą, którą musisz zrobić, jest **zidentyfikowanie procesu** działającego z **wyższymi uprawnieniami** niż ty, który próbuje **załadować Dll z System Path**, w którym możesz zapisywać.
+Pierwszą rzeczą, którą musisz zrobić, jest **zidentyfikowanie procesu** działającego z **większymi uprawnieniami** niż ty, który próbuje **załadować Dll z System Path**, w którym możesz zapisywać.
 
 Problem w tych przypadkach polega na tym, że prawdopodobnie te procesy już działają. Aby znaleźć, które Dll brakuje usługom, musisz uruchomić procmon tak szybko, jak to możliwe (zanim procesy zostaną załadowane). Aby znaleźć brakujące .dll, wykonaj:
 
@@ -54,7 +54,7 @@ $newPath = "$envPath;$folderPath"
 ```
 * Uruchom **`procmon`** i przejdź do **`Options`** --> **`Enable boot logging`** i naciśnij **`OK`** w oknie dialogowym.
 * Następnie **zrestartuj** komputer. Gdy komputer się uruchomi, **`procmon`** zacznie **rejestrować** zdarzenia jak najszybciej.
-* Po **uruchomieniu Windows** uruchom ponownie **`procmon`**, powie ci, że działa i **zapyta, czy chcesz zapisać** zdarzenia w pliku. Powiedz **tak** i **zapisz zdarzenia w pliku**.
+* Po **uruchomieniu Windows** ponownie uruchom **`procmon`**, powie ci, że działał i **zapyta, czy chcesz zapisać** zdarzenia w pliku. Powiedz **tak** i **zapisz zdarzenia w pliku**.
 * **Po** **wygenerowaniu pliku**, **zamknij** otwarte okno **`procmon`** i **otwórz plik ze zdarzeniami**.
 * Dodaj te **filtry**, a znajdziesz wszystkie Dll, które niektóre **procesy próbowały załadować** z folderu zapisywalnego System Path:
 
@@ -74,17 +74,17 @@ W tym przypadku .exe są bezużyteczne, więc je zignoruj, przegapione DLL pocho
 | Usługa polityki diagnostycznej (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`               |
 
-Po znalezieniu tego, znalazłem ten interesujący post na blogu, który również wyjaśnia, jak [**nadużyć WptsExtensions.dll do podniesienia uprawnień**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Co właśnie **zamierzamy teraz zrobić**.
+Po znalezieniu tego, znalazłem ten interesujący post na blogu, który również wyjaśnia, jak [**nadużyć WptsExtensions.dll do eskalacji uprawnień**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Co właśnie **zamierzamy teraz zrobić**.
 
-### Wykorzystanie
+### Eksploatacja
 
-Aby **podnieść uprawnienia**, zamierzamy przejąć bibliotekę **WptsExtensions.dll**. Mając **ścieżkę** i **nazwę**, musimy tylko **wygenerować złośliwy dll**.
+Aby **eskalować uprawnienia**, zamierzamy przejąć bibliotekę **WptsExtensions.dll**. Mając **ścieżkę** i **nazwę**, musimy tylko **wygenerować złośliwy dll**.
 
-Możesz [**spróbować użyć któregokolwiek z tych przykładów**](./#creating-and-compiling-dlls). Możesz uruchomić payloady takie jak: uzyskać powłokę rev, dodać użytkownika, wykonać beacon...
+Możesz [**spróbować użyć któregokolwiek z tych przykładów**](./#creating-and-compiling-dlls). Możesz uruchomić ładunki takie jak: uzyskać powłokę rev, dodać użytkownika, wykonać beacon...
 
 {% hint style="warning" %}
-Zauważ, że **nie wszystkie usługi są uruchamiane** z **`NT AUTHORITY\SYSTEM`**, niektóre są również uruchamiane z **`NT AUTHORITY\LOCAL SERVICE`**, co ma **mniejsze uprawnienia** i **nie będziesz mógł stworzyć nowego użytkownika** nadużywając jego uprawnień.\
-Jednak ten użytkownik ma uprawnienie **`seImpersonate`**, więc możesz użyć [**potato suite do podniesienia uprawnień**](../roguepotato-and-printspoofer.md). W tym przypadku powłoka rev jest lepszą opcją niż próba stworzenia użytkownika.
+Zauważ, że **nie wszystkie usługi są uruchamiane** z **`NT AUTHORITY\SYSTEM`**, niektóre są również uruchamiane z **`NT AUTHORITY\LOCAL SERVICE`**, które mają **mniejsze uprawnienia** i **nie będziesz w stanie stworzyć nowego użytkownika** nadużywając jego uprawnień.\
+Jednak ten użytkownik ma uprawnienie **`seImpersonate`**, więc możesz użyć [**potato suite do eskalacji uprawnień**](../roguepotato-and-printspoofer.md). W tym przypadku powłoka rev jest lepszą opcją niż próba stworzenia użytkownika.
 {% endhint %}
 
 W momencie pisania usługa **Harmonogram zadań** jest uruchamiana z **Nt AUTHORITY\SYSTEM**.
@@ -103,7 +103,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

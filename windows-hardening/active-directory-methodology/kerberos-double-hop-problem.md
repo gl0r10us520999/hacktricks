@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}
@@ -26,7 +26,7 @@ Problem "podwójnego skoku" Kerberos pojawia się, gdy atakujący próbuje uży�
 
 Gdy następuje **uwierzytelnienie** przez **Kerberos**, **poświadczenia** **nie są** buforowane w **pamięci.** Dlatego, jeśli uruchomisz mimikatz, **nie znajdziesz poświadczeń** użytkownika na maszynie, nawet jeśli uruchamia on procesy.
 
-Dzieje się tak, ponieważ podczas łączenia się z Kerberos następują następujące kroki:
+Dzieje się tak, ponieważ podczas łączenia z Kerberos następują następujące kroki:
 
 1. Użytkownik1 podaje poświadczenia, a **kontroler domeny** zwraca Kerberos **TGT** do Użytkownika1.
 2. Użytkownik1 używa **TGT** do zażądania **biletu serwisowego** do **połączenia** z Serwerem1.
@@ -35,16 +35,16 @@ Dzieje się tak, ponieważ podczas łączenia się z Kerberos następują nastę
 
 ### Nieograniczona delegacja
 
-Jeśli **nieograniczona delegacja** jest włączona na PC, to się nie zdarzy, ponieważ **Serwer** **otrzyma** **TGT** każdego użytkownika, który się do niego łączy. Co więcej, jeśli używasz nieograniczonej delegacji, prawdopodobnie możesz **skompromentować kontroler domeny** z tego poziomu.\
+Jeśli **nieograniczona delegacja** jest włączona na PC, to nie nastąpi, ponieważ **Serwer** **otrzyma** **TGT** każdego użytkownika, który uzyskuje do niego dostęp. Ponadto, jeśli używana jest nieograniczona delegacja, prawdopodobnie możesz **skompromentować kontroler domeny** z tego.\
 [**Więcej informacji na stronie dotyczącej nieograniczonej delegacji**](unconstrained-delegation.md).
 
 ### CredSSP
 
 Innym sposobem na uniknięcie tego problemu, który jest [**szczególnie niebezpieczny**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7), jest **Credential Security Support Provider**. Z Microsoftu:
 
-> Uwierzytelnianie CredSSP deleguje poświadczenia użytkownika z lokalnego komputera do zdalnego komputera. Ta praktyka zwiększa ryzyko bezpieczeństwa zdalnej operacji. Jeśli zdalny komputer zostanie skompromitowany, gdy poświadczenia zostaną do niego przekazane, poświadczenia mogą być użyte do kontrolowania sesji sieciowej.
+> Uwierzytelnianie CredSSP deleguje poświadczenia użytkownika z lokalnego komputera do zdalnego komputera. Ta praktyka zwiększa ryzyko bezpieczeństwa zdalnej operacji. Jeśli zdalny komputer zostanie skompromitowany, gdy poświadczenia są do niego przekazywane, poświadczenia mogą być używane do kontrolowania sesji sieciowej.
 
-Zaleca się, aby **CredSSP** był wyłączony w systemach produkcyjnych, wrażliwych sieciach i podobnych środowiskach z powodu obaw o bezpieczeństwo. Aby sprawdzić, czy **CredSSP** jest włączony, można uruchomić polecenie `Get-WSManCredSSP`. To polecenie pozwala na **sprawdzenie statusu CredSSP** i może być nawet wykonane zdalnie, pod warunkiem, że **WinRM** jest włączony.
+Zaleca się, aby **CredSSP** był wyłączony w systemach produkcyjnych, wrażliwych sieciach i podobnych środowiskach z powodu obaw o bezpieczeństwo. Aby sprawdzić, czy **CredSSP** jest włączony, można uruchomić polecenie `Get-WSManCredSSP`. To polecenie pozwala na **sprawdzenie statusu CredSSP** i może być nawet wykonywane zdalnie, pod warunkiem, że **WinRM** jest włączony.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -54,7 +54,7 @@ Get-WSManCredSSP
 
 ### Invoke Command
 
-Aby rozwiązać problem podwójnego skoku, przedstawiona jest metoda polegająca na zagnieżdżonym `Invoke-Command`. Nie rozwiązuje to problemu bezpośrednio, ale oferuje obejście bez potrzeby specjalnych konfiguracji. Podejście to pozwala na wykonanie polecenia (`hostname`) na drugim serwerze za pomocą polecenia PowerShell wykonanego z początkowej maszyny atakującej lub przez wcześniej ustanowioną sesję PS z pierwszym serwerem. Oto jak to zrobić:
+Aby rozwiązać problem podwójnego skoku, przedstawiona jest metoda z wykorzystaniem zagnieżdżonego `Invoke-Command`. Nie rozwiązuje to problemu bezpośrednio, ale oferuje obejście bez potrzeby specjalnych konfiguracji. Podejście to pozwala na wykonanie polecenia (`hostname`) na drugim serwerze za pomocą polecenia PowerShell wykonanego z początkowej maszyny atakującej lub przez wcześniej ustanowioną sesję PS z pierwszym serwerem. Oto jak to zrobić:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
@@ -81,7 +81,7 @@ netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP lo
 ```
 #### winrs.exe
 
-`winrs.exe` może być używany do przekazywania żądań WinRM, potencjalnie jako mniej wykrywalna opcja, jeśli monitorowanie PowerShell budzi obawy. Poniższe polecenie ilustruje jego użycie:
+`winrs.exe` może być używany do przekazywania żądań WinRM, potencjalnie jako mniej wykrywalna opcja, jeśli monitorowanie PowerShell jest problemem. Poniższe polecenie demonstruje jego użycie:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
@@ -119,7 +119,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

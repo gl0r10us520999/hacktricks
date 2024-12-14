@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Juicy Potato (nadużywanie złotych uprawnień) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Słodsza wersja_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, z odrobiną soku, tj. **kolejne narzędzie do eskalacji uprawnień lokalnych, z kont usług Windows do NT AUTHORITY\SYSTEM**_
+_Słodzona wersja_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, z odrobiną soku, tj. **kolejne narzędzie do eskalacji uprawnień lokalnych, z konta usługi Windows do NT AUTHORITY\SYSTEM**_
 
 #### Możesz pobrać juicypotato z [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -52,9 +52,9 @@ Po kilku testach uzyskaliśmy i przetestowaliśmy obszerną listę [interesując
 JuicyPotato pozwala Ci:
 
 * **Cel CLSID** _wybierz dowolny CLSID, który chcesz._ [_Tutaj_](http://ohpe.it/juicy-potato/CLSID/) _możesz znaleźć listę uporządkowaną według systemu operacyjnego._
-* **Port nasłuchujący COM** _zdefiniuj preferowany port nasłuchujący COM (zamiast hardcodowanego 6666)_
+* **Port nasłuchujący COM** _zdefiniuj preferowany port nasłuchujący COM (zamiast twardo zakodowanego 6666)_
 * **Adres IP nasłuchujący COM** _przypisz serwer do dowolnego adresu IP_
-* **Tryb tworzenia procesu** _w zależności od uprawnień użytkownika impersonowanego możesz wybierać spośród:_
+* **Tryb tworzenia procesu** _w zależności od uprawnień użytkownika, którego impersonujesz, możesz wybierać spośród:_
 * `CreateProcessWithToken` (wymaga `SeImpersonate`)
 * `CreateProcessAsUser` (wymaga `SeAssignPrimaryToken`)
 * `oba`
@@ -83,7 +83,7 @@ Optional args:
 ```
 ### Final thoughts <a href="#final-thoughts" id="final-thoughts"></a>
 
-[**Z readme juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
+[**Z Readme juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
 Jeśli użytkownik ma uprawnienia `SeImpersonate` lub `SeAssignPrimaryToken`, to jesteś **SYSTEM**.
 
@@ -95,7 +95,7 @@ Z: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 ## Examples
 
-Note: Odwiedź [tę stronę](https://ohpe.it/juicy-potato/CLSID/), aby zobaczyć listę CLSID-ów do wypróbowania.
+Note: Visit [this page](https://ohpe.it/juicy-potato/CLSID/) for a list of CLSIDs to try.
 
 ### Get a nc.exe reverse shell
 ```
@@ -120,7 +120,7 @@ c:\Users\Public>
 
 ## Problemy z CLSID
 
-Często domyślny CLSID, który używa JuicyPotato, **nie działa** i exploit się nie powodzi. Zazwyczaj wymaga to wielu prób, aby znaleźć **działający CLSID**. Aby uzyskać listę CLSID do przetestowania dla konkretnego systemu operacyjnego, powinieneś odwiedzić tę stronę:
+Często domyślny CLSID, który używa JuicyPotato, **nie działa** i exploit się nie powodzi. Zwykle wymaga to wielu prób, aby znaleźć **działający CLSID**. Aby uzyskać listę CLSID do przetestowania dla konkretnego systemu operacyjnego, powinieneś odwiedzić tę stronę:
 
 {% embed url="https://ohpe.it/juicy-potato/CLSID/" %}
 
@@ -128,9 +128,9 @@ Często domyślny CLSID, który używa JuicyPotato, **nie działa** i exploit si
 
 Najpierw będziesz potrzebować kilku plików wykonywalnych oprócz juicypotato.exe.
 
-Pobierz [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) i załaduj go do swojej sesji PS, a następnie pobierz i uruchom [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Ten skrypt stworzy listę możliwych CLSID do przetestowania.
+Pobierz [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) i załaduj go do swojej sesji PS, a następnie pobierz i uruchom [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Ten skrypt utworzy listę możliwych CLSID do przetestowania.
 
-Następnie pobierz [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat) (zmień ścieżkę do listy CLSID i do pliku wykonywalnego juicypotato) i uruchom go. Zacznie próbować każdy CLSID, a **gdy numer portu się zmieni, oznacza to, że CLSID zadziałał**.
+Następnie pobierz [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat) (zmień ścieżkę do listy CLSID i do pliku wykonywalnego juicypotato) i uruchom go. Rozpocznie on próby każdego CLSID, a **gdy numer portu się zmieni, oznacza to, że CLSID zadziałał**.
 
 **Sprawdź** działające CLSID **używając parametru -c**
 
@@ -148,8 +148,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

@@ -23,7 +23,7 @@ Celem tej początkowej fazy jest bardzo proste: **Podzielić dane wejściowe na 
 ## 2. Data Sampling
 
 {% hint style="success" %}
-Celem tej drugiej fazy jest bardzo proste: **Próbkować dane wejściowe i przygotować je do fazy treningowej, zazwyczaj dzieląc zbiór danych na zdania o określonej długości i generując również oczekiwaną odpowiedź.**
+Celem tej drugiej fazy jest bardzo proste: **Próbkować dane wejściowe i przygotować je do fazy treningowej, zazwyczaj poprzez podział zbioru danych na zdania o określonej długości i generowanie również oczekiwanej odpowiedzi.**
 {% endhint %}
 
 {% content-ref url="2.-data-sampling.md" %}
@@ -34,9 +34,9 @@ Celem tej drugiej fazy jest bardzo proste: **Próbkować dane wejściowe i przyg
 
 {% hint style="success" %}
 Celem tej trzeciej fazy jest bardzo proste: **Przypisać każdemu z poprzednich tokenów w słowniku wektor o pożądanych wymiarach do trenowania modelu.** Każde słowo w słowniku będzie punktem w przestrzeni o X wymiarach.\
-Zauważ, że początkowo pozycja każdego słowa w przestrzeni jest po prostu inicjowana "losowo", a te pozycje są parametrami, które można trenować (będą poprawiane podczas treningu).
+Zauważ, że początkowo pozycja każdego słowa w przestrzeni jest po prostu "losowo" inicjowana, a te pozycje są parametrami, które można trenować (będą poprawiane podczas treningu).
 
-Ponadto, podczas osadzania tokenów **tworzona jest kolejna warstwa osadzeń**, która reprezentuje (w tym przypadku) **absolutną pozycję słowa w zdaniu treningowym**. W ten sposób słowo w różnych pozycjach w zdaniu będzie miało różne reprezentacje (znaczenia).
+Ponadto, podczas osadzania tokenów **tworzona jest kolejna warstwa osadzeń**, która reprezentuje (w tym przypadku) **absolutną pozycję słowa w zdaniu treningowym**. W ten sposób słowo w różnych pozycjach w zdaniu będzie miało różne reprezentacje (znaczenie).
 {% endhint %}
 
 {% content-ref url="3.-token-embeddings.md" %}
@@ -57,7 +57,7 @@ Do tego celu używa się wielu warstw, więc wiele parametrów do trenowania bę
 ## 5. LLM Architecture
 
 {% hint style="success" %}
-Celem tej piątej fazy jest bardzo proste: **Opracować architekturę pełnego LLM**. Połączyć wszystko, zastosować wszystkie warstwy i stworzyć wszystkie funkcje do generowania tekstu lub przekształcania tekstu na ID i odwrotnie.
+Celem tej piątej fazy jest bardzo proste: **Opracować architekturę całego LLM**. Połączyć wszystko, zastosować wszystkie warstwy i stworzyć wszystkie funkcje do generowania tekstu lub przekształcania tekstu na ID i odwrotnie.
 
 Ta architektura będzie używana zarówno do trenowania, jak i przewidywania tekstu po jego wytrenowaniu.
 {% endhint %}
@@ -69,7 +69,7 @@ Ta architektura będzie używana zarówno do trenowania, jak i przewidywania tek
 ## 6. Pre-training & Loading models
 
 {% hint style="success" %}
-Celem tej szóstej fazy jest bardzo proste: **Wytrenować model od podstaw**. W tym celu zostanie użyta wcześniejsza architektura LLM z pewnymi pętlami przechodzącymi przez zbiory danych, używając zdefiniowanych funkcji straty i optymalizatora do trenowania wszystkich parametrów modelu.
+Celem tej szóstej fazy jest bardzo proste: **Wytrenować model od podstaw**. W tym celu zostanie użyta wcześniejsza architektura LLM z pewnymi pętlami przechodzącymi przez zbiory danych, korzystając z określonych funkcji straty i optymalizatora, aby wytrenować wszystkie parametry modelu.
 {% endhint %}
 
 {% content-ref url="6.-pre-training-and-loading-models.md" %}
@@ -79,7 +79,7 @@ Celem tej szóstej fazy jest bardzo proste: **Wytrenować model od podstaw**. W 
 ## 7.0. LoRA Improvements in fine-tuning
 
 {% hint style="success" %}
-Użycie **LoRA znacznie redukuje obliczenia** potrzebne do **dostosowania** już wytrenowanych modeli.
+Użycie **LoRA znacznie zmniejsza obliczenia** potrzebne do **dostosowania** już wytrenowanych modeli.
 {% endhint %}
 
 {% content-ref url="7.0.-lora-improvements-in-fine-tuning.md" %}
@@ -89,7 +89,7 @@ Użycie **LoRA znacznie redukuje obliczenia** potrzebne do **dostosowania** już
 ## 7.1. Fine-Tuning for Classification
 
 {% hint style="success" %}
-Celem tej sekcji jest pokazanie, jak dostosować już wytrenowany model, aby zamiast generować nowy tekst, LLM podałby **prawdopodobieństwa, że dany tekst zostanie zaklasyfikowany w każdej z podanych kategorii** (na przykład, czy tekst jest spamem, czy nie).
+Celem tej sekcji jest pokazanie, jak dostosować już wytrenowany model, aby zamiast generować nowy tekst, LLM wybierał **prawdopodobieństwa danego tekstu, aby zostać skategoryzowanym w każdej z podanych kategorii** (na przykład, czy tekst jest spamem, czy nie).
 {% endhint %}
 
 {% content-ref url="7.1.-fine-tuning-for-classification.md" %}
@@ -99,7 +99,7 @@ Celem tej sekcji jest pokazanie, jak dostosować już wytrenowany model, aby zam
 ## 7.2. Fine-Tuning to follow instructions
 
 {% hint style="success" %}
-Celem tej sekcji jest pokazanie, jak **dostosować już wytrenowany model do przestrzegania instrukcji** zamiast tylko generować tekst, na przykład, odpowiadając na zadania jako chatbot.
+Celem tej sekcji jest pokazanie, jak **dostosować już wytrenowany model, aby podążał za instrukcjami** zamiast tylko generować tekst, na przykład, odpowiadając na zadania jako chatbot.
 {% endhint %}
 
 {% content-ref url="7.2.-fine-tuning-to-follow-instructions.md" %}

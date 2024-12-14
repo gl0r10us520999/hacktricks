@@ -24,7 +24,7 @@ Istnieją dwie powszechne techniki wykrywania użycia złotych biletów:
 * Szukaj TGS-REQ, które nie mają odpowiadającego AS-REQ.
 * Szukaj TGT, które mają absurdalne wartości, takie jak domyślna 10-letnia żywotność Mimikatz.
 
-**Diamentowy bilet** jest tworzony przez **modyfikację pól legalnego TGT, które zostało wydane przez DC**. Osiąga się to poprzez **zażądanie** **TGT**, **odszyfrowanie** go hashem krbtgt domeny, **zmodyfikowanie** pożądanych pól biletu, a następnie **ponowne zaszyfrowanie** go. To **przezwycięża dwa wcześniej wspomniane niedociągnięcia** złotego biletu, ponieważ:
+**Diamentowy bilet** jest tworzony przez **modyfikację pól legalnego TGT, które zostało wydane przez DC**. Osiąga się to poprzez **zażądanie** **TGT**, **odszyfrowanie** go hashem krbtgt domeny, **zmodyfikowanie** pożądanych pól biletu, a następnie **ponowne zaszyfrowanie**. To **przezwycięża dwa wcześniej wspomniane niedociągnięcia** złotego biletu, ponieważ:
 
 * TGS-REQ będą miały poprzedzający AS-REQ.
 * TGT zostało wydane przez DC, co oznacza, że będzie miało wszystkie poprawne szczegóły z polityki Kerberos domeny. Chociaż te mogą być dokładnie fałszowane w złotym bilecie, jest to bardziej skomplikowane i podatne na błędy.

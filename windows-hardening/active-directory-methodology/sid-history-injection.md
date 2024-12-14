@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Atak wstrzykiwania historii SID
 
-Celem **ataku wstrzykiwania historii SID** jest wspieranie **migracji użytkowników między domenami**, zapewniając jednocześnie ciągły dostęp do zasobów z poprzedniej domeny. Osiąga się to poprzez **włączenie poprzedniego identyfikatora zabezpieczeń (SID) użytkownika do historii SID** jego nowe konto. Co ważne, ten proces można zmanipulować, aby przyznać nieautoryzowany dostęp, dodając SID grupy o wysokich uprawnieniach (takiej jak Enterprise Admins lub Domain Admins) z domeny macierzystej do historii SID. To wykorzystanie przyznaje dostęp do wszystkich zasobów w domenie macierzystej.
+Celem **ataku wstrzykiwania historii SID** jest wspieranie **migracji użytkowników między domenami**, zapewniając jednocześnie ciągły dostęp do zasobów z poprzedniej domeny. Osiąga się to poprzez **włączenie poprzedniego identyfikatora zabezpieczeń (SID) użytkownika do historii SID** jego nowe konto. Co ważne, proces ten można zmanipulować, aby przyznać nieautoryzowany dostęp, dodając SID grupy o wysokich uprawnieniach (takiej jak Enterprise Admins lub Domain Admins) z domeny macierzystej do historii SID. To wykorzystanie przyznaje dostęp do wszystkich zasobów w domenie macierzystej.
 
 Istnieją dwie metody wykonania tego ataku: poprzez stworzenie **Złotego Biletu** lub **Diamentowego Biletu**.
 
-Aby zidentyfikować SID grupy **"Enterprise Admins"**, należy najpierw zlokalizować SID domeny głównej. Po zidentyfikowaniu, SID grupy Enterprise Admins można skonstruować, dodając `-519` do SID domeny głównej. Na przykład, jeśli SID domeny głównej to `S-1-5-21-280534878-1496970234-700767426`, to wynikowy SID dla grupy "Enterprise Admins" będzie `S-1-5-21-280534878-1496970234-700767426-519`.
+Aby określić SID dla grupy **"Enterprise Admins"**, należy najpierw zlokalizować SID domeny głównej. Po identyfikacji, SID grupy Enterprise Admins można skonstruować, dodając `-519` do SID domeny głównej. Na przykład, jeśli SID domeny głównej to `S-1-5-21-280534878-1496970234-700767426`, to wynikowy SID dla grupy "Enterprise Admins" będzie `S-1-5-21-280534878-1496970234-700767426-519`.
 
 Można również użyć grupy **Domain Admins**, której SID kończy się na **512**.
 
@@ -84,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Wykonaj eskalację do DA root lub Enterprise admina, używając hasha KRBTGT skompromitowanej domeny:
+Podnieś uprawnienia do DA root lub Enterprise admin, używając hasha KRBTGT skompromitowanej domeny:
 
 {% code overflow="wrap" %}
 ```bash
@@ -106,7 +106,7 @@ Dzięki uzyskanym uprawnieniom z ataku możesz na przykład przeprowadzić atak 
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### Z systemu linux
+### Z linuxa
 
 #### Ręcznie z [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
 
@@ -146,7 +146,7 @@ Przebieg jest następujący:
 * Tworzy Złoty Bilet
 * Loguje się do domeny nadrzędnej
 * Pobiera poświadczenia dla konta Administrator w domenie nadrzędnej
-* Jeśli przełącznik `target-exec` jest określony, uwierzytelnia się do kontrolera domeny nadrzędnej za pomocą Psexec.
+* Jeśli przełącznik `target-exec` jest określony, uwierzytelnia się do kontrolera domeny domeny nadrzędnej za pomocą Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
@@ -163,7 +163,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

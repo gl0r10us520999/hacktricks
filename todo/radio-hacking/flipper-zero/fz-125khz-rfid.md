@@ -27,7 +27,7 @@ Aby uzyskać więcej informacji na temat działania tagów 125kHz, sprawdź:
 [pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Akcje
+## Działania
 
 Aby uzyskać więcej informacji na temat tych typów tagów [**przeczytaj to wprowadzenie**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
 

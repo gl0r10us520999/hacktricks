@@ -174,7 +174,7 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound pozwala na szyfrowanie i wykrywanie informacji w plikach dźwiękowych za pomocą AES-256. Można go pobrać z [oficjalnej strony](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound umożliwia szyfrowanie i wykrywanie informacji w plikach dźwiękowych za pomocą AES-256. Można go pobrać z [oficjalnej strony](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 

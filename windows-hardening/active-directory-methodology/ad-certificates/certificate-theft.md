@@ -35,7 +35,7 @@ certutil.exe -dump -v cert.pfx
 
 W **interaktywnej sesji pulpitu**, ekstrakcja certyfikatu użytkownika lub maszyny, wraz z kluczem prywatnym, może być łatwo przeprowadzona, szczególnie jeśli **klucz prywatny jest eksportowalny**. Można to osiągnąć, przechodząc do certyfikatu w `certmgr.msc`, klikając prawym przyciskiem myszy i wybierając `Wszystkie zadania → Eksportuj`, aby wygenerować plik .pfx chroniony hasłem.
 
-Dla **programatycznego podejścia**, dostępne są narzędzia takie jak cmdlet PowerShell `ExportPfxCertificate` lub projekty takie jak [projekt CertStealer C# TheWovera](https://github.com/TheWover/CertStealer). Wykorzystują one **Microsoft CryptoAPI** (CAPI) lub Cryptography API: Next Generation (CNG) do interakcji z magazynem certyfikatów. Te API oferują szereg usług kryptograficznych, w tym te niezbędne do przechowywania certyfikatów i uwierzytelniania.
+Dla **programowego podejścia**, dostępne są narzędzia takie jak cmdlet PowerShell `ExportPfxCertificate` lub projekty takie jak [projekt CertStealer C# TheWovera](https://github.com/TheWover/CertStealer). Wykorzystują one **Microsoft CryptoAPI** (CAPI) lub Cryptography API: Next Generation (CNG) do interakcji z magazynem certyfikatów. Te API oferują szereg usług kryptograficznych, w tym te niezbędne do przechowywania certyfikatów i uwierzytelniania.
 
 Jednakże, jeśli klucz prywatny jest ustawiony jako nieeksportowalny, zarówno CAPI, jak i CNG normalnie zablokują ekstrakcję takich certyfikatów. Aby obejść to ograniczenie, można wykorzystać narzędzia takie jak **Mimikatz**. Mimikatz oferuje polecenia `crypto::capi` i `crypto::cng` do patchowania odpowiednich API, co pozwala na eksport kluczy prywatnych. Konkretnie, `crypto::capi` patchuje CAPI w bieżącym procesie, podczas gdy `crypto::cng` celuje w pamięć **lsass.exe** do patchowania.
 
@@ -77,15 +77,15 @@ openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provid
 
 Certyfikaty maszynowe przechowywane przez Windows w rejestrze pod `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates` oraz powiązane klucze prywatne znajdujące się w `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\RSA\MachineKeys` (dla CAPI) i `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\Keys` (dla CNG) są szyfrowane za pomocą głównych kluczy DPAPI maszyny. Klucze te nie mogą być odszyfrowane za pomocą zapasowego klucza DPAPI domeny; zamiast tego wymagany jest **sekret LSA DPAPI_SYSTEM**, do którego dostęp ma tylko użytkownik SYSTEM.
 
-Ręczne odszyfrowanie można osiągnąć, wykonując polecenie `lsadump::secrets` w **Mimikatz**, aby wyodrębnić sekret LSA DPAPI_SYSTEM, a następnie używając tego klucza do odszyfrowania głównych kluczy maszyny. Alternatywnie, polecenie `crypto::certificates /export /systemstore:LOCAL_MACHINE` w Mimikatz może być użyte po załataniu CAPI/CNG, jak wcześniej opisano.
+Ręczne odszyfrowanie można osiągnąć, wykonując polecenie `lsadump::secrets` w **Mimikatz**, aby wyodrębnić sekret LSA DPAPI_SYSTEM, a następnie używając tego klucza do odszyfrowania głównych kluczy maszyny. Alternatywnie, polecenie `crypto::certificates /export /systemstore:LOCAL_MACHINE` w Mimikatz może być użyte po załataniu CAPI/CNG, jak opisano wcześniej.
 
-**SharpDPAPI** oferuje bardziej zautomatyzowane podejście za pomocą swojego polecenia certyfikatów. Gdy użyty jest znacznik `/machine` z podwyższonymi uprawnieniami, eskaluje do SYSTEM, zrzuca sekret LSA DPAPI_SYSTEM, używa go do odszyfrowania głównych kluczy DPAPI maszyny, a następnie wykorzystuje te klucze w postaci jawnej jako tabelę wyszukiwania do odszyfrowania wszelkich kluczy prywatnych certyfikatów maszynowych.
+**SharpDPAPI** oferuje bardziej zautomatyzowane podejście za pomocą swojego polecenia certyfikatów. Gdy używany jest znacznik `/machine` z podwyższonymi uprawnieniami, eskaluje do SYSTEM, zrzuca sekret LSA DPAPI_SYSTEM, używa go do odszyfrowania głównych kluczy DPAPI maszyny, a następnie wykorzystuje te klucze w postaci jawnej jako tabelę wyszukiwania do odszyfrowania wszelkich kluczy prywatnych certyfikatów maszynowych.
 
 ## Znajdowanie plików certyfikatów – THEFT4
 
 Certyfikaty czasami znajdują się bezpośrednio w systemie plików, na przykład w udostępnionych folderach lub folderze Pobrane. Najczęściej spotykane typy plików certyfikatów skierowanych do środowisk Windows to pliki `.pfx` i `.p12`. Choć rzadziej, pojawiają się również pliki z rozszerzeniami `.pkcs12` i `.pem`. Dodatkowe istotne rozszerzenia plików związanych z certyfikatami to:
 - `.key` dla kluczy prywatnych,
-- `.crt`/`.cer` dla certyfikatów tylko,
+- `.crt`/`.cer` tylko dla certyfikatów,
 - `.csr` dla żądań podpisania certyfikatu, które nie zawierają certyfikatów ani kluczy prywatnych,
 - `.jks`/`.keystore`/`.keys` dla Java Keystores, które mogą zawierać certyfikaty wraz z kluczami prywatnymi wykorzystywanymi przez aplikacje Java.
 
@@ -106,7 +106,7 @@ john --wordlist=passwords.txt hash.txt
 
 Zawarte treści wyjaśniają metodę kradzieży poświadczeń NTLM za pomocą PKINIT, szczególnie poprzez metodę kradzieży oznaczoną jako THEFT5. Oto ponowne wyjaśnienie w stronie biernej, z treścią zanonimizowaną i podsumowaną tam, gdzie to możliwe:
 
-Aby wspierać uwierzytelnianie NTLM [MS-NLMP] dla aplikacji, które nie umożliwiają uwierzytelniania Kerberos, KDC jest zaprojektowany tak, aby zwracać jedną funkcję NTLM (OWF) użytkownika w certyfikacie atrybutu uprawnień (PAC), szczególnie w buforze `PAC_CREDENTIAL_INFO`, gdy wykorzystywane jest PKCA. W związku z tym, jeśli konto uwierzytelni się i zabezpieczy bilet przyznawania biletów (TGT) za pomocą PKINIT, wbudowany mechanizm umożliwia bieżącemu hostowi wydobycie hasha NTLM z TGT, aby wspierać starsze protokoły uwierzytelniania. Proces ten obejmuje deszyfrowanie struktury `PAC_CREDENTIAL_DATA`, która jest zasadniczo zserializowanym przedstawieniem NTLM w postaci jawnej.
+Aby wspierać uwierzytelnianie NTLM [MS-NLMP] dla aplikacji, które nie umożliwiają uwierzytelniania Kerberos, KDC jest zaprojektowany tak, aby zwracać jedną funkcję (OWF) NTLM użytkownika w certyfikacie atrybutu uprawnień (PAC), szczególnie w buforze `PAC_CREDENTIAL_INFO`, gdy wykorzystywane jest PKCA. W konsekwencji, jeśli konto uwierzytelni się i zabezpieczy bilet TGT za pomocą PKINIT, wbudowany mechanizm umożliwia bieżącemu hostowi wydobycie hasha NTLM z TGT, aby wspierać starsze protokoły uwierzytelniania. Proces ten obejmuje deszyfrowanie struktury `PAC_CREDENTIAL_DATA`, która jest zasadniczo zserializowanym przedstawieniem NTLM w postaci jawnej.
 
 Narzędzie **Kekeo**, dostępne pod adresem [https://github.com/gentilkiwi/kekeo](https://github.com/gentilkiwi/kekeo), jest wspomniane jako zdolne do żądania TGT zawierającego te konkretne dane, co ułatwia odzyskanie NTLM użytkownika. Komenda używana w tym celu jest następująca:
 ```bash

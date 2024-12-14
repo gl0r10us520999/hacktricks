@@ -6,11 +6,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -29,21 +29,21 @@ Flipper używa cyfrowego odbiornika sygnału IR TSOP, który **pozwala na przech
 
 Odbiornik podczerwieni Flippera **jest dość czuły**. Możesz nawet **złapać sygnał**, pozostając **gdzieś pomiędzy** pilotem a telewizorem. Nie ma potrzeby, aby celować pilotem bezpośrednio w port IR Flippera. To jest przydatne, gdy ktoś zmienia kanały, stojąc blisko telewizora, a zarówno ty, jak i Flipper jesteście w pewnej odległości.
 
-Ponieważ **dekodowanie sygnału podczerwieni** odbywa się po stronie **oprogramowania**, Flipper Zero potencjalnie wspiera **odbiór i transmisję dowolnych kodów pilotów IR**. W przypadku **nieznanych** protokołów, które nie mogły zostać rozpoznane - **nagrywa i odtwarza** surowy sygnał dokładnie tak, jak został odebrany.
+Ponieważ **dekodowanie sygnału podczerwieni** odbywa się po stronie **oprogramowania**, Flipper Zero potencjalnie obsługuje **odbiór i transmisję dowolnych kodów pilotów IR**. W przypadku **nieznanych** protokołów, które nie mogły zostać rozpoznane - **nagrywa i odtwarza** surowy sygnał dokładnie tak, jak został odebrany.
 
 ## Akcje
 
 ### Uniwersalne piloty
 
-Flipper Zero może być używany jako **uniwersalny pilot do sterowania dowolnym telewizorem, klimatyzatorem lub centrum multimedialnym**. W tym trybie Flipper **bruteforcuje** wszystkie **znane kody** wszystkich wspieranych producentów **zgodnie ze słownikiem z karty SD**. Nie musisz wybierać konkretnego pilota, aby wyłączyć telewizor w restauracji.
+Flipper Zero może być używany jako **uniwersalny pilot do sterowania dowolnym telewizorem, klimatyzatorem lub centrum multimedialnym**. W tym trybie Flipper **bruteforcuje** wszystkie **znane kody** wszystkich obsługiwanych producentów **zgodnie ze słownikiem z karty SD**. Nie musisz wybierać konkretnego pilota, aby wyłączyć telewizor w restauracji.
 
-Wystarczy nacisnąć przycisk zasilania w trybie Uniwersalnego Pilota, a Flipper **sekwencyjnie wyśle komendy "Power Off"** do wszystkich telewizorów, które zna: Sony, Samsung, Panasonic... i tak dalej. Gdy telewizor odbierze swój sygnał, zareaguje i wyłączy się.
+Wystarczy nacisnąć przycisk zasilania w trybie Uniwersalnego Pilota, a Flipper **sekwencyjnie wyśle polecenia "Power Off"** do wszystkich telewizorów, które zna: Sony, Samsung, Panasonic... i tak dalej. Gdy telewizor odbierze swój sygnał, zareaguje i wyłączy się.
 
 Taki brute-force zajmuje czas. Im większy słownik, tym dłużej to potrwa. Niemożliwe jest ustalenie, który sygnał dokładnie telewizor rozpoznał, ponieważ nie ma informacji zwrotnej z telewizora.
 
 ### Nauka nowego pilota
 
-Możliwe jest **przechwycenie sygnału podczerwieni** za pomocą Flipper Zero. Jeśli **znajdzie sygnał w bazie danych**, Flipper automatycznie **będzie wiedział, jakie to urządzenie** i pozwoli ci z nim interagować.\
+Możliwe jest **przechwycenie sygnału podczerwieni** za pomocą Flippera Zero. Jeśli **znajdzie sygnał w bazie danych**, Flipper automatycznie **będzie wiedział, jakie to urządzenie** i pozwoli ci z nim interagować.\
 Jeśli nie, Flipper może **zapisać** **sygnał** i pozwoli ci **go odtworzyć**.
 
 ## Odnośniki
@@ -56,11 +56,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

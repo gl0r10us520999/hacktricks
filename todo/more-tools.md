@@ -8,7 +8,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -56,18 +56,18 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * [https://github.com/spinkham/skipfish](https://github.com/spinkham/skipfish)
 * [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Bruteforce nazw domen asynchronicznie
 * [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Bruteforce subdomen
-* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Sprawdź, czy serwery WWW w domenie są dostępne
+* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Sprawdź, czy serwery www w domenie są dostępne
 * [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Odkrywanie subdomen
 * [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Odkrywanie subdomen w githubie
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Szybkie skanowanie portów
 * [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Subdomeny i URL-e z plików JS w sieci
-* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Słownik plików WWW
-* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension, aby uniknąć dziesiątek zakładek powtarzających się
+* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Słownik plików webowych
+* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension, aby uniknąć dziesiątek zakładek repeater
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Uzyskaj zasoby
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Lista kontrolna Web BugBounty
 * [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Sprawdź listę domen pod kątem Open Redirection
-* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Wtyczka Burp, analiza offline w celu odkrycia domen, subdomen i adresów IP
+* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Wtyczka Burp, analiza offline w celu odkrycia domen, subdomen i IP
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Lista różnych narzędzi
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Wtyczka BurpSuite do znajdowania luk (SQLi, XSS, SSTI)
 * [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Rozszerzenie Chrome do śledzenia funkcji post-messages
@@ -81,13 +81,13 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Utrzymywanie
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Techniki wstrzykiwania procesów Windows
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Skrypty Red Team
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : znajdowanie błędnych konfiguracji związanych z bezpieczeństwem w polityce grupowej Active Directory.
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : znajdź błędy konfiguracyjne związane z bezpieczeństwem w polityce grupowej Active Directory.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Obfuskacja Securestring
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Oszustwo PID rodzica
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Szyfrowanie ładunków Powershell
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Stealth C2
 * [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Seria logów o Windows Internals
-* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Śledzenie, kto otworzył dokument
+* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Śledź, kto otworzył dokument
 * [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Arkusz oszustw Active Directory
 
 # Firmware
@@ -123,8 +123,8 @@ Emulacja firmware: FIRMADYNE (https://github.com/firmadyne/firmadyne/) to platfo
 * Narzędzia AWS i Cloud: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
 * IFS (Interplanetary File System) do phishingu: [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
 * Usługi rotacji IP: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
-* Rootkit Linux: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
-* [https://theia-ide.org/](https://theia-ide.org) : IDE online
+* Linux rootkit: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
+* [https://theia-ide.org/](https://theia-ide.org) : Online IDE
 * [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Zasoby dla początkujących w BugBounties
 * [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : Narzędzia pentestingowe dla IOS
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Słowa kluczowe
@@ -149,7 +149,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

@@ -56,7 +56,7 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Jak widać w poprzedniej linii poleceń, powiedziało, że znaleziono 0 błędów. To bardzo przydatne, aby wiedzieć, że działa po zakupie lub po wgraniu oprogramowania.
+Jak widać w poprzedniej linii poleceń, powiedziano, że znaleziono 0 błędów. To bardzo przydatne, aby wiedzieć, że działa po zakupie lub po wgraniu oprogramowania.
 
 Aby połączyć się z bus pirate, możesz postępować zgodnie z dokumentacją:
 
@@ -222,7 +222,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

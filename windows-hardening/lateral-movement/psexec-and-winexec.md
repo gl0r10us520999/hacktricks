@@ -28,11 +28,11 @@ Proces jest opisany w poniższych krokach, ilustrując, jak binaria usług są m
 
 ### **Proces ręcznego wykonywania PsExec**
 
-Zakładając, że istnieje ładunek wykonywalny (stworzony za pomocą msfvenom i z obfuskowanym kodem przy użyciu Veil, aby uniknąć wykrycia przez programy antywirusowe), nazwany 'met8888.exe', reprezentujący ładunek meterpreter reverse_http, podejmowane są następujące kroki:
+Zakładając, że istnieje ładunek wykonywalny (stworzony za pomocą msfvenom i z obfuskowanym kodem przy użyciu Veil, aby uniknąć wykrycia przez oprogramowanie antywirusowe), nazwany 'met8888.exe', reprezentujący ładunek meterpreter reverse_http, podejmowane są następujące kroki:
 
 * **Kopiowanie binariów**: Wykonywalny plik jest kopiowany do udziału ADMIN$ z wiersza poleceń, chociaż może być umieszczony w dowolnym miejscu w systemie plików, aby pozostać ukrytym.
 * **Tworzenie usługi**: Wykorzystując polecenie Windows `sc`, które pozwala na zapytania, tworzenie i usuwanie usług Windows zdalnie, tworzona jest usługa o nazwie "meterpreter", wskazująca na przesłaną binarię.
-* **Uruchamianie usługi**: Ostatni krok polega na uruchomieniu usługi, co prawdopodobnie spowoduje błąd "time-out" z powodu tego, że binaria nie są prawdziwymi binariami usług i nie zwracają oczekiwanego kodu odpowiedzi. Ten błąd jest nieistotny, ponieważ głównym celem jest wykonanie binariów.
+* **Uruchamianie usługi**: Ostatni krok polega na uruchomieniu usługi, co prawdopodobnie spowoduje błąd "time-out" z powodu tego, że binaria nie jest prawdziwą binarią usługi i nie zwraca oczekiwanego kodu odpowiedzi. Ten błąd jest nieistotny, ponieważ głównym celem jest wykonanie binarii.
 
 Obserwacja nasłuchiwacza Metasploit ujawni, że sesja została pomyślnie zainicjowana.
 
@@ -64,7 +64,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

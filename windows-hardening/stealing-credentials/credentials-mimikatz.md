@@ -22,16 +22,16 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 {% embed url="https://academy.8ksec.io/" %}
 
 
-**Ta strona opiera się na jednej z [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Sprawdź oryginał, aby uzyskać więcej informacji!
+**This page is based on one from [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Check the original for further info!
 
 ## LM i hasła w postaci czystego tekstu w pamięci
 
 Od Windows 8.1 i Windows Server 2012 R2 wprowadzono znaczące środki w celu ochrony przed kradzieżą poświadczeń:
 
-- **Hasła LM i hasła w postaci czystego tekstu** nie są już przechowywane w pamięci, aby zwiększyć bezpieczeństwo. Należy skonfigurować określony klucz rejestru, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, z wartością DWORD `0`, aby wyłączyć uwierzytelnianie Digest, zapewniając, że hasła w "czystym tekście" nie są buforowane w LSASS.
+- **Hasła LM i hasła w postaci czystego tekstu** nie są już przechowywane w pamięci, aby zwiększyć bezpieczeństwo. Należy skonfigurować określony klucz rejestru, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, z wartością DWORD `0`, aby wyłączyć uwierzytelnianie Digest, zapewniając, że hasła "w postaci czystego tekstu" nie są buforowane w LSASS.
 
 - **Ochrona LSA** została wprowadzona, aby chronić proces Local Security Authority (LSA) przed nieautoryzowanym odczytem pamięci i wstrzykiwaniem kodu. Osiąga się to poprzez oznaczenie LSASS jako chronionego procesu. Aktywacja Ochrony LSA obejmuje:
-1. Modyfikację rejestru w _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_, ustawiając `RunAsPPL` na `dword:00000001`.
+1. Modyfikację rejestru w _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ poprzez ustawienie `RunAsPPL` na `dword:00000001`.
 2. Wdrożenie obiektu zasad grupy (GPO), który wymusza tę zmianę rejestru na zarządzanych urządzeniach.
 
 Pomimo tych zabezpieczeń, narzędzia takie jak Mimikatz mogą omijać Ochronę LSA, używając określonych sterowników, chociaż takie działania prawdopodobnie zostaną zarejestrowane w dziennikach zdarzeń.
@@ -43,7 +43,7 @@ Administratorzy zazwyczaj mają SeDebugPrivilege, co umożliwia im debugowanie p
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-To pozwala na zrzut pamięci `lsass.exe` do pliku, który następnie można analizować na innym systemie w celu wyodrębnienia poświadczeń:
+To pozwala na zrzut pamięci `lsass.exe` do pliku, który następnie można przeanalizować na innym systemie w celu wyodrębnienia poświadczeń:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
@@ -93,7 +93,7 @@ Srebrne Bilety dają dostęp do konkretnych usług. Kluczowe polecenie i paramet
 
 - Polecenie: Podobne do Złotego Biletu, ale celuje w konkretne usługi.
 - Parametry:
-- `/service`: Usługa, którą należy celować (np. cifs, http).
+- `/service`: Usługa, którą należy zaatakować (np. cifs, http).
 - Inne parametry podobne do Złotego Biletu.
 
 Przykład:
@@ -119,17 +119,17 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - Polecenie: `kerberos::list`
 - Wyświetla wszystkie bilety Kerberos dla bieżącej sesji użytkownika.
 
-- **Przekazywanie pamięci podręcznej**:
+- **Przekaż pamięć podręczną**:
 - Polecenie: `kerberos::ptc`
 - Wstrzykuje bilety Kerberos z plików pamięci podręcznej.
 - Przykład: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Przekazywanie biletu**:
+- **Przekaż bilet**:
 - Polecenie: `kerberos::ptt`
 - Umożliwia użycie biletu Kerberos w innej sesji.
 - Przykład: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Usuwanie biletów**:
+- **Oczyść bilety**:
 - Polecenie: `kerberos::purge`
 - Czyści wszystkie bilety Kerberos z sesji.
 - Przydatne przed użyciem poleceń manipulacji biletami, aby uniknąć konfliktów.
@@ -219,7 +219,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

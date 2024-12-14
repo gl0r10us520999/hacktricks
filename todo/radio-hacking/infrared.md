@@ -1,16 +1,16 @@
 # Infrared
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Światło podczerwone jest niewidoczne dla ludzi**. Długość fali IR wynosi od **0,7 do 1000 mikronów**. Piloty domowe używają sygnału IR do przesyłania danych i działają w zakresie długości fal od 0,75 do 1,4 mikrona. Mikrokontroler w pilocie sprawia, że dioda LED podczerwieni miga z określoną częstotliwością, przekształcając sygnał cyfrowy w sygnał IR.
 
-Aby odbierać sygnały IR, używa się **fotoreceptora**. On **przekształca światło IR w impulsy napięcia**, które są już **sygnałami cyfrowymi**. Zwykle wewnątrz odbiornika znajduje się **filtr ciemnego światła**, który przepuszcza **tylko pożądaną długość fali** i eliminuje szumy.
+Aby odbierać sygnały IR, używa się **fotoreceptora**. On **przekształca światło IR w impulsy napięcia**, które są już **sygnałami cyfrowymi**. Zwykle w **odbiorniku znajduje się filtr ciemnego światła**, który przepuszcza **tylko pożądaną długość fali** i eliminuje szumy.
 
 ### Różnorodność protokołów IR <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
@@ -39,13 +39,13 @@ Bity są kodowane przez modulację czasu trwania przestrzeni między impulsami. 
 
 **2. Kodowanie szerokości impulsów**
 
-Bity są kodowane przez modulację szerokości impulsu. Szerokość przestrzeni po serii impulsów jest stała.
+Bity są kodowane przez modulację szerokości impulsu. Szerokość przestrzeni po wybuchu impulsu jest stała.
 
 <figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
 
 **3. Kodowanie fazy**
 
-Jest również znane jako kodowanie Manchester. Wartość logiczna jest definiowana przez polaryzację przejścia między serią impulsów a przestrzenią. "Przestrzeń do serii impulsów" oznacza logikę "0", "seria impulsów do przestrzeni" oznacza logikę "1".
+Jest również znane jako kodowanie Manchester. Wartość logiczna jest definiowana przez polarność przejścia między wybuchem impulsu a przestrzenią. "Przestrzeń do wybuchu impulsu" oznacza logikę "0", "wybuch impulsu do przestrzeni" oznacza logikę "1".
 
 <figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
 
@@ -59,7 +59,7 @@ Producenci uwielbiają używać swoich unikalnych protokołów IR, nawet w obrę
 
 ### Badanie sygnału IR
 
-Najbardziej niezawodnym sposobem na zobaczenie, jak wygląda sygnał IR z pilota, jest użycie oscyloskopu. Nie demoduluje ani nie odwraca odebranego sygnału, jest po prostu wyświetlany "tak jak jest". To jest przydatne do testowania i debugowania. Pokażę oczekiwany sygnał na przykładzie protokołu IR NEC.
+Najbardziej niezawodnym sposobem na zobaczenie, jak wygląda sygnał IR pilota, jest użycie oscyloskopu. Nie demoduluje ani nie odwraca odebranego sygnału, jest po prostu wyświetlany "tak jak jest". To jest przydatne do testowania i debugowania. Pokażę oczekiwany sygnał na przykładzie protokołu IR NEC.
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
@@ -69,11 +69,11 @@ Następnie przesyłane są dane. Struktura, preambuła i metoda kodowania bitów
 
 **Protokół IR NEC** zawiera krótki kod komendy i kod powtórzenia, który jest wysyłany podczas przytrzymywania przycisku. Zarówno kod komendy, jak i kod powtórzenia mają tę samą preambułę na początku.
 
-**Kod komendy NEC**, oprócz preambuły, składa się z bajtu adresu i bajtu numeru komendy, dzięki którym urządzenie rozumie, co należy wykonać. Bajty adresu i numeru komendy są powielane z odwrotnymi wartościami, aby sprawdzić integralność transmisji. Na końcu komendy znajduje się dodatkowy bit stopu.
+Kod **komendy NEC**, oprócz preambuły, składa się z bajtu adresu i bajtu numeru komendy, dzięki którym urządzenie rozumie, co należy wykonać. Bajty adresu i numeru komendy są powielane z odwrotnymi wartościami, aby sprawdzić integralność transmisji. Na końcu komendy znajduje się dodatkowy bit stopu.
 
-**Kod powtórzenia** ma "1" po preambule, co jest bitem stopu.
+Kod **powtórzenia** ma "1" po preambule, co jest bitem stopu.
 
-Dla **logiki "0" i "1"** NEC używa kodowania odległości impulsów: najpierw przesyłany jest impuls, po którym następuje pauza, której długość ustala wartość bitu.
+Dla **logiki "0" i "1"** NEC używa kodowania odległości impulsów: najpierw przesyłany jest wybuch impulsu, po którym następuje pauza, której długość ustala wartość bitu.
 
 ### Klimatyzatory
 
@@ -88,21 +88,21 @@ Możesz zaatakować podczerwień za pomocą Flipper Zero:
 [fz-infrared.md](flipper-zero/fz-infrared.md)
 {% endcontent-ref %}
 
-## Referencje
+## Odniesienia
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

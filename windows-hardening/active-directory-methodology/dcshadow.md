@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DCShadow
 
-Rejestruje **nowy kontroler domeny** w AD i używa go do **wypychania atrybutów** (SIDHistory, SPNs...) na określonych obiektach **bez** pozostawiania jakichkolwiek **logów** dotyczących **zmian**. Musisz mieć uprawnienia **DA** i być w **domenie głównej**.\
+Rejestruje **nowy kontroler domeny** w AD i używa go do **wypychania atrybutów** (SIDHistory, SPNs...) na określonych obiektach **bez** pozostawiania jakichkolwiek **logów** dotyczących **zmian**. Musisz mieć uprawnienia DA i być w **domenie głównej**.\
 Zauważ, że jeśli użyjesz błędnych danych, pojawią się dość brzydkie logi.
 
 Aby przeprowadzić atak, potrzebujesz 2 instancji mimikatz. Jedna z nich uruchomi serwery RPC z uprawnieniami SYSTEM (musisz tutaj wskazać zmiany, które chcesz wprowadzić), a druga instancja będzie używana do wypychania wartości:
@@ -45,7 +45,7 @@ Możesz wprowadzić zmiany z konta DA lub z konta użytkownika z minimalnymi upr
 * _DS-Replication-Manage-Topology_ (Zarządzaj topologią replikacji)
 * _DS-Replication-Synchronize_ (Synchronizacja replikacji)
 * Obiekt **Sites** (i jego dzieci) w **kontenerze konfiguracji**:
-* _CreateChild i DeleteChild_
+* _CreateChild and DeleteChild_
 * Obiekt **komputera, który jest zarejestrowany jako DC**:
 * _WriteProperty_ (Nie Write)
 * Obiekt **docelowy**:
@@ -77,7 +77,7 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Przyznaj uprawnienia DCShadow za pomocą DCShadow (bez zmodyfikowanych dzienników uprawnień)
+## Shadowception - Przyznaj uprawnienia DCShadow używając DCShadow (bez zmodyfikowanych logów uprawnień)
 
 Musimy dodać następujące ACE z SID naszego użytkownika na końcu:
 
@@ -91,9 +91,12 @@ Musimy dodać następujące ACE z SID naszego użytkownika na końcu:
 
 Aby uzyskać aktualny ACE obiektu: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-Zauważ, że w tym przypadku musisz wprowadzić **kilka zmian,** a nie tylko jedną. Tak więc, w **sesji mimikatz1** (serwer RPC) użyj parametru **`/stack` z każdą zmianą,** którą chcesz wprowadzić. W ten sposób będziesz musiał tylko **`/push`** raz, aby wykonać wszystkie zablokowane zmiany na serwerze rouge.
+Zauważ, że w tym przypadku musisz dokonać **kilku zmian,** a nie tylko jednej. Tak więc, w **sesji mimikatz1** (serwer RPC) użyj parametru **`/stack` z każdą zmianą,** którą chcesz wprowadzić. W ten sposób będziesz musiał tylko **`/push`** raz, aby wykonać wszystkie zablokowane zmiany na serwerze rogue.
+
+
 
 [**Więcej informacji o DCShadow na ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -105,7 +108,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

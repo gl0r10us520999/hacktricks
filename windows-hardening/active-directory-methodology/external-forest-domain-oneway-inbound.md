@@ -87,13 +87,13 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 
 ### Logowanie
 
-Używając standardowej metody z danymi logowania użytkowników, którzy mają dostęp do zewnętrznej domeny, powinieneś być w stanie uzyskać dostęp do:
+Używając standardowej metody z poświadczeniami użytkowników, którzy mają dostęp do zewnętrznej domeny, powinieneś być w stanie uzyskać dostęp do:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
 ### Nadużycie historii SID
 
-Możesz również nadużyć [**historii SID**](sid-history-injection.md) w ramach zaufania lasu.
+Możesz również nadużywać [**historii SID**](sid-history-injection.md) w ramach zaufania lasu.
 
 Jeśli użytkownik jest migrowany **z jednego lasu do drugiego** i **filtracja SID nie jest włączona**, możliwe jest **dodanie SID z innego lasu**, a ten **SID** zostanie **dodany** do **tokena użytkownika** podczas uwierzytelniania **w ramach zaufania**.
 

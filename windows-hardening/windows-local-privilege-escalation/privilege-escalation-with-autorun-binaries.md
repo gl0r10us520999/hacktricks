@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -23,7 +23,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 ## WMIC
 
-**Wmic** może być używany do uruchamiania programów przy **uruchamianiu**. Zobacz, które binaria są zaprogramowane do uruchomienia przy starcie:
+**Wmic** może być używany do uruchamiania programów przy **uruchamianiu**. Zobacz, które binaria są zaprogramowane do uruchomienia przy starcie za pomocą:
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Folders
 
-Wszystkie pliki binarne znajdujące się w **folderach uruchamiania będą wykonywane przy starcie**. Typowe foldery uruchamiania to te wymienione w kontynuacji, ale folder uruchamiania jest wskazany w rejestrze. [Przeczytaj to, aby dowiedzieć się gdzie.](privilege-escalation-with-autorun-binaries.md#startup-path)
+Wszystkie pliki wykonywalne znajdujące się w **folderach uruchamiania będą wykonywane przy starcie**. Typowe foldery uruchamiania to te wymienione w kontynuacji, ale folder uruchamiania jest wskazany w rejestrze. [Przeczytaj to, aby dowiedzieć się gdzie.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -165,10 +165,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Skróty umieszczone w folderze **Startup** automatycznie uruchomią usługi lub aplikacje podczas logowania użytkownika lub ponownego uruchamiania systemu. Lokalizacja folderu **Startup** jest zdefiniowana w rejestrze zarówno dla zakresu **Local Machine**, jak i **Current User**. Oznacza to, że każdy skrót dodany do tych określonych lokalizacji **Startup** zapewni, że powiązana usługa lub program uruchomi się po procesie logowania lub ponownego uruchamiania, co czyni to prostą metodą planowania automatycznego uruchamiania programów.
+Skróty umieszczone w folderze **Startup** automatycznie uruchomią usługi lub aplikacje podczas logowania użytkownika lub ponownego uruchamiania systemu. Lokalizacja folderu **Startup** jest zdefiniowana w rejestrze zarówno dla zakresu **Local Machine**, jak i **Current User**. Oznacza to, że każdy skrót dodany do tych określonych lokalizacji **Startup** zapewni, że powiązana usługa lub program uruchomi się po procesie logowania lub ponownego uruchamiania, co czyni to prostą metodą planowania programów do automatycznego uruchamiania.
 
 {% hint style="info" %}
-Jeśli możesz nadpisać dowolny \[User] Shell Folder w **HKLM**, będziesz mógł skierować go do folderu kontrolowanego przez Ciebie i umieścić backdoora, który zostanie wykonany za każdym razem, gdy użytkownik zaloguje się do systemu, eskalując uprawnienia.
+Jeśli możesz nadpisać dowolny \[User] Shell Folder w **HKLM**, będziesz mógł skierować go do folderu kontrolowanego przez Ciebie i umieścić backdoora, który będzie wykonywany za każdym razem, gdy użytkownik zaloguje się do systemu, eskalując uprawnienia.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -185,7 +185,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Typowo klucz **Userinit** jest ustawiony na **userinit.exe**. Jednak jeśli ten klucz zostanie zmodyfikowany, określony plik wykonywalny również zostanie uruchomiony przez **Winlogon** po logowaniu użytkownika. Podobnie klucz **Shell** ma wskazywać na **explorer.exe**, który jest domyślnym powłoką dla systemu Windows.
+Typowo klucz **Userinit** jest ustawiony na **userinit.exe**. Jednak jeśli ten klucz zostanie zmodyfikowany, określony plik wykonywalny również zostanie uruchomiony przez **Winlogon** po logowaniu użytkownika. Podobnie klucz **Shell** ma na celu wskazanie na **explorer.exe**, który jest domyślnym powłoką dla systemu Windows.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -218,13 +218,13 @@ Kroki do utworzenia opcji uruchamiania w celu automatycznego uruchamiania w "Try
 
 1. Zmień atrybuty pliku `boot.ini`, aby usunąć flagi tylko do odczytu, systemowe i ukryte: `attrib c:\boot.ini -r -s -h`
 2. Otwórz `boot.ini` do edycji.
-3. Wstaw linię taką jak: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
+3. Wstaw linię jak: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. Zapisz zmiany w `boot.ini`.
 5. Ponownie zastosuj oryginalne atrybuty pliku: `attrib c:\boot.ini +r +s +h`
 
-* **Eksploatacja 1:** Zmiana klucza rejestru **AlternateShell** pozwala na niestandardową konfigurację powłoki poleceń, potencjalnie umożliwiając nieautoryzowany dostęp.
-* **Eksploatacja 2 (Uprawnienia do zapisu w PATH):** Posiadanie uprawnień do zapisu w dowolnej części zmiennej systemowej **PATH**, szczególnie przed `C:\Windows\system32`, pozwala na uruchomienie niestandardowego `cmd.exe`, który może być tylnym wejściem, jeśli system zostanie uruchomiony w trybie awaryjnym.
-* **Eksploatacja 3 (Uprawnienia do zapisu w PATH i boot.ini):** Dostęp do zapisu w `boot.ini` umożliwia automatyczne uruchamianie w trybie awaryjnym, ułatwiając nieautoryzowany dostęp przy następnym uruchomieniu.
+* **Eksploatacja 1:** Zmiana klucza rejestru **AlternateShell** pozwala na skonfigurowanie niestandardowego powłoki poleceń, co może prowadzić do nieautoryzowanego dostępu.
+* **Eksploatacja 2 (Uprawnienia do zapisu w PATH):** Posiadanie uprawnień do zapisu w dowolnej części zmiennej systemowej **PATH**, szczególnie przed `C:\Windows\system32`, pozwala na uruchomienie niestandardowego `cmd.exe`, co może być tylnymi drzwiami, jeśli system zostanie uruchomiony w trybie awaryjnym.
+* **Eksploatacja 3 (Uprawnienia do zapisu w PATH i boot.ini):** Dostęp do zapisu w `boot.ini` umożliwia automatyczne uruchamianie w trybie awaryjnym, co ułatwia nieautoryzowany dostęp przy następnym uruchomieniu.
 
 Aby sprawdzić bieżące ustawienie **AlternateShell**, użyj tych poleceń:
 ```bash
@@ -315,7 +315,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Zauważ, że wszystkie strony, na których można znaleźć autoruny, **zostały już przeszukane przez** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Jednak dla **bardziej szczegółowej listy automatycznie wykonywanych** plików możesz użyć [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) z sysinternals:
+Zauważ, że wszystkie strony, na których możesz znaleźć autoruny, są **już przeszukane przez**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Jednak dla **bardziej kompleksowej listy automatycznie wykonywanych** plików możesz użyć [autoruns ](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) z sysinternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -332,7 +332,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty tip**: **zarejestruj się** w **Intigriti**, premium **platformie bug bounty stworzonej przez hackerów, dla hackerów**! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 USD**!
+**Tip dotyczący bug bounty**: **zarejestruj się** w **Intigriti**, premium **platformie bug bounty stworzonej przez hackerów, dla hackerów**! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 

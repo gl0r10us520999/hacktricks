@@ -9,8 +9,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}
@@ -40,15 +40,15 @@ Dla **kart NFC typu B, F i V**, Flipper Zero jest w stanie odczytać UID bez zap
 
 #### Karta bankowa (EMV) <a href="#kzmrp" id="kzmrp"></a>
 
-Flipper Zero może tylko odczytać UID, SAK, ATQA i zapisane dane na kartach bankowych **bez zapisywania**.
+Flipper Zero może tylko odczytać UID, SAK, ATQA i dane przechowywane na kartach bankowych **bez zapisywania**.
 
-Ekran odczytu karty bankowej. Dla kart bankowych Flipper Zero może tylko odczytać dane **bez zapisywania i emulowania ich**.
+Ekran odczytu karty bankowej. Dla kart bankowych Flipper Zero może tylko odczytać dane **bez zapisywania i emulacji**.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
 #### Nieznane karty <a href="#id-37eo8" id="id-37eo8"></a>
 
-Gdy Flipper Zero jest **niezdolny do określenia typu karty NFC**, wtedy można odczytać tylko **UID, SAK i ATQA**.
+Gdy Flipper Zero jest **niezdolny do określenia typu karty NFC**, można odczytać i **zapisać tylko UID, SAK i ATQA**.
 
 Ekran odczytu nieznanej karty. Dla nieznanych kart NFC Flipper Zero może emulować tylko UID.
 
@@ -72,9 +72,9 @@ Flipper Zero może **odczytać karty NFC**, jednak **nie rozumie wszystkich prot
 
 <figure><img src="../../../.gitbook/assets/image (217).png" alt=""><figcaption></figcaption></figure>
 
-W Flipperze, odczyt tagów 13.56 MHz można podzielić na dwie części:
+W Flipperze odczyt tagów 13.56 MHz można podzielić na dwie części:
 
-* **Odczyt niskiego poziomu** — odczytuje tylko UID, SAK i ATQA. Flipper próbuje zgadnąć protokół na wyższym poziomie na podstawie tych danych odczytanych z karty. Nie możesz być w 100% pewny, ponieważ jest to tylko przypuszczenie oparte na pewnych czynnikach.
+* **Odczyt niskiego poziomu** — odczytuje tylko UID, SAK i ATQA. Flipper próbuje zgadnąć protokół na wyższym poziomie na podstawie tych danych odczytanych z karty. Nie możesz być tego w 100% pewny, ponieważ jest to tylko przypuszczenie oparte na pewnych czynnikach.
 * **Odczyt wysokiego poziomu** — odczytuje dane z pamięci karty, używając konkretnego protokołu na wyższym poziomie. To byłoby odczytywanie danych z Mifare Ultralight, odczytywanie sektorów z Mifare Classic lub odczytywanie atrybutów karty z PayPass/Apple Pay.
 
 ### Odczyt Specyficzny
@@ -83,8 +83,8 @@ W przypadku, gdy Flipper Zero nie jest w stanie znaleźć typu karty na podstawi
 
 #### Karty Bankowe EMV (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
-Oprócz prostego odczytu UID, możesz wyodrębnić znacznie więcej danych z karty bankowej. Możliwe jest **uzyskanie pełnego numeru karty** (16 cyfr na przedniej stronie karty), **daty ważności**, a w niektórych przypadkach nawet **nazwy właściciela** wraz z listą **najnowszych transakcji**.\
-Jednak nie **możesz odczytać CVV w ten sposób** (3 cyfry na odwrocie karty). Również **karty bankowe są chronione przed atakami powtórzeniowymi**, więc skopiowanie ich za pomocą Flippera, a następnie próba emulacji w celu zapłaty za coś, nie zadziała.
+Oprócz prostego odczytu UID, możesz wyodrębnić znacznie więcej danych z karty bankowej. Możliwe jest **uzyskanie pełnego numeru karty** (16 cyfr na przedniej stronie karty), **daty ważności**, a w niektórych przypadkach nawet **nazwy właściciela** wraz z listą **najbardziej recentnych transakcji**.\
+Jednak nie **możesz odczytać CVV w ten sposób** (3 cyfry na odwrocie karty). Również **karty bankowe są chronione przed atakami powtórzeniowymi**, więc skopiowanie ich za pomocą Flippera, a następnie próba emulacji w celu zapłacenia za coś, nie zadziała.
 
 ## Odnośniki
 
@@ -99,8 +99,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}

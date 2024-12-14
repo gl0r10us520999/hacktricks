@@ -58,7 +58,7 @@ If the TGT if from a domain controller, you could perform a[ **DCSync attack**](
 [printers-spooler-service-abuse.md](printers-spooler-service-abuse.md)
 {% endcontent-ref %}
 
-### Mitigation
+### Mitigacja
 
 * Ogranicz logowanie DA/Admin do określonych usług
 * Ustaw "Konto jest wrażliwe i nie może być delegowane" dla kont uprzywilejowanych.

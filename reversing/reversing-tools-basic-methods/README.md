@@ -38,9 +38,9 @@ Oprogramowanie:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek to decompiler, który **dekompiluje i bada wiele formatów**, w tym **biblioteki** (.dll), **pliki metadanych Windows** (.winmd) oraz **wykonywalne** (.exe). Po dekompilacji, zestaw można zapisać jako projekt Visual Studio (.csproj).
+dotPeek to decompiler, który **dekompiluje i bada wiele formatów**, w tym **biblioteki** (.dll), **pliki metadanych Windows** (.winmd) i **wykonywalne** (.exe). Po dekompilacji, zestaw można zapisać jako projekt Visual Studio (.csproj).
 
-Zaletą jest to, że jeśli utracony kod źródłowy wymaga przywrócenia z przestarzałego zestawu, ta akcja może zaoszczędzić czas. Dodatkowo, dotPeek zapewnia wygodną nawigację po zdekompilowanym kodzie, co czyni go jednym z idealnych narzędzi do **analizy algorytmów Xamarin.**
+Zaletą jest to, że jeśli utracony kod źródłowy wymaga przywrócenia z przestarzałego zestawu, ta akcja może zaoszczędzić czas. Ponadto, dotPeek zapewnia wygodną nawigację po zdekompilowanym kodzie, co czyni go jednym z idealnych narzędzi do **analizy algorytmów Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -55,8 +55,8 @@ Dzięki wszechstronnemu modelowi dodatków i API, które rozszerza narzędzie, a
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Plugin ILSpy dla Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Możesz go mieć na dowolnym systemie operacyjnym (możesz zainstalować go bezpośrednio z VSCode, nie ma potrzeby pobierania gita. Kliknij na **Rozszerzenia** i **wyszukaj ILSpy**).\
-Jeśli potrzebujesz **dekompilować**, **modyfikować** i **ponownie kompilować**, możesz użyć [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) lub aktywnie utrzymywanego forka, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Kliknij prawym przyciskiem -> Modyfikuj metodę**, aby zmienić coś w funkcji).
+[Plugin ILSpy dla Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Możesz go mieć na każdym systemie operacyjnym (możesz zainstalować go bezpośrednio z VSCode, nie ma potrzeby pobierania gita. Kliknij na **Rozszerzenia** i **wyszukaj ILSpy**).\
+Jeśli potrzebujesz **dekompilować**, **modyfikować** i **ponownie kompilować**, możesz użyć [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) lub aktywnie utrzymywanego forka, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Kliknij prawym przyciskiem -> Modyfikuj metodę**, aby zmienić coś wewnątrz funkcji).
 
 ### Logowanie DNSpy
 
@@ -93,7 +93,7 @@ Następnie zapisz nowy plik za pomocą _**Plik >> Zapisz moduł...**_:
 
 Jest to konieczne, ponieważ jeśli tego nie zrobisz, w **czasie wykonywania** kilka **optymalizacji** zostanie zastosowanych do kodu i może się zdarzyć, że podczas debugowania **punkt przerwania nigdy nie zostanie osiągnięty** lub niektóre **zmienne nie istnieją**.
 
-Następnie, jeśli Twoja aplikacja .NET jest **uruchamiana** przez **IIS**, możesz ją **zrestartować** za pomocą:
+Następnie, jeśli twoja aplikacja .NET jest **uruchamiana** przez **IIS**, możesz ją **zrestartować** za pomocą:
 ```
 iisreset /noforce
 ```
@@ -105,7 +105,7 @@ Następnie wybierz **w3wp.exe**, aby dołączyć do **serwera IIS** i kliknij **
 
 ![](<../../.gitbook/assets/image (113).png>)
 
-Teraz, gdy debugujemy proces, czas go zatrzymać i załadować wszystkie moduły. Najpierw kliknij na _Debug >> Break All_, a następnie kliknij na _**Debug >> Windows >> Modules**_:
+Teraz, gdy debugujemy proces, czas go zatrzymać i załadować wszystkie moduły. Najpierw kliknij _Debug >> Break All_, a następnie kliknij _**Debug >> Windows >> Modules**_:
 
 ![](<../../.gitbook/assets/image (132).png>)
 
@@ -134,7 +134,7 @@ Kliknij prawym przyciskiem myszy dowolny moduł w **Assembly Explorer** i klikni
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* Skonfiguruj **parametry** wykonania, podając **ścieżkę do DLL** i funkcję, którą chcesz wywołać:
+* Skonfiguruj **parametry** wykonania, podając **ścieżkę do DLL** oraz funkcję, którą chcesz wywołać:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
@@ -163,7 +163,7 @@ Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzyma
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE) to narzędzie front-end/reverse engineering dla GNU Project Debugger (GDB), skoncentrowane na grach. Może być jednak używane do wszelkich związanych z reverse-engineering spraw.
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) to narzędzie front-end/reverse engineering dla GNU Project Debugger (GDB), skoncentrowane na grach. Może być jednak używane do wszelkich związanych z reverse-engineering.
 
 [**Decompiler Explorer**](https://dogbolt.org/) to internetowy front-end dla wielu dekompilatorów. Ta usługa internetowa pozwala porównywać wyniki różnych dekompilatorów na małych plikach wykonywalnych.
 
@@ -175,11 +175,11 @@ Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzyma
 
 ### Debugowanie shellcode z blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) **alokuje** **shellcode** w przestrzeni pamięci, **wskaże** ci **adres pamięci**, w którym shellcode został alokowany, i **zatrzyma** wykonanie.\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) **alokuje** **shellcode** w przestrzeni pamięci, **wskaże** ci **adres pamięci**, w którym shellcode został alokowany i **zatrzyma** wykonanie.\
 Następnie musisz **dołączyć debugger** (Ida lub x64dbg) do procesu i ustawić **punkt przerwania w wskazanym adresie pamięci** oraz **wznowić** wykonanie. W ten sposób będziesz debugować shellcode.
 
 Strona z wydaniami na githubie zawiera zips z skompilowanymi wydaniami: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-Możesz znaleźć nieco zmodyfikowaną wersję Blobrunner w następującym linku. Aby ją skompilować, po prostu **stwórz projekt C/C++ w Visual Studio Code, skopiuj i wklej kod i zbuduj go**.
+Możesz znaleźć nieco zmodyfikowaną wersję Blobrunner w poniższym linku. Aby ją skompilować, po prostu **stwórz projekt C/C++ w Visual Studio Code, skopiuj i wklej kod i zbuduj go**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -187,7 +187,7 @@ Możesz znaleźć nieco zmodyfikowaną wersję Blobrunner w następującym linku
 
 ### Debugowanie shellcode z jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) jest bardzo podobny do blobrunner. **Alokuje** **shellcode** w przestrzeni pamięci i rozpoczyna **wieczną pętlę**. Następnie musisz **dołączyć debugger** do procesu, **uruchomić, poczekać 2-5 sekund i nacisnąć stop**, a znajdziesz się w **wiecznej pętli**. Przejdź do następnej instrukcji wiecznej pętli, ponieważ będzie to wywołanie do shellcode, a na końcu znajdziesz się w trakcie wykonywania shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) jest bardzo podobny do blobrunner. **Alokuje** **shellcode** w przestrzeni pamięci i rozpoczyna **wieczną pętlę**. Następnie musisz **dołączyć debugger** do procesu, **nacisnąć start, poczekać 2-5 sekund i nacisnąć stop**, a znajdziesz się w **wiecznej pętli**. Przejdź do następnej instrukcji wiecznej pętli, ponieważ będzie to wywołanie shellcode, a na końcu znajdziesz się w trakcie wykonywania shellcode.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -201,7 +201,7 @@ Zauważ, że Cutter pozwala na "Otwórz plik" i "Otwórz shellcode". W moim przy
 
 ![](<../../.gitbook/assets/image (562).png>)
 
-Aby rozpocząć emulację w wybranym miejscu, ustaw tam bp, a Cutter automatycznie rozpocznie emulację stamtąd:
+Aby rozpocząć emulację w miejscu, w którym chcesz, ustaw tam bp, a Cutter automatycznie rozpocznie emulację stamtąd:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
@@ -227,7 +227,7 @@ scDbg dysponuje również graficznym uruchamiaczem, w którym możesz wybrać op
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-Opcja **Create Dump** zrzuci końcowy shellcode, jeśli jakakolwiek zmiana zostanie dokonana na shellcode dynamicznie w pamięci (przydatne do pobrania zdekodowanego shellcode). **start offset** może być przydatny do rozpoczęcia shellcode w określonym offset. Opcja **Debug Shell** jest przydatna do debugowania shellcode za pomocą terminala scDbg (jednak uważam, że żadna z wcześniej wyjaśnionych opcji nie jest lepsza w tej kwestii, ponieważ będziesz mógł używać Ida lub x64dbg).
+Opcja **Create Dump** zrzuci końcowy shellcode, jeśli jakiekolwiek zmiany zostaną wprowadzone do shellcode dynamicznie w pamięci (przydatne do pobrania zdekodowanego shellcode). **start offset** może być przydatny do rozpoczęcia shellcode w określonym offsetcie. Opcja **Debug Shell** jest przydatna do debugowania shellcode za pomocą terminala scDbg (jednak uważam, że żadna z wcześniej wyjaśnionych opcji nie jest lepsza w tej kwestii, ponieważ będziesz mógł używać Ida lub x64dbg).
 
 ### Disassembling using CyberChef
 
@@ -268,7 +268,7 @@ Po prostu naciśnij **ATL+f7** (importuj wtyczkę python w IDA) i wybierz wtyczk
 
 Ta wtyczka wykona binarkę i dynamicznie rozwiąże nazwy funkcji na początku debugowania. Po rozpoczęciu debugowania naciśnij ponownie przycisk Start (zielony lub f9), a punkt przerwania zostanie osiągnięty na początku rzeczywistego kodu.
 
-Jest to również bardzo interesujące, ponieważ jeśli naciśniesz przycisk w aplikacji graficznej, debugger zatrzyma się w funkcji wykonywanej przez ten przycisk.
+Jest to również bardzo interesujące, ponieważ jeśli naciśniesz przycisk w aplikacji graficznej, debugger zatrzyma się w funkcji wywoływanej przez ten przycisk.
 
 ## Golang
 
@@ -299,7 +299,7 @@ W [**no$gba**](https://problemkaputt.de/gba.htm), w _**Options --> Emulation Set
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Po naciśnięciu, każdy **klawisz ma wartość** do jego identyfikacji:
+Po naciśnięciu każdy **klawisz ma wartość** do jego identyfikacji:
 ```
 A = 1
 B = 2
@@ -381,11 +381,11 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 W poprzednim kodzie widać, że porównujemy **uVar1** (miejsce, w którym znajduje się **wartość naciśniętego przycisku**) z pewnymi wartościami:
 
-* Najpierw porównywana jest z **wartością 4** (**przycisk SELECT**): W wyzwaniu ten przycisk czyści ekran.
-* Następnie porównywana jest z **wartością 8** (**przycisk START**): W wyzwaniu sprawdza, czy kod jest ważny, aby uzyskać flagę.
+* Najpierw porównywana jest z **wartością 4** (**PRZYCISK SELECT**): W wyzwaniu ten przycisk czyści ekran.
+* Następnie porównywana jest z **wartością 8** (**PRZYCISK START**): W wyzwaniu sprawdza, czy kod jest ważny, aby uzyskać flagę.
 * W tym przypadku zmienna **`DAT_030000d8`** jest porównywana z 0xf3, a jeśli wartość jest taka sama, wykonywany jest pewien kod.
-* W innych przypadkach sprawdzana jest zmienna cont (`DAT_030000d4`). To jest cont, ponieważ dodaje 1 zaraz po wejściu w kod.\
-**Jeśli** jest mniejsza niż 8, wykonywane jest coś, co polega na **dodawaniu** wartości do \*\*`DAT_030000d8` \*\* (w zasadzie dodaje wartości naciśniętych klawiszy do tej zmiennej, o ile cont jest mniejszy niż 8).
+* W innych przypadkach sprawdzana jest zmienna cont (`DAT_030000d4`). To jest cont, ponieważ dodaje 1 zaraz po wejściu do kodu.\
+**Jeśli** jest mniejsza niż 8, wykonywane jest coś, co polega na **dodawaniu** wartości do **`DAT_030000d8`** (w zasadzie dodaje wartości naciśniętych klawiszy do tej zmiennej, o ile cont jest mniejszy niż 8).
 
 Tak więc, w tym wyzwaniu, znając wartości przycisków, musiałeś **nacisnąć kombinację o długości mniejszej niż 8, której wynikowa suma to 0xf3.**
 
@@ -398,7 +398,7 @@ Tak więc, w tym wyzwaniu, znając wartości przycisków, musiałeś **nacisną�
 ## Kursy
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (deobfuskacja binarna)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Deobfuskacja binarna)
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

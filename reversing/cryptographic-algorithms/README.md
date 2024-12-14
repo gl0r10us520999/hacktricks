@@ -19,7 +19,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 ## Identyfikacja algorytmów
 
-Jeśli kończysz w kodzie **używając przesunięć w prawo i w lewo, xorów i kilku operacji arytmetycznych**, jest bardzo prawdopodobne, że jest to implementacja **algorytmu kryptograficznego**. Poniżej przedstawione zostaną sposoby na **identyfikację algorytmu, który jest używany bez potrzeby odwrotnego inżynierowania każdego kroku**.
+Jeśli kończysz w kodzie **używając przesunięć w prawo i w lewo, xorów i kilku operacji arytmetycznych**, jest bardzo prawdopodobne, że jest to implementacja **algorytmu kryptograficznego**. Poniżej przedstawione zostaną sposoby na **identyfikację algorytmu, który jest używany bez potrzeby odwracania każdego kroku**.
 
 ### Funkcje API
 
@@ -37,7 +37,7 @@ Kompresuje i dekompresuje dany bufor danych.
 
 **CryptAcquireContext**
 
-Z [dokumentacji](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcja **CryptAcquireContext** jest używana do uzyskania uchwytu do konkretnego kontenera kluczy w ramach konkretnego dostawcy usług kryptograficznych (CSP). **Ten zwrócony uchwyt jest używany w wywołaniach funkcji CryptoAPI**, które korzystają z wybranego CSP.
+Z [dokumentacji](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcja **CryptAcquireContext** jest używana do uzyskania uchwytu do konkretnego kontenera kluczy w danym dostawcy usług kryptograficznych (CSP). **Ten zwrócony uchwyt jest używany w wywołaniach funkcji CryptoAPI**, które korzystają z wybranego CSP.
 
 **CryptCreateHash**
 
@@ -64,13 +64,13 @@ Możesz wyszukać dowolną z innych stałych, a prawdopodobnie uzyskasz ten sam 
 ### Informacje o danych
 
 Jeśli kod nie ma żadnej znaczącej stałej, może być **ładowany informacje z sekcji .data**.\
-Możesz uzyskać dostęp do tych danych, **zgrupować pierwszy dword** i wyszukać go w Google, jak zrobiliśmy w poprzedniej sekcji:
+Możesz uzyskać dostęp do tych danych, **grupując pierwszy dword** i wyszukując go w Google, tak jak zrobiliśmy w poprzedniej sekcji:
 
 ![](<../../.gitbook/assets/image (372).png>)
 
 W tym przypadku, jeśli poszukasz **0xA56363C6**, możesz znaleźć, że jest to związane z **tabelami algorytmu AES**.
 
-## RC4 **(Kryptografia symetryczna)**
+## RC4 **(Symetryczna kryptografia)**
 
 ### Cechy
 
@@ -96,11 +96,11 @@ Składa się z 3 głównych części:
 
 ![](<../../.gitbook/assets/image (379).png>)
 
-## **AES (Kryptografia symetryczna)**
+## **AES (Symetryczna kryptografia)**
 
 ### **Cechy**
 
-* Użycie **tabel substytucji i tabel wyszukiwania**
+* Użycie **tabel substytucyjnych i tabel wyszukiwania**
 * Możliwe jest **rozróżnienie AES dzięki użyciu specyficznych wartości tabel wyszukiwania** (stałych). _Zauważ, że **stała** może być **przechowywana** w binarnym **lub tworzona** _**dynamicznie**._
 * **Klucz szyfrowania** musi być **podzielny** przez **16** (zwykle 32B) i zazwyczaj używa się **IV** o długości 16B.
 
@@ -108,7 +108,7 @@ Składa się z 3 głównych części:
 
 ![](<../../.gitbook/assets/image (380).png>)
 
-## Serpent **(Kryptografia symetryczna)**
+## Serpent **(Symetryczna kryptografia)**
 
 ### Cechy
 
@@ -128,7 +128,7 @@ Jak wspomniano wcześniej, ten kod może być wizualizowany w dowolnym dekompila
 
 Dlatego możliwe jest zidentyfikowanie tego algorytmu, sprawdzając **magiczną liczbę** i **początkowe XOR-y**, widząc **bardzo długą funkcję** i **porównując** niektóre **instrukcje** długiej funkcji **z implementacją** (jak przesunięcie w lewo o 7 i obrót w lewo o 22).
 
-## RSA **(Kryptografia asymetryczna)**
+## RSA **(Asymetryczna kryptografia)**
 
 ### Cechy
 
@@ -140,7 +140,7 @@ Dlatego możliwe jest zidentyfikowanie tego algorytmu, sprawdzając **magiczną 
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* W linii 11 (po lewej) jest `+7) >> 3`, co jest takie samo jak w linii 35 (po prawej): `+7) / 8`
+* W linii 11 (po lewej) jest `+7) >> 3`, co jest tym samym, co w linii 35 (po prawej): `+7) / 8`
 * Linia 12 (po lewej) sprawdza, czy `modulus_len < 0x040`, a w linii 36 (po prawej) sprawdza, czy `inputLen+11 > modulusLen`
 
 ## MD5 i SHA (hash)

@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -75,7 +75,7 @@ Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
 {% endcode %}
 
-{% code title="Wyodrębnij dane uwierzytelniające z zrzutu" %}
+{% code title="Ekstrakcja poświadczeń z zrzutu" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -86,14 +86,14 @@ mimikatz # sekurlsa::logonPasswords
 
 Ten proces jest wykonywany automatycznie za pomocą [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Uwaga**: Niektóre **AV** mogą **wykrywać** jako **złośliwe** użycie **procdump.exe do zrzutu lsass.exe**, ponieważ **wykrywają** ciąg **"procdump.exe" i "lsass.exe"**. Dlatego jest **bardziej dyskretne** przekazanie jako **argumentu** **PID** lsass.exe do procdump **zamiast** **nazwy lsass.exe.**
+**Uwaga**: Niektóre **AV** mogą **wykrywać** jako **złośliwe** użycie **procdump.exe do zrzutu lsass.exe**, ponieważ **wykrywają** ciąg **"procdump.exe" i "lsass.exe"**. Dlatego jest **bardziej ukryte**, aby **przekazać** jako **argument** **PID** lsass.exe do procdump **zamiast** nazwy **lsass.exe.**
 
 ### Zrzut lsass z **comsvcs.dll**
 
 DLL o nazwie **comsvcs.dll** znajdujący się w `C:\Windows\System32` jest odpowiedzialny za **zrzut pamięci procesu** w przypadku awarii. Ten DLL zawiera **funkcję** o nazwie **`MiniDumpW`**, zaprojektowaną do wywoływania za pomocą `rundll32.exe`.\
-Nie ma znaczenia użycie pierwszych dwóch argumentów, ale trzeci jest podzielony na trzy komponenty. Identyfikator procesu do zrzutu stanowi pierwszy komponent, lokalizacja pliku zrzutu reprezentuje drugi, a trzeci komponent to ściśle słowo **full**. Nie istnieją alternatywne opcje.\
+Nie ma znaczenia użycie pierwszych dwóch argumentów, ale trzeci jest podzielony na trzy komponenty. Identyfikator procesu do zrzutu stanowi pierwszy komponent, lokalizacja pliku zrzutu reprezentuje drugi, a trzeci komponent to ściśle słowo **full**. Nie ma alternatywnych opcji.\
 Po przetworzeniu tych trzech komponentów, DLL angażuje się w tworzenie pliku zrzutu i przenoszenie pamięci określonego procesu do tego pliku.\
-Wykorzystanie **comsvcs.dll** jest możliwe do zrzutu procesu lsass, eliminując potrzebę przesyłania i uruchamiania procdump. Ta metoda jest opisana szczegółowo na [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+Wykorzystanie **comsvcs.dll** jest możliwe do zrzutu procesu lsass, eliminując potrzebę przesyłania i uruchamiania procdump. Ta metoda jest szczegółowo opisana na [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
 Następujące polecenie jest używane do wykonania:
 ```bash
@@ -117,12 +117,12 @@ Get-Process -Name LSASS
 ```
 ## Dumpin lsass z PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) to narzędzie do zrzutu chronionych procesów, które wspiera obfuskację zrzutów pamięci i ich transfer na zdalne stacje robocze bez zapisywania ich na dysku.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) to narzędzie do zrzutu chronionych procesów, które wspiera obfuscację zrzutów pamięci i ich transfer na zdalne stacje robocze bez zapisywania ich na dysku.
 
 **Kluczowe funkcjonalności**:
 
 1. Obejście ochrony PPL
-2. Obfuskacja plików zrzutów pamięci w celu unikania mechanizmów wykrywania opartych na sygnaturach Defendera
+2. Obfuscacja plików zrzutów pamięci w celu unikania mechanizmów wykrywania opartych na sygnaturach Defendera
 3. Przesyłanie zrzutu pamięci metodami RAW i SMB bez zapisywania go na dysku (zrzut bezplikowy)
 
 {% code overflow="wrap" %}
@@ -205,21 +205,21 @@ Na koniec możesz również użyć [**skryptu PS Invoke-NinjaCopy**](https://git
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Aktywne Katalogi - NTDS.dit**
+## **Akredytacje Active Directory - NTDS.dit**
 
-Plik **NTDS.dit** jest znany jako serce **Active Directory**, przechowując kluczowe dane o obiektach użytkowników, grupach i ich członkostwie. To tutaj przechowywane są **hash'e haseł** dla użytkowników domeny. Plik ten jest bazą danych **Extensible Storage Engine (ESE)** i znajduje się w **_%SystemRoom%/NTDS/ntds.dit_**.
+Plik **NTDS.dit** jest znany jako serce **Active Directory**, przechowując kluczowe dane o obiektach użytkowników, grupach i ich członkostwie. To tutaj przechowywane są **hashe haseł** dla użytkowników domeny. Plik ten jest bazą danych **Extensible Storage Engine (ESE)** i znajduje się w **_%SystemRoom%/NTDS/ntds.dit_**.
 
 W tej bazie danych utrzymywane są trzy główne tabele:
 
-- **Tabela Danych**: Ta tabela jest odpowiedzialna za przechowywanie szczegółów o obiektach, takich jak użytkownicy i grupy.
-- **Tabela Linków**: Śledzi relacje, takie jak członkostwo w grupach.
+- **Tabela danych**: Ta tabela jest odpowiedzialna za przechowywanie szczegółów o obiektach, takich jak użytkownicy i grupy.
+- **Tabela linków**: Śledzi relacje, takie jak członkostwo w grupach.
 - **Tabela SD**: **Deskryptory zabezpieczeń** dla każdego obiektu są przechowywane tutaj, zapewniając bezpieczeństwo i kontrolę dostępu do przechowywanych obiektów.
 
 Więcej informacji na ten temat: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
 Windows używa _Ntdsa.dll_ do interakcji z tym plikiem, a jest on używany przez _lsass.exe_. Następnie, **część** pliku **NTDS.dit** może być zlokalizowana **w pamięci `lsass`** (możesz znaleźć ostatnio dostępne dane prawdopodobnie z powodu poprawy wydajności dzięki użyciu **cache**).
 
-#### Deszyfrowanie hash'y w NTDS.dit
+#### Deszyfrowanie hashy wewnątrz NTDS.dit
 
 Hash jest szyfrowany 3 razy:
 
@@ -227,7 +227,7 @@ Hash jest szyfrowany 3 razy:
 2. Deszyfruj **hash** używając **PEK** i **RC4**.
 3. Deszyfruj **hash** używając **DES**.
 
-**PEK** ma **tę samą wartość** w **każdym kontrolerze domeny**, ale jest **szyfrowany** wewnątrz pliku **NTDS.dit** przy użyciu **BOOTKEY** pliku **SYSTEM kontrolera domeny (jest inny między kontrolerami domeny)**. Dlatego, aby uzyskać dane uwierzytelniające z pliku NTDS.dit, **potrzebujesz plików NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** ma **tę samą wartość** w **każdym kontrolerze domeny**, ale jest **szyfrowany** wewnątrz pliku **NTDS.dit** używając **BOOTKEY** pliku **SYSTEM kontrolera domeny (jest inny między kontrolerami domeny)**. Dlatego, aby uzyskać akredytacje z pliku NTDS.dit, **potrzebujesz plików NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Kopiowanie NTDS.dit za pomocą Ntdsutil
 
@@ -239,7 +239,7 @@ Możesz również użyć sztuczki z [**kopią zapasową woluminu**](./#stealing-
 
 ### **Ekstrakcja hashy z NTDS.dit**
 
-Gdy już **zdobędziesz** pliki **NTDS.dit** i **SYSTEM**, możesz użyć narzędzi takich jak _secretsdump.py_, aby **ekstrahować hashe**:
+Gdy już **zdobędziesz** pliki **NTDS.dit** i **SYSTEM**, możesz użyć narzędzi takich jak _secretsdump.py_, aby **wyodrębnić hashe**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
@@ -253,7 +253,7 @@ Na koniec możesz również użyć **modułu metasploit**: _post/windows/gather/
 
 ### **Ekstrakcja obiektów domeny z NTDS.dit do bazy danych SQLite**
 
-Obiekty NTDS można wyodrębnić do bazy danych SQLite za pomocą [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Wyodrębniane są nie tylko sekrety, ale także całe obiekty i ich atrybuty do dalszej ekstrakcji informacji, gdy surowy plik NTDS.dit został już pobrany.
+Obiekty NTDS mogą być ekstraktowane do bazy danych SQLite za pomocą [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Ekstrahowane są nie tylko sekrety, ale także całe obiekty i ich atrybuty do dalszej ekstrakcji informacji, gdy surowy plik NTDS.dit został już odzyskany.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
@@ -280,7 +280,7 @@ fgdump.exe
 ```
 ### PwDump
 
-Wyodrębnij dane uwierzytelniające z pliku SAM
+Wyodrębnij poświadczenia z pliku SAM
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -290,7 +290,7 @@ type outpwdump
 
 Pobierz go z: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) i po prostu **wykonaj go**, a hasła zostaną wyodrębnione.
 
-## Ochrona
+## Defenses
 
 [**Dowiedz się o niektórych zabezpieczeniach poświadczeń tutaj.**](credentials-protections.md)
 
@@ -303,7 +303,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

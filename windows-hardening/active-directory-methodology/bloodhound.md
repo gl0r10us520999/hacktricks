@@ -43,7 +43,7 @@ From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundA
 
 > BloodHound to aplikacja webowa w JavaScript na jednej stronie, zbudowana na bazie [Linkurious](http://linkurio.us/), skompilowana z użyciem [Electron](http://electron.atom.io/), z bazą danych [Neo4j](https://neo4j.com/) zasilaną przez zbieracz danych w C#.
 
-BloodHound wykorzystuje teorię grafów do ujawnienia ukrytych i często niezamierzonych relacji w środowisku Active Directory lub Azure. Atakujący mogą używać BloodHound do łatwego identyfikowania skomplikowanych ścieżek ataku, które w przeciwnym razie byłyby niemożliwe do szybkiego zidentyfikowania. Obrońcy mogą używać BloodHound do identyfikacji i eliminacji tych samych ścieżek ataku. Zarówno zespoły niebieskie, jak i czerwone mogą używać BloodHound do łatwego uzyskania głębszego zrozumienia relacji uprawnień w środowisku Active Directory lub Azure.
+BloodHound wykorzystuje teorię grafów, aby ujawnić ukryte i często niezamierzone relacje w środowisku Active Directory lub Azure. Atakujący mogą używać BloodHound do łatwego identyfikowania bardzo złożonych ścieżek ataku, które w przeciwnym razie byłyby niemożliwe do szybkiego zidentyfikowania. Obrońcy mogą używać BloodHound do identyfikacji i eliminacji tych samych ścieżek ataku. Zarówno zespoły niebieskie, jak i czerwone mogą używać BloodHound do łatwego uzyskania głębszego zrozumienia relacji uprawnień w środowisku Active Directory lub Azure.
 
 Tak więc, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) to niesamowite narzędzie, które może automatycznie enumerować domenę, zapisywać wszystkie informacje, znajdować możliwe ścieżki eskalacji uprawnień i przedstawiać wszystkie informacje za pomocą grafów.
 
@@ -54,7 +54,7 @@ BloodHound składa się z 2 głównych części: **ingestorów** i **aplikacji w
 **Aplikacja wizualizacyjna używa neo4j** do pokazania, jak wszystkie informacje są ze sobą powiązane oraz do pokazania różnych sposobów eskalacji uprawnień w domenie.
 
 ### Instalacja
-Po utworzeniu BloodHound CE, cały projekt został zaktualizowany w celu ułatwienia użycia z Dockerem. Najłatwiejszym sposobem na rozpoczęcie jest użycie jego wstępnie skonfigurowanej konfiguracji Docker Compose.
+Po utworzeniu BloodHound CE, cały projekt został zaktualizowany w celu ułatwienia użytkowania z Dockerem. Najłatwiejszym sposobem na rozpoczęcie jest użycie jego wstępnie skonfigurowanej konfiguracji Docker Compose.
 
 1. Zainstaluj Docker Compose. Powinno to być zawarte w instalacji [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Uruchom:
@@ -95,7 +95,7 @@ group3r.exe -f <filepath-name.log>
 
 [**PingCastle**](https://www.pingcastle.com/documentation/) **ocenia bezpieczeństwo środowiska AD** i dostarcza ładny **raport** z wykresami.
 
-Aby go uruchomić, można wykonać plik binarny `PingCastle.exe`, a rozpocznie on **interaktywną sesję** prezentującą menu opcji. Domyślną opcją do użycia jest **`healthcheck`**, która ustali podstawowy **przegląd** **domeny** oraz znajdzie **błędne konfiguracje** i **luki**.&#x20;
+Aby go uruchomić, można wykonać plik binarny `PingCastle.exe`, a rozpocznie on **interaktywną sesję** prezentującą menu opcji. Domyślną opcją do użycia jest **`healthcheck`**, która ustali podstawowy **przegląd** **domeny** oraz znajdzie **błędy konfiguracyjne** i **vulnerabilities**.&#x20;
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

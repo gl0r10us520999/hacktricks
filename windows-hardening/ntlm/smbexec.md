@@ -29,20 +29,21 @@ smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
 ### Wykonywanie poleceń bez binariów
 
-- **Smbexec** umożliwia bezpośrednie wykonywanie poleceń za pomocą binPaths usług, eliminując potrzebę posiadania fizycznych binariów na docelowym systemie.
+- **Smbexec** umożliwia bezpośrednie wykonywanie poleceń przez binPaths usług, eliminując potrzebę fizycznych binariów na docelowym systemie.
 - Metoda ta jest przydatna do wykonywania jednorazowych poleceń na docelowym systemie Windows. Na przykład, połączenie jej z modułem `web_delivery` Metasploit pozwala na wykonanie ładunku zwrotnego Meterpreter skierowanego na PowerShell.
 - Tworząc zdalną usługę na maszynie atakującego z binPath ustawionym na uruchomienie podanego polecenia przez cmd.exe, możliwe jest pomyślne wykonanie ładunku, osiągając callback i wykonanie ładunku z nasłuchiwaczem Metasploit, nawet jeśli wystąpią błędy odpowiedzi usługi.
 
 ### Przykład poleceń
 
-Utworzenie i uruchomienie usługi można zrealizować za pomocą następujących poleceń:
+Tworzenie i uruchamianie usługi można zrealizować za pomocą następujących poleceń:
 ```bash
 sc create [ServiceName] binPath= "cmd.exe /c [PayloadCommand]"
 sc start [ServiceName]
 ```
-Aby uzyskać więcej szczegółów, sprawdź [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+FOr further details check [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-## Odniesienia
+
+## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 {% hint style="success" %}

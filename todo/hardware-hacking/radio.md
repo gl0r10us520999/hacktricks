@@ -10,19 +10,19 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)to darmowy analizator sygnałów cyfrowych dla GNU/Linux i macOS, zaprojektowany do wydobywania informacji z nieznanych sygnałów radiowych. Obsługuje różnorodne urządzenia SDR przez SoapySDR i pozwala na regulowaną demodulację sygnałów FSK, PSK i ASK, dekodowanie analogowego wideo, analizowanie sygnałów burstowych oraz słuchanie analogowych kanałów głosowych (wszystko w czasie rzeczywistym).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)to darmowy analizator sygnałów cyfrowych dla GNU/Linux i macOS, zaprojektowany do wydobywania informacji z nieznanych sygnałów radiowych. Obsługuje różnorodne urządzenia SDR przez SoapySDR i pozwala na regulowaną demodulację sygnałów FSK, PSK i ASK, dekodowanie wideo analogowego, analizowanie sygnałów burstowych oraz słuchanie analogowych kanałów głosowych (wszystko w czasie rzeczywistym).
 
 ### Podstawowa konfiguracja
 
 Po zainstalowaniu jest kilka rzeczy, które warto skonfigurować.\
-W ustawieniach (drugi przycisk zakładki) możesz wybrać **urządzenie SDR** lub **wybrać plik** do odczytu oraz częstotliwość do syntonizacji i częstotliwość próbkowania (zalecane do 2.56Msps, jeśli twój komputer to obsługuje)\\
+W ustawieniach (druga zakładka) możesz wybrać **urządzenie SDR** lub **wybrać plik** do odczytu oraz częstotliwość do syntonizacji i częstotliwość próbkowania (zalecane do 2.56Msps, jeśli twój komputer to obsługuje)\\
 
 ![](<../../.gitbook/assets/image (245).png>)
 
@@ -40,19 +40,19 @@ Jeśli zauważysz, że twój komputer nie rejestruje sygnałów, spróbuj wyłą
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* **Tuner** w SigDigger pomaga w **lepszym przechwytywaniu sygnałów** (ale może je również pogorszyć). Idealnie zacznij od 0 i **powiększaj**, aż znajdziesz, że **szum** wprowadzony jest **większy** niż **poprawa sygnału**, której potrzebujesz.
+* **Tuner** w SigDigger pomaga w **lepszym przechwytywaniu sygnałów** (ale może je również pogorszyć). Idealnie zacznij od 0 i **zwiększaj**, aż znajdziesz, że **szum** wprowadzony jest **większy** niż **poprawa sygnału**, której potrzebujesz.
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
 ### Synchronizacja z kanałem radiowym
 
-Z [**SigDigger** ](https://github.com/BatchDrake/SigDigger)zsynchronizuj się z kanałem, który chcesz usłyszeć, skonfiguruj opcję "Podgląd audio w paśmie podstawowym", skonfiguruj szerokość pasma, aby uzyskać wszystkie informacje, które są wysyłane, a następnie ustaw Tuner na poziom przed rozpoczęciem rzeczywistego wzrostu szumu:
+Z [**SigDigger** ](https://github.com/BatchDrake/SigDigger)zsynchronizuj się z kanałem, który chcesz usłyszeć, skonfiguruj opcję "Podgląd audio w paśmie podstawowym", skonfiguruj szerokość pasma, aby uzyskać wszystkie przesyłane informacje, a następnie ustaw Tuner na poziom, zanim szum zacznie naprawdę rosnąć:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-## Ciekawe triki
+## Ciekawe sztuczki
 
-* Gdy urządzenie wysyła serie informacji, zazwyczaj **pierwsza część to będzie preambuła**, więc **nie musisz się martwić**, jeśli **nie znajdziesz informacji** w niej **lub jeśli są tam jakieś błędy**.
+* Gdy urządzenie wysyła serie informacji, zazwyczaj **pierwsza część to będzie preambuła**, więc **nie musisz** się **martwić**, jeśli **nie znajdziesz informacji** w niej **lub jeśli są tam jakieś błędy**.
 * W ramach informacji zazwyczaj powinieneś **znaleźć różne ramki dobrze wyrównane między sobą**:
 
 ![](<../../.gitbook/assets/image (1076).png>)
@@ -62,7 +62,7 @@ Z [**SigDigger** ](https://github.com/BatchDrake/SigDigger)zsynchronizuj się z 
 * **Po odzyskaniu bitów możesz potrzebować je jakoś przetworzyć**. Na przykład, w kodowaniu Manchester, up+down będzie 1 lub 0, a down+up będzie drugim. Tak więc pary 1s i 0s (up i down) będą prawdziwym 1 lub prawdziwym 0.
 * Nawet jeśli sygnał używa kodowania Manchester (niemożliwe jest znalezienie więcej niż dwóch 0s lub 1s z rzędu), możesz **znaleźć kilka 1s lub 0s razem w preambule**!
 
-### Odkrywanie typu modulacji z IQ
+### Odkrywanie typu modulacji za pomocą IQ
 
 Istnieją 3 sposoby przechowywania informacji w sygnałach: modulacja **amplitudy**, **częstotliwości** lub **fazy**.\
 Jeśli sprawdzasz sygnał, istnieją różne sposoby, aby spróbować ustalić, co jest używane do przechowywania informacji (więcej sposobów poniżej), ale dobrym sposobem jest sprawdzenie wykresu IQ.
@@ -94,7 +94,7 @@ A tak wygląda część symbolu z falą:
 
 #### Sprawdzanie histogramu
 
-Możesz **wybrać cały sygnał**, w którym znajduje się informacja, wybrać tryb **Amplitudy** i **Wybór** oraz kliknąć na **Histogram.** Możesz zaobserwować, że znajdują się tylko 2 wyraźne poziomy.
+Możesz **wybrać cały sygnał**, w którym znajduje się informacja, wybrać tryb **Amplituda** i **Wybór**, a następnie kliknąć na **Histogram.** Możesz zaobserwować, że znajdują się tylko 2 wyraźne poziomy.
 
 ![](<../../.gitbook/assets/image (264).png>)
 
@@ -120,19 +120,19 @@ Wybierz najmniejszy symbol, jaki możesz znaleźć (aby mieć pewność, że to 
 
 #### Z grupą symboli
 
-Możesz również wskazać liczbę symboli, które zamierzasz wybrać, a SigDigger obliczy częstotliwość 1 symbolu (im więcej symboli wybranych, tym lepiej). W tym scenariuszu wybrałem 10 symboli, a "Częstotliwość wyboru" wynosi 1.004 kHz:
+Możesz również wskazać liczbę symboli, które zamierzasz wybrać, a SigDigger obliczy częstotliwość 1 symbolu (im więcej symboli wybranych, tym lepiej). W tym scenariuszu wybrałem 10 symboli, a "Częstotliwość wyboru" wynosi 1.004 Khz:
 
 ![](<../../.gitbook/assets/image (1008).png>)
 
 ### Uzyskiwanie bitów
 
-Po stwierdzeniu, że jest to sygnał **modulowany AM** i **częstotliwość symbolu** (i wiedząc, że w tym przypadku coś w górę oznacza 1, a coś w dół oznacza 0), bardzo łatwo jest **uzyskać bity** zakodowane w sygnale. Więc wybierz sygnał z informacjami i skonfiguruj próbkowanie oraz decyzję i naciśnij próbkę (upewnij się, że **Amplituda** jest wybrana, odkryta **Częstotliwość symbolu** jest skonfigurowana, a **odzyskiwanie zegara Gadnera** jest wybrane):
+Po stwierdzeniu, że jest to sygnał **modulowany AM** i **częstotliwość symbolu** (i wiedząc, że w tym przypadku coś w górę oznacza 1, a coś w dół oznacza 0), bardzo łatwo jest **uzyskać bity** zakodowane w sygnale. Więc wybierz sygnał z informacjami i skonfiguruj próbkowanie oraz decyzję, a następnie naciśnij próbkę (upewnij się, że **Amplituda** jest wybrana, odkryta **Częstotliwość symbolu** jest skonfigurowana, a **odzyskiwanie zegara Gadnera** jest wybrane):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
 * **Synchronizacja z interwałami wyboru** oznacza, że jeśli wcześniej wybrałeś interwały, aby znaleźć częstotliwość symbolu, ta częstotliwość symbolu będzie używana.
 * **Ręcznie** oznacza, że wskazana częstotliwość symbolu będzie używana.
-* W **wyborze stałego interwału** wskazujesz liczbę interwałów, które powinny być wybrane, a on oblicza częstotliwość symbolu na ich podstawie.
+* W **wyborze stałego interwału** wskazujesz liczbę interwałów, które powinny być wybrane, a system oblicza częstotliwość symbolu na ich podstawie.
 * **Odzyskiwanie zegara Gadnera** jest zazwyczaj najlepszą opcją, ale nadal musisz wskazać przybliżoną częstotliwość symbolu.
 
 Naciskając próbkę, pojawia się to:
@@ -145,7 +145,7 @@ Teraz, aby sprawić, by SigDigger zrozumiał **gdzie jest zakres** poziomu nios�
 
 Gdyby na przykład istniały **4 różne poziomy amplitudy**, musiałbyś skonfigurować **Bity na symbol do 2** i wybrać od najmniejszego do największego.
 
-Na koniec **zwiększając** **Zoom** i **zmieniając rozmiar wiersza**, możesz zobaczyć bity (i możesz wybrać wszystko i skopiować, aby uzyskać wszystkie bity):
+Na koniec **zwiększając** **Zoom** i **zmieniając rozmiar wiersza**, możesz zobaczyć bity (i możesz wszystko zaznaczyć i skopiować, aby uzyskać wszystkie bity):
 
 ![](<../../.gitbook/assets/image (276).png>)
 
@@ -169,11 +169,11 @@ Na poprzednim obrazie możesz dość dobrze zaobserwować, że **używane są 2 
 
 ![](<../../.gitbook/assets/image (717).png>)
 
-Dzieje się tak, ponieważ uchwyciłem sygnał w obu częstotliwościach, dlatego jedna jest w przybliżeniu drugą w negatywie:
+Dzieje się tak, ponieważ przechwyciłem sygnał w obu częstotliwościach, dlatego jedna jest w przybliżeniu drugą w negatywie:
 
 ![](<../../.gitbook/assets/image (942).png>)
 
-Jeśli zsynchronizowana częstotliwość jest **bliżej jednej częstotliwości niż drugiej**, możesz łatwo zobaczyć 2 różne częstotliwości:
+Jeśli synchronizowana częstotliwość jest **bliżej jednej częstotliwości niż drugiej**, możesz łatwo zobaczyć 2 różne częstotliwości:
 
 ![](<../../.gitbook/assets/image (422).png>)
 
@@ -219,7 +219,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

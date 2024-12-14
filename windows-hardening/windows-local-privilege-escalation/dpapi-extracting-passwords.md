@@ -10,14 +10,14 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów z dziedziny technologii i cyberbezpieczeństwa w każdej dyscyplinie.
+​​[**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów technologii i cyberbezpieczeństwa w każdej dziedzinie.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -68,7 +68,7 @@ dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
 ## Master Keys
 
-Klucze DPAPI używane do szyfrowania kluczy RSA użytkownika są przechowywane w katalogu `%APPDATA%\Microsoft\Protect\{SID}`, gdzie {SID} to [**Identifikator zabezpieczeń**](https://en.wikipedia.org/wiki/Security\_Identifier) **tego użytkownika**. **Klucz DPAPI jest przechowywany w tym samym pliku co klucz główny, który chroni prywatne klucze użytkowników**. Zwykle ma 64 bajty losowych danych. (Zauważ, że ten katalog jest chroniony, więc nie możesz go wylistować używając `dir` z cmd, ale możesz go wylistować z PS).
+Klucze DPAPI używane do szyfrowania kluczy RSA użytkownika są przechowywane w katalogu `%APPDATA%\Microsoft\Protect\{SID}`, gdzie {SID} to [**Identifikator bezpieczeństwa**](https://en.wikipedia.org/wiki/Security\_Identifier) **tego użytkownika**. **Klucz DPAPI jest przechowywany w tym samym pliku co klucz główny, który chroni prywatne klucze użytkowników**. Zwykle ma 64 bajty losowych danych. (Zauważ, że ten katalog jest chroniony, więc nie możesz go wylistować używając `dir` z cmd, ale możesz go wylistować z PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -81,7 +81,7 @@ To jest to, jak wygląda zestaw kluczy głównych użytkownika:
 
 ![](<../../.gitbook/assets/image (1121).png>)
 
-Zazwyczaj **każdy klucz główny to zaszyfrowany klucz symetryczny, który może odszyfrować inny content**. Dlatego **wyodrębnienie** **zaszyfrowanego klucza głównego** jest interesujące, aby **odszyfrować** później ten **inny content** zaszyfrowany za jego pomocą.
+Zazwyczaj **każdy klucz główny to zaszyfrowany klucz symetryczny, który może odszyfrować inny content**. Dlatego **wyodrębnienie** **zaszyfrowanego klucza głównego** jest interesujące, aby później **odszyfrować** **inny content** zaszyfrowany tym kluczem.
 
 ### Wyodrębnij klucz główny i odszyfruj
 
@@ -125,8 +125,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hakerskimi, przesyłając PR-y do repozytoriów** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

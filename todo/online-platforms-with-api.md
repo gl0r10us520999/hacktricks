@@ -9,7 +9,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
@@ -26,7 +26,7 @@ Sprawdź, czy adres IP jest związany z botem, który rejestruje konta. Może r�
 ## [Hunter](https://hunter.io/)
 
 Znajdź i zweryfikuj e-maile.\
-Niektóre darmowe zapytania API, za więcej musisz zapłacić.\
+Niektóre zapytania API są darmowe, za więcej musisz zapłacić.\
 Komercyjne?
 
 ## [AlientVault](https://otx.alienvault.com/api)
@@ -67,7 +67,7 @@ Uzyskuje podstawowe informacje z adresu IP. Możesz testować do 100K/miesiąc.
 
 ## [securitytrails](https://securitytrails.com/app/account)
 
-Ta platforma daje informacje o domenach i adresach IP, takie jak domeny w obrębie IP lub w obrębie serwera domeny, domeny posiadane przez e-mail (znajdź powiązane domeny), historia IP domen (znajdź hosta za CloudFlare), wszystkie domeny korzystające z nameserver....\
+Ta platforma dostarcza informacji o domenach i adresach IP, takich jak domeny w obrębie IP lub w obrębie serwera domeny, domeny posiadane przez e-mail (znajdź powiązane domeny), historia IP domen (znajdź hosta za CloudFlare), wszystkie domeny korzystające z nameserver....\
 Masz pewien darmowy dostęp.
 
 ## [fullcontact](https://www.fullcontact.com/)
@@ -148,7 +148,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

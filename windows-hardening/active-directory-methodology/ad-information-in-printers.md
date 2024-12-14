@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 Istnieje kilka blogów w Internecie, które **podkreślają niebezpieczeństwa związane z pozostawieniem drukarek skonfigurowanych z LDAP z domyślnymi/słabymi** danymi logowania.\
 Dzieje się tak, ponieważ atakujący może **oszukać drukarkę, aby uwierzytelniła się w fałszywym serwerze LDAP** (zazwyczaj `nc -vv -l -p 444` wystarczy) i przechwycić **dane logowania drukarki w postaci czystego tekstu**.
 
-Ponadto, wiele drukarek będzie zawierać **dzienniki z nazwami użytkowników** lub może nawet być w stanie **pobierać wszystkie nazwy użytkowników** z kontrolera domeny.
+Ponadto, wiele drukarek zawiera **dzienniki z nazwami użytkowników** lub może nawet być w stanie **pobierać wszystkie nazwy użytkowników** z kontrolera domeny.
 
 Wszystkie te **wrażliwe informacje** oraz powszechny **brak bezpieczeństwa** sprawiają, że drukarki są bardzo interesujące dla atakujących.
 
@@ -29,7 +29,7 @@ Niektóre blogi na ten temat:
 ## Konfiguracja drukarki
 - **Lokalizacja**: Lista serwerów LDAP znajduje się w: `Sieć > Ustawienia LDAP > Konfiguracja LDAP`.
 - **Zachowanie**: Interfejs pozwala na modyfikacje serwera LDAP bez ponownego wprowadzania danych logowania, co ma na celu wygodę użytkownika, ale stwarza ryzyko bezpieczeństwa.
-- **Eksploatacja**: Eksploatacja polega na przekierowaniu adresu serwera LDAP do kontrolowanej maszyny i wykorzystaniu funkcji "Testuj połączenie" do przechwycenia danych logowania.
+- **Eksploatacja**: Eksploatacja polega na przekierowaniu adresu serwera LDAP do kontrolowanej maszyny i wykorzystaniu funkcji "Testuj połączenie", aby przechwycić dane logowania.
 
 ## Przechwytywanie danych logowania
 
@@ -56,7 +56,7 @@ Bardziej niezawodne podejście polega na skonfigurowaniu pełnego serwera LDAP, 
 ```bash
 slapd -d 2
 ```
-## Odniesienia
+## References
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 

@@ -52,10 +52,10 @@ The CIFS service is highlighted as a common target for accessing the victim's fi
 | Typ usługi                                 | Usługi Silver Tickets                                                      |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>W zależności od systemu operacyjnego także:</p><p>WSMAN</p><p>RPCSS</p> |
+| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>W zależności od systemu operacyjnego również:</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>W niektórych przypadkach możesz po prostu poprosić o: WINRM</p> |
 | Zaplanowane zadania                        | HOST                                                                       |
-| Udostępnianie plików w systemie Windows, także psexec | CIFS                                                                       |
+| Udostępnianie plików Windows, także psexec | CIFS                                                                       |
 | Operacje LDAP, w tym DCSync               | LDAP                                                                       |
 | Narzędzia do zdalnej administracji serwerów Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | Złote bilety                               | krbtgt                                                                     |
@@ -122,7 +122,7 @@ Znajdź **więcej informacji o wmiexec** na następującej stronie:
 
 ### HOST + WSMAN (WINRM)
 
-Dzięki dostępowi winrm do komputera możesz **uzyskać do niego dostęp** i nawet uzyskać PowerShell:
+Dzięki dostępowi winrm do komputera możesz **uzyskać do niego dostęp** i nawet uruchomić PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
@@ -169,7 +169,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

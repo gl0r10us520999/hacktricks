@@ -9,7 +9,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
@@ -54,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Wejście do osiągnięcia adresu (wskazujące wydruki)
+### Wejście do osiągnięcia adresu (wskazujące na wydruki)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -280,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Wartości pamięci dynamicznej (Malloc)
+### Dynamic Memory Values (Malloc)
 ```python
 import angr
 import claripy
@@ -421,7 +421,7 @@ Zauważ, że plik symboliczny może również zawierać stałe dane połączone 
 ### Stosowanie Ograniczeń
 
 {% hint style="info" %}
-Czasami proste operacje ludzkie, takie jak porównanie 2 słów o długości 16 **znak po znaku** (pętla), **kosztują** dużo dla **angr**, ponieważ musi generować gałęzie **eksponencjalnie**, ponieważ generuje 1 gałąź na if: `2^16`\
+Czasami proste operacje ludzkie, takie jak porównanie 2 słów o długości 16 **znak po znaku** (pętla), **kosztują** dużo dla **angr**, ponieważ musi generować gałęzie **eksponencjalnie**, ponieważ generuje 1 gałąź na każde if: `2^16`\
 Dlatego łatwiej jest **poprosić angr o powrót do poprzedniego punktu** (gdzie prawdziwie trudna część została już zrobiona) i **ustawić te ograniczenia ręcznie**.
 {% endhint %}
 ```python
@@ -502,7 +502,7 @@ W niektórych scenariuszach możesz aktywować **veritesting**, który połączy
 Inną rzeczą, którą możesz zrobić w tych scenariuszach, jest **podpięcie funkcji, dając angr coś, co może zrozumieć** łatwiej.
 {% endhint %}
 
-### Menedżerowie Symulacji
+### Menedżery Symulacji
 
 Niektórzy menedżerowie symulacji mogą być bardziej przydatni niż inni. W poprzednim przykładzie wystąpił problem, ponieważ stworzono wiele użytecznych gałęzi. Tutaj technika **veritesting** połączy je i znajdzie rozwiązanie.\
 Ten menedżer symulacji można również aktywować za pomocą: `simulation = project.factory.simgr(initial_state, veritesting=True)`
@@ -830,7 +830,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

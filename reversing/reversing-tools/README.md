@@ -48,7 +48,7 @@ File.AppendAllText(path, "Hasło: " + password + "\n");
 %%%
 
 ### Debugowanie DNSpy
-Aby skutecznie debugować za pomocą DNSpy, zaleca się sekwencję kroków w celu dostosowania **atrybutów zestawu** do debugowania, zapewniając, że optymalizacje, które mogą utrudniać debugowanie, są wyłączone. Proces ten obejmuje zmianę ustawień `DebuggableAttribute`, rekompilację zestawu i zapisanie zmian.
+Aby skutecznie debugować za pomocą DNSpy, zaleca się sekwencję kroków w celu dostosowania **atrybutów Assembly** do debugowania, zapewniając, że optymalizacje, które mogą utrudniać debugowanie, są wyłączone. Proces ten obejmuje zmianę ustawień `DebuggableAttribute`, rekompilację zestawu i zapisanie zmian.
 
 Ponadto, aby debugować aplikację .Net uruchamianą przez **IIS**, wykonanie `iisreset /noforce` restartuje IIS. Aby dołączyć DNSpy do procesu IIS w celu debugowania, przewodnik instruuje, aby wybrać proces **w3wp.exe** w DNSpy i rozpocząć sesję debugowania.
 
@@ -85,7 +85,7 @@ Aby dekompilować bajtkod Java, te narzędzia mogą być bardzo pomocne:
 - **Cutter** oferuje emulację shellcode w oparciu o GUI i inspekcję, podkreślając różnice w obsłudze shellcode jako pliku w porównaniu do bezpośredniego shellcode.
 
 ### Deobfuskacja i analiza
-- **scdbg** dostarcza informacji o funkcjach shellcode i możliwościach deobfuskacji.
+- **scdbg** dostarcza informacji na temat funkcji shellcode i możliwości deobfuskacji.
 %%%bash
 scdbg.exe -f shellcode # Podstawowe informacje
 scdbg.exe -f shellcode -r # Raport analizy
@@ -95,15 +95,15 @@ scdbg.exe -f shellcode /findsc # Znajdź offset startowy
 scdbg.exe -f shellcode /foff 0x0000004D # Wykonaj z offsetu
 %%%
 
-- **CyberChef** do dezasemblacji shellcode: [przepis CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- **CyberChef** do deasemblacji shellcode: [przepis CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
 - Obfuskator, który zastępuje wszystkie instrukcje `mov`.
-- Przydatne zasoby to [wyjaśnienie na YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) i [slajdy PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
+- Przydatne zasoby to [wyjaśnienie na YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) oraz [slajdy PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
 - **demovfuscator** może odwrócić obfuskację movfuscatora, wymagając zależności takich jak `libcapstone-dev` i `libz3-dev`, oraz instalacji [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
 
 ## **Delphi**
-- Dla binariów Delphi, zaleca się [IDR](https://github.com/crypto2011/IDR).
+- Dla binarnych plików Delphi, zaleca się [IDR](https://github.com/crypto2011/IDR).
 
 
 # Kursy

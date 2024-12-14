@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Jak to działa
 
-Procesy mogą być otwierane na hostach, gdzie znana jest nazwa użytkownika oraz hasło lub hash, za pomocą WMI. Komendy są wykonywane przy użyciu WMI przez Wmiexec, co zapewnia półinteraktywną powłokę.
+Procesy mogą być otwierane na hostach, gdzie znana jest nazwa użytkownika oraz hasło lub hash, za pomocą WMI. Komendy są wykonywane przy użyciu WMI przez Wmiexec, co zapewnia pół-interaktywną powłokę.
 
-**dcomexec.py:** Wykorzystując różne punkty końcowe DCOM, ten skrypt oferuje półinteraktywną powłokę podobną do wmiexec.py, szczególnie wykorzystując obiekt DCOM ShellBrowserWindow. Obecnie obsługuje obiekty MMC20. Application, Shell Windows i Shell Browser Window. (źródło: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Wykorzystując różne punkty końcowe DCOM, ten skrypt oferuje pół-interaktywną powłokę podobną do wmiexec.py, szczególnie wykorzystując obiekt DCOM ShellBrowserWindow. Obecnie obsługuje obiekty MMC20. Application, Shell Windows i Shell Browser Window. (źródło: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Podstawy WMI
 
@@ -98,13 +98,13 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-Zdalne zapytanie WMI o konkretne informacje, takie jak lokalni administratorzy lub zalogowani użytkownicy, jest możliwe przy starannym skonstruowaniu polecenia.
+Remote querying of WMI for specific information, such as local admins or logged-on users, is feasible with careful command construction.
 
 ### **Ręczne zdalne zapytania WMI**
 
-Ciche identyfikowanie lokalnych administratorów na zdalnej maszynie oraz zalogowanych użytkowników można osiągnąć poprzez konkretne zapytania WMI. `wmic` wspiera również odczyt z pliku tekstowego, aby jednocześnie wykonywać polecenia na wielu węzłach.
+Ciche identyfikowanie lokalnych administratorów na zdalnej maszynie oraz zalogowanych użytkowników można osiągnąć poprzez specyficzne zapytania WMI. `wmic` wspiera również odczyt z pliku tekstowego, aby wykonać polecenia na wielu węzłach jednocześnie.
 
-Aby zdalnie wykonać proces za pomocą WMI, na przykład wdrażając agenta Empire, stosuje się następującą strukturę polecenia, a pomyślne wykonanie wskazywane jest przez wartość zwracaną "0":
+Aby zdalnie wykonać proces za pomocą WMI, na przykład wdrażając agenta Empire, stosuje się następującą strukturę polecenia, a pomyślne wykonanie jest wskazywane przez wartość zwracaną "0":
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
@@ -132,7 +132,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

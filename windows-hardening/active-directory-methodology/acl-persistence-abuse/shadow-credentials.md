@@ -61,7 +61,7 @@ python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target 
 ```
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray ma na celu **wykorzystanie uprawnień GenericWrite/GenericAll, które szerokie grupy użytkowników mogą mieć nad obiektami domeny**, aby szeroko stosować ShadowCredentials. Obejmuje to logowanie się do domeny, weryfikację poziomu funkcjonalnego domeny, enumerację obiektów domeny oraz próbę dodania KeyCredentials w celu uzyskania TGT i ujawnienia NT hash. Opcje czyszczenia i taktyki rekurencyjnego wykorzystywania zwiększają jego użyteczność.
+ShadowSpray ma na celu **wykorzystanie uprawnień GenericWrite/GenericAll, które szerokie grupy użytkowników mogą mieć nad obiektami domeny**, aby szeroko stosować ShadowCredentials. Obejmuje to logowanie się do domeny, weryfikację poziomu funkcjonalnego domeny, enumerację obiektów domeny oraz próbę dodania KeyCredentials w celu uzyskania TGT i ujawnienia NT hash. Opcje czyszczenia i taktyki rekurencyjnego wykorzystania zwiększają jego użyteczność.
 
 
 ## References

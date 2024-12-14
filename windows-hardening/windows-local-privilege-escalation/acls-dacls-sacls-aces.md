@@ -29,10 +29,10 @@ Lista Kontroli Dostępu (ACL) składa się z uporządkowanego zestawu Wpisów Ko
 
 Istnieją dwa typy ACL:
 
-* **Lista Kontroli Dostępu Dyskrecjonalnego (DACL):** Określa, którzy użytkownicy i grupy mają lub nie mają dostępu do obiektu.
+* **Lista Kontroli Dostępu na Własny Użytek (DACL):** Określa, którzy użytkownicy i grupy mają lub nie mają dostępu do obiektu.
 * **Systemowa Lista Kontroli Dostępu (SACL):** Reguluje audyt prób dostępu do obiektu.
 
-Proces uzyskiwania dostępu do pliku polega na tym, że system sprawdza opis zabezpieczeń obiektu w porównaniu do tokena dostępu użytkownika, aby określić, czy dostęp powinien być przyznany oraz w jakim zakresie, na podstawie ACE.
+Proces uzyskiwania dostępu do pliku polega na tym, że system sprawdza opis zabezpieczeń obiektu w odniesieniu do tokena dostępu użytkownika, aby określić, czy dostęp powinien być przyznany oraz w jakim zakresie, na podstawie ACE.
 
 ### **Kluczowe Komponenty**
 
@@ -49,11 +49,11 @@ Lokalna Władza Zabezpieczeń (LSASS) przetwarza żądania dostępu do obiektów
 
 * **ACL:** Definiują uprawnienia dostępu poprzez DACL i zasady audytu poprzez SACL.
 * **Token Dostępu:** Zawiera informacje o użytkowniku, grupie i uprawnieniach dla sesji.
-* **Decyzja o Dostępie:** Podejmowana przez porównanie ACE DACL z tokenem dostępu; SACL są używane do audytu.
+* **Decyzja o Dostępie:** Podejmowana poprzez porównanie ACE DACL z tokenem dostępu; SACL są używane do audytu.
 
 ### ACEs
 
-Istnieją **trzy główne typy Wpisów Kontroli Dostępu (ACE)**:
+Istnieją **trzy główne typy Wpisów Kontroli Dostępu (ACEs)**:
 
 * **ACE Odrzucony Dostęp:** Ten ACE wyraźnie odmawia dostępu do obiektu dla określonych użytkowników lub grup (w DACL).
 * **ACE Dozwolony Dostęp:** Ten ACE wyraźnie przyznaje dostęp do obiektu dla określonych użytkowników lub grup (w DACL).
@@ -70,7 +70,7 @@ Określenie dostępu odbywa się poprzez sekwencyjne badanie każdego ACE, aż d
 
 * **ACE Odrzucony Dostęp** wyraźnie odmawia żądanych praw zaufanemu podmiotowi zidentyfikowanemu w tokenie dostępu.
 * **ACE Dozwolony Dostęp** wyraźnie przyznaje wszystkie żądane prawa zaufanemu podmiotowi w tokenie dostępu.
-* Po sprawdzeniu wszystkich ACE, jeśli jakiekolwiek żądane prawo **nie zostało wyraźnie dozwolone**, dostęp jest automatycznie **odmówiony**.
+* Po sprawdzeniu wszystkich ACE, jeśli jakiekolwiek żądane prawo **nie zostało wyraźnie przyznane**, dostęp jest domyślnie **odmówiony**.
 
 ### Kolejność ACEs
 
@@ -79,13 +79,13 @@ Sposób, w jaki **ACEs** (zasady mówiące, kto może lub nie może uzyskać dos
 Istnieje najlepszy sposób organizacji tych ACE, zwany **"kolejnością kanoniczną."** Ta metoda pomaga zapewnić, że wszystko działa płynnie i sprawiedliwie. Oto jak to wygląda w systemach takich jak **Windows 2000** i **Windows Server 2003**:
 
 * Najpierw umieść wszystkie zasady, które są **specjalnie dla tego elementu**, przed tymi, które pochodzą z innego miejsca, jak folder nadrzędny.
-* W tych specyficznych zasadach umieść te, które mówią **"nie" (odmowa)** przed tymi, które mówią **"tak" (zezwolenie)**.
+* W tych specjalnych zasadach umieść te, które mówią **"nie" (odmowa)** przed tymi, które mówią **"tak" (zezwolenie)**.
 * Dla zasad pochodzących z innego miejsca, zacznij od tych z **najbliższego źródła**, jak rodzic, a następnie wróć stamtąd. Ponownie, umieść **"nie"** przed **"tak."**
 
 Ta konfiguracja pomaga na dwa główne sposoby:
 
 * Zapewnia, że jeśli istnieje konkretne **"nie,"** jest ono respektowane, niezależnie od innych zasad **"tak."**
-* Pozwala właścicielowi elementu mieć **ostateczne zdanie** na temat tego, kto ma dostęp, zanim jakiekolwiek zasady z folderów nadrzędnych lub dalszych zostaną wzięte pod uwagę.
+* Pozwala właścicielowi elementu mieć **ostateczne zdanie** na temat tego, kto ma dostęp, zanim jakiekolwiek zasady z folderów nadrzędnych lub dalszych wejdą w grę.
 
 Dzięki temu właściciel pliku lub folderu może być bardzo precyzyjny co do tego, kto ma dostęp, zapewniając, że odpowiednie osoby mogą wejść, a niewłaściwe nie mogą.
 
@@ -127,18 +127,18 @@ Zarządzając dostępem do zasobów, takich jak folder, używamy list i zasad zn
 
 #### Odrzucenie Dostępu dla Konkretnej Grupy
 
-Wyobraź sobie, że masz folder o nazwie Koszt, i chcesz, aby wszyscy mieli do niego dostęp, z wyjątkiem zespołu marketingowego. Poprzez poprawne ustawienie zasad możemy zapewnić, że zespół marketingowy ma wyraźnie odmówiony dostęp przed zezwoleniem wszystkim innym. Robimy to, umieszczając zasadę odmawiającą dostępu zespołowi marketingowemu przed zasadą, która zezwala na dostęp dla wszystkich.
+Wyobraź sobie, że masz folder o nazwie Koszt, i chcesz, aby wszyscy mieli do niego dostęp, z wyjątkiem zespołu marketingowego. Poprzez poprawne ustawienie zasad możemy zapewnić, że zespół marketingowy jest wyraźnie pozbawiony dostępu przed zezwoleniem wszystkim innym. Robimy to, umieszczając zasadę odmawiającą dostępu zespołowi marketingowemu przed zasadą, która zezwala na dostęp dla wszystkich.
 
 #### Zezwolenie na Dostęp dla Konkretnego Członka Odrzuconej Grupy
 
-Powiedzmy, że Bob, dyrektor marketingu, potrzebuje dostępu do folderu Koszt, mimo że zespół marketingowy generalnie nie powinien mieć dostępu. Możemy dodać konkretną zasadę (ACE) dla Boba, która przyznaje mu dostęp, i umieścić ją przed zasadą, która odmawia dostępu zespołowi marketingowemu. W ten sposób Bob uzyskuje dostęp mimo ogólnego ograniczenia dla jego zespołu.
+Powiedzmy, że Bob, dyrektor marketingu, potrzebuje dostępu do folderu Koszt, mimo że zespół marketingowy generalnie nie powinien mieć dostępu. Możemy dodać konkretną zasadę (ACE) dla Boba, która przyznaje mu dostęp, i umieścić ją przed zasadą, która odmawia dostępu zespołowi marketingowemu. W ten sposób Bob uzyskuje dostęp pomimo ogólnego ograniczenia dla jego zespołu.
 
 #### Zrozumienie Wpisów Kontroli Dostępu
 
-ACEs to indywidualne zasady w ACL. Identyfikują użytkowników lub grupy, określają, jaki dostęp jest dozwolony lub odrzucony, i określają, jak te zasady stosują się do elementów podrzędnych (dziedziczenie). Istnieją dwa główne typy ACE:
+ACEs to indywidualne zasady w ACL. Identyfikują one użytkowników lub grupy, określają, jaki dostęp jest dozwolony lub odrzucony, i ustalają, jak te zasady stosują się do elementów podrzędnych (dziedziczenie). Istnieją dwa główne typy ACE:
 
 * **Ogólne ACE:** Te mają zastosowanie szeroko, wpływając na wszystkie typy obiektów lub rozróżniając tylko między kontenerami (takimi jak foldery) a nie-kontenerami (takimi jak pliki). Na przykład zasada, która pozwala użytkownikom zobaczyć zawartość folderu, ale nie uzyskać dostępu do plików w nim.
-* **Specyficzne dla Obiektu ACE:** Te zapewniają bardziej precyzyjną kontrolę, pozwalając na ustawienie zasad dla konkretnych typów obiektów lub nawet poszczególnych właściwości w obiekcie. Na przykład, w katalogu użytkowników zasada może pozwolić użytkownikowi zaktualizować swój numer telefonu, ale nie godziny logowania.
+* **Specyficzne dla Obiektu ACE:** Te zapewniają bardziej precyzyjną kontrolę, pozwalając na ustawienie zasad dla konkretnych typów obiektów lub nawet pojedynczych właściwości w obiekcie. Na przykład, w katalogu użytkowników zasada może pozwolić użytkownikowi zaktualizować swój numer telefonu, ale nie godziny logowania.
 
 Każdy ACE zawiera ważne informacje, takie jak do kogo zasada ma zastosowanie (używając Identyfikatora Zabezpieczeń lub SID), co zasada pozwala lub odmawia (używając maski dostępu) oraz jak jest dziedziczona przez inne obiekty.
 
@@ -147,7 +147,7 @@ Każdy ACE zawiera ważne informacje, takie jak do kogo zasada ma zastosowanie (
 * **Ogólne ACE** są odpowiednie dla prostych scenariuszy kontroli dostępu, gdzie ta sama zasada ma zastosowanie do wszystkich aspektów obiektu lub do wszystkich obiektów w kontenerze.
 * **Specyficzne dla Obiektu ACE** są używane w bardziej złożonych scenariuszach, szczególnie w środowiskach takich jak Active Directory, gdzie może być konieczne kontrolowanie dostępu do konkretnych właściwości obiektu w inny sposób.
 
-Podsumowując, ACL i ACE pomagają definiować precyzyjne kontrole dostępu, zapewniając, że tylko odpowiednie osoby lub grupy mają dostęp do wrażliwych informacji lub zasobów, z możliwością dostosowania praw dostępu do poziomu poszczególnych właściwości lub typów obiektów.
+Podsumowując, ACL i ACE pomagają definiować precyzyjne kontrole dostępu, zapewniając, że tylko odpowiednie osoby lub grupy mają dostęp do wrażliwych informacji lub zasobów, z możliwością dostosowania praw dostępu do poziomu pojedynczych właściwości lub typów obiektów.
 
 ### Układ Wpisu Kontroli Dostępu
 
@@ -168,9 +168,9 @@ Podsumowując, ACL i ACE pomagają definiować precyzyjne kontrole dostępu, zap
 | 23          | Może uzyskać dostęp do ACL zabezpieczeń            |                                           |
 | 24 - 27     | Zarezerwowane                           |                                           |
 | 28          | Ogólne WSZYSTKO (Odczyt, Zapis, Wykonaj) | Wszystko poniżej                          |
-| 29          | Ogólne Wykonaj                    | Wszystko, co jest konieczne do wykonania programu |
-| 30          | Ogólne Zapisz                      | Wszystko, co jest konieczne do zapisania do pliku   |
-| 31          | Ogólne Odczyt                       | Wszystko, co jest konieczne do odczytania pliku       |
+| 29          | Ogólne Wykonaj                    | Wszystko, co niezbędne do wykonania programu |
+| 30          | Ogólne Zapisz                      | Wszystko, co niezbędne do zapisu do pliku   |
+| 31          | Ogólne Odczyt                       | Wszystko, co niezbędne do odczytu pliku       |
 
 ## Odnośniki
 

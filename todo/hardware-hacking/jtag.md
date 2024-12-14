@@ -18,7 +18,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 ## JTAGenum
 
 [**JTAGenum** ](https://github.com/cyphunk/JTAGenum)to narzędzie, które można używać z Raspberry PI lub Arduino, aby spróbować znaleźć piny JTAG z nieznanego układu.\
-W **Arduino** podłącz **piny od 2 do 11 do 10 pinów potencjalnie należących do JTAG**. Załaduj program w Arduino, a on spróbuje brutalnie przetestować wszystkie piny, aby sprawdzić, czy którykolwiek z nich należy do JTAG i który z nich jest którym.\
+W **Arduino** podłącz **piny od 2 do 11 do 10 pinów potencjalnie należących do JTAG**. Załaduj program do Arduino, a on spróbuje brutalnie przetestować wszystkie piny, aby sprawdzić, czy którykolwiek z nich należy do JTAG i który z nich jest którym.\
 W **Raspberry PI** możesz używać tylko **pinów od 1 do 6** (6 pinów, więc będziesz wolniej testować każdy potencjalny pin JTAG).
 
 ### Arduino

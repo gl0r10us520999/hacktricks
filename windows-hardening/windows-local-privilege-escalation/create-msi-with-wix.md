@@ -65,7 +65,7 @@ light.exe -out C:\tm\Ethereal\rick.msi C:\tmp\wix
 ```
 Podobnie jak w poprzednim poleceniu, w poście znajduje się obrazek ilustrujący polecenie i jego wynik.
 
-Należy pamiętać, że chociaż ten podsumowanie ma na celu dostarczenie cennych informacji, zaleca się odwołanie do oryginalnego posta w celu uzyskania bardziej szczegółowych informacji i dokładnych instrukcji.
+Proszę pamiętać, że chociaż ten podsumowanie ma na celu dostarczenie cennych informacji, zaleca się odwołanie do oryginalnego posta w celu uzyskania bardziej szczegółowych informacji i dokładnych instrukcji.
 
 ## References
 * [https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)

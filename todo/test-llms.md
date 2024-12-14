@@ -4,7 +4,7 @@
 
 ### [**Hugging Face Transformers**](https://github.com/huggingface/transformers)
 
-Hugging Face Transformers to jedna z najpopularniejszych bibliotek open-source do używania, trenowania i wdrażania LLM-ów, takich jak GPT, BERT i wielu innych. Oferuje kompleksowy ekosystem, który obejmuje modele wstępnie wytrenowane, zbiory danych oraz bezproblemową integrację z Hugging Face Hub do dostosowywania i wdrażania.
+Hugging Face Transformers to jedna z najpopularniejszych bibliotek open-source do używania, trenowania i wdrażania LLM-ów, takich jak GPT, BERT i wiele innych. Oferuje kompleksowy ekosystem, który obejmuje modele wstępnie wytrenowane, zbiory danych oraz bezproblemową integrację z Hugging Face Hub do dostosowywania i wdrażania.
 
 ### [**LangChain**](https://github.com/langchain-ai/langchain)
 
@@ -27,16 +27,16 @@ Axolotl to platforma oparta na chmurze zaprojektowana w celu uproszczenia wdraż
 
 ### [**Hugging Face**](https://huggingface.co/)
 
-**Hugging Face** to wiodąca platforma i społeczność dla uczenia maszynowego, szczególnie znana z pracy w przetwarzaniu języka naturalnego (NLP). Oferuje narzędzia, biblioteki i zasoby, które ułatwiają rozwijanie, dzielenie się i wdrażanie modeli uczenia maszynowego.\
+**Hugging Face** to wiodąca platforma i społeczność dla uczenia maszynowego, szczególnie znana z pracy w przetwarzaniu języka naturalnego (NLP). Oferuje narzędzia, biblioteki i zasoby, które ułatwiają rozwijanie, udostępnianie i wdrażanie modeli uczenia maszynowego.\
 Oferuje kilka sekcji, takich jak:
 
 * **Models**: Ogromne repozytorium **wstępnie wytrenowanych modeli uczenia maszynowego**, w którym użytkownicy mogą przeglądać, pobierać i integrować modele do różnych zadań, takich jak generowanie tekstu, tłumaczenie, rozpoznawanie obrazów i inne.
-* **Datasets:** Kompletna **kolekcja zbiorów danych** używanych do trenowania i oceny modeli. Umożliwia łatwy dostęp do różnorodnych źródeł danych, umożliwiając użytkownikom znajdowanie i wykorzystywanie danych do ich specyficznych projektów uczenia maszynowego.
-* **Spaces:** Platforma do hostowania i dzielenia się **interaktywnymi aplikacjami uczenia maszynowego** i demonstracjami. Umożliwia programistom **prezentowanie** swoich modeli w akcji, tworzenie przyjaznych interfejsów użytkownika oraz współpracę z innymi poprzez dzielenie się na żywo demonstracjami.
+* **Datasets:** Kompletna **kolekcja zbiorów danych** używanych do trenowania i oceny modeli. Ułatwia łatwy dostęp do różnorodnych źródeł danych, umożliwiając użytkownikom znajdowanie i wykorzystywanie danych do ich specyficznych projektów uczenia maszynowego.
+* **Spaces:** Platforma do hostowania i udostępniania **interaktywnych aplikacji uczenia maszynowego** i demonstracji. Umożliwia programistom **prezentowanie** swoich modeli w akcji, tworzenie przyjaznych interfejsów użytkownika oraz współpracę z innymi poprzez udostępnianie na żywo demonstracji.
 
 ## [**TensorFlow Hub**](https://www.tensorflow.org/hub) **&** [**Kaggle**](https://www.kaggle.com/)
 
-**TensorFlow Hub** to kompleksowe repozytorium wielokrotnego użytku modułów uczenia maszynowego opracowanych przez Google. Skupia się na ułatwieniu dzielenia się i wdrażania modeli uczenia maszynowego, szczególnie tych zbudowanych z TensorFlow.
+**TensorFlow Hub** to kompleksowe repozytorium wielokrotnego użytku modułów uczenia maszynowego opracowanych przez Google. Skupia się na ułatwieniu udostępniania i wdrażania modeli uczenia maszynowego, szczególnie tych zbudowanych z TensorFlow.
 
 * **Modules:** Ogromna kolekcja wstępnie wytrenowanych modeli i komponentów modeli, w której użytkownicy mogą przeglądać, pobierać i integrować moduły do zadań takich jak klasyfikacja obrazów, osadzanie tekstu i inne.
 * **Tutorials:** Przewodniki krok po kroku i przykłady, które pomagają użytkownikom zrozumieć, jak wdrażać i dostosowywać modele za pomocą TensorFlow Hub.
@@ -44,7 +44,7 @@ Oferuje kilka sekcji, takich jak:
 
 ## [**Replicate**](https://replicate.com/home)
 
-**Replicate** to platforma, która umożliwia programistom uruchamianie modeli uczenia maszynowego w chmurze za pomocą prostego API. Skupia się na ułatwieniu dostępu do modeli ML i ich wdrażania bez potrzeby rozbudowanego ustawiania infrastruktury.
+**Replicate** to platforma, która umożliwia programistom uruchamianie modeli uczenia maszynowego w chmurze za pomocą prostego API. Skupia się na ułatwieniu dostępu do modeli ML i ich wdrażania bez potrzeby rozbudowanego ustawienia infrastruktury.
 
 * **Models:** Repozytorium modeli uczenia maszynowego wniesionych przez społeczność, które użytkownicy mogą przeglądać, wypróbowywać i integrować modele w swoich aplikacjach z minimalnym wysiłkiem.
-* **API Access:** Proste API do uruchamiania modeli, które umożliwiają programistom łatwe wdrażanie i skalowanie modeli w ramach ich własnych aplikacji.
+* **API Access:** Proste API do uruchamiania modeli, które umożliwia programistom łatwe wdrażanie i skalowanie modeli w ramach ich własnych aplikacji.

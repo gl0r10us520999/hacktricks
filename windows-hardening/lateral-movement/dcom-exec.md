@@ -29,9 +29,9 @@ Funkcja ta ułatwia wykonywanie poleceń w sieci za pośrednictwem aplikacji DCO
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
-To polecenie łączy się z aplikacją DCOM i zwraca instancję obiektu COM. Metoda ExecuteShellCommand może być następnie wywołana w celu uruchomienia procesu na zdalnym hoście. Proces obejmuje następujące kroki:
+To polecenie łączy się z aplikacją DCOM i zwraca instancję obiektu COM. Metoda ExecuteShellCommand może być następnie wywołana, aby uruchomić proces na zdalnym hoście. Proces obejmuje następujące kroki:
 
-Check methods:
+Sprawdź metody:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
@@ -65,7 +65,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Lateral Movement with Excel DCOM Objects
 
-Ruch boczny można osiągnąć poprzez wykorzystanie obiektów DCOM Excel. Aby uzyskać szczegółowe informacje, zaleca się przeczytanie dyskusji na temat wykorzystania Excel DDE do ruchu bocznego za pośrednictwem DCOM na [blogu Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+Ruch boczny można osiągnąć, wykorzystując obiekty DCOM Excel. Aby uzyskać szczegółowe informacje, zaleca się przeczytanie dyskusji na temat wykorzystania Excel DDE do ruchu bocznego za pośrednictwem DCOM na [blogu Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
 Projekt Empire dostarcza skrypt PowerShell, który demonstruje wykorzystanie Excela do zdalnego wykonywania kodu (RCE) poprzez manipulację obiektami DCOM. Poniżej znajdują się fragmenty skryptu dostępnego w [repozytorium GitHub Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), pokazujące różne metody nadużywania Excela do RCE:
 ```powershell
@@ -94,7 +94,7 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 
 Dwa narzędzia są wyróżnione do automatyzacji tych technik:
 
-- **Invoke-DCOM.ps1**: Skrypt PowerShell dostarczony przez projekt Empire, który upraszcza wywoływanie różnych metod do wykonywania kodu na zdalnych maszynach. Ten skrypt jest dostępny w repozytorium Empire na GitHubie.
+- **Invoke-DCOM.ps1**: Skrypt PowerShell dostarczony przez projekt Empire, który upraszcza wywoływanie różnych metod do wykonywania kodu na zdalnych maszynach. Skrypt ten jest dostępny w repozytorium Empire na GitHubie.
 
 - **SharpLateral**: Narzędzie zaprojektowane do zdalnego wykonywania kodu, które można używać z poleceniem:
 ```bash
@@ -118,10 +118,10 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

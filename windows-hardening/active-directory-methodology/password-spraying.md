@@ -23,10 +23,10 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## **Password Spraying**
 
-Gdy znajdziesz kilka **ważnych nazw użytkowników**, możesz spróbować najczęstszych **haseł** (pamiętaj o polityce haseł w danym środowisku) dla każdego z odkrytych użytkowników.\
+Gdy znajdziesz kilka **ważnych nazw użytkowników**, możesz spróbować najczęściej używanych **haseł** (pamiętaj o polityce haseł w danym środowisku) dla każdego z odkrytych użytkowników.\
 Zgodnie z **domyślnymi ustawieniami** **minimalna** **długość** **hasła** wynosi **7**.
 
-Listy powszechnych nazw użytkowników mogą być również przydatne: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
+Listy popularnych nazw użytkowników mogą być również przydatne: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
 Zauważ, że **możesz zablokować niektóre konta, jeśli spróbujesz kilku błędnych haseł** (domyślnie więcej niż 10).
 
@@ -49,7 +49,7 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### Wykorzystanie z Linuxa (lub wszystkich)
+### Eksploatacja z Linuxa (lub wszystkich)
 
 * Używając **crackmapexec:**
 ```bash
@@ -121,7 +121,7 @@ Istnieje wiele narzędzi do p**assword spraying outlook**.
 * Z [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
 * Z [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
 
-Aby użyć któregokolwiek z tych narzędzi, potrzebujesz listy użytkowników i hasła / małej listy haseł do spryskania.
+Aby użyć któregokolwiek z tych narzędzi, potrzebujesz listy użytkowników oraz hasła / małej listy haseł do spryskania.
 ```bash
 ./ruler-linux64 --domain reel2.htb -k brute --users users.txt --passwords passwords.txt --delay 0 --verbose
 [x] Failed: larsson:Summer2020
@@ -150,7 +150,7 @@ Aby użyć któregokolwiek z tych narzędzi, potrzebujesz listy użytkowników i
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Zgłębiaj swoją wiedzę w zakresie **Mobile Security** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i uzyskaj certyfikat:
+Zgłębiaj swoją wiedzę w zakresie **Bezpieczeństwa Mobilnego** z 8kSec Academy. Opanuj bezpieczeństwo iOS i Androida dzięki naszym kursom w trybie samodzielnym i uzyskaj certyfikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 

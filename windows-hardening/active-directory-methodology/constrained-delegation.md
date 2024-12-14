@@ -22,13 +22,13 @@ Używając tego, administrator domeny może **zezwolić** komputerowi na **podsz
 * **Usługa dla użytkownika do siebie (**_**S4U2self**_**):** Jeśli **konto usługi** ma wartość _userAccountControl_ zawierającą [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), to może uzyskać TGS dla siebie (usługi) w imieniu dowolnego innego użytkownika.
 * **Usługa dla użytkownika do proxy(**_**S4U2proxy**_**):** **Konto usługi** może uzyskać TGS w imieniu dowolnego użytkownika do usługi ustawionej w **msDS-AllowedToDelegateTo.** Aby to zrobić, najpierw potrzebuje TGS od tego użytkownika do siebie, ale może użyć S4U2self, aby uzyskać ten TGS przed zażądaniem innego.
 
-**Uwaga**: Jeśli użytkownik jest oznaczony jako ‘_Konto jest wrażliwe i nie może być delegowane_’ w AD, nie będziesz **mógł się pod niego podszyć**.
+**Uwaga**: Jeśli użytkownik jest oznaczony jako ‘_Konto jest wrażliwe i nie może być delegowane_’ w AD, nie będziesz **mógł się podszyć** pod niego.
 
 Oznacza to, że jeśli **skompromitujesz hash usługi**, możesz **podszywać się pod użytkowników** i uzyskać **dostęp** w ich imieniu do **skonfigurowanej usługi** (możliwe **privesc**).
 
-Ponadto, **nie będziesz miał dostępu tylko do usługi, pod którą użytkownik może się podszyć, ale także do każdej usługi**, ponieważ SPN (nazwa usługi żądanej) nie jest sprawdzana, tylko uprawnienia. Dlatego, jeśli masz dostęp do **usługi CIFS**, możesz również uzyskać dostęp do **usługi HOST** używając flagi `/altservice` w Rubeus.
+Co więcej, **nie będziesz miał tylko dostępu do usługi, pod którą użytkownik może się podszyć, ale także do każdej usługi**, ponieważ SPN (nazwa usługi żądanej) nie jest sprawdzana, tylko uprawnienia. Dlatego, jeśli masz dostęp do **usługi CIFS**, możesz również uzyskać dostęp do **usługi HOST** używając flagi `/altservice` w Rubeus.
 
-Również, **dostęp do usługi LDAP na DC**, jest tym, co jest potrzebne do wykorzystania **DCSync**.
+Ponadto, **dostęp do usługi LDAP na DC** jest tym, co jest potrzebne do wykorzystania **DCSync**.
 
 {% code title="Enumerate" %}
 ```bash
@@ -41,7 +41,7 @@ ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))"
 ```
 {% endcode %}
 
-{% code title="Pobierz TGT" %}
+{% code title="Uzyskaj TGT" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
 ## If you are SYSTEM in the server, you might take it from memory
@@ -63,7 +63,7 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Istnieją **inne sposoby na uzyskanie biletu TGT** lub **RC4** lub **AES256** bez bycia SYSTEM na komputerze, takie jak błąd drukarki i nieograniczona delegacja, relaying NTLM oraz nadużycie usługi certyfikacji Active Directory.
+Istnieją **inne sposoby na uzyskanie biletu TGT** lub **RC4** lub **AES256** bez bycia SYSTEM na komputerze, takie jak błąd drukarki, nieograniczona delegacja, relaying NTLM i nadużycie usługi certyfikacji Active Directory.
 
 **Mając tylko ten bilet TGT (lub jego skrót), możesz przeprowadzić ten atak bez kompromitacji całego komputera.**
 {% endhint %}
@@ -108,11 +108,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

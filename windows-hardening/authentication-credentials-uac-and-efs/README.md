@@ -1,15 +1,15 @@
-# Windows Security Controls
+# Kontrole bezpieczeństwa systemu Windows
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
@@ -17,19 +17,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
+Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## AppLocker Policy
+## Polityka AppLocker
 
-Lista dozwolonych aplikacji to lista zatwierdzonych aplikacji lub plików wykonywalnych, które mogą być obecne i uruchamiane w systemie. Celem jest ochrona środowiska przed szkodliwym złośliwym oprogramowaniem i niezatwierdzonym oprogramowaniem, które nie odpowiada specyficznym potrzebom biznesowym organizacji.
+Biała lista aplikacji to lista zatwierdzonych aplikacji lub plików wykonywalnych, które mogą być obecne i uruchamiane w systemie. Celem jest ochrona środowiska przed szkodliwym złośliwym oprogramowaniem i niezatwierdzonym oprogramowaniem, które nie odpowiada specyficznym potrzebom biznesowym organizacji.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) to **rozwiązanie do białej listy aplikacji** firmy Microsoft, które daje administratorom systemów kontrolę nad **tym, które aplikacje i pliki mogą uruchamiać użytkownicy**. Zapewnia **szczegółową kontrolę** nad plikami wykonywalnymi, skryptami, plikami instalacyjnymi Windows, DLL, aplikacjami pakietowymi i instalatorami aplikacji pakietowych.\
-W organizacjach powszechnie **blokuje się cmd.exe i PowerShell.exe** oraz dostęp do zapisu w niektórych katalogach, **ale to wszystko można obejść**.
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) to **rozwiązanie do białej listy aplikacji** firmy Microsoft, które daje administratorom systemu kontrolę nad **tym, które aplikacje i pliki użytkownicy mogą uruchamiać**. Zapewnia **szczegółową kontrolę** nad plikami wykonywalnymi, skryptami, plikami instalacyjnymi Windows, DLL, aplikacjami pakietowymi i instalatorami aplikacji pakietowych.\
+W organizacjach powszechne jest **blokowanie cmd.exe i PowerShell.exe** oraz zapisu do niektórych katalogów, **ale wszystko to można obejść**.
 
-### Check
+### Sprawdź
 
 Sprawdź, które pliki/rozszerzenia są na czarnej/białej liście:
 ```powershell
@@ -40,24 +40,24 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-Ta ścieżka rejestru zawiera konfiguracje i zasady stosowane przez AppLocker, co umożliwia przeglądanie bieżącego zestawu reguł egzekwowanych w systemie:
+Ta ścieżka rejestru zawiera konfiguracje i polityki stosowane przez AppLocker, co umożliwia przeglądanie bieżącego zestawu reguł egzekwowanych w systemie:
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 ### Ominięcie
 
-* Przydatne **zapisywalne foldery** do ominięcia polityki AppLocker: Jeśli AppLocker pozwala na wykonywanie czegokolwiek w `C:\Windows\System32` lub `C:\Windows`, istnieją **zapisywalne foldery**, które możesz wykorzystać do **ominięcia tego**.
+* Użyteczne **Foldery do zapisu** do ominięcia polityki AppLocker: Jeśli AppLocker zezwala na wykonywanie czegokolwiek w `C:\Windows\System32` lub `C:\Windows`, istnieją **foldery do zapisu**, które możesz wykorzystać do **ominięcia tego**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Powszechnie **zaufane** [**"LOLBAS's"**](https://lolbas-project.github.io/) binaria mogą być również przydatne do obejścia AppLocker.
+* Powszechnie **zaufane** [**"LOLBAS"**](https://lolbas-project.github.io/) binaria mogą być również przydatne do obejścia AppLocker.
 * **Źle napisane zasady mogą być również obejście**
-* Na przykład, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, możesz stworzyć **folder o nazwie `allowed`** w dowolnym miejscu, a będzie on dozwolony.
+* Na przykład, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, możesz stworzyć **folder o nazwie `allowed`** gdziekolwiek, a będzie on dozwolony.
 * Organizacje często koncentrują się na **blokowaniu pliku wykonywalnego `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, ale zapominają o **innych** [**lokacjach plików wykonywalnych PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) takich jak `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` lub `PowerShell_ISE.exe`.
-* **Wymuszanie DLL rzadko włączone** z powodu dodatkowego obciążenia, jakie może nałożyć na system, oraz ilości testów wymaganych do zapewnienia, że nic się nie zepsuje. Dlatego użycie **DLL jako tylnej furtki pomoże w obejściu AppLocker**.
+* **Wymuszanie DLL rzadko włączane** z powodu dodatkowego obciążenia, jakie może nałożyć na system, oraz ilości testów wymaganych do zapewnienia, że nic się nie zepsuje. Dlatego użycie **DLL jako tylnej furtki pomoże w obejściu AppLocker**.
 * Możesz użyć [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) lub [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick), aby **wykonać kod Powershell** w dowolnym procesie i obejść AppLocker. Więcej informacji znajdziesz tutaj: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Przechowywanie poświadczeń
@@ -66,11 +66,11 @@ C:\windows\tracing
 
 Lokalne poświadczenia znajdują się w tym pliku, hasła są haszowane.
 
-### Lokalne władze zabezpieczeń (LSA) - LSASS
+### Lokalna jednostka zabezpieczeń (LSA) - LSASS
 
 **Poświadczenia** (haszowane) są **zapisywane** w **pamięci** tego podsystemu z powodów związanych z jednolitym logowaniem.\
 **LSA** zarządza lokalną **polityką zabezpieczeń** (polityka haseł, uprawnienia użytkowników...), **uwierzytelnianiem**, **tokenami dostępu**...\
-LSA będzie tym, który **sprawdzi** podane poświadczenia w pliku **SAM** (dla lokalnego logowania) i **porozmawia** z **kontrolerem domeny**, aby uwierzytelnić użytkownika domeny.
+LSA będzie tą, która **sprawdzi** podane poświadczenia w pliku **SAM** (dla lokalnego logowania) i **porozmawia** z **kontrolerem domeny**, aby uwierzytelnić użytkownika domeny.
 
 **Poświadczenia** są **zapisywane** wewnątrz **procesu LSASS**: bilety Kerberos, hasze NT i LM, łatwo odszyfrowane hasła.
 
@@ -141,7 +141,7 @@ Ta metoda szyfrowania umożliwia **przezroczysty dostęp** do zaszyfrowanych pli
 
 ### Sprawdź informacje o EFS
 
-Sprawdź, czy **użytkownik** **korzystał** z tej **usługi**, sprawdzając, czy istnieje ta ścieżka: `C:\users\<username>\appdata\roaming\Microsoft\Protect`
+Sprawdź, czy **użytkownik** **korzystał** z tej **usługi**, sprawdzając, czy ta ścieżka istnieje: `C:\users\<username>\appdata\roaming\Microsoft\Protect`
 
 Sprawdź **kto** ma **dostęp** do pliku, używając cipher /c \<file>\
 Możesz również użyć `cipher /e` i `cipher /d` w folderze, aby **szyfrować** i **odszyfrowywać** wszystkie pliki
@@ -160,9 +160,9 @@ Ta metoda wymaga, aby **użytkownik ofiary** **uruchamiał** **proces** wewnątr
 
 Microsoft opracował **Group Managed Service Accounts (gMSA)**, aby uprościć zarządzanie kontami serwisowymi w infrastrukturach IT. W przeciwieństwie do tradycyjnych kont serwisowych, które często mają włączoną opcję "**Hasło nigdy nie wygasa**", gMSA oferują bardziej bezpieczne i zarządzalne rozwiązanie:
 
-* **Automatyczne zarządzanie hasłami**: gMSA używają złożonego, 240-znakowego hasła, które automatycznie zmienia się zgodnie z polityką domeny lub komputera. Proces ten jest obsługiwany przez usługę dystrybucji kluczy Microsoft (KDC), eliminując potrzebę ręcznych aktualizacji haseł.
+* **Automatyczne zarządzanie hasłami**: gMSA używają złożonego, 240-znakowego hasła, które automatycznie zmienia się zgodnie z polityką domeny lub komputera. Proces ten jest obsługiwany przez usługę dystrybucji kluczy Microsoftu (KDC), eliminując potrzebę ręcznych aktualizacji haseł.
 * **Zwiększone bezpieczeństwo**: Te konta są odporne na zablokowania i nie mogą być używane do interaktywnych logowań, co zwiększa ich bezpieczeństwo.
-* **Wsparcie dla wielu hostów**: gMSA mogą być udostępniane na wielu hostach, co czyni je idealnymi dla usług działających na wielu serwerach.
+* **Wsparcie dla wielu hostów**: gMSA mogą być współdzielone między wieloma hostami, co czyni je idealnymi dla usług działających na wielu serwerach.
 * **Możliwość zadań zaplanowanych**: W przeciwieństwie do zarządzanych kont serwisowych, gMSA wspierają uruchamianie zadań zaplanowanych.
 * **Uproszczone zarządzanie SPN**: System automatycznie aktualizuje nazwę główną usługi (SPN) w przypadku zmian w szczegółach sAMaccount komputera lub nazwie DNS, co upraszcza zarządzanie SPN.
 
@@ -180,7 +180,7 @@ Sprawdź także tę [stronę internetową](https://cube0x0.github.io/Relaying-fo
 
 ## LAPS
 
-**Rozwiązanie hasła lokalnego administratora (LAPS)**, dostępne do pobrania z [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), umożliwia zarządzanie hasłami lokalnych administratorów. Te hasła, które są **losowe**, unikalne i **regularnie zmieniane**, są przechowywane centralnie w Active Directory. Dostęp do tych haseł jest ograniczony przez ACL do uprawnionych użytkowników. Przy wystarczających uprawnieniach możliwe jest odczytanie haseł lokalnych administratorów.
+**Rozwiązanie hasła lokalnego administratora (LAPS)**, dostępne do pobrania z [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), umożliwia zarządzanie hasłami lokalnych administratorów. Hasła te są **losowe**, unikalne i **regularnie zmieniane**, przechowywane centralnie w Active Directory. Dostęp do tych haseł jest ograniczony przez ACL do uprawnionych użytkowników. Przy wystarczających uprawnieniach możliwe jest odczytanie haseł lokalnych administratorów.
 
 {% content-ref url="../active-directory-methodology/laps.md" %}
 [laps.md](../active-directory-methodology/laps.md)
@@ -188,7 +188,7 @@ Sprawdź także tę [stronę internetową](https://cube0x0.github.io/Relaying-fo
 
 ## Tryb ograniczonego języka PS
 
-PowerShell [**Tryb ograniczonego języka**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **ogranicza wiele funkcji** potrzebnych do skutecznego korzystania z PowerShell, takich jak blokowanie obiektów COM, zezwalanie tylko na zatwierdzone typy .NET, workflow oparte na XAML, klasy PowerShell i inne.
+PowerShell [**Tryb ograniczonego języka**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **ogranicza wiele funkcji** potrzebnych do skutecznego korzystania z PowerShell, takich jak blokowanie obiektów COM, zezwalanie tylko na zatwierdzone typy .NET, przepływy pracy oparte na XAML, klasy PowerShell i inne.
 
 ### **Sprawdź**
 ```powershell
@@ -215,7 +215,7 @@ Możesz użyć [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerToo
 
 ## Polityka wykonania PS
 
-Domyślnie jest ustawiona na **ograniczoną.** Główne sposoby na obejście tej polityki:
+Domyślnie jest ustawiona na **ograniczoną.** Główne sposoby obejścia tej polityki:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -239,7 +239,7 @@ Więcej można znaleźć [tutaj](https://blog.netspi.com/15-ways-to-bypass-the-p
 
 ## Interfejs dostawcy wsparcia bezpieczeństwa (SSPI)
 
-Jest to API, które można wykorzystać do uwierzytelniania użytkowników.
+Jest to API, które może być używane do uwierzytelniania użytkowników.
 
 SSPI będzie odpowiedzialne za znalezienie odpowiedniego protokołu dla dwóch maszyn, które chcą się komunikować. Preferowaną metodą jest Kerberos. Następnie SSPI negocjuje, który protokół uwierzytelniania będzie używany, te protokoły uwierzytelniania nazywane są dostawcami wsparcia bezpieczeństwa (SSP), znajdują się w każdej maszynie z systemem Windows w postaci DLL, a obie maszyny muszą obsługiwać ten sam, aby mogły się komunikować.
 
@@ -286,7 +286,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do repozytoriów** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

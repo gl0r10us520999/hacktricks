@@ -11,13 +11,13 @@ Zasugerowano sprawdzenie uprawnień usługi **RpcEptMapper** za pomocą **regedi
 
 Zrzut ekranu pokazał uprawnienia przypisane użytkownikowi o niskich uprawnieniach, wśród których wyróżniało się uprawnienie **Utwórz podklucz**. To uprawnienie, znane również jako **AppendData/AddSubdirectory**, odpowiada ustaleniom skryptu.
 
-Zauważono niemożność bezpośredniej modyfikacji niektórych wartości, ale możliwość tworzenia nowych podkluczy. Przykładem było próba zmiany wartości **ImagePath**, która zakończyła się komunikatem o odmowie dostępu.
+Zauważono niemożność bezpośredniej modyfikacji niektórych wartości, ale możliwość tworzenia nowych podkluczy. Przykładem była próba zmiany wartości **ImagePath**, która zakończyła się komunikatem o odmowie dostępu.
 
 Pomimo tych ograniczeń, zidentyfikowano potencjał do eskalacji uprawnień poprzez możliwość wykorzystania podklucza **Performance** w strukturze rejestru usługi **RpcEptMapper**, podklucza, który nie jest obecny domyślnie. Mogłoby to umożliwić rejestrację DLL i monitorowanie wydajności.
 
 Skonsultowano dokumentację na temat podklucza **Performance** i jego wykorzystania do monitorowania wydajności, co doprowadziło do opracowania dowodu koncepcji DLL. Ta DLL, demonstrująca implementację funkcji **OpenPerfData**, **CollectPerfData** i **ClosePerfData**, została przetestowana za pomocą **rundll32**, potwierdzając jej operacyjną skuteczność.
 
-Celem było zmuszenie usługi **RPC Endpoint Mapper** do załadowania stworzonych DLL do wydajności. Obserwacje wykazały, że wykonywanie zapytań klas WMI związanych z danymi wydajnościowymi za pomocą PowerShell skutkowało utworzeniem pliku dziennika, co umożliwiło wykonanie dowolnego kodu w kontekście **LOCAL SYSTEM**, przyznając tym samym podwyższone uprawnienia.
+Celem było zmuszenie usługi **RPC Endpoint Mapper** do załadowania stworzonych DLL wydajności. Obserwacje wykazały, że wykonywanie zapytań klas WMI związanych z danymi wydajności za pomocą PowerShell skutkowało utworzeniem pliku dziennika, co umożliwiło wykonanie dowolnego kodu w kontekście **LOCAL SYSTEM**, co z kolei przyznało podwyższone uprawnienia.
 
 Podkreślono trwałość i potencjalne implikacje tej luki, zwracając uwagę na jej znaczenie dla strategii poeksploatacyjnych, ruchu lateralnego oraz unikania systemów antywirusowych/EDR.
 
