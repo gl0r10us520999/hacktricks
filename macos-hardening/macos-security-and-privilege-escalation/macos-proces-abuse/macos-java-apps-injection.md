@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Énumération
+## Enumeration
 
 Trouvez les applications Java installées sur votre système. Il a été remarqué que les applications Java dans le **Info.plist** contiendront certains paramètres java qui contiennent la chaîne **`java.`**, vous pouvez donc rechercher cela :
 ```bash
@@ -27,7 +27,7 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-La variable d'environnement **`_JAVA_OPTIONS`** peut être utilisée pour injecter des paramètres java arbitraires dans l'exécution d'une application compilée en java :
+La variable d'environnement **`_JAVA_OPTIONS`** peut être utilisée pour injecter des paramètres java arbitraires dans l'exécution d'une application java compilée :
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
@@ -168,3 +168,18 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
 Notez à quel point il est intéressant qu'Android Studio dans cet exemple essaie de charger le fichier **`/Applications/Android Studio.app.vmoptions`**, un endroit où tout utilisateur du **`groupe admin` a un accès en écriture.**
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

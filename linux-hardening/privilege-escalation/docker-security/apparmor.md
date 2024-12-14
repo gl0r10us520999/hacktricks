@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-AppArmor est un **amélioration du noyau conçue pour restreindre les ressources disponibles aux programmes via des profils par programme**, mettant en œuvre efficacement le Contrôle d'Accès Obligatoire (MAC) en liant les attributs de contrôle d'accès directement aux programmes plutôt qu'aux utilisateurs. Ce système fonctionne en **chargeant des profils dans le noyau**, généralement au démarrage, et ces profils dictent quelles ressources un programme peut accéder, telles que les connexions réseau, l'accès aux sockets bruts et les permissions de fichiers.
+AppArmor est une **amélioration du noyau conçue pour restreindre les ressources disponibles aux programmes via des profils par programme**, mettant en œuvre efficacement le Contrôle d'Accès Obligatoire (MAC) en liant les attributs de contrôle d'accès directement aux programmes plutôt qu'aux utilisateurs. Ce système fonctionne en **chargeant des profils dans le noyau**, généralement au démarrage, et ces profils dictent quelles ressources un programme peut accéder, telles que les connexions réseau, l'accès aux sockets bruts et les permissions de fichiers.
 
 Il existe deux modes opérationnels pour les profils AppArmor :
 
@@ -57,17 +57,17 @@ aa-mergeprof  #used to merge the policies
 * **m** (carte mémoire comme exécutable)
 * **k** (verrouillage de fichier)
 * **l** (création de liens durs)
-* **ix** (pour exécuter un autre programme avec le nouveau programme héritant de la politique)
+* **ix** (pour exécuter un autre programme avec la nouvelle politique héritée)
 * **Px** (exécuter sous un autre profil, après nettoyage de l'environnement)
 * **Cx** (exécuter sous un profil enfant, après nettoyage de l'environnement)
 * **Ux** (exécuter sans confinement, après nettoyage de l'environnement)
-* **Des variables** peuvent être définies dans les profils et peuvent être manipulées depuis l'extérieur du profil. Par exemple : @{PROC} et @{HOME} (ajoutez #include \<tunables/global> au fichier de profil)
+* **Des variables** peuvent être définies dans les profils et peuvent être manipulées de l'extérieur du profil. Par exemple : @{PROC} et @{HOME} (ajoutez #include \<tunables/global> au fichier de profil)
 * **Les règles de refus sont prises en charge pour remplacer les règles d'autorisation**.
 
 ### aa-genprof
 
 Pour commencer facilement à créer un profil, apparmor peut vous aider. Il est possible de faire en sorte que **apparmor inspecte les actions effectuées par un binaire et vous laisse ensuite décider quelles actions vous souhaitez autoriser ou refuser**.\
-Il vous suffit d'exécuter :
+Vous devez simplement exécuter :
 ```bash
 sudo aa-genprof /path/to/binary
 ```
@@ -109,7 +109,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-Notez qu'en défaut, dans un profil créé, rien n'est autorisé, donc tout est refusé. Vous devrez ajouter des lignes comme `/etc/passwd r,` pour autoriser la lecture binaire de `/etc/passwd`, par exemple.
+Notez qu'en mode par défaut dans un profil créé, rien n'est autorisé, donc tout est refusé. Vous devrez ajouter des lignes comme `/etc/passwd r,` pour autoriser la lecture binaire de `/etc/passwd`, par exemple.
 {% endhint %}
 
 Vous pouvez ensuite **appliquer** le nouveau profil avec
@@ -136,7 +136,7 @@ apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
 ## Logs
 
-Exemple de journaux **AUDIT** et **DENIED** provenant de _/var/log/audit/audit.log_ de l'exécutable **`service_bin`** :
+Exemple de journaux **AUDIT** et **DENIED** de _/var/log/audit/audit.log_ de l'exécutable **`service_bin`** :
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
@@ -182,7 +182,7 @@ Par défaut, le **profil docker-default d'Apparmor** est généré à partir de 
 **Résumé du profil docker-default** :
 
 * **Accès** à tout le **réseau**
-* **Aucune capacité** n'est définie (Cependant, certaines capacités proviendront de l'inclusion de règles de base, c'est-à-dire #include \<abstractions/base>)
+* **Aucune capacité** n'est définie (Cependant, certaines capacités viendront de l'inclusion de règles de base, c'est-à-dire #include \<abstractions/base>)
 * **Écriture** dans n'importe quel fichier **/proc** n'est **pas autorisée**
 * D'autres **sous-répertoires**/**fichiers** de /**proc** et /**sys** se voient **refuser** l'accès en lecture/écriture/verrouillage/lien/exécution
 * **Montage** n'est **pas autorisé**
@@ -219,7 +219,7 @@ En général, lorsque vous **découvrez** que vous avez une **capacité privilé
 
 (Exemple de [**ici**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
 
-Pour illustrer la fonctionnalité d'AppArmor, j'ai créé un nouveau profil Docker “mydocker” avec la ligne suivante ajoutée:
+Pour illustrer la fonctionnalité d'AppArmor, j'ai créé un nouveau profil Docker “mydocker” avec la ligne suivante ajoutée :
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
@@ -239,7 +239,7 @@ chmod: /etc/hostname: Permission denied
 ```
 ### AppArmor Docker Bypass1
 
-Vous pouvez trouver quel **profil apparmor est en cours d'exécution dans un conteneur** en utilisant :
+Vous pouvez trouver quel **profil apparmor exécute un conteneur** en utilisant :
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
 "AppArmorProfile": "lowpriv",
@@ -276,7 +276,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

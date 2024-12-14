@@ -29,7 +29,7 @@ Si ce lien contient une vulnérabilité, comme il est exécuté avant d'exécute
 
 ### Flow
 
-Dyld sera chargé par **`dyldboostrap::start`**, qui chargera également des éléments tels que le **canari de pile**. Cela est dû au fait que cette fonction recevra dans son vecteur d'arguments **`apple`** ces valeurs **sensibles** et d'autres.
+Dyld sera chargé par **`dyldboostrap::start`**, qui chargera également des éléments tels que le **canari de pile**. Cela est dû au fait que cette fonction recevra dans son vecteur d'arguments **`apple`** cette et d'autres **valeurs** **sensibles**.
 
 **`dyls::_main()`** est le point d'entrée de dyld et sa première tâche est d'exécuter `configureProcessRestrictions()`, qui restreint généralement les variables d'environnement **`DYLD_*`** expliquées dans :
 
@@ -37,12 +37,12 @@ Dyld sera chargé par **`dyldboostrap::start`**, qui chargera également des él
 [.](./)
 {% endcontent-ref %}
 
-Ensuite, il mappe le cache partagé dyld qui prélie toutes les bibliothèques système importantes, puis il mappe les bibliothèques dont dépend le binaire et continue récursivement jusqu'à ce que toutes les bibliothèques nécessaires soient chargées. Par conséquent :
+Ensuite, il mappe le cache partagé dyld qui prélie tous les systèmes de bibliothèques importants, puis il mappe les bibliothèques dont dépend le binaire et continue récursivement jusqu'à ce que toutes les bibliothèques nécessaires soient chargées. Par conséquent :
 
 1. il commence à charger les bibliothèques insérées avec `DYLD_INSERT_LIBRARIES` (si autorisé)
 2. Ensuite, celles mises en cache partagées
-3. Puis, celles importées
-1. &#x20;Ensuite, continue à importer des bibliothèques récursivement
+3. Ensuite, celles importées
+1. &#x20;Puis continue à importer des bibliothèques récursivement
 
 Une fois que tout est chargé, les **initialisateurs** de ces bibliothèques sont exécutés. Ceux-ci sont codés en utilisant **`__attribute__((constructor))`** défini dans le `LC_ROUTINES[_64]` (désormais obsolète) ou par pointeur dans une section marquée avec `S_MOD_INIT_FUNC_POINTERS` (généralement : **`__DATA.__MOD_INIT_FUNC`**).
 
@@ -50,7 +50,7 @@ Les terminators sont codés avec **`__attribute__((destructor))`** et se trouven
 
 ### Stubs
 
-Tous les binaires sous macOS sont liés dynamiquement. Par conséquent, ils contiennent certaines sections de stubs qui aident le binaire à sauter vers le code correct sur différentes machines et contextes. C'est dyld, lorsque le binaire est exécuté, qui doit résoudre ces adresses (du moins celles non paresseuses).
+Tous les binaires sous macOS sont liés dynamiquement. Par conséquent, ils contiennent certaines sections de stub qui aident le binaire à sauter vers le code correct sur différentes machines et contextes. C'est dyld, lorsque le binaire est exécuté, qui doit résoudre ces adresses (du moins celles non paresseuses).
 
 Quelques sections de stub dans le binaire :
 
@@ -76,14 +76,14 @@ int main (int argc, char **argv, char **envp, char **apple)
 printf("Hi\n");
 }
 ```
-Partie de désassemblage intéressante :
+Intéressante partie de désassemblage :
 ```armasm
 ; objdump -d ./load
 100003f7c: 90000000    	adrp	x0, 0x100003000 <_main+0x1c>
 100003f80: 913e9000    	add	x0, x0, #4004
 100003f84: 94000005    	bl	0x100003f98 <_printf+0x100003f98>
 ```
-Il est possible de voir que le saut vers l'appel de printf va à **`__TEXT.__stubs`** :
+Il est possible de voir que le saut pour appeler printf va à **`__TEXT.__stubs`** :
 ```bash
 objdump --section-headers ./load
 
@@ -123,9 +123,9 @@ Cependant, notez que les versions actuelles de dyld chargent tout de manière no
 
 Enfin, **`dyld_stub_binder`** doit trouver la fonction indiquée et l'écrire à la bonne adresse pour ne pas avoir à la rechercher à nouveau. Pour ce faire, il utilise des opcodes (une machine à états finis) au sein de dyld.
 
-## apple\[] vecteur d'arguments
+## vecteur d'arguments apple\[]
 
-Dans macOS, la fonction principale reçoit en réalité 4 arguments au lieu de 3. Le quatrième s'appelle apple et chaque entrée est sous la forme `key=value`. Par exemple :
+Dans macOS, la fonction principale reçoit en réalité 4 arguments au lieu de 3. Le quatrième est appelé apple et chaque entrée est sous la forme `key=value`. Par exemple :
 ```c
 // gcc apple.c -o apple
 #include <stdio.h>
@@ -197,7 +197,7 @@ il est possible de voir toutes ces valeurs intéressantes en déboguant avant d'
 
 ## dyld\_all\_image\_infos
 
-Ceci est une structure exportée par dyld contenant des informations sur l'état de dyld qui peut être trouvée dans le [**code source**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) avec des informations comme la version, le pointeur vers le tableau dyld\_image\_info, vers dyld\_image\_notifier, si le processus est détaché du cache partagé, si l'initialiseur de libSystem a été appelé, pointeur vers l'en-tête Mach de dyls, pointeur vers la chaîne de version de dyld...
+Ceci est une structure exportée par dyld avec des informations sur l'état de dyld qui peut être trouvée dans le [**code source**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) avec des informations comme la version, un pointeur vers le tableau dyld\_image\_info, vers dyld\_image\_notifier, si le processus est détaché du cache partagé, si l'initialiseur de libSystem a été appelé, un pointeur vers l'en-tête Mach de dyls, un pointeur vers la chaîne de version de dyld...
 
 ## dyld env variables
 
@@ -296,7 +296,7 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 * `DYLD_SHARED_REGION`: "utiliser", "privé", "éviter"
 * `DYLD_USE_CLOSURES`: Activer les fermetures
 
-Il est possible de trouver plus avec quelque chose comme :
+Il est possible d'en trouver plus avec quelque chose comme :
 ```bash
 strings /usr/lib/dyld | grep "^DYLD_" | sort -u
 ```

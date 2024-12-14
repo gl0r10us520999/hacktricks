@@ -15,13 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Ce qui affecte
+## Ce qui est affecté
 
 Lorsque vous exécutez un conteneur en mode privilégié, voici les protections que vous désactivez :
 
 ### Monter /dev
 
-Dans un conteneur privilégié, tous les **périphériques peuvent être accessibles dans `/dev/`**. Par conséquent, vous pouvez **échapper** en **montant** le disque de l'hôte.
+Dans un conteneur privilégié, tous les **dispositifs peuvent être accessibles dans `/dev/`**. Par conséquent, vous pouvez **vous échapper** en **montant** le disque de l'hôte.
 
 {% tabs %}
 {% tab title="À l'intérieur du conteneur par défaut" %}
@@ -166,7 +166,7 @@ Aussi, notez que lorsque Docker (ou d'autres CRI) sont utilisés dans un cluster
 
 ### AppArmor
 
-**AppArmor** est une amélioration du noyau pour confiner les **containers** à un ensemble **limité** de **ressources** avec des **profils par programme**. Lorsque vous exécutez avec le drapeau `--privileged`, cette protection est désactivée.
+**AppArmor** est une amélioration du noyau pour confiner les **conteneurs** à un ensemble **limité** de **ressources** avec des **profils par programme**. Lorsque vous exécutez avec le drapeau `--privileged`, cette protection est désactivée.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -225,16 +225,16 @@ PID   USER     TIME  COMMAND
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

@@ -8,7 +8,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="../../.gitbook/assets/grte.png"
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
@@ -36,7 +36,7 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 
 * **Utilisateur Standard :** L'utilisateur le plus basique. Cet utilisateur a besoin de permissions accordées par un utilisateur admin lorsqu'il tente d'installer des logiciels ou d'effectuer d'autres tâches avancées. Il ne peut pas le faire seul.
 * **Utilisateur Admin** : Un utilisateur qui opère la plupart du temps en tant qu'utilisateur standard mais qui est également autorisé à effectuer des actions root telles que l'installation de logiciels et d'autres tâches administratives. Tous les utilisateurs appartenant au groupe admin ont **accès à root via le fichier sudoers**.
-* **Root** : Root est un utilisateur autorisé à effectuer presque n'importe quelle action (il y a des limitations imposées par des protections comme la Protection de l'Intégrité du Système).
+* **Root** : Root est un utilisateur autorisé à effectuer presque n'importe quelle action (il existe des limitations imposées par des protections comme la Protection de l'Intégrité du Système).
 * Par exemple, root ne pourra pas placer un fichier dans `/System`
 
 ## Comptes Externes

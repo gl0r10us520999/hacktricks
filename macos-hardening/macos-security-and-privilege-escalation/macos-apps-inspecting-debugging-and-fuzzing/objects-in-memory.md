@@ -1,25 +1,25 @@
 # Objets en mémoire
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS : <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Soutenez HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-Les objets CF\* proviennent de CoreFoundation, qui fournit plus de 50 classes d'objets comme `CFString`, `CFNumber` ou `CFAllocatior`.
+Les objets CF\* proviennent de CoreFoundation, qui fournit plus de 50 classes d'objets comme `CFString`, `CFNumber` ou `CFAllocator`.
 
-Toutes ces classes sont des instances de la classe `CFRuntimeClass`, qui lorsqu'elle est appelée renvoie un index à la `__CFRuntimeClassTable`. La CFRuntimeClass est définie dans [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Toutes ces classes sont des instances de la classe `CFRuntimeClass`, qui lorsqu'elle est appelée, renvoie un index vers le `__CFRuntimeClassTable`. La CFRuntimeClass est définie dans [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html) :
 ```objectivec
 // Some comments were added to the original code
 
@@ -70,36 +70,36 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 
 ### Sections de mémoire utilisées
 
-La plupart des données utilisées par le runtime Objective-C changeront pendant l'exécution, donc il utilise certaines sections du segment **\_\_DATA** en mémoire :
+La plupart des données utilisées par l'exécution d'ObjectiveC changeront pendant l'exécution, c'est pourquoi elle utilise certaines sections du segment **\_\_DATA** en mémoire :
 
-- **`__objc_msgrefs`** (`message_ref_t`) : Références de message
-- **`__objc_ivar`** (`ivar`) : Variables d'instance
-- **`__objc_data`** (`...`) : Données mutables
-- **`__objc_classrefs`** (`Class`) : Références de classe
-- **`__objc_superrefs`** (`Class`) : Références de superclasse
-- **`__objc_protorefs`** (`protocol_t *`) : Références de protocole
-- **`__objc_selrefs`** (`SEL`) : Références de sélecteur
-- **`__objc_const`** (`...`) : Données `r/o` de classe et autres données (espérons-le) constantes
-- **`__objc_imageinfo`** (`version, flags`) : Utilisé lors du chargement de l'image : Version actuellement `0`; Les indicateurs spécifient le support GC préoptimisé, etc.
-- **`__objc_protolist`** (`protocol_t *`) : Liste de protocoles
-- **`__objc_nlcatlist`** (`category_t`) : Pointeur vers les catégories Non-Lazy définies dans ce binaire
-- **`__objc_catlist`** (`category_t`) : Pointeur vers les catégories définies dans ce binaire
-- **`__objc_nlclslist`** (`classref_t`) : Pointeur vers les classes Objective-C Non-Lazy définies dans ce binaire
-- **`__objc_classlist`** (`classref_t`) : Pointeurs vers toutes les classes Objective-C définies dans ce binaire
+* **`__objc_msgrefs`** (`message_ref_t`): Références de message
+* **`__objc_ivar`** (`ivar`): Variables d'instance
+* **`__objc_data`** (`...`): Données mutables
+* **`__objc_classrefs`** (`Class`): Références de classe
+* **`__objc_superrefs`** (`Class`): Références de superclasse
+* **`__objc_protorefs`** (`protocol_t *`): Références de protocole
+* **`__objc_selrefs`** (`SEL`): Références de sélecteur
+* **`__objc_const`** (`...`): Données `r/o` de classe et autres données (espérons-le) constantes
+* **`__objc_imageinfo`** (`version, flags`): Utilisé lors du chargement de l'image : Version actuellement `0`; Les drapeaux spécifient le support GC préoptimisé, etc.
+* **`__objc_protolist`** (`protocol_t *`): Liste de protocoles
+* **`__objc_nlcatlist`** (`category_t`): Pointeur vers des catégories non paresseuses définies dans ce binaire
+* **`__objc_catlist`** (`category_t`): Pointeur vers des catégories définies dans ce binaire
+* **`__objc_nlclslist`** (`classref_t`): Pointeur vers des classes Objective-C non paresseuses définies dans ce binaire
+* **`__objc_classlist`** (`classref_t`): Pointeurs vers toutes les classes Objective-C définies dans ce binaire
 
-Il utilise également quelques sections dans le segment **`__TEXT`** pour stocker des valeurs constantes s'il n'est pas possible d'écrire dans cette section :
+Elle utilise également quelques sections dans le segment **`__TEXT`** pour stocker des valeurs constantes si l'écriture dans cette section n'est pas possible :
 
-- **`__objc_methname`** (C-String) : Noms de méthode
-- **`__objc_classname`** (C-String) : Noms de classe
-- **`__objc_methtype`** (C-String) : Types de méthode
+* **`__objc_methname`** (C-String): Noms de méthode
+* **`__objc_classname`** (C-String): Noms de classe
+* **`__objc_methtype`** (C-String): Types de méthode
 
-### Encodage des types
+### Encodage de type
 
-Objective-C utilise un certain mélange pour encoder les types de sélecteur et de variable des types simples et complexes :
+Objective-C utilise un certain mangle pour encoder les sélecteurs et les types de variables de types simples et complexes :
 
-- Les types primitifs utilisent leur première lettre du type `i` pour `int`, `c` pour `char`, `l` pour `long`... et utilise la lettre majuscule dans le cas où c'est non signé (`L` pour `unsigned Long`).
-- Les autres types de données dont les lettres sont utilisées ou sont spéciales, utilisent d'autres lettres ou symboles comme `q` pour `long long`, `b` pour `bitfields`, `B` pour `booleans`, `#` pour `classes`, `@` pour `id`, `*` pour `pointeurs de caractères`, `^` pour `pointeurs génériques` et `?` pour `indéfini`.
-- Les tableaux, structures et unions utilisent `[`, `{` et `(`
+* Les types primitifs utilisent leur première lettre du type `i` pour `int`, `c` pour `char`, `l` pour `long`... et utilisent la lettre majuscule dans le cas où c'est non signé (`L` pour `unsigned Long`).
+* D'autres types de données dont les lettres sont utilisées ou sont spéciales, utilisent d'autres lettres ou symboles comme `q` pour `long long`, `b` pour `bitfields`, `B` pour `booleans`, `#` pour `classes`, `@` pour `id`, `*` pour `char pointers`, `^` pour `pointers` génériques et `?` pour `undefined`.
+* Les tableaux, structures et unions utilisent `[`, `{` et `(`
 
 #### Exemple de déclaration de méthode
 
@@ -111,16 +111,16 @@ Objective-C utilise un certain mélange pour encoder les types de sélecteur et 
 
 Le sélecteur serait `processString:withOptions:andError:`
 
-#### Encodage des types
+#### Encodage de Type
 
 * `id` est encodé comme `@`
 * `char *` est encodé comme `*`
 
-L'encodage complet des types pour la méthode est :
+L'encodage de type complet pour la méthode est :
 ```less
 @24@0:8@16*20^@24
 ```
-#### Analyse détaillée
+#### Détail de la décomposition
 
 1. **Type de retour (`NSString *`)** : Encodé comme `@` avec une longueur de 24
 2. **`self` (instance d'objet)** : Encodé comme `@`, à l'offset 0
@@ -156,5 +156,22 @@ data()->setFlags(set);
 ```
 Cette classe utilise certains bits du champ isa pour indiquer des informations sur la classe.
 
-Ensuite, la structure a un pointeur vers la structure `class_ro_t` stockée sur le disque qui contient les attributs de la classe tels que son nom, ses méthodes de base, ses propriétés et ses variables d'instance.\
-Pendant l'exécution, une structure supplémentaire `class_rw_t` est utilisée contenant des pointeurs qui peuvent être modifiés tels que les méthodes, les protocoles, les propriétés...
+Ensuite, la structure a un pointeur vers la structure `class_ro_t` stockée sur le disque qui contient des attributs de la classe comme son nom, ses méthodes de base, ses propriétés et ses variables d'instance.\
+Pendant l'exécution, une structure supplémentaire `class_rw_t` est utilisée, contenant des pointeurs qui peuvent être modifiés, tels que des méthodes, des protocoles, des propriétés...
+
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

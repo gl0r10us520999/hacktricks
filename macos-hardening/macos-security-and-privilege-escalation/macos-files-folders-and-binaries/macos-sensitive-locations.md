@@ -63,13 +63,13 @@ D'après ce commentaire [juuso/keychaindump#10 (comment)](https://github.com/juu
 
 ### Aperçu de Keychaindump
 
-Un outil nommé **keychaindump** a été développé pour extraire des mots de passe des porte-clés macOS, mais il rencontre des limitations sur les versions macOS plus récentes comme Big Sur, comme indiqué dans une [discussion](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). L'utilisation de **keychaindump** nécessite que l'attaquant obtienne un accès et élève ses privilèges à **root**. L'outil exploite le fait que le porte-clé est déverrouillé par défaut lors de la connexion de l'utilisateur pour des raisons de commodité, permettant aux applications d'y accéder sans nécessiter le mot de passe de l'utilisateur à plusieurs reprises. Cependant, si un utilisateur choisit de verrouiller son porte-clé après chaque utilisation, **keychaindump** devient inefficace.
+Un outil nommé **keychaindump** a été développé pour extraire des mots de passe des porte-clés macOS, mais il rencontre des limitations sur les versions macOS plus récentes comme Big Sur, comme indiqué dans une [discussion](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). L'utilisation de **keychaindump** nécessite que l'attaquant accède et élève ses privilèges à **root**. L'outil exploite le fait que le porte-clé est déverrouillé par défaut lors de la connexion de l'utilisateur pour plus de commodité, permettant aux applications d'y accéder sans nécessiter le mot de passe de l'utilisateur à plusieurs reprises. Cependant, si un utilisateur choisit de verrouiller son porte-clé après chaque utilisation, **keychaindump** devient inefficace.
 
-**Keychaindump** fonctionne en ciblant un processus spécifique appelé **securityd**, décrit par Apple comme un démon pour les opérations d'autorisation et cryptographiques, crucial pour accéder au porte-clé. Le processus d'extraction implique l'identification d'une **Clé Maîtresse** dérivée du mot de passe de connexion de l'utilisateur. Cette clé est essentielle pour lire le fichier du porte-clé. Pour localiser la **Clé Maîtresse**, **keychaindump** scanne le tas de mémoire de **securityd** en utilisant la commande `vmmap`, à la recherche de clés potentielles dans des zones marquées comme `MALLOC_TINY`. La commande suivante est utilisée pour inspecter ces emplacements mémoire :
+**Keychaindump** fonctionne en ciblant un processus spécifique appelé **securityd**, décrit par Apple comme un démon pour les opérations d'autorisation et cryptographiques, crucial pour accéder au porte-clé. Le processus d'extraction implique l'identification d'une **Master Key** dérivée du mot de passe de connexion de l'utilisateur. Cette clé est essentielle pour lire le fichier du porte-clé. Pour localiser la **Master Key**, **keychaindump** scanne le tas de mémoire de **securityd** en utilisant la commande `vmmap`, à la recherche de clés potentielles dans des zones marquées comme `MALLOC_TINY`. La commande suivante est utilisée pour inspecter ces emplacements mémoire :
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Après avoir identifié des clés maîtresses potentielles, **keychaindump** recherche dans les tas un motif spécifique (`0x0000000000000018`) qui indique un candidat pour la clé maîtresse. D'autres étapes, y compris la déobfuscation, sont nécessaires pour utiliser cette clé, comme l'indique le code source de **keychaindump**. Les analystes se concentrant sur ce domaine doivent noter que les données cruciales pour déchiffrer le trousseau sont stockées dans la mémoire du processus **securityd**. Une commande exemple pour exécuter **keychaindump** est :
+Après avoir identifié des clés maîtresses potentielles, **keychaindump** recherche dans les tas un motif spécifique (`0x0000000000000018`) qui indique un candidat pour la clé maîtresse. D'autres étapes, y compris la déobfuscation, sont nécessaires pour utiliser cette clé, comme l'indique le code source de **keychaindump**. Les analystes se concentrant sur ce domaine doivent noter que les données cruciales pour déchiffrer le trousseau sont stockées dans la mémoire du processus **securityd**. Un exemple de commande pour exécuter **keychaindump** est :
 ```bash
 sudo ./keychaindump
 ```
@@ -123,9 +123,9 @@ python vol.py -i ~/Desktop/show/macosxml.mem -o keychaindump
 #Try to extract the passwords using the extracted keychain passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dump des clés du trousseau (avec mots de passe) en utilisant le mot de passe de l'utilisateur**
+#### **Extraire les clés du trousseau (avec mots de passe) en utilisant le mot de passe de l'utilisateur**
 
-Si vous connaissez le mot de passe de l'utilisateur, vous pouvez l'utiliser pour **dump et déchiffrer les trousseaux qui appartiennent à l'utilisateur**.
+Si vous connaissez le mot de passe de l'utilisateur, vous pouvez l'utiliser pour **extraire et déchiffrer les trousseaux qui appartiennent à l'utilisateur**.
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
@@ -151,7 +151,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Vous pouvez trouver les données de Notifications dans `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-La plupart des informations intéressantes se trouveront dans **blob**. Vous devrez donc **extraire** ce contenu et le **transformer** en **lisible** **par** **un** **humain** ou utiliser **`strings`**. Pour y accéder, vous pouvez faire : 
+La plupart des informations intéressantes se trouveront dans **blob**. Vous devrez donc **extraire** ce contenu et **le transformer** en **lisible** **par** **un** **humain** ou utiliser **`strings`**. Pour y accéder, vous pouvez faire : 
 
 {% code overflow="wrap" %}
 ```bash
@@ -162,7 +162,7 @@ strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i
 
 ### Notes
 
-Les **notes** des utilisateurs peuvent être trouvées dans `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
+Les **notes** des utilisateurs se trouvent dans `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
 
 {% code overflow="wrap" %}
 ```bash
@@ -241,16 +241,16 @@ common: com.apple.CFPreferences._domainsChangedExternally
 common: com.apple.security.octagon.joined-with-bottle
 [...]
 ```
-### Distributed Notification Center
+### Centre de Notification Distribué
 
-Le **Distributed Notification Center** dont le binaire principal est **`/usr/sbin/distnoted`**, est un autre moyen d'envoyer des notifications. Il expose certains services XPC et effectue des vérifications pour essayer de vérifier les clients.
+Le **Centre de Notification Distribué** dont le binaire principal est **`/usr/sbin/distnoted`**, est un autre moyen d'envoyer des notifications. Il expose certains services XPC et effectue des vérifications pour essayer de vérifier les clients.
 
-### Apple Push Notifications (APN)
+### Notifications Push Apple (APN)
 
-Dans ce cas, les applications peuvent s'inscrire à des **topics**. Le client générera un jeton en contactant les serveurs d'Apple via **`apsd`**.\
+Dans ce cas, les applications peuvent s'inscrire à des **sujets**. Le client générera un jeton en contactant les serveurs d'Apple via **`apsd`**.\
 Ensuite, les fournisseurs auront également généré un jeton et pourront se connecter aux serveurs d'Apple pour envoyer des messages aux clients. Ces messages seront reçus localement par **`apsd`** qui relayera la notification à l'application qui l'attend.
 
-Les préférences se trouvent dans `/Library/Preferences/com.apple.apsd.plist`.
+Les préférences sont situées dans `/Library/Preferences/com.apple.apsd.plist`.
 
 Il existe une base de données locale de messages située dans macOS à `/Library/Application\ Support/ApplePushService/aps.db` et dans iOS à `/var/mobile/Library/ApplePushService`. Elle contient 3 tables : `incoming_messages`, `outgoing_messages` et `channel`.
 ```bash
@@ -265,7 +265,7 @@ Il est également possible d'obtenir des informations sur le démon et les conne
 Ce sont des notifications que l'utilisateur devrait voir à l'écran :
 
 * **`CFUserNotification`** : Cette API fournit un moyen d'afficher à l'écran une fenêtre contextuelle avec un message.
-* **Le Tableau d'Affichage** : Cela montre sur iOS une bannière qui disparaît et sera stockée dans le Centre de Notifications.
+* **Le Tableau d'Affichage** : Cela affiche sur iOS une bannière qui disparaît et sera stockée dans le Centre de Notifications.
 * **`NSUserNotificationCenter`** : C'est le tableau d'affichage iOS sur MacOS. La base de données avec les notifications est située dans `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
 
 {% hint style="success" %}

@@ -37,9 +37,9 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD) est une version améliorée de [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) adaptée pour macOS, offrant des fonctionnalités supplémentaires. Une vulnérabilité notable dans ARD est sa méthode d'authentification pour le mot de passe de contrôle de l'écran, qui n'utilise que les 8 premiers caractères du mot de passe, ce qui la rend sujette aux [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) avec des outils comme Hydra ou [GoRedShell](https://github.com/ahhh/GoRedShell/), car il n'y a pas de limites de taux par défaut.
+Apple Remote Desktop (ARD) est une version améliorée de [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) adaptée pour macOS, offrant des fonctionnalités supplémentaires. Une vulnérabilité notable dans ARD est sa méthode d'authentification pour le mot de passe de contrôle de l'écran, qui n'utilise que les 8 premiers caractères du mot de passe, le rendant vulnérable aux [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) avec des outils comme Hydra ou [GoRedShell](https://github.com/ahhh/GoRedShell/), car il n'y a pas de limites de taux par défaut.
 
-Les instances vulnérables peuvent être identifiées en utilisant le script `vnc-info` de **nmap**. Les services prenant en charge `VNC Authentication (2)` sont particulièrement sensibles aux attaques par force brute en raison de la troncature du mot de passe à 8 caractères.
+Les instances vulnérables peuvent être identifiées en utilisant le script `vnc-info` de **nmap**. Les services prenant en charge `VNC Authentication (2)` sont particulièrement susceptibles aux attaques par force brute en raison de la troncature du mot de passe à 8 caractères.
 
 Pour activer ARD pour diverses tâches administratives comme l'escalade de privilèges, l'accès GUI ou la surveillance des utilisateurs, utilisez la commande suivante :
 ```bash
@@ -53,12 +53,12 @@ Bonjour, une technologie conçue par Apple, permet **aux appareils sur le même 
 
 Le Zero Configuration Networking, fourni par Bonjour, garantit que les appareils peuvent :
 * **Obtenir automatiquement une adresse IP** même en l'absence de serveur DHCP.
-* Effectuer une **traduction nom-adresse** sans nécessiter de serveur DNS.
+* Effectuer une **traduction de nom en adresse** sans nécessiter de serveur DNS.
 * **Découvrir les services** disponibles sur le réseau.
 
 Les appareils utilisant Bonjour s'attribueront une **adresse IP du range 169.254/16** et vérifieront son unicité sur le réseau. Les Macs maintiennent une entrée de table de routage pour ce sous-réseau, vérifiable via `netstat -rn | grep 169`.
 
-Pour le DNS, Bonjour utilise le **protocole Multicast DNS (mDNS)**. mDNS fonctionne sur le **port 5353/UDP**, utilisant des **requêtes DNS standard** mais ciblant l'**adresse multicast 224.0.0.251**. Cette approche garantit que tous les appareils à l'écoute sur le réseau peuvent recevoir et répondre aux requêtes, facilitant la mise à jour de leurs enregistrements.
+Pour le DNS, Bonjour utilise le **protocole Multicast DNS (mDNS)**. mDNS fonctionne sur **le port 5353/UDP**, utilisant des **requêtes DNS standard** mais ciblant l'**adresse multicast 224.0.0.251**. Cette approche garantit que tous les appareils à l'écoute sur le réseau peuvent recevoir et répondre aux requêtes, facilitant la mise à jour de leurs enregistrements.
 
 Lorsqu'un appareil rejoint le réseau, il se sélectionne un nom, se terminant généralement par **.local**, qui peut être dérivé du nom d'hôte ou généré aléatoirement.
 
@@ -123,8 +123,8 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

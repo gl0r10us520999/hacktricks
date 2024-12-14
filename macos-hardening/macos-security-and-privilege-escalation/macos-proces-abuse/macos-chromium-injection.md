@@ -1,59 +1,59 @@
-# Injection de Chromium macOS
+# macOS Chromium Injection
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Soutenez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Informations de base
+## Basic Information
 
 Les navigateurs basés sur Chromium comme Google Chrome, Microsoft Edge, Brave, et d'autres. Ces navigateurs sont construits sur le projet open-source Chromium, ce qui signifie qu'ils partagent une base commune et, par conséquent, ont des fonctionnalités et des options de développement similaires.
 
-#### Drapeau `--load-extension`
+#### `--load-extension` Flag
 
-Le drapeau `--load-extension` est utilisé lors du démarrage d'un navigateur basé sur Chromium à partir de la ligne de commande ou d'un script. Ce drapeau permet de **charger automatiquement une ou plusieurs extensions** dans le navigateur au démarrage.
+Le drapeau `--load-extension` est utilisé lors du démarrage d'un navigateur basé sur Chromium depuis la ligne de commande ou un script. Ce drapeau permet de **charger automatiquement une ou plusieurs extensions** dans le navigateur au démarrage.
 
-#### Drapeau `--use-fake-ui-for-media-stream`
+#### `--use-fake-ui-for-media-stream` Flag
 
-Le drapeau `--use-fake-ui-for-media-stream` est une autre option en ligne de commande qui peut être utilisée pour démarrer les navigateurs basés sur Chromium. Ce drapeau est conçu pour **contourner les invites utilisateur normales qui demandent la permission d'accéder aux flux multimédias de la caméra et du microphone**. Lorsque ce drapeau est utilisé, le navigateur accorde automatiquement la permission à tout site web ou application qui demande l'accès à la caméra ou au microphone.
+Le drapeau `--use-fake-ui-for-media-stream` est une autre option de ligne de commande qui peut être utilisée pour démarrer des navigateurs basés sur Chromium. Ce drapeau est conçu pour **contourner les invites utilisateur normales qui demandent la permission d'accéder aux flux multimédias de la caméra et du microphone**. Lorsque ce drapeau est utilisé, le navigateur accorde automatiquement la permission à tout site web ou application qui demande l'accès à la caméra ou au microphone.
 
-### Outils
+### Tools
 
 * [https://github.com/breakpointHQ/snoop](https://github.com/breakpointHQ/snoop)
 * [https://github.com/breakpointHQ/VOODOO](https://github.com/breakpointHQ/VOODOO)
 
-### Exemple
+### Example
 ```bash
 # Intercept traffic
 voodoo intercept -b chrome
 ```
-Trouvez plus d'exemples dans les liens des outils
+Find more examples in the tools links
 
 ## Références
 
 * [https://twitter.com/RonMasas/status/1758106347222995007](https://twitter.com/RonMasas/status/1758106347222995007)
 
 {% hint style="success" %}
-Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Soutenez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

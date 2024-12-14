@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 Le mécanisme clé de Gatekeeper réside dans son processus de **vérification**. Il vérifie si le logiciel téléchargé est **signé par un développeur reconnu**, garantissant l'authenticité du logiciel. De plus, il s'assure que le logiciel est **notarié par Apple**, confirmant qu'il ne contient pas de contenu malveillant connu et qu'il n'a pas été altéré après la notarisation.
 
-De plus, Gatekeeper renforce le contrôle et la sécurité des utilisateurs en **demandant aux utilisateurs d'approuver l'ouverture** de logiciels téléchargés pour la première fois. Cette protection aide à empêcher les utilisateurs d'exécuter involontairement un code exécutable potentiellement nuisible qu'ils auraient pu confondre avec un fichier de données inoffensif.
+De plus, Gatekeeper renforce le contrôle et la sécurité des utilisateurs en **demandant aux utilisateurs d'approuver l'ouverture** du logiciel téléchargé pour la première fois. Cette protection aide à empêcher les utilisateurs d'exécuter involontairement un code exécutable potentiellement nuisible qu'ils auraient pu confondre avec un fichier de données inoffensif.
 
 ### Signatures d'application
 
@@ -37,7 +37,7 @@ Voici comment cela fonctionne :
 2. **Distribution de l'application :** L'application signée est ensuite distribuée aux utilisateurs avec le certificat du développeur, qui contient la clé publique correspondante.
 3. **Vérification de l'application :** Lorsqu'un utilisateur télécharge et tente d'exécuter l'application, son système d'exploitation Mac utilise la clé publique du certificat du développeur pour déchiffrer le hachage. Il recalcule ensuite le hachage en fonction de l'état actuel de l'application et le compare avec le hachage déchiffré. S'ils correspondent, cela signifie que **l'application n'a pas été modifiée** depuis que le développeur l'a signée, et le système permet à l'application de s'exécuter.
 
-Les signatures d'application sont une partie essentielle de la technologie Gatekeeper d'Apple. Lorsque l'utilisateur tente d'**ouvrir une application téléchargée depuis Internet**, Gatekeeper vérifie la signature de l'application. Si elle est signée avec un certificat délivré par Apple à un développeur connu et que le code n'a pas été altéré, Gatekeeper permet à l'application de s'exécuter. Sinon, il bloque l'application et alerte l'utilisateur.
+Les signatures d'application sont une partie essentielle de la technologie Gatekeeper d'Apple. Lorsqu'un utilisateur tente d'**ouvrir une application téléchargée depuis Internet**, Gatekeeper vérifie la signature de l'application. Si elle est signée avec un certificat délivré par Apple à un développeur connu et que le code n'a pas été altéré, Gatekeeper permet à l'application de s'exécuter. Sinon, il bloque l'application et alerte l'utilisateur.
 
 À partir de macOS Catalina, **Gatekeeper vérifie également si l'application a été notariée** par Apple, ajoutant une couche de sécurité supplémentaire. Le processus de notarisation vérifie l'application pour des problèmes de sécurité connus et du code malveillant, et si ces vérifications sont réussies, Apple ajoute un ticket à l'application que Gatekeeper peut vérifier.
 
@@ -215,7 +215,7 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-En fait, un processus "pourrait définir des drapeaux de quarantaine sur les fichiers qu'il crée" (j'ai déjà essayé d'appliquer le drapeau USER_APPROVED dans un fichier créé mais il ne s'applique pas) :
+En fait, un processus "pourrait définir des drapeaux de quarantaine sur les fichiers qu'il crée" (j'ai déjà essayé d'appliquer le drapeau USER_APPROVED dans un fichier créé, mais il ne s'applique pas) :
 
 <details>
 
@@ -287,7 +287,7 @@ xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
 ```
-Et trouvez tous les fichiers mis en quarantaine avec :
+Et trouvez tous les fichiers mis en quarantaine avec : 
 
 {% code overflow="wrap" %}
 ```bash
@@ -322,7 +322,7 @@ La base de données XProtect est **mise à jour régulièrement** par Apple avec
 
 Cependant, il convient de noter que **XProtect n'est pas une solution antivirus complète**. Il ne vérifie qu'une liste spécifique de menaces connues et ne réalise pas de scan à l'accès comme la plupart des logiciels antivirus.
 
-Vous pouvez obtenir des informations sur la dernière mise à jour de XProtect en exécutant : 
+Vous pouvez obtenir des informations sur la dernière mise à jour de XProtect en exécutant :
 
 {% code overflow="wrap" %}
 ```bash
@@ -330,14 +330,14 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect est situé dans un emplacement protégé par SIP à **/Library/Apple/System/Library/CoreServices/XProtect.bundle** et à l'intérieur du bundle, vous pouvez trouver des informations que XProtect utilise :
+XProtect est situé dans un emplacement protégé par SIP à **/Library/Apple/System/Library/CoreServices/XProtect.bundle** et à l'intérieur du bundle, vous pouvez trouver des informations utilisées par XProtect :
 
 * **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`** : Permet au code avec ces cdhashes d'utiliser des droits hérités.
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`** : Liste des plugins et extensions qui ne sont pas autorisés à se charger via BundleID et TeamID ou indiquant une version minimale.
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`** : Règles Yara pour détecter les logiciels malveillants.
 * **`XProtect.bundle/Contents/Resources/gk.db`** : Base de données SQLite3 avec des hachages d'applications bloquées et TeamIDs.
 
-Notez qu'il y a une autre application dans **`/Library/Apple/System/Library/CoreServices/XProtect.app`** liée à XProtect qui n'est pas impliquée dans le processus Gatekeeper.
+Notez qu'il y a une autre application dans **`/Library/Apple/System/Library/CoreServices/XProtect.app`** liée à XProtect qui n'est pas impliquée dans le processus de Gatekeeper.
 
 ### Pas Gatekeeper
 
@@ -363,7 +363,7 @@ Consultez le [**rapport original**](https://labs.withsecure.com/publications/the
 
 Lorsqu'une application est créée avec **Automator**, les informations sur ce dont elle a besoin pour s'exécuter se trouvent dans `application.app/Contents/document.wflow` et non dans l'exécutable. L'exécutable est juste un binaire Automator générique appelé **Automator Application Stub**.
 
-Par conséquent, vous pourriez faire en sorte que `application.app/Contents/MacOS/Automator\ Application\ Stub` **pointe avec un lien symbolique vers un autre Automator Application Stub à l'intérieur du système** et il exécutera ce qui se trouve dans `document.wflow` (votre script) **sans déclencher Gatekeeper** car l'exécutable réel n'a pas l'attribut de quarantaine xattr.
+Par conséquent, vous pourriez faire en sorte que `application.app/Contents/MacOS/Automator\ Application\ Stub` **pointe avec un lien symbolique vers un autre Automator Application Stub à l'intérieur du système** et il exécutera ce qui se trouve dans `document.wflow` (votre script) **sans déclencher Gatekeeper** car l'exécutable réel n'a pas l'attribut xattr de quarantaine.
 
 Exemple d'emplacement attendu : `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
@@ -375,7 +375,7 @@ Dans ce contournement, un fichier zip a été créé avec une application commen
 ```bash
 zip -r test.app/Contents test.zip
 ```
-Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) pour plus d'informations.
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) for more information.
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
@@ -383,7 +383,7 @@ Même si les composants sont différents, l'exploitation de cette vulnérabilit�
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
-Vérifiez le [**rapport original**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) pour plus d'informations.
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) pour plus d'informations.
 
 ### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
@@ -422,7 +422,7 @@ Il a été découvert que **Google Chrome ne définissait pas l'attribut de quar
 
 ### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
-Les formats de fichiers AppleDouble stockent les attributs d'un fichier dans un fichier séparé commençant par `._`, cela aide à copier les attributs de fichier **entre les machines macOS**. Cependant, il a été remarqué qu'après la décompression d'un fichier AppleDouble, le fichier commençant par `._` **n'était pas doté de l'attribut de quarantaine**.
+Les formats de fichiers AppleDouble stockent les attributs d'un fichier dans un fichier séparé commençant par `._`, cela aide à copier les attributs de fichier **entre les machines macOS**. Cependant, il a été remarqué qu'après avoir décompressé un fichier AppleDouble, le fichier commençant par `._` **n'était pas doté de l'attribut de quarantaine**.
 
 {% code overflow="wrap" %}
 ```bash
@@ -436,7 +436,7 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Être capable de créer un fichier qui n'aura pas l'attribut de quarantaine, il était **possible de contourner Gatekeeper.** L'astuce consistait à **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (commencer par `._`) et à créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans l'attribut de quarantaine.\
+Être capable de créer un fichier qui n'aura pas l'attribut de quarantaine a permis de **contourner Gatekeeper.** L'astuce consistait à **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (la commencer par `._`) et à créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans l'attribut de quarantaine.\
 Lorsque le **fichier dmg est exécuté**, comme il n'a pas d'attribut de quarantaine, il **contournera Gatekeeper.**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
@@ -453,7 +453,7 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
-### uchg (d'après cette [présentation](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
+### uchg (de cette [présentation](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
 
 * Créer un répertoire contenant une application.
 * Ajouter uchg à l'application.
@@ -480,7 +480,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.p
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}

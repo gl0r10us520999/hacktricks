@@ -27,9 +27,9 @@ Le fichier de package lui-même est une archive qui contient une **hiérarchie d
 
 * **Distribution (xml)** : Personnalisations (titre, texte de bienvenue…) et vérifications de script/d'installation
 * **PackageInfo (xml)** : Infos, exigences d'installation, emplacement d'installation, chemins vers les scripts à exécuter
-* **Bill of materials (bom)** : Liste des fichiers à installer, mettre à jour ou supprimer avec les permissions de fichiers
+* **Bill of materials (bom)** : Liste des fichiers à installer, mettre à jour ou supprimer avec les permissions de fichier
 * **Payload (archive CPIO compressée gzip)** : Fichiers à installer dans l'`install-location` depuis PackageInfo
-* **Scripts (archive CPIO compressée gzip)** : Scripts pré et post installation et autres ressources extraites dans un répertoire temporaire pour exécution.
+* **Scripts (archive CPIO compressée gzip)** : Scripts d'installation pré et post et autres ressources extraites dans un répertoire temporaire pour exécution.
 
 ### Décompresser
 ```bash
@@ -62,7 +62,7 @@ Notez que les installateurs **`.dmg`** prennent en charge **tellement de formats
 La hiérarchie d'un fichier DMG peut être différente en fonction du contenu. Cependant, pour les DMG d'application, elle suit généralement cette structure :
 
 * Niveau supérieur : C'est la racine de l'image disque. Elle contient souvent l'application et éventuellement un lien vers le dossier Applications.
-* Application (.app) : C'est l'application réelle. Dans macOS, une application est généralement un paquet qui contient de nombreux fichiers et dossiers individuels qui composent l'application.
+* Application (.app) : C'est l'application réelle. Dans macOS, une application est généralement un package qui contient de nombreux fichiers et dossiers individuels qui composent l'application.
 * Lien Applications : C'est un raccourci vers le dossier Applications dans macOS. Le but de cela est de vous faciliter l'installation de l'application. Vous pouvez faire glisser le fichier .app vers ce raccourci pour installer l'application.
 
 ## Privesc via abus de pkg
@@ -93,7 +93,7 @@ Un exemple de cela est **CVE-2021-26089** qui a réussi à **écraser un script 
 
 ### Charge utile vide
 
-Il est possible de générer simplement un **`.pkg`** avec des **scripts pré et post-installation** sans aucune véritable charge utile à part le malware à l'intérieur des scripts.
+Il est possible de générer simplement un fichier **`.pkg`** avec des **scripts pré et post-installation** sans aucune véritable charge utile à part le malware à l'intérieur des scripts.
 
 ### JS dans le xml de distribution
 
@@ -180,7 +180,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="../../../.gitbook/assets/grte.p
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

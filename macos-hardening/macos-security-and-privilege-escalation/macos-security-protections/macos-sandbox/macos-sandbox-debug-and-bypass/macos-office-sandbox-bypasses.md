@@ -10,7 +10,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ Consultez le [**rapport original ici**](https://www.mdsec.co.uk/2018/08/escaping
 
 ### Bypass du Sandbox Word via les Éléments de Connexion et zip
 
-Rappelez-vous qu'à partir de la première évasion, Word peut écrire des fichiers arbitraires dont le nom commence par `~$`, bien qu'après le correctif de la vulnérabilité précédente, il n'était plus possible d'écrire dans `/Library/Application Scripts` ou dans `/Library/LaunchAgents`.
+Rappelez-vous qu'à partir de la première évasion, Word peut écrire des fichiers arbitraires dont le nom commence par `~$`, bien qu'après le correctif de la vulnérabilité précédente, il n'était pas possible d'écrire dans `/Library/Application Scripts` ou dans `/Library/LaunchAgents`.
 
 Il a été découvert que depuis le sandbox, il est possible de créer un **Élément de Connexion** (applications qui seront exécutées lorsque l'utilisateur se connecte). Cependant, ces applications **ne s'exécuteront pas à moins** qu'elles ne soient **notariées** et il est **impossible d'ajouter des arguments** (vous ne pouvez donc pas simplement exécuter un shell inversé en utilisant **`bash`**).
 
@@ -39,7 +39,7 @@ Consultez le [**rapport original ici**](https://objective-see.org/blog/blog\_0x4
 
 Cependant, la technique précédente avait une limitation, si le dossier **`~/Library/LaunchAgents`** existe parce qu'un autre logiciel l'a créé, cela échouerait. Donc, une chaîne d'Éléments de Connexion différente a été découverte pour cela.
 
-Un attaquant pourrait créer les fichiers **`.bash_profile`** et **`.zshenv`** avec le payload à exécuter, puis les zipper et **écrire le zip dans le dossier de l'utilisateur de la victime** : **`~/~$escape.zip`**.
+Un attaquant pourrait créer les fichiers **`.bash_profile`** et **`.zshenv`** avec le payload à exécuter et ensuite les zipper et **écrire le zip dans le dossier** de l'utilisateur de la victime : **`~/~$escape.zip`**.
 
 Ensuite, ajoutez le fichier zip aux **Éléments de Connexion** et ensuite à l'application **`Terminal`**. Lorsque l'utilisateur se reconnecte, le fichier zip serait décompressé dans le dossier de l'utilisateur, écrasant **`.bash_profile`** et **`.zshenv`** et donc, le terminal exécutera l'un de ces fichiers (selon que bash ou zsh est utilisé).
 
@@ -57,7 +57,7 @@ Consultez le [**rapport original ici**](https://perception-point.io/blog/technic
 
 L'utilitaire **`open`** supportait également le paramètre **`--stdin`** (et après le contournement précédent, il n'était plus possible d'utiliser `--env`).
 
-Le fait est que même si **`python`** était signé par Apple, il **n'exécutera pas** un script avec l'attribut **`quarantine`**. Cependant, il était possible de lui passer un script depuis stdin afin qu'il ne vérifie pas s'il était mis en quarantaine ou non :&#x20;
+Le fait est que même si **`python`** était signé par Apple, il **n'exécutera pas** un script avec l'attribut **`quarantine`**. Cependant, il était possible de lui passer un script depuis stdin afin qu'il ne vérifie pas s'il était mis en quarantaine ou non : 
 
 1. Déposez un fichier **`~$exploit.py`** avec des commandes Python arbitraires.
 2. Exécutez _open_ **`–stdin='~$exploit.py' -a Python`**, ce qui exécute l'application Python avec notre fichier déposé servant d'entrée standard. Python exécute joyeusement notre code, et comme c'est un processus enfant de _launchd_, il n'est pas soumis aux règles du sandbox de Word.
@@ -72,7 +72,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

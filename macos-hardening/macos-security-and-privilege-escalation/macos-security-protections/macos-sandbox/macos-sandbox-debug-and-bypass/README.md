@@ -16,9 +16,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Processus de chargement du Sandbox
+## Sandbox loading process
 
-<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
 Dans l'image précédente, il est possible d'observer **comment le sandbox sera chargé** lorsqu'une application avec le droit **`com.apple.security.app-sandbox`** est exécutée.
 
@@ -27,21 +27,21 @@ Le compilateur liera `/usr/lib/libSystem.B.dylib` au binaire.
 Ensuite, **`libSystem.B`** appellera plusieurs autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les droits de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du Sandbox, et si c'est le cas, il sera mis en quarantaine.\
 Enfin, le sandbox sera activé par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
 
-## Bypasses possibles
+## Possible Bypasses
 
-### Contourner l'attribut de quarantaine
+### Bypassing quarantine attribute
 
-**Les fichiers créés par des processus sandboxés** se voient ajouter l'**attribut de quarantaine** pour empêcher les échappées du sandbox. Cependant, si vous parvenez à **créer un dossier `.app` sans l'attribut de quarantaine** au sein d'une application sandboxée, vous pourriez faire pointer le binaire du bundle de l'application vers **`/bin/bash`** et ajouter certaines variables d'environnement dans le **plist** pour abuser de **`open`** afin de **lancer la nouvelle application sans sandbox**.
+**Les fichiers créés par des processus sandboxés** se voient ajouter l'**attribut de quarantaine** pour empêcher les échappements du sandbox. Cependant, si vous parvenez à **créer un dossier `.app` sans l'attribut de quarantaine** au sein d'une application sandboxée, vous pourriez faire pointer le binaire du bundle de l'application vers **`/bin/bash`** et ajouter certaines variables d'environnement dans le **plist** pour abuser de **`open`** afin de **lancer la nouvelle application sans sandbox**.
 
 C'est ce qui a été fait dans [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-Par conséquent, pour le moment, si vous êtes simplement capable de créer un dossier avec un nom se terminant par **`.app`** sans un attribut de quarantaine, vous pouvez échapper au sandbox car macOS ne **vérifie** que l'**attribut de quarantaine** dans le **dossier `.app`** et dans l'**exécutable principal** (et nous allons pointer l'exécutable principal vers **`/bin/bash`**).
+Par conséquent, pour le moment, si vous êtes simplement capable de créer un dossier avec un nom se terminant par **`.app`** sans un attribut de quarantaine, vous pouvez échapper au sandbox car macOS ne **vérifie** que l'**attribut de quarantaine** dans le **dossier `.app`** et dans l'**exécutable principal** (et nous ferons pointer l'exécutable principal vers **`/bin/bash`**).
 
-Notez que si un bundle .app a déjà été autorisé à s'exécuter (il a un xttr de quarantaine avec le drapeau autorisé à s'exécuter), vous pourriez également en abuser... sauf que maintenant vous ne pouvez pas écrire à l'intérieur des bundles **`.app`** à moins d'avoir des permissions TCC privilégiées (que vous n'aurez pas à l'intérieur d'un sandbox élevé).
+Notez que si un bundle .app a déjà été autorisé à s'exécuter (il a un xttr de quarantaine avec le drapeau autorisé à s'exécuter), vous pourriez également en abuser... sauf qu'à présent vous ne pouvez pas écrire à l'intérieur des bundles **`.app`** à moins d'avoir des permissions TCC privilégiées (que vous n'aurez pas à l'intérieur d'un sandbox élevé).
 {% endhint %}
 
-### Abuser de la fonctionnalité Open
+### Abusing Open functionality
 
 Dans les [**derniers exemples de contournement du sandbox Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), on peut apprécier comment la fonctionnalité cli **`open`** pourrait être abusée pour contourner le sandbox.
 
@@ -49,16 +49,16 @@ Dans les [**derniers exemples de contournement du sandbox Word**](macos-office-s
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### Agents/Démons de lancement
+### Launch Agents/Daemons
 
 Même si une application est **destinée à être sandboxée** (`com.apple.security.app-sandbox`), il est possible de contourner le sandbox si elle est **exécutée à partir d'un LaunchAgent** (`~/Library/LaunchAgents`) par exemple.\
 Comme expliqué dans [**ce post**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), si vous souhaitez obtenir une persistance avec une application qui est sandboxée, vous pourriez la faire exécuter automatiquement en tant que LaunchAgent et peut-être injecter du code malveillant via des variables d'environnement DyLib.
 
-### Abuser des emplacements de démarrage automatique
+### Abusing Auto Start Locations
 
 Si un processus sandboxé peut **écrire** à un endroit où **plus tard une application non sandboxée va exécuter le binaire**, il pourra **s'échapper simplement en plaçant** le binaire là. Un bon exemple de ce type d'emplacements est `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
-Pour cela, vous pourriez même avoir besoin de **2 étapes** : Faire exécuter un processus avec un **sandbox plus permissif** (`file-read*`, `file-write*`) qui exécutera votre code et écrira effectivement à un endroit où il sera **exécuté sans sandbox**.
+Pour cela, vous pourriez même avoir besoin de **2 étapes** : Faire exécuter un processus avec un **sandbox plus permissif** (`file-read*`, `file-write*`) qui exécutera votre code qui écrira effectivement à un endroit où il sera **exécuté sans sandbox**.
 
 Consultez cette page sur les **emplacements de démarrage automatique** :
 
@@ -66,15 +66,15 @@ Consultez cette page sur les **emplacements de démarrage automatique** :
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-### Abuser d'autres processus
+### Abusing other processes
 
-Si à partir du processus sandboxé, vous êtes capable de **compromettre d'autres processus** s'exécutant dans des sandboxes moins restrictives (ou aucune), vous pourrez échapper à leurs sandboxes :
+Si à partir du processus sandbox vous parvenez à **compromettre d'autres processus** s'exécutant dans des sandboxes moins restrictives (ou aucune), vous pourrez échapper à leurs sandboxes :
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Compilation statique et liaison dynamique
+### Static Compiling & Dynamically linking
 
 [**Cette recherche**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert 2 façons de contourner le Sandbox. Parce que le sandbox est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais sandboxé :
 
@@ -333,7 +333,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

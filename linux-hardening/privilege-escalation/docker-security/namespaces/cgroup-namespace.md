@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Un cgroup namespace est une fonctionnalité du noyau Linux qui fournit **l'isolation des hiérarchies de cgroup pour les processus s'exécutant dans un namespace**. Les cgroups, abréviation de **control groups**, sont une fonctionnalité du noyau qui permet d'organiser les processus en groupes hiérarchiques pour gérer et appliquer **des limites sur les ressources système** telles que le CPU, la mémoire et l'I/O.
+Un cgroup namespace est une fonctionnalité du noyau Linux qui fournit **l'isolation des hiérarchies de cgroup pour les processus s'exécutant dans un namespace**. Les cgroups, abréviation de **control groups**, sont une fonctionnalité du noyau qui permet d'organiser les processus en groupes hiérarchiques pour gérer et appliquer des **limites sur les ressources système** telles que le CPU, la mémoire et l'I/O.
 
-Bien que les cgroup namespaces ne soient pas un type de namespace distinct comme les autres que nous avons discutés précédemment (PID, mount, réseau, etc.), ils sont liés au concept d'isolation de namespace. **Les cgroup namespaces virtualisent la vue de la hiérarchie des cgroups**, de sorte que les processus s'exécutant dans un cgroup namespace ont une vue différente de la hiérarchie par rapport aux processus s'exécutant sur l'hôte ou dans d'autres namespaces.
+Bien que les cgroup namespaces ne soient pas un type de namespace distinct comme les autres que nous avons discutés précédemment (PID, mount, network, etc.), ils sont liés au concept d'isolation de namespace. **Les cgroup namespaces virtualisent la vue de la hiérarchie des cgroups**, de sorte que les processus s'exécutant dans un cgroup namespace ont une vue différente de la hiérarchie par rapport aux processus s'exécutant sur l'hôte ou dans d'autres namespaces.
 
 ### How it works:
 
-1. Lorsqu'un nouveau cgroup namespace est créé, **il commence avec une vue de la hiérarchie des cgroups basée sur le cgroup du processus créateur**. Cela signifie que les processus s'exécutant dans le nouveau cgroup namespace ne verront qu'un sous-ensemble de l'ensemble de la hiérarchie des cgroups, limité à l'arbre des cgroups enraciné au cgroup du processus créateur.
+1. Lorsqu'un nouveau cgroup namespace est créé, **il commence avec une vue de la hiérarchie des cgroups basée sur le cgroup du processus créateur**. Cela signifie que les processus s'exécutant dans le nouveau cgroup namespace ne verront qu'un sous-ensemble de l'ensemble de la hiérarchie des cgroups, limité à l'arbre de cgroup enraciné au cgroup du processus créateur.
 2. Les processus au sein d'un cgroup namespace **verront leur propre cgroup comme la racine de la hiérarchie**. Cela signifie que, du point de vue des processus à l'intérieur du namespace, leur propre cgroup apparaît comme la racine, et ils ne peuvent pas voir ou accéder aux cgroups en dehors de leur propre sous-arbre.
 3. Les cgroup namespaces ne fournissent pas directement d'isolation des ressources ; **ils ne fournissent que l'isolation de la vue de la hiérarchie des cgroups**. **Le contrôle et l'isolation des ressources sont toujours appliqués par les** sous-systèmes de cgroup (par exemple, cpu, mémoire, etc.) eux-mêmes.
 
@@ -41,7 +41,7 @@ For more information about CGroups check:
 ```bash
 sudo unshare -C [--mount-proc] /bin/bash
 ```
-En montant une nouvelle instance du système de fichiers `/proc` si vous utilisez le paramètre `--mount-proc`, vous vous assurez que le nouveau namespace de montage a une **vue précise et isolée des informations de processus spécifiques à ce namespace**.
+En montant une nouvelle instance du système de fichiers `/proc` si vous utilisez le paramètre `--mount-proc`, vous vous assurez que le nouveau namespace de montage a une **vue précise et isolée des informations sur les processus spécifiques à ce namespace**.
 
 <details>
 
@@ -58,7 +58,7 @@ Lorsque `unshare` est exécuté sans l'option `-f`, une erreur est rencontrée e
 - La sortie de PID 1 dans un nouveau namespace entraîne le nettoyage du drapeau `PIDNS_HASH_ADDING`. Cela entraîne l'échec de la fonction `alloc_pid` à allouer un nouveau PID lors de la création d'un nouveau processus, produisant l'erreur "Impossible d'allouer de la mémoire".
 
 3. **Solution** :
-- Le problème peut être résolu en utilisant l'option `-f` avec `unshare`. Cette option fait que `unshare` fork un nouveau processus après avoir créé le nouveau namespace PID.
+- Le problème peut être résolu en utilisant l'option `-f` avec `unshare`. Cette option permet à `unshare` de forker un nouveau processus après avoir créé le nouveau namespace PID.
 - L'exécution de `%unshare -fp /bin/bash%` garantit que la commande `unshare` elle-même devient PID 1 dans le nouveau namespace. `/bin/bash` et ses processus enfants sont alors en toute sécurité contenus dans ce nouveau namespace, empêchant la sortie prématurée de PID 1 et permettant une allocation normale de PID.
 
 En veillant à ce que `unshare` s'exécute avec le drapeau `-f`, le nouveau namespace PID est correctement maintenu, permettant à `/bin/bash` et à ses sous-processus de fonctionner sans rencontrer l'erreur d'allocation de mémoire.

@@ -27,7 +27,7 @@ Vous pouvez **monter** différentes parties du **système de fichiers** dans un 
 Vous pourriez également **abuser d'un montage pour escalader les privilèges** à l'intérieur du conteneur.
 
 * **`-v /:/host`** -> Montez le système de fichiers de l'hôte dans le conteneur afin que vous puissiez **lire le système de fichiers de l'hôte.**
-* Si vous voulez **vous sentir comme si vous étiez sur l'hôte** mais être dans le conteneur, vous pourriez désactiver d'autres mécanismes de défense en utilisant des drapeaux comme :
+* Si vous voulez **vous sentir comme si vous étiez sur l'hôte** mais que vous êtes dans le conteneur, vous pourriez désactiver d'autres mécanismes de défense en utilisant des drapeaux comme :
 * `--privileged`
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -37,7 +37,7 @@ Vous pourriez également **abuser d'un montage pour escalader les privilèges** 
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Cela est similaire à la méthode précédente, mais ici nous **montons le disque de l'appareil**. Ensuite, à l'intérieur du conteneur, exécutez `mount /dev/sda1 /mnt` et vous pouvez **accéder** au **système de fichiers de l'hôte** dans `/mnt`
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> C'est similaire à la méthode précédente, mais ici nous **montons le disque de l'appareil**. Ensuite, à l'intérieur du conteneur, exécutez `mount /dev/sda1 /mnt` et vous pouvez **accéder** au **système de fichiers de l'hôte** dans `/mnt`
 * Exécutez `fdisk -l` sur l'hôte pour trouver le dispositif `</dev/sda1>` à monter
 * **`-v /tmp:/host`** -> Si pour une raison quelconque vous ne pouvez **monter qu'un répertoire** de l'hôte et que vous avez accès à l'intérieur de l'hôte. Montez-le et créez un **`/bin/bash`** avec **suid** dans le répertoire monté afin que vous puissiez **l'exécuter depuis l'hôte et escalader vers root**.
 

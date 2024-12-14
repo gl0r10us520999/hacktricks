@@ -112,18 +112,18 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
 It will be mounted in `/Volumes`
 
-### Binaries empaquetés
+### Packed binaries
 
 * Vérifiez l'entropie élevée
 * Vérifiez les chaînes (s'il n'y a presque aucune chaîne compréhensible, empaqueté)
 * Le packer UPX pour MacOS génère une section appelée "\_\_XHDR"
 
-## Analyse statique d'Objective-C
+## Static Objective-C analysis
 
-### Métadonnées
+### Metadata
 
 {% hint style="danger" %}
-Notez que les programmes écrits en Objective-C **conservent** leurs déclarations de classe **lorsqu'ils sont** **compilés** en [binaries Mach-O](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Ces déclarations de classe **incluent** le nom et le type de :
+Notez que les programmes écrits en Objective-C **conservent** leurs déclarations de classe **lorsqu'ils sont** **compilés** en [Mach-O binaries](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Ces déclarations de classe **incluent** le nom et le type de :
 {% endhint %}
 
 * Les interfaces définies
@@ -131,9 +131,9 @@ Notez que les programmes écrits en Objective-C **conservent** leurs déclaratio
 * Les variables d'instance d'interface
 * Les protocoles définis
 
-Notez que ces noms peuvent être obfusqués pour rendre l'inversion du binaire plus difficile.
+Notez que ces noms pourraient être obfusqués pour rendre le reverse engineering du binaire plus difficile.
 
-### Appel de fonction
+### Function calling
 
 Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé au lieu d'appeler cette fonction, appellera **`objc_msgSend`**. Ce qui appellera la fonction finale :
 
@@ -163,11 +163,11 @@ x64 :
 | **6e argument**   | **r9**                                                        | **4e argument de la méthode**                         |
 | **7e+ argument**  | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5e+ argument de la méthode**                        |
 
-### Dump des métadonnées ObjectiveC
+### Dump ObjectiveC metadata
 
 ### Dynadump
 
-[**Dynadump**](https://github.com/DerekSelander/dynadump) est un outil pour class-dumper les binaries Objective-C. Le github spécifie les dylibs mais cela fonctionne également avec les exécutables.
+[**Dynadump**](https://github.com/DerekSelander/dynadump) est un outil pour class-dumper les binaires Objective-C. Le github spécifie les dylibs mais cela fonctionne également avec les exécutables.
 ```bash
 ./dynadump dump /path/to/bin
 ```
@@ -181,7 +181,7 @@ objdump --macho --objc-meta-data /path/to/bin
 ```
 #### class-dump
 
-[**class-dump**](https://github.com/nygard/class-dump/) est l'outil original qui génère des déclarations pour les classes, catégories et protocoles dans du code formaté en ObjectiveC.
+[**class-dump**](https://github.com/nygard/class-dump/) est l'outil original qui génère des déclarations pour les classes, catégories et protocoles dans du code formaté en ObjetiveC.
 
 Il est ancien et non maintenu, donc il ne fonctionnera probablement pas correctement.
 
@@ -196,7 +196,7 @@ print(metadata.to_decl())
 ```
 ## Analyse statique de Swift
 
-Avec les binaires Swift, étant donné qu'il y a une compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations en utilisant [class-dump](https://github.com/nygard/class-dump/) mais ce n'est pas toujours le cas.
+Avec les binaires Swift, étant donné qu'il y a une compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations en utilisant [class-dump](https://github.com/nygard/class-dump/) mais pas toujours.
 
 Avec les commandes **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
 ```bash
@@ -220,21 +220,21 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
-## Analyse Dynamique
+## Analyse dynamique
 
 {% hint style="warning" %}
-Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou il faut copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <binary-path>` ou permettre le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
+Notez qu'afin de déboguer des binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou de copier les binaires dans un dossier temporaire et **de supprimer la signature** avec `codesign --remove-signature <binary-path>` ou permettre le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
 {% endhint %}
 
 {% hint style="warning" %}
-Notez que pour **instrumenter les binaires système**, (comme `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (il ne suffit pas de supprimer la signature).
+Notez qu'afin d'**instrumenter les binaires système**, (comme `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (il ne suffit pas de supprimer la signature).
 {% endhint %}
 
 ### APIs
 
 macOS expose certaines APIs intéressantes qui donnent des informations sur les processus :
 
-* `proc_info` : C'est la principale qui donne beaucoup d'informations sur chaque processus. Vous devez être root pour obtenir des informations sur d'autres processus, mais vous n'avez pas besoin de droits spéciaux ou de ports mach.
+* `proc_info` : C'est le principal qui donne beaucoup d'informations sur chaque processus. Vous devez être root pour obtenir des informations sur d'autres processus, mais vous n'avez pas besoin de droits spéciaux ou de ports mach.
 * `libsysmon.dylib` : Il permet d'obtenir des informations sur les processus via des fonctions exposées par XPC, cependant, il est nécessaire d'avoir le droit `com.apple.sysmond.client`.
 
 ### Stackshot & microstackshots
@@ -251,9 +251,9 @@ Son plist est situé dans `/System/Library/LaunchDaemons/com.apple.sysdiagnose.p
 
 * `com.apple.sysdiagnose.CacheDelete` : Supprime les anciennes archives dans /var/rmp
 * `com.apple.sysdiagnose.kernel.ipc` : Port spécial 23 (noyau)
-* `com.apple.sysdiagnose.service.xpc` : Interface en mode utilisateur via la classe Obj-C `Libsysdiagnose`. Trois arguments dans un dictionnaire peuvent être passés (`compress`, `display`, `run`)
+* `com.apple.sysdiagnose.service.xpc` : Interface en mode utilisateur via la classe Obj-C `Libsysdiagnose`. Trois arguments dans un dict peuvent être passés (`compress`, `display`, `run`)
 
-### Journaux Unifiés
+### Journaux unifiés
 
 MacOS génère beaucoup de journaux qui peuvent être très utiles lors de l'exécution d'une application essayant de comprendre **ce qu'elle fait**.
 
@@ -279,7 +279,7 @@ De plus, dans le **bas du milieu, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
-Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphe d'appels** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, ainsi que des informations sur les **variables locales**.
+Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphe d'appels** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, et des informations sur les **variables locales**.
 
 ### dtrace
 
@@ -385,9 +385,9 @@ Pour obtenir ces informations, il est possible d'utiliser l'outil Apple **`trace
 
 ### ktrace
 
-Les API `ktrace_*` proviennent de `libktrace.dylib` qui enveloppent celles de `Kdebug`. Ensuite, un client peut simplement appeler `ktrace_session_create` et `ktrace_events_[single/class]` pour définir des rappels sur des codes spécifiques et ensuite le démarrer avec `ktrace_start`.
+Les API `ktrace_*` proviennent de `libktrace.dylib` qui enveloppe celles de `Kdebug`. Ensuite, un client peut simplement appeler `ktrace_session_create` et `ktrace_events_[single/class]` pour définir des rappels sur des codes spécifiques et ensuite le démarrer avec `ktrace_start`.
 
-Vous pouvez utiliser celui-ci même avec **SIP activé**
+Vous pouvez l'utiliser même avec **SIP activé**
 
 Vous pouvez utiliser comme clients l'utilitaire `ktrace` :
 ```bash
@@ -448,7 +448,7 @@ Dans [**cet article de blog**](https://knight.sc/debugging/2019/06/03/debugging-
 
 ### lldb
 
-**lldb** est l'outil de **facto** pour le **débogage** binaire **macOS**.
+**lldb** est l'outil de **facto** pour le **débogage** binaire sur **macOS**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -463,7 +463,7 @@ settings set target.x86-disassembly-flavor intel
 À l'intérieur de lldb, déposez un processus avec `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Commande</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Démarre l'exécution, qui se poursuivra sans interruption jusqu'à ce qu'un point d'arrêt soit atteint ou que le processus se termine.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Démarre l'exécution en s'arrêtant au point d'entrée</td></tr><tr><td><strong>continue (c)</strong></td><td>Continue l'exécution du processus débogué.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Exécute l'instruction suivante. Cette commande ignorera les appels de fonction.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Exécute l'instruction suivante. Contrairement à la commande nexti, cette commande entrera dans les appels de fonction.</td></tr><tr><td><strong>finish (f)</strong></td><td>Exécute le reste des instructions dans la fonction actuelle (“frame”) retourne et s'arrête.</td></tr><tr><td><strong>control + c</strong></td><td>Met en pause l'exécution. Si le processus a été exécuté (r) ou continué (c), cela fera arrêter le processus ...où qu'il soit actuellement en cours d'exécution.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Toute fonction appelée main</p><p><code>b &#x3C;binname>`main</code> #Fonction principale du binaire</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Fonction principale du binaire indiqué</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Toute méthode NSFileManager</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Arrêt dans toutes les fonctions de cette bibliothèque</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Liste des points d'arrêt</p><p><code>br e/dis &#x3C;num></code> #Activer/Désactiver le point d'arrêt</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obtenir de l'aide sur la commande de point d'arrêt</p><p>help memory write #Obtenir de l'aide pour écrire dans la mémoire</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/adresse mémoire></strong></td><td>Affiche la mémoire sous forme de chaîne terminée par un caractère nul.</td></tr><tr><td><strong>x/i &#x3C;reg/adresse mémoire></strong></td><td>Affiche la mémoire sous forme d'instruction d'assemblage.</td></tr><tr><td><strong>x/b &#x3C;reg/adresse mémoire></strong></td><td>Affiche la mémoire sous forme d'octet.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple retournent des objets, et doivent donc être affichées via la commande “print object” (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Désassemble la fonction actuelle</p><p>dis -n &#x3C;funcname> #Désassemble la fonction</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Désassemble la fonction<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # D'un ajout à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle en désassemblant</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Vérifier le tableau de 3 composants dans le registre x1</td></tr><tr><td><strong>image dump sections</strong></td><td>Imprime la carte de la mémoire du processus actuel</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Obtenir l'adresse de tous les symboles de CoreNLP</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Commande</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Démarre l'exécution, qui se poursuivra sans interruption jusqu'à ce qu'un point d'arrêt soit atteint ou que le processus se termine.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Démarre l'exécution en s'arrêtant au point d'entrée</td></tr><tr><td><strong>continue (c)</strong></td><td>Continue l'exécution du processus débogué.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Exécute l'instruction suivante. Cette commande ignorera les appels de fonction.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Exécute l'instruction suivante. Contrairement à la commande nexti, cette commande entrera dans les appels de fonction.</td></tr><tr><td><strong>finish (f)</strong></td><td>Exécute le reste des instructions dans la fonction actuelle (“frame”), retourne et s'arrête.</td></tr><tr><td><strong>control + c</strong></td><td>Met l'exécution en pause. Si le processus a été exécuté (r) ou continué (c), cela fera arrêter le processus ...où qu'il soit actuellement en cours d'exécution.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Toute fonction appelée main</p><p><code>b &#x3C;binname>`main</code> #Fonction principale du binaire</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Fonction principale du binaire indiqué</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Toute méthode NSFileManager</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Arrêt dans toutes les fonctions de cette bibliothèque</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Liste des points d'arrêt</p><p><code>br e/dis &#x3C;num></code> #Activer/Désactiver le point d'arrêt</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obtenir de l'aide sur la commande de point d'arrêt</p><p>help memory write #Obtenir de l'aide pour écrire dans la mémoire</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/adresse mémoire></strong></td><td>Affiche la mémoire sous forme de chaîne terminée par un caractère nul.</td></tr><tr><td><strong>x/i &#x3C;reg/adresse mémoire></strong></td><td>Affiche la mémoire sous forme d'instruction d'assemblage.</td></tr><tr><td><strong>x/b &#x3C;reg/adresse mémoire></strong></td><td>Affiche la mémoire sous forme d'octet.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple retournent des objets, et doivent donc être affichées via la commande “print object” (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Désassemble la fonction actuelle</p><p>dis -n &#x3C;funcname> #Désassemble la fonction</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Désassemble la fonction<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # D'un ajout à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle en désassemblant</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Vérifier le tableau de 3 composants dans le registre x1</td></tr><tr><td><strong>image dump sections</strong></td><td>Imprime la carte de la mémoire du processus actuel</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Obtenir l'adresse de tous les symboles de CoreNLP</td></tr></tbody></table>
 
 {% hint style="info" %}
 Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul (“C”). Pour imprimer le nom via lldb, faites :
@@ -486,7 +486,7 @@ Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient 
 * Il est également possible de trouver **si un processus est en cours de débogage** avec un code simple tel que :
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //processus en cours de débogage }`
 * Il peut également invoquer l'appel système **`ptrace`** avec le drapeau **`PT_DENY_ATTACH`**. Cela **empêche** un débogueur de s'attacher et de tracer.
-* Vous pouvez vérifier si la fonction **`sysctl`** ou **`ptrace`** est en cours d'**importation** (mais le malware pourrait l'importer dynamiquement)
+* Vous pouvez vérifier si la fonction **`sysctl`** ou **`ptrace`** est **importée** (mais le malware pourrait l'importer dynamiquement)
 * Comme noté dans cet article, “[Déjouer les techniques Anti-Debug : variantes de macOS ptrace](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
 “_Le message Process # exited with **status = 45 (0x0000002d)** est généralement un signe révélateur que la cible de débogage utilise **PT\_DENY\_ATTACH**_”
 
@@ -504,11 +504,11 @@ Dans ces cas, le dump de core est généré selon `kern.corefile` sysctl et stoc
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyse les processus en panne et enregistre un rapport de panne sur le disque**. Un rapport de panne contient des informations qui peuvent **aider un développeur à diagnostiquer** la cause d'un crash.\
-Pour les applications et autres processus **s'exécutant dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de panne dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
-Pour les démons, autres processus **s'exécutant dans le contexte de lancement système** et autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de panne dans `/Library/Logs/DiagnosticReports` du système.
+ReportCrash **analyse les processus qui plantent et enregistre un rapport de plantage sur le disque**. Un rapport de plantage contient des informations qui peuvent **aider un développeur à diagnostiquer** la cause d'un plantage.\
+Pour les applications et autres processus **s'exécutant dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de plantage dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
+Pour les démons, autres processus **s'exécutant dans le contexte de lancement système** et autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de plantage dans `/Library/Logs/DiagnosticReports` du système.
 
-Si vous êtes inquiet au sujet des rapports de panne **envoyés à Apple**, vous pouvez les désactiver. Sinon, les rapports de panne peuvent être utiles pour **comprendre comment un serveur a planté**.
+Si vous êtes inquiet au sujet des rapports de plantage **envoyés à Apple**, vous pouvez les désactiver. Sinon, les rapports de plantage peuvent être utiles pour **comprendre comment un serveur a planté**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -528,7 +528,7 @@ Lors du fuzzing sur MacOS, il est important de ne pas laisser le Mac se mettre e
 
 #### Déconnexion SSH
 
-Si vous effectuez un fuzzing via une connexion SSH, il est important de s'assurer que la session ne va pas expirer. Donc, modifiez le fichier sshd\_config avec :
+Si vous effectuez un fuzzing via une connexion SSH, il est important de s'assurer que la session ne va pas se déconnecter. Donc, modifiez le fichier sshd\_config avec :
 
 * TCPKeepAlive Yes
 * ClientAliveInterval 0
@@ -574,7 +574,7 @@ Fonctionne pour les outils CLI
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Il "**fonctionne tout simplement"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques comme des noms de fichiers uniques, la bonne extension, et doivent lire les fichiers depuis le sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Il "**fonctionne simplement"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques comme des noms de fichiers uniques, la bonne extension, et doivent lire les fichiers depuis le sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Quelques exemples :
 
@@ -626,7 +626,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.p
 
 <summary>Soutenir HackTricks</summary>
 
-* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

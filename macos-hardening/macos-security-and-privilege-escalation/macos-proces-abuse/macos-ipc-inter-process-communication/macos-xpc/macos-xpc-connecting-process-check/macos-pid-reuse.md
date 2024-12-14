@@ -24,11 +24,11 @@ Cette fonction fera en sorte que le **binaire autorisé possède le PID**, mais 
 ### Exemple d'exploit
 
 Si vous trouvez la fonction **`shouldAcceptNewConnection`** ou une fonction appelée par celle-ci **appelant** **`processIdentifier`** et ne pas appelant **`auditToken`**. Cela signifie très probablement qu'elle **vérifie le PID du processus** et non le jeton d'audit.\
-Comme par exemple dans cette image (tirée de la référence) :
+Comme par exemple dans cette image (prise de la référence) :
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Vérifiez cet exemple d'exploit (encore une fois, tiré de la référence) pour voir les 2 parties de l'exploit :
+Vérifiez cet exemple d'exploit (encore une fois, pris de la référence) pour voir les 2 parties de l'exploit :
 
 * Une qui **génère plusieurs forks**
 * **Chaque fork** va **envoyer** la **charge utile** au service XPC tout en exécutant **`posix_spawn`** juste après l'envoi du message.

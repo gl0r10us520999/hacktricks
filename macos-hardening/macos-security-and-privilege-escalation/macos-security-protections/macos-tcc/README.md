@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## **Informations de base**
+## **Basic Information**
 
 **TCC (Transparence, Consentement et Contrôle)** est un protocole de sécurité axé sur la régulation des autorisations des applications. Son rôle principal est de protéger des fonctionnalités sensibles telles que **les services de localisation, les contacts, les photos, le microphone, la caméra, l'accessibilité et l'accès complet au disque**. En exigeant un consentement explicite de l'utilisateur avant d'accorder l'accès de l'application à ces éléments, TCC améliore la confidentialité et le contrôle de l'utilisateur sur ses données.
 
@@ -25,7 +25,7 @@ Les utilisateurs rencontrent TCC lorsque des applications demandent l'accès à 
 
 **TCC** est géré par le **daemon** situé dans `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` et configuré dans `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (enregistrant le service mach `com.apple.tccd.system`).
 
-Il y a un **tccd en mode utilisateur** qui s'exécute par utilisateur connecté, défini dans `/System/Library/LaunchAgents/com.apple.tccd.plist`, enregistrant les services mach `com.apple.tccd` et `com.apple.usernotifications.delegate.com.apple.tccd`.
+Il y a un **tccd en mode utilisateur** qui s'exécute par utilisateur connecté défini dans `/System/Library/LaunchAgents/com.apple.tccd.plist` enregistrant les services mach `com.apple.tccd` et `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Ici, vous pouvez voir le tccd s'exécutant en tant que système et en tant qu'utilisateur :
 ```bash
@@ -33,24 +33,24 @@ ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-Permissions sont **héritées de l'application parente** et les **permissions** sont **suivies** en fonction de l'**ID de bundle** et de l'**ID de développeur**.
+Les **permissions** sont **héritées de l'application parente** et les **permissions** sont **suivies** en fonction de l'**ID de bundle** et de l'**ID de développeur**.
 
 ### Bases de données TCC
 
 Les autorisations/refus sont ensuite stockés dans certaines bases de données TCC :
 
 * La base de données système dans **`/Library/Application Support/com.apple.TCC/TCC.db`**.
-* Cette base de données est **protégée par SIP**, donc seul un contournement SIP peut y écrire.
+* Cette base de données est **protégée par SIP**, donc seul un contournement de SIP peut y écrire.
 * La base de données TCC utilisateur **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** pour les préférences par utilisateur.
 * Cette base de données est protégée, donc seuls les processus avec des privilèges TCC élevés comme l'accès complet au disque peuvent y écrire (mais elle n'est pas protégée par SIP).
 
 {% hint style="warning" %}
-Les bases de données précédentes sont également **protégées TCC pour l'accès en lecture**. Donc vous **ne pourrez pas lire** votre base de données TCC utilisateur régulière à moins que ce soit depuis un processus privilégié TCC.
+Les bases de données précédentes sont également **protégées TCC pour l'accès en lecture**. Donc, vous **ne pourrez pas lire** votre base de données TCC utilisateur régulière à moins que ce soit à partir d'un processus privilégié TCC.
 
 Cependant, rappelez-vous qu'un processus avec ces privilèges élevés (comme **FDA** ou **`kTCCServiceEndpointSecurityClient`**) pourra écrire dans la base de données TCC des utilisateurs.
 {% endhint %}
 
-* Il y a une **troisième** base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à **accéder aux services de localisation**.
+* Il existe une **troisième** base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à **accéder aux services de localisation**.
 * Le fichier protégé par SIP **`/Users/carlospolop/Downloads/REG.db`** (également protégé contre l'accès en lecture avec TCC), contient la **localisation** de toutes les **bases de données TCC valides**.
 * Le fichier protégé par SIP **`/Users/carlospolop/Downloads/MDMOverrides.plist`** (également protégé contre l'accès en lecture avec TCC), contient plus de permissions accordées par TCC.
 * Le fichier protégé par SIP **`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`** (mais lisible par quiconque) est une liste d'autorisation d'applications nécessitant une exception TCC.
@@ -60,7 +60,7 @@ La base de données TCC dans **iOS** est dans **`/private/var/mobile/Library/TCC
 {% endhint %}
 
 {% hint style="info" %}
-L'**interface du centre de notification** peut apporter des **modifications dans la base de données TCC système** :
+Le **centre de notification UI** peut apporter des **modifications dans la base de données TCC système** :
 
 {% code overflow="wrap" %}
 ```bash
@@ -128,7 +128,7 @@ En vérifiant les deux bases de données, vous pouvez vérifier les autorisation
 {% endhint %}
 
 * Le **`service`** est la représentation en chaîne de caractères de la **permission** TCC
-* Le **`client`** est le **bundle ID** ou le **chemin vers le binaire** avec les permissions
+* Le **`client`** est le **bundle ID** ou le **chemin vers le binaire** avec les autorisations
 * Le **`client_type`** indique s'il s'agit d'un identifiant de bundle (0) ou d'un chemin absolu (1)
 
 <details>
@@ -210,7 +210,7 @@ tccutil reset All
 ```
 ### Vérifications de signature TCC
 
-La base de données TCC **stocke** l'**ID de bundle** de l'application, mais elle **stocke** également des **informations** sur la **signature** pour **s'assurer** que l'application demandant à utiliser une autorisation est la bonne. 
+La **base de données** TCC stocke le **Bundle ID** de l'application, mais elle **stocke** également des **informations** sur la **signature** pour **s'assurer** que l'application demandant à utiliser une autorisation est la bonne. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -235,7 +235,7 @@ Par conséquent, d'autres applications utilisant le même nom et ID de bundle ne
 Les applications **n'ont pas seulement besoin** de **demander** et d'avoir **accès** à certaines ressources, elles doivent également **avoir les droits pertinents**.\
 Par exemple, **Telegram** a le droit `com.apple.security.device.camera` pour demander **l'accès à la caméra**. Une **application** qui **n'a pas** ce **droit ne pourra pas** accéder à la caméra (et l'utilisateur ne sera même pas invité à donner les autorisations).
 
-Cependant, pour que les applications **accèdent** à **certains dossiers utilisateur**, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **droits spécifiques.** Le système gérera l'accès de manière transparente et **demandera à l'utilisateur** si nécessaire.
+Cependant, pour que les applications **accèdent** à **certaines dossiers utilisateur**, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **droits spécifiques.** Le système gérera l'accès de manière transparente et **demandera à l'utilisateur** si nécessaire.
 
 Les applications d'Apple **ne généreront pas de demandes**. Elles contiennent des **droits pré-accordés** dans leur liste de **droits**, ce qui signifie qu'elles **ne généreront jamais de popup**, **ni** n'apparaîtront dans aucune des **bases de données TCC.** Par exemple :
 ```bash
@@ -251,7 +251,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 Cela évitera que Calendar demande à l'utilisateur d'accéder aux rappels, au calendrier et au carnet d'adresses.
 
 {% hint style="success" %}
-En plus de la documentation officielle sur les droits, il est également possible de trouver des **informations intéressantes sur les droits dans** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
+En plus de la documentation officielle sur les autorisations, il est également possible de trouver des **informations intéressantes non officielles sur les autorisations dans** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
 {% endhint %}
 
 Certaines autorisations TCC sont : kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Il n'existe pas de liste publique qui définit toutes ces autorisations, mais vous pouvez consulter cette [**liste de celles connues**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
@@ -264,7 +264,7 @@ Certaines autorisations TCC sont : kTCCServiceAppleEvents, kTCCServiceCalendar, 
 
 ### Intention de l'utilisateur / com.apple.macl
 
-Comme mentionné précédemment, il est possible de **donner accès à une application à un fichier en le faisant glisser et déposer**. Cet accès ne sera spécifié dans aucune base de données TCC mais comme un **attribut étendu** **du fichier**. Cet attribut **stockera l'UUID** de l'application autorisée :
+Comme mentionné précédemment, il est possible de **donner accès à une application à un fichier en le faisant glisser et en le déposant dessus**. Cet accès ne sera spécifié dans aucune base de données TCC mais comme un **attribut étendu** **du fichier**. Cet attribut **stockera l'UUID** de l'application autorisée :
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -285,7 +285,7 @@ Il est curieux que l'attribut **`com.apple.macl`** soit géré par le **Sandbox*
 Notez également que si vous déplacez un fichier qui permet l'UUID d'une application sur votre ordinateur vers un autre ordinateur, parce que la même application aura des UIDs différents, cela ne donnera pas accès à cette application.
 {% endhint %}
 
-L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme d'autres attributs étendus car il est **protégé par SIP**. Cependant, comme [**expliqué dans cet article**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), il est possible de le désactiver en **compressant** le fichier, en **le supprimant** et en **le décompressant**.
+L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme d'autres attributs étendus car il est **protégé par SIP**. Cependant, comme [**expliqué dans ce post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), il est possible de le désactiver en **compressant** le fichier, en **le supprimant** et en **le décompressant**.
 
 ## TCC Privesc & Bypasses
 
@@ -394,7 +394,7 @@ Vous pourriez abuser de cela pour **écrire votre propre base de données TCC ut
 {% hint style="warning" %}
 Avec cette permission, vous pourrez **demander à Finder d'accéder aux dossiers restreints par TCC** et de vous donner les fichiers, mais à ma connaissance, vous **ne pourrez pas faire exécuter de code arbitraire à Finder** pour abuser pleinement de son accès FDA.
 
-Par conséquent, vous ne pourrez pas abuser de toutes les capacités de la FDA.
+Par conséquent, vous ne pourrez pas abuser des pleines capacités de la FDA.
 {% endhint %}
 
 Voici l'invite TCC pour obtenir des privilèges d'automatisation sur Finder :
@@ -402,7 +402,7 @@ Voici l'invite TCC pour obtenir des privilèges d'automatisation sur Finder :
 <figure><img src="../../../../.gitbook/assets/image (27).png" alt="" width="244"><figcaption></figcaption></figure>
 
 {% hint style="danger" %}
-Notez qu'en raison du fait que l'application **Automator** a la permission TCC **`kTCCServiceAppleEvents`**, elle peut **contrôler n'importe quelle application**, comme Finder. Donc, en ayant la permission de contrôler Automator, vous pourriez également contrôler le **Finder** avec un code comme celui ci-dessous :
+Notez qu'en raison de la permission TCC de l'application **Automator** **`kTCCServiceAppleEvents`**, elle peut **contrôler n'importe quelle application**, comme Finder. Donc, en ayant la permission de contrôler Automator, vous pourriez également contrôler le **Finder** avec un code comme celui ci-dessous :
 {% endhint %}
 
 <details>
@@ -433,7 +433,7 @@ Il en va de même pour l'**application Script Editor,** elle peut contrôler Fin
 
 ### Automation (SE) à certains TCC
 
-**System Events peut créer des actions de dossier, et les actions de dossier peuvent accéder à certains dossiers TCC** (Bureau, Documents et Téléchargements), donc un script comme le suivant peut être utilisé pour abuser de ce comportement :
+**Les événements système peuvent créer des actions de dossier, et les actions de dossier peuvent accéder à certains dossiers TCC** (Bureau, Documents et Téléchargements), donc un script comme le suivant peut être utilisé pour abuser de ce comportement :
 ```bash
 # Create script to execute with the action
 cat > "/tmp/script.js" <<EOD
@@ -477,7 +477,7 @@ rm "$HOME/Desktop/file"
 ```
 ### Automation (SE) + Accessibilité (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** à FDA\*
 
-L'automatisation sur **`System Events`** + Accessibilité (**`kTCCServicePostEvent`**) permet d'envoyer **des frappes au clavier aux processus**. De cette manière, vous pourriez abuser de Finder pour modifier le TCC.db des utilisateurs ou pour donner FDA à une application arbitraire (bien que le mot de passe puisse être demandé pour cela).
+L'automatisation sur **`System Events`** + Accessibilité (**`kTCCServicePostEvent`**) permet d'envoyer **des frappes au clavier aux processus**. De cette manière, vous pourriez abuser de Finder pour modifier le TCC.db des utilisateurs ou pour donner FDA à une application arbitraire (bien qu'un mot de passe puisse être demandé pour cela).
 
 Exemple de Finder écrasant le TCC.db des utilisateurs :
 ```applescript
@@ -539,17 +539,17 @@ Si vous avez **`kTCCServiceEndpointSecurityClient`**, vous avez FDA. Fin.
 
 ### Base de données TCC utilisateur à FDA
 
-Obtenir des **permissions d'écriture** sur la base de données **TCC utilisateur** vous \*\*ne pouvez pas\*\* vous accorder des permissions **`FDA`**, seul celui qui se trouve dans la base de données système peut accorder cela.
+Obtenir des **permissions d'écriture** sur la base de données **TCC utilisateur** vous \*\*ne pouvez pas\*\* vous accorder des permissions **`FDA`**, seul celui qui vit dans la base de données système peut accorder cela.
 
 Mais vous pouvez **vous donner** des **`droits d'automatisation au Finder`**, et abuser de la technique précédente pour escalader à FDA\*.
 
-### **FDA aux permissions TCC**
+### **Permissions FDA à TCC**
 
 **Accès complet au disque** est le nom TCC **`kTCCServiceSystemPolicyAllFiles`**
 
 Je ne pense pas que ce soit un véritable privesc, mais juste au cas où vous le trouveriez utile : Si vous contrôlez un programme avec FDA, vous pouvez **modifier la base de données TCC des utilisateurs et vous donner n'importe quel accès**. Cela peut être utile comme technique de persistance au cas où vous pourriez perdre vos permissions FDA.
 
-### **Contournement SIP pour contournement TCC**
+### **Contourner SIP pour contourner TCC**
 
 La **base de données TCC** du système est protégée par **SIP**, c'est pourquoi seuls les processus avec les **droits indiqués pourront la modifier**. Par conséquent, si un attaquant trouve un **contournement SIP** sur un **fichier** (pouvoir modifier un fichier restreint par SIP), il pourra :
 
@@ -564,7 +564,7 @@ Par exemple pour ajouter le terminal :
 # Get needed info
 codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
-AllowApplicationsList.plist :
+AllowApplicationsList.plist:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

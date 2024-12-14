@@ -19,16 +19,16 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## AppleMobileFileIntegrity.kext et amfid
 
-Il se concentre sur l'application de l'intégrité du code exécuté sur le système, fournissant la logique derrière la vérification de la signature du code de XNU. Il est également capable de vérifier les droits et de gérer d'autres tâches sensibles telles que l'autorisation de débogage ou l'obtention de ports de tâche.
+Il se concentre sur l'application de l'intégrité du code exécuté sur le système, fournissant la logique derrière la vérification de la signature du code de XNU. Il est également capable de vérifier les droits et de gérer d'autres tâches sensibles telles que permettre le débogage ou obtenir des ports de tâche.
 
 De plus, pour certaines opérations, le kext préfère contacter le démon en espace utilisateur `/usr/libexec/amfid`. Cette relation de confiance a été abusée dans plusieurs jailbreaks.
 
 AMFI utilise des politiques **MACF** et enregistre ses hooks au moment de son démarrage. De plus, empêcher son chargement ou son déchargement pourrait déclencher un kernel panic. Cependant, il existe certains arguments de démarrage qui permettent de débiliter AMFI :
 
-* `amfi_unrestricted_task_for_pid`: Autoriser task\_for\_pid sans les droits requis
-* `amfi_allow_any_signature`: Autoriser toute signature de code
+* `amfi_unrestricted_task_for_pid`: Permet à task\_for\_pid d'être autorisé sans droits requis
+* `amfi_allow_any_signature`: Autorise toute signature de code
 * `cs_enforcement_disable`: Argument système utilisé pour désactiver l'application de la signature de code
-* `amfi_prevent_old_entitled_platform_binaries`: Annuler les binaires de plateforme avec des droits
+* `amfi_prevent_old_entitled_platform_binaries`: Annule les binaires de plateforme avec des droits
 * `amfi_get_out_of_my_way`: Désactive complètement amfi
 
 Voici quelques-unes des politiques MACF qu'il enregistre :
@@ -38,11 +38,11 @@ Voici quelques-unes des politiques MACF qu'il enregistre :
 * **`cred_label_destroy`**: Supprime le slot d'étiquette mac d'AMFI
 * **`cred_label_init`**: Déplace 0 dans le slot d'étiquette mac d'AMFI
 * **`cred_label_update_execve`:** Il vérifie les droits du processus pour voir s'il doit être autorisé à modifier les étiquettes.
-* **`file_check_mmap`:** Il vérifie si mmap acquiert de la mémoire et la définit comme exécutable. Dans ce cas, il vérifie si la validation de la bibliothèque est nécessaire et, si c'est le cas, appelle la fonction de validation de la bibliothèque.
+* **`file_check_mmap`:** Il vérifie si mmap acquiert de la mémoire et la définit comme exécutable. Dans ce cas, il vérifie si la validation de la bibliothèque est nécessaire et, si c'est le cas, il appelle la fonction de validation de la bibliothèque.
 * **`file_check_library_validation`**: Appelle la fonction de validation de la bibliothèque qui vérifie, entre autres, si un binaire de plateforme charge un autre binaire de plateforme ou si le processus et le nouveau fichier chargé ont le même TeamID. Certains droits permettront également de charger n'importe quelle bibliothèque.
 * **`policy_initbsd`**: Configure les clés NVRAM de confiance
-* **`policy_syscall`**: Il vérifie les politiques DYLD, comme si le binaire a des segments non restreints, s'il doit autoriser les variables d'environnement... cela est également appelé lorsqu'un processus est démarré via `amfi_check_dyld_policy_self()`.
-* **`proc_check_inherit_ipc_ports`**: Il vérifie si, lorsqu'un processus exécute un nouveau binaire, d'autres processus ayant des droits SEND sur le port de tâche du processus doivent les conserver ou non. Les binaires de plateforme sont autorisés, le droit `get-task-allow` le permet, les droits `task_for_pid-allow` sont autorisés et les binaires avec le même TeamID.
+* **`policy_syscall`**: Il vérifie les politiques DYLD comme si le binaire a des segments non restreints, s'il doit autoriser les variables d'environnement... cela est également appelé lorsqu'un processus est démarré via `amfi_check_dyld_policy_self()`.
+* **`proc_check_inherit_ipc_ports`**: Il vérifie si, lorsqu'un processus exécute un nouveau binaire, d'autres processus avec des droits SEND sur le port de tâche du processus doivent les conserver ou non. Les binaires de plateforme sont autorisés, le droit `get-task-allow` le permet, les droits `task_for_pid-allow` sont autorisés et les binaires avec le même TeamID.
 * **`proc_check_expose_task`**: applique les droits
 * **`amfi_exc_action_check_exception_send`**: Un message d'exception est envoyé au débogueur
 * **`amfi_exc_action_label_associate & amfi_exc_action_label_copy/populate & amfi_exc_action_label_destroy & amfi_exc_action_label_init & amfi_exc_action_label_update`**: Cycle de vie de l'étiquette lors du traitement des exceptions (débogage)
@@ -55,7 +55,7 @@ Voici quelques-unes des politiques MACF qu'il enregistre :
 * &#x20;**`proc_check_run_cs_invalid`**: Il intercepte les appels `ptrace()` (`PT_ATTACH` et `PT_TRACE_ME`). Il vérifie pour l'un des droits `get-task-allow`, `run-invalid-allow` et `run-unsigned-code` et si aucun, il vérifie si le débogage est autorisé.
 * **`proc_check_map_anon`**: Si mmap est appelé avec le drapeau **`MAP_JIT`**, AMFI vérifiera le droit `dynamic-codesigning`.
 
-`AMFI.kext` expose également une API pour d'autres extensions du noyau, et il est possible de trouver ses dépendances avec :
+`AMFI.kext` expose également une API pour d'autres extensions de noyau, et il est possible de trouver ses dépendances avec :
 ```bash
 kextstat | grep " 19 " | cut -c2-5,50- | cut -d '(' -f1
 Executing: /usr/bin/kmutil showloaded
@@ -81,9 +81,9 @@ No variant specified, falling back to release
 ## amfid
 
 C'est le démon en mode utilisateur que `AMFI.kext` utilisera pour vérifier les signatures de code en mode utilisateur.\
-Pour que `AMFI.kext` communique avec le démon, il utilise des messages mach via le port `HOST_AMFID_PORT`, qui est le port spécial `18`.
+Pour que `AMFI.kext` puisse communiquer avec le démon, il utilise des messages mach via le port `HOST_AMFID_PORT`, qui est le port spécial `18`.
 
-Notez qu'il n'est plus possible pour les processus root de détourner des ports spéciaux sous macOS, car ils sont protégés par `SIP` et seul launchd peut y accéder. Dans iOS, il est vérifié que le processus renvoyant la réponse a le CDHash codé en dur de `amfid`.
+Notez qu'il n'est plus possible pour les processus root de détourner des ports spéciaux sous macOS, car ils sont protégés par `SIP` et seul launchd peut y accéder. Sur iOS, il est vérifié que le processus renvoyant la réponse a le CDHash codé en dur de `amfid`.
 
 Il est possible de voir quand `amfid` est demandé pour vérifier un binaire et la réponse de celui-ci en le déboguant et en plaçant un point d'arrêt dans `mach_msg`.
 
@@ -131,7 +131,7 @@ C'est la bibliothèque externe que `amfid` appelle pour demander s'il doit autor
 
 Dans macOS, cela se trouve dans `MobileDevice.framework`.
 
-## Caches de confiance AMFI
+## AMFI Trust Caches
 
 iOS AMFI maintient une liste de hachages connus qui sont signés ad-hoc, appelée **Trust Cache** et trouvée dans la section `__TEXT.__const` du kext. Notez que dans des opérations très spécifiques et sensibles, il est possible d'étendre ce Trust Cache avec un fichier externe.
 

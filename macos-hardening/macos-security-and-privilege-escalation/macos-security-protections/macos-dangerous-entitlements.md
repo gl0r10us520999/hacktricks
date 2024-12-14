@@ -43,7 +43,7 @@ Les applications avec le droit d'outil de débogage peuvent appeler `task_for_pi
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Ce droit permet de **charger des frameworks, des plug-ins ou des bibliothèques sans être signés par Apple ou signés avec le même ID d'équipe** que l'exécutable principal, donc un attaquant pourrait abuser de certains chargements de bibliothèques arbitraires pour injecter du code. Consultez [**cela pour plus d'infos**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Ce droit permet de **charger des frameworks, des plug-ins ou des bibliothèques sans être signés par Apple ou signés avec le même ID d'équipe** que l'exécutable principal, donc un attaquant pourrait abuser de n'importe quelle charge de bibliothèque pour injecter du code. Consultez [**cela pour plus d'infos**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -68,11 +68,11 @@ Droit nécessaire pour demander au **noyau de charger une extension de noyau**.
 
 ### **`com.apple.private.icloud-account-access`**
 
-Le droit **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui fournira des **tokens iCloud**.
+Le droit **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui fournira **des jetons iCloud**.
 
 **iMovie** et **Garageband** avaient ce droit.
 
-Pour plus **d'informations** sur l'exploit pour **obtenir des tokens icloud** à partir de ce droit, consultez la présentation : [**#OBTS v5.0 : "Que se passe-t-il sur votre Mac, reste sur l'iCloud d'Apple ?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Pour plus **d'informations** sur l'exploit pour **obtenir des jetons icloud** à partir de ce droit, consultez la présentation : [**#OBTS v5.0 : "Que se passe-t-il sur votre Mac, reste sur iCloud d'Apple ?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -80,11 +80,11 @@ TODO : Je ne sais pas ce que cela permet de faire
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO : Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment, envoyez un PR s'il vous plaît !
+TODO : Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour le contenu protégé par SSV après un redémarrage. Si vous savez comment, envoyez un PR s'il vous plaît !
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO : Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment, envoyez un PR s'il vous plaît !
+TODO : Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour le contenu protégé par SSV après un redémarrage. Si vous savez comment, envoyez un PR s'il vous plaît !
 
 ### `keychain-access-groups`
 
@@ -119,7 +119,7 @@ Ou les amener à effectuer des **actions arbitraires**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Permet, entre autres permissions, de **modifier la base de données TCC des utilisateurs**.
+Permet, entre autres autorisations, de **modifier la base de données TCC des utilisateurs**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
@@ -135,7 +135,7 @@ Il est possible de vérifier qui a cet accès dans _Paramètres Système_ > _Con
 
 ### `kTCCServiceAccessibility`
 
-Le processus pourra **abuser des fonctionnalités d'accessibilité de macOS**, ce qui signifie que, par exemple, il pourra appuyer sur des touches. Il pourrait donc demander l'accès pour contrôler une application comme Finder et approuver la boîte de dialogue avec cette permission.
+Le processus pourra **abuser des fonctionnalités d'accessibilité de macOS**, ce qui signifie que, par exemple, il pourra appuyer sur des touches. Il pourrait donc demander l'accès pour contrôler une application comme Finder et approuver la boîte de dialogue avec cette autorisation.
 
 ## Moyen
 
@@ -145,10 +145,10 @@ Cette autorisation permet de **créer de la mémoire qui est écrivable et exéc
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Cette autorisation permet de **remplacer ou de patcher du code C**, d'utiliser le **`NSCreateObjectFileImageFromMemory`** longtemps obsolète (qui est fondamentalement peu sûr), ou d'utiliser le framework **DVDPlayback**. Consultez [**ceci pour plus d'infos**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Cette autorisation permet de **remplacer ou de patcher du code C**, d'utiliser la très obsolète **`NSCreateObjectFileImageFromMemory`** (qui est fondamentalement non sécurisée), ou d'utiliser le framework **DVDPlayback**. Consultez [**ceci pour plus d'infos**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Inclure cette autorisation expose votre application à des vulnérabilités courantes dans les langages de code non sûrs en mémoire. Considérez soigneusement si votre application a besoin de cette exception.
+Inclure cette autorisation expose votre application à des vulnérabilités courantes dans les langages de code non sécurisés en mémoire. Considérez soigneusement si votre application a besoin de cette exception.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -169,27 +169,27 @@ Cette autorisation permet de monter un système de fichiers nullfs (interdit par
 
 ### `kTCCServiceAll`
 
-Selon ce billet de blog, cette permission TCC se trouve généralement sous la forme :
+Selon ce billet de blog, cette autorisation TCC se trouve généralement sous la forme :
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
-Autoriser le processus à **demander toutes les autorisations TCC**.
+Allow the process to **demander toutes les autorisations TCC**.
 
 ### **`kTCCServicePostEvent`**
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Soutenir HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Check the [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

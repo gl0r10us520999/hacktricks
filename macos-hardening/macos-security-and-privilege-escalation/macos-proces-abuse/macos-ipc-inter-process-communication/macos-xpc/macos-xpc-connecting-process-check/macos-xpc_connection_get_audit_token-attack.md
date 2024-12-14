@@ -36,7 +36,7 @@ Si vous ne savez pas comment une connexion XPC est établie, consultez :
 [..](../)
 {% endcontent-ref %}
 
-## Résumé des vulnérabilités
+## Résumé de la vulnérabilité
 
 Ce qui est intéressant à savoir, c'est que **l'abstraction XPC est une connexion un-à-un**, mais elle est basée sur une technologie qui **peut avoir plusieurs émetteurs, donc :**
 
@@ -46,22 +46,22 @@ Ce qui est intéressant à savoir, c'est que **l'abstraction XPC est une connexi
 
 Bien que la situation précédente semble prometteuse, il existe certains scénarios où cela ne posera pas de problèmes ([d'ici](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)) :
 
-* Les jetons d'audit sont souvent utilisés pour un contrôle d'autorisation afin de décider s'il faut accepter une connexion. Comme cela se produit en utilisant un message vers le port de service, **aucune connexion n'est encore établie**. D'autres messages sur ce port seront simplement traités comme des demandes de connexion supplémentaires. Ainsi, tous les **contrôles avant d'accepter une connexion ne sont pas vulnérables** (cela signifie également que dans `-listener:shouldAcceptNewConnection:`, le jeton d'audit est sûr). Nous recherchons donc **des connexions XPC qui vérifient des actions spécifiques**.
-* Les gestionnaires d'événements XPC sont traités de manière synchrone. Cela signifie que le gestionnaire d'événements pour un message doit être complété avant de l'appeler pour le suivant, même sur des files d'attente de dispatch concurrentes. Ainsi, à l'intérieur d'un **gestionnaire d'événements XPC, le jeton d'audit ne peut pas être écrasé** par d'autres messages normaux (non-réponse !).
+* Les jetons d'audit sont souvent utilisés pour un contrôle d'autorisation afin de décider d'accepter ou non une connexion. Comme cela se produit en utilisant un message vers le port de service, **aucune connexion n'est encore établie**. D'autres messages sur ce port seront simplement traités comme des demandes de connexion supplémentaires. Ainsi, tous les **contrôles avant d'accepter une connexion ne sont pas vulnérables** (cela signifie également que dans `-listener:shouldAcceptNewConnection:`, le jeton d'audit est sûr). Nous recherchons donc **des connexions XPC qui vérifient des actions spécifiques**.
+* Les gestionnaires d'événements XPC sont traités de manière synchrone. Cela signifie que le gestionnaire d'événements pour un message doit être terminé avant de l'appeler pour le suivant, même sur des files d'attente de dispatch concurrentes. Ainsi, à l'intérieur d'un **gestionnaire d'événements XPC, le jeton d'audit ne peut pas être écrasé** par d'autres messages normaux (non-réponse !).
 
 Deux méthodes différentes par lesquelles cela pourrait être exploitable :
 
 1. Variante 1 :
 * **L'exploit** **se connecte** au service **A** et au service **B**
 * Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service A que l'utilisateur ne peut pas
-* Le service **A** appelle **`xpc_connection_get_audit_token`** tout en _**n'étant pas**_ à l'intérieur du **gestionnaire d'événements** pour une connexion dans un **`dispatch_async`**.
+* Le service **A** appelle **`xpc_connection_get_audit_token`** tout en _**ne**_ étant pas à l'intérieur du **gestionnaire d'événements** pour une connexion dans un **`dispatch_async`**.
 * Ainsi, un **message différent** pourrait **écraser le jeton d'audit** car il est dispatché de manière asynchrone en dehors du gestionnaire d'événements.
 * L'exploit passe au **service B le droit d'ENVOYER au service A**.
 * Ainsi, le svc **B** enverra effectivement les **messages** au service **A**.
-* L'**exploit** essaie de **appeler** l'**action privilégiée**. Dans un RC, le svc **A** **vérifie** l'autorisation de cette **action** pendant que **svc B écrase le jeton d'audit** (donnant à l'exploit l'accès pour appeler l'action privilégiée).
+* L'**exploit** essaie d'**appeler** l'**action privilégiée**. Dans un RC, le svc **A** **vérifie** l'autorisation de cette **action** pendant que **svc B écrase le jeton d'audit** (donnant à l'exploit l'accès pour appeler l'action privilégiée).
 2. Variante 2 :
 * Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service A que l'utilisateur ne peut pas
-* L'exploit se connecte avec le **service A** qui **envoie** à l'exploit un **message s'attendant à une réponse** dans un **port de réponse** spécifique.
+* L'exploit se connecte avec **le service A** qui **envoie** à l'exploit un **message s'attendant à une réponse** dans un **port de réponse** spécifique.
 * L'exploit envoie au **service** B un message passant **ce port de réponse**.
 * Lorsque le service **B répond**, il **envoie le message au service A**, **tandis que** l'**exploit** envoie un **message différent au service A** essayant d'**atteindre une fonctionnalité privilégiée** et s'attendant à ce que la réponse du service B écrase le jeton d'audit au moment parfait (Condition de course).
 
@@ -69,9 +69,9 @@ Deux méthodes différentes par lesquelles cela pourrait être exploitable :
 
 Scénario :
 
-* Deux services mach **`A`** et **`B`** auxquels nous pouvons tous deux nous connecter (en fonction du profil de sandbox et des contrôles d'autorisation avant d'accepter la connexion).
+* Deux services mach **`A`** et **`B`** auxquels nous pouvons nous connecter (en fonction du profil de sandbox et des contrôles d'autorisation avant d'accepter la connexion).
 * _**A**_ doit avoir un **contrôle d'autorisation** pour une action spécifique que **`B`** peut passer (mais notre application ne peut pas).
-* Par exemple, si B a certains **droits** ou fonctionne en tant que **root**, cela pourrait lui permettre de demander à A d'effectuer une action privilégiée.
+* Par exemple, si B a des **droits** ou fonctionne en tant que **root**, cela pourrait lui permettre de demander à A d'effectuer une action privilégiée.
 * Pour ce contrôle d'autorisation, **`A`** obtient le jeton d'audit de manière asynchrone, par exemple en appelant `xpc_connection_get_audit_token` depuis **`dispatch_async`**.
 
 {% hint style="danger" %}
@@ -85,13 +85,13 @@ Par conséquent, le service **B** est **`diagnosticd`** car il fonctionne en tan
 Pour effectuer l'attaque :
 
 1. Initier une **connexion** au service nommé `smd` en utilisant le protocole XPC standard.
-2. Former une **connexion secondaire** à `diagnosticd`. Contrairement à la procédure normale, plutôt que de créer et d'envoyer deux nouveaux ports mach, le droit d'envoi du port client est substitué par un duplicata du **droit d'envoi** associé à la connexion `smd`.
+2. Former une **connexion** secondaire à `diagnosticd`. Contrairement à la procédure normale, plutôt que de créer et d'envoyer deux nouveaux ports mach, le droit d'envoi du port client est substitué par un duplicata du **droit d'envoi** associé à la connexion `smd`.
 3. En conséquence, les messages XPC peuvent être dispatchés à `diagnosticd`, mais les réponses de `diagnosticd` sont redirigées vers `smd`. Pour `smd`, il semble que les messages de l'utilisateur et de `diagnosticd` proviennent de la même connexion.
 
 ![Image décrivant le processus d'exploit](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 
-4. L'étape suivante consiste à demander à `diagnosticd` de commencer à surveiller un processus choisi (potentiellement celui de l'utilisateur). En même temps, un flot de messages 1004 de routine est envoyé à `smd`. L'intention ici est d'installer un outil avec des privilèges élevés.
-5. Cette action déclenche une condition de course dans la fonction `handle_bless`. Le timing est critique : l'appel de la fonction `xpc_connection_get_pid` doit renvoyer le PID du processus de l'utilisateur (car l'outil privilégié réside dans le bundle de l'application de l'utilisateur). Cependant, la fonction `xpc_connection_get_audit_token`, spécifiquement dans la sous-routine `connection_is_authorized`, doit faire référence au jeton d'audit appartenant à `diagnosticd`.
+4. L'étape suivante consiste à demander à `diagnosticd` de commencer à surveiller un processus choisi (potentiellement le propre de l'utilisateur). En même temps, un flot de messages 1004 de routine est envoyé à `smd`. L'intention ici est d'installer un outil avec des privilèges élevés.
+5. Cette action déclenche une condition de course dans la fonction `handle_bless`. Le timing est critique : l'appel de la fonction `xpc_connection_get_pid` doit renvoyer le PID du processus de l'utilisateur (car l'outil privilégié se trouve dans le bundle de l'application de l'utilisateur). Cependant, la fonction `xpc_connection_get_audit_token`, spécifiquement dans la sous-routine `connection_is_authorized`, doit faire référence au jeton d'audit appartenant à `diagnosticd`.
 
 ## Variante 2 : transfert de réponse
 
@@ -123,8 +123,8 @@ Voici une représentation visuelle du scénario d'attaque décrit :
 
 ## Problèmes de découverte
 
-* **Difficultés à localiser des instances** : La recherche d'instances d'utilisation de `xpc_connection_get_audit_token` était difficile, tant statiquement que dynamiquement.
-* **Méthodologie** : Frida a été utilisée pour accrocher la fonction `xpc_connection_get_audit_token`, filtrant les appels ne provenant pas de gestionnaires d'événements. Cependant, cette méthode était limitée au processus accroché et nécessitait une utilisation active.
+* **Difficultés à localiser des instances** : La recherche d'instances d'utilisation de `xpc_connection_get_audit_token` a été difficile, tant statiquement que dynamiquement.
+* **Méthodologie** : Frida a été utilisée pour accrocher la fonction `xpc_connection_get_audit_token`, filtrant les appels ne provenant pas des gestionnaires d'événements. Cependant, cette méthode était limitée au processus accroché et nécessitait une utilisation active.
 * **Outils d'analyse** : Des outils comme IDA/Ghidra ont été utilisés pour examiner les services mach accessibles, mais le processus était long, compliqué par des appels impliquant le cache partagé dyld.
 * **Limitations de script** : Les tentatives de script de l'analyse des appels à `xpc_connection_get_audit_token` à partir de blocs `dispatch_async` ont été entravées par des complexités dans l'analyse des blocs et les interactions avec le cache partagé dyld.
 

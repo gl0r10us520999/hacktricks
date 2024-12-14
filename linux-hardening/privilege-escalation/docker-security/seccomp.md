@@ -63,7 +63,7 @@ printf("You will not see this message--the process will be killed first\n");
 
 ### Seccomp-bpf
 
-Ce mode permet **le filtrage des appels système à l'aide d'une politique configurable** mise en œuvre à l'aide de règles de Berkeley Packet Filter.
+Ce mode permet **le filtrage des appels système à l'aide d'une politique configurable** mise en œuvre à l'aide de règles de filtre de paquets Berkeley.
 
 {% code title="seccomp_bpf.c" %}
 ```c

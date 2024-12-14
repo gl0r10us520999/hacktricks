@@ -17,8 +17,8 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## Main Keychains
 
-* Le **trousseau d'accès utilisateur** (`~/Library/Keychains/login.keychain-db`), qui est utilisé pour stocker les **identifiants spécifiques à l'utilisateur** tels que les mots de passe d'application, les mots de passe Internet, les certificats générés par l'utilisateur, les mots de passe réseau et les clés publiques/privées générées par l'utilisateur.
-* Le **trousseau d'accès système** (`/Library/Keychains/System.keychain`), qui stocke les **identifiants à l'échelle du système** tels que les mots de passe WiFi, les certificats racine du système, les clés privées du système et les mots de passe d'application du système.
+* Le **trousseau d'accès utilisateur** (`~/Library/Keychains/login.keychain-db`), qui est utilisé pour stocker des **identifiants spécifiques à l'utilisateur** comme des mots de passe d'application, des mots de passe Internet, des certificats générés par l'utilisateur, des mots de passe réseau et des clés publiques/privées générées par l'utilisateur.
+* Le **trousseau d'accès système** (`/Library/Keychains/System.keychain`), qui stocke des **identifiants à l'échelle du système** tels que des mots de passe WiFi, des certificats racines système, des clés privées système et des mots de passe d'application système.
 * Il est possible de trouver d'autres composants comme des certificats dans `/System/Library/Keychains/*`
 * Dans **iOS**, il n'y a qu'un seul **trousseau** situé dans `/private/var/Keychains/`. Ce dossier contient également des bases de données pour le `TrustStore`, les autorités de certification (`caissuercache`) et les entrées OSCP (`ocspache`).
 * Les applications seront restreintes dans le trousseau uniquement à leur zone privée en fonction de leur identifiant d'application.
@@ -40,7 +40,7 @@ Chaque entrée dans le trousseau est régie par des **Listes de Contrôle d'Acc�
 Les ACLs sont également accompagnées d'une **liste d'applications de confiance** qui peuvent effectuer ces actions sans demande. Cela pourrait être :
 
 * **N`il`** (aucune autorisation requise, **tout le monde est de confiance**)
-* Une liste **vide** (**personne** n'est de confiance)
+* Une **liste vide** (**personne** n'est de confiance)
 * **Liste** d'**applications** spécifiques.
 
 De plus, l'entrée peut contenir la clé **`ACLAuthorizationPartitionID`,** qui est utilisée pour identifier le **teamid, apple,** et **cdhash.**
@@ -145,15 +145,15 @@ Si **apple** est indiqué dans le **partitionID**, vous pourriez y accéder avec
 * [**#OBTS v5.0 : "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supportez HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

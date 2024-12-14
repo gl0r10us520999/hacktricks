@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## XPC Connecting Process Check
 
-Lorsqu'une connexion est établie à un service XPC, le serveur vérifiera si la connexion est autorisée. Voici les vérifications qu'il effectuerait généralement :
+Lorsque qu'une connexion est établie à un service XPC, le serveur vérifiera si la connexion est autorisée. Voici les vérifications qu'il effectuerait généralement :
 
 1. Vérifiez si le **processus de connexion est signé avec un certificat signé par Apple** (délivré uniquement par Apple).
 * Si cela **n'est pas vérifié**, un attaquant pourrait créer un **certificat falsifié** pour correspondre à toute autre vérification.
@@ -121,7 +121,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

@@ -49,7 +49,7 @@ Vérifiez dans les autres sections où un attaquant pourrait **abuser d'une écr
 
 ## .fileloc
 
-Les fichiers avec l'extension **`.fileloc`** peuvent pointer vers d'autres applications ou binaires, donc lorsqu'ils sont ouverts, l'application/binaire sera celui exécuté.\
+Les fichiers avec l'extension **`.fileloc`** peuvent pointer vers d'autres applications ou binaires, donc lorsqu'ils sont ouverts, l'application/le binaire sera celui exécuté.\
 Exemple :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -71,7 +71,7 @@ Par exemple : [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7
 
 ## Éviter les astuces xattrs de quarantaine
 
-### Supprimer
+### Supprimez-le
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
@@ -127,7 +127,7 @@ Le format de fichier **AppleDouble** copie un fichier y compris ses ACE.
 
 Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de l'ACL stockée à l'intérieur de l'xattr appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Donc, si vous avez compressé une application dans un fichier zip avec le format de fichier **AppleDouble** avec une ACL qui empêche d'autres xattrs d'y être écrits... l'xattr de quarantaine n'a pas été défini dans l'application :
 
-Consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) pour plus d'informations.
+Vérifiez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) pour plus d'informations.
 
 Pour reproduire cela, nous devons d'abord obtenir la chaîne acl correcte :
 ```bash
@@ -272,17 +272,17 @@ Just generate the script `/Applications/Scripts/privesc.sh` with the **commands*
 
 ### Sudoers File
 
-If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
+If you have **écriture arbitraire**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
 
 ### PATH files
 
-Le fichier **`/etc/paths`** est l'un des principaux endroits qui remplit la variable d'environnement PATH. Vous devez être root pour l'écraser, mais si un script d'un **processus privilégié** exécute une **commande sans le chemin complet**, vous pourriez être en mesure de **détourner** cela en modifiant ce fichier.
+The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **processus privilégié** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
 
-Vous pouvez également écrire des fichiers dans **`/etc/paths.d`** pour charger de nouveaux dossiers dans la variable d'environnement `PATH`.
+You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
 
 ## Generate writable files as other users
 
-Cela générera un fichier qui appartient à root et qui est modifiable par moi ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Cela pourrait également fonctionner comme privesc :
+This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -296,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX Shared Memory
 
-**La mémoire partagée POSIX** permet aux processus dans des systèmes d'exploitation conformes à POSIX d'accéder à une zone de mémoire commune, facilitant une communication plus rapide par rapport à d'autres méthodes de communication inter-processus. Cela implique de créer ou d'ouvrir un objet de mémoire partagée avec `shm_open()`, de définir sa taille avec `ftruncate()`, et de le mapper dans l'espace d'adresses du processus en utilisant `mmap()`. Les processus peuvent ensuite lire et écrire directement dans cette zone de mémoire. Pour gérer l'accès concurrent et prévenir la corruption des données, des mécanismes de synchronisation tels que des mutex ou des sémaphores sont souvent utilisés. Enfin, les processus désaffichent et ferment la mémoire partagée avec `munmap()` et `close()`, et éventuellement suppriment l'objet de mémoire avec `shm_unlink()`. Ce système est particulièrement efficace pour un IPC rapide et efficace dans des environnements où plusieurs processus doivent accéder rapidement à des données partagées.
+**La mémoire partagée POSIX** permet aux processus dans des systèmes d'exploitation conformes à POSIX d'accéder à une zone de mémoire commune, facilitant une communication plus rapide par rapport à d'autres méthodes de communication inter-processus. Cela implique de créer ou d'ouvrir un objet de mémoire partagée avec `shm_open()`, de définir sa taille avec `ftruncate()`, et de le mapper dans l'espace d'adresses du processus en utilisant `mmap()`. Les processus peuvent ensuite lire et écrire directement dans cette zone de mémoire. Pour gérer l'accès concurrent et prévenir la corruption des données, des mécanismes de synchronisation tels que des mutex ou des sémaphores sont souvent utilisés. Enfin, les processus désassocient et ferment la mémoire partagée avec `munmap()` et `close()`, et éventuellement suppriment l'objet de mémoire avec `shm_unlink()`. Ce système est particulièrement efficace pour un IPC rapide et efficace dans des environnements où plusieurs processus doivent accéder rapidement à des données partagées.
 
 <details>
 

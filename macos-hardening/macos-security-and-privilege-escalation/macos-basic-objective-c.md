@@ -9,10 +9,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}
 {% endhint %}
 {% endhint %}
 {% endhint %}
@@ -99,7 +100,7 @@ Les méthodes de classe sont définies avec le **signe plus** (+) et non le tire
 ```
 ### Setter & Getter
 
-Pour **définir** et **obtenir** des propriétés, vous pouvez le faire avec une **notation par points** ou comme si vous **appeliez une méthode** :
+Pour **définir** & **obtenir** des propriétés, vous pouvez le faire avec une **notation par points** ou comme si vous appeliez une **méthode** :
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -132,7 +133,7 @@ Il existe 2 types de méthodes : **obligatoires** et **facultatives**. Par **dé
 - (void) method3; //optional
 @end
 ```
-### Tout ensemble
+### Tous ensemble
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -237,8 +238,6 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-{% endcode %}
-
 #### Tableaux, Ensembles & Dictionnaire
 
 {% code overflow="wrap" %}

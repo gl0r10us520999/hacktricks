@@ -14,7 +14,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Le modèle **d'autorisation** de **Docker** prêt à l'emploi est **tout ou rien**. Tout utilisateur ayant la permission d'accéder au démon Docker peut **exécuter n'importe quelle** commande du client Docker. Il en va de même pour les appelants utilisant l'API Engine de Docker pour contacter le démon. Si vous avez besoin d'un **contrôle d'accès** plus **granulaire**, vous pouvez créer des **plugins d'autorisation** et les ajouter à votre configuration de démon Docker. En utilisant un plugin d'autorisation, un administrateur Docker peut **configurer des politiques d'accès** détaillées pour gérer l'accès au démon Docker.
+Le modèle **d'autorisation** de **Docker** par défaut est **tout ou rien**. Tout utilisateur ayant la permission d'accéder au démon Docker peut **exécuter n'importe quelle** commande du client Docker. Il en va de même pour les appelants utilisant l'API Engine de Docker pour contacter le démon. Si vous avez besoin d'un **contrôle d'accès** plus **granulaire**, vous pouvez créer des **plugins d'autorisation** et les ajouter à votre configuration de démon Docker. En utilisant un plugin d'autorisation, un administrateur Docker peut **configurer des politiques d'accès** détaillées pour gérer l'accès au démon Docker.
 
 # Architecture de base
 
@@ -24,17 +24,17 @@ Les plugins d'authentification Docker sont des **plugins externes** que vous pou
 
 Lorsqu'une **demande HTTP** est faite au **démon** Docker via la CLI ou via l'API Engine, le **sous-système d'authentification** **transmet** la demande au(x) **plugin(s)** d'**authentification** installés. La demande contient l'utilisateur (appelant) et le contexte de la commande. Le **plugin** est responsable de décider s'il faut **autoriser** ou **refuser** la demande.
 
-Les diagrammes de séquence ci-dessous illustrent un flux d'autorisation d'autorisation et de refus :
+Les diagrammes de séquence ci-dessous décrivent un flux d'autorisation d'autorisation et de refus :
 
 ![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Chaque demande envoyée au plugin **inclut l'utilisateur authentifié, les en-têtes HTTP et le corps de la demande/réponse**. Seuls le **nom d'utilisateur** et la **méthode d'authentification** utilisée sont transmis au plugin. Plus important encore, **aucune** **information d'identification** ou **jeton** utilisateur n'est transmis. Enfin, **tous les corps de demande/réponse ne sont pas envoyés** au plugin d'autorisation. Seuls les corps de demande/réponse où le `Content-Type` est soit `text/*` soit `application/json` sont envoyés.
+Chaque demande envoyée au plugin **inclut l'utilisateur authentifié, les en-têtes HTTP et le corps de la demande/réponse**. Seuls le **nom d'utilisateur** et la **méthode d'authentification** utilisée sont transmis au plugin. Plus important encore, **aucune** **information d'identification** ou jetons d'utilisateur ne sont transmis. Enfin, **tous les corps de demande/réponse ne sont pas envoyés** au plugin d'autorisation. Seuls les corps de demande/réponse où le `Content-Type` est soit `text/*` soit `application/json` sont envoyés.
 
 Pour les commandes qui peuvent potentiellement détourner la connexion HTTP (`HTTP Upgrade`), telles que `exec`, le plugin d'autorisation n'est appelé que pour les demandes HTTP initiales. Une fois que le plugin approuve la commande, l'autorisation n'est pas appliquée au reste du flux. En particulier, les données de streaming ne sont pas transmises aux plugins d'autorisation. Pour les commandes qui renvoient une réponse HTTP en morceaux, telles que `logs` et `events`, seule la demande HTTP est envoyée aux plugins d'autorisation.
 
-Lors du traitement des demandes/réponses, certains flux d'autorisation peuvent nécessiter des requêtes supplémentaires au démon Docker. Pour compléter de tels flux, les plugins peuvent appeler l'API du démon comme un utilisateur ordinaire. Pour permettre ces requêtes supplémentaires, le plugin doit fournir les moyens à un administrateur de configurer des politiques d'authentification et de sécurité appropriées.
+Lors du traitement de la demande/réponse, certains flux d'autorisation peuvent nécessiter des requêtes supplémentaires au démon Docker. Pour compléter de tels flux, les plugins peuvent appeler l'API du démon comme un utilisateur ordinaire. Pour permettre ces requêtes supplémentaires, le plugin doit fournir les moyens à un administrateur de configurer des politiques d'authentification et de sécurité appropriées.
 
 ## Plusieurs Plugins
 
@@ -115,7 +115,7 @@ Notez également que si vous pouvez **monter `/etc`** ou tout autre dossier **co
 
 La responsabilité de l'administrateur système configurant ce plugin serait de contrôler quelles actions et avec quels privilèges chaque utilisateur peut effectuer. Par conséquent, si l'administrateur adopte une approche de **liste noire** avec les points de terminaison et les attributs, il pourrait **oublier certains d'entre eux** qui pourraient permettre à un attaquant d'**escalader les privilèges.**
 
-Vous pouvez consulter l'API docker sur [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Vous pouvez consulter l'API docker à [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
 ## Structure JSON non vérifiée
 
@@ -199,7 +199,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

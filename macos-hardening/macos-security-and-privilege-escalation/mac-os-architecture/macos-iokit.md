@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Le I/O Kit est un **framework de pilote de périphérique** open-source et orienté objet dans le noyau XNU, gérant les **pilotes de périphérique chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge un matériel diversifié.
 
-Les pilotes IOKit vont essentiellement **exporter des fonctions du noyau**. Ces types de **paramètres de fonction** sont **prédéfinis** et sont vérifiés. De plus, similaire à XPC, IOKit est juste une autre couche **au-dessus des messages Mach**.
+Les pilotes IOKit vont essentiellement **exporter des fonctions du noyau**. Ces types de paramètres de fonction sont **prédéfinis** et sont vérifiés. De plus, similaire à XPC, IOKit est juste une autre couche **au-dessus des messages Mach**.
 
 Le **code IOKit du noyau XNU** est open-source par Apple sur [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). De plus, les composants IOKit de l'espace utilisateur sont également open-source [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
@@ -36,7 +36,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-Les **fonctions exposées** d'IOKit pourraient effectuer des **vérifications de sécurité supplémentaires** lorsqu'un client essaie d'appeler une fonction, mais notez que les applications sont généralement **limitées** par le **sandbox** avec lequel elles peuvent interagir avec les fonctions d'IOKit.
+Les **fonctions exposées** d'IOKit pourraient effectuer des **vérifications de sécurité supplémentaires** lorsqu'un client essaie d'appeler une fonction, mais notez que les applications sont généralement **limitées** par le **sandbox** concernant les **fonctions IOKit** avec lesquelles elles peuvent interagir.
 {% endhint %}
 
 ## Pilotes
@@ -82,9 +82,9 @@ kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-Le **IORegistry** est une partie cruciale du cadre IOKit dans macOS et iOS qui sert de base de données pour représenter la configuration matérielle et l'état du système. C'est une **collection hiérarchique d'objets qui représentent tout le matériel et les pilotes** chargés sur le système, et leurs relations entre eux.
+Le **IORegistry** est une partie cruciale du framework IOKit dans macOS et iOS qui sert de base de données pour représenter la configuration matérielle et l'état du système. C'est une **collection hiérarchique d'objets qui représentent tout le matériel et les pilotes** chargés sur le système, et leurs relations entre eux.
 
-Vous pouvez obtenir l'IORegistry en utilisant la cli **`ioreg`** pour l'inspecter depuis la console (particulièrement utile pour iOS).
+Vous pouvez obtenir l'IORegistry en utilisant le cli **`ioreg`** pour l'inspecter depuis la console (particulièrement utile pour iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
@@ -176,7 +176,7 @@ Vous pourriez commencer à décompiler la fonction **`externalMethod`** car c'es
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-Cet appel horrible démanglé signifie :
+Cet appel horrible démanglé signifie : 
 
 {% code overflow="wrap" %}
 ```cpp

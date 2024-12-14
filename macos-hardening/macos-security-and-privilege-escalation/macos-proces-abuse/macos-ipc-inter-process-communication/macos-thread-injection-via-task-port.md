@@ -1,16 +1,16 @@
-# macOS Injection de Thread via le port de tâche
+# macOS Injection de Thread via le Port de Tâche
 
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Initialement, la fonction **`task_threads()`** est invoquée sur le port de tâc
 
 Pour contrôler le thread, **`thread_suspend()`** est appelé, arrêtant son exécution.
 
-Les seules opérations autorisées sur le thread distant impliquent **l'arrêt** et **le démarrage** de celui-ci, **la récupération** et **la modification** de ses valeurs de registre. Les appels de fonction distants sont initiés en définissant les registres `x0` à `x7` sur les **arguments**, configurant **`pc`** pour cibler la fonction souhaitée, et en activant le thread. S'assurer que le thread ne plante pas après le retour nécessite de détecter le retour.
+Les seules opérations autorisées sur le thread distant impliquent **l'arrêt** et **le démarrage** de celui-ci, **la récupération** et **la modification** de ses valeurs de registre. Les appels de fonction distants sont initiés en définissant les registres `x0` à `x7` sur les **arguments**, configurant **`pc`** pour cibler la fonction désirée, et en activant le thread. S'assurer que le thread ne plante pas après le retour nécessite de détecter le retour.
 
 Une stratégie consiste à **enregistrer un gestionnaire d'exception** pour le thread distant en utilisant `thread_set_exception_ports()`, en définissant le registre `lr` sur une adresse invalide avant l'appel de fonction. Cela déclenche une exception après l'exécution de la fonction, envoyant un message au port d'exception, permettant l'inspection de l'état du thread pour récupérer la valeur de retour. Alternativement, comme adopté de l'exploit triple\_fetch d'Ian Beer, `lr` est défini pour boucler indéfiniment. Les registres du thread sont ensuite continuellement surveillés jusqu'à ce que **`pc` pointe vers cette instruction**.
 
@@ -45,13 +45,13 @@ Pour le port distant, le processus est essentiellement inversé. Le thread dista
 
 L'achèvement de ces étapes aboutit à l'établissement de ports Mach, posant les bases d'une communication bidirectionnelle.
 
-## 3. Primitives de lecture/écriture mémoire de base
+## 3. Primitives de Lecture/Écriture Mémoire de Base
 
 Dans cette section, l'accent est mis sur l'utilisation de la primitive d'exécution pour établir des primitives de lecture et d'écriture mémoire de base. Ces étapes initiales sont cruciales pour obtenir plus de contrôle sur le processus distant, bien que les primitives à ce stade ne serviront pas à beaucoup de choses. Bientôt, elles seront mises à niveau vers des versions plus avancées.
 
-### Lecture et écriture de mémoire en utilisant la primitive d'exécution
+### Lecture et Écriture Mémoire en Utilisant la Primitive d'Exécution
 
-L'objectif est d'effectuer des lectures et des écritures de mémoire en utilisant des fonctions spécifiques. Pour lire la mémoire, des fonctions ressemblant à la structure suivante sont utilisées :
+L'objectif est d'effectuer des lectures et écritures mémoire en utilisant des fonctions spécifiques. Pour lire la mémoire, des fonctions ressemblant à la structure suivante sont utilisées :
 ```c
 uint64_t read_func(uint64_t *address) {
 return *address;
@@ -72,11 +72,11 @@ _write_func:
 str x1, [x0]
 ret
 ```
-### Identifier des Fonctions Appropriées
+### Identifier des fonctions appropriées
 
 Un scan des bibliothèques courantes a révélé des candidats appropriés pour ces opérations :
 
-1. **Lecture de la Mémoire :**
+1. **Lecture de la mémoire :**
 La fonction `property_getName()` de la [bibliothèque d'exécution Objective-C](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) est identifiée comme une fonction appropriée pour lire la mémoire. La fonction est décrite ci-dessous :
 ```c
 const char *property_getName(objc_property_t prop) {
@@ -96,7 +96,7 @@ Pour effectuer une écriture 64 bits à une adresse spécifique, l'appel distant
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
-Avec ces primitives établies, la scène est prête pour créer de la mémoire partagée, marquant une progression significative dans le contrôle du processus distant.
+Avec ces primitives établies, le terrain est préparé pour créer de la mémoire partagée, marquant une progression significative dans le contrôle du processus distant.
 
 ## 4. Configuration de la mémoire partagée
 

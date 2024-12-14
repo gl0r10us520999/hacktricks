@@ -28,13 +28,13 @@ x64 s'étend sur l'architecture x86, présentant **16 registres à usage génér
 3. **`rcx`** - Couramment utilisé pour les **compteurs de boucle**.
 4. **`rdx`** - Utilisé dans divers rôles, y compris les opérations arithmétiques étendues.
 5. **`rbp`** - **Pointeur de base** pour le cadre de la pile.
-6. **`rsp`** - **Pointeur de pile**, gardant une trace du sommet de la pile.
-7. **`rsi`** et **`rdi`** - Utilisés pour les **index source** et **destination** dans les opérations de chaîne/mémoire.
+6. **`rsp`** - **Pointeur de pile**, gardant la trace du sommet de la pile.
+7. **`rsi`** et **`rdi`** - Utilisés pour les index **source** et **destination** dans les opérations de chaîne/mémoire.
 8. **`r8`** à **`r15`** - Registres supplémentaires à usage général introduits dans x64.
 
 ### **Calling Convention**
 
-La convention d'appel x64 varie selon les systèmes d'exploitation. Par exemple :
+La convention d'appel x64 varie entre les systèmes d'exploitation. Par exemple :
 
 * **Windows** : Les **quatre premiers paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`**, et **`r9`**. Les paramètres supplémentaires sont poussés sur la pile. La valeur de retour est dans **`rax`**.
 * **System V (couramment utilisé dans les systèmes de type UNIX)** : Les **six premiers paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, et **`r9`**. La valeur de retour est également dans **`rax`**.
@@ -47,9 +47,9 @@ Swift a sa propre **convention d'appel** qui peut être trouvée dans [**https:/
 
 ### **Common Instructions**
 
-Les instructions x64 ont un ensemble riche, maintenant la compatibilité avec les anciennes instructions x86 et en introduisant de nouvelles.
+Les instructions x64 ont un ensemble riche, maintenant la compatibilité avec les instructions x86 antérieures et en introduisant de nouvelles.
 
-* **`mov`** : **Déplacer** une valeur d'un **registre** ou **emplacement mémoire** à un autre.
+* **`mov`** : **Déplacer** une valeur d'un **registre** ou d'une **emplacement mémoire** à un autre.
 * Exemple : `mov rax, rbx` — Déplace la valeur de `rbx` vers `rax`.
 * **`push`** et **`pop`** : Pousser ou retirer des valeurs vers/depuis la **pile**.
 * Exemple : `push rax` — Pousse la valeur dans `rax` sur la pile.
@@ -230,7 +230,7 @@ syscall
 
 #### Lire avec cat
 
-L'objectif est d'exécuter `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, donc le deuxième argument (x1) est un tableau de paramètres (ce qui, en mémoire, signifie une pile des adresses).
+L'objectif est d'exécuter `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, donc le deuxième argument (x1) est un tableau de paramètres (ce qui signifie en mémoire une pile des adresses).
 ```armasm
 bits 64
 section .text
@@ -449,7 +449,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

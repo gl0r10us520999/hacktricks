@@ -31,7 +31,7 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
-The **extended attribute `com.apple.macl`** est ajouté au nouveau **fichier** pour donner à l'**application créatrice** l'accès pour le lire.
+Le **attribut étendu `com.apple.macl`** est ajouté au **nouveau fichier** pour donner à l'**application créatrice** l'accès pour le lire.
 
 ### TCC ClickJacking
 
@@ -41,8 +41,8 @@ Il est possible de **mettre une fenêtre au-dessus de l'invite TCC** pour faire 
 
 ### Demande TCC par nom arbitraire
 
-L'attaquant peut **créer des applications avec n'importe quel nom** (par exemple Finder, Google Chrome...) dans le **`Info.plist`** et faire en sorte qu'elle demande l'accès à un emplacement protégé par TCC. L'utilisateur pensera que l'application légitime est celle qui demande cet accès.\
-De plus, il est possible de **retirer l'application légitime du Dock et d'y mettre la fausse**, donc lorsque l'utilisateur clique sur la fausse (qui peut utiliser la même icône), elle pourrait appeler la légitime, demander des permissions TCC et exécuter un malware, faisant croire à l'utilisateur que l'application légitime a demandé l'accès.
+L'attaquant peut **créer des applications avec n'importe quel nom** (par exemple, Finder, Google Chrome...) dans le **`Info.plist`** et faire en sorte qu'elle demande l'accès à un emplacement protégé par TCC. L'utilisateur pensera que l'application légitime est celle qui demande cet accès.\
+De plus, il est possible de **retirer l'application légitime du Dock et d'y mettre la fausse**, donc lorsque l'utilisateur clique sur la fausse (qui peut utiliser la même icône), elle pourrait appeler la légitime, demander des autorisations TCC et exécuter un malware, faisant croire à l'utilisateur que l'application légitime a demandé l'accès.
 
 <figure><img src="https://lh7-us.googleusercontent.com/Sh-Z9qekS_fgIqnhPVSvBRmGpCXCpyuVuTw0x5DLAIxc2MZsSlzBOP7QFeGo_fjMeCJJBNh82f7RnewW1aWo8r--JEx9Pp29S17zdDmiyGgps1hH9AGR8v240m5jJM8k0hovp7lm8ZOrbzv-RC8NwzbB8w=s2048" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -74,11 +74,11 @@ Par conséquent, un utilisateur pourrait **enregistrer une application malveilla
 
 ### iCloud
 
-L'attribut **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui fournira des **tokens iCloud**.
+L'attribution **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui fournira **des jetons iCloud**.
 
-**iMovie** et **Garageband** avaient cet attribut et d'autres qui le permettaient.
+**iMovie** et **Garageband** avaient cette attribution et d'autres qui le permettaient.
 
-Pour plus **d'informations** sur l'exploit pour **obtenir des tokens iCloud** à partir de cet attribut, consultez la conférence : [**#OBTS v5.0 : "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Pour plus **d'informations** sur l'exploit pour **obtenir des jetons icloud** à partir de cette attribution, consultez la conférence : [**#OBTS v5.0 : "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -171,7 +171,7 @@ Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est
 
 Le binaire `/usr/libexec/lsd` avec la bibliothèque `libsecurity_translocate` avait le droit `com.apple.private.nullfs_allow` qui lui permettait de créer un **nullfs** mount et avait le droit `com.apple.private.tcc.allow` avec **`kTCCServiceSystemPolicyAllFiles`** pour accéder à tous les fichiers.
 
-Il était possible d'ajouter l'attribut de quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library à **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessed**.
+Il était possible d'ajouter l'attribut de quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library à **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessibles**.
 
 ### CVE-2023-38571 - Music & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
@@ -189,7 +189,7 @@ Si **`SQLITE_SQLLOG_DIR="path/folder"`** signifie essentiellement que **toute ba
 
 ### **SQLITE\_AUTO\_TRACE**
 
-Si la variable d'environnement **`SQLITE_AUTO_TRACE`** est définie, la bibliothèque **`libsqlite3.dylib`** commencera à **logger** toutes les requêtes SQL. De nombreuses applications utilisaient cette bibliothèque, il était donc possible de logger toutes leurs requêtes SQLite.
+Si la variable d'environnement **`SQLITE_AUTO_TRACE`** est définie, la bibliothèque **`libsqlite3.dylib`** commencera à **journaliser** toutes les requêtes SQL. De nombreuses applications utilisaient cette bibliothèque, il était donc possible de journaliser toutes leurs requêtes SQLite.
 
 Plusieurs applications Apple utilisaient cette bibliothèque pour accéder aux informations protégées par TCC.
 ```bash
@@ -224,7 +224,7 @@ C'était l'attaque dans le CVE : Par exemple, pour écraser le `TCC.db` de l'uti
 * déclencher le bug en exécutant `Music` avec cette variable d'environnement
 * attraper le `open()` de `/Users/hacker/tmp/.dat.nosyncXXXX.XXXXXX` (X est aléatoire)
 * ici nous `open()` également ce fichier pour écrire, et nous conservons le descripteur de fichier
-* échanger atomiquement `/Users/hacker/tmp` avec `/Users/hacker/ourlink` **dans une boucle**
+* échanger de manière atomique `/Users/hacker/tmp` avec `/Users/hacker/ourlink` **dans une boucle**
 * nous faisons cela pour maximiser nos chances de succès car la fenêtre de course est assez étroite, mais perdre la course a un inconvénient négligeable
 * attendre un peu
 * tester si nous avons eu de la chance
@@ -246,7 +246,7 @@ TCC utilise une base de données dans le dossier HOME de l'utilisateur pour cont
 Par conséquent, si l'utilisateur parvient à redémarrer TCC avec une variable d'environnement $HOME pointant vers un **dossier différent**, l'utilisateur pourrait créer une nouvelle base de données TCC dans **/Library/Application Support/com.apple.TCC/TCC.db** et tromper TCC pour accorder n'importe quelle permission TCC à n'importe quelle application.
 
 {% hint style="success" %}
-Notez qu'Apple utilise le paramètre stocké dans le profil de l'utilisateur dans l'attribut **`NFSHomeDirectory`** pour la **valeur de `$HOME`**, donc si vous compromettez une application avec des permissions pour modifier cette valeur (**`kTCCServiceSystemPolicySysAdminFiles`**), vous pouvez **arme** cette option avec un contournement TCC.
+Notez qu'Apple utilise le paramètre stocké dans le profil de l'utilisateur dans l'attribut **`NFSHomeDirectory`** pour la **valeur de `$HOME`**, donc si vous compromettez une application avec des permissions pour modifier cette valeur (**`kTCCServiceSystemPolicySysAdminFiles`**), vous pouvez **armer** cette option avec un contournement TCC.
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -271,7 +271,7 @@ Pour plus d'infos, consultez le [**rapport original**](https://www.microsoft.com
 
 ## Par injection de processus
 
-Il existe différentes techniques pour injecter du code dans un processus et abuser de ses privilèges TCC :
+Il existe différentes techniques pour injecter du code à l'intérieur d'un processus et abuser de ses privilèges TCC :
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -403,7 +403,7 @@ Il est possible d'invoquer **`open`** même en étant sandboxé
 
 ### Scripts de terminal
 
-Il est assez courant de donner un **Accès Complet au Disque (ACD)**, du moins sur les ordinateurs utilisés par des personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
+Il est assez courant de donner un **Accès Complet au Disque (ACD)** aux terminaux, du moins sur les ordinateurs utilisés par des personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
 
 Les scripts **`.terminal`** sont des fichiers plist comme celui-ci avec la commande à exécuter dans la clé **`CommandString`** :
 ```xml
@@ -434,12 +434,12 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
-## By mounting
+## En montant
 
-### CVE-2020-9771 - mount\_apfs TCC bypass et élévation de privilèges
+### CVE-2020-9771 - contournement TCC de mount\_apfs et élévation de privilèges
 
-**Tout utilisateur** (même ceux sans privilèges) peut créer et monter un instantané de Time Machine et **accéder À TOUS les fichiers** de cet instantané.\
-Le **seul privilège** requis est que l'application utilisée (comme `Terminal`) ait accès **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`), ce qui doit être accordé par un administrateur.
+**Tout utilisateur** (même ceux sans privilèges) peut créer et monter un instantané de Time Machine et **accéder à TOUS les fichiers** de cet instantané.\
+Le **seul privilège** requis est que l'application utilisée (comme `Terminal`) ait accès à **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`), ce qui doit être accordé par un administrateur.
 
 {% code overflow="wrap" %}
 ```bash
@@ -496,24 +496,24 @@ Check the **full exploit** in the [**original writeup**](https://theevilbit.gith
 
 L'outil **`/usr/sbin/asr`** permettait de copier l'ensemble du disque et de le monter à un autre endroit en contournant les protections TCC.
 
-### Location Services
+### Services de localisation
 
 Il existe une troisième base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à **accéder aux services de localisation**.\
-Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG** donc il était possible de monter notre propre plist.
+Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG**, il était donc possible de monter notre propre plist.
 
-## By startup apps
+## Par les applications de démarrage
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-## By grep
+## Par grep
 
 À plusieurs occasions, des fichiers stockeront des informations sensibles comme des e-mails, des numéros de téléphone, des messages... dans des emplacements non protégés (ce qui compte comme une vulnérabilité chez Apple).
 
 <figure><img src="../../../../../.gitbook/assets/image (474).png" alt=""><figcaption></figcaption></figure>
 
-## Synthetic Clicks
+## Clics synthétiques
 
 Cela ne fonctionne plus, mais cela [**fonctionnait dans le passé**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
 
@@ -523,7 +523,7 @@ Une autre méthode utilisant [**CoreGraphics events**](https://objectivebythesea
 
 <figure><img src="../../../../../.gitbook/assets/image (30).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Reference
+## Référence
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)

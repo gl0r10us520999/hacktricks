@@ -246,7 +246,7 @@ designated => identifier "org.whispersystems.signal-desktop" and anchor apple ge
 Notez comment ces signatures peuvent vérifier des éléments tels que les informations de certification, TeamID, IDs, droits et de nombreuses autres données.
 {% endhint %}
 
-De plus, il est possible de générer certaines exigences compilées en utilisant l'outil `csreq` :
+De plus, il est possible de générer des exigences compilées à l'aide de l'outil `csreq` :
 
 {% code overflow="wrap" %}
 ```bash
@@ -312,7 +312,7 @@ Le **noyau** est celui qui **vérifie la signature de code** avant de permettre 
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) struct contient les informations sur le droit du processus en cours. `csb_platform_binary` informe également si l'application est un binaire de plateforme (ce qui est vérifié à différents moments par le système d'exploitation pour appliquer des mécanismes de sécurité comme protéger les droits SEND aux ports de tâche de ces processus).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) la structure contient des informations sur le droit de l'application en cours d'exécution. `csb_platform_binary` informe également si l'application est un binaire de plateforme (ce qui est vérifié à différents moments par le système d'exploitation pour appliquer des mécanismes de sécurité comme protéger les droits SEND aux ports de tâche de ces processus).
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;
