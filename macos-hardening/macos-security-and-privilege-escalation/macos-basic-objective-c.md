@@ -31,12 +31,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Objective-C
 
 {% hint style="danger" %}
-Зверніть увагу, що програми, написані на Objective-C, **зберігають** свої оголошення класів **під час** **компіляції** в [Mach-O бінарні файли](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Такі оголошення класів **включають** ім'я та тип:
+Зверніть увагу, що програми, написані на Objective-C, **зберігають** свої оголошення класів **під час** **компіляції** в [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Такі оголошення класів **включають** ім'я та тип:
 {% endhint %}
 
 * Класу
-* Методи класу
-* Змінні екземпляра класу
+* Методів класу
+* Змінних екземпляра класу
 
 Ви можете отримати цю інформацію, використовуючи [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
@@ -132,7 +132,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 - (void) method3; //optional
 @end
 ```
-### Всі разом
+### Усі разом
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -287,7 +287,7 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 {% endcode %}
 
-### Blocks
+### Блоки
 
 Блоки — це **функції, які поводяться як об'єкти**, тому їх можна передавати функціям або **зберігати** в **масивах** або **словниках**. Також вони можуть **представляти значення, якщо їм надано значення**, тому це схоже на лямбди.
 

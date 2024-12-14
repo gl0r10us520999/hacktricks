@@ -60,7 +60,7 @@ drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 * Завантаження ненадійних розширень ядра
 * Отримання task-ports для процесів, підписаних Apple
 * Зміна змінних NVRAM
-* Дозвіл налагодження ядра
+* Дозвіл на налагодження ядра
 
 Опції зберігаються у змінній nvram як бітовий прапорець (`csr-active-config` на Intel і `lp-sip0` читається з завантаженого Device Tree для ARM). Ви можете знайти прапорці в вихідному коді XNU у `csr.sh`:
 
@@ -122,7 +122,7 @@ csrutil enable --without debug
 ### com.apple.rootless.install.heritable
 
 {% hint style="danger" %}
-Права **`com.apple.rootless.install.heritable`** дозволяють обійти SIP
+Право **`com.apple.rootless.install.heritable`** дозволяє обійти SIP
 {% endhint %}
 
 #### [CVE-2019-8561](https://objective-see.org/blog/blog\_0x42.html) <a href="#cve" id="cve"></a>
@@ -135,21 +135,21 @@ csrutil enable --without debug
 
 #### CVE-2021-30892 - Shrootless
 
-[**Дослідники з цього блогу**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) виявили вразливість у механізмі захисту цілісності системи (SIP) macOS, відому як вразливість 'Shrootless'. Ця вразливість зосереджена навколо демона **`system_installd`**, який має право **`com.apple.rootless.install.heritable`**, що дозволяє будь-якому з його дочірніх процесів обходити обмеження файлової системи SIP.
+[**Дослідники з цього блогу**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) виявили вразливість у механізмі захисту цілісності системи macOS (SIP), відому як вразливість 'Shrootless'. Ця вразливість зосереджена навколо демона **`system_installd`**, який має право **`com.apple.rootless.install.heritable`**, що дозволяє будь-якому з його дочірніх процесів обходити обмеження файлової системи SIP.
 
 Демон **`system_installd`** буде встановлювати пакети, які були підписані **Apple**.
 
-Дослідники виявили, що під час встановлення пакета, підписаного Apple (.pkg файл), **`system_installd`** **виконує** будь-які **скрипти після установки**, включені в пакет. Ці скрипти виконуються за допомогою стандартної оболонки, **`zsh`**, яка автоматично **виконує** команди з файлу **`/etc/zshenv`**, якщо він існує, навіть у неінтерактивному режимі. Цю поведінку можна використовувати зловмисниками: створивши шкідливий файл `/etc/zshenv` і чекаючи, поки **`system_installd` викличе `zsh`**, вони можуть виконувати довільні операції на пристрої.
+Дослідники виявили, що під час установки пакета, підписаного Apple (.pkg файл), **`system_installd`** **виконує** будь-які **скрипти після установки**, включені в пакет. Ці скрипти виконуються за допомогою стандартної оболонки, **`zsh`**, яка автоматично **виконує** команди з файлу **`/etc/zshenv`**, якщо він існує, навіть у неінтерактивному режимі. Цю поведінку можуть використовувати зловмисники: створивши шкідливий файл `/etc/zshenv` і чекаючи, поки **`system_installd` викличе `zsh`**, вони можуть виконувати довільні операції на пристрої.
 
 Більше того, було виявлено, що **`/etc/zshenv` може використовуватися як загальна техніка атаки**, не лише для обходу SIP. Кожен профіль користувача має файл `~/.zshenv`, який поводиться так само, як `/etc/zshenv`, але не вимагає прав root. Цей файл може використовуватися як механізм постійності, спрацьовуючи щоразу, коли запускається `zsh`, або як механізм підвищення привілеїв. Якщо адміністратор підвищує привілеї до root, використовуючи `sudo -s` або `sudo <command>`, файл `~/.zshenv` буде спрацьовувати, ефективно підвищуючи привілеї до root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-У [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) було виявлено, що той же процес **`system_installd`** все ще можна зловживати, оскільки він поміщав **скрипт після установки в папку з випадковою назвою, захищену SIP у `/tmp`**. Справа в тому, що **`/tmp` сам по собі не захищений SIP**, тому було можливим **змонтувати** **віртуальний образ на ньому**, потім **установник** помістив би туди **скрипт після установки**, **зняв би** віртуальний образ, **відтворив би** всі **папки** та **додав би** **скрипт після установки** з **payload** для виконання.
+У [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) було виявлено, що той же процес **`system_installd`** все ще можна зловживати, оскільки він поміщав **скрипт після установки в папку з випадковою назвою, захищену SIP у `/tmp`**. Справа в тому, що **`/tmp` сам по собі не захищений SIP**, тому було можливим **змонтувати** **віртуальний образ на ньому**, потім **установник** помістив би туди **скрипт після установки**, **демонтував** віртуальний образ, **відтворив** усі **папки** та **додав** **скрипт після установки** з **payload** для виконання.
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Виявлено вразливість, при якій **`fsck_cs`** був введений в оману, що призвело до пошкодження важливого файлу, через його здатність слідувати **символічним посиланням**. Зокрема, зловмисники створили посилання з _`/dev/diskX`_ на файл `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Виконання **`fsck_cs`** на _`/dev/diskX`_ призвело до пошкодження `Info.plist`. Цілісність цього файлу є важливою для SIP (Захист цілісності системи) операційної системи, яка контролює завантаження розширень ядра. Після пошкодження здатність SIP керувати виключеннями ядра порушується.
+Виявлено вразливість, при якій **`fsck_cs`** був введений в оману, що призвело до пошкодження важливого файлу, через його здатність слідувати **символічним посиланням**. Зокрема, зловмисники створили посилання з _`/dev/diskX`_ на файл `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Виконання **`fsck_cs`** на _`/dev/diskX`_ призвело до пошкодження `Info.plist`. Цілісність цього файлу є важливою для SIP (Захист цілісності системи) операційної системи, яка контролює завантаження розширень ядра. Після пошкодження можливості SIP керувати виключеннями ядра порушуються.
 
 Команди для використання цієї вразливості:
 ```bash
@@ -158,11 +158,11 @@ fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-The exploitation of this vulnerability has severe implications. The `Info.plist` file, normally responsible for managing permissions for kernel extensions, becomes ineffective. This includes the inability to blacklist certain extensions, such as `AppleHWAccess.kext`. Consequently, with the SIP's control mechanism out of order, this extension can be loaded, granting unauthorized read and write access to the system's RAM.
+Експлуатація цієї вразливості має серйозні наслідки. Файл `Info.plist`, який зазвичай відповідає за управління дозволами для розширень ядра, стає неефективним. Це включає неможливість занести певні розширення до чорного списку, такі як `AppleHWAccess.kext`. Внаслідок цього, з механізмом контролю SIP, що вийшов з ладу, це розширення може бути завантажене, надаючи несанкціонований доступ на читання та запис до оперативної пам'яті системи.
 
-#### [Монтування через захищені папки SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
+#### [Монтування над захищеними папками SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
-Було можливим змонтувати нову файлову систему через **захищені папки SIP, щоб обійти захист**.
+Було можливим змонтувати нову файлову систему над **захищеними папками SIP, щоб обійти захист**.
 ```bash
 mkdir evil
 # Add contento to the folder
@@ -191,33 +191,33 @@ hdiutil attach -mountpoint /System/Library/Snadbox/ evil.dmg
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
-and it was possible to create a symlink in `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` that would allow a user to **unrestrict any file, bypassing SIP protection**.
+and it was possible to створити symlink в `${SHARED_SUPPORT_PATH}/SharedSupport.dmg`, який дозволив би користувачу **обійти будь-який файл, ігноруючи захист SIP**.
 
 ### **com.apple.rootless.install**
 
 {% hint style="danger" %}
-The entitlement **`com.apple.rootless.install`** allows to bypass SIP
+Право **`com.apple.rootless.install`** дозволяє обійти SIP
 {% endhint %}
 
-The entitlement `com.apple.rootless.install` is known to bypass System Integrity Protection (SIP) on macOS. This was notably mentioned in relation to [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/).
+Право `com.apple.rootless.install` відоме тим, що обіймає захист цілісності системи (SIP) на macOS. Це було особливо згадано у зв'язку з [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/).
 
-In this specific case, the system XPC service located at `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` possesses this entitlement. This allows the related process to circumvent SIP constraints. Furthermore, this service notably presents a method that permits the movement of files without enforcing any security measures.
+У цьому конкретному випадку, системна служба XPC, розташована за адресою `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc`, має це право. Це дозволяє відповідному процесу обійти обмеження SIP. Крім того, ця служба помітно пропонує метод, який дозволяє переміщення файлів без застосування будь-яких заходів безпеки.
 
-## Sealed System Snapshots
+## Запечатані системні знімки
 
-Sealed System Snapshots are a feature introduced by Apple in **macOS Big Sur (macOS 11)** as a part of its **System Integrity Protection (SIP)** mechanism to provide an additional layer of security and system stability. They are essentially read-only versions of the system volume.
+Запечатані системні знімки — це функція, введена Apple в **macOS Big Sur (macOS 11)** як частина механізму **захисту цілісності системи (SIP)** для забезпечення додаткового рівня безпеки та стабільності системи. Вони по суті є версіями системного тому, доступними лише для читання.
 
-Here's a more detailed look:
+Ось більш детальний огляд:
 
-1. **Незмінна система**: Sealed System Snapshots роблять об'єм системи macOS "незмінним", що означає, що його не можна змінювати. Це запобігає будь-яким несанкціонованим або випадковим змінам системи, які можуть загрожувати безпеці або стабільності системи.
-2. **Оновлення системного програмного забезпечення**: Коли ви встановлюєте оновлення або апгрейди macOS, macOS створює новий знімок системи. Об'єм завантаження macOS потім використовує **APFS (Apple File System)** для переходу на цей новий знімок. Весь процес застосування оновлень стає безпечнішим і надійнішим, оскільки система завжди може повернутися до попереднього знімка, якщо щось піде не так під час оновлення.
-3. **Розділення даних**: У поєднанні з концепцією розділення об'ємів даних і системи, введеною в macOS Catalina, функція Sealed System Snapshot забезпечує, що всі ваші дані та налаштування зберігаються на окремому об'ємі "**Data**". Це розділення робить ваші дані незалежними від системи, що спрощує процес оновлення системи та підвищує безпеку системи.
+1. **Незмінна система**: Запечатані системні знімки роблять об'єм системи macOS "незмінним", що означає, що його не можна змінювати. Це запобігає будь-яким несанкціонованим або випадковим змінам системи, які можуть загрожувати безпеці або стабільності системи.
+2. **Оновлення програмного забезпечення системи**: Коли ви встановлюєте оновлення або апгрейди macOS, macOS створює новий системний знімок. Об'єм завантаження macOS потім використовує **APFS (Apple File System)** для переходу до цього нового знімка. Весь процес застосування оновлень стає безпечнішим і надійнішим, оскільки система завжди може повернутися до попереднього знімка, якщо щось піде не так під час оновлення.
+3. **Розділення даних**: У поєднанні з концепцією розділення об'ємів даних і системи, введеною в macOS Catalina, функція запечатаного системного знімка забезпечує, що всі ваші дані та налаштування зберігаються на окремому об'ємі "**Дані**". Це розділення робить ваші дані незалежними від системи, що спрощує процес оновлення системи та підвищує безпеку системи.
 
 Пам'ятайте, що ці знімки автоматично керуються macOS і не займають додаткового місця на вашому диску завдяки можливостям спільного використання простору APFS. Також важливо зазначити, що ці знімки відрізняються від **знімків Time Machine**, які є резервними копіями всієї системи, доступними для користувача.
 
-### Check Snapshots
+### Перевірка знімків
 
-The command **`diskutil apfs list`** lists the **details of the APFS volumes** and their layout:
+Команда **`diskutil apfs list`** перераховує **деталі об'ємів APFS** та їхнє розташування:
 
 <pre><code>+-- Container disk3 966B902E-EDBA-4775-B743-CF97A0556A13
 |   ====================================================
@@ -256,16 +256,16 @@ The command **`diskutil apfs list`** lists the **details of the APFS volumes** a
 |   FileVault:                 Yes (Unlocked)
 </code></pre>
 
-In the previous output it's possible to see that **user-accessible locations** are mounted under `/System/Volumes/Data`.
+У попередньому виводі можна побачити, що **доступні для користувача місця** змонтовані під `/System/Volumes/Data`.
 
-Moreover, **macOS System volume snapshot** is mounted in `/` and it's **sealed** (cryptographically signed by the OS). So, if SIP is bypassed and modifies it, the **OS won't boot anymore**.
+Більше того, **системний знімок macOS** змонтований у `/` і він **запечатаний** (криптографічно підписаний ОС). Отже, якщо SIP буде обійдено і його змінять, **ОС більше не завантажиться**.
 
-It's also possible to **verify that seal is enabled** by running:
+Також можливо **перевірити, що запечатка увімкнена**, запустивши:
 ```bash
 csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
-Крім того, знімок диска також змонтовано як **тільки для читання**:
+Крім того, знімок диска також монтується як **тільки для читання**:
 ```bash
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)

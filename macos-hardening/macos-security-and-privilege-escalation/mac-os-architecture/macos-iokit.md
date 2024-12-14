@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 IO Kit - це відкритий, об'єктно-орієнтований **фреймворк драйверів пристроїв** в ядрі XNU, який обробляє **динамічно завантажувані драйвери пристроїв**. Він дозволяє модульному коду додаватися до ядра на льоту, підтримуючи різне апаратне забезпечення.
 
-Драйвери IOKit в основному **експортують функції з ядра**. Ці параметри функцій **типи** є **попередньо визначеними** та перевіреними. Більше того, подібно до XPC, IOKit - це просто ще один шар на **верхівці Mach повідомлень**.
+Драйвери IOKit в основному **експортують функції з ядра**. Ці параметри функцій **типи** є **попередньо визначеними** і перевіряються. Більше того, подібно до XPC, IOKit є ще одним шаром на **верхівці Mach повідомлень**.
 
 **Код IOKit XNU ядра** відкритий Apple в [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Більше того, компоненти IOKit у просторі користувача також є відкритими [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Однак **жоден з драйверів IOKit** не є відкритим. У будь-якому випадку, час від часу випуск драйвера може супроводжуватися символами, які полегшують його налагодження. Перевірте, як [**отримати розширення драйвера з прошивки тут**](./#ipsw)**.**
+Однак, **жоден з драйверів IOKit** не є відкритим. У будь-якому випадку, час від часу випуск драйвера може супроводжуватися символами, які полегшують його налагодження. Перевірте, як [**отримати розширення драйвера з прошивки тут**](./#ipsw)**.**
 
 Він написаний на **C++**. Ви можете отримати демангліровані символи C++ за допомогою:
 ```bash
@@ -48,7 +48,7 @@ IOKit **відкриті функції** можуть виконувати **д
 * **`/Library/Extensions`**
 * Файли KEXT, встановлені стороннім програмним забезпеченням
 
-У iOS вони розташовані в:
+В iOS вони розташовані в:
 
 * **`/System/Library/Extensions`**
 ```bash
@@ -96,9 +96,9 @@ ioreg -p <plane> #Check other plane
 
 У IORegistryExplorer "площини" використовуються для організації та відображення відносин між різними об'єктами в IORegistry. Кожна площина представляє собою певний тип відносин або конкретний вигляд апаратного забезпечення та конфігурації драйверів системи. Ось деякі з поширених площин, з якими ви можете зіткнутися в IORegistryExplorer:
 
-1. **IOService Plane**: Це найзагальніша площина, що відображає об'єкти сервісів, які представляють драйвери та нуби (канали зв'язку між драйверами). Вона показує відносини постачальника та клієнта між цими об'єктами.
+1. **IOService Plane**: Це найзагальніша площина, що відображає об'єкти сервісу, які представляють драйвери та нуби (канали зв'язку між драйверами). Вона показує відносини постачальника та клієнта між цими об'єктами.
 2. **IODeviceTree Plane**: Ця площина представляє фізичні з'єднання між пристроями, коли вони підключені до системи. Вона часто використовується для візуалізації ієрархії пристроїв, підключених через шини, такі як USB або PCI.
-3. **IOPower Plane**: Відображає об'єкти та їх відносини в термінах управління енергією. Вона може показувати, які об'єкти впливають на стан живлення інших, що корисно для налагодження проблем, пов'язаних з енергією.
+3. **IOPower Plane**: Відображає об'єкти та їх відносини в термінах управління енергією. Вона може показати, які об'єкти впливають на стан живлення інших, що корисно для налагодження проблем, пов'язаних з енергією.
 4. **IOUSB Plane**: Спеціально зосереджена на USB-пристроях та їх відносинах, показуючи ієрархію USB-хабів та підключених пристроїв.
 5. **IOAudio Plane**: Ця площина призначена для представлення аудіопристроїв та їх відносин у системі.
 6. ...
@@ -109,7 +109,7 @@ ioreg -p <plane> #Check other plane
 
 * спочатку викликає **`IOServiceMatching`** та **`IOServiceGetMatchingServices`**, щоб отримати сервіс.
 * Потім встановлює з'єднання, викликавши **`IOServiceOpen`**.
-* І нарешті викликає функцію з **`IOConnectCallScalarMethod`**, вказуючи селектор 0 (селектор - це номер, який функція, яку ви хочете викликати, має призначений).
+* І нарешті викликає функцію з **`IOConnectCallScalarMethod`**, вказуючи селектор 0 (селектор - це номер, який функції, яку ви хочете викликати, було призначено).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -164,19 +164,19 @@ IOObjectRelease(iter);
 return 0;
 }
 ```
-Є **інші** функції, які можна використовувати для виклику функцій IOKit, окрім **`IOConnectCallScalarMethod`**, такі як **`IOConnectCallMethod`**, **`IOConnectCallStructMethod**...
+Є **інші** функції, які можна використовувати для виклику функцій IOKit, окрім **`IOConnectCallScalarMethod`**, такі як **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
 
 ## Реверс інтерфейсу драйвера
 
 Ви можете отримати їх, наприклад, з [**образу прошивки (ipsw)**](./#ipsw). Потім завантажте його у ваш улюблений декомпілятор.
 
-Ви можете почати декомпілювати функцію **`externalMethod`**, оскільки це функція драйвера, яка буде отримувати виклик і викликати правильну функцію:
+Ви можете почати декомпіляцію функції **`externalMethod`**, оскільки це функція драйвера, яка буде отримувати виклик і викликати правильну функцію:
 
 <figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-Цей жахливий виклик, розмальований, означає: 
+Цей жахливий виклик, що був демаглений, означає: 
 
 {% code overflow="wrap" %}
 ```cpp
@@ -184,7 +184,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-Зверніть увагу, що в попередньому визначенні пропущено параметр **`self`**, хороше визначення буде таким:
+Зверніть увагу, що в попередньому визначенні пропущено параметр **`self`**, хороше визначення буде:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -231,12 +231,12 @@ OSObject * target, void * reference)
 <figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Якщо ви пам'ятаєте, щоб **викликати** експортовану функцію з простору користувача, нам не потрібно викликати ім'я функції, а лише **номер селектора**. Тут ви можете побачити, що селектор **0** - це функція **`initializeDecoder`**, селектор **1** - **`startDecoder`**, селектор **2** - **`initializeEncoder`**...
+Якщо ви пам'ятаєте, щоб **викликати** **експортовану** функцію з простору користувача, нам не потрібно викликати ім'я функції, а **номер селектора**. Тут ви можете побачити, що селектор **0** - це функція **`initializeDecoder`**, селектор **1** - **`startDecoder`**, селектор **2** - **`initializeEncoder`**...
 {% endhint %}
 
 {% hint style="success" %}
-Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

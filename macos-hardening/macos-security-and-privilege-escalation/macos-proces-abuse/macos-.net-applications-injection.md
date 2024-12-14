@@ -19,11 +19,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-### **Establishing a Debugging Session** <a href="#net-core-debugging" id="net-core-debugging"></a>
+### **Встановлення сесії налагодження** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-Обробка зв'язку між налагоджувачем і налагоджуваним у .NET управляється [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Цей компонент налаштовує два іменовані канали для кожного процесу .NET, як видно в [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), які ініціюються через [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Ці канали мають суфікси **`-in`** та **`-out`**.
+Обробка зв'язку між налагоджувачем і налагоджуваним у .NET керується [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Цей компонент налаштовує два іменовані канали для кожного процесу .NET, як видно в [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), які ініціюються через [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Ці канали мають суфікси **`-in`** та **`-out`**.
 
-Відвідавши **`$TMPDIR`** користувача, можна знайти FIFOs для налагодження .Net додатків.
+Відвідавши **`$TMPDIR`** користувача, можна знайти FIFOs для налагодження доступні для налагодження .Net додатків.
 
 [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) відповідає за управління зв'язком від налагоджувача. Щоб ініціювати нову сесію налагодження, налагоджувач повинен надіслати повідомлення через `out` канал, починаючи з структури `MessageHeader`, детально описаної в вихідному коді .NET:
 ```c
@@ -66,7 +66,7 @@ write(wr, &sDataBlock, sizeof(SessionRequestData));
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
 ## Читання пам'яті
-Once a debugging session is established, memory can be read using the [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) message type. Функція readMemory детально описує необхідні кроки для відправки запиту на читання та отримання відповіді:
+Якщо сесія налагодження встановлена, пам'ять можна читати за допомогою типу повідомлення [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). Функція readMemory детально описує необхідні кроки для відправки запиту на читання та отримання відповіді:
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -82,7 +82,7 @@ return true;
 
 ## Запис пам'яті
 
-Аналогічно, пам'ять можна записати, використовуючи функцію `writeMemory`. Процес включає встановлення типу повідомлення на `MT_WriteMemory`, вказуючи адресу та довжину даних, а потім відправляючи дані:
+Аналогічно, пам'ять можна записати, використовуючи функцію `writeMemory`. Процес включає встановлення типу повідомлення на `MT_WriteMemory`, вказуючи адресу та довжину даних, а потім надсилаючи дані:
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location
@@ -103,9 +103,9 @@ return true;
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-Знаходження місця для перезапису вказівника функції є необхідним, і в .NET Core це можна зробити, націлившись на **Dynamic Function Table (DFT)**. Ця таблиця, детально описана в [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), використовується середовищем виконання для допоміжних функцій компіляції JIT.
+Знаходження місця для перезапису вказівника функції є необхідним, і в .NET Core це можна зробити, націлившись на **Dynamic Function Table (DFT)**. Ця таблиця, детально описана в [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), використовується середовищем виконання для допоміжних функцій JIT-компіляції.
 
-Для систем x64 можна використовувати полювання на сигнатури, щоб знайти посилання на символ `_hlpDynamicFuncTable` у `libcorclr.dll`.
+Для систем x64 можна використовувати підхід підбору підписів для знаходження посилання на символ `_hlpDynamicFuncTable` у `libcorclr.dll`.
 
 Функція налагодження `MT_GetDCB` надає корисну інформацію, включаючи адресу допоміжної функції `m_helperRemoteStartAddr`, що вказує на місцезнаходження `libcorclr.dll` у пам'яті процесу. Ця адреса потім використовується для початку пошуку DFT і перезапису вказівника функції адресою shellcode.
 

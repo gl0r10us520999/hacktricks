@@ -1,34 +1,34 @@
-# Splunk LPE та Постійну
+# Splunk LPE and Persistence
 
 {% hint style="success" %}
-Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-Якщо ви **перераховуєте** машину **всередині** або **ззовні** і знаходите **запущений Splunk** (порт 8090), якщо вам пощастить знати будь-які **дійсні облікові дані**, ви можете **зловживати сервісом Splunk** для **виконання оболонки** від імені користувача, що запускає Splunk. Якщо його запускає root, ви можете підвищити привілеї до root.
+Якщо ви **перераховуєте** машину **всередині** або **ззовні** і знаходите **запущений Splunk** (порт 8090), якщо вам пощастить знати будь-які **дійсні облікові дані**, ви можете **зловживати сервісом Splunk** для **виконання оболонки** від імені користувача, який запускає Splunk. Якщо його запускає root, ви можете підвищити привілеї до root.
 
-Також, якщо ви **вже root і сервіс Splunk не слухає лише на localhost**, ви можете **вкрасти** файл **паролів** **з** сервісу Splunk і **зламати** паролі або **додати нові** облікові дані до нього. І підтримувати постійність на хості.
+Також, якщо ви **вже root і сервіс Splunk не слухає лише на localhost**, ви можете **вкрасти** файл **паролів** **з** сервісу Splunk і **зламати** паролі, або **додати нові** облікові дані до нього. І підтримувати стійкість на хості.
 
 На першому зображенні нижче ви можете побачити, як виглядає веб-сторінка Splunkd.
 
 
 
-## Резюме експлуатації агента Splunk Universal Forwarder
+## Splunk Universal Forwarder Agent Exploit Summary
 
-Для отримання додаткових деталей перевірте пост [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Це лише резюме:
+Для отримання додаткових деталей перегляньте пост [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Це лише резюме:
 
 **Огляд експлуатації:**
-Експлуатація, що націлюється на агента Splunk Universal Forwarder (UF), дозволяє зловмисникам з паролем агента виконувати довільний код на системах, що запускають агента, потенційно компрометуючи всю мережу.
+Експлуатація, що націлена на агент Splunk Universal Forwarder (UF), дозволяє зловмисникам з паролем агента виконувати довільний код на системах, що запускають агента, потенційно компрометуючи всю мережу.
 
 **Ключові моменти:**
 - Агент UF не перевіряє вхідні з'єднання або автентичність коду, що робить його вразливим до несанкціонованого виконання коду.
@@ -37,11 +37,11 @@
 
 **Виконання експлуатації:**
 1. Зловмисник отримує пароль агента UF.
-2. Використовує API Splunk для надсилання команд або скриптів агентам.
+2. Використовує API Splunk для відправки команд або скриптів агентам.
 3. Можливі дії включають витяг файлів, маніпуляцію обліковими записами користувачів та компрометацію системи.
 
 **Вплив:**
-- Повна компрометація мережі з правами SYSTEM/root на кожному хості.
+- Повна компрометація мережі з дозволами на рівні SYSTEM/root на кожному хості.
 - Потенціал для відключення ведення журналів, щоб уникнути виявлення.
 - Встановлення бекдорів або програм-вимагачів.
 
@@ -65,11 +65,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>Підтримати HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Кожен додаток, який може отримувати події, перевіряє з цим демоном, надаючи свій Apple Event Mach Port. І коли додаток хоче надіслати подію, він запитує цей порт у демона.
 
-Пісочничні додатки потребують привілеїв, таких як `allow appleevent-send` та `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))`, щоб мати можливість надсилати події. Зверніть увагу, що права, такі як `com.apple.security.temporary-exception.apple-events`, можуть обмежити доступ до надсилання подій, для чого знадобляться права, такі як `com.apple.private.appleevents`.
+Пісочничні додатки потребують привілеїв, таких як `allow appleevent-send` та `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))`, щоб мати можливість надсилати події. Зверніть увагу, що права, такі як `com.apple.security.temporary-exception.apple-events`, можуть обмежити доступ до надсилання подій, що вимагатиме прав, таких як `com.apple.private.appleevents`.
 
 {% hint style="success" %}
 It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:

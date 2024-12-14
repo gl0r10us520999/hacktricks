@@ -17,7 +17,7 @@
 
 ## Основна інформація про pkg
 
-Установочний пакет macOS (також відомий як файл `.pkg`) — це формат файлу, який використовується macOS для **розповсюдження програмного забезпечення**. Ці файли схожі на **коробку, яка містить все, що потрібно програмному забезпеченню** для правильного встановлення та роботи.
+**Установочний пакет** macOS (також відомий як файл `.pkg`) — це формат файлу, який використовується macOS для **розповсюдження програмного забезпечення**. Ці файли схожі на **коробку, яка містить все, що потрібно програмному забезпеченню** для правильного встановлення та роботи.
 
 Сам файл пакета є архівом, який містить **ієрархію файлів і каталогів, які будуть встановлені на цільовому** комп'ютері. Він також може включати **скрипти** для виконання завдань до та після встановлення, такі як налаштування конфігураційних файлів або очищення старих версій програмного забезпечення.
 
@@ -25,7 +25,7 @@
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Розповсюдження (xml)**: Налаштування (назва, текст привітання…) та перевірки скриптів/встановлення
+* **Розповсюдження (xml)**: Налаштування (назва, текст вітання…) та перевірки скриптів/встановлення
 * **PackageInfo (xml)**: Інформація, вимоги до встановлення, місце встановлення, шляхи до скриптів для виконання
 * **Рахунок матеріалів (bom)**: Список файлів для встановлення, оновлення або видалення з правами доступу до файлів
 * **Payload (архів CPIO, стиснутий gzip)**: Файли для встановлення в `install-location` з PackageInfo
@@ -75,7 +75,7 @@ cpio -i < Scripts
 
 ### AuthorizationExecuteWithPrivileges
 
-Це [публічна функція](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), яку кілька інсталяторів і оновлювачів викликають для **виконання чогось від імені root**. Ця функція приймає **шлях** до **файлу**, який потрібно **виконати** як параметр, однак, якщо зловмисник може **модифікувати** цей файл, він зможе **зловживати** його виконанням з root для **підвищення привілеїв**.
+Це [публічна функція](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), яку кілька інсталяторів і оновлювачів викликають для **виконання чогось від імені root**. Ця функція приймає **шлях** до **файлу**, який потрібно **виконати** як параметр, однак, якщо зловмисник зможе **модифікувати** цей файл, він зможе **зловживати** його виконанням з правами root для **підвищення привілеїв**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -95,15 +95,15 @@ cpio -i < Scripts
 
 Можливо просто згенерувати **`.pkg`** файл з **скриптами перед і після установки** без будь-якого реального вантажу, окрім шкідливого ПЗ всередині скриптів.
 
-### JS у файлі distribution xml
+### JS в xml розподілу
 
-Можливо додати **`<script>`** теги у **файл distribution xml** пакета, і цей код буде виконано, і він може **виконувати команди** за допомогою **`system.run`**:
+Можливо додати **`<script>`** теги в **xml файлі розподілу** пакета, і цей код буде виконано, і він може **виконувати команди** за допомогою **`system.run`**:
 
 <figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
 ### Інсталятор з бекдором
 
-Зловмисний інсталятор, що використовує скрипт і JS код всередині dist.xml
+Шкідливий інсталятор, що використовує скрипт і JS код всередині dist.xml
 ```bash
 # Package structure
 mkdir -p pkgroot/root/Applications/MyApp
@@ -164,24 +164,24 @@ EOF
 # Buil final
 productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pkg
 ```
-## References
+## Посилання
 
-* [**DEF CON 27 - Розпакування пакетів: Погляд всередину Macos Installer Packages та загальні вразливості безпеки**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
-* [**OBTS v4.0: "Дикий світ macOS Installer" - Тоні Ламберта**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-* [**DEF CON 27 - Розпакування пакетів: Погляд всередину MacOS Installer Packages**](https://www.youtube.com/watch?v=kCXhIYtODBg)
+* [**DEF CON 27 - Розпакування пакетів: Погляд всередину пакетів установника Macos та загальні проблеми безпеки**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
+* [**OBTS v4.0: "Дикий світ установників macOS" - Тоні Ламберта**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+* [**DEF CON 27 - Розпакування пакетів: Погляд всередину пакетів установника MacOS**](https://www.youtube.com/watch?v=kCXhIYtODBg)
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 {% endhint %}

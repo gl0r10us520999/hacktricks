@@ -9,7 +9,7 @@
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
@@ -21,7 +21,7 @@
 
 ### Метод 1
 
-Ви можете встановити на свій комп'ютер цей дистрибутивний конструктор: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder) (дотримуйтесь інструкцій на github):
+Ви можете встановити на свій комп'ютер цей дистрибутивний конструктор: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(дотримуйтесь інструкцій на github):
 ```bash
 sudo su
 # Install requirements
@@ -74,7 +74,7 @@ lxc exec privesc /bin/sh
 ```
 ### Метод 2
 
-Створіть образ Alpine і запустіть його, використовуючи прапор `security.privileged=true`, змушуючи контейнер взаємодіяти як root з файловою системою хоста.
+Створіть образ Alpine і запустіть його, використовуючи прапорець `security.privileged=true`, змушуючи контейнер взаємодіяти як root з файловою системою хоста.
 ```bash
 # build a simple alpine image
 git clone https://github.com/saghul/lxd-alpine-builder

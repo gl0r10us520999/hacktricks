@@ -1,70 +1,70 @@
-# Бандли macOS
+# macOS Bundles
 
 {% hint style="success" %}
-Вивчайте та практикуйте хакінг AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакінг-прийоми, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Основна інформація
+## Basic Information
 
-Бандли в macOS служать контейнерами для різноманітних ресурсів, включаючи програми, бібліотеки та інші необхідні файли, що робить їх вигляд схожими на один об'єкт у Finder, наприклад, відомі файли `*.app`. Найпоширенішим бандлом є бандл `.app`, хоча інші типи, такі як `.framework`, `.systemextension` та `.kext`, також поширені.
+Бандли в macOS слугують контейнерами для різноманітних ресурсів, включаючи програми, бібліотеки та інші необхідні файли, що дозволяє їм з'являтися як єдині об'єкти в Finder, такі як знайомі файли `*.app`. Найбільш поширеним бандлом є бандл `.app`, хоча також поширені інші типи, такі як `.framework`, `.systemextension` та `.kext`.
 
-### Основні компоненти бандлу
+### Essential Components of a Bundle
 
-У бандлі, зокрема у каталозі `<application>.app/Contents/`, розміщено різноманітні важливі ресурси:
+Усередині бандла, зокрема в каталозі `<application>.app/Contents/`, зберігається різноманіття важливих ресурсів:
 
-* **\_CodeSignature**: Цей каталог зберігає важливі дані підписування коду, необхідні для перевірки цілісності програми. Ви можете переглянути інформацію про підпис коду за допомогою команд, наприклад: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
+* **\_CodeSignature**: Цей каталог зберігає деталі підпису коду, які є важливими для перевірки цілісності програми. Ви можете перевірити інформацію про підпис коду, використовуючи команди, такі як: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
 * **MacOS**: Містить виконуваний бінарний файл програми, який запускається при взаємодії з користувачем.
-* **Resources**: Сховище компонентів інтерфейсу користувача програми, включаючи зображення, документи та описи інтерфейсу (файли nib/xib).
-* **Info.plist**: Діє як основний файл конфігурації програми, важливий для системи для визнання та взаємодії з програмою належним чином.
+* **Resources**: Сховище для компонентів інтерфейсу користувача програми, включаючи зображення, документи та описи інтерфейсу (файли nib/xib).
+* **Info.plist**: Виконує роль основного конфігураційного файлу програми, що є важливим для системи, щоб правильно розпізнавати та взаємодіяти з програмою.
 
-#### Важливі ключі в Info.plist
+#### Important Keys in Info.plist
 
-Файл `Info.plist` є важливим для конфігурації програми, містить ключі, такі як:
+Файл `Info.plist` є основою для конфігурації програми, містячи такі ключі:
 
-* **CFBundleExecutable**: Вказує назву основного виконуваного файлу, розташованого в каталозі `Contents/MacOS`.
-* **CFBundleIdentifier**: Надає глобальний ідентифікатор програми, який широко використовується macOS для управління програмами.
-* **LSMinimumSystemVersion**: Вказує мінімальну версію macOS, необхідну для запуску програми.
+* **CFBundleExecutable**: Вказує на ім'я основного виконуваного файлу, розташованого в каталозі `Contents/MacOS`.
+* **CFBundleIdentifier**: Надає глобальний ідентифікатор для програми, який широко використовується macOS для управління програмами.
+* **LSMinimumSystemVersion**: Вказує на мінімальну версію macOS, необхідну для запуску програми.
 
-### Дослідження бандлів
+### Exploring Bundles
 
-Для дослідження вмісту бандлу, такого як `Safari.app`, можна використати наступну команду: `bash ls -lR /Applications/Safari.app/Contents`
+Щоб дослідити вміст бандла, такого як `Safari.app`, можна використовувати наступну команду: `bash ls -lR /Applications/Safari.app/Contents`
 
-Це дослідження розкриває каталоги, такі як `_CodeSignature`, `MacOS`, `Resources`, та файли, такі як `Info.plist`, кожен з яких виконує унікальну функцію від забезпечення програми до визначення її інтерфейсу користувача та операційних параметрів.
+Це дослідження виявляє каталоги, такі як `_CodeSignature`, `MacOS`, `Resources`, та файли, такі як `Info.plist`, кожен з яких виконує унікальну роль, від забезпечення безпеки програми до визначення її інтерфейсу користувача та операційних параметрів.
 
-#### Додаткові каталоги бандлу
+#### Additional Bundle Directories
 
-Поза загальними каталогами, бандли також можуть містити:
+Окрім загальних каталогів, бандли можуть також включати:
 
-* **Frameworks**: Містить упаковані фреймворки, використовувані програмою. Фреймворки схожі на dylibs з додатковими ресурсами.
+* **Frameworks**: Містить упаковані фреймворки, які використовуються програмою. Фреймворки подібні до dylibs з додатковими ресурсами.
 * **PlugIns**: Каталог для плагінів та розширень, які покращують можливості програми.
-* **XPCServices**: Містить XPC-сервіси, використовувані програмою для міжпроцесної комунікації.
+* **XPCServices**: Містить XPC-сервіси, які використовуються програмою для міжпроцесної комунікації.
 
-Ця структура забезпечує усі необхідні компоненти, укладені в бандл, що сприяє модульному та безпечному середовищу програми.
+Ця структура забезпечує, що всі необхідні компоненти інкапсульовані в бандлі, що сприяє модульному та безпечному середовищу програми.
 
 Для отримання більш детальної інформації про ключі `Info.plist` та їх значення, документація розробника Apple надає обширні ресурси: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
 
 {% hint style="success" %}
-Вивчайте та практикуйте хакінг AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакінг-прийоми, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

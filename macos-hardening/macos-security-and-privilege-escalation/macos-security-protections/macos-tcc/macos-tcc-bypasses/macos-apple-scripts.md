@@ -25,7 +25,7 @@ click button "Always Allow" of group 1
 end tell
 ```
 Ось кілька прикладів: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
-Знайдіть більше інформації про шкідливе ПЗ, що використовує applescripts [**тут**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
+Знайдіть більше інформації про шкідливе ПЗ, використовуючи applescripts [**тут**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
 
 Apple скрипти можуть бути легко "**скомпільовані**". Ці версії можуть бути легко "**декомпільовані**" за допомогою `osadecompile`
 

@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### Desktop
+### Робочий стіл
 
-* **Entitlement**: Немає
+* **Право**: Немає
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
@@ -394,7 +394,7 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Перевірка" %}
+{% tab title="ObjectiveC - Check" %}
 Перевірте, чи має програма доступ до камери.
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -586,7 +586,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Місцезнаходження
 
 {% hint style="success" %}
-Щоб додаток міг отримати місцезнаходження, **Служби місцезнаходження** (з Конфіденційності та безпеки) **повинні бути увімкнені,** інакше він не зможе отримати доступ до нього.
+Щоб додаток міг отримати місцезнаходження, **Служби місцезнаходження** (з Конфіденційності та безпеки) **повинні бути увімкнені,** інакше він не зможе до нього отримати доступ.
 {% endhint %}
 
 * **Право**: `com.apple.security.personal-information.location`
