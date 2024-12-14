@@ -1,43 +1,43 @@
-# Basiese Forensiese Metodologie
+# Grundlegende forensische Methodik
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Skep en Monteer 'n Beeld
+## Erstellen und Einbinden eines Images
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md" %}
 [image-acquisition-and-mount.md](../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md)
 {% endcontent-ref %}
 
-## Malware Analise
+## Malware-Analyse
 
-Dit **is nie noodsaaklik die eerste stap om uit te voer sodra jy die beeld het nie**. Maar jy kan hierdie malware analise tegnieke onafhanklik gebruik as jy 'n lêer, 'n lêerstelsel beeld, geheue beeld, pcap... het, so dit is goed om **hierdie aksies in gedagte te hou**:
+Dies **ist nicht unbedingt der erste Schritt, den du ausführen solltest, sobald du das Image hast**. Aber du kannst diese Malware-Analyse-Techniken unabhängig verwenden, wenn du eine Datei, ein Dateisystem-Image, ein Speicher-Image, pcap... hast, also ist es gut, diese Aktionen **im Hinterkopf zu behalten**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Inspekteer 'n Beeld
+## Überprüfung eines Images
 
-As jy 'n **forensiese beeld** van 'n toestel ontvang, kan jy begin **die partisie, lêerstelsel** wat gebruik word en **herstel** potensieel **interessante lêers** (selfs verwyderde) analiseer. Leer hoe in:
+Wenn dir ein **forensisches Image** eines Geräts gegeben wird, kannst du beginnen, **die Partitionen, das verwendete Dateisystem** zu **analysieren** und potenziell **interessante Dateien** (auch gelöschte) **wiederherzustellen**. Lerne wie in:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-Afhangende van die gebruikte OS's en selfs platform, moet verskillende interessante artefakte gesoek word:
+Je nach den verwendeten Betriebssystemen und sogar Plattformen sollten verschiedene interessante Artefakte gesucht werden:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -51,58 +51,58 @@ Afhangende van die gebruikte OS's en selfs platform, moet verskillende interessa
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## Diep inspeksie van spesifieke lêer-tipes en Sagteware
+## Tiefeninspektion spezifischer Dateitypen und Software
 
-As jy 'n baie **verdagte** **lêer** het, dan **afhangende van die lêer-tipe en sagteware** wat dit geskep het, kan verskeie **truuks** nuttig wees.\
-Lees die volgende bladsy om 'n paar interessante truuks te leer:
+Wenn du eine sehr **verdächtige** **Datei** hast, dann können **je nach Dateityp und Software**, die sie erstellt hat, mehrere **Tricks** nützlich sein.\
+Lies die folgende Seite, um einige interessante Tricks zu lernen:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
 [specific-software-file-type-tricks](specific-software-file-type-tricks/)
 {% endcontent-ref %}
 
-Ek wil 'n spesiale vermelding maak van die bladsy:
+Ich möchte die Seite besonders erwähnen:
 
 {% content-ref url="specific-software-file-type-tricks/browser-artifacts.md" %}
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Geheue Dump Inspekteer
+## Speicher-Dump-Inspektion
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
 {% endcontent-ref %}
 
-## Pcap Inspekteer
+## Pcap-Inspektion
 
 {% content-ref url="pcap-inspection/" %}
 [pcap-inspection](pcap-inspection/)
 {% endcontent-ref %}
 
-## **Anti-Forensiese Tegnieke**
+## **Anti-Forensische Techniken**
 
-Hou in gedagte die moontlike gebruik van anti-forensiese tegnieke:
+Behalte die mögliche Verwendung von anti-forensischen Techniken im Hinterkopf:
 
 {% content-ref url="anti-forensic-techniques.md" %}
 [anti-forensic-techniques.md](anti-forensic-techniques.md)
 {% endcontent-ref %}
 
-## Bedreiging Jag
+## Bedrohungssuche
 
 {% content-ref url="file-integrity-monitoring.md" %}
 [file-integrity-monitoring.md](file-integrity-monitoring.md)
 {% endcontent-ref %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

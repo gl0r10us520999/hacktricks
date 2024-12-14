@@ -1,31 +1,31 @@
 # DDexec / EverythingExec
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Konteks
+## Kontext
 
-In Linux moet 'n program as 'n lêer bestaan om uitgevoer te word, dit moet op een of ander manier toeganklik wees deur die lêersisteemhiërargie (dit is net hoe `execve()` werk). Hierdie lêer kan op die skyf of in ram (tmpfs, memfd) wees, maar jy het 'n lêerpad nodig. Dit maak dit baie maklik om te beheer wat op 'n Linux-sisteem uitgevoer word, dit maak dit maklik om bedreigings en aanvaller se gereedskap op te spoor of te voorkom dat hulle probeer om enigiets van hulle uit te voer (_bv._ nie toelaat dat onbevoorregte gebruikers uitvoerbare lêers oral plaas nie).
+In Linux muss ein Programm, um ausgeführt zu werden, als Datei existieren, es muss auf irgendeine Weise über die Dateisystemhierarchie zugänglich sein (so funktioniert `execve()`). Diese Datei kann sich auf der Festplatte oder im RAM (tmpfs, memfd) befinden, aber Sie benötigen einen Dateipfad. Dies hat es sehr einfach gemacht, zu kontrollieren, was auf einem Linux-System ausgeführt wird, es erleichtert die Erkennung von Bedrohungen und Werkzeugen von Angreifern oder verhindert, dass sie versuchen, irgendetwas von ihnen auszuführen (_z. B._ unprivilegierten Benutzern zu verbieten, ausführbare Dateien irgendwo abzulegen).
 
-Maar hierdie tegniek is hier om dit alles te verander. As jy nie die proses wat jy wil begin nie kan begin nie... **dan kaap jy een wat reeds bestaan**.
+Aber diese Technik ist hier, um all dies zu ändern. Wenn Sie den Prozess, den Sie möchten, nicht starten können... **dann übernehmen Sie einen bereits vorhandenen**.
 
-Hierdie tegniek maak dit moontlik om **gewone beskermingstegnieke soos slegs-lees, noexec, lêernaam-witlysing, has-witlysing...** te omseil.
+Diese Technik ermöglicht es Ihnen, **häufige Schutztechniken wie schreibgeschützt, noexec, Dateinamen-Whitelisting, Hash-Whitelisting... zu umgehen.**
 
-## Afhanklikhede
+## Abhängigkeiten
 
-Die finale skrip hang af van die volgende gereedskap om te werk, hulle moet toeganklik wees in die sisteem wat jy aanval (standaard sal jy almal oral vind):
+Das endgültige Skript hängt von den folgenden Tools ab, die im System, das Sie angreifen, zugänglich sein müssen (standardmäßig finden Sie sie überall):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,74 +39,74 @@ wc
 tr
 base64
 ```
-## Die tegniek
+## Die Technik
 
-Indien jy in staat is om arbitrair die geheue van 'n proses te wysig, kan jy dit oorneem. Dit kan gebruik word om 'n reeds bestaande proses te kap en dit met 'n ander program te vervang. Ons kan dit bereik deur die `ptrace()` stelseloproep te gebruik (wat vereis dat jy die vermoë het om stelseloproepe uit te voer of om gdb beskikbaar te hê op die stelsel) of, meer interessant, deur te skryf na `/proc/$pid/mem`.
+Wenn Sie in der Lage sind, den Speicher eines Prozesses beliebig zu modifizieren, können Sie ihn übernehmen. Dies kann verwendet werden, um einen bereits vorhandenen Prozess zu hijacken und ihn durch ein anderes Programm zu ersetzen. Wir können dies entweder erreichen, indem wir den `ptrace()`-Syscall verwenden (was erfordert, dass Sie die Fähigkeit haben, Syscalls auszuführen oder gdb auf dem System verfügbar ist) oder, interessanterweise, indem wir in `/proc/$pid/mem` schreiben.
 
-Die lêer `/proc/$pid/mem` is 'n een-tot-een kartering van die hele adresruimte van 'n proses (_bv._ van `0x0000000000000000` tot `0x7ffffffffffff000` in x86-64). Dit beteken dat lees vanaf of skryf na hierdie lêer by 'n skuif `x` dieselfde is as lees vanaf of die inhoud by die virtuele adres `x` wysig.
+Die Datei `/proc/$pid/mem` ist eine Eins-zu-eins-Abbildung des gesamten Adressraums eines Prozesses (_z. B._ von `0x0000000000000000` bis `0x7ffffffffffff000` in x86-64). Das bedeutet, dass das Lesen von oder Schreiben in diese Datei an einem Offset `x` dasselbe ist wie das Lesen von oder Modifizieren des Inhalts an der virtuellen Adresse `x`.
 
-Nou het ons vier basiese probleme om te hanteer:
+Jetzt haben wir vier grundlegende Probleme zu bewältigen:
 
-* In die algemeen kan slegs die root en die program-eienaar van die lêer dit wysig.
+* Im Allgemeinen dürfen nur root und der Programm-Eigentümer der Datei sie modifizieren.
 * ASLR.
-* As ons probeer om te lees of te skryf na 'n adres wat nie gekarteer is in die adresruimte van die program nie, sal ons 'n I/O-fout kry.
+* Wenn wir versuchen, an eine Adresse zu lesen oder zu schreiben, die im Adressraum des Programms nicht abgebildet ist, erhalten wir einen I/O-Fehler.
 
-Hierdie probleme het oplossings wat, alhoewel hulle nie perfek is nie, goed is:
+Diese Probleme haben Lösungen, die, obwohl sie nicht perfekt sind, gut sind:
 
-* Die meeste skilinterpreteerders maak die skepping van lêerbeskrywers moontlik wat dan deur kinderprosesse geërf sal word. Ons kan 'n fd skep wat na die `mem`-lêer van die skil wys met skryfregte... sodat kinderprosesse wat daardie fd gebruik, in staat sal wees om die skil se geheue te wysig.
-* ASLR is nie eers 'n probleem nie, ons kan die skil se `maps`-lêer of enige ander van die procfs ondersoek om inligting oor die adresruimte van die proses te verkry.
-* Dus moet ons oor die lêer `lseek()` beweeg. Vanuit die skil kan dit nie gedoen word tensy deur die berugte `dd` te gebruik nie.
+* Die meisten Shell-Interpreter erlauben die Erstellung von Dateideskriptoren, die dann von Kindprozessen geerbt werden. Wir können einen fd erstellen, der auf die `mem`-Datei der Shell mit Schreibberechtigungen zeigt... sodass Kindprozesse, die diesen fd verwenden, in der Lage sind, den Speicher der Shell zu modifizieren.
+* ASLR ist nicht einmal ein Problem, wir können die `maps`-Datei der Shell oder eine andere aus dem procfs überprüfen, um Informationen über den Adressraum des Prozesses zu erhalten.
+* Daher müssen wir über die Datei `lseek()`. Dies kann von der Shell aus nicht getan werden, es sei denn, wir verwenden das berüchtigte `dd`.
 
-### Meer inligting
+### Im Detail
 
-Die stappe is relatief maklik en vereis geen soort van kundigheid om hulle te verstaan nie:
+Die Schritte sind relativ einfach und erfordern keine Art von Fachwissen, um sie zu verstehen:
 
-* Ontleed die binêre lêer wat ons wil hardloop en die laaier om uit te vind watter karterings hulle benodig. Skep dan 'n "skil"kode wat, breed gesproke, dieselfde stappe sal uitvoer as wat die kernel doen met elke oproep na `execve()`:
-* Skep genoemde karterings.
-* Lees die binêre lêers daarin.
-* Stel toestemmings op.
-* Inisieer uiteindelik die stok met die argumente vir die program en plaas die hulplêer (benodig deur die laaier).
-* Spring in die laaier en laat dit die res doen (laai biblioteke wat deur die program benodig word).
-* Kry van die `stelseloproep`-lêer die adres waarna die proses sal terugkeer na die stelseloproep wat dit uitvoer.
-* Skryf daardie plek oor, wat uitvoerbaar sal wees, met ons skilkode (deur `mem` kan ons onskryfbare bladsye wysig).
-* Gee die program wat ons wil hardloop aan die stdin van die proses (sal deur genoemde "skil"kode `lees()` word).
-* Op hierdie punt is dit aan die laaier om die nodige biblioteke vir ons program te laai en daarin te spring.
+* Analysieren Sie die Binärdatei, die wir ausführen möchten, und den Loader, um herauszufinden, welche Abbildungen sie benötigen. Dann erstellen Sie einen "Shell"-Code, der, grob gesagt, die gleichen Schritte ausführt, die der Kernel bei jedem Aufruf von `execve()` durchführt:
+* Erstellen Sie die genannten Abbildungen.
+* Lesen Sie die Binärdateien in diese ein.
+* Richten Sie Berechtigungen ein.
+* Initialisieren Sie schließlich den Stack mit den Argumenten für das Programm und platzieren Sie den Hilfsvektor (der vom Loader benötigt wird).
+* Springen Sie in den Loader und lassen Sie ihn den Rest erledigen (benötigte Bibliotheken für das Programm laden).
+* Erhalten Sie aus der `syscall`-Datei die Adresse, zu der der Prozess nach dem Syscall zurückkehren wird, den er ausführt.
+* Überschreiben Sie diesen Ort, der ausführbar sein wird, mit unserem Shellcode (durch `mem` können wir nicht beschreibbare Seiten modifizieren).
+* Übergeben Sie das Programm, das wir ausführen möchten, an den stdin des Prozesses (wird von said "Shell"-Code `read()`).
+* An diesem Punkt liegt es am Loader, die notwendigen Bibliotheken für unser Programm zu laden und in es zu springen.
 
-**Kyk na die instrument op** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Überprüfen Sie das Tool unter** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-Daar is verskeie alternatiewe vir `dd`, een waarvan, `tail`, tans die verstekprogram is wat gebruik word om deur die `mem`-lêer te `lseek()` (wat die enigste doel was vir die gebruik van `dd`). Genoemde alternatiewe is:
+Es gibt mehrere Alternativen zu `dd`, von denen eine, `tail`, derzeit das Standardprogramm ist, das verwendet wird, um durch die `mem`-Datei zu `lseek()` (was der einzige Zweck für die Verwendung von `dd` war). Diese Alternativen sind:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-Deur die veranderlike `SEEKER` in te stel, kan jy die gebruikte soeker verander, _bv._:
+Das Setzen der Variablen `SEEKER` ermöglicht es Ihnen, den verwendeten Seeker zu ändern, _z. B._:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Indien jy 'n ander geldige soeker vind wat nie geïmplementeer is in die skrips nie, kan jy dit steeds gebruik deur die `SEEKER_ARGS` veranderlike in te stel:
+Wenn Sie einen anderen gültigen Seeker finden, der im Skript nicht implementiert ist, können Sie ihn weiterhin verwenden, indem Sie die Variable `SEEKER_ARGS` festlegen:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Blok dit, EDRs.
+Blockiere dies, EDRs.
 
-## Verwysings
+## Referenzen
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

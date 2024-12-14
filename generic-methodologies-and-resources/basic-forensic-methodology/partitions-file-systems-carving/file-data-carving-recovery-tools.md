@@ -17,17 +17,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Carving & Recovery tools
 
-More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+Weitere Tools unter [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Die mees algemene hulpmiddel wat in forensiese ondersoeke gebruik word om lêers uit beelde te onttrek, is [**Autopsy**](https://www.autopsy.com/download/). Laai dit af, installeer dit en laat dit die lêer verwerk om "versteekte" lêers te vind. Let daarop dat Autopsy gebou is om skyfbeelde en ander soorte beelde te ondersteun, maar nie eenvoudige lêers nie.
+Das am häufigsten verwendete Tool in der Forensik zum Extrahieren von Dateien aus Bildern ist [**Autopsy**](https://www.autopsy.com/download/). Laden Sie es herunter, installieren Sie es und lassen Sie es die Datei verarbeiten, um "versteckte" Dateien zu finden. Beachten Sie, dass Autopsy entwickelt wurde, um Festplattenabbilder und andere Arten von Bildern zu unterstützen, jedoch keine einfachen Dateien.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** is 'n hulpmiddel om binêre lêers te analiseer om ingebedde inhoud te vind. Dit kan geïnstalleer word via `apt` en sy bron is op [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** ist ein Tool zur Analyse von Binärdateien, um eingebettete Inhalte zu finden. Es kann über `apt` installiert werden und der Quellcode befindet sich auf [GitHub](https://github.com/ReFirmLabs/binwalk).
 
-**Nuttige opdragte**:
+**Nützliche Befehle**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -36,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Nog 'n algemene hulpmiddel om verborge lêers te vind, is **foremost**. Jy kan die konfigurasielêer van foremost in `/etc/foremost.conf` vind. As jy net vir 'n paar spesifieke lêers wil soek, ontkommentarieer hulle. As jy niks ontkommentarieer nie, sal foremost vir sy standaard geconfigureerde lêertipes soek.
+Ein weiteres gängiges Tool, um versteckte Dateien zu finden, ist **foremost**. Die Konfigurationsdatei von foremost finden Sie unter `/etc/foremost.conf`. Wenn Sie nur nach bestimmten Dateien suchen möchten, kommentieren Sie diese aus. Wenn Sie nichts auskommentieren, sucht foremost nach den standardmäßig konfigurierten Dateitypen.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -44,70 +44,70 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** is 'n ander hulpmiddel wat gebruik kan word om **lêers wat in 'n lêer ingebed is** te vind en te onttrek. In hierdie geval sal jy die lêertipes wat jy wil hê dit moet onttrek, uit die konfigurasie-lêer (_/etc/scalpel/scalpel.conf_) moet ontkommentarieer.
+**Scalpel** ist ein weiteres Tool, das verwendet werden kann, um **Dateien, die in einer Datei eingebettet sind**, zu finden und zu extrahieren. In diesem Fall müssen Sie die Dateitypen, die Sie extrahieren möchten, aus der Konfigurationsdatei (_/etc/scalpel/scalpel.conf_) auskommentieren.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Hierdie hulpmiddel kom binne kali, maar jy kan dit hier vind: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Dieses Tool ist in Kali enthalten, kann aber hier gefunden werden: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Hierdie hulpmiddel kan 'n beeld skandeer en sal **pcaps** daarin **onttrek**, **netwerk inligting (URL's, domeine, IP's, MAC's, e-posse)** en meer **lêers**. Jy hoef net te doen:
+Dieses Tool kann ein Image scannen und wird **pcaps** darin **extrahieren**, **Netzwerkinformationen (URLs, Domains, IPs, MACs, Mails)** und weitere **Dateien**. Sie müssen nur Folgendes tun:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **alle die inligting** that the tool has gathered (wagwoorde?), **analiseer** the **pakkette** (lees[ **Pcaps analise**](../pcap-inspection/)), search for **vreemde domeine** (domeine verwant aan **malware** of **nie-bestaande**).
+Navigieren Sie durch **alle Informationen**, die das Tool gesammelt hat (Passwörter?), **analysieren** Sie die **Pakete** (lesen Sie [**Pcaps-Analyse**](../pcap-inspection/)), suchen Sie nach **seltsamen Domains** (Domains, die mit **Malware** oder **nicht existierenden** in Verbindung stehen).
 
 ### PhotoRec
 
-You can find it in [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+Sie finden es unter [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-It comes with GUI and CLI versions. You can select the **lêer-tipes** you want PhotoRec to search for.
+Es kommt mit GUI- und CLI-Versionen. Sie können die **Dateitypen** auswählen, nach denen PhotoRec suchen soll.
 
 ![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-Check the [kode](https://code.google.com/archive/p/binvis/) and the [web blad gereedskap](https://binvis.io/#/).
+Überprüfen Sie den [Code](https://code.google.com/archive/p/binvis/) und die [Webseite des Tools](https://binvis.io/#/).
 
-#### Features of BinVis
+#### Funktionen von BinVis
 
-* Visuele en aktiewe **struktuurkyker**
-* Meerdere plotte vir verskillende fokuspunte
-* Fokusering op gedeeltes van 'n monster
-* **Sien stings en hulpbronne**, in PE of ELF uitvoerbare e. g.
-* Kry **patrone** vir kriptoanalise op lêers
-* **Identifiseer** pakker of kodering algoritmes
-* **Identifiseer** Steganografie deur patrone
-* **Visuele** binêre-diffing
+* Visueller und aktiver **Struktur-Viewer**
+* Mehrere Plots für verschiedene Fokuspunkte
+* Fokussierung auf Teile einer Probe
+* **Anzeigen von Strings und Ressourcen**, in PE- oder ELF-Executables z. B.
+* Erhalten von **Mustern** für die Kryptoanalyse von Dateien
+* **Erkennen** von Packer- oder Encoder-Algorithmen
+* **Identifizieren** von Steganographie durch Muster
+* **Visuelles** binäres Differenzieren
 
-BinVis is a great **beginpunt om bekend te raak met 'n onbekende teiken** in 'n swart-doos scenario.
+BinVis ist ein großartiger **Ausgangspunkt, um sich mit einem unbekannten Ziel** in einem Black-Box-Szenario vertraut zu machen.
 
-## Spesifieke Data Carving Gereedskap
+## Spezifische Daten-Carving-Tools
 
 ### FindAES
 
-Searches for AES sleutels by searching for their key schedules. Able to find 128. 192, and 256 bit sleutels, such as those used by TrueCrypt and BitLocker.
+Sucht nach AES-Schlüsseln, indem es nach ihren Schlüsselschemata sucht. In der Lage, 128, 192 und 256 Bit Schlüssel zu finden, wie sie von TrueCrypt und BitLocker verwendet werden.
 
-Download [hier](https://sourceforge.net/projects/findaes/).
+Laden Sie [hier herunter](https://sourceforge.net/projects/findaes/).
 
-## Aanvullende gereedskap
+## Ergänzende Tools
 
-You can use [**viu** ](https://github.com/atanunq/viu)to see images from the terminal.\
-You can use the linux command line tool **pdftotext** to transform a pdf into text and read it.
+Sie können [**viu** ](https://github.com/atanunq/viu) verwenden, um Bilder aus dem Terminal anzuzeigen.\
+Sie können das Linux-Befehlszeilen-Tool **pdftotext** verwenden, um ein PDF in Text umzuwandeln und es zu lesen.
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

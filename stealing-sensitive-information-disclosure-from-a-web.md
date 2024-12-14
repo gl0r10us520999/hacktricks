@@ -1,39 +1,39 @@
-# Steel van Gevoelige Inligting Openbaarmaking van 'n Web
+# Stealing Sensitive Information Disclosure from a Web
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-Indien jy op 'n **webbladsy kom wat jou gevoelige inligting toon gebaseer op jou sessie**: Dalk reflekteer dit koekies, of druk kredietkaartbesonderhede of enige ander gevoelige inligting, kan jy probeer om dit te steel.\
-Hier bied ek jou die hoofmaniere aan om dit te probeer bereik:
+Wenn du irgendwann eine **Webseite findest, die dir sensible Informationen basierend auf deiner Sitzung präsentiert**: Vielleicht spiegelt sie Cookies wider, oder druckt Kreditkarteninformationen oder andere sensible Daten aus, dann könntest du versuchen, sie zu stehlen.\
+Hier präsentiere ich dir die Hauptwege, wie du versuchen kannst, dies zu erreichen:
 
-* [**CORS omseiling**](pentesting-web/cors-bypass.md): As jy CORS-koppe kan omseil, sal jy in staat wees om die inligting te steel deur 'n Ajax-aanvraag vir 'n skadelike bladsy uit te voer.
-* [**XSS**](pentesting-web/xss-cross-site-scripting/): As jy 'n XSS-gebrek op die bladsy vind, kan jy dit moontlik misbruik om die inligting te steel.
-* [**Dangling Markup**](pentesting-web/dangling-markup-html-scriptless-injection/): As jy nie XSS-etikette kan inspuit nie, kan jy steeds die inligting steel deur ander gewone HTML-etikette te gebruik.
-* [**Clickjaking**](pentesting-web/clickjacking.md): As daar geen beskerming teen hierdie aanval is nie, kan jy die gebruiker moontlik mislei om jou die gevoelige data te stuur ( 'n voorbeeld [hier](https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20)).
+* [**CORS-Bypass**](pentesting-web/cors-bypass.md): Wenn du CORS-Header umgehen kannst, wirst du in der Lage sein, die Informationen durch das Ausführen von Ajax-Anfragen für eine bösartige Seite zu stehlen.
+* [**XSS**](pentesting-web/xss-cross-site-scripting/): Wenn du eine XSS-Sicherheitsanfälligkeit auf der Seite findest, könntest du in der Lage sein, sie auszunutzen, um die Informationen zu stehlen.
+* [**Dangling Markup**](pentesting-web/dangling-markup-html-scriptless-injection/): Wenn du keine XSS-Tags injizieren kannst, könntest du dennoch in der Lage sein, die Informationen mit anderen regulären HTML-Tags zu stehlen.
+* [**Clickjacking**](pentesting-web/clickjacking.md): Wenn es keinen Schutz gegen diesen Angriff gibt, könntest du den Benutzer dazu bringen, dir die sensiblen Daten zu senden (ein Beispiel [hier](https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20)).
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

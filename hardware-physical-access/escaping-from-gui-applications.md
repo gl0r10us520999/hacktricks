@@ -1,16 +1,16 @@
-# Ontsnapping uit KIOSK
+# Escaping from KIOSKs
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -19,58 +19,58 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ---
 
-## Kontroleer fisiese toestel
+## Überprüfen Sie das physische Gerät
 
-|   Komponent    | Aksie                                                               |
+|   Komponente   | Aktion                                                               |
 | -------------- | -------------------------------------------------------------------- |
-| Kragknoppie    | Om die toestel af en weer aan te skakel kan die begin skerm blootstel  |
-| Kragkabel      | Kontroleer of die toestel herbegin wanneer die krag kortliks afgesny word |
-| USB-poorte     | Koppel fisiese sleutelbord met meer sneltoetsen                     |
-| Ethernet       | Netwerk skandering of sniffing kan verdere uitbuiting moontlik maak   |
+| Netzschalter   | Das Gerät aus- und wieder einschalten kann den Startbildschirm anzeigen |
+| Netzkabel      | Überprüfen Sie, ob das Gerät neu startet, wenn die Stromversorgung kurz unterbrochen wird |
+| USB-Ports      | Physikalische Tastatur mit mehr Tastenkombinationen anschließen      |
+| Ethernet       | Netzwerk-Scan oder Sniffing kann weitere Ausnutzung ermöglichen       |
 
 
-## Kontroleer vir moontlike aksies binne die GUI-toepassing
+## Überprüfen Sie mögliche Aktionen innerhalb der GUI-Anwendung
 
-**Algemene Dialoë** is daardie opsies van **'n lêer stoor**, **'n lêer oopmaak**, 'n lettertipe kies, 'n kleur... Die meeste van hulle sal **'n volledige Explorer-funksionaliteit bied**. Dit beteken dat jy toegang tot Explorer-funksies sal hê as jy toegang tot hierdie opsies kan kry:
+**Gemeinsame Dialoge** sind Optionen zum **Speichern einer Datei**, **Öffnen einer Datei**, Auswählen einer Schriftart, einer Farbe... Die meisten von ihnen bieten **vollständige Explorer-Funktionalität**. Das bedeutet, dass Sie auf Explorer-Funktionalitäten zugreifen können, wenn Sie auf diese Optionen zugreifen können:
 
-* Sluit/Sluit as
-* Oop/Oop met
-* Druk
-* Eksporteer/Importeer
-* Soek
-* Skandeer
+* Schließen/Schließen als
+* Öffnen/Öffnen mit
+* Drucken
+* Exportieren/Importieren
+* Suchen
+* Scannen
 
-Jy moet kontroleer of jy kan:
+Sie sollten überprüfen, ob Sie:
 
-* Lêers wysig of nuwe lêers skep
-* Simboliese skakels skep
-* Toegang tot beperkte areas kry
-* Ander toepassings uitvoer
+* Dateien ändern oder neue Dateien erstellen können
+* Symbolische Links erstellen können
+* Zugriff auf eingeschränkte Bereiche erhalten können
+* Andere Apps ausführen können
 
-### Opdraguitvoering
+### Befehlsausführung
 
-Miskien **deur 'n `Open with`** opsie kan jy 'n tipe shell oopmaak/uitvoer.
+Vielleicht können Sie **mit einer `Öffnen mit`** Option\*\* eine Art Shell öffnen/ausführen.
 
 #### Windows
 
-Byvoorbeeld _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ vind meer binaries wat gebruik kan word om opdragte uit te voer (en onverwagte aksies uit te voer) hier: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Zum Beispiel _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ finden Sie hier weitere Binärdateien, die verwendet werden können, um Befehle auszuführen (und unerwartete Aktionen durchzuführen): [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 #### \*NIX \_\_
 
-_bash, sh, zsh..._ Meer hier: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ Mehr hier: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
 ## Windows
 
-### Om padbeperkings te omseil
+### Umgehung von Pfadbeschränkungen
 
-* **Omgewing veranderlikes**: Daar is baie omgewing veranderlikes wat na 'n sekere pad wys
-* **Ander protokolle**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
-* **Simboliese skakels**
-* **Sneltoetste**: CTRL+N (oop nuwe sessie), CTRL+R (Voer Opdragte uit), CTRL+SHIFT+ESC (Taakbestuurder), Windows+E (oop explorer), CTRL-B, CTRL-I (Gunstelinge), CTRL-H (Gesiedenis), CTRL-L, CTRL-O (Lêer/Oop Dialoog), CTRL-P (Druk Dialoog), CTRL-S (Stoor As)
-* Versteekte Administratiewe menu: CTRL-ALT-F8, CTRL-ESC-F9
-* **Shell URIs**: _shell:Administratiewe Gereedskap, shell:DokumenteBiblioteek, shell:Biblioteke, shell:Gebruikersprofiele, shell:Persoonlik, shell:SoekTuisGids, shell:Stelselshell:NetwerkPlekkeGids, shell:StuurNa, shell:GebruikersProfiele, shell:Gemeenskaplike Administratiewe Gereedskap, shell:MyRekenaarGids, shell:InternetGids_
-* **UNC-pade**: Pade om aan gedeelde vouers te koppel. Jy moet probeer om aan die C$ van die plaaslike masjien te koppel ("\\\127.0.0.1\c$\Windows\System32")
-* **Meer UNC-pade:**
+* **Umgebungsvariablen**: Es gibt viele Umgebungsvariablen, die auf einen bestimmten Pfad zeigen
+* **Andere Protokolle**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
+* **Symbolische Links**
+* **Verknüpfungen**: CTRL+N (neue Sitzung öffnen), CTRL+R (Befehle ausführen), CTRL+SHIFT+ESC (Task-Manager), Windows+E (Explorer öffnen), CTRL-B, CTRL-I (Favoriten), CTRL-H (Verlauf), CTRL-L, CTRL-O (Datei/Öffnen-Dialog), CTRL-P (Drucken-Dialog), CTRL-S (Speichern unter)
+* Verstecktes Administrationsmenü: CTRL-ALT-F8, CTRL-ESC-F9
+* **Shell-URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **UNC-Pfade**: Pfade zum Verbinden mit freigegebenen Ordnern. Sie sollten versuchen, sich mit dem C$ des lokalen Computers zu verbinden ("\\\127.0.0.1\c$\Windows\System32")
+* **Weitere UNC-Pfade:**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -84,15 +84,15 @@ _bash, sh, zsh..._ Meer hier: [https://gtfobins.github.io/](https://gtfobins.git
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-### Laai jou binaries af
+### Laden Sie Ihre Binärdateien herunter
 
-Konsol: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
+Konsole: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Registrie redigeerder: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+Registrierungseditor: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
-### Toegang tot lêerstelsel vanaf die blaaier
+### Zugriff auf das Dateisystem über den Browser
 
-| PAD                 | PAD               | PAD                | PAD                 |
+| PFAD                | PFAD              | PFAD               | PFAD                |
 | ------------------- | ----------------- | ------------------ | ------------------- |
 | File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
 | File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
@@ -102,190 +102,190 @@ Registrie redigeerder: [https://sourceforge.net/projects/uberregedit/](https://s
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-### Sneltoetste
+### Tastenkombinationen
 
-* Plakkerige Sleutels – Druk SHIFT 5 keer
-* Muis Sleutels – SHIFT+ALT+NUMLOCK
-* Hoë Kontras – SHIFT+ALT+PRINTSCN
-* Wissel Sleutels – Hou NUMLOCK vir 5 sekondes
-* Filter Sleutels – Hou regter SHIFT vir 12 sekondes
-* WINDOWS+F1 – Windows Soek
-* WINDOWS+D – Wys Bureaublad
-* WINDOWS+E – Begin Windows Explorer
-* WINDOWS+R – Voer uit
-* WINDOWS+U – Toeganklikheidsentrum
-* WINDOWS+F – Soek
-* SHIFT+F10 – Konteksmenu
-* CTRL+SHIFT+ESC – Taakbestuurder
-* CTRL+ALT+DEL – Splash skerm op nuwer Windows weergawes
-* F1 – Hulp F3 – Soek
-* F6 – Adresbalk
-* F11 – Wissel volle skerm binne Internet Explorer
-* CTRL+H – Internet Explorer Gesiedenis
-* CTRL+T – Internet Explorer – Nuwe Tab
-* CTRL+N – Internet Explorer – Nuwe Bladsy
-* CTRL+O – Oop Lêer
-* CTRL+S – Stoor CTRL+N – Nuwe RDP / Citrix
+* Sticky Keys – Drücken Sie SHIFT 5 Mal
+* Mouse Keys – SHIFT+ALT+NUMLOCK
+* Hoher Kontrast – SHIFT+ALT+PRINTSCN
+* Toggle Keys – Halten Sie NUMLOCK 5 Sekunden lang gedrückt
+* Filter Keys – Halten Sie die rechte SHIFT-Taste 12 Sekunden lang gedrückt
+* WINDOWS+F1 – Windows-Suche
+* WINDOWS+D – Desktop anzeigen
+* WINDOWS+E – Windows Explorer starten
+* WINDOWS+R – Ausführen
+* WINDOWS+U – Eingabehilfen-Center
+* WINDOWS+F – Suchen
+* SHIFT+F10 – Kontextmenü
+* CTRL+SHIFT+ESC – Task-Manager
+* CTRL+ALT+DEL – Startbildschirm in neueren Windows-Versionen
+* F1 – Hilfe F3 – Suchen
+* F6 – Adressleiste
+* F11 – Vollbildmodus in Internet Explorer umschalten
+* CTRL+H – Internet Explorer Verlauf
+* CTRL+T – Internet Explorer – Neuer Tab
+* CTRL+N – Internet Explorer – Neue Seite
+* CTRL+O – Datei öffnen
+* CTRL+S – Speichern CTRL+N – Neues RDP / Citrix
 
-### Veeg
+### Wischgesten
 
-* Veeg van die linkerkant na die regterkant om al die oop Windows te sien, die KIOSK-toepassing te minimaliseer en direk toegang tot die hele OS te verkry;
-* Veeg van die regterkant na die linkerkant om die Aksie Sentrum te open, die KIOSK-toepassing te minimaliseer en direk toegang tot die hele OS te verkry;
-* Veeg in vanaf die boonste rand om die titelbalk sigbaar te maak vir 'n toepassing wat in volle skermmodus oopgemaak is;
-* Veeg op vanaf die onderkant om die taakbalk in 'n volle skerm toepassing te wys.
+* Wischen Sie von der linken Seite nach rechts, um alle offenen Fenster zu sehen, minimieren Sie die KIOSK-App und greifen Sie direkt auf das gesamte Betriebssystem zu;
+* Wischen Sie von der rechten Seite nach links, um das Aktionscenter zu öffnen, minimieren Sie die KIOSK-App und greifen Sie direkt auf das gesamte Betriebssystem zu;
+* Wischen Sie von der oberen Kante nach unten, um die Titelleiste für eine im Vollbildmodus geöffnete App sichtbar zu machen;
+* Wischen Sie von unten nach oben, um die Taskleiste in einer Vollbild-App anzuzeigen.
 
-### Internet Explorer Truuks
+### Internet Explorer Tricks
 
-#### 'Beeld Toolbar'
+#### 'Bildwerkzeugleiste'
 
-Dit is 'n toolbar wat aan die boonste linkerkant van die beeld verskyn wanneer dit geklik word. Jy sal in staat wees om te Stoor, Druk, Mailto, "My Beelde" in Explorer oop te maak. Die Kiosk moet Internet Explorer gebruik.
+Es ist eine Werkzeugleiste, die oben links im Bild erscheint, wenn es angeklickt wird. Sie können Speichern, Drucken, Mailto, "Meine Bilder" im Explorer öffnen. Der Kiosk muss Internet Explorer verwenden.
 
-#### Shell Protokol
+#### Shell-Protokoll
 
-Tik hierdie URL's in om 'n Explorer-weergave te verkry:
+Geben Sie diese URLs ein, um eine Explorer-Ansicht zu erhalten:
 
-* `shell:Administratiewe Gereedskap`
-* `shell:DokumenteBiblioteek`
-* `shell:Biblioteke`
-* `shell:Gebruikersprofiele`
-* `shell:Persoonlik`
-* `shell:SoekTuisGids`
-* `shell:NetwerkPlekkeGids`
-* `shell:StuurNa`
-* `shell:GebruikersProfiele`
-* `shell:Gemeenskaplike Administratiewe Gereedskap`
-* `shell:MyRekenaarGids`
-* `shell:InternetGids`
-* `Shell:Profiel`
+* `shell:Administrative Tools`
+* `shell:DocumentsLibrary`
+* `shell:Libraries`
+* `shell:UserProfiles`
+* `shell:Personal`
+* `shell:SearchHomeFolder`
+* `shell:NetworkPlacesFolder`
+* `shell:SendTo`
+* `shell:UserProfiles`
+* `shell:Common Administrative Tools`
+* `shell:MyComputerFolder`
+* `shell:InternetFolder`
+* `Shell:Profile`
 * `Shell:ProgramFiles`
-* `Shell:Stelsel`
-* `Shell:BeheerPaneelGids`
+* `Shell:System`
+* `Shell:ControlPanelFolder`
 * `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Beheer Paneel
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> My Rekenaar
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> My Netwerk Plekke
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Systemsteuerung
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mein Computer
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Meine Netzwerkplätze
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
-### Wys Lêer Uitbreidings
+### Dateiendungen anzeigen
 
-Kyk hierdie bladsy vir meer inligting: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
+Überprüfen Sie diese Seite für weitere Informationen: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-## Blaaiers truuks
+## Browser-Tricks
 
-Back-up iKat weergawes:
+Backup iKat-Versionen:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\\
 
-Skep 'n algemene dialoog met JavaScript en toegang lêer verkenner: `document.write('<input/type=file>')`\
-Bron: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
+Erstellen Sie einen gemeinsamen Dialog mit JavaScript und greifen Sie auf den Datei-Explorer zu: `document.write('<input/type=file>')`\
+Quelle: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 ## iPad
 
-### Gebare en knoppies
+### Gesten und Tasten
 
-* Veeg op met vier (of vyf) vingers / Dubbel-tik die Tuis knoppie: Om die multitaskweergave te sien en die Toepassing te verander
-* Veeg een kant of die ander met vier of vyf vingers: Om na die volgende/laaste Toepassing te verander
-* Knyp die skerm met vyf vingers / Raak die Tuis knoppie / Veeg op met 1 vinger vanaf die onderkant van die skerm in 'n vinnige beweging na bo: Om toegang tot Tuis te verkry
-* Veeg een vinger vanaf die onderkant van die skerm net 1-2 duim (stadig): Die dok sal verskyn
-* Veeg af vanaf die boonste deel van die skerm met 1 vinger: Om jou kennisgewings te sien
-* Veeg af met 1 vinger in die boonste regterhoek van die skerm: Om die iPad Pro se kontrole sentrum te sien
-* Veeg 1 vinger vanaf die linkerkant van die skerm 1-2 duim: Om die Vandag-weergave te sien
-* Veeg vinnig 1 vinger vanaf die middel van die skerm na regs of links: Om na die volgende/laaste Toepassing te verander
-* Druk en hou die Aan/**Af**/Slaap knoppie in die boonste regterhoek van die **iPad +** Beweeg die Gly om **af te skakel** skuif heeltemal na regs: Om af te skakel
-* Druk die Aan/**Af**/Slaap knoppie in die boonste regterhoek van die **iPad en die Tuis knoppie vir 'n paar sekondes**: Om 'n harde afskakeling te dwing
-* Druk die Aan/**Af**/Slaap knoppie in die boonste regterhoek van die **iPad en die Tuis knoppie vinnig**: Om 'n skermskoot te neem wat in die onderste linkerhoek van die skerm sal verskyn. Druk albei knoppies op dieselfde tyd baie kort asof jy hulle 'n paar sekondes hou, sal 'n harde afskakeling uitgevoer word.
+* Wischen Sie mit vier (oder fünf) Fingern nach oben / Doppeltippen auf die Home-Taste: Um die Multitasking-Ansicht anzuzeigen und die App zu wechseln
+* Wischen Sie in eine oder andere Richtung mit vier oder fünf Fingern: Um zur nächsten/vorherigen App zu wechseln
+* Kneifen Sie den Bildschirm mit fünf Fingern / Berühren Sie die Home-Taste / Wischen Sie mit 1 Finger schnell von unten nach oben: Um auf die Startseite zuzugreifen
+* Wischen Sie mit einem Finger von unten am Bildschirm nur 1-2 Zoll (langsam): Die Dock-Leiste wird angezeigt
+* Wischen Sie mit 1 Finger von oben auf dem Display: Um Ihre Benachrichtigungen anzuzeigen
+* Wischen Sie mit 1 Finger in die obere rechte Ecke des Bildschirms: Um das Kontrollzentrum des iPad Pro zu sehen
+* Wischen Sie mit 1 Finger von der linken Seite des Bildschirms 1-2 Zoll: Um die Heute-Ansicht zu sehen
+* Wischen Sie schnell mit 1 Finger von der Mitte des Bildschirms nach rechts oder links: Um zur nächsten/vorherigen App zu wechseln
+* Drücken und halten Sie die Ein-/Aus-/Ruhe-Taste in der oberen rechten Ecke des **iPad +** Bewegen Sie den Schieberegler **ausschalten** ganz nach rechts: Um auszuschalten
+* Drücken Sie die Ein-/Aus-/Ruhe-Taste in der oberen rechten Ecke des **iPad und die Home-Taste für einige Sekunden**: Um einen harten Ausschaltvorgang zu erzwingen
+* Drücken Sie die Ein-/Aus-/Ruhe-Taste in der oberen rechten Ecke des **iPad und die Home-Taste schnell**: Um einen Screenshot zu machen, der in der unteren linken Ecke des Displays angezeigt wird. Drücken Sie beide Tasten gleichzeitig sehr kurz, da bei längerem Halten ein harter Ausschaltvorgang durchgeführt wird.
 
-### Sneltoets
+### Tastenkombinationen
 
-Jy moet 'n iPad sleutelbord of 'n USB sleutelbord-adapter hê. Net sneltoets wat kan help om uit die toepassing te ontsnap sal hier getoon word.
+Sie sollten eine iPad-Tastatur oder einen USB-Tastaturadapter haben. Nur Tastenkombinationen, die beim Entkommen aus der Anwendung helfen könnten, werden hier angezeigt.
 
-| Sleutel | Naam         |
-| ------- | ------------ |
-| ⌘       | Opdrag      |
-| ⌥       | Opsie (Alt) |
-| ⇧       | Shift        |
-| ↩       | Terug        |
-| ⇥       | Tab          |
-| ^       | Beheer       |
-| ←       | Linker Pyl  |
-| →       | Regter Pyl   |
-| ↑       | Bo Pyl      |
-| ↓       | Onder Pyl    |
+| Taste | Name         |
+| ----- | ------------ |
+| ⌘   | Befehl      |
+| ⌥   | Option (Alt) |
+| ⇧   | Shift        |
+| ↩   | Eingabe       |
+| ⇥   | Tab          |
+| ^   | Steuerung      |
+| ←   | Linker Pfeil   |
+| →   | Rechter Pfeil  |
+| ↑   | Aufwärtspfeil     |
+| ↓   | Abwärtspfeil     |
 
-#### Stelselsneltoets
+#### System-Tastenkombinationen
 
-Hierdie sneltoetse is vir die visuele instellings en klankinstellings, afhangende van die gebruik van die iPad.
+Diese Tastenkombinationen sind für die visuellen Einstellungen und Toneinstellungen, abhängig von der Verwendung des iPads.
 
-| Sneltoets | Aksie                                                                         |
-| --------- | ------------------------------------------------------------------------------ |
-| F1        | Verlaag Skerm                                                                  |
-| F2        | Verhoog skerm                                                                  |
-| F7        | Terug een liedjie                                                              |
-| F8        | Speel/pouse                                                                   |
-| F9        | Skuif liedjie                                                                  |
-| F10       | Stil                                                                           |
-| F11       | Verminder volume                                                                |
-| F12       | Verhoog volume                                                                  |
-| ⌘ Space   | Wys 'n lys van beskikbare tale; om een te kies, tik weer die spasie sleutel. |
+| Tastenkombination | Aktion                                                                         |
+| ----------------- | ------------------------------------------------------------------------------ |
+| F1                | Bildschirm dimmen                                                                |
+| F2                | Bildschirm aufhellen                                                            |
+| F7                | Einen Song zurück                                                              |
+| F8                | Abspielen/Pause                                                                 |
+| F9                | Song überspringen                                                              |
+| F10               | Stummschalten                                                                  |
+| F11               | Lautstärke verringern                                                          |
+| F12               | Lautstärke erhöhen                                                              |
+| ⌘ Leertaste       | Eine Liste verfügbarer Sprachen anzeigen; um eine auszuwählen, drücken Sie die Leertaste erneut. |
 
-#### iPad navigasie
+#### iPad-Navigation
 
-| Sneltoets                                           | Aksie                                                  |
+| Tastenkombination                                   | Aktion                                                  |
 | --------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Gaan na Tuis                                           |
-| ⌘⇧H (Opdrag-Shift-H)                               | Gaan na Tuis                                           |
-| ⌘ (Space)                                         | Open Spotlight                                          |
-| ⌘⇥ (Opdrag-Tab)                                   | Lys laaste tien gebruikte toepassings                   |
-| ⌘\~                                                | Gaan na die laaste Toepassing                           |
-| ⌘⇧3 (Opdrag-Shift-3)                              | Skermskoot (hang in onderste linkerhoek om te stoor of daarop te handel) |
-| ⌘⇧4                                               | Skermskoot en open dit in die redigeerder              |
-| Druk en hou ⌘                                   | Lys van sneltoetse beskikbaar vir die Toepassing       |
-| ⌘⌥D (Opdrag-Optie/Alt-D)                         | Bring die dok op                                       |
-| ^⌥H (Beheer-Optie-H)                             | Tuis knoppie                                           |
-| ^⌥H H (Beheer-Optie-H-H)                         | Wys multitaskbalk                                      |
-| ^⌥I (Beheer-Optie-i)                             | Item kieser                                            |
-| Escape                                             | Terug knoppie                                          |
-| → (Regter pyl)                                    | Volgende item                                          |
-| ← (Linker pyl)                                     | Vorige item                                           |
-| ↑↓ (Bo pyl, Onder pyl)                          | Gelijktijdig tik op die geselekte item                |
-| ⌥ ↓ (Opsie-Onder pyl)                            | Rol af                                                |
-| ⌥↑ (Opsie-Bo pyl)                               | Rol op                                                |
-| ⌥← of ⌥→ (Opsie-Linker pyl of Opsie-Regter pyl) | Rol links of regs                                      |
-| ^⌥S (Beheer-Optie-S)                             | Skakel VoiceOver spraak aan of af                      |
-| ⌘⇧⇥ (Opdrag-Shift-Tab)                            | Wissel na die vorige toepassing                         |
-| ⌘⇥ (Opdrag-Tab)                                   | Wissel terug na die oorspronklike toepassing           |
-| ←+→, dan Opsie + ← of Opsie+→                   | Navigeer deur Dok                                      |
+| ⌘H                                                 | Gehe zur Startseite                                      |
+| ⌘⇧H (Befehl-Shift-H)                              | Gehe zur Startseite                                      |
+| ⌘ (Leertaste)                                      | Spotlight öffnen                                        |
+| ⌘⇥ (Befehl-Tab)                                   | Liste der letzten zehn verwendeten Apps                  |
+| ⌘\~                                                | Gehe zur letzten App                                     |
+| ⌘⇧3 (Befehl-Shift-3)                              | Screenshot (schwebt unten links, um zu speichern oder zu handeln) |
+| ⌘⇧4                                                | Screenshot und öffne ihn im Editor                      |
+| Drücken und Halten von ⌘                           | Liste der verfügbaren Tastenkombinationen für die App    |
+| ⌘⌥D (Befehl-Option/Alt-D)                         | Dock anzeigen                                            |
+| ^⌥H (Steuerung-Option-H)                           | Home-Taste                                             |
+| ^⌥H H (Steuerung-Option-H-H)                       | Multitasking-Leiste anzeigen                              |
+| ^⌥I (Steuerung-Option-i)                           | Elementauswahl                                          |
+| Escape                                             | Zurück-Taste                                           |
+| → (Rechter Pfeil)                                  | Nächstes Element                                        |
+| ← (Linker Pfeil)                                   | Vorheriges Element                                      |
+| ↑↓ (Aufwärtspfeil, Abwärtspfeil)                   | Ausgewähltes Element gleichzeitig antippen              |
+| ⌥ ↓ (Option-Abwärtspfeil)                          | Nach unten scrollen                                     |
+| ⌥↑ (Option-Aufwärtspfeil)                          | Nach oben scrollen                                      |
+| ⌥← oder ⌥→ (Option-Linker Pfeil oder Option-Rechter Pfeil) | Nach links oder rechts scrollen                          |
+| ^⌥S (Steuerung-Option-S)                           | VoiceOver-Sprachausgabe ein- oder ausschalten          |
+| ⌘⇧⇥ (Befehl-Shift-Tab)                            | Zum vorherigen App wechseln                             |
+| ⌘⇥ (Befehl-Tab)                                   | Zur ursprünglichen App zurückwechseln                   |
+| ←+→, dann Option + ← oder Option+→                 | Durch das Dock navigieren                               |
 
-#### Safari sneltoetse
+#### Safari-Tastenkombinationen
 
-| Sneltoets                | Aksie                                           |
-| ------------------------ | ------------------------------------------------ |
-| ⌘L (Opdrag-L)           | Open Ligging                                    |
-| ⌘T                      | Open 'n nuwe tab                               |
-| ⌘W                      | Sluit die huidige tab                          |
-| ⌘R                      | Vernuw die huidige tab                          |
-| ⌘.                      | Stop laai van die huidige tab                   |
-| ^⇥                      | Wissel na die volgende tab                       |
-| ^⇧⇥ (Beheer-Shift-Tab) | Beweeg na die vorige tab                        |
-| ⌘L                      | Kies die teksinvoer/URL veld om dit te wysig   |
-| ⌘⇧T (Opdrag-Shift-T)   | Open laaste geslote tab (kan verskeie kere gebruik word) |
-| ⌘\[                     | Gaan terug een bladsy in jou blaai geskiedenis  |
-| ⌘]                      | Gaan vorentoe een bladsy in jou blaai geskiedenis |
-| ⌘⇧R                     | Aktiveer Leser Modus                             |
+| Tastenkombination         | Aktion                                           |
+| ------------------------- | ------------------------------------------------ |
+| ⌘L (Befehl-L)            | Standort öffnen                                  |
+| ⌘T                       | Neuen Tab öffnen                                 |
+| ⌘W                       | Den aktuellen Tab schließen                      |
+| ⌘R                       | Den aktuellen Tab aktualisieren                  |
+| ⌘.                       | Laden des aktuellen Tabs stoppen                 |
+| ^⇥                       | Zum nächsten Tab wechseln                        |
+| ^⇧⇥ (Steuerung-Shift-Tab) | Zum vorherigen Tab wechseln                      |
+| ⌘L                       | Textfeld/URL-Feld auswählen, um es zu ändern     |
+| ⌘⇧T (Befehl-Shift-T)    | Letzten geschlossenen Tab öffnen (kann mehrmals verwendet werden) |
+| ⌘\[                      | Gehe eine Seite in deinem Browserverlauf zurück |
+| ⌘]                       | Gehe eine Seite in deinem Browserverlauf vorwärts |
+| ⌘⇧R                     | Reader-Modus aktivieren                          |
 
-#### Posvak sneltoetse
+#### Mail-Tastenkombinationen
 
-| Sneltoets                   | Aksie                       |
-| --------------------------- | ---------------------------- |
-| ⌘L                         | Open Ligging                |
-| ⌘T                         | Open 'n nuwe tab            |
-| ⌘W                         | Sluit die huidige tab        |
-| ⌘R                         | Vernuw die huidige tab      |
-| ⌘.                         | Stop laai van die huidige tab |
-| ⌘⌥F (Opdrag-Optie/Alt-F) | Soek in jou posvak         |
+| Tastenkombination         | Aktion                       |
+| ------------------------- | ---------------------------- |
+| ⌘L                       | Standort öffnen                |
+| ⌘T                       | Neuen Tab öffnen               |
+| ⌘W                       | Den aktuellen Tab schließen     |
+| ⌘R                       | Den aktuellen Tab aktualisieren |
+| ⌘.                       | Laden des aktuellen Tabs stoppen |
+| ⌘⌥F (Befehl-Option/Alt-F) | In deinem Posteingang suchen   |
 
-## Verwysings
+## Referenzen
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
@@ -295,16 +295,16 @@ Hierdie sneltoetse is vir die visuele instellings en klankinstellings, afhangend
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

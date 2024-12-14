@@ -1,16 +1,16 @@
-# Sertifikate
+# Zertifikate
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -18,42 +18,42 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstoestelle aangedryf word.\
-Kry Toegang Vandag:
+Nutze [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Erhalte heute Zugang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Wat is 'n Sertifikaat
+## Was ist ein Zertifikat
 
-'n **Publieke sleutelsertifikaat** is 'n digitale ID wat in kriptografie gebruik word om te bewys dat iemand 'n publieke sleutel besit. Dit sluit die sleutel se besonderhede, die eienaar se identiteit (die onderwerp), en 'n digitale handtekening van 'n vertroude gesag (die uitreiker) in. As die sagteware die uitreiker vertrou en die handtekening geldig is, is veilige kommunikasie met die sleutel se eienaar moontlik.
+Ein **öffentliches Schlüsselzertifikat** ist eine digitale ID, die in der Kryptographie verwendet wird, um zu beweisen, dass jemand einen öffentlichen Schlüssel besitzt. Es enthält die Details des Schlüssels, die Identität des Eigentümers (das Subjekt) und eine digitale Signatur von einer vertrauenswürdigen Autorität (dem Aussteller). Wenn die Software dem Aussteller vertraut und die Signatur gültig ist, ist eine sichere Kommunikation mit dem Eigentümer des Schlüssels möglich.
 
-Sertifikate word meestal uitgereik deur [sertifikaatowerhede](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) in 'n [publieke sleutel infrastruktuur](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) opstelling. 'n Ander metode is die [web van vertroue](https://en.wikipedia.org/wiki/Web\_of\_trust), waar gebruikers mekaar se sleutels direk verifieer. Die algemene formaat vir sertifikate is [X.509](https://en.wikipedia.org/wiki/X.509), wat aangepas kan word vir spesifieke behoeftes soos uiteengesit in RFC 5280.
+Zertifikate werden hauptsächlich von [Zertifizierungsstellen](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) in einer [Public-Key-Infrastruktur](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) ausgegeben. Eine andere Methode ist das [Web of Trust](https://en.wikipedia.org/wiki/Web\_of\_trust), bei dem Benutzer die Schlüssel des jeweils anderen direkt verifizieren. Das gängige Format für Zertifikate ist [X.509](https://en.wikipedia.org/wiki/X.509), das für spezifische Bedürfnisse gemäß RFC 5280 angepasst werden kann.
 
-## x509 Algemene Velde
+## x509 Gemeinsame Felder
 
-### **Algemene Velde in x509 Sertifikate**
+### **Gemeinsame Felder in x509-Zertifikaten**
 
-In x509 sertifikate speel verskeie **velde** kritieke rolle in die versekerings van die sertifikaat se geldigheid en sekuriteit. Hier is 'n uiteensetting van hierdie velde:
+In x509-Zertifikaten spielen mehrere **Felder** eine entscheidende Rolle bei der Sicherstellung der Gültigkeit und Sicherheit des Zertifikats. Hier ist eine Übersicht über diese Felder:
 
-* **Weergawe Nommer** dui die x509 formaat se weergawe aan.
-* **Serienommer** identifiseer die sertifikaat uniek binne 'n Sertifikaatowerheid se (CA) stelsel, hoofsaaklik vir herroepingopsporing.
-* Die **Onderwerp** veld verteenwoordig die sertifikaat se eienaar, wat 'n masjien, 'n individu, of 'n organisasie kan wees. Dit sluit gedetailleerde identifikasie in soos:
-* **Algemene Naam (CN)**: Domeine wat deur die sertifikaat gedek word.
-* **Land (C)**, **Plaaslikeheid (L)**, **Staat of Provinsie (ST, S, of P)**, **Organisasie (O)**, en **Organisatoriese Eenheid (OU)** verskaf geografiese en organisatoriese besonderhede.
-* **Gekenneteerde Naam (DN)** sluit die volle onderwerpidentifikasie in.
-* **Uitreiker** gee besonderhede oor wie die sertifikaat geverifieer en onderteken het, insluitend soortgelyke subvelde soos die Onderwerp vir die CA.
-* **Geldigheidsperiode** word gemerk deur **Nie Voor** en **Nie Na** tydstempels, wat verseker dat die sertifikaat nie voor of na 'n sekere datum gebruik word nie.
-* Die **Publieke Sleutel** afdeling, wat van kardinale belang is vir die sertifikaat se sekuriteit, spesifiseer die algoritme, grootte, en ander tegniese besonderhede van die publieke sleutel.
-* **x509v3 uitbreidings** verbeter die sertifikaat se funksionaliteit, wat **Sleutel Gebruik**, **Verlengde Sleutel Gebruik**, **Onderwerp Alternatiewe Naam**, en ander eienskappe spesifiseer om die sertifikaat se toepassing te verfyn.
+* **Versionsnummer** bezeichnet die Version des x509-Formats.
+* **Seriennummer** identifiziert das Zertifikat eindeutig innerhalb des Systems einer Zertifizierungsstelle (CA), hauptsächlich zur Rückverfolgung von Widerrufen.
+* Das **Subjekt**-Feld repräsentiert den Eigentümer des Zertifikats, der eine Maschine, eine Einzelperson oder eine Organisation sein kann. Es enthält detaillierte Identifikationsinformationen wie:
+* **Common Name (CN)**: Domains, die durch das Zertifikat abgedeckt sind.
+* **Land (C)**, **Ort (L)**, **Bundesland oder Provinz (ST, S oder P)**, **Organisation (O)** und **Organisationseinheit (OU)** bieten geografische und organisatorische Details.
+* **Distinguished Name (DN)** fasst die vollständige Subjektidentifikation zusammen.
+* **Aussteller** gibt an, wer das Zertifikat verifiziert und signiert hat, einschließlich ähnlicher Unterfelder wie das Subjekt für die CA.
+* **Gültigkeitszeitraum** wird durch die Zeitstempel **Not Before** und **Not After** markiert, um sicherzustellen, dass das Zertifikat vor oder nach einem bestimmten Datum nicht verwendet wird.
+* Der Abschnitt **Öffentlicher Schlüssel**, der für die Sicherheit des Zertifikats entscheidend ist, spezifiziert den Algorithmus, die Größe und andere technische Details des öffentlichen Schlüssels.
+* **x509v3-Erweiterungen** verbessern die Funktionalität des Zertifikats und spezifizieren **Key Usage**, **Extended Key Usage**, **Subject Alternative Name** und andere Eigenschaften, um die Anwendung des Zertifikats zu verfeinern.
 
-#### **Sleutel Gebruik en Uitbreidings**
+#### **Schlüsselverwendung und Erweiterungen**
 
-* **Sleutel Gebruik** identifiseer kriptografiese toepassings van die publieke sleutel, soos digitale handtekening of sleutel versleuteling.
-* **Verlengde Sleutel Gebruik** beperk verder die sertifikaat se gebruiksgevalle, bv. vir TLS bedienerverifikasie.
-* **Onderwerp Alternatiewe Naam** en **Basiese Beperking** definieer addisionele gasheername wat deur die sertifikaat gedek word en of dit 'n CA of eindentiteit sertifikaat is, onderskeidelik.
-* Identifiseerders soos **Onderwerp Sleutel Identifiseerder** en **Gesags Sleutel Identifiseerder** verseker uniekheid en opspoorbaarheid van sleutels.
-* **Gesags Inligting Toegang** en **CRL Verspreidingspunte** bied paaie om die uitreikende CA te verifieer en die sertifikaat se herroepingstatus te kontroleer.
-* **CT Precertificate SCTs** bied deursigtigheidlogs, wat van kardinale belang is vir publieke vertroue in die sertifikaat.
+* **Key Usage** identifiziert die kryptografischen Anwendungen des öffentlichen Schlüssels, wie digitale Signatur oder Schlüsselausverschlüsselung.
+* **Extended Key Usage** schränkt die Anwendungsfälle des Zertifikats weiter ein, z.B. für die TLS-Serverauthentifizierung.
+* **Subject Alternative Name** und **Basic Constraint** definieren zusätzliche Hostnamen, die durch das Zertifikat abgedeckt sind, und ob es sich um ein CA- oder Endentitätszertifikat handelt.
+* Identifikatoren wie **Subject Key Identifier** und **Authority Key Identifier** gewährleisten die Einzigartigkeit und Rückverfolgbarkeit von Schlüsseln.
+* **Authority Information Access** und **CRL Distribution Points** bieten Wege zur Überprüfung der ausstellenden CA und zur Überprüfung des Widerrufsstatus des Zertifikats.
+* **CT Precertificate SCTs** bieten Transparenzprotokolle, die für das öffentliche Vertrauen in das Zertifikat entscheidend sind.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -75,101 +75,101 @@ print(f"Issuer: {issuer}")
 print(f"Subject: {subject}")
 print(f"Public Key: {public_key}")
 ```
-### **Verskil tussen OCSP en CRL Verspreidingspunte**
+### **Unterschied zwischen OCSP und CRL-Verteilungspunkten**
 
-**OCSP** (**RFC 2560**) behels 'n kliënt en 'n responder wat saamwerk om te kontroleer of 'n digitale publieke sleutelsertifikaat herroep is, sonder om die volle **CRL** af te laai. Hierdie metode is meer doeltreffend as die tradisionele **CRL**, wat 'n lys van herroepte sertifikaatserienommers verskaf, maar vereis dat 'n potensieel groot lêer afgelaai word. CRL's kan tot 512 inskrywings insluit. Meer besonderhede is beskikbaar [hier](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) beinhaltet, dass ein Client und ein Responder zusammenarbeiten, um zu überprüfen, ob ein digitales Public-Key-Zertifikat widerrufen wurde, ohne die vollständige **CRL** herunterladen zu müssen. Diese Methode ist effizienter als die traditionelle **CRL**, die eine Liste von widerrufenen Zertifikat-Seriennummern bereitstellt, aber das Herunterladen einer potenziell großen Datei erfordert. CRLs können bis zu 512 Einträge enthalten. Weitere Details sind [hier](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) verfügbar.
 
-### **Wat is Sertifikaat Deursigtigheid**
+### **Was ist Zertifikatstransparenz**
 
-Sertifikaat Deursigtigheid help om sertifikaatverwante bedreigings te bekamp deur te verseker dat die uitreiking en bestaan van SSL-sertifikate sigbaar is vir domeineienaars, CA's en gebruikers. Die doelwitte is:
+Zertifikatstransparenz hilft, zertifikatsbezogene Bedrohungen zu bekämpfen, indem sichergestellt wird, dass die Ausstellung und Existenz von SSL-Zertifikaten für Domaininhaber, CAs und Benutzer sichtbar sind. Die Ziele sind:
 
-* Om te voorkom dat CA's SSL-sertifikate vir 'n domein uitreik sonder die domeineienaar se kennis.
-* Om 'n oop ouditstelsel te vestig vir die opsporing van per ongeluk of kwaadwillig uitgereikte sertifikate.
-* Om gebruikers te beskerm teen bedrieglike sertifikate.
+* Verhindern, dass CAs SSL-Zertifikate für eine Domain ohne das Wissen des Domaininhabers ausstellen.
+* Etablierung eines offenen Auditsystems zur Verfolgung fälschlicherweise oder böswillig ausgestellter Zertifikate.
+* Schutz der Benutzer vor betrügerischen Zertifikaten.
 
-#### **Sertifikaat Logs**
+#### **Zertifikatsprotokolle**
 
-Sertifikaat logs is publiek ouditbaar, byvoeging-slegs rekords van sertifikate, wat deur netwerkdienste onderhou word. Hierdie logs bied kriptografiese bewysstukke vir ouditdoeleindes. Beide uitreikowerhede en die publiek kan sertifikate aan hierdie logs indien of dit raadpleeg vir verifikasie. Terwyl die presiese aantal logbedieners nie vasgestel is nie, word verwag dat dit minder as 'n duisend wêreldwyd sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belangstellende entiteit.
+Zertifikatsprotokolle sind öffentlich prüfbare, nur anhängbare Aufzeichnungen von Zertifikaten, die von Netzwerkdiensten verwaltet werden. Diese Protokolle bieten kryptografische Nachweise für Prüfungszwecke. Sowohl die Ausstellungsbehörden als auch die Öffentlichkeit können Zertifikate in diese Protokolle einreichen oder sie zur Verifizierung abfragen. Während die genaue Anzahl der Protokollserver nicht festgelegt ist, wird erwartet, dass sie weltweit weniger als tausend beträgt. Diese Server können unabhängig von CAs, ISPs oder jeder interessierten Entität verwaltet werden.
 
-#### **Navraag**
+#### **Abfrage**
 
-Om Sertifikaat Deursigtigheid logs vir enige domein te verken, besoek [https://crt.sh/](https://crt.sh).
+Um die Zertifikatstransparenzprotokolle für eine beliebige Domain zu durchsuchen, besuchen Sie [https://crt.sh/](https://crt.sh).
 
-Verskillende formate bestaan vir die stoor van sertifikate, elk met sy eie gebruiksgevalle en kompatibiliteit. Hierdie opsomming dek die hoofformate en bied leiding oor die omskakeling tussen hulle.
+Es gibt verschiedene Formate zum Speichern von Zertifikaten, jedes mit eigenen Anwendungsfällen und Kompatibilität. Diese Zusammenfassung behandelt die Hauptformate und bietet Anleitungen zur Konvertierung zwischen ihnen.
 
 ## **Formate**
 
-### **PEM Formaat**
+### **PEM-Format**
 
-* Meest gebruikte formaat vir sertifikate.
-* Vereis aparte lêers vir sertifikate en private sleutels, gekodeer in Base64 ASCII.
-* Algemene uitbreidings: .cer, .crt, .pem, .key.
-* Primêr gebruik deur Apache en soortgelyke bedieners.
+* Am weitesten verbreitetes Format für Zertifikate.
+* Erfordert separate Dateien für Zertifikate und private Schlüssel, kodiert in Base64 ASCII.
+* Häufige Erweiterungen: .cer, .crt, .pem, .key.
+* Hauptsächlich verwendet von Apache und ähnlichen Servern.
 
-### **DER Formaat**
+### **DER-Format**
 
-* 'n Binaire formaat van sertifikate.
-* Ontbreek die "BEGIN/END CERTIFICATE" verklarings wat in PEM-lêers voorkom.
-* Algemene uitbreidings: .cer, .der.
-* Gereeld gebruik met Java platforms.
+* Ein binäres Format von Zertifikaten.
+* Fehlen die "BEGIN/END CERTIFICATE"-Anweisungen, die in PEM-Dateien zu finden sind.
+* Häufige Erweiterungen: .cer, .der.
+* Oft verwendet mit Java-Plattformen.
 
-### **P7B/PKCS#7 Formaat**
+### **P7B/PKCS#7-Format**
 
-* Gestoor in Base64 ASCII, met uitbreidings .p7b of .p7c.
-* Bevat slegs sertifikate en kettingsertifikate, met uitsluiting van die private sleutel.
-* Gesteun deur Microsoft Windows en Java Tomcat.
+* In Base64 ASCII gespeichert, mit Erweiterungen .p7b oder .p7c.
+* Enthält nur Zertifikate und Kettenzertifikate, ohne den privaten Schlüssel.
+* Unterstützt von Microsoft Windows und Java Tomcat.
 
-### **PFX/P12/PKCS#12 Formaat**
+### **PFX/P12/PKCS#12-Format**
 
-* 'n Binaire formaat wat bedienersertifikate, intermediêre sertifikate, en private sleutels in een lêer inkapsuleer.
-* Uitbreidings: .pfx, .p12.
-* Hoofsaaklik gebruik op Windows vir sertifikaat invoer en uitvoer.
+* Ein binäres Format, das Serverzertifikate, Zwischenzertifikate und private Schlüssel in einer Datei kapselt.
+* Erweiterungen: .pfx, .p12.
+* Hauptsächlich auf Windows für den Import und Export von Zertifikaten verwendet.
 
-### **Omskakeling van Formate**
+### **Formate konvertieren**
 
-**PEM omskakelings** is noodsaaklik vir kompatibiliteit:
+**PEM-Konvertierungen** sind entscheidend für die Kompatibilität:
 
-* **x509 na PEM**
+* **x509 zu PEM**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
-* **PEM na DER**
+* **PEM zu DER**
 ```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
-* **DER na PEM**
+* **DER zu PEM**
 ```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
-* **PEM na P7B**
+* **PEM zu P7B**
 ```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
-* **PKCS7 na PEM**
+* **PKCS7 zu PEM**
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
-**PFX omskakelings** is noodsaaklik vir die bestuur van sertifikate op Windows:
+**PFX-Konvertierungen** sind entscheidend für die Verwaltung von Zertifikaten unter Windows:
 
-* **PFX na PEM**
+* **PFX zu PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-* **PFX na PKCS#8** behels twee stappe:
-1. Skakel PFX na PEM om
+* **PFX zu PKCS#8** umfasst zwei Schritte:
+1. PFX in PEM konvertieren
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-2. Skakel PEM na PKCS8 om
+2. PEM in PKCS8 umwandeln
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-* **P7B na PFX** vereis ook twee opdragte:
-1. Skakel P7B na CER om
+* **P7B zu PFX** erfordert ebenfalls zwei Befehle:
+1. P7B in CER konvertieren
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
-2. Skakel CER en Privaat Sleutel na PFX om
+2. Konvertieren Sie CER und privaten Schlüssel in PFX
 ```bash
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
@@ -178,22 +178,22 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkvloei** te bou en te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

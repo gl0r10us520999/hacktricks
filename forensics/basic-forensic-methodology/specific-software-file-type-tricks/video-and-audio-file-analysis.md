@@ -1,55 +1,55 @@
 {% hint style="success" %}
-Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en ontvang 'n sertifikaat:
+Vertiefen Sie Ihr Fachwissen in **Mobilsicherheit** mit der 8kSec Academy. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und lassen Sie sich zertifizieren:
 
 {% embed url="https://academy.8ksec.io/" %}
 
-**Klank- en video lêermanipulasie** is 'n noodsaaklike deel van **CTF forensiese uitdagings**, wat gebruik maak van **steganografie** en metadata analise om geheime boodskappe te verberg of te onthul. Gereedskap soos **[mediainfo](https://mediaarea.net/en/MediaInfo)** en **`exiftool`** is noodsaaklik om lêer metadata te inspekteer en inhoudstipes te identifiseer.
+**Manipulation von Audio- und Videodateien** ist ein Grundpfeiler in **CTF-Forensik-Herausforderungen**, der **Steganographie** und Metadatenanalyse nutzt, um geheime Nachrichten zu verbergen oder offenzulegen. Werkzeuge wie **[mediainfo](https://mediaarea.net/en/MediaInfo)** und **`exiftool`** sind unerlässlich, um Dateimetadaten zu inspizieren und Inhaltstypen zu identifizieren.
 
-Vir klankuitdagings, **[Audacity](http://www.audacityteam.org/)** is 'n uitstaande hulpmiddel om golffigure te sien en spektrogramme te analiseer, noodsaaklik om teks wat in klank gekodeer is, te ontdek. **[Sonic Visualiser](http://www.sonicvisualiser.org/)** word sterk aanbeveel vir gedetailleerde spektrogram analise. **Audacity** stel jou in staat om klank te manipuleer soos om snitte te vertraag of om te keer om versteekte boodskappe te ontdek. **[Sox](http://sox.sourceforge.net/)**, 'n opdraglyn nut, presteer in die omskakeling en redigering van klanklêers.
+Für Audioherausforderungen sticht **[Audacity](http://www.audacityteam.org/)** als erstklassiges Werkzeug hervor, um Wellenformen anzuzeigen und Spektrogramme zu analysieren, was entscheidend ist, um in Audio codierten Text aufzudecken. **[Sonic Visualiser](http://www.sonicvisualiser.org/)** wird für eine detaillierte Spektrogrammanalyse sehr empfohlen. **Audacity** ermöglicht die Manipulation von Audio, wie das Verlangsamen oder Umkehren von Tracks, um versteckte Nachrichten zu erkennen. **[Sox](http://sox.sourceforge.net/)**, ein Kommandozeilenwerkzeug, glänzt beim Konvertieren und Bearbeiten von Audiodateien.
 
-**Minste Belangrike Bisse (LSB)** manipulasie is 'n algemene tegniek in klank- en video steganografie, wat die vaste-grootte stukke van media lêers benut om data diskreet in te sluit. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)** is nuttig om boodskappe wat as **DTMF toon** of **Morse kode** versteek is, te dekodeer.
+Die Manipulation der **Least Significant Bits (LSB)** ist eine gängige Technik in der Audio- und Video-Steganographie, die die festen Größen von Mediendateien ausnutzt, um Daten diskret einzubetten. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)** ist nützlich, um Nachrichten zu decodieren, die als **DTMF-Töne** oder **Morsecode** verborgen sind.
 
-Video-uitdagings behels dikwels houerformate wat klank- en video-strome saamvoeg. **[FFmpeg](http://ffmpeg.org/)** is die keuse vir die analise en manipulering van hierdie formate, wat in staat is om te demultiplex en inhoud af te speel. Vir ontwikkelaars, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** integreer FFmpeg se vermoëns in Python vir gevorderde skripbare interaksies.
+Videoherausforderungen beinhalten oft Containerformate, die Audio- und Videostreams bündeln. **[FFmpeg](http://ffmpeg.org/)** ist das bevorzugte Werkzeug zur Analyse und Manipulation dieser Formate, das in der Lage ist, Inhalte zu demultiplexen und wiederzugeben. Für Entwickler integriert **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** die Fähigkeiten von FFmpeg in Python für fortgeschrittene skriptbare Interaktionen.
 
-Hierdie verskeidenheid gereedskap beklemtoon die veelsydigheid wat benodig word in CTF-uitdagings, waar deelnemers 'n breë spektrum van analise- en manipulasietegnieke moet gebruik om versteekte data binne klank- en video lêers te ontdek.
+Diese Vielzahl von Werkzeugen unterstreicht die Vielseitigkeit, die in CTF-Herausforderungen erforderlich ist, bei denen die Teilnehmer ein breites Spektrum an Analyse- und Manipulationstechniken einsetzen müssen, um versteckte Daten in Audio- und Videodateien aufzudecken.
 
-## Verwysings
+## Referenzen
 * [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
 
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en ontvang 'n sertifikaat:
+Vertiefen Sie Ihr Fachwissen in **Mobilsicherheit** mit der 8kSec Academy. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und lassen Sie sich zertifizieren:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

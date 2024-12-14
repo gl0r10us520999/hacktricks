@@ -1,35 +1,35 @@
 # Docker Forensics
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobile Security** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Vertiefen Sie Ihr Fachwissen in **Mobiler Sicherheit** mit der 8kSec Akademie. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und erhalten Sie ein Zertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
-## Container wysiging
+## Container-Modifikation
 
-Daar is vermoedens dat 'n paar docker containers gecompromitteer is:
+Es gibt Verdachtsmomente, dass ein bestimmter Docker-Container kompromittiert wurde:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-U kan maklik **die wysigings wat aan hierdie houer gemaak is met betrekking tot die beeld** vind met:
+Sie können leicht **die Änderungen, die an diesem Container im Hinblick auf das Image vorgenommen wurden**, mit folgendem Befehl finden:
 ```bash
 docker diff wordpress
 C /var
@@ -43,52 +43,52 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-In die vorige opdrag beteken **C** **Verander** en **A,** **Gevind**.\
-As jy vind dat 'n interessante lêer soos `/etc/shadow` gewysig is, kan jy dit van die houer aflaai om vir kwaadwillige aktiwiteit te kyk met:
+In dem vorherigen Befehl bedeutet **C** **Geändert** und **A,** **Hinzugefügt**.\
+Wenn Sie feststellen, dass eine interessante Datei wie `/etc/shadow` geändert wurde, können Sie sie aus dem Container herunterladen, um nach bösartiger Aktivität zu suchen mit:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-Jy kan dit ook **vergelyk met die oorspronklike een** deur 'n nuwe houer te laat loop en die lêer daaruit te onttrek:
+Sie können es auch **mit dem Original vergleichen**, indem Sie einen neuen Container ausführen und die Datei daraus extrahieren:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-As jy vind dat **'n paar verdagte lêer bygevoeg is** kan jy die houer betree en dit nagaan:
+Wenn Sie feststellen, dass **eine verdächtige Datei hinzugefügt wurde**, können Sie auf den Container zugreifen und ihn überprüfen:
 ```bash
 docker exec -it wordpress bash
 ```
-## Beeld wysigings
+## Images modifications
 
-Wanneer jy 'n uitgevoerde docker beeld ontvang (waarskynlik in `.tar` formaat) kan jy [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) gebruik om **'n opsomming van die wysigings** te **onttrek**:
+Wenn Ihnen ein exportiertes Docker-Image (wahrscheinlich im `.tar`-Format) gegeben wird, können Sie [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) verwenden, um **eine Zusammenfassung der Modifikationen** zu **extrahieren**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-Dan kan jy die **dekomprimeer** die beeld en **toegang tot die blobs** verkry om te soek na verdagte lêers wat jy in die veranderinge geskiedenis mag gevind het:
+Dann können Sie das Image **dekomprimieren** und die **Blobs** zugreifen, um nach verdächtigen Dateien zu suchen, die Sie möglicherweise in der Änderungsverlauf gefunden haben:
 ```bash
 tar -xf image.tar
 ```
-### Basiese Analise
+### Grundlegende Analyse
 
-Jy kan **basiese inligting** van die beeld verkry deur te loop:
+Sie können **grundlegende Informationen** aus dem Image erhalten, indem Sie Folgendes ausführen:
 ```bash
 docker inspect <image>
 ```
-U kan ook 'n opsomming **geskiedenis van veranderinge** kry met:
+Sie können auch eine Zusammenfassung **der Änderungsverläufe** mit folgendem Befehl erhalten:
 ```bash
 docker history --no-trunc <image>
 ```
-U kan ook 'n **dockerfile uit 'n beeld** genereer met:
+Sie können auch ein **dockerfile aus einem Image** mit folgendem Befehl generieren:
 ```bash
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dive
 
-Om bygevoegde/gewijzigde lêers in docker beelde te vind, kan jy ook die [**dive**](https://github.com/wagoodman/dive) (aflaai dit van [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) nut gebruik:
+Um hinzugefügte/ändernde Dateien in Docker-Images zu finden, können Sie auch das [**dive**](https://github.com/wagoodman/dive) (laden Sie es von [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) Dienstprogramm verwenden:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -97,37 +97,37 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Dit stel jou in staat om te **navigeer deur die verskillende blobs van docker beelde** en te kyk watter lêers gewysig/gevoeg is. **Rooi** beteken gevoeg en **geel** beteken gewysig. Gebruik **tab** om na die ander weergawe te beweeg en **spasie** om vouers in te klap/open.
+Dies ermöglicht es Ihnen, **durch die verschiedenen Blobs von Docker-Images zu navigieren** und zu überprüfen, welche Dateien geändert/hinzugefügt wurden. **Rot** bedeutet hinzugefügt und **gelb** bedeutet geändert. Verwenden Sie **Tab**, um zur anderen Ansicht zu wechseln, und **Leertaste**, um Ordner zu minimieren/öffnen.
 
-Met dit sal jy nie toegang hê tot die inhoud van die verskillende fases van die beeld nie. Om dit te doen, sal jy **elke laag moet dekomprimeer en toegang kry**.\
-Jy kan al die lae van 'n beeld dekomprimeer vanaf die gids waar die beeld gedecomprimeer is deur die volgende uit te voer:
+Mit die können Sie nicht auf den Inhalt der verschiedenen Stufen des Images zugreifen. Um dies zu tun, müssen Sie **jede Schicht dekomprimieren und darauf zugreifen**.\
+Sie können alle Schichten eines Images aus dem Verzeichnis, in dem das Image dekomprimiert wurde, dekomprimieren, indem Sie Folgendes ausführen:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
-## Kredensiale uit geheue
+## Anmeldeinformationen aus dem Speicher
 
-Let daarop dat wanneer jy 'n docker-container binne 'n gasheer uitvoer, **jy die prosesse wat op die container loop vanaf die gasheer kan sien** deur net `ps -ef` te loop.
+Beachten Sie, dass Sie, wenn Sie einen Docker-Container auf einem Host ausführen, **die Prozesse, die im Container laufen, vom Host aus sehen können**, indem Sie einfach `ps -ef` ausführen.
 
-Daarom (as root) kan jy **die geheue van die prosesse** vanaf die gasheer dump en soek na **kredensiale** net [**soos in die volgende voorbeeld**](../../linux-hardening/privilege-escalation/#process-memory).
+Daher können Sie (als Root) **den Speicher der Prozesse** vom Host aus dumpen und nach **Anmeldeinformationen** suchen, **genau wie im folgenden Beispiel** [**dargestellt**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Vertiefen Sie Ihr Fachwissen in **Mobile Security** mit der 8kSec Academy. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und erhalten Sie ein Zertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

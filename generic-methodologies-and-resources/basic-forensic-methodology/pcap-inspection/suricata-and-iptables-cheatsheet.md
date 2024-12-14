@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Chains
 
-In iptables, lyste van reëls bekend as kettings word opeenvolgend verwerk. Onder hierdie is daar drie primêre kettings wat universeel teenwoordig is, met addisionele soos NAT wat moontlik ondersteun word, afhangende van die stelsel se vermoëns.
+In iptables werden Listen von Regeln, die als Chains bekannt sind, sequenziell verarbeitet. Unter diesen sind drei primäre Chains universell vorhanden, während zusätzliche wie NAT je nach den Fähigkeiten des Systems potenziell unterstützt werden.
 
-- **Input Chain**: Gebruik om die gedrag van inkomende verbindings te bestuur.
-- **Forward Chain**: Gebruik om inkomende verbindings te hanteer wat nie bestem is vir die plaaslike stelsel nie. Dit is tipies vir toestelle wat as routers optree, waar die data wat ontvang word bedoel is om na 'n ander bestemming gestuur te word. Hierdie ketting is hoofsaaklik relevant wanneer die stelsel betrokke is by routering, NATing, of soortgelyke aktiwiteite.
-- **Output Chain**: Toegewyd aan die regulering van uitgaande verbindings.
+- **Input Chain**: Wird verwendet, um das Verhalten eingehender Verbindungen zu verwalten.
+- **Forward Chain**: Wird verwendet, um eingehende Verbindungen zu behandeln, die nicht für das lokale System bestimmt sind. Dies ist typisch für Geräte, die als Router fungieren, bei denen die empfangenen Daten an ein anderes Ziel weitergeleitet werden sollen. Diese Chain ist hauptsächlich relevant, wenn das System am Routing, NATing oder ähnlichen Aktivitäten beteiligt ist.
+- **Output Chain**: Dient der Regulierung ausgehender Verbindungen.
 
-Hierdie kettings verseker die ordelike verwerking van netwerkverkeer, wat die spesifikasie van gedetailleerde reëls wat die vloei van data in, deur, en uit 'n stelsel regeer, moontlik maak.
+Diese Chains gewährleisten die ordnungsgemäße Verarbeitung des Netzwerkverkehrs und ermöglichen die Spezifikation detaillierter Regeln, die den Fluss von Daten in, durch und aus einem System steuern.
 ```bash
 # Delete all rules
 iptables -F
@@ -64,7 +64,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### Installeer & Konfigureer
+### Installation & Konfiguration
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -130,70 +130,70 @@ Type=simple
 
 systemctl daemon-reload
 ```
-### Reëls Definisies
+### Regeln Definitionen
 
-[Uit die dokumentasie:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 'n reël/handtekening bestaan uit die volgende:
+[Aus den Dokumenten:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Eine Regel/Signatur besteht aus Folgendem:
 
-* Die **aksie**, bepaal wat gebeur wanneer die handtekening ooreenstem.
-* Die **kop**, definieer die protokol, IP adresse, poorte en rigting van die reël.
-* Die **reël opsies**, definieer die spesifieke van die reël.
+* Die **Aktion**, bestimmt, was passiert, wenn die Signatur übereinstimmt.
+* Der **Header**, definiert das Protokoll, IP-Adressen, Ports und die Richtung der Regel.
+* Die **Regeloptionen**, definieren die Einzelheiten der Regel.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
-#### **Geldige aksies is**
+#### **Gültige Aktionen sind**
 
-* alert - genereer 'n waarskuwing
-* pass - stop verdere inspeksie van die pakket
-* **drop** - laat pakket val en genereer waarskuwing
-* **reject** - stuur RST/ICMP onbereikbaar fout na die sender van die ooreenstemmende pakket.
-* rejectsrc - dieselfde as net _reject_
-* rejectdst - stuur RST/ICMP foutpakket na die ontvanger van die ooreenstemmende pakket.
-* rejectboth - stuur RST/ICMP foutpakkette na albei kante van die gesprek.
+* alert - ein Alarm generieren
+* pass - weitere Inspektion des Pakets stoppen
+* **drop** - Paket verwerfen und Alarm generieren
+* **reject** - RST/ICMP unerreichbarer Fehler an den Absender des übereinstimmenden Pakets senden.
+* rejectsrc - dasselbe wie nur _reject_
+* rejectdst - RST/ICMP-Fehlerpaket an den Empfänger des übereinstimmenden Pakets senden.
+* rejectboth - RST/ICMP-Fehlerpakete an beide Seiten des Gesprächs senden.
 
 #### **Protokolle**
 
-* tcp (vir tcp-verkeer)
+* tcp (für tcp-Verkehr)
 * udp
 * icmp
-* ip (ip staan vir ‘alle’ of ‘enige’)
-* _laag7 protokolle_: http, ftp, tls, smb, dns, ssh... (meer in die [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip steht für 'alle' oder 'irgendeine')
+* _layer7-Protokolle_: http, ftp, tls, smb, dns, ssh... (mehr in den [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Bron- en Bestemmingsadresse
+#### Quell- und Zieladressen
 
-Dit ondersteun IP-reekse, ontkennings en 'n lys van adresse:
+Es unterstützt IP-Bereiche, Negationen und eine Liste von Adressen:
 
-| Voorbeeld                        | Betekenis                                  |
-| ------------------------------- | ------------------------------------------ |
-| ! 1.1.1.1                       | Elke IP-adres behalwe 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]            | Elke IP-adres behalwe 1.1.1.1 en 1.1.1.2 |
-| $HOME\_NET                     | Jou instelling van HOME\_NET in yaml      |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET en nie HOME\_NET nie       |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 behalwe vir 10.0.0.5          |
+| Beispiel                        | Bedeutung                                  |
+| ------------------------------ | ------------------------------------------ |
+| ! 1.1.1.1                      | Jede IP-Adresse außer 1.1.1.1             |
+| !\[1.1.1.1, 1.1.1.2]           | Jede IP-Adresse außer 1.1.1.1 und 1.1.1.2 |
+| $HOME\_NET                     | Ihre Einstellung von HOME\_NET in yaml    |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET und nicht HOME\_NET        |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 außer 10.0.0.5                |
 
-#### Bron- en Bestemmingspoorte
+#### Quell- und Zielports
 
-Dit ondersteun poortreekse, ontkennings en lyste van poorte
+Es unterstützt Portbereiche, Negationen und Listen von Ports
 
-| Voorbeeld         | Betekenis                                |
-| ----------------- | ---------------------------------------- |
-| any               | enige adres                              |
-| \[80, 81, 82]     | poort 80, 81 en 82                      |
-| \[80: 82]         | Reeks van 80 tot 82                     |
-| \[1024: ]         | Van 1024 tot die hoogste poortnommer    |
-| !80               | Elke poort behalwe 80                    |
-| \[80:100,!99]     | Reeks van 80 tot 100 maar 99 uitgesluit  |
-| \[1:80,!\[2,4]]   | Reeks van 1-80, behalwe poorte 2 en 4   |
+| Beispiel         | Bedeutung                                |
+| ---------------- | ---------------------------------------- |
+| any              | jede Adresse                            |
+| \[80, 81, 82]    | Port 80, 81 und 82                      |
+| \[80: 82]        | Bereich von 80 bis 82                   |
+| \[1024: ]        | Von 1024 bis zur höchsten Portnummer    |
+| !80              | Jeder Port außer 80                     |
+| \[80:100,!99]    | Bereich von 80 bis 100, aber 99 ausgeschlossen |
+| \[1:80,!\[2,4]]  | Bereich von 1-80, außer Ports 2 und 4   |
 
-#### Rigting
+#### Richtung
 
-Dit is moontlik om die rigting van die kommunikasie reël wat toegepas word aan te dui:
+Es ist möglich, die Richtung der anzuwendenden Kommunikationsregel anzugeben:
 ```
 source -> destination
 source <> destination  (both directions)
 ```
 #### Keywords
 
-Daar is **honderde opsies** beskikbaar in Suricata om te soek na die **spesifieke pakket** waarna jy op soek is, hier sal genoem word of iets interessant gevind word. Kyk na die [**dokumentasie** ](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)vir meer!
+Es gibt **hunderte von Optionen** in Suricata, um nach dem **spezifischen Paket** zu suchen, das Sie suchen. Hier wird erwähnt, ob etwas Interessantes gefunden wird. Überprüfen Sie die [**Dokumentation**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) für mehr!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -235,16 +235,16 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

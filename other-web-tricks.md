@@ -1,79 +1,79 @@
-# Ander Web Tricks
+# Andere Web-Tricks
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Kry 'n hacker se perspektief op jou webtoepassings, netwerk, en wolk**
+**Erhalte die Perspektive eines Hackers auf deine Webanwendungen, Netzwerke und Cloud**
 
-**Vind en rapporteer kritieke, exploiteerbare kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om bevoegdhede te verhoog, en gebruik geoutomatiseerde eksploit om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskakel.
+**Finde und melde kritische, ausnutzbare Schwachstellen mit echtem Geschäftsauswirkungen.** Nutze unsere 20+ benutzerdefinierten Tools, um die Angriffsfläche zu kartieren, Sicherheitsprobleme zu finden, die dir erlauben, Berechtigungen zu eskalieren, und automatisierte Exploits zu verwenden, um wesentliche Beweise zu sammeln, die deine harte Arbeit in überzeugende Berichte verwandeln.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
-### Gasheer kop
+### Host-Header
 
-Verskeie kere vertrou die agterkant op die **Gasheer kop** om sekere aksies uit te voer. Byvoorbeeld, dit kan sy waarde gebruik as die **domein om 'n wagwoordherstel te stuur**. So wanneer jy 'n e-pos ontvang met 'n skakel om jou wagwoord te herstel, is die domein wat gebruik word die een wat jy in die Gasheer kop geplaas het. Dan kan jy die wagwoordherstel van ander gebruikers aanvra en die domein verander na een wat deur jou beheer word om hul wagwoordherstelkodes te steel. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
+Mehrere Male vertraut das Backend dem **Host-Header**, um einige Aktionen auszuführen. Zum Beispiel könnte es seinen Wert als **Domain für das Senden eines Passwort-Reset** verwenden. Wenn du also eine E-Mail mit einem Link zum Zurücksetzen deines Passworts erhältst, ist die verwendete Domain die, die du im Host-Header angegeben hast. Dann kannst du die Passwortzurücksetzung anderer Benutzer anfordern und die Domain auf eine von dir kontrollierte ändern, um ihre Passwort-Reset-Codes zu stehlen. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
 
 {% hint style="warning" %}
-Let daarop dat dit moontlik is dat jy nie eers hoef te wag vir die gebruiker om op die hersteld wagwoord skakel te klik om die token te kry nie, aangesien selfs **spamfilters of ander intermediêre toestelle/bots dit mag klik om dit te analiseer**.
+Beachte, dass es möglich ist, dass du nicht einmal warten musst, bis der Benutzer auf den Link zum Zurücksetzen des Passworts klickt, um das Token zu erhalten, da möglicherweise sogar **Spam-Filter oder andere Zwischengeräte/Bots darauf klicken, um es zu analysieren**.
 {% endhint %}
 
-### Sessie booleans
+### Sitzungs-Boolean
 
-Soms wanneer jy 'n sekere verifikasie korrek voltooi, sal die agterkant **net 'n boolean met die waarde "Waar" by 'n sekuriteitsattribuut van jou sessie voeg**. Dan sal 'n ander eindpunt weet of jy suksesvol daardie toets geslaag het.\
-As jy egter **die toets slaag** en jou sessie daardie "Waar" waarde in die sekuriteitsattribuut toegeken word, kan jy probeer om **toegang te verkry tot ander hulpbronne** wat **afhang van dieselfde attribuut** maar waarvoor jy **nie toestemming behoort te hê** om toegang te verkry nie. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
+Manchmal, wenn du eine Überprüfung korrekt abschließt, wird das Backend **einfach ein Boolean mit dem Wert "True" zu einem Sicherheitsattribut deiner Sitzung hinzufügen**. Dann wird ein anderer Endpunkt wissen, ob du diese Überprüfung erfolgreich bestanden hast.\
+Wenn du jedoch **die Überprüfung bestehst** und deine Sitzung diesen "True"-Wert im Sicherheitsattribut erhält, kannst du versuchen, **auf andere Ressourcen zuzugreifen**, die **von demselben Attribut abhängen**, auf die du **keine Berechtigungen** haben solltest. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
-### Registreer funksionaliteit
+### Registrierungsfunktionalität
 
-Probeer om te registreer as 'n reeds bestaande gebruiker. Probeer ook om ekwivalente karakters te gebruik (punte, baie spasie en Unicode).
+Versuche, dich als bereits existierender Benutzer zu registrieren. Versuche auch, äquivalente Zeichen (Punkte, viele Leerzeichen und Unicode) zu verwenden.
 
-### Oorname e-posse
+### Übernahme von E-Mails
 
-Registreer 'n e-pos, voordat jy dit bevestig, verander die e-pos, dan, as die nuwe bevestigings e-pos na die eerste geregistreerde e-pos gestuur word, kan jy enige e-pos oorneem. Of as jy die tweede e-pos kan aktiveer wat die eerste een bevestig, kan jy ook enige rekening oorneem.
+Registriere eine E-Mail, ändere die E-Mail, bevor du sie bestätigst, und wenn die neue Bestätigungs-E-Mail an die zuerst registrierte E-Mail gesendet wird, kannst du jede E-Mail übernehmen. Oder wenn du die zweite E-Mail aktivieren kannst, die die erste bestätigt, kannst du auch jedes Konto übernehmen.
 
-### Toegang tot interne servicedesk van maatskappye wat atlassian gebruik
+### Zugriff auf den internen Servicedesk von Unternehmen, die Atlassian verwenden
 
 {% embed url="https://yourcompanyname.atlassian.net/servicedesk/customer/user/login" %}
 
-### TRACE metode
+### TRACE-Methode
 
-Ontwikkelaars mag vergeet om verskeie foutopsporing opsies in die produksie-omgewing te deaktiveer. Byvoorbeeld, die HTTP `TRACE` metode is ontwerp vir diagnostiese doeleindes. As dit geaktiveer is, sal die webbediener op versoeke wat die `TRACE` metode gebruik, antwoordgee deur in die antwoord die presiese versoek wat ontvang is, te herhaal. Hierdie gedrag is dikwels onskadelik, maar lei soms tot inligtingsontsluiting, soos die naam van interne outentikasie koppe wat aan versoeke deur omgekeerde proxies bygevoeg mag word.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+Entwickler könnten vergessen, verschiedene Debugging-Optionen in der Produktionsumgebung zu deaktivieren. Zum Beispiel ist die HTTP `TRACE`-Methode für Diagnosezwecke gedacht. Wenn sie aktiviert ist, wird der Webserver auf Anfragen, die die `TRACE`-Methode verwenden, mit der genauen Anfrage antworten, die empfangen wurde. Dieses Verhalten ist oft harmlos, führt aber gelegentlich zu Informationsoffenlegung, wie z.B. den Namen interner Authentifizierungsheader, die von Reverse-Proxys an Anfragen angehängt werden können.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
 ![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 
 
 <figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Kry 'n hacker se perspektief op jou webtoepassings, netwerk, en wolk**
+**Erhalte die Perspektive eines Hackers auf deine Webanwendungen, Netzwerke und Cloud**
 
-**Vind en rapporteer kritieke, exploiteerbare kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om bevoegdhede te verhoog, en gebruik geoutomatiseerde eksploit om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskakel.
+**Finde und melde kritische, ausnutzbare Schwachstellen mit echtem Geschäftsauswirkungen.** Nutze unsere 20+ benutzerdefinierten Tools, um die Angriffsfläche zu kartieren, Sicherheitsprobleme zu finden, die dir erlauben, Berechtigungen zu eskalieren, und automatisierte Exploits zu verwenden, um wesentliche Beweise zu sammeln, die deine harte Arbeit in überzeugende Berichte verwandeln.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

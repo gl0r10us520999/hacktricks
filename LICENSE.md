@@ -1,194 +1,199 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & Üben von AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & Üben von GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}
 
 
-<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Kopiereg © Carlos Polop 2021. Behalwe waar anders aangedui (die eksterne inligting wat in die boek gekopieer is, behoort aan die oorspronklike skrywers), is die teks op <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> deur Carlos Polop gelisensieer onder die <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Erkenning-GeenKommerselewe 4.0 Internasionaal (CC BY-NC 4.0)</a>.
+<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Copyright © Carlos Polop 2021. Sofern nicht anders angegeben (die externen Informationen, die in das Buch kopiert wurden, gehören den ursprünglichen Autoren), ist der Text auf <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> von Carlos Polop lizenziert unter der <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Namensnennung-NichtKommerziell 4.0 International (CC BY-NC 4.0)</a>.
 
-Lisensie: Erkenning-GeenKommerselewe 4.0 Internasionaal (CC BY-NC 4.0)<br>Mensleesbare Lisensie: https://creativecommons.org/licenses/by-nc/4.0/<br>Volledige Regsterme: https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>Formatering: https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
+Lizenz: Namensnennung-NichtKommerziell 4.0 International (CC BY-NC 4.0)<br>
+Menschlich lesbare Lizenz: https://creativecommons.org/licenses/by-nc/4.0/<br>
+Vollständige rechtliche Bedingungen: https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>
+Formatierung: https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
 
 # creative commons
 
-# Erkenning-GeenKommerselewe 4.0 Internasionaal
+# Namensnennung-NichtKommerziell 4.0 International
 
-Creative Commons Corporation ("Creative Commons") is nie 'n prokureursfirma nie en verskaf nie regsdienste of regadvies nie. Verspreiding van Creative Commons openbare lisensies skep nie 'n prokureur-kliënt of ander verhouding nie. Creative Commons maak sy lisensies en verwante inligting beskikbaar op 'n "soos-is" basis. Creative Commons gee geen waarborge met betrekking tot sy lisensies, enige materiaal gelisensieer onder hul voorwaardes enige verwante inligting nie. Creative Commons verwerp alle aanspreeklikheid vir skade wat voortspruit uit hul gebruik tot die volle omvang moontlik.
+Creative Commons Corporation (“Creative Commons”) ist keine Anwaltskanzlei und bietet keine juristischen Dienstleistungen oder Rechtsberatung an. Die Verbreitung von Creative Commons-Publik lizenzen schafft keine Anwalt- Mandanten- oder andere Beziehungen. Creative Commons stellt seine Lizenzen und verwandte Informationen auf einer „wie sie sind“-Basis zur Verfügung. Creative Commons gibt keine Garantien bezüglich seiner Lizenzen, des Materials, das unter ihren Bedingungen lizenziert ist, oder verwandter Informationen. Creative Commons schließt jegliche Haftung für Schäden, die aus ihrer Nutzung resultieren, im größtmöglichen Umfang aus.
 
-## Gebruik van Creative Commons Openbare Lisensies
+## Verwendung von Creative Commons-Publiklizenzen
 
-Creative Commons openbare lisensies bied 'n standaardstel voorwaardes wat skeppers en ander regshouers kan gebruik om oorspronklike werke van outeurskap en ander materiaal wat onderhewig is aan kopiereg en sekere ander regte soos gespesifiseer in die openbare lisensie hieronder, te deel. Die volgende oorwegings is slegs vir inligtingsdoeleindes, is nie uitputtend nie, en vorm nie deel van ons lisensies nie.
+Creative Commons-Publiklizenzen bieten einen standardisierten Satz von Bedingungen, die von Kreativen und anderen Rechteinhabern verwendet werden können, um originale Werke der Urheberschaft und andere urheberrechtlich geschützte Materialien zu teilen. Die folgenden Überlegungen dienen nur zu Informationszwecken, sind nicht erschöpfend und sind kein Bestandteil unserer Lizenzen.
 
-* __Oorwegings vir lisensiehouers:__ Ons openbare lisensies is bedoel vir gebruik deur diegene wat gemagtig is om die publiek toestemming te gee om materiaal op maniere te gebruik wat andersins deur kopiereg en sekere ander regte beperk word. Ons lisensies is onherroeplik. Lisensiehouers moet die terme en voorwaardes van die lisensie wat hulle kies, lees en verstaan voordat hulle dit toepas. Lisensiehouers moet ook alle regte verseker wat nodig is voordat hulle ons lisensies toepas sodat die publiek die materiaal kan hergebruik soos verwag. Lisensiehouers moet enige materiaal wat nie onderhewig is aan die lisensie, duidelik merk. Dit sluit ander CC-gelisensieerde materiaal in, of materiaal wat onder 'n uitsondering of beperking tot kopiereg gebruik word. [Meer oorwegings vir lisensiehouers](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
+* __Überlegungen für Lizenzgeber:__ Unsere Publik lizenzen sind für die Verwendung durch diejenigen gedacht, die befugt sind, der Öffentlichkeit die Erlaubnis zu erteilen, Materialien auf eine Weise zu verwenden, die durch Urheberrecht und bestimmte andere Rechte eingeschränkt ist. Unsere Lizenzen sind unwiderruflich. Lizenzgeber sollten die Bedingungen der Lizenz, die sie wählen, lesen und verstehen, bevor sie sie anwenden. Lizenzgeber sollten auch alle notwendigen Rechte sichern, bevor sie unsere Lizenzen anwenden, damit die Öffentlichkeit das Material wie erwartet wiederverwenden kann. Lizenzgeber sollten deutlich kennzeichnen, welches Material nicht der Lizenz unterliegt. Dazu gehört auch anderes CC-lizenziertes Material oder Material, das unter einer Ausnahme oder Einschränkung des Urheberrechts verwendet wird. [Weitere Überlegungen für Lizenzgeber](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
 
-* __Oorwegings vir die publiek:__ Deur een van ons openbare lisensies te gebruik, gee 'n lisensiehouer die publiek toestemming om die gelisensieerde materiaal te gebruik onder gespesifiseerde terme en voorwaardes. As die toestemming van die lisensiehouer nie nodig is om enige rede nie – byvoorbeeld, as gevolg van enige toepaslike uitsondering of beperking tot kopiereg – dan word daardie gebruik nie deur die lisensie gereguleer nie. Ons lisensies verleen slegs toestemmings onder kopiereg en sekere ander regte waaroor 'n lisensiehouer die gesag het om te verleen. Die gebruik van die gelisensieerde materiaal kan nog steeds beperk word om ander redes, insluitend omdat ander kopiereg of ander regte in die materiaal het. 'n Lisensiehouer kan spesiale versoeke maak, soos om te vra dat alle veranderinge gemerk of beskryf word. Alhoewel nie deur ons lisensies vereis nie, word jy aangemoedig om daardie versoeke te respekteer waar redelik. [Meer oorwegings vir die publiek](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
+* __Überlegungen für die Öffentlichkeit:__ Durch die Verwendung einer unserer Publik lizenzen gewährt ein Lizenzgeber der Öffentlichkeit die Erlaubnis, das lizenzierte Material unter den angegebenen Bedingungen zu verwenden. Wenn die Erlaubnis des Lizenzgebers aus irgendeinem Grund nicht erforderlich ist – zum Beispiel aufgrund einer anwendbaren Ausnahme oder Einschränkung des Urheberrechts – dann wird diese Nutzung nicht durch die Lizenz geregelt. Unsere Lizenzen gewähren nur Erlaubnisse unter dem Urheberrecht und bestimmten anderen Rechten, die ein Lizenzgeber erteilen kann. Die Nutzung des lizenzierten Materials kann aus anderen Gründen eingeschränkt sein, einschließlich, weil andere Urheberrechte oder andere Rechte an dem Material haben. Ein Lizenzgeber kann besondere Anforderungen stellen, wie z.B. die Bitte, dass alle Änderungen gekennzeichnet oder beschrieben werden. Obwohl dies von unseren Lizenzen nicht gefordert wird, werden Sie ermutigt, diese Anforderungen, wo angemessen, zu respektieren. [Weitere Überlegungen für die Öffentlichkeit](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
 
-# Creative Commons Erkenning-GeenKommerselewe 4.0 Internasionaal Openbare Lisensie
+# Creative Commons Namensnennung-NichtKommerziell 4.0 International Public License
 
-Deur die Gelisensieerde Regte (hieronder gedefinieer) uit te oefen, aanvaar en stem jy in om gebonde te wees aan die terme en voorwaardes van hierdie Creative Commons Erkenning-GeenKommerselewe 4.0 Internasionaal Openbare Lisensie ("Openbare Lisensie"). Vir sover hierdie Openbare Lisensie geïnterpreteer kan word as 'n kontrak, word jy die Gelisensieerde Regte verleen in oorweging van jou aanvaarding van hierdie terme en voorwaardes, en die Lisensiehouer verleen jou sulke regte in oorweging van die voordele wat die Lisensiehouer ontvang deur die Gelisensieerde Materiaal beskikbaar te stel onder hierdie terme en voorwaardes.
+Durch die Ausübung der lizenzierten Rechte (wie unten definiert) akzeptieren und erklären Sie sich mit den Bedingungen dieser Creative Commons Namensnennung-NichtKommerziell 4.0 International Public License ("Öffentliche Lizenz") einverstanden. Soweit diese öffentliche Lizenz als Vertrag interpretiert werden kann, werden Ihnen die lizenzierten Rechte in Anbetracht Ihrer Akzeptanz dieser Bedingungen gewährt, und der Lizenzgeber gewährt Ihnen solche Rechte in Anbetracht der Vorteile, die der Lizenzgeber aus der Bereitstellung des lizenzierten Materials unter diesen Bedingungen erhält.
 
-## Afdeling 1 - Definisies.
+## Abschnitt 1 – Definitionen.
 
-a. __Aangepaste Materiaal__ beteken materiaal onderhewig aan Kopiereg en Soortgelyke Regte wat afgelei is van of gebaseer is op die Gelisensieerde Materiaal en waarin die Gelisensieerde Materiaal vertaal, verander, gereël, getransformeer, of andersins gewysig is op 'n wyse wat toestemming vereis onder die Kopiereg en Soortgelyke Regte wat deur die Lisensiehouer besit word. Vir doeleindes van hierdie Openbare Lisensie, waar die Gelisensieerde Materiaal 'n musiekwerk, uitvoering, of klankopname is, word Aangepaste Materiaal altyd geproduseer waar die Gelisensieerde Materiaal gesinkroniseer is in getimede verhouding met 'n bewegende beeld.
+a. __Adaptives Material__ bedeutet Material, das dem Urheberrecht und ähnlichen Rechten unterliegt und das aus dem lizenzierten Material abgeleitet oder darauf basiert, in dem das lizenzierte Material übersetzt, verändert, angeordnet, transformiert oder anderweitig in einer Weise modifiziert wird, die eine Erlaubnis gemäß dem Urheberrecht und ähnlichen Rechten erfordert, die der Lizenzgeber hält. Für die Zwecke dieser öffentlichen Lizenz wird adaptives Material immer produziert, wenn das lizenzierte Material synchronisiert ist in zeitlicher Beziehung zu einem bewegten Bild.
 
-b. __Lisensie van die Aanpasser__ beteken die lisensie wat jy toepas op Jou Kopiereg en Soortgelyke Regte in Jou bydraes tot Aangepaste Materiaal in ooreenstemming met die terme en voorwaardes van hierdie Openbare Lisensie.
+b. __Lizenz des Adapters__ bedeutet die Lizenz, die Sie auf Ihre Urheberrechte und ähnlichen Rechte in Ihren Beiträgen zu adaptivem Material gemäß den Bedingungen dieser öffentlichen Lizenz anwenden.
 
-c. __Kopiereg en Soortgelyke Regte__ beteken kopiereg en/of soortgelyke regte wat nou verwant is aan kopiereg, insluitend, sonder beperking, uitvoering, uitsending, klankopname, en Sui Generis Databasisregte, ongeag hoe die regte geëtiketteer of gekategoriseer word. Vir doeleindes van hierdie Openbare Lisensie is die regte gespesifiseer in Afdeling 2(b)(1)-(2) nie Kopiereg en Soortgelyke Regte nie.
+c. __Urheberrecht und ähnliche Rechte__ bedeutet Urheberrecht und/oder ähnliche Rechte, die eng mit dem Urheberrecht verbunden sind, einschließlich, aber nicht beschränkt auf, Aufführung, Rundfunk, Tonaufnahme und Sui Generis-Datenbankrechte, unabhängig davon, wie die Rechte bezeichnet oder kategorisiert werden. Für die Zwecke dieser öffentlichen Lizenz sind die in Abschnitt 2(b)(1)-(2) angegebenen Rechte keine Urheberrechte und ähnlichen Rechte.
 
-d. __Doeltreffende Tegnologiese Maatreëls__ beteken daardie maatreëls wat, in die afwesigheid van behoorlike gesag, nie omseil mag word onder wette wat verpligtinge nakom ingevolge Artikel 11 van die WIPO Kopieregverdrag wat op 20 Desember 1996 aanvaar is, en/of soortgelyke internasionale ooreenkomste.
+d. __Effektive technologische Maßnahmen__ bedeutet Maßnahmen, die in Abwesenheit der richtigen Autorität nicht umgangen werden dürfen gemäß den Gesetzen, die die Verpflichtungen gemäß Artikel 11 des WIPO-Urheberrechtsvertrags, der am 20. Dezember 1996 angenommen wurde, und/oder ähnlichen internationalen Vereinbarungen erfüllen.
 
-e. __Uitsonderings en Beperkings__ beteken billike gebruik, billike hantering, en/of enige ander uitsondering of beperking tot Kopiereg en Soortgelyke Regte wat van toepassing is op jou gebruik van die Gelisensieerde Materiaal.
+e. __Ausnahmen und Einschränkungen__ bedeutet faire Nutzung, faire Behandlung und/oder jede andere Ausnahme oder Einschränkung des Urheberrechts und ähnlicher Rechte, die auf Ihre Nutzung des lizenzierten Materials anwendbar ist.
 
-f. __Gelisensieerde Materiaal__ beteken die artistieke of letterkundige werk, databasis, of ander materiaal waarop die Lisensiehouer hierdie Openbare Lisensie toegepas het.
+f. __Lizenziertes Material__ bedeutet das künstlerische oder literarische Werk, die Datenbank oder anderes Material, auf das der Lizenzgeber diese öffentliche Lizenz angewendet hat.
 
-g. __Gelisensieerde Regte__ beteken die regte wat aan jou verleen word onderhewig aan die terme en voorwaardes van hierdie Openbare Lisensie, wat beperk is tot alle Kopiereg en Soortgelyke Regte wat van toepassing is op jou gebruik van die Gelisensieerde Materiaal en waaroor die Lisensiehouer die gesag het om te lisensieer.
+g. __Lizenzierte Rechte__ bedeutet die Ihnen unter den Bedingungen dieser öffentlichen Lizenz gewährten Rechte, die auf alle Urheberrechte und ähnlichen Rechte beschränkt sind, die auf Ihre Nutzung des lizenzierten Materials anwendbar sind und die der Lizenzgeber lizenziert.
 
-h. __Lisensiehouer__ beteken die individu(e) of entiteit(e) wat regte verleen onder hierdie Openbare Lisensie.
+h. __Lizenzgeber__ bedeutet die Person(en) oder Einheit(en), die Rechte gemäß dieser öffentlichen Lizenz gewähren.
 
-i. __NieKommerseel__ beteken nie hoofsaaklik bedoel vir of gerig op kommersiële voordeel of monetêre vergoeding nie. Vir doeleindes van hierdie Openbare Lisensie is die uitruil van die Gelisensieerde Materiaal vir ander materiaal onderhewig aan Kopiereg en Soortgelyke Regte deur digitale lêerdeling of soortgelyke metodes NieKommerseel mits daar geen betaling van monetêre vergoeding in verband met die uitruil is nie.
+i. __Nichtkommerziell__ bedeutet nicht hauptsächlich für kommerzielle Vorteile oder monetäre Entschädigung bestimmt oder darauf ausgerichtet. Für die Zwecke dieser öffentlichen Lizenz ist der Austausch des lizenzierten Materials gegen anderes Material, das dem Urheberrecht und ähnlichen Rechten unterliegt, durch digitalen Dateiaustausch oder ähnliche Mittel nichtkommerziell, sofern keine Zahlung von monetärer Entschädigung im Zusammenhang mit dem Austausch erfolgt.
 
-j. __Deel__ beteken om materiaal aan die publiek te voorsien deur enige middel of proses wat toestemming onder die Gelisensieerde Regte vereis, soos reproduksie, openbare vertoning, openbare uitvoering, verspreiding, disseminasie, kommunikasie, of invoer, en om materiaal beskikbaar te stel aan die publiek, insluitend op maniere waarop lede van die publiek die materiaal vanaf 'n plek en op 'n tyd individueel deur hulle gekies kan toegang verkry.
+j. __Teilen__ bedeutet, Material der Öffentlichkeit durch beliebige Mittel oder Prozesse zur Verfügung zu stellen, die eine Erlaubnis gemäß den lizenzierten Rechten erfordern, wie z.B. Vervielfältigung, öffentliche Anzeige, öffentliche Aufführung, Verteilung, Verbreitung, Kommunikation oder Einfuhr, und Material der Öffentlichkeit zur Verfügung zu stellen, einschließlich auf Wegen, die es Mitgliedern der Öffentlichkeit ermöglichen, das Material von einem Ort und zu einer Zeit, die sie individuell wählen, abzurufen.
 
-k. __Sui Generis Databasisregte__ beteken regte anders as kopiereg wat voortspruit uit Direktief 96/9/EG van die Europese Parlement en die Raad van 11 Maart 1996 oor die regsbewaring van databasisse, soos gewysig en/of opvolg, sowel as ander essensieel ekwivalente regte enige plek in die wêreld.
+k. __Sui Generis-Datenbankrechte__ bedeutet Rechte, die nicht Urheberrechte sind und aus der Richtlinie 96/9/EG des Europäischen Parlaments und des Rates vom 11. März 1996 über den rechtlichen Schutz von Datenbanken, in der geänderten oder nachfolgenden Fassung, sowie anderen im Wesentlichen gleichwertigen Rechten überall auf der Welt resultieren.
 
-l. __Jy__ beteken die individu of entiteit wat die Gelisensieerde Regte uitoefen onder hierdie Openbare Lisensie. Jou het 'n ooreenstemmende betekenis.
-## Afdeling 2 - Omvang.
+l. __Sie__ bedeutet die Person oder Einheit, die die lizenzierten Rechte gemäß dieser öffentlichen Lizenz ausübt. Ihr hat eine entsprechende Bedeutung.
 
-a. ___ Lisensieverlening.___
+## Abschnitt 2 – Umfang.
 
-1. Onderworpe aan die bepalings en voorwaardes van hierdie Openbare Lisensie, verleen die Lisensiehouer hiermee aan U 'n wêreldwye, vry van koninklike regte, nie-onderlisensieerbare, nie-eksklusiewe, onherroeplike lisensie om die Gelisensieerde Regte in die Gelisensieerde Materiaal uit te oefen om:
+a. ___Lizenzgewährung.___
 
-A. die Gelisensieerde Materiaal, geheel of gedeeltelik, slegs vir Niekommersiële doeleindes te reproduseer en te Deel; en
+1. Vorbehaltlich der Bedingungen dieser öffentlichen Lizenz gewährt der Lizenzgeber Ihnen hiermit eine weltweite, gebührenfreie, nicht übertragbare, nicht-exklusive, unwiderrufliche Lizenz zur Ausübung der lizenzierten Rechte im lizenzierten Material, um:
 
-B. Aangepaste Materiaal te produseer, te reproduseer en te Deel vir Niekommersiële doeleindes slegs.
+A. das lizenzierte Material ganz oder teilweise für nichtkommerzielle Zwecke zu vervielfältigen und zu teilen; und
 
-2. __Uitsluitings en Beperkings.__ Vir die vermyding van twyfel, waar Uitsluitings en Beperkings van toepassing is op U gebruik, is hierdie Openbare Lisensie nie van toepassing nie, en U hoef nie aan sy bepalings en voorwaardes te voldoen nie.
+B. adaptiertes Material für nichtkommerzielle Zwecke zu produzieren, zu vervielfältigen und zu teilen.
 
-3. __Termyn.__ Die termyn van hierdie Openbare Lisensie word gespesifiseer in Afdeling 6(a).
+2. __Ausnahmen und Einschränkungen.__ Um Zweifel auszuräumen, wo Ausnahmen und Einschränkungen auf Ihre Nutzung anwendbar sind, gilt diese öffentliche Lizenz nicht, und Sie müssen die Bedingungen nicht einhalten.
 
-4. __Media en formate; tegniese wysigings toegelaat.__ Die Lisensiehouer mag U magtig om die Gelisensieerde Regte in alle media en formate, hetsy nou bekend of hierna geskep, uit te oefen, en om tegniese wysigings wat nodig is om dit te doen, aan te bring. Die Lisensiehouer doen afstand van en/of stem in om enige reg of gesag te ontken om U te verbied om tegniese wysigings wat nodig is om die Gelisensieerde Regte uit te oefen, insluitende tegniese wysigings wat nodig is om Effektiewe Tegnologiese Maatreëls te omseil. Vir doeleindes van hierdie Openbare Lisensie, produseer die eenvoudige aanbring van wysigings wat deur hierdie Afdeling 2(a)(4) gemagtig is, nooit Aangepaste Materiaal nie.
+3. __Laufzeit.__ Die Laufzeit dieser öffentlichen Lizenz ist in Abschnitt 6(a) angegeben.
 
-5. __Afnemers stroomafwaarts.__
+4. __Medien und Formate; technische Modifikationen erlaubt.__ Der Lizenzgeber autorisiert Sie, die lizenzierten Rechte in allen Medien und Formaten auszuüben, die jetzt bekannt sind oder künftig geschaffen werden, und technische Modifikationen vorzunehmen, die erforderlich sind, um dies zu tun. Der Lizenzgeber verzichtet auf und/oder erklärt sich nicht bereit, irgendein Recht oder eine Autorität geltend zu machen, um Ihnen zu verbieten, technische Modifikationen vorzunehmen, die erforderlich sind, um die lizenzierten Rechte auszuüben, einschließlich technischer Modifikationen, die erforderlich sind, um effektive technologische Maßnahmen zu umgehen. Für die Zwecke dieser öffentlichen Lizenz führt das bloße Vornehmen von Modifikationen, die durch diesen Abschnitt 2(a)(4) autorisiert sind, niemals zu adaptivem Material.
 
-A. __Aanbod van die Lisensiehouer - Gelisensieerde Materiaal.__ Elke ontvanger van die Gelisensieerde Materiaal ontvang outomaties 'n aanbod van die Lisensiehouer om die Gelisensieerde Regte uit te oefen onder die bepalings en voorwaardes van hierdie Openbare Lisensie.
+5. __Nachgelagerte Empfänger.__
 
-B. __Geen stroomafwaartse beperkings nie.__ U mag nie enige bykomende of verskillende bepalings of voorwaardes aanbied of afdwing nie, of enige Effektiewe Tegnologiese Maatreëls op die Gelisensieerde Materiaal toepas nie indien dit die uitoefening van die Gelisensieerde Regte deur enige ontvanger van die Gelisensieerde Materiaal beperk nie.
+A. __Angebot des Lizenzgebers – lizenziertes Material.__ Jeder Empfänger des lizenzierten Materials erhält automatisch ein Angebot des Lizenzgebers, die lizenzierten Rechte unter den Bedingungen dieser öffentlichen Lizenz auszuüben.
 
-6. __Geen goedkeuring.__ Niks in hierdie Openbare Lisensie vorm of mag beskou word as toestemming om te beweer of te impliseer dat U, of dat U gebruik van die Gelisensieerde Materiaal, verbind is met, of geborg, ondersteun, of amptelike status verleen is deur, die Lisensiehouer of ander wat aangewys is om erkenning te ontvang soos voorsien in Afdeling 3(a)(1)(A)(i).
+B. __Keine nachgelagerten Einschränkungen.__ Sie dürfen keine zusätzlichen oder anderen Bedingungen oder Einschränkungen auf das lizenzierte Material anbieten oder auferlegen oder irgendwelche effektiven technologischen Maßnahmen auf das lizenzierte Material anwenden, wenn dies die Ausübung der lizenzierten Rechte durch einen Empfänger des lizenzierten Materials einschränkt.
 
-b. ___Ander regte.___
+6. __Keine Billigung.__ Nichts in dieser öffentlichen Lizenz stellt eine Erlaubnis dar oder kann so ausgelegt werden, dass Sie oder Ihre Nutzung des lizenzierten Materials mit dem Lizenzgeber oder anderen, die zur Erhaltung der Namensnennung gemäß Abschnitt 3(a)(1)(A)(i) benannt sind, verbunden, gesponsert, gebilligt oder offiziell anerkannt sind.
 
-1. Morele regte, soos die reg op integriteit, word nie onder hierdie Openbare Lisensie gelisensieer nie, en ook nie publisiteit, privaatheid, en/of ander soortgelyke persoonlikheidsregte nie; egter, in die mate moontlik, doen die Lisensiehouer afstand van en/of stem in om enige sulke regte wat deur die Lisensiehouer gehou word tot die beperkte mate wat nodig is om U in staat te stel om die Gelisensieerde Regte uit te oefen, maar andersins nie.
+b. ___Andere Rechte.___
 
-2. Patent- en handelsmerkregte word nie onder hierdie Openbare Lisensie gelisensieer nie.
+1. Moralische Rechte, wie das Recht auf Integrität, sind nicht unter dieser öffentlichen Lizenz lizenziert, ebenso wenig wie Werbe-, Datenschutz- und/oder andere ähnliche Persönlichkeitsrechte; jedoch verzichtet der Lizenzgeber, soweit möglich, auf und/oder erklärt sich nicht bereit, solche Rechte, die der Lizenzgeber hält, in dem begrenzten Umfang geltend zu machen, der erforderlich ist, um Ihnen die Ausübung der lizenzierten Rechte zu ermöglichen, jedoch nicht darüber hinaus.
 
-3. In die mate moontlik, doen die Lisensiehouer afstand van enige reg om koninklike gelde van U te eis vir die uitoefening van die Gelisensieerde Regte, hetsy direk of deur 'n innoverende genootskap onder enige vrywillige of afstandbare statutêre of verpligte lisensieskema. In alle ander gevalle behou die Lisensiehouer uitdruklik enige reg voor om sulke koninklike gelde te eis, insluitende wanneer die Gelisensieerde Materiaal gebruik word anders as vir Niekommersiële doeleindes.
+2. Patent- und Markenrechte sind nicht unter dieser öffentlichen Lizenz lizenziert.
 
-## Afdeling 3 - Lisensie Voorwaardes.
+3. Soweit möglich, verzichtet der Lizenzgeber auf jegliches Recht, von Ihnen Lizenzgebühren für die Ausübung der lizenzierten Rechte zu erheben, sei es direkt oder über eine Verwertungsgesellschaft im Rahmen eines freiwilligen oder abtretbaren gesetzlichen oder obligatorischen Lizenzierungsprogramms. In allen anderen Fällen behält sich der Lizenzgeber ausdrücklich das Recht vor, solche Lizenzgebühren zu erheben, einschließlich wenn das lizenzierte Material für andere als nichtkommerzielle Zwecke verwendet wird.
 
-U uitoefening van die Gelisensieerde Regte is uitdruklik onderhewig aan die volgende voorwaardes.
+## Abschnitt 3 – Lizenzbedingungen.
 
-a. ___Erkenning.___
+Ihre Ausübung der lizenzierten Rechte unterliegt ausdrücklich den folgenden Bedingungen.
 
-1. Indien U die Gelisensieerde Materiaal Deel (insluitend in gewysigde vorm), moet U:
+a. ___Namensnennung.___
 
-A. die volgende behou indien dit deur die Lisensiehouer saam met die Gelisensieerde Materiaal voorsien word:
+1. Wenn Sie das lizenzierte Material (einschließlich in modifizierter Form) teilen, müssen Sie:
 
-i. identifikasie van die skepper(s) van die Gelisensieerde Materiaal en enige ander wat aangewys is om erkenning te ontvang, op enige redelike wyse versoek deur die Lisensiehouer (insluitend per skuilnaam indien aangewys);
+A. Folgendes beibehalten, wenn es vom Lizenzgeber mit dem lizenzierten Material bereitgestellt wird:
 
-ii. 'n kopieregkennisgewing;
+i. Identifizierung der Schöpfer des lizenzierten Materials und aller anderen, die zur Erhaltung der Namensnennung benannt sind, in einer angemessenen Weise, die vom Lizenzgeber angefordert wird (einschließlich durch Pseudonym, wenn benannt);
 
-iii. 'n kennisgewing wat na hierdie Openbare Lisensie verwys;
+ii. einen Urheberrechtshinweis;
 
-iv. 'n kennisgewing wat na die vrywaring van waarborge verwys;
+iii. einen Hinweis, der auf diese öffentliche Lizenz verweist;
 
-v. 'n URI of hiperkoppeling na die Gelisensieerde Materiaal tot die mate wat redelikerwys moontlik is;
+iv. einen Hinweis, der auf den Haftungsausschluss verweist;
 
-B. aandui indien U die Gelisensieerde Materiaal gewysig het en 'n aanduiding van enige vorige wysigings behou; en
+v. eine URI oder einen Hyperlink zum lizenzierten Material, soweit dies angemessen möglich ist;
 
-C. aandui dat die Gelisensieerde Materiaal gelisensieer is onder hierdie Openbare Lisensie, en die teks van, of die URI of hiperkoppeling na, hierdie Openbare Lisensie insluit.
+B. angeben, ob Sie das lizenzierte Material modifiziert haben, und eine Angabe über vorherige Modifikationen beibehalten; und
 
-2. U kan die voorwaardes in Afdeling 3(a)(1) op enige redelike wyse bevredig gebaseer op die medium, middels, en konteks waarin U die Gelisensieerde Materiaal Deel. Byvoorbeeld, dit mag redelik wees om die voorwaardes te bevredig deur 'n URI of hiperkoppeling na 'n hulpbron te voorsien wat die vereiste inligting insluit.
+C. angeben, dass das lizenzierte Material unter dieser öffentlichen Lizenz lizenziert ist, und den Text oder die URI oder den Hyperlink zu dieser öffentlichen Lizenz einfügen.
 
-3. Indien versoek deur die Lisensiehouer, moet U enige van die inligting wat vereis word deur Afdeling 3(a)(1)(A) tot die mate wat redelikerwys moontlik is, verwyder.
+2. Sie können die Bedingungen in Abschnitt 3(a)(1) auf jede angemessene Weise erfüllen, die auf dem Medium, den Mitteln und dem Kontext basiert, in dem Sie das lizenzierte Material teilen. Zum Beispiel kann es angemessen sein, die Bedingungen zu erfüllen, indem Sie eine URI oder einen Hyperlink zu einer Ressource bereitstellen, die die erforderlichen Informationen enthält.
 
-4. Indien U Aangepaste Materiaal wat U produseer Deel, moet die Lisensie van die Aanpasser wat U toepas, nie ontvangers van die Aangepaste Materiaal verhoed om aan hierdie Openbare Lisensie te voldoen nie.
+3. Wenn der Lizenzgeber dies anfordert, müssen Sie alle Informationen, die in Abschnitt 3(a)(1)(A) erforderlich sind, soweit dies angemessen möglich ist, entfernen.
 
-## Afdeling 4 - Sui Generis Databasisregte.
+4. Wenn Sie adaptiertes Material teilen, das Sie produzieren, darf die Lizenz des Adapters, die Sie anwenden, die Empfänger des adaptierten Materials nicht daran hindern, diese öffentliche Lizenz einzuhalten.
 
-Indien die Gelisensieerde Regte Sui Generis Databasisregte insluit wat van toepassing is op U gebruik van die Gelisensieerde Materiaal:
+## Abschnitt 4 – Sui Generis-Datenbankrechte.
 
-a. vir die vermyding van twyfel, verleen Afdeling 2(a)(1) U die reg om alle of 'n substansiële gedeelte van die inhoud van die databasis vir Niekommersiële doeleindes slegs te onttrek, hergebruik, reproduseer, en Deel;
+Wenn die lizenzierten Rechte Sui Generis-Datenbankrechte umfassen, die auf Ihre Nutzung des lizenzierten Materials anwendbar sind:
 
-b. indien U alle of 'n substansiële gedeelte van die databasisinhoud insluit in 'n databasis waarin U Sui Generis Databasisregte het, dan is die databasis waarin U Sui Generis Databasisregte het (maar nie sy individuele inhoud) Aangepaste Materiaal; en
+a. um Zweifel auszuräumen, gewährt Abschnitt 2(a)(1) Ihnen das Recht, alle oder einen wesentlichen Teil des Inhalts der Datenbank für nichtkommerzielle Zwecke zu extrahieren, wiederzuverwenden, zu reproduzieren und zu teilen;
 
-c. U moet voldoen aan die voorwaardes in Afdeling 3(a) indien U alle of 'n substansiële gedeelte van die inhoud van die databasis Deel.
+b. wenn Sie alle oder einen wesentlichen Teil des Inhalts der Datenbank in einer Datenbank einfügen, in der Sie Sui Generis-Datenbankrechte haben, dann ist die Datenbank, in der Sie Sui Generis-Datenbankrechte haben (aber nicht deren einzelne Inhalte), adaptiertes Material; und
 
-Vir die vermyding van twyfel, vuller hierdie Afdeling 4 aan en vervang nie U verpligtinge onder hierdie Openbare Lisensie waar die Gelisensieerde Regte ander Kopiereg- en Soortgelyke Regte insluit.
+c. Sie müssen die Bedingungen in Abschnitt 3(a) einhalten, wenn Sie alle oder einen wesentlichen Teil des Inhalts der Datenbank teilen.
 
-## Afdeling 5 - Vrywaring van Waarborg en Beperking van Aanspreeklikheid.
+Um Zweifel auszuräumen, ergänzt dieser Abschnitt 4 Ihre Verpflichtungen unter dieser öffentlichen Lizenz, wenn die lizenzierten Rechte andere Urheberrechte und ähnliche Rechte umfassen.
 
-a. __Tensy andersins afsonderlik aangegaan deur die Lisensiehouer, bied die Lisensiehouer die Gelisensieerde Materiaal aan soos dit is en beskikbaar is, en maak geen verteenwoordigings of waarborge van enige aard oor die Gelisensieerde Materiaal nie, hetsy uitdruklik, geïmpliseer, statutêr, of andersins. Dit sluit, sonder beperking, waarborge van titel, verhandelbaarheid, geskiktheid vir 'n bepaalde doel, nie-skending, afwesigheid van latente of ander foute, akkuraatheid, of die teenwoordigheid of afwesigheid van foute, of dit bekend is of ontdek kan word. Waar waarborgontkenning nie heeltemal of gedeeltelik toegelaat word nie, mag hierdie waarborgontkenning nie op U van toepassing wees nie.__
+## Abschnitt 5 – Haftungsausschluss und Haftungsbeschränkung.
 
-b. __In geen geval sal die Lisensiehouer aanspreeklik wees teenoor U op enige regsteorie (insluitend, sonder beperking, nalatigheid) of andersins vir enige direkte, spesiale, indirekte, insidentele, gevolglike, strafregtelike, voorbeeldige, of ander verliese, koste, uitgawes, of skade wat voortspruit uit hierdie Openbare Lisensie of die gebruik van die Gelisensieerde Materiaal, selfs indien die Lisensiehouer in kennis gestel is van die moontlikheid van sulke verliese, koste, uitgawes, of skade. Waar 'n aanspreeklikheidsbeperking nie heeltemal of gedeeltelik toegelaat word nie, mag hierdie beperking nie op U van toepassing wees nie.__
+a. __Sofern nicht anders vom Lizenzgeber gesondert übernommen, bietet der Lizenzgeber das lizenzierte Material nach dem Prinzip „wie es ist“ und „wie verfügbar“ an und gibt keine Zusicherungen oder Garantien jeglicher Art bezüglich des lizenzierten Materials, weder ausdrücklich, stillschweigend, gesetzlich noch anderweitig. Dies umfasst, ohne Einschränkung, Garantien bezüglich des Titels, der Marktfähigkeit, der Eignung für einen bestimmten Zweck, der Nichtverletzung, des Fehlens von versteckten oder anderen Mängeln, der Genauigkeit oder des Vorhandenseins oder Fehlens von Fehlern, unabhängig davon, ob bekannt oder entdeckbar. Wo Haftungsausschlüsse nicht vollständig oder teilweise zulässig sind, kann dieser Haftungsausschluss möglicherweise nicht auf Sie angewendet werden.__
 
-c. Die waarborgontkenning en aanspreeklikheidsbeperking hierbo verskaf moet geïnterpreteer word op 'n wyse wat, in die mate moontlik, die naaste aan 'n absolute waarborgontkenning en afstand van alle aanspreeklikheid benader.
+b. __Soweit möglich, haftet der Lizenzgeber Ihnen in keinem Fall auf irgendeiner rechtlichen Theorie (einschließlich, aber nicht beschränkt auf, Fahrlässigkeit) oder anderweitig für direkte, spezielle, indirekte, zufällige, Folgeschäden, Strafschäden, exemplarische oder andere Verluste, Kosten, Ausgaben oder Schäden, die aus dieser öffentlichen Lizenz oder der Nutzung des lizenzierten Materials entstehen, selbst wenn der Lizenzgeber auf die Möglichkeit solcher Verluste, Kosten, Ausgaben oder Schäden hingewiesen wurde. Wo eine Haftungsbeschränkung nicht vollständig oder teilweise zulässig ist, kann diese Beschränkung möglicherweise nicht auf Sie angewendet werden.__
 
-## Afdeling 6 - Termyn en Beëindiging.
+c. Der Haftungsausschluss und die Haftungsbeschränkung, die oben angegeben sind, werden so interpretiert, dass sie, soweit möglich, am ehesten einem absoluten Haftungsausschluss und Verzicht auf alle Haftungen entsprechen.
 
-a. Hierdie Openbare Lisensie is van toepassing vir die termyn van die Kopiereg- en Soortgelyke Regte wat hier gelisensieer word. Indien U egter nie aan hierdie Openbare Lisensie voldoen nie, verval U regte ingevolge hierdie Openbare Lisensie outomaties.
+## Abschnitt 6 – Laufzeit und Kündigung.
 
-b. Waar U reg om die Gelisensieerde Materiaal te gebruik beëindig het ingevolge Afdeling 6(a), word dit herstel:
+a. Diese öffentliche Lizenz gilt für die Laufzeit der hier lizenzierten Urheberrechte und ähnlichen Rechte. Wenn Sie jedoch diese öffentliche Lizenz nicht einhalten, erlöschen Ihre Rechte unter dieser öffentlichen Lizenz automatisch.
 
-1. outomaties op die datum waarop die oortreding reggestel is, op voorwaarde dat dit binne 30 dae na U ontdekking van die oortreding reggestel word; of
+b. Wenn Ihr Recht zur Nutzung des lizenzierten Materials gemäß Abschnitt 6(a) erloschen ist, wird es wiederhergestellt:
 
-2. op uitdruklike herstel deur die Lisensiehouer.
+1. automatisch ab dem Datum, an dem der Verstoß behoben wird, vorausgesetzt, er wird innerhalb von 30 Tagen nach Ihrer Entdeckung des Verstoßes behoben; oder
 
-Vir die vermyding van twyfel, hierdie Afdeling 6(b) beïnvloed nie enige reg wat die Lisensiehouer mag hê om remedies te soek vir U oortredings van hierdie Openbare Lisensie nie.
+2. nach ausdrücklicher Wiederherstellung durch den Lizenzgeber.
 
-c. Vir die vermyding van twyfel, mag die Lisensiehouer ook die Gelisensieerde Materiaal aanbied onder afsonderlike bepalings of voorwaardes of ophou om die Gelisensieerde Materiaal op enige tyd te versprei; egter, om dit te doen, sal hierdie Openbare Lisensie nie beëindig nie.
+Um Zweifel auszuräumen, wirkt sich dieser Abschnitt 6(b) nicht auf das Recht des Lizenzgebers aus, Rechtsmittel für Ihre Verstöße gegen diese öffentliche Lizenz zu suchen.
 
-d. Afdelings 1, 5, 6, 7, en 8 oorleef die beëindiging van hierdie Openbare Lisensie.
-## Afdeling 7 - Ander Voorwaardes en Kondisies.
+c. Um Zweifel auszuräumen, kann der Lizenzgeber das lizenzierte Material auch unter separaten Bedingungen oder Konditionen anbieten oder die Verbreitung des lizenzierten Materials jederzeit einstellen; jedoch wird dadurch diese öffentliche Lizenz nicht beendet.
 
-a. Die Lisensiehouer sal nie gebonde wees aan enige bykomende of verskillende terme of kondisies wat deur U gekommunikeer word tensy uitdruklik ooreengekom nie.
+d. Die Abschnitte 1, 5, 6, 7 und 8 überdauern die Beendigung dieser öffentlichen Lizenz.
 
-b. Enige reëlings, verstandhoudings, of ooreenkomste met betrekking tot die Gelisensieerde Materiaal wat nie hierin vermeld word nie, is afsonderlik van en onafhanklik van die terme en kondisies van hierdie Openbare Lisensie.
+## Abschnitt 7 – Andere Bedingungen und Konditionen.
 
-## Afdeling 8 - Interpretasie.
+a. Der Lizenzgeber ist nicht an zusätzliche oder andere Bedingungen oder Konditionen gebunden, die von Ihnen kommuniziert werden, es sei denn, dies wurde ausdrücklich vereinbart.
 
-a. Vir die vermyding van twyfel, hierdie Openbare Lisensie verminder nie, en mag nie geïnterpreteer word om, enige beperkinge, beperkings, of voorwaardes op te lê op enige gebruik van die Gelisensieerde Materiaal wat wettiglik gemaak kan word sonder toestemming onder hierdie Openbare Lisensie nie.
+b. Alle Vereinbarungen, Verständnisse oder Absprachen bezüglich des lizenzierten Materials, die hierin nicht angegeben sind, sind unabhängig von den Bedingungen dieser öffentlichen Lizenz.
 
-b. Vir sover moontlik, indien enige bepaling van hierdie Openbare Lisensie as onafdwingbaar beskou word, sal dit outomaties hervorm word tot die minimum om dit afdwingbaar te maak. Indien die bepaling nie hervorm kan word nie, sal dit uit hierdie Openbare Lisensie geskei word sonder om die afdwingbaarheid van die oorblywende terme en kondisies te beïnvloed.
+## Abschnitt 8 – Auslegung.
 
-c. Geen term of voorwaarde van hierdie Openbare Lisensie sal opgehef word nie en geen versuim om te voldoen sal toegelaat word tensy uitdruklik ooreengekom deur die Lisensiehouer.
+a. Um Zweifel auszuräumen, reduziert, beschränkt, schränkt diese öffentliche Lizenz nicht ein oder legt keine Bedingungen für die Nutzung des lizenzierten Materials fest, die rechtmäßig ohne Erlaubnis gemäß dieser öffentlichen Lizenz vorgenommen werden könnte.
 
-d. Niks in hierdie Openbare Lisensie vorm of mag geïnterpreteer word as 'n beperking op, of afstand van, enige voorregte en immuniteite wat van toepassing is op die Lisensiehouer of U nie, insluitend van die regsprosesse van enige jurisdiksie of gesag.
+b. Soweit möglich, wenn eine Bestimmung dieser öffentlichen Lizenz als nicht durchsetzbar erachtet wird, wird sie automatisch in dem minimalen Umfang reformiert, der erforderlich ist, um sie durchsetzbar zu machen. Wenn die Bestimmung nicht reformiert werden kann, wird sie von dieser öffentlichen Lizenz getrennt, ohne die Durchsetzbarkeit der verbleibenden Bedingungen und Konditionen zu beeinträchtigen.
+
+c. Keine Bedingung oder Klausel dieser öffentlichen Lizenz wird aufgegeben und kein Versäumnis, sich daran zu halten, wird akzeptiert, es sei denn, dies wurde ausdrücklich vom Lizenzgeber vereinbart.
+
+d. Nichts in dieser öffentlichen Lizenz stellt eine Einschränkung oder einen Verzicht auf Privilegien und Immunitäten dar, die auf den Lizenzgeber oder Sie anwendbar sind, einschließlich der rechtlichen Verfahren einer Gerichtsbarkeit oder Behörde.
 ```
 Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.
 
 Creative Commons may be contacted at [creativecommons.org](http://creativecommons.org/).
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

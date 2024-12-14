@@ -1,112 +1,111 @@
-# Bedreigingsmodellering
+# Bedrohungsmodellierung
 
+## Bedrohungsmodellierung
 
-## Bedreigingsmodellering
+Willkommen zu HackTricks' umfassendem Leitfaden zur Bedrohungsmodellierung! Beginnen Sie eine Erkundung dieses kritischen Aspekts der Cybersicherheit, bei dem wir potenzielle Schwachstellen in einem System identifizieren, verstehen und Strategien dagegen entwickeln. Dieser Thread dient als schrittweise Anleitung, die mit realen Beispielen, hilfreicher Software und leicht verständlichen Erklärungen gefüllt ist. Ideal für sowohl Anfänger als auch erfahrene Praktiker, die ihre Cybersicherheitsverteidigung stärken möchten.
 
-Welkom by HackTricks se omvattende gids oor Bedreigingsmodellering! Begin 'n verkenning van hierdie kritieke aspek van kuberveiligheid, waar ons potensiële kwesbaarhede in 'n stelsel identifiseer, verstaan en strategieë ontwikkel om teen hulle te veg. Hierdie draad dien as 'n stap-vir-stap gids vol werklike voorbeelde, nuttige sagteware en maklik verstaanbare verduidelikings. Ideaal vir beide beginners en ervare praktisyns wat hul kuberveiligheid verdediging wil versterk.
+### Häufig verwendete Szenarien
 
-### Gewoonlik Gebruikte Scenario's
+1. **Softwareentwicklung**: Im Rahmen des Secure Software Development Life Cycle (SSDLC) hilft die Bedrohungsmodellierung bei der **Identifizierung potenzieller Quellen von Schwachstellen** in den frühen Phasen der Entwicklung.
+2. **Penetrationstests**: Der Penetration Testing Execution Standard (PTES) erfordert **Bedrohungsmodellierung, um die Schwachstellen des Systems** vor der Durchführung des Tests zu verstehen.
 
-1. **Sagteware Ontwikkeling**: As deel van die Veilige Sagteware Ontwikkelingslewe Siklus (SSDLC), help bedreigingsmodellering in **die identifisering van potensiële bronne van kwesbaarhede** in die vroeë stadiums van ontwikkeling.
-2. **Penetrasietoetsing**: Die Penetrasietoetsing Uitvoeringsstandaard (PTES) raamwerk vereis **bedreigingsmodellering om die stelsel se kwesbaarhede te verstaan** voordat die toets uitgevoer word.
+### Bedrohungsmodell in Kürze
 
-### Bedreigingsmodel in 'n Neutedop
+Ein Bedrohungsmodell wird typischerweise als Diagramm, Bild oder in einer anderen Form der visuellen Darstellung dargestellt, die die geplante Architektur oder den bestehenden Aufbau einer Anwendung zeigt. Es ähnelt einem **Datenflussdiagramm**, aber der entscheidende Unterschied liegt im sicherheitsorientierten Design.
 
-'n Bedreigingsmodel word tipies voorgestel as 'n diagram, beeld, of 'n ander vorm van visuele illustrasie wat die beplande argitektuur of bestaande bou van 'n toepassing uitbeeld. Dit is soortgelyk aan 'n **data vloei diagram**, maar die sleutelonderskeid lê in die sekuriteitsgerigte ontwerp.
+Bedrohungsmodelle enthalten oft Elemente, die in Rot markiert sind und potenzielle Schwachstellen, Risiken oder Barrieren symbolisieren. Um den Prozess der Risikoidentifizierung zu optimieren, wird das CIA (Vertraulichkeit, Integrität, Verfügbarkeit) Triad verwendet, das die Grundlage vieler Bedrohungsmodellierungsmethodologien bildet, wobei STRIDE eine der häufigsten ist. Die gewählte Methodologie kann jedoch je nach spezifischem Kontext und Anforderungen variieren.
 
-Bedreigingsmodelle bevat dikwels elemente wat in rooi gemerk is, wat potensiële kwesbaarhede, risiko's of hindernisse simboliseer. Om die proses van risiko-identifikasie te stroomlyn, word die CIA (Vertroulikheid, Integriteit, Beskikbaarheid) triade gebruik, wat die basis vorm van baie bedreigingsmodellering metodologieë, met STRIDE as een van die mees algemene. Die gekose metodologie kan egter wissel, afhangende van die spesifieke konteks en vereistes.
+### Das CIA-Triad
 
-### Die CIA Triade
+Das CIA-Triad ist ein weithin anerkanntes Modell im Bereich der Informationssicherheit, das für Vertraulichkeit, Integrität und Verfügbarkeit steht. Diese drei Säulen bilden die Grundlage, auf der viele Sicherheitsmaßnahmen und -richtlinien basieren, einschließlich der Bedrohungsmodellierungsmethodologien.
 
-Die CIA Triade is 'n algemeen erkende model in die veld van inligtingsveiligheid, wat staan vir Vertroulikheid, Integriteit, en Beskikbaarheid. Hierdie drie pilare vorm die grondslag waarop baie sekuriteitsmaatreëls en -beleide gebou word, insluitend bedreigingsmodellering metodologieë.
+1. **Vertraulichkeit**: Sicherstellen, dass die Daten oder das System nicht von unbefugten Personen zugegriffen werden. Dies ist ein zentraler Aspekt der Sicherheit, der angemessene Zugriffskontrollen, Verschlüsselung und andere Maßnahmen erfordert, um Datenlecks zu verhindern.
+2. **Integrität**: Die Genauigkeit, Konsistenz und Vertrauenswürdigkeit der Daten über ihren Lebenszyklus. Dieses Prinzip stellt sicher, dass die Daten nicht von unbefugten Parteien verändert oder manipuliert werden. Es umfasst oft Prüfziffern, Hashing und andere Datenverifizierungsmethoden.
+3. **Verfügbarkeit**: Dies stellt sicher, dass Daten und Dienste für autorisierte Benutzer bei Bedarf zugänglich sind. Dies umfasst oft Redundanz, Fehlertoleranz und Hochverfügbarkeitskonfigurationen, um Systeme auch bei Störungen am Laufen zu halten.
 
-1. **Vertroulikheid**: Verseker dat die data of stelsel nie deur ongeoorloofde individue toegang verkry word nie. Dit is 'n sentrale aspek van sekuriteit, wat toepaslike toegangbeheer, versleuteling, en ander maatreëls vereis om datalekke te voorkom.
-2. **Integriteit**: Die akkuraatheid, konsekwentheid, en betroubaarheid van die data oor sy lewensiklus. Hierdie beginsel verseker dat die data nie deur ongeoorloofde partye verander of gemanipuleer word nie. Dit behels dikwels kontrole, hashing, en ander data-verifikasiemetodes.
-3. **Beskikbaarheid**: Dit verseker dat data en dienste beskikbaar is vir geautoriseerde gebruikers wanneer nodig. Dit behels dikwels redundansie, fouttoleransie, en hoë-beskikbaarheid konfigurasies om stelsels aan die gang te hou, selfs in die gesig van onderbrekings.
+### Bedrohungsmodellierungsmethodologien
 
-### Bedreigingsmodellering Metodologieë
+1. **STRIDE**: Entwickelt von Microsoft, ist STRIDE ein Akronym für **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service und Elevation of Privilege**. Jede Kategorie stellt eine Art von Bedrohung dar, und diese Methodologie wird häufig in der Entwurfsphase eines Programms oder Systems verwendet, um potenzielle Bedrohungen zu identifizieren.
+2. **DREAD**: Dies ist eine weitere Methodologie von Microsoft, die zur Risikobewertung identifizierter Bedrohungen verwendet wird. DREAD steht für **Damage potential, Reproducibility, Exploitability, Affected users und Discoverability**. Jeder dieser Faktoren wird bewertet, und das Ergebnis wird verwendet, um identifizierte Bedrohungen zu priorisieren.
+3. **PASTA** (Process for Attack Simulation and Threat Analysis): Dies ist eine siebenstufige, **risikozentrierte** Methodologie. Sie umfasst die Definition und Identifizierung von Sicherheitszielen, die Erstellung eines technischen Rahmens, die Anwendungszerlegung, die Bedrohungsanalyse, die Schwachstellenanalyse und die Risiko-/Triagebewertung.
+4. **Trike**: Dies ist eine risikobasierte Methodologie, die sich auf den Schutz von Vermögenswerten konzentriert. Sie beginnt aus einer **Risikomanagement**-Perspektive und betrachtet Bedrohungen und Schwachstellen in diesem Kontext.
+5. **VAST** (Visual, Agile, and Simple Threat modeling): Dieser Ansatz zielt darauf ab, zugänglicher zu sein und in agile Entwicklungsumgebungen integriert zu werden. Er kombiniert Elemente aus den anderen Methodologien und konzentriert sich auf **visuelle Darstellungen von Bedrohungen**.
+6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Entwickelt vom CERT Coordination Center, ist dieses Framework auf **organisatorische Risikobewertung und nicht auf spezifische Systeme oder Software** ausgerichtet.
 
-1. **STRIDE**: Ontwikkel deur Microsoft, STRIDE is 'n akroniem vir **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Elke kategorie verteenwoordig 'n tipe bedreiging, en hierdie metodologie word algemeen gebruik in die ontwerpfase van 'n program of stelsel om potensiële bedreigings te identifiseer.
-2. **DREAD**: Dit is 'n ander metodologie van Microsoft wat gebruik word vir risiko-assessering van geïdentifiseerde bedreigings. DREAD staan vir **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Elke van hierdie faktore word gegradeer, en die resultaat word gebruik om geïdentifiseerde bedreigings te prioriseer.
-3. **PASTA** (Proses vir Aanvalsimulasie en Bedreigingsanalise): Dit is 'n sewe-stap, **risiko-georiënteerde** metodologie. Dit sluit die definisie en identifisering van sekuriteitsdoelwitte in, die skep van 'n tegniese omvang, toepassingsdekomposisie, bedreigingsanalise, kwesbaarheidsanalise, en risiko/triage-assessering.
-4. **Trike**: Dit is 'n risiko-gebaseerde metodologie wat fokus op die verdediging van bates. Dit begin vanuit 'n **risikobestuur** perspektief en kyk na bedreigings en kwesbaarhede in daardie konteks.
-5. **VAST** (Visueel, Agile, en Eenvoudige Bedreigingsmodellering): Hierdie benadering streef daarna om meer toeganklik te wees en integreer in Agile ontwikkelingsomgewings. Dit kombineer elemente van die ander metodologieë en fokus op **visuele voorstellings van bedreigings**.
-6. **OCTAVE** (Operationeel Kritieke Bedreiging, Bates, en Kwesbaarheid Evaluasie): Ontwikkel deur die CERT Koördinasiesentrum, is hierdie raamwerk gerig op **organisatoriese risiko-assessering eerder as spesifieke stelsels of sagteware**.
+## Werkzeuge
 
-## Gereedskap
-
-Daar is verskeie gereedskap en sagteoplossings beskikbaar wat kan **help** met die skepping en bestuur van bedreigingsmodelle. Hier is 'n paar wat jy mag oorweeg.
+Es gibt mehrere Werkzeuge und Softwarelösungen, die bei der **Erstellung** und Verwaltung von Bedrohungsmodellen helfen können. Hier sind einige, die Sie in Betracht ziehen könnten.
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-'n Gevorderde kruis-platform en multi-funksie GUI web spinnekop/kruiper vir kuberveiligheid professionele. Spider Suite kan gebruik word vir aanvaloppervlak kartering en analise.
+Ein fortschrittlicher plattformübergreifender und multifunktionaler GUI-Webspider/Crawler für Cybersicherheitsprofis. Spider Suite kann zur Kartierung und Analyse der Angriffsfläche verwendet werden.
 
-**Gebruik**
+**Verwendung**
 
-1. Kies 'n URL en Kruip
+1. Wählen Sie eine URL und crawlen
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_1.png" alt=""><figcaption></figcaption></figure>
 
-2. Bekyk Grafiek
+2. Graph anzeigen
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_2.png" alt=""><figcaption></figcaption></figure>
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-'n Open-source projek van OWASP, Threat Dragon is beide 'n web- en desktoptoepassing wat stelseldiagrammering insluit sowel as 'n reël-enjin om bedreigings/mitigasies outomaties te genereer.
+Ein Open-Source-Projekt von OWASP, Threat Dragon ist sowohl eine Web- als auch eine Desktop-Anwendung, die Systemdiagrammierung sowie eine Regel-Engine zur automatischen Generierung von Bedrohungen/Minderungen umfasst.
 
-**Gebruik**
+**Verwendung**
 
-1. Skep Nuwe Projek
+1. Neues Projekt erstellen
 
 <figure><img src="../.gitbook/assets/create_new_project_1.jpg" alt=""><figcaption></figcaption></figure>
 
-Soms kan dit soos volg lyk:
+Manchmal könnte es so aussehen:
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Begin Nuwe Projek
+2. Neues Projekt starten
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Stoor Die Nuwe Projek
+3. Das neue Projekt speichern
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
-4. Skep jou model
+4. Erstellen Sie Ihr Modell
 
-Jy kan gereedskap soos SpiderSuite Crawler gebruik om jou inspirasie te gee, 'n basiese model kan iets soos hierdie lyk
+Sie können Tools wie SpiderSuite Crawler verwenden, um Inspiration zu erhalten, ein einfaches Modell könnte so aussehen
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
-Net 'n bietjie verduideliking oor die entiteite:
+Nur eine kleine Erklärung zu den Entitäten:
 
-* Proses (Die entiteit self soos Webbediener of web funksionaliteit)
-* Akteur ( 'n Persoon soos 'n Webwerf Besoeker, Gebruiker of Administrateur)
-* Data Vloei Lyn (Aanduiding van Interaksie)
-* Vertroue Grens (Verskillende netwerksegmente of skope.)
-* Stoor (Dinge waar data gestoor word soos Databasisse)
+* Prozess (Die Entität selbst, wie Webserver oder Webfunktionalität)
+* Akteur (Eine Person wie ein Website-Besucher, Benutzer oder Administrator)
+* Datenflusslinie (Indikator für Interaktion)
+* Vertrauensgrenze (Verschiedene Netzwerksegmente oder -bereiche.)
+* Speicher (Dinge, in denen Daten gespeichert sind, wie Datenbanken)
 
-5. Skep 'n Bedreiging (Stap 1)
+5. Eine Bedrohung erstellen (Schritt 1)
 
-Eerstens moet jy die laag kies waaraan jy 'n bedreiging wil toevoeg
+Zuerst müssen Sie die Ebene auswählen, zu der Sie eine Bedrohung hinzufügen möchten
 
 <figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
 
-Nou kan jy die bedreiging skep
+Jetzt können Sie die Bedrohung erstellen
 
 <figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
 
-Hou in gedagte dat daar 'n verskil is tussen Akteur Bedreigings en Proses Bedreigings. As jy 'n bedreiging aan 'n Akteur sou toevoeg, sal jy slegs "Spoofing" en "Repudiation" kan kies. In ons voorbeeld voeg ons egter 'n bedreiging aan 'n Proses entiteit toe, so ons sal dit in die bedreiging skeppingskassie sien:
+Beachten Sie, dass es einen Unterschied zwischen Akteur-Bedrohungen und Prozess-Bedrohungen gibt. Wenn Sie eine Bedrohung zu einem Akteur hinzufügen möchten, können Sie nur "Spoofing" und "Repudiation" auswählen. In unserem Beispiel fügen wir jedoch eine Bedrohung zu einer Prozesseinheit hinzu, sodass wir dies im Bedrohungserstellungsfeld sehen werden:
 
 <figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
 
-6. Klaar
+6. Fertig
 
-Nou behoort jou voltooide model iets soos hierdie te lyk. En dit is hoe jy 'n eenvoudige bedreigingsmodel met OWASP Threat Dragon maak.
+Jetzt sollte Ihr fertiges Modell so aussehen. Und so erstellen Sie ein einfaches Bedrohungsmodell mit OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 
 ### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
 
-Dit is 'n gratis gereedskap van Microsoft wat help om bedreigings in die ontwerpfase van sagtewareprojekte te vind. Dit gebruik die STRIDE metodologie en is veral geskik vir diegene wat op Microsoft se stapel ontwikkel.
+Dies ist ein kostenloses Tool von Microsoft, das hilft, Bedrohungen in der Entwurfsphase von Softwareprojekten zu finden. Es verwendet die STRIDE-Methodologie und ist besonders geeignet für diejenigen, die auf Microsofts Stack entwickeln.

@@ -1,25 +1,25 @@
-# Stel plaaslik bloot aan die internet
+# Expose local to the internet
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Die doel van hierdie bladsy is om alternatiewe voor te stel wat TEN MINSTE toelaat om plaaslike rou TCP-poorte en plaaslike webwerwe (HTTP) aan die internet bloot te stel SONDER om iets op die ander bediener te installeer (slegs plaaslik indien nodig).**
+**Das Ziel dieser Seite ist es, Alternativen vorzuschlagen, die es ermöglichen, MINDESTENS lokale rohe TCP-Ports und lokale Webs (HTTP) ins Internet zu exponieren, OHNE dass etwas auf dem anderen Server installiert werden muss (nur lokal, falls erforderlich).**
 
 ## **Serveo**
 
-Van [https://serveo.net/](https://serveo.net/), dit laat verskeie http en poort deurstuur funksies **gratis** toe.
+Von [https://serveo.net/](https://serveo.net/) ermöglicht es mehrere HTTP- und Portweiterleitungsfunktionen **kostenlos**.
 ```bash
 # Get a random port from serveo.net to expose local port 4444
 ssh -R 0:localhost:4444 serveo.net
@@ -29,7 +29,7 @@ ssh -R 80:localhost:3000 serveo.net
 ```
 ## SocketXP
 
-Van [https://www.socketxp.com/download](https://www.socketxp.com/download), dit stel in staat om tcp en http bloot te stel:
+Von [https://www.socketxp.com/download](https://www.socketxp.com/download) ermöglicht es, tcp und http freizugeben:
 ```bash
 # Expose tcp port 22
 socketxp connect tcp://localhost:22
@@ -39,7 +39,7 @@ socketxp connect http://localhost:8080
 ```
 ## Ngrok
 
-Van [https://ngrok.com/](https://ngrok.com/), dit stel jou in staat om http en tcp poorte bloot te stel:
+Von [https://ngrok.com/](https://ngrok.com/) ermöglicht es, http- und tcp-Ports freizugeben:
 ```bash
 # Expose web in 3000
 ngrok http 8000
@@ -49,7 +49,7 @@ ngrok tcp 9000
 ```
 ## Telebit
 
-Van [https://telebit.cloud/](https://telebit.cloud/) laat dit toe om http en tcp poorte bloot te stel:
+Von [https://telebit.cloud/](https://telebit.cloud/) ermöglicht es, http- und tcp-Ports freizugeben:
 ```bash
 # Expose web in 3000
 /Users/username/Applications/telebit/bin/telebit http 3000
@@ -59,7 +59,7 @@ Van [https://telebit.cloud/](https://telebit.cloud/) laat dit toe om http en tcp
 ```
 ## LocalXpose
 
-Van [https://localxpose.io/](https://localxpose.io/) bied dit verskeie http en poort deurgee funksies **gratis** aan.
+Von [https://localxpose.io/](https://localxpose.io/) ermöglicht es mehrere HTTP- und Port-Weiterleitungsfunktionen **kostenlos**.
 ```bash
 # Expose web in port 8989
 loclx tunnel http -t 8989
@@ -69,7 +69,7 @@ loclx tunnel tcp --port 4545
 ```
 ## Expose
 
-Van [https://expose.dev/](https://expose.dev/) laat dit toe om http en tcp poorte bloot te stel:
+Von [https://expose.dev/](https://expose.dev/) ermöglicht es, http- und tcp-Ports freizugeben:
 ```bash
 # Expose web in 3000
 ./expose share http://localhost:3000
@@ -79,22 +79,22 @@ Van [https://expose.dev/](https://expose.dev/) laat dit toe om http en tcp poort
 ```
 ## Localtunnel
 
-Van [https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel) laat dit toe om http gratis bloot te stel:
+Von [https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel) ermöglicht es, http kostenlos freizugeben:
 ```bash
 # Expose web in port 8000
 npx localtunnel --port 8000
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

@@ -3,51 +3,51 @@
 ## Windows Artefakte
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Generiese Windows Artefakte
+## Generische Windows Artefakte
 
-### Windows 10 Kennisgewings
+### Windows 10 Benachrichtigungen
 
-In die pad `\Users\<username>\AppData\Local\Microsoft\Windows\Notifications` kan jy die databasis `appdb.dat` (voor Windows herdenking) of `wpndatabase.db` (na Windows Herdenking) vind.
+Im Pfad `\Users\<username>\AppData\Local\Microsoft\Windows\Notifications` finden Sie die Datenbank `appdb.dat` (vor dem Windows-Jubiläum) oder `wpndatabase.db` (nach dem Windows-Jubiläum).
 
-Binne hierdie SQLite-databasis kan jy die `Notification` tabel vind met al die kennisgewings (in XML-formaat) wat dalk interessante data kan bevat.
+In dieser SQLite-Datenbank finden Sie die Tabelle `Notification` mit allen Benachrichtigungen (im XML-Format), die interessante Daten enthalten können.
 
-### Tydlyn
+### Zeitachse
 
-Tydlyn is 'n Windows kenmerk wat **chronologiese geskiedenis** van webblaaie wat besoek is, gewysigde dokumente, en uitgevoerde toepassings verskaf.
+Die Zeitachse ist ein Windows-Feature, das eine **chronologische Historie** der besuchten Webseiten, bearbeiteten Dokumente und ausgeführten Anwendungen bereitstellt.
 
-Die databasis is geleë in die pad `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Hierdie databasis kan geopen word met 'n SQLite-gereedskap of met die gereedskap [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **wat 2 lêers genereer wat met die gereedskap** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md) **geopen kan word**.
+Die Datenbank befindet sich im Pfad `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Diese Datenbank kann mit einem SQLite-Tool oder mit dem Tool [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **geöffnet werden, das 2 Dateien generiert, die mit dem Tool** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md) **geöffnet werden können.**
 
-### ADS (Alternatiewe Data Strome)
+### ADS (Alternative Datenströme)
 
-Lêers wat afgelaai is, kan die **ADS Zone.Identifier** bevat wat aandui **hoe** dit afgelaai is van die intranet, internet, ens. Sommige sagteware (soos blaaiers) plaas gewoonlik selfs **meer** **inligting** soos die **URL** waarvandaan die lêer afgelaai is.
+Heruntergeladene Dateien können den **ADS Zone.Identifier** enthalten, der angibt, **wie** sie **heruntergeladen** wurden, z. B. aus dem Intranet, Internet usw. Einige Software (wie Browser) fügt normalerweise sogar **mehr** **Informationen** wie die **URL** hinzu, von der die Datei heruntergeladen wurde.
 
-## **Lêer Rugsteun**
+## **Dateisicherungen**
 
-### Herwinningsblik
+### Papierkorb
 
-In Vista/Win7/Win8/Win10 kan die **Herwinningsblik** in die gids **`$Recycle.bin`** in die wortel van die skyf (`C:\$Recycle.bin`) gevind word.\
-Wanneer 'n lêer in hierdie gids verwyder word, word 2 spesifieke lêers geskep:
+Im Vista/Win7/Win8/Win10 befindet sich der **Papierkorb** im Ordner **`$Recycle.bin`** im Stammverzeichnis des Laufwerks (`C:\$Recycle.bin`).\
+Wenn eine Datei in diesem Ordner gelöscht wird, werden 2 spezifische Dateien erstellt:
 
-* `$I{id}`: Lêer inligting (datum van wanneer dit verwyder is)
-* `$R{id}`: Inhoud van die lêer
+* `$I{id}`: Dateiinformationen (Datum, an dem sie gelöscht wurde)
+* `$R{id}`: Inhalt der Datei
 
 ![](<../../../.gitbook/assets/image (1029).png>)
 
-Met hierdie lêers kan jy die gereedskap [**Rifiuti**](https://github.com/abelcheung/rifiuti2) gebruik om die oorspronklike adres van die verwyderde lêers en die datum waarop dit verwyder is, te kry (gebruik `rifiuti-vista.exe` vir Vista – Win10).
+Mit diesen Dateien können Sie das Tool [**Rifiuti**](https://github.com/abelcheung/rifiuti2) verwenden, um die ursprüngliche Adresse der gelöschten Dateien und das Datum, an dem sie gelöscht wurden, zu erhalten (verwenden Sie `rifiuti-vista.exe` für Vista – Win10).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
@@ -55,257 +55,257 @@ Met hierdie lêers kan jy die gereedskap [**Rifiuti**](https://github.com/abelch
 
 ### Volume Shadow Copies
 
-Shadow Copy is 'n tegnologie ingesluit in Microsoft Windows wat **rugsteun kopieë** of snappshots van rekenaar lêers of volumes kan skep, selfs wanneer hulle in gebruik is.
+Shadow Copy ist eine Technologie, die in Microsoft Windows enthalten ist und **Sicherungs kopien** oder Schnappschüsse von Computerdateien oder -volumes erstellen kann, selbst wenn sie verwendet werden.
 
-Hierdie rugsteun is gewoonlik geleë in die `\System Volume Information` vanaf die wortel van die lêerstelsel en die naam is saamgestel uit **UIDs** wat in die volgende beeld getoon word:
+Diese Sicherungen befinden sich normalerweise im `\System Volume Information` im Wurzelverzeichnis des Dateisystems, und der Name besteht aus **UIDs**, die im folgenden Bild angezeigt werden:
 
 ![](<../../../.gitbook/assets/image (94).png>)
 
-Die forensiese beeld kan gemonteer word met die **ArsenalImageMounter**, die hulpmiddel [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) kan gebruik word om 'n skadu kopie te ondersoek en selfs **die lêers** uit die skadu kopie rugsteun te **onttrek**.
+Durch das Einbinden des forensischen Images mit dem **ArsenalImageMounter** kann das Tool [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) verwendet werden, um eine Schattenkopie zu inspizieren und sogar **die Dateien** aus den Schattenkopie-Sicherungen **extrahieren**.
 
 ![](<../../../.gitbook/assets/image (576).png>)
 
-Die registerinskrywing `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` bevat die lêers en sleutels **om nie rugsteun te maak nie**:
+Der Registrierungseintrag `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` enthält die Dateien und Schlüssel **die nicht gesichert werden sollen**:
 
 ![](<../../../.gitbook/assets/image (254).png>)
 
-Die register `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` bevat ook konfigurasie-inligting oor die `Volume Shadow Copies`.
+Die Registrierung `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` enthält ebenfalls Konfigurationsinformationen über die `Volume Shadow Copies`.
 
 ### Office AutoSaved Files
 
-Jy kan die kantoor outomaties gestoor lêers vind in: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+Die automatisch gespeicherten Office-Dateien finden Sie unter: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
 ## Shell Items
 
-'n Shell-item is 'n item wat inligting bevat oor hoe om toegang te verkry tot 'n ander lêer.
+Ein Shell-Element ist ein Element, das Informationen darüber enthält, wie auf eine andere Datei zugegriffen werden kann.
 
 ### Recent Documents (LNK)
 
-Windows **skep** hierdie **skakels** **automaties** wanneer die gebruiker **'n lêer oopmaak, gebruik of skep** in:
+Windows **erstellt automatisch** diese **Verknüpfungen**, wenn der Benutzer **eine Datei öffnet, verwendet oder erstellt** in:
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Wanneer 'n gids geskep word, word 'n skakel na die gids, na die ouergids, en die grootouergids ook geskep.
+Wenn ein Ordner erstellt wird, wird auch ein Link zu dem Ordner, dem übergeordneten Ordner und dem Großelternordner erstellt.
 
-Hierdie outomaties geskepte skakel lêers **bevat inligting oor die oorsprong** soos of dit 'n **lêer** **of** 'n **gids** is, **MAC** **tye** van daardie lêer, **volume inligting** van waar die lêer gestoor is en **gids van die teikengele**. Hierdie inligting kan nuttig wees om daardie lêers te herstel in die geval dat hulle verwyder is.
+Diese automatisch erstellten Linkdateien **enthalten Informationen über den Ursprung**, wie ob es sich um eine **Datei** **oder** einen **Ordner** handelt, **MAC** **Zeiten** dieser Datei, **Volumeninformationen**, wo die Datei gespeichert ist, und **Ordner der Zieldatei**. Diese Informationen können nützlich sein, um diese Dateien wiederherzustellen, falls sie entfernt wurden.
 
-Ook, die **datum geskep van die skakel** lêer is die eerste **tyd** wat die oorspronklike lêer **eerste** **gebruik** is en die **datum** **gewysig** van die skakel lêer is die **laaste** **tyd** wat die oorspronklike lêer gebruik is.
+Außerdem ist das **Erstellungsdatum des Links** die erste **Zeit**, zu der die Originaldatei **zum ersten Mal** **verwendet** wurde, und das **Änderungsdatum** der Linkdatei ist die **letzte** **Zeit**, zu der die Ursprungsdatei verwendet wurde.
 
-Om hierdie lêers te ondersoek kan jy [**LinkParser**](http://4discovery.com/our-tools/) gebruik.
+Um diese Dateien zu inspizieren, können Sie [**LinkParser**](http://4discovery.com/our-tools/) verwenden.
 
-In hierdie hulpmiddel sal jy **2 stelle** van tydstempels vind:
+In diesem Tool finden Sie **2 Sätze** von Zeitstempeln:
 
-* **Eerste Stel:**
+* **Erster Satz:**
 1. FileModifiedDate
 2. FileAccessDate
 3. FileCreationDate
-* **Tweedestel:**
+* **Zweiter Satz:**
 1. LinkModifiedDate
 2. LinkAccessDate
 3. LinkCreationDate.
 
-Die eerste stel van tydstempels verwys na die **tydstempels van die lêer self**. Die tweede stel verwys na die **tydstempels van die gekoppelde lêer**.
+Der erste Satz von Zeitstempeln bezieht sich auf die **Zeitstempel der Datei selbst**. Der zweite Satz bezieht sich auf die **Zeitstempel der verlinkten Datei**.
 
-Jy kan dieselfde inligting kry deur die Windows CLI hulpmiddel: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd) te gebruik.
+Sie können die gleichen Informationen erhalten, indem Sie das Windows-CLI-Tool: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd) ausführen.
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
-In hierdie geval gaan die inligting binne 'n CSV-lêer gestoor word.
+In diesem Fall werden die Informationen in einer CSV-Datei gespeichert.
 
 ### Jumplists
 
-Dit is die onlangse lêers wat per toepassing aangedui word. Dit is die lys van **onlangse lêers wat deur 'n toepassing gebruik is** wat jy op elke toepassing kan toegang. Hulle kan **outomaties geskep of persoonlik wees**.
+Dies sind die zuletzt verwendeten Dateien, die pro Anwendung angezeigt werden. Es ist die Liste der **zuletzt von einer Anwendung verwendeten Dateien**, auf die Sie in jeder Anwendung zugreifen können. Sie können **automatisch oder benutzerdefiniert** erstellt werden.
 
-Die **jumplists** wat outomaties geskep word, word gestoor in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Die jumplists is vernoem volgens die formaat `{id}.autmaticDestinations-ms` waar die aanvanklike ID die ID van die toepassing is.
+Die **jumplists**, die automatisch erstellt werden, werden in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\` gespeichert. Die jumplists sind nach dem Format `{id}.autmaticDestinations-ms` benannt, wobei die ursprüngliche ID die ID der Anwendung ist.
 
-Die persoonlike jumplists word gestoor in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` en hulle word gewoonlik deur die toepassing geskep omdat iets **belangrik** met die lêer gebeur het (miskien as gunsteling gemerk).
+Die benutzerdefinierten jumplists werden in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` gespeichert und werden normalerweise von der Anwendung erstellt, weil etwas **Wichtiges** mit der Datei passiert ist (vielleicht als Favorit markiert).
 
-Die **gecreëerde tyd** van enige jumplist dui die **eerste keer aan dat die lêer toegang verkry is** en die **gewysigde tyd die laaste keer**.
+Die **Erstellungszeit** einer jumplist gibt die **erste Zugriffszeit auf die Datei** und die **Änderungszeit der letzten Zugriffszeit** an.
 
-Jy kan die jumplists inspekteer met [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
+Sie können die jumplists mit [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md) inspizieren.
 
 ![](<../../../.gitbook/assets/image (168).png>)
 
-(_Let daarop dat die tydstempels wat deur JumplistExplorer verskaf word, verband hou met die jumplist-lêer self_)
+(_Beachten Sie, dass die von JumplistExplorer bereitgestellten Zeitstempel sich auf die jumplist-Datei selbst beziehen_)
 
 ### Shellbags
 
-[**Volg hierdie skakel om te leer wat die shellbags is.**](interesting-windows-registry-keys.md#shellbags)
+[**Folgen Sie diesem Link, um zu erfahren, was die Shellbags sind.**](interesting-windows-registry-keys.md#shellbags)
 
-## Gebruik van Windows USBs
+## Verwendung von Windows-USBs
 
-Dit is moontlik om te identifiseer dat 'n USB-toestel gebruik is danksy die skepping van:
+Es ist möglich zu identifizieren, dass ein USB-Gerät verwendet wurde, dank der Erstellung von:
 
-* Windows Onlangse Gids
-* Microsoft Office Onlangse Gids
+* Windows Recent Folder
+* Microsoft Office Recent Folder
 * Jumplists
 
-Let daarop dat sommige LNK-lêers in plaas daarvan om na die oorspronklike pad te wys, na die WPDNSE-gids wys:
+Beachten Sie, dass einige LNK-Dateien anstelle des ursprünglichen Pfads auf den WPDNSE-Ordner verweisen:
 
 ![](<../../../.gitbook/assets/image (218).png>)
 
-Die lêers in die WPDNSE-gids is 'n kopie van die oorspronklike, en sal dus nie oorleef na 'n herstart van die PC nie en die GUID word van 'n shellbag geneem.
+Die Dateien im WPDNSE-Ordner sind eine Kopie der ursprünglichen, überstehen also keinen Neustart des PCs, und die GUID wird aus einem Shellbag entnommen.
 
-### Registrasie-inligting
+### Registrierungsinformationen
 
-[Kontroleer hierdie bladsy om te leer](interesting-windows-registry-keys.md#usb-information) watter registrasiesleutels interessante inligting oor USB-verbonden toestelle bevat.
+[Überprüfen Sie diese Seite, um zu erfahren](interesting-windows-registry-keys.md#usb-information), welche Registrierungs-Schlüssel interessante Informationen über angeschlossene USB-Geräte enthalten.
 
 ### setupapi
 
-Kontroleer die lêer `C:\Windows\inf\setupapi.dev.log` om die tydstempels te kry oor wanneer die USB-verbinding gemaak is (soek vir `Section start`).
+Überprüfen Sie die Datei `C:\Windows\inf\setupapi.dev.log`, um die Zeitstempel zu erhalten, wann die USB-Verbindung hergestellt wurde (suchen Sie nach `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
 
 ### USB Detective
 
-[**USBDetective**](https://usbdetective.com) kan gebruik word om inligting oor die USB-toestelle wat aan 'n beeld gekoppel is, te verkry.
+[**USBDetective**](https://usbdetective.com) kann verwendet werden, um Informationen über die USB-Geräte zu erhalten, die mit einem Image verbunden wurden.
 
 ![](<../../../.gitbook/assets/image (452).png>)
 
 ### Plug and Play Cleanup
 
-Die geskeduleerde taak bekend as 'Plug and Play Cleanup' is hoofsaaklik ontwerp vir die verwydering van verouderde stuurprogramweergawe. In teenstelling met sy gespesifiseerde doel om die nuutste stuurprogrampakketweergawe te behou, dui aanlynbronne aan dat dit ook stuurprogramme teiken wat vir 30 dae inaktief was. Gevolglik kan stuurprogramme vir verwyderbare toestelle wat nie in die afgelope 30 dae gekoppel was nie, onderhewig wees aan verwydering.
+Die geplante Aufgabe, die als 'Plug and Play Cleanup' bekannt ist, dient hauptsächlich der Entfernung veralteter Treiberversionen. Entgegen ihrem angegebenen Zweck, die neueste Treiberpaketversion beizubehalten, deuten Online-Quellen darauf hin, dass sie auch Treiber anvisiert, die in den letzten 30 Tagen inaktiv waren. Folglich können Treiber für abnehmbare Geräte, die in den letzten 30 Tagen nicht verbunden waren, gelöscht werden.
 
-Die taak is geleë op die volgende pad: `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
+Die Aufgabe befindet sich unter folgendem Pfad: `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
-'n Skermskoot wat die taak se inhoud toon, word verskaf: ![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
+Ein Screenshot, der den Inhalt der Aufgabe zeigt, ist bereitgestellt: ![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-**Belangrike Komponente en Instellings van die Taak:**
+**Hauptkomponenten und Einstellungen der Aufgabe:**
 
-* **pnpclean.dll**: Hierdie DLL is verantwoordelik vir die werklike skoonmaakproses.
-* **UseUnifiedSchedulingEngine**: Gestel op `TRUE`, wat die gebruik van die generiese taakbeplanning enjin aandui.
+* **pnpclean.dll**: Diese DLL ist für den eigentlichen Bereinigungsprozess verantwortlich.
+* **UseUnifiedSchedulingEngine**: Auf `TRUE` gesetzt, was die Verwendung der generischen Aufgabenplanungs-Engine anzeigt.
 * **MaintenanceSettings**:
-* **Period ('P1M')**: Rig die Taakbeplanner aan om die skoonmaaktaak maandeliks te begin tydens gereelde Outomatiese onderhoud.
-* **Deadline ('P2M')**: Instruksies aan die Taakbeplanner, indien die taak vir twee agtereenvolgende maande misluk, om die taak tydens noodgeval Outomatiese onderhoud uit te voer.
+* **Period ('P1M')**: Weist den Aufgabenplaner an, die Bereinigungsaufgabe monatlich während der regulären automatischen Wartung zu starten.
+* **Deadline ('P2M')**: Weist den Aufgabenplaner an, falls die Aufgabe zwei aufeinanderfolgende Monate fehlschlägt, die Aufgabe während der Notfallautomatik-Wartung auszuführen.
 
-Hierdie konfigurasie verseker gereelde onderhoud en skoonmaak van stuurprogramme, met voorsienings vir herpoging van die taak in die geval van agtereenvolgende mislukkings.
+Diese Konfiguration gewährleistet eine regelmäßige Wartung und Bereinigung der Treiber, mit Bestimmungen für einen erneuten Versuch der Aufgabe im Falle aufeinanderfolgender Fehler.
 
-**Vir meer inligting, kyk:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
+**Für weitere Informationen siehe:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
-## E-pos
+## E-Mails
 
-E-pos bevat **2 interessante dele: Die koptekste en die inhoud** van die e-pos. In die **koptekste** kan jy inligting vind soos:
+E-Mails enthalten **2 interessante Teile: Die Header und den Inhalt** der E-Mail. In den **Headern** finden Sie Informationen wie:
 
-* **Wie** die e-posse gestuur het (e-posadres, IP, posbedieners wat die e-pos herlei het)
-* **Wanneer** die e-pos gestuur is
+* **Wer** die E-Mails gesendet hat (E-Mail-Adresse, IP, Mail-Server, die die E-Mail umgeleitet haben)
+* **Wann** die E-Mail gesendet wurde
 
-Ook, binne die `References` en `In-Reply-To` koptekste kan jy die ID van die boodskappe vind:
+Außerdem finden Sie in den Headern `References` und `In-Reply-To` die ID der Nachrichten:
 
 ![](<../../../.gitbook/assets/image (593).png>)
 
 ### Windows Mail App
 
-Hierdie toepassing stoor e-posse in HTML of teks. Jy kan die e-posse binne subgidsen vind binne `\Users\<username>\AppData\Local\Comms\Unistore\data\3\`. Die e-posse word gestoor met die `.dat` uitbreiding.
+Diese Anwendung speichert E-Mails in HTML oder Text. Sie finden die E-Mails in Unterordnern unter `\Users\<username>\AppData\Local\Comms\Unistore\data\3\`. Die E-Mails werden mit der Erweiterung `.dat` gespeichert.
 
-Die **metadata** van die e-posse en die **kontakte** kan binne die **EDB-databasis** gevind word: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
+Die **Metadaten** der E-Mails und die **Kontakte** können in der **EDB-Datenbank** gefunden werden: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
 
-**Verander die uitbreiding** van die lêer van `.vol` na `.edb` en jy kan die hulpmiddel [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gebruik om dit te open. Binne die `Message` tabel kan jy die e-posse sien.
+**Ändern Sie die Erweiterung** der Datei von `.vol` in `.edb`, und Sie können das Tool [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) verwenden, um es zu öffnen. In der `Message`-Tabelle können Sie die E-Mails sehen.
 
 ### Microsoft Outlook
 
-Wanneer Exchange-bedieners of Outlook-kliënte gebruik word, sal daar 'n paar MAPI-koptekste wees:
+Wenn Exchange-Server oder Outlook-Clients verwendet werden, gibt es einige MAPI-Header:
 
-* `Mapi-Client-Submit-Time`: Tyd van die stelsel wanneer die e-pos gestuur is
-* `Mapi-Conversation-Index`: Aantal kinders boodskappe van die draad en tydstempel van elke boodskap van die draad
-* `Mapi-Entry-ID`: Boodskapidentifiseerder.
-* `Mappi-Message-Flags` en `Pr_last_Verb-Executed`: Inligting oor die MAPI-kliënt (boodskap gelees? nie gelees nie? geantwoord? herlei? buite kantoor?)
+* `Mapi-Client-Submit-Time`: Zeit des Systems, als die E-Mail gesendet wurde
+* `Mapi-Conversation-Index`: Anzahl der Kindnachrichten des Threads und Zeitstempel jeder Nachricht des Threads
+* `Mapi-Entry-ID`: Nachrichtenidentifikator.
+* `Mappi-Message-Flags` und `Pr_last_Verb-Executed`: Informationen über den MAPI-Client (Nachricht gelesen? nicht gelesen? geantwortet? umgeleitet? nicht im Büro?)
 
-In die Microsoft Outlook-kliënt, word al die gestuurde/ontvange boodskappe, kontakdata, en kalenderdata in 'n PST-lêer gestoor in:
+Im Microsoft Outlook-Client werden alle gesendeten/empfangenen Nachrichten, Kontaktdaten und Kalenderdaten in einer PST-Datei gespeichert in:
 
 * `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook` (WinXP)
 * `%USERPROFILE%\AppData\Local\Microsoft\Outlook`
 
-Die registrasiepunt `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` dui die lêer aan wat gebruik word.
+Der Registrierungs-Pfad `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` zeigt die verwendete Datei an.
 
-Jy kan die PST-lêer open met die hulpmiddel [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html).
+Sie können die PST-Datei mit dem Tool [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html) öffnen.
 
 ![](<../../../.gitbook/assets/image (498).png>)
 
-### Microsoft Outlook OST Lêers
+### Microsoft Outlook OST-Dateien
 
-'n **OST-lêer** word deur Microsoft Outlook gegenereer wanneer dit met **IMAP** of 'n **Exchange** bediener gekonfigureer is, wat soortgelyke inligting stoor as 'n PST-lêer. Hierdie lêer word gesinkroniseer met die bediener, wat data vir **die laaste 12 maande** tot 'n **maksimum grootte van 50GB** behou, en is geleë in dieselfde gids as die PST-lêer. Om 'n OST-lêer te sien, kan die [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html) gebruik word.
+Eine **OST-Datei** wird von Microsoft Outlook erstellt, wenn es mit einem **IMAP**- oder **Exchange**-Server konfiguriert ist und ähnliche Informationen wie eine PST-Datei speichert. Diese Datei wird mit dem Server synchronisiert und behält Daten für **die letzten 12 Monate** bis zu einer **maximalen Größe von 50 GB** und befindet sich im selben Verzeichnis wie die PST-Datei. Um eine OST-Datei anzuzeigen, kann der [**Kernel OST Viewer**](https://www.nucleustechnologies.com/ost-viewer.html) verwendet werden.
 
-### Herwinning van Aanhangsels
+### Wiederherstellung von Anhängen
 
-Verloore aanhangsels mag herstelbaar wees van:
+Verlorene Anhänge könnten wiederhergestellt werden aus:
 
-* Vir **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
-* Vir **IE11 en hoër**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
+* Für **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
+* Für **IE11 und höher**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
 
-### Thunderbird MBOX Lêers
+### Thunderbird MBOX-Dateien
 
-**Thunderbird** gebruik **MBOX-lêers** om data te stoor, geleë by `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
+**Thunderbird** verwendet **MBOX-Dateien**, um Daten zu speichern, die sich unter `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles` befinden.
 
-### Beeld Miniatuurweergawes
+### Bildvorschauen
 
-* **Windows XP en 8-8.1**: Toegang tot 'n gids met miniatuurweergawes genereer 'n `thumbs.db` lêer wat beeldvoorskou stoor, selfs na verwydering.
-* **Windows 7/10**: `thumbs.db` word geskep wanneer dit oor 'n netwerk via UNC-pad toegang verkry.
-* **Windows Vista en nuwer**: Miniatuurvoorskou is gesentraliseer in `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` met lêers genaamd **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) en [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) is hulpmiddels om hierdie lêers te sien.
+* **Windows XP und 8-8.1**: Der Zugriff auf einen Ordner mit Thumbnails erzeugt eine `thumbs.db`-Datei, die Bildvorschauen speichert, selbst nach der Löschung.
+* **Windows 7/10**: `thumbs.db` wird erstellt, wenn über ein Netzwerk über UNC-Pfad zugegriffen wird.
+* **Windows Vista und neuer**: Thumbnail-Vorschauen sind zentral in `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` mit Dateien namens **thumbcache\_xxx.db** gespeichert. [**Thumbsviewer**](https://thumbsviewer.github.io) und [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) sind Tools zum Anzeigen dieser Dateien.
 
-### Windows Registrasie-inligting
+### Windows-Registrierungsinformationen
 
-Die Windows Registrasie, wat uitgebreide stelsel- en gebruikersaktiwiteitsdata stoor, is vervat in lêers in:
+Die Windows-Registrierung, die umfangreiche System- und Benutzeraktivitätsdaten speichert, befindet sich in Dateien in:
 
-* `%windir%\System32\Config` vir verskeie `HKEY_LOCAL_MACHINE` subsleutels.
-* `%UserProfile%{User}\NTUSER.DAT` vir `HKEY_CURRENT_USER`.
-* Windows Vista en later weergawes maak 'n rugsteun van `HKEY_LOCAL_MACHINE` registrasielêers in `%Windir%\System32\Config\RegBack\`.
-* Daarbenewens word programuitvoeringsinligting gestoor in `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` vanaf Windows Vista en Windows 2008 Server.
+* `%windir%\System32\Config` für verschiedene `HKEY_LOCAL_MACHINE`-Unterkeys.
+* `%UserProfile%{User}\NTUSER.DAT` für `HKEY_CURRENT_USER`.
+* Windows Vista und spätere Versionen sichern die `HKEY_LOCAL_MACHINE`-Registrierungsdateien in `%Windir%\System32\Config\RegBack\`.
+* Darüber hinaus werden Informationen zur Programmausführung in `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` ab Windows Vista und Windows 2008 Server gespeichert.
 
-### Hulpmiddels
+### Tools
 
-Sommige hulpmiddels is nuttig om die registrasielêers te analiseer:
+Einige Tools sind nützlich, um die Registrierungsdateien zu analysieren:
 
-* **Registrasie-redigeerder**: Dit is geïnstalleer in Windows. Dit is 'n GUI om deur die Windows registrasie van die huidige sessie te navigeer.
-* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): Dit laat jou toe om die registrasielêer te laai en deur hulle met 'n GUI te navigeer. Dit bevat ook Boekmerke wat sleutels met interessante inligting uitlig.
-* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Weereens, dit het 'n GUI wat toelaat om deur die gelaaide registrasie te navigeer en bevat ook plugins wat interessante inligting binne die gelaaide registrasie uitlig.
-* [**Windows Registrasie Herwinning**](https://www.mitec.cz/wrr.html): Nog 'n GUI-toepassing wat in staat is om die belangrike inligting uit die gelaaide registrasie te onttrek.
+* **Registrierungs-Editor**: Es ist in Windows installiert. Es ist eine GUI, um durch die Windows-Registrierung der aktuellen Sitzung zu navigieren.
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): Es ermöglicht Ihnen, die Registrierungsdatei zu laden und durch sie mit einer GUI zu navigieren. Es enthält auch Lesezeichen, die Schlüssel mit interessanten Informationen hervorheben.
+* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Es hat ebenfalls eine GUI, die es ermöglicht, durch die geladene Registrierung zu navigieren und enthält auch Plugins, die interessante Informationen innerhalb der geladenen Registrierung hervorheben.
+* [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Eine weitere GUI-Anwendung, die in der Lage ist, wichtige Informationen aus der geladenen Registrierung zu extrahieren.
 
-### Herwinning van Verwyderde Element
+### Wiederherstellung gelöschter Elemente
 
-Wanneer 'n sleutel verwyder word, word dit as sodanig gemerk, maar totdat die ruimte wat dit beset benodig word, sal dit nie verwyder word nie. Daarom, deur hulpmiddels soos **Registry Explorer** is dit moontlik om hierdie verwyderde sleutels te herstel.
+Wenn ein Schlüssel gelöscht wird, wird er als solcher markiert, aber bis der Platz, den er einnimmt, benötigt wird, wird er nicht entfernt. Daher ist es mit Tools wie **Registry Explorer** möglich, diese gelöschten Schlüssel wiederherzustellen.
 
-### Laaste Skryftyd
+### Letzte Schreibzeit
 
-Elke Sleutel-Waarde bevat 'n **tydstempel** wat die laaste keer aandui dat dit gewysig is.
+Jeder Schlüssel-Wert enthält einen **Zeitstempel**, der die letzte Änderungszeit angibt.
 
 ### SAM
 
-Die lêer/hive **SAM** bevat die **gebruikers, groepe en gebruikerswagwoorde** hashes van die stelsel.
+Die Datei/Hive **SAM** enthält die **Benutzer, Gruppen und Benutzerpasswort**-Hashes des Systems.
 
-In `SAM\Domains\Account\Users` kan jy die gebruikersnaam, die RID, laaste aanmelding, laaste mislukte aanmelding, aanmeldtelling, wagwoordbeleid en wanneer die rekening geskep is, verkry. Om die **hashes** te kry, moet jy ook die lêer/hive **SYSTEM** hê.
+In `SAM\Domains\Account\Users` können Sie den Benutzernamen, die RID, die letzte Anmeldung, die letzte fehlgeschlagene Anmeldung, den Anmeldezähler, die Passwort-Richtlinie und wann das Konto erstellt wurde, abrufen. Um die **Hashes** zu erhalten, benötigen Sie auch die Datei/Hive **SYSTEM**.
 
-### Interessante inskrywings in die Windows Registrasie
+### Interessante Einträge in der Windows-Registrierung
 
 {% content-ref url="interesting-windows-registry-keys.md" %}
 [interesting-windows-registry-keys.md](interesting-windows-registry-keys.md)
 {% endcontent-ref %}
 
-## Uitgevoerde Programme
+## Ausgeführte Programme
 
-### Basiese Windows Prosesse
+### Grundlegende Windows-Prozesse
 
-In [hierdie pos](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) kan jy leer oor die algemene Windows prosesse om verdagte gedrag te detecteer.
+In [diesem Beitrag](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) können Sie mehr über die gängigen Windows-Prozesse erfahren, um verdächtiges Verhalten zu erkennen.
 
-### Windows Onlangse APPs
+### Windows Recent APPs
 
-Binne die registrasie `NTUSER.DAT` in die pad `Software\Microsoft\Current Version\Search\RecentApps` kan jy subsleutels met inligting oor die **toepassing uitgevoer**, **laaste keer** dit uitgevoer is, en **aantal kere** dit gelanseer is.
+Innerhalb der Registrierung `NTUSER.DAT` im Pfad `Software\Microsoft\Current Version\Search\RecentApps` finden Sie Unterkeys mit Informationen über die **ausgeführte Anwendung**, **letzte Ausführungszeit** und **Anzahl der Starts**.
 
-### BAM (Achtergrondaktiwiteit Moderator)
+### BAM (Background Activity Moderator)
 
-Jy kan die `SYSTEM` lêer met 'n registrasie-redigeerder open en binne die pad `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` kan jy die inligting oor die **toepassings uitgevoer deur elke gebruiker** vind (let op die `{SID}` in die pad) en **watter tyd** hulle uitgevoer is (die tyd is binne die Data waarde van die registrasie).
+Sie können die `SYSTEM`-Datei mit einem Registrierungseditor öffnen und im Pfad `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` finden Sie Informationen über die **von jedem Benutzer ausgeführten Anwendungen** (beachten Sie das `{SID}` im Pfad) und **wann** sie ausgeführt wurden (die Zeit befindet sich im Datenwert der Registrierung).
 
 ### Windows Prefetch
 
-Prefetching is 'n tegniek wat 'n rekenaar toelaat om stilletjies **die nodige hulpbronne te verkry wat benodig word om inhoud te vertoon** wat 'n gebruiker **in die nabye toekoms mag toegang** so hulpbronne vinniger kan toegang verkry.
+Prefetching ist eine Technik, die es einem Computer ermöglicht, stillschweigend **die notwendigen Ressourcen abzurufen, die benötigt werden, um Inhalte anzuzeigen**, auf die ein Benutzer **in naher Zukunft zugreifen könnte**, damit Ressourcen schneller abgerufen werden können.
 
-Windows prefetch bestaan uit die skep van **kaste van die uitgevoerde programme** om hulle vinniger te kan laai. Hierdie kaste word geskep as `.pf` lêers binne die pad: `C:\Windows\Prefetch`. Daar is 'n limiet van 128 lêers in XP/VISTA/WIN7 en 1024 lêers in Win8/Win10.
+Windows Prefetch besteht darin, **Caches der ausgeführten Programme** zu erstellen, um sie schneller laden zu können. Diese Caches werden als `.pf`-Dateien im Pfad `C:\Windows\Prefetch` erstellt. Es gibt eine Begrenzung von 128 Dateien in XP/VISTA/WIN7 und 1024 Dateien in Win8/Win10.
 
-Die lêernaam word geskep as `{program_name}-{hash}.pf` (die hash is gebaseer op die pad en argumente van die eksekuteerbare). In W10 is hierdie lêers gecomprimeer. Let daarop dat die blote teenwoordigheid van die lêer aandui dat **die program op 'n stadium uitgevoer is**.
+Der Dateiname wird als `{program_name}-{hash}.pf` erstellt (der Hash basiert auf dem Pfad und den Argumenten der ausführbaren Datei). In W10 sind diese Dateien komprimiert. Beachten Sie, dass die bloße Anwesenheit der Datei anzeigt, dass **das Programm zu einem bestimmten Zeitpunkt ausgeführt wurde**.
 
-Die lêer `C:\Windows\Prefetch\Layout.ini` bevat die **name van die gidse van die lêers wat geprefetch is**. Hierdie lêer bevat **inligting oor die aantal uitvoerings**, **datums** van die uitvoering en **lêers** **geopen** deur die program.
+Die Datei `C:\Windows\Prefetch\Layout.ini` enthält die **Namen der Ordner der Dateien, die vorab geladen werden**. Diese Datei enthält **Informationen über die Anzahl der Ausführungen**, **Daten** der Ausführung und **Dateien**, die **vom Programm geöffnet** wurden.
 
-Om hierdie lêers te inspekteer, kan jy die hulpmiddel [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd) gebruik:
+Um diese Dateien zu inspizieren, können Sie das Tool [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd) verwenden:
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
@@ -313,208 +313,208 @@ Om hierdie lêers te inspekteer, kan jy die hulpmiddel [**PEcmd.exe**](https://g
 
 ### Superprefetch
 
-**Superprefetch** het dieselfde doel as prefetch, **laai programme vinniger** deur te voorspel wat volgende gelaai gaan word. Dit vervang egter nie die prefetch diens nie.\
-Hierdie diens sal databasislêers genereer in `C:\Windows\Prefetch\Ag*.db`.
+**Superprefetch** hat dasselbe Ziel wie Prefetch, **Programme schneller zu laden**, indem vorhergesagt wird, was als Nächstes geladen wird. Es ersetzt jedoch nicht den Prefetch-Dienst.\
+Dieser Dienst generiert Datenbankdateien in `C:\Windows\Prefetch\Ag*.db`.
 
-In hierdie databasisse kan jy die **naam** van die **program**, **aantal** **uitvoerings**, **lêers** **geopen**, **volume** **toegang**, **volledige** **pad**, **tydraamwerke** en **tydstempels** vind.
+In diesen Datenbanken finden Sie den **Namen** des **Programms**, die **Anzahl** der **Ausführungen**, die **geöffneten Dateien**, das **zugreifende Volumen**, den **kompletten Pfad**, **Zeitrahmen** und **Zeitstempel**.
 
-Jy kan toegang tot hierdie inligting verkry met die hulpmiddel [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
+Sie können auf diese Informationen mit dem Tool [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/) zugreifen.
 
 ### SRUM
 
-**System Resource Usage Monitor** (SRUM) **monitor** die **hulpbronne** **verbruik** **deur 'n proses**. Dit het in W8 verskyn en dit stoor die data in 'n ESE-databasis geleë in `C:\Windows\System32\sru\SRUDB.dat`.
+**System Resource Usage Monitor** (SRUM) **überwacht** die **Ressourcen**, die von einem Prozess **verbraucht** werden. Es erschien in W8 und speichert die Daten in einer ESE-Datenbank, die sich in `C:\Windows\System32\sru\SRUDB.dat` befindet.
 
-Dit gee die volgende inligting:
+Es gibt die folgenden Informationen:
 
-* AppID en Pad
-* Gebruiker wat die proses uitgevoer het
-* Gestuurde Bytes
-* Ontvange Bytes
-* Netwerkinterface
-* Verbinding duur
-* Proses duur
+* AppID und Pfad
+* Benutzer, der den Prozess ausgeführt hat
+* Gesendete Bytes
+* Empfangene Bytes
+* Netzwerk-Schnittstelle
+* Verbindungsdauer
+* Prozessdauer
 
-Hierdie inligting word elke 60 minute opgedateer.
+Diese Informationen werden alle 60 Minuten aktualisiert.
 
-Jy kan die data uit hierdie lêer verkry met die hulpmiddel [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
+Sie können das Datum aus dieser Datei mit dem Tool [**srum\_dump**](https://github.com/MarkBaggett/srum-dump) abrufen.
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
 ### AppCompatCache (ShimCache)
 
-Die **AppCompatCache**, ook bekend as **ShimCache**, vorm 'n deel van die **Application Compatibility Database** wat deur **Microsoft** ontwikkel is om toepassingskompatibiliteitsprobleme aan te spreek. Hierdie stelseldonderdeel registreer verskeie stukke lêermetadat, wat insluit:
+Der **AppCompatCache**, auch bekannt als **ShimCache**, ist Teil der **Application Compatibility Database**, die von **Microsoft** entwickelt wurde, um Probleme mit der Anwendungskompatibilität zu beheben. Diese Systemkomponente zeichnet verschiedene Stücke von Dateimetadaten auf, die Folgendes umfassen:
 
-* Volledige pad van die lêer
-* Grootte van die lêer
-* Laaste Gewysig tyd onder **$Standard\_Information** (SI)
-* Laaste Opgedateerde tyd van die ShimCache
-* Proses Uitvoeringsvlag
+* Vollständiger Pfad der Datei
+* Größe der Datei
+* Letzte Änderungszeit unter **$Standard\_Information** (SI)
+* Letzte Aktualisierungszeit des ShimCache
+* Prozessausführungsflag
 
-Sulke data word in die register gestoor op spesifieke plekke gebaseer op die weergawe van die bedryfstelsel:
+Solche Daten werden in der Registrierung an bestimmten Orten basierend auf der Version des Betriebssystems gespeichert:
 
-* Vir XP, word die data gestoor onder `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` met 'n kapasiteit vir 96 inskrywings.
-* Vir Server 2003, sowel as vir Windows weergawes 2008, 2012, 2016, 7, 8, en 10, is die stoorpad `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, wat 512 en 1024 inskrywings akkommodeer, onderskeidelik.
+* Für XP werden die Daten unter `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` mit einer Kapazität von 96 Einträgen gespeichert.
+* Für Server 2003 sowie für die Windows-Versionen 2008, 2012, 2016, 7, 8 und 10 ist der Speicherpfad `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, der jeweils 512 und 1024 Einträge aufnehmen kann.
 
-Om die gestoor inligting te ontleed, word die [**AppCompatCacheParser** tool](https://github.com/EricZimmerman/AppCompatCacheParser) aanbeveel vir gebruik.
+Um die gespeicherten Informationen zu analysieren, wird das [**AppCompatCacheParser**-Tool](https://github.com/EricZimmerman/AppCompatCacheParser) empfohlen.
 
 ![](<../../../.gitbook/assets/image (75).png>)
 
 ### Amcache
 
-Die **Amcache.hve** lêer is in wese 'n registerhive wat besonderhede log oor toepassings wat op 'n stelsel uitgevoer is. Dit word tipies gevind by `C:\Windows\AppCompat\Programas\Amcache.hve`.
+Die **Amcache.hve**-Datei ist im Wesentlichen ein Registrierungs-Hive, der Details über Anwendungen protokolliert, die auf einem System ausgeführt wurden. Sie befindet sich typischerweise unter `C:\Windows\AppCompat\Programas\Amcache.hve`.
 
-Hierdie lêer is opvallend omdat dit rekords van onlangs uitgevoerde prosesse stoor, insluitend die paaie na die uitvoerbare lêers en hul SHA1-hashes. Hierdie inligting is van onskatbare waarde vir die opsporing van die aktiwiteit van toepassings op 'n stelsel.
+Diese Datei ist bemerkenswert, da sie Aufzeichnungen über kürzlich ausgeführte Prozesse speichert, einschließlich der Pfade zu den ausführbaren Dateien und deren SHA1-Hashes. Diese Informationen sind von unschätzbarem Wert, um die Aktivität von Anwendungen auf einem System zu verfolgen.
 
-Om die data uit **Amcache.hve** te onttrek en te analiseer, kan die [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) tool gebruik word. Die volgende opdrag is 'n voorbeeld van hoe om AmcacheParser te gebruik om die inhoud van die **Amcache.hve** lêer te ontleed en die resultate in CSV-formaat uit te voer:
+Um die Daten aus **Amcache.hve** zu extrahieren und zu analysieren, kann das [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser)-Tool verwendet werden. Der folgende Befehl ist ein Beispiel dafür, wie man AmcacheParser verwendet, um den Inhalt der **Amcache.hve**-Datei zu parsen und die Ergebnisse im CSV-Format auszugeben:
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
-Onder die gegenereerde CSV-lêers is die `Amcache_Unassociated file entries` veral noemenswaardig weens die ryk inligting wat dit verskaf oor nie-geassosieerde lêer inskrywings.
+Unter den generierten CSV-Dateien ist die `Amcache_Unassociated file entries` besonders bemerkenswert, da sie reichhaltige Informationen über nicht zugeordnete Dateieinträge bietet.
 
-Die mees interessante CVS-lêer wat gegenereer is, is die `Amcache_Unassociated file entries`.
+Die interessanteste CVS-Datei, die generiert wurde, ist die `Amcache_Unassociated file entries`.
 
 ### RecentFileCache
 
-Hierdie artefak kan slegs in W7 gevind word in `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` en dit bevat inligting oor die onlangse uitvoering van sommige binaries.
+Dieses Artefakt ist nur in W7 unter `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` zu finden und enthält Informationen über die kürzliche Ausführung einiger Binärdateien.
 
-Jy kan die hulpmiddel [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) gebruik om die lêer te ontleed.
+Sie können das Tool [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) verwenden, um die Datei zu analysieren.
 
-### Geskeduleerde take
+### Geplante Aufgaben
 
-Jy kan hulle uit `C:\Windows\Tasks` of `C:\Windows\System32\Tasks` onttrek en hulle as XML lees.
+Sie können sie aus `C:\Windows\Tasks` oder `C:\Windows\System32\Tasks` extrahieren und als XML lesen.
 
 ### Dienste
 
-Jy kan hulle in die register onder `SYSTEM\ControlSet001\Services` vind. Jy kan sien wat gaan uitgevoer word en wanneer.
+Sie finden sie in der Registrierung unter `SYSTEM\ControlSet001\Services`. Sie können sehen, was ausgeführt wird und wann.
 
 ### **Windows Store**
 
-Die geïnstalleerde toepassings kan gevind word in `\ProgramData\Microsoft\Windows\AppRepository\`\
-Hierdie repository het 'n **log** met **elke toepassing geïnstalleer** in die stelsel binne die databasis **`StateRepository-Machine.srd`**.
+Die installierten Anwendungen finden Sie in `\ProgramData\Microsoft\Windows\AppRepository\`\
+Dieses Repository hat ein **Log** mit **jeder installierten Anwendung** im System innerhalb der Datenbank **`StateRepository-Machine.srd`**.
 
-Binne die Toepassing tabel van hierdie databasis, is dit moontlik om die kolomme: "Application ID", "PackageNumber", en "Display Name" te vind. Hierdie kolomme het inligting oor vooraf-geïnstalleerde en geïnstalleerde toepassings en dit kan gevind word as sommige toepassings verwyder is omdat die ID's van geïnstalleerde toepassings opeenvolgend moet wees.
+In der Anwendungstabelle dieser Datenbank ist es möglich, die Spalten: "Application ID", "PackageNumber" und "Display Name" zu finden. Diese Spalten enthalten Informationen über vorinstallierte und installierte Anwendungen und es kann festgestellt werden, ob einige Anwendungen deinstalliert wurden, da die IDs der installierten Anwendungen sequenziell sein sollten.
 
-Dit is ook moontlik om **geïnstalleerde toepassings** binne die registerpad te vind: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
-En **verwyderde** **toepassings** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
+Es ist auch möglich, **installierte Anwendungen** im Registrierungspfad: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
+Und **deinstallierte** **Anwendungen** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\` zu finden.
 
-## Windows Gebeure
+## Windows-Ereignisse
 
-Inligting wat binne Windows gebeure verskyn is:
+Informationen, die in Windows-Ereignissen erscheinen, sind:
 
-* Wat gebeur het
-* Tydstempel (UTC + 0)
-* Betrokke gebruikers
-* Betrokke gasheer (hostname, IP)
-* Toegang tot bates (lêers, gids, drukker, dienste)
+* Was passiert ist
+* Zeitstempel (UTC + 0)
+* Beteiligte Benutzer
+* Beteiligte Hosts (Hostname, IP)
+* Zugängliche Assets (Dateien, Ordner, Drucker, Dienste)
 
-Die logs is geleë in `C:\Windows\System32\config` voor Windows Vista en in `C:\Windows\System32\winevt\Logs` na Windows Vista. Voor Windows Vista was die gebeurtenislogs in binêre formaat en daarna is hulle in **XML-formaat** en gebruik die **.evtx** uitbreiding.
+Die Protokolle befinden sich in `C:\Windows\System32\config` vor Windows Vista und in `C:\Windows\System32\winevt\Logs` nach Windows Vista. Vor Windows Vista waren die Ereignisprotokolle im Binärformat und danach sind sie im **XML-Format** und verwenden die **.evtx**-Erweiterung.
 
-Die ligging van die gebeurtenis lêers kan in die SYSTEM register gevind word in **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
+Der Speicherort der Ereignisdateien kann in der SYSTEM-Registrierung unter **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`** gefunden werden.
 
-Hulle kan van die Windows Gebeurteniskyker (**`eventvwr.msc`**) of met ander hulpmiddels soos [**Event Log Explorer**](https://eventlogxp.com) **of** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
+Sie können sie über die Windows-Ereignisanzeige (**`eventvwr.msc`**) oder mit anderen Tools wie [**Event Log Explorer**](https://eventlogxp.com) **oder** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)** visualisieren.**
 
-## Verstaan Windows Sekuriteit Gebeurtenis Logging
+## Verständnis der Windows-Sicherheitsereignisprotokollierung
 
-Toegang gebeurtenisse word in die sekuriteitskonfigurasielêer aangeteken wat geleë is by `C:\Windows\System32\winevt\Security.evtx`. Hierdie lêer se grootte is aanpasbaar, en wanneer sy kapasiteit bereik word, word ouer gebeurtenisse oorgeskryf. Aangetekende gebeurtenisse sluit gebruikers aanmeldings en afmeldings, gebruikers aksies, en veranderinge aan sekuriteitsinstellings in, sowel as lêer, gids, en gedeelde bate toegang.
+Zugriffsereignisse werden in der Sicherheitskonfigurationsdatei aufgezeichnet, die sich unter `C:\Windows\System32\winevt\Security.evtx` befindet. Die Größe dieser Datei ist anpassbar, und wenn ihre Kapazität erreicht ist, werden ältere Ereignisse überschrieben. Aufgezeichnete Ereignisse umfassen Benutzeranmeldungen und -abmeldungen, Benutzeraktionen und Änderungen an Sicherheitseinstellungen sowie den Zugriff auf Dateien, Ordner und gemeinsame Assets.
 
-### Sleutel Gebeurtenis ID's vir Gebruiker Verifikasie:
+### Schlüsselereignis-IDs für die Benutzerauthentifizierung:
 
-* **EventID 4624**: Dui aan dat 'n gebruiker suksesvol geverifieer is.
-* **EventID 4625**: Dui 'n verifikasiefout aan.
-* **EventIDs 4634/4647**: Verteenwoordig gebruiker afmeld gebeurtenisse.
-* **EventID 4672**: Dui aan dat daar met administratiewe regte aangemeld is.
+* **EventID 4624**: Zeigt an, dass ein Benutzer erfolgreich authentifiziert wurde.
+* **EventID 4625**: Signalisiert einen Authentifizierungsfehler.
+* **EventIDs 4634/4647**: Stellen Benutzerabmeldeereignisse dar.
+* **EventID 4672**: Bezeichnet die Anmeldung mit administrativen Rechten.
 
-#### Sub-tipes binne EventID 4634/4647:
+#### Untertypen innerhalb von EventID 4634/4647:
 
-* **Interaktief (2)**: Direkte gebruiker aanmelding.
-* **Netwerk (3)**: Toegang tot gedeelde gidse.
-* **Batch (4)**: Uitvoering van batch prosesse.
-* **Dienste (5)**: Diens bekendstellings.
-* **Proxy (6)**: Proxy verifikasie.
-* **Ontsluit (7)**: Skerm ontsluit met 'n wagwoord.
-* **Netwerk Duidelike teks (8)**: Duidelike teks wagwoord oordrag, dikwels van IIS.
-* **Nuwe Kredensiale (9)**: Gebruik van verskillende kredensiale vir toegang.
-* **Afgeleë Interaktief (10)**: Afgeleë lessenaar of terminal dienste aanmelding.
-* **Gevulde Interaktief (11)**: Aanmelding met gevulde kredensiale sonder kontak met die domeinbeheerder.
-* **Gevulde Afgeleë Interaktief (12)**: Afgeleë aanmelding met gevulde kredensiale.
-* **Gevulde Ontsluit (13)**: Ontsluiting met gevulde kredensiale.
+* **Interaktiv (2)**: Direkte Benutzeranmeldung.
+* **Netzwerk (3)**: Zugriff auf freigegebene Ordner.
+* **Batch (4)**: Ausführung von Batch-Prozessen.
+* **Dienst (5)**: Dienststarts.
+* **Proxy (6)**: Proxy-Authentifizierung.
+* **Entsperren (7)**: Bildschirm mit einem Passwort entsperrt.
+* **Netzwerk-Klartext (8)**: Übertragung von Klartextpasswörtern, oft von IIS.
+* **Neue Anmeldeinformationen (9)**: Verwendung anderer Anmeldeinformationen für den Zugriff.
+* **Remote-Interaktiv (10)**: Remote-Desktop- oder Terminaldienste-Anmeldung.
+* **Cache-Interaktiv (11)**: Anmeldung mit zwischengespeicherten Anmeldeinformationen ohne Kontakt zum Domänencontroller.
+* **Cache-Remote-Interaktiv (12)**: Remote-Anmeldung mit zwischengespeicherten Anmeldeinformationen.
+* **Zwischengespeichertes Entsperren (13)**: Entsperren mit zwischengespeicherten Anmeldeinformationen.
 
-#### Status en Sub Status Kodes vir EventID 4625:
+#### Status- und Unterstatuscodes für EventID 4625:
 
-* **0xC0000064**: Gebruikersnaam bestaan nie - Kan 'n gebruikersnaam enumerasie aanval aandui.
-* **0xC000006A**: Korrek gebruikersnaam maar verkeerde wagwoord - Mogelijke wagwoord raai of brute-force poging.
-* **0xC0000234**: Gebruikersrekening is vergrendel - Kan volg op 'n brute-force aanval wat tot verskeie mislukte aanmeldings lei.
-* **0xC0000072**: Rekening gedeaktiveer - Ongeoorloofde pogings om toegang tot gedeaktiveerde rekeninge te verkry.
-* **0xC000006F**: Aanmelding buite toegelate tyd - Dui pogings aan om buite die gestelde aanmeldure toegang te verkry, 'n moontlike teken van ongeoorloofde toegang.
-* **0xC0000070**: Oortreding van werkstasie beperkings - Kan 'n poging wees om vanaf 'n ongeoorloofde plek aan te meld.
-* **0xC0000193**: Rekening vervaldatum - Toegang pogings met vervalde gebruikersrekeninge.
-* **0xC0000071**: Vervalde wagwoord - Aanmelding pogings met verouderde wagwoorde.
-* **0xC0000133**: Tyd sinkronisasie probleme - Groot tyd verskille tussen kliënt en bediener kan aandui van meer gesofistikeerde aanvalle soos pass-the-ticket.
-* **0xC0000224**: Verpligte wagwoord verandering vereis - Frekwente verpligte veranderinge kan 'n poging aandui om rekening sekuriteit te destabiliseer.
-* **0xC0000225**: Dui 'n stelselfout aan eerder as 'n sekuriteitskwessie.
-* **0xC000015b**: Weier aanmeld tipe - Poging tot toegang met 'n ongeoorloofde aanmeld tipe, soos 'n gebruiker wat probeer om 'n diens aanmelding uit te voer.
+* **0xC0000064**: Benutzername existiert nicht - Könnte auf einen Benutzernamen-Enumeration-Angriff hinweisen.
+* **0xC000006A**: Richtiger Benutzername, aber falsches Passwort - Möglicher Passwort-Ratenangriff oder Brute-Force-Versuch.
+* **0xC0000234**: Benutzerkonto gesperrt - Kann einem Brute-Force-Angriff folgen, der zu mehreren fehlgeschlagenen Anmeldungen führt.
+* **0xC0000072**: Konto deaktiviert - Unbefugte Versuche, auf deaktivierte Konten zuzugreifen.
+* **0xC000006F**: Anmeldung außerhalb der erlaubten Zeit - Zeigt Versuche an, außerhalb der festgelegten Anmeldezeiten zuzugreifen, ein mögliches Zeichen für unbefugten Zugriff.
+* **0xC0000070**: Verletzung der Arbeitsplatzbeschränkungen - Könnte ein Versuch sein, sich von einem unbefugten Standort anzumelden.
+* **0xC0000193**: Konto abgelaufen - Zugriffsversuche mit abgelaufenen Benutzerkonten.
+* **0xC0000071**: Abgelaufenes Passwort - Anmeldeversuche mit veralteten Passwörtern.
+* **0xC0000133**: Zeit-Synchronisierungsprobleme - Große Zeitabweichungen zwischen Client und Server können auf ausgeklügeltere Angriffe wie Pass-the-Ticket hinweisen.
+* **0xC0000224**: Pflichtänderung des Passworts erforderlich - Häufige Pflichtänderungen könnten auf einen Versuch hinweisen, die Kontosicherheit zu destabilisieren.
+* **0xC0000225**: Zeigt einen Systemfehler an, nicht ein Sicherheitsproblem.
+* **0xC000015b**: Verweigerter Anmeldetyp - Zugriffsversuch mit unbefugtem Anmeldetyp, z. B. ein Benutzer, der versucht, einen Dienstanmeldetyp auszuführen.
 
 #### EventID 4616:
 
-* **Tyd Verandering**: Wysiging van die stelseltijd, kan die tydlyn van gebeurtenisse verdoesel.
+* **Zeitänderung**: Änderung der Systemzeit, könnte den Zeitablauf der Ereignisse verschleiern.
 
-#### EventID 6005 en 6006:
+#### EventID 6005 und 6006:
 
-* **Stelsel Begin en Afsluiting**: EventID 6005 dui aan dat die stelsel begin, terwyl EventID 6006 dit afsluit.
+* **Systemstart und -herunterfahren**: EventID 6005 zeigt den Systemstart an, während EventID 6006 das Herunterfahren markiert.
 
 #### EventID 1102:
 
-* **Log Verwydering**: Sekuriteitslogs wat skoongemaak word, wat dikwels 'n rooi vlag is vir die bedek van onwettige aktiwiteite.
+* **Protokolllöschung**: Sicherheitsprotokolle werden gelöscht, was oft ein Warnsignal für das Vertuschen illegaler Aktivitäten ist.
 
-#### EventIDs vir USB Toestel Opsporing:
+#### EventIDs zur Verfolgung von USB-Geräten:
 
-* **20001 / 20003 / 10000**: USB toestel eerste verbinding.
-* **10100**: USB bestuurder opdatering.
-* **EventID 112**: Tyd van USB toestel inset.
+* **20001 / 20003 / 10000**: Erste Verbindung des USB-Geräts.
+* **10100**: USB-Treiberaktualisierung.
+* **EventID 112**: Zeitpunkt des Einsteckens des USB-Geräts.
 
-Vir praktiese voorbeelde oor die simulasie van hierdie aanmeld tipes en kredensiaal dumping geleenthede, verwys na [Altered Security se gedetailleerde gids](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
+Für praktische Beispiele zur Simulation dieser Anmeldetypen und Möglichkeiten zum Abrufen von Anmeldeinformationen siehe [Altered Securitys detaillierte Anleitung](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
 
-Gebeure besonderhede, insluitend status en sub-status kodes, bied verdere insigte in gebeurtenis oorsake, veral noemenswaardig in Event ID 4625.
+Ereignisdetails, einschließlich Status- und Unterstatuscodes, bieten weitere Einblicke in die Ursachen von Ereignissen, insbesondere bemerkenswert in Event ID 4625.
 
-### Herwinning van Windows Gebeure
+### Wiederherstellung von Windows-Ereignissen
 
-Om die kanse van die herstel van verwyderde Windows Gebeure te verbeter, is dit raadsaam om die verdagte rekenaar af te skakel deur dit direk uit te trek. **Bulk\_extractor**, 'n herstel hulpmiddel wat die `.evtx` uitbreiding spesifiseer, word aanbeveel om te probeer om sulke gebeurtenisse te herstel.
+Um die Chancen auf die Wiederherstellung gelöschter Windows-Ereignisse zu erhöhen, ist es ratsam, den verdächtigen Computer durch direktes Abziehen vom Stromnetz herunterzufahren. **Bulk\_extractor**, ein Wiederherstellungstool, das die Erweiterung `.evtx` angibt, wird empfohlen, um solche Ereignisse wiederherzustellen.
 
-### Identifisering van Algemene Aanvalle via Windows Gebeure
+### Identifizierung häufiger Angriffe über Windows-Ereignisse
 
-Vir 'n omvattende gids oor die gebruik van Windows Gebeurtenis ID's in die identifisering van algemene kuber aanvalle, besoek [Red Team Recipe](https://redteamrecipe.com/event-codes/).
+Für einen umfassenden Leitfaden zur Nutzung von Windows-Ereignis-IDs zur Identifizierung häufiger Cyberangriffe besuchen Sie [Red Team Recipe](https://redteamrecipe.com/event-codes/).
 
-#### Brute Force Aanvalle
+#### Brute-Force-Angriffe
 
-Identifiseerbaar deur verskeie EventID 4625 rekords, gevolg deur 'n EventID 4624 as die aanval slaag.
+Erkennbar an mehreren EventID 4625-Datensätzen, gefolgt von einer EventID 4624, wenn der Angriff erfolgreich ist.
 
-#### Tyd Verandering
+#### Zeitänderung
 
-Aangeteken deur EventID 4616, kan veranderinge aan die stelseltijd forensiese analise kompliseer.
+Aufgezeichnet durch EventID 4616 können Änderungen an der Systemzeit die forensische Analyse erschweren.
 
-#### USB Toestel Opsporing
+#### Verfolgung von USB-Geräten
 
-Nuttige Stelsel GebeurtenisID's vir USB toestel opsporing sluit 20001/20003/10000 vir aanvanklike gebruik, 10100 vir bestuurder opdaterings, en EventID 112 van DeviceSetupManager vir inset tydstempels in.
+Nützliche System-Ereignis-IDs zur Verfolgung von USB-Geräten sind 20001/20003/10000 für die erste Nutzung, 10100 für Treiberaktualisierungen und EventID 112 von DeviceSetupManager für Einsteckzeitstempel.
 
-#### Stelsel Krag Gebeurtenisse
+#### Systemstromereignisse
 
-EventID 6005 dui aan stelsel begin, terwyl EventID 6006 afsluiting aandui.
+EventID 6005 zeigt den Systemstart an, während EventID 6006 das Herunterfahren markiert.
 
-#### Log Verwydering
+#### Protokolllöschung
 
-Sekuriteit EventID 1102 dui die verwydering van logs aan, 'n kritieke gebeurtenis vir forensiese analise.
+Sicherheits-EreignisID 1102 signalisiert die Löschung von Protokollen, ein kritisches Ereignis für die forensische Analyse.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

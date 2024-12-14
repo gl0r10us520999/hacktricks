@@ -1,64 +1,64 @@
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 
-# Opsomming van die aanval
+# Zusammenfassung des Angriffs
 
-Stel jou voor 'n bediener wat **data** onderteken deur 'n **geheim** by 'n bekende teksdata te **voeg** en dan daardie data te has. As jy weet:
+Stell dir einen Server vor, der **Daten** **signiert**, indem er ein **Geheimnis** an einige bekannte Klartextdaten **anhängt** und dann diese Daten hasht. Wenn du weißt:
 
-* **Die lengte van die geheim** (dit kan ook afgedwing word van 'n gegewe lengte-reeks)
-* **Die teksdata**
-* **Die algoritme (en dit is vatbaar vir hierdie aanval)**
-* **Die opvulling is bekend**
-* Gewoonlik word 'n verstek een gebruik, so as die ander 3 vereistes voldoen is, is dit ook
-* Die opvulling varieer afhangende van die lengte van die geheim+data, daarom is die lengte van die geheim nodig
+* **Die Länge des Geheimnisses** (dies kann auch aus einem gegebenen Längenbereich bruteforced werden)
+* **Die Klartextdaten**
+* **Der Algorithmus (und er ist anfällig für diesen Angriff)**
+* **Das Padding ist bekannt**
+* Normalerweise wird ein Standard verwendet, also wenn die anderen 3 Anforderungen erfüllt sind, ist dies auch der Fall
+* Das Padding variiert je nach Länge des Geheimnisses + Daten, deshalb ist die Länge des Geheimnisses erforderlich
 
-Dan is dit moontlik vir 'n **aanvaller** om **data** by te **voeg** en 'n geldige **handtekening** te **genereer** vir die **vorige data + bygevoegde data**.
+Dann ist es für einen **Angreifer** möglich, **Daten** **anzuhängen** und eine gültige **Signatur** für die **vorherigen Daten + angehängte Daten** zu **generieren**.
 
-## Hoe?
+## Wie?
 
-Basies genereer die vatbare algoritmes die hasse deur eerstens 'n blok data te **has**, en dan, **van** die **voorheen** geskepte **has** (toestand), voeg hulle die volgende blok data by en **has dit**.
+Im Grunde erzeugen die anfälligen Algorithmen die Hashes, indem sie zuerst einen Block von Daten **hashen** und dann, **aus** dem **zuvor** erstellten **Hash** (Zustand), den **nächsten Block von Daten** **hinzufügen** und **hashen**.
 
-Stel jou voor dat die geheim "geheim" is en die data "data" is, die MD5 van "geheimdata" is 6036708eba0d11f6ef52ad44e8b74d5b.\
-As 'n aanvaller die string "byvoeg" wil byvoeg, kan hy:
+Stell dir vor, das Geheimnis ist "secret" und die Daten sind "data", der MD5 von "secretdata" ist 6036708eba0d11f6ef52ad44e8b74d5b.\
+Wenn ein Angreifer die Zeichenfolge "append" anhängen möchte, kann er:
 
-* Genereer 'n MD5 van 64 "A"s
-* Verander die toestand van die voorheen geïnisialiseerde has na 6036708eba0d11f6ef52ad44e8b74d5b
-* Voeg die string "byvoeg" by
-* Voltooi die has en die resulterende has sal 'n **geldige een wees vir "geheim" + "data" + "opvulling" + "byvoeg"**
+* Einen MD5 von 64 "A"s generieren
+* Den Zustand des zuvor initialisierten Hash auf 6036708eba0d11f6ef52ad44e8b74d5b ändern
+* Die Zeichenfolge "append" anhängen
+* Den Hash beenden und der resultierende Hash wird ein **gültiger für "secret" + "data" + "padding" + "append"** sein
 
-## **Gereedskap**
+## **Werkzeug**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-## Verwysings
+## Referenzen
 
-Jy kan hierdie aanval goed verduidelik vind in [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+Du kannst diesen Angriff gut erklärt finden unter [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

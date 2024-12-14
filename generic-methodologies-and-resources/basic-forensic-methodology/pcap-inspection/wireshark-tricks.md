@@ -1,145 +1,145 @@
-# Wireshark truuks
+# Wireshark-Tricks
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 
-## Verbeter jou Wireshark vaardighede
+## Verbessere deine Wireshark-Fähigkeiten
 
 ### Tutorials
 
-Die volgende tutorials is wonderlik om 'n paar koel basiese truuks te leer:
+Die folgenden Tutorials sind großartig, um einige coole grundlegende Tricks zu lernen:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
-### Geanaliseerde Inligting
+### Analysierte Informationen
 
-**Deskundige Inligting**
+**Experteninformationen**
 
-Deur te klik op _**Analiseer** --> **Deskundige Inligting**_ sal jy 'n **oorsig** hê van wat in die pakkette **geanaliseer** word:
+Durch Klicken auf _**Analyse** --> **Experteninformationen**_ erhältst du eine **Übersicht** darüber, was in den **analysierten** Paketen passiert:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
-**Opgeloste Adresse**
+**Aufgelöste Adressen**
 
-Onder _**Statistieke --> Opgeloste Adresse**_ kan jy verskeie **inligting** vind wat deur wireshark "**opgelos**" is soos poort/transport na protokol, MAC na die vervaardiger, ens. Dit is interessant om te weet wat betrokke is in die kommunikasie.
+Unter _**Statistiken --> Aufgelöste Adressen**_ findest du mehrere **Informationen**, die von Wireshark "**aufgelöst**" wurden, wie Port/Transport zu Protokoll, MAC zu Hersteller usw. Es ist interessant zu wissen, was an der Kommunikation beteiligt ist.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
-**Protokol Hiërargie**
+**Protokollhierarchie**
 
-Onder _**Statistieke --> Protokol Hiërargie**_ kan jy die **protokolle** **betrokke** in die kommunikasie en data oor hulle vind.
+Unter _**Statistiken --> Protokollhierarchie**_ findest du die **Protokolle**, die an der Kommunikation beteiligt sind, sowie Daten über sie.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
-**Gesprekke**
+**Gespräche**
 
-Onder _**Statistieke --> Gesprekke**_ kan jy 'n **opsomming van die gesprekke** in die kommunikasie en data oor hulle vind.
+Unter _**Statistiken --> Gespräche**_ findest du eine **Zusammenfassung der Gespräche** in der Kommunikation und Daten darüber.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
-**Eindpunte**
+**Endpunkte**
 
-Onder _**Statistieke --> Eindpunte**_ kan jy 'n **opsomming van die eindpunte** in die kommunikasie en data oor elkeen van hulle vind.
+Unter _**Statistiken --> Endpunkte**_ findest du eine **Zusammenfassung der Endpunkte** in der Kommunikation und Daten über jeden von ihnen.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**DNS inligting**
+**DNS-Informationen**
 
-Onder _**Statistieke --> DNS**_ kan jy statistieke oor die DNS versoek wat gevang is vind.
+Unter _**Statistiken --> DNS**_ findest du Statistiken über die erfassten DNS-Anfragen.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
-**I/O Grafiek**
+**I/O-Diagramm**
 
-Onder _**Statistieke --> I/O Grafiek**_ kan jy 'n **grafiek van die kommunikasie** vind.
+Unter _**Statistiken --> I/O-Diagramm**_ findest du ein **Diagramm der Kommunikation.**
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
-### Filters
+### Filter
 
-Hier kan jy wireshark filter vind afhangende van die protokol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
-Ander interessante filters:
+Hier findest du Wireshark-Filter je nach Protokoll: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Weitere interessante Filter:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* HTTP en aanvanklike HTTPS verkeer
+* HTTP- und anfänglicher HTTPS-Verkehr
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* HTTP en aanvanklike HTTPS verkeer + TCP SYN
+* HTTP- und anfänglicher HTTPS-Verkehr + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* HTTP en aanvanklike HTTPS verkeer + TCP SYN + DNS versoeke
+* HTTP- und anfänglicher HTTPS-Verkehr + TCP SYN + DNS-Anfragen
 
-### Soek
+### Suche
 
-As jy wil **soek** vir **inhoud** binne die **pakkette** van die sessies druk _CTRL+f_. Jy kan nuwe lae by die hoofinligtingbalk (No., Tyd, Bron, ens.) voeg deur die regterknoppie te druk en dan die kolom te redigeer.
+Wenn du nach **Inhalten** innerhalb der **Pakete** der Sitzungen suchen möchtest, drücke _CTRL+f_. Du kannst neue Ebenen zur Hauptinformationsleiste (Nr., Zeit, Quelle usw.) hinzufügen, indem du mit der rechten Maustaste klickst und dann die Spalte bearbeitest.
 
-### Gratis pcap laboratoriums
+### Kostenlose pcap-Labore
 
-**Oefen met die gratis uitdagings van:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Übe mit den kostenlosen Herausforderungen von:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## Identifisering van Domeine
+## Identifizierung von Domains
 
-Jy kan 'n kolom byvoeg wat die Host HTTP koptekst wys:
+Du kannst eine Spalte hinzufügen, die den Host-HTTP-Header anzeigt:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-En 'n kolom wat die Bediener naam van 'n inisierende HTTPS verbinding byvoeg (**ssl.handshake.type == 1**):
+Und eine Spalte, die den Servernamen von einer initiierenden HTTPS-Verbindung (**ssl.handshake.type == 1**) hinzufügt:
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identifisering van plaaslike gasheurname
+## Identifizierung lokaler Hostnamen
 
-### Van DHCP
+### Von DHCP
 
-In die huidige Wireshark in plaas van `bootp` moet jy soek na `DHCP`
+In der aktuellen Wireshark-Version musst du anstelle von `bootp` nach `DHCP` suchen.
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
-### Van NBNS
+### Von NBNS
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## Ontsleuteling van TLS
+## Entschlüsselung von TLS
 
-### Ontsleuteling van https verkeer met bediener se privaat sleutel
+### Entschlüsselung von HTTPS-Verkehr mit dem privaten Schlüssel des Servers
 
-_edit>voorkeur>protokol>ssl>_
+_edit>präferenz>protokoll>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Druk _Edit_ en voeg al die data van die bediener en die privaat sleutel (_IP, Poort, Protokol, Sleutel lêer en wagwoord_)
+Drücke _Bearbeiten_ und füge alle Daten des Servers und den privaten Schlüssel (_IP, Port, Protokoll, Schlüsseldatei und Passwort_) hinzu.
 
-### Ontsleuteling van https verkeer met simmetriese sessiesleutels
+### Entschlüsselung von HTTPS-Verkehr mit symmetrischen Sitzungsschlüsseln
 
-Sowel Firefox as Chrome het die vermoë om TLS sessiesleutels te log, wat gebruik kan word met Wireshark om TLS verkeer te ontsleutel. Dit stel in staat tot diepgaande analise van veilige kommunikasies. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer kan gevind word in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Sowohl Firefox als auch Chrome haben die Fähigkeit, TLS-Sitzungsschlüssel zu protokollieren, die mit Wireshark verwendet werden können, um TLS-Verkehr zu entschlüsseln. Dies ermöglicht eine eingehende Analyse sicherer Kommunikation. Weitere Details zur Durchführung dieser Entschlüsselung findest du in einem Leitfaden bei [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Om dit te detecteer soek binne die omgewing na die veranderlike `SSLKEYLOGFILE`
+Um dies zu erkennen, suche in der Umgebung nach der Variablen `SSLKEYLOGFILE`.
 
-'n Lêer van gedeelde sleutels sal soos volg lyk:
+Eine Datei mit gemeinsamen Schlüsseln sieht so aus:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Om dit in wireshark te importeer gaan na \_edit > voorkeur > protokol > ssl > en importeer dit in (Pre)-Master-Secret log lêernaam:
+Um dies in Wireshark zu importieren, gehe zu _bearbeiten > präferenz > protokoll > ssl > und importiere es in (Pre)-Master-Secret-Protokolldateinamen:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
-## ADB kommunikasie
+## ADB-Kommunikation
 
-Onthaal 'n APK uit 'n ADB kommunikasie waar die APK gestuur is:
+Extrahiere eine APK aus einer ADB-Kommunikation, in der die APK gesendet wurde:
 ```python
 from scapy.all import *
 
@@ -167,16 +167,16 @@ f.write(all_bytes)
 f.close()
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

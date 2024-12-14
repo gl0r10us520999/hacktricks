@@ -1,16 +1,16 @@
 # Padding Oracle
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -19,22 +19,22 @@ Leer & oefen GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-siz
 
 ## CBC - Cipher Block Chaining
 
-In CBC-modus word die **vorige versleutelde blok as IV** gebruik om met die volgende blok te XOR:
+Im CBC-Modus wird der **vorherige verschlüsselte Block als IV** verwendet, um mit dem nächsten Block zu XORen:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Om CBC te ontsleutel, word die **teenoorgestelde** **operasies** uitgevoer:
+Um CBC zu entschlüsseln, werden die **entgegengesetzten** **Operationen** durchgeführt:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Let op hoe dit nodig is om 'n **versleuteling** **sleutel** en 'n **IV** te gebruik.
+Beachten Sie, dass es notwendig ist, einen **Verschlüsselungs** **schlüssel** und ein **IV** zu verwenden.
 
-## Boodskap Padding
+## Nachrichten-Padding
 
-Aangesien die versleuteling in **vaste** **grootte** **blokken** uitgevoer word, is **padding** gewoonlik nodig in die **laaste** **blok** om sy lengte te voltooi.\
-Gewoonlik word **PKCS7** gebruik, wat 'n padding genereer deur die **aantal** **bytes** **nodig** om die blok te **voltooi** te herhaal. Byvoorbeeld, as die laaste blok 3 bytes kort is, sal die padding `\x03\x03\x03` wees.
+Da die Verschlüsselung in **festen** **Größen** **Blöcken** durchgeführt wird, ist in dem **letzten** **Block** normalerweise **Padding** erforderlich, um seine Länge zu vervollständigen.\
+In der Regel wird **PKCS7** verwendet, das ein Padding erzeugt, das die **Anzahl** der **benötigten** **Bytes** **wiederholt**, um den Block zu vervollständigen. Wenn der letzte Block beispielsweise 3 Bytes fehlt, wird das Padding `\x03\x03\x03` sein.
 
-Kom ons kyk na meer voorbeelde met **2 blokke van 8bytes**:
+Schauen wir uns weitere Beispiele mit **2 Blöcken von 8 Bytes Länge** an:
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -43,43 +43,43 @@ Kom ons kyk na meer voorbeelde met **2 blokke van 8bytes**:
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Let op hoe in die laaste voorbeeld die **laaste blok vol was, so 'n ander een is gegenereer net met padding**.
+Beachten Sie, dass im letzten Beispiel der **letzte Block voll war, sodass ein weiterer nur mit Padding generiert wurde**.
 
 ## Padding Oracle
 
-Wanneer 'n toepassing versleutelde data ontsleutel, sal dit eers die data ontsleutel; dan sal dit die padding verwyder. Tydens die opruiming van die padding, as 'n **ongeldige padding 'n waarneembare gedrag veroorsaak**, het jy 'n **padding oracle kwesbaarheid**. Die waarneembare gedrag kan 'n **fout**, 'n **gebrek aan resultate**, of 'n **langsame reaksie** wees.
+Wenn eine Anwendung verschlüsselte Daten entschlüsselt, wird sie zuerst die Daten entschlüsseln; dann wird sie das Padding entfernen. Während der Bereinigung des Paddings, wenn ein **ungültiges Padding ein erkennbares Verhalten auslöst**, haben Sie eine **Padding-Oracle-Schwachstelle**. Das erkennbare Verhalten kann ein **Fehler**, ein **Mangel an Ergebnissen** oder eine **langsamere Antwort** sein.
 
-As jy hierdie gedrag waarneem, kan jy die **versleutelde data ontsleutel** en selfs **enige duidelike teks versleutel**.
+Wenn Sie dieses Verhalten erkennen, können Sie **die verschlüsselten Daten entschlüsseln** und sogar **beliebigen Klartext verschlüsseln**.
 
-### Hoe om te benut
+### Wie man ausnutzt
 
-Jy kan [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) gebruik om hierdie tipe kwesbaarheid te benut of net doen
+Sie könnten [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) verwenden, um diese Art von Schwachstelle auszunutzen oder einfach tun
 ```
 sudo apt-get install padbuster
 ```
-Om te toets of die koekie van 'n webwerf kwesbaar is, kan jy probeer:
+Um zu testen, ob das Cookie einer Seite anfällig ist, könnten Sie Folgendes versuchen:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
-**Kodering 0** beteken dat **base64** gebruik word (maar ander is beskikbaar, kyk na die hulpmenu).
+**Encoding 0** bedeutet, dass **base64** verwendet wird (aber es sind auch andere verfügbar, siehe das Hilfemenü).
 
-Jy kan ook **hierdie kwesbaarheid misbruik om nuwe data te enkripteer. Byvoorbeeld, veronderstel dat die inhoud van die koekie is "**_**user=MyUsername**_**", dan kan jy dit verander na "\_user=administrator\_" en bevoegdhede binne die aansoek opgradeer. Jy kan dit ook doen met `paduster` deur die -plaintext** parameter te spesifiseer:
+Sie könnten auch **diese Schwachstelle ausnutzen, um neue Daten zu verschlüsseln. Zum Beispiel, stellen Sie sich vor, der Inhalt des Cookies ist "**_**user=MyUsername**_**", dann könnten Sie ihn in "\_user=administrator\_" ändern und die Berechtigungen innerhalb der Anwendung eskalieren. Sie könnten dies auch mit `paduster` tun, indem Sie den -plaintext** Parameter angeben:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-As die webwerf kwesbaar is, sal `padbuster` outomaties probeer om te vind wanneer die padding fout voorkom, maar jy kan ook die foutboodskap aandui deur die **-error** parameter te gebruik.
+Wenn die Seite anfällig ist, wird `padbuster` automatisch versuchen herauszufinden, wann der Padding-Fehler auftritt, aber Sie können auch die Fehlermeldung mit dem **-error** Parameter angeben.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
-### Die teorie
+### Die Theorie
 
-In **samevatting**, jy kan begin om die versleutelde data te ontsleutel deur die korrekte waardes te raai wat gebruik kan word om al die **verskillende opvullings** te skep. Dan sal die padding oracle aanval begin om bytes van die einde na die begin te ontsleutel deur te raai wat die korrekte waarde is wat **'n opvulling van 1, 2, 3, ens.** skep.
+In **Zusammenfassung** können Sie mit dem Entschlüsseln der verschlüsselten Daten beginnen, indem Sie die richtigen Werte erraten, die verwendet werden können, um alle **verschiedenen Paddings** zu erstellen. Dann beginnt der Padding-Oracle-Angriff, Bytes vom Ende zum Anfang zu entschlüsseln, indem erraten wird, welcher der richtige Wert ist, der **ein Padding von 1, 2, 3 usw. erzeugt**.
 
 ![](<../.gitbook/assets/image (561).png>)
 
-Stel jou voor jy het 'n paar versleutelde teks wat **2 blokke** beslaan wat gevorm word deur die bytes van **E0 tot E15**.\
-Om die **laaste** **blok** (**E8** tot **E15**) te **ontsleutel**, gaan die hele blok deur die "blok-kodering ontsleuteling" wat die **intermediêre bytes I0 tot I15** genereer.\
-Laastens, elke intermediêre byte word **XORed** met die vorige versleutelde bytes (E0 tot E7). So:
+Stellen Sie sich vor, Sie haben einen verschlüsselten Text, der **2 Blöcke** umfasst, die aus den Bytes von **E0 bis E15** bestehen.\
+Um den **letzten** **Block** (**E8** bis **E15**) zu **entschlüsseln**, durchläuft der gesamte Block die "Blockchiffrenentschlüsselung", die die **Zwischenbytes I0 bis I15** erzeugt.\
+Schließlich wird jedes Zwischenbyte mit den vorherigen verschlüsselten Bytes (E0 bis E7) **XORed**. Also:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -87,44 +87,44 @@ Laastens, elke intermediêre byte word **XORed** met die vorige versleutelde byt
 * `C12 = I12 ^ E4`
 * ...
 
-Nou, dit is moontlik om **`E7` te wysig totdat `C15` `0x01` is**, wat ook 'n korrekte opvulling sal wees. So, in hierdie geval: `\x01 = I15 ^ E'7`
+Jetzt ist es möglich, `E7` so zu **modifizieren**, dass `C15` `0x01` ist, was ebenfalls ein korrektes Padding sein wird. In diesem Fall: `\x01 = I15 ^ E'7`
 
-So, om E'7 te vind, is dit **moontlik om I15 te bereken**: `I15 = 0x01 ^ E'7`
+Durch das Finden von E'7 ist es **möglich, I15 zu berechnen**: `I15 = 0x01 ^ E'7`
 
-Wat ons toelaat om **C15 te bereken**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Was es uns ermöglicht, **C15 zu berechnen**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-As ons **C15** weet, is dit nou moontlik om **C14** te bereken, maar hierdie keer deur die opvulling `\x02\x02` te brute-force.
+Wenn **C15** bekannt ist, ist es jetzt möglich, **C14 zu berechnen**, aber diesmal durch Brute-Forcing des Paddings `\x02\x02`.
 
-Hierdie BF is net so kompleks soos die vorige een, aangesien dit moontlik is om die `E''15` waarvan die waarde 0x02 is te bereken: `E''7 = \x02 ^ I15` so dit is net nodig om die **`E'14`** te vind wat 'n **`C14` genereer wat gelyk is aan `0x02`**.\
-Dan, doen dieselfde stappe om C14 te ontsleutel: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Dieses BF ist so komplex wie das vorherige, da es möglich ist, das `E''15` zu berechnen, dessen Wert 0x02 ist: `E''7 = \x02 ^ I15`, sodass nur **`E'14`** gefunden werden muss, das ein **`C14` erzeugt, das gleich `0x02` ist**.\
+Dann die gleichen Schritte wiederholen, um C14 zu entschlüsseln: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Volg hierdie ketting totdat jy die hele versleutelde teks ontsleutel.**
+**Folgen Sie dieser Kette, bis Sie den gesamten verschlüsselten Text entschlüsselt haben.**
 
-### Ontdekking van die kwesbaarheid
+### Erkennung der Schwachstelle
 
-Registreer en skep 'n rekening en teken in met hierdie rekening.\
-As jy **baie keer aanmeld** en altyd die **dieselfde koekie** kry, is daar waarskynlik **iets** **verkeerd** in die toepassing. Die **koekie wat teruggestuur word, moet uniek wees** elke keer as jy aanmeld. As die koekie **altyd** die **dieselfde** is, sal dit waarskynlik altyd geldig wees en daar **sal geen manier wees om dit te ongeldig te maak**.
+Registrieren Sie ein Konto und melden Sie sich mit diesem Konto an.\
+Wenn Sie sich **mehrmals anmelden** und immer dasselbe **Cookie** erhalten, ist wahrscheinlich **etwas** **falsch** in der Anwendung. Das **zurückgesendete Cookie sollte jedes Mal einzigartig sein**, wenn Sie sich anmelden. Wenn das Cookie **immer** dasselbe ist, wird es wahrscheinlich immer gültig sein und es **wird keinen Weg geben, es zu ungültig zu machen**.
 
-Nou, as jy probeer om die **koekie** te **wysig**, kan jy sien dat jy 'n **fout** van die toepassing kry.\
-Maar as jy die opvulling BF (met padbuster byvoorbeeld) kan jy 'n ander koekie kry wat geldig is vir 'n ander gebruiker. Hierdie scenario is hoogs waarskynlik kwesbaar vir padbuster.
+Wenn Sie jetzt versuchen, das **Cookie zu modifizieren**, können Sie sehen, dass Sie einen **Fehler** von der Anwendung erhalten.\
+Aber wenn Sie das Padding brute-forcen (zum Beispiel mit Padbuster), schaffen Sie es, ein anderes Cookie zu erhalten, das für einen anderen Benutzer gültig ist. Dieses Szenario ist höchstwahrscheinlich anfällig für Padbuster.
 
-### Verwysings
+### Referenzen
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
 
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

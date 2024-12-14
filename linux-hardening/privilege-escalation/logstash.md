@@ -20,11 +20,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Logstash
 
-Logstash word gebruik om **logs te versamel, te transformeer en te stuur** deur 'n stelsel bekend as **pipelines**. Hierdie pipelines bestaan uit **invoer**, **filter**, en **uitvoer** fases. 'n Interessante aspek ontstaan wanneer Logstash op 'n gecompromitteerde masjien werk.
+Logstash wird verwendet, um **Protokolle zu sammeln, zu transformieren und zu versenden** durch ein System, das als **Pipelines** bekannt ist. Diese Pipelines bestehen aus **Eingabe**, **Filter** und **Ausgabe** Phasen. Ein interessantes Aspekt tritt auf, wenn Logstash auf einem kompromittierten Rechner arbeitet.
 
-### Pipeline Konfigurasie
+### Pipeline-Konfiguration
 
-Pipelines word geconfigureer in die lêer **/etc/logstash/pipelines.yml**, wat die plekke van die pipeline konfigurasies lys:
+Pipelines werden in der Datei **/etc/logstash/pipelines.yml** konfiguriert, die die Standorte der Pipeline-Konfigurationen auflistet:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -36,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-This lêer onthul waar die **.conf** lêers, wat pyplyn konfigurasies bevat, geleë is. Wanneer 'n **Elasticsearch output module** gebruik word, is dit algemeen dat **pyplyne** **Elasticsearch kredensiale** insluit, wat dikwels uitgebreide bevoegdhede het weens Logstash se behoefte om data na Elasticsearch te skryf. Wildcards in konfigurasiepaaie laat Logstash toe om alle ooreenstemmende pyplyne in die aangewese gids uit te voer.
+Diese Datei zeigt, wo sich die **.conf**-Dateien mit den Pipeline-Konfigurationen befinden. Bei der Verwendung eines **Elasticsearch-Ausgabemoduls** ist es üblich, dass **Pipelines** **Elasticsearch-Anmeldeinformationen** enthalten, die oft umfangreiche Berechtigungen besitzen, da Logstash Daten in Elasticsearch schreiben muss. Platzhalter in den Konfigurationspfaden ermöglichen es Logstash, alle übereinstimmenden Pipelines im angegebenen Verzeichnis auszuführen.
 
-### Bevoegdheidstoename deur Skryfbare Pyplyne
+### Privilegieneskalation über beschreibbare Pipelines
 
-Om 'n poging tot bevoegdheidstoename te doen, identifiseer eers die gebruiker waaronder die Logstash diens loop, tipies die **logstash** gebruiker. Verseker dat jy aan **een** van hierdie kriteria voldoen:
+Um eine Privilegieneskalation zu versuchen, identifizieren Sie zunächst den Benutzer, unter dem der Logstash-Dienst läuft, typischerweise den **logstash**-Benutzer. Stellen Sie sicher, dass Sie **eine** dieser Kriterien erfüllen:
 
-- Besit **skryfgemagtigdheid** tot 'n pyplyn **.conf** lêer **of**
-- Die **/etc/logstash/pipelines.yml** lêer gebruik 'n wildcard, en jy kan na die teiken gids skryf
+- Besitzen Sie **Schreibzugriff** auf eine Pipeline-**.conf**-Datei **oder**
+- Die **/etc/logstash/pipelines.yml**-Datei verwendet einen Platzhalter, und Sie können in den Zielordner schreiben
 
-Boonop moet **een** van hierdie toestande vervul word:
+Zusätzlich muss **eine** dieser Bedingungen erfüllt sein:
 
-- Vermoë om die Logstash diens te herbegin **of**
-- Die **/etc/logstash/logstash.yml** lêer het **config.reload.automatic: true** ingestel
+- Fähigkeit, den Logstash-Dienst neu zu starten **oder**
+- Die **/etc/logstash/logstash.yml**-Datei hat **config.reload.automatic: true** gesetzt
 
-Gegewe 'n wildcard in die konfigurasie, laat die skep van 'n lêer wat met hierdie wildcard ooreenstem toe dat opdragte uitgevoer word. Byvoorbeeld:
+Angesichts eines Platzhalters in der Konfiguration ermöglicht das Erstellen einer Datei, die mit diesem Platzhalter übereinstimmt, die Ausführung von Befehlen. Zum Beispiel:
 ```bash
 input {
 exec {
@@ -66,6 +66,31 @@ codec => rubydebug
 }
 }
 ```
-Hier, **interval** bepaal die uitvoeringsfrekwensie in sekondes. In die gegewe voorbeeld, die **whoami** opdrag loop elke 120 sekondes, met sy uitvoer gerig na **/tmp/output.log**.
+Hier bestimmt **interval** die Ausführungsfrequenz in Sekunden. Im gegebenen Beispiel wird der Befehl **whoami** alle 120 Sekunden ausgeführt, wobei die Ausgabe an **/tmp/output.log** geleitet wird.
 
-Met **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, sal Logstash outomaties nuwe of gewysigde pyplyn konfigurasies opspoor en toepas sonder om 'n herlaai te benodig. As daar geen wildcard is nie, kan wysigings steeds aan bestaande konfigurasies gemaak word, maar versigtigheid word aanbeveel om ontwrigtings te vermy.
+Mit **config.reload.automatic: true** in **/etc/logstash/logstash.yml** wird Logstash automatisch neue oder modifizierte Pipeline-Konfigurationen erkennen und anwenden, ohne dass ein Neustart erforderlich ist. Wenn es kein Wildcard gibt, können weiterhin Änderungen an bestehenden Konfigurationen vorgenommen werden, jedoch ist Vorsicht geboten, um Unterbrechungen zu vermeiden.
+
+
+## References
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

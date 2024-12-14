@@ -1,44 +1,44 @@
-# Linux Omgewing Veranderlikes
+# Linux-Umgebungsvariablen
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**intekening planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Globale veranderlikes
+## Globale Variablen
 
-Die globale veranderlikes **sal wees** geërf deur **kind proses**.
+Die globalen Variablen **werden** von **Kindprozessen** geerbt.
 
-Jy kan 'n globale veranderlike vir jou huidige sessie skep deur:
+Sie können eine globale Variable für Ihre aktuelle Sitzung erstellen, indem Sie:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Hierdie veranderlike sal toeganklik wees deur jou huidige sessies en sy kindprosesse.
+Diese Variable wird von Ihren aktuellen Sitzungen und deren Kindprozessen zugänglich sein.
 
-Jy kan 'n veranderlike **verwyder** deur:
+Sie können eine Variable **entfernen** mit:
 ```bash
 unset MYGLOBAL
 ```
-## Plaaslike veranderlikes
+## Lokale Variablen
 
-Die **plaaslike veranderlikes** kan slegs **toegang verkry** word deur die **huidige skulp/script**.
+Die **lokalen Variablen** können nur von der **aktuellen Shell/Skript** **zugegriffen** werden.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Lys huidige veranderlikes
+## Aktuelle Variablen auflisten
 ```bash
 set
 env
@@ -50,86 +50,86 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – die skerm wat deur **X** gebruik word. Hierdie veranderlike is gewoonlik op **:0.0** gestel, wat die eerste skerm op die huidige rekenaar beteken.
-* **EDITOR** – die gebruiker se verkiesde teksredigeerder.
-* **HISTFILESIZE** – die maksimum aantal lyne wat in die geskiedenis lêer bevat is.
-* **HISTSIZE** – Aantal lyne wat by die geskiedenis lêer gevoeg word wanneer die gebruiker sy sessie beëindig.
-* **HOME** – jou tuisgids.
-* **HOSTNAME** – die rekenaar se gasheernaam.
-* **LANG** – jou huidige taal.
-* **MAIL** – die ligging van die gebruiker se posspool. Gewoonlik **/var/spool/mail/USER**.
-* **MANPATH** – die lys van gidse om na handleidingsbladsye te soek.
-* **OSTYPE** – die tipe bedryfstelsel.
-* **PS1** – die standaardprompt in bash.
-* **PATH** – stoor die pad van al die gidse wat binêre lêers bevat wat jy wil uitvoer net deur die naam van die lêer te spesifiseer en nie deur relatiewe of absolute pad nie.
-* **PWD** – die huidige werkgids.
-* **SHELL** – die pad na die huidige opdrag-shel (byvoorbeeld, **/bin/bash**).
-* **TERM** – die huidige terminal tipe (byvoorbeeld, **xterm**).
-* **TZ** – jou tydsone.
-* **USER** – jou huidige gebruikersnaam.
+* **DISPLAY** – der Bildschirm, der von **X** verwendet wird. Diese Variable ist normalerweise auf **:0.0** gesetzt, was den ersten Bildschirm auf dem aktuellen Computer bedeutet.
+* **EDITOR** – der bevorzugte Texteditor des Benutzers.
+* **HISTFILESIZE** – die maximale Anzahl von Zeilen, die in der Verlaufdatei enthalten sind.
+* **HISTSIZE** – Anzahl der Zeilen, die zur Verlaufdatei hinzugefügt werden, wenn der Benutzer seine Sitzung beendet.
+* **HOME** – dein Home-Verzeichnis.
+* **HOSTNAME** – der Hostname des Computers.
+* **LANG** – deine aktuelle Sprache.
+* **MAIL** – der Speicherort des Mail-Spools des Benutzers. Normalerweise **/var/spool/mail/USER**.
+* **MANPATH** – die Liste der Verzeichnisse, in denen nach Handbuchseiten gesucht wird.
+* **OSTYPE** – der Typ des Betriebssystems.
+* **PS1** – die Standardaufforderung in bash.
+* **PATH** – speichert den Pfad aller Verzeichnisse, die die Binärdateien enthalten, die du ausführen möchtest, indem du nur den Namen der Datei angibst und nicht den relativen oder absoluten Pfad.
+* **PWD** – das aktuelle Arbeitsverzeichnis.
+* **SHELL** – der Pfad zur aktuellen Befehlszeile (zum Beispiel **/bin/bash**).
+* **TERM** – der aktuelle Terminaltyp (zum Beispiel **xterm**).
+* **TZ** – deine Zeitzone.
+* **USER** – dein aktueller Benutzername.
 
 ## Interesting variables for hacking
 
 ### **HISTFILESIZE**
 
-Verander die **waarde van hierdie veranderlike na 0**, sodat wanneer jy jou **sessie beëindig** die **geskiedenis lêer** (\~/.bash\_history) **verwyder sal word**.
+Ändere **den Wert dieser Variable auf 0**, damit beim **Beenden deiner Sitzung** die **Verlaufdatei** (\~/.bash\_history) **gelöscht wird**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Verander die **waarde van hierdie veranderlike na 0**, sodat wanneer jy jou **sessie beëindig** enige opdrag by die **geskiedenis lêer** (\~/.bash\_history) gevoeg sal word.
+Ändern Sie **den Wert dieser Variablen auf 0**, damit beim **Beenden Ihrer Sitzung** kein Befehl in die **Historie-Datei** (\~/.bash\_history) aufgenommen wird.
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Die prosesse sal die **proxy** wat hier verklaar is, gebruik om via **http of https** met die internet te verbind.
+Die Prozesse verwenden den hier deklarierten **Proxy**, um über **http oder https** eine Verbindung zum Internet herzustellen.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Die prosesse sal die sertifikate vertrou wat in **hierdie omgewing veranderlikes** aangedui word.
+Die Prozesse vertrauen den in **diesen Umgebungsvariablen** angegebenen Zertifikaten.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-Verander hoe jou prompt lyk.
+Ändern Sie, wie Ihr Prompt aussieht.
 
-[**Dit is 'n voorbeeld**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**Dies ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
 ![](<../.gitbook/assets/image (897).png>)
 
-Reguliere gebruiker:
+Regulärer Benutzer:
 
 ![](<../.gitbook/assets/image (740).png>)
 
-Een, twee en drie agtergrond take:
+Ein, zwei und drei Hintergrundjobs:
 
 ![](<../.gitbook/assets/image (145).png>)
 
-Een agtergrond taak, een gestopte en laaste opdrag het nie korrek afgesluit nie:
+Ein Hintergrundjob, ein gestoppter und der letzte Befehl wurde nicht korrekt beendet:
 
 ![](<../.gitbook/assets/image (715).png>)
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

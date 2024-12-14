@@ -1,45 +1,45 @@
-# Wide Source Code Search
+# Weite Quellcode-Suche
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-Die doel van hierdie bladsy is om **platforms te noem wat dit moontlik maak om kode** (letterlik of regex) in duisende/miljoene repos op een of meer platforms te soek.
+Das Ziel dieser Seite ist es, **Plattformen aufzulisten, die das Suchen nach Code** (literal oder regex) in Tausenden/Millionen von Repos auf einer oder mehreren Plattformen ermöglichen.
 
-Dit help in verskeie gevalle om **inligting wat gelek het** of **kwesbaarhede** patrone te soek.
+Dies hilft in mehreren Fällen, **nach geleakten Informationen** oder nach **Schwachstellen**-Mustern zu suchen.
 
-* [**SourceGraph**](https://sourcegraph.com/search): Soek in miljoene repos. Daar is 'n gratis weergawe en 'n ondernemingsweergawe (met 15 dae gratis). Dit ondersteun regexes.
-* [**Github Search**](https://github.com/search): Soek oor Github. Dit ondersteun regexes.
-* Miskien is dit ook nuttig om ook [**Github Code Search**](https://cs.github.com/) te kyk.
-* [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Soek oor Gitlab projekte. Ondersteun regexes.
-* [**SearchCode**](https://searchcode.com/): Soek kode in miljoene projekte.
+* [**SourceGraph**](https://sourcegraph.com/search): Suche in Millionen von Repos. Es gibt eine kostenlose Version und eine Unternehmensversion (mit 15 Tagen kostenlos). Es unterstützt Regex.
+* [**Github-Suche**](https://github.com/search): Suche auf Github. Es unterstützt Regex.
+* Vielleicht ist es auch nützlich, [**Github Code Search**](https://cs.github.com/) zu überprüfen.
+* [**Gitlab Erweiterte Suche**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Suche in Gitlab-Projekten. Unterstützt Regex.
+* [**SearchCode**](https://searchcode.com/): Suche nach Code in Millionen von Projekten.
 
 {% hint style="warning" %}
-Wanneer jy soek na gelekke in 'n repo en iets soos `git log -p` uitvoer, moenie vergeet daar mag wees **ander takke met ander verbintenisse** wat geheime bevat nie!
+Wenn du nach Leaks in einem Repo suchst und etwas wie `git log -p` ausführst, vergiss nicht, dass es **andere Branches mit anderen Commits** geben könnte, die Geheimnisse enthalten!
 {% endhint %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

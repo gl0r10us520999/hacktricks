@@ -1,33 +1,33 @@
 # Linux Active Directory
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 {% embed url="https://websec.nl/" %}
 
-'n Linux masjien kan ook teenwoordig wees binne 'n Active Directory omgewing.
+Eine Linux-Maschine kann auch in einer Active Directory-Umgebung vorhanden sein.
 
-'n Linux masjien in 'n AD mag **verskillende CCACHE kaartjies binne lêers stoor. Hierdie kaartjies kan gebruik en misbruik word soos enige ander kerberos kaartjie**. Om hierdie kaartjies te lees, moet jy die gebruiker-eienaar van die kaartjie wees of **root** binne die masjien.
+Eine Linux-Maschine in einem AD könnte **verschiedene CCACHE-Tickets in Dateien speichern. Diese Tickets können wie jedes andere Kerberos-Ticket verwendet und missbraucht werden**. Um diese Tickets zu lesen, müssen Sie der Benutzerbesitzer des Tickets oder **root** auf der Maschine sein.
 
-## Enumerasie
+## Enumeration
 
-### AD enumerasie vanaf linux
+### AD Enumeration von Linux
 
-As jy toegang het oor 'n AD in linux (of bash in Windows) kan jy probeer [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) om die AD te enumerate.
+Wenn Sie Zugriff auf ein AD in Linux (oder Bash in Windows) haben, können Sie [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) versuchen, um das AD zu enumerieren.
 
-Jy kan ook die volgende bladsy nagaan om te leer **ander maniere om AD vanaf linux te enumerate**:
+Sie können auch die folgende Seite überprüfen, um **andere Möglichkeiten zur Enumeration von AD aus Linux** zu lernen:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -35,27 +35,27 @@ Jy kan ook die volgende bladsy nagaan om te leer **ander maniere om AD vanaf lin
 
 ### FreeIPA
 
-FreeIPA is 'n oopbron **alternatief** vir Microsoft Windows **Active Directory**, hoofsaaklik vir **Unix** omgewings. Dit kombineer 'n volledige **LDAP gids** met 'n MIT **Kerberos** Sleutelverspreidingsentrum vir bestuur soortgelyk aan Active Directory. Dit gebruik die Dogtag **Sertifikaatstelsel** vir CA & RA sertifikaatbestuur, en ondersteun **multi-faktor** verifikasie, insluitend slimkaarte. SSSD is geïntegreer vir Unix verifikasieprosesse. Leer meer daaroor in:
+FreeIPA ist eine Open-Source-**Alternative** zu Microsoft Windows **Active Directory**, hauptsächlich für **Unix**-Umgebungen. Es kombiniert ein vollständiges **LDAP-Verzeichnis** mit einem MIT **Kerberos** Key Distribution Center für eine Verwaltung ähnlich der Active Directory. Es nutzt das Dogtag **Zertifikatssystem** für CA- und RA-Zertifikatsmanagement und unterstützt **Multi-Faktor**-Authentifizierung, einschließlich Smartcards. SSSD ist für Unix-Authentifizierungsprozesse integriert. Erfahren Sie mehr darüber in:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Speel met kaartjies
+## Spielen mit Tickets
 
 ### Pass The Ticket
 
-Op hierdie bladsy gaan jy verskillende plekke vind waar jy **kerberos kaartjies binne 'n linux gasheer kan vind**, op die volgende bladsy kan jy leer hoe om hierdie CCache kaartjie formate na Kirbi (die formaat wat jy in Windows moet gebruik) te transformeer en ook hoe om 'n PTT aanval uit te voer:
+Auf dieser Seite finden Sie verschiedene Orte, an denen Sie **Kerberos-Tickets auf einem Linux-Host finden können**. Auf der folgenden Seite können Sie lernen, wie Sie diese CCache-Ticketformate in Kirbi (das Format, das Sie in Windows verwenden müssen) umwandeln und auch, wie Sie einen PTT-Angriff durchführen:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### CCACHE kaartjie hergebruik vanaf /tmp
+### CCACHE Ticket-Wiederverwendung aus /tmp
 
-CCACHE lêers is binêre formate vir **storing Kerberos akrediteer** en word tipies gestoor met 600 toestemmings in `/tmp`. Hierdie lêers kan geïdentifiseer word deur hul **naamformaat, `krb5cc_%{uid}`,** wat ooreenstem met die gebruiker se UID. Vir verifikasie van die verifikasieticket, moet die **omgewing veranderlike `KRB5CCNAME`** op die pad van die gewenste kaartjie lêer gestel word, wat hergebruik moontlik maak.
+CCACHE-Dateien sind binäre Formate zum **Speichern von Kerberos-Anmeldeinformationen**, die typischerweise mit 600 Berechtigungen in `/tmp` gespeichert werden. Diese Dateien können durch ihr **Namensformat, `krb5cc_%{uid}`,** identifiziert werden, das mit der UID des Benutzers korreliert. Für die Überprüfung des Authentifizierungstickets sollte die **Umgebungsvariable `KRB5CCNAME`** auf den Pfad der gewünschten Ticketdatei gesetzt werden, um deren Wiederverwendung zu ermöglichen.
 
-Lys die huidige kaartjie wat vir verifikasie gebruik word met `env | grep KRB5CCNAME`. Die formaat is draagbaar en die kaartjie kan **hergebruik word deur die omgewing veranderlike** met `export KRB5CCNAME=/tmp/ticket.ccache` te stel. Kerberos kaartjie naamformaat is `krb5cc_%{uid}` waar uid die gebruiker se UID is.
+Listen Sie das aktuelle Ticket, das für die Authentifizierung verwendet wird, mit `env | grep KRB5CCNAME` auf. Das Format ist portabel und das Ticket kann **durch Setzen der Umgebungsvariable** mit `export KRB5CCNAME=/tmp/ticket.ccache` wiederverwendet werden. Das Kerberos-Ticket-Namensformat ist `krb5cc_%{uid}`, wobei uid die Benutzer-UID ist.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -64,59 +64,59 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
-### CCACHE kaart hergebruik vanaf sleutelring
+### CCACHE Ticket-Wiederverwendung aus dem Keyring
 
-**Kerberos-kaarte wat in 'n proses se geheue gestoor is, kan onttrek word**, veral wanneer die masjien se ptrace-beskerming gedeaktiveer is (`/proc/sys/kernel/yama/ptrace_scope`). 'n Nuttige hulpmiddel vir hierdie doel is te vind by [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), wat die onttrekking vergemaklik deur in sessies in te spuit en kaarte in `/tmp` te dump.
+**Kerberos-Tickets, die im Speicher eines Prozesses gespeichert sind, können extrahiert werden**, insbesondere wenn der ptrace-Schutz der Maschine deaktiviert ist (`/proc/sys/kernel/yama/ptrace_scope`). Ein nützliches Tool zu diesem Zweck findet sich unter [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), das die Extraktion erleichtert, indem es in Sitzungen injiziert und Tickets in `/tmp` dumpet.
 
-Om hierdie hulpmiddel te konfigureer en te gebruik, word die onderstaande stappe gevolg:
+Um dieses Tool zu konfigurieren und zu verwenden, werden die folgenden Schritte befolgt:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
-Hierdie prosedure sal probeer om in verskeie sessies in te spuit, wat sukses aandui deur onttrokken kaartjies in `/tmp` te stoor met 'n naamkonvensie van `__krb_UID.ccache`.
+Dieses Verfahren wird versuchen, in verschiedene Sitzungen zu injizieren, wobei der Erfolg durch das Speichern extrahierter Tickets in `/tmp` mit einer Namenskonvention von `__krb_UID.ccache` angezeigt wird.
 
-### CCACHE kaartjie hergebruik van SSSD KCM
+### CCACHE-Ticket-Wiederverwendung von SSSD KCM
 
-SSSD hou 'n kopie van die databasis by die pad `/var/lib/sss/secrets/secrets.ldb`. Die ooreenstemmende sleutel word as 'n verborge lêer by die pad `/var/lib/sss/secrets/.secrets.mkey` gestoor. Standaard is die sleutel slegs leesbaar as jy **root** regte het.
+SSSD hält eine Kopie der Datenbank unter dem Pfad `/var/lib/sss/secrets/secrets.ldb`. Der entsprechende Schlüssel wird als versteckte Datei unter dem Pfad `/var/lib/sss/secrets/.secrets.mkey` gespeichert. Standardmäßig ist der Schlüssel nur lesbar, wenn Sie **root**-Berechtigungen haben.
 
-Die **`SSSDKCMExtractor`** met die --database en --key parameters sal die databasis ontleed en **die geheime** dekripteer.
+Das Aufrufen von \*\*`SSSDKCMExtractor` \*\* mit den Parametern --database und --key wird die Datenbank analysieren und **die Geheimnisse entschlüsseln**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-Die **akkrediteringskas Kerberos blob kan in 'n bruikbare Kerberos CCache** lêer omgeskakel word wat aan Mimikatz/Rubeus oorgedra kan word.
+Der **Credential-Cache-Kerberos-BLOB kann in eine verwendbare Kerberos-CCache**-Datei umgewandelt werden, die an Mimikatz/Rubeus übergeben werden kann.
 
-### CCACHE kaartjie hergebruik vanaf keytab
+### CCACHE-Ticket-Wiederverwendung aus Keytab
 ```bash
 git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
-### Trek rekeninge uit /etc/krb5.keytab
+### Konten aus /etc/krb5.keytab extrahieren
 
-Diensrekening sleutels, wat noodsaaklik is vir dienste wat met wortelprivileges werk, word veilig gestoor in **`/etc/krb5.keytab`** lêers. Hierdie sleutels, soortgelyk aan wagwoorde vir dienste, vereis streng vertroulikheid.
+Servicekonto-Schlüssel, die für Dienste mit Root-Rechten unerlässlich sind, werden sicher in **`/etc/krb5.keytab`**-Dateien gespeichert. Diese Schlüssel, ähnlich wie Passwörter für Dienste, erfordern strikte Vertraulichkeit.
 
-Om die inhoud van die keytab-lêer te ondersoek, kan **`klist`** gebruik word. Die hulpmiddel is ontwerp om sleuteldetails te vertoon, insluitend die **NT Hash** vir gebruikersverifikasie, veral wanneer die sleuteltipe as 23 geïdentifiseer word.
+Um den Inhalt der Keytab-Datei zu überprüfen, kann **`klist`** verwendet werden. Das Tool ist dafür ausgelegt, Schlüsseldetails anzuzeigen, einschließlich des **NT Hash** zur Benutzerauthentifizierung, insbesondere wenn der Schlüsseltyp als 23 identifiziert wird.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-Vir Linux gebruikers bied **`KeyTabExtract`** funksionaliteit om die RC4 HMAC-has te onttrek, wat benut kan word vir NTLM-has hergebruik.
+Für Linux-Benutzer bietet **`KeyTabExtract`** die Funktionalität, den RC4 HMAC-Hash zu extrahieren, der für die Wiederverwendung des NTLM-Hashes genutzt werden kann.
 ```bash
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-Op macOS dien **`bifrost`** as 'n hulpmiddel vir sleuteltabelfilaanalyse.
+Auf macOS dient **`bifrost`** als Werkzeug zur Analyse von Keytab-Dateien.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-Met die onttrokken rekening- en hash-inligting kan verbindings met bedieners gevestig word met behulp van gereedskap soos **`crackmapexec`**.
+Durch die Nutzung der extrahierten Konten- und Hash-Informationen können Verbindungen zu Servern mit Tools wie **`crackmapexec`** hergestellt werden.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
-## Verwysings
+## Referenzen
 
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)
@@ -125,16 +125,16 @@ crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDO
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

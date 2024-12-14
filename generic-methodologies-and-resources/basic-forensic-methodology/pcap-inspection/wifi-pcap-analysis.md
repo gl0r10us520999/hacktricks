@@ -1,23 +1,23 @@
-# Wifi Pcap Analise
+# Wifi Pcap Analyse
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Kontroleer BSSIDs
+## Überprüfe BSSIDs
 
-Wanneer jy 'n opname ontvang waarvan die hoofverkeer Wifi is, kan jy begin om al die SSIDs van die opname te ondersoek met _Wireless --> WLAN Traffic_:
+Wenn du einen Capture erhältst, dessen Hauptverkehr Wifi ist, kannst du mit WireShark alle SSIDs des Captures untersuchen, indem du _Wireless --> WLAN Traffic_ auswählst:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
@@ -25,27 +25,27 @@ Wanneer jy 'n opname ontvang waarvan die hoofverkeer Wifi is, kan jy begin om al
 
 ### Brute Force
 
-Een van die kolomme van daardie skerm dui aan of **enige outentisering binne die pcap gevind is**. As dit die geval is, kan jy probeer om dit te Brute force met `aircrack-ng`:
+Eine der Spalten dieses Bildschirms zeigt an, ob **irgendeine Authentifizierung im pcap gefunden wurde**. Wenn das der Fall ist, kannst du versuchen, es mit `aircrack-ng` zu brute-forcen:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
 For example it will retrieve the WPA passphrase protecting a PSK (pre shared-key), that will be required to decrypt the trafic later.
 
-## Data in Beacons / Side Channel
+## Daten in Beacons / Seitenkanal
 
-If you suspect that **data is being leaked inside beacons of a Wifi network** you can check the beacons of the network using a filter like the following one: `wlan contains <NAMEofNETWORK>`, or `wlan.ssid == "NAMEofNETWORK"` search inside the filtered packets for suspicious strings.
+If you suspect that **Daten in Beacons eines Wifi-Netzwerks geleakt werden**, you can check the beacons of the network using a filter like the following one: `wlan contains <NAMEofNETWORK>`, or `wlan.ssid == "NAMEofNETWORK"` search inside the filtered packets for suspicious strings.
 
-## Find Unknown MAC Addresses in A Wifi Network
+## Unbekannte MAC-Adressen in einem Wifi-Netzwerk finden
 
-The following link will be useful to find the **machines sending data inside a Wifi Network**:
+The following link will be useful to find the **Maschinen, die Daten in einem Wifi-Netzwerk senden**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-If you already know **MAC addresses you can remove them from the output** adding checks like this one: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
+If you already know **MAC-Adressen, können Sie diese aus der Ausgabe entfernen**, adding checks like this one: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Once you have detected **unknown MAC** addresses communicating inside the network you can use **filters** like the following one: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` to filter its traffic. Note that ftp/http/ssh/telnet filters are useful if you have decrypted the traffic.
+Once you have detected **unbekannte MAC**-Adressen communicating inside the network you can use **filters** like the following one: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` to filter its traffic. Note that ftp/http/ssh/telnet filters are useful if you have decrypted the traffic.
 
-## Decrypt Traffic
+## Verkehr entschlüsseln
 
 Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 

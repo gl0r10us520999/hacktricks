@@ -1,16 +1,16 @@
 # Volatility - CheatSheet
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -19,15 +19,15 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheid gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n bruisende ontmoetingspunt vir tegnologie en kuberveiligheid professionele in elke dissipline.
+​​[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersecurity-Veranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersecurity-Profis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-As jy iets **vinnige en mal** wil hê wat verskeie Volatility plugins gelyktydig sal laat loop, kan jy gebruik maak van: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
+Wenn Sie etwas **schnelles und verrücktes** wollen, das mehrere Volatility-Plugins parallel ausführt, können Sie verwenden: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
-## Installasie
+## Installation
 
 ### volatility3
 ```bash
@@ -39,13 +39,13 @@ python3 vol.py —h
 ### volatility2
 
 {% tabs %}
-{% tab title="Metode1" %}
+{% tab title="Methode1" %}
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
 {% endtab %}
 
-{% tab title="Metode 2" %}
+{% tab title="Methode 2" %}
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
 cd volatility
@@ -54,26 +54,26 @@ python setup.py install
 {% endtab %}
 {% endtabs %}
 
-## Volatility Opdragte
+## Volatility-Befehle
 
-Toegang tot die amptelike dokumentasie in [Volatility opdragverwysing](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
+Zugriff auf die offizielle Dokumentation in [Volatility-Befehlsreferenz](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
 
-### 'n Nota oor “lys” teenoor “skandeer” plugins
+### Eine Anmerkung zu „list“ vs. „scan“ Plugins
 
-Volatility het twee hoofbenaderings tot plugins, wat soms in hul name weerspieël word. “lys” plugins sal probeer om deur Windows Kernel-strukture te navigeer om inligting soos prosesse (lokaliseer en loop deur die gekoppelde lys van `_EPROCESS` strukture in geheue), OS-handvatsels (lokaliseer en lys die handvatsel tabel, dereferensie enige punte wat gevind word, ens.). Hulle gedra meer of minder soos die Windows API sou as daar gevra word om, byvoorbeeld, prosesse te lys.
+Volatility hat zwei Hauptansätze für Plugins, die sich manchmal in ihren Namen widerspiegeln. „list“ Plugins versuchen, durch Windows-Kernel-Strukturen zu navigieren, um Informationen wie Prozesse abzurufen (lokalisieren und die verkettete Liste von `_EPROCESS`-Strukturen im Speicher durchlaufen), OS-Handles (lokalisieren und die Handle-Tabelle auflisten, alle gefundenen Zeiger dereferenzieren usw.). Sie verhalten sich mehr oder weniger so, wie die Windows-API es tun würde, wenn sie beispielsweise aufgefordert wird, Prozesse aufzulisten.
 
-Dit maak “lys” plugins redelik vinnig, maar net so kwesbaar soos die Windows API vir manipulasie deur malware. Byvoorbeeld, as malware DKOM gebruik om 'n proses van die `_EPROCESS` gekoppelde lys te ontkoppel, sal dit nie in die Taakbestuurder verskyn nie en ook nie in die pslist nie.
+Das macht „list“ Plugins ziemlich schnell, aber ebenso anfällig für Manipulationen durch Malware wie die Windows-API. Wenn Malware beispielsweise DKOM verwendet, um einen Prozess von der `_EPROCESS`-verketteten Liste zu trennen, wird er im Task-Manager nicht angezeigt und auch nicht in der pslist.
 
-“skandeer” plugins, aan die ander kant, sal 'n benadering neem wat soortgelyk is aan die sny van die geheue vir dinge wat sinvol kan wees wanneer dit as spesifieke strukture gedereferensieer word. `psscan` byvoorbeeld sal die geheue lees en probeer om `_EPROCESS` objek te maak daaruit (dit gebruik poel-tag skandering, wat soek na 4-byte stringe wat die teenwoordigheid van 'n struktuur van belang aandui). Die voordeel is dat dit prosesse kan opgrawe wat verlaat het, en selfs al manipuleer malware met die `_EPROCESS` gekoppelde lys, sal die plugin steeds die struktuur in die geheue vind (aangesien dit steeds moet bestaan vir die proses om te loop). Die nadeel is dat “skandeer” plugins 'n bietjie stadiger is as “lys” plugins, en soms vals positiewe kan lewer (’n proses wat te lank gelede verlaat het en waarvan dele van sy struktuur deur ander operasies oorgeskryf is).
+„scan“ Plugins hingegen verfolgen einen Ansatz, der dem Carving des Speichers ähnelt, um Dinge zu finden, die sinnvoll erscheinen, wenn sie als spezifische Strukturen dereferenziert werden. `psscan` wird beispielsweise den Speicher lesen und versuchen, `_EPROCESS`-Objekte daraus zu erstellen (es verwendet Pool-Tag-Scanning, das nach 4-Byte-Strings sucht, die auf das Vorhandensein einer interessanten Struktur hinweisen). Der Vorteil ist, dass es Prozesse finden kann, die beendet wurden, und selbst wenn Malware mit der `_EPROCESS`-verketteten Liste manipuliert, wird das Plugin die Struktur, die im Speicher liegt, immer noch finden (da sie weiterhin existieren muss, damit der Prozess ausgeführt werden kann). Der Nachteil ist, dass „scan“ Plugins etwas langsamer sind als „list“ Plugins und manchmal falsch-positive Ergebnisse liefern können (ein Prozess, der zu lange beendet wurde und Teile seiner Struktur von anderen Operationen überschrieben wurden).
 
-Van: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
+Von: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
-## OS Profiele
+## OS-Profile
 
 ### Volatility3
 
-Soos verduidelik in die readme, moet jy die **simbol tabel van die OS** wat jy wil ondersteun in _volatility3/volatility/symbols_ plaas.\
-Simbol tabel pakkette vir die verskillende bedryfstelsels is beskikbaar vir **aflaai** by:
+Wie im Readme erklärt, müssen Sie die **Symboltabelle des OS**, das Sie unterstützen möchten, in _volatility3/volatility/symbols_ ablegen.\
+Symboltabellenpakete für die verschiedenen Betriebssysteme sind **zum Download** verfügbar unter:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -81,13 +81,13 @@ Simbol tabel pakkette vir die verskillende bedryfstelsels is beskikbaar vir **af
 
 ### Volatility2
 
-#### Eksterne Profiel
+#### Externes Profil
 
-Jy kan die lys van ondersteunde profiele kry deur:
+Sie können die Liste der unterstützten Profile abrufen, indem Sie:
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-As jy 'n **nuwe profiel wat jy afgelaai het** (byvoorbeeld 'n linux een) wil gebruik, moet jy êrens die volgende vouerstruktuur skep: _plugins/overlays/linux_ en die zip-lêer wat die profiel bevat, binne hierdie vouer plaas. Dan, kry die nommer van die profiele met:
+Wenn Sie ein **neues Profil, das Sie heruntergeladen haben** (zum Beispiel ein Linux-Profil) verwenden möchten, müssen Sie an einem Ort die folgende Ordnerstruktur erstellen: _plugins/overlays/linux_ und die ZIP-Datei, die das Profil enthält, in diesen Ordner legen. Dann erhalten Sie die Nummer der Profile mit:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -99,22 +99,22 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
-U kan **Linux en Mac profiele aflaai** van [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
+Sie können **Linux- und Mac-Profile** von [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles) herunterladen.
 
-In die vorige stuk kan u sien dat die profiel genoem word `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, en u kan dit gebruik om iets soos uit te voer:
+Im vorherigen Abschnitt sehen Sie, dass das Profil `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64` genannt wird, und Sie können es verwenden, um etwas wie Folgendes auszuführen:
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
-#### Ontdek Profiel
+#### Profil entdecken
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
-#### **Verskille tussen imageinfo en kdbgscan**
+#### **Unterschiede zwischen imageinfo und kdbgscan**
 
-[**Van hier**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): In teenstelling tot imageinfo wat eenvoudig profielvoorstelle bied, is **kdbgscan** ontwerp om die korrekte profiel en die korrekte KDBG adres (indien daar verskeie is) positief te identifiseer. Hierdie plugin skandeer vir die KDBGHeader handtekeninge wat aan Volatility profiele gekoppel is en pas sanity checks toe om vals positiewe te verminder. Die omvang van die uitvoer en die aantal sanity checks wat uitgevoer kan word, hang af van of Volatility 'n DTB kan vind, so as jy reeds die korrekte profiel weet (of as jy 'n profielvoorstel van imageinfo het), maak seker jy gebruik dit.
+[**Von hier**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Im Gegensatz zu imageinfo, das einfach Profilvorschläge bietet, ist **kdbgscan** darauf ausgelegt, das richtige Profil und die richtige KDBG-Adresse (falls mehrere vorhanden sind) positiv zu identifizieren. Dieses Plugin scannt nach den KDBGHeader-Signaturen, die mit Volatility-Profilen verknüpft sind, und führt Plausibilitätsprüfungen durch, um Fehlalarme zu reduzieren. Die Ausführlichkeit der Ausgabe und die Anzahl der durchgeführten Plausibilitätsprüfungen hängen davon ab, ob Volatility einen DTB finden kann. Wenn Sie also bereits das richtige Profil kennen (oder wenn Sie einen Profilvorschlag von imageinfo haben), stellen Sie sicher, dass Sie es verwenden.
 
-Kyk altyd na die **aantal prosesse wat kdbgscan gevind het**. Soms kan imageinfo en kdbgscan **meer as een** geskikte **profiel** vind, maar slegs die **geldige een sal 'n paar prosesverwante** hê (Dit is omdat die korrekte KDBG adres nodig is om prosesse te onttrek).
+Achten Sie immer auf die **Anzahl der Prozesse, die kdbgscan gefunden hat**. Manchmal können imageinfo und kdbgscan **mehr als ein** geeignetes **Profil** finden, aber nur das **gültige wird einige prozessbezogene** Informationen haben (Dies liegt daran, dass die richtige KDBG-Adresse benötigt wird, um Prozesse zu extrahieren).
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -128,18 +128,18 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
 #### KDBG
 
-Die **kernel debugger blok**, bekend as **KDBG** deur Volatility, is van kardinale belang vir forensiese take wat deur Volatility en verskeie debuggers uitgevoer word. Geïdentifiseer as `KdDebuggerDataBlock` en van die tipe `_KDDEBUGGER_DATA64`, bevat dit noodsaaklike verwysings soos `PsActiveProcessHead`. Hierdie spesifieke verwysing dui op die kop van die proseslys, wat die lys van alle prosesse moontlik maak, wat fundamenteel is vir deeglike geheueanalise.
+Der **Kernel-Debugger-Block**, von Volatility als **KDBG** bezeichnet, ist entscheidend für forensische Aufgaben, die von Volatility und verschiedenen Debuggern durchgeführt werden. Identifiziert als `KdDebuggerDataBlock` und vom Typ `_KDDEBUGGER_DATA64`, enthält er wesentliche Referenzen wie `PsActiveProcessHead`. Diese spezifische Referenz verweist auf den Kopf der Prozessliste und ermöglicht die Auflistung aller Prozesse, was für eine gründliche Analyse des Speichers grundlegend ist.
 
-## OS Inligting
+## OS-Informationen
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
-Die plugin `banners.Banners` kan gebruik word in **vol3 om te probeer om linux banners** in die dump te vind.
+Der Plugin `banners.Banners` kann in **vol3 verwendet werden, um nach Linux-Bannern** im Dump zu suchen.
 
-## Hashes/Wagwoorde
+## Hashes/Passwörter
 
-Onttrek SAM hashes, [domein gekapte geloofsbriewe](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) en [lsa geheime](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
+Extrahiere SAM-Hashes, [domain cached credentials](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) und [lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -159,24 +159,24 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 {% endtab %}
 {% endtabs %}
 
-## Geheue Dump
+## Memory Dump
 
-Die geheue dump van 'n proses sal **uittrek alles** van die huidige status van die proses. Die **procdump** module sal slegs **uittrek** die **kode**.
+Der Memory Dump eines Prozesses wird **alles** aus dem aktuellen Status des Prozesses **extrahieren**. Das **procdump**-Modul wird nur den **Code** **extrahieren**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheid gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n bruisende ontmoetingspunt vir tegnologie en kuberveiligheid professionele in elke dissipline.
+​​​[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersecurity-Veranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersecurity-Profis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Prosesse
+## Prozesse
 
-### Lys prosesse
+### Prozesse auflisten
 
-Probeer om **verdagte** prosesse (op naam) of **onverwagte** kind **prosesse** (byvoorbeeld 'n cmd.exe as 'n kind van iexplorer.exe) te vind.\
-Dit kan interessant wees om die resultaat van pslist te **vergelyk** met dié van psscan om verborge prosesse te identifiseer.
+Versuchen Sie, **verdächtige** Prozesse (nach Namen) oder **unerwartete** Kind **Prozesse** (zum Beispiel ein cmd.exe als Kind von iexplorer.exe) zu finden.\
+Es könnte interessant sein, das Ergebnis von pslist mit dem von psscan zu vergleichen, um versteckte Prozesse zu identifizieren.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -213,9 +213,9 @@ volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f fil
 {% endtab %}
 {% endtabs %}
 
-### Opdraglyn
+### Befehlszeile
 
-Is daar enige verdagte uitvoerings? 
+Wurde etwas Verdächtiges ausgeführt?
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -232,11 +232,11 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-Opdragte wat in `cmd.exe` uitgevoer word, word bestuur deur **`conhost.exe`** (of `csrss.exe` op stelsels voor Windows 7). Dit beteken dat as **`cmd.exe`** deur 'n aanvaller beëindig word voordat 'n geheue-dump verkry word, dit steeds moontlik is om die sessie se opdraggeskiedenis uit die geheue van **`conhost.exe`** te herstel. Om dit te doen, as ongewone aktiwiteit binne die konsole se modules opgespoor word, moet die geheue van die geassosieerde **`conhost.exe`** proses gedump word. Dan, deur te soek na **strings** binne hierdie dump, kan opdraglyne wat in die sessie gebruik is, moontlik onttrek word.
+Befehle, die in `cmd.exe` ausgeführt werden, werden von **`conhost.exe`** (oder `csrss.exe` auf Systemen vor Windows 7) verwaltet. Das bedeutet, dass, wenn **`cmd.exe`** von einem Angreifer beendet wird, bevor ein Memory-Dump erstellt wird, es dennoch möglich ist, den Befehlsverlauf der Sitzung aus dem Speicher von **`conhost.exe`** wiederherzustellen. Um dies zu tun, sollte der Speicher des zugehörigen **`conhost.exe`** Prozesses gedumpt werden, wenn ungewöhnliche Aktivitäten innerhalb der Module der Konsole festgestellt werden. Anschließend können durch die Suche nach **strings** innerhalb dieses Dumps möglicherweise die in der Sitzung verwendeten Befehlszeilen extrahiert werden.
 
-### Omgewing
+### Umgebung
 
-Kry die omgewing veranderlikes van elke lopende proses. Daar kan 'n paar interessante waardes wees.
+Holen Sie sich die Umgebungsvariablen jedes laufenden Prozesses. Es könnten einige interessante Werte vorhanden sein.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -254,10 +254,10 @@ volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of proc
 {% endtab %}
 {% endtabs %}
 
-### Token bevoegdhede
+### Tokenprivilegien
 
-Kyk vir bevoegdhede tokens in onverwagte dienste.\
-Dit kan interessant wees om die prosesse wat 'n paar bevoorregte tokens gebruik, op te lys.
+Überprüfen Sie die privilegierten Tokens in unerwarteten Diensten.\
+Es könnte interessant sein, die Prozesse aufzulisten, die ein privilegiertes Token verwenden.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -281,8 +281,8 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 
 ### SIDs
 
-Kontroleer elke SSID wat deur 'n proses besit word.\
-Dit kan interessant wees om die prosesse te lys wat 'n privilige SID gebruik (en die prosesse wat 'n diens SID gebruik).
+Überprüfen Sie jede SSID, die von einem Prozess besessen wird.\
+Es könnte interessant sein, die Prozesse aufzulisten, die eine Privilegien-SID verwenden (und die Prozesse, die eine Dienst-SID verwenden).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -300,9 +300,9 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 {% endtab %}
 {% endtabs %}
 
-### Handvats
+### Handles
 
-Nuttig om te weet na watter ander lêers, sleutels, drade, prosesse... 'n **proses 'n handvats** het (het geopen) 
+Nützlich zu wissen, auf welche anderen Dateien, Schlüssel, Threads, Prozesse... ein **Prozess einen Handle** hat (geöffnet hat)
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -318,7 +318,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 {% endtab %}
 {% endtabs %}
 
-### DLL's
+### DLLs
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -336,9 +336,9 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 {% endtab %}
 {% endtabs %}
 
-### Strings per processes
+### Strings pro Prozesse
 
-Volatility laat ons toe om te kyk na watter proses 'n string behoort. 
+Volatility ermöglicht es uns zu überprüfen, zu welchem Prozess ein String gehört.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -359,7 +359,7 @@ strings 3532.dmp > strings_file
 {% endtab %}
 {% endtabs %}
 
-Dit laat ook toe om na stringe binne 'n proses te soek met die yarascan-module:
+Es ermöglicht auch, nach Strings innerhalb eines Prozesses mit dem yarascan-Modul zu suchen:
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -378,7 +378,7 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 
 ### UserAssist
 
-**Windows** hou rekord van programme wat jy uitvoer deur 'n funksie in die registrasie genaamd **UserAssist sleutels**. Hierdie sleutels registreer hoe dikwels elke program uitgevoer word en wanneer dit laas uitgevoer is.
+**Windows** verfolgt die Programme, die Sie ausführen, mithilfe einer Funktion in der Registrierung, die als **UserAssist-Schlüssel** bezeichnet wird. Diese Schlüssel zeichnen auf, wie oft jedes Programm ausgeführt wird und wann es zuletzt gestartet wurde.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -398,11 +398,11 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheid gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n bruisende ontmoetingspunt vir tegnologie en kuberveiligheid professionele in elke dissipline.
+​​​​[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersecurity-Veranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersecurity-Profis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Dienste
+## Dienstleistungen
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -422,7 +422,7 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-## Netwerk
+## Netzwerk
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -450,9 +450,9 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 {% endtab %}
 {% endtabs %}
 
-## Registrasie heuning
+## Registry hive
 
-### Druk beskikbare heuning
+### Verfügbare Hives drucken
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -470,7 +470,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 {% endtab %}
 {% endtabs %}
 
-### Kry 'n waarde
+### Einen Wert erhalten
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -495,9 +495,9 @@ volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
-## Lêerstelsel
+## Dateisystem
 
-### Monteer
+### Einhängen
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -514,7 +514,7 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 {% endtab %}
 {% endtabs %}
 
-### Skandeer/dump
+### Scan/dump
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -537,7 +537,7 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 {% endtab %}
 {% endtabs %}
 
-### Meester Lêer Tabel
+### Master File Table
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -553,9 +553,9 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-Die **NTFS-lêerstelsel** gebruik 'n kritieke komponent bekend as die _meesterlêertabel_ (MFT). Hierdie tabel sluit ten minste een inskrywing in vir elke lêer op 'n volume, wat ook die MFT self dek. Belangrike besonderhede oor elke lêer, soos **grootte, tydstempels, toestemmings, en werklike data**, is ingesluit in die MFT-inskrywings of in areas buite die MFT maar waarna hierdie inskrywings verwys. Meer besonderhede kan gevind word in die [amptelike dokumentasie](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+Das **NTFS-Dateisystem** verwendet eine kritische Komponente, die als _Master File Table_ (MFT) bekannt ist. Diese Tabelle enthält mindestens einen Eintrag für jede Datei auf einem Volume, einschließlich der MFT selbst. Wichtige Details zu jeder Datei, wie **Größe, Zeitstempel, Berechtigungen und tatsächliche Daten**, sind in den MFT-Einträgen oder in Bereichen außerhalb der MFT, die von diesen Einträgen referenziert werden, enthalten. Weitere Details finden Sie in der [offiziellen Dokumentation](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
-### SSL Sleutels/sertifikate
+### SSL-Schlüssel/Zertifikate
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -612,10 +612,10 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Scanning met yara
+### Scannen mit yara
 
-Gebruik hierdie skrip om al die yara malware reëls van github af te laai en te kombineer: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-Skep die _**rules**_ gids en voer dit uit. Dit sal 'n lêer genaamd _**malware\_rules.yar**_ skep wat al die yara reëls vir malware bevat.
+Verwenden Sie dieses Skript, um alle yara-Malware-Regeln von GitHub herunterzuladen und zusammenzuführen: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
+Erstellen Sie das _**rules**_-Verzeichnis und führen Sie es aus. Dies erstellt eine Datei namens _**malware\_rules.yar**_, die alle yara-Regeln für Malware enthält.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -642,9 +642,9 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 
 ## MISC
 
-### Eksterne plugins
+### Externe Plugins
 
-As jy eksterne plugins wil gebruik, maak seker dat die vouers wat met die plugins verband hou, die eerste parameter is wat gebruik word.
+Wenn Sie externe Plugins verwenden möchten, stellen Sie sicher, dass die mit den Plugins verbundenen Ordner das erste verwendete Parameter sind.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -662,7 +662,7 @@ volatilitye --plugins="/tmp/plugins/" [...]
 
 #### Autoruns
 
-Laai dit af van [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
+Laden Sie es von [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns) herunter.
 ```
 volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
@@ -683,7 +683,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 {% endtab %}
 {% endtabs %}
 
-### Simboliese skakels
+### Symlinks
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -701,7 +701,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-Dit is moontlik om **uit geheue die bash geskiedenis te lees.** Jy kan ook die _.bash\_history_ lêer dump, maar dit was gedeaktiveer, jy sal bly wees dat jy hierdie volatiliteit module kan gebruik.
+Es ist möglich, **aus dem Speicher die Bash-Historie zu lesen.** Sie könnten auch die _.bash\_history_-Datei dumpen, aber sie wurde deaktiviert, Sie werden froh sein, dass Sie dieses Volatility-Modul verwenden können.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -717,7 +717,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 {% endtab %}
 {% endtabs %}
 
-### Tydlyn
+### Zeitlinie
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -733,7 +733,10 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 {% endtab %}
 {% endtabs %}
 
-### Bestuurders
+### Treiber
+
+{% tabs %}
+{% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
@@ -746,33 +749,33 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 {% endtab %}
 {% endtabs %}
 
-### Kry knipbord
+### Zwischenablage abrufen
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
-### Kry IE geskiedenis
+### IE-Verlauf abrufen
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
 ```
-### Kry notepad teks
+### Notepad-Text abrufen
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
-### Skermskoot
+### Screenshot
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
-### Meester Opstart Rekord (MBR)
+### Master Boot Record (MBR)
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-Die **Master Boot Record (MBR)** speel 'n belangrike rol in die bestuur van die logiese partisies van 'n stoor medium, wat gestruktureer is met verskillende [file systems](https://en.wikipedia.org/wiki/File\_system). Dit hou nie net partisie uitleg inligting nie, maar bevat ook uitvoerbare kode wat as 'n boot loader optree. Hierdie boot loader begin of die OS se tweede fase laai proses direk (sien [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) of werk in harmonie met die [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) van elke partisie. Vir 'n diepgaande kennis, verwys na die [MBR Wikipedia-bladsy](https://en.wikipedia.org/wiki/Master\_boot\_record).
+Der **Master Boot Record (MBR)** spielt eine entscheidende Rolle bei der Verwaltung der logischen Partitionen eines Speichermediums, die mit verschiedenen [Dateisystemen](https://de.wikipedia.org/wiki/Dateisystem) strukturiert sind. Er enthält nicht nur Informationen über das Partitionierungslayout, sondern auch ausführbaren Code, der als Bootloader fungiert. Dieser Bootloader initiiert entweder direkt den zweiten Ladeprozess des Betriebssystems (siehe [zweiter Bootloader](https://de.wikipedia.org/wiki/Zweiter_Bootloader)) oder arbeitet harmonisch mit dem [Volume Boot Record](https://de.wikipedia.org/wiki/Volume_Boot_Record) (VBR) jeder Partition zusammen. Für vertiefte Kenntnisse siehe die [MBR Wikipedia-Seite](https://de.wikipedia.org/wiki/Master_Boot_Record).
 
-## References
+## Referenzen
 
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
@@ -782,21 +785,21 @@ Die **Master Boot Record (MBR)** speel 'n belangrike rol in die bestuur van die 
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheid gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n bruisende ontmoetingspunt vir tegnologie en kuberveiligheid professionele in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersecurity-Veranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersecurity-Profis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
