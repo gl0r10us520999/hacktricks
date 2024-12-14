@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -48,7 +48,7 @@ cpu              nbd0             pts              stdout           tty27       
 
 ### Sistemas de arquivos do kernel somente leitura
 
-Os sistemas de arquivos do kernel fornecem um mecanismo para que um processo modifique o comportamento do kernel. No entanto, quando se trata de processos de contêiner, queremos impedir que eles façam quaisquer alterações no kernel. Portanto, montamos os sistemas de arquivos do kernel como **somente leitura** dentro do contêiner, garantindo que os processos do contêiner não possam modificar o kernel.
+Os sistemas de arquivos do kernel fornecem um mecanismo para que um processo modifique o comportamento do kernel. No entanto, quando se trata de processos de contêiner, queremos impedir que eles façam quaisquer alterações no kernel. Portanto, montamos sistemas de arquivos do kernel como **somente leitura** dentro do contêiner, garantindo que os processos do contêiner não possam modificar o kernel.
 
 {% tabs %}
 {% tab title="Dentro do contêiner padrão" %}
@@ -70,9 +70,9 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Mascarando sobre sistemas de arquivos do kernel
+### Ocultando sistemas de arquivos do kernel
 
-O **/proc** sistema de arquivos é seletivamente gravável, mas por segurança, certas partes estão protegidas contra acesso de gravação e leitura, sobrepondo-as com **tmpfs**, garantindo que os processos do contêiner não possam acessar áreas sensíveis.
+O sistema de arquivos **/proc** é seletivamente gravável, mas por motivos de segurança, certas partes estão protegidas contra acesso de leitura e gravação, sobrepondo-as com **tmpfs**, garantindo que os processos do contêiner não possam acessar áreas sensíveis.
 
 {% hint style="info" %}
 **tmpfs** é um sistema de arquivos que armazena todos os arquivos na memória virtual. tmpfs não cria nenhum arquivo no seu disco rígido. Portanto, se você desmontar um sistema de arquivos tmpfs, todos os arquivos que residem nele são perdidos para sempre.
@@ -218,7 +218,7 @@ PID   USER     TIME  COMMAND
 
 ### Namespace do usuário
 
-**Por padrão, os mecanismos de contêiner não utilizam namespaces de usuário, exceto para contêineres sem root**, que os requerem para montagem de sistema de arquivos e uso de múltiplos UIDs. Os namespaces de usuário, essenciais para contêineres sem root, não podem ser desativados e aumentam significativamente a segurança ao restringir privilégios.
+**Por padrão, os mecanismos de contêiner não utilizam namespaces de usuário, exceto para contêineres sem root**, que os requerem para montagem de sistema de arquivos e uso de múltiplos UIDs. Os namespaces de usuário, essenciais para contêineres sem root, não podem ser desativados e melhoram significativamente a segurança ao restringir privilégios.
 
 ## Referências
 

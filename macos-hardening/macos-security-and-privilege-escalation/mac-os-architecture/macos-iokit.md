@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-O I/O Kit é um **framework de driver de dispositivo** orientado a objetos e de código aberto no kernel XNU, que lida com **drivers de dispositivo carregados dinamicamente**. Ele permite que código modular seja adicionado ao kernel em tempo real, suportando hardware diversificado.
+O I/O Kit é um **framework de driver de dispositivo** orientado a objetos e de código aberto no kernel XNU, que lida com **drivers de dispositivo carregados dinamicamente**. Ele permite que código modular seja adicionado ao kernel em tempo real, suportando hardware diverso.
 
-Os drivers do IOKit basicamente **exportam funções do kernel**. Os **tipos** de **parâmetros** dessas funções são **pré-definidos** e são verificados. Além disso, semelhante ao XPC, o IOKit é apenas mais uma camada **sobre as mensagens Mach**.
+Os drivers do IOKit basicamente **exportam funções do kernel**. Os **tipos** de **parâmetros** dessas funções são **pré-definidos** e são verificados. Além disso, semelhante ao XPC, o IOKit é apenas mais uma camada **sobre mensagens Mach**.
 
 O **código do kernel IOKit XNU** é de código aberto pela Apple em [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Além disso, os componentes do IOKit no espaço do usuário também são de código aberto [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
@@ -109,7 +109,7 @@ O seguinte código conecta-se ao serviço IOKit `"YourServiceNameHere"` e chama 
 
 * primeiro chama **`IOServiceMatching`** e **`IOServiceGetMatchingServices`** para obter o serviço.
 * Em seguida, estabelece uma conexão chamando **`IOServiceOpen`**.
-* E finalmente chama uma função com **`IOConnectCallScalarMethod`** indicando o seletor 0 (o seletor é o número que a função que você deseja chamar recebeu).
+* E finalmente chama uma função com **`IOConnectCallScalarMethod`** indicando o seletor 0 (o seletor é o número que a função que você deseja chamar tem atribuído).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -176,7 +176,7 @@ Você pode começar a descompilar a função **`externalMethod`**, pois esta é 
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-Aquela chamada horrível demangled significa:
+Aquela chamada horrível desmangled significa:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -206,7 +206,7 @@ O novo código decompilado ficará assim:
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Para o próximo passo, precisamos ter definida a estrutura **`IOExternalMethodDispatch2022`**. Ela é open source em [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), você pode defini-la:
+Para o próximo passo, precisamos ter definida a struct **`IOExternalMethodDispatch2022`**. É open source em [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), você pode defini-la:
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
@@ -214,15 +214,15 @@ Agora, seguindo o `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray`, voc
 
 <figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Altere o Tipo de Dados para **`IOExternalMethodDispatch2022:`**
+Mude o Tipo de Dados para **`IOExternalMethodDispatch2022:`**
 
 <figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
-após a alteração:
+após a mudança:
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-E como sabemos, lá temos um **array de 7 elementos** (verifique o código decompilado final), clique para criar um array de 7 elementos:
+E como sabemos, temos um **array de 7 elementos** (verifique o código decompilado final), clique para criar um array de 7 elementos:
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 

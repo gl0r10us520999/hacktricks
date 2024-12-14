@@ -50,7 +50,7 @@ Para mais informações sobre como configurar corretamente esta verificação:
 
 No entanto, há alguma **autorização ocorrendo quando um método do HelperTool é chamado**.
 
-A função **`applicationDidFinishLaunching`** de `App/AppDelegate.m` criará uma referência de autorização vazia após o aplicativo ter iniciado. Isso deve sempre funcionar.\
+A função **`applicationDidFinishLaunching`** de `App/AppDelegate.m` criará uma referência de autorização vazia após o início do aplicativo. Isso deve sempre funcionar.\
 Em seguida, tentará **adicionar alguns direitos** a essa referência de autorização chamando `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-A função `setupAuthorizationRights` do arquivo `Common/Common.m` armazenará no banco de dados de autenticação `/var/db/auth.db` os direitos da aplicação. Note que ela só adicionará os direitos que ainda não estão no banco de dados:
+A função `setupAuthorizationRights` do `Common/Common.m` armazenará no banco de dados de autenticação `/var/db/auth.db` os direitos da aplicação. Note que ela só adicionará os direitos que ainda não estão no banco de dados:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -185,7 +185,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Isso significa que, ao final deste processo, as permissões declaradas dentro de `commandInfo` serão armazenadas em `/var/db/auth.db`. Note como lá você pode encontrar para **cada método** que irá **exigir autenticação**, **nome da permissão** e o **`kCommandKeyAuthRightDefault`**. Este último **indica quem pode obter esse direito**.
+Isso significa que, ao final deste processo, as permissões declaradas dentro de `commandInfo` serão armazenadas em `/var/db/auth.db`. Note como lá você pode encontrar para **cada método** que irá **requerer autenticação**, **nome da permissão** e o **`kCommandKeyAuthRightDefault`**. Este último **indica quem pode obter esse direito**.
 
 Existem diferentes escopos para indicar quem pode acessar um direito. Alguns deles estão definidos em [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (você pode encontrar [todos eles aqui](https://www.dssw.co.uk/reference/authorization-rights/)), mas como resumo:
 
@@ -241,7 +241,7 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Note que para **verificar os requisitos para obter o direito** de chamar esse método, a função `authorizationRightForCommand` apenas verificará o objeto comentado anteriormente **`commandInfo`**. Em seguida, chamará **`AuthorizationCopyRights`** para verificar **se possui os direitos** de chamar a função (note que as flags permitem interação com o usuário).
+Note que para **verificar os requisitos para obter o direito** de chamar esse método, a função `authorizationRightForCommand` apenas verificará o objeto comentado anteriormente **`commandInfo`**. Em seguida, chamará **`AuthorizationCopyRights`** para verificar **se possui os direitos** para chamar a função (note que as flags permitem interação com o usuário).
 
 Neste caso, para chamar a função `readLicenseKeyAuthorization`, o `kCommandKeyAuthRightDefault` é definido como `@kAuthorizationRuleClassAllow`. Assim, **qualquer um pode chamá-la**.
 
@@ -262,12 +262,12 @@ security authorizationdb read com.apple.safaridriver.allow
 Você pode encontrar **todas as configurações de permissões** [**aqui**](https://www.dssw.co.uk/reference/authorization-rights/), mas as combinações que não exigirão interação do usuário seriam:
 
 1. **'authenticate-user': 'false'**
-* Esta é a chave mais direta. Se definida como `false`, especifica que um usuário não precisa fornecer autenticação para obter esse direito.
+* Esta é a chave mais direta. Se definida como `false`, especifica que um usuário não precisa fornecer autenticação para obter este direito.
 * Isso é usado em **combinação com uma das 2 abaixo ou indicando um grupo** ao qual o usuário deve pertencer.
 2. **'allow-root': 'true'**
-* Se um usuário estiver operando como o usuário root (que possui permissões elevadas), e esta chave estiver definida como `true`, o usuário root poderia potencialmente obter esse direito sem mais autenticação. No entanto, tipicamente, alcançar o status de usuário root já requer autenticação, então este não é um cenário de "sem autenticação" para a maioria dos usuários.
+* Se um usuário estiver operando como o usuário root (que possui permissões elevadas), e esta chave estiver definida como `true`, o usuário root poderia potencialmente obter este direito sem mais autenticação. No entanto, tipicamente, alcançar o status de usuário root já requer autenticação, então este não é um cenário de "sem autenticação" para a maioria dos usuários.
 3. **'session-owner': 'true'**
-* Se definida como `true`, o proprietário da sessão (o usuário atualmente logado) obteria automaticamente esse direito. Isso pode contornar a autenticação adicional se o usuário já estiver logado.
+* Se definida como `true`, o proprietário da sessão (o usuário atualmente logado) obteria automaticamente este direito. Isso pode contornar a autenticação adicional se o usuário já estiver logado.
 4. **'shared': 'true'**
 * Esta chave não concede direitos sem autenticação. Em vez disso, se definida como `true`, significa que uma vez que o direito tenha sido autenticado, ele pode ser compartilhado entre vários processos sem que cada um precise re-autenticar. Mas a concessão inicial do direito ainda exigiria autenticação, a menos que combinada com outras chaves como `'authenticate-user': 'false'`.
 
@@ -431,8 +431,8 @@ NSLog(@"Finished!");
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

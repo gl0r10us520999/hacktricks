@@ -75,10 +75,10 @@ Encontre um exemplo de como (ab)usar isso e verifique as restrições em:
 Lembre-se que **as restrições anteriores de Validação de Biblioteca também se aplicam** para realizar ataques de sequestro de Dylib.
 {% endhint %}
 
-Assim como no Windows, no MacOS você também pode **sequestrar dylibs** para fazer **aplicações** **executarem** **código** **arbitrário** (bem, na verdade, de um usuário regular isso pode não ser possível, pois você pode precisar de uma permissão TCC para escrever dentro de um pacote `.app` e sequestrar uma biblioteca).\
-No entanto, a maneira como as aplicações **MacOS** **carregam** bibliotecas é **mais restrita** do que no Windows. Isso implica que os desenvolvedores de **malware** ainda podem usar essa técnica para **furtividade**, mas a probabilidade de conseguir **abusar disso para escalar privilégios é muito menor**.
+Assim como no Windows, no MacOS você também pode **sequestrar dylibs** para fazer **aplicativos** **executarem** **código** **arbitrário** (bem, na verdade, de um usuário regular isso pode não ser possível, pois você pode precisar de uma permissão TCC para escrever dentro de um pacote `.app` e sequestrar uma biblioteca).\
+No entanto, a maneira como os aplicativos **MacOS** **carregam** bibliotecas é **mais restrita** do que no Windows. Isso implica que os desenvolvedores de **malware** ainda podem usar essa técnica para **furtividade**, mas a probabilidade de conseguir **abusar disso para escalar privilégios é muito menor**.
 
-Primeiro de tudo, é **mais comum** encontrar que **binários MacOS indicam o caminho completo** para as bibliotecas a serem carregadas. E segundo, **MacOS nunca procura** nas pastas do **$PATH** por bibliotecas.
+Primeiro de tudo, é **mais comum** encontrar que os **binários MacOS indicam o caminho completo** para as bibliotecas a serem carregadas. E segundo, **MacOS nunca procura** nas pastas do **$PATH** por bibliotecas.
 
 A **parte principal** do **código** relacionada a essa funcionalidade está em **`ImageLoader::recursiveLoadLibraries`** em `ImageLoader.cpp`.
 
@@ -86,15 +86,15 @@ Existem **4 comandos de cabeçalho diferentes** que um binário macho pode usar 
 
 * O comando **`LC_LOAD_DYLIB`** é o comando comum para carregar um dylib.
 * O comando **`LC_LOAD_WEAK_DYLIB`** funciona como o anterior, mas se o dylib não for encontrado, a execução continua sem erro.
-* O comando **`LC_REEXPORT_DYLIB`** proxy (ou reexporta) os símbolos de uma biblioteca diferente.
+* O comando **`LC_REEXPORT_DYLIB`** faz proxy (ou reexporta) os símbolos de uma biblioteca diferente.
 * O comando **`LC_LOAD_UPWARD_DYLIB`** é usado quando duas bibliotecas dependem uma da outra (isso é chamado de _dependência ascendente_).
 
 No entanto, existem **2 tipos de sequestro de dylib**:
 
-* **Bibliotecas fracas vinculadas ausentes**: Isso significa que a aplicação tentará carregar uma biblioteca que não existe configurada com **LC\_LOAD\_WEAK\_DYLIB**. Então, **se um atacante colocar um dylib onde se espera que ele seja carregado**.
-* O fato de que o link é "fraco" significa que a aplicação continuará em execução mesmo que a biblioteca não seja encontrada.
+* **Bibliotecas fracas vinculadas ausentes**: Isso significa que o aplicativo tentará carregar uma biblioteca que não existe configurada com **LC\_LOAD\_WEAK\_DYLIB**. Então, **se um atacante colocar um dylib onde se espera que ele seja carregado**.
+* O fato de que o link é "fraco" significa que o aplicativo continuará executando mesmo que a biblioteca não seja encontrada.
 * O **código relacionado** a isso está na função `ImageLoaderMachO::doGetDependentLibraries` de `ImageLoaderMachO.cpp` onde `lib->required` é apenas `false` quando `LC_LOAD_WEAK_DYLIB` é verdadeiro.
-* **Encontre bibliotecas fracas vinculadas** em binários com (você tem um exemplo mais tarde sobre como criar bibliotecas de sequestro):
+* **Encontre bibliotecas fracas vinculadas** em binários com (você tem mais tarde um exemplo de como criar bibliotecas de sequestro):
 * ```bash
 otool -l </path/to/bin> | grep LC_LOAD_WEAK_DYLIB -A 5 cmd LC_LOAD_WEAK_DYLIB
 cmdsize 56
@@ -118,10 +118,10 @@ compatibility version 1.0.0
 * Quando usado em um **dylib**, **`@loader_path`** fornece o **caminho** para o **dylib**.
 {% endhint %}
 
-A maneira de **escalar privilégios** abusando dessa funcionalidade seria no raro caso de um **aplicativo** sendo executado **por** **root** estar **procurando** alguma **biblioteca em alguma pasta onde o atacante tem permissões de escrita.**
+A maneira de **escalar privilégios** abusando dessa funcionalidade seria no raro caso de um **aplicativo** sendo executado **por** **root** estar **procurando** por alguma **biblioteca em alguma pasta onde o atacante tem permissões de escrita.**
 
 {% hint style="success" %}
-Um bom **scanner** para encontrar **bibliotecas ausentes** em aplicações é [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) ou uma [**versão CLI**](https://github.com/pandazheng/DylibHijack).\
+Um bom **scanner** para encontrar **bibliotecas ausentes** em aplicativos é [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) ou uma [**versão CLI**](https://github.com/pandazheng/DylibHijack).\
 Um bom **relatório com detalhes técnicos** sobre essa técnica pode ser encontrado [**aqui**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x).
 {% endhint %}
 
@@ -167,7 +167,7 @@ Se um caminho de framework, a maneira de sequestrá-lo seria:
 * Se o processo for **sem restrições**, abusando do **caminho relativo do CWD** as variáveis de ambiente mencionadas (mesmo que não esteja dito na documentação, se o processo for restrito, as variáveis de ambiente DYLD\_\* são removidas)
 {% endhint %}
 
-* Quando o caminho **contém uma barra, mas não é um caminho de framework** (ou seja, um caminho completo ou um caminho parcial para um dylib), dlopen() primeiro procura em (se definido) em **`$DYLD_LIBRARY_PATH`** (com a parte da folha do caminho). Em seguida, dyld **tenta o caminho fornecido** (usando o diretório de trabalho atual para caminhos relativos (mas apenas para processos sem restrições)). Por último, para binários mais antigos, dyld tentará alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido na inicialização, dyld procurará nesses diretórios, caso contrário, dyld procurará em **`/usr/local/lib/`** (se o processo for sem restrições), e depois em **`/usr/lib/`**.
+* Quando o caminho **contém uma barra, mas não é um caminho de framework** (ou seja, um caminho completo ou um caminho parcial para um dylib), dlopen() primeiro procura em (se definido) **`$DYLD_LIBRARY_PATH`** (com a parte da folha do caminho). Em seguida, dyld **tenta o caminho fornecido** (usando o diretório de trabalho atual para caminhos relativos (mas apenas para processos sem restrições)). Por último, para binários mais antigos, dyld tentará alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido na inicialização, dyld procurará nesses diretórios, caso contrário, dyld procurará em **`/usr/local/lib/`** (se o processo for sem restrições), e depois em **`/usr/lib/`**.
 1. `$DYLD_LIBRARY_PATH`
 2. caminho fornecido (usando o diretório de trabalho atual para caminhos relativos se sem restrições)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -181,13 +181,13 @@ Se houver barras no nome e não for um framework, a maneira de sequestrá-lo ser
 {% endhint %}
 
 {% hint style="info" %}
-Nota: Não há **arquivos de configuração** para **controlar a busca do dlopen**.
+Nota: Não há arquivos de configuração para **controlar a busca do dlopen**.
 
 Nota: Se o executável principal for um **binário set\[ug]id ou assinado com permissões**, então **todas as variáveis de ambiente são ignoradas**, e apenas um caminho completo pode ser usado ([verifique as restrições de DYLD\_INSERT\_LIBRARIES](macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_librery-restrictions) para mais informações detalhadas)
 
-Nota: As plataformas Apple usam arquivos "universais" para combinar bibliotecas de 32 bits e 64 bits. Isso significa que não há **caminhos de busca separados para 32 bits e 64 bits**.
+Nota: As plataformas da Apple usam arquivos "universais" para combinar bibliotecas de 32 bits e 64 bits. Isso significa que não há **caminhos de busca separados para 32 bits e 64 bits**.
 
-Nota: Nas plataformas Apple, a maioria dos dylibs do sistema operacional são **combinados no cache do dyld** e não existem no disco. Portanto, chamar **`stat()`** para verificar se um dylib do sistema operacional existe **não funcionará**. No entanto, **`dlopen_preflight()`** usa os mesmos passos que **`dlopen()`** para encontrar um arquivo mach-o compatível.
+Nota: Nas plataformas da Apple, a maioria dos dylibs do OS são **combinados no cache do dyld** e não existem no disco. Portanto, chamar **`stat()`** para verificar se um dylib do OS existe **não funcionará**. No entanto, **`dlopen_preflight()`** usa os mesmos passos que **`dlopen()`** para encontrar um arquivo mach-o compatível.
 {% endhint %}
 
 **Verifique os caminhos**
@@ -335,7 +335,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% endcode %}
 
 {% hint style="danger" %}
-Observe que mesmo que existam binários assinados com as flags **`0x0(none)`**, eles podem obter a flag **`CS_RESTRICT`** dinamicamente quando executados e, portanto, esta técnica não funcionará neles.
+Observe que mesmo que haja binários assinados com as flags **`0x0(none)`**, eles podem obter a flag **`CS_RESTRICT`** dinamicamente quando executados e, portanto, esta técnica não funcionará neles.
 
 Você pode verificar se um proc tem essa flag com (obtenha [**csops aqui**](https://github.com/axelexic/CSOps)):
 ```bash
@@ -359,7 +359,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

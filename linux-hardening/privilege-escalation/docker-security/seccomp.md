@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-**Seccomp**, que significa Modo de Computação Segura, é um recurso de segurança do **kernel Linux projetado para filtrar chamadas de sistema**. Ele restringe processos a um conjunto limitado de chamadas de sistema (`exit()`, `sigreturn()`, `read()` e `write()` para descritores de arquivo já abertos). Se um processo tentar chamar qualquer outra coisa, ele é encerrado pelo kernel usando SIGKILL ou SIGSYS. Esse mecanismo não virtualiza recursos, mas isola o processo deles.
+**Seccomp**, que significa Modo de Computação Segura, é um recurso de segurança do **kernel Linux projetado para filtrar chamadas de sistema**. Ele restringe processos a um conjunto limitado de chamadas de sistema (`exit()`, `sigreturn()`, `read()` e `write()` para descritores de arquivo já abertos). Se um processo tentar chamar qualquer outra coisa, ele é encerrado pelo kernel usando SIGKILL ou SIGSYS. Este mecanismo não virtualiza recursos, mas isola o processo deles.
 
 Existem duas maneiras de ativar o seccomp: através da chamada de sistema `prctl(2)` com `PR_SET_SECCOMP`, ou para kernels Linux 3.17 e superiores, a chamada de sistema `seccomp(2)`. O método mais antigo de habilitar o seccomp escrevendo em `/proc/self/seccomp` foi descontinuado em favor do `prctl()`.
 
@@ -132,7 +132,7 @@ No exemplo a seguir, os **syscalls** de `uname` são descobertos:
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-Se você está usando **Docker apenas para iniciar um aplicativo**, você pode **perfilá-lo** com **`strace`** e **apenas permitir as syscalls** que ele precisa
+Se você está usando **Docker apenas para lançar um aplicativo**, você pode **perfilá-lo** com **`strace`** e **apenas permitir as syscalls** que ele precisa
 {% endhint %}
 
 ### Exemplo de política Seccomp
@@ -157,7 +157,7 @@ A saída a seguir mostra a chamada "chmod" retornando erro porque está desabili
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
 ```
-O seguinte output mostra o “docker inspect” exibindo o perfil:
+A saída a seguir mostra o “docker inspect” exibindo o perfil:
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
@@ -169,11 +169,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

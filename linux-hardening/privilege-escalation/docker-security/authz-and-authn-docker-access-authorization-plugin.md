@@ -30,7 +30,7 @@ Os diagramas de sequência abaixo mostram um fluxo de autorização de permitir 
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Cada solicitação enviada ao plugin **inclui o usuário autenticado, os cabeçalhos HTTP e o corpo da solicitação/resposta**. Apenas o **nome do usuário** e o **método de autenticação** utilizado são passados para o plugin. O mais importante, **nenhuma** credencial de **usuário** ou tokens são passados. Finalmente, **nem todos os corpos de solicitação/resposta são enviados** para o plugin de autorização. Apenas aqueles corpos de solicitação/resposta onde o `Content-Type` é `text/*` ou `application/json` são enviados.
+Cada solicitação enviada ao plugin **inclui o usuário autenticado, os cabeçalhos HTTP e o corpo da solicitação/resposta**. Apenas o **nome do usuário** e o **método de autenticação** utilizado são passados para o plugin. O mais importante, **nenhuma** credencial de **usuário** ou tokens são passados. Finalmente, **nem todos os corpos de solicitação/resposta são enviados** ao plugin de autorização. Apenas aqueles corpos de solicitação/resposta onde o `Content-Type` é `text/*` ou `application/json` são enviados.
 
 Para comandos que podem potencialmente sequestrar a conexão HTTP (`HTTP Upgrade`), como `exec`, o plugin de autorização é chamado apenas para as solicitações HTTP iniciais. Uma vez que o plugin aprova o comando, a autorização não é aplicada ao restante do fluxo. Especificamente, os dados de streaming não são passados para os plugins de autorização. Para comandos que retornam resposta HTTP em partes, como `logs` e `events`, apenas a solicitação HTTP é enviada para os plugins de autorização.
 
@@ -138,7 +138,7 @@ Note como neste exemplo estamos usando o **`Binds`** como uma chave de nível ra
 
 ### Binds em HostConfig
 
-Siga a mesma instrução que com **Binds em root** realizando esta **request** para a API do Docker:
+Siga as mesmas instruções que com **Binds em root** realizando esta **request** para a API do Docker:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```

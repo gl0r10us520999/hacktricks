@@ -1,25 +1,25 @@
-# Manipuladores de aplicativos de extensão de arquivo e esquema de URL do macOS
+# Manipuladores de Aplicativos de Extensão de Arquivo e Esquema de URL do macOS
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoie o HackTricks</summary>
+<summary>Supporte o HackTricks</summary>
 
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
 
-## Banco de Dados do LaunchServices
+## Banco de Dados LaunchServices
 
-Este é um banco de dados de todos os aplicativos instalados no macOS que podem ser consultados para obter informações sobre cada aplicativo instalado, como os esquemas de URL que ele suporta e os tipos MIME.
+Este é um banco de dados de todos os aplicativos instalados no macOS que pode ser consultado para obter informações sobre cada aplicativo instalado, como esquemas de URL que ele suporta e tipos MIME.
 
-É possível despejar esse banco de dados com:
+É possível despejar este banco de dados com:
 
 {% code overflow="wrap" %}
 ```
@@ -29,11 +29,11 @@ Este é um banco de dados de todos os aplicativos instalados no macOS que podem 
 
 Ou usando a ferramenta [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-**`/usr/libexec/lsd`** é o cérebro do banco de dados. Ele fornece **vários serviços XPC** como `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, e mais. Mas também **requer algumas permissões** para que os aplicativos possam usar as funcionalidades XPC expostas, como `.launchservices.changedefaulthandler` ou `.launchservices.changeurlschemehandler` para alterar aplicativos padrão para tipos de mime ou esquemas de URL e outros.
+**`/usr/libexec/lsd`** é o cérebro do banco de dados. Ele fornece **vários serviços XPC** como `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, e mais. Mas também **requer algumas permissões** para que os aplicativos possam usar as funcionalidades XPC expostas, como `.launchservices.changedefaulthandler` ou `.launchservices.changeurlschemehandler` para mudar aplicativos padrão para tipos mime ou esquemas de url e outros.
 
 **`/System/Library/CoreServices/launchservicesd`** reivindica o serviço `com.apple.coreservices.launchservicesd` e pode ser consultado para obter informações sobre aplicativos em execução. Pode ser consultado com a ferramenta do sistema /**`usr/bin/lsappinfo`** ou com [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-## Manipuladores de aplicativos de esquema de extensão de arquivo e URL
+## Manipuladores de aplicativos de extensão de arquivo e esquema de URL
 
 A linha a seguir pode ser útil para encontrar os aplicativos que podem abrir arquivos dependendo da extensão:
 
@@ -83,16 +83,16 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>svg</string>
 ```
 {% hint style="success" %}
-Aprenda e pratique AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Suporte o HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

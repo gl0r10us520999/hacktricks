@@ -1,16 +1,16 @@
 # macOS Auto Start
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -20,7 +20,7 @@ Esta seção é fortemente baseada na série de blogs [**Além dos bons e velhos
 ## Bypass de Sandbox
 
 {% hint style="success" %}
-Aqui você pode encontrar locais de início úteis para **bypass de sandbox** que permitem que você simplesmente execute algo **escrevendo em um arquivo** e **esperando** por uma **ação muito comum**, uma **quantidade determinada de tempo** ou uma **ação que você geralmente pode realizar** de dentro de uma sandbox sem precisar de permissões de root.
+Aqui você pode encontrar locais de início úteis para **bypass de sandbox** que permitem que você simplesmente execute algo **escrevendo em um arquivo** e **esperando** por uma **ação muito** **comum**, uma **quantidade determinada de tempo** ou uma **ação que você geralmente pode realizar** de dentro de uma sandbox sem precisar de permissões de root.
 {% endhint %}
 
 ### Launchd
@@ -110,7 +110,7 @@ Se um plist é de propriedade de um usuário, mesmo que esteja em pastas de daem
 
 Uma das primeiras coisas que `launchd` faria é **iniciar** todos os **daemons** como:
 
-* **Daemons de temporizador** baseados no tempo a ser executado:
+* **Daemons de temporizador** baseados em tempo para serem executados:
 * atd (`com.apple.atrun.plist`): Tem um `StartInterval` de 30min
 * crond (`com.apple.systemstats.daily.plist`): Tem `StartCalendarInterval` para iniciar às 00:15
 * **Daemons de rede** como:
@@ -138,18 +138,18 @@ Escrita (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 #### Localizações
 
 * **`~/.zshrc`, `~/.zlogin`, `~/.zshenv.zwc`**, **`~/.zshenv`, `~/.zprofile`**
-* **Gatilho**: Abra um terminal com zsh
+* **Gatilho**: Abrir um terminal com zsh
 * **`/etc/zshenv`, `/etc/zprofile`, `/etc/zshrc`, `/etc/zlogin`**
-* **Gatilho**: Abra um terminal com zsh
+* **Gatilho**: Abrir um terminal com zsh
 * Root necessário
 * **`~/.zlogout`**
-* **Gatilho**: Saia de um terminal com zsh
+* **Gatilho**: Sair de um terminal com zsh
 * **`/etc/zlogout`**
-* **Gatilho**: Saia de um terminal com zsh
+* **Gatilho**: Sair de um terminal com zsh
 * Root necessário
 * Potencialmente mais em: **`man zsh`**
 * **`~/.bashrc`**
-* **Gatilho**: Abra um terminal com bash
+* **Gatilho**: Abrir um terminal com bash
 * `/etc/profile` (não funcionou)
 * `~/.profile` (não funcionou)
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
@@ -184,7 +184,7 @@ Configurar a exploração indicada e sair e entrar novamente ou até mesmo reini
 
 Todos os aplicativos a serem reabertos estão dentro do plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
 
-Portanto, para fazer os aplicativos reabertos lançarem o seu, você só precisa **adicionar seu aplicativo à lista**.
+Portanto, para fazer os aplicativos reabertos lançarem o seu próprio, você só precisa **adicionar seu aplicativo à lista**.
 
 O UUID pode ser encontrado listando esse diretório ou com `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
@@ -204,18 +204,18 @@ Para **adicionar um aplicativo a esta lista** você pode usar:
 -c "Set :TALAppsToRelaunchAtLogin:$:Path /Applications/iTerm.app" \
 ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 ```
-### Terminal Preferences
+### Preferências do Terminal
 
 * Útil para contornar sandbox: [✅](https://emojipedia.org/check-mark-button)
-* Contorno TCC: [✅](https://emojipedia.org/check-mark-button)
+* Contorno do TCC: [✅](https://emojipedia.org/check-mark-button)
 * O uso do Terminal para ter permissões FDA do usuário que o utiliza
 
-#### Location
+#### Localização
 
 * **`~/Library/Preferences/com.apple.Terminal.plist`**
-* **Trigger**: Abrir Terminal
+* **Gatilho**: Abrir o Terminal
 
-#### Description & Exploitation
+#### Descrição & Exploração
 
 Em **`~/Library/Preferences`** estão armazenadas as preferências do usuário nos Aplicativos. Algumas dessas preferências podem conter uma configuração para **executar outros aplicativos/scripts**.
 
@@ -397,10 +397,10 @@ defaults delete com.apple.loginwindow LogoutHook
 ```
 O usuário root é armazenado em **`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
 
-## Bypass de Sandbox Condicional
+## Bypass Condicional de Sandbox
 
 {% hint style="success" %}
-Aqui você pode encontrar locais de início úteis para **bypass de sandbox** que permitem que você simplesmente execute algo **escrevendo em um arquivo** e **esperando condições não tão comuns** como programas específicos **instalados, ações de usuário "incomuns"** ou ambientes.
+Aqui você pode encontrar locais de início úteis para **bypass de sandbox** que permitem que você simplesmente execute algo **escrevendo em um arquivo** e **esperando condições não tão comuns** como **programas específicos instalados, ações de usuário "incomuns"** ou ambientes.
 {% endhint %}
 
 ### Cron
@@ -415,7 +415,7 @@ Aqui você pode encontrar locais de início úteis para **bypass de sandbox** qu
 #### Localização
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-* Root necessário para acesso de gravação direto. Nenhum root necessário se você puder executar `crontab <file>`
+* Root necessário para acesso de gravação direto. Não é necessário root se você puder executar `crontab <file>`
 * **Gatilho**: Depende do trabalho cron
 
 #### Descrição & Exploração
@@ -519,16 +519,16 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 {% endcode %}
 
 {% hint style="warning" %}
-Altamente provável que haja **outras maneiras de abusar das preferências do iTerm2** para executar comandos arbitrários.
+Altamente provável que existam **outras maneiras de abusar das preferências do iTerm2** para executar comandos arbitrários.
 {% endhint %}
 
 ### xbar
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
+Escrita: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
 * Útil para contornar sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Mas o xbar deve estar instalado
-* Bypass do TCC: [✅](https://emojipedia.org/check-mark-button)
+* Contorno do TCC: [✅](https://emojipedia.org/check-mark-button)
 * Solicita permissões de Acessibilidade
 
 #### Localização
@@ -553,7 +553,7 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 * Útil para contornar sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Mas o Hammerspoon deve ser instalado
 * Contorno TCC: [✅](https://emojipedia.org/check-mark-button)
-* Solicita permissões de Acessibilidade
+* Ele solicita permissões de Acessibilidade
 
 #### Localização
 
@@ -604,7 +604,7 @@ Escrita: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.
 * Útil para contornar sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Mas o ssh precisa estar habilitado e em uso
 * Contorno TCC: [✅](https://emojipedia.org/check-mark-button)
-* O uso do SSH tinha acesso FDA
+* O uso do SSH deve ter acesso FDA
 
 #### Localização
 
@@ -682,7 +682,7 @@ Escrita: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.
 
 #### **Descrição**
 
-Tarefas `at` são projetadas para **agendar tarefas únicas** a serem executadas em determinados momentos. Ao contrário dos cron jobs, as tarefas `at` são automaticamente removidas após a execução. É crucial notar que essas tarefas são persistentes entre reinicializações do sistema, marcando-as como potenciais preocupações de segurança sob certas condições.
+As tarefas `at` são projetadas para **agendar tarefas únicas** a serem executadas em determinados momentos. Ao contrário dos trabalhos cron, as tarefas `at` são automaticamente removidas após a execução. É crucial notar que essas tarefas são persistentes entre reinicializações do sistema, marcando-as como potenciais preocupações de segurança sob certas condições.
 
 Por **padrão**, elas estão **desativadas**, mas o usuário **root** pode **habilitá-las** com:
 ```bash
@@ -829,7 +829,7 @@ Mova-o para:
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
-Então, abra o aplicativo `Folder Actions Setup`, selecione a **pasta que você gostaria de monitorar** e selecione no seu caso **`folder.scpt`** (no meu caso eu chamei de output2.scp):
+Então, abra o aplicativo `Folder Actions Setup`, selecione a **pasta que você gostaria de monitorar** e selecione no seu caso **`folder.scpt`** (no meu caso, eu a chamei de output2.scp):
 
 <figure><img src="../.gitbook/assets/image (39).png" alt="" width="297"><figcaption></figcaption></figure>
 
@@ -940,10 +940,10 @@ killall Dock
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
 
-* Útil para contornar sandbox: [🟠](https://emojipedia.org/large-orange-circle)
+* Útil para contornar o sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Uma ação muito específica precisa acontecer
-* Você acabará em outra sandbox
-* Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Você acabará em outro sandbox
+* Bypass do TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Localização
 
@@ -957,9 +957,9 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 
 **Compile um seletor de cores** bundle com seu código (você pode usar [**este aqui, por exemplo**](https://github.com/viktorstrate/color-picker-plus)) e adicione um construtor (como na seção [Protetor de Tela](macos-auto-start-locations.md#screen-saver)) e copie o bundle para `~/Library/ColorPickers`.
 
-Então, quando o seletor de cores for acionado, seu código também deverá ser.
+Então, quando o seletor de cores for acionado, seu código também deve ser executado.
 
-Note que o binário que carrega sua biblioteca tem uma **sandbox muito restritiva**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+Note que o binário que carrega sua biblioteca tem um **sandbox muito restritivo**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
 {% code overflow="wrap" %}
 ```bash
@@ -988,7 +988,7 @@ Note que o binário que carrega sua biblioteca tem uma **sandbox muito restritiv
 
 Um exemplo de aplicativo com uma Extensão de Sincronização do Finder [**pode ser encontrado aqui**](https://github.com/D00MFist/InSync).
 
-Os aplicativos podem ter `Extensões de Sincronização do Finder`. Esta extensão irá dentro de um aplicativo que será executado. Além disso, para que a extensão possa executar seu código, ela **deve ser assinada** com algum certificado de desenvolvedor da Apple válido, deve ser **sandboxed** (embora exceções relaxadas possam ser adicionadas) e deve ser registrada com algo como:
+Os aplicativos podem ter `Extensões de Sincronização do Finder`. Esta extensão será incorporada a um aplicativo que será executado. Além disso, para que a extensão possa executar seu código, ela **deve ser assinada** com algum certificado de desenvolvedor da Apple válido, deve ser **sandboxed** (embora exceções relaxadas possam ser adicionadas) e deve ser registrada com algo como:
 ```bash
 pluginkit -a /Applications/FindIt.app/Contents/PlugIns/FindItSync.appex
 pluginkit -e use -i com.example.InSync.InSync
@@ -1017,9 +1017,9 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 
 #### Descrição & Exploit
 
-Crie um novo projeto no Xcode e selecione o modelo para gerar um novo **Protetor de Tela**. Em seguida, adicione seu código a ele, por exemplo, o seguinte código para gerar logs.
+Crie um novo projeto no Xcode e selecione o template para gerar um novo **Protetor de Tela**. Em seguida, adicione seu código a ele, por exemplo, o seguinte código para gerar logs.
 
-**Compile** e copie o pacote `.saver` para **`~/Library/Screen Savers`**. Em seguida, abra a GUI do Protetor de Tela e, se você apenas clicar nele, deve gerar muitos logs:
+**Compile** e copie o pacote `.saver` para **`~/Library/Screen Savers`**. Depois, abra a GUI do Protetor de Tela e, se você apenas clicar nele, deve gerar muitos logs:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1036,7 +1036,7 @@ Timestamp                       (process)[PID]
 Observe que, devido ao fato de que dentro das permissões do binário que carrega este código (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) você pode encontrar **`com.apple.security.app-sandbox`**, você estará **dentro do sandbox comum de aplicativos**.
 {% endhint %}
 
-Código do protetor de tela:
+Saver code:
 ```objectivec
 //
 //  ScreenSaverExampleView.m
@@ -1180,7 +1180,7 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 [...]
 ```
 {% hint style="danger" %}
-Se você verificar o Plist de outros `mdimporter`, pode não encontrar a entrada **`UTTypeConformsTo`**. Isso ocorre porque é um _Identificadores de Tipo Uniforme_ embutido ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) e não precisa especificar extensões.
+Se você verificar o Plist de outros `mdimporter`, pode não encontrar a entrada **`UTTypeConformsTo`**. Isso ocorre porque é um _Identificadores de Tipo Uniforme_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) embutido e não precisa especificar extensões.
 
 Além disso, os plugins padrão do sistema sempre têm precedência, então um atacante só pode acessar arquivos que não são indexados pelos próprios `mdimporters` da Apple.
 {% endhint %}
@@ -1188,7 +1188,7 @@ Além disso, os plugins padrão do sistema sempre têm precedência, então um a
 Para criar seu próprio importador, você pode começar com este projeto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) e então mudar o nome, o **`CFBundleDocumentTypes`** e adicionar **`UTImportedTypeDeclarations`** para que suporte a extensão que você gostaria de suportar e refletir isso em **`schema.xml`**.\
 Então **mude** o código da função **`GetMetadataForFile`** para executar seu payload quando um arquivo com a extensão processada for criado.
 
-Finalmente, **construa e copie seu novo `.mdimporter`** para um dos locais anteriores e você pode verificar sempre que ele for carregado **monitorando os logs** ou verificando **`mdimport -L.`**
+Finalmente, **construa e copie seu novo `.mdimporter`** para um dos três locais anteriores e você pode verificar sempre que ele for carregado **monitorando os logs** ou verificando **`mdimport -L.`**
 
 ### ~~Painel de Preferências~~
 
@@ -1300,7 +1300,7 @@ Escrita: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.
 
 #### Descrição & Exploração
 
-Como o PAM está mais focado em **persistência** e malware do que em execução fácil dentro do macOS, este blog não dará uma explicação detalhada, **leia as escritas para entender melhor esta técnica**.
+Como o PAM está mais focado em **persistência** e malware do que em execução fácil dentro do macOS, este blog não dará uma explicação detalhada, **leia as escritas para entender melhor essa técnica**.
 
 Verifique os módulos PAM com:
 ```bash
@@ -1345,7 +1345,7 @@ Writeup: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 * Útil para contornar o sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Mas você precisa ser root e fazer configurações extras
-* Bypass TCC: ???
+* Bypass do TCC: ???
 
 #### Localização
 
@@ -1355,7 +1355,7 @@ Writeup: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 #### Descrição & Exploração
 
-Você pode criar um plugin de autorização que será executado quando um usuário fizer login para manter a persistência. Para mais informações sobre como criar um desses plugins, consulte os writeups anteriores (e tenha cuidado, um mal escrito pode te deixar de fora e você precisará limpar seu mac a partir do modo de recuperação).
+Você pode criar um plugin de autorização que será executado quando um usuário fizer login para manter a persistência. Para mais informações sobre como criar um desses plugins, consulte os writeups anteriores (e tenha cuidado, um mal escrito pode te trancar fora e você precisará limpar seu mac a partir do modo de recuperação).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1407,7 +1407,7 @@ Escrita: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.
 
 * Útil para contornar sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Mas você precisa ser root e o usuário deve usar man
-* Contorno TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Localização
 
@@ -1479,7 +1479,7 @@ syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.github.io/beyond/beyond\_0031/)
 
 * Útil para contornar sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-* Mas você precisa ser root, auditd deve estar em execução e causar um aviso
+* Mas você precisa ser root, auditd estar em execução e causar um aviso
 * Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Localização
@@ -1567,7 +1567,7 @@ ls -l /private/var/db/emondClients
 ```
 ### ~~XQuartz~~
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
+Escrita: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
 #### Localização
 
@@ -1577,7 +1577,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 
 #### Descrição & Exploit
 
-XQuartz **não está mais instalado no macOS**, então se você quiser mais informações, confira o writeup.
+XQuartz **não está mais instalado no macOS**, então se você quiser mais informações, confira a escrita.
 
 ### ~~kext~~
 
@@ -1602,7 +1602,7 @@ kextload -b com.apple.driver.ExampleBundle #Load a new one based on path
 kextunload /path/to/kext.kext
 kextunload -b com.apple.driver.ExampleBundle
 ```
-Para mais informações sobre [**extensões do kernel, verifique esta seção**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
+Para mais informações sobre [**extensões de kernel, ver esta seção**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
 
 ### ~~amstoold~~
 
@@ -1743,11 +1743,11 @@ Aprenda e pratique Hacking GCP: <img src="../.gitbook/assets/grte.png" alt="" da
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

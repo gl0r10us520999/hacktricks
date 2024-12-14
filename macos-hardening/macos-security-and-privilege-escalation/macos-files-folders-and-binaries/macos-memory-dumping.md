@@ -24,9 +24,9 @@ Os arquivos de troca, como `/private/var/vm/swapfile0`, servem como **caches qua
 
 ### Hibernate Image
 
-O arquivo localizado em `/private/var/vm/sleepimage` é crucial durante o **modo de hibernação**. **Os dados da memória são armazenados neste arquivo quando o OS X hiberna**. Ao acordar o computador, o sistema recupera os dados da memória deste arquivo, permitindo que o usuário continue de onde parou.
+O arquivo localizado em `/private/var/vm/sleepimage` é crucial durante o **modo de hibernação**. **Os dados da memória são armazenados neste arquivo quando o OS X hiberna**. Ao despertar o computador, o sistema recupera os dados da memória deste arquivo, permitindo que o usuário continue de onde parou.
 
-Vale ressaltar que em sistemas MacOS modernos, este arquivo é tipicamente criptografado por razões de segurança, dificultando a recuperação.
+Vale ressaltar que em sistemas MacOS modernos, este arquivo é tipicamente criptografado por razões de segurança, tornando a recuperação difícil.
 
 * Para verificar se a criptografia está habilitada para o sleepimage, o comando `sysctl vm.swapusage` pode ser executado. Isso mostrará se o arquivo está criptografado.
 

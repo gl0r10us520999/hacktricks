@@ -1,16 +1,16 @@
 # macOS Dirty NIB
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -35,7 +35,7 @@ O arquivo Nib principal é referenciado no valor **`NSMainNibFile`** dentro do a
 * A configuração facilita a execução de AppleScript sob demanda.
 * Integre um botão para ativar o objeto `Apple Script`, acionando especificamente o seletor `executeAndReturnError:`.
 3. **Teste**:
-* Um simples Apple Script para fins de teste:
+* Um Apple Script simples para fins de teste:
 
 ```bash
 set theDialogText to "PWND"
@@ -49,9 +49,9 @@ display dialog theDialogText
 * Copie o aplicativo alvo (por exemplo, Pages) para um diretório separado (por exemplo, `/tmp/`).
 * Inicie o aplicativo para contornar problemas do Gatekeeper e armazená-lo em cache.
 2. **Substituindo o Arquivo NIB**:
-* Substitua um arquivo NIB existente (por exemplo, NIB do Painel Sobre) pelo arquivo DirtyNIB criado.
+* Substitua um arquivo NIB existente (por exemplo, About Panel NIB) pelo arquivo DirtyNIB criado.
 3. **Execução**:
-* Acione a execução interagindo com o aplicativo (por exemplo, selecionando o item de menu `Sobre`).
+* Acione a execução interagindo com o aplicativo (por exemplo, selecionando o item de menu `About`).
 
 #### Prova de Conceito: Acessando Dados do Usuário
 
@@ -67,7 +67,7 @@ No post [https://sector7.computest.nl/post/2024-04-bringing-process-injection-in
 
 ### Abordando Restrições de Lançamento
 
-* Restrições de Lançamento dificultam a execução de aplicativos de locais inesperados (por exemplo, `/tmp`).
+* Restrições de Lançamento impedem a execução de aplicativos de locais inesperados (por exemplo, `/tmp`).
 * É possível identificar aplicativos que não estão protegidos por Restrições de Lançamento e direcioná-los para injeção de arquivo NIB.
 
 ### Proteções Adicionais do macOS
@@ -82,16 +82,16 @@ A partir do macOS Sonoma, modificações dentro de pacotes de aplicativos são r
 **Nota**: Atualizações recentes do macOS mitigaram essa exploração, impedindo modificações de arquivos dentro de pacotes de aplicativos após o cache do Gatekeeper, tornando a exploração ineficaz.
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -311,7 +311,7 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 
 ### Câmera
 
-* **Entitlement**: `com.apple.security.device.camera`
+* **Direito**: `com.apple.security.device.camera`
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}

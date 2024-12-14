@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -70,46 +70,63 @@ return 0;
 ```
 ```markdown
 <details>
-<summary>MacOS XATTR e ACLs</summary>
+<summary>Extra Stuff</summary>
 
-O sistema de arquivos do macOS suporta atributos estendidos (XATTRs) e listas de controle de acesso (ACLs) que podem ser usados para aumentar a segurança e controlar o acesso a arquivos e diretórios.
+## Extended Attributes (xattr)
 
-### Atributos Estendidos (XATTRs)
+No macOS, os atributos estendidos (xattr) são metadados que podem ser associados a arquivos e diretórios. Eles podem ser usados para armazenar informações adicionais sobre um arquivo, como a origem, permissões ou outros dados relevantes.
 
-Os atributos estendidos permitem que você anexe metadados a arquivos. Isso pode ser útil para armazenar informações adicionais que não se encaixam nos atributos padrão do sistema de arquivos.
+### Como visualizar atributos estendidos
 
-### Listas de Controle de Acesso (ACLs)
+Para visualizar os atributos estendidos de um arquivo, você pode usar o seguinte comando:
 
-As ACLs fornecem um controle de acesso mais granular em comparação com as permissões tradicionais do Unix. Com as ACLs, você pode definir permissões específicas para usuários e grupos individuais.
+```bash
+xattr -l <caminho_do_arquivo>
+```
 
-### Usos Comuns
+### Como adicionar atributos estendidos
 
-- **Segurança de Arquivos**: Use XATTRs para marcar arquivos sensíveis e ACLs para restringir o acesso a eles.
-- **Auditoria**: Armazene informações de auditoria em XATTRs para rastrear alterações em arquivos críticos.
+Para adicionar um atributo estendido a um arquivo, use o comando:
 
-### Comandos Úteis
+```bash
+xattr -w <nome_do_atributo> <valor> <caminho_do_arquivo>
+```
 
-- Para visualizar atributos estendidos:
-  ```bash
-  xattr -l <arquivo>
-  ```
+### Como remover atributos estendidos
 
-- Para adicionar um atributo:
-  ```bash
-  xattr -w <atributo> <valor> <arquivo>
-  ```
+Para remover um atributo estendido, utilize:
 
-- Para visualizar ACLs:
-  ```bash
-  ls -le <arquivo>
-  ```
+```bash
+xattr -d <nome_do_atributo> <caminho_do_arquivo>
+```
 
-- Para adicionar uma ACL:
-  ```bash
-  chmod +a "<usuário> allow <permissão>" <arquivo>
-  ```
+## Listas de Controle de Acesso (ACLs)
 
-Essas técnicas podem ser usadas para melhorar a segurança do seu sistema e proteger dados sensíveis contra acesso não autorizado.
+As ACLs no macOS permitem um controle mais granular sobre as permissões de arquivos e diretórios. Elas podem ser usadas para definir permissões específicas para usuários ou grupos.
+
+### Como visualizar ACLs
+
+Para visualizar as ACLs de um arquivo ou diretório, use:
+
+```bash
+ls -le <caminho_do_arquivo>
+```
+
+### Como adicionar uma ACL
+
+Para adicionar uma ACL, utilize o comando:
+
+```bash
+chmod +a "<usuário ou grupo> allow <permissão>" <caminho_do_arquivo>
+```
+
+### Como remover uma ACL
+
+Para remover uma ACL, use:
+
+```bash
+chmod -a "<usuário ou grupo>" <caminho_do_arquivo>
+```
 
 </details>
 ```

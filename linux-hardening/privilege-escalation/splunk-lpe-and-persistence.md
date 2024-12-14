@@ -10,12 +10,12 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
 
-Se **enumerando** uma máquina **internamente** ou **externamente** você encontrar **Splunk em execução** (porta 8090), se você tiver a sorte de conhecer **credenciais válidas**, você pode **abusar do serviço Splunk** para **executar um shell** como o usuário que está executando o Splunk. Se o root estiver executando, você pode escalar privilégios para root.
+Se **enumerando** uma máquina **internamente** ou **externamente** você encontrar **Splunk em execução** (porta 8090), se você tiver a sorte de conhecer **credenciais válidas**, pode **abusar do serviço Splunk** para **executar um shell** como o usuário que está executando o Splunk. Se o root estiver executando, você pode escalar privilégios para root.
 
 Além disso, se você **já for root e o serviço Splunk não estiver ouvindo apenas no localhost**, você pode **roubar** o arquivo de **senha** **do** serviço Splunk e **quebrar** as senhas, ou **adicionar novas** credenciais a ele. E manter persistência no host.
 

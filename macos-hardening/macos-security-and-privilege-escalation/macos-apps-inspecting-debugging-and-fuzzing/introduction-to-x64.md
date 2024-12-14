@@ -63,7 +63,7 @@ As instruções x64 têm um conjunto rico, mantendo compatibilidade com instruç
 * Exemplo: `cmp rax, rdx` — Compara `rax` com `rdx`.
 * **`je`, `jne`, `jl`, `jge`, ...**: Instruções de **salto condicional** que alteram o fluxo de controle com base nos resultados de um `cmp` ou teste anterior.
 * Exemplo: Após uma instrução `cmp rax, rdx`, `je label` — Salta para `label` se `rax` for igual a `rdx`.
-* **`syscall`**: Usado para **chamadas de sistema** em alguns sistemas x64 (como Unix moderno).
+* **`syscall`**: Usado para **chamadas de sistema** em alguns sistemas x64 (como Unix modernos).
 * **`sysenter`**: Uma instrução de **chamada de sistema** otimizada em algumas plataformas.
 
 ### **Prólogo da Função**
@@ -72,7 +72,7 @@ As instruções x64 têm um conjunto rico, mantendo compatibilidade com instruç
 2. **Mova o ponteiro de pilha atual para o ponteiro base**: `mov rbp, rsp` (configura o novo ponteiro base para a função atual)
 3. **Alocar espaço na pilha para variáveis locais**: `sub rsp, <size>` (onde `<size>` é o número de bytes necessários)
 
-### **Epilogo da Função**
+### **Epílogo da Função**
 
 1. **Mova o ponteiro base atual para o ponteiro de pilha**: `mov rsp, rbp` (desaloca variáveis locais)
 2. **Retire o antigo ponteiro base da pilha**: `pop rbp` (restaura o ponteiro base do chamador)
@@ -230,7 +230,7 @@ syscall
 
 #### Ler com cat
 
-O objetivo é executar `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, então o segundo argumento (x1) é um array de parâmetros (que na memória significa uma pilha de endereços).
+O objetivo é executar `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, então o segundo argumento (x1) é um array de parâmetros (que na memória significa uma pilha dos endereços).
 ```armasm
 bits 64
 section .text
@@ -441,16 +441,16 @@ mov  al, 0x3b
 syscall
 ```
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Treinamento AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Treinamento GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporte o HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

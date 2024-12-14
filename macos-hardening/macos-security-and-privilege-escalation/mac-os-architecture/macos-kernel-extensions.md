@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## Basic Information
 
-As extensões do kernel (Kexts) são **pacotes** com uma extensão **`.kext`** que são **carregados diretamente no espaço do kernel do macOS**, fornecendo funcionalidade adicional ao sistema operacional principal.
+As extensões do kernel (Kexts) são **pacotes** com a extensão **`.kext`** que são **carregados diretamente no espaço do kernel do macOS**, fornecendo funcionalidade adicional ao sistema operacional principal.
 
 ### Requirements
 
@@ -27,7 +27,7 @@ Obviamente, isso é tão poderoso que é **complicado carregar uma extensão do 
 
 <figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* A extensão do kernel deve ser **assinada com um certificado de assinatura de código do kernel**, que só pode ser **concedido pela Apple**. Quem irá revisar em detalhes a empresa e as razões pelas quais é necessário.
+* A extensão do kernel deve ser **assinada com um certificado de assinatura de código do kernel**, que só pode ser **concedido pela Apple**. Quem revisará em detalhes a empresa e as razões pelas quais é necessário.
 * A extensão do kernel também deve ser **notarizada**, a Apple poderá verificá-la em busca de malware.
 * Então, o usuário **root** é quem pode **carregar a extensão do kernel** e os arquivos dentro do pacote devem **pertencer ao root**.
 * Durante o processo de upload, o pacote deve ser preparado em um **local protegido não-root**: `/Library/StagedExtensions` (requer a concessão `com.apple.rootless.storage.KernelExtensionManagement`).
@@ -35,7 +35,7 @@ Obviamente, isso é tão poderoso que é **complicado carregar uma extensão do 
 
 ### Loading process
 
-No Catalina era assim: É interessante notar que o processo de **verificação** ocorre no **userland**. No entanto, apenas aplicativos com a concessão **`com.apple.private.security.kext-management`** podem **solicitar ao kernel que carregue uma extensão**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+Em Catalina era assim: É interessante notar que o processo de **verificação** ocorre em **userland**. No entanto, apenas aplicativos com a concessão **`com.apple.private.security.kext-management`** podem **solicitar ao kernel que carregue uma extensão**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
 1. **`kextutil`** cli **inicia** o processo de **verificação** para carregar uma extensão
 * Ele se comunicará com **`kextd`** enviando usando um **serviço Mach**.
@@ -61,12 +61,12 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 Embora as extensões do kernel sejam esperadas em `/System/Library/Extensions/`, se você for para esta pasta você **não encontrará nenhum binário**. Isso se deve ao **kernelcache** e, para reverter um `.kext`, você precisa encontrar uma maneira de obtê-lo.
 {% endhint %}
 
-O **kernelcache** é uma **versão pré-compilada e pré-vinculada do kernel XNU**, juntamente com **drivers** e **extensões do kernel** essenciais. Ele é armazenado em um formato **compactado** e é descompactado na memória durante o processo de inicialização. O kernelcache facilita um **tempo de inicialização mais rápido** ao ter uma versão pronta para execução do kernel e drivers cruciais disponíveis, reduzindo o tempo e os recursos que seriam gastos carregando e vinculando dinamicamente esses componentes no momento da inicialização.
+O **kernelcache** é uma **versão pré-compilada e pré-linkada do kernel XNU**, juntamente com **drivers** e **extensões do kernel** essenciais. Ele é armazenado em um formato **compactado** e é descompactado na memória durante o processo de inicialização. O kernelcache facilita um **tempo de inicialização mais rápido** ao ter uma versão pronta para execução do kernel e drivers cruciais disponíveis, reduzindo o tempo e os recursos que seriam gastos carregando e vinculando dinamicamente esses componentes no momento da inicialização.
 
 ### Kernelcache Local
 
-No iOS, está localizado em **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** no macOS você pode encontrá-lo com: **`find / -name "kernelcache" 2>/dev/null`** \
-No meu caso no macOS, eu o encontrei em:
+No iOS, ele está localizado em **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** no macOS você pode encontrá-lo com: **`find / -name "kernelcache" 2>/dev/null`** \
+No meu caso, no macOS, eu o encontrei em:
 
 * `/System/Volumes/Preboot/1BAEB4B5-180B-4C46-BD53-51152B7D92DA/boot/DAD35E7BC0CDA79634C20BD1BD80678DFB510B2AAD3D25C1228BB34BCD0A711529D3D571C93E29E1D0C1264750FA043F/System/Library/Caches/com.apple.kernelcaches/kernelcache`
 
@@ -80,7 +80,7 @@ Ele é geralmente composto pelos seguintes componentes:
 * Frequentemente compactada (LZFSE4, LZSS, …)
 * Opcionalmente criptografada
 * **Manifesto (IM4M)**:
-* Contém Assinatura
+* Contém a Assinatura
 * Dicionário adicional de Chave/Valor
 * **Informações de Restauração (IM4R)**:
 * Também conhecido como APNonce
@@ -131,7 +131,7 @@ Verifique se o kernelcache possui símbolos com
 ```bash
 nm -a kernelcache.release.iphone14.e | wc -l
 ```
-Com isso, agora podemos **extrair todas as extensões** ou a **que você está interessado em:**
+Com isso, agora podemos **extrair todas as extensões** ou a **que você está interessado:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -154,8 +154,8 @@ nm -a binaries/com.apple.security.sandbox | wc -l
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
 {% hint style="success" %}
-Aprenda e pratique AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

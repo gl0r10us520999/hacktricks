@@ -63,13 +63,13 @@ Com base neste comentário [juuso/keychaindump#10 (comentário)](https://github.
 
 ### Visão Geral do Keychaindump
 
-Uma ferramenta chamada **keychaindump** foi desenvolvida para extrair senhas dos keychains do macOS, mas enfrenta limitações em versões mais recentes do macOS, como o Big Sur, conforme indicado em uma [discussão](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). O uso do **keychaindump** requer que o atacante ganhe acesso e eleve privilégios para **root**. A ferramenta explora o fato de que o keychain é desbloqueado por padrão ao fazer login do usuário por conveniência, permitindo que aplicativos acessem sem exigir repetidamente a senha do usuário. No entanto, se um usuário optar por bloquear seu keychain após cada uso, o **keychaindump** se torna ineficaz.
+Uma ferramenta chamada **keychaindump** foi desenvolvida para extrair senhas dos keychains do macOS, mas enfrenta limitações em versões mais recentes do macOS, como o Big Sur, conforme indicado em uma [discussão](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). O uso do **keychaindump** requer que o atacante ganhe acesso e eleve privilégios para **root**. A ferramenta explora o fato de que o keychain é desbloqueado por padrão ao fazer login do usuário para conveniência, permitindo que aplicativos acessem sem exigir repetidamente a senha do usuário. No entanto, se um usuário optar por bloquear seu keychain após cada uso, o **keychaindump** se torna ineficaz.
 
-**Keychaindump** opera direcionando um processo específico chamado **securityd**, descrito pela Apple como um daemon para operações de autorização e criptografia, crucial para acessar o keychain. O processo de extração envolve identificar uma **Chave Mestra** derivada da senha de login do usuário. Esta chave é essencial para ler o arquivo do keychain. Para localizar a **Chave Mestra**, o **keychaindump** escaneia o heap de memória do **securityd** usando o comando `vmmap`, procurando por chaves potenciais em áreas sinalizadas como `MALLOC_TINY`. O seguinte comando é usado para inspecionar essas localizações de memória:
+**Keychaindump** opera direcionando um processo específico chamado **securityd**, descrito pela Apple como um daemon para operações de autorização e criptografia, crucial para acessar o keychain. O processo de extração envolve identificar uma **Chave Mestra** derivada da senha de login do usuário. Esta chave é essencial para ler o arquivo do keychain. Para localizar a **Chave Mestra**, o **keychaindump** escaneia o heap de memória do **securityd** usando o comando `vmmap`, procurando por chaves potenciais em áreas sinalizadas como `MALLOC_TINY`. O seguinte comando é usado para inspecionar esses locais de memória:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Após identificar chaves mestres potenciais, **keychaindump** procura nos heaps por um padrão específico (`0x0000000000000018`) que indica um candidato para a chave mestre. Passos adicionais, incluindo desofuscação, são necessários para utilizar esta chave, conforme descrito no código-fonte do **keychaindump**. Analistas que se concentram nesta área devem notar que os dados cruciais para descriptografar o chaveiro estão armazenados na memória do processo **securityd**. Um exemplo de comando para executar o **keychaindump** é:
+Após identificar chaves mestres potenciais, **keychaindump** procura nos heaps por um padrão específico (`0x0000000000000018`) que indica um candidato para a chave mestre. Passos adicionais, incluindo desofuscação, são necessários para utilizar esta chave, conforme descrito no código-fonte do **keychaindump**. Analistas que se concentram nesta área devem observar que os dados cruciais para descriptografar o chaveiro estão armazenados na memória do processo **securityd**. Um exemplo de comando para executar o **keychaindump** é:
 ```bash
 sudo ./keychaindump
 ```
@@ -103,7 +103,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Extrair chaves do chaveiro (com senhas) quebrando o hash**
+#### **Extrair chaves do keychain (com senhas) quebrando o hash**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -112,7 +112,7 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Extrair chaves do chaveiro (com senhas) com despejo de memória**
+#### **Despejar chaves do keychain (com senhas) com despejo de memória**
 
 [Siga estas etapas](../#dumping-memory-with-osxpmem) para realizar um **despejo de memória**
 ```bash
@@ -132,10 +132,10 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 ```
 ### kcpassword
 
-O arquivo **kcpassword** é um arquivo que contém a **senha de login do usuário**, mas apenas se o proprietário do sistema tiver **ativado o login automático**. Portanto, o usuário será automaticamente conectado sem ser solicitado a fornecer uma senha (o que não é muito seguro).
+O arquivo **kcpassword** é um arquivo que contém a **senha de login do usuário**, mas apenas se o proprietário do sistema tiver **ativado o login automático**. Portanto, o usuário será logado automaticamente sem ser solicitado a fornecer uma senha (o que não é muito seguro).
 
 A senha é armazenada no arquivo **`/etc/kcpassword`** xored com a chave **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Se a senha do usuário for mais longa que a chave, a chave será reutilizada.\
-Isso torna a senha bastante fácil de recuperar, por exemplo, usando scripts como [**este aqui**](https://gist.github.com/opshope/32f65875d45215c3677d).
+Isso torna a senha bastante fácil de recuperar, por exemplo, usando scripts como [**este**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Informações Interessantes em Bancos de Dados
 
@@ -151,7 +151,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Você pode encontrar os dados de Notificações em `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-A maior parte das informações interessantes estará em **blob**. Portanto, você precisará **extrair** esse conteúdo e **transformá-lo** em **legível** **para humanos** ou usar **`strings`**. Para acessá-lo, você pode fazer: 
+A maior parte das informações interessantes estará em **blob**. Portanto, você precisará **extrair** esse conteúdo e **transformá-lo** em **legível** **por humanos** ou usar **`strings`**. Para acessá-lo, você pode fazer: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -223,7 +223,7 @@ Este arquivo concede permissões a usuários específicos por UUID (e não uid) 
 
 O daemon principal para notificações é **`/usr/sbin/notifyd`**. Para receber notificações, os clientes devem se registrar através da porta Mach `com.apple.system.notification_center` (verifique-os com `sudo lsmp -p <pid notifyd>`). O daemon é configurável com o arquivo `/etc/notify.conf`.
 
-Os nomes usados para notificações são notações DNS reversas únicas e, quando uma notificação é enviada para um deles, o(s) cliente(s) que indicaram que podem lidar com isso a receberão.
+Os nomes usados para notificações são notações DNS reversas únicas e, quando uma notificação é enviada para um deles, o(s) cliente(s) que indicaram que podem manipulá-la a receberão.
 
 É possível despejar o status atual (e ver todos os nomes) enviando o sinal SIGUSR2 para o processo notifyd e lendo o arquivo gerado: `/var/run/notifyd_<pid>.status`:
 ```bash
@@ -243,12 +243,12 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Distributed Notification Center
 
-O **Distributed Notification Center** cujo binário principal é **`/usr/sbin/distnoted`**, é outra maneira de enviar notificações. Ele expõe alguns serviços XPC e realiza algumas verificações para tentar verificar os clientes.
+O **Distributed Notification Center** cujo binário principal é **`/usr/sbin/distnoted`**, é outra forma de enviar notificações. Ele expõe alguns serviços XPC e realiza algumas verificações para tentar verificar os clientes.
 
 ### Apple Push Notifications (APN)
 
 Neste caso, os aplicativos podem se registrar para **tópicos**. O cliente gerará um token contatando os servidores da Apple através do **`apsd`**.\
-Então, os provedores também terão gerado um token e poderão se conectar aos servidores da Apple para enviar mensagens aos clientes. Essas mensagens serão recebidas localmente pelo **`apsd`** que retransmitirá a notificação para o aplicativo que a aguarda.
+Então, os provedores também terão gerado um token e poderão se conectar aos servidores da Apple para enviar mensagens aos clientes. Essas mensagens serão recebidas localmente pelo **`apsd`** que irá retransmitir a notificação para o aplicativo que a aguarda.
 
 As preferências estão localizadas em `/Library/Preferences/com.apple.apsd.plist`.
 
@@ -262,7 +262,7 @@ Também é possível obter informações sobre o daemon e as conexões usando:
 ```
 ## User Notifications
 
-Estas são notificações que o usuário deve ver na tela:
+Estas são as notificações que o usuário deve ver na tela:
 
 * **`CFUserNotification`**: Esta API fornece uma maneira de mostrar na tela um pop-up com uma mensagem.
 * **O Quadro de Avisos**: Isso mostra no iOS um banner que desaparece e será armazenado no Centro de Notificações.

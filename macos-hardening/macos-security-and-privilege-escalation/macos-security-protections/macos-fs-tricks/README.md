@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 Permissões em um **diretório**:
 
 * **leitura** - você pode **enumerar** as entradas do diretório
-* **escrita** - você pode **deletar/escrever** **arquivos** no diretório e pode **deletar pastas vazias**.
+* **escrita** - você pode **deletar/escrever** **arquivos** no diretório e você pode **deletar pastas vazias**.
 * Mas você **não pode deletar/modificar pastas não vazias** a menos que tenha permissões de escrita sobre elas.
 * Você **não pode modificar o nome de uma pasta** a menos que a possua.
 * **execução** - você está **autorizado a percorrer** o diretório - se você não tiver esse direito, não pode acessar nenhum arquivo dentro dele, ou em quaisquer subdiretórios.
@@ -43,7 +43,7 @@ Exemplo em: [https://theevilbit.github.io/posts/exploiting\_directory\_permissio
 
 ## Link Simbólico / Link Duro
 
-Se um processo privilegiado estiver escrevendo dados em um **arquivo** que poderia ser **controlado** por um **usuário de menor privilégio**, ou que poderia ter sido **criado anteriormente** por um usuário de menor privilégio. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um link simbólico ou duro, e o processo privilegiado escreverá nesse arquivo.
+Se um processo privilegiado estiver escrevendo dados em um **arquivo** que poderia ser **controlado** por um **usuário de menor privilégio**, ou que poderia ter sido **anteriormente criado** por um usuário de menor privilégio. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um link simbólico ou duro, e o processo privilegiado escreverá nesse arquivo.
 
 Verifique nas outras seções onde um atacante poderia **abusar de uma escrita arbitrária para escalar privilégios**.
 
@@ -89,7 +89,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs mount
 
-Uma **montagem devfs** **não suporta xattr**, mais informações em [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+Um **devfs** mount **não suporta xattr**, mais informações em [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -123,9 +123,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** formato de arquivo copia um arquivo incluindo seus ACEs.
+O formato de arquivo **AppleDouble** copia um arquivo incluindo seus ACEs.
 
-No [**código-fonte**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) é possível ver que a representação de texto da ACL armazenada dentro do xattr chamado **`com.apple.acl.text`** será definida como ACL no arquivo descompactado. Portanto, se você compactou um aplicativo em um arquivo zip com formato de arquivo **AppleDouble** com uma ACL que impede que outros xattrs sejam escritos nele... o xattr de quarentena não foi definido no aplicativo:
+No [**código-fonte**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) é possível ver que a representação de texto da ACL armazenada dentro do xattr chamado **`com.apple.acl.text`** será definida como ACL no arquivo descompactado. Portanto, se você compactou um aplicativo em um arquivo zip com o formato de arquivo **AppleDouble** com uma ACL que impede que outros xattrs sejam escritos nele... o xattr de quarentena não foi definido no aplicativo:
 
 Verifique o [**relatório original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) para mais informações.
 
@@ -268,21 +268,21 @@ Escreva um **LaunchDaemon** arbitrário como **`/Library/LaunchDaemons/xyz.hackt
 </dict>
 </plist>
 ```
-Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
+Just generate the script `/Applications/Scripts/privesc.sh` com os **comandos** que você gostaria de executar como root.
 
 ### Sudoers File
 
-If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
+Se você tiver **escrita arbitrária**, você pode criar um arquivo dentro da pasta **`/etc/sudoers.d/`** concedendo a si mesmo privilégios de **sudo**.
 
 ### PATH files
 
-The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
+O arquivo **`/etc/paths`** é um dos principais lugares que preenche a variável de ambiente PATH. Você deve ser root para sobrescrevê-lo, mas se um script de **processo privilegiado** estiver executando algum **comando sem o caminho completo**, você pode ser capaz de **sequestar** isso modificando este arquivo.
 
-You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
+Você também pode escrever arquivos em **`/etc/paths.d`** para carregar novas pastas na variável de ambiente `PATH`.
 
 ## Generate writable files as other users
 
-Isso irá gerar um arquivo que pertence ao root e que é gravável por mim ([**código daqui**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Isso também pode funcionar como privesc:
+Isso gerará um arquivo que pertence ao root que é gravável por mim ([**código daqui**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Isso também pode funcionar como privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -296,11 +296,11 @@ echo $FILENAME
 ```
 ## POSIX Shared Memory
 
-**POSIX shared memory** permite que processos em sistemas operacionais compatíveis com POSIX acessem uma área de memória comum, facilitando uma comunicação mais rápida em comparação com outros métodos de comunicação entre processos. Envolve a criação ou abertura de um objeto de memória compartilhada com `shm_open()`, definindo seu tamanho com `ftruncate()`, e mapeando-o no espaço de endereços do processo usando `mmap()`. Os processos podem então ler e escrever diretamente nesta área de memória. Para gerenciar o acesso concorrente e prevenir a corrupção de dados, mecanismos de sincronização como mutexes ou semáforos são frequentemente utilizados. Finalmente, os processos desmapeiam e fecham a memória compartilhada com `munmap()` e `close()`, e opcionalmente removem o objeto de memória com `shm_unlink()`. Este sistema é especialmente eficaz para IPC eficiente e rápido em ambientes onde múltiplos processos precisam acessar dados compartilhados rapidamente.
+**A memória compartilhada POSIX** permite que processos em sistemas operacionais compatíveis com POSIX acessem uma área de memória comum, facilitando uma comunicação mais rápida em comparação com outros métodos de comunicação entre processos. Envolve a criação ou abertura de um objeto de memória compartilhada com `shm_open()`, definindo seu tamanho com `ftruncate()`, e mapeando-o no espaço de endereços do processo usando `mmap()`. Os processos podem então ler e escrever diretamente nesta área de memória. Para gerenciar o acesso concorrente e prevenir a corrupção de dados, mecanismos de sincronização como mutexes ou semáforos são frequentemente utilizados. Finalmente, os processos desmapeiam e fecham a memória compartilhada com `munmap()` e `close()`, e opcionalmente removem o objeto de memória com `shm_unlink()`. Este sistema é especialmente eficaz para IPC eficiente e rápido em ambientes onde múltiplos processos precisam acessar dados compartilhados rapidamente.
 
 <details>
 
-<summary>Exemplo de Código do Produtor</summary>
+<summary>Código de Exemplo do Produtor</summary>
 ```c
 // gcc producer.c -o producer -lrt
 #include <fcntl.h>
@@ -392,9 +392,9 @@ return 0;
 
 ## macOS Descritores Protegidos
 
-**Descritores protegidos do macOS** são um recurso de segurança introduzido no macOS para aumentar a segurança e a confiabilidade das **operações de descritores de arquivo** em aplicativos de usuário. Esses descritores protegidos fornecem uma maneira de associar restrições específicas ou "guardas" com descritores de arquivo, que são aplicadas pelo kernel.
+**macOS descritores protegidos** são um recurso de segurança introduzido no macOS para aumentar a segurança e a confiabilidade das **operações de descritores de arquivo** em aplicativos de usuário. Esses descritores protegidos fornecem uma maneira de associar restrições específicas ou "guardas" com descritores de arquivo, que são aplicadas pelo kernel.
 
-Esse recurso é particularmente útil para prevenir certas classes de vulnerabilidades de segurança, como **acesso não autorizado a arquivos** ou **condições de corrida**. Essas vulnerabilidades ocorrem quando, por exemplo, uma thread está acessando uma descrição de arquivo, dando **acesso a outra thread vulnerável sobre ela** ou quando um descritor de arquivo é **herdado** por um processo filho vulnerável. Algumas funções relacionadas a essa funcionalidade são:
+Esse recurso é particularmente útil para prevenir certas classes de vulnerabilidades de segurança, como **acesso não autorizado a arquivos** ou **condições de corrida**. Essas vulnerabilidades ocorrem quando, por exemplo, uma thread está acessando uma descrição de arquivo, dando **acesso a outra thread vulnerável** ou quando um descritor de arquivo é **herdado** por um processo filho vulnerável. Algumas funções relacionadas a essa funcionalidade são:
 
 * `guarded_open_np`: Abre um FD com uma guarda
 * `guarded_close_np`: Fecha-o
@@ -414,7 +414,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

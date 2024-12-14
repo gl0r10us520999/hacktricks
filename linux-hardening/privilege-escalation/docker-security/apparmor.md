@@ -78,7 +78,7 @@ Então, em um console diferente, execute todas as ações que o binário geralme
 Então, na primeira console pressione "**s**" e depois nas ações gravadas indique se você deseja ignorar, permitir ou qualquer outra coisa. Quando terminar, pressione "**f**" e o novo perfil será criado em _/etc/apparmor.d/path.to.binary_
 
 {% hint style="info" %}
-Usando as teclas de seta, você pode selecionar o que deseja permitir/negar/qualquer outra coisa
+Usando as teclas de seta, você pode selecionar o que deseja permitir/negar/ou qualquer outra coisa
 {% endhint %}
 
 ### aa-easyprof
@@ -203,7 +203,7 @@ Você precisa **desativar o apparmor** para contornar suas restrições:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
-Note que por padrão **AppArmor** também **proibirá o contêiner de montar** pastas de dentro, mesmo com a capacidade SYS\_ADMIN.
+Note que, por padrão, **AppArmor** também **proibirá o contêiner de montar** pastas de dentro, mesmo com a capacidade SYS\_ADMIN.
 
 Note que você pode **adicionar/remover** **capacidades** ao contêiner docker (isso ainda será restrito por métodos de proteção como **AppArmor** e **Seccomp**):
 
@@ -245,11 +245,11 @@ docker inspect 9d622d73a614 | grep lowpriv
 "AppArmorProfile": "lowpriv",
 "apparmor=lowpriv"
 ```
-Então, você pode executar a seguinte linha para **encontrar o perfil exato que está sendo usado**:
+Então, você pode executar a seguinte linha para **encontrar o perfil exato sendo usado**:
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-No caso estranho de você poder **modificar o perfil do apparmor do docker e recarregá-lo.** Você poderia remover as restrições e "contorná-las".
+No caso estranho de você poder **modificar o perfil do docker do apparmor e recarregá-lo.** Você poderia remover as restrições e "contorná-las".
 
 ### Bypass do AppArmor Docker2
 
@@ -257,7 +257,7 @@ No caso estranho de você poder **modificar o perfil do apparmor do docker e rec
 
 ### Bypass do Shebang do AppArmor
 
-Em [**este bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) você pode ver um exemplo de como **mesmo que você esteja impedindo que o perl seja executado com certos recursos**, se você apenas criar um script shell **especificando** na primeira linha **`#!/usr/bin/perl`** e você **executar o arquivo diretamente**, você poderá executar o que quiser. Ex.:
+No [**este bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) você pode ver um exemplo de como **mesmo que você esteja impedindo o perl de ser executado com certos recursos**, se você apenas criar um script shell **especificando** na primeira linha **`#!/usr/bin/perl`** e você **executar o arquivo diretamente**, você será capaz de executar o que quiser. Ex.:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);

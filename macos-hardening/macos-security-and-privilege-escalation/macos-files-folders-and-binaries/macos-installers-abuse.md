@@ -75,7 +75,7 @@ Se um script de pré ou pós-instalação estiver, por exemplo, executando de **
 
 ### AuthorizationExecuteWithPrivileges
 
-Esta é uma [função pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que vários instaladores e atualizadores chamarão para **executar algo como root**. Esta função aceita o **caminho** do **arquivo** a ser **executado** como parâmetro; no entanto, se um atacante puder **modificar** este arquivo, ele poderá **abusar** de sua execução com root para **escalar privilégios**.
+Esta é uma [função pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que vários instaladores e atualizadores chamarão para **executar algo como root**. Esta função aceita o **caminho** do **arquivo** a ser **executado** como parâmetro, no entanto, se um atacante puder **modificar** este arquivo, ele será capaz de **abusar** de sua execução com root para **escalar privilégios**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -87,13 +87,13 @@ Para mais informações, confira esta palestra: [https://www.youtube.com/watch?v
 
 Se um instalador escrever em `/tmp/fixedname/bla/bla`, é possível **criar um mount** sobre `/tmp/fixedname` sem proprietários, para que você possa **modificar qualquer arquivo durante a instalação** para abusar do processo de instalação.
 
-Um exemplo disso é **CVE-2021-26089**, que conseguiu **sobrescrever um script periódico** para obter execução como root. Para mais informações, dê uma olhada na palestra: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Um exemplo disso é **CVE-2021-26089**, que conseguiu **substituir um script periódico** para obter execução como root. Para mais informações, dê uma olhada na palestra: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg como malware
 
 ### Payload Vazio
 
-É possível gerar apenas um arquivo **`.pkg`** com **scripts de pré e pós-instalação** sem nenhum payload real além do malware dentro dos scripts.
+É possível gerar apenas um **`.pkg`** com **scripts de pré e pós-instalação** sem nenhum payload real, além do malware dentro dos scripts.
 
 ### JS no xml de Distribuição
 
@@ -172,16 +172,16 @@ productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pk
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Treinamento Especialista em Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Treinamento Especialista em Red Team GCP (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

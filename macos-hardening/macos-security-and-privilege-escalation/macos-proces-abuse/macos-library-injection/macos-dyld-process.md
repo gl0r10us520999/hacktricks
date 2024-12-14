@@ -17,14 +17,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-O verdadeiro **entrypoint** de um binário Mach-o é o link dinâmico, definido em `LC_LOAD_DYLINKER`, que geralmente é `/usr/lib/dyld`.
+O verdadeiro **entrypoint** de um binário Mach-o é o linkador dinâmico, definido em `LC_LOAD_DYLINKER`, que geralmente é `/usr/lib/dyld`.
 
-Esse linker precisará localizar todas as bibliotecas executáveis, mapeá-las na memória e vincular todas as bibliotecas não preguiçosas. Somente após esse processo, o ponto de entrada do binário será executado.
+Esse linkador precisará localizar todas as bibliotecas executáveis, mapeá-las na memória e vincular todas as bibliotecas não preguiçosas. Somente após esse processo, o ponto de entrada do binário será executado.
 
 Claro, **`dyld`** não tem dependências (ele usa syscalls e trechos da libSystem).
 
 {% hint style="danger" %}
-Se esse linker contiver alguma vulnerabilidade, como está sendo executado antes de qualquer binário (mesmo os altamente privilegiados), seria possível **escalar privilégios**.
+Se esse linkador contiver alguma vulnerabilidade, como está sendo executado antes de qualquer binário (mesmo os altamente privilegiados), seria possível **escalar privilégios**.
 {% endhint %}
 
 ### Flow
@@ -37,7 +37,7 @@ Dyld será carregado por **`dyldboostrap::start`**, que também carregará coisa
 [.](./)
 {% endcontent-ref %}
 
-Em seguida, ele mapeia o cache compartilhado do dyld, que pré-vincula todas as bibliotecas de sistema importantes e, em seguida, mapeia as bibliotecas das quais o binário depende e continua recursivamente até que todas as bibliotecas necessárias sejam carregadas. Portanto:
+Em seguida, ele mapeia o cache compartilhado do dyld, que pré-vincula todas as bibliotecas importantes do sistema e, em seguida, mapeia as bibliotecas das quais o binário depende e continua recursivamente até que todas as bibliotecas necessárias sejam carregadas. Portanto:
 
 1. começa a carregar bibliotecas inseridas com `DYLD_INSERT_LIBRARIES` (se permitido)
 2. Em seguida, as compartilhadas em cache
@@ -112,8 +112,8 @@ Disassembly of section __TEXT,__stubs:
 ```
 você pode ver que estamos **pulando para o endereço do GOT**, que neste caso é resolvido de forma não preguiçosa e conterá o endereço da função printf.
 
-Em outras situações, em vez de pular diretamente para o GOT, poderia pular para **`__DATA.__la_symbol_ptr`** que carregará um valor que representa a função que está tentando carregar, então pular para **`__TEXT.__stub_helper`** que pula para **`__DATA.__nl_symbol_ptr`** que contém o endereço de **`dyld_stub_binder`** que recebe como parâmetros o número da função e um endereço.\
-Esta última função, após encontrar o endereço da função procurada, escreve-o no local correspondente em **`__TEXT.__stub_helper`** para evitar fazer buscas no futuro.
+Em outras situações, em vez de pular diretamente para o GOT, ele pode pular para **`__DATA.__la_symbol_ptr`** que carregará um valor que representa a função que está tentando carregar, então pular para **`__TEXT.__stub_helper`** que pula para **`__DATA.__nl_symbol_ptr`** que contém o endereço de **`dyld_stub_binder`** que recebe como parâmetros o número da função e um endereço.\
+Essa última função, após encontrar o endereço da função procurada, escreve-o no local correspondente em **`__TEXT.__stub_helper`** para evitar fazer buscas no futuro.
 
 {% hint style="success" %}
 No entanto, observe que as versões atuais do dyld carregam tudo como não preguiçoso.
@@ -121,7 +121,7 @@ No entanto, observe que as versões atuais do dyld carregam tudo como não pregu
 
 #### Códigos de operação do Dyld
 
-Finalmente, **`dyld_stub_binder`** precisa encontrar a função indicada e escrevê-la no endereço apropriado para não procurá-la novamente. Para isso, utiliza códigos de operação (uma máquina de estados finita) dentro do dyld.
+Finalmente, **`dyld_stub_binder`** precisa encontrar a função indicada e escrevê-la no endereço apropriado para não procurá-la novamente. Para isso, ele usa códigos de operação (uma máquina de estados finita) dentro do dyld.
 
 ## vetor de argumentos apple\[]
 
@@ -199,9 +199,9 @@ Quando esses valores chegam à função principal, informações sensíveis já 
 
 Esta é uma estrutura exportada pelo dyld com informações sobre o estado do dyld que pode ser encontrada no [**código-fonte**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) com informações como a versão, ponteiro para o array dyld\_image\_info, para dyld\_image\_notifier, se o proc está desconectado do cache compartilhado, se o inicializador libSystem foi chamado, ponteiro para o próprio cabeçalho Mach do dyls, ponteiro para a string da versão do dyld...
 
-## variáveis de ambiente dyld
+## dyld env variables
 
-### depurar dyld
+### debug dyld
 
 Variáveis de ambiente interessantes que ajudam a entender o que o dyld está fazendo:
 
@@ -271,7 +271,7 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 ### Outros
 
 * `DYLD_BIND_AT_LAUNCH`: Vínculos preguiçosos são resolvidos com os não preguiçosos
-* `DYLD_DISABLE_PREFETCH`: Desabilitar a pré-busca de conteúdo \_\_DATA e \_\_LINKEDIT
+* `DYLD_DISABLE_PREFETCH`: Desabilitar pré-carregamento de conteúdo \_\_DATA e \_\_LINKEDIT
 * `DYLD_FORCE_FLAT_NAMESPACE`: Vínculos de nível único
 * `DYLD_[FRAMEWORK/LIBRARY]_PATH | DYLD_FALLBACK_[FRAMEWORK/LIBRARY]_PATH | DYLD_VERSIONED_[FRAMEWORK/LIBRARY]_PATH`: Caminhos de resolução
 * `DYLD_INSERT_LIBRARIES`: Carregar uma biblioteca específica

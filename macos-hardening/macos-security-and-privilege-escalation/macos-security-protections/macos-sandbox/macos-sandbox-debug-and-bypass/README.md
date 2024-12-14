@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Processo de carregamento do Sandbox
+## Sandbox loading process
 
 <figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Imagem de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
@@ -24,49 +24,49 @@ Na imagem anterior, é possível observar **como o sandbox será carregado** qua
 
 O compilador irá vincular `/usr/lib/libSystem.B.dylib` ao binário.
 
-Em seguida, **`libSystem.B`** chamará várias outras funções até que o **`xpc_pipe_routine`** envie as permissões do aplicativo para **`securityd`**. O securityd verifica se o processo deve ser colocado em quarentena dentro do Sandbox e, se sim, ele será colocado em quarentena.\
-Finalmente, o sandbox será ativado com uma chamada para **`__sandbox_ms`**, que chamará **`__mac_syscall`**.
+Então, **`libSystem.B`** chamará várias outras funções até que o **`xpc_pipe_routine`** envie as permissões do aplicativo para **`securityd`**. O securityd verifica se o processo deve ser colocado em quarentena dentro do Sandbox e, se sim, ele será colocado em quarentena.\
+Finalmente, o sandbox será ativado com uma chamada para **`__sandbox_ms`** que chamará **`__mac_syscall`**.
 
-## Possíveis Bypasses
+## Possible Bypasses
 
-### Ignorando o atributo de quarentena
+### Bypassing quarantine attribute
 
-**Arquivos criados por processos em sandbox** recebem o **atributo de quarentena** para evitar a fuga do sandbox. No entanto, se você conseguir **criar uma pasta `.app` sem o atributo de quarentena** dentro de um aplicativo em sandbox, você poderá fazer o binário do pacote do aplicativo apontar para **`/bin/bash`** e adicionar algumas variáveis de ambiente no **plist** para abusar do **`open`** e **iniciar o novo aplicativo sem sandbox**.
+**Arquivos criados por processos em sandbox** recebem o **atributo de quarentena** para evitar a fuga do sandbox. No entanto, se você conseguir **criar uma pasta `.app` sem o atributo de quarentena** dentro de um aplicativo em sandbox, você poderá fazer o binário do pacote do aplicativo apontar para **`/bin/bash`** e adicionar algumas variáveis de ambiente no **plist** para abusar do **`open`** para **iniciar o novo aplicativo sem sandbox**.
 
 Isso foi o que foi feito em [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
 Portanto, no momento, se você for capaz de criar uma pasta com um nome terminando em **`.app`** sem um atributo de quarentena, você pode escapar do sandbox porque o macOS apenas **verifica** o **atributo de quarentena** na **pasta `.app`** e no **executável principal** (e nós apontaremos o executável principal para **`/bin/bash`**).
 
-Observe que se um pacote .app já foi autorizado a ser executado (ele tem um xttr de quarentena com a flag de autorizado a executar ativada), você também poderá abusar disso... exceto que agora você não pode escrever dentro de pacotes **`.app`** a menos que tenha algumas permissões privilegiadas do TCC (que você não terá dentro de um sandbox alto).
+Observe que se um pacote .app já foi autorizado a ser executado (ele tem um xttr de quarentena com a flag de autorizado a executar ativada), você também poderia abusar disso... exceto que agora você não pode escrever dentro de pacotes **`.app`** a menos que tenha algumas permissões TCC privilegiadas (que você não terá dentro de um sandbox alto).
 {% endhint %}
 
-### Abusando da funcionalidade Open
+### Abusing Open functionality
 
-Nos [**últimos exemplos de bypass do sandbox do Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), pode-se apreciar como a funcionalidade cli **`open`** poderia ser abusada para contornar o sandbox.
+Nos [**últimos exemplos de bypass do sandbox do Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) pode-se apreciar como a funcionalidade cli **`open`** poderia ser abusada para contornar o sandbox.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### Agentes/Daemons de Lançamento
+### Launch Agents/Daemons
 
 Mesmo que um aplicativo seja **destinado a ser sandboxed** (`com.apple.security.app-sandbox`), é possível contornar o sandbox se ele for **executado a partir de um LaunchAgent** (`~/Library/LaunchAgents`), por exemplo.\
-Como explicado em [**este post**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), se você quiser obter persistência com um aplicativo que está em sandbox, você pode fazê-lo ser executado automaticamente como um LaunchAgent e talvez injetar código malicioso via variáveis de ambiente DyLib.
+Como explicado [**neste post**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), se você quiser obter persistência com um aplicativo que está em sandbox, você poderia fazê-lo ser executado automaticamente como um LaunchAgent e talvez injetar código malicioso via variáveis de ambiente DyLib.
 
-### Abusando de Locais de Inicialização Automática
+### Abusing Auto Start Locations
 
-Se um processo em sandbox puder **escrever** em um lugar onde **mais tarde um aplicativo sem sandbox irá executar o binário**, ele poderá **escapar apenas colocando** o binário lá. Um bom exemplo desse tipo de locais são `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+Se um processo em sandbox puder **escrever** em um lugar onde **mais tarde um aplicativo sem sandbox vai executar o binário**, ele poderá **escapar apenas colocando** lá o binário. Um bom exemplo desse tipo de locais são `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
 Para isso, você pode precisar até de **2 etapas**: Fazer um processo com um **sandbox mais permissivo** (`file-read*`, `file-write*`) executar seu código que realmente escreverá em um lugar onde será **executado sem sandbox**.
 
-Verifique esta página sobre **Locais de Inicialização Automática**:
+Verifique esta página sobre **locais de início automático**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-### Abusando de outros processos
+### Abusing other processes
 
 Se a partir do processo em sandbox você conseguir **comprometer outros processos** que estão rodando em sandboxes menos restritivas (ou nenhuma), você poderá escapar para os sandboxes deles:
 
@@ -74,12 +74,12 @@ Se a partir do processo em sandbox você conseguir **comprometer outros processo
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Compilação Estática & Vinculação Dinâmica
+### Static Compiling & Dynamically linking
 
-[**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu 2 maneiras de contornar o Sandbox. Porque o sandbox é aplicado a partir do userland quando a biblioteca **libSystem** é carregada. Se um binário puder evitar o carregamento dela, ele nunca será sandboxed:
+[**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu 2 maneiras de contornar o Sandbox. Porque o sandbox é aplicado a partir do userland quando a biblioteca **libSystem** é carregada. Se um binário puder evitar carregá-la, ele nunca será sandboxed:
 
-* Se o binário for **completamente compilado estaticamente**, ele poderá evitar o carregamento dessa biblioteca.
-* Se o **binário não precisar carregar nenhuma biblioteca** (porque o linker também está na libSystem), ele não precisará carregar a libSystem.
+* Se o binário for **completamente compilado estaticamente**, ele poderá evitar carregar essa biblioteca.
+* Se o **binário não precisar carregar nenhuma biblioteca** (porque o linker também está em libSystem), ele não precisará carregar libSystem.
 
 ### Shellcodes
 
@@ -108,7 +108,7 @@ Para mais informações sobre **Interposting**, consulte:
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Interpost `_libsecinit_initializer` para prevenir o sandbox
+#### Interposte `_libsecinit_initializer` para prevenir o sandbox
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -317,7 +317,7 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**Mesmo com o Sandbox contornado, o TCC** perguntará ao usuário se ele deseja permitir que o processo leia arquivos da área de trabalho.
+**Mesmo com o Sandbox contornado, o TCC** perguntará ao usuário se ele deseja permitir que o processo leia arquivos da área de trabalho
 {% endhint %}
 
 ## Referências

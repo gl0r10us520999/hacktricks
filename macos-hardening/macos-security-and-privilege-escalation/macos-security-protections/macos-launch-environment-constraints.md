@@ -15,13 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Informações Básicas
 
-As restrições de lançamento no macOS foram introduzidas para aumentar a segurança, **regulando como, quem e de onde um processo pode ser iniciado**. Iniciadas no macOS Ventura, elas fornecem uma estrutura que categoriza **cada binário do sistema em distintas categorias de restrição**, que são definidas dentro do **cache de confiança**, uma lista contendo binários do sistema e seus respectivos hashes​. Essas restrições se estendem a cada binário executável dentro do sistema, implicando um conjunto de **regras** que delineiam os requisitos para **lançar um binário específico**. As regras abrangem restrições próprias que um binário deve satisfazer, restrições de pai que devem ser atendidas pelo seu processo pai, e restrições responsáveis que devem ser seguidas por outras entidades relevantes​.
+As restrições de lançamento no macOS foram introduzidas para aumentar a segurança, **regulando como, quem e de onde um processo pode ser iniciado**. Iniciadas no macOS Ventura, elas fornecem uma estrutura que categoriza **cada binário do sistema em distintas categorias de restrição**, que são definidas dentro do **cache de confiança**, uma lista contendo binários do sistema e seus respectivos hashes. Essas restrições se estendem a cada binário executável dentro do sistema, implicando um conjunto de **regras** que delineiam os requisitos para **lançar um binário específico**. As regras abrangem restrições próprias que um binário deve satisfazer, restrições de pai que devem ser atendidas pelo seu processo pai, e restrições responsáveis que devem ser seguidas por outras entidades relevantes.
 
 O mecanismo se estende a aplicativos de terceiros através de **Restrições de Ambiente**, a partir do macOS Sonoma, permitindo que os desenvolvedores protejam seus aplicativos especificando um **conjunto de chaves e valores para restrições de ambiente.**
 
-Você define **restrições de ambiente de lançamento e de biblioteca** em dicionários de restrição que você salva em **arquivos de lista de propriedades `launchd`**, ou em **arquivos de lista de propriedades** separados que você usa na assinatura de código.
+Você define **restrições de ambiente de lançamento e de biblioteca** em dicionários de restrição que você salva em **arquivos de lista de propriedades `launchd`**, ou em **arquivos de lista de propriedades separados** que você usa na assinatura de código.
 
 Existem 4 tipos de restrições:
 
@@ -30,29 +30,29 @@ Existem 4 tipos de restrições:
 * **Restrições Responsáveis**: Restrições aplicadas ao **processo que chama o serviço** em uma comunicação XPC
 * **Restrições de carregamento de biblioteca**: Use restrições de carregamento de biblioteca para descrever seletivamente o código que pode ser carregado
 
-Assim, quando um processo tenta lançar outro processo — chamando `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` — o sistema operacional verifica se o arquivo **executável** **satisfaz** sua **própria restrição própria**. Ele também verifica se o executável do **processo pai** **satisfaz** a **restrição de pai** do executável, e se o executável do **processo responsável** **satisfaz a restrição de processo responsável** do executável. Se alguma dessas restrições de lançamento não for satisfeita, o sistema operacional não executa o programa.
+Assim, quando um processo tenta lançar outro processo — chamando `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` — o sistema operacional verifica se o arquivo **executável** **satisfaz** sua **própria restrição própria**. Ele também verifica se o executável do **processo pai** **satisfaz** a **restrição de pai** do executável, e se o executável do **processo responsável** **satisfaz a restrição de processo responsável** do executável. Se qualquer uma dessas restrições de lançamento não for satisfeita, o sistema operacional não executa o programa.
 
 Se ao carregar uma biblioteca qualquer parte da **restrição da biblioteca não for verdadeira**, seu processo **não carrega** a biblioteca.
 
-## LC Categories
+## Categorias LC
 
 Um LC é composto por **fatos** e **operações lógicas** (e, ou..) que combinam fatos.
 
 Os [**fatos que um LC pode usar estão documentados**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Por exemplo:
 
-* is-init-proc: Um valor Booleano que indica se o executável deve ser o processo de inicialização do sistema operacional (`launchd`).
-* is-sip-protected: Um valor Booleano que indica se o executável deve ser um arquivo protegido pela Proteção de Integridade do Sistema (SIP).
-* `on-authorized-authapfs-volume:` Um valor Booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
-* `on-authorized-authapfs-volume`: Um valor Booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
+* is-init-proc: Um valor booleano que indica se o executável deve ser o processo de inicialização do sistema operacional (`launchd`).
+* is-sip-protected: Um valor booleano que indica se o executável deve ser um arquivo protegido pela Proteção de Integridade do Sistema (SIP).
+* `on-authorized-authapfs-volume:` Um valor booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
+* `on-authorized-authapfs-volume`: Um valor booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
 * Volume de Cryptexes
-* `on-system-volume:` Um valor Booleano que indica se o sistema operacional carregou o executável do volume de sistema atualmente inicializado.
+* `on-system-volume:` Um valor booleano que indica se o sistema operacional carregou o executável do volume de sistema atualmente inicializado.
 * Dentro de /System...
 * ...
 
 Quando um binário da Apple é assinado, ele **o atribui a uma categoria LC** dentro do **cache de confiança**.
 
 * As **categorias LC do iOS 16** foram [**revertidas e documentadas aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* As **categorias LC atuais (macOS 14** - Sonoma) foram revertidas e suas [**descrições podem ser encontradas aqui**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* As **categorias LC atuais (macOS 14 - Sonoma)** foram revertidas e suas [**descrições podem ser encontradas aqui**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
 Por exemplo, a Categoria 1 é:
 ```
@@ -65,7 +65,7 @@ Parent Constraint: is-init-proc
 * `validation-category == 1`: Um executável do sistema operacional.
 * `is-init-proc`: Launchd
 
-### Reversão das Categorias LC
+### Reversão de Categorias LC
 
 Você tem mais informações [**sobre isso aqui**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), mas basicamente, elas são definidas no **AMFI (AppleMobileFileIntegrity)**, então você precisa baixar o Kernel Development Kit para obter o **KEXT**. Os símbolos que começam com **`kConstraintCategory`** são os **interessantes**. Extraindo-os, você obterá um fluxo codificado DER (ASN.1) que precisará decodificar com [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ou a biblioteca python-asn1 e seu script `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master), que lhe dará uma string mais compreensível.
 
@@ -77,7 +77,7 @@ Estas são as Restrições de Lançamento configuradas em **aplicações de terc
 ```bash
 codesign -d -vvvv app.app
 ```
-## Trust Caches
+## Caches de Confiança
 
 Em **macOS**, existem alguns caches de confiança:
 
@@ -91,7 +91,7 @@ E no iOS parece que está em **`/usr/standalone/firmware/FUD/StaticTrustCache.im
 No macOS rodando em dispositivos Apple Silicon, se um binário assinado pela Apple não estiver no cache de confiança, o AMFI se recusará a carregá-lo.
 {% endhint %}
 
-### Enumerando Trust Caches
+### Enumerando Caches de Confiança
 
 Os arquivos de cache de confiança anteriores estão no formato **IMG4** e **IM4P**, sendo IM4P a seção de payload de um formato IMG4.
 
@@ -115,7 +115,7 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Uma outra opção poderia ser usar a ferramenta [**img4tool**](https://github.com/tihmstar/img4tool), que funcionará mesmo no M1, mesmo que o lançamento seja antigo, e para x86\_64 se você a instalar nos locais apropriados).
+(Outra opção poderia ser usar a ferramenta [**img4tool**](https://github.com/tihmstar/img4tool), que funcionará mesmo no M1, mesmo que o lançamento seja antigo, e para x86\_64 se você a instalar nos locais apropriados).
 
 Agora você pode usar a ferramenta [**trustcache**](https://github.com/CRKatri/trustcache) para obter as informações em um formato legível:
 ```bash
@@ -153,7 +153,7 @@ uint8_t reserved0;
 ```
 Então, você poderia usar um script como [**este**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) para extrair dados.
 
-Com esses dados, você pode verificar os aplicativos com um **valor de restrições de lançamento de `0`**, que são aqueles que não estão restritos ([**ver aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para o que cada valor significa).
+Com esses dados, você pode verificar os Apps com um **valor de restrições de lançamento de `0`**, que são aqueles que não estão restritos ([**verifique aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para o que cada valor significa).
 
 ## Mitigações de Ataque
 

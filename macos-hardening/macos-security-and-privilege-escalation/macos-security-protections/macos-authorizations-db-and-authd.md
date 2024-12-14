@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## **Athorizarions DB**
+## **Banco de Autorizações**
 
 O banco de dados localizado em `/var/db/auth.db` é um banco de dados usado para armazenar permissões para realizar operações sensíveis. Essas operações são realizadas completamente no **espaço do usuário** e geralmente são usadas por **serviços XPC** que precisam verificar **se o cliente chamador está autorizado** a realizar determinada ação verificando este banco de dados.
 
@@ -43,7 +43,7 @@ As regras são armazenadas na tabela `rules` dentro do banco de dados e contêm 
 * **requirement**: Contém dados serializados definindo os requisitos e mecanismos específicos de autorização da regra.
 * **comment**: Oferece uma descrição ou comentário legível por humanos sobre a regra para documentação e clareza.
 
-### Example
+### Exemplo
 ```bash
 # List by name and comments
 sudo sqlite3 /var/db/auth.db "select name, comment from rules"

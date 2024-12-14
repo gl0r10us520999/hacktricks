@@ -26,7 +26,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 Como [**comentado anteriormente**](./#what-is-mdm-mobile-device-management)**,** para tentar inscrever um dispositivo em uma organização **apenas um Número de Série pertencente a essa Organização é necessário**. Uma vez que o dispositivo está inscrito, várias organizações instalarão dados sensíveis no novo dispositivo: certificados, aplicativos, senhas de WiFi, configurações de VPN [e assim por diante](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
 Portanto, isso pode ser um ponto de entrada perigoso para atacantes se o processo de inscrição não estiver corretamente protegido.
 
-**A seguir está um resumo da pesquisa [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Confira para mais detalhes técnicos!**
+**A seguir, um resumo da pesquisa [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Confira para mais detalhes técnicos!**
 
 ## Visão Geral da Análise Binária do DEP e MDM
 
@@ -50,7 +50,7 @@ Tentativas de interceptar e modificar solicitações do DEP para _iprofiles.appl
 
 Instrumentar binários do sistema como `cloudconfigurationd` requer desativar a Proteção de Integridade do Sistema (SIP) no macOS. Com o SIP desativado, ferramentas como LLDB podem ser usadas para se anexar a processos do sistema e potencialmente modificar o número de série usado nas interações da API do DEP. Este método é preferível, pois evita as complexidades de permissões e assinatura de código.
 
-**Explorando a Instrumentação Binária:**
+**Explorando Instrumentação Binária:**
 Modificar o payload da solicitação do DEP antes da serialização JSON em `cloudconfigurationd` provou ser eficaz. O processo envolveu:
 
 1. Anexar o LLDB a `cloudconfigurationd`.

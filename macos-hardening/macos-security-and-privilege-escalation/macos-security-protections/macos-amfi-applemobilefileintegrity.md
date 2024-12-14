@@ -1,16 +1,16 @@
 # macOS - AMFI - AppleMobileFileIntegrity
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -23,11 +23,11 @@ Ele se concentra em impor a integridade do código em execução no sistema, for
 
 Além disso, para algumas operações, o kext prefere contatar o daemon em espaço de usuário `/usr/libexec/amfid`. Essa relação de confiança foi abusada em vários jailbreaks.
 
-AMFI usa políticas **MACF** e registra seus hooks no momento em que é iniciado. Além disso, impedir seu carregamento ou descarregamento pode desencadear um pânico no kernel. No entanto, existem alguns argumentos de inicialização que permitem debilitar o AMFI:
+AMFI usa políticas **MACF** e registra seus hooks no momento em que é iniciado. Além disso, impedir seu carregamento ou descarregamento pode desencadear um pânico do kernel. No entanto, existem alguns argumentos de inicialização que permitem debilitar o AMFI:
 
 * `amfi_unrestricted_task_for_pid`: Permitir que task\_for\_pid seja permitido sem os direitos necessários
 * `amfi_allow_any_signature`: Permitir qualquer assinatura de código
-* `cs_enforcement_disable`: Argumento em todo o sistema usado para desativar a aplicação da assinatura de código
+* `cs_enforcement_disable`: Argumento de sistema usado para desativar a imposição de assinatura de código
 * `amfi_prevent_old_entitled_platform_binaries`: Anular binários de plataforma com direitos
 * `amfi_get_out_of_my_way`: Desativa completamente o amfi
 
@@ -46,7 +46,7 @@ Estas são algumas das políticas MACF que ele registra:
 * **`proc_check_expose_task`**: impõe direitos
 * **`amfi_exc_action_check_exception_send`**: Uma mensagem de exceção é enviada ao depurador
 * **`amfi_exc_action_label_associate & amfi_exc_action_label_copy/populate & amfi_exc_action_label_destroy & amfi_exc_action_label_init & amfi_exc_action_label_update`**: Ciclo de vida do rótulo durante o tratamento de exceções (depuração)
-* **`proc_check_get_task`**: Verifica direitos como `get-task-allow`, que permite que outros processos obtenham a porta de tarefas e `task_for_pid-allow`, que permite que o processo obtenha as portas de tarefas de outros processos. Se nenhum desses, chama `amfid permitunrestricteddebugging` para verificar se é permitido.
+* **`proc_check_get_task`**: Verifica direitos como `get-task-allow`, que permite que outros processos obtenham a porta de tarefas e `task_for_pid-allow`, que permite que o processo obtenha portas de tarefas de outros processos. Se nenhum desses, chama `amfid permitunrestricteddebugging` para verificar se é permitido.
 * **`proc_check_mprotect`**: Negar se `mprotect` for chamado com a flag `VM_PROT_TRUSTED`, que indica que a região deve ser tratada como se tivesse uma assinatura de código válida.
 * **`vnode_check_exec`**: É chamado quando arquivos executáveis são carregados na memória e define `cs_hard | cs_kill`, que matará o processo se qualquer uma das páginas se tornar inválida
 * **`vnode_check_getextattr`**: MacOS: Verifica `com.apple.root.installed` e `isVnodeQuarantined()`

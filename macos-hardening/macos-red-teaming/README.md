@@ -36,11 +36,11 @@ Para red teaming em ambientes MacOS, é altamente recomendável ter algum entend
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### Usando MDM como C2
+### Usando MDM como um C2
 
 Um MDM terá permissão para instalar, consultar ou remover perfis, instalar aplicativos, criar contas de administrador locais, definir senha de firmware, mudar a chave do FileVault...
 
-Para executar seu próprio MDM, você precisa de **seu CSR assinado por um fornecedor**, que você pode tentar obter em [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você pode usar [**MicroMDM**](https://github.com/micromdm/micromdm).
+Para executar seu próprio MDM, você precisa de **seu CSR assinado por um fornecedor**, o que você pode tentar obter em [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você pode usar [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 No entanto, para instalar um aplicativo em um dispositivo inscrito, você ainda precisa que ele seja assinado por uma conta de desenvolvedor... no entanto, após a inscrição no MDM, o **dispositivo adiciona o certificado SSL do MDM como uma CA confiável**, então você pode agora assinar qualquer coisa.
 
@@ -54,7 +54,7 @@ O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysa
 
 #### Auto-inscrição do JAMF
 
-Acesse uma página como `https://<nome-da-empresa>.jamfcloud.com/enroll/` para ver se eles têm **auto-inscrição habilitada**. Se tiver, pode **pedir credenciais para acessar**.
+Vá para uma página como `https://<nome-da-empresa>.jamfcloud.com/enroll/` para ver se eles têm **auto-inscrição habilitada**. Se tiver, pode **pedir credenciais para acessar**.
 
 Você pode usar o script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar um ataque de password spraying.
 
@@ -89,7 +89,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-Assim, um atacante poderia instalar um pacote malicioso (`pkg`) que **substitui este arquivo** ao ser instalado, configurando a **URL para um listener Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
+Assim, um atacante poderia instalar um pacote malicioso (`pkg`) que **substitui este arquivo** ao ser instalado, configurando a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
 
 {% code overflow="wrap" %}
 ```bash
@@ -162,7 +162,7 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 Os três tipos de usuários do MacOS são:
 
 * **Usuários Locais** — Gerenciados pelo serviço local OpenDirectory, não estão conectados de nenhuma forma ao Active Directory.
-* **Usuários de Rede** — Usuários voláteis do Active Directory que requerem uma conexão com o servidor DC para autenticar.
+* **Usuários de Rede** — Usuários voláteis do Active Directory que requerem uma conexão com o servidor DC para autenticação.
 * **Usuários Móveis** — Usuários do Active Directory com um backup local para suas credenciais e arquivos.
 
 As informações locais sobre usuários e grupos são armazenadas na pasta _/var/db/dslocal/nodes/Default._\
@@ -202,7 +202,7 @@ Obtenha senhas usando:
 ```bash
 bifrost --action askhash --username [name] --password [password] --domain [domain]
 ```
-É possível acessar a senha **`Computer$`** dentro do chaveiro do Sistema.
+É possível acessar a **`Computer$`** senha dentro do chaveiro do Sistema.
 
 ### Over-Pass-The-Hash
 

@@ -8,7 +8,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -78,9 +78,9 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 {% endcode %}
 
-# Wheel Group
+# Grupo Wheel
 
-**Às vezes**, **por padrão** dentro do arquivo **/etc/sudoers** você pode encontrar esta linha:
+**Às vezes**, **por padrão** dentro do **/etc/sudoers** você pode encontrar esta linha:
 ```text
 %wheel	ALL=(ALL:ALL) ALL
 ```
@@ -136,13 +136,13 @@ Para **abrir** a **imagem bruta**, você pode usar **GIMP**, selecionar o arquiv
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Em seguida, modifique a Largura e Altura para as usadas na tela e verifique diferentes Tipos de Imagem \(e selecione o que melhor mostra a tela\):
+Em seguida, modifique a Largura e Altura para as que foram usadas na tela e verifique diferentes Tipos de Imagem \(e selecione o que melhor mostra a tela\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
 # Grupo Root
 
-Parece que, por padrão, **membros do grupo root** podem ter acesso para **modificar** alguns arquivos de configuração de **serviço** ou alguns arquivos de **bibliotecas** ou **outras coisas interessantes** que podem ser usadas para escalar privilégios...
+Parece que, por padrão, **membros do grupo root** podem ter acesso para **modificar** alguns arquivos de configuração de **serviço** ou alguns arquivos de **bibliotecas** ou **outras coisas interessantes** que poderiam ser usadas para escalar privilégios...
 
 **Verifique quais arquivos os membros do root podem modificar**:
 ```bash
@@ -160,11 +160,10 @@ Você pode montar o sistema de arquivos raiz da máquina host em um volume da in
 
 [lxc - Escalação de Privilégios](lxd-privilege-escalation.md)
 
-
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas **ferramentas comunitárias mais avançadas** do mundo.\
-Obtenha Acesso Hoje:
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
@@ -174,7 +173,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

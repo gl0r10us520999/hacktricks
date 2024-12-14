@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Crie um **dylib** com uma seção **`__interpose`** (ou uma seção marcada com **`S_INTERPOSING`**) contendo tuplas de **ponteiros de função** que se referem às funções **originais** e **substitutas**.
 
-Em seguida, **injete** o dylib com **`DYLD_INSERT_LIBRARIES`** (a interposição precisa ocorrer antes que o aplicativo principal carregue). Obviamente, as [**restrições** aplicadas ao uso de **`DYLD_INSERT_LIBRARIES`** se aplicam aqui também](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
+Em seguida, **injete** o dylib com **`DYLD_INSERT_LIBRARIES`** (a interposição precisa ocorrer antes do carregamento do aplicativo principal). Obviamente, as [**restrições** aplicadas ao uso de **`DYLD_INSERT_LIBRARIES`** se aplicam aqui também](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
 ### Interpor printf
 
@@ -225,7 +225,7 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-Neste caso, se o **código de implementação do método legítimo** **verificar** o **nome do método**, ele pode **detectar** essa troca e impedir que ela seja executada.
+Neste caso, se o **código de implementação do método legítimo** **verificar** o **nome** do **método**, ele pode **detectar** essa troca e impedir que ela seja executada.
 
 A técnica a seguir não tem essa restrição.
 {% endhint %}
@@ -234,7 +234,7 @@ A técnica a seguir não tem essa restrição.
 
 O formato anterior é estranho porque você está mudando a implementação de 2 métodos um pelo outro. Usando a função **`method_setImplementation`**, você pode **mudar** a **implementação** de um **método para o outro**.
 
-Apenas lembre-se de **armazenar o endereço da implementação do original** se você for chamá-lo da nova implementação antes de sobrescrevê-lo, porque depois será muito mais complicado localizar esse endereço.
+Apenas lembre-se de **armazenar o endereço da implementação do original** se você for chamá-lo a partir da nova implementação antes de sobrescrevê-lo, porque depois será muito mais complicado localizar esse endereço.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>

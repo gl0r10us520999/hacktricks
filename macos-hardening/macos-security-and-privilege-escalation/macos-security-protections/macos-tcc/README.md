@@ -129,7 +129,7 @@ Verificando ambos os bancos de dados, você pode verificar as permissões que um
 
 * O **`service`** é a representação em string da **permissão** TCC
 * O **`client`** é o **ID do pacote** ou **caminho para o binário** com as permissões
-* O **`client_type`** indica se é um Identificador de Pacote(0) ou um caminho absoluto(1)
+* O **`client_type`** indica se é um Identificador de Pacote (0) ou um caminho absoluto (1)
 
 <details>
 
@@ -208,9 +208,9 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
-### TCC Verificações de Assinatura
+### Verificações de Assinatura do TCC
 
-O TCC **banco de dados** armazena o **ID do Pacote** da aplicação, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o App que está pedindo para usar uma permissão é o correto.
+O **banco de dados** do TCC armazena o **Bundle ID** da aplicação, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o App que solicita o uso de uma permissão é o correto.
 
 {% code overflow="wrap" %}
 ```bash
@@ -251,7 +251,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 Isso evitará que o Calendário pergunte ao usuário para acessar lembretes, calendário e a lista de contatos.
 
 {% hint style="success" %}
-Além de alguma documentação oficial sobre permissões, também é possível encontrar **informações interessantes não oficiais sobre permissões em** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
+Além de alguma documentação oficial sobre permissões, também é possível encontrar **informações não oficiais interessantes sobre permissões em** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
 {% endhint %}
 
 Algumas permissões do TCC são: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Não há uma lista pública que defina todas elas, mas você pode verificar esta [**lista das conhecidas**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
@@ -264,7 +264,7 @@ Algumas permissões do TCC são: kTCCServiceAppleEvents, kTCCServiceCalendar, kT
 
 ### Intenção do Usuário / com.apple.macl
 
-Como mencionado anteriormente, é possível **conceder acesso a um App a um arquivo arrastando e soltando-o nele**. Esse acesso não será especificado em nenhum banco de dados do TCC, mas como um **atributo estendido do arquivo**. Este atributo irá **armazenar o UUID** do aplicativo permitido:
+Como mencionado anteriormente, é possível **conceder acesso a um App a um arquivo arrastando e soltando-o nele**. Esse acesso não será especificado em nenhum banco de dados do TCC, mas como um **atributo estendido** **do arquivo**. Este atributo irá **armazenar o UUID** do aplicativo permitido:
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -282,7 +282,7 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 {% hint style="info" %}
 É curioso que o **`com.apple.macl`** atributo é gerenciado pelo **Sandbox**, não pelo tccd.
 
-Também note que se você mover um arquivo que permite o UUID de um app no seu computador para um computador diferente, porque o mesmo app terá UIDs diferentes, não concederá acesso a esse app.
+Também note que se você mover um arquivo que permite o UUID de um aplicativo no seu computador para um computador diferente, porque o mesmo aplicativo terá UIDs diferentes, não concederá acesso a esse aplicativo.
 {% endhint %}
 
 O atributo estendido `com.apple.macl` **não pode ser limpo** como outros atributos estendidos porque é **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desativá-lo **zipando** o arquivo, **deletando**-o e **deszipando**-o.
@@ -339,7 +339,7 @@ strftime('%s', 'now') -- last_reminded with default current timestamp
 
 ### TCC Payloads
 
-Se você conseguiu acessar um aplicativo com algumas permissões TCC, verifique a seguinte página com payloads TCC para abusar delas:
+Se você conseguiu entrar em um aplicativo com algumas permissões TCC, verifique a seguinte página com payloads TCC para abusar delas:
 
 {% content-ref url="macos-tcc-payloads.md" %}
 [macos-tcc-payloads.md](macos-tcc-payloads.md)
@@ -362,7 +362,7 @@ Esta permissão TCC específica também indica a **aplicação que pode ser gere
 Neste caso, seu aplicativo precisaria da permissão **`kTCCServiceAppleEvents`** sobre **`com.apple.Finder`**.
 
 {% tabs %}
-{% tab title="Steal users TCC.db" %}
+{% tab title="Roubar o TCC.db dos usuários" %}
 ```applescript
 # This AppleScript will copy the system TCC database into /tmp
 osascript<<EOD
@@ -543,15 +543,15 @@ Obtendo **permissões de escrita** sobre o banco de dados **TCC do usuário**, v
 
 Mas você pode **dar** a si mesmo **`direitos de Automação ao Finder`** e abusar da técnica anterior para escalar para FDA\*.
 
-### **Permissões de FDA para TCC**
+### **FDA para permissões TCC**
 
-**Acesso Completo ao Disco** é o nome do TCC **`kTCCServiceSystemPolicyAllFiles`**
+**Acesso Completo ao Disco** é o nome do TCC **`kTCCServiceSystemPolicyAllFiles`**.
 
 Eu não acho que isso seja um verdadeiro privesc, mas só para o caso de você achar útil: Se você controla um programa com FDA, você pode **modificar o banco de dados TCC dos usuários e dar a si mesmo qualquer acesso**. Isso pode ser útil como uma técnica de persistência caso você possa perder suas permissões de FDA.
 
 ### **Contorno de SIP para Contorno de TCC**
 
-O **banco de dados TCC** do sistema é protegido por **SIP**, por isso apenas processos com as **habilitações indicadas poderão modificá-lo**. Portanto, se um atacante encontrar um **contorno de SIP** sobre um **arquivo** (conseguir modificar um arquivo restrito por SIP), ele poderá:
+O **banco de dados TCC** do sistema é protegido por **SIP**, por isso apenas processos com as **autorizações indicadas poderão modificá-lo**. Portanto, se um atacante encontrar um **contorno de SIP** sobre um **arquivo** (conseguir modificar um arquivo restrito por SIP), ele poderá:
 
 * **Remover a proteção** de um banco de dados TCC e dar a si mesmo todas as permissões TCC. Ele poderia abusar de qualquer um desses arquivos, por exemplo:
 * O banco de dados do sistema TCC

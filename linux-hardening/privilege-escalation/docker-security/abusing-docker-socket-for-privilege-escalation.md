@@ -37,7 +37,7 @@ Você também pode **abusar de um mount para escalar privilégios** dentro do co
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Isso é semelhante ao método anterior, mas aqui estamos **montando o disco do dispositivo**. Então, dentro do contêiner, execute `mount /dev/sda1 /mnt` e você pode **acessar** o **sistema de arquivos do host** em `/mnt`
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Isso é semelhante ao método anterior, mas aqui estamos **montando o dispositivo de disco**. Então, dentro do contêiner, execute `mount /dev/sda1 /mnt` e você pode **acessar** o **sistema de arquivos do host** em `/mnt`
 * Execute `fdisk -l` no host para encontrar o dispositivo `</dev/sda1>` para montar
 * **`-v /tmp:/host`** -> Se por algum motivo você pode **apenas montar algum diretório** do host e você tem acesso dentro do host. Monte-o e crie um **`/bin/bash`** com **suid** no diretório montado para que você possa **executá-lo a partir do host e escalar para root**.
 

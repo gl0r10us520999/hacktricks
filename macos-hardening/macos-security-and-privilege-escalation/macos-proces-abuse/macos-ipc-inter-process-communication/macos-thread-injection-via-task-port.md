@@ -23,13 +23,13 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## 1. Thread Hijacking
 
-Inicialmente, a função **`task_threads()`** é invocada na porta da tarefa para obter uma lista de threads da tarefa remota. Uma thread é selecionada para sequestro. Essa abordagem diverge dos métodos convencionais de injeção de código, pois criar uma nova thread remota é proibido devido à nova mitigação que bloqueia `thread_create_running()`.
+Inicialmente, a função **`task_threads()`** é invocada na porta da tarefa para obter uma lista de threads da tarefa remota. Uma thread é selecionada para sequestro. Essa abordagem diverge dos métodos convencionais de injeção de código, pois a criação de uma nova thread remota é proibida devido à nova mitigação que bloqueia `thread_create_running()`.
 
 Para controlar a thread, **`thread_suspend()`** é chamada, interrompendo sua execução.
 
-As únicas operações permitidas na thread remota envolvem **parar** e **iniciar** a thread, **recuperar** e **modificar** seus valores de registradores. Chamadas de função remotas são iniciadas configurando os registradores `x0` a `x7` com os **argumentos**, configurando **`pc`** para direcionar à função desejada e ativando a thread. Garantir que a thread não falhe após o retorno requer a detecção do retorno.
+As únicas operações permitidas na thread remota envolvem **parar** e **iniciar** a thread, **recuperar** e **modificar** seus valores de registradores. Chamadas de função remotas são iniciadas configurando os registradores `x0` a `x7` para os **argumentos**, configurando **`pc`** para direcionar à função desejada e ativando a thread. Garantir que a thread não falhe após o retorno requer a detecção do retorno.
 
-Uma estratégia envolve **registrar um manipulador de exceção** para a thread remota usando `thread_set_exception_ports()`, configurando o registrador `lr` para um endereço inválido antes da chamada da função. Isso aciona uma exceção após a execução da função, enviando uma mensagem para a porta de exceção, permitindo a inspeção do estado da thread para recuperar o valor de retorno. Alternativamente, como adotado do exploit triple\_fetch de Ian Beer, `lr` é configurado para loop infinito. Os registradores da thread são então monitorados continuamente até que **`pc` aponte para essa instrução**.
+Uma estratégia envolve **registrar um manipulador de exceção** para a thread remota usando `thread_set_exception_ports()`, definindo o registrador `lr` para um endereço inválido antes da chamada da função. Isso aciona uma exceção após a execução da função, enviando uma mensagem para a porta de exceção, permitindo a inspeção do estado da thread para recuperar o valor de retorno. Alternativamente, como adotado do exploit triple\_fetch de Ian Beer, `lr` é configurado para loop infinito. Os registradores da thread são então monitorados continuamente até que **`pc` aponte para essa instrução**.
 
 ## 2. Mach ports for communication
 
@@ -110,7 +110,7 @@ O objetivo é estabelecer memória compartilhada entre tarefas locais e remotas,
 
 2. **Criando Memória Compartilhada no Processo Remoto**:
 - Alocar memória para o objeto `OS_xpc_shmem` no processo remoto com uma chamada remota para `malloc()`.
-- Copiar o conteúdo do objeto local `OS_xpc_shmem` para o processo remoto. No entanto, essa cópia inicial terá nomes de entrada de memória Mach incorretos no deslocamento `0x18`.
+- Copiar o conteúdo do objeto local `OS_xpc_shmem` para o processo remoto. No entanto, essa cópia inicial terá nomes de entradas de memória Mach incorretos no deslocamento `0x18`.
 
 3. **Corrigindo a Entrada de Memória Mach**:
 - Utilizar o método `thread_set_special_port()` para inserir um direito de envio para a entrada de memória Mach na tarefa remota.
@@ -134,7 +134,7 @@ Para criar e corrigir o objeto de memória compartilhada no processo remoto:
 malloc(); // for allocating memory remotely
 thread_set_special_port(); // for inserting send right
 ```
-Lembre-se de lidar corretamente com os detalhes das portas Mach e os nomes de entrada de memória para garantir que a configuração de memória compartilhada funcione corretamente.
+Lembre-se de lidar corretamente com os detalhes dos ports Mach e nomes de entradas de memória para garantir que a configuração de memória compartilhada funcione corretamente.
 
 ## 5. Obtendo Controle Total
 
@@ -147,10 +147,10 @@ Após estabelecer com sucesso a memória compartilhada e ganhar capacidades de e
 2. **Manipulação de Chamadas de Função com Múltiplos Argumentos**:
 - Para funções que requerem mais de 8 argumentos, organize os argumentos adicionais na pilha em conformidade com a convenção de chamada.
 
-3. **Transferência de Porta Mach**:
-- Transferir portas Mach entre tarefas através de mensagens Mach via portas previamente estabelecidas.
+3. **Transferência de Mach Port**:
+- Transferir Mach ports entre tarefas através de mensagens Mach via ports previamente estabelecidos.
 
-4. **Transferência de Descritor de Arquivo**:
+4. **Transferência de Descritores de Arquivo**:
 - Transferir descritores de arquivo entre processos usando fileports, uma técnica destacada por Ian Beer em `triple_fetch`.
 
 Esse controle abrangente está encapsulado na biblioteca [threadexec](https://github.com/bazad/threadexec), fornecendo uma implementação detalhada e uma API amigável para interação com o processo vítima.
@@ -158,7 +158,7 @@ Esse controle abrangente está encapsulado na biblioteca [threadexec](https://gi
 ## Considerações Importantes:
 
 - Assegure o uso adequado de `memcpy()` para operações de leitura/gravação de memória para manter a estabilidade do sistema e a integridade dos dados.
-- Ao transferir portas Mach ou descritores de arquivo, siga os protocolos adequados e gerencie os recursos de forma responsável para evitar leaks ou acesso não intencional.
+- Ao transferir Mach ports ou descritores de arquivo, siga os protocolos adequados e gerencie os recursos de forma responsável para evitar leaks ou acesso não intencional.
 
 Ao aderir a essas diretrizes e utilizar a biblioteca `threadexec`, é possível gerenciar e interagir com processos de forma eficiente em um nível granular, alcançando controle total sobre o processo alvo.
 
@@ -166,16 +166,16 @@ Ao aderir a essas diretrizes e utilizar a biblioteca `threadexec`, é possível 
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

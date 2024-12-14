@@ -25,7 +25,7 @@ O manuseio da comunicação entre o depurador e o depurado no .NET é gerenciado
 
 Ao visitar o **`$TMPDIR`** do usuário, pode-se encontrar FIFOs de depuração disponíveis para depurar aplicações .Net.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) é responsável por gerenciar a comunicação de um depurador. Para iniciar uma nova sessão de depuração, um depurador deve enviar uma mensagem via o pipe `out` começando com uma estrutura `MessageHeader`, detalhada no código-fonte do .NET:
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) é responsável por gerenciar a comunicação de um depurador. Para iniciar uma nova sessão de depuração, um depurador deve enviar uma mensagem via o pipe `out` começando com uma struct `MessageHeader`, detalhada no código-fonte do .NET:
 ```c
 struct MessageHeader {
 MessageType   m_eType;        // Message type
@@ -55,13 +55,13 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMajorVersion = kCurrentMajorVersion
 sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion;
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-Este cabeçalho é então enviado para o alvo usando a chamada de sistema `write`, seguido pela estrutura `sessionRequestData` contendo um GUID para a sessão:
+Este cabeçalho é então enviado para o alvo usando a chamada de sistema `write`, seguido pela struct `sessionRequestData` contendo um GUID para a sessão:
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-Uma operação de leitura no pipe `out` confirma o sucesso ou falha do estabelecimento da sessão de depuração:
+Uma operação de leitura no pipe `out` confirma o sucesso ou a falha do estabelecimento da sessão de depuração:
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
@@ -82,7 +82,7 @@ A prova de conceito (POC) completa está disponível [aqui](https://gist.github.
 
 ## Escrevendo na Memória
 
-Da mesma forma, a memória pode ser escrita usando a função `writeMemory`. O processo envolve definir o tipo de mensagem como `MT_WriteMemory`, especificar o endereço e o comprimento dos dados e, em seguida, enviar os dados:
+Da mesma forma, a memória pode ser escrita usando a função `writeMemory`. O processo envolve definir o tipo de mensagem como `MT_WriteMemory`, especificar o endereço e o comprimento dos dados, e então enviar os dados:
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location
@@ -109,7 +109,7 @@ Para sistemas x64, a busca por assinatura pode ser usada para encontrar uma refe
 
 A função de depuração `MT_GetDCB` fornece informações úteis, incluindo o endereço de uma função auxiliar, `m_helperRemoteStartAddr`, indicando a localização de `libcorclr.dll` na memória do processo. Este endereço é então usado para iniciar uma busca pela DFT e sobrescrever um ponteiro de função com o endereço do shellcode.
 
-O código completo do POC para injeção no PowerShell está acessível [aqui](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
+O código completo de POC para injeção no PowerShell está acessível [aqui](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 
 ## Referências
 

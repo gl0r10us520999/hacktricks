@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Bypass de Escrita
 
-Isso não é um bypass, é apenas como o TCC funciona: **Ele não protege contra escrita**. Se o Terminal **não tiver acesso para ler a Área de Trabalho de um usuário, ele ainda pode escrever nela**:
+Isso não é um bypass, é apenas como o TCC funciona: **Ele não protege contra escrita**. Se o Terminal **não tiver acesso para ler a Área de Trabalho de um usuário, ainda pode escrever nela**:
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -74,7 +74,7 @@ Portanto, um usuário poderia **registrar um aplicativo malicioso** para manipul
 
 ### iCloud
 
-O direito **`com.apple.private.icloud-account-access`** torna possível comunicar-se com o serviço XPC **`com.apple.iCloudHelper`** que **fornecerá tokens do iCloud**.
+O direito **`com.apple.private.icloud-account-access`** torna possível comunicar-se com o serviço XPC **`com.apple.iCloudHelper`**, que **fornecerá tokens do iCloud**.
 
 **iMovie** e **Garageband** tinham esse direito e outros que permitiam.
 
@@ -96,7 +96,7 @@ Por exemplo, se um aplicativo tem **permissão de Automação sobre `iTerm`**, p
 
 #### Sobre o iTerm
 
-Terminal, que não tem FDA, pode chamar o iTerm, que tem, e usá-lo para realizar ações:
+O Terminal, que não tem FDA, pode chamar o iTerm, que tem, e usá-lo para realizar ações:
 
 {% code title="iterm.script" %}
 ```applescript
@@ -184,7 +184,7 @@ Esse comportamento **`rename(a, b);`** é vulnerável a uma **Condição de Corr
 
 ### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
 
-Se **`SQLITE_SQLLOG_DIR="path/folder"`** basicamente significa que **qualquer db aberto é copiado para esse caminho**. Neste CVE, esse controle foi abusado para **escrever** dentro de um **banco de dados SQLite** que será **aberto por um processo com FDA o banco de dados TCC**, e então abusar de **`SQLITE_SQLLOG_DIR`** com um **symlink no nome do arquivo** para que, quando esse banco de dados for **aberto**, o usuário **TCC.db é sobrescrito** com o aberto.\
+Se **`SQLITE_SQLLOG_DIR="path/folder"`** basicamente significa que **qualquer banco de dados aberto é copiado para esse caminho**. Neste CVE, esse controle foi abusado para **escrever** dentro de um **banco de dados SQLite** que será **aberto por um processo com FDA o banco de dados TCC**, e então abusar de **`SQLITE_SQLLOG_DIR`** com um **symlink no nome do arquivo** para que, quando aquele banco de dados for **aberto**, o usuário **TCC.db é sobrescrito** com o que foi aberto.\
 **Mais info** [**na descrição**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **e** [**na palestra**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
 
 ### **SQLITE\_AUTO\_TRACE**
@@ -208,12 +208,12 @@ Definindo o seguinte: `MTL_DUMP_PIPELINES_TO_JSON_FILE="caminho/nome"`. Se `cami
 
 É uma gravação de arquivo temporário, seguida por um **`rename(old, new)`** **que não é seguro.**
 
-Não é seguro porque precisa **resolver os caminhos antigos e novos separadamente**, o que pode levar algum tempo e pode ser vulnerável a uma Condição de Corrida. Para mais informações, você pode conferir a função `renameat_internal()` do `xnu`.
+Não é seguro porque precisa **resolver os caminhos antigos e novos separadamente**, o que pode levar algum tempo e pode ser vulnerável a uma Condição de Corrida. Para mais informações, você pode conferir a função `xnu` `renameat_internal()`.
 
 {% hint style="danger" %}
 Então, basicamente, se um processo privilegiado estiver renomeando de uma pasta que você controla, você poderia ganhar um RCE e fazer com que ele acesse um arquivo diferente ou, como neste CVE, abrir o arquivo que o aplicativo privilegiado criou e armazenar um FD.
 
-Se o renomear acessar uma pasta que você controla, enquanto você tiver modificado o arquivo de origem ou tiver um FD para ele, você muda o arquivo (ou pasta) de destino para apontar para um symlink, assim você pode escrever sempre que quiser.
+Se o renomear acessar uma pasta que você controla, enquanto você modificou o arquivo de origem ou tem um FD para ele, você muda o arquivo (ou pasta) de destino para apontar para um symlink, assim você pode escrever sempre que quiser.
 {% endhint %}
 
 Este foi o ataque no CVE: Por exemplo, para sobrescrever o `TCC.db` do usuário, podemos:
@@ -238,7 +238,7 @@ Agora, se você tentar usar a variável de ambiente `MTL_DUMP_PIPELINES_TO_JSON_
 
 ### Apple Remote Desktop
 
-Como root, você poderia habilitar este serviço e o **agente ARD terá acesso total ao disco**, que poderia ser abusado por um usuário para fazer com que ele copie um novo **banco de dados de usuário TCC**.
+Como root, você poderia habilitar este serviço e o **agente ARD terá acesso total ao disco**, que poderia ser abusado por um usuário para fazer com que ele copie um novo **banco de dados de usuários TCC**.
 
 ## Por **NFSHomeDirectory**
 
@@ -246,7 +246,7 @@ O TCC usa um banco de dados na pasta HOME do usuário para controlar o acesso a 
 Portanto, se o usuário conseguir reiniciar o TCC com uma variável de ambiente $HOME apontando para uma **pasta diferente**, o usuário poderia criar um novo banco de dados TCC em **/Library/Application Support/com.apple.TCC/TCC.db** e enganar o TCC para conceder qualquer permissão TCC a qualquer aplicativo.
 
 {% hint style="success" %}
-Observe que a Apple usa a configuração armazenada dentro do perfil do usuário no atributo **`NFSHomeDirectory`** para o **valor de `$HOME`**, então se você comprometer um aplicativo com permissões para modificar esse valor (**`kTCCServiceSystemPolicySysAdminFiles`**), você pode **armar** essa opção com um bypass do TCC.
+Observe que a Apple usa a configuração armazenada no perfil do usuário no atributo **`NFSHomeDirectory`** para o **valor de `$HOME`**, então se você comprometer um aplicativo com permissões para modificar esse valor (**`kTCCServiceSystemPolicySysAdminFiles`**), você pode **armar** essa opção com um bypass do TCC.
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -271,13 +271,13 @@ Para mais informações, confira o [**relatório original**](https://www.microso
 
 ## Por injeção de processo
 
-Existem diferentes técnicas para injetar código dentro de um processo e abusar de seus privilégios TCC:
+Existem diferentes técnicas para injetar código dentro de um processo e abusar de suas permissões TCC:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-Além disso, a injeção de processo mais comum para contornar o TCC encontrada é via **plugins (carregar biblioteca)**.\
+Além disso, a injeção de processo mais comum para contornar o TCC encontrada é via **plugins (load library)**.\
 Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que serão **carregados pelo aplicativo principal** e serão executados sob seu contexto. Portanto, se o aplicativo principal tiver acesso a arquivos restritos pelo TCC (via permissões ou direitos concedidos), o **código personalizado também terá**.
 
 ### CVE-2020-27937 - Directory Utility
@@ -494,7 +494,7 @@ Verifique o **exploit completo** na [**escrita original**](https://theevilbit.gi
 
 ### asr
 
-A ferramenta **`/usr/sbin/asr`** permitia copiar todo o disco e montá-lo em outro lugar, contornando as proteções do TCC.
+A ferramenta **`/usr/sbin/asr`** permitiu copiar todo o disco e montá-lo em outro lugar, contornando as proteções do TCC.
 
 ### Serviços de Localização
 
@@ -536,9 +536,9 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 

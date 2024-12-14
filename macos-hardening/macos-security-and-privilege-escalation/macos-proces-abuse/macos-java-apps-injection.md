@@ -146,7 +146,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 Este arquivo suporta a especificação de **parâmetros Java** quando o Java é executado. Você pode usar alguns dos truques anteriores para alterar os parâmetros java e **fazer o processo executar comandos arbitrários**.\
 Além disso, este arquivo também pode **incluir outros** com o diretório `include`, então você também pode alterar um arquivo incluído.
 
-Ainda mais, alguns aplicativos Java irão **carregar mais de um arquivo `vmoptions`**.
+Ainda mais, alguns aplicativos Java **carregarão mais de um arquivo `vmoptions`**.
 
 Alguns aplicativos como o Android Studio indicam em sua **saída onde estão procurando** por esses arquivos, como:
 ```bash

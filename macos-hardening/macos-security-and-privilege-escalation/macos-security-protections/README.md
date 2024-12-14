@@ -1,16 +1,16 @@
-# macOS Security Protections
+# Proteções de Segurança do macOS
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -25,13 +25,13 @@ Mais informações em:
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Processes Limitants
+## Processos Limitantes
 
 ### MACF
 
 
 
-### SIP - System Integrity Protection
+### SIP - Proteção de Integridade do Sistema
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
@@ -45,7 +45,7 @@ O Sandbox do macOS **limita as aplicações** que estão rodando dentro do sandb
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Transparency, Consent, and Control**
+### TCC - **Transparência, Consentimento e Controle**
 
 **TCC (Transparência, Consentimento e Controle)** é uma estrutura de segurança. É projetada para **gerenciar as permissões** das aplicações, especificamente regulando seu acesso a recursos sensíveis. Isso inclui elementos como **serviços de localização, contatos, fotos, microfone, câmera, acessibilidade e acesso total ao disco**. O TCC garante que os aplicativos só possam acessar esses recursos após obter o consentimento explícito do usuário, reforçando assim a privacidade e o controle sobre os dados pessoais.
 
@@ -53,15 +53,15 @@ O Sandbox do macOS **limita as aplicações** que estão rodando dentro do sandb
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Launch/Environment Constraints & Trust Cache
+### Restrições de Lançamento/Ambiente & Cache de Confiança
 
-As restrições de lançamento no macOS são um recurso de segurança para **regulamentar a iniciação de processos** definindo **quem pode iniciar** um processo, **como** e **de onde**. Introduzidas no macOS Ventura, elas categorizam binários do sistema em categorias de restrição dentro de um **cache de confiança**. Cada binário executável tem **regras** definidas para seu **lançamento**, incluindo **auto**, **pai** e **responsável**. Estendidas a aplicativos de terceiros como **Environment** Constraints no macOS Sonoma, esses recursos ajudam a mitigar potenciais explorações do sistema ao governar as condições de lançamento de processos.
+As restrições de lançamento no macOS são um recurso de segurança para **regulamentar a iniciação de processos** definindo **quem pode lançar** um processo, **como** e **de onde**. Introduzidas no macOS Ventura, elas categorizam binários do sistema em categorias de restrição dentro de um **cache de confiança**. Cada binário executável tem **regras** definidas para seu **lançamento**, incluindo **auto**, **pai** e **responsável** restrições. Estendidas a aplicativos de terceiros como **Restrições de Ambiente** no macOS Sonoma, esses recursos ajudam a mitigar potenciais explorações do sistema ao governar as condições de lançamento de processos.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Malware Removal Tool
+## MRT - Ferramenta de Remoção de Malware
 
 A Ferramenta de Remoção de Malware (MRT) é outra parte da infraestrutura de segurança do macOS. Como o nome sugere, a principal função do MRT é **remover malware conhecido de sistemas infectados**.
 
@@ -69,12 +69,12 @@ Uma vez que o malware é detectado em um Mac (seja pelo XProtect ou por outros m
 
 Enquanto o XProtect e o MRT são parte das medidas de segurança do macOS, eles desempenham funções diferentes:
 
-* **XProtect** é uma ferramenta preventiva. Ele **verifica arquivos à medida que são baixados** (por meio de certos aplicativos) e, se detectar qualquer tipo conhecido de malware, **impede que o arquivo seja aberto**, evitando assim que o malware infecte seu sistema em primeiro lugar.
+* **XProtect** é uma ferramenta preventiva. Ele **verifica arquivos à medida que são baixados** (via certos aplicativos), e se detectar qualquer tipo conhecido de malware, **impede que o arquivo seja aberto**, evitando assim que o malware infecte seu sistema em primeiro lugar.
 * **MRT**, por outro lado, é uma **ferramenta reativa**. Ele opera após o malware ter sido detectado em um sistema, com o objetivo de remover o software ofensivo para limpar o sistema.
 
 O aplicativo MRT está localizado em **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
-## Background Tasks Management
+## Gerenciamento de Tarefas em Segundo Plano
 
 **macOS** agora **alerta** toda vez que uma ferramenta usa uma técnica bem conhecida para persistir a execução de código (como Itens de Login, Daemons...), para que o usuário saiba melhor **qual software está persistindo**.
 
@@ -82,9 +82,9 @@ O aplicativo MRT está localizado em **`/Library/Apple/System/Library/CoreServic
 
 Isso é executado com um **daemon** localizado em `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` e o **agente** em `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
-A maneira como **`backgroundtaskmanagementd`** sabe que algo está instalado em uma pasta persistente é **obtendo os FSEvents** e criando alguns **handlers** para esses.
+A maneira como **`backgroundtaskmanagementd`** sabe que algo está instalado em uma pasta persistente é **obtendo os FSEvents** e criando alguns **manipuladores** para eles.
 
-Além disso, há um arquivo plist que contém **aplicativos bem conhecidos** que frequentemente persistem, mantido pela Apple, localizado em: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
+Além disso, há um arquivo plist que contém **aplicativos bem conhecidos** que frequentemente persistem mantidos pela Apple localizado em: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
@@ -118,7 +118,7 @@ Esta informação está sendo armazenada em **`/private/var/db/com.apple.backgro
 
 ### Brincando com BTM
 
-Quando uma nova persistência é encontrada, um evento do tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** é gerado. Portanto, qualquer forma de **prevenir** que este **evento** seja enviado ou que o **agente alerte** o usuário ajudará um atacante a _**contornar**_ o BTM.
+Quando uma nova persistência é encontrada, um evento do tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** é gerado. Portanto, qualquer maneira de **prevenir** que este **evento** seja enviado ou que o **agente alerte** o usuário ajudará um atacante a _**contornar**_ o BTM.
 
 * **Redefinindo o banco de dados**: Executar o seguinte comando irá redefinir o banco de dados (deve reconstruí-lo do zero), no entanto, por algum motivo, após executar isso, **nenhuma nova persistência será alertada até que o sistema seja reiniciado**.
 * **root** é necessário.
@@ -148,16 +148,16 @@ Referências e **mais informações sobre BTM**:
 * [https://support.apple.com/en-gb/guide/deployment/depdca572563/web](https://support.apple.com/en-gb/guide/deployment/depdca572563/web)
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

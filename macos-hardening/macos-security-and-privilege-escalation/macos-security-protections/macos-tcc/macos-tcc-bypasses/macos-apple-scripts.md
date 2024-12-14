@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Apple Scripts
 
-É uma linguagem de script usada para automação de tarefas **interagindo com processos remotos**. Facilita bastante **pedir a outros processos que realizem algumas ações**. **Malware** pode abusar dessas funcionalidades para explorar funções exportadas por outros processos.\
+É uma linguagem de script usada para automação de tarefas **interagindo com processos remotos**. Facilita bastante **pedir a outros processos para realizar algumas ações**. **Malware** pode abusar dessas funcionalidades para explorar funções exportadas por outros processos.\
 Por exemplo, um malware poderia **injetar código JS arbitrário em páginas abertas no navegador**. Ou **clicar automaticamente** em algumas permissões solicitadas ao usuário;
 ```applescript
 tell window 1 of process "SecurityAgent"

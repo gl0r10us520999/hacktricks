@@ -51,7 +51,7 @@ Ao montar uma nova instância do sistema de arquivos `/proc` se você usar o par
 Quando `unshare` é executado sem a opção `-f`, um erro é encontrado devido à forma como o Linux lida com novos namespaces de PID (Identificação de Processo). Os detalhes principais e a solução estão descritos abaixo:
 
 1. **Explicação do Problema**:
-- O kernel do Linux permite que um processo crie novos namespaces usando a chamada de sistema `unshare`. No entanto, o processo que inicia a criação de um novo namespace de PID (referido como o processo "unshare") não entra no novo namespace; apenas seus processos filhos o fazem.
+- O kernel do Linux permite que um processo crie novos namespaces usando a chamada de sistema `unshare`. No entanto, o processo que inicia a criação de um novo namespace de PID (referido como o processo "unshare") não entra no novo namespace; apenas seus processos filhos entram.
 - Executar `%unshare -p /bin/bash%` inicia `/bin/bash` no mesmo processo que `unshare`. Consequentemente, `/bin/bash` e seus processos filhos estão no namespace de PID original.
 - O primeiro processo filho de `/bin/bash` no novo namespace se torna PID 1. Quando esse processo sai, ele aciona a limpeza do namespace se não houver outros processos, já que PID 1 tem o papel especial de adotar processos órfãos. O kernel do Linux então desabilitará a alocação de PID nesse namespace.
 
@@ -59,8 +59,8 @@ Quando `unshare` é executado sem a opção `-f`, um erro é encontrado devido �
 - A saída de PID 1 em um novo namespace leva à limpeza da flag `PIDNS_HASH_ADDING`. Isso resulta na falha da função `alloc_pid` em alocar um novo PID ao criar um novo processo, produzindo o erro "Não é possível alocar memória".
 
 3. **Solução**:
-- O problema pode ser resolvido usando a opção `-f` com `unshare`. Esta opção faz com que `unshare` fork um novo processo após criar o novo namespace de PID.
-- Executar `%unshare -fp /bin/bash%` garante que o comando `unshare` em si se torne PID 1 no novo namespace. `/bin/bash` e seus processos filhos são então contidos com segurança dentro deste novo namespace, prevenindo a saída prematura de PID 1 e permitindo a alocação normal de PID.
+- O problema pode ser resolvido usando a opção `-f` com `unshare`. Essa opção faz com que `unshare` fork um novo processo após criar o novo namespace de PID.
+- Executar `%unshare -fp /bin/bash%` garante que o comando `unshare` em si se torne PID 1 no novo namespace. `/bin/bash` e seus processos filhos são então contidos com segurança dentro desse novo namespace, prevenindo a saída prematura de PID 1 e permitindo a alocação normal de PID.
 
 Ao garantir que `unshare` seja executado com a flag `-f`, o novo namespace de PID é mantido corretamente, permitindo que `/bin/bash` e seus subprocessos operem sem encontrar o erro de alocação de memória.
 
@@ -70,7 +70,7 @@ Ao garantir que `unshare` seja executado com a flag `-f`, o novo namespace de PI
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-Para usar o user namespace, o daemon do Docker precisa ser iniciado com **`--userns-remap=default`** (No ubuntu 14.04, isso pode ser feito modificando `/etc/default/docker` e depois executando `sudo service docker restart`)
+Para usar o namespace de usuário, o daemon do Docker precisa ser iniciado com **`--userns-remap=default`** (No ubuntu 14.04, isso pode ser feito modificando `/etc/default/docker` e, em seguida, executando `sudo service docker restart`)
 
 ### &#x20;Verifique em qual namespace seu processo está
 ```bash
@@ -121,12 +121,12 @@ root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
 ### Recuperando Capacidades
 
-No caso de namespaces de usuário, **quando um novo namespace de usuário é criado, o processo que entra no namespace recebe um conjunto completo de capacidades dentro desse namespace**. Essas capacidades permitem que o processo realize operações privilegiadas, como **montar** **sistemas de arquivos**, criar dispositivos ou alterar a propriedade de arquivos, mas **apenas dentro do contexto de seu namespace de usuário**.
+No caso de namespaces de usuário, **quando um novo namespace de usuário é criado, o processo que entra no namespace recebe um conjunto completo de capacidades dentro desse namespace**. Essas capacidades permitem que o processo execute operações privilegiadas, como **montar** **sistemas de arquivos**, criar dispositivos ou alterar a propriedade de arquivos, mas **apenas dentro do contexto do seu namespace de usuário**.
 
 Por exemplo, quando você tem a capacidade `CAP_SYS_ADMIN` dentro de um namespace de usuário, pode realizar operações que normalmente exigem essa capacidade, como montar sistemas de arquivos, mas apenas dentro do contexto do seu namespace de usuário. Quaisquer operações que você realizar com essa capacidade não afetarão o sistema host ou outros namespaces.
 
 {% hint style="warning" %}
-Portanto, mesmo que obter um novo processo dentro de um novo namespace de usuário **lhe dará todas as capacidades de volta** (CapEff: 000001ffffffffff), você na verdade **só pode usar as relacionadas ao namespace** (montar, por exemplo), mas não todas. Assim, isso por si só não é suficiente para escapar de um contêiner Docker.
+Portanto, mesmo que obter um novo processo dentro de um novo namespace de usuário **te dará todas as capacidades de volta** (CapEff: 000001ffffffffff), você na verdade **só pode usar as relacionadas ao namespace** (montar, por exemplo), mas não todas. Assim, isso por si só não é suficiente para escapar de um contêiner Docker.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## XPC Connecting Process Check
 
-Quando uma conexão é estabelecida a um serviço XPC, o servidor verificará se a conexão é permitida. Estas são as verificações que normalmente seriam realizadas:
+Quando uma conexão é estabelecida a um serviço XPC, o servidor verificará se a conexão é permitida. Estas são as verificações que geralmente seriam realizadas:
 
 1. Verifique se o **processo de conexão está assinado com um certificado assinado pela Apple** (somente fornecido pela Apple).
 * Se isso **não for verificado**, um atacante poderia criar um **certificado falso** para corresponder a qualquer outra verificação.
@@ -28,8 +28,8 @@ Quando uma conexão é estabelecida a um serviço XPC, o servidor verificará se
 4. (4 ou 5) Verifique se o processo de conexão tem um **número de versão de software apropriado**.
 * Se isso **não for verificado**, um cliente antigo e inseguro, vulnerável a injeção de processos, poderia ser usado para conectar-se ao serviço XPC, mesmo com as outras verificações em vigor.
 5. (4 ou 5) Verifique se o processo de conexão tem um runtime endurecido sem direitos perigosos (como aqueles que permitem carregar bibliotecas arbitrárias ou usar variáveis de ambiente DYLD).
-1. Se isso **não for verificado**, o cliente pode ser **vulnerável a injeção de código**.
-6. Verifique se o processo de conexão tem um **direito** que permite conectá-lo ao serviço. Isso é aplicável para binários da Apple.
+* Se isso **não for verificado**, o cliente pode ser **vulnerável a injeção de código**.
+6. Verifique se o processo de conexão tem um **direito** que permite conectar-se ao serviço. Isso é aplicável para binários da Apple.
 7. A **verificação** deve ser **baseada** no **token de auditoria do cliente de conexão** **em vez** de seu ID de processo (**PID**), uma vez que o primeiro previne **ataques de reutilização de PID**.
 * Os desenvolvedores **raramente usam a chamada de API do token de auditoria** uma vez que é **privada**, então a Apple poderia **mudar** a qualquer momento. Além disso, o uso de API privada não é permitido em aplicativos da Mac App Store.
 * Se o método **`processIdentifier`** for usado, ele pode ser vulnerável.
@@ -55,7 +55,7 @@ Trustcache é um método defensivo introduzido em máquinas Apple Silicon que ar
 
 ### Code Examples
 
-O servidor implementará essa **verificação** em uma função chamada **`shouldAcceptNewConnection`**.
+O servidor implementará esta **verificação** em uma função chamada **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -117,11 +117,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Supporte o HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

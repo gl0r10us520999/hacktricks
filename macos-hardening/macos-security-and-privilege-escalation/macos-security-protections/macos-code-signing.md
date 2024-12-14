@@ -52,7 +52,7 @@ char data[];
 __attribute__ ((aligned(1)));
 ```
 Blobs comuns contidos são Diretório de Código, Requisitos e Direitos e uma Sintaxe de Mensagem Criptográfica (CMS).\
-Além disso, note como os dados codificados nos blobs são codificados em **Big Endian.**
+Além disso, note como os dados codificados nos blobs estão codificados em **Big Endian.**
 
 Além disso, as assinaturas podem ser destacadas dos binários e armazenadas em `/var/db/DetachedSignatures` (usado pelo iOS).
 
@@ -163,7 +163,7 @@ Note que as aplicações podem também conter um **entitlement blob** onde todos
 
 As aplicações do MacOS não têm tudo o que precisam para executar dentro do binário, mas também usam **recursos externos** (geralmente dentro do **bundle** das aplicações). Portanto, existem alguns slots dentro do binário que conterão os hashes de alguns recursos externos interessantes para verificar se não foram modificados.
 
-Na verdade, é possível ver nas estruturas do Code Directory um parâmetro chamado **`nSpecialSlots`** indicando o número dos slots especiais. Não existe um slot especial 0 e os mais comuns (de -1 a -6) são:
+Na verdade, é possível ver nas estruturas do Code Directory um parâmetro chamado **`nSpecialSlots`** que indica o número dos slots especiais. Não existe um slot especial 0 e os mais comuns (de -1 a -6) são:
 
 * Hash de `info.plist` (ou o que está dentro de `__TEXT.__info__plist`).
 * Hash dos Requisitos
@@ -175,7 +175,7 @@ Na verdade, é possível ver nas estruturas do Code Directory um parâmetro cham
 
 ## Code Signing Flags
 
-Cada processo tem relacionado um bitmask conhecido como `status` que é iniciado pelo kernel e alguns deles podem ser substituídos pela **assinatura de código**. Essas flags que podem ser incluídas na assinatura de código são [definidas no código](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+Cada processo tem um bitmask relacionado conhecido como `status`, que é iniciado pelo kernel e alguns deles podem ser substituídos pela **assinatura de código**. Essas flags que podem ser incluídas na assinatura de código são [definidas no código](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -306,13 +306,13 @@ od -A x -t x1 /tmp/output.csreq
 * **`kSecCSDefaultFlags`**: Flags padrão usadas em muitas funções do Security.framework para operações de assinatura de código.
 * **`kSecCSSigningInformation`**: Flag usada para especificar que as informações de assinatura devem ser recuperadas.
 
-## Aplicação de Assinatura de Código
+## Aplicação da Assinatura de Código
 
 O **kernel** é quem **verifica a assinatura de código** antes de permitir que o código do aplicativo seja executado. Além disso, uma maneira de conseguir escrever e executar novo código na memória é abusar do JIT se `mprotect` for chamado com a flag `MAP_JIT`. Note que a aplicação precisa de um direito especial para poder fazer isso.
 
 ## `cs_blobs` & `cs_blob`
 
-[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) a struct contém as informações sobre o direito do processo em execução sobre ele. `csb_platform_binary` também informa se a aplicação é um binário de plataforma (o que é verificado em diferentes momentos pelo OS para aplicar mecanismos de segurança, como proteger os direitos de ENVIO para as portas de tarefa desses processos).
+[**cs\_blob**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ubc_internal.h#L106) a struct contém as informações sobre o direito do processo em execução sobre ele. `csb_platform_binary` também informa se a aplicação é um binário de plataforma (o que é verificado em diferentes momentos pelo OS para aplicar mecanismos de segurança, como proteger os direitos de SEND para as portas de tarefa desses processos).
 ```c
 struct cs_blob {
 struct cs_blob  *csb_next;
@@ -385,7 +385,7 @@ Aprenda e pratique Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
