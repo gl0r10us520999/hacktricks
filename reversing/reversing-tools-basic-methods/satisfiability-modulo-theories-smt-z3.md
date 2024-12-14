@@ -1,26 +1,26 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 
-Baie basies, hierdie hulpmiddel sal ons help om waardes vir veranderlikes te vind wat aan sekere voorwaardes moet voldoen, en om dit met die hand te bereken sal baie irriterend wees. Daarom kan jy vir Z3 die voorwaardes aandui waaraan die veranderlikes moet voldoen en dit sal 'n paar waardes vind (indien moontlik).
+Sehr grundlegend wird uns dieses Tool helfen, Werte für Variablen zu finden, die einige Bedingungen erfüllen müssen, und sie von Hand zu berechnen, wäre sehr lästig. Daher können Sie Z3 die Bedingungen angeben, die die Variablen erfüllen müssen, und es wird einige Werte finden (wenn möglich).
 
-**Sommige teks en voorbeelde is onttrek van [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**Einige Texte und Beispiele stammen von [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
-# Basiese Operasies
+# Grundoperationen
 
-## Booleans/En/Of/Nie
+## Booleans/Und/Oder/Nicht
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -55,7 +55,7 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
-## Druk Model
+## Modell drucken
 ```python
 from z3 import *
 
@@ -69,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Masjien Aritmetiek
+# Maschinenarithmetik
 
-Moderne CPU's en hoofstroom programmeertale gebruik aritmetiek oor **vaste-grootte bit-vektore**. Masjien aritmetiek is beskikbaar in Z3Py as **Bit-Vektore**.
+Moderne CPUs und gängige Programmiersprachen verwenden Arithmetik über **festgelegte Bit-Vektoren**. Maschinenarithmetik ist in Z3Py als **Bit-Vektoren** verfügbar.
 ```python
 from z3 import *
 
@@ -86,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Getekende/Ongetekende Getalle
+## Signed/Unsigned Numbers
 
-Z3 bied spesiale getekende weergawes van wiskundige operasies waar dit 'n verskil maak of die **bit-vectore as getekend of ongetekend** behandel word. In Z3Py, die operateurs **<, <=, >, >=, /, % en >>** stem ooreen met die **getekende** weergawes. Die ooreenstemmende **ongetekende** operateurs is **ULT, ULE, UGT, UGE, UDiv, URem en LShR.**
+Z3 bietet spezielle signierte Versionen arithmetischer Operationen, bei denen es einen Unterschied macht, ob der **Bitvektor als signiert oder unsigniert behandelt wird**. In Z3Py entsprechen die Operatoren **<, <=, >, >=, /, % und >>** den **signierten** Versionen. Die entsprechenden **unsignierten** Operatoren sind **ULT, ULE, UGT, UGE, UDiv, URem und LShR.**
 ```python
 from z3 import *
 
@@ -106,11 +106,11 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## Funksies
+## Funktionen
 
-**Geïnterpreteerde funksies** soos aritmetika waar die **funksie +** 'n **vaste standaardinterpretasie** het (dit voeg twee getalle by). **Nie-geïnterpreteerde funksies** en konstantes is **maksimaal buigsaam**; hulle laat **enige interpretasie** toe wat **konsekwent** is met die **beperkings** oor die funksie of konstante.
+**Interpretierte Funktionen** wie Arithmetik, bei denen die **Funktion +** eine **feste Standardinterpretation** hat (sie addiert zwei Zahlen). **Uninterpretierte Funktionen** und Konstanten sind **maximal flexibel**; sie erlauben **jede Interpretation**, die **konsistent** mit den **Einschränkungen** über die Funktion oder Konstante ist.
 
-Voorbeeld: f wat twee keer op x toegepas word, lei tot x weer, maar f wat een keer op x toegepas word, is anders as x.
+Beispiel: f, die zweimal auf x angewendet wird, ergibt wieder x, aber f, die einmal auf x angewendet wird, ist anders als x.
 ```python
 from z3 import *
 
@@ -129,9 +129,9 @@ s.add(f(x) == 4) #Find the value that generates 4 as response
 s.check()
 print(m.model())
 ```
-# Voorbeelde
+# Beispiele
 
-## Sudoku-oplosser
+## Sudoku-Löser
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -181,22 +181,22 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-## Verwysings
+## Referenzen
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

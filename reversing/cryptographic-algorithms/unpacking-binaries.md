@@ -1,36 +1,36 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 
-# Identifisering van gepakte binêre
+# Identifizierung gepackter Binaries
 
-* **gebrek aan strings**: Dit is algemeen om te vind dat gepakte binêre amper geen string het nie
-* 'n Baie **onbenutte strings**: Ook, wanneer 'n malware 'n soort kommersiële pakker gebruik, is dit algemeen om baie strings sonder kruisverwysings te vind. Selfs al bestaan hierdie strings beteken dit nie dat die binêre nie gepak is nie.
-* Jy kan ook 'n paar gereedskap gebruik om te probeer uitvind watter pakker gebruik is om 'n binêre te pak:
+* **Mangel an Strings**: Es ist üblich, dass gepackte Binaries fast keine Strings haben.
+* Viele **ungenutzte Strings**: Wenn Malware eine Art kommerziellen Packer verwendet, ist es auch üblich, viele Strings ohne Querverweise zu finden. Selbst wenn diese Strings existieren, bedeutet das nicht, dass die Binary nicht gepackt ist.
+* Du kannst auch einige Tools verwenden, um herauszufinden, welcher Packer verwendet wurde, um eine Binary zu packen:
 * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
 * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
 * [Language 2000](http://farrokhi.net/language/)
 
-# Basiese Aanbevelings
+# Grundlegende Empfehlungen
 
-* **Begin** om die gepakte binêre **van die onderkant in IDA te analiseer en beweeg op**. Unpackers verlaat wanneer die uitgepakte kode verlaat, so dit is onwaarskynlik dat die unpacker uitvoering aan die uitgepakte kode aan die begin oorgee.
-* Soek na **JMP's** of **CALLs** na **registers** of **gebiede** van **geheue**. Soek ook na **funksies wat argumente en 'n adres rigting druk en dan `retn` aanroep**, want die terugkeer van die funksie in daardie geval kan die adres wat net na die stapel gedruk is, aanroep voordat dit dit aanroep.
-* Plaas 'n **breekpunt** op `VirtualAlloc` aangesien dit ruimte in geheue toewys waar die program uitgepakte kode kan skryf. Die "loop na gebruikerskode" of gebruik F8 om **na waarde binne EAX te gaan** na die uitvoering van die funksie en "**volg daardie adres in dump**". Jy weet nooit of dit die gebied is waar die uitgepakte kode gestoor gaan word.
-* **`VirtualAlloc`** met die waarde "**40**" as 'n argument beteken Lees+Skryf+Voer uit (sommige kode wat uitvoering benodig gaan hier gekopieer word).
-* **Terwyl jy kode unpack**, is dit normaal om **verskeie oproepe** na **aritmetiese operasies** en funksies soos **`memcopy`** of **`Virtual`**`Alloc` te vind. As jy in 'n funksie is wat blykbaar net aritmetiese operasies uitvoer en dalk 'n paar `memcopy`, is die aanbeveling om te probeer **die einde van die funksie te vind** (miskien 'n JMP of oproep na 'n register) **of** ten minste die **oproep na die laaste funksie** en loop dan na dit, aangesien die kode nie interessant is nie.
-* Terwyl jy kode unpack, **let op** wanneer jy **geheuegebied verander** aangesien 'n verandering in geheuegebied die **begin van die unpacking kode** kan aandui. Jy kan maklik 'n geheuegebied dump met Process Hacker (proses --> eienskappe --> geheue).
-* Terwyl jy probeer om kode te unpack, is 'n goeie manier om **te weet of jy reeds met die uitgepakte kode werk** (sodat jy dit net kan dump) om **die strings van die binêre te kontroleer**. As jy op 'n sekere punt 'n sprong maak (miskien die geheuegebied verander) en jy opmerk dat **baie meer strings bygevoeg is**, dan kan jy weet **jy werk met die uitgepakte kode**.\
-As die pakker egter reeds 'n baie strings bevat, kan jy kyk hoeveel strings die woord "http" bevat en sien of hierdie getal toeneem.
-* Wanneer jy 'n uitvoerbare lêer van 'n geheuegebied dump, kan jy 'n paar koptekste regstel met [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
+* **Beginne** mit der Analyse der gepackten Binary **von unten in IDA und arbeite nach oben**. Unpacker beenden, sobald der entpackte Code endet, daher ist es unwahrscheinlich, dass der Unpacker die Ausführung zu Beginn an den entpackten Code übergibt.
+* Suche nach **JMPs** oder **CALLs** zu **Registern** oder **Speicherbereichen**. Suche auch nach **Funktionen, die Argumente und eine Adressrichtung pushen und dann `retn` aufrufen**, da die Rückkehr der Funktion in diesem Fall die Adresse aufrufen kann, die zuvor auf den Stack gepusht wurde.
+* Setze einen **Breakpoint** auf `VirtualAlloc`, da dies Speicher im RAM allokiert, wo das Programm entpackten Code schreiben kann. "Lauf zu Benutzercode" oder benutze F8, um **den Wert in EAX zu erhalten**, nachdem die Funktion ausgeführt wurde und "**folge dieser Adresse im Dump**". Du weißt nie, ob das der Bereich ist, in dem der entpackte Code gespeichert wird.
+* **`VirtualAlloc`** mit dem Wert "**40**" als Argument bedeutet Lesen+Schreiben+Ausführen (einige Code, der ausgeführt werden muss, wird hier kopiert).
+* **Während des Entpackens** von Code ist es normal, **mehrere Aufrufe** zu **arithmetischen Operationen** und Funktionen wie **`memcopy`** oder **`Virtual`**`Alloc` zu finden. Wenn du dich in einer Funktion befindest, die anscheinend nur arithmetische Operationen und vielleicht einige `memcopy` durchführt, ist die Empfehlung, zu versuchen, **das Ende der Funktion zu finden** (vielleicht ein JMP oder ein Aufruf zu einem Register) **oder** zumindest den **Aufruf zur letzten Funktion** und dann dorthin zu laufen, da der Code nicht interessant ist.
+* Während des Entpackens von Code **beachte**, wann du **den Speicherbereich änderst**, da eine Änderung des Speicherbereichs den **Beginn des Entpackungscodes** anzeigen kann. Du kannst einen Speicherbereich einfach mit Process Hacker dumpen (Prozess --> Eigenschaften --> Speicher).
+* Während du versuchst, Code zu entpacken, ist eine gute Möglichkeit, **zu wissen, ob du bereits mit dem entpackten Code arbeitest** (damit du ihn einfach dumpen kannst), die **Strings der Binary zu überprüfen**. Wenn du zu einem bestimmten Zeitpunkt einen Sprung machst (vielleicht den Speicherbereich änderst) und bemerkst, dass **viele mehr Strings hinzugefügt wurden**, dann kannst du wissen, **dass du mit dem entpackten Code arbeitest**.\
+Wenn der Packer jedoch bereits viele Strings enthält, kannst du sehen, wie viele Strings das Wort "http" enthalten und überprüfen, ob diese Zahl steigt.
+* Wenn du eine ausführbare Datei aus einem Speicherbereich dumpst, kannst du einige Header mit [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases) reparieren.

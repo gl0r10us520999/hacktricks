@@ -1,27 +1,27 @@
-# Angr - Voorbeelde
+# Angr - Beispiele
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 {% hint style="info" %}
-As die program `scanf` gebruik om **verskeie waardes gelyktydig van stdin** te kry, moet jy 'n toestand genereer wat begin na die **`scanf`**.
+Wenn das Programm `scanf` verwendet, um **mehrere Werte gleichzeitig von stdin** zu erhalten, müssen Sie einen Zustand erzeugen, der nach dem **`scanf`** beginnt.
 {% endhint %}
 
-Kodes geneem van [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+Codes entnommen von [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
-### Invoer om adres te bereik (wat die adres aandui)
+### Eingabe zur Erreichung der Adresse (Angabe der Adresse)
 ```python
 import angr
 import sys
@@ -54,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Invoer om adres te bereik (aanduiding van afdrukke)
+### Eingabe zur Erreichung der Adresse (zeigt Ausgaben an)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -89,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Registriewaarde
+### Registrierungswerte
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -153,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Stapelwaarde
+### Stack-Werte
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -215,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-In hierdie scenario is die invoer geneem met `scanf("%u %u")` en die waarde `"1 1"` is gegee, so die waardes **`0x00000001`** van die stapel kom van die **gebruikersinvoer**. Jy kan sien hoe hierdie waardes begin in `$ebp - 8`. Daarom het ons in die kode **8 bytes van `$esp` afgetrek (soos in daardie oomblik `$ebp` en `$esp` dieselfde waarde gehad het)** en toe het ons die BVS gepush.
+In diesem Szenario wurde die Eingabe mit `scanf("%u %u")` entgegengenommen und der Wert `"1 1"` wurde angegeben, sodass die Werte **`0x00000001`** des Stacks aus der **Benutzereingabe** stammen. Sie können sehen, wie diese Werte bei `$ebp - 8` beginnen. Daher haben wir im Code **8 Bytes von `$esp` subtrahiert (da zu diesem Zeitpunkt `$ebp` und `$esp` den gleichen Wert hatten)** und dann haben wir die BVS gepusht.
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Statiese Geheue waardes (Globale veranderlikes)
+### Statische Speicherwerte (Globale Variablen)
 ```python
 import angr
 import claripy
@@ -280,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Dinamiese Geheue Waardes (Malloc)
+### Dynamische Speicherwerte (Malloc)
 ```python
 import angr
 import claripy
@@ -339,7 +339,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Lêersimulering
+### Dateisimulation
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -395,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is met simboliese data:
+Beachten Sie, dass die symbolische Datei auch konstante Daten enthalten könnte, die mit symbolischen Daten zusammengeführt sind:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -418,11 +418,11 @@ Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg 
 ```
 {% endhint %}
 
-### Toepassing van Beperkings
+### Anwenden von Einschränkungen
 
 {% hint style="info" %}
-Soms kos eenvoudige menslike operasies soos om 2 woorde van lengte 16 **karakter vir karakter** (lus) te vergelyk, **baie** vir **angr** omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
-Daarom is dit makliker om **angr te vra om na 'n vorige punt te gaan** (waar die werklike moeilike deel reeds gedoen is) en **daardie beperkings handmatig in te stel**.
+Manchmal kosten einfache menschliche Operationen wie das Vergleichen von 2 Wörtern der Länge 16 **zeichenweise** (Schleife) **viel** für **angr**, da es **exponentiell** Verzweigungen generieren muss, weil es 1 Verzweigung pro if generiert: `2^16`\
+Daher ist es einfacher, **angr zu bitten, zu einem vorherigen Punkt zu gelangen** (wo der wirklich schwierige Teil bereits erledigt war) und **diese Einschränkungen manuell festzulegen**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -495,17 +495,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-In sommige scenario's kan jy **veritesting** aktiveer, wat soortgelyke status sal saamvoeg, om nuttelose takke te bespaar en die oplossing te vind: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+In einigen Szenarien können Sie **veritesting** aktivieren, das ähnliche Zustände zusammenführt, um nutzlose Zweige zu sparen und die Lösung zu finden: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Nog iets wat jy in hierdie scenario's kan doen, is om die **funksie te hook wat angr iets gee wat dit makliker kan verstaan**.
+Eine weitere Möglichkeit, die Sie in diesen Szenarien haben, besteht darin, die **Funktion zu hooken, indem Sie angr etwas geben, das es leichter verstehen kann**.
 {% endhint %}
 
-### Simulasie Bestuurders
+### Simulation Managers
 
-Sommige simulasie bestuurders kan nuttiger wees as ander. In die vorige voorbeeld was daar 'n probleem aangesien baie nuttige takke geskep is. Hier sal die **veritesting** tegniek daardie saamvoeg en 'n oplossing vind.\
-Hierdie simulasie bestuurder kan ook geaktiveer word met: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Einige Simulationsmanager können nützlicher sein als andere. Im vorherigen Beispiel gab es ein Problem, da viele nützliche Zweige erstellt wurden. Hier wird die **veritesting**-Technik diese zusammenführen und eine Lösung finden.\
+Dieser Simulationsmanager kann auch aktiviert werden mit: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -543,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking/Bypassing een oproep na 'n funksie
+### Hooking/Bypassing einen Aufruf zu einer Funktion
 ```python
 # This level performs the following computations:
 #
@@ -611,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking a function / Simprocedure
+### Hooking einer Funktion / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -695,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Simuleer scanf met verskeie parametre
+### Simuliere scanf mit mehreren Parametern
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -757,7 +757,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Statiese Binaries
+### Statische Binaries
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -825,16 +825,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

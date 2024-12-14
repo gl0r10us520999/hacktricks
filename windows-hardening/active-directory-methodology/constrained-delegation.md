@@ -1,36 +1,36 @@
-# Beperkte Afvaardiging
+# Eingeschränkte Delegation
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}
 
-## Beperkte Afvaardiging
+## Eingeschränkte Delegation
 
-Deur dit kan 'n Domein admin **toelaat** dat 'n rekenaar **'n gebruiker of rekenaar naboots** teen 'n **diens** van 'n masjien.
+Mit dieser Methode kann ein Domänenadministrator **einem Computer erlauben**, einen **Benutzer oder Computer** gegenüber einem **Dienst** einer Maschine zu **imitieren**.
 
-* **Diens vir Gebruiker om self (**_**S4U2self**_**):** As 'n **diensrekening** 'n _userAccountControl_ waarde het wat [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D) bevat, kan dit 'n TGS vir homself (die diens) verkry namens enige ander gebruiker.
-* **Diens vir Gebruiker om Proxy(**_**S4U2proxy**_**):** 'n **diensrekening** kan 'n TGS verkry namens enige gebruiker na die diens wat in **msDS-AllowedToDelegateTo** gestel is. Om dit te doen, benodig dit eers 'n TGS van daardie gebruiker na homself, maar dit kan S4U2self gebruik om daardie TGS te verkry voordat dit die ander een aanvra.
+* **Dienst für Benutzer zu sich selbst (**_**S4U2self**_**):** Wenn ein **Dienstkonto** einen _userAccountControl_-Wert hat, der [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D) enthält, kann es ein TGS für sich selbst (den Dienst) im Namen eines anderen Benutzers erhalten.
+* **Dienst für Benutzer zu Proxy(**_**S4U2proxy**_**):** Ein **Dienstkonto** könnte ein TGS im Namen eines Benutzers für den in **msDS-AllowedToDelegateTo** festgelegten Dienst erhalten. Dazu benötigt es zunächst ein TGS von diesem Benutzer zu sich selbst, kann jedoch S4U2self verwenden, um dieses TGS zu erhalten, bevor es das andere anfordert.
 
-**Let wel**: As 'n gebruiker gemerk is as ‘_Rekening is sensitief en kan nie afgevaardig word_’ in AD, sal jy **nie in staat wees om** hulle na te boots nie.
+**Hinweis**: Wenn ein Benutzer in AD als ‘_Konto ist sensibel und kann nicht delegiert werden_’ markiert ist, können Sie sie **nicht imitieren**.
 
-Dit beteken dat as jy **die hash van die diens** kompromitteer, jy **gebruikers kan naboots** en **toegang** namens hulle tot die **diens geconfigureer** (moontlike **privesc**).
+Das bedeutet, dass wenn Sie den Hash des Dienstes **kompromittieren**, Sie **Benutzer imitieren** und **Zugriff** in ihrem Namen auf den **konfigurierten Dienst** erhalten können (mögliche **privesc**).
 
-Boonop, jy **sal nie net toegang hê tot die diens wat die gebruiker kan naboots nie, maar ook tot enige diens** omdat die SPN (die diensnaam wat aangevra word) nie nagegaan word nie, net voorregte. Daarom, as jy toegang het tot **CIFS diens** kan jy ook toegang hê tot **HOST diens** deur die `/altservice` vlag in Rubeus te gebruik.
+Darüber hinaus haben Sie **nicht nur Zugriff auf den Dienst, den der Benutzer imitieren kann, sondern auch auf jeden Dienst**, da der SPN (der angeforderte Dienstname) nicht überprüft wird, sondern nur die Berechtigungen. Daher können Sie, wenn Sie Zugriff auf den **CIFS-Dienst** haben, auch Zugriff auf den **HOST-Dienst** mit dem `/altservice`-Flag in Rubeus haben.
 
-Ook, **LDAP diens toegang op DC**, is wat nodig is om 'n **DCSync** te benut.
+Außerdem ist **LDAP-Dienstzugriff auf DC** das, was benötigt wird, um einen **DCSync** auszunutzen.
 
-{% code title="Enumerate" %}
+{% code title="Auflisten" %}
 ```bash
 # Powerview
 Get-DomainUser -TrustedToAuth | select userprincipalname, name, msds-allowedtodelegateto
@@ -41,7 +41,7 @@ ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))"
 ```
 {% endcode %}
 
-{% code title="Kry TGT" %}
+{% code title="TGT abrufen" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
 ## If you are SYSTEM in the server, you might take it from memory
@@ -63,9 +63,9 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Daar is **ander maniere om 'n TGT-tiket** of die **RC4** of **AES256** te verkry sonder om SYSTEM op die rekenaar te wees, soos die Printer Bug en onbeperkte delegasie, NTLM relaying en Active Directory Certificate Service misbruik.
+Es gibt **andere Möglichkeiten, ein TGT-Ticket** oder den **RC4** oder **AES256** zu erhalten, ohne SYSTEM auf dem Computer zu sein, wie den Printer Bug und unbeschränkte Delegation, NTLM-Relaying und den Missbrauch des Active Directory-Zertifizierungsdienstes.
 
-**Net om daardie TGT-tiket (of gehasht) te hê, kan jy hierdie aanval uitvoer sonder om die hele rekenaar te kompromitteer.**
+**Mit diesem TGT-Ticket (oder dem Hash) können Sie diesen Angriff durchführen, ohne den gesamten Computer zu kompromittieren.**
 {% endhint %}
 
 {% code title="Using Rubeus" %}
@@ -100,19 +100,19 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 ```
 {% endcode %}
 
-[**Meer inligting in ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+[**Mehr Informationen auf ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

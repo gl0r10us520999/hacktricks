@@ -1,16 +1,16 @@
 # FZ - 125kHz RFID
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -21,50 +21,50 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Intro
 
-Vir meer inligting oor hoe 125kHz etikette werk, kyk:
+Für weitere Informationen darüber, wie 125kHz-Tags funktionieren, siehe:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Aksies
+## Aktionen
 
-Vir meer inligting oor hierdie tipes etikette [**lees hierdie inleiding**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
+Für weitere Informationen über diese Arten von Tags [**lies diese Einführung**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
 
-### Lees
+### Lesen
 
-Probeer om die **kaartinligting** te **lees**. Dan kan dit **emuleer** word.
+Versucht, die **Karteninformationen zu lesen**. Dann kann sie **emuliert** werden.
 
 {% hint style="warning" %}
-Let daarop dat sommige interkoms probeer om hulself te beskerm teen sleutelduplisering deur 'n skryfopdrag te stuur voordat hulle lees. As die skryf suksesvol is, word daardie etiket as vals beskou. Wanneer Flipper RFID emuleer, is daar geen manier vir die leser om dit van die oorspronklike een te onderskei nie, so sulke probleme ontstaan nie.
+Beachte, dass einige Gegensprechanlagen versuchen, sich vor Schlüsselduplikationen zu schützen, indem sie einen Schreibbefehl vor dem Lesen senden. Wenn das Schreiben erfolgreich ist, wird dieses Tag als gefälscht betrachtet. Wenn Flipper RFID emuliert, gibt es keine Möglichkeit für den Leser, es von dem Original zu unterscheiden, sodass keine solchen Probleme auftreten.
 {% endhint %}
 
-### Voeg Handmatig By
+### Manuell hinzufügen
 
-Jy kan **vals kaarte in Flipper Zero skep deur die data** wat jy handmatig invoer, en dit dan emuleer.
+Du kannst **gefälschte Karten im Flipper Zero erstellen, indem du die Daten** manuell angibst und sie dann emulierst.
 
-#### ID's op kaarte
+#### IDs auf Karten
 
-Soms, wanneer jy 'n kaart kry, sal jy die ID (of deel daarvan) op die kaart sigbaar vind.
+Manchmal, wenn du eine Karte erhältst, findest du die ID (oder einen Teil davon) auf der Karte sichtbar geschrieben.
 
 * **EM Marin**
 
-Byvoorbeeld, in hierdie EM-Marin kaart is dit moontlik om die **laaste 3 van 5 bytes in duidelik** te **lees**.\
-Die ander 2 kan brute-forced word as jy dit nie van die kaart kan lees nie.
+Zum Beispiel ist es bei dieser EM-Marin-Karte möglich, die **letzten 3 von 5 Bytes im Klartext zu lesen**.\
+Die anderen 2 können brute-forced werden, wenn du sie nicht von der Karte lesen kannst.
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Dieselfde gebeur in hierdie HID kaart waar slegs 2 van die 3 bytes op die kaart gedruk kan word.
+Das gleiche passiert bei dieser HID-Karte, wo nur 2 von 3 Bytes auf der Karte gedruckt gefunden werden können.
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
-### Emuleer/Skryf
+### Emulieren/Schreiben
 
-Na **kopieer** 'n kaart of **invoer** die ID **handmatig** is dit moontlik om dit met Flipper Zero te **emuleer** of dit in 'n werklike kaart te **skryf**.
+Nach dem **Kopieren** einer Karte oder dem **manuellen Eingeben** der ID ist es möglich, sie mit Flipper Zero zu **emulieren** oder sie auf eine echte Karte zu **schreiben**.
 
-## Verwysings
+## Referenzen
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
@@ -73,16 +73,16 @@ Na **kopieer** 'n kaart of **invoer** die ID **handmatig** is dit moontlik om di
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

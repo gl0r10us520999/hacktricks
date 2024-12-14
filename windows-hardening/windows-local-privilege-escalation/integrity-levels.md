@@ -1,45 +1,45 @@
-# Integriteitsvlakke
+# Integritätsstufen
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Integriteitsvlakke
+## Integritätsstufen
 
-In Windows Vista en later weergawes, kom alle beskermde items met 'n **integriteitsvlak** etiket. Hierdie opstelling ken meestal 'n "medium" integriteitsvlak toe aan lêers en registersleutels, behalwe vir sekere vouers en lêers waartoe Internet Explorer 7 op 'n lae integriteitsvlak kan skryf. Die standaardgedrag is dat prosesse wat deur standaardgebruikers geïnisieer word, 'n medium integriteitsvlak het, terwyl dienste tipies op 'n stelselintegriteitsvlak werk. 'n Hoë-integriteitsetiket beskerm die wortelgids.
+In Windows Vista und späteren Versionen haben alle geschützten Elemente ein **Integritätsstufen**-Tag. Diese Konfiguration weist Dateien und Registrierungsschlüssel in der Regel eine "mittlere" Integritätsstufe zu, mit Ausnahme bestimmter Ordner und Dateien, auf die Internet Explorer 7 mit einer niedrigen Integritätsstufe schreiben kann. Das Standardverhalten ist, dass Prozesse, die von Standardbenutzern initiiert werden, eine mittlere Integritätsstufe haben, während Dienste typischerweise auf einer Systemintegritätsstufe arbeiten. Ein Hochintegritätslabel schützt das Wurzelverzeichnis.
 
-'n Sleutelreël is dat voorwerpe nie gewysig kan word deur prosesse met 'n laer integriteitsvlak as die voorwerp se vlak nie. Die integriteitsvlakke is:
+Eine wichtige Regel ist, dass Objekte nicht von Prozessen mit einer niedrigeren Integritätsstufe als der des Objekts modifiziert werden können. Die Integritätsstufen sind:
 
-* **Onbetroubaar**: Hierdie vlak is vir prosesse met anonieme aanmeldings. %%%Voorbeeld: Chrome%%%
-* **Laag**: Hoofsaaklik vir internetinteraksies, veral in Internet Explorer se Beskermde Modus, wat geassosieerde lêers en prosesse beïnvloed, en sekere vouers soos die **Tydelike Internet-gids**. Lae integriteitsprosesse ondervind beduidende beperkings, insluitend geen register skrywe toegang en beperkte gebruikersprofiel skrywe toegang nie.
-* **Medium**: Die standaardvlak vir die meeste aktiwiteite, toegeken aan standaardgebruikers en voorwerpe sonder spesifieke integriteitsvlakke. Selfs lede van die Administrators-groep werk standaard op hierdie vlak.
-* **Hoog**: Gereserveer vir administrateurs, wat hulle toelaat om voorwerpe op laer integriteitsvlakke te wysig, insluitend dié op die hoë vlak self.
-* **Stelsel**: Die hoogste operasionele vlak vir die Windows-kern en kern dienste, buite bereik selfs vir administrateurs, wat beskerming van noodsaaklike stelselfunksies verseker.
-* **Installeerder**: 'n Unieke vlak wat bo alle ander staan, wat voorwerpe op hierdie vlak in staat stel om enige ander voorwerp te deïnstalleer.
+* **Untrusted**: Diese Stufe ist für Prozesse mit anonymen Anmeldungen. %%%Beispiel: Chrome%%%
+* **Low**: Hauptsächlich für Internetinteraktionen, insbesondere im geschützten Modus von Internet Explorer, der betroffene Dateien und Prozesse sowie bestimmte Ordner wie den **Temporären Internetordner** betrifft. Prozesse mit niedriger Integrität unterliegen erheblichen Einschränkungen, einschließlich des fehlenden Zugriffs auf die Registrierung und eingeschränktem Zugriff auf das Benutzerprofil.
+* **Medium**: Die Standardstufe für die meisten Aktivitäten, die Standardbenutzern und Objekten ohne spezifische Integritätsstufen zugewiesen ist. Selbst Mitglieder der Administratorgruppe arbeiten standardmäßig auf dieser Stufe.
+* **High**: Reserviert für Administratoren, die es ihnen ermöglichen, Objekte mit niedrigeren Integritätsstufen zu modifizieren, einschließlich solcher auf der hohen Stufe selbst.
+* **System**: Die höchste Betriebsstufe für den Windows-Kernel und die Kernservices, die selbst für Administratoren unerreichbar ist und den Schutz wichtiger Systemfunktionen gewährleistet.
+* **Installer**: Eine einzigartige Stufe, die über allen anderen steht und es Objekten auf dieser Stufe ermöglicht, jedes andere Objekt zu deinstallieren.
 
-Jy kan die integriteitsvlak van 'n proses verkry met **Process Explorer** van **Sysinternals**, deur die **eienskappe** van die proses te benader en die "**Sekuriteit**" oortjie te besigtig:
+Sie können die Integritätsstufe eines Prozesses mit **Process Explorer** von **Sysinternals** abrufen, indem Sie die **Eigenschaften** des Prozesses aufrufen und die Registerkarte "**Sicherheit**" anzeigen:
 
 ![](<../../.gitbook/assets/image (824).png>)
 
-Jy kan ook jou **huidige integriteitsvlak** verkry met `whoami /groups`
+Sie können auch Ihre **aktuelle Integritätsstufe** mit `whoami /groups` abrufen.
 
 ![](<../../.gitbook/assets/image (325).png>)
 
-### Integriteitsvlakke in die lêerstelsel
+### Integritätsstufen im Dateisystem
 
-'n Voorwerp binne die lêerstelsel mag 'n **minimum integriteitsvlak vereiste** benodig en as 'n proses nie hierdie integriteitsvlak het nie, sal dit nie in staat wees om daarmee te kommunikeer.\
-Byvoorbeeld, laat ons **'n gewone lêer van 'n gewone gebruiker-konsol skep en die toestemmings nagaan**:
+Ein Objekt im Dateisystem kann eine **Mindestanforderung an die Integritätsstufe** benötigen, und wenn ein Prozess diese Integritätsstufe nicht hat, kann er nicht mit ihm interagieren.\
+Zum Beispiel, lassen Sie uns **eine reguläre Datei von einer regulären Benutzerkonsole erstellen und die Berechtigungen überprüfen**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -50,7 +50,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Nou, kom ons ken 'n minimum integriteitsvlak van **Hoog** aan die lêer toe. Dit **moet gedoen word vanaf 'n konsole** wat as **administrateur** loop, aangesien 'n **gewone konsole** in Medium Integriteitsvlak sal loop en **nie toegelaat sal word** om 'n Hoë Integriteitsvlak aan 'n objek toe te ken:
+Jetzt weisen wir der Datei ein minimales Integritätslevel von **Hoch** zu. Dies **muss von einer Konsole** ausgeführt werden, die als **Administrator** läuft, da eine **reguläre Konsole** im Integritätslevel Mittel läuft und **nicht erlaubt ist**, ein hohes Integritätslevel einem Objekt zuzuweisen:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -65,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-Dit is waar dinge interessant raak. Jy kan sien dat die gebruiker `DESKTOP-IDJHTKP\user` **VOLLE regte** oor die lêer het (werklik, dit was die gebruiker wat die lêer geskep het), egter, as gevolg van die minimum integriteitsvlak wat geïmplementeer is, sal hy nie in staat wees om die lêer weer te wysig nie, tensy hy binne 'n Hoë Integriteitsvlak loop (let op dat hy dit sal kan lees):
+Dies ist der Punkt, an dem es interessant wird. Sie können sehen, dass der Benutzer `DESKTOP-IDJHTKP\user` **VOLLSTÄNDIGE Berechtigungen** über die Datei hat (tatsächlich war dies der Benutzer, der die Datei erstellt hat), jedoch wird er aufgrund des implementierten minimalen Integritätsniveaus die Datei nicht mehr ändern können, es sei denn, er läuft innerhalb eines hohen Integritätsniveaus (beachten Sie, dass er sie lesen kann):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -75,12 +75,12 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Daarom, wanneer 'n lêer 'n minimum integriteitsvlak het, moet jy ten minste op daardie integriteitsvlak loop om dit te kan wysig.**
+**Daher, wenn eine Datei ein minimales Integritätsniveau hat, müssen Sie mindestens auf diesem Integritätsniveau arbeiten, um sie zu ändern.**
 {% endhint %}
 
-### Integriteitsvlakke in Binaries
+### Integritätsniveaus in Binaries
 
-Ek het 'n kopie van `cmd.exe` gemaak in `C:\Windows\System32\cmd-low.exe` en dit 'n **integriteitsvlak van laag vanaf 'n administrateurkonsol gestel:**
+Ich habe eine Kopie von `cmd.exe` in `C:\Windows\System32\cmd-low.exe` erstellt und ihr ein **Integritätsniveau von niedrig aus einer Administratorkonsole zugewiesen:**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -90,14 +90,14 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-Nou, wanneer ek `cmd-low.exe` uitvoer, sal dit **onder 'n lae-integriteitsvlak** loop in plaas van 'n medium een:
+Jetzt, wenn ich `cmd-low.exe` ausführe, wird es **unter einem niedrigen Integritätslevel** anstelle eines mittleren ausgeführt:
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-Vir nuuskierige mense, as jy 'n hoë integriteitsvlak aan 'n binêre toewys (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), sal dit nie outomaties met 'n hoë integriteitsvlak loop nie (as jy dit van 'n medium integriteitsvlak aanroep --per standaard-- sal dit onder 'n medium integriteitsvlak loop).
+Für Neugierige, wenn Sie einem Binärprogramm ein hohes Integritätslevel zuweisen (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), wird es nicht automatisch mit hohem Integritätslevel ausgeführt (wenn Sie es von einem mittleren Integritätslevel aus aufrufen -- standardmäßig -- wird es unter einem mittleren Integritätslevel ausgeführt).
 
-### Integriteitsvlakke in Prosesse
+### Integritätslevel in Prozessen
 
-Nie alle lêers en vouers het 'n minimum integriteitsvlak nie, **maar alle prosesse loop onder 'n integriteitsvlak**. En soortgelyk aan wat met die lêerstelsel gebeur het, **as 'n proses binne 'n ander proses wil skryf, moet dit ten minste dieselfde integriteitsvlak hê**. Dit beteken dat 'n proses met 'n lae integriteitsvlak nie 'n handvatsel met volle toegang tot 'n proses met 'n medium integriteitsvlak kan oopmaak nie.
+Nicht alle Dateien und Ordner haben ein minimales Integritätslevel, **aber alle Prozesse laufen unter einem Integritätslevel**. Und ähnlich wie beim Dateisystem, **wenn ein Prozess in einen anderen Prozess schreiben möchte, muss er mindestens das gleiche Integritätslevel haben**. Das bedeutet, dass ein Prozess mit niedrigem Integritätslevel keinen Handle mit vollem Zugriff auf einen Prozess mit mittlerem Integritätslevel öffnen kann.
 
-As gevolg van die beperkings wat in hierdie en die vorige afdeling bespreek is, is dit altyd **aanbeveel om 'n proses in die laagste moontlike integriteitsvlak te laat loop**.
+Aufgrund der in diesem und im vorherigen Abschnitt kommentierten Einschränkungen ist es aus sicherheitstechnischer Sicht immer **empfohlen, einen Prozess im niedrigsten möglichen Integritätslevel auszuführen**.

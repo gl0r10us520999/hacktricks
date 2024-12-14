@@ -1,24 +1,24 @@
-# SeImpersonate van Hoog na Stelsel
+# SeImpersonate von High zu System
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-### Kode
+### Code
 
-Die volgende kode van [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Dit laat toe om **'n Proses ID as argument aan te dui** en 'n CMD **wat as die gebruiker** van die aangeduide proses loop, sal uitgevoer word.\
-Wanneer dit in 'n Hoë Integriteit proses loop, kan jy **die PID van 'n proses wat as Stelsel loop** (soos winlogon, wininit) aan dui en 'n cmd.exe as stelsel uitvoer.
+Der folgende Code stammt von [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Er ermöglicht es, **eine Prozess-ID als Argument anzugeben** und ein CMD **auszuführen, das als der Benutzer** des angegebenen Prozesses läuft.\
+Wenn Sie in einem High Integrity-Prozess laufen, können Sie **die PID eines Prozesses angeben, der als System läuft** (wie winlogon, wininit) und eine cmd.exe als System ausführen.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -155,9 +155,9 @@ return 0;
 ```
 {% endcode %}
 
-### Fout
+### Fehler
 
-In sommige gevalle mag jy probeer om die Stelsel te verteenwoordig en dit sal nie werk nie, wat 'n uitvoer soos die volgende toon:
+In einigen Fällen versuchen Sie möglicherweise, sich als System auszugeben, und es funktioniert nicht, wobei eine Ausgabe wie die folgende angezeigt wird:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -168,37 +168,37 @@ In sommige gevalle mag jy probeer om die Stelsel te verteenwoordig en dit sal ni
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Dit beteken dat selfs al werk jy op 'n Hoë Integriteit vlak **jy nie genoeg toestemming het**.\
-Kom ons kyk na die huidige Administrateur toestemming oor `svchost.exe` prosesse met **processes explorer** (of jy kan ook process hacker gebruik):
+Das bedeutet, dass selbst wenn Sie auf einem hohen Integritätslevel arbeiten, **Sie nicht genügend Berechtigungen haben**.\
+Überprüfen wir die aktuellen Administratorberechtigungen für `svchost.exe`-Prozesse mit **Process Explorer** (oder Sie können auch Process Hacker verwenden):
 
-1. Kies 'n proses van `svchost.exe`
-2. Regsklik --> Eienskappe
-3. Binne die "Sekuriteit" Tab klik onderaan regs op die knoppie "Toestemmings"
-4. Klik op "Geavanceerd"
-5. Kies "Administrateurs" en klik op "Wysig"
-6. Klik op "Wys geavanceerde toestemmings"
+1. Wählen Sie einen Prozess von `svchost.exe`
+2. Rechtsklick --> Eigenschaften
+3. Im Tab "Sicherheit" klicken Sie unten rechts auf die Schaltfläche "Berechtigungen"
+4. Klicken Sie auf "Erweitert"
+5. Wählen Sie "Administratoren" und klicken Sie auf "Bearbeiten"
+6. Klicken Sie auf "Erweiterte Berechtigungen anzeigen"
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-Die vorige beeld bevat al die voorregte wat "Administrateurs" oor die geselekteerde proses het (soos jy kan sien in die geval van `svchost.exe` het hulle net "Vraag" voorregte)
+Das vorherige Bild enthält alle Berechtigungen, die "Administratoren" über den ausgewählten Prozess haben (wie Sie sehen können, haben sie im Fall von `svchost.exe` nur "Abfragen"-Berechtigungen)
 
-Kyk na die voorregte wat "Administrateurs" oor `winlogon.exe` het:
+Sehen Sie sich die Berechtigungen an, die "Administratoren" über `winlogon.exe` haben:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-Binne daardie proses kan "Administrateurs" "Lees Geheue" en "Lees Toestemmings" wat waarskynlik Administrateurs toelaat om die token wat deur hierdie proses gebruik word, na te boots.
+Innerhalb dieses Prozesses können "Administratoren" "Speicher lesen" und "Berechtigungen lesen", was wahrscheinlich den Administratoren ermöglicht, das Token zu impersonieren, das von diesem Prozess verwendet wird.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

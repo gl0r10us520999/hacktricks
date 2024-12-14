@@ -1,46 +1,43 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 
-In 'n ping antwoord TTL:\
+In einer Ping-Antwort TTL:\
 127 = Windows\
 254 = Cisco\
-Die res, 'n paar linux
+Der Rest, irgendein Linux
 
 $1$- md5\
-$2$of $2a$ - Blowfish\
+$2$oder $2a$ - Blowfish\
 $5$- sha256\
 $6$- sha512
 
-As jy nie weet wat agter 'n diens is nie, probeer om 'n HTTP GET versoek te maak.
+Wenn Sie nicht wissen, was hinter einem Dienst steckt, versuchen Sie, eine HTTP GET-Anfrage zu stellen.
 
-**UDP Skande**\
+**UDP-Scans**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-'n Leë UDP-pakket word na 'n spesifieke poort gestuur. As die UDP-poort oop is, word daar geen antwoord van die teikenmasjien teruggestuur nie. As die UDP-poort gesluit is, moet 'n ICMP-poort onbereikbaar pakket van die teikenmasjien teruggestuur word.\
+Ein leeres UDP-Paket wird an einen bestimmten Port gesendet. Wenn der UDP-Port offen ist, wird keine Antwort von der Zielmaschine zurückgesendet. Wenn der UDP-Port geschlossen ist, sollte ein ICMP-Port-unreachable-Paket von der Zielmaschine zurückgesendet werden.\
 
-UDP-poort skandering is dikwels onbetroubaar, aangesien vuurmure en routers ICMP\
-pakkette kan laat val. Dit kan lei tot vals positiewe in jou skandering, en jy sal gereeld\
-UDP-poort skanderings sien wat alle UDP-poorte oop op 'n gescande masjien toon.\
-o Meeste poort skandeerders skandeer nie alle beskikbare poorte nie, en het gewoonlik 'n vooraf ingestelde lys\
-van “interessante poorte” wat geskandeer word.
+UDP-Port-Scans sind oft unzuverlässig, da Firewalls und Router ICMP-Pakete möglicherweise verwerfen. Dies kann zu falsch positiven Ergebnissen in Ihrem Scan führen, und Sie werden regelmäßig sehen, dass UDP-Port-Scans alle UDP-Ports auf einer gescannten Maschine als offen anzeigen.\
+Die meisten Port-Scanner scannen nicht alle verfügbaren Ports und haben normalerweise eine voreingestellte Liste von „interessanten Ports“, die gescannt werden.
 
-# CTF - Truuks
+# CTF - Tricks
 
-In **Windows** gebruik **Winzip** om na lêers te soek.\
-**Alternatiewe data Strome**: _dir /r | find ":$DATA"_\
+Verwenden Sie in **Windows** **Winzip**, um nach Dateien zu suchen.\
+**Alternative Datenströme**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
@@ -53,34 +50,35 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 **Basae64**(6—>8) —> 0...9, a...z, A…Z,+,/\
 **Base32**(5 —>8) —> A…Z, 2…7\
 **Base85** (Ascii85, 7—>8) —> 0...9, a...z, A...Z, ., -, :, +, =, ^, !, /, \*, ?, &, <, >, (, ), \[, ], {, }, @, %, $, #\
-**Uuencode** --> Begin met "_begin \<mode> \<filename>_" en vreemde karakters\
-**Xxencoding** --> Begin met "_begin \<mode> \<filename>_" en B64\
+**Uuencode** --> Beginne mit "_begin \<mode> \<filename>_" und seltsamen Zeichen\
+**Xxencoding** --> Beginne mit "_begin \<mode> \<filename>_" und B64\
 \
-**Vigenere** (frekwensie analise) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
-**Scytale** (verskuiwing van karakters) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
+**Vigenere** (Häufigkeitsanalyse) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
+**Scytale** (Versatz von Zeichen) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
 
 **25x25 = QR**
 
 factordb.com\
 rsatool
 
-Snow --> Versteek boodskappe met spaties en tabulatoren
+Snow --> Nachrichten mit Leerzeichen und Tabs verstecken
 
 # Characters
 
-%E2%80%AE => RTL Karakter (skryf payloads agterstewe)
+%E2%80%AE => RTL-Zeichen (schreibt Payloads rückwärts)
+
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Check die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

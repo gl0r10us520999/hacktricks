@@ -2,29 +2,29 @@
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Hacktricks logo's & bewegingsontwerp deur_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Hacktricks Logos & Motion Design von_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Welkom by die wiki waar jy elke hacking truuk/tegniek/iets wat ek geleer het van CTFs, werklike toepassings, navorsing en nuus sal vind.**
+**Willkommen im Wiki, wo Sie jeden Hacking-Trick/Technik/was auch immer, das ich aus CTFs, realen Anwendungen, Forschungsarbeiten und Nachrichten gelernt habe, finden werden.**
 {% endhint %}
 
-Om te begin, volg hierdie bladsy waar jy die **tipiese vloei** sal vind wat **jy moet volg wanneer jy pentesting** op een of meer **masjiene:**
+Um zu beginnen, folgen Sie dieser Seite, wo Sie den **typischen Ablauf** finden, den **Sie beim Pentesting** einer oder mehrerer **Maschinen befolgen sollten:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Korporatiewe Borge
+## Corporate Sponsors
 
 ### [STM Cyber](https://www.stmcyber.com)
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) is 'n uitstekende kuberveiligheidsmaatskappy wie se slagspreuk is **HACK THE UNHACKABLE**. Hulle voer hul eie navorsing uit en ontwikkel hul eie hacking gereedskap om **verskeie waardevolle kuberveiligheidsdienste** soos pentesting, Red teams en opleiding aan te bied.
+[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen eigene Forschungen durch und entwickeln eigene Hacking-Tools, um **verschiedene wertvolle Cybersicherheitsdienste** wie Pentesting, Red Teams und Schulungen anzubieten.
 
-Jy kan hul **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com) nagaan.
+Sie können ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmcyber.com) einsehen.
 
-**STM Cyber** ondersteun ook kuberveiligheid open source projekte soos HackTricks :)
+**STM Cyber** unterstützt auch Open-Source-Projekte im Bereich Cybersicherheit wie HackTricks :)
 
 ***
 
@@ -32,7 +32,7 @@ Jy kan hul **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com
 
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) is die mees relevante kuberveiligheid gebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n bruisende ontmoetingspunt vir tegnologie en kuberveiligheid professionele in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com) ist die relevanteste Cybersicherheitsveranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsexperten in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ Jy kan hul **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** is die **Europa se #1** etiese hacking en **bug bounty platform.**
+**Intigriti** ist die **Nummer 1** Plattform für ethisches Hacking und **Bug Bounty in Europa.**
 
-**Bug bounty wenk**: **meld aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin verdien bounties tot **$100,000**!
+**Bug Bounty Tipp**: **Melden Sie sich an** für **Intigriti**, eine Premium-**Bug Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Treten Sie uns heute bei unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) und beginnen Sie, Belohnungen von bis zu **100.000 $** zu verdienen!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,9 +55,9 @@ Jy kan hul **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) om maklik **werkvloei** te bou en te **automate** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskap gereedskap.
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.
 
-Kry Toegang Vandag:
+Zugriff heute erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -67,23 +67,23 @@ Kry Toegang Vandag:
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Sluit by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener aan om met ervare hackers en bug bounty jagters te kommunikeer!
+Treten Sie dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Server bei, um mit erfahrenen Hackern und Bug Bounty-Jägern zu kommunizieren!
 
-* **Hacking Inligting:** Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
-* **Regstydse Hack Nuus:** Bly op hoogte van die vinnig bewegende hacking wêreld deur regstydse nuus en insigte
-* **Laaste Aankondigings:** Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
+* **Hacking Einblicke:** Engagieren Sie sich mit Inhalten, die in die Aufregung und Herausforderungen des Hackens eintauchen
+* **Echtzeit-Hack-Nachrichten:** Bleiben Sie auf dem Laufenden über die schnelllebige Welt des Hackens durch Echtzeitnachrichten und Einblicke
+* **Neueste Ankündigungen:** Bleiben Sie informiert über die neuesten Bug Bounties und wichtige Plattform-Updates
 
-**Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
+**Treten Sie uns auf** [**Discord**](https://discord.com/invite/N3FrSbmwdy) bei und beginnen Sie noch heute mit der Zusammenarbeit mit Top-Hackern!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024\&utm_medium=link\&utm_source=hacktricks\&utm_campaign=spons) - Die noodsaaklike penetrasietoets gereedskap
+### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024\&utm_medium=link\&utm_source=hacktricks\&utm_campaign=spons) - Das essentielle Toolkit für Penetrationstests
 
 <figure><img src=".gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Kry 'n hacker se perspektief op jou web toepassings, netwerk, en wolk**
+**Erhalten Sie die Perspektive eines Hackers auf Ihre Webanwendungen, Netzwerke und Cloud**
 
-**Vind en rapporteer kritieke, exploitable kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om voorregte te verhoog, en gebruik geoutomatiseerde exploits om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskep.
+**Finden und melden Sie kritische, ausnutzbare Schwachstellen mit echtem Geschäftsauswirkungen.** Verwenden Sie unsere 20+ benutzerdefinierten Tools, um die Angriffsfläche zu kartieren, Sicherheitsprobleme zu finden, die Ihnen ermöglichen, Berechtigungen zu eskalieren, und nutzen Sie automatisierte Exploits, um wesentliche Beweise zu sammeln, die Ihre harte Arbeit in überzeugende Berichte verwandeln.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -93,22 +93,22 @@ Sluit by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 
 <figure><img src=".gitbook/assets/image (1254).png" alt=""><figcaption></figcaption></figure>
 
-**SerpApi** bied vinnige en maklike regstydse API's om **toegang tot soekenjinresultate** te verkry. Hulle scrape soekenjins, hanteer proxies, los captchas op, en parse al die ryk gestructureerde data vir jou.
+**SerpApi** bietet schnelle und einfache Echtzeit-APIs, um **auf Suchmaschinenergebnisse** zuzugreifen. Sie scrapen Suchmaschinen, verwalten Proxys, lösen Captchas und parsen alle reich strukturierten Daten für Sie.
 
-'n Intekening op een van SerpApi se planne sluit toegang in tot meer as 50 verskillende API's vir die scraping van verskillende soekenjins, insluitend Google, Bing, Baidu, Yahoo, Yandex, en meer.\
-In teenstelling met ander verskaffers, **scrape SerpApi nie net organiese resultate nie**. SerpApi antwoorde sluit konsekwent al die advertensies, inline beelde en video's, kennisgrafieke, en ander elemente en funksies wat in die soekresultate teenwoordig is, in.
+Ein Abonnement eines der SerpApi-Pläne umfasst den Zugriff auf über 50 verschiedene APIs zum Scrapen verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
+Im Gegensatz zu anderen Anbietern **scrapt SerpApi nicht nur organische Ergebnisse**. Die Antworten von SerpApi enthalten konsequent alle Anzeigen, Inline-Bilder und Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
 
-Huidige SerpApi kliënte sluit **Apple, Shopify, en GrubHub** in.\
-Vir meer inligting, kyk na hul [**blog**](https://serpapi.com/blog/)**,** of probeer 'n voorbeeld in hul [**speelgrond**](https://serpapi.com/playground)**.**\
-Jy kan **'n gratis rekening** [**hier**](https://serpapi.com/users/sign_up)**.**
+Aktuelle SerpApi-Kunden sind **Apple, Shopify und GrubHub**.\
+Für weitere Informationen besuchen Sie ihren [**Blog**](https://serpapi.com/blog/)**,** oder probieren Sie ein Beispiel in ihrem [**Playground**](https://serpapi.com/playground)**.**\
+Sie können **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.com/users/sign_up)**.**
 
 ***
 
-### 8kSec Akademie – Diepgaande Mobiele Sekuriteit Kursusse
+### 8kSec Academy – Vertiefende Mobile Security Kurse
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Leer die tegnologieë en vaardighede wat benodig word om kwesbaarheid navorsing, penetrasietoetsing, en omgekeerde ingenieurswese uit te voer om mobiele toepassings en toestelle te beskerm. **Meester iOS en Android sekuriteit** deur ons on-demand kursusse en **kry geakkrediteer**:
+Lernen Sie die Technologien und Fähigkeiten, die erforderlich sind, um Schwachstellenforschung, Penetrationstests und Reverse Engineering durchzuführen, um mobile Anwendungen und Geräte zu schützen. **Meistern Sie die Sicherheit von iOS und Android** durch unsere On-Demand-Kurse und **lassen Sie sich zertifizieren**:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -118,39 +118,39 @@ Leer die tegnologieë en vaardighede wat benodig word om kwesbaarheid navorsing,
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) is 'n professionele kuberveiligheidsmaatskappy gebaseer in **Amsterdam** wat help om **besighede** **oor die wêreld** teen die nuutste kuberveiligheidsbedreigings te beskerm deur **offensiewe-sekuriteit dienste** met 'n **moderne** benadering te bied.
+[**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das **Unternehmen** auf der ganzen Welt **gegen die neuesten Cybersicherheitsbedrohungen schützt**, indem es **Offensive-Security-Dienste** mit einem **modernen** Ansatz anbietet.
 
-WebSec is 'n **alles-in-een sekuriteitsmaatskappy** wat beteken hulle doen dit alles; Pentesting, **Sekuriteit** Oudit, Bewustheidsopleiding, Phishing Campagnes, Kode Hersiening, Exploit Ontwikkeling, Sekuriteit Eksperte Uitsourcing en nog baie meer.
+WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles anbieten; Pentesting, **Sicherheits**-Audits, Awareness-Trainings, Phishing-Kampagnen, Code-Überprüfungen, Exploit-Entwicklung, Outsourcing von Sicherheitsexperten und vieles mehr.
 
-Nog 'n interessante ding oor WebSec is dat, in teenstelling met die industrie gemiddelde, WebSec **baie selfversekerd is in hul vaardighede**, tot so 'n mate dat hulle **die beste kwaliteit resultate waarborg**, dit staan op hul webwerf "**As ons dit nie kan hack nie, betaal jy nie!**". Vir meer inligting, kyk na hul [**webwerf**](https://websec.nl/en/) en [**blog**](https://websec.nl/blog/)!
+Ein weiterer cooler Aspekt von WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt **sehr zuversichtlich in ihre Fähigkeiten sind**, so sehr, dass sie **die besten Qualitätsresultate garantieren**. Auf ihrer Website steht: "**Wenn wir es nicht hacken können, zahlen Sie nicht!**". Für weitere Informationen besuchen Sie ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/)!
 
-Benewens die bogenoemde is WebSec ook 'n **toegewyde ondersteuner van HackTricks.**
+Zusätzlich zu den oben genannten Punkten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 
-## Lisensie & Vrywaring
+## Lizenz & Haftungsausschluss
 
-Kyk hulle in:
+Überprüfen Sie sie in:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
 {% endcontent-ref %}
 
-## Github Statistieke
+## Github Statistiken
 
-![HackTricks Github Statistieke](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg)
+![HackTricks Github Statistiken](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src=".gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src=".gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src=".gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src=".gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src=".gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src=".gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src=".gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src=".gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

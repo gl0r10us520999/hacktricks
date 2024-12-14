@@ -1,93 +1,93 @@
 # UART
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 
-## Basiese Inligting
+## Grundinformationen
 
-UART is 'n seriële protokol, wat beteken dit oordra data tussen komponente een bit op 'n slag. In teenstelling hiermee, parallelle kommunikasieprotokolle oordra data gelyktydig deur verskeie kanale. Algemene seriële protokolle sluit RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, en USB in.
+UART ist ein serielles Protokoll, was bedeutet, dass es Daten zwischen Komponenten bitweise überträgt. Im Gegensatz dazu übertragen parallele Kommunikationsprotokolle Daten gleichzeitig über mehrere Kanäle. Zu den gängigen seriellen Protokollen gehören RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express und USB.
 
-Oor die algemeen word die lyn hoog gehou (by 'n logiese 1 waarde) terwyl UART in die idle toestand is. Dan, om die begin van 'n data-oordrag aan te dui, stuur die transmitter 'n beginbit na die ontvanger, waartydens die sein laag gehou word (by 'n logiese 0 waarde). Volgende, stuur die transmitter vyf tot agt databits wat die werklike boodskap bevat, gevolg deur 'n opsionele pariteitsbit en een of twee stopbits (met 'n logiese 1 waarde), afhangende van die konfigurasie. Die pariteitsbit, wat gebruik word vir foutkontrole, word selde in die praktyk gesien. Die stopbit (of bits) dui die einde van die oordrag aan.
+Im Allgemeinen wird die Leitung hoch gehalten (bei einem logischen Wert von 1), während sich UART im Leerlaufzustand befindet. Um den Beginn einer Datenübertragung zu signalisieren, sendet der Sender ein Startbit an den Empfänger, während das Signal niedrig gehalten wird (bei einem logischen Wert von 0). Anschließend sendet der Sender fünf bis acht Datenbits, die die eigentliche Nachricht enthalten, gefolgt von einem optionalen Paritätsbit und einem oder zwei Stoppbits (mit einem logischen Wert von 1), abhängig von der Konfiguration. Das Paritätsbit, das zur Fehlerüberprüfung verwendet wird, ist in der Praxis selten zu sehen. Das Stoppbit (oder die Stoppbits) signalisiert das Ende der Übertragung.
 
-Ons noem die mees algemene konfigurasie 8N1: agt databits, geen pariteit, en een stopbit. Byvoorbeeld, as ons die karakter C, of 0x43 in ASCII, in 'n 8N1 UART konfigurasie wou stuur, sou ons die volgende bits stuur: 0 (die beginbit); 0, 1, 0, 0, 0, 0, 1, 1 (die waarde van 0x43 in binêr), en 0 (die stopbit).
+Wir nennen die häufigste Konfiguration 8N1: acht Datenbits, keine Parität und ein Stoppbit. Wenn wir beispielsweise das Zeichen C oder 0x43 in ASCII in einer 8N1 UART-Konfiguration senden wollten, würden wir die folgenden Bits senden: 0 (das Startbit); 0, 1, 0, 0, 0, 0, 1, 1 (der Wert von 0x43 in binär) und 0 (das Stoppbit).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
-Hardeware gereedskap om met UART te kommunikeer:
+Hardware-Tools zur Kommunikation mit UART:
 
-* USB-naar-serieel adapter
-* Adapters met die CP2102 of PL2303 skyfies
-* Veeldoelige gereedskap soos: Bus Pirate, die Adafruit FT232H, die Shikra, of die Attify Badge
+* USB-zu-Seriell-Adapter
+* Adapter mit den CP2102- oder PL2303-Chips
+* Multifunktionswerkzeuge wie: Bus Pirate, der Adafruit FT232H, der Shikra oder das Attify Badge
 
-### Identifisering van UART Poorte
+### Identifizierung von UART-Ports
 
-UART het 4 poorte: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage), en **GND**(Ground). Jy mag dalk 4 poorte vind met die **`TX`** en **`RX`** letters **geskryf** in die PCB. Maar as daar geen aanduiding is nie, mag jy dalk self moet probeer om hulle te vind met 'n **multimeter** of 'n **logika analiseerder**.
+UART hat 4 Ports: **TX**(Transmit), **RX**(Receive), **Vcc**(Spannung) und **GND**(Masse). Sie könnten in der Lage sein, 4 Ports mit den Buchstaben **`TX`** und **`RX`** **auf** der PCB **geschrieben** zu finden. Wenn es jedoch keine Hinweise gibt, müssen Sie möglicherweise versuchen, sie selbst mit einem **Multimeter** oder einem **Logikanalysator** zu finden.
 
-Met 'n **multimeter** en die toestel afgeskakel:
+Mit einem **Multimeter** und dem Gerät, das ausgeschaltet ist:
 
-* Om die **GND** pen te identifiseer, gebruik die **Continuity Test** modus, plaas die agterste draad in die grond en toets met die rooi een totdat jy 'n geluid van die multimeter hoor. Verskeie GND penne kan in die PCB gevind word, so jy mag dalk die een wat aan UART behoort gevind het of nie.
-* Om die **VCC poort** te identifiseer, stel die **DC voltage mode** in en stel dit op 20 V spanning. Swart probe op grond en rooi probe op die pen. Skakel die toestel aan. As die multimeter 'n konstante spanning van 3.3 V of 5 V meet, het jy die Vcc pen gevind. As jy ander spannings kry, probeer weer met ander poorte.
-* Om die **TX** **poort** te identifiseer, **DC voltage mode** tot 20 V spanning, swart probe op grond, en rooi probe op die pen, en skakel die toestel aan. As jy die spanning vir 'n paar sekondes sien fluktuëer en dan stabiliseer by die Vcc waarde, het jy waarskynlik die TX poort gevind. Dit is omdat dit, wanneer dit aangeskakel word, 'n paar foutopsporing data stuur.
-* Die **RX poort** sal die naaste een aan die ander 3 wees, dit het die laagste spanning fluktuasie en die laagste algehele waarde van al die UART penne.
+* Um den **GND**-Pin zu identifizieren, verwenden Sie den **Durchgangstestmodus**, legen Sie die schwarze Sonde auf Masse und testen Sie mit der roten, bis Sie einen Ton vom Multimeter hören. Mehrere GND-Pins können auf der PCB gefunden werden, sodass Sie möglicherweise den zu UART gehörenden gefunden haben oder nicht.
+* Um den **VCC-Port** zu identifizieren, stellen Sie den **Gleichspannungsmodus** ein und setzen Sie ihn auf 20 V. Schwarze Sonde auf Masse und rote Sonde auf den Pin. Schalten Sie das Gerät ein. Wenn das Multimeter eine konstante Spannung von entweder 3,3 V oder 5 V misst, haben Sie den Vcc-Pin gefunden. Wenn Sie andere Spannungen erhalten, versuchen Sie es mit anderen Ports erneut.
+* Um den **TX**-**Port** zu identifizieren, stellen Sie den **Gleichspannungsmodus** auf bis zu 20 V ein, schwarze Sonde auf Masse und rote Sonde auf den Pin, und schalten Sie das Gerät ein. Wenn Sie feststellen, dass die Spannung für einige Sekunden schwankt und dann auf den Vcc-Wert stabilisiert, haben Sie höchstwahrscheinlich den TX-Port gefunden. Dies liegt daran, dass beim Einschalten einige Debug-Daten gesendet werden.
+* Der **RX-Port** wäre der nächstgelegene zu den anderen 3, er hat die niedrigste Spannungsfluktuation und den niedrigsten Gesamtwert aller UART-Pins.
 
-Jy kan die TX en RX poorte verwar en niks sal gebeur nie, maar as jy die GND en die VCC poort verwar, kan jy die kring kortsluit.
+Sie können die TX- und RX-Ports verwechseln und es würde nichts passieren, aber wenn Sie den GND- und den VCC-Port verwechseln, könnten Sie die Schaltung beschädigen.
 
-In sommige teiken toestelle is die UART poort deur die vervaardiger gedeaktiveer deur RX of TX of selfs albei te deaktiveer. In daardie geval kan dit nuttig wees om die verbindings op die stroombaan na te spoor en 'n breekpunt te vind. 'n Sterk aanduiding dat daar geen UART-detektering is nie en dat die kring gebroke is, is om die toestel se waarborg te kontroleer. As die toestel met 'n waarborg gestuur is, laat die vervaardiger 'n paar foutopsporing interfaces (in hierdie geval, UART) agter, en moet dus die UART ontkoppel het en dit weer aansluit terwyl dit foutopsporing doen. Hierdie breekpunte kan verbind word deur te soldeer of met jumperdrade.
+In einigen Zielgeräten ist der UART-Port vom Hersteller deaktiviert, indem RX oder TX oder sogar beide deaktiviert werden. In diesem Fall kann es hilfreich sein, die Verbindungen auf der Leiterplatte nachzuvollziehen und einen Breakout-Punkt zu finden. Ein starkes Indiz dafür, dass kein UART erkannt wird und die Schaltung unterbrochen ist, ist die Überprüfung der Gerätezulassung. Wenn das Gerät mit einer Garantie geliefert wurde, lässt der Hersteller einige Debug-Schnittstellen (in diesem Fall UART) und muss daher den UART getrennt haben und würde ihn während des Debuggens wieder anschließen. Diese Breakout-Pins können durch Löten oder Jumperdrähte verbunden werden.
 
-### Identifisering van die UART Baud Rate
+### Identifizierung der UART-Baudrate
 
-Die maklikste manier om die korrekte baud rate te identifiseer, is om na die **TX pen se uitgang te kyk en die data te probeer lees**. As die data wat jy ontvang nie leesbaar is nie, skakel oor na die volgende moontlike baud rate totdat die data leesbaar word. Jy kan 'n USB-naar-serieel adapter of 'n veeldoelige toestel soos Bus Pirate gebruik om dit te doen, saam met 'n helper skrip, soos [baudrate.py](https://github.com/devttys0/baudrate/). Die mees algemene baud rates is 9600, 38400, 19200, 57600, en 115200.
+Der einfachste Weg, die richtige Baudrate zu identifizieren, besteht darin, den **TX-Pin-Ausgang zu betrachten und die Daten zu lesen**. Wenn die empfangenen Daten nicht lesbar sind, wechseln Sie zur nächsten möglichen Baudrate, bis die Daten lesbar werden. Sie können einen USB-zu-Seriell-Adapter oder ein Multifunktionsgerät wie Bus Pirate verwenden, um dies zu tun, zusammen mit einem Hilfsskript wie [baudrate.py](https://github.com/devttys0/baudrate/). Die häufigsten Baudraten sind 9600, 38400, 19200, 57600 und 115200.
 
 {% hint style="danger" %}
-Dit is belangrik om te noem dat jy in hierdie protokol die TX van een toestel aan die RX van die ander moet koppel!
+Es ist wichtig zu beachten, dass Sie in diesem Protokoll den TX eines Geräts mit dem RX des anderen verbinden müssen!
 {% endhint %}
 
-## CP210X UART na TTY Adapter
+## CP210X UART zu TTY-Adapter
 
-Die CP210X Chip word in baie prototipering borde soos NodeMCU (met esp8266) vir Seriële Kommunikasie gebruik. Hierdie adapters is relatief goedkoop en kan gebruik word om aan die UART interface van die teiken te koppel. Die toestel het 5 penne: 5V, GND, RXD, TXD, 3.3V. Maak seker om die spanning te koppel soos deur die teiken ondersteun om enige skade te vermy. Laastens koppel die RXD pen van die Adapter aan TXD van die teiken en TXD pen van die Adapter aan RXD van die teiken.
+Der CP210X-Chip wird in vielen Prototyping-Boards wie NodeMCU (mit esp8266) für die serielle Kommunikation verwendet. Diese Adapter sind relativ kostengünstig und können verwendet werden, um sich mit der UART-Schnittstelle des Ziels zu verbinden. Das Gerät hat 5 Pins: 5V, GND, RXD, TXD, 3.3V. Stellen Sie sicher, dass Sie die Spannung entsprechend den Anforderungen des Ziels anschließen, um Schäden zu vermeiden. Schließen Sie schließlich den RXD-Pin des Adapters an TXD des Ziels und den TXD-Pin des Adapters an RXD des Ziels an.
 
-As die adapter nie gedetecteer word nie, maak seker dat die CP210X bestuurders in die gasheerstelsel geïnstalleer is. Sodra die adapter gedetecteer en gekoppel is, kan gereedskap soos picocom, minicom of screen gebruik word.
+Falls der Adapter nicht erkannt wird, stellen Sie sicher, dass die CP210X-Treiber im Hostsystem installiert sind. Sobald der Adapter erkannt und verbunden ist, können Tools wie picocom, minicom oder screen verwendet werden.
 
-Om die toestelle wat aan Linux/MacOS stelsels gekoppel is, te lys:
+Um die an Linux/MacOS-Systeme angeschlossenen Geräte aufzulisten:
 ```
 ls /dev/
 ```
-Vir basiese interaksie met die UART-koppelvlak, gebruik die volgende opdrag:
+Für die grundlegende Interaktion mit der UART-Schnittstelle verwenden Sie den folgenden Befehl:
 ```
 picocom /dev/<adapter> --baud <baudrate>
 ```
-Vir minicom, gebruik die volgende opdrag om dit te konfigureer:
+Für minicom verwenden Sie den folgenden Befehl, um es zu konfigurieren:
 ```
 minicom -s
 ```
-Configureer die instellings soos baudrate en toestelnaam in die `Serial port setup` opsie.
+Konfigurieren Sie die Einstellungen wie Baudrate und Gerätename in der `Serial port setup`-Option.
 
-Na konfigurasie, gebruik die opdrag `minicom` om die UART Console te begin.
+Nach der Konfiguration verwenden Sie den Befehl `minicom`, um die UART-Konsole zu starten.
 
-## UART Via Arduino UNO R3 (Verwyderbare Atmel 328p Chip Borde)
+## UART über Arduino UNO R3 (Entfernbarer Atmel 328p Chip)
 
-As UART Serial na USB-adapters nie beskikbaar is nie, kan Arduino UNO R3 gebruik word met 'n vinnige hack. Aangesien Arduino UNO R3 gewoonlik oral beskikbaar is, kan dit baie tyd bespaar.
+Falls UART-Serial-zu-USB-Adapter nicht verfügbar sind, kann Arduino UNO R3 mit einem schnellen Hack verwendet werden. Da Arduino UNO R3 normalerweise überall erhältlich ist, kann dies viel Zeit sparen.
 
-Arduino UNO R3 het 'n USB na Serial-adapter wat op die bord self ingebou is. Om UART-verbinding te kry, trek eenvoudig die Atmel 328p mikrocontroller-skyf uit die bord. Hierdie hack werk op Arduino UNO R3 variasies wat die Atmel 328p nie op die bord gesoldeer het nie (SMD weergawe word daarin gebruik). Koppel die RX-pin van Arduino (Digitale Pin 0) aan die TX-pin van die UART-interface en die TX-pin van die Arduino (Digitale Pin 1) aan die RX-pin van die UART-interface.
+Arduino UNO R3 hat einen USB-zu-Serial-Adapter, der auf der Platine selbst integriert ist. Um eine UART-Verbindung herzustellen, ziehen Sie einfach den Atmel 328p-Mikrocontroller-Chip von der Platine ab. Dieser Hack funktioniert bei Arduino UNO R3-Varianten, bei denen der Atmel 328p nicht auf der Platine verlötet ist (SMD-Version wird verwendet). Verbinden Sie den RX-Pin des Arduino (Digital Pin 0) mit dem TX-Pin der UART-Schnittstelle und den TX-Pin des Arduino (Digital Pin 1) mit dem RX-Pin der UART-Schnittstelle.
 
-Laastens, dit word aanbeveel om Arduino IDE te gebruik om die Serial Console te kry. In die `tools` afdeling in die spyskaart, kies die `Serial Console` opsie en stel die baud rate in volgens die UART-interface.
+Schließlich wird empfohlen, die Arduino IDE zu verwenden, um die serielle Konsole zu erhalten. Wählen Sie im Menü im Abschnitt `tools` die Option `Serial Console` und setzen Sie die Baudrate gemäß der UART-Schnittstelle.
 
 ## Bus Pirate
 
-In hierdie scenario gaan ons die UART kommunikasie van die Arduino snuffel wat al die afdrukke van die program na die Serial Monitor stuur.
+In diesem Szenario werden wir die UART-Kommunikation des Arduino sniffen, der alle Ausgaben des Programms an den Serial Monitor sendet.
 ```bash
 # Check the modes
 UART>m
@@ -161,26 +161,41 @@ waiting a few secs to repeat....
 ```
 ## Dumping Firmware with UART Console
 
-UART Console bied 'n uitstekende manier om met die onderliggende firmware in 'n runtime-omgewing te werk. Maar wanneer die UART Console-toegang slegs lees is, kan dit baie beperkings inhou. In baie ingebedde toestelle word die firmware in EEPROMs gestoor en in verwerkers met vlugtige geheue uitgevoer. Daarom word die firmware as lees-slegs gehou aangesien die oorspronklike firmware tydens vervaardiging binne die EEPROM self is en enige nuwe lêers sou verlore gaan weens vlugtige geheue. Daarom is dit 'n waardevolle poging om firmware te dump terwyl jy met ingebedde firmwares werk.
+UART Console bietet eine großartige Möglichkeit, mit der zugrunde liegenden Firmware in einer Laufzeitumgebung zu arbeiten. Aber wenn der Zugriff auf die UART-Konsole schreibgeschützt ist, kann dies viele Einschränkungen mit sich bringen. In vielen eingebetteten Geräten wird die Firmware in EEPROMs gespeichert und auf Prozessoren mit flüchtigem Speicher ausgeführt. Daher bleibt die Firmware schreibgeschützt, da die ursprüngliche Firmware während der Herstellung im EEPROM selbst gespeichert ist und alle neuen Dateien aufgrund des flüchtigen Speichers verloren gehen würden. Daher ist das Dumpen von Firmware eine wertvolle Anstrengung, wenn man mit eingebetteten Firmwares arbeitet.
 
-Daar is baie maniere om dit te doen en die SPI-afdeling dek metodes om firmware direk uit die EEPROM met verskeie toestelle te onttrek. Alhoewel, dit word aanbeveel om eers te probeer om firmware met UART te dump, aangesien dit riskant kan wees om firmware met fisiese toestelle en eksterne interaksies te dump.
+Es gibt viele Möglichkeiten, dies zu tun, und der SPI-Abschnitt behandelt Methoden, um Firmware direkt aus dem EEPROM mit verschiedenen Geräten zu extrahieren. Es wird jedoch empfohlen, zuerst zu versuchen, die Firmware mit UART zu dumpen, da das Dumpen von Firmware mit physischen Geräten und externen Interaktionen riskant sein kann.
 
-Om firmware vanaf die UART Console te dump, vereis dit eers om toegang tot bootloaders te verkry. Baie gewilde verskaffers gebruik uboot (Universal Bootloader) as hul bootloader om Linux te laai. Daarom is dit nodig om toegang tot uboot te verkry.
+Das Dumpen von Firmware aus der UART-Konsole erfordert zunächst den Zugriff auf Bootloader. Viele beliebte Anbieter verwenden uboot (Universal Bootloader) als ihren Bootloader, um Linux zu laden. Daher ist der Zugriff auf uboot notwendig.
 
-Om toegang tot die boot bootloader te verkry, koppel die UART-poort aan die rekenaar en gebruik enige van die Serial Console-gereedskap en hou die kragtoevoer na die toestel ontkoppel. Sodra die opstelling gereed is, druk die Enter-sleutel en hou dit in. Laastens, koppel die kragtoevoer aan die toestel en laat dit opstart.
+Um Zugriff auf den Bootloader zu erhalten, verbinden Sie den UART-Port mit dem Computer und verwenden Sie eines der Serial Console-Tools und halten Sie die Stromversorgung des Geräts getrennt. Sobald die Einrichtung bereit ist, drücken Sie die Eingabetaste und halten Sie sie gedrückt. Schließen Sie schließlich die Stromversorgung an das Gerät an und lassen Sie es booten.
 
-Deur dit te doen, sal uboot onderbreek word van laai en 'n menu bied. Dit word aanbeveel om uboot-opdragte te verstaan en die helpmenu te gebruik om hulle te lys. Dit mag die `help`-opdrag wees. Aangesien verskillende verskaffers verskillende konfigurasies gebruik, is dit nodig om elkeen van hulle apart te verstaan.
+Dies wird uboot daran hindern, zu laden, und ein Menü bereitstellen. Es wird empfohlen, die uboot-Befehle zu verstehen und das Hilfemenü zu verwenden, um sie aufzulisten. Dies könnte der Befehl `help` sein. Da verschiedene Anbieter unterschiedliche Konfigurationen verwenden, ist es notwendig, jede von ihnen separat zu verstehen.
 
-Gewoonlik is die opdrag om die firmware te dump:
+In der Regel lautet der Befehl zum Dumpen der Firmware:
 ```
 md
 ```
-wat staan vir "geheue dump". Dit sal die geheue (EEPROM Inhoud) op die skerm dump. Dit word aanbeveel om die Serial Console-uitset te log voordat jy die prosedure begin om die geheue dump te vang.
+welches für "Speicherabbild" steht. Dies wird den Speicher (EEPROM-Inhalt) auf dem Bildschirm ausgeben. Es wird empfohlen, die Ausgabe der seriellen Konsole zu protokollieren, bevor Sie das Verfahren starten, um das Speicherabbild zu erfassen.
 
-Laastens, verwyder net al die onnodige data uit die loglêer en stoor die lêer as `filename.rom` en gebruik binwalk om die inhoud te onttrek:
+Schließlich entfernen Sie einfach alle unnötigen Daten aus der Protokolldatei und speichern Sie die Datei als `filename.rom` und verwenden Sie binwalk, um den Inhalt zu extrahieren:
 ```
 binwalk -e <filename.rom>
 ```
-Dit sal die moontlike inhoud van die EEPROM lys volgens die handtekeninge wat in die hex-lêer gevind is.
+Dies wird die möglichen Inhalte des EEPROMs gemäß den in der Hex-Datei gefundenen Signaturen auflisten.
 
-Alhoewel, dit is nodig om op te let dat dit nie altyd die geval is dat die uboot ontgrendel is nie, selfs al word dit gebruik. As die Enter-sleutel niks doen nie, kyk vir ander sleutels soos die Spasie-sleutel, ens. As die bootloader vergrendel is en nie onderbreek word nie, sal hierdie metode nie werk nie. Om te kontroleer of uboot die bootloader vir die toestel is, kyk na die uitvoer op die UART-konsol terwyl die toestel opstart. Dit mag uboot noem terwyl dit opstart.
+Es ist jedoch zu beachten, dass es nicht immer der Fall ist, dass der uboot entsperrt ist, selbst wenn er verwendet wird. Wenn die Eingabetaste nichts bewirkt, überprüfen Sie andere Tasten wie die Leertaste usw. Wenn der Bootloader gesperrt ist und nicht unterbrochen wird, funktioniert diese Methode nicht. Um zu überprüfen, ob uboot der Bootloader für das Gerät ist, überprüfen Sie die Ausgabe auf der UART-Konsole während des Bootvorgangs des Geräts. Es könnte während des Bootens uboot erwähnen.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

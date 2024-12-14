@@ -1,71 +1,71 @@
-# HackTricks Waardes & FAQ
+# HackTricks Werte & FAQ
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## HackTricks Waardes
+## HackTricks Werte
 
 {% hint style="success" %}
-Dit is die **waardes van die HackTricks Projek**:
+Dies sind die **Werte des HackTricks Projekts**:
 
-* Gee **VRYE** toegang tot **OPVOEDKUNDIGE hacking** hulpbronne aan **AL** Internet.
-* Hacking gaan oor leer, en leer moet so vry as moontlik wees.
-* Die doel van hierdie boek is om as 'n omvattende **opvoedkundige hulpbron** te dien.
-* **Bêre** wonderlike **hacking** tegnieke wat die gemeenskap publiseer en gee die **ORIGINELE** **SKRYVERS** al die **krediete**.
-* **Ons wil nie die krediet van ander mense nie**, ons wil net cool truuks vir almal stoor.
-* Ons skryf ook **ons eie navorsings** in HackTricks.
-* In verskeie gevalle sal ons net **in HackTricks 'n opsomming van die belangrike dele** van die tegniek skryf en sal ons **die leser aanmoedig om die oorspronklike pos** te besoek vir meer besonderhede.
-* **ORGANISEER** al die hacking tegnieke in die boek sodat dit **MEER TOEGANKLIK** is.
-* Die HackTricks span het duisende ure gratis gewy **net om die inhoud te organiseer** sodat mense **vinniger kan leer**.
+* Gib **KOSTENLOS** Zugang zu **BILDUNGS-Hacking** Ressourcen für **ALLE** im Internet.
+* Hacking geht darum zu lernen, und Lernen sollte so kostenlos wie möglich sein.
+* Der Zweck dieses Buches ist es, als umfassende **Bildungsressource** zu dienen.
+* **SPEICHERE** großartige **Hacking** Techniken, die die Community veröffentlicht, und gib den **URSPRÜNGLICHEN** **AUTOREN** alle **Credits**.
+* **Wir wollen nicht den Kredit von anderen Menschen**, wir wollen nur coole Tricks für alle speichern.
+* Wir schreiben auch **unsere eigenen Forschungen** in HackTricks.
+* In mehreren Fällen werden wir nur **in HackTricks eine Zusammenfassung der wichtigen Teile** der Technik schreiben und den **Leser ermutigen, den ursprünglichen Beitrag** für weitere Details zu besuchen.
+* **ORGANISIERE** alle Hacking-Techniken im Buch, damit es **ZUGÄNGLICHER** ist.
+* Das HackTricks-Team hat tausende von Stunden kostenlos investiert, **nur um den Inhalt zu organisieren**, damit die Leute **schneller lernen** können.
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
 
-## HackTricks faq
+## HackTricks FAQ
 
 {% hint style="success" %}
-* **Baie dankie vir hierdie hulpbronne, hoe kan ek julle bedank?**
+* **Vielen Dank für diese Ressourcen, wie kann ich euch danken?**
 {% endhint %}
 
-Jy kan die HackTricks span publiek bedank vir die saamstel van al hierdie hulpbronne in 'n tweet wat [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) noem.\
-As jy veral dankbaar is, kan jy ook [**die projek hier borg**](https://github.com/sponsors/carlospolop).\
-En moenie vergeet om **'n ster in die Github projekte te gee nie!** (Vind die skakels hieronder).
+Du kannst dem HackTricks-Team öffentlich danken, indem du in einem Tweet [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) erwähnst.\
+Wenn du besonders dankbar bist, kannst du auch [**das Projekt hier sponsern**](https://github.com/sponsors/carlospolop).\
+Und vergiss nicht, **einen Stern in den GitHub-Projekten zu geben!** (Finde die Links unten).
 
 {% hint style="success" %}
-* **Hoe kan ek by die projek bydra?**
+* **Wie kann ich zum Projekt beitragen?**
 {% endhint %}
 
-Jy kan **nuwe wenke en truuks met die gemeenskap deel of foute regmaak** wat jy in die boeke vind deur 'n **Pull Request** na die onderskeie Github bladsye te stuur:
+Du kannst **neue Tipps und Tricks mit der Community teilen oder Fehler** in den Büchern beheben, indem du einen **Pull Request** an die jeweiligen GitHub-Seiten sendest:
 
 * [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
 * [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
 
-Moet nie vergeet om **'n ster in die Github projekte te gee nie!**
+Vergiss nicht, **einen Stern in den GitHub-Projekten zu geben!**
 
 {% hint style="success" %}
-* **Kan ek 'n paar inhoud van HackTricks kopieer en dit in my blog plaas?**
+* **Kann ich Inhalte von HackTricks kopieren und in meinem Blog verwenden?**
 {% endhint %}
 
-Ja, jy kan, maar **moet nie vergeet om die spesifieke skakel(s)** waar die inhoud geneem is te noem nie.
+Ja, das kannst du, aber **vergiss nicht, die spezifischen Link(s)** zu erwähnen, von wo der Inhalt stammt.
 
 {% hint style="success" %}
-* **Hoe kan ek 'n bladsy van HackTricks aanhaal?**
+* **Wie kann ich eine Seite von HackTricks zitieren?**
 {% endhint %}
 
-Solank as die skakel **van** die bladsy(e) waar jy die inligting geneem het verskyn, is dit genoeg.\
-As jy 'n bibtex nodig het, kan jy iets soos gebruik:
+Solange der Link **der** Seite(n), von der du die Informationen genommen hast, erscheint, ist das ausreichend.\
+Wenn du ein BibTeX benötigst, kannst du etwas verwenden wie:
 ```latex
 @misc{hacktricks-bibtexing,
 author = {"HackTricks Team" or the Authors name of the specific page/trick},
@@ -75,97 +75,97 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 }
 ```
 {% hint style="warning" %}
-* **Kan ek al die HackTricks in my blog kopieer?**
+* **Kann ich alle HackTricks in meinem Blog kopieren?**
 {% endhint %}
 
-**Ek verkies om nie**. Dit **gaan niemand bevoordeel nie** aangesien al die **inhoud reeds publiek beskikbaar is** in die amptelike HackTricks boeke gratis.
+**Ich würde es lieber nicht**. Das **wird niemandem nützen**, da der **Inhalt bereits öffentlich** in den offiziellen HackTricks-Büchern kostenlos verfügbar ist.
 
-As jy bang is dat dit gaan verdwyn, fork dit net in Github of laai dit af, soos ek gesê het, dit is reeds gratis.
+Wenn Sie befürchten, dass es verschwinden wird, forken Sie es einfach auf Github oder laden Sie es herunter, wie ich sagte, es ist bereits kostenlos.
 
 {% hint style="warning" %}
-* **Waarom het julle borge? Is HackTricks boeke vir kommersiële doeleindes?**
+* **Warum haben Sie Sponsoren? Sind HackTricks-Bücher kommerzieller Natur?**
 {% endhint %}
 
-Die eerste **HackTricks** **waarde** is om **GRATIS** hacking opvoedkundige hulpbronne aan **AL** die wêreld te bied. Die HackTricks span het **duisende ure** toegewy om hierdie inhoud aan te bied, weer, **GRATIS**.
+Der erste **HackTricks** **Wert** ist es, **KOSTENLOSE** Bildungsressourcen zum Thema Hacking für **ALLE** auf der Welt anzubieten. Das HackTricks-Team hat **tausende von Stunden** investiert, um diesen Inhalt anzubieten, erneut, **KOSTENLOS**.
 
-As jy dink HackTricks boeke is gemaak vir **kommersiële doeleindes** is jy **HEELTEMAL VERKEERD**.
+Wenn Sie denken, dass HackTricks-Bücher für **kommerzielle Zwecke** erstellt wurden, liegen Sie **VÖLLIG FALSCH**.
 
-Ons het borge omdat, selfs al is al die inhoud **GRATIS**, ons wil **die gemeenskap die moontlikheid bied om ons werk te waardeer** as hulle wil. Daarom bied ons mense die opsie om aan HackTricks te skenk via [**Github sponsors**](https://github.com/sponsors/carlospolop), en **relevante kuberveiligheidsmaatskappye** om HackTricks te borg en om **'n paar advertensies** in die boek te hê, wat die **advertensies** altyd in plekke plaas waar hulle **sigbaar** is maar **nie die leer** proses steur as iemand op die inhoud fokus nie.
+Wir haben Sponsoren, weil wir, auch wenn der gesamte Inhalt KOSTENLOS ist, der **Gemeinschaft die Möglichkeit bieten möchten, unsere Arbeit zu schätzen**, wenn sie möchten. Daher bieten wir den Menschen die Möglichkeit, HackTricks über [**Github-Sponsoren**](https://github.com/sponsors/carlospolop) zu unterstützen, und **relevante Cybersicherheitsunternehmen**, um HackTricks zu sponsern und **einige Anzeigen** im Buch zu haben, wobei die **Anzeigen** immer an Orten platziert werden, die sie **sichtbar** machen, aber den Lernprozess nicht stören, wenn sich jemand auf den Inhalt konzentriert.
 
-Jy sal nie HackTricks vol irritante advertensies vind soos ander blogs met baie minder inhoud as HackTricks nie, omdat HackTricks nie gemaak is vir kommersiële doeleindes nie.
+Sie werden HackTricks nicht mit nervigen Anzeigen finden, wie es bei anderen Blogs mit viel weniger Inhalt als HackTricks der Fall ist, denn HackTricks ist nicht für kommerzielle Zwecke gemacht.
 
 {% hint style="danger" %}
-* **Wat moet ek doen as 'n HackTricks bladsy gebaseer is op my blogpos maar dit nie verwys word nie?**
+* **Was soll ich tun, wenn eine HackTricks-Seite auf meinem Blogbeitrag basiert, aber nicht referenziert ist?**
 {% endhint %}
 
-**Ons is baie jammer. Dit moes nie gebeur het nie**. Laat weet ons asseblief via Github issues, Twitter, Discord... die skakel van die HackTricks bladsy met die inhoud en die skakel van jou blog en **ons sal dit nagaan en dit ASAP byvoeg**.
+**Es tut uns sehr leid. Das hätte nicht passieren dürfen**. Bitte lassen Sie es uns über Github-Issues, Twitter, Discord... wissen, den Link zur HackTricks-Seite mit dem Inhalt und den Link zu Ihrem Blog und **wir werden es überprüfen und so schnell wie möglich hinzufügen**.
 
 {% hint style="danger" %}
-* **Wat moet ek doen as daar inhoud van my blog in HackTricks is en ek wil nie dit daar hê nie?**
+* **Was soll ich tun, wenn Inhalte von meinem Blog in HackTricks sind und ich möchte, dass sie dort nicht sind?**
 {% endhint %}
 
-Let daarop dat om skakels na jou bladsy in HackTricks te hê:
+Beachten Sie, dass Links zu Ihrer Seite in HackTricks:
 
-* Verbeter jou **SEO**
-* Die inhoud word **vertaal na meer as 15 tale** wat dit moontlik maak vir meer mense om toegang tot hierdie inhoud te hê
-* **HackTricks moedig** mense aan om **jou bladsy te besoek** (verskeie mense het vir ons genoem dat sedert 'n paar van hulle se bladsye in HackTricks is, hulle meer besoeke ontvang)
+* Ihre **SEO** verbessern
+* Der Inhalt wird **in mehr als 15 Sprachen übersetzt**, was es mehr Menschen ermöglicht, auf diesen Inhalt zuzugreifen
+* **HackTricks ermutigt** die Menschen, **Ihre Seite zu besuchen** (mehrere Personen haben uns mitgeteilt, dass sie seitdem ihre Seite in HackTricks haben, mehr Besuche erhalten)
 
-As jy egter steeds wil hê dat die inhoud van jou blog verwyder moet word uit HackTricks, laat weet ons asseblief en ons sal beslis **elke skakel na jou blog verwyder**, en enige inhoud gebaseer daarop.
+Wenn Sie jedoch möchten, dass der Inhalt Ihres Blogs aus HackTricks entfernt wird, lassen Sie es uns einfach wissen und wir werden definitiv **jeden Link zu Ihrem Blog** und jeden darauf basierenden Inhalt entfernen.
 
 {% hint style="danger" %}
-* **Wat moet ek doen as ek gekopieerde inhoud in HackTricks vind?**
+* **Was soll ich tun, wenn ich kopierte Inhalte in HackTricks finde?**
 {% endhint %}
 
-Ons **gee altyd die oorspronklike outeurs al die krediet**. As jy 'n bladsy vind met gekopieerde inhoud sonder oorspronklike bron verwysing, laat weet ons en ons sal of **dit verwyder**, **die skakel voor die teks byvoeg**, of **dit herskryf met die skakel**.
+Wir **geben den ursprünglichen Autoren immer alle Credits**. Wenn Sie eine Seite mit kopierten Inhalten ohne referenzierte Originalquelle finden, lassen Sie es uns wissen und wir werden entweder **es entfernen**, **den Link vor dem Text hinzufügen** oder **es umschreiben und den Link hinzufügen**.
 
 ## LICENSE
 
-Copyright © Alle regte voorbehou tensy anders vermeld.
+Copyright © Alle Rechte vorbehalten, sofern nicht anders angegeben.
 
-#### License Summary:
+#### Lizenzübersicht:
 
-* Attribution: Jy is vry om:
-* Deel — kopieer en versprei die materiaal in enige medium of formaat.
-* Pas aan — remix, transformeer, en bou voort op die materiaal.
+* Namensnennung: Sie sind frei:
+* Teilen — das Material in jedem Medium oder Format zu kopieren und weiterzugeben.
+* Anpassen — das Material zu remixen, zu transformieren und darauf aufzubauen.
 
-#### Additional Terms:
+#### Zusätzliche Bedingungen:
 
-* Third-Party Content: Sommige dele van hierdie blog/boek mag inhoud van ander bronne insluit, soos uittreksels van ander blogs of publikasies. Die gebruik van sulke inhoud word gedoen onder die beginsels van billike gebruik of met eksplisiete toestemming van die onderskeie kopiereghouers. Verwys asseblief na die oorspronklike bronne vir spesifieke lisensiëringsinligting rakende derdeparty-inhoud.
-* Authorship: Die oorspronklike inhoud geskryf deur HackTricks is onderhewig aan die bepalings van hierdie lisensie. Jy word aangemoedig om hierdie werk aan die outeur toe te ken wanneer jy dit deel of aanpas.
+* Inhalte Dritter: Einige Teile dieses Blogs/Buchs können Inhalte aus anderen Quellen enthalten, wie Auszüge aus anderen Blogs oder Publikationen. Die Verwendung solcher Inhalte erfolgt nach den Grundsätzen der fairen Nutzung oder mit ausdrücklicher Genehmigung der jeweiligen Urheberrechtsinhaber. Bitte beziehen Sie sich auf die ursprünglichen Quellen für spezifische Lizenzinformationen zu Inhalten Dritter.
+* Urheberschaft: Der ursprüngliche Inhalt, der von HackTricks verfasst wurde, unterliegt den Bedingungen dieser Lizenz. Sie werden ermutigt, dieses Werk dem Autor bei der Weitergabe oder Anpassung zuzuschreiben.
 
-#### Exemptions:
+#### Ausnahmen:
 
-* Commercial Use: Vir navrae rakende kommersiële gebruik van hierdie inhoud, kontak my asseblief.
+* Kommerzielle Nutzung: Für Anfragen zur kommerziellen Nutzung dieses Inhalts kontaktieren Sie mich bitte.
 
-Hierdie lisensie gee nie enige handelsmerk of handelsnaam regte in verband met die inhoud nie. Alle handelsmerke en handelsname wat in hierdie blog/boek verskyn, is die eiendom van hul onderskeie eienaars.
+Diese Lizenz gewährt keine Marken- oder Branding-Rechte in Bezug auf den Inhalt. Alle in diesem Blog/Buch enthaltenen Marken und Branding sind Eigentum ihrer jeweiligen Inhaber.
 
-**Deur toegang te verkry tot of HackTricks te gebruik, stem jy in om die bepalings van hierdie lisensie na te kom. As jy nie met hierdie bepalings saamstem nie, asseblief, moenie toegang tot hierdie webwerf verkry nie.**
+**Durch den Zugriff auf oder die Nutzung von HackTricks stimmen Sie zu, die Bedingungen dieser Lizenz einzuhalten. Wenn Sie mit diesen Bedingungen nicht einverstanden sind, greifen Sie bitte nicht auf diese Website zu.**
 
-## **Disclaimer**
+## **Haftungsausschluss**
 
 {% hint style="danger" %}
-Hierdie boek, 'HackTricks,' is bedoel vir opvoedkundige en informele doeleindes slegs. Die inhoud binne hierdie boek word op 'n 'soos dit is' basis verskaf, en die outeurs en uitgewers maak geen verteenwoordigings of waarborge van enige aard, uitdruklik of geïmpliseer, oor die volledigheid, akkuraatheid, betroubaarheid, geskiktheid, of beskikbaarheid van die inligting, produkte, dienste, of verwante grafika wat binne hierdie boek bevat is nie. Enige vertroue wat jy op sulke inligting plaas, is dus streng op jou eie risiko.
+Dieses Buch, 'HackTricks', ist nur für Bildungs- und Informationszwecke gedacht. Der Inhalt dieses Buches wird auf einer 'wie er ist'-Basis bereitgestellt, und die Autoren und Verleger geben keine Zusicherungen oder Gewährleistungen jeglicher Art, weder ausdrücklich noch stillschweigend, hinsichtlich der Vollständigkeit, Genauigkeit, Zuverlässigkeit, Eignung oder Verfügbarkeit der Informationen, Produkte, Dienstleistungen oder verwandten Grafiken, die in diesem Buch enthalten sind. Jegliches Vertrauen, das Sie in solche Informationen setzen, erfolgt daher ausschließlich auf Ihr eigenes Risiko.
 
-Die outeurs en uitgewers sal in geen geval aanspreeklik wees vir enige verlies of skade, insluitend sonder beperking, indirekte of gevolglike verlies of skade, of enige verlies of skade wat ontstaan uit verlies van data of wins wat ontstaan uit, of in verband met, die gebruik van hierdie boek.
+Die Autoren und Verleger haften in keinem Fall für Verluste oder Schäden, einschließlich, aber nicht beschränkt auf indirekte oder Folgeschäden, oder für Verluste oder Schäden jeglicher Art, die aus dem Verlust von Daten oder Gewinnen resultieren, die aus oder im Zusammenhang mit der Nutzung dieses Buches entstehen.
 
-Boonop is die tegnieke en wenke wat in hierdie boek beskryf word, slegs vir opvoedkundige en informele doeleindes, en moet nie vir enige onwettige of kwaadwillige aktiwiteite gebruik word nie. Die outeurs en uitgewers keur geen onwettige of onetiese aktiwiteite goed nie, en enige gebruik van die inligting wat binne hierdie boek bevat is, is op die gebruiker se eie risiko en diskresie.
+Darüber hinaus werden die in diesem Buch beschriebenen Techniken und Tipps nur zu Bildungs- und Informationszwecken bereitgestellt und sollten nicht für illegale oder böswillige Aktivitäten verwendet werden. Die Autoren und Verleger billigen oder unterstützen keine illegalen oder unethischen Aktivitäten, und jede Nutzung der Informationen, die in diesem Buch enthalten sind, erfolgt auf eigenes Risiko und nach eigenem Ermessen des Benutzers.
 
-Die gebruiker is slegs verantwoordelik vir enige aksies wat geneem word op grond van die inligting wat binne hierdie boek bevat is, en moet altyd professionele advies en hulp soek wanneer hy probeer om enige van die tegnieke of wenke wat hierin beskryf word, te implementeer.
+Der Benutzer ist allein verantwortlich für alle Maßnahmen, die auf der Grundlage der Informationen in diesem Buch ergriffen werden, und sollte immer professionelle Beratung und Unterstützung suchen, wenn er versucht, eine der hierin beschriebenen Techniken oder Tipps umzusetzen.
 
-Deur hierdie boek te gebruik, stem die gebruiker in om die outeurs en uitgewers van enige en alle aanspreeklikheid en verantwoordelikheid vir enige skade, verliese, of skade wat mag ontstaan uit die gebruik van hierdie boek of enige van die inligting wat daarin bevat is, vry te stel.
+Durch die Nutzung dieses Buches erklärt sich der Benutzer bereit, die Autoren und Verleger von jeglicher Haftung und Verantwortung für Schäden, Verluste oder Verletzungen freizustellen, die aus der Nutzung dieses Buches oder der darin enthaltenen Informationen resultieren können.
 {% endhint %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repos einreichen.
 
 </details>
 {% endhint %}

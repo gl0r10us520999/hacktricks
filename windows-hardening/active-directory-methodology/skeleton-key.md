@@ -1,56 +1,56 @@
 # Skeleton Key
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Skeleton Key Aanval
+## Skeleton Key Angriff
 
-Die **Skeleton Key aanval** is 'n gesofistikeerde tegniek wat aanvallers toelaat om **Active Directory-outeentifikasie te omseil** deur 'n **meesterwagwoord** in die domeinbeheerder in te spuit. Dit stel die aanvaller in staat om **as enige gebruiker te autentiseer** sonder hul wagwoord, wat effektief **onbeperkte toegang** tot die domein verleen.
+Der **Skeleton Key Angriff** ist eine ausgeklügelte Technik, die es Angreifern ermöglicht, die **Active Directory-Authentifizierung zu umgehen**, indem sie ein **Master-Passwort** in den Domänencontroller injizieren. Dies ermöglicht es dem Angreifer, sich **als jeder Benutzer** zu authentifizieren, ohne dessen Passwort, was ihm effektiv **uneingeschränkten Zugriff** auf die Domäne gewährt.
 
-Dit kan uitgevoer word met [Mimikatz](https://github.com/gentilkiwi/mimikatz). Om hierdie aanval uit te voer, is **Domein Admin regte 'n voorvereiste**, en die aanvaller moet elke domeinbeheerder teiken om 'n omvattende oortreding te verseker. Die effek van die aanval is egter tydelik, aangesien **herbegin van die domeinbeheerder die malware uitwis**, wat 'n herimplementering vir volgehoue toegang vereis.
+Er kann mit [Mimikatz](https://github.com/gentilkiwi/mimikatz) durchgeführt werden. Um diesen Angriff durchzuführen, sind **Domain Admin-Rechte Voraussetzung**, und der Angreifer muss jeden Domänencontroller anvisieren, um einen umfassenden Zugriff zu gewährleisten. Der Effekt des Angriffs ist jedoch vorübergehend, da **ein Neustart des Domänencontrollers die Malware beseitigt**, was eine erneute Implementierung für anhaltenden Zugriff erforderlich macht.
 
-**Die uitvoering van die aanval** vereis 'n enkele opdrag: `misc::skeleton`.
+**Die Ausführung des Angriffs** erfordert einen einzigen Befehl: `misc::skeleton`.
 
-## Versagtings
+## Minderung
 
-Versagtingsstrategieë teen sulke aanvalle sluit in om spesifieke gebeurtenis-ID's te monitor wat die installasie van dienste of die gebruik van sensitiewe voorregte aandui. Spesifiek, om te kyk vir Stelsels Gebeurtenis ID 7045 of Sekuriteit Gebeurtenis ID 4673 kan verdagte aktiwiteite onthul. Boonop kan die uitvoering van `lsass.exe` as 'n beskermde proses die aanvallers se pogings aansienlik bemoeilik, aangesien dit vereis dat hulle 'n kernmodus bestuurder gebruik, wat die kompleksiteit van die aanval verhoog.
+Minderungsstrategien gegen solche Angriffe umfassen die Überwachung spezifischer Ereignis-IDs, die die Installation von Diensten oder die Nutzung sensibler Berechtigungen anzeigen. Insbesondere die Suche nach Systemereignis-ID 7045 oder Sicherheitsereignis-ID 4673 kann verdächtige Aktivitäten aufdecken. Darüber hinaus kann das Ausführen von `lsass.exe` als geschützter Prozess die Bemühungen der Angreifer erheblich behindern, da dies erfordert, dass sie einen Kernelmodus-Treiber verwenden, was die Komplexität des Angriffs erhöht.
 
-Hier is die PowerShell-opdragte om sekuriteitsmaatreëls te verbeter:
+Hier sind die PowerShell-Befehle zur Verbesserung der Sicherheitsmaßnahmen:
 
-- Om die installasie van verdagte dienste te ontdek, gebruik: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
+- Um die Installation verdächtiger Dienste zu erkennen, verwenden Sie: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
-- Spesifiek, om Mimikatz se bestuurder te ontdek, kan die volgende opdrag gebruik word: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
+- Um speziell den Treiber von Mimikatz zu erkennen, kann der folgende Befehl verwendet werden: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
-- Om `lsass.exe` te versterk, word dit aanbeveel om dit as 'n beskermde proses in te stel: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- Um `lsass.exe` zu stärken, wird empfohlen, es als geschützten Prozess zu aktivieren: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-Verifikasie na 'n stelsels herbegin is van kardinale belang om te verseker dat die beskermende maatreëls suksesvol toegepas is. Dit kan bereik word deur: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+Die Überprüfung nach einem Systemneustart ist entscheidend, um sicherzustellen, dass die Schutzmaßnahmen erfolgreich angewendet wurden. Dies ist erreichbar durch: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
-## Verwysings
+## Referenzen
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

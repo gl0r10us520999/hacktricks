@@ -1,25 +1,25 @@
-# Eksterne Woud-domein - Eenrigting (Uitgaand)
+# Externer Wald-Domain - Einweg (Outbound)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-In hierdie scenario **jou domein** is **vertrou** op **sekere voorregte** aan 'n hoof van **verskillende domeine**.
+In diesem Szenario **deine Domain** **vertraut** einigen **Befugnissen** an ein Hauptobjekt aus **anderen Domains**.
 
-## Opname
+## Aufzählung
 
-### Uitgaande Vertroue
+### Outbound-Vertrauen
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -43,57 +43,57 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Trust Account Attack
 
-'n Sekuriteitskwesbaarheid bestaan wanneer 'n vertrouensverhouding tussen twee domeine gevestig word, hier geïdentifiseer as domein **A** en domein **B**, waar domein **B** sy vertroue na domein **A** uitbrei. In hierdie opstelling word 'n spesiale rekening in domein **A** geskep vir domein **B**, wat 'n belangrike rol speel in die verifikasieproses tussen die twee domeine. Hierdie rekening, geassosieer met domein **B**, word gebruik om kaartjies te enkripteer vir toegang tot dienste oor die domeine.
+Eine Sicherheitsanfälligkeit besteht, wenn eine Vertrauensbeziehung zwischen zwei Domänen hergestellt wird, hier als Domäne **A** und Domäne **B** identifiziert, wobei Domäne **B** ihr Vertrauen auf Domäne **A** ausdehnt. In diesem Setup wird ein spezielles Konto in Domäne **A** für Domäne **B** erstellt, das eine entscheidende Rolle im Authentifizierungsprozess zwischen den beiden Domänen spielt. Dieses Konto, das mit Domäne **B** verbunden ist, wird verwendet, um Tickets für den Zugriff auf Dienste über die Domänen hinweg zu verschlüsseln.
 
-Die kritieke aspek om hier te verstaan, is dat die wagwoord en hash van hierdie spesiale rekening uit 'n Domeinbeheerder in domein **A** onttrek kan word met behulp van 'n opdraglyn hulpmiddel. Die opdrag om hierdie aksie uit te voer is:
+Der kritische Aspekt, den es hier zu verstehen gilt, ist, dass das Passwort und der Hash dieses speziellen Kontos von einem Domänencontroller in Domäne **A** mit einem Befehlszeilenwerkzeug extrahiert werden können. Der Befehl, um diese Aktion auszuführen, ist:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Hierdie ekstraksie is moontlik omdat die rekening, wat met 'n **$** na sy naam geïdentifiseer word, aktief is en behoort tot die "Domain Users" groep van domein **A**, wat die regte wat met hierdie groep geassosieer word, erf. Dit stel individue in staat om teen domein **A** te autentiseer met die kredensiale van hierdie rekening.
+Diese Extraktion ist möglich, da das Konto, das mit einem **$** nach seinem Namen identifiziert wird, aktiv ist und zur Gruppe "Domain Users" der Domäne **A** gehört, wodurch es die mit dieser Gruppe verbundenen Berechtigungen erbt. Dies ermöglicht es Personen, sich mit den Anmeldeinformationen dieses Kontos gegen die Domäne **A** zu authentifizieren.
 
-**Waarskuwing:** Dit is haalbaar om hierdie situasie te benut om 'n voet aan die grond in domein **A** te verkry as 'n gebruiker, alhoewel met beperkte regte. Hierdie toegang is egter voldoende om enumerasie op domein **A** uit te voer.
+**Warnung:** Es ist möglich, diese Situation auszunutzen, um einen Fuß in der Domäne **A** als Benutzer zu fassen, wenn auch mit eingeschränkten Berechtigungen. Dieser Zugriff ist jedoch ausreichend, um eine Enumeration in der Domäne **A** durchzuführen.
 
-In 'n scenario waar `ext.local` die vertrouende domein is en `root.local` die vertroude domein is, sal 'n gebruikersrekening met die naam `EXT$` binne `root.local` geskep word. Deur spesifieke gereedskap is dit moontlik om die Kerberos vertrouingssleutels te dump, wat die kredensiale van `EXT$` in `root.local` onthul. Die opdrag om dit te bereik is:
+In einem Szenario, in dem `ext.local` die vertrauende Domäne und `root.local` die vertrauenswürdige Domäne ist, würde ein Benutzerkonto mit dem Namen `EXT$` innerhalb von `root.local` erstellt. Durch spezifische Tools ist es möglich, die Kerberos-Vertrauensschlüssel zu dumpen, wodurch die Anmeldeinformationen von `EXT$` in `root.local` offengelegt werden. Der Befehl, um dies zu erreichen, ist:
 ```bash
 lsadump::trust /patch
 ```
-Hierdie kan gebruik word om die onttrokken RC4-sleutel te gebruik om as `root.local\EXT$` binne `root.local` te autentiseer met 'n ander hulpmiddelopdrag:
+Folgendes könnte man tun: Man könnte den extrahierten RC4-Schlüssel verwenden, um sich als `root.local\EXT$` innerhalb von `root.local` mit einem anderen Tool-Befehl zu authentifizieren:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Hierdie verifikasiefase maak die moontlikheid oop om dienste binne `root.local` te tel en selfs te benut, soos om 'n Kerberoast-aanval uit te voer om diensrekening geloofsbriewe te onttrek met:
+Dieser Authentifizierungsschritt eröffnet die Möglichkeit, Dienste innerhalb von `root.local` zu enumerieren und sogar auszunutzen, wie zum Beispiel einen Kerberoast-Angriff durchzuführen, um Anmeldeinformationen von Dienstkonten zu extrahieren mit:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Versameling van duidelike teks vertrouingswagwoord
+### Sammeln des Klartextvertrauenspassworts
 
-In die vorige vloei is die vertrouingshash gebruik in plaas van die **duidelike teks wagwoord** (wat ook **deur mimikatz gedump** is).
+Im vorherigen Ablauf wurde der Vertrauenshash anstelle des **Klartextpassworts** verwendet (das ebenfalls **von mimikatz** **dumped** wurde).
 
-Die duidelike teks wagwoord kan verkry word deur die \[ CLEAR ] uitvoer van mimikatz van hexadesimaal te omskakel en null bytes ‘\x00’ te verwyder:
+Das Klartextpasswort kann erhalten werden, indem die \[ CLEAR ]-Ausgabe von mimikatz in Hexadezimal umgewandelt und Nullbytes ‘\x00’ entfernt werden:
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Soms, wanneer 'n vertrouingsverhouding geskep word, moet 'n wagwoord deur die gebruiker vir die vertroue getik word. In hierdie demonstrasie is die sleutel die oorspronklike vertrouingswagwoord en dus menslik leesbaar. Soos die sleutel siklusse (30 dae), sal die duidelike teks nie menslik leesbaar wees nie, maar tegnies steeds bruikbaar.
+Manchmal muss bei der Erstellung einer Vertrauensbeziehung ein Passwort vom Benutzer für das Vertrauen eingegeben werden. In dieser Demonstration ist der Schlüssel das ursprüngliche Vertrauenspasswort und daher menschenlesbar. Da der Schlüssel zyklisch ist (30 Tage), wird der Klartext nicht mehr menschenlesbar sein, ist aber technisch weiterhin verwendbar.
 
-Die duidelike teks wagwoord kan gebruik word om gereelde outentisering as die vertrouingsrekening uit te voer, 'n alternatief om 'n TGT aan te vra met die Kerberos geheime sleutel van die vertrouingsrekening. Hier, om root.local van ext.local te vra vir lede van Domain Admins:
+Das Klartextpasswort kann verwendet werden, um eine reguläre Authentifizierung als das Vertrauenskonto durchzuführen, eine Alternative zur Anforderung eines TGT unter Verwendung des Kerberos-Geheimschlüssels des Vertrauenskontos. Hier wird root.local von ext.local nach Mitgliedern der Domain Admins abgefragt:
 
 ![](<../../.gitbook/assets/image (792).png>)
 
-## Verwysings
+## Referenzen
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

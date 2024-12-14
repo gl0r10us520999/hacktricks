@@ -1,76 +1,76 @@
 # Reversing Tools & Basic Methods
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## ImGui Gebaseerde Reversing gereedskap
+## ImGui Basierte Reversing-Tools
 
-Sagtemiddel:
+Software:
 
 * ReverseKit: [https://github.com/zer0condition/ReverseKit](https://github.com/zer0condition/ReverseKit)
 
-## Wasm decompiler / Wat compiler
+## Wasm Decompiler / Wat Compiler
 
-Aanlyn:
+Online:
 
-* Gebruik [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) om te **decompile** van wasm (binêr) na wat (duidelike teks)
-* Gebruik [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) om te **compile** van wat na wasm
-* jy kan ook probeer om [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) te gebruik om te decompile
+* Verwende [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html), um von wasm (binär) nach wat (klarer Text) zu **dekompilieren**
+* Verwende [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/), um von wat nach wasm zu **kompilieren**
+* Du kannst auch versuchen, [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) zu verwenden, um zu dekompilieren
 
-Sagtemiddel:
+Software:
 
 * [https://www.pnfsoftware.com/jeb/demo](https://www.pnfsoftware.com/jeb/demo)
 * [https://github.com/wwwg/wasmdec](https://github.com/wwwg/wasmdec)
 
-## .NET decompiler
+## .NET Decompiler
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek is 'n decompiler wat **decompile en ondersoek verskeie formate**, insluitend **biblioteke** (.dll), **Windows metadata lêers** (.winmd), en **uitvoerbare lêers** (.exe). Sodra dit gedecompileer is, kan 'n assembly as 'n Visual Studio projek (.csproj) gestoor word.
+dotPeek ist ein Decompiler, der **mehrere Formate dekompiliert und untersucht**, einschließlich **Bibliotheken** (.dll), **Windows-Metadatendateien** (.winmd) und **ausführbaren Dateien** (.exe). Nach der Dekompilierung kann ein Assembly als Visual Studio-Projekt (.csproj) gespeichert werden.
 
-Die verdienste hier is dat as 'n verlore bronkode herstel moet word uit 'n erfenis assembly, kan hierdie aksie tyd bespaar. Verder bied dotPeek handige navigasie deur die gedecompileerde kode, wat dit een van die perfekte gereedskap maak vir **Xamarin algoritme analise.**
+Der Vorteil hier ist, dass, wenn ein verlorener Quellcode aus einem Legacy-Assembly wiederhergestellt werden muss, diese Aktion Zeit sparen kann. Darüber hinaus bietet dotPeek eine praktische Navigation durch den dekompilierten Code, was es zu einem der perfekten Werkzeuge für die **Xamarin-Algorithmusanalyse** macht.
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Met 'n omvattende add-in model en 'n API wat die gereedskap uitbrei om aan jou presiese behoeftes te voldoen, bespaar .NET reflector tyd en vereenvoudig ontwikkeling. Kom ons kyk na die oorvloed van omgekeerde ingenieursdienste wat hierdie gereedskap bied:
+Mit einem umfassenden Add-In-Modell und einer API, die das Tool an deine genauen Bedürfnisse anpasst, spart .NET Reflector Zeit und vereinfacht die Entwicklung. Schauen wir uns die Vielzahl von Reverse-Engineering-Diensten an, die dieses Tool bietet:
 
-* Bied insig in hoe die data deur 'n biblioteek of komponent vloei
-* Bied insig in die implementering en gebruik van .NET tale en raamwerke
-* Vind ongedokumenteerde en nie-blootgestelde funksionaliteit om meer uit die API's en tegnologieë te kry.
-* Vind afhanklikhede en verskillende assemblies
-* Spoor die presiese ligging van foute in jou kode, derdeparty-komponente, en biblioteke.
-* Debug in die bron van al die .NET kode waarmee jy werk.
+* Bietet Einblicke, wie die Daten durch eine Bibliothek oder Komponente fließen
+* Bietet Einblicke in die Implementierung und Nutzung von .NET-Sprachen und -Frameworks
+* Findet nicht dokumentierte und nicht exponierte Funktionalitäten, um mehr aus den verwendeten APIs und Technologien herauszuholen.
+* Findet Abhängigkeiten und verschiedene Assemblies
+* Verfolgt den genauen Standort von Fehlern in deinem Code, Drittanbieterkomponenten und Bibliotheken.
+* Debuggt in die Quelle allen .NET-Codes, mit dem du arbeitest.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[ILSpy plugin vir Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Jy kan dit op enige OS hê (jy kan dit direk van VSCode installeer, geen behoefte om die git af te laai nie. Klik op **Extensions** en **soek ILSpy**).\
-As jy moet **decompile**, **wysig** en **hercompile** weer kan jy [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) of 'n aktief onderhoude fork daarvan, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) gebruik. (**Regsklik -> Wysig Metode** om iets binne 'n funksie te verander).
+[ILSpy-Plugin für Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Du kannst es auf jedem Betriebssystem haben (du kannst es direkt von VSCode installieren, es ist nicht nötig, das Git herunterzuladen. Klicke auf **Erweiterungen** und **suche nach ILSpy**).\
+Wenn du **dekompilieren**, **modifizieren** und **wieder kompilieren** musst, kannst du [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) oder einen aktiv gepflegten Fork davon, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases), verwenden. (**Rechtsklick -> Methode ändern**, um etwas innerhalb einer Funktion zu ändern).
 
 ### DNSpy Logging
 
-Om **DNSpy 'n paar inligting in 'n lêer te laat log**, kan jy hierdie snit gebruik:
+Um **DNSpy einige Informationen in einer Datei protokollieren** zu lassen, könntest du diesen Snippet verwenden:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
 ```
-### DNSpy Foutopsporing
+### DNSpy Debugging
 
-Om kode te foutopspoor met DNSpy, moet jy:
+Um Code mit DNSpy zu debuggen, müssen Sie:
 
-Eerstens, verander die **Assembly eienskappe** wat verband hou met **foutopsporing**:
+Zuerst die **Assembly-Attribute** im Zusammenhang mit **Debugging** ändern:
 
 ![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
@@ -83,89 +83,89 @@ DebuggableAttribute.DebuggingModes.DisableOptimizations |
 DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints |
 DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
-En klik op **compile**:
+Und klicken Sie auf **kompilieren**:
 
 ![](<../../.gitbook/assets/image (314) (1).png>)
 
-Stoor dan die nuwe lêer via _**File >> Save module...**_:
+Dann speichern Sie die neue Datei über _**Datei >> Modul speichern...**_:
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Dit is nodig omdat as jy dit nie doen nie, verskeie **optimisations** tydens **runtime** op die kode toegepas sal word en dit moontlik is dat terwyl jy debugg, 'n **break-point is nooit getref** of sommige **variables bestaan nie**.
+Dies ist notwendig, da, wenn Sie dies nicht tun, zur **Laufzeit** mehrere **Optimierungen** auf den Code angewendet werden und es möglich sein könnte, dass beim Debuggen ein **Haltepunkt niemals erreicht wird** oder einige **Variablen nicht existieren**.
 
-As jou .NET-toepassing deur **IIS** **run** word, kan jy dit met **restart**:
+Wenn Ihre .NET-Anwendung von **IIS** **ausgeführt** wird, können Sie sie mit **neustarten**:
 ```
 iisreset /noforce
 ```
-Then, in order to start debugging you should close all the opened files and inside the **Debug Tab** select **Attach to Process...**:
+Dann, um mit dem Debuggen zu beginnen, sollten Sie alle geöffneten Dateien schließen und im **Debug Tab** **Attach to Process...** auswählen:
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-Then select **w3wp.exe** to attach to the **IIS server** and click **attach**:
+Wählen Sie dann **w3wp.exe** aus, um sich mit dem **IIS-Server** zu verbinden, und klicken Sie auf **attach**:
 
 ![](<../../.gitbook/assets/image (113).png>)
 
-Now that we are debugging the process, it's time to stop it and load all the modules. First click on _Debug >> Break All_ and then click on _**Debug >> Windows >> Modules**_:
+Jetzt, da wir den Prozess debuggen, ist es Zeit, ihn zu stoppen und alle Module zu laden. Klicken Sie zuerst auf _Debug >> Break All_ und dann auf _**Debug >> Windows >> Modules**_:
 
 ![](<../../.gitbook/assets/image (132).png>)
 
 ![](<../../.gitbook/assets/image (834).png>)
 
-Click any module on **Modules** and select **Open All Modules**:
+Klicken Sie auf ein beliebiges Modul in **Modules** und wählen Sie **Open All Modules**:
 
 ![](<../../.gitbook/assets/image (922).png>)
 
-Right click any module in **Assembly Explorer** and click **Sort Assemblies**:
+Klicken Sie mit der rechten Maustaste auf ein beliebiges Modul im **Assembly Explorer** und klicken Sie auf **Sort Assemblies**:
 
 ![](<../../.gitbook/assets/image (339).png>)
 
-## Java decompiler
+## Java-Decompiler
 
 [https://github.com/skylot/jadx](https://github.com/skylot/jadx)\
 [https://github.com/java-decompiler/jd-gui/releases](https://github.com/java-decompiler/jd-gui/releases)
 
-## Debugging DLLs
+## Debugging von DLLs
 
-### Using IDA
+### Verwendung von IDA
 
-* **Laai rundll32** (64-bits in C:\Windows\System32\rundll32.exe en 32-bits in C:\Windows\SysWOW64\rundll32.exe)
-* Kies **Windbg** debugger
-* Kies "**Suspend on library load/unload**"
+* **Laden Sie rundll32** (64-Bit in C:\Windows\System32\rundll32.exe und 32-Bit in C:\Windows\SysWOW64\rundll32.exe)
+* Wählen Sie den **Windbg**-Debugger
+* Wählen Sie "**Suspend on library load/unload**"
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* Konfigureer die **parameters** van die uitvoering deur die **pad na die DLL** en die funksie wat jy wil aanroep in te stel:
+* Konfigurieren Sie die **Parameter** der Ausführung, indem Sie den **Pfad zur DLL** und die Funktion, die Sie aufrufen möchten, angeben:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
-Then, when you start debugging **the execution will be stopped when each DLL is loaded**, then, when rundll32 load your DLL the execution will be stopped.
+Wenn Sie dann mit dem Debuggen beginnen, **wird die Ausführung gestoppt, wenn jede DLL geladen wird**. Wenn rundll32 Ihre DLL lädt, wird die Ausführung gestoppt.
 
-But, how can you get to the code of the DLL that was lodaded? Using this method, I don't know how.
+Aber wie gelangen Sie zum Code der geladenen DLL? Mit dieser Methode weiß ich es nicht.
 
-### Using x64dbg/x32dbg
+### Verwendung von x64dbg/x32dbg
 
-* **Laai rundll32** (64-bits in C:\Windows\System32\rundll32.exe en 32-bits in C:\Windows\SysWOW64\rundll32.exe)
-* **Verander die Command Line** ( _File --> Change Command Line_ ) en stel die pad van die dll en die funksie wat jy wil aanroep, byvoorbeeld: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* Verander _Options --> Settings_ en kies "**DLL Entry**".
-* Dan **begin die uitvoering**, die debugger sal by elke dll hoof stop, op 'n sekere punt sal jy **stop in die dll Entry van jou dll**. Van daar af, soek net die punte waar jy 'n breekpunt wil plaas.
+* **Laden Sie rundll32** (64-Bit in C:\Windows\System32\rundll32.exe und 32-Bit in C:\Windows\SysWOW64\rundll32.exe)
+* **Ändern Sie die Befehlszeile** (_Datei --> Befehlszeile ändern_) und setzen Sie den Pfad der DLL und die Funktion, die Sie aufrufen möchten, zum Beispiel: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* Ändern Sie _Optionen --> Einstellungen_ und wählen Sie "**DLL Entry**".
+* Starten Sie dann die **Ausführung**, der Debugger wird an jedem DLL-Hauptpunkt anhalten, und irgendwann werden Sie **im DLL-Eintrag Ihrer DLL anhalten**. Von dort aus suchen Sie einfach nach den Punkten, an denen Sie einen Haltepunkt setzen möchten.
 
-Notice that when the execution is stopped by any reason in win64dbg you can see **in which code you are** looking in the **top of the win64dbg window**:
+Beachten Sie, dass Sie, wenn die Ausführung aus irgendeinem Grund in win64dbg gestoppt wird, **sehen können, in welchem Code Sie sich befinden**, indem Sie **oben im win64dbg-Fenster** nachsehen:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-Then, looking to this ca see when the execution was stopped in the dll you want to debug.
+Dann können Sie sehen, wann die Ausführung in der DLL gestoppt wurde, die Sie debuggen möchten.
 
-## GUI Apps / Videogames
+## GUI-Apps / Videospiele
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them. More info in:
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) ist ein nützliches Programm, um herauszufinden, wo wichtige Werte im Speicher eines laufenden Spiels gespeichert sind, und um sie zu ändern. Weitere Informationen in:
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE) is a front-end/reverse engineering tool for the GNU Project Debugger (GDB), focused on games. However, it can be used for any reverse-engineering related stuff
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) ist ein Front-End-/Reverse-Engineering-Tool für den GNU Project Debugger (GDB), das sich auf Spiele konzentriert. Es kann jedoch für alle reverse-engineeringbezogenen Dinge verwendet werden.
 
-[**Decompiler Explorer**](https://dogbolt.org/) is a web front-end to a number of decompilers. This web service lets you compare the output of different decompilers on small executables.
+[**Decompiler Explorer**](https://dogbolt.org/) ist ein Web-Frontend für eine Reihe von Decompilern. Dieser Webdienst ermöglicht es Ihnen, die Ausgaben verschiedener Decompiler für kleine ausführbare Dateien zu vergleichen.
 
 ## ARM & MIPS
 
@@ -173,48 +173,48 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 
 ## Shellcodes
 
-### Debugging a shellcode with blobrunner
+### Debugging eines Shellcodes mit Blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) will **allocate** the **shellcode** inside a space of memory, will **indicate** you the **memory address** were the shellcode was allocated and will **stop** the execution.\
-Then, you need to **attach a debugger** (Ida or x64dbg) to the process and put a **breakpoint the indicated memory address** and **resume** the execution. This way you will be debugging the shellcode.
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) wird den **Shellcode** in einem Speicherbereich **allokieren**, Ihnen die **Speicheradresse** anzeigen, an der der Shellcode allokiert wurde, und die Ausführung **stoppen**.\
+Dann müssen Sie einen **Debugger** (Ida oder x64dbg) an den Prozess anhängen und einen **Haltepunkt an der angegebenen Speicheradresse** setzen und die Ausführung **fortsetzen**. Auf diese Weise debuggen Sie den Shellcode.
 
-The releases github page contains zips containing the compiled releases: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-You can find a slightly modified version of Blobrunner in the following link. In order to compile it just **create a C/C++ project in Visual Studio Code, copy and paste the code and build it**.
+Die Veröffentlichungsseite auf GitHub enthält ZIP-Dateien mit den kompilierten Versionen: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Sie finden eine leicht modifizierte Version von Blobrunner unter folgendem Link. Um es zu kompilieren, erstellen Sie einfach ein **C/C++-Projekt in Visual Studio Code, kopieren Sie den Code und bauen Sie es**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
 {% endcontent-ref %}
 
-### Debugging a shellcode with jmp2it
+### Debugging eines Shellcodes mit jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)is very similar to blobrunner. It will **allocate** the **shellcode** inside a space of memory, and start an **eternal loop**. You then need to **attach the debugger** to the process, **play start wait 2-5 secs and press stop** and you will find yourself inside the **eternal loop**. Jump to the next instruction of the eternal loop as it will be a call to the shellcode, and finally you will find yourself executing the shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) ist sehr ähnlich wie Blobrunner. Es wird den **Shellcode** in einem Speicherbereich **allokieren** und eine **ewige Schleife** starten. Sie müssen dann den **Debugger** an den Prozess anhängen, **spielen Sie Start, warten Sie 2-5 Sekunden und drücken Sie Stop**, und Sie werden sich in der **ewigen Schleife** wiederfinden. Springen Sie zur nächsten Anweisung der ewigen Schleife, da es ein Aufruf zum Shellcode sein wird, und schließlich werden Sie den Shellcode ausführen.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
-You can download a compiled version of [jmp2it inside the releases page](https://github.com/adamkramer/jmp2it/releases/).
+Sie können eine kompilierte Version von [jmp2it auf der Veröffentlichungsseite herunterladen](https://github.com/adamkramer/jmp2it/releases/).
 
-### Debugging shellcode using Cutter
+### Debugging von Shellcode mit Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) is the GUI of radare. Using cutter you can emulate the shellcode and inspect it dynamically.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) ist die GUI von radare. Mit Cutter können Sie den Shellcode emulieren und ihn dynamisch inspizieren.
 
-Note that Cutter allows you to "Open File" and "Open Shellcode". In my case when I opened the shellcode as a file it decompiled it correctly, but when I opened it as a shellcode it didn't:
+Beachten Sie, dass Cutter Ihnen erlaubt, "Datei öffnen" und "Shellcode öffnen". In meinem Fall, als ich den Shellcode als Datei öffnete, wurde er korrekt dekompiliert, aber als ich ihn als Shellcode öffnete, nicht:
 
 ![](<../../.gitbook/assets/image (562).png>)
 
-In order to start the emulation in the place you want to, set a bp there and apparently cutter will automatically start the emulation from there:
+Um die Emulation an dem gewünschten Ort zu starten, setzen Sie dort einen Haltepunkt, und anscheinend wird Cutter die Emulation von dort aus automatisch starten:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-You can see the stack for example inside a hex dump:
+Sie können den Stack beispielsweise in einem Hexdump sehen:
 
 ![](<../../.gitbook/assets/image (186).png>)
 
-### Deobfuscating shellcode and getting executed functions
+### Deobfuscating Shellcode und Ausführen von Funktionen
 
-You should try [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-It will tell you things like **which functions** is the shellcode using and if the shellcode is **decoding** itself in memory.
+Sie sollten [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152) ausprobieren.\
+Es wird Ihnen Dinge sagen wie **welche Funktionen** der Shellcode verwendet und ob der Shellcode sich **im Speicher dekodiert**.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -223,64 +223,64 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg het ook 'n grafiese laaier waar jy die opsies kan kies wat jy wil en die shellcode kan uitvoer.
+scDbg verfügt auch über einen grafischen Launcher, in dem Sie die gewünschten Optionen auswählen und den Shellcode ausführen können.
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-Die **Create Dump** opsie sal die finale shellcode dump as enige verandering aan die shellcode dinamies in geheue gemaak word (nuttig om die gedecodeerde shellcode af te laai). Die **start offset** kan nuttig wees om die shellcode by 'n spesifieke offset te begin. Die **Debug Shell** opsie is nuttig om die shellcode te debug met behulp van die scDbg terminal (maar ek vind enige van die opsies wat voorheen verduidelik is beter vir hierdie saak, aangesien jy Ida of x64dbg kan gebruik).
+Die **Create Dump**-Option wird den finalen Shellcode dumpen, wenn Änderungen am Shellcode dynamisch im Speicher vorgenommen werden (nützlich, um den dekodierten Shellcode herunterzuladen). Der **start offset** kann nützlich sein, um den Shellcode an einem bestimmten Offset zu starten. Die **Debug Shell**-Option ist nützlich, um den Shellcode mit dem scDbg-Terminal zu debuggen (ich finde jedoch jede der zuvor erklärten Optionen besser für diesen Zweck, da Sie Ida oder x64dbg verwenden können).
 
-### Disassembling met CyberChef
+### Disassemblierung mit CyberChef
 
-Laai jou shellcode-lêer op as invoer en gebruik die volgende resep om dit te dekompileer: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Laden Sie Ihre Shellcode-Datei als Eingabe hoch und verwenden Sie das folgende Rezept, um sie zu dekompilieren: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Hierdie obfuscator **wysig al die instruksies vir `mov`** (ja, regtig cool). Dit gebruik ook onderbrekings om uitvoeringsvloei te verander. Vir meer inligting oor hoe dit werk:
+Dieser Obfuscator **modifiziert alle Anweisungen für `mov`** (ja, wirklich cool). Er verwendet auch Unterbrechungen, um die Ausführungsflüsse zu ändern. Für weitere Informationen darüber, wie es funktioniert:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-As jy gelukkig is, sal [demovfuscator](https://github.com/kirschju/demovfuscator) die binêre deofuskeer. Dit het verskeie afhanklikhede.
+Wenn Sie Glück haben, wird [demovfuscator](https://github.com/kirschju/demovfuscator) die Binärdatei deobfuskieren. Es hat mehrere Abhängigkeiten.
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
-And [installeer keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
+Und [installiere keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-As jy 'n **CTF speel, kan hierdie omweg om die vlag te vind** baie nuttig wees: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+Wenn du an einem **CTF teilnimmst, könnte dieser Workaround, um die Flagge zu finden**, sehr nützlich sein: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
-Om die **toegangspunt** te vind, soek die funksies deur `::main` soos in:
+Um den **Einstiegspunkt** zu finden, suche die Funktionen nach `::main` wie in:
 
 ![](<../../.gitbook/assets/image (1080).png>)
 
-In hierdie geval was die binêre genaamd authenticator, so dit is redelik voor die hand liggend dat dit die interessante hooffunksie is.\
-Met die **naam** van die **funksies** wat aangeroep word, soek daarna op die **Internet** om meer te leer oor hul **insette** en **uitsette**.
+In diesem Fall hieß die Binärdatei authenticator, daher ist es ziemlich offensichtlich, dass dies die interessante Hauptfunktion ist.\
+Hast du den **Namen** der **Funktionen**, die aufgerufen werden, suche sie im **Internet**, um mehr über ihre **Eingaben** und **Ausgaben** zu erfahren.
 
 ## **Delphi**
 
-Vir Delphi gecompileerde binêre kan jy gebruik maak van [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+Für in Delphi kompilierte Binärdateien kannst du [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR) verwenden.
 
-As jy 'n Delphi binêre moet omkeer, sou ek voorstel dat jy die IDA-inprop [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi) gebruik.
+Wenn du eine Delphi-Binärdatei zurückverfolgen musst, würde ich dir empfehlen, das IDA-Plugin [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi) zu verwenden.
 
-Druk net **ATL+f7** (import python plugin in IDA) en kies die python plugin.
+Drücke einfach **ATL+f7** (Python-Plugin in IDA importieren) und wähle das Python-Plugin aus.
 
-Hierdie inprop sal die binêre uitvoer en funksiename dinamies aan die begin van die debuggingsproses oplos. Nadat jy die debugging begin het, druk weer die Begin-knoppie (die groen een of f9) en 'n breekpunt sal aan die begin van die werklike kode tref.
+Dieses Plugin führt die Binärdatei aus und löst die Funktionsnamen dynamisch zu Beginn des Debuggings auf. Nach dem Start des Debuggings drücke erneut die Starttaste (die grüne oder f9) und ein Haltepunkt wird am Anfang des echten Codes erreicht.
 
-Dit is ook baie interessant omdat as jy 'n knoppie in die grafiese toepassing druk, die debugger in die funksie wat deur daardie knoppie uitgevoer word, sal stop.
+Es ist auch sehr interessant, weil der Debugger stoppt, wenn du einen Knopf in der grafischen Anwendung drückst, in der Funktion, die von diesem Knopf ausgeführt wird.
 
 ## Golang
 
-As jy 'n Golang binêre moet omkeer, sou ek voorstel dat jy die IDA-inprop [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper) gebruik.
+Wenn du eine Golang-Binärdatei zurückverfolgen musst, würde ich dir empfehlen, das IDA-Plugin [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper) zu verwenden.
 
-Druk net **ATL+f7** (import python plugin in IDA) en kies die python plugin.
+Drücke einfach **ATL+f7** (Python-Plugin in IDA importieren) und wähle das Python-Plugin aus.
 
-Dit sal die name van die funksies oplos.
+Dies wird die Namen der Funktionen auflösen.
 
-## Gecompileerde Python
+## Kompilierte Python
 
-Op hierdie bladsy kan jy vind hoe om die python kode van 'n ELF/EXE python gecompileerde binêre te verkry:
+Auf dieser Seite kannst du finden, wie du den Python-Code aus einer ELF/EXE Python-kompilierten Binärdatei erhältst:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -288,18 +288,18 @@ Op hierdie bladsy kan jy vind hoe om die python kode van 'n ELF/EXE python gecom
 
 ## GBA - Game Body Advance
 
-As jy die **binêre** van 'n GBA-speletjie kry, kan jy verskillende gereedskap gebruik om dit te **emuleer** en te **debug**:
+Wenn du die **Binärdatei** eines GBA-Spiels erhältst, kannst du verschiedene Tools verwenden, um es zu **emulieren** und zu **debuggen**:
 
-* [**no$gba**](https://problemkaputt.de/gba.htm) (_Laai die debug weergawe af_) - Bevat 'n debugger met 'n koppelvlak
-* [**mgba** ](https://mgba.io)- Bevat 'n CLI-debugger
-* [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra-inprop
-* [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra-inprop
+* [**no$gba**](https://problemkaputt.de/gba.htm) (_Lade die Debug-Version herunter_) - Enthält einen Debugger mit Schnittstelle
+* [**mgba** ](https://mgba.io) - Enthält einen CLI-Debugger
+* [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra-Plugin
+* [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra-Plugin
 
-In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Opsies --> Emulering Instelling --> Beheer**_\*\* \*\* kan jy sien hoe om die Game Boy Advance **knoppies** te druk.
+In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Optionen --> Emulationssetup --> Steuerungen**_\*\* \*\* kannst du sehen, wie du die Game Boy Advance **Tasten** drückst.
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Wanneer gedruk, het elke **sleutel 'n waarde** om dit te identifiseer:
+Wenn gedrückt, hat jede **Taste einen Wert**, um sie zu identifizieren:
 ```
 A = 1
 B = 2
@@ -312,13 +312,13 @@ DOWN = 128
 R = 256
 L = 256
 ```
-So, in this kind of program, the interesting part will be **hoe die program die gebruiker se insette hanteer**. In die adres **0x4000130** sal jy die algemeen aangetrefde funksie vind: **KEYINPUT**.
+So, in diesem Programm wird der interessante Teil sein, **wie das Programm die Benutzereingabe behandelt**. An der Adresse **0x4000130** finden Sie die häufig vorkommende Funktion: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (447).png>)
 
-In die vorige beeld kan jy sien dat die funksie aangeroep word vanaf **FUN\_080015a8** (adresse: _0x080015fa_ en _0x080017ac_).
+In dem vorherigen Bild sehen Sie, dass die Funktion von **FUN\_080015a8** aufgerufen wird (Adressen: _0x080015fa_ und _0x080017ac_).
 
-In daardie funksie, na 'n paar inisiëringsoperasies (sonder enige belangrikheid):
+In dieser Funktion, nach einigen Initialisierungsoperationen (ohne jegliche Bedeutung):
 ```c
 void FUN_080015a8(void)
 
@@ -339,7 +339,7 @@ FUN_08000dd0(&DAT_02009584,0x6000000,&DAT_030000dc);
 FUN_08000354(&DAT_030000dc,0x3c);
 uVar4 = DAT_030004d8;
 ```
-Dit is gevind hierdie kode:
+Es wurde dieser Code gefunden:
 ```c
 do {
 DAT_030004da = uVar4; //This is the last key pressed
@@ -351,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Die laaste if kyk of **`uVar4`** in die **laaste Sleutels** is en nie die huidige sleutel is nie, wat ook genoem word om 'n knoppie los te laat (die huidige sleutel word in **`uVar1`** gestoor).
+Die letzte Bedingung überprüft, ob **`uVar4`** in den **letzten Tasten** ist und nicht die aktuelle Taste ist, die auch als Loslassen einer Taste bezeichnet wird (die aktuelle Taste ist in **`uVar1`** gespeichert).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -379,38 +379,38 @@ FUN_08000864();
 if (uVar1 == 0x10) {
 DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
-In die vorige kode kan jy sien dat ons **uVar1** (die plek waar die **waarde van die gedrukte knoppie** is) met 'n paar waardes vergelyk:
+Im vorherigen Code sehen Sie, dass wir **uVar1** (der Ort, an dem der **Wert des gedrückten Knopfes** ist) mit einigen Werten vergleichen:
 
-* Eerstens, dit word vergelyk met die **waarde 4** (**SELECT** knoppie): In die uitdaging maak hierdie knoppie die skerm skoon.
-* Dan, dit word vergelyk met die **waarde 8** (**START** knoppie): In die uitdaging kontroleer dit of die kode geldig is om die vlag te kry.
-* In hierdie geval word die var **`DAT_030000d8`** met 0xf3 vergelyk en as die waarde dieselfde is, word 'n paar kode uitgevoer.
-* In enige ander gevalle word 'n kont (`DAT_030000d4`) nagegaan. Dit is 'n kont omdat dit 1 byvoeg onmiddellik nadat dit in die kode ingaan.\
-**As** dit minder as 8 is, word iets wat **byvoeg** waardes aan \*\*`DAT_030000d8` \*\* doen (basies voeg dit die waardes van die knoppies wat in hierdie veranderlike gedruk is by solank die kont minder as 8 is).
+* Zuerst wird es mit dem **Wert 4** (**SELECT**-Taste) verglichen: In der Herausforderung löscht diese Taste den Bildschirm.
+* Dann wird es mit dem **Wert 8** (**START**-Taste) verglichen: In der Herausforderung wird überprüft, ob der Code gültig ist, um die Flagge zu erhalten.
+* In diesem Fall wird die Variable **`DAT_030000d8`** mit 0xf3 verglichen, und wenn der Wert gleich ist, wird ein bestimmter Code ausgeführt.
+* In allen anderen Fällen wird ein Zähler (`DAT_030000d4`) überprüft. Es ist ein Zähler, weil er direkt nach dem Betreten des Codes 1 hinzufügt.\
+**Wenn** weniger als 8, wird etwas gemacht, das **Werte** zu \*\*`DAT_030000d8` \*\* hinzufügt (grundsätzlich werden die Werte der gedrückten Tasten in dieser Variablen addiert, solange der Zähler weniger als 8 ist).
 
-So, in hierdie uitdaging, om die waardes van die knoppies te ken, moes jy **'n kombinasie met 'n lengte kleiner as 8 druk sodat die resultaat van die byvoeging 0xf3 is.**
+In dieser Herausforderung mussten Sie also, wissend um die Werte der Tasten, eine **Kombination mit einer Länge kleiner als 8 drücken, deren resultierende Addition 0xf3 ist.**
 
-**Verwysing vir hierdie tutoriaal:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
+**Referenz für dieses Tutorial:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
 ## Game Boy
 
 {% embed url="https://www.youtube.com/watch?v=VVbRe7wr3G4" %}
 
-## Courses
+## Kurse
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binaire deobfuscation)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binäre Deobfuskation)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

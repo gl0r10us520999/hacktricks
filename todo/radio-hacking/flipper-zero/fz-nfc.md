@@ -1,106 +1,106 @@
 # FZ - NFC
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## Intro <a href="#id-9wrzi" id="id-9wrzi"></a>
 
-Vir inligting oor RFID en NFC kyk die volgende bladsy:
+Für Informationen über RFID und NFC siehe die folgende Seite:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Gesteunde NFC kaarte <a href="#id-9wrzi" id="id-9wrzi"></a>
+## Unterstützte NFC-Karten <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
-Behalwe vir NFC kaarte ondersteun Flipper Zero **ander tipe Hoë-frekwensie kaarte** soos verskeie **Mifare** Classic en Ultralight en **NTAG**.
+Neben NFC-Karten unterstützt Flipper Zero **andere Arten von Hochfrequenzkarten**, wie mehrere **Mifare** Classic und Ultralight sowie **NTAG**.
 {% endhint %}
 
-Nuwe tipes NFC kaarte sal by die lys van gesteunde kaarte gevoeg word. Flipper Zero ondersteun die volgende **NFC kaarte tipe A** (ISO 14443A):
+Neue Arten von NFC-Karten werden zur Liste der unterstützten Karten hinzugefügt. Flipper Zero unterstützt die folgenden **NFC-Karten Typ A** (ISO 14443A):
 
-* ﻿**Bankkaarte (EMV)** — lees slegs UID, SAK, en ATQA sonder om te stoor.
-* ﻿**Onbekende kaarte** — lees (UID, SAK, ATQA) en emuleer 'n UID.
+* ﻿**Bankkarten (EMV)** — nur UID, SAK und ATQA lesen, ohne zu speichern.
+* ﻿**Unbekannte Karten** — lesen (UID, SAK, ATQA) und eine UID emulieren.
 
-Vir **NFC kaarte tipe B, tipe F, en tipe V**, kan Flipper Zero 'n UID lees sonder om dit te stoor.
+Für **NFC-Karten Typ B, Typ F und Typ V** kann Flipper Zero eine UID lesen, ohne sie zu speichern.
 
-### NFC kaarte tipe A <a href="#uvusf" id="uvusf"></a>
+### NFC-Karten Typ A <a href="#uvusf" id="uvusf"></a>
 
-#### Bankkaart (EMV) <a href="#kzmrp" id="kzmrp"></a>
+#### Bankkarte (EMV) <a href="#kzmrp" id="kzmrp"></a>
 
-Flipper Zero kan slegs 'n UID, SAK, ATQA, en gestoor data op bankkaarte **sonder om te stoor**.
+Flipper Zero kann nur eine UID, SAK, ATQA und gespeicherte Daten auf Bankkarten **ohne Speicherung** lesen.
 
-Bankkaart lees skermVir bankkaarte kan Flipper Zero slegs data lees **sonder om te stoor en dit te emuleer**.
+Bankkarten-Lesebild: Für Bankkarten kann Flipper Zero Daten **ohne Speicherung und Emulation** lesen.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Onbekende kaarte <a href="#id-37eo8" id="id-37eo8"></a>
+#### Unbekannte Karten <a href="#id-37eo8" id="id-37eo8"></a>
 
-Wanneer Flipper Zero **nie in staat is om die tipe NFC kaart te bepaal nie**, kan slegs 'n **UID, SAK, en ATQA** **gelees en gestoor** word.
+Wenn Flipper Zero **nicht in der Lage ist, den Typ der NFC-Karte zu bestimmen**, können nur eine **UID, SAK und ATQA** **gelesen und gespeichert** werden.
 
-Onbekende kaart lees skermVir onbekende NFC kaarte kan Flipper Zero slegs 'n UID emuleer.
+Unbekannte Karten-Lesebild: Für unbekannte NFC-Karten kann Flipper Zero nur eine UID emulieren.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-27-53.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=932&#x26;w=2634" alt=""><figcaption></figcaption></figure>
 
-### NFC kaarte tipes B, F, en V <a href="#wyg51" id="wyg51"></a>
+### NFC-Karten Typen B, F und V <a href="#wyg51" id="wyg51"></a>
 
-Vir **NFC kaarte tipes B, F, en V**, kan Flipper Zero slegs **lees en vertoon 'n UID** sonder om dit te stoor.
+Für **NFC-Karten Typen B, F und V** kann Flipper Zero nur **eine UID lesen und anzeigen**, ohne sie zu speichern.
 
 <figure><img src="https://archbee.imgix.net/3StCFqarJkJQZV-7N79yY/zBU55Fyj50TFO4U7S-OXH_screenshot-2022-08-12-at-182540.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=1080&#x26;w=2704" alt=""><figcaption></figcaption></figure>
 
-## Aksies
+## Aktionen
 
-Vir 'n inleiding oor NFC [**lees hierdie bladsy**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Für eine Einführung in NFC [**lies diese Seite**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
-### Lees
+### Lesen
 
-Flipper Zero kan **NFC kaarte lees**, maar dit **begryp nie al die protokolle** wat op ISO 14443 gebaseer is nie. Aangesien **UID 'n lae-vlak attribuut is**, kan jy in 'n situasie beland waar **UID reeds gelees is, maar die hoë-vlak data-oordragprotokol steeds onbekend is**. Jy kan UID lees, emuleer en handmatig invoer met Flipper vir die primitiewe lesers wat UID vir outorisering gebruik.
+Flipper Zero kann **NFC-Karten lesen**, versteht jedoch **nicht alle Protokolle**, die auf ISO 14443 basieren. Da **UID ein Low-Level-Attribut ist**, kann es vorkommen, dass **UID bereits gelesen wurde, das High-Level-Datenübertragungsprotokoll jedoch noch unbekannt ist**. Du kannst UID mit Flipper für primitive Leser lesen, emulieren und manuell eingeben, die UID zur Autorisierung verwenden.
 
-#### Lees die UID VS Lees die Data Binne <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
+#### UID lesen VS Daten im Inneren lesen <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
 <figure><img src="../../../.gitbook/assets/image (217).png" alt=""><figcaption></figcaption></figure>
 
-In Flipper kan die lees van 13.56 MHz etikette in twee dele verdeel word:
+Im Flipper kann das Lesen von 13,56 MHz-Tags in zwei Teile unterteilt werden:
 
-* **Lae-vlak lees** — lees slegs die UID, SAK, en ATQA. Flipper probeer om die hoë-vlak protokol te raai gebaseer op hierdie data wat van die kaart gelees is. Jy kan nie 100% seker wees hiervan nie, aangesien dit net 'n aanname is gebaseer op sekere faktore.
-* **Hoë-vlak lees** — lees die data van die kaart se geheue met behulp van 'n spesifieke hoë-vlak protokol. Dit sou die lees van die data op 'n Mifare Ultralight wees, die lees van die sektore van 'n Mifare Classic, of die lees van die kaart se eienskappe van PayPass/Apple Pay.
+* **Low-Level-Lesen** — liest nur die UID, SAK und ATQA. Flipper versucht, das High-Level-Protokoll basierend auf diesen Daten, die von der Karte gelesen wurden, zu erraten. Du kannst dir dabei nicht 100% sicher sein, da es nur eine Annahme basierend auf bestimmten Faktoren ist.
+* **High-Level-Lesen** — liest die Daten aus dem Speicher der Karte unter Verwendung eines spezifischen High-Level-Protokolls. Das wäre das Lesen der Daten auf einem Mifare Ultralight, das Lesen der Sektoren von einem Mifare Classic oder das Lesen der Attribute der Karte von PayPass/Apple Pay.
 
-### Lees Spesifiek
+### Spezifisch lesen
 
-In die geval dat Flipper Zero nie in staat is om die tipe kaart van die lae-vlak data te vind nie, kan jy in `Extra Actions` `Read Specific Card Type` kies en **handmatig** **die tipe kaart wat jy wil lees, aandui**.
+Falls Flipper Zero nicht in der Lage ist, den Typ der Karte aus den Low-Level-Daten zu finden, kannst du in `Extra Actions` `Spezifischen Kartentyp lesen` auswählen und **manuell** **den Typ der Karte angeben, die du lesen möchtest**.
 
-#### EMV Bankkaarte (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
+#### EMV Bankkarten (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
-Behalwe om eenvoudig die UID te lees, kan jy baie meer data van 'n bankkaart onttrek. Dit is moontlik om **die volle kaartnommer** (die 16 syfers aan die voorkant van die kaart), **geldigheidsdatum**, en in sommige gevalle selfs die **eienaarsnaam** saam met 'n lys van die **mees onlangse transaksies** te verkry.\
-Echter, jy **kan nie die CVV op hierdie manier lees nie** (die 3 syfers aan die agterkant van die kaart). Ook **bankkaarte is beskerm teen herhalingsaanvalle**, so om dit met Flipper te kopieer en dan te probeer emuleer om vir iets te betaal, sal nie werk nie.
+Neben dem einfachen Lesen der UID kannst du viel mehr Daten von einer Bankkarte extrahieren. Es ist möglich, **die vollständige Kartennummer** (die 16 Ziffern auf der Vorderseite der Karte), **Gültigkeitsdatum** und in einigen Fällen sogar den **Namen des Eigentümers** zusammen mit einer Liste der **neueste Transaktionen** zu erhalten.\
+Allerdings kannst du **den CVV auf diese Weise nicht lesen** (die 3 Ziffern auf der Rückseite der Karte). Außerdem **sind Bankkarten vor Replay-Angriffen geschützt**, sodass das Kopieren mit Flipper und der anschließende Versuch, sie zu emulieren, um für etwas zu bezahlen, nicht funktionieren wird.
 
-## Verwysings
+## Referenzen
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

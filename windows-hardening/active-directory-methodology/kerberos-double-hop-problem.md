@@ -1,16 +1,16 @@
 # Kerberos Double Hop Problem
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -20,31 +20,31 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% embed url="https://websec.nl/" %}
 
 
-## Introduction
+## Einführung
 
-Die Kerberos "Double Hop" probleem verskyn wanneer 'n aanvaller probeer om **Kerberos-outeentifikasie oor twee** **hops** te gebruik, byvoorbeeld deur **PowerShell**/**WinRM**.
+Das Kerberos "Double Hop"-Problem tritt auf, wenn ein Angreifer versucht, **Kerberos-Authentifizierung über zwei** **Hops** zu verwenden, zum Beispiel mit **PowerShell**/**WinRM**.
 
-Wanneer 'n **outeentifikasie** deur **Kerberos** plaasvind, word **akkrediteer** **nie** in **geheue** **gecache** nie. Daarom, as jy mimikatz uitvoer, sal jy **nie akkrediteer** van die gebruiker op die masjien vind nie, selfs al is hy besig om prosesse te loop.
+Wenn eine **Authentifizierung** über **Kerberos** erfolgt, werden **Anmeldeinformationen** **nicht** im **Speicher** zwischengespeichert. Daher werden Sie, wenn Sie mimikatz ausführen, **keine Anmeldeinformationen** des Benutzers auf der Maschine finden, selbst wenn er Prozesse ausführt.
 
-Dit is omdat wanneer jy met Kerberos verbind, dit die stappe is:
+Das liegt daran, dass beim Verbinden mit Kerberos folgende Schritte durchgeführt werden:
 
-1. Gebruiker1 verskaf akkrediteer en die **domeinbeheerder** keer 'n Kerberos **TGT** terug na Gebruiker1.
-2. Gebruiker1 gebruik **TGT** om 'n **dienskaartjie** aan te vra om met Server1 te **verbinde**.
-3. Gebruiker1 **verbinde** met **Server1** en verskaf **dienskaartjie**.
-4. **Server1** **het nie** **akkrediteer** van Gebruiker1 gecache of die **TGT** van Gebruiker1 nie. Daarom, wanneer Gebruiker1 van Server1 probeer om in te log op 'n tweede bediener, kan hy **nie outentifiseer** nie.
+1. Benutzer1 gibt Anmeldeinformationen ein und der **Domänencontroller** gibt ein Kerberos **TGT** an Benutzer1 zurück.
+2. Benutzer1 verwendet das **TGT**, um ein **Dienstticket** anzufordern, um sich mit Server1 zu **verbinden**.
+3. Benutzer1 **verbindet** sich mit **Server1** und gibt das **Dienstticket** an.
+4. **Server1** hat **keine** Anmeldeinformationen von Benutzer1 zwischengespeichert oder das **TGT** von Benutzer1. Daher kann Benutzer1 von Server1 aus nicht auf einen zweiten Server zugreifen, da er sich **nicht authentifizieren kann**.
 
-### Unconstrained Delegation
+### Unbeschränkte Delegation
 
-As **unconstrained delegation** op die rekenaar geaktiveer is, sal dit nie gebeur nie, aangesien die **Server** 'n **TGT** van elke gebruiker wat dit toegang gee, **sal kry**. Boonop, as unconstrained delegation gebruik word, kan jy waarskynlik die **Domeinbeheerder** daarvan **kompromitteer**.\
-[**Meer inligting op die unconstrained delegation bladsy**](unconstrained-delegation.md).
+Wenn die **unbeschränkte Delegation** auf dem PC aktiviert ist, tritt dies nicht auf, da der **Server** ein **TGT** für jeden Benutzer erhält, der darauf zugreift. Darüber hinaus können Sie, wenn unbeschränkte Delegation verwendet wird, wahrscheinlich den **Domänencontroller** von dort aus **kompromittieren**.\
+[**Weitere Informationen auf der Seite zur unbeschränkten Delegation**](unconstrained-delegation.md).
 
 ### CredSSP
 
-'n Ander manier om hierdie probleem te vermy wat [**duidelik onveilig**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is, is **Credential Security Support Provider**. Van Microsoft:
+Eine weitere Möglichkeit, dieses Problem zu vermeiden, die [**auffällig unsicher**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) ist, ist der **Credential Security Support Provider**. Von Microsoft:
 
-> CredSSP-outeentifikasie delegeer die gebruiker se akkrediteer van die plaaslike rekenaar na 'n afstandlike rekenaar. Hierdie praktyk verhoog die sekuriteitsrisiko van die afstandlike operasie. As die afstandlike rekenaar gekompromitteer word, kan die akkrediteer wat aan dit oorgedra word, gebruik word om die netwerk sessie te beheer.
+> CredSSP-Authentifizierung delegiert die Benutzeranmeldeinformationen vom lokalen Computer an einen Remote-Computer. Diese Praxis erhöht das Sicherheitsrisiko der Remote-Operation. Wenn der Remote-Computer kompromittiert ist, können die Anmeldeinformationen, wenn sie an ihn übergeben werden, verwendet werden, um die Netzwerksitzung zu steuern.
 
-Dit word sterk aanbeveel dat **CredSSP** op produksiesisteme, sensitiewe netwerke en soortgelyke omgewings gedeaktiveer word weens sekuriteitskwessies. Om te bepaal of **CredSSP** geaktiveer is, kan die `Get-WSManCredSSP` opdrag uitgevoer word. Hierdie opdrag stel jou in staat om die **status van CredSSP** te **kontroleer** en kan selfs op afstand uitgevoer word, mits **WinRM** geaktiveer is.
+Es wird dringend empfohlen, **CredSSP** auf Produktionssystemen, sensiblen Netzwerken und ähnlichen Umgebungen aus Sicherheitsgründen zu deaktivieren. Um festzustellen, ob **CredSSP** aktiviert ist, kann der Befehl `Get-WSManCredSSP` ausgeführt werden. Dieser Befehl ermöglicht die **Überprüfung des CredSSP-Status** und kann sogar remote ausgeführt werden, sofern **WinRM** aktiviert ist.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -54,18 +54,18 @@ Get-WSManCredSSP
 
 ### Invoke Command
 
-Om die dubbele sprong probleem aan te spreek, word 'n metode met 'n geneste `Invoke-Command` voorgestel. Dit los die probleem nie direk op nie, maar bied 'n omweg sonder die behoefte aan spesiale konfigurasies. Die benadering stel in staat om 'n opdrag (`hostname`) op 'n sekondêre bediener uit te voer deur 'n PowerShell-opdrag wat vanaf 'n aanvanklike aanvalmasjien of deur 'n voorheen gevestigde PS-sessie met die eerste bediener uitgevoer word. Hier is hoe dit gedoen word:
+Um das Double-Hop-Problem zu beheben, wird eine Methode vorgestellt, die ein geschachteltes `Invoke-Command` verwendet. Dies löst das Problem nicht direkt, bietet jedoch eine Umgehungslösung, ohne spezielle Konfigurationen zu benötigen. Der Ansatz ermöglicht die Ausführung eines Befehls (`hostname`) auf einem sekundären Server über einen PowerShell-Befehl, der von einer anfänglichen Angreifermaschine oder über eine zuvor eingerichtete PS-Session mit dem ersten Server ausgeführt wird. So wird es gemacht:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-Alternatiewelik, word dit voorgestel om 'n PS-Session met die eerste bediener te vestig en die `Invoke-Command` te gebruik met `$cred` om take te sentraliseer.
+Alternativ wird empfohlen, eine PS-Session mit dem ersten Server herzustellen und `Invoke-Command` unter Verwendung von `$cred` auszuführen, um Aufgaben zu zentralisieren.
 
-### Registreer PSSession Konfigurasie
+### PSSession-Konfiguration registrieren
 
-'n Oplossing om die dubbel hop probleem te omseil behels die gebruik van `Register-PSSessionConfiguration` met `Enter-PSSession`. Hierdie metode vereis 'n ander benadering as `evil-winrm` en laat 'n sessie toe wat nie ly aan die dubbel hop beperking nie.
+Eine Lösung zur Umgehung des Double-Hop-Problems besteht darin, `Register-PSSessionConfiguration` mit `Enter-PSSession` zu verwenden. Diese Methode erfordert einen anderen Ansatz als `evil-winrm` und ermöglicht eine Sitzung, die nicht unter der Double-Hop-Beschränkung leidet.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
@@ -74,32 +74,32 @@ klist
 ```
 ### PortForwarding
 
-Vir plaaslike administrateurs op 'n intermediêre teiken, laat port forwarding toe dat versoeke na 'n finale bediener gestuur word. Deur `netsh` te gebruik, kan 'n reël vir port forwarding bygevoeg word, saam met 'n Windows-vuurmuurreël om die voortgelei poort toe te laat.
+Für lokale Administratoren auf einem Zwischenziel ermöglicht das Port-Forwarding, Anfragen an einen endgültigen Server zu senden. Mit `netsh` kann eine Regel für das Port-Forwarding hinzugefügt werden, zusammen mit einer Windows-Firewallregel, um den weitergeleiteten Port zuzulassen.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
 #### winrs.exe
 
-`winrs.exe` kan gebruik word om WinRM versoeke te stuur, moontlik as 'n minder opspoorbare opsie as PowerShell monitering 'n bekommernis is. Die onderstaande opdrag demonstreer die gebruik daarvan:
+`winrs.exe` kann verwendet werden, um WinRM-Anfragen weiterzuleiten, möglicherweise als eine weniger erkennbare Option, wenn die Überwachung von PowerShell ein Anliegen ist. Der folgende Befehl zeigt seine Verwendung:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-Die installering van OpenSSH op die eerste bediener stel 'n omseiling van die dubbel-hop probleem in, wat veral nuttig is vir jump box scenario's. Hierdie metode vereis CLI installasie en opstelling van OpenSSH vir Windows. Wanneer dit geconfigureer is vir Wagwoordverifikasie, laat dit die intermediêre bediener toe om 'n TGT namens die gebruiker te verkry.
+Die Installation von OpenSSH auf dem ersten Server ermöglicht eine Umgehung des Double-Hop-Problems, das besonders nützlich für Jump-Box-Szenarien ist. Diese Methode erfordert die CLI-Installation und -Einrichtung von OpenSSH für Windows. Wenn es für die Passwortauthentifizierung konfiguriert ist, ermöglicht dies dem Zwischenserver, ein TGT im Namen des Benutzers zu erhalten.
 
-#### OpenSSH Installasiestappe
+#### OpenSSH Installationsschritte
 
-1. Laai die nuutste OpenSSH vrystelling zip af en skuif dit na die teikenbediener.
-2. Unzip en voer die `Install-sshd.ps1` skrip uit.
-3. Voeg 'n firewall-reël by om poort 22 te open en verifieer dat SSH dienste aan die gang is.
+1. Laden Sie die neueste OpenSSH-Release-Zip-Datei auf den Zielserver herunter und verschieben Sie sie.
+2. Entpacken Sie die Datei und führen Sie das Skript `Install-sshd.ps1` aus.
+3. Fügen Sie eine Firewall-Regel hinzu, um Port 22 zu öffnen, und überprüfen Sie, ob die SSH-Dienste ausgeführt werden.
 
-Om `Connection reset` foute op te los, mag dit nodig wees om toestemmings op te dateer om almal lees- en uitvoertoegang op die OpenSSH gids toe te laat.
+Um `Connection reset`-Fehler zu beheben, müssen möglicherweise die Berechtigungen aktualisiert werden, um allen Lese- und Ausführungszugriff auf das OpenSSH-Verzeichnis zu gewähren.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
-## Verwysings
+## Referenzen
 
 * [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
 * [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
@@ -111,16 +111,16 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

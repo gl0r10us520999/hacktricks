@@ -1,25 +1,25 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-Die volgende stappe word aanbeveel om toestel opstartkonfigurasies en bootloaders soos U-boot te wysig:
+Die folgenden Schritte werden empfohlen, um die Startkonfigurationen und Bootloader wie U-boot zu modifizieren:
 
-1. **Toegang tot Bootloader se Interpreter Shell**:
-- Gedurende opstart, druk "0", spasie, of ander geïdentifiseerde "magiese kodes" om toegang te verkry tot die bootloader se interpreter shell.
+1. **Zugriff auf die Interpreter-Shell des Bootloaders**:
+- Drücke während des Bootvorgangs "0", Leertaste oder andere identifizierte "magische Codes", um auf die Interpreter-Shell des Bootloaders zuzugreifen.
 
-2. **Wysig Boot Argumente**:
-- Voer die volgende opdragte uit om '`init=/bin/sh`' by die boot argumente te voeg, wat die uitvoering van 'n shell opdrag toelaat:
+2. **Boot-Argumente modifizieren**:
+- Führe die folgenden Befehle aus, um '`init=/bin/sh`' zu den Boot-Argumenten hinzuzufügen, was die Ausführung eines Shell-Befehls ermöglicht:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -27,47 +27,47 @@ Die volgende stappe word aanbeveel om toestel opstartkonfigurasies en bootloader
 #boot
 %%%
 
-3. **Stel TFTP Bediening in**:
-- Konfigureer 'n TFTP bediener om beelde oor 'n plaaslike netwerk te laai:
+3. **TFTP-Server einrichten**:
+- Konfiguriere einen TFTP-Server, um Bilder über ein lokales Netzwerk zu laden:
 %%%
-#setenv ipaddr 192.168.2.2 #lokale IP van die toestel
-#setenv serverip 192.168.2.1 #TFTP bediener IP
+#setenv ipaddr 192.168.2.2 #lokale IP des Geräts
+#setenv serverip 192.168.2.1 #TFTP-Server-IP
 #saveenv
 #reset
-#ping 192.168.2.1 #kontroleer netwerktoegang
-#tftp ${loadaddr} uImage-3.6.35 #loadaddr neem die adres om die lêer in te laai en die lêernaam van die beeld op die TFTP bediener
+#ping 192.168.2.1 #Netzwerkzugang überprüfen
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr nimmt die Adresse, um die Datei zu laden, und den Dateinamen des Bildes auf dem TFTP-Server
 %%%
 
-4. **Gebruik `ubootwrite.py`**:
-- Gebruik `ubootwrite.py` om die U-boot beeld te skryf en 'n gewysigde firmware te druk om worteltoegang te verkry.
+4. **`ubootwrite.py` verwenden**:
+- Verwende `ubootwrite.py`, um das U-boot-Bild zu schreiben und eine modifizierte Firmware zu pushen, um Root-Zugriff zu erhalten.
 
-5. **Kontroleer Debug Kenmerke**:
-- Verifieer of debug kenmerke soos gedetailleerde logging, laai van arbitrêre kerne, of opstart vanaf onbetroubare bronne geaktiveer is.
+5. **Debug-Funktionen überprüfen**:
+- Überprüfe, ob Debug-Funktionen wie ausführliches Logging, Laden beliebiger Kernel oder Booten von nicht vertrauenswürdigen Quellen aktiviert sind.
 
-6. **Versigtigheid met Hardeware Interferensie**:
-- Wees versigtig wanneer jy een pen aan grond verbind en met SPI of NAND flits skywe interaksie het tydens die toestel se opstartvolgorde, veral voordat die kern ontspan. Raadpleeg die NAND flits skyf se datasheet voordat jy penne kortsluit.
+6. **Vorsicht bei Hardware-Interferenzen**:
+- Sei vorsichtig, wenn du einen Pin mit Masse verbindest und mit SPI- oder NAND-Flash-Chips während des Bootvorgangs des Geräts interagierst, insbesondere bevor der Kernel dekomprimiert. Konsultiere das Datenblatt des NAND-Flash-Chips, bevor du Pins kurzschließt.
 
-7. **Konfigureer Rogue DHCP Bediening**:
-- Stel 'n rogue DHCP bediener op met kwaadwillige parameters vir 'n toestel om in te neem tydens 'n PXE opstart. Gebruik gereedskap soos Metasploit se (MSF) DHCP bystandbediener. Wysig die 'FILENAME' parameter met opdraginjektie opdragte soos `'a";/bin/sh;#'` om invoervalidasie vir toestel opstart prosedures te toets.
+7. **Rogue DHCP-Server konfigurieren**:
+- Richte einen Rogue DHCP-Server mit bösartigen Parametern ein, die ein Gerät während eines PXE-Boots aufnehmen soll. Verwende Tools wie Metasploit's (MSF) DHCP-Hilfsserver. Ändere den 'FILENAME'-Parameter mit Befehlsinjektionsbefehlen wie `'a";/bin/sh;#'`, um die Eingabevalidierung für die Startverfahren des Geräts zu testen.
 
-**Let wel**: Die stappe wat fisiese interaksie met toestel penne behels (*gemerk met asterisks) moet met uiterste versigtigheid benader word om skade aan die toestel te voorkom.
+**Hinweis**: Die Schritte, die physische Interaktionen mit den Pins des Geräts beinhalten (*mit Sternchen markiert), sollten mit äußerster Vorsicht angegangen werden, um Schäden am Gerät zu vermeiden.
 
 
-## Verwysings
+## Referenzen
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

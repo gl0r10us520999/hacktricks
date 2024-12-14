@@ -1,99 +1,99 @@
 # Sub-GHz RF
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Garage Deure
+## Garagentore
 
-Garage deur oopmakers werk tipies op frekwensies in die 300-190 MHz reeks, met die mees algemene frekwensies wat 300 MHz, 310 MHz, 315 MHz, en 390 MHz is. Hierdie frekwensie reeks word algemeen gebruik vir garage deur oopmakers omdat dit minder oorvol is as ander frekwensie bande en minder geneig is om interferensie van ander toestelle te ervaar.
+Garagentoröffner arbeiten typischerweise im Frequenzbereich von 300-190 MHz, wobei die häufigsten Frequenzen 300 MHz, 310 MHz, 315 MHz und 390 MHz sind. Dieser Frequenzbereich wird häufig für Garagentoröffner verwendet, da er weniger überfüllt ist als andere Frequenzbänder und weniger wahrscheinlich von anderen Geräten gestört wird.
 
-## Motor Deure
+## Autotüren
 
-Meeste motor sleutelfobbe werk op **315 MHz of 433 MHz**. Dit is albei radiofrekwensies, en hulle word in 'n verskeidenheid van verskillende toepassings gebruik. Die hoof verskil tussen die twee frekwensies is dat 433 MHz 'n langer reeks het as 315 MHz. Dit beteken dat 433 MHz beter is vir toepassings wat 'n langer reeks vereis, soos afstandsleutel toegang.\
-In Europa word 433.92MHz algemeen gebruik en in die VSA en Japan is dit die 315MHz.
+Die meisten Autoschlüssel-Fobs arbeiten entweder auf **315 MHz oder 433 MHz**. Dies sind beides Funkfrequenzen, die in einer Vielzahl von Anwendungen verwendet werden. Der Hauptunterschied zwischen den beiden Frequenzen besteht darin, dass 433 MHz eine größere Reichweite hat als 315 MHz. Das bedeutet, dass 433 MHz besser für Anwendungen geeignet ist, die eine größere Reichweite erfordern, wie z.B. die Fernbedienung ohne Schlüssel.\
+In Europa wird häufig 433,92 MHz verwendet, in den USA und Japan ist es 315 MHz.
 
-## **Brute-force Aanval**
+## **Brute-Force-Angriff**
 
 <figure><img src="../../.gitbook/assets/image (1084).png" alt=""><figcaption></figcaption></figure>
 
-As jy in plaas van om elke kode 5 keer te stuur (gestuur soos dit om seker te maak die ontvanger dit ontvang) net een keer stuur, word die tyd verminder tot 6 minute:
+Wenn man anstelle von fünfmaligem Senden jedes Codes (so gesendet, um sicherzustellen, dass der Empfänger ihn erhält) nur einmal sendet, wird die Zeit auf 6 Minuten reduziert:
 
 <figure><img src="../../.gitbook/assets/image (622).png" alt=""><figcaption></figcaption></figure>
 
-en as jy die **2 ms wag** periode tussen seine verwyder kan jy die **tyd tot 3 minute verminder.**
+Und wenn du die **2 ms Wartezeit** zwischen den Signalen **entfernst**, kannst du die Zeit auf **3 Minuten reduzieren.**
 
-Boonop, deur die De Bruijn Sequentie te gebruik (‘n manier om die aantal bits wat nodig is om al die potensiële binêre nommers te stuur te verminder) word hierdie **tyd net tot 8 sekondes verminder**:
+Darüber hinaus kann durch die Verwendung der De Bruijn-Sequenz (eine Methode zur Reduzierung der Anzahl der benötigten Bits, um alle potenziellen binären Zahlen zu brute-forcen) diese **Zeit auf nur 8 Sekunden reduziert werden**:
 
 <figure><img src="../../.gitbook/assets/image (583).png" alt=""><figcaption></figcaption></figure>
 
-'n Voorbeeld van hierdie aanval is geïmplementeer in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
+Ein Beispiel für diesen Angriff wurde in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) implementiert.
 
-Die vereiste van **'n preamble sal die De Bruijn Sequentie** optimalisering vermy en **rolkodes sal hierdie aanval voorkom** (onder die aanname dat die kode lank genoeg is om nie gebruteforceer te kan word nie).
+Die Anforderung eines **Präambels wird die De Bruijn-Sequenz**-Optimierung vermeiden und **rollende Codes werden diesen Angriff verhindern** (vorausgesetzt, der Code ist lang genug, um nicht brute-forcable zu sein).
 
-## Sub-GHz Aanval
+## Sub-GHz-Angriff
 
-Om hierdie seine met Flipper Zero aan te val, kyk:
+Um diese Signale mit Flipper Zero anzugreifen, überprüfe:
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Rolkode Beskerming
+## Schutz durch rollende Codes
 
-Outomatiese garage deur oopmakers gebruik tipies 'n draadlose afstandbeheer om die garage deur te open en toe te maak. Die afstandbeheer **stuur 'n radiofrekwensie (RF) sein** na die garage deur oopmaker, wat die motor aktiveer om die deur te open of toe te maak.
+Automatische Garagentoröffner verwenden typischerweise eine drahtlose Fernbedienung, um das Garagentor zu öffnen und zu schließen. Die Fernbedienung **sendet ein Funksignal (RF)** an den Garagentoröffner, der den Motor aktiviert, um das Tor zu öffnen oder zu schließen.
 
-Dit is moontlik vir iemand om 'n toestel bekend as 'n kodegrypper te gebruik om die RF sein te onderskep en dit vir later gebruik op te neem. Dit staan bekend as 'n **herhalingsaanval**. Om hierdie tipe aanval te voorkom, gebruik baie moderne garage deur oopmakers 'n meer veilige versleuteling metode bekend as 'n **rolkode** stelsel.
+Es ist möglich, dass jemand ein Gerät namens Code Grabber verwendet, um das RF-Signal abzufangen und für später zu speichern. Dies wird als **Replay-Angriff** bezeichnet. Um diese Art von Angriff zu verhindern, verwenden viele moderne Garagentoröffner eine sicherere Verschlüsselungsmethode, die als **rollendes Code**-System bekannt ist.
 
-Die **RF sein word tipies oorgedra met 'n rolkode**, wat beteken dat die kode met elke gebruik verander. Dit maak dit **moeilik** vir iemand om die sein te **onderskep** en dit te **gebruik** om **ongemagtigde** toegang tot die garage te verkry.
+Das **RF-Signal wird typischerweise mit einem rollenden Code übertragen**, was bedeutet, dass sich der Code bei jeder Verwendung ändert. Dies macht es **schwierig**, dass jemand das Signal **abfängt** und es **verwendet**, um **unbefugten** Zugang zur Garage zu erhalten.
 
-In 'n rolkode stelsel het die afstandbeheer en die garage deur oopmaker 'n **gedeelde algoritme** wat **'n nuwe kode genereer** elke keer wanneer die afstandbeheer gebruik word. Die garage deur oopmaker sal slegs op die **korrekte kode** reageer, wat dit baie moeiliker maak vir iemand om ongemagtigde toegang tot die garage te verkry net deur 'n kode te vang.
+In einem rollenden Code-System haben die Fernbedienung und der Garagentoröffner einen **gemeinsamen Algorithmus**, der **bei jeder Verwendung einen neuen Code generiert**. Der Garagentoröffner reagiert nur auf den **richtigen Code**, was es viel schwieriger macht, unbefugten Zugang zur Garage zu erhalten, nur indem man einen Code abfängt.
 
-### **Missing Link Aanval**
+### **Missing Link-Angriff**
 
-Basies, jy luister vir die knoppie en **vang die sein terwyl die afstandbeheer buite bereik** van die toestel (sê die motor of garage). Jy beweeg dan na die toestel en **gebruik die gevange kode om dit te open**.
+Im Grunde hörst du auf den Knopf und **fängst das Signal ab, während die Fernbedienung außerhalb der Reichweite** des Geräts (zum Beispiel des Autos oder der Garage) ist. Dann gehst du zum Gerät und **verwendest den abgefangenen Code, um es zu öffnen**.
 
-### Volledige Link Jamming Aanval
+### Vollständiger Link-Jamming-Angriff
 
-'n Aanvaller kan die **sein naby die voertuig of ontvanger** blokkeer sodat die **ontvanger nie eintlik die kode kan ‘hoor’ nie**, en sodra dit gebeur kan jy eenvoudig die kode **vang en herhaal** wanneer jy opgehou het om te blokkeer.
+Ein Angreifer könnte das Signal in der Nähe des Fahrzeugs oder des Empfängers **stören**, sodass der **Empfänger den Code nicht tatsächlich „hören“ kann**, und sobald das passiert, kannst du einfach den Code **abfangen und wieder abspielen**, wenn du das Stören gestoppt hast.
 
-Die slagoffer sal op 'n stadium die **sleutels gebruik om die motor te sluit**, maar dan sal die aanval **genoeg "sluit deur" kodes** opgeneem het wat hoopvol weer gestuur kan word om die deur te open (‘n **verandering van frekwensie mag nodig wees** aangesien daar motors is wat dieselfde kodes gebruik om te open en toe te maak maar na beide opdragte in verskillende frekwensies luister).
+Das Opfer wird irgendwann die **Schlüssel verwenden, um das Auto abzuschließen**, aber dann wird der Angriff **genug „Tür schließen“-Codes aufgezeichnet haben**, die hoffentlich erneut gesendet werden können, um die Tür zu öffnen (eine **Änderung der Frequenz könnte erforderlich sein**, da es Autos gibt, die dieselben Codes zum Öffnen und Schließen verwenden, aber beide Befehle in unterschiedlichen Frequenzen abhören).
 
 {% hint style="warning" %}
-**Jamming werk**, maar dit is opmerklik aangesien as die **persoon wat die motor sluit eenvoudig die deure toets** om te verseker dat hulle gesluit is, hulle sal opgemerk dat die motor ontgrendel is. Boonop, as hulle bewus was van sulke aanvalle, kan hulle selfs luister na die feit dat die deure nooit die slot **klank** gemaak het nie of die motors **ligte** nooit geflits het toe hulle die ‘sluit’ knoppie gedruk het.
+**Jamming funktioniert**, aber es ist auffällig, da die **Person, die das Auto abschließt, einfach die Türen testet**, um sicherzustellen, dass sie abgeschlossen sind, und sie würde bemerken, dass das Auto nicht abgeschlossen ist. Wenn sie sich zudem solcher Angriffe bewusst sind, könnten sie sogar hören, dass die Türen nie das **Geräusch** des Schlosses gemacht haben oder die **Lichter** des Autos nie geflackert haben, als sie den „Schließen“-Knopf drückten.
 {% endhint %}
 
-### **Kode Grabbing Aanval (ook bekend as ‘RollJam’)**
+### **Code-Grabbing-Angriff (auch bekannt als 'RollJam')**
 
-Dit is 'n meer **stealth Jamming tegniek**. Die aanvaller sal die sein blokkeer, sodat wanneer die slagoffer probeer om die deur te sluit dit nie sal werk nie, maar die aanvaller sal **hierdie kode opneem**. Dan sal die slagoffer **weer probeer om die motor te sluit** deur die knoppie te druk en die motor sal **hierdie tweede kode opneem**.\
-Onmiddellik daarna kan die **aanvaller die eerste kode stuur** en die **motor sal sluit** (die slagoffer sal dink die tweede druk het dit gesluit). Dan sal die aanvaller in staat wees om die **tweede gesteelde kode te stuur om** die motor te open (onder die aanname dat 'n **"sluit motor" kode ook gebruik kan word om dit te open**). 'n Verandering van frekwensie mag nodig wees (aangesien daar motors is wat dieselfde kodes gebruik om te open en toe te maak maar na beide opdragte in verskillende frekwensies luister).
+Dies ist eine **stealth Jamming-Technik**. Der Angreifer wird das Signal stören, sodass, wenn das Opfer versucht, die Tür abzuschließen, es nicht funktioniert, aber der Angreifer wird **diesen Code aufzeichnen**. Dann wird das Opfer **versuchen, das Auto erneut abzuschließen**, indem es den Knopf drückt, und das Auto wird **diesen zweiten Code aufzeichnen**.\
+Sofort danach kann der **Angreifer den ersten Code senden** und das **Auto wird sich abschließen** (das Opfer wird denken, dass der zweite Druck es geschlossen hat). Dann wird der Angreifer in der Lage sein, den **zweiten gestohlenen Code zu senden, um** das Auto zu öffnen (vorausgesetzt, dass ein **„Auto schließen“-Code auch verwendet werden kann, um es zu öffnen**). Eine Änderung der Frequenz könnte erforderlich sein (da es Autos gibt, die dieselben Codes zum Öffnen und Schließen verwenden, aber beide Befehle in unterschiedlichen Frequenzen abhören).
 
-Die aanvaller kan die motor ontvanger blokkeer en nie sy ontvanger nie, want as die motor ontvanger luister in byvoorbeeld 'n 1MHz breedband, sal die aanvaller nie die presiese frekwensie wat deur die afstandbeheer gebruik word blokkeer nie, maar **'n nabygeleë een in daardie spektrum** terwyl die **aanvaller se ontvanger in 'n kleiner reeks sal luister** waar hy die afstandbeheer sein kan luister **sonder die blokkeer sein**.
+Der Angreifer kann **den Empfänger des Autos stören und nicht seinen eigenen Empfänger**, denn wenn der Empfänger des Autos beispielsweise in einem 1 MHz-Breitband abhört, wird der Angreifer nicht die genaue Frequenz stören, die von der Fernbedienung verwendet wird, sondern **eine nahe Frequenz in diesem Spektrum**, während der **Empfänger des Angreifers in einem kleineren Bereich abhört**, wo er das Signal der Fernbedienung **ohne das Störsignal** hören kann.
 
 {% hint style="warning" %}
-Ander implementasies gesien in spesifikasies toon dat die **rolkode 'n gedeelte** van die totale kode wat gestuur word is. Dit wil sê die kode wat gestuur word is 'n **24-bis sleutel** waar die eerste **12 die rolkode is**, die **tweede 8 die opdrag** (soos sluit of ontgrendel) en die laaste 4 is die **kontrole som**. Voertuie wat hierdie tipe implementeer is ook natuurlik kwesbaar aangesien die aanvaller eenvoudig die rolkode segment moet vervang om enige rolkode op beide frekwensies te kan **gebruik**.
+Andere Implementierungen, die in Spezifikationen gesehen wurden, zeigen, dass der **rollende Code ein Teil** des gesamten gesendeten Codes ist. Das heißt, der gesendete Code ist ein **24-Bit-Schlüssel**, wobei die ersten **12 der rollende Code** sind, die **zweiten 8 der Befehl** (wie abschließen oder aufschließen) und die letzten 4 die **Prüfziffer** sind. Fahrzeuge, die diesen Typ implementieren, sind auch natürlich anfällig, da der Angreifer lediglich das Segment des rollenden Codes ersetzen muss, um **jeden rollenden Code auf beiden Frequenzen verwenden zu können**.
 {% endhint %}
 
 {% hint style="danger" %}
-Let daarop dat as die slagoffer 'n derde kode stuur terwyl die aanvaller die eerste een stuur, die eerste en tweede kode ongeldig sal wees.
+Beachte, dass, wenn das Opfer einen dritten Code sendet, während der Angreifer den ersten sendet, der erste und der zweite Code ungültig werden.
 {% endhint %}
 
-### Alarm Klank Jamming Aanval
+### Alarmton-Jamming-Angriff
 
-Toets teen 'n naverkoop rolkode stelsel wat op 'n motor geïnstalleer is, **die stuur van dieselfde kode twee keer** het onmiddellik die alarm en immobiliseerder geaktiveer wat 'n unieke **weiering van diens** geleentheid bied. Ironies was die middel om die **alarm** en immobiliseerder te **deaktiveer** om die **afstandsbeheer** te **druk**, wat 'n aanvaller die vermoë bied om **deurlopend 'n DoS aanval** uit te voer. Of meng hierdie aanval met die **vorige een om meer kodes te verkry** aangesien die slagoffer graag die aanval so gou as moontlik wil stop.
+Tests gegen ein nachgerüstetes rollendes Codesystem, das in einem Auto installiert ist, **aktivierten das Alarm- und Wegfahrsperrensystem sofort**, als **derselbe Code zweimal gesendet wurde**, was eine einzigartige **Denial-of-Service**-Möglichkeit bot. Ironischerweise war das Mittel zur **Deaktivierung des Alarms** und der Wegfahrsperre, **den** **Fernbedienungsknopf zu drücken**, was einem Angreifer die Möglichkeit gab, **fortlaufend DoS-Angriffe durchzuführen**. Oder kombiniere diesen Angriff mit dem **vorherigen, um mehr Codes zu erhalten**, da das Opfer den Angriff so schnell wie möglich stoppen möchte.
 
-## Verwysings
+## Referenzen
 
 * [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
 * [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
@@ -101,16 +101,16 @@ Toets teen 'n naverkoop rolkode stelsel wat op 'n motor geïnstalleer is, **die 
 * [https://hackaday.io/project/164566-how-to-hack-a-car/details](https://hackaday.io/project/164566-how-to-hack-a-car/details)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

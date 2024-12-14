@@ -1,78 +1,78 @@
-# Hardeware Hacking
+# Hardware Hacking
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## JTAG
 
-JTAG maak dit moontlik om 'n grens skandering uit te voer. Die grens skandering analiseer sekere stroombane, insluitend ingebedde grens-skandeercelle en registers vir elke pen.
+JTAG ermöglicht es, einen Boundary-Scan durchzuführen. Der Boundary-Scan analysiert bestimmte Schaltungen, einschließlich eingebetteter Boundary-Scan-Zellen und Register für jeden Pin.
 
-Die JTAG-standaard definieer **spesifieke opdragte vir die uitvoering van grens skanderings**, insluitend die volgende:
+Der JTAG-Standard definiert **spezifische Befehle für die Durchführung von Boundary-Scans**, einschließlich der folgenden:
 
-* **BYPASS** laat jou toe om 'n spesifieke skyf te toets sonder die oorhoofse koste van die deurgee van ander skywe.
-* **SAMPLE/PRELOAD** neem 'n monster van die data wat die toestel binnekom en verlaat wanneer dit in sy normale funksioneringsmodus is.
-* **EXTEST** stel en lees penstate.
+* **BYPASS** ermöglicht es, einen bestimmten Chip ohne den Overhead anderer Chips zu testen.
+* **SAMPLE/PRELOAD** nimmt eine Probe der Daten auf, die das Gerät beim normalen Betriebsmodus ein- und ausgeben.
+* **EXTEST** setzt und liest den Zustand der Pins.
 
-Dit kan ook ander opdragte ondersteun soos:
+Es kann auch andere Befehle unterstützen, wie:
 
-* **IDCODE** vir die identifisering van 'n toestel
-* **INTEST** vir die interne toetsing van die toestel
+* **IDCODE** zur Identifizierung eines Geräts
+* **INTEST** für die interne Prüfung des Geräts
 
-Jy mag hierdie instruksies teëkom wanneer jy 'n hulpmiddel soos die JTAGulator gebruik.
+Du könntest auf diese Anweisungen stoßen, wenn du ein Tool wie den JTAGulator verwendest.
 
-### Die Toets Toegang Poort
+### Der Testzugangspunkt
 
-Grens skanderings sluit toetse van die vier-draad **Toets Toegang Poort (TAP)** in, 'n algemene doelpoort wat **toegang tot die JTAG toetsondersteuning** funksies wat in 'n komponent ingebou is, bied. TAP gebruik die volgende vyf seine:
+Boundary-Scans umfassen Tests des vieradrigen **Test Access Port (TAP)**, einem universellen Port, der **Zugriff auf die JTAG-Testunterstützungs**funktionen bietet, die in ein Bauteil integriert sind. TAP verwendet die folgenden fünf Signale:
 
-* Toets klok invoer (**TCK**) Die TCK is die **klok** wat definieer hoe gereeld die TAP-beheerder 'n enkele aksie sal neem (met ander woorde, na die volgende toestand in die toestandmasjien spring).
-* Toets modus kies (**TMS**) invoer TMS beheer die **eindige toestandmasjien**. Op elke klop van die klok, kontroleer die toestel se JTAG TAP-beheerder die spanning op die TMS-pen. As die spanning onder 'n sekere drempel is, word die sein as laag beskou en as 0 geïnterpreteer, terwyl, as die spanning bo 'n sekere drempel is, die sein as hoog beskou word en as 1 geïnterpreteer word.
-* Toets data invoer (**TDI**) TDI is die pen wat **data in die skyf deur die skandeercelle stuur**. Elke verskaffer is verantwoordelik vir die definisie van die kommunikasieprotokol oor hierdie pen, omdat JTAG dit nie definieer nie.
-* Toets data uitvoer (**TDO**) TDO is die pen wat **data uit die skyf stuur**.
-* Toets reset (**TRST**) invoer Die opsionele TRST reset die eindige toestandmasjien **na 'n bekende goeie toestand**. Alternatiewelik, as die TMS vir vyf agtereenvolgende kloksiklusse op 1 gehou word, roep dit 'n reset op, op dieselfde manier as wat die TRST-pen sou doen, wat die rede is waarom TRST opsioneel is.
+* Testtakt-Eingang (**TCK**) Der TCK ist der **Takt**, der definiert, wie oft der TAP-Controller eine einzelne Aktion ausführt (mit anderen Worten, zum nächsten Zustand in der Zustandsmaschine springt).
+* Testmodus-Auswahl (**TMS**) Eingang TMS steuert die **endliche Zustandsmaschine**. Bei jedem Takt überprüft der JTAG TAP-Controller des Geräts die Spannung am TMS-Pin. Wenn die Spannung unter einem bestimmten Schwellenwert liegt, wird das Signal als niedrig betrachtet und als 0 interpretiert, während das Signal als hoch betrachtet und als 1 interpretiert wird, wenn die Spannung über einem bestimmten Schwellenwert liegt.
+* Testdaten-Eingang (**TDI**) TDI ist der Pin, der **Daten in den Chip über die Scan-Zellen** sendet. Jeder Anbieter ist dafür verantwortlich, das Kommunikationsprotokoll über diesen Pin zu definieren, da JTAG dies nicht definiert.
+* Testdaten-Ausgang (**TDO**) TDO ist der Pin, der **Daten aus dem Chip** sendet.
+* Test-Reset (**TRST**) Eingang Der optionale TRST setzt die endliche Zustandsmaschine **auf einen bekannten guten Zustand** zurück. Alternativ, wenn der TMS fünf aufeinanderfolgende Taktzyklen lang auf 1 gehalten wird, wird ein Reset ausgelöst, ähnlich wie es der TRST-Pin tun würde, weshalb TRST optional ist.
 
-Soms sal jy in staat wees om daardie penne op die PCB gemerk te vind. In ander gevalle mag jy moet **hulle vind**.
+Manchmal kannst du diese Pins auf der PCB markiert finden. In anderen Fällen musst du sie **finden**.
 
-### Identifisering van JTAG penne
+### Identifizierung von JTAG-Pins
 
-Die vinnigste maar duurste manier om JTAG-poorte te detecteer, is deur die gebruik van die **JTAGulator**, 'n toestel wat spesifiek vir hierdie doel geskep is (alhoewel dit **ook UART pinouts kan opspoor**).
+Der schnellste, aber teuerste Weg, JTAG-Ports zu erkennen, ist die Verwendung des **JTAGulator**, eines Geräts, das speziell für diesen Zweck entwickelt wurde (obwohl es **auch UART-Pinouts erkennen kann**).
 
-Dit het **24 kanale** wat jy aan die bord se penne kan koppel. Dan voer dit 'n **BF-aanval** van al die moontlike kombinasies uit deur **IDCODE** en **BYPASS** grens skandeeropdragte te stuur. As dit 'n antwoord ontvang, vertoon dit die kanaal wat ooreenstem met elke JTAG sein.
+Es hat **24 Kanäle**, die du mit den Pins der Platine verbinden kannst. Dann führt es einen **BF-Angriff** auf alle möglichen Kombinationen durch, indem es **IDCODE** und **BYPASS** Boundary-Scan-Befehle sendet. Wenn es eine Antwort erhält, zeigt es den Kanal an, der jedem JTAG-Signal entspricht.
 
-'n Goedkoper maar baie stadiger manier om JTAG pinouts te identifiseer, is deur die [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) op 'n Arduino-ondersteunde mikrobeheerder te laai.
+Ein günstigerer, aber viel langsamerer Weg zur Identifizierung von JTAG-Pinouts ist die Verwendung von [**JTAGenum**](https://github.com/cyphunk/JTAGenum/), das auf einem Arduino-kompatiblen Mikrocontroller geladen ist.
 
-Met **JTAGenum** sal jy eers die **penne van die proef toestel** wat jy vir die enumerasie gaan gebruik, moet **definieer**. Jy sal die toestel se penuitdiagram moet verwys, en dan hierdie penne met die toetspunte op jou teiken toestel verbind.
+Mit **JTAGenum** würdest du zuerst **die Pins des Prüfgeräts definieren**, das du für die Enumeration verwenden wirst. Du müsstest das Pinout-Diagramm des Geräts konsultieren und dann diese Pins mit den Testpunkten deines Zielgeräts verbinden.
 
-'n **Derde manier** om JTAG penne te identifiseer, is deur die **PCB te inspekteer** vir een van die pinouts. In sommige gevalle mag PCB's gerieflik die **Tag-Connect-interface** bied, wat 'n duidelike aanduiding is dat die bord ook 'n JTAG-connector het. Jy kan sien hoe daardie interface lyk by [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Boonop kan die inspeksie van die **datasheets van die chipsets op die PCB** pinuitdiagramme onthul wat na JTAG interfaces dui.
+Ein **dritter Weg**, um JTAG-Pins zu identifizieren, besteht darin, die **PCB zu inspizieren** und nach einem der Pinouts zu suchen. In einigen Fällen bieten PCBs möglicherweise bequem die **Tag-Connect-Schnittstelle**, was ein klares Indiz dafür ist, dass die Platine auch einen JTAG-Anschluss hat. Du kannst sehen, wie diese Schnittstelle aussieht unter [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Darüber hinaus könnte die Inspektion der **Datenblätter der Chipsätze auf der PCB** Pinout-Diagramme offenbaren, die auf JTAG-Schnittstellen hinweisen.
 
 ## SDW
 
-SWD is 'n ARM-spesifieke protokol wat ontwerp is vir foutopsporing.
+SWD ist ein ARM-spezifisches Protokoll, das für das Debugging entwickelt wurde.
 
-Die SWD-interface vereis **twee penne**: 'n bidireksionele **SWDIO** sein, wat die ekwivalent is van JTAG se **TDI en TDO penne en 'n klok**, en **SWCLK**, wat die ekwivalent is van **TCK** in JTAG. Baie toestelle ondersteun die **Serial Wire of JTAG Debug Port (SWJ-DP)**, 'n gekombineerde JTAG en SWD-interface wat jou in staat stel om óf 'n SWD óf JTAG-sonde aan die teiken te koppel.
+Die SWD-Schnittstelle benötigt **zwei Pins**: ein bidirektionales **SWDIO**-Signal, das dem JTAG-**TDI- und TDO-Pin** entspricht, und einen Takt, **SWCLK**, der dem **TCK** in JTAG entspricht. Viele Geräte unterstützen den **Serial Wire oder JTAG Debug Port (SWJ-DP)**, eine kombinierte JTAG- und SWD-Schnittstelle, die es dir ermöglicht, entweder eine SWD- oder JTAG-Sonde an das Ziel anzuschließen.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

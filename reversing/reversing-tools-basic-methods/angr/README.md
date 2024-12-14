@@ -1,21 +1,21 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-'n Deel van hierdie cheatsheet is gebaseer op die [angr dokumentasie](https://docs.angr.io/_/downloads/en/stable/pdf/).
+Ein Teil dieses Cheatsheets basiert auf der [angr-Dokumentation](https://docs.angr.io/_/downloads/en/stable/pdf/).
 
-# Installasie
+# Installation
 ```bash
 sudo apt-get install python3-dev libffi-dev build-essential
 python3 -m pip install --user virtualenv
@@ -23,7 +23,7 @@ python3 -m venv ang
 source ang/bin/activate
 pip install angr
 ```
-# Basiese Aksies
+# Grundlegende Aktionen
 ```python
 import angr
 import monkeyhex # this will format numerical results in hexadecimal
@@ -41,9 +41,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Gelaaide en Hoof objek inligting
+# Geladene und Hauptobjektinformationen
 
-## Gelaaide Gegewens
+## Geladene Daten
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -66,7 +66,7 @@ proj.loader.all_elf_objects #Get all ELF objects loaded (Linux)
 proj.loader.all_pe_objects #Get all binaries loaded (Windows)
 proj.loader.find_object_containing(0x400000)#Get object loaded in an address "<ELF Object fauxware, maps [0x400000:0x60105f]>"
 ```
-## Hoof Voorwerp
+## Hauptobjekt
 ```python
 #Main Object (main binary loaded)
 obj = proj.loader.main_object #<ELF Object true, maps [0x400000:0x60721f]>
@@ -80,7 +80,7 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
-## Simbole en Herlokasies
+## Symbole und Relokationen
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -97,7 +97,7 @@ main_strcmp.is_export #False
 main_strcmp.is_import #True
 main_strcmp.resolvedby #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 ```
-## Blokke
+## Blöcke
 ```python
 #Blocks
 block = proj.factory.block(proj.entry) #Get the block of the entrypoint fo the binary
@@ -105,9 +105,9 @@ block.pp() #Print disassembly of the block
 block.instructions #"0xb" Get number of instructions
 block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x401675, 0x401676, 0x401679, 0x40167d, 0x40167e, 0x40167f, 0x401686, 0x40168d, 0x401694]"
 ```
-# Dinamiese Analise
+# Dynamische Analyse
 
-## Simulasie Bestuurder, Toestande
+## Simulationsmanager, Zustände
 ```python
 #Live States
 #This is useful to modify content in a live analysis
@@ -130,13 +130,13 @@ simgr = proj.factory.simulation_manager(state) #Start
 simgr.step() #Execute one step
 simgr.active[0].regs.rip #Get RIP from the last state
 ```
-## Funksies aanroep
+## Funktionen aufrufen
 
-* Jy kan 'n lys van argumente deur `args` en 'n woordeboek van omgewingsveranderlikes deur `env` in `entry_state` en `full_init_state` deurgee. Die waardes in hierdie strukture kan strings of bitvectors wees, en sal in die toestand geserialiseer word as die argumente en omgewing vir die gesimuleerde uitvoering. Die standaard `args` is 'n leë lys, so as die program wat jy analiseer verwag om ten minste 'n `argv[0]` te vind, moet jy dit altyd verskaf!
-* As jy wil hê dat `argc` simbolies moet wees, kan jy 'n simboliese bitvector as `argc` aan die `entry_state` en `full_init_state` konstruktors deurgee. Wees versigtig, though: as jy dit doen, moet jy ook 'n beperking by die resultaat toestand voeg dat jou waarde vir argc nie groter kan wees as die aantal args wat jy in `args` deurgegee het nie.
-* Om die aanroep toestand te gebruik, moet jy dit aanroep met `.call_state(addr, arg1, arg2, ...)`, waar `addr` die adres van die funksie is wat jy wil aanroep en `argN` die Nde argument vir daardie funksie is, hetsy as 'n python heelgetal, string, of array, of 'n bitvector. As jy geheue wil toewys en werklik 'n wysiger na 'n objek wil deurgee, moet jy dit in 'n PointerWrapper verpak, d.w.z. `angr.PointerWrapper("point to me!")`. Die resultate van hierdie API kan 'n bietjie onvoorspelbaar wees, maar ons werk daaraan.
+* Sie können eine Liste von Argumenten über `args` und ein Wörterbuch von Umgebungsvariablen über `env` in `entry_state` und `full_init_state` übergeben. Die Werte in diesen Strukturen können Strings oder Bitvektoren sein und werden als Argumente und Umgebung in den Zustand der simulierten Ausführung serialisiert. Die Standardwerte für `args` sind eine leere Liste, also wenn das Programm, das Sie analysieren, erwartet, mindestens ein `argv[0]` zu finden, sollten Sie das immer bereitstellen!
+* Wenn Sie möchten, dass `argc` symbolisch ist, können Sie einen symbolischen Bitvektor als `argc` an die Konstruktoren von `entry_state` und `full_init_state` übergeben. Seien Sie jedoch vorsichtig: Wenn Sie dies tun, sollten Sie auch eine Einschränkung für den resultierenden Zustand hinzufügen, dass Ihr Wert für argc nicht größer sein kann als die Anzahl der Argumente, die Sie in `args` übergeben haben.
+* Um den Aufrufzustand zu verwenden, sollten Sie ihn mit `.call_state(addr, arg1, arg2, ...)` aufrufen, wobei `addr` die Adresse der Funktion ist, die Sie aufrufen möchten, und `argN` das N-te Argument für diese Funktion ist, entweder als Python-Integer, String oder Array oder als Bitvektor. Wenn Sie Speicher zuweisen und tatsächlich einen Zeiger auf ein Objekt übergeben möchten, sollten Sie es in einen PointerWrapper einwickeln, d.h. `angr.PointerWrapper("point to me!")`. Die Ergebnisse dieser API können etwas unvorhersehbar sein, aber wir arbeiten daran.
 
-## BitVectors
+## Bitvektoren
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -145,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## Simboliese BitVektore & Beperkings
+## Symbolische Bitvektoren & Einschränkungen
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -179,7 +179,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Haken
+## Hooking
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -197,21 +197,21 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Verder kan jy `proj.hook_symbol(name, hook)` gebruik, wat die naam van 'n simbool as die eerste argument verskaf, om die adres waar die simbool woon te hook.
+Außerdem können Sie `proj.hook_symbol(name, hook)` verwenden, wobei der Name eines Symbols als erstes Argument angegeben wird, um die Adresse zu hooken, an der sich das Symbol befindet.
 
-# Voorbeelde
+# Beispiele
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

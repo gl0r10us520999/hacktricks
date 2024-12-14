@@ -1,25 +1,25 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-Die volgende kode **benut die voorregte SeDebug en SeImpersonate** om die token van 'n **proses wat as SYSTEM loop** en met **al die token voorregte** te kopieer. \
-In hierdie geval kan hierdie kode gecompileer en gebruik word as 'n **Windows diens binêre** om te kyk of dit werk.\
-Die hoofdeel van die **kode waar die verhoging plaasvind** is binne die **`Exploit`** **funksie**.\
-Binne daardie funksie kan jy sien dat die **proses **_**lsass.exe**_** gesoek word**, dan word sy **token gekopieer**, en uiteindelik word daardie token gebruik om 'n nuwe _**cmd.exe**_ met al die voorregte van die gekopieerde token te spawn.
+Der folgende Code **nutzt die Berechtigungen SeDebug und SeImpersonate** aus, um das Token von einem **Prozess, der als SYSTEM läuft**, zu kopieren und mit **allen Token-Berechtigungen**. \
+In diesem Fall kann dieser Code kompiliert und als **Windows-Dienst-Binärdatei** verwendet werden, um zu überprüfen, ob er funktioniert.\
+Der Hauptteil des **Codes, in dem die Erhöhung erfolgt**, befindet sich in der **`Exploit`** **Funktion**.\
+Innerhalb dieser Funktion sehen Sie, dass der **Prozess **_**lsass.exe**_** gesucht wird**, dann wird **sein Token kopiert**, und schließlich wird dieses Token verwendet, um eine neue _**cmd.exe**_ mit allen Berechtigungen des kopierten Tokens zu starten.
 
-**Ander prosesse** wat as SYSTEM loop met al of die meeste van die token voorregte is: **services.exe**, **svhost.exe** (een van die eerste), **wininit.exe**, **csrss.exe**... (_onthou dat jy nie 'n token van 'n Beskermde proses kan kopieer_). Boonop kan jy die hulpmiddel [Process Hacker](https://processhacker.sourceforge.io/downloads.php) wat as administrateur loop gebruik om die tokens van 'n proses te sien.
+**Andere Prozesse**, die als SYSTEM mit allen oder den meisten Token-Berechtigungen laufen, sind: **services.exe**, **svhost.exe** (einer der ersten), **wininit.exe**, **csrss.exe**... (_denken Sie daran, dass Sie kein Token von einem geschützten Prozess kopieren können_). Darüber hinaus können Sie das Tool [Process Hacker](https://processhacker.sourceforge.io/downloads.php) als Administrator ausführen, um die Tokens eines Prozesses zu sehen.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>
@@ -225,16 +225,16 @@ return 0;
 }
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

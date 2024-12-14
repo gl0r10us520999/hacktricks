@@ -1,66 +1,66 @@
-# FZ - Infrarooi
+# FZ - Infrarot
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Inleiding <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## Intro <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Vir meer inligting oor hoe Infrarooi werk, kyk:
+Für weitere Informationen darüber, wie Infrarot funktioniert, siehe:
 
 {% content-ref url="../infrared.md" %}
 [infrared.md](../infrared.md)
 {% endcontent-ref %}
 
-## IR Seinontvanger in Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## IR-Signalempfänger im Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Flipper gebruik 'n digitale IR seinontvanger TSOP, wat **toelaat om seine van IR afstandbeheerders te onderskep**. Daar is 'n paar **smartphones** soos Xiaomi, wat ook 'n IR-poort het, maar hou in gedagte dat **meeste van hulle net kan oordra** seine en **nie kan ontvang** nie.
+Flipper verwendet einen digitalen IR-Signalempfänger TSOP, der **das Abfangen von Signalen von IR-Fernbedienungen ermöglicht**. Es gibt einige **Smartphones** wie Xiaomi, die ebenfalls einen IR-Port haben, aber beachte, dass **die meisten von ihnen nur senden** können und **nicht empfangen** können.
 
-Die Flipper infrarooi **ontvanger is redelik sensitief**. Jy kan selfs die **sein vang** terwyl jy **ergens tussen** die afstandbeheerder en die TV bly. Dit is nie nodig om die afstandbeheerder direk na Flipper se IR-poort te wys nie. Dit is handig wanneer iemand kanale verander terwyl hy naby die TV staan, en jy en Flipper is 'n entjie weg.
+Der Infrarot **Empfänger von Flipper ist ziemlich empfindlich**. Du kannst sogar **das Signal empfangen**, während du **irgendwo dazwischen** der Fernbedienung und dem Fernseher bist. Es ist nicht notwendig, die Fernbedienung direkt auf den IR-Port von Flipper zu richten. Dies ist nützlich, wenn jemand die Kanäle wechselt, während er in der Nähe des Fernsehers steht, und sowohl du als auch Flipper sich in einiger Entfernung befinden.
 
-Aangesien die **ontleding van die infrarooi** sein aan die **programmatuur** kant gebeur, ondersteun Flipper Zero potensieel die **ontvangs en oordrag van enige IR afstandbeheerkodes**. In die geval van **onbekende** protokolle wat nie herken kon word nie - dit **registreer en speel die** ruwe sein presies soos ontvang.
+Da die **Dekodierung des Infrarotsignals** auf der **Software**-Seite erfolgt, unterstützt Flipper Zero potenziell die **Empfang und Übertragung von beliebigen IR-Fernbedienungscodes**. Im Falle von **unbekannten** Protokollen, die nicht erkannt werden konnten, **zeichnet es das rohe Signal genau so auf, wie es empfangen wurde, und spielt es wieder ab**.
 
-## Aksies
+## Aktionen
 
-### Universele Afstandbeheerders
+### Universelle Fernbedienungen
 
-Flipper Zero kan gebruik word as 'n **universele afstandbeheerder om enige TV, lugversorger of mediacentrum te beheer**. In hierdie modus, Flipper **bruteforces** al die **bekende kodes** van al die ondersteunde vervaardigers **volgens die woordeboek van die SD-kaart**. Jy hoef nie 'n spesifieke afstandbeheerder te kies om 'n restaurant TV af te skakel nie.
+Flipper Zero kann als **universelle Fernbedienung verwendet werden, um jeden Fernseher, Klimaanlage oder Mediencenter zu steuern**. In diesem Modus **bruteforced** Flipper alle **bekannten Codes** aller unterstützten Hersteller **laut dem Wörterbuch von der SD-Karte**. Du musst keine bestimmte Fernbedienung auswählen, um einen Restaurantfernseher auszuschalten.
 
-Dit is genoeg om die aan/af-knoppie in die Universele Afstandbeheerder-modus te druk, en Flipper sal **gevolglik "Power Off"** opdragte van al die TV's wat hy ken stuur: Sony, Samsung, Panasonic... ensovoorts. Wanneer die TV sy sein ontvang, sal dit reageer en afskakel.
+Es reicht aus, die Einschalttaste im Universelle Fernbedienung-Modus zu drücken, und Flipper wird **nacheinander "Power Off"**-Befehle aller Fernseher senden, die er kennt: Sony, Samsung, Panasonic... und so weiter. Wenn der Fernseher sein Signal empfängt, wird er reagieren und sich ausschalten.
 
-So 'n brute-force neem tyd. Hoe groter die woordeboek, hoe langer sal dit neem om te voltooi. Dit is onmoontlik om uit te vind watter sein presies die TV herken het, aangesien daar geen terugvoer van die TV is nie.
+Ein solches Brute-Force benötigt Zeit. Je größer das Wörterbuch, desto länger dauert es, bis es abgeschlossen ist. Es ist unmöglich herauszufinden, welches Signal der Fernseher genau erkannt hat, da es kein Feedback vom Fernseher gibt.
 
-### Leer Nuwe Afstandbeheerder
+### Neue Fernbedienung lernen
 
-Dit is moontlik om 'n **infrarooi sein** met Flipper Zero te **vang**. As dit **die sein in die databasis vind**, sal Flipper outomaties **weet watter toestel dit is** en jou toelaat om daarmee te interaksie.\
-As dit nie, kan Flipper die **sein** **stoor** en sal dit jou toelaat om dit te **herhaal**.
+Es ist möglich, ein **Infrarotsignal** mit Flipper Zero **einzufangen**. Wenn es **das Signal in der Datenbank findet**, wird Flipper automatisch **wissen, welches Gerät das ist** und dir erlauben, damit zu interagieren.\
+Wenn nicht, kann Flipper das **Signal speichern** und dir erlauben, es **wiederzugeben**.
 
-## Verwysings
+## Referenzen
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

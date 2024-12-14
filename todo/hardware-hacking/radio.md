@@ -1,225 +1,225 @@
 # Radio
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is 'n gratis digitale seinanaliseerder vir GNU/Linux en macOS, ontwerp om inligting van onbekende radiosignale te onttrek. Dit ondersteun 'n verskeidenheid SDR-toestelle deur SoapySDR, en laat aanpasbare demodulasie van FSK, PSK en ASK seine toe, dekodeer analoog video, analiseer burstige seine en luister na analoog stemkanale (alles in werklike tyd).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)ist ein kostenloser digitaler Signalanalysator für GNU/Linux und macOS, der entwickelt wurde, um Informationen aus unbekannten Funksignalen zu extrahieren. Er unterstützt eine Vielzahl von SDR-Geräten über SoapySDR und ermöglicht eine anpassbare Demodulation von FSK-, PSK- und ASK-Signalen, dekodiert analoges Video, analysiert burstige Signale und hört analoge Sprachkanäle (alles in Echtzeit).
 
-### Basiese Konfigurasie
+### Grundkonfiguration
 
-Na die installasie is daar 'n paar dinge wat jy kan oorweeg om te konfigureer.\
-In instellings (die tweede tabknoppie) kan jy die **SDR-toestel** kies of **'n lêer** kies om te lees en watter frekwensie om te sintoniseer en die monster tempo (aanbeveel tot 2.56Msps as jou rekenaar dit ondersteun)\\
+Nach der Installation gibt es einige Dinge, die Sie in Betracht ziehen könnten, zu konfigurieren.\
+In den Einstellungen (der zweite Tab-Button) können Sie das **SDR-Gerät** auswählen oder **eine Datei** zum Lesen auswählen und die Frequenz, auf die Sie syntonisieren möchten, sowie die Abtastrate (empfohlen bis zu 2,56 Msps, wenn Ihr PC dies unterstützt)\\
 
 ![](<../../.gitbook/assets/image (245).png>)
 
-In die GUI gedrag is dit aanbeveel om 'n paar dinge in te skakel as jou rekenaar dit ondersteun:
+Im GUI-Verhalten wird empfohlen, einige Dinge zu aktivieren, wenn Ihr PC dies unterstützt:
 
 ![](<../../.gitbook/assets/image (472).png>)
 
 {% hint style="info" %}
-As jy besef dat jou rekenaar nie dinge opneem nie, probeer om OpenGL te deaktiveer en die monster tempo te verlaag.
+Wenn Sie feststellen, dass Ihr PC keine Signale erfasst, versuchen Sie, OpenGL zu deaktivieren und die Abtastrate zu senken.
 {% endhint %}
 
-### Gebruik
+### Anwendungen
 
-* Net om **'n bietjie van 'n sein te vang en dit te analiseer** hou net die knoppie "Druk om te vang" ingedruk solank as wat jy nodig het.
+* Um **einige Zeit eines Signals zu erfassen und zu analysieren**, halten Sie einfach die Taste "Push to capture" so lange gedrückt, wie Sie benötigen.
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* Die **Tuner** van SigDigger help om **beter seine te vang** (maar dit kan ook hulle vererger). Ideaal gesproke begin met 0 en hou **dit groter maak totdat** jy die **ruis** wat ingevoer word groter is as die **verbetering van die sein** wat jy nodig het).
+* Der **Tuner** von SigDigger hilft, **bessere Signale zu erfassen** (aber er kann sie auch verschlechtern). Idealerweise beginnen Sie mit 0 und erhöhen **es, bis** Sie feststellen, dass das **Rauschen**, das eingeführt wird, **größer** ist als die **Verbesserung des Signals**, die Sie benötigen.
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
-### Sinchroniseer met radio kanaal
+### Synchronisieren mit dem Funkkanal
 
-Met [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sinchroniseer met die kanaal wat jy wil hoor, konfigureer die "Baseband audio preview" opsie, konfigureer die bandwydte om al die inligting wat gestuur word te kry en stel dan die Tuner in op die vlak voordat die ruis regtig begin toeneem:
+Mit [**SigDigger** ](https://github.com/BatchDrake/SigDigger) synchronisieren Sie sich mit dem Kanal, den Sie hören möchten, konfigurieren die Option "Baseband audio preview", konfigurieren die Bandbreite, um alle gesendeten Informationen zu erhalten, und stellen dann den Tuner auf das Niveau ein, bevor das Rauschen wirklich zu steigen beginnt:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-## Interessante truuks
+## Interessante Tricks
 
-* Wanneer 'n toestel inligting in stoots stuur, is die **eerste deel gewoonlik 'n preamble**, so jy **hoef nie** te **sorg** as jy **nie inligting** daar vind **of as daar 'n paar foute** daar is nie.
-* In rame van inligting behoort jy gewoonlik **verskillende rame goed uitgelijnd tussen hulle** te vind:
+* Wenn ein Gerät Informationsbursts sendet, ist normalerweise der **erste Teil ein Präambel**, sodass Sie sich **keine Sorgen machen müssen**, wenn Sie **keine Informationen** darin **finden oder wenn es einige Fehler** gibt.
+* In Informationsrahmen sollten Sie normalerweise **verschiedene Rahmen gut ausgerichtet zueinander finden**:
 
 ![](<../../.gitbook/assets/image (1076).png>)
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-* **Nadat jy die bits herstel het, moet jy dit op een of ander manier verwerk**. Byvoorbeeld, in Manchester-kodering sal 'n op+af 'n 1 of 0 wees en 'n af+op sal die ander een wees. So pare van 1s en 0s (op en af) sal 'n werklike 1 of 'n werklike 0 wees.
-* Selfs as 'n sein Manchester-kodering gebruik (dit is onmoontlik om meer as twee 0s of 1s agtereenvolgens te vind), kan jy **verskeie 1s of 0s saam in die preamble** vind!
+* **Nachdem Sie die Bits wiederhergestellt haben, müssen Sie sie möglicherweise irgendwie verarbeiten**. Zum Beispiel bedeutet in der Manchester-Codierung ein up+down eine 1 oder 0 und ein down+up wird die andere sein. Paare von 1s und 0s (ups und downs) werden eine echte 1 oder eine echte 0 sein.
+* Selbst wenn ein Signal die Manchester-Codierung verwendet (es ist unmöglich, mehr als zwei 0s oder 1s hintereinander zu finden), könnten Sie **mehrere 1s oder 0s zusammen in der Präambel finden**!
 
-### Ontdek modulasietipe met IQ
+### Aufdecken des Modulationstyps mit IQ
 
-Daar is 3 maniere om inligting in seine te stoor: Modulasie van die **amplitude**, **frekwensie** of **fase**.\
-As jy 'n sein nagaan, is daar verskillende maniere om te probeer uit te vind wat gebruik word om inligting te stoor (vind meer maniere hieronder) maar 'n goeie een is om die IQ-grafiek na te gaan.
+Es gibt 3 Möglichkeiten, Informationen in Signalen zu speichern: Modulation der **Amplitude**, **Frequenz** oder **Phase**.\
+Wenn Sie ein Signal überprüfen, gibt es verschiedene Möglichkeiten, um herauszufinden, was verwendet wird, um Informationen zu speichern (finden Sie mehr Möglichkeiten unten), aber eine gute Möglichkeit ist, das IQ-Diagramm zu überprüfen.
 
 ![](<../../.gitbook/assets/image (788).png>)
 
-* **AM opsporing**: As daar in die IQ-grafiek byvoorbeeld **2 sirkels** verskyn (waarskynlik een in 0 en een in 'n ander amplitude), kan dit beteken dat dit 'n AM-sein is. Dit is omdat in die IQ-grafiek die afstand tussen die 0 en die sirkel die amplitude van die sein is, so dit is maklik om verskillende amplitudes wat gebruik word te visualiseer.
-* **PM opsporing**: Soos in die vorige beeld, as jy klein sirkels vind wat nie met mekaar verband hou nie, beteken dit waarskynlik dat 'n fase-modulasie gebruik word. Dit is omdat in die IQ-grafiek, die hoek tussen die punt en die 0,0 die fase van die sein is, so dit beteken dat 4 verskillende fases gebruik word.
-* Let daarop dat as die inligting versteek is in die feit dat 'n fase verander en nie in die fase self nie, jy nie verskillende fases duidelik gedifferensieer sal sien nie.
-* **FM opsporing**: IQ het nie 'n veld om frekwensies te identifiseer nie (afstand tot sentrum is amplitude en hoek is fase).\
-Daarom, om FM te identifiseer, moet jy **basies net 'n sirkel** in hierdie grafiek sien.\
-Boonop word 'n ander frekwensie "verteenwoordig" deur die IQ-grafiek deur 'n **spoedversnelling oor die sirkel** (so in SysDigger, wanneer jy die sein kies, word die IQ-grafiek bevolk, as jy 'n versnelling of rigtingverandering in die geskepte sirkel vind, kan dit beteken dat dit FM is):
+* **AM erkennen**: Wenn im IQ-Diagramm beispielsweise **2 Kreise** erscheinen (wahrscheinlich einer bei 0 und der andere bei einer anderen Amplitude), könnte das bedeuten, dass es sich um ein AM-Signal handelt. Dies liegt daran, dass im IQ-Diagramm der Abstand zwischen 0 und dem Kreis die Amplitude des Signals ist, sodass es einfach ist, verschiedene verwendete Amplituden zu visualisieren.
+* **PM erkennen**: Wie im vorherigen Bild, wenn Sie kleine Kreise finden, die nicht miteinander verbunden sind, bedeutet das wahrscheinlich, dass eine Phasenmodulation verwendet wird. Dies liegt daran, dass im IQ-Diagramm der Winkel zwischen dem Punkt und dem 0,0 die Phase des Signals ist, was bedeutet, dass 4 verschiedene Phasen verwendet werden.
+* Beachten Sie, dass, wenn die Informationen im Faktum verborgen sind, dass eine Phase geändert wird und nicht in der Phase selbst, Sie keine klar differenzierten Phasen sehen werden.
+* **FM erkennen**: IQ hat kein Feld zur Identifizierung von Frequenzen (Abstand zum Zentrum ist Amplitude und Winkel ist Phase).\
+Daher sollten Sie zur Identifizierung von FM **grundsätzlich nur einen Kreis** in diesem Diagramm sehen.\
+Darüber hinaus wird eine andere Frequenz im IQ-Diagramm durch eine **Geschwindigkeitsbeschleunigung über den Kreis** "repräsentiert" (wenn Sie in SysDigger das Signal auswählen, wird das IQ-Diagramm gefüllt; wenn Sie eine Beschleunigung oder Richtungsänderung im erzeugten Kreis finden, könnte das bedeuten, dass dies FM ist):
 
-## AM Voorbeeld
+## AM-Beispiel
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_165547Z_2560000_433500000_float32_iq.raw" %}
 
-### Ontdek AM
+### Aufdecken von AM
 
-#### Kontroleer die omhulsel
+#### Überprüfen der Hüllkurve
 
-Kontroleer AM-inligting met [**SigDigger** ](https://github.com/BatchDrake/SigDigger)en net deur na die **omhulsel** te kyk kan jy verskillende duidelike amplitude vlakke sien. Die gebruikte sein stuur pulse met inligting in AM, so lyk een puls:
+Überprüfen von AM-Informationen mit [**SigDigger** ](https://github.com/BatchDrake/SigDigger) und nur durch Betrachten der **Hüllkurve** können Sie verschiedene klare Amplitudenebenen sehen. Das verwendete Signal sendet Pulse mit Informationen in AM, so sieht ein Puls aus:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-En so lyk 'n deel van die simbool met die golfvorm:
+Und so sieht ein Teil des Symbols mit der Wellenform aus:
 
 ![](<../../.gitbook/assets/image (734).png>)
 
-#### Kontroleer die Histogram
+#### Überprüfen des Histogramms
 
-Jy kan **die hele sein** waar die inligting geleë is, kies, **Amplitude** modus en **Keuse** kies en op **Histogram** klik. Jy kan waarneem dat 2 duidelike vlakke net gevind word
+Sie können **das gesamte Signal auswählen**, in dem sich die Informationen befinden, den **Amplitude**-Modus und die **Auswahl** auswählen und auf **Histogramm** klicken. Sie können beobachten, dass nur 2 klare Ebenen gefunden werden.
 
 ![](<../../.gitbook/assets/image (264).png>)
 
-Byvoorbeeld, as jy Frekwensie kies in plaas van Amplitude in hierdie AM-sein vind jy net 1 frekwensie (geen manier dat inligting wat in frekwensie gemoduleer is net 1 frekwensie gebruik).
+Wenn Sie beispielsweise Frequenz anstelle von Amplitude in diesem AM-Signal auswählen, finden Sie nur 1 Frequenz (keine Möglichkeit, dass Informationen, die in Frequenz moduliert sind, nur 1 Frequenz verwenden).
 
 ![](<../../.gitbook/assets/image (732).png>)
 
-As jy 'n baie frekwensies vind, sal dit waarskynlik nie 'n FM wees nie, waarskynlik is die seinfrekwensie net gewysig as gevolg van die kanaal.
+Wenn Sie viele Frequenzen finden, wird dies wahrscheinlich kein FM sein; wahrscheinlich wurde die Frequenz des Signals nur aufgrund des Kanals modifiziert.
 
-#### Met IQ
+#### Mit IQ
 
-In hierdie voorbeeld kan jy sien hoe daar 'n **groot sirkel** is, maar ook **baie punte in die sentrum.**
+In diesem Beispiel sehen Sie, wie es einen **großen Kreis** gibt, aber auch **viele Punkte im Zentrum**.
 
 ![](<../../.gitbook/assets/image (222).png>)
 
-### Kry Simbool Tempo
+### Symbolrate ermitteln
 
-#### Met een simbool
+#### Mit einem Symbol
 
-Kies die kleinste simbool wat jy kan vind (sodat jy seker is dit is net 1) en kyk na die "Keuse frekwensie". In hierdie geval sou dit 1.013kHz wees (so 1kHz).
+Wählen Sie das kleinste Symbol aus, das Sie finden können (damit Sie sicher sind, dass es nur 1 ist), und überprüfen Sie die "Auswahlfreq". In diesem Fall wäre es 1,013 kHz (also 1 kHz).
 
 ![](<../../.gitbook/assets/image (78).png>)
 
-#### Met 'n groep simbole
+#### Mit einer Gruppe von Symbolen
 
-Jy kan ook die aantal simbole wat jy gaan kies, aandui en SigDigger sal die frekwensie van 1 simbool bereken (hoe meer simbole gekies, hoe beter waarskynlik). In hierdie scenario het ek 10 simbole gekies en die "Keuse frekwensie" is 1.004 Khz:
+Sie können auch die Anzahl der Symbole angeben, die Sie auswählen möchten, und SigDigger wird die Frequenz von 1 Symbol berechnen (je mehr ausgewählte Symbole, desto besser wahrscheinlich). In diesem Szenario habe ich 10 Symbole ausgewählt und die "Auswahlfreq" beträgt 1,004 kHz:
 
 ![](<../../.gitbook/assets/image (1008).png>)
 
-### Kry Bits
+### Bits erhalten
 
-Aangesien dit 'n **AM-gemoduleerde** sein is en die **simbooltempo** (en wetende dat in hierdie geval iets op beteken 1 en iets af beteken 0), is dit baie maklik om die **bits** wat in die sein gekodeer is, te **verkry**. So, kies die sein met inligting en konfigureer die monster en besluit en druk monster (kyk dat **Amplitude** gekies is, die ontdekte **Simbooltempo** is geconfigureer en die **Gadner klokherstel** is gekies):
+Nachdem Sie festgestellt haben, dass es sich um ein **AM-moduliertes** Signal handelt und die **Symbolrate** (und wissen, dass in diesem Fall etwas up eine 1 und etwas down eine 0 bedeutet), ist es sehr einfach, die **Bits** zu erhalten, die im Signal codiert sind. Wählen Sie also das Signal mit Informationen aus und konfigurieren Sie die Abtastung und Entscheidung und drücken Sie auf Abtasten (stellen Sie sicher, dass **Amplitude** ausgewählt ist, die entdeckte **Symbolrate** konfiguriert ist und die **Gadner-Uhrensynchronisation** ausgewählt ist):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
-* **Sinkroniseer met keuse-intervalle** beteken dat as jy voorheen intervalle gekies het om die simbooltempo te vind, daardie simbooltempo sal gebruik word.
-* **Handmatig** beteken dat die aangeduide simbooltempo gaan gebruik word
-* In **Vaste intervalkeuse** dui jy die aantal intervalle aan wat gekies moet word en dit bereken die simbooltempo daaruit
-* **Gadner klokherstel** is gewoonlik die beste opsie, maar jy moet steeds 'n paar benaderde simbooltempo aandui.
+* **Sync zu Auswahlintervallen** bedeutet, dass, wenn Sie zuvor Intervalle ausgewählt haben, um die Symbolrate zu finden, diese Symbolrate verwendet wird.
+* **Manuell** bedeutet, dass die angegebene Symbolrate verwendet wird.
+* In der **Festintervallauswahl** geben Sie die Anzahl der Intervalle an, die ausgewählt werden sollen, und es berechnet die Symbolrate daraus.
+* **Gadner-Uhrensynchronisation** ist normalerweise die beste Option, aber Sie müssen immer noch eine ungefähre Symbolrate angeben.
 
-Wanneer jy op monster druk, verskyn dit:
+Wenn Sie auf Abtasten drücken, erscheint dies:
 
 ![](<../../.gitbook/assets/image (644).png>)
 
-Nou, om SigDigger te laat verstaan **waar die reeks** van die vlak wat inligting dra is, moet jy op die **lae vlak** klik en ingedruk hou totdat die grootste vlak:
+Jetzt, um SigDigger zu verstehen, **wo der Bereich** des Niveaus liegt, das Informationen trägt, müssen Sie auf das **untere Niveau** klicken und gedrückt halten, bis das größte Niveau erreicht ist:
 
 ![](<../../.gitbook/assets/image (439).png>)
 
-As daar byvoorbeeld **4 verskillende vlakke van amplitude** was, sou jy die **Bits per simbool op 2** moes konfigureer en van die kleinste na die grootste kies.
+Wenn es beispielsweise **4 verschiedene Amplitudenebenen** gegeben hätte, müssten Sie die **Bits pro Symbol auf 2** konfigurieren und von der kleinsten bis zur größten auswählen.
 
-Laastens **verhoog** die **Zoom** en **verander die Ry grootte** kan jy die bits sien (en jy kan alles kies en kopieer om al die bits te kry):
+Schließlich können Sie durch **Erhöhen** des **Zooms** und **Ändern der Zeilenhöhe** die Bits sehen (und Sie können alles auswählen und kopieren, um alle Bits zu erhalten):
 
 ![](<../../.gitbook/assets/image (276).png>)
 
-As die sein meer as 1 bit per simbool het (byvoorbeeld 2), het SigDigger **geen manier om te weet watter simbool is** 00, 01, 10, 11 nie, so dit sal verskillende **grys skale** gebruik om elkeen te verteenwoordig (en as jy die bits kopieer, sal dit **nommers van 0 tot 3** gebruik, jy sal dit moet verwerk).
+Wenn das Signal mehr als 1 Bit pro Symbol hat (zum Beispiel 2), hat SigDigger **keine Möglichkeit zu wissen, welches Symbol** 00, 01, 10, 11 ist, sodass es verschiedene **Graustufen** verwendet, um jedes darzustellen (und wenn Sie die Bits kopieren, verwendet es **Zahlen von 0 bis 3**, die Sie behandeln müssen).
 
-Gebruik ook **kodifikasies** soos **Manchester**, en **op+af** kan **1 of 0** wees en 'n af+op kan 'n 1 of 0 wees. In daardie gevalle moet jy die **verkryde op (1) en af (0)** verwerk om die pare van 01 of 10 as 0s of 1s te vervang.
+Verwenden Sie auch **Codierungen** wie **Manchester**, und **up+down** kann **1 oder 0** sein und ein down+up kann eine 1 oder 0 sein. In diesen Fällen müssen Sie die erhaltenen Ups (1) und Downs (0) behandeln, um die Paare von 01 oder 10 als 0s oder 1s zu ersetzen.
 
-## FM Voorbeeld
+## FM-Beispiel
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_170858Z_2560000_433500000_float32_iq.raw" %}
 
-### Ontdek FM
+### Aufdecken von FM
 
-#### Kontroleer die frekwensies en golfvorm
+#### Überprüfen der Frequenzen und Wellenform
 
-Seinvoorbeeld wat inligting gemoduleer in FM stuur:
+Signalbeispiel, das Informationen moduliert in FM sendet:
 
 ![](<../../.gitbook/assets/image (725).png>)
 
-In die vorige beeld kan jy redelik goed waarneem dat **2 frekwensies gebruik word**, maar as jy die **golfvorm** waarneem, mag jy **nie in staat wees om die 2 verskillende frekwensies korrek te identifiseer nie**:
+Im vorherigen Bild können Sie ziemlich gut beobachten, dass **2 Frequenzen verwendet werden**, aber wenn Sie die **Wellenform** beobachten, könnten Sie **nicht in der Lage sein, die 2 verschiedenen Frequenzen korrekt zu identifizieren**:
 
 ![](<../../.gitbook/assets/image (717).png>)
 
-Dit is omdat ek die sein in beide frekwensies opgeneem het, daarom is een ongeveer die ander in negatief:
+Das liegt daran, dass ich das Signal in beiden Frequenzen erfasst habe, daher ist eine ungefähr die andere in negativ:
 
 ![](<../../.gitbook/assets/image (942).png>)
 
-As die gesinchroniseerde frekwensie **naby aan een frekwensie is as aan die ander**, kan jy maklik die 2 verskillende frekwensies sien:
+Wenn die synchronisierte Frequenz **näher an einer Frequenz als an der anderen** ist, können Sie die 2 verschiedenen Frequenzen leicht sehen:
 
 ![](<../../.gitbook/assets/image (422).png>)
 
 ![](<../../.gitbook/assets/image (488).png>)
 
-#### Kontroleer die histogram
+#### Überprüfen des Histogramms
 
-Deur die frekwensie histogram van die sein met inligting te kontroleer, kan jy maklik 2 verskillende seine sien:
+Wenn Sie das Frequenzhistogramm des Signals mit Informationen überprüfen, können Sie leicht 2 verschiedene Signale sehen:
 
 ![](<../../.gitbook/assets/image (871).png>)
 
-In hierdie geval, as jy die **Amplitude histogram** kontroleer, sal jy **slegs een amplitude** vind, so dit **kan nie AM wees nie** (as jy 'n baie amplitudes vind, kan dit wees omdat die sein krag verloor het langs die kanaal):
+In diesem Fall, wenn Sie das **Amplitude-Histogramm** überprüfen, werden Sie **nur eine Amplitude** finden, sodass es **nicht AM sein kann** (wenn Sie viele Amplituden finden, könnte es daran liegen, dass das Signal entlang des Kanals an Leistung verloren hat):
 
 ![](<../../.gitbook/assets/image (817).png>)
 
-En dit sou die fase histogram wees (wat baie duidelik maak dat die sein nie in fase gemoduleer is nie):
+Und dies wäre das Phasenhistogramm (was sehr klar macht, dass das Signal nicht in Phase moduliert ist):
 
 ![](<../../.gitbook/assets/image (996).png>)
 
-#### Met IQ
+#### Mit IQ
 
-IQ het nie 'n veld om frekwensies te identifiseer nie (afstand tot sentrum is amplitude en hoek is fase).\
-Daarom, om FM te identifiseer, moet jy **basies net 'n sirkel** in hierdie grafiek sien.\
-Boonop word 'n ander frekwensie "verteenwoordig" deur die IQ-grafiek deur 'n **spoedversnelling oor die sirkel** (so in SysDigger, wanneer jy die sein kies, word die IQ-grafiek bevolk, as jy 'n versnelling of rigtingverandering in die geskepte sirkel vind, kan dit beteken dat dit FM is):
+IQ hat kein Feld zur Identifizierung von Frequenzen (Abstand zum Zentrum ist Amplitude und Winkel ist Phase).\
+Daher sollten Sie zur Identifizierung von FM **grundsätzlich nur einen Kreis** in diesem Diagramm sehen.\
+Darüber hinaus wird eine andere Frequenz im IQ-Diagramm durch eine **Geschwindigkeitsbeschleunigung über den Kreis** "repräsentiert" (wenn Sie in SysDigger das Signal auswählen, wird das IQ-Diagramm gefüllt; wenn Sie eine Beschleunigung oder Richtungsänderung im erzeugten Kreis finden, könnte das bedeuten, dass dies FM ist):
 
 ![](<../../.gitbook/assets/image (81).png>)
 
-### Kry Simbool Tempo
+### Symbolrate ermitteln
 
-Jy kan die **dieselfde tegniek as die een wat in die AM voorbeeld gebruik is** gebruik om die simbooltempo te kry sodra jy die frekwensies wat simbole dra, gevind het.
+Sie können die **gleiche Technik wie im AM-Beispiel verwenden**, um die Symbolrate zu ermitteln, sobald Sie die Frequenzen gefunden haben, die Symbole tragen.
 
-### Kry Bits
+### Bits erhalten
 
-Jy kan die **dieselfde tegniek as die een wat in die AM voorbeeld gebruik is** gebruik om die bits te kry sodra jy **gevind het dat die sein in frekwensie gemoduleer is** en die **simbooltempo**. 
+Sie können die **gleiche Technik wie im AM-Beispiel verwenden**, um die Bits zu erhalten, sobald Sie **festgestellt haben, dass das Signal in Frequenz moduliert ist** und die **Symbolrate**.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

@@ -1,40 +1,40 @@
-# AD CS Domein Persistensie
+# AD CS Domain Persistence
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Dit is 'n opsomming van die domein persistensie tegnieke gedeel in [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Kyk daarna vir verdere besonderhede.
+**Dies ist eine Zusammenfassung der Techniken zur Domain-Persistenz, die in [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf) geteilt werden.** Überprüfen Sie es für weitere Details.
 
-## Vals Certifikate met Gesteelde CA Certifikate - DPERSIST1
+## Fälschen von Zertifikaten mit gestohlenen CA-Zertifikaten - DPERSIST1
 
-Hoe kan jy sê dat 'n sertifikaat 'n CA sertifikaat is?
+Wie können Sie feststellen, dass ein Zertifikat ein CA-Zertifikat ist?
 
-Dit kan bepaal word dat 'n sertifikaat 'n CA sertifikaat is as verskeie voorwaardes nagekom word:
+Es kann festgestellt werden, dass ein Zertifikat ein CA-Zertifikat ist, wenn mehrere Bedingungen erfüllt sind:
 
-- Die sertifikaat word op die CA bediener gestoor, met sy privaat sleutel beveilig deur die masjien se DPAPI, of deur hardeware soos 'n TPM/HSM as die bedryfstelsel dit ondersteun.
-- Beide die Issuer en Subject velde van die sertifikaat stem ooreen met die onderskeidelike naam van die CA.
-- 'n "CA Version" uitbreiding is eksklusief in die CA sertifikate teenwoordig.
-- Die sertifikaat het nie Extended Key Usage (EKU) velde nie.
+- Das Zertifikat ist auf dem CA-Server gespeichert, wobei der private Schlüssel durch die DPAPI der Maschine oder durch Hardware wie ein TPM/HSM gesichert ist, sofern das Betriebssystem dies unterstützt.
+- Sowohl die Felder Issuer als auch Subject des Zertifikats stimmen mit dem Distinguished Name der CA überein.
+- Eine "CA Version"-Erweiterung ist ausschließlich in den CA-Zertifikaten vorhanden.
+- Das Zertifikat hat keine Felder für die erweiterte Schlüsselverwendung (EKU).
 
-Om die privaat sleutel van hierdie sertifikaat te onttrek, is die `certsrv.msc` hulpmiddel op die CA bediener die ondersteunde metode via die ingeboude GUI. Nietemin, verskil hierdie sertifikaat nie van ander wat binne die stelsel gestoor is nie; dus kan metodes soos die [THEFT2 tegniek](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) toegepas word vir onttrekking.
+Um den privaten Schlüssel dieses Zertifikats zu extrahieren, ist das Tool `certsrv.msc` auf dem CA-Server die unterstützte Methode über die integrierte GUI. Dennoch unterscheidet sich dieses Zertifikat nicht von anderen, die im System gespeichert sind; daher können Methoden wie die [THEFT2-Technik](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) zur Extraktion angewendet werden.
 
-Die sertifikaat en privaat sleutel kan ook verkry word met Certipy met die volgende opdrag:
+Das Zertifikat und der private Schlüssel können auch mit Certipy mit dem folgenden Befehl abgerufen werden:
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-Upon acquiring the CA certificate and its private key in `.pfx` format, tools like [ForgeCert](https://github.com/GhostPack/ForgeCert) can be utilized to generate valid certificates:
+Nach dem Erwerb des CA-Zertifikats und seines privaten Schlüssels im `.pfx`-Format können Tools wie [ForgeCert](https://github.com/GhostPack/ForgeCert) verwendet werden, um gültige Zertifikate zu generieren:
 ```bash
 # Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -49,42 +49,43 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-Die gebruiker wat geteiken word vir sertifikaat vervalsing moet aktief wees en in staat wees om in te log in Active Directory vir die proses om te slaag. Vervalsing van 'n sertifikaat vir spesiale rekeninge soos krbtgt is ondoeltreffend.
+Der Benutzer, der für die Zertifikatsfälschung ins Visier genommen wird, muss aktiv sein und in der Lage sein, sich im Active Directory zu authentifizieren, damit der Prozess erfolgreich ist. Das Fälschen eines Zertifikats für spezielle Konten wie krbtgt ist ineffektiv.
 {% endhint %}
 
-Hierdie vervalste sertifikaat sal **geldigheid** hê tot die einddatum wat gespesifiseer is en **solank die wortel CA-sertifikaat geldig is** (gewoonlik van 5 tot **10+ jaar**). Dit is ook geldig vir **masjiene**, so gekombineer met **S4U2Self**, kan 'n aanvaller **volharding op enige domeinmasjien handhaaf** solank die CA-sertifikaat geldig is.\
-Boonop kan die **sertifikate wat met hierdie metode gegenereer word** **nie herroep** word nie, aangesien die CA nie daarvan bewus is nie.
+Dieses gefälschte Zertifikat wird **gültig** sein bis zum angegebenen Enddatum und **solange das Root-CA-Zertifikat gültig ist** (normalerweise von 5 bis **10+ Jahren**). Es ist auch für **Maschinen** gültig, sodass ein Angreifer in Kombination mit **S4U2Self** **Persistenz auf jeder Domänenmaschine** aufrechterhalten kann, solange das CA-Zertifikat gültig ist.\
+Darüber hinaus **können die mit dieser Methode generierten Zertifikate nicht widerrufen werden**, da die CA nicht über sie informiert ist.
 
-## Vertroue op Rogue CA Sertifikate - DPERSIST2
+## Vertrauen in bösartige CA-Zertifikate - DPERSIST2
 
-Die `NTAuthCertificates` objek is gedefinieer om een of meer **CA-sertifikate** binne sy `cacertificate` attribuut te bevat, wat Active Directory (AD) gebruik. Die verifikasieproses deur die **domeinbeheerder** behels die nagaan van die `NTAuthCertificates` objek vir 'n inskrywing wat ooreenstem met die **CA gespesifiseer** in die Uitgewer veld van die autentiserende **sertifikaat**. Autentisering gaan voort as 'n ooreenkoms gevind word.
+Das `NTAuthCertificates`-Objekt ist definiert, um ein oder mehrere **CA-Zertifikate** innerhalb seines `cacertificate`-Attributs zu enthalten, die vom Active Directory (AD) verwendet werden. Der Verifizierungsprozess durch den **Domänencontroller** umfasst die Überprüfung des `NTAuthCertificates`-Objekts auf einen Eintrag, der mit der im Ausstellerfeld des authentifizierenden **Zertifikats** angegebenen **CA** übereinstimmt. Die Authentifizierung erfolgt, wenn eine Übereinstimmung gefunden wird.
 
-'n Self-ondertekende CA-sertifikaat kan deur 'n aanvaller by die `NTAuthCertificates` objek gevoeg word, mits hulle beheer oor hierdie AD objek het. Gewoonlik word slegs lede van die **Enterprise Admin** groep, saam met **Domain Admins** of **Administrators** in die **woudwortel se domein**, toestemming gegee om hierdie objek te wysig. Hulle kan die `NTAuthCertificates` objek met `certutil.exe` wysig met die opdrag `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, of deur die [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool) te gebruik.
+Ein selbstsigniertes CA-Zertifikat kann von einem Angreifer zum `NTAuthCertificates`-Objekt hinzugefügt werden, vorausgesetzt, er hat die Kontrolle über dieses AD-Objekt. Normalerweise haben nur Mitglieder der **Enterprise Admin**-Gruppe sowie **Domain Admins** oder **Administratoren** im **Wurzel-Domain des Forests** die Berechtigung, dieses Objekt zu ändern. Sie können das `NTAuthCertificates`-Objekt mit `certutil.exe` mit dem Befehl `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` bearbeiten oder das [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool) verwenden.
 
-Hierdie vermoë is veral relevant wanneer dit saam met 'n voorheen uiteengesette metode wat ForgeCert betrek, gebruik word om sertifikate dinamies te genereer.
+Diese Fähigkeit ist besonders relevant, wenn sie in Verbindung mit einer zuvor beschriebenen Methode verwendet wird, die ForgeCert zur dynamischen Generierung von Zertifikaten beinhaltet.
 
-## Kwaadwillige Misconfigurasie - DPERSIST3
+## Bösartige Fehlkonfiguration - DPERSIST3
 
-Geleenthede vir **volharding** deur **sekuriteitsbeskrywer wysigings van AD CS** kom volop voor. Wysigings wat in die "[Domein Escalation](domain-escalation.md)" afdeling beskryf word, kan kwaadwillig deur 'n aanvaller met verhoogde toegang geïmplementeer word. Dit sluit die toevoeging van "beheerregte" (bv. WriteOwner/WriteDACL/etc.) aan sensitiewe komponente soos:
+Möglichkeiten zur **Persistenz** durch **Änderungen des Sicherheitsdeskriptors von AD CS**-Komponenten sind reichlich vorhanden. Die im Abschnitt "[Domain Escalation](domain-escalation.md)" beschriebenen Änderungen können von einem Angreifer mit erhöhtem Zugriff böswillig implementiert werden. Dazu gehört die Hinzufügung von "Kontrollrechten" (z. B. WriteOwner/WriteDACL/usw.) zu sensiblen Komponenten wie:
 
-- Die **CA bediener se AD rekenaar** objek
-- Die **CA bediener se RPC/DCOM bediener**
-- Enige **afstammeling AD objek of houer** in **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (byvoorbeeld, die Sertifikaat Templates houer, Sertifiseringsowerhede houer, die NTAuthCertificates objek, ens.)
-- **AD groepe wat regte gedelegeer het om AD CS te beheer** per standaard of deur die organisasie (soos die ingeboude Cert Publishers groep en enige van sy lede)
+- Das **AD-Computerobjekt des CA-Servers**
+- Der **RPC/DCOM-Server des CA-Servers**
+- Jedes **Nachkommen-AD-Objekt oder Container** in **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (zum Beispiel der Container für Zertifikatvorlagen, der Container für Zertifizierungsstellen, das NTAuthCertificates-Objekt usw.)
+- **AD-Gruppen, die standardmäßig oder durch die Organisation Rechte zur Kontrolle von AD CS delegiert haben** (wie die integrierte Gruppe der Zertifikatsverleger und deren Mitglieder)
 
-'n Voorbeeld van kwaadwillige implementering sou 'n aanvaller betrek, wat **verhoogde toestemmings** in die domein het, wat die **`WriteOwner`** toestemming aan die standaard **`User`** sertifikaat sjabloon voeg, met die aanvaller as die hoof vir die reg. Om dit te benut, sou die aanvaller eers die eienaarskap van die **`User`** sjabloon na hulself verander. Daarna sou die **`mspki-certificate-name-flag`** op die sjabloon op **1** gestel word om **`ENROLLEE_SUPPLIES_SUBJECT`** te aktiveer, wat 'n gebruiker toelaat om 'n Subject Alternative Name in die versoek te verskaf. Vervolgens kan die aanvaller **inskryf** met die **sjabloon**, 'n **domein administrateur** naam as 'n alternatiewe naam kies, en die verkryde sertifikaat vir autentisering as die DA gebruik.
+Ein Beispiel für eine bösartige Implementierung würde einen Angreifer umfassen, der **erhöhte Berechtigungen** in der Domäne hat und die **`WriteOwner`**-Berechtigung zur Standard-**`User`**-Zertifikatvorlage hinzufügt, wobei der Angreifer der Hauptverantwortliche für das Recht ist. Um dies auszunutzen, würde der Angreifer zunächst das Eigentum der **`User`**-Vorlage auf sich selbst ändern. Danach würde das **`mspki-certificate-name-flag`** auf **1** gesetzt, um **`ENROLLEE_SUPPLIES_SUBJECT`** zu aktivieren, was es einem Benutzer ermöglicht, einen Subject Alternative Name in der Anfrage bereitzustellen. Anschließend könnte der Angreifer die **Vorlage** verwenden, einen **Domänenadministrator**-Namen als alternativen Namen wählen und das erworbene Zertifikat zur Authentifizierung als DA nutzen.
+
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>HackTricks unterstützen</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}

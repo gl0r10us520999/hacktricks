@@ -1,31 +1,31 @@
 # Proxmark 3
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-## Aanval op RFID-stelsels met Proxmark3
+## Angreifen von RFID-Systemen mit Proxmark3
 
-Die eerste ding wat jy moet doen is om 'n [**Proxmark3**](https://proxmark.com) te hê en [**die sagteware en sy afhanklikhede te installeer**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Das erste, was du tun musst, ist, einen [**Proxmark3**](https://proxmark.com) zu haben und [**die Software und ihre Abhängigkeiten zu installieren**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-### Aanval op MIFARE Classic 1KB
+### Angreifen von MIFARE Classic 1KB
 
-Dit het **16 sektore**, elk het **4 blokke** en elke blok bevat **16B**. Die UID is in sektor 0 blok 0 (en kan nie verander word nie).\
-Om toegang tot elke sektor te verkry, het jy **2 sleutels** (**A** en **B**) wat in **blok 3 van elke sektor** gestoor is (sektor trailer). Die sektor trailer stoor ook die **toegangsbits** wat die **lees en skryf** toestemmings op **elke blok** gee met behulp van die 2 sleutels.\
-2 sleutels is nuttig om toestemmings te gee om te lees as jy die eerste een ken en te skryf as jy die tweede een ken (byvoorbeeld).
+Es hat **16 Sektoren**, jeder von ihnen hat **4 Blöcke** und jeder Block enthält **16B**. Die UID befindet sich im Sektor 0 Block 0 (und kann nicht geändert werden).\
+Um auf jeden Sektor zuzugreifen, benötigst du **2 Schlüssel** (**A** und **B**), die in **Block 3 jedes Sektors** (Sektor-Trailer) gespeichert sind. Der Sektor-Trailer speichert auch die **Zugriffsbits**, die die **Lese- und Schreib**berechtigungen für **jeden Block** mit den 2 Schlüsseln geben.\
+2 Schlüssel sind nützlich, um Berechtigungen zum Lesen zu geben, wenn du den ersten kennst, und zum Schreiben, wenn du den zweiten kennst (zum Beispiel).
 
-Verskeie aanvalle kan uitgevoer word
+Es können mehrere Angriffe durchgeführt werden.
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -44,11 +44,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Die Proxmark3 laat toe om ander aksies uit te voer soos **afluister** 'n **Tag na Leser kommunikasie** om te probeer om sensitiewe data te vind. In hierdie kaart kan jy net die kommunikasie snuffel en die gebruikte sleutel bereken omdat die **kryptografiese operasies wat gebruik word swak is** en deur die plain en cipher teks te ken kan jy dit bereken (`mfkey64` tool).
+Der Proxmark3 ermöglicht es, andere Aktionen wie das **Abhören** einer **Tag-zu-Reader-Kommunikation** durchzuführen, um zu versuchen, sensible Daten zu finden. In dieser Karte könnten Sie einfach die Kommunikation sniffen und den verwendeten Schlüssel berechnen, da die **verwendeten kryptografischen Operationen schwach sind** und Sie mit dem Klartext und dem Chiffretext ihn berechnen können (`mfkey64` Tool).
 
-### Rauwe Opdragte
+### Rohbefehle
 
-IoT stelsels gebruik soms **nie-gemerkte of nie-kommersiële tags**. In hierdie geval kan jy Proxmark3 gebruik om pasgemaakte **rauwe opdragte na die tags** te stuur.
+IoT-Systeme verwenden manchmal **nicht markierte oder nicht kommerzielle Tags**. In diesem Fall können Sie Proxmark3 verwenden, um benutzerdefinierte **Rohbefehle an die Tags** zu senden.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -58,27 +58,27 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Met hierdie inligting kan jy probeer om inligting oor die kaart en oor die manier om daarmee te kommunikeer, te soek. Proxmark3 laat jou toe om rou opdragte te stuur soos: `hf 14a raw -p -b 7 26`
+Mit diesen Informationen könnten Sie versuchen, Informationen über die Karte und über die Art der Kommunikation mit ihr zu suchen. Proxmark3 ermöglicht das Senden von Rohbefehlen wie: `hf 14a raw -p -b 7 26`
 
 ### Skripte
 
-Die Proxmark3 sagteware kom met 'n vooraf gelaaide lys van **outomatiseringsskripte** wat jy kan gebruik om eenvoudige take uit te voer. Om die volle lys te verkry, gebruik die `script list` opdrag. Gebruik dan die `script run` opdrag, gevolg deur die skrip se naam:
+Die Proxmark3-Software wird mit einer vorinstallierten Liste von **Automatisierungsskripten** geliefert, die Sie verwenden können, um einfache Aufgaben auszuführen. Um die vollständige Liste abzurufen, verwenden Sie den Befehl `script list`. Verwenden Sie anschließend den Befehl `script run`, gefolgt vom Namen des Skripts:
 ```
 proxmark3> script run mfkeys
 ```
-U kan 'n skrip skep om **fuzz tag readers** te doen, so om die data van 'n **geldige kaart** te kopieer, skryf net 'n **Lua skrip** wat een of meer willekeurige **bytes** randomiseer en kyk of die **leser crash** met enige iterasie.
+Sie können ein Skript erstellen, um **Tag-Reader** zu **fuzzern**, indem Sie die Daten einer **gültigen Karte** kopieren. Schreiben Sie einfach ein **Lua-Skript**, das ein oder mehrere zufällige **Bytes** **randomisiert** und überprüft, ob der **Reader abstürzt** bei einer beliebigen Iteration.
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check die [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

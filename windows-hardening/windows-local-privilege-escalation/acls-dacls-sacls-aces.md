@@ -3,192 +3,192 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
-## **Toegangsbeheerlys (ACL)**
+## **Zugriffskontrollliste (ACL)**
 
-'n Toegangsbeheerlys (ACL) bestaan uit 'n geordende stel Toegangsbeheeringe (ACEs) wat die beskerming van 'n objek en sy eienskappe bepaal. In wese definieer 'n ACL watter aksies deur watter sekuriteitsbeginsels (gebruikers of groepe) toegelaat of geweier word op 'n gegewe objek.
+Eine Zugriffskontrollliste (ACL) besteht aus einer geordneten Menge von Zugriffskontrolleinträgen (ACEs), die die Schutzmaßnahmen für ein Objekt und dessen Eigenschaften festlegen. Im Wesentlichen definiert eine ACL, welche Aktionen von welchen Sicherheitsprinzipalen (Benutzern oder Gruppen) auf einem bestimmten Objekt erlaubt oder verweigert sind.
 
-Daar is twee tipes ACLs:
+Es gibt zwei Arten von ACLs:
 
-* **Diskresionêre Toegangsbeheerlys (DACL):** Spesifiseer watter gebruikers en groepe toegang tot 'n objek het of nie.
-* **Stelsels Toegangsbeheerlys (SACL):** Beheer die ouditering van toegangspogings tot 'n objek.
+* **Discretionary Access Control List (DACL):** Gibt an, welche Benutzer und Gruppen Zugriff auf ein Objekt haben oder nicht haben.
+* **System Access Control List (SACL):** Regelt die Überwachung von Zugriffsversuchen auf ein Objekt.
 
-Die proses om toegang tot 'n lêer te verkry behels dat die stelsel die objek se sekuriteitsbeskrywer teen die gebruiker se toegangstoken nagaan om te bepaal of toegang toegestaan moet word en die omvang van daardie toegang, gebaseer op die ACEs.
+Der Prozess des Zugriffs auf eine Datei umfasst, dass das System den Sicherheitsdescriptor des Objekts mit dem Zugriffstoken des Benutzers vergleicht, um zu bestimmen, ob der Zugriff gewährt werden soll und in welchem Umfang, basierend auf den ACEs.
 
-### **Belangrike Komponente**
+### **Wichtige Komponenten**
 
-* **DACL:** Bevat ACEs wat toegangstoestemmings aan gebruikers en groepe vir 'n objek toeken of weier. Dit is in wese die hoof ACL wat toegangregte bepaal.
-* **SACL:** Word gebruik vir die ouditering van toegang tot objek, waar ACEs die tipes toegang definieer wat in die Sekuriteitsgebeurtenislogboek geregistreer moet word. Dit kan van onskatbare waarde wees om ongeoorloofde toegangspogings te ontdek of toegangkwessies op te los.
+* **DACL:** Enthält ACEs, die Benutzern und Gruppen Zugriffsberechtigungen für ein Objekt gewähren oder verweigern. Es ist im Wesentlichen die Haupt-ACL, die die Zugriffsrechte diktiert.
+* **SACL:** Wird zur Überwachung des Zugriffs auf Objekte verwendet, wobei ACEs die Arten von Zugriff definieren, die im Sicherheitsereignisprotokoll protokolliert werden. Dies kann von unschätzbarem Wert sein, um unbefugte Zugriffsversuche zu erkennen oder Zugriffsprobleme zu beheben.
 
-### **Stelselinteraksie met ACLs**
+### **Systeminteraktion mit ACLs**
 
-Elke gebruikersessie is geassosieer met 'n toegangstoken wat sekuriteitsinligting bevat wat relevant is vir daardie sessie, insluitend gebruiker, groep identiteite, en voorregte. Hierdie token sluit ook 'n aanmeld SID in wat die sessie uniek identifiseer.
+Jede Benutzersitzung ist mit einem Zugriffstoken verbunden, das sicherheitsrelevante Informationen zu dieser Sitzung enthält, einschließlich Benutzer-, Gruppenidentitäten und Berechtigungen. Dieses Token enthält auch eine Anmeldesicherheit, die die Sitzung eindeutig identifiziert.
 
-Die Plaaslike Sekuriteitsowerheid (LSASS) verwerk toegang versoeke tot objek deur die DACL vir ACEs te ondersoek wat ooreenstem met die sekuriteitsbeginsel wat toegang probeer verkry. Toegang word onmiddellik toegestaan as daar geen relevante ACEs gevind word nie. Andersins vergelyk LSASS die ACEs teen die sekuriteitsbeginsel se SID in die toegangstoken om toegangsgeschiktheid te bepaal.
+Die Local Security Authority (LSASS) verarbeitet Zugriffsanforderungen für Objekte, indem sie die DACL auf ACEs überprüft, die mit dem Sicherheitsprinzipal übereinstimmen, der auf den Zugriff zugreift. Der Zugriff wird sofort gewährt, wenn keine relevanten ACEs gefunden werden. Andernfalls vergleicht LSASS die ACEs mit der SID des Sicherheitsprinzipals im Zugriffstoken, um die Zugangsberechtigung zu bestimmen.
 
-### **Samegevatte Proses**
+### **Zusammengefasster Prozess**
 
-* **ACLs:** Definieer toegangstoestemmings deur DACLs en ouditreëls deur SACLs.
-* **Toegangstoken:** Bevat gebruiker, groep, en voorregte-inligting vir 'n sessie.
-* **Toegangbesluit:** Gemaak deur DACL ACEs met die toegangstoken te vergelyk; SACLs word gebruik vir ouditering.
+* **ACLs:** Definieren Zugriffsberechtigungen durch DACLs und Überwachungsregeln durch SACLs.
+* **Zugriffstoken:** Enthält Benutzer-, Gruppen- und Berechtigungsinformationen für eine Sitzung.
+* **Zugriffsentscheidung:** Wird durch den Vergleich von DACL-ACEs mit dem Zugriffstoken getroffen; SACLs werden zur Überwachung verwendet.
 
 ### ACEs
 
-Daar is **drie hoof tipes Toegangsbeheeringe (ACEs)**:
+Es gibt **drei Haupttypen von Zugriffskontrolleinträgen (ACEs)**:
 
-* **Toegang Geweier ACE**: Hierdie ACE weier eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
-* **Toegang Toegelaat ACE**: Hierdie ACE grant eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
-* **Stelselaudit ACE**: Geplaas binne 'n Stelsels Toegangsbeheerlys (SACL), is hierdie ACE verantwoordelik vir die generering van ouditlogs by toegangspogings tot 'n objek deur gebruikers of groepe. Dit dokumenteer of toegang toegestaan of geweier is en die aard van die toegang.
+* **Access Denied ACE**: Dieser ACE verweigert ausdrücklich den Zugriff auf ein Objekt für bestimmte Benutzer oder Gruppen (in einer DACL).
+* **Access Allowed ACE**: Dieser ACE gewährt ausdrücklich den Zugriff auf ein Objekt für bestimmte Benutzer oder Gruppen (in einer DACL).
+* **System Audit ACE**: Innerhalb einer System Access Control List (SACL) positioniert, ist dieser ACE verantwortlich für die Erstellung von Prüfprotokollen bei Zugriffsversuchen auf ein Objekt durch Benutzer oder Gruppen. Er dokumentiert, ob der Zugriff gewährt oder verweigert wurde und die Art des Zugriffs.
 
-Elke ACE het **vier kritieke komponente**:
+Jeder ACE hat **vier kritische Komponenten**:
 
-1. Die **Sekuriteitsidentifiseerder (SID)** van die gebruiker of groep (of hul beginselnaam in 'n grafiese voorstelling).
-2. 'n **vlag** wat die ACE tipe identifiseer (toegang geweier, toegestaan, of stelselaudit).
-3. **Erfenisvlagte** wat bepaal of kindobjekte die ACE van hul ouer kan erf.
-4. 'n [**toegangsmasker**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), 'n 32-bis waarde wat die objek se toegepaste regte spesifiseer.
+1. Die **Sicherheitskennung (SID)** des Benutzers oder der Gruppe (oder deren Hauptname in einer grafischen Darstellung).
+2. Ein **Flag**, das den ACE-Typ identifiziert (Zugriff verweigert, erlaubt oder Systemüberwachung).
+3. **Vererbungsflags**, die bestimmen, ob untergeordnete Objekte den ACE von ihrem übergeordneten Objekt erben können.
+4. Eine [**Zugriffsmaske**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), ein 32-Bit-Wert, der die gewährten Rechte des Objekts angibt.
 
-Toegangsbepaling word uitgevoer deur elke ACE een vir een te ondersoek totdat:
+Die Zugriffsbestimmung erfolgt durch die sequenzielle Überprüfung jedes ACE, bis:
 
-* 'n **Toegang-Geweier ACE** eksplisiet die aangevraagde regte aan 'n trustee in die toegangstoken weier.
-* **Toegang-Toegelaat ACE(s)** eksplisiet al die aangevraagde regte aan 'n trustee in die toegangstoken grant.
-* Na die nagaan van alle ACEs, as enige aangevraagde regte **nie eksplisiet toegestaan is nie**, word toegang implisiet **geweier**.
+* Ein **Access-Denied ACE** ausdrücklich die angeforderten Rechte für einen Treuhänder im Zugriffstoken verweigert.
+* **Access-Allowed ACE(s)** ausdrücklich alle angeforderten Rechte für einen Treuhänder im Zugriffstoken gewähren.
+* Nach der Überprüfung aller ACEs, wenn kein angefordertes Recht **ausdrücklich erlaubt** wurde, wird der Zugriff implizit **verweigert**.
 
-### Volgorde van ACEs
+### Reihenfolge der ACEs
 
-Die manier waarop **ACEs** (reëls wat sê wie kan of nie kan toegang hê nie) in 'n lys genaamd **DACL** geplaas word, is baie belangrik. Dit is omdat sodra die stelsel toegang op grond van hierdie reëls gee of weier, dit ophou om na die res te kyk.
+Die Art und Weise, wie **ACEs** (Regeln, die sagen, wer auf etwas zugreifen kann oder nicht) in einer Liste namens **DACL** angeordnet sind, ist sehr wichtig. Dies liegt daran, dass das System, sobald es den Zugriff basierend auf diesen Regeln gewährt oder verweigert, aufhört, die restlichen zu überprüfen.
 
-Daar is 'n beste manier om hierdie ACEs te organiseer, en dit word **"kanonieke volgorde"** genoem. Hierdie metode help om te verseker dat alles glad en regverdig werk. Hier is hoe dit gaan vir stelsels soos **Windows 2000** en **Windows Server 2003**:
+Es gibt eine beste Möglichkeit, diese ACEs zu organisieren, und sie wird als **"kanonische Reihenfolge"** bezeichnet. Diese Methode hilft sicherzustellen, dass alles reibungslos und fair funktioniert. So geht es für Systeme wie **Windows 2000** und **Windows Server 2003**:
 
-* Eerstens, plaas al die reëls wat **spesifiek vir hierdie item** gemaak is voor diegene wat van elders kom, soos 'n ouer gids.
-* In daardie spesifieke reëls, plaas diegene wat sê **"nee" (weier)** voor diegene wat sê **"ja" (toelaat)**.
-* Vir die reëls wat van elders kom, begin met diegene van die **nabyste bron**, soos die ouer, en gaan dan terug van daar. Weer eens, plaas **"nee"** voor **"ja."**
+* Zuerst alle Regeln, die **speziell für dieses Element** erstellt wurden, vor die, die von woanders stammen, wie einem übergeordneten Ordner.
+* In diesen spezifischen Regeln die, die **"nein" (verweigern)** sagen, vor die, die **"ja" (erlauben)** sagen.
+* Für die Regeln, die von woanders stammen, beginnen Sie mit denjenigen aus der **nächsten Quelle**, wie dem übergeordneten, und gehen dann von dort zurück. Wiederum **"nein"** vor **"ja."**
 
-Hierdie opstelling help op twee groot maniere:
+Diese Anordnung hilft auf zwei große Arten:
 
-* Dit verseker dat as daar 'n spesifieke **"nee"** is, dit gerespekteer word, ongeag watter ander **"ja"** reëls daar is.
-* Dit laat die eienaar van 'n item die **laaste sê** hê oor wie binnekom, voordat enige reëls van ouer gidse of verder terug in werking tree.
+* Sie stellt sicher, dass, wenn es ein spezifisches **"nein"** gibt, es respektiert wird, egal welche anderen **"ja"**-Regeln vorhanden sind.
+* Sie ermöglicht es dem Eigentümer eines Elements, das **letzte Wort** darüber zu haben, wer Zugang erhält, bevor Regeln von übergeordneten Ordnern oder weiter zurück in Kraft treten.
 
-Deur dinge op hierdie manier te doen, kan die eienaar van 'n lêer of gids baie presies wees oor wie toegang kry, en verseker dat die regte mense kan inkom en die verkeerde nie.
+Durch diese Vorgehensweise kann der Eigentümer einer Datei oder eines Ordners sehr präzise festlegen, wer Zugang erhält, und sicherstellen, dass die richtigen Personen Zugang haben und die falschen nicht.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
-So, hierdie **"kanonieke volgorde"** is alles oor om te verseker dat die toegang reëls duidelik en goed werk, spesifieke reëls eerste te plaas en alles op 'n slim manier te organiseer.
+So geht es bei dieser **"kanonischen Reihenfolge"** darum, sicherzustellen, dass die Zugriffsregeln klar und gut funktionieren, spezifische Regeln zuerst zu setzen und alles auf intelligente Weise zu organisieren.
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### GUI Voorbeeld
+### GUI-Beispiel
 
-[**Voorbeeld hier**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
+[**Beispiel von hier**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 
-Dit is die klassieke sekuriteitstab van 'n gids wat die ACL, DACL en ACEs toon:
+Dies ist die klassische Sicherheitsregisterkarte eines Ordners, die die ACL, DACL und ACEs zeigt:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
-As ons op die **Gevorderde knoppie** klik, sal ons meer opsies soos erfenis kry:
+Wenn wir auf die **Erweitert-Taste** klicken, erhalten wir weitere Optionen wie Vererbung:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/aceinheritance.jpg](../../.gitbook/assets/aceinheritance.jpg)
 
-En as jy 'n Sekuriteitsbeginsel byvoeg of wysig:
+Und wenn Sie einen Sicherheitsprinzipal hinzufügen oder bearbeiten:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-En laastens het ons die SACL in die Ou ditering tab:
+Und zuletzt haben wir die SACL im Überwachungs-Tab:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
-### Toegangsbeheer in 'n Vereenvoudigde Wyse Verduidelik
+### Erklärung der Zugriffskontrolle auf vereinfachte Weise
 
-Wanneer ons toegang tot hulpbronne bestuur, soos 'n gids, gebruik ons lyste en reëls bekend as Toegangsbeheerlyste (ACLs) en Toegangsbeheeringe (ACEs). Hierdie definieer wie toegang tot sekere data kan of nie kan hê nie.
+Bei der Verwaltung des Zugriffs auf Ressourcen, wie einen Ordner, verwenden wir Listen und Regeln, die als Zugriffskontrolllisten (ACLs) und Zugriffskontrolleinträge (ACEs) bekannt sind. Diese definieren, wer auf bestimmte Daten zugreifen kann oder nicht.
 
-#### Toegang tot 'n Spesifieke Groep Weier
+#### Verweigerung des Zugriffs für eine bestimmte Gruppe
 
-Stel jou voor jy het 'n gids genaamd Kostes, en jy wil hê almal moet toegang hê behalwe vir 'n bemarking span. Deur die reëls korrek op te stel, kan ons verseker dat die bemarking span eksplisiet toegang geweier word voordat ons almal anders toelaat. Dit word gedoen deur die reël om toegang tot die bemarking span te weier voor die reël wat toegang aan almal toelaat.
+Stellen Sie sich vor, Sie haben einen Ordner namens Kosten, und Sie möchten, dass jeder darauf zugreifen kann, außer dem Marketingteam. Durch die korrekte Einrichtung der Regeln können wir sicherstellen, dass dem Marketingteam ausdrücklich der Zugriff verweigert wird, bevor allen anderen der Zugriff erlaubt wird. Dies geschieht, indem die Regel, die den Zugriff für das Marketingteam verweigert, vor der Regel platziert wird, die den Zugriff für alle erlaubt.
 
-#### Toegang aan 'n Spesifieke Lid van 'n Geweerde Groep Toelaat
+#### Gewährung des Zugriffs für ein bestimmtes Mitglied einer verweigerten Gruppe
 
-Kom ons sê Bob, die bemarkingsdirekteur, het toegang tot die Kostes gids nodig, alhoewel die bemarking span oor die algemeen nie toegang moet hê nie. Ons kan 'n spesifieke reël (ACE) vir Bob byvoeg wat hom toegang grant, en dit voor die reël wat toegang aan die bemarking span weier plaas. Op hierdie manier kry Bob toegang ten spyte van die algemene beperking op sy span.
+Angenommen, Bob, der Marketingleiter, benötigt Zugriff auf den Kostenordner, obwohl das Marketingteam im Allgemeinen keinen Zugriff haben sollte. Wir können eine spezifische Regel (ACE) für Bob hinzufügen, die ihm Zugriff gewährt, und sie vor der Regel platzieren, die den Zugriff für das Marketingteam verweigert. Auf diese Weise erhält Bob Zugriff, trotz der allgemeinen Einschränkung für sein Team.
 
-#### Toegangsbeheeringe Verstaan
+#### Verständnis der Zugriffskontrolleinträge
 
-ACEs is die individuele reëls in 'n ACL. Hulle identifiseer gebruikers of groepe, spesifiseer watter toegang toegestaan of geweier word, en bepaal hoe hierdie reëls op sub-items van toepassing is (erfenis). Daar is twee hoof tipes ACEs:
+ACEs sind die einzelnen Regeln in einer ACL. Sie identifizieren Benutzer oder Gruppen, geben an, welcher Zugriff erlaubt oder verweigert wird, und bestimmen, wie diese Regeln auf Unterelemente angewendet werden (Vererbung). Es gibt zwei Haupttypen von ACEs:
 
-* **Generiese ACEs**: Hierdie geld breedweg, wat ofwel alle tipes objek beïnvloed of net tussen houers (soos gidse) en nie-houers (soos lêers) onderskei. Byvoorbeeld, 'n reël wat gebruikers toelaat om die inhoud van 'n gids te sien, maar nie toegang tot die lêers daarin te hê nie.
-* **Objek-Spesifieke ACEs**: Hierdie bied meer presiese beheer, wat toelaat dat reëls vir spesifieke tipes objek of selfs individuele eienskappe binne 'n objek gestel word. Byvoorbeeld, in 'n gids van gebruikers, kan 'n reël 'n gebruiker toelaat om hul telefoonnommer op te dateer, maar nie hul aanmeldure nie.
+* **Generische ACEs**: Diese gelten allgemein und betreffen entweder alle Arten von Objekten oder unterscheiden nur zwischen Containern (wie Ordnern) und Nicht-Containern (wie Dateien). Zum Beispiel eine Regel, die Benutzern erlaubt, den Inhalt eines Ordners zu sehen, aber nicht auf die darin enthaltenen Dateien zuzugreifen.
+* **Objektspezifische ACEs**: Diese bieten eine genauere Kontrolle und ermöglichen es, Regeln für spezifische Arten von Objekten oder sogar einzelne Eigenschaften innerhalb eines Objekts festzulegen. Zum Beispiel könnte in einem Verzeichnis von Benutzern eine Regel es einem Benutzer erlauben, seine Telefonnummer zu aktualisieren, aber nicht seine Anmeldezeiten.
 
-Elke ACE bevat belangrike inligting soos wie die reël van toepassing is (met 'n Sekuriteitsidentifiseerder of SID), wat die reël toelaat of weier (met 'n toegangsmasker), en hoe dit geërf word deur ander objek.
+Jeder ACE enthält wichtige Informationen wie, auf wen die Regel zutrifft (unter Verwendung einer Sicherheitskennung oder SID), was die Regel erlaubt oder verweigert (unter Verwendung einer Zugriffsmaske) und wie sie von anderen Objekten vererbt wird.
 
-#### Sleutelverskille Tussen ACE Tipes
+#### Wichtige Unterschiede zwischen ACE-Typen
 
-* **Generiese ACEs** is geskik vir eenvoudige toegangsbeheer scenario's, waar dieselfde reël op alle aspekte van 'n objek of op alle objek binne 'n houer van toepassing is.
-* **Objek-Spesifieke ACEs** word gebruik vir meer komplekse scenario's, veral in omgewings soos Aktiewe Gids, waar jy dalk toegang tot spesifieke eienskappe van 'n objek anders moet beheer.
+* **Generische ACEs** sind für einfache Zugriffskontrollszenarien geeignet, bei denen dieselbe Regel auf alle Aspekte eines Objekts oder auf alle Objekte innerhalb eines Containers zutrifft.
+* **Objektspezifische ACEs** werden für komplexere Szenarien verwendet, insbesondere in Umgebungen wie Active Directory, wo Sie möglicherweise den Zugriff auf spezifische Eigenschaften eines Objekts unterschiedlich steuern müssen.
 
-In samevatting help ACLs en ACEs om presiese toegangsbeheer te definieer, wat verseker dat slegs die regte individue of groepe toegang tot sensitiewe inligting of hulpbronne het, met die vermoë om toegangregte tot die vlak van individuele eienskappe of objek tipes aan te pas.
+Zusammenfassend helfen ACLs und ACEs, präzise Zugriffskontrollen zu definieren, um sicherzustellen, dass nur die richtigen Personen oder Gruppen Zugriff auf sensible Informationen oder Ressourcen haben, mit der Möglichkeit, Zugriffsrechte bis auf die Ebene einzelner Eigenschaften oder Objekttypen anzupassen.
 
-### Toegangsbeheeringe Lay-out
+### Layout der Zugriffskontrolleinträge
 
-| ACE Veld    | Beskrywing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ACE-Feld    | Beschreibung                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tipe        | Vlag wat die tipe ACE aandui. Windows 2000 en Windows Server 2003 ondersteun ses tipes ACE: Drie generiese ACE tipes wat aan alle beveiligbare objek geheg is. Drie objek-spesifieke ACE tipes wat vir Aktiewe Gids objek kan voorkom.                                                                                                                                                                                                                                                            |
-| Vlagte      | Stel van bitvlagte wat erfenis en ouditering beheer.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Grootte     | Aantal bytes geheue wat vir die ACE toegeken word.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Toegangsmasker | 32-bis waarde waarvan die bits ooreenstem met toegangregte vir die objek. Bits kan of aan of af gestel word, maar die instelling se betekenis hang af van die ACE tipe. Byvoorbeeld, as die bit wat ooreenstem met die reg om toestemmings te lees aangeskakel is, en die ACE tipe is Weier, weier die ACE die reg om die objek se toestemmings te lees. As dieselfde bit aangeskakel is, maar die ACE tipe is Toelaat, grant die ACE die reg om die objek se toestemmings te lees. Meer besonderhede van die Toegangsmasker verskyn in die volgende tabel. |
-| SID         | Identifiseer 'n gebruiker of groep wie se toegang deur hierdie ACE beheer of gemonitor word.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Typ         | Flag, das den Typ des ACE angibt. Windows 2000 und Windows Server 2003 unterstützen sechs Typen von ACE: Drei generische ACE-Typen, die an alle sicherbaren Objekte angehängt sind. Drei objektspezifische ACE-Typen, die für Active Directory-Objekte auftreten können.                                                                                                                                                                                                                                                            |
+| Flags       | Eine Reihe von Bit-Flags, die Vererbung und Überwachung steuern.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Größe       | Anzahl der Bytes an Speicher, die für den ACE zugewiesen sind.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Zugriffsmaske | 32-Bit-Wert, dessen Bits den Zugriffsrechten für das Objekt entsprechen. Bits können entweder ein- oder ausgeschaltet werden, aber die Bedeutung der Einstellung hängt vom ACE-Typ ab. Wenn beispielsweise das Bit, das dem Recht zum Lesen von Berechtigungen entspricht, aktiviert ist und der ACE-Typ Verweigern ist, verweigert der ACE das Recht, die Berechtigungen des Objekts zu lesen. Wenn dasselbe Bit aktiviert ist, der ACE-Typ jedoch Erlauben ist, gewährt der ACE das Recht, die Berechtigungen des Objekts zu lesen. Weitere Details zur Zugriffsmaske erscheinen in der nächsten Tabelle. |
+| SID         | Identifiziert einen Benutzer oder eine Gruppe, deren Zugriff durch diesen ACE kontrolliert oder überwacht wird.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-### Toegangsmasker Lay-out
+### Layout der Zugriffsmaske
 
-| Bit (Bereik) | Betekenis                            | Beskrywing/Voorbeeld                       |
-| ----------- | ---------------------------------- | ----------------------------------------- |
-| 0 - 15      | Objek Spesifieke Toegang Regte      | Lees data, Voer uit, Voeg data by           |
-| 16 - 22     | Standaard Toegang Regte             | Verwyder, Skryf ACL, Skryf Eienaar            |
-| 23          | Kan toegang tot sekuriteits ACL hê            |                                           |
-| 24 - 27     | Gereserveer                           |                                           |
-| 28          | Generies ALLES (Lees, Skryf, Voer uit) | Alles hieronder                          |
-| 29          | Generies Voer uit                    | Alle dinge wat nodig is om 'n program uit te voer |
-| 30          | Generies Skryf                      | Alle dinge wat nodig is om na 'n lêer te skryf   |
-| 31          | Generies Lees                       | Alle dinge wat nodig is om 'n lêer te lees       |
+| Bit (Bereich) | Bedeutung                            | Beschreibung/Beispiel                       |
+| ------------- | ------------------------------------ | ------------------------------------------- |
+| 0 - 15        | Objektspezifische Zugriffsrechte    | Daten lesen, Ausführen, Daten anhängen      |
+| 16 - 22       | Standardzugriffsrechte               | Löschen, ACL schreiben, Eigentümer schreiben |
+| 23            | Kann auf Sicherheits-ACL zugreifen   |                                           |
+| 24 - 27       | Reserviert                           |                                           |
+| 28            | Generisch ALLE (Lesen, Schreiben, Ausführen) | Alles darunter                          |
+| 29            | Generisch Ausführen                  | Alle Dinge, die notwendig sind, um ein Programm auszuführen |
+| 30            | Generisch Schreiben                  | Alle Dinge, die notwendig sind, um in eine Datei zu schreiben   |
+| 31            | Generisch Lesen                      | Alle Dinge, die notwendig sind, um eine Datei zu lesen       |
 
-## Verwysings
+## Referenzen
 
 * [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
 * [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 * [https://www.coopware.in2.info/_ntfsacl_ht.htm](https://www.coopware.in2.info/_ntfsacl_ht.htm)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
@@ -196,7 +196,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}

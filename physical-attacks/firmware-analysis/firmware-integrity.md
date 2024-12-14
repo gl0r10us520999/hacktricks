@@ -1,60 +1,60 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Firmware Integriteit
+## Firmware-Integrität
 
-Die **aangepaste firmware en/of gecompileerde binêre kan opgelaai word om integriteit of handtekening verifikasiefoute te benut**. Die volgende stappe kan gevolg word vir backdoor bind shell compilering:
+Die **benutzerdefinierte Firmware und/oder kompilierten Binärdateien können hochgeladen werden, um Integritäts- oder Signaturüberprüfungsfehler auszunutzen**. Die folgenden Schritte können für die Kompilierung eines Backdoor-Bind-Shells befolgt werden:
 
-1. Die firmware kan onttrek word met firmware-mod-kit (FMK).
-2. Die teiken firmware argitektuur en endianness moet geïdentifiseer word.
-3. 'n Kruiskompiler kan gebou word met behulp van Buildroot of ander geskikte metodes vir die omgewing.
-4. Die backdoor kan gebou word met die kruiskompiler.
-5. Die backdoor kan na die onttrokken firmware /usr/bin gids gekopieer word.
-6. Die toepaslike QEMU binêre kan na die onttrokken firmware rootfs gekopieer word.
-7. Die backdoor kan geëmuleer word met behulp van chroot en QEMU.
-8. Die backdoor kan via netcat toeganklik gemaak word.
-9. Die QEMU binêre moet van die onttrokken firmware rootfs verwyder word.
-10. Die gewysigde firmware kan herverpak word met behulp van FMK.
-11. Die backdoored firmware kan getoets word deur dit te emuleer met firmware analise toolkit (FAT) en verbinding te maak met die teiken backdoor IP en poort met behulp van netcat.
+1. Die Firmware kann mit firmware-mod-kit (FMK) extrahiert werden.
+2. Die Ziel-Firmware-Architektur und Endianness sollten identifiziert werden.
+3. Ein Cross-Compiler kann mit Buildroot oder anderen geeigneten Methoden für die Umgebung erstellt werden.
+4. Die Backdoor kann mit dem Cross-Compiler erstellt werden.
+5. Die Backdoor kann in das extrahierte Firmware-Verzeichnis /usr/bin kopiert werden.
+6. Die geeignete QEMU-Binärdatei kann in das extrahierte Firmware-rootfs kopiert werden.
+7. Die Backdoor kann mit chroot und QEMU emuliert werden.
+8. Die Backdoor kann über netcat zugegriffen werden.
+9. Die QEMU-Binärdatei sollte aus dem extrahierten Firmware-rootfs entfernt werden.
+10. Die modifizierte Firmware kann mit FMK neu verpackt werden.
+11. Die mit einer Backdoor versehene Firmware kann getestet werden, indem sie mit dem Firmware-Analyse-Toolkit (FAT) emuliert und eine Verbindung zur Ziel-Backdoor-IP und dem Port über netcat hergestellt wird.
 
-As 'n root shell reeds verkry is deur dinamiese analise, bootloader manipulasie, of hardeware sekuriteitstoetsing, kan voorafgecompileerde kwaadwillige binêre soos implante of omgekeerde shells uitgevoer word. Geoutomatiseerde payload/implant gereedskap soos die Metasploit raamwerk en 'msfvenom' kan benut word met die volgende stappe:
+Wenn bereits über dynamische Analyse, Bootloader-Manipulation oder Hardware-Sicherheitstests eine Root-Shell erlangt wurde, können vorkompilierte bösartige Binärdateien wie Implantate oder Reverse-Shells ausgeführt werden. Automatisierte Payload/Implantat-Tools wie das Metasploit-Framework und 'msfvenom' können mit den folgenden Schritten genutzt werden:
 
-1. Die teiken firmware argitektuur en endianness moet geïdentifiseer word.
-2. Msfvenom kan gebruik word om die teiken payload, aanvaller gasheer IP, luister poortnommer, lêertipe, argitektuur, platform, en die uitvoer lêer spesifiek aan te dui.
-3. Die payload kan na die gecompromitteerde toestel oorgedra word en verseker word dat dit uitvoeringsregte het.
-4. Metasploit kan voorberei word om inkomende versoeke te hanteer deur msfconsole te begin en die instellings volgens die payload te konfigureer.
-5. Die meterpreter omgekeerde shell kan op die gecompromitteerde toestel uitgevoer word.
-6. Meterpreter sessies kan gemonitor word soos hulle oopmaak.
-7. Post-exploitatie aktiwiteite kan uitgevoer word.
+1. Die Ziel-Firmware-Architektur und Endianness sollten identifiziert werden.
+2. Msfvenom kann verwendet werden, um die Ziel-Payload, die IP des Angreifers, die Portnummer, den Dateityp, die Architektur, die Plattform und die Ausgabedatei anzugeben.
+3. Die Payload kann auf das kompromittierte Gerät übertragen und sichergestellt werden, dass sie Ausführungsberechtigungen hat.
+4. Metasploit kann vorbereitet werden, um eingehende Anfragen zu bearbeiten, indem msfconsole gestartet und die Einstellungen gemäß der Payload konfiguriert werden.
+5. Die Meterpreter-Reverse-Shell kann auf dem kompromittierten Gerät ausgeführt werden.
+6. Meterpreter-Sitzungen können überwacht werden, während sie geöffnet werden.
+7. Nach der Ausbeutung können Aktivitäten durchgeführt werden.
 
-As dit moontlik is, kan kwesbaarhede binne opstart skripte benut word om volgehoue toegang tot 'n toestel oor herlaai te verkry. Hierdie kwesbaarhede ontstaan wanneer opstart skripte verwys, [simbolies skakel](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), of afhanklik is van kode wat geleë is in onbetroubare gemonteerde plekke soos SD kaarte en flits volumes wat gebruik word om data buite wortel lêersisteme te stoor.
+Wenn möglich, können Schwachstellen in Startskripten ausgenutzt werden, um persistenten Zugriff auf ein Gerät über Neustarts hinweg zu erhalten. Diese Schwachstellen entstehen, wenn Startskripte auf Code verweisen, [symbolisch verlinken](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data) oder von Code abhängen, der sich an untrusted gemounteten Orten wie SD-Karten und Flash-Volumes befindet, die zum Speichern von Daten außerhalb von Root-Dateisystemen verwendet werden.
 
-## Verwysings
-* Vir verdere inligting kyk [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+## Referenzen
+* Für weitere Informationen siehe [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

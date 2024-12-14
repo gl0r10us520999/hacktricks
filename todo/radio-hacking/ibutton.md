@@ -1,71 +1,71 @@
 # iButton
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
 ## Intro
 
-iButton is 'n generiese naam vir 'n elektroniese identifikasiesleutel wat in 'n **muntvormige metaalhouer** gepak is. Dit word ook **Dallas Touch** Geheue of kontakgeheue genoem. Alhoewel dit dikwels verkeerdelik as 'n “magnetiese” sleutel verwys word, is daar **niks magneties** daarin nie. Trouens, 'n volwaardige **mikrochip** wat op 'n digitale protokol werk, is binne-in versteek.
+iButton ist ein allgemeiner Name für einen elektronischen Identifizierungsschlüssel, der in einem **münzförmigen Metallgehäuse** verpackt ist. Er wird auch als **Dallas Touch** Memory oder Kontakt-Speicher bezeichnet. Obwohl er oft fälschlicherweise als „magnetischer“ Schlüssel bezeichnet wird, ist **nichts magnetisch** daran. Tatsächlich verbirgt sich darin ein vollwertiger **Mikrochip**, der auf einem digitalen Protokoll basiert.
 
 <figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
-### Wat is iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
+### Was ist iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
-Gewoonlik impliseer iButton die fisiese vorm van die sleutel en leser - 'n ronde munt met twee kontakte. Vir die raam wat dit omring, is daar baie variasies van die mees algemene plastiekhouer met 'n gat tot ringe, hangers, ens.
+Normalerweise bezieht sich iButton auf die physische Form des Schlüssels und Lesegeräts - eine runde Münze mit zwei Kontakten. Für den Rahmen, der ihn umgibt, gibt es viele Variationen, von der häufigsten Kunststoffhalterung mit einem Loch bis hin zu Ringen, Anhängern usw.
 
 <figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
-Wanneer die sleutel die leser bereik, **raak die kontakte aan** en die sleutel word van krag voorsien om sy ID te **verzenden**. Soms word die sleutel **nie onmiddellik gelees** nie omdat die **kontak PSD van 'n interkom groter** is as wat dit moet wees. So die buite kontour van die sleutel en die leser kon nie aanraak nie. As dit die geval is, moet jy die sleutel oor een van die mure van die leser druk.
+Wenn der Schlüssel das Lesegerät erreicht, **kommen die Kontakte in Berührung** und der Schlüssel wird mit Strom versorgt, um seine ID zu **übertragen**. Manchmal wird der Schlüssel **nicht sofort gelesen**, weil der **Kontakt-PSD eines Gegensprechers größer** ist, als er sein sollte. Daher konnten die äußeren Konturen des Schlüssels und des Lesegeräts nicht in Kontakt treten. In diesem Fall musst du den Schlüssel über eine der Wände des Lesegeräts drücken.
 
 <figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
-### **1-Wire protokol** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
+### **1-Wire-Protokoll** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 
-Dallas sleutels ruil data uit met behulp van die 1-wire protokol. Met slegs een kontak vir datatransfer (!!) in beide rigtings, van meester na slaaf en omgekeerd. Die 1-wire protokol werk volgens die Meester-Slaaf model. In hierdie topologie begin die Meester altyd kommunikasie en die Slaaf volg sy instruksies.
+Dallas-Schlüssel tauschen Daten über das 1-Wire-Protokoll aus. Mit nur einem Kontakt für die Datenübertragung (!!) in beide Richtungen, vom Master zum Slave und umgekehrt. Das 1-Wire-Protokoll funktioniert nach dem Master-Slave-Modell. In dieser Topologie initiiert der Master immer die Kommunikation und der Slave folgt seinen Anweisungen.
 
-Wanneer die sleutel (Slaaf) die interkom (Meester) kontak, draai die chip binne-in die sleutel aan, aangedryf deur die interkom, en die sleutel word geïnitialiseer. Daarna versoek die interkom die sleutel ID. Volgende, sal ons hierdie proses in meer detail ondersoek.
+Wenn der Schlüssel (Slave) den Gegensprecher (Master) kontaktiert, wird der Chip im Schlüssel aktiviert, der vom Gegensprecher mit Strom versorgt wird, und der Schlüssel wird initialisiert. Danach fordert der Gegensprecher die Schlüssel-ID an. Im Folgenden werden wir diesen Prozess genauer betrachten.
 
-Flipper kan beide in Meester en Slaaf modi werk. In die sleutel leesmodus, tree Flipper op as 'n leser, dit wil sê dit werk as 'n Meester. En in die sleutel emulasie modus, doen die flipper asof dit 'n sleutel is, dit is in die Slaaf modus.
+Flipper kann sowohl im Master- als auch im Slave-Modus arbeiten. Im Schlüssel-Lesemodus fungiert Flipper als Lesegerät, das heißt, es arbeitet als Master. Und im Schlüssel-Emulationsmodus gibt sich der Flipper als Schlüssel aus, er befindet sich im Slave-Modus.
 
-### Dallas, Cyfral & Metakom sleutels
+### Dallas-, Cyfral- & Metakom-Schlüssel
 
-Vir inligting oor hoe hierdie sleutels werk, kyk die bladsy [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
+Für Informationen darüber, wie diese Schlüssel funktionieren, siehe die Seite [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
-### Aanvalle
+### Angriffe
 
-iButtons kan aangeval word met Flipper Zero:
+iButtons können mit Flipper Zero angegriffen werden:
 
 {% content-ref url="flipper-zero/fz-ibutton.md" %}
 [fz-ibutton.md](flipper-zero/fz-ibutton.md)
 {% endcontent-ref %}
 
-## Verwysings
+## Referenzen
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

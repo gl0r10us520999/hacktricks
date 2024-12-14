@@ -1,40 +1,55 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-**Die oorspronklike pos is** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**Der ursprüngliche Beitrag ist** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
-## Samevatting
+## Zusammenfassung
 
-Twee register sleutels is gevind wat skryfbaar is deur die huidige gebruiker:
+Zwei Registrierungsschlüssel wurden gefunden, die vom aktuellen Benutzer beschreibbar sind:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-Daar is voorgestel om die toestemmings van die **RpcEptMapper** diens te kontroleer met behulp van die **regedit GUI**, spesifiek die **Gevorderde Sekuriteitsinstellings** venster se **Effektiewe Toestemmings** oortjie. Hierdie benadering stel die evaluering van toegepaste toestemmings aan spesifieke gebruikers of groepe in staat sonder om elke Toegang Beheer Inskrywing (ACE) individueel te ondersoek.
+Es wurde empfohlen, die Berechtigungen des **RpcEptMapper**-Dienstes mit der **regedit GUI** zu überprüfen, insbesondere im **Erweiterten Sicherheitsoptionen**-Fenster auf der Registerkarte **Effektive Berechtigungen**. Dieser Ansatz ermöglicht die Bewertung der erteilten Berechtigungen für bestimmte Benutzer oder Gruppen, ohne jeden Access Control Entry (ACE) einzeln zu überprüfen.
 
-'n Skermskoot het die toestemmings wat aan 'n laag-geprivilegieerde gebruiker toegeken is, gewys, waaronder die **Skep Subsleutel** toestemming opvallend was. Hierdie toestemming, ook bekend as **AppendData/AddSubdirectory**, stem ooreen met die skrip se bevindings.
+Ein Screenshot zeigte die Berechtigungen, die einem Benutzer mit niedrigen Rechten zugewiesen waren, unter denen die Berechtigung **Subkey erstellen** auffiel. Diese Berechtigung, auch als **AppendData/AddSubdirectory** bezeichnet, entspricht den Ergebnissen des Skripts.
 
-Die onvermoë om sekere waardes direk te wysig, maar die vermoë om nuwe subsleutels te skep, is opgemerk. 'n Voorbeeld wat uitgelig is, was 'n poging om die **ImagePath** waarde te verander, wat 'n toegang geweier boodskap tot gevolg gehad het.
+Es wurde festgestellt, dass bestimmte Werte nicht direkt geändert werden konnten, jedoch die Möglichkeit bestand, neue Subkeys zu erstellen. Ein Beispiel war der Versuch, den Wert **ImagePath** zu ändern, was zu einer Zugriffsverweigerung führte.
 
-Ten spyte van hierdie beperkings, is 'n potensiaal vir privilige eskalasie geïdentifiseer deur die moontlikheid om die **Performance** subsleutel binne die **RpcEptMapper** diens se registerstruktuur te benut, 'n subsleutel wat nie standaard teenwoordig is nie. Dit kan DLL registrasie en prestasie monitering moontlik maak.
+Trotz dieser Einschränkungen wurde ein Potenzial für Privilegieneskalation identifiziert, indem die Möglichkeit genutzt wurde, den **Performance**-Subkey innerhalb der Registrierungsstruktur des **RpcEptMapper**-Dienstes zu verwenden, ein Subkey, der standardmäßig nicht vorhanden ist. Dies könnte die Registrierung von DLLs und die Leistungsüberwachung ermöglichen.
 
-Dokumentasie oor die **Performance** subsleutel en sy gebruik vir prestasie monitering is geraadpleeg, wat gelei het tot die ontwikkeling van 'n bewys-van-konsep DLL. Hierdie DLL, wat die implementering van **OpenPerfData**, **CollectPerfData**, en **ClosePerfData** funksies demonstreer, is getoets via **rundll32**, wat sy operasionele sukses bevestig het.
+Dokumentation zum **Performance**-Subkey und seiner Nutzung zur Leistungsüberwachung wurde konsultiert, was zur Entwicklung einer Proof-of-Concept-DLL führte. Diese DLL, die die Implementierung der Funktionen **OpenPerfData**, **CollectPerfData** und **ClosePerfData** demonstrierte, wurde über **rundll32** getestet, was ihren operationellen Erfolg bestätigte.
 
-Die doel was om die **RPC Endpoint Mapper diens** te dwing om die vervaardigde Performance DLL te laai. Waarnemings het getoon dat die uitvoering van WMI klas navrae rakende Prestasie Data via PowerShell gelei het tot die skepping van 'n loglêer, wat die uitvoering van arbitrêre kode onder die **LOCAL SYSTEM** konteks moontlik gemaak het, wat dus verhoogde privilige gegee het.
+Das Ziel war es, den **RPC Endpoint Mapper-Dienst** dazu zu bringen, die erstellte Performance-DLL zu laden. Beobachtungen zeigten, dass das Ausführen von WMI-Klassenabfragen im Zusammenhang mit Leistungsdaten über PowerShell zur Erstellung einer Protokolldatei führte, was die Ausführung beliebigen Codes im **LOCAL SYSTEM**-Kontext ermöglichte und somit erhöhte Privilegien gewährte.
 
-Die volharding en potensiële implikasies van hierdie kwesbaarheid is beklemtoon, wat die relevansie daarvan vir post-exploitatie strategieë, laterale beweging, en ontduiking van antivirus/EDR stelsels uitlig.
+Die Persistenz und potenziellen Auswirkungen dieser Schwachstelle wurden hervorgehoben, was ihre Relevanz für Post-Exploitation-Strategien, laterale Bewegung und die Umgehung von Antivirus-/EDR-Systemen unterstrich.
 
-Alhoewel die kwesbaarheid aanvanklik onbedoeld deur die skrip bekend gemaak is, is dit beklemtoon dat die uitbuiting daarvan beperk is tot verouderde Windows weergawes (bv. **Windows 7 / Server 2008 R2**) en plaaslike toegang vereis.
+Obwohl die Schwachstelle zunächst unbeabsichtigt durch das Skript offengelegt wurde, wurde betont, dass ihre Ausnutzung auf veraltete Windows-Versionen (z. B. **Windows 7 / Server 2008 R2**) beschränkt ist und lokalen Zugriff erfordert.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
