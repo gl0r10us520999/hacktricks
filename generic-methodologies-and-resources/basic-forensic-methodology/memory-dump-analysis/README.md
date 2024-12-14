@@ -21,7 +21,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Começar
+## Início
 
 Comece **procurando** por **malware** dentro do pcap. Use as **ferramentas** mencionadas em [**Análise de Malware**](../malware-analysis.md).
 

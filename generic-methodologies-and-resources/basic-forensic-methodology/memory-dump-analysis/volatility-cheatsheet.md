@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -62,7 +62,7 @@ Acesse a documentação oficial em [Referência de comandos do Volatility](https
 
 O Volatility tem duas abordagens principais para plugins, que às vezes são refletidas em seus nomes. Plugins “list” tentarão navegar pelas estruturas do Kernel do Windows para recuperar informações como processos (localizar e percorrer a lista encadeada de estruturas `_EPROCESS` na memória), handles do SO (localizando e listando a tabela de handles, desreferenciando quaisquer ponteiros encontrados, etc). Eles se comportam mais ou menos como a API do Windows se solicitada a, por exemplo, listar processos.
 
-Isso torna os plugins “list” bastante rápidos, mas tão vulneráveis quanto a API do Windows à manipulação por malware. Por exemplo, se um malware usar DKOM para desvincular um processo da lista encadeada `_EPROCESS`, ele não aparecerá no Gerenciador de Tarefas e nem no pslist.
+Isso torna os plugins “list” bastante rápidos, mas tão vulneráveis quanto a API do Windows a manipulações por malware. Por exemplo, se um malware usar DKOM para desvincular um processo da lista encadeada `_EPROCESS`, ele não aparecerá no Gerenciador de Tarefas e nem no pslist.
 
 Os plugins “scan”, por outro lado, adotarão uma abordagem semelhante à escultura da memória para coisas que podem fazer sentido quando desreferenciadas como estruturas específicas. O `psscan`, por exemplo, lerá a memória e tentará criar objetos `_EPROCESS` a partir dela (usa a varredura de pool-tag, que busca por strings de 4 bytes que indicam a presença de uma estrutura de interesse). A vantagem é que pode encontrar processos que já saíram, e mesmo que o malware interfira na lista encadeada `_EPROCESS`, o plugin ainda encontrará a estrutura presente na memória (já que ainda precisa existir para o processo ser executado). A desvantagem é que os plugins “scan” são um pouco mais lentos que os plugins “list” e podem, às vezes, gerar falsos positivos (um processo que saiu há muito tempo e teve partes de sua estrutura sobrescritas por outras operações).
 
@@ -72,7 +72,7 @@ De: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/]
 
 ### Volatility3
 
-Como explicado no readme, você precisa colocar a **tabela de símbolos do SO** que deseja suportar dentro de _volatility3/volatility/symbols_.\
+Conforme explicado no readme, você precisa colocar a **tabela de símbolos do SO** que deseja suportar dentro de _volatility3/volatility/symbols_.\
 Pacotes de tabela de símbolos para os vários sistemas operacionais estão disponíveis para **download** em:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
@@ -114,7 +114,7 @@ volatility kdbgscan -f file.dmp
 
 [**Daqui**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Ao contrário do imageinfo, que simplesmente fornece sugestões de perfil, **kdbgscan** é projetado para identificar positivamente o perfil correto e o endereço KDBG correto (se houver múltiplos). Este plugin escaneia as assinaturas KDBGHeader vinculadas aos perfis do Volatility e aplica verificações de sanidade para reduzir falsos positivos. A verbosidade da saída e o número de verificações de sanidade que podem ser realizadas dependem de o Volatility conseguir encontrar um DTB, então, se você já conhece o perfil correto (ou se você tem uma sugestão de perfil do imageinfo), então certifique-se de usá-lo.
 
-Sempre dê uma olhada no **número de processos que o kdbgscan encontrou**. Às vezes, imageinfo e kdbgscan podem encontrar **mais de um** **perfil** adequado, mas apenas o **válido terá algum processo relacionado** (Isso ocorre porque para extrair processos o endereço KDBG correto é necessário).
+Sempre dê uma olhada no **número de processos que o kdbgscan encontrou**. Às vezes, imageinfo e kdbgscan podem encontrar **mais de um** **perfil** adequado, mas apenas o **válido terá algum processo relacionado** (Isso ocorre porque para extrair processos o endereço KDBG correto é necessário)
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -175,7 +175,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 
 ### Listar processos
 
-Tente encontrar processos **suspeitos** (pelo nome) ou **inesperados** processos filhos (por exemplo, um cmd.exe como filho de iexplorer.exe).\
+Tente encontrar processos **suspeitos** (por nome) ou **inesperados** processos filhos (por exemplo, um cmd.exe como filho de iexplorer.exe).\
 Pode ser interessante **comparar** o resultado do pslist com o do psscan para identificar processos ocultos.
 
 {% tabs %}
@@ -553,7 +553,7 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-O **sistema de arquivos NTFS** usa um componente crítico conhecido como _tabela de arquivos mestre_ (MFT). Esta tabela inclui pelo menos uma entrada para cada arquivo em um volume, cobrindo a própria MFT também. Detalhes vitais sobre cada arquivo, como **tamanho, carimbos de data/hora, permissões e dados reais**, estão encapsulados dentro das entradas da MFT ou em áreas externas à MFT, mas referenciadas por essas entradas. Mais detalhes podem ser encontrados na [documentação oficial](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+O **sistema de arquivos NTFS** usa um componente crítico conhecido como _tabela mestre de arquivos_ (MFT). Esta tabela inclui pelo menos uma entrada para cada arquivo em um volume, cobrindo a própria MFT também. Detalhes vitais sobre cada arquivo, como **tamanho, carimbos de data/hora, permissões e dados reais**, estão encapsulados dentro das entradas da MFT ou em áreas externas à MFT, mas referenciadas por essas entradas. Mais detalhes podem ser encontrados na [documentação oficial](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
 ### Chaves/Certificados SSL
 
@@ -773,7 +773,7 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-O **Master Boot Record (MBR)** desempenha um papel crucial na gestão das partições lógicas de um meio de armazenamento, que são estruturadas com diferentes [sistemas de arquivos](https://en.wikipedia.org/wiki/File\_system). Ele não apenas contém informações sobre o layout das partições, mas também possui código executável que atua como um carregador de inicialização. Este carregador de inicialização inicia diretamente o processo de carregamento de segunda fase do SO (veja [carregador de inicialização de segunda fase](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) ou trabalha em harmonia com o [registro de inicialização do volume](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) de cada partição. Para um conhecimento mais aprofundado, consulte a [página do MBR na Wikipedia](https://en.wikipedia.org/wiki/Master\_boot\_record).
+O **Master Boot Record (MBR)** desempenha um papel crucial na gestão das partições lógicas de um meio de armazenamento, que são estruturadas com diferentes [file systems](https://en.wikipedia.org/wiki/File\_system). Ele não apenas contém informações sobre o layout das partições, mas também inclui código executável que atua como um carregador de inicialização. Este carregador de inicialização inicia diretamente o processo de carregamento de segunda fase do SO (veja [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) ou trabalha em harmonia com o [volume boot record](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) de cada partição. Para um conhecimento mais aprofundado, consulte a [página da Wikipedia sobre MBR](https://en.wikipedia.org/wiki/Master\_boot\_record).
 
 ## Referências
 

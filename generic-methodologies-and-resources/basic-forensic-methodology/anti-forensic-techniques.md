@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -67,13 +67,13 @@ Esta ferramenta pode modificar ambos os atributos `$STARNDAR_INFORMATION` e `$FI
 
 ## Ocultação de Dados
 
-O NFTS usa um cluster e o tamanho mínimo de informação. Isso significa que se um arquivo ocupa e usa um cluster e meio, a **metade restante nunca será utilizada** até que o arquivo seja excluído. Portanto, é possível **ocultar dados neste espaço livre**.
+O NTFS usa um cluster e o tamanho mínimo de informação. Isso significa que se um arquivo ocupa e usa um cluster e meio, a **metade restante nunca será utilizada** até que o arquivo seja excluído. Portanto, é possível **ocultar dados neste espaço de sobra**.
 
 Existem ferramentas como slacker que permitem ocultar dados neste espaço "oculto". No entanto, uma análise do `$logfile` e `$usnjrnl` pode mostrar que alguns dados foram adicionados:
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-Portanto, é possível recuperar o espaço livre usando ferramentas como FTK Imager. Observe que esse tipo de ferramenta pode salvar o conteúdo ofuscado ou até mesmo criptografado.
+Portanto, é possível recuperar o espaço de sobra usando ferramentas como FTK Imager. Observe que esse tipo de ferramenta pode salvar o conteúdo ofuscado ou até mesmo criptografado.
 
 ## UsbKill
 
@@ -90,7 +90,7 @@ Essas distros são **executadas dentro da memória RAM**. A única maneira de de
 
 ## Configuração do Windows
 
-É possível desativar vários métodos de registro do Windows para dificultar muito a investigação forense.
+É possível desativar vários métodos de registro do Windows para dificultar a investigação forense.
 
 ### Desativar Carimbos de Data/Hora - UserAssist
 
@@ -98,7 +98,7 @@ Esta é uma chave de registro que mantém datas e horas quando cada executável 
 
 Desativar o UserAssist requer duas etapas:
 
-1. Defina duas chaves de registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` e `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, ambas para zero a fim de sinalizar que queremos desativar o UserAssist.
+1. Defina duas chaves de registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` e `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, ambas para zero, a fim de sinalizar que queremos desativar o UserAssist.
 2. Limpe suas subárvores de registro que se parecem com `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
 ### Desativar Carimbos de Data/Hora - Prefetch
@@ -122,7 +122,7 @@ Sempre que uma pasta é aberta a partir de um volume NTFS em um servidor Windows
 
 ### Excluir Histórico USB
 
-Todas as **Entradas de Dispositivos USB** são armazenadas no Registro do Windows sob a chave de registro **USBSTOR** que contém subchaves que são criadas sempre que você conecta um dispositivo USB ao seu PC ou Laptop. Você pode encontrar esta chave aqui `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Excluindo isso**, você excluirá o histórico USB.\
+Todas as **Entradas de Dispositivos USB** são armazenadas no Registro do Windows sob a chave de registro **USBSTOR**, que contém subchaves que são criadas sempre que você conecta um dispositivo USB ao seu PC ou Laptop. Você pode encontrar esta chave aqui `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Excluindo isso**, você excluirá o histórico USB.\
 Você também pode usar a ferramenta [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) para ter certeza de que as excluiu (e para excluí-las).
 
 Outro arquivo que salva informações sobre os USBs é o arquivo `setupapi.dev.log` dentro de `C:\Windows\INF`. Este também deve ser excluído.
@@ -144,7 +144,7 @@ Também é possível modificar a configuração de quais arquivos serão copiado
 
 ### Sobrescrever arquivos excluídos
 
-* Você pode usar uma **ferramenta do Windows**: `cipher /w:C` Isso indicará ao cipher para remover qualquer dado do espaço em disco não utilizado disponível dentro da unidade C.
+* Você pode usar uma **ferramenta do Windows**: `cipher /w:C` Isso indicará ao cipher para remover qualquer dado do espaço de disco não utilizado disponível dentro da unidade C.
 * Você também pode usar ferramentas como [**Eraser**](https://eraser.heidi.ie)
 
 ### Excluir logs de eventos do Windows
@@ -173,7 +173,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

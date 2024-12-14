@@ -25,7 +25,7 @@ Para desafios de áudio, **[Audacity](http://www.audacityteam.org/)** se destaca
 
 A manipulação de **Bits Menos Significativos (LSB)** é uma técnica comum em esteganografia de áudio e vídeo, explorando os blocos de tamanho fixo de arquivos de mídia para embutir dados discretamente. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)** é útil para decodificar mensagens ocultas como **tons DTMF** ou **código Morse**.
 
-Desafios de vídeo frequentemente envolvem formatos de contêiner que agrupam fluxos de áudio e vídeo. **[FFmpeg](http://ffmpeg.org/)** é a escolha ideal para analisar e manipular esses formatos, capaz de desmultiplexar e reproduzir conteúdo. Para desenvolvedores, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** integra as capacidades do FFmpeg no Python para interações avançadas e scriptáveis.
+Desafios de vídeo frequentemente envolvem formatos de contêiner que agrupam fluxos de áudio e vídeo. **[FFmpeg](http://ffmpeg.org/)** é a ferramenta preferida para analisar e manipular esses formatos, capaz de desmultiplexar e reproduzir conteúdo. Para desenvolvedores, **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** integra as capacidades do FFmpeg no Python para interações avançadas e scriptáveis.
 
 Essa variedade de ferramentas destaca a versatilidade necessária em desafios CTF, onde os participantes devem empregar um amplo espectro de técnicas de análise e manipulação para descobrir dados ocultos em arquivos de áudio e vídeo.
 

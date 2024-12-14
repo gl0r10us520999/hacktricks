@@ -17,8 +17,8 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Partições
 
-Um disco rígido ou um **SSD pode conter diferentes partições** com o objetivo de separar dados fisicamente.\
-A **unidade mínima** de um disco é o **setor** (normalmente composto por 512B). Assim, o tamanho de cada partição precisa ser múltiplo desse tamanho.
+Um disco rígido ou um **disco SSD pode conter diferentes partições** com o objetivo de separar dados fisicamente.\
+A **unidade mínima** de um disco é o **setor** (normalmente composto por 512B). Portanto, o tamanho de cada partição precisa ser múltiplo desse tamanho.
 
 ### MBR (master Boot Record)
 
@@ -129,7 +129,7 @@ O cabeçalho da tabela de partição define os blocos utilizáveis no disco. Ele
 | Formato de entrada de partição GUID |          |                                                                                                                   |
 | ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Offset                               | Comprimento | Conteúdo                                                                                                          |
-| 0 (0x00)                             | 16 bytes | [Tipo de partição GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
+| 0 (0x00)                             | 16 bytes | [GUID de tipo de partição](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
 | 16 (0x10)                            | 16 bytes | GUID de partição único (endian misto)                                                                              |
 | 32 (0x20)                            | 8 bytes  | Primeiro LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                            | 8 bytes  | Último LBA (inclusivo, geralmente ímpar)                                                                                 |
@@ -164,7 +164,7 @@ Se fosse uma **tabela GPT em vez de um MBR**, deveria aparecer a assinatura _EFI
 
 O sistema de arquivos **FAT (Tabela de Alocação de Arquivos)** é projetado em torno de seu componente central, a tabela de alocação de arquivos, posicionada no início do volume. Este sistema protege os dados mantendo **duas cópias** da tabela, garantindo a integridade dos dados mesmo se uma estiver corrompida. A tabela, juntamente com a pasta raiz, deve estar em uma **localização fixa**, crucial para o processo de inicialização do sistema.
 
-A unidade básica de armazenamento do sistema de arquivos é um **cluster, geralmente 512B**, composto por vários setores. O FAT evoluiu através de versões:
+A unidade básica de armazenamento do sistema de arquivos é um **cluster, geralmente 512B**, composto por múltiplos setores. O FAT evoluiu através de versões:
 
 * **FAT12**, suportando endereços de cluster de 12 bits e lidando com até 4078 clusters (4084 com UNIX).
 * **FAT16**, aprimorando para endereços de 16 bits, acomodando assim até 65.517 clusters.
@@ -202,7 +202,7 @@ Você pode usar ferramentas como [**exiftool**](https://exiftool.org) e [**Metad
 
 ### Arquivos Excluídos Registrados
 
-Como foi visto antes, há vários lugares onde o arquivo ainda está salvo após ter sido "excluído". Isso ocorre porque geralmente a exclusão de um arquivo de um sistema de arquivos apenas o marca como excluído, mas os dados não são tocados. Assim, é possível inspecionar os registros dos arquivos (como o MFT) e encontrar os arquivos excluídos.
+Como foi visto anteriormente, existem vários lugares onde o arquivo ainda está salvo após ter sido "excluído". Isso ocorre porque geralmente a exclusão de um arquivo de um sistema de arquivos apenas o marca como excluído, mas os dados não são tocados. Assim, é possível inspecionar os registros dos arquivos (como o MFT) e encontrar os arquivos excluídos.
 
 Além disso, o sistema operacional geralmente salva muitas informações sobre alterações no sistema de arquivos e backups, então é possível tentar usá-las para recuperar o arquivo ou o máximo de informações possível.
 

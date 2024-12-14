@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -44,15 +44,15 @@ Em certificados x509, vários **campos** desempenham papéis críticos na garant
 * **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
 * O **Período de Validade** é marcado por timestamps **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma certa data.
 * A seção **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
-* As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso de Chave**, **Uso de Chave Estendida**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
+* As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso de Chave**, **Uso de Chave Estendido**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
 
 #### **Uso de Chave e Extensões**
 
 * **Uso de Chave** identifica aplicações criptográficas da chave pública, como assinatura digital ou criptografia de chave.
-* **Uso de Chave Estendida** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
+* **Uso de Chave Estendido** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
 * **Nome Alternativo do Sujeito** e **Restrição Básica** definem nomes de host adicionais cobertos pelo certificado e se é um certificado CA ou de entidade final, respectivamente.
 * Identificadores como **Identificador de Chave do Sujeito** e **Identificador de Chave da Autoridade** garantem unicidade e rastreabilidade das chaves.
-* **Acesso à Informação da Autoridade** e **Pontos de Distribuição de CRL** fornecem caminhos para verificar a CA emissora e verificar o status de revogação do certificado.
+* **Acesso à Informação da Autoridade** e **Pontos de Distribuição de CRL** fornecem caminhos para verificar a CA emissora e checar o status de revogação do certificado.
 * **SCTs de Pré-certificado CT** oferecem logs de transparência, cruciais para a confiança pública no certificado.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
@@ -93,7 +93,7 @@ Registros de certificado são registros auditáveis publicamente, apenas para ad
 
 #### **Consulta**
 
-Para explorar os registros de Transparência de Certificado para qualquer domínio, visite [https://crt.sh/](https://crt.sh).
+Para explorar registros de Transparência de Certificado para qualquer domínio, visite [https://crt.sh/](https://crt.sh).
 
 Existem diferentes formatos para armazenar certificados, cada um com seus próprios casos de uso e compatibilidade. Este resumo cobre os principais formatos e fornece orientações sobre como converter entre eles.
 
@@ -104,7 +104,7 @@ Existem diferentes formatos para armazenar certificados, cada um com seus própr
 * Formato mais amplamente utilizado para certificados.
 * Requer arquivos separados para certificados e chaves privadas, codificados em Base64 ASCII.
 * Extensões comuns: .cer, .crt, .pem, .key.
-* Principalmente usado por servidores Apache e similares.
+* Principalmente usado por Apache e servidores similares.
 
 ### **Formato DER**
 

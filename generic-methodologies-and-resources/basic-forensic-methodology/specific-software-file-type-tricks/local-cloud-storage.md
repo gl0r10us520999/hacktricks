@@ -36,7 +36,7 @@ No Windows, você pode encontrar a pasta do OneDrive em `\Users\<username>\AppDa
 * Hora de geração do relatório
 * Tamanho do HD do sistema operacional
 
-Uma vez que você tenha encontrado o CID, é recomendado **procurar arquivos contendo esse ID**. Você pode encontrar arquivos com o nome: _**\<CID>.ini**_ e _**\<CID>.dat**_ que podem conter informações interessantes, como os nomes dos arquivos sincronizados com o OneDrive.
+Uma vez que você tenha encontrado o CID, é recomendado **procurar arquivos contendo esse ID**. Você pode ser capaz de encontrar arquivos com o nome: _**\<CID>.ini**_ e _**\<CID>.dat**_ que podem conter informações interessantes como os nomes dos arquivos sincronizados com o OneDrive.
 
 ## Google Drive
 
@@ -74,7 +74,7 @@ No entanto, as principais informações são:
 * **Algoritmo**: PBKDF2
 * **Iterações**: 1066
 
-Além dessas informações, para descriptografar os bancos de dados, você ainda precisa:
+Além dessas informações, para descriptografar os bancos de dados você ainda precisa:
 
 * A **chave DPAPI criptografada**: Você pode encontrá-la no registro dentro de `NTUSER.DAT\Software\Dropbox\ks\client` (exporte esses dados como binário)
 * Os **hives** **`SYSTEM`** e **`SECURITY`**
@@ -118,7 +118,7 @@ Outras tabelas dentro deste banco de dados contêm informações mais interessan
 
 \
 Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas** da comunidade **mais avançadas** do mundo.\
-Obtenha Acesso Hoje:
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 

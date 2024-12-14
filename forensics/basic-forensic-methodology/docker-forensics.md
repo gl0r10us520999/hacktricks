@@ -43,7 +43,7 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-No comando anterior, **C** significa **Alterado** e **A** significa **Adicionado**.\
+No comando anterior, **C** significa **Changed** e **A** significa **Added**.\
 Se você descobrir que algum arquivo interessante, como `/etc/shadow`, foi modificado, você pode baixá-lo do contêiner para verificar atividades maliciosas com:
 ```bash
 docker cp wordpress:/etc/shadow.
@@ -58,7 +58,7 @@ Se você descobrir que **um arquivo suspeito foi adicionado**, você pode acessa
 ```bash
 docker exec -it wordpress bash
 ```
-## Modificações de imagens
+## Imagens modificadas
 
 Quando você recebe uma imagem docker exportada (provavelmente no formato `.tar`), você pode usar [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) para **extrair um resumo das modificações**:
 ```bash
@@ -67,7 +67,7 @@ container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-Então, você pode **descomprimir** a imagem e **acessar os blobs** para procurar arquivos suspeitos que você pode ter encontrado no histórico de alterações:
+Então, você pode **descompactar** a imagem e **acessar os blobs** para procurar arquivos suspeitos que você pode ter encontrado no histórico de alterações:
 ```bash
 tar -xf image.tar
 ```
@@ -127,7 +127,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

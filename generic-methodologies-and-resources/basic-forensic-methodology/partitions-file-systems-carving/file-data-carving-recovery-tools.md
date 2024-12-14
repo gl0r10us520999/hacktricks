@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Ferramentas de Carving & Recuperação
+## Carving & Recovery tools
 
 Mais ferramentas em [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
@@ -80,7 +80,7 @@ Verifique o [código](https://code.google.com/archive/p/binvis/) e a [página da
 * Obtendo **padrões** para criptoanálise em arquivos
 * **Identificando** algoritmos de empacotamento ou codificação
 * **Identificar** Esteganografia por padrões
-* **Diferença** binária visual
+* **Diferença** visual binária
 
 BinVis é um ótimo **ponto de partida para se familiarizar com um alvo desconhecido** em um cenário de caixa-preta.
 
@@ -88,7 +88,7 @@ BinVis é um ótimo **ponto de partida para se familiarizar com um alvo desconhe
 
 ### FindAES
 
-Procura por chaves AES pesquisando por seus cronogramas de chaves. Capaz de encontrar chaves de 128, 192 e 256 bits, como as usadas pelo TrueCrypt e BitLocker.
+Procura por chaves AES buscando por seus cronogramas de chaves. Capaz de encontrar chaves de 128, 192 e 256 bits, como as usadas pelo TrueCrypt e BitLocker.
 
 Baixe [aqui](https://sourceforge.net/projects/findaes/).
 

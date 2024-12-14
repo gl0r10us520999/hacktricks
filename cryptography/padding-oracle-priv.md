@@ -4,7 +4,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -32,8 +32,8 @@ Note como é necessário usar uma **chave de criptografia** e um **IV**.
 
 # Preenchimento de Mensagem
 
-Como a criptografia é realizada em **blocos** de **tamanho** **fixo**, o **preenchimento** geralmente é necessário no **último** **bloco** para completar seu comprimento.\
-Geralmente, o **PKCS7** é usado, que gera um preenchimento **repetindo** o **número** de **bytes** **necessários** para **completar** o bloco. Por exemplo, se o último bloco estiver faltando 3 bytes, o preenchimento será `\x03\x03\x03`.
+Como a criptografia é realizada em **blocos** de **tamanho fixo**, o **preenchimento** geralmente é necessário no **último** **bloco** para completar seu comprimento.\
+Normalmente, o **PKCS7** é usado, que gera um preenchimento **repetindo** o **número** de **bytes** **necessários** para **completar** o bloco. Por exemplo, se o último bloco estiver faltando 3 bytes, o preenchimento será `\x03\x03\x03`.
 
 Vamos ver mais exemplos com **2 blocos de comprimento 8bytes**:
 
@@ -74,7 +74,7 @@ perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon
 ```
 ## A teoria
 
-Em **resumo**, você pode começar a descriptografar os dados criptografados adivinhando os valores corretos que podem ser usados para criar todos os **diferentes preenchimentos**. Então, o ataque de padding oracle começará a descriptografar bytes do final para o início, adivinhando qual será o valor correto que **cria um preenchimento de 1, 2, 3, etc**.
+Em **resumo**, você pode começar a descriptografar os dados criptografados adivinhando os valores corretos que podem ser usados para criar todos os **diferentes paddings**. Então, o ataque de padding oracle começará a descriptografar bytes do final para o início, adivinhando qual será o valor correto que **cria um padding de 1, 2, 3, etc**.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
@@ -88,13 +88,13 @@ Finalmente, cada byte intermediário é **XORed** com os bytes criptografados an
 * `C12 = I12 ^ E4`
 * ...
 
-Agora, é possível **modificar `E7` até que `C15` seja `0x01`**, o que também será um preenchimento correto. Então, neste caso: `\x01 = I15 ^ E'7`
+Agora, é possível **modificar `E7` até que `C15` seja `0x01`**, o que também será um padding correto. Então, neste caso: `\x01 = I15 ^ E'7`
 
 Assim, encontrando E'7, é **possível calcular I15**: `I15 = 0x01 ^ E'7`
 
 O que nos permite **calcular C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Sabendo **C15**, agora é possível **calcular C14**, mas desta vez forçando o preenchimento `\x02\x02`.
+Sabendo **C15**, agora é possível **calcular C14**, mas desta vez forçando o padding `\x02\x02`.
 
 Esse BF é tão complexo quanto o anterior, pois é possível calcular o `E''15` cujo valor é 0x02: `E''7 = \x02 ^ I15`, então só é necessário encontrar o **`E'14`** que gera um **`C14` igual a `0x02`**.\
 Então, faça os mesmos passos para descriptografar C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
@@ -107,7 +107,7 @@ Registre uma conta e faça login com essa conta.\
 Se você **fizer login muitas vezes** e sempre receber o **mesmo cookie**, provavelmente há **algo** **errado** na aplicação. O **cookie enviado de volta deve ser único** cada vez que você faz login. Se o cookie for **sempre** o **mesmo**, provavelmente sempre será válido e não **haverá como invalidá-lo**.
 
 Agora, se você tentar **modificar** o **cookie**, pode ver que recebe um **erro** da aplicação.\
-Mas se você BF o preenchimento (usando padbuster, por exemplo), consegue obter outro cookie válido para um usuário diferente. Esse cenário é altamente provável de ser vulnerável ao padbuster.
+Mas se você BF o padding (usando padbuster, por exemplo), consegue obter outro cookie válido para um usuário diferente. Esse cenário é altamente provável de ser vulnerável ao padbuster.
 
 ## Referências
 

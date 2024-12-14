@@ -13,15 +13,15 @@ Bem-vindo ao guia abrangente da HackTricks sobre Modelagem de Ameaças! Embarque
 
 Um Modelo de Ameaça é tipicamente representado como um diagrama, imagem ou alguma outra forma de ilustração visual que retrata a arquitetura planejada ou a construção existente de uma aplicação. Ele se assemelha a um **diagrama de fluxo de dados**, mas a principal distinção reside em seu design orientado à segurança.
 
-Modelos de ameaças frequentemente apresentam elementos marcados em vermelho, simbolizando vulnerabilidades, riscos ou barreiras potenciais. Para simplificar o processo de identificação de riscos, emprega-se a tríade CIA (Confidencialidade, Integridade, Disponibilidade), que forma a base de muitas metodologias de modelagem de ameaças, sendo o STRIDE uma das mais comuns. No entanto, a metodologia escolhida pode variar dependendo do contexto e requisitos específicos.
+Modelos de ameaças frequentemente apresentam elementos marcados em vermelho, simbolizando vulnerabilidades, riscos ou barreiras potenciais. Para simplificar o processo de identificação de riscos, o triângulo CIA (Confidencialidade, Integridade, Disponibilidade) é empregado, formando a base de muitas metodologias de modelagem de ameaças, sendo o STRIDE uma das mais comuns. No entanto, a metodologia escolhida pode variar dependendo do contexto e requisitos específicos.
 
-### A Tríade CIA
+### O Triângulo CIA
 
-A Tríade CIA é um modelo amplamente reconhecido no campo da segurança da informação, representando Confidencialidade, Integridade e Disponibilidade. Esses três pilares formam a base sobre a qual muitas medidas e políticas de segurança são construídas, incluindo metodologias de modelagem de ameaças.
+O Triângulo CIA é um modelo amplamente reconhecido no campo da segurança da informação, representando Confidencialidade, Integridade e Disponibilidade. Esses três pilares formam a base sobre a qual muitas medidas e políticas de segurança são construídas, incluindo metodologias de modelagem de ameaças.
 
 1. **Confidencialidade**: Garantir que os dados ou sistemas não sejam acessados por indivíduos não autorizados. Este é um aspecto central da segurança, exigindo controles de acesso apropriados, criptografia e outras medidas para prevenir vazamentos de dados.
 2. **Integridade**: A precisão, consistência e confiabilidade dos dados ao longo de seu ciclo de vida. Este princípio garante que os dados não sejam alterados ou manipulados por partes não autorizadas. Frequentemente envolve somas de verificação, hashing e outros métodos de verificação de dados.
-3. **Disponibilidade**: Isso garante que dados e serviços estejam acessíveis a usuários autorizados quando necessário. Isso frequentemente envolve redundância, tolerância a falhas e configurações de alta disponibilidade para manter os sistemas em funcionamento mesmo diante de interrupções.
+3. **Disponibilidade**: Isso garante que dados e serviços estejam acessíveis a usuários autorizados quando necessário. Isso frequentemente envolve redundância, tolerância a falhas e configurações de alta disponibilidade para manter os sistemas funcionando mesmo diante de interrupções.
 
 ### Metodologias de Modelagem de Ameaças
 
@@ -34,7 +34,7 @@ A Tríade CIA é um modelo amplamente reconhecido no campo da segurança da info
 
 ## Ferramentas
 
-Existem várias ferramentas e soluções de software disponíveis que podem **ajudar** na criação e gestão de modelos de ameaças. Aqui estão algumas que você pode considerar.
+Existem várias ferramentas e soluções de software disponíveis que podem **ajudar** na criação e gerenciamento de modelos de ameaças. Aqui estão algumas que você pode considerar.
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
@@ -52,7 +52,7 @@ Uma avançada GUI de múltiplas funcionalidades e plataforma cruzada para profis
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-Um projeto de código aberto da OWASP, Threat Dragon é tanto uma aplicação web quanto de desktop que inclui diagramação de sistemas, bem como um mecanismo de regras para gerar automaticamente ameaças/mitigações.
+Um projeto de código aberto da OWASP, Threat Dragon é tanto uma aplicação web quanto de desktop que inclui diagramação de sistemas, bem como um motor de regras para auto-gerar ameaças/mitigações.
 
 **Uso**
 
@@ -78,7 +78,7 @@ Você pode usar ferramentas como SpiderSuite Crawler para se inspirar, um modelo
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
-Apenas uma pequena explicação sobre as entidades:
+Apenas um pouco de explicação sobre as entidades:
 
 * Processo (A entidade em si, como Servidor Web ou funcionalidade web)
 * Ator (Uma Pessoa, como um Visitante do Site, Usuário ou Administrador)
@@ -102,7 +102,7 @@ Lembre-se de que há uma diferença entre Ameaças de Ator e Ameaças de Process
 
 6. Pronto
 
-Agora seu modelo finalizado deve parecer algo assim. E é assim que você faz um modelo de ameaça simples com o OWASP Threat Dragon.
+Agora seu modelo finalizado deve parecer algo assim. E é assim que você faz um modelo de ameaça simples com OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 

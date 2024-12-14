@@ -31,7 +31,7 @@ Leia o _ **/etc/exports** _ arquivo, se você encontrar algum diretório que est
 
 Se você encontrou essa vulnerabilidade, você pode explorá-la:
 
-* **Montando aquele diretório** em uma máquina cliente, e **como root copiando** dentro da pasta montada o binário **/bin/bash** e dando a ele direitos **SUID**, e **executando a partir da máquina da vítima** aquele binário bash.
+* **Montando aquele diretório** em uma máquina cliente, e **como root copiando** dentro da pasta montada o binário **/bin/bash** e dando a ele direitos **SUID**, e **executando a partir da máquina vítima** aquele binário bash.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -61,8 +61,8 @@ cd <SHAREDD_FOLDER>
 ## Exploit Local
 
 {% hint style="info" %}
-Note que se você puder criar um **túnel da sua máquina para a máquina da vítima, você ainda pode usar a versão Remota para explorar essa escalada de privilégio tunelando as portas necessárias**.\
-O seguinte truque é caso o arquivo `/etc/exports` **indique um IP**. Nesse caso, você **não poderá usar** em nenhum caso o **exploit remoto** e precisará **abusar desse truque**.\
+Note que se você puder criar um **túnel da sua máquina para a máquina da vítima, ainda poderá usar a versão Remota para explorar essa escalada de privilégios tunelando as portas necessárias**.\
+O seguinte truque é caso o arquivo `/etc/exports` **indique um IP**. Nesse caso, você **não poderá usar** de forma alguma o **exploit remoto** e precisará **abusar desse truque**.\
 Outro requisito necessário para que o exploit funcione é que **a exportação dentro de `/etc/export`** **deve estar usando a flag `insecure`**.\
 \--_Não tenho certeza se, caso `/etc/export` esteja indicando um endereço IP, esse truque funcionará_--
 {% endhint %}
@@ -136,11 +136,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

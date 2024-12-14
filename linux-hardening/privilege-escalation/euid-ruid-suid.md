@@ -25,7 +25,7 @@ Aprofunde sua experiência em **Segurança Móvel** com a 8kSec Academy. Domine 
 ### Variáveis de Identificação do Usuário
 
 - **`ruid`**: O **ID do usuário real** denota o usuário que iniciou o processo.
-- **`euid`**: Conhecido como o **ID do usuário efetivo**, representa a identidade do usuário utilizada pelo sistema para determinar privilégios de processo. Geralmente, `euid` reflete `ruid`, exceto em casos como a execução de um binário SetUID, onde `euid` assume a identidade do proprietário do arquivo, concedendo assim permissões operacionais específicas.
+- **`euid`**: Conhecido como o **ID do usuário efetivo**, representa a identidade do usuário utilizada pelo sistema para determinar os privilégios do processo. Geralmente, `euid` reflete `ruid`, exceto em casos como a execução de um binário SetUID, onde `euid` assume a identidade do proprietário do arquivo, concedendo assim permissões operacionais específicas.
 - **`suid`**: Este **ID do usuário salvo** é fundamental quando um processo de alto privilégio (normalmente executando como root) precisa temporariamente renunciar a seus privilégios para realizar certas tarefas, apenas para depois recuperar seu status elevado inicial.
 
 #### Nota Importante
@@ -59,7 +59,7 @@ Notavelmente, enquanto `setuid` pode ser uma escolha comum para elevação de pr
 
 #### **Comportamento de `bash` e `sh` com SUID**
 - **`bash`**:
-- Possui uma opção `-p` que influencia como `euid` e `ruid` são tratados.
+- Tem uma opção `-p` que influencia como `euid` e `ruid` são tratados.
 - Sem `-p`, `bash` define `euid` para `ruid` se eles inicialmente diferirem.
 - Com `-p`, o `euid` inicial é preservado.
 - Mais detalhes podem ser encontrados na [página do manual `bash`](https://linux.die.net/man/1/bash).
@@ -219,7 +219,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

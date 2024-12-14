@@ -135,8 +135,8 @@ systemctl daemon-reload
 [Dos docs:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Uma regra/sigla consiste no seguinte:
 
 * A **ação**, determina o que acontece quando a sigla corresponde.
-* O **cabeçalho**, define o protocolo, endereços IP, portas e a direção da regra.
-* As **opções da regra**, definem os detalhes específicos da regra.
+* O **cabeçalho**, define o protocolo, endereços IP, portas e direção da regra.
+* As **opções da regra**, definem os detalhes da regra.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
@@ -164,11 +164,11 @@ Suporta intervalos de IP, negações e uma lista de endereços:
 
 | Exemplo                        | Significado                                  |
 | ------------------------------ | -------------------------------------------- |
-| ! 1.1.1.1                      | Todo endereço IP, exceto 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]           | Todo endereço IP, exceto 1.1.1.1 e 1.1.1.2 |
-| $HOME\_NET                     | Sua configuração de HOME\_NET em yaml        |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET e não HOME\_NET                |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 exceto 10.0.0.5                  |
+| ! 1.1.1.1                      | Todo endereço IP, exceto 1.1.1.1            |
+| !\[1.1.1.1, 1.1.1.2]           | Todo endereço IP, exceto 1.1.1.1 e 1.1.1.2  |
+| $HOME\_NET                     | Sua configuração de HOME\_NET em yaml       |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET e não HOME\_NET               |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24, exceto 10.0.0.5                |
 
 #### Portas de Origem e Destino
 
@@ -177,10 +177,10 @@ Suporta intervalos de portas, negações e listas de portas
 | Exemplo         | Significado                                |
 | --------------- | ------------------------------------------ |
 | any             | qualquer endereço                          |
-| \[80, 81, 82]   | porta 80, 81 e 82                          |
-| \[80: 82]       | Intervalo de 80 até 82                     |
+| \[80, 81, 82]   | porta 80, 81 e 82                         |
+| \[80: 82]       | Intervalo de 80 até 82                    |
 | \[1024: ]       | De 1024 até o maior número de porta       |
-| !80             | Toda porta, exceto 80                      |
+| !80             | Toda porta, exceto 80                     |
 | \[80:100,!99]   | Intervalo de 80 até 100, mas 99 excluído  |
 | \[1:80,!\[2,4]] | Intervalo de 1-80, exceto portas 2 e 4    |
 

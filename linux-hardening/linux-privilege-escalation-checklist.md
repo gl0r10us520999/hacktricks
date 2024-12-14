@@ -63,7 +63,7 @@ Fique informado sobre as novas recompensas de bugs lançadas e atualizações cr
 * [ ] **Monitore processos** e verifique se algum processo interessante está sendo executado com frequência.
 * [ ] Você pode **ler** alguma **memória de processo** interessante (onde senhas poderiam estar salvas)?
 
-### [Tarefas/Cron agendadas?](privilege-escalation/#scheduled-jobs)
+### [Tarefas Agendadas/Cron?](privilege-escalation/#scheduled-jobs)
 
 * [ ] O [**PATH**](privilege-escalation/#cron-path) está sendo modificado por algum cron e você pode **escrever** nele?
 * [ ] Algum [**caractere curinga**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) em uma tarefa cron?
@@ -111,11 +111,11 @@ Fique informado sobre as novas recompensas de bugs lançadas e atualizações cr
 
 ### [Comandos SUDO e SUID](privilege-escalation/#sudo-and-suid)
 
-* [ ] Você pode executar **qualquer comando com sudo**? Você pode usá-lo para LER, ESCREVER ou EXECUTAR qualquer coisa como root? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Você pode executar **qualquer comando com sudo**? Você pode usá-lo para LER, ESCREVER ou EXECUTAR algo como root? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Algum **binário SUID explorável**? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Os [**comandos sudo** são **limitados** por **caminho**? você pode **contornar** as restrições](privilege-escalation/#sudo-execution-bypassing-paths)?
-* [ ] [**Binário Sudo/SUID sem caminho indicado**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
-* [ ] [**Binário SUID especificando caminho**](privilege-escalation/#suid-binary-with-command-path)? Contornar
+* [ ] Os [**comandos sudo** são **limitados** por **path**? você pode **contornar** as restrições](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [ ] [**Binário Sudo/SUID sem path indicado**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [ ] [**Binário SUID especificando path**](privilege-escalation/#suid-binary-with-command-path)? Contornar
 * [ ] [**Vuln LD\_PRELOAD**](privilege-escalation/#ld_preload)
 * [ ] [**Falta de biblioteca .so em binário SUID**](privilege-escalation/#suid-binary-so-injection) de uma pasta gravável?
 * [ ] [**Tokens SUDO disponíveis**](privilege-escalation/#reusing-sudo-tokens)? [**Você pode criar um token SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
@@ -147,7 +147,7 @@ Fique informado sobre as novas recompensas de bugs lançadas e atualizações cr
 * [ ] **Arquivos passwd/shadow** - Ler dados sensíveis? Escrever para privesc?
 * [ ] **Verifique pastas comumente interessantes** em busca de dados sensíveis
 * [ ] **Localização/Arquivos de propriedade estranha,** você pode ter acesso ou alterar arquivos executáveis
-* [ ] **Modificado** nos últimos minutos
+* [ ] **Modificados** nos últimos minutos
 * [ ] **Arquivos de DB Sqlite**
 * [ ] **Arquivos ocultos**
 * [ ] **Scripts/Binários no PATH**

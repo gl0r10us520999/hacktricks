@@ -6,11 +6,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Acesse hoje:
 
 Um **certificado de chave pública** é uma ID digital usada em criptografia para provar que alguém possui uma chave pública. Ele inclui os detalhes da chave, a identidade do proprietário (o sujeito) e uma assinatura digital de uma autoridade confiável (o emissor). Se o software confia no emissor e a assinatura é válida, a comunicação segura com o proprietário da chave é possível.
 
-Os certificados são emitidos principalmente por [autoridades certificadoras](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas conforme descrito na RFC 5280.
+Os certificados são emitidos principalmente por [autoridades certificadoras](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [web de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas conforme descrito na RFC 5280.
 
 ## Campos Comuns x509
 
@@ -35,13 +35,13 @@ Os certificados são emitidos principalmente por [autoridades certificadoras](ht
 
 Em certificados x509, vários **campos** desempenham papéis críticos na garantia da validade e segurança do certificado. Aqui está uma análise desses campos:
 
-* **Número da Versão** indica a versão do formato x509.
+* **Número da Versão** significa a versão do formato x509.
 * **Número de Série** identifica exclusivamente o certificado dentro do sistema de uma Autoridade Certificadora (CA), principalmente para rastreamento de revogação.
 * O campo **Sujeito** representa o proprietário do certificado, que pode ser uma máquina, um indivíduo ou uma organização. Inclui identificação detalhada, como:
 * **Nome Comum (CN)**: Domínios cobertos pelo certificado.
 * **País (C)**, **Localidade (L)**, **Estado ou Província (ST, S ou P)**, **Organização (O)** e **Unidade Organizacional (OU)** fornecem detalhes geográficos e organizacionais.
 * **Nome Distinto (DN)** encapsula a identificação completa do sujeito.
-* **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
+* **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes aos do Sujeito para a CA.
 * O **Período de Validade** é marcado por timestamps **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma certa data.
 * A seção **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
 * As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso de Chave**, **Uso de Chave Estendida**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
@@ -51,7 +51,7 @@ Em certificados x509, vários **campos** desempenham papéis críticos na garant
 * **Uso de Chave** identifica aplicações criptográficas da chave pública, como assinatura digital ou criptografia de chave.
 * **Uso de Chave Estendida** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
 * **Nome Alternativo do Sujeito** e **Restrição Básica** definem nomes de host adicionais cobertos pelo certificado e se é um certificado CA ou de entidade final, respectivamente.
-* Identificadores como **Identificador de Chave do Sujeito** e **Identificador de Chave da Autoridade** garantem a singularidade e rastreabilidade das chaves.
+* Identificadores como **Identificador de Chave do Sujeito** e **Identificador de Chave da Autoridade** garantem unicidade e rastreabilidade das chaves.
 * **Acesso à Informação da Autoridade** e **Pontos de Distribuição de CRL** fornecem caminhos para verificar a CA emissora e verificar o status de revogação do certificado.
 * **SCTs de Pré-certificado CT** oferecem logs de transparência, cruciais para a confiança pública no certificado.
 ```python
@@ -212,7 +212,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

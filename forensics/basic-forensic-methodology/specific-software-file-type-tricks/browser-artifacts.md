@@ -1,16 +1,16 @@
-# Browser Artifacts
+# Artefatos do Navegador
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -18,12 +18,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas comunitárias mais avançadas** do mundo.\
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
+## Artefatos do Navegador <a href="#id-3def" id="id-3def"></a>
 
 Os artefatos do navegador incluem vários tipos de dados armazenados pelos navegadores da web, como histórico de navegação, favoritos e dados de cache. Esses artefatos são mantidos em pastas específicas dentro do sistema operacional, variando em localização e nome entre os navegadores, mas geralmente armazenando tipos de dados semelhantes.
 
@@ -124,11 +124,11 @@ O Internet Explorer 11 gerencia seus dados e metadados em vários locais, ajudan
 
 ### Armazenamento de Metadados
 
-Os metadados do Internet Explorer são armazenados em `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (com VX sendo V01, V16 ou V24). Acompanhando isso, o arquivo `V01.log` pode mostrar discrepâncias no tempo de modificação com `WebcacheVX.data`, indicando a necessidade de reparo usando `esentutl /r V01 /d`. Esses metadados, alojados em um banco de dados ESE, podem ser recuperados e inspecionados usando ferramentas como photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivamente. Dentro da tabela **Containers**, pode-se discernir as tabelas ou contêineres específicos onde cada segmento de dados é armazenado, incluindo detalhes de cache para outras ferramentas da Microsoft, como o Skype.
+Os metadados do Internet Explorer são armazenados em `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (com VX sendo V01, V16 ou V24). Acompanhando isso, o arquivo `V01.log` pode mostrar discrepâncias no tempo de modificação com `WebcacheVX.data`, indicando a necessidade de reparo usando `esentutl /r V01 /d`. Esses metadados, alojados em um banco de dados ESE, podem ser recuperados e inspecionados usando ferramentas como photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivamente. Dentro da tabela **Containers**, pode-se discernir as tabelas ou contêineres específicos onde cada segmento de dados é armazenado, incluindo detalhes de cache para outras ferramentas da Microsoft, como Skype.
 
 ### Inspeção de Cache
 
-A ferramenta [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permite a inspeção de cache, exigindo a localização da pasta de extração de dados de cache. Os metadados do cache incluem nome do arquivo, diretório, contagem de acessos, origem da URL e timestamps indicando os tempos de criação, acesso, modificação e expiração do cache.
+A ferramenta [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permite a inspeção de cache, exigindo o local da pasta de extração de dados de cache. Os metadados do cache incluem nome do arquivo, diretório, contagem de acessos, origem da URL e timestamps indicando os tempos de criação, acesso, modificação e expiração do cache.
 
 ### Gerenciamento de Cookies
 
@@ -140,7 +140,7 @@ Os metadados de downloads estão acessíveis via [ESEDatabaseView](https://www.n
 
 ### Histórico de Navegação
 
-Para revisar o histórico de navegação, pode-se usar [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), exigindo a localização dos arquivos de histórico extraídos e configuração para o Internet Explorer. Os metadados aqui incluem tempos de modificação e acesso, juntamente com contagens de acesso. Os arquivos de histórico estão localizados em `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Para revisar o histórico de navegação, pode-se usar [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), exigindo o local dos arquivos de histórico extraídos e configuração para o Internet Explorer. Os metadados aqui incluem tempos de modificação e acesso, juntamente com contagens de acesso. Os arquivos de histórico estão localizados em `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### URLs Digitadas
 

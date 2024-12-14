@@ -19,11 +19,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 1. Reconhecer a vítima
 1. Selecionar o **domínio da vítima**.
-2. Realizar uma enumeração web básica **procurando por portais de login** usados pela vítima e **decidir** qual você irá **imitar**.
+2. Realizar alguma enumeração web básica **procurando por portais de login** usados pela vítima e **decidir** qual você irá **imitar**.
 3. Usar algum **OSINT** para **encontrar e-mails**.
 2. Preparar o ambiente
 1. **Comprar o domínio** que você vai usar para a avaliação de phishing.
-2. **Configurar o serviço de e-mail** registros relacionados (SPF, DMARC, DKIM, rDNS).
+2. **Configurar o serviço de e-mail** relacionado (SPF, DMARC, DKIM, rDNS).
 3. Configurar o VPS com **gophish**.
 3. Preparar a campanha
 1. Preparar o **modelo de e-mail**.
@@ -60,7 +60,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ### Bitflipping
 
-Há uma **possibilidade de que um de alguns bits armazenados ou em comunicação possa ser automaticamente invertido** devido a vários fatores, como flares solares, raios cósmicos ou erros de hardware.
+Há uma **possibilidade de que um ou mais bits armazenados ou em comunicação possam ser automaticamente invertidos** devido a vários fatores, como flares solares, raios cósmicos ou erros de hardware.
 
 Quando esse conceito é **aplicado a solicitações DNS**, é possível que o **domínio recebido pelo servidor DNS** não seja o mesmo que o domínio inicialmente solicitado.
 
@@ -80,8 +80,8 @@ Para garantir que o domínio expirado que você vai comprar **já tenha um bom S
 
 ## Descobrindo E-mails
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% grátis)
-* [https://phonebook.cz/](https://phonebook.cz) (100% grátis)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% gratuito)
+* [https://phonebook.cz/](https://phonebook.cz) (100% gratuito)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
@@ -96,7 +96,7 @@ Além disso, não se esqueça de que se os usuários usarem **qualquer portal we
 Você pode baixá-lo em [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Baixe e descompacte-o dentro de `/opt/gophish` e execute `/opt/gophish/gophish`\
-Você receberá uma senha para o usuário admin na porta 3333 na saída. Portanto, acesse essa porta e use essas credenciais para alterar a senha do admin. Você pode precisar redirecionar essa porta para local:
+Você receberá uma senha para o usuário admin na porta 3333 na saída. Portanto, acesse essa porta e use essas credenciais para alterar a senha do admin. Você pode precisar fazer um túnel nessa porta para local:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
@@ -120,7 +120,7 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**Configuração de Mail**
+**Configuração de e-mail**
 
 Comece instalando: `apt-get install postfix`
 
@@ -139,7 +139,7 @@ Finalmente, modifique os arquivos **`/etc/hostname`** e **`/etc/mailname`** para
 
 Agora, crie um **registro DNS A** de `mail.<domínio>` apontando para o **endereço IP** do VPS e um **registro DNS MX** apontando para `mail.<domínio>`
 
-Agora vamos testar o envio de um email:
+Agora vamos testar o envio de um e-mail:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
@@ -232,9 +232,9 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Configurando servidor de email e domínio
+## Configurando servidor de e-mail e domínio
 
-### Espere e seja legítimo
+### Espere & seja legítimo
 
 Quanto mais antigo for um domínio, menos provável é que ele seja identificado como spam. Portanto, você deve esperar o máximo de tempo possível (pelo menos 1 semana) antes da avaliação de phishing. Além disso, se você colocar uma página sobre um setor reputacional, a reputação obtida será melhor.
 
@@ -318,10 +318,10 @@ A página [www.mail-tester.com](https://www.mail-tester.com) pode indicar se seu
 * Decida de qual conta você vai enviar os emails de phishing. Sugestões: _noreply, support, servicedesk, salesforce..._
 * Você pode deixar em branco o nome de usuário e a senha, mas certifique-se de marcar a opção Ignorar Erros de Certificado
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
-É recomendado usar a funcionalidade "**Enviar Email de Teste**" para testar se tudo está funcionando.\
+É recomendável usar a funcionalidade "**Enviar Email de Teste**" para testar se tudo está funcionando.\
 Eu recomendaria **enviar os emails de teste para endereços de 10min** a fim de evitar ser colocado na lista negra durante os testes.
 {% endhint %}
 
@@ -349,7 +349,7 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-Note que **para aumentar a credibilidade do e-mail**, é recomendado usar alguma assinatura de um e-mail do cliente. Sugestões:
+Note que **para aumentar a credibilidade do e-mail**, é recomendável usar alguma assinatura de um e-mail do cliente. Sugestões:
 
 * Envie um e-mail para um **endereço inexistente** e verifique se a resposta tem alguma assinatura.
 * Procure por **e-mails públicos** como info@ex.com ou press@ex.com ou public@ex.com e envie um e-mail para eles e aguarde a resposta.
@@ -395,14 +395,14 @@ Note que o **Perfil de Envio permite enviar um e-mail de teste para ver como ser
 ![](<../../.gitbook/assets/image (192).png>)
 
 {% hint style="info" %}
-Eu recomendaria **enviar os e-mails de teste para endereços de e-mail de 10 minutos** para evitar ser colocado na lista negra durante os testes.
+Eu recomendaria **enviar os e-mails de teste para endereços de 10min** a fim de evitar ser colocado na lista negra durante os testes.
 {% endhint %}
 
 Uma vez que tudo esteja pronto, basta lançar a campanha!
 
 ## Clonagem de Site
 
-Se por algum motivo você quiser clonar o site, verifique a página a seguir:
+Se por algum motivo você quiser clonar o site, verifique a seguinte página:
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
@@ -411,7 +411,7 @@ Se por algum motivo você quiser clonar o site, verifique a página a seguir:
 ## Documentos & Arquivos com Backdoor
 
 Em algumas avaliações de phishing (principalmente para Red Teams) você também vai querer **enviar arquivos contendo algum tipo de backdoor** (talvez um C2 ou talvez apenas algo que acionará uma autenticação).\
-Confira a página a seguir para alguns exemplos:
+Confira a seguinte página para alguns exemplos:
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
@@ -432,21 +432,21 @@ O ataque anterior é bastante inteligente, pois você está falsificando um site
 
 ### Via VNC
 
-E se, em vez de **enviar a vítima para uma página maliciosa** com a mesma aparência da original, você a enviar para uma **sessão VNC com um navegador conectado à página da web real**? Você poderá ver o que ele faz, roubar a senha, o MFA usado, os cookies...\
+E se, em vez de **enviar a vítima para uma página maliciosa** com a mesma aparência da original, você a enviar para uma **sessão VNC com um navegador conectado à página real**? Você poderá ver o que ele faz, roubar a senha, o MFA usado, os cookies...\
 Você pode fazer isso com [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
 ## Detectando a detecção
 
-Obviamente, uma das melhores maneiras de saber se você foi descoberto é **procurar seu domínio em listas negras**. Se ele aparecer listado, de alguma forma seu domínio foi detectado como suspeito.\
+Obviamente, uma das melhores maneiras de saber se você foi descoberto é **pesquisar seu domínio em listas negras**. Se ele aparecer listado, de alguma forma seu domínio foi detectado como suspeito.\
 Uma maneira fácil de verificar se seu domínio aparece em alguma lista negra é usar [https://malwareworld.com/](https://malwareworld.com)
 
-No entanto, existem outras maneiras de saber se a vítima está **procurando ativamente por atividades de phishing suspeitas na web**, conforme explicado em:
+No entanto, existem outras maneiras de saber se a vítima está **ativamente procurando por atividades de phishing suspeitas na web**, conforme explicado em:
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Você pode **comprar um domínio com um nome muito semelhante** ao domínio da vítima **e/ou gerar um certificado** para um **subdomínio** de um domínio controlado por você **contendo** a **palavra-chave** do domínio da vítima. Se a **vítima** realizar qualquer tipo de **interação DNS ou HTTP** com eles, você saberá que **ela está procurando ativamente** por domínios suspeitos e precisará ser muito discreto.
+Você pode **comprar um domínio com um nome muito semelhante** ao domínio da vítima **e/ou gerar um certificado** para um **subdomínio** de um domínio controlado por você **contendo** a **palavra-chave** do domínio da vítima. Se a **vítima** realizar qualquer tipo de **interação DNS ou HTTP** com eles, você saberá que **ela está ativamente procurando** por domínios suspeitos e você precisará ser muito discreto.
 
 ### Avaliar o phishing
 

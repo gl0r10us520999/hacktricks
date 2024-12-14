@@ -27,7 +27,7 @@ Você pode usar o seguinte comando para verificar quais extensões serão execut
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX files referencing a remote template (Arquivo – Opções – Suplementos – Gerenciar: Modelos – Ir) that includes macros can “execute” macros as well.
+DOCX files referencing a remote template (File –Options –Add-ins –Manage: Templates –Go) that includes macros can “execute” macros as well.
 
 ### Carregamento de Imagem Externa
 
@@ -84,7 +84,7 @@ Vá para **Arquivo > Informações > Inspecionar Documento > Inspecionar Documen
 #### Extensão do Doc
 
 Quando terminar, selecione o dropdown **Salvar como tipo**, mude o formato de **`.docx`** para **Word 97-2003 `.doc`**.\
-Faça isso porque você **não pode salvar macros dentro de um `.docx`** e há um **estigma** **em torno** da extensão habilitada para macros **`.docm`** (por exemplo, o ícone da miniatura tem um enorme `!` e alguns gateways web/email os bloqueiam completamente). Portanto, esta **extensão `.doc` legada é o melhor compromisso**.
+Faça isso porque você **não pode salvar macros dentro de um `.docx`** e há um **estigma** **em torno** da extensão habilitada para macros **`.docm`** (por exemplo, o ícone da miniatura tem um enorme `!` e alguns gateways web/email os bloqueiam completamente). Portanto, esta **extensão legada `.doc` é o melhor compromisso**.
 
 #### Geradores de Macros Maliciosas
 
@@ -178,7 +178,7 @@ Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt=""
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**

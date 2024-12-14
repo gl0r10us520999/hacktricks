@@ -1,37 +1,37 @@
 # Python Básico
 
 {% hint style="success" %}
-Aprenda e pratique Hacking na AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking no GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoie o HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
 
-## Conceitos Básicos de Python
+## Fundamentos do Python
 
-### Informações Úteis
+### Informações úteis
 
-list(xrange()) == range() --> No python3, range é o xrange do python2 (não é uma lista, mas um gerador)\
-A diferença entre uma Tupla e uma Lista é que a posição de um valor em uma tupla lhe dá significado, mas as listas são apenas valores ordenados. As tuplas têm estruturas, mas as listas têm uma ordem.
+list(xrange()) == range() --> No python3 range é o xrange do python2 (não é uma lista, mas um gerador)\
+A diferença entre uma Tupla e uma Lista é que a posição de um valor em uma tupla lhe dá significado, mas as listas são apenas valores ordenados. Tuplas têm estruturas, mas listas têm uma ordem.
 
-### Principais operações
+### Operações principais
 
 Para elevar um número você usa: 3\*\*2 (não 3^2)\
-Se você fizer 2/3, ele retorna 1 porque está dividindo dois inteiros (int). Se você deseja decimais, deve dividir floats (2.0/3.0).\
+Se você fizer 2/3, retorna 1 porque você está dividindo dois ints (inteiros). Se você quiser decimais, deve dividir floats (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
 i != j\
-a and b\
-a or b\
+a e b\
+a ou b\
 not a\
 float(a)\
 int(a)\
@@ -94,60 +94,60 @@ for letter in "hola":
 ```
 ### Tuplas
 
-t1 = (1, '2', 'três')\
-t2 = (5, 6)\
-t3 = t1 + t2 = (1, '2', 'três', 5, 6)\
+t1 = (1,'2,'three')\
+t2 = (5,6)\
+t3 = t1 + t2 = (1, '2', 'three', 5, 6)\
 (4,) = Singleton\
 d = () tupla vazia\
 d += (4,) --> Adicionando em uma tupla\
 NÃO PODE! --> t1\[1] == 'Novo valor'\
-list(t2) = \[5, 6] --> De tupla para lista
+list(t2) = \[5,6] --> De tupla para lista
 
 ### Lista (array)
 
-d = \[] vazio\
-a = \[1, 2, 3]\
-b = \[4, 5]\
-a + b = \[1, 2, 3, 4, 5]\
-b.append(6) = \[4, 5, 6]\
-tuple(a) = (1, 2, 3) --> De lista para tupla
+d = \[] vazia\
+a = \[1,2,3]\
+b = \[4,5]\
+a + b = \[1,2,3,4,5]\
+b.append(6) = \[4,5,6]\
+tuple(a) = (1,2,3) --> De lista para tupla
 
 ### Dicionário
 
 d = {} vazio\
-monthNumbers={1:'Jan', 2: 'fev','fev':2}--> monthNumbers ->{1:'Jan', 2: 'fev','fev':2}\
-monthNumbers\[1] = 'Jan'\
-monthNumbers\['fev'] = 2\
-list(monthNumbers) = \[1, 2, 'fev']\
-monthNumbers.values() = \['Jan', 'fev', 2]\
+monthNumbers={1:’Jan’, 2: ‘feb’,’feb’:2}—> monthNumbers ->{1:’Jan’, 2: ‘feb’,’feb’:2}\
+monthNumbers\[1] = ‘Jan’\
+monthNumbers\[‘feb’] = 2\
+list(monthNumbers) = \[1,2,’feb’]\
+monthNumbers.values() = \[‘Jan’,’feb’,2]\
 keys = \[k for k in monthNumbers]\
 a={'9':9}\
-monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'fev','fev':2}\
+monthNumbers.update(a) = {'9':9, 1:’Jan’, 2: ‘feb’,’feb’:2}\
 mN = monthNumbers.copy() #Cópia independente\
-monthNumbers.get('chave',0) #Verifica se a chave existe, Retorna o valor de monthNumbers\["chave"] ou 0 se não existir
+monthNumbers.get('key',0) #Verifica se a chave existe, Retorna o valor de monthNumbers\["key"] ou 0 se não existir
 
 ### Conjunto
 
-Nos conjuntos não há repetições\
+Em conjuntos não há repetições\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
 myset.add('a') = {'a', 'b', 'c'} #Sem repetições\
-myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
+myset.update(\[1,2,3]) = set(\['a', 1, 2, 'b', 'c', 3])\
 myset.discard(10) #Se presente, remove, se não, nada\
-myset.remove(10) #Se presente, remove, se não, gera exceção\
+myset.remove(10) #Se presente remove, se não, levanta exceção\
 myset2 = set(\[1, 2, 3, 4])\
-myset.union(myset2) #Valores em myset OU myset2\
+myset.union(myset2) #Valores que estão em myset OU myset2\
 myset.intersection(myset2) #Valores em myset E myset2\
 myset.difference(myset2) #Valores em myset mas não em myset2\
 myset.symmetric\_difference(myset2) #Valores que não estão em myset E myset2 (não em ambos)\
-myset.pop() #Obtém o primeiro elemento do conjunto e remove\
+myset.pop() #Obtém o primeiro elemento do conjunto e o remove\
 myset.intersection\_update(myset2) #myset = Elementos em ambos myset e myset2\
 myset.difference\_update(myset2) #myset = Elementos em myset mas não em myset2\
 myset.symmetric\_difference\_update(myset2) #myset = Elementos que não estão em ambos
 
 ### Classes
 
-O método em \_\_It\_\_ será o utilizado pelo sort para comparar se um objeto desta classe é maior que outro
+O método em \_\_It\_\_ será o utilizado por sort para comparar se um objeto desta classe é maior que outro
 ```python
 class Person(name):
 def __init__(self,name):
@@ -180,13 +180,13 @@ return self.idNum < other.idNum
 **Map** é como: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** para quando o mais curto entre foo ou bar para:
+**zip** para quando o mais curto de foo ou bar para:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
 ```
 **Lambda** é usado para definir uma função\
-(lambda x,y: x+y)(5,3) = 8 --> Use lambda como uma **função** simples\
+(lambda x,y: x+y)(5,3) = 8 --> Use lambda como uma **função**\
 **sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Use lambda para ordenar uma lista\
 m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Use lambda para filtrar\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
@@ -200,11 +200,9 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-```python
 mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
 
 ### Exceções
-```
 ```
 def divide(x,y):
 try:
@@ -220,7 +218,7 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-Se a condição for falsa, a string será impressa na tela
+Se a condição for falsa, a string será impressa na tela.
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
@@ -228,13 +226,12 @@ assert len(grades) == 'wrong number grades'
 ```
 ### Geradores, yield
 
-Um gerador, ao invés de retornar algo, "cede" algo. Quando você o acessa, ele irá "retornar" o primeiro valor gerado e, em seguida, você pode acessá-lo novamente e ele irá retornar o próximo valor gerado. Portanto, todos os valores não são gerados ao mesmo tempo e muita memória pode ser economizada usando isso em vez de uma lista com todos os valores.
+Um gerador, em vez de retornar algo, "produz" algo. Quando você o acessa, ele "retorna" o primeiro valor gerado, então, você pode acessá-lo novamente e ele retornará o próximo valor gerado. Assim, todos os valores não são gerados ao mesmo tempo e muita memória pode ser economizada usando isso em vez de uma lista com todos os valores.
 ```
 def myGen(n):
 yield n
 yield n + 1
 ```
-```markdown
 g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Erro
@@ -246,50 +243,49 @@ re.search("\w","hola").group() = "h"\
 re.findall("\w","hola") = \['h', 'o', 'l', 'a']\
 re.findall("\w+(la)","hola caracola") = \['la', 'la']
 
-**Significados Especiais:**\
+**Significados especiais:**\
 . --> Tudo\
 \w --> \[a-zA-Z0-9\_]\
 \d --> Número\
 \s --> Caractere de espaço em branco\[ \n\r\t\f]\
-\S --> Caractere que não é espaço em branco\
+\S --> Caractere não branco\
 ^ --> Começa com\
 $ --> Termina com\
 \+ --> Um ou mais\
 \* --> 0 ou mais\
-? --> 0 ou 1 ocorrência
+? --> 0 ou 1 ocorrências
 
 **Opções:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> Permite que o ponto corresponda a uma nova linha\
+DOTALL --> Permite que o ponto corresponda a nova linha\
 MULTILINE --> Permite que ^ e $ correspondam em linhas diferentes
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
-**product**\
+**produto**\
 from **itertools** import product --> Gera combinações entre 1 ou mais listas, talvez repetindo valores, produto cartesiano (propriedade distributiva)\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
 **permutations**\
 from **itertools** import **permutations** --> Gera combinações de todos os caracteres em cada posição\
-print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Todas as combinações possíveis\
-print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Todas as combinações possíveis de comprimento 2
+print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Cada combinação possível\
+print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Cada combinação possível de comprimento 2
 
 **combinations**\
 from itertools import **combinations** --> Gera todas as combinações possíveis sem repetir caracteres (se "ab" existir, não gera "ba")\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Gera todas as combinações possíveis a partir do caractere em diante (por exemplo, o 3º é misturado a partir do 3º em diante, mas não com o 2º ou o primeiro)\
+from itertools import **combinations\_with\_replacement** --> Gera todas as combinações possíveis a partir do caractere (por exemplo, o 3º é misturado a partir do 3º, mas não com o 2º ou 1º)\
 print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
 ### Decoradores
 
-Decorador que mede o tempo que uma função precisa para ser executada (de [aqui](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
-```
+Decorator que mede o tempo que uma função leva para ser executada (de [aqui](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
 ```python
 from functools import wraps
 import time
@@ -307,23 +303,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-Se você executar, verá algo como o seguinte:
+Se você executá-lo, verá algo como o seguinte:
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
 {% hint style="success" %}
-Aprenda e pratique AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Treinamento AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Treinamento GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoie o HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

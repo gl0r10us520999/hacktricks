@@ -9,7 +9,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos no** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -108,7 +108,7 @@ O cabeçalho da tabela de partição define os blocos utilizáveis no disco. Ele
 
 | Offset    | Comprimento | Conteúdo                                                                                                                                                                        |
 | --------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 (0x00)  | 8 bytes     | Assinatura ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h ou 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8) em máquinas little-endian) |
+| 0 (0x00)  | 8 bytes     | Assinatura ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h ou 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)em máquinas little-endian) |
 | 8 (0x08)  | 4 bytes     | Revisão 1.0 (00h 00h 01h 00h) para UEFI 2.8                                                                                                                                     |
 | 12 (0x0C) | 4 bytes     | Tamanho do cabeçalho em little endian (em bytes, geralmente 5Ch 00h 00h 00h ou 92 bytes)                                                                                                    |
 | 16 (0x10) | 4 bytes     | [CRC32](https://en.wikipedia.org/wiki/CRC32) do cabeçalho (offset +0 até o tamanho do cabeçalho) em little endian, com este campo zerado durante o cálculo                                |
@@ -129,8 +129,8 @@ O cabeçalho da tabela de partição define os blocos utilizáveis no disco. Ele
 | Formato de entrada de partição GUID |          |                                                                                                                   |
 | ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Offset                               | Comprimento | Conteúdo                                                                                                          |
-| 0 (0x00)                             | 16 bytes | [GUID do tipo de partição](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
-| 16 (0x10)                            | 16 bytes | GUID único da partição (endian misto)                                                                              |
+| 0 (0x00)                             | 16 bytes | [GUID de tipo de partição](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian misto) |
+| 16 (0x10)                            | 16 bytes | GUID de partição único (endian misto)                                                                              |
 | 32 (0x20)                            | 8 bytes  | Primeiro LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                            | 8 bytes  | Último LBA (inclusivo, geralmente ímpar)                                                                                 |
 | 48 (0x30)                            | 8 bytes  | Flags de atributo (por exemplo, o bit 60 denota somente leitura)                                                                   |
@@ -164,7 +164,7 @@ Se fosse uma **tabela GPT em vez de um MBR**, deveria aparecer a assinatura _EFI
 
 O sistema de arquivos **FAT (Tabela de Alocação de Arquivos)** é projetado em torno de seu componente central, a tabela de alocação de arquivos, posicionada no início do volume. Este sistema protege os dados mantendo **duas cópias** da tabela, garantindo a integridade dos dados mesmo se uma estiver corrompida. A tabela, juntamente com a pasta raiz, deve estar em uma **localização fixa**, crucial para o processo de inicialização do sistema.
 
-A unidade básica de armazenamento do sistema de arquivos é um **cluster, geralmente 512B**, composto por múltiplos setores. O FAT evoluiu através de versões:
+A unidade básica de armazenamento do sistema de arquivos é um **cluster, geralmente 512B**, composto por vários setores. O FAT evoluiu através de versões:
 
 * **FAT12**, suportando endereços de cluster de 12 bits e lidando com até 4078 clusters (4084 com UNIX).
 * **FAT16**, aprimorando para endereços de 16 bits, acomodando assim até 65.517 clusters.

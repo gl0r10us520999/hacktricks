@@ -159,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Neste caso, a **porta é aberta no host beacon**, não no Servidor da Equipe, e o tráfego é enviado para o Servidor da Equipe e, a partir daí, para o host:porta indicado.
+Neste caso, a **porta é aberta no host beacon**, não no Team Server, e o tráfego é enviado para o Team Server e, a partir daí, para o host:porta indicado.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -174,7 +174,7 @@ Para notar:
 ### rPort2Port local
 
 {% hint style="warning" %}
-Neste caso, a **porta é aberta no host do beacon**, não no Servidor da Equipe e o **tráfego é enviado para o cliente Cobalt Strike** (não para o Servidor da Equipe) e a partir daí para o host:porta indicado.
+Neste caso, a **porta é aberta no host do beacon**, não no Servidor da Equipe e o **tráfego é enviado para o cliente Cobalt Strike** (não para o Servidor da Equipe) e de lá para o host:porta indicado.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -379,8 +379,8 @@ Agora você pode usar [**Proxifier**](https://www.proxifier.com/) **para fazer p
 ## Proxificar Aplicativos GUI do Windows
 
 Você pode fazer aplicativos GUI do Windows navegarem através de um proxy usando [**Proxifier**](https://www.proxifier.com/).\
-Em **Profile -> Proxy Servers** adicione o IP e a porta do servidor SOCKS.\
-Em **Profile -> Proxification Rules** adicione o nome do programa a ser proxificado e as conexões para os IPs que você deseja proxificar.
+Em **Perfil -> Servidores Proxy** adicione o IP e a porta do servidor SOCKS.\
+Em **Perfil -> Regras de Proxificação** adicione o nome do programa a ser proxificado e as conexões para os IPs que você deseja proxificar.
 
 ## Bypass de proxy NTLM
 
@@ -393,7 +393,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Ele se autentica contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Então, você pode usar a ferramenta de sua escolha através dessa porta.\
+Ele autentica contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Então, você pode usar a ferramenta de sua escolha através dessa porta.\
 Por exemplo, encaminhe a porta 443.
 ```
 Username Alice
@@ -402,7 +402,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Agora, se você configurar, por exemplo, o serviço **SSH** na vítima para escutar na porta 443. Você pode se conectar a ele através da porta 2222 do atacante.\
+Agora, se você configurar, por exemplo, no vítima o serviço **SSH** para escutar na porta 443. Você pode se conectar a ele através da porta 2222 do atacante.\
 Você também poderia usar um **meterpreter** que se conecta a localhost:443 e o atacante está escutando na porta 2222.
 
 ## YARP
@@ -452,7 +452,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Mudar o DNS do proxychains
 
-Proxychains intercepta a chamada `gethostbyname` da libc e encaminha a solicitação DNS tcp através do proxy socks. Por **padrão**, o servidor **DNS** que o proxychains usa é **4.2.2.2** (hardcoded). Para mudá-lo, edite o arquivo: _/usr/lib/proxychains3/proxyresolv_ e altere o IP. Se você estiver em um **ambiente Windows**, pode definir o IP do **controlador de domínio**.
+Proxychains intercepta a chamada `gethostbyname` da libc e encaminha a solicitação DNS tcp através do proxy socks. Por **padrão**, o servidor **DNS** que o proxychains usa é **4.2.2.2** (codificado). Para mudá-lo, edite o arquivo: _/usr/lib/proxychains3/proxyresolv_ e altere o IP. Se você estiver em um **ambiente Windows**, pode definir o IP do **controlador de domínio**.
 
 ## Túneis em Go
 
@@ -506,7 +506,7 @@ chmod a+x ./ngrok
 
 **Documentação:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-_É também possível adicionar autenticação e TLS, se necessário._
+_Também é possível adicionar autenticação e TLS, se necessário._
 
 #### Tunneling TCP
 ```bash

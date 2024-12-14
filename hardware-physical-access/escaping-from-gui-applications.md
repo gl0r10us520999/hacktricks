@@ -29,7 +29,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 | Ethernet       | A varredura de rede ou sniffing pode permitir mais exploração     |
 
 
-## Verifique as possíveis ações dentro da aplicação GUI
+## Verifique possíveis ações dentro da aplicação GUI
 
 **Diálogos Comuns** são aquelas opções de **salvar um arquivo**, **abrir um arquivo**, selecionar uma fonte, uma cor... A maioria deles **oferecerá uma funcionalidade completa do Explorer**. Isso significa que você poderá acessar funcionalidades do Explorer se conseguir acessar essas opções:
 
@@ -105,7 +105,7 @@ Editor de registro: [https://sourceforge.net/projects/uberregedit/](https://sour
 ### Atalhos
 
 * Teclas de Aderência – Pressione SHIFT 5 vezes
-* Teclas de Mouse – SHIFT+ALT+NUMLOCK
+* Teclas do Mouse – SHIFT+ALT+NUMLOCK
 * Alto Contraste – SHIFT+ALT+PRINTSCN
 * Teclas de Alternância – Mantenha NUMLOCK pressionado por 5 segundos
 * Teclas de Filtro – Mantenha SHIFT direito pressionado por 12 segundos
@@ -192,26 +192,26 @@ Fonte: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de19811
 * Deslize para baixo com 1 dedo no canto superior direito da tela: Para ver o centro de controle do iPad Pro
 * Deslize 1 dedo a partir da esquerda da tela 1-2 polegadas: Para ver a visualização de Hoje
 * Deslize rapidamente 1 dedo do centro da tela para a direita ou esquerda: Para mudar para o próximo/último aplicativo
-* Pressione e segure o botão Ligar/**Desligar**/Suspender no canto superior direito do **iPad +** Mova o controle deslizante para **desligar** completamente para a direita: Para desligar
-* Pressione o botão Ligar/**Desligar**/Suspender no canto superior direito do **iPad e o botão Home por alguns segundos**: Para forçar um desligamento completo
-* Pressione o botão Ligar/**Desligar**/Suspender no canto superior direito do **iPad e o botão Home rapidamente**: Para tirar uma captura de tela que aparecerá no canto inferior esquerdo da tela. Pressione ambos os botões ao mesmo tempo muito rapidamente, pois se você mantiver pressionado por alguns segundos, um desligamento completo será realizado.
+* Pressione e segure o botão On/**Off**/Sleep no canto superior direito do **iPad +** Mova o controle deslizante para **desligar** completamente para a direita: Para desligar
+* Pressione o botão On/**Off**/Sleep no canto superior direito do **iPad e o botão Home por alguns segundos**: Para forçar um desligamento completo
+* Pressione o botão On/**Off**/Sleep no canto superior direito do **iPad e o botão Home rapidamente**: Para tirar uma captura de tela que aparecerá no canto inferior esquerdo da tela. Pressione ambos os botões ao mesmo tempo muito rapidamente, pois se você mantiver pressionado por alguns segundos, um desligamento completo será realizado.
 
 ### Atalhos
 
-Você deve ter um teclado de iPad ou um adaptador de teclado USB. Apenas os atalhos que podem ajudar a escapar da aplicação serão mostrados aqui.
+Você deve ter um teclado de iPad ou um adaptador de teclado USB. Apenas atalhos que podem ajudar a escapar da aplicação serão mostrados aqui.
 
 | Tecla | Nome         |
 | ----- | ------------ |
-| ⌘   | Comando      |
-| ⌥   | Opção (Alt) |
-| ⇧   | Shift        |
-| ↩   | Retorno      |
-| ⇥   | Tab          |
-| ^   | Controle     |
-| ←   | Seta para a Esquerda   |
-| →   | Seta para a Direita  |
-| ↑   | Seta para Cima     |
-| ↓   | Seta para Baixo   |
+| ⌘     | Comando      |
+| ⌥     | Opção (Alt)  |
+| ⇧     | Shift        |
+| ↩     | Retorno      |
+| ⇥     | Tab          |
+| ^     | Controle     |
+| ←     | Seta para a Esquerda |
+| →     | Seta para a Direita  |
+| ↑     | Seta para Cima     |
+| ↓     | Seta para Baixo    |
 
 #### Atalhos do sistema
 
@@ -222,11 +222,11 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | F1     | Diminuir a tela                                                              |
 | F2     | Aumentar a tela                                                              |
 | F7     | Voltar uma música                                                            |
-| F8     | Reproduzir/pause                                                             |
-| F9     | Pular música                                                                  |
-| F10    | Mudo                                                                         |
-| F11    | Diminuir volume                                                              |
-| F12    | Aumentar volume                                                              |
+| F8     | Reproduzir/pausar                                                            |
+| F9     | Pular música                                                                 |
+| F10    | Silenciar                                                                     |
+| F11    | Diminuir volume                                                               |
+| F12    | Aumentar volume                                                               |
 | ⌘ Espa | Exibir uma lista de idiomas disponíveis; para escolher um, toque na barra de espaço novamente. |
 
 #### Navegação no iPad
@@ -245,17 +245,17 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | ^⌥H (Control-Option-H)                         | Botão Home                                           |
 | ^⌥H H (Control-Option-H-H)                     | Mostrar a barra de multitarefa                        |
 | ^⌥I (Control-Option-i)                         | Seletor de itens                                      |
-| Escape                                         | Botão voltar                                         |
+| Escape                                          | Botão Voltar                                         |
 | → (Seta para a Direita)                        | Próximo item                                         |
 | ← (Seta para a Esquerda)                       | Item anterior                                        |
 | ↑↓ (Seta para Cima, Seta para Baixo)          | Toque simultaneamente no item selecionado            |
-| ⌥ ↓ (Option-Seta para Baixo)                  | Rolagem para baixo                                   |
-| ⌥↑ (Option-Seta para Cima)                    | Rolagem para cima                                    |
+| ⌥ ↓ (Option-Seta para Baixo)                   | Rolagem para baixo                                   |
+| ⌥↑ (Option-Seta para Cima)                     | Rolagem para cima                                    |
 | ⌥← ou ⌥→ (Option-Seta para a Esquerda ou Option-Seta para a Direita) | Rolagem para a esquerda ou para a direita            |
 | ^⌥S (Control-Option-S)                         | Ativar ou desativar a fala do VoiceOver             |
 | ⌘⇧⇥ (Command-Shift-Tab)                        | Alternar para o aplicativo anterior                  |
 | ⌘⇥ (Command-Tab)                               | Voltar para o aplicativo original                     |
-| ←+→, então Option + ← ou Option+→              | Navegar pelo Dock                                    |
+| ←+→, depois Option + ← ou Option+→             | Navegar pelo Dock                                    |
 
 #### Atalhos do Safari
 

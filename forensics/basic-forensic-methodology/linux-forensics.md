@@ -52,7 +52,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Informações suspeitas
 
-Enquanto obtém as informações básicas, você deve verificar por coisas estranhas, como:
+Ao obter as informações básicas, você deve verificar coisas estranhas, como:
 
 * **Processos root** geralmente são executados com PIDS baixos, então se você encontrar um processo root com um PID grande, pode suspeitar
 * Verifique os **logins registrados** de usuários sem um shell dentro de `/etc/passwd`
@@ -85,8 +85,8 @@ LiME também pode ser usado para **enviar o dump via rede** em vez de armazená-
 
 #### Desligando
 
-Primeiro de tudo, você precisará **desligar o sistema**. Isso nem sempre é uma opção, pois às vezes o sistema será um servidor de produção que a empresa não pode se dar ao luxo de desligar.\
-Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento "puxar o plugue"**. O primeiro permitirá que os **processos terminem normalmente** e o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem "puxar o plugue" pode acarretar **alguma perda de informação** (não muita informação será perdida, pois já tiramos uma imagem da memória) e o **malware não terá nenhuma oportunidade** de fazer algo a respeito. Portanto, se você **suspeitar** que pode haver um **malware**, apenas execute o **comando** **`sync`** no sistema e puxe o plugue.
+Primeiramente, você precisará **desligar o sistema**. Isso nem sempre é uma opção, pois às vezes o sistema será um servidor de produção que a empresa não pode se dar ao luxo de desligar.\
+Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento "desconectar da tomada"**. O primeiro permitirá que os **processos sejam encerrados normalmente** e o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem "desconectar da tomada" pode acarretar **alguma perda de informação** (não muita informação será perdida, pois já tiramos uma imagem da memória) e o **malware não terá oportunidade** de fazer nada a respeito. Portanto, se você **suspeitar** que pode haver um **malware**, apenas execute o **comando** **`sync`** no sistema e desconecte da tomada.
 
 #### Tirando uma imagem do disco
 
@@ -99,7 +99,7 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### Análise pré-imagem do disco
+### Análise prévia da imagem do disco
 
 Imaginando uma imagem de disco sem mais dados.
 ```bash
@@ -186,7 +186,7 @@ Para pesquisar efetivamente programas instalados em sistemas Debian e RedHat, co
 * Para Debian, inspecione _**`/var/lib/dpkg/status`**_ e _**`/var/log/dpkg.log`**_ para obter detalhes sobre instalações de pacotes, usando `grep` para filtrar informações específicas.
 * Usuários do RedHat podem consultar o banco de dados RPM com `rpm -qa --root=/mntpath/var/lib/rpm` para listar pacotes instalados.
 
-Para descobrir software instalado manualmente ou fora desses gerenciadores de pacotes, explore diretórios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ e _**`/sbin`**_. Combine listagens de diretórios com comandos específicos do sistema para identificar executáveis não associados a pacotes conhecidos, aprimorando sua busca por todos os programas instalados.
+Para descobrir software instalado manualmente ou fora desses gerenciadores de pacotes, explore diretórios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, e _**`/sbin`**_. Combine listagens de diretórios com comandos específicos do sistema para identificar executáveis não associados a pacotes conhecidos, aprimorando sua busca por todos os programas instalados.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -212,7 +212,7 @@ Acesse hoje:
 
 ## Recuperar Binários em Execução Deletados
 
-Imagine um processo que foi executado de /tmp/exec e depois deletado. É possível extraí-lo
+Imagine um processo que foi executado a partir de /tmp/exec e depois deletado. É possível extrair isso.
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -236,7 +236,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 ```
 ### Serviços
 
-Caminhos onde um malware poderia ser instalado como um serviço:
+Caminhos onde um malware pode ser instalado como um serviço:
 
 * **/etc/inittab**: Chama scripts de inicialização como rc.sysinit, direcionando para scripts de inicialização.
 * **/etc/rc.d/** e **/etc/rc.boot/**: Contêm scripts para inicialização de serviços, sendo o último encontrado em versões mais antigas do Linux.
@@ -256,9 +256,9 @@ Módulos do kernel Linux, frequentemente utilizados por malware como componentes
 * **/etc/modprobe.d**: Contém arquivos de configuração para controlar o carregamento de módulos.
 * **/etc/modprobe** e **/etc/modprobe.conf**: Arquivos para configurações globais de módulos.
 
-### Outras Localizações de Autostart
+### Outros Locais de Autostart
 
-O Linux emprega vários arquivos para executar automaticamente programas ao fazer login do usuário, potencialmente abrigando malware:
+O Linux utiliza vários arquivos para executar automaticamente programas ao fazer login do usuário, potencialmente abrigando malware:
 
 * **/etc/profile.d/**\*, **/etc/profile**, e **/etc/bash.bashrc**: Executados para qualquer login de usuário.
 * **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, e **\~/.config/autostart**: Arquivos específicos do usuário que são executados ao fazer login.
@@ -276,7 +276,7 @@ Sistemas Linux rastreiam atividades de usuários e eventos do sistema através d
 * **/var/log/kern.log**: Armazena mensagens do kernel, incluindo erros e avisos.
 * **/var/log/dmesg**: Contém mensagens do driver de dispositivo.
 * **/var/log/faillog**: Registra tentativas de login falhadas, auxiliando em investigações de violação de segurança.
-* **/var/log/cron**: Registra execuções de trabalhos cron.
+* **/var/log/cron**: Registra execuções de jobs do cron.
 * **/var/log/daemon.log**: Rastreia atividades de serviços em segundo plano.
 * **/var/log/btmp**: Documenta tentativas de login falhadas.
 * **/var/log/httpd/**: Contém logs de erro e acesso do Apache HTTPD.
@@ -285,7 +285,7 @@ Sistemas Linux rastreiam atividades de usuários e eventos do sistema através d
 * **/var/log/**: Sempre verifique se há logs inesperados aqui.
 
 {% hint style="info" %}
-Os logs do sistema Linux e subsistemas de auditoria podem ser desativados ou excluídos em um incidente de intrusão ou malware. Como os logs em sistemas Linux geralmente contêm algumas das informações mais úteis sobre atividades maliciosas, intrusos rotineiramente os excluem. Portanto, ao examinar os arquivos de log disponíveis, é importante procurar lacunas ou entradas fora de ordem que possam ser uma indicação de exclusão ou adulteração.
+Logs do sistema Linux e subsistemas de auditoria podem ser desativados ou excluídos em um incidente de intrusão ou malware. Como os logs em sistemas Linux geralmente contêm algumas das informações mais úteis sobre atividades maliciosas, intrusos rotineiramente os excluem. Portanto, ao examinar os arquivos de log disponíveis, é importante procurar lacunas ou entradas fora de ordem que possam ser uma indicação de exclusão ou adulteração.
 {% endhint %}
 
 **O Linux mantém um histórico de comandos para cada usuário**, armazenado em:
@@ -311,7 +311,7 @@ Alguns aplicativos também geram seus próprios logs:
 * **Gnome Desktop**: Verifique _\~/.recently-used.xbel_ para arquivos acessados recentemente via aplicativos Gnome.
 * **Firefox/Chrome**: Verifique o histórico do navegador e downloads em _\~/.mozilla/firefox_ ou _\~/.config/google-chrome_ para atividades suspeitas.
 * **VIM**: Revise _\~/.viminfo_ para detalhes de uso, como caminhos de arquivos acessados e histórico de pesquisa.
-* **Open Office**: Verifique o acesso recente a documentos que pode indicar arquivos comprometidos.
+* **Open Office**: Verifique o acesso recente a documentos que podem indicar arquivos comprometidos.
 * **FTP/SFTP**: Revise logs em _\~/.ftp\_history_ ou _\~/.sftp\_history_ para transferências de arquivos que podem ser não autorizadas.
 * **MySQL**: Investigue _\~/.mysql\_history_ para consultas MySQL executadas, potencialmente revelando atividades não autorizadas no banco de dados.
 * **Less**: Analise _\~/.lesshst_ para histórico de uso, incluindo arquivos visualizados e comandos executados.
@@ -348,11 +348,11 @@ Acesse hoje:
 
 ## Revisar Contas de Usuário e Atividades de Logon
 
-Examine o _**/etc/passwd**_, _**/etc/shadow**_ e **logs de segurança** em busca de nomes ou contas incomuns criadas e ou usadas em estreita proximidade com eventos não autorizados conhecidos. Além disso, verifique possíveis ataques de força bruta ao sudo.\
+Examine o _**/etc/passwd**_, _**/etc/shadow**_ e **logs de segurança** em busca de nomes ou contas incomuns criadas e ou usadas em estreita proximidade com eventos não autorizados conhecidos. Além disso, verifique possíveis ataques de força bruta no sudo.\
 Além disso, verifique arquivos como _**/etc/sudoers**_ e _**/etc/groups**_ em busca de privilégios inesperados concedidos a usuários.\
-Por fim, procure contas com **senhas ausentes** ou **senhas facilmente adivinháveis**.
+Finalmente, procure contas com **senhas ausentes** ou **senhas facilmente adivinháveis**.
 
-## Examinar o Sistema de Arquivos
+## Examinar Sistema de Arquivos
 
 ### Analisando Estruturas de Sistema de Arquivos em Investigações de Malware
 
@@ -365,7 +365,7 @@ Para combater esses métodos anti-forenses, é essencial:
 * **Examinar `/dev` em busca de arquivos atípicos**, pois tradicionalmente contém arquivos especiais, mas pode abrigar arquivos relacionados a malware.
 * **Procurar arquivos ou diretórios ocultos** com nomes como ".. " (ponto ponto espaço) ou "..^G" (ponto ponto controle-G), que podem ocultar conteúdo malicioso.
 * **Identificar arquivos setuid root** usando o comando: `find / -user root -perm -04000 -print` Isso encontra arquivos com permissões elevadas, que podem ser abusadas por atacantes.
-* **Revisar timestamps de exclusão** em tabelas de inode para detectar exclusões em massa de arquivos, possivelmente indicando a presença de rootkits ou trojans.
+* **Revisar timestamps de exclusão** nas tabelas de inode para detectar exclusões em massa de arquivos, possivelmente indicando a presença de rootkits ou trojans.
 * **Inspecionar inodes consecutivos** em busca de arquivos maliciosos próximos após identificar um, pois podem ter sido colocados juntos.
 * **Verificar diretórios binários comuns** (_/bin_, _/sbin_) em busca de arquivos recentemente modificados, pois estes podem ter sido alterados por malware.
 ````bash
@@ -425,7 +425,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
@@ -434,6 +434,6 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
-Acesse hoje: 
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

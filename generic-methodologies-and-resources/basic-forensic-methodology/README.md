@@ -23,7 +23,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Análise de Malware
 
-Isso **não é necessariamente o primeiro passo a ser realizado uma vez que você tenha a imagem**. Mas você pode usar essas técnicas de análise de malware de forma independente se tiver um arquivo, uma imagem de sistema de arquivos, imagem de memória, pcap... então é bom **manter essas ações em mente**:
+Este **não é necessariamente o primeiro passo a ser realizado uma vez que você tenha a imagem**. Mas você pode usar essas técnicas de análise de malware de forma independente se tiver um arquivo, uma imagem de sistema de arquivos, imagem de memória, pcap... então é bom **manter essas ações em mente**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -31,7 +31,7 @@ Isso **não é necessariamente o primeiro passo a ser realizado uma vez que voc�
 
 ## Inspecionando uma Imagem
 
-se você receber uma **imagem forense** de um dispositivo, você pode começar **analisando as partições, o sistema de arquivos** utilizado e **recuperando** potencialmente **arquivos interessantes** (mesmo os deletados). Aprenda como em:
+se você receber uma **imagem forense** de um dispositivo, você pode começar **analisando as partições, o sistema de arquivos** utilizado e **recuperando** potencialmente **arquivos interessantes** (mesmo os excluídos). Aprenda como em:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)

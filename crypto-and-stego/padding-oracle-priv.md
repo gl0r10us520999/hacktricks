@@ -27,12 +27,12 @@ Para descriptografar CBC, as **operações opostas** são realizadas:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Note como é necessário usar uma **chave de criptografia** e um **IV**.
+Observe como é necessário usar uma **chave de criptografia** e um **IV**.
 
 ## Message Padding
 
 Como a criptografia é realizada em **blocos de tamanho fixo**, o **padding** geralmente é necessário no **último bloco** para completar seu comprimento.\
-Normalmente, **PKCS7** é usado, que gera um padding **repetindo** o **número** de **bytes** **necessários** para **completar** o bloco. Por exemplo, se o último bloco estiver faltando 3 bytes, o padding será `\x03\x03\x03`.
+Normalmente, o **PKCS7** é usado, que gera um padding **repetindo** o **número** de **bytes** **necessários** para **completar** o bloco. Por exemplo, se o último bloco estiver faltando 3 bytes, o padding será `\x03\x03\x03`.
 
 Vamos olhar mais exemplos com **2 blocos de comprimento 8bytes**:
 
@@ -47,7 +47,7 @@ Note como no último exemplo o **último bloco estava cheio, então outro foi ge
 
 ## Padding Oracle
 
-Quando uma aplicação descriptografa dados criptografados, ela primeiro descriptografa os dados; então remove o padding. Durante a limpeza do padding, se um **padding inválido acionar um comportamento detectável**, você tem uma **vulnerabilidade de padding oracle**. O comportamento detectável pode ser um **erro**, uma **falta de resultados** ou uma **resposta mais lenta**.
+Quando uma aplicação descriptografa dados criptografados, ela primeiro descriptografa os dados; então, remove o padding. Durante a limpeza do padding, se um **padding inválido acionar um comportamento detectável**, você tem uma **vulnerabilidade de padding oracle**. O comportamento detectável pode ser um **erro**, uma **falta de resultados** ou uma **resposta mais lenta**.
 
 Se você detectar esse comportamento, pode **descriptografar os dados criptografados** e até mesmo **criptografar qualquer texto claro**.
 
@@ -57,7 +57,7 @@ Você pode usar [https://github.com/AonCyberLabs/PadBuster](https://github.com/A
 ```
 sudo apt-get install padbuster
 ```
-Para testar se o cookie de um site é vulnerável, você pode tentar:
+Para testar se o cookie de um site é vulnerável, você poderia tentar:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```

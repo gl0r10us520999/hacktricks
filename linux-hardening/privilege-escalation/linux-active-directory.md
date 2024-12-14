@@ -23,11 +23,11 @@ Uma máquina linux em um AD pode estar **armazenando diferentes tickets CCACHE d
 
 ## Enumeração
 
-### Enumeração AD a partir do linux
+### Enumeração de AD a partir do linux
 
 Se você tiver acesso a um AD no linux (ou bash no Windows), pode tentar [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) para enumerar o AD.
 
-Você também pode verificar a seguinte página para aprender **outras maneiras de enumerar o AD a partir do linux**:
+Você também pode verificar a seguinte página para aprender **outras maneiras de enumerar AD a partir do linux**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -35,7 +35,7 @@ Você também pode verificar a seguinte página para aprender **outras maneiras 
 
 ### FreeIPA
 
-FreeIPA é uma **alternativa** de código aberto ao **Active Directory** da Microsoft, principalmente para ambientes **Unix**. Ele combina um **diretório LDAP** completo com um Centro de Distribuição de Chaves **Kerberos** do MIT para gerenciamento semelhante ao Active Directory. Utilizando o **Sistema de Certificados Dogtag** para gerenciamento de certificados CA e RA, suporta autenticação **multifatorial**, incluindo cartões inteligentes. O SSSD está integrado para processos de autenticação Unix. Saiba mais sobre isso em:
+FreeIPA é uma **alternativa** de código aberto ao **Active Directory** da Microsoft, principalmente para ambientes **Unix**. Ele combina um **diretório LDAP** completo com um Centro de Distribuição de Chaves **Kerberos** MIT para gerenciamento semelhante ao Active Directory. Utilizando o **Sistema de Certificados** Dogtag para gerenciamento de certificados CA & RA, suporta autenticação **multifatorial**, incluindo cartões inteligentes. O SSSD está integrado para processos de autenticação Unix. Saiba mais sobre isso em:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -86,7 +86,7 @@ Invocar \*\*`SSSDKCMExtractor` \*\* com os parâmetros --database e --key irá a
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-O **blob de cache de credenciais Kerberos pode ser convertido em um arquivo CCache Kerberos utilizável** que pode ser passado para Mimikatz/Rubeus.
+O **blob de cache de credenciais Kerberos pode ser convertido em um arquivo Kerberos CCache utilizável** que pode ser passado para Mimikatz/Rubeus.
 
 ### Reutilização de ticket CCACHE a partir de keytab
 ```bash
@@ -94,11 +94,11 @@ git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
-### Extrair contas de /etc/krb5.keytab
+### Extrair contas do /etc/krb5.keytab
 
 As chaves de contas de serviço, essenciais para serviços que operam com privilégios de root, são armazenadas de forma segura nos arquivos **`/etc/krb5.keytab`**. Essas chaves, semelhantes a senhas para serviços, exigem estrita confidencialidade.
 
-Para inspecionar o conteúdo do arquivo keytab, pode-se empregar **`klist`**. A ferramenta é projetada para exibir detalhes da chave, incluindo o **NT Hash** para autenticação de usuários, particularmente quando o tipo de chave é identificado como 23.
+Para inspecionar o conteúdo do arquivo keytab, **`klist`** pode ser empregado. A ferramenta é projetada para exibir detalhes da chave, incluindo o **NT Hash** para autenticação de usuários, particularmente quando o tipo de chave é identificado como 23.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
