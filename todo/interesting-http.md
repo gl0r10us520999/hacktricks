@@ -1,30 +1,30 @@
 {% hint style="success" %}
-सीखें और प्रैक्टिस करें AWS हैकिंग: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-सीखें और प्रैक्टिस करें GCP हैकिंग: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PRs सबमिट करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# रेफरर हेडर्स और नीति
+# Referrer headers and policy
 
-रेफरर वह हेडर है जिसका उपयोग ब्राउज़र द्वारा किया जाता है ताकि पता चले कि पिछले दौरे का कौन सा पृष्ठ देखा गया था।
+Referrer वह हेडर है जिसका उपयोग ब्राउज़रों द्वारा यह संकेत करने के लिए किया जाता है कि कौन सा पिछला पृष्ठ देखा गया था।
 
-## संवेदनशील जानकारी लीक हो गई
+## संवेदनशील जानकारी लीक
 
-यदि किसी वेब पृष्ठ के अंदर किसी GET अनुरोध पैरामीटर पर कोई संवेदनशील जानकारी होती है, यदि पृष्ठ में बाहरी स्रोतों के लिंक होते हैं या एक हमलावर उसे एक URL पर जाने के लिए मजबूर करता है/सुझाव देता है (सोशल इंजीनियरिंग), तो वह हमलावर संवेदनशील जानकारी को नवीनतम GET अनुरोध के अंदर निकाल सकता है।
+यदि किसी समय एक वेब पृष्ठ के अंदर कोई संवेदनशील जानकारी GET अनुरोध पैरामीटर पर स्थित है, यदि पृष्ठ में बाहरी स्रोतों के लिए लिंक हैं या एक हमलावर उपयोगकर्ता को एक URL पर जाने के लिए मजबूर/सुझाव देने में सक्षम है जो हमलावर द्वारा नियंत्रित है। यह नवीनतम GET अनुरोध के अंदर संवेदनशील जानकारी को निकालने में सक्षम हो सकता है।
 
-## संशोधन
+## शमन
 
-आप ब्राउज़र को एक **रेफरर-नीति** का पालन करने के लिए कर सकते हैं जो संवेदनशील जानकारी को अन्य वेब एप्लिकेशनों को भेजने से **बचा** सकता है:
+आप ब्राउज़र को एक **Referrer-policy** का पालन करने के लिए कह सकते हैं जो **संवेदनशील जानकारी** को अन्य वेब अनुप्रयोगों में भेजने से **रोक** सकती है:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -35,28 +35,29 @@ Referrer-Policy: strict-origin
 Referrer-Policy: strict-origin-when-cross-origin
 Referrer-Policy: unsafe-url
 ```
-## काउंटर-मिटिगेशन
+## Counter-Mitigation
 
-आप इस नियम को एचटीएमएल मेटा टैग का उपयोग करके ओवरराइड कर सकते हैं (हमलावर को एचटीएमएल इंजेक्शन का शोषण करना होगा):
+आप इस नियम को एक HTML मेटा टैग का उपयोग करके ओवरराइड कर सकते हैं (हमलावर को एक HTML इंजेक्शन का लाभ उठाने की आवश्यकता है):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
-## रक्षा
+## Defense
 
-कभी भी URL में GET पैरामीटर या पथ में कोई भी संवेदनशील डेटा न डालें।
+कभी भी किसी संवेदनशील डेटा को GET पैरामीटर या URL में पथ के अंदर न रखें।
+
 
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स** और [**हैकट्रिक्स क्लाउड**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PR जमा करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

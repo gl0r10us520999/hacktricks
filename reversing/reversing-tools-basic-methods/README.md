@@ -48,15 +48,15 @@ dotPeek एक decompiler है जो **कई प्रारूपों क
 
 * यह बताता है कि डेटा एक लाइब्रेरी या घटक के माध्यम से कैसे प्रवाहित होता है
 * .NET भाषाओं और ढांचों के कार्यान्वयन और उपयोग की जानकारी प्रदान करता है
-* APIs और प्रौद्योगिकियों का अधिकतम लाभ उठाने के लिए अप्रलेखित और अप्रकट कार्यक्षमता खोजता है।
-* निर्भरताएँ और विभिन्न assemblies खोजता है
+* APIs और प्रौद्योगिकियों का अधिकतम लाभ उठाने के लिए undocumented और unexposed कार्यक्षमता को खोजता है।
+* निर्भरताएँ और विभिन्न assemblies को खोजता है
 * आपके कोड, तृतीय-पक्ष घटकों, और लाइब्रेरी में त्रुटियों के सटीक स्थान को ट्रैक करता है।
 * आप जिस सभी .NET कोड के साथ काम करते हैं, उसके स्रोत में डिबग करता है।
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [ILSpy plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): आप इसे किसी भी OS में रख सकते हैं (आप इसे सीधे VSCode से इंस्टॉल कर सकते हैं, git डाउनलोड करने की आवश्यकता नहीं है। **Extensions** पर क्लिक करें और **ILSpy** खोजें)।\
-यदि आपको **decompile**, **modify** और फिर से **recompile** करने की आवश्यकता है, तो आप [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) या इसके एक सक्रिय रूप से बनाए रखे गए फोर्क, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) का उपयोग कर सकते हैं। (**Right Click -> Modify Method** किसी फ़ंक्शन के अंदर कुछ बदलने के लिए)।
+यदि आपको **decompile**, **modify** और **recompile** फिर से करना है, तो आप [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) या इसके एक सक्रिय रूप से बनाए रखे गए fork, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) का उपयोग कर सकते हैं। (**Right Click -> Modify Method** किसी फ़ंक्शन के अंदर कुछ बदलने के लिए)।
 
 ### DNSpy Logging
 
@@ -91,7 +91,7 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-यह आवश्यक है क्योंकि यदि आप ऐसा नहीं करते हैं, तो **runtime** के दौरान कई **optimisations** कोड पर लागू की जाएंगी और यह संभव है कि डिबग करते समय **break-point कभी नहीं हिट** हो या कुछ **variables मौजूद न हों**।
+यह आवश्यक है क्योंकि यदि आप ऐसा नहीं करते हैं, तो **runtime** के दौरान कोड पर कई **optimisations** लागू की जाएंगी और यह संभव है कि डिबग करते समय **break-point कभी नहीं हिट हो** या कुछ **variables मौजूद न हों**।
 
 फिर, यदि आपका .NET एप्लिकेशन **IIS** द्वारा **run** किया जा रहा है, तो आप इसे **restart** कर सकते हैं:
 ```
@@ -134,30 +134,30 @@ iisreset /noforce
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* **DLL** के लिए **पथ** और जिस फ़ंक्शन को आप कॉल करना चाहते हैं, उसके **पैरामीटर** को कॉन्फ़िगर करें:
+* **DLL** के लिए **पैरामीटर** को कॉन्फ़िगर करें और उस फ़ंक्शन को डालें जिसे आप कॉल करना चाहते हैं:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
-फिर, जब आप डिबगिंग शुरू करते हैं **प्रत्येक DLL लोड होने पर निष्पादन रोका जाएगा**, फिर, जब rundll32 आपके DLL को लोड करेगा तो निष्पादन रोका जाएगा।
+फिर, जब आप डिबगिंग शुरू करते हैं **प्रवर्तन तब रुकेगा जब प्रत्येक DLL लोड होगा**, फिर, जब rundll32 आपकी DLL लोड करेगा तो प्रवर्तन रुकेगा।
 
-लेकिन, आप उस DLL के कोड तक कैसे पहुँच सकते हैं जो लोड किया गया था? इस विधि का उपयोग करके, मुझे नहीं पता।
+लेकिन, आप उस कोड तक कैसे पहुँच सकते हैं जो DLL लोड किया गया था? इस विधि का उपयोग करके, मुझे नहीं पता।
 
 ### x64dbg/x32dbg का उपयोग करना
 
 * **rundll32** लोड करें (64बिट C:\Windows\System32\rundll32.exe में और 32 बिट C:\Windows\SysWOW64\rundll32.exe में)
-* **Command Line** बदलें (_File --> Change Command Line_) और DLL का पथ और जिस फ़ंक्शन को आप कॉल करना चाहते हैं, उसे सेट करें, उदाहरण के लिए: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* **Command Line** बदलें (_File --> Change Command Line_) और DLL का पथ और उस फ़ंक्शन को सेट करें जिसे आप कॉल करना चाहते हैं, उदाहरण के लिए: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * _Options --> Settings_ में जाएं और "**DLL Entry**" का चयन करें।
-* फिर **निष्पादन शुरू करें**, डिबगर प्रत्येक DLL मुख्य पर रुकेगा, किसी बिंदु पर आप **अपने DLL के DLL Entry में रुकेंगे**। वहां से, बस उन बिंदुओं की खोज करें जहाँ आप एक ब्रेकपॉइंट रखना चाहते हैं।
+* फिर **प्रवर्तन शुरू करें**, डिबगर प्रत्येक DLL मुख्य पर रुकेगा, किसी बिंदु पर आप **आपकी DLL के DLL Entry में रुकेंगे**। वहां से, बस उन बिंदुओं की खोज करें जहाँ आप एक ब्रेकपॉइंट रखना चाहते हैं।
 
-ध्यान दें कि जब निष्पादन किसी कारणवश win64dbg में रुका होता है, तो आप **win64dbg विंडो के शीर्ष पर** देख सकते हैं कि आप **किस कोड में** हैं:
+ध्यान दें कि जब प्रवर्तन किसी कारण से win64dbg में रुका होता है, तो आप देख सकते हैं **आप किस कोड में हैं** win64dbg विंडो के **शीर्ष पर**:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-फिर, इसे देखते हुए आप देख सकते हैं कि निष्पादन उस DLL में कब रुका जिसे आप डिबग करना चाहते हैं।
+फिर, इसे देखते हुए आप देख सकते हैं कि प्रवर्तन उस DLL में रुका था जिसे आप डिबग करना चाहते हैं।
 
 ## GUI Apps / Videogames
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) एक उपयोगी प्रोग्राम है जो यह पता लगाने में मदद करता है कि महत्वपूर्ण मान कहाँ संग्रहीत हैं और उन्हें बदलता है। अधिक जानकारी के लिए:
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) एक उपयोगी प्रोग्राम है जो यह पता लगाने में मदद करता है कि महत्वपूर्ण मान कहाँ चल रहे खेल की मेमोरी में सहेजे गए हैं और उन्हें बदलता है। अधिक जानकारी के लिए:
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
@@ -175,8 +175,8 @@ iisreset /noforce
 
 ### blobrunner के साथ shellcode का डिबगिंग
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) **shellcode** को मेमोरी के एक स्थान के अंदर **allocate** करेगा, आपको **memory address** बताएगा जहाँ shellcode आवंटित किया गया था और निष्पादन को **रोक देगा**।\
-फिर, आपको प्रक्रिया से **एक डिबगर** (Ida या x64dbg) को संलग्न करना होगा और **संकेतित मेमोरी पते पर एक ब्रेकपॉइंट** रखना होगा और निष्पादन को **जारी** करना होगा। इस तरह आप shellcode का डिबगिंग करेंगे।
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) **shellcode** को मेमोरी के एक स्थान के अंदर **allocate** करेगा, आपको **memory address** बताएगा जहाँ shellcode आवंटित किया गया था और **execution** को **stop** करेगा।\
+फिर, आपको प्रक्रिया से **debugger** (Ida या x64dbg) को जोड़ने की आवश्यकता है और **indicated memory address** पर एक **breakpoint** रखना है और **execution** को **resume** करना है। इस तरह आप shellcode का डिबगिंग करेंगे।
 
 रिलीज़ गिटहब पृष्ठ में संकलित रिलीज़ वाले ज़िप शामिल हैं: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 आप निम्नलिखित लिंक में Blobrunner का थोड़ा संशोधित संस्करण पा सकते हैं। इसे संकलित करने के लिए बस **Visual Studio Code में एक C/C++ प्रोजेक्ट बनाएं, कोड को कॉपी और पेस्ट करें और इसे बनाएं**।
@@ -187,11 +187,11 @@ iisreset /noforce
 
 ### jmp2it के साथ shellcode का डिबगिंग
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) blobrunner के समान है। यह **shellcode** को मेमोरी के एक स्थान के अंदर **allocate** करेगा, और एक **eternal loop** शुरू करेगा। फिर आपको प्रक्रिया से **डिबगर** को संलग्न करना होगा, **2-5 सेकंड प्रतीक्षा करें और रोकें** और आप **eternal loop** के अंदर पाएंगे। अनंत लूप के अगले निर्देश पर कूदें क्योंकि यह shellcode को कॉल करेगा, और अंततः आप shellcode को निष्पादित करते हुए पाएंगे।
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) blobrunner के समान है। यह **shellcode** को मेमोरी के एक स्थान के अंदर **allocate** करेगा, और एक **eternal loop** शुरू करेगा। फिर आपको प्रक्रिया से **debugger** को जोड़ने की आवश्यकता है, **play start wait 2-5 secs और press stop** करें और आप **eternal loop** के अंदर पाएंगे। अनंत लूप के अगले निर्देश पर कूदें क्योंकि यह shellcode को कॉल करेगा, और अंततः आप shellcode को निष्पादित करते हुए पाएंगे।
 
 ![](<../../.gitbook/assets/image (509).png>)
 
-आप [jmp2it के रिलीज़ पृष्ठ पर](https://github.com/adamkramer/jmp2it/releases/) एक संकलित संस्करण डाउनलोड कर सकते हैं।
+आप [jmp2it के रिलीज़ पृष्ठ के अंदर एक संकलित संस्करण डाउनलोड कर सकते हैं](https://github.com/adamkramer/jmp2it/releases/)।
 
 ### Cutter का उपयोग करके shellcode का डिबगिंग
 
@@ -214,7 +214,7 @@ iisreset /noforce
 ### shellcode को deobfuscate करना और निष्पादित फ़ंक्शंस प्राप्त करना
 
 आपको [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152) का प्रयास करना चाहिए।\
-यह आपको बताएगा कि **कौन से फ़ंक्शन** shellcode का उपयोग कर रहा है और क्या shellcode **स्वयं को डिकोड** कर रहा है।
+यह आपको बताएगा कि **कौन से फ़ंक्शन** shellcode का उपयोग कर रहा है और क्या shellcode **अपने आप को मेमोरी में डिकोड** कर रहा है।
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -223,11 +223,11 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg में एक ग्राफिकल लॉन्चर भी है जहाँ आप उन विकल्पों का चयन कर सकते हैं जिन्हें आप चाहते हैं और शेलकोड को निष्पादित कर सकते हैं
+scDbg में एक ग्राफिकल लॉन्चर भी है जहाँ आप उन विकल्पों का चयन कर सकते हैं जिन्हें आप चाहते हैं और शेलकोड को निष्पादित कर सकते हैं।
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-**Create Dump** विकल्प अंतिम शेलकोड को डंप करेगा यदि शेलकोड में मेमोरी में गतिशील रूप से कोई परिवर्तन किया गया है (डिकोडेड शेलकोड डाउनलोड करने के लिए उपयोगी)। **start offset** किसी विशेष ऑफसेट पर शेलकोड शुरू करने के लिए उपयोगी हो सकता है। **Debug Shell** विकल्प शेलकोड को scDbg टर्मिनल का उपयोग करके डिबग करने के लिए उपयोगी है (हालांकि मुझे लगता है कि इस मामले के लिए पहले समझाए गए किसी भी विकल्प का उपयोग करना बेहतर है क्योंकि आप Ida या x64dbg का उपयोग कर सकेंगे)।
+**Create Dump** विकल्प अंतिम शेलकोड को डंप करेगा यदि शेलकोड में मेमोरी में गतिशील रूप से कोई परिवर्तन किया गया है (डिकोडेड शेलकोड डाउनलोड करने के लिए उपयोगी)। **start offset** किसी विशेष ऑफसेट पर शेलकोड शुरू करने के लिए उपयोगी हो सकता है। **Debug Shell** विकल्प शेलकोड को scDbg टर्मिनल का उपयोग करके डिबग करने के लिए उपयोगी है (हालांकि मुझे पहले बताए गए किसी भी विकल्प को इस मामले के लिए बेहतर लगता है क्योंकि आप Ida या x64dbg का उपयोग कर सकेंगे)।
 
 ### CyberChef का उपयोग करके डिसएसेंबलिंग
 
@@ -240,14 +240,14 @@ scDbg में एक ग्राफिकल लॉन्चर भी है
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-यदि आप भाग्यशाली हैं तो [demovfuscator](https://github.com/kirschju/demovfuscator) बाइनरी को डिओबफस्केट करेगा। इसमें कई निर्भरताएँ हैं
+यदि आप भाग्यशाली हैं तो [demovfuscator](https://github.com/kirschju/demovfuscator) बाइनरी को डिओबफस्केट करेगा। इसमें कई निर्भरताएँ हैं।
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
 And [install keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-यदि आप एक **CTF खेल रहे हैं, तो ध्वज खोजने के लिए यह समाधान** बहुत उपयोगी हो सकता है: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+यदि आप एक **CTF खेल रहे हैं, तो ध्वज खोजने के लिए यह वर्कअराउंड** बहुत उपयोगी हो सकता है: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
@@ -256,7 +256,7 @@ And [install keystone](https://github.com/keystone-engine/keystone/blob/master/d
 ![](<../../.gitbook/assets/image (1080).png>)
 
 इस मामले में बाइनरी का नाम authenticator था, इसलिए यह स्पष्ट है कि यह दिलचस्प मुख्य फ़ंक्शन है।\
-कॉल किए जा रहे **फंक्शनों** के **नाम** होने पर, उनके **इनपुट** और **आउटपुट** के बारे में जानने के लिए उन्हें **इंटरनेट** पर खोजें।
+कॉल किए जा रहे **फंक्शनों** के **नाम** होने पर, उनके **इनपुट** और **आउटपुट** के बारे में जानने के लिए **इंटरनेट** पर उनकी खोज करें।
 
 ## **Delphi**
 

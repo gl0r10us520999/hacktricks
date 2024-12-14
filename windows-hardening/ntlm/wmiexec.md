@@ -74,7 +74,7 @@ Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Descrip
 
 ### WMI सेवा स्थिति
 
-WMI सेवा के कार्यशील होने की पुष्टि करने के लिए कमांड:
+WMI सेवा के संचालन की पुष्टि करने के लिए कमांड:
 ```bash
 # WMI service status check
 Get-Service Winmgmt
@@ -108,7 +108,7 @@ To remotely execute a process over WMI, such as deploying an Empire agent, the f
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-यह प्रक्रिया WMI की दूरस्थ निष्पादन और प्रणाली गणना की क्षमता को दर्शाती है, जो प्रणाली प्रशासन और पेंटेस्टिंग दोनों के लिए इसकी उपयोगिता को उजागर करती है।
+यह प्रक्रिया WMI की दूरस्थ निष्पादन और प्रणाली गणना की क्षमता को दर्शाती है, जो प्रणाली प्रशासन और पेंटेस्टिंग दोनों के लिए इसके उपयोगिता को उजागर करती है।
 
 ## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
@@ -132,8 +132,8 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 <summary>HackTricks का समर्थन करें</summary>
 
 * [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
-* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
-* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PRs सबमिट करें।
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}

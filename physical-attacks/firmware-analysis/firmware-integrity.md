@@ -39,7 +39,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 6. मीटरप्रीटर सत्रों की निगरानी की जा सकती है जैसे ही वे खुलते हैं।
 7. पोस्ट-एक्सप्लॉइटेशन गतिविधियाँ की जा सकती हैं।
 
-यदि संभव हो, तो स्टार्टअप स्क्रिप्ट में कमजोरियों का लाभ उठाकर रिबूट के दौरान डिवाइस तक निरंतर पहुंच प्राप्त की जा सकती है। ये कमजोरियाँ तब उत्पन्न होती हैं जब स्टार्टअप स्क्रिप्ट संदर्भित करती हैं, [सांकेतिक लिंक](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data) करती हैं, या अनट्रस्टेड माउंटेड स्थानों जैसे SD कार्ड और डेटा स्टोर करने के लिए उपयोग किए जाने वाले फ्लैश वॉल्यूम में स्थित कोड पर निर्भर करती हैं।
+यदि संभव हो, तो स्टार्टअप स्क्रिप्ट में कमजोरियों का लाभ उठाकर रिबूट के दौरान डिवाइस पर स्थायी पहुंच प्राप्त की जा सकती है। ये कमजोरियाँ तब उत्पन्न होती हैं जब स्टार्टअप स्क्रिप्ट संदर्भित करती हैं, [सांकेतिक लिंक](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data) करती हैं, या अनट्रस्टेड माउंटेड स्थानों जैसे SD कार्ड और डेटा स्टोर करने के लिए उपयोग किए जाने वाले फ्लैश वॉल्यूम में स्थित कोड पर निर्भर करती हैं।
 
 ## References
 * For further information check [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)

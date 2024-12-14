@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * **RegOpenKey** संचालन।
 * जहाँ _Result_ **NAME NOT FOUND** है।
-* और _Path_ **InprocServer32** के साथ समाप्त होता है।
+* और _Path_ **InprocServer32** पर समाप्त होता है।
 
 एक बार जब आप तय कर लें कि किस गैर-मौजूद COM का अनुकरण करना है, तो निम्नलिखित कमांड चलाएँ। _यदि आप किसी ऐसे COM का अनुकरण करने का निर्णय लेते हैं जो हर कुछ सेकंड में लोड होता है, तो सावधान रहें क्योंकि यह अधिक हो सकता है।_
 ```bash
@@ -62,7 +62,7 @@ Write-Host
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [more like the previous one...]</code></pre>
 
-आउटपुट की जांच करते समय, आप एक ऐसा चयन कर सकते हैं जो **हर बार एक उपयोगकर्ता लॉग इन होने पर** निष्पादित होने वाला है।
+आउटपुट की जांच करते समय, आप एक ऐसा चयन कर सकते हैं जो **हर बार एक उपयोगकर्ता लॉग इन करने पर** निष्पादित होने वाला है।
 
 अब **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** और HKLM और HKCU में CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** की खोज करते समय, आप आमतौर पर पाएंगे कि यह मान HKCU में मौजूद नहीं है।
 ```bash
@@ -85,7 +85,7 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-फिर, आप बस HKCU प्रविष्टि बना सकते हैं और हर बार जब उपयोगकर्ता लॉग इन करेगा, आपका बैकडोर सक्रिय हो जाएगा।
+फिर, आप बस HKCU प्रविष्टि बना सकते हैं और हर बार जब उपयोगकर्ता लॉग इन करता है, तो आपका बैकडोर सक्रिय हो जाएगा।
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

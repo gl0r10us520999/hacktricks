@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Code
 
-[यहाँ](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) से निम्नलिखित कोड। यह **एक प्रक्रिया आईडी को तर्क के रूप में इंगित करने** की अनुमति देता है और एक CMD **इंगित की गई प्रक्रिया के उपयोगकर्ता के रूप में चलाया जाएगा।**\
+[यहाँ](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) से निम्नलिखित कोड। यह **एक प्रक्रिया आईडी को तर्क के रूप में इंगित करने** की अनुमति देता है और एक CMD **इंगित की गई प्रक्रिया** के उपयोगकर्ता के रूप में चलाया जाएगा।\
 एक उच्च अखंडता प्रक्रिया में चलाते समय, आप **सिस्टम के रूप में चल रही प्रक्रिया का PID इंगित कर सकते हैं** (जैसे winlogon, wininit) और cmd.exe को सिस्टम के रूप में निष्पादित कर सकते हैं।
 ```cpp
 impersonateuser.exe 1234

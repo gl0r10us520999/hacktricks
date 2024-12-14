@@ -1,46 +1,47 @@
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
-* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **हमारा अनुसरण करें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **हैकिंग ट्रिक्स साझा करें,** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-एक पिंग प्रतिक्रिया TTL में:\
+In a ping response TTL:\
 127 = Windows\
 254 = Cisco\
-बाकी, कुछ linux
+बाकी, कुछlinux
 
 $1$- md5\
-$2$या $2a$ - Blowfish\
+$2$or $2a$ - Blowfish\
 $5$- sha256\
 $6$- sha512
 
-यदि आप नहीं जानते कि किसी सेवा के पीछे क्या है, तो एक HTTP GET अनुरोध करने का प्रयास करें।
+If you do not know what is behind a service, try to make and HTTP GET request.
 
-**UDP स्कैन**\
+**UDP Scans**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-एक खाली UDP पैकेट एक विशिष्ट पोर्ट पर भेजा जाता है। यदि UDP पोर्ट खुला है, तो लक्ष्य मशीन से कोई उत्तर वापस नहीं भेजा जाता है। यदि UDP पोर्ट बंद है, तो लक्ष्य मशीन से एक ICMP पोर्ट अप्राप्य पैकेट वापस भेजा जाना चाहिए।\
+An empty UDP packet is sent to a specific port. If the UDP port is open, no reply is sent back from the target machine. If the UDP port is closed, an ICMP port unreachable packet should be sent back from the target machine.\
 
-UDP पोर्ट स्कैनिंग अक्सर अविश्वसनीय होती है, क्योंकि फ़ायरवॉल और राउटर ICMP\
-पैकेट को गिरा सकते हैं। इससे आपके स्कैन में झूठे सकारात्मक परिणाम हो सकते हैं, और आप नियमित रूप से देखेंगे\
-UDP पोर्ट स्कैनिंग में सभी UDP पोर्ट खुले दिखाए जाते हैं।\
-अधिकांश पोर्ट स्कैनर सभी उपलब्ध पोर्ट को स्कैन नहीं करते हैं, और आमतौर पर एक पूर्व निर्धारित सूची होती है\
-“दिलचस्प पोर्ट” की जो स्कैन की जाती है।
 
-# CTF - ट्रिक्स
+UDP port scanning is often unreliable, as firewalls and routers may drop ICMP\
+packets. This can lead to false positives in your scan, and you will regularly see\
+UDP port scans showing all UDP ports open on a scanned machine.\
+o Most port scanners do not scan all available ports, and usually have a preset list\
+of “interesting ports” that are scanned.
 
-**Windows** में फ़ाइलों की खोज के लिए **Winzip** का उपयोग करें।\
-**वैकल्पिक डेटा स्ट्रीम**: _dir /r | find ":$DATA"_\
+# CTF - Tricks
+
+In **Windows** use **Winzip** to search for files.\
+**Alternate data Streams**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
@@ -53,8 +54,8 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 **Basae64**(6—>8) —> 0...9, a...z, A…Z,+,/\
 **Base32**(5 —>8) —> A…Z, 2…7\
 **Base85** (Ascii85, 7—>8) —> 0...9, a...z, A...Z, ., -, :, +, =, ^, !, /, \*, ?, &, <, >, (, ), \[, ], {, }, @, %, $, #\
-**Uuencode** --> "_begin \<mode> \<filename>_" से शुरू करें और अजीब अक्षर\
-**Xxencoding** --> "_begin \<mode> \<filename>_" से शुरू करें और B64\
+**Uuencode** --> "_begin \<mode> \<filename>_" और अजीब अक्षर\
+**Xxencoding** --> "_begin \<mode> \<filename>_" और B64\
 \
 **Vigenere** (frequency analysis) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
 **Scytale** (offset of characters) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
@@ -64,7 +65,7 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 factordb.com\
 rsatool
 
-Snow --> स्पेस और टैब का उपयोग करके संदेश छिपाएं
+Snow --> संदेशों को स्थान और टैब का उपयोग करके छिपाएं
 
 # Characters
 

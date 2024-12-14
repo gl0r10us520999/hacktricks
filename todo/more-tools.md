@@ -60,7 +60,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 * [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : सबडोमेन खोज
 * [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : गिटहब में सबडोमेन खोज
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : तेज़ पोर्ट स्कैनिंग
-* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : एक वेब में JS फ़ाइलों से सबडोमेन और URL
+* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : एक वेब में JS फ़ाइलों से सबडोमेन और URLs
 * [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : वेब फ़ाइलों का शब्दकोश
 * [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : कई रिपीटर टैब से बचने के लिए BurpExtension
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : संपत्तियों को प्राप्त करें
@@ -76,15 +76,15 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 
 # Windows
 
-* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : पार्श्व आंदोलन
+* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : पार्श्विक आंदोलन
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL बिन्स
-* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): स्थिरता
+* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): स्थायीता
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Windows प्रक्रिया इंजेक्शन तकनीकें
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : रेड टीम स्क्रिप्ट
 * [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : सक्रिय निर्देशिका समूह नीति में सुरक्षा से संबंधित गलत कॉन्फ़िगरेशन खोजें।
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Securestring ओबफस्केशन
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : पैरेंट PID स्पूफिंग
-* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : पॉवरशेल पेलोड को एन्क्रिप्ट करें
+* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : पॉवरशेल पेलोड्स को एन्क्रिप्ट करें
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : स्टेल्थ C2
 * [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Windows आंतरिक के बारे में लॉग की श्रृंखला
 * [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : यह ट्रैक करें कि किसने एक दस्तावेज़ खोला
@@ -92,13 +92,13 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 
 # Firmware
 
-उपकरण जो मुझे लगता है कि फर्मवेयर (स्वचालित) का विश्लेषण करने के लिए अच्छे हो सकते हैं:
+उपकरण जो फर्मवेयर का विश्लेषण करने के लिए अच्छे हो सकते हैं (स्वचालित):
 
 * [https://github.com/craigz28/firmwalker](https://github.com/craigz28/firmwalker)
 * [https://github.com/fkie-cad/FACT\_core](https://github.com/fkie-cad/FACT\_core)
 * [https://gitlab.com/bytesweep/bytesweep-go](https://gitlab.com/bytesweep/bytesweep-go)
 
-पोस्ट-क्रेमा:
+पोस्ट-क्रेम:
 
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
@@ -109,7 +109,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 
 और यहाँ फर्मवेयर का विश्लेषण करने के लिए ओवैस्प की पद्धति है: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
-फर्मवेयर अनुकरण: FIRMADYNE (https://github.com/firmadyne/firmadyne/) लिनक्स-आधारित फर्मवेयर के अनुकरण और गतिशील विश्लेषण को स्वचालित करने के लिए एक मंच है।
+फर्मवेयर अनुकरण: FIRMADYNE (https://github.com/firmadyne/firmadyne/) लिनक्स-आधारित फर्मवेयर के अनुकरण और गतिशील विश्लेषण को स्वचालित करने के लिए एक प्लेटफ़ॉर्म है।
 
 # OTHER
 
@@ -126,7 +126,7 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 * लिनक्स रूटकिट: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
 * [https://theia-ide.org/](https://theia-ide.org) : ऑनलाइन IDE
 * [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : बग बाउंटी पर शुरू करने के लिए संसाधन
-* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS पेंटेस्टिंग उपकरण
+* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS पैठ उपकरण
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : कीवर्ड
 * [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : IoT हैकिंग (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : स्कैनिंग को स्वचालित करना
