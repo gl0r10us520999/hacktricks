@@ -133,7 +133,7 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ## Funksies aanroep
 
 * Jy kan 'n lys van argumente deur `args` en 'n woordeboek van omgewingsveranderlikes deur `env` in `entry_state` en `full_init_state` deurgee. Die waardes in hierdie strukture kan strings of bitvectors wees, en sal in die toestand geserialiseer word as die argumente en omgewing vir die gesimuleerde uitvoering. Die standaard `args` is 'n leë lys, so as die program wat jy analiseer verwag om ten minste 'n `argv[0]` te vind, moet jy dit altyd verskaf!
-* As jy wil hê dat `argc` simbolies moet wees, kan jy 'n simboliese bitvector as `argc` aan die `entry_state` en `full_init_state` konstruktors deurgee. Wees versigtig, though: as jy dit doen, moet jy ook 'n beperking by die resultaat toestand voeg dat jou waarde vir argc nie groter kan wees as die aantal args wat jy in `args` deurgegee het nie.
+* As jy wil hê dat `argc` simbolies moet wees, kan jy 'n simboliese bitvector as `argc` aan die `entry_state` en `full_init_state` konstruktors deurgee. Wees versigtig, egter: as jy dit doen, moet jy ook 'n beperking by die resultaat toestand voeg dat jou waarde vir argc nie groter kan wees as die aantal args wat jy in `args` deurgegee het nie.
 * Om die aanroep toestand te gebruik, moet jy dit aanroep met `.call_state(addr, arg1, arg2, ...)`, waar `addr` die adres van die funksie is wat jy wil aanroep en `argN` die Nde argument vir daardie funksie is, hetsy as 'n python heelgetal, string, of array, of 'n bitvector. As jy geheue wil toewys en werklik 'n wysiger na 'n objek wil deurgee, moet jy dit in 'n PointerWrapper verpak, d.w.z. `angr.PointerWrapper("point to me!")`. Die resultate van hierdie API kan 'n bietjie onvoorspelbaar wees, maar ons werk daaraan.
 
 ## BitVectors
@@ -209,8 +209,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

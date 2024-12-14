@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -17,11 +17,11 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## SID History Injection Aanval
 
-Die fokus van die **SID History Injection Aanval** is om **gebruikermigrasie tussen domeine** te ondersteun terwyl toegang tot hulpbronne van die vorige domein verseker word. Dit word bereik deur **die gebruiker se vorige Veiligheidsidentifiseerder (SID) in die SID Geskiedenis** van hul nuwe rekening in te sluit. Dit is belangrik om te noem dat hierdie proses gemanipuleer kan word om ongeoorloofde toegang te verleen deur die SID van 'n hoë-privilege groep (soos Enterprise Admins of Domain Admins) van die ouerdomein by die SID Geskiedenis te voeg. Hierdie uitbuiting bied toegang tot alle hulpbronne binne die ouerdomein.
+Die fokus van die **SID History Injection Aanval** is om **gebruikermigrasie tussen domeine** te ondersteun terwyl toegang tot hulpbronne van die vorige domein verseker word. Dit word bereik deur **die gebruiker se vorige Veiligheidsidentifiseerder (SID) in die SID Geskiedenis** van hul nuwe rekening in te sluit. Dit is belangrik om te noem dat hierdie proses gemanipuleer kan word om ongeoorloofde toegang te verleen deur die SID van 'n hoë-privilege groep (soos Enterprise Admins of Domain Admins) van die ouerdomein aan die SID Geskiedenis toe te voeg. Hierdie uitbuiting bied toegang tot alle hulpbronne binne die ouerdomein.
 
 Twee metodes bestaan om hierdie aanval uit te voer: deur die skep van 'n **Golden Ticket** of 'n **Diamond Ticket**.
 
-Om die SID vir die **"Enterprise Admins"** groep te bepaal, moet 'n mens eers die SID van die worteldomein vind. Na identifikasie kan die Enterprise Admins groep SID saamgestel word deur `-519` aan die worteldomein se SID toe te voeg. Byvoorbeeld, as die worteldomein SID `S-1-5-21-280534878-1496970234-700767426` is, sal die resulterende SID vir die "Enterprise Admins" groep `S-1-5-21-280534878-1496970234-700767426-519` wees.
+Om die SID vir die **"Enterprise Admins"** groep te bepaal, moet 'n mens eers die SID van die worteldomein vind. Na identifikasie kan die Enterprise Admins groep SID gebou word deur `-519` aan die worteldomein se SID toe te voeg. Byvoorbeeld, as die worteldomein SID `S-1-5-21-280534878-1496970234-700767426` is, sal die resulterende SID vir die "Enterprise Admins" groep `S-1-5-21-280534878-1496970234-700767426-519` wees.
 
 Jy kan ook die **Domain Admins** groepe gebruik, wat eindig op **512**.
 
@@ -162,8 +162,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

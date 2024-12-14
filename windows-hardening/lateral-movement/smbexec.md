@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 **Kry 'n hacker se perspektief op jou webtoepassings, netwerk, en wolk**
 
-**Vind en rapporteer kritieke, exploitable kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om bevoegdhede te verhoog, en gebruik geoutomatiseerde exploits om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskakel.
+**Vind en rapporteer kritieke, exploiteerbare kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om bevoegdhede te verhoog, en gebruik geoutomatiseerde eksploit om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskep.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -37,9 +37,9 @@ smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
 ### Uitvoering van Opdragte Sonder Binaries
 
-- **Smbexec** stel direkte opdrag uitvoering deur diens binPaths in staat, wat die behoefte aan fisiese binaries op die teiken uitskakel.
+- **Smbexec** stel direkte opdraguitvoering deur diens binPaths in staat, wat die behoefte aan fisiese binaries op die teiken uitskakel.
 - Hierdie metode is nuttig om eenmalige opdragte op 'n Windows-teiken uit te voer. Byvoorbeeld, om dit te kombineer met Metasploit se `web_delivery` module stel die uitvoering van 'n PowerShell-gefokusde omgekeerde Meterpreter payload moontlik.
-- Deur 'n afstanddiens op die aanvaller se masjien te skep met binPath ingestel om die verskafde opdrag deur cmd.exe uit te voer, is dit moontlik om die payload suksesvol uit te voer, wat terugroep en payload uitvoering met die Metasploit luisteraar bereik, selfs al gebeur diens responsfoute.
+- Deur 'n afstanddiens op die aanvaller se masjien te skep met binPath ingestel om die verskafde opdrag deur cmd.exe uit te voer, is dit moontlik om die payload suksesvol uit te voer, wat terugroep en payload-uitvoering met die Metasploit listener bereik, selfs al gebeur diensresponsfoute.
 
 ### Opdragte Voorbeeld
 

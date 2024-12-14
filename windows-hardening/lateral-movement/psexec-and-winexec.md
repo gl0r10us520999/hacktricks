@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -28,7 +28,7 @@ Die proses word in die onderstaande stappe uiteengesit, wat illustreer hoe diens
 
 ### **Proses van Handmatige Uitvoering van PsExec**
 
-Aneem daar is 'n uitvoerbare payload (gecreëer met msfvenom en obfuskeer met Veil om antivirus opsporing te ontduik), genaamd 'met8888.exe', wat 'n meterpreter reverse\_http payload verteenwoordig, die volgende stappe word geneem:
+Aneem daar is 'n uitvoerbare payload (gecreëer met msfvenom en obfuskeer met Veil om antivirus opsporing te ontduik), genaamd 'met8888.exe', wat 'n meterpreter reverse_http payload verteenwoordig, die volgende stappe word geneem:
 
 * **Kopieer die binaire**: Die uitvoerbare word na die ADMIN$ deel gekopieer vanaf 'n opdragprompt, alhoewel dit enige plek op die lêerstelsel geplaas kan word om verborge te bly.
 * **Skep 'n diens**: Deur die Windows `sc` opdrag te gebruik, wat toelaat om Windows dienste afstands te vra, te skep en te verwyder, word 'n diens genaamd "meterpreter" geskep om na die opgelaaide binaire te verwys.

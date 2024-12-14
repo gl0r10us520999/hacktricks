@@ -14,7 +14,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -55,9 +55,9 @@ Die Plaaslike Sekuriteitsowerheid (LSASS) verwerk toegang versoeke tot objek deu
 
 Daar is **drie hoof tipes Toegangsbeheeringe (ACEs)**:
 
-* **Toegang Geweier ACE**: Hierdie ACE weier eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
+* **Toegang Weier ACE**: Hierdie ACE weier eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
 * **Toegang Toegelaat ACE**: Hierdie ACE grant eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
-* **Stelselaudit ACE**: Geplaas binne 'n Stelsels Toegangsbeheerlys (SACL), is hierdie ACE verantwoordelik vir die generering van ouditlogs by toegangspogings tot 'n objek deur gebruikers of groepe. Dit dokumenteer of toegang toegestaan of geweier is en die aard van die toegang.
+* **Stelselaudit ACE**: Geplaas binne 'n Stelsels Toegangsbeheerlys (SACL), is hierdie ACE verantwoordelik vir die generering van ouditlogboek wanneer toegangspogings tot 'n objek deur gebruikers of groepe plaasvind. Dit dokumenteer of toegang toegestaan of geweier is en die aard van die toegang.
 
 Elke ACE het **vier kritieke komponente**:
 
@@ -68,13 +68,13 @@ Elke ACE het **vier kritieke komponente**:
 
 Toegangsbepaling word uitgevoer deur elke ACE een vir een te ondersoek totdat:
 
-* 'n **Toegang-Geweier ACE** eksplisiet die aangevraagde regte aan 'n trustee in die toegangstoken weier.
-* **Toegang-Toegelaat ACE(s)** eksplisiet al die aangevraagde regte aan 'n trustee in die toegangstoken grant.
-* Na die nagaan van alle ACEs, as enige aangevraagde regte **nie eksplisiet toegestaan is nie**, word toegang implisiet **geweier**.
+* 'n **Toegang-Weier ACE** eksplisiet die aangevraagde regte aan 'n trustee in die toegangstoken weier.
+* **Toegang-Toegelaat ACE(s)** eksplisiet al die aangevraagde regte aan 'n trustee in die toegangstoken toeken.
+* Na die nagaan van al die ACEs, as enige aangevraagde regte **nie eksplisiet toegestaan** is nie, word toegang implisiet **geweier**.
 
 ### Volgorde van ACEs
 
-Die manier waarop **ACEs** (reëls wat sê wie kan of nie kan toegang hê nie) in 'n lys genaamd **DACL** geplaas word, is baie belangrik. Dit is omdat sodra die stelsel toegang op grond van hierdie reëls gee of weier, dit ophou om na die res te kyk.
+Die manier waarop **ACEs** (reëls wat sê wie kan of nie kan toegang hê nie) in 'n lys genaamd **DACL** geplaas word, is baie belangrik. Dit is omdat sodra die stelsel toegang op grond van hierdie reëls toeken of weier, dit ophou om na die res te kyk.
 
 Daar is 'n beste manier om hierdie ACEs te organiseer, en dit word **"kanonieke volgorde"** genoem. Hierdie metode help om te verseker dat alles glad en regverdig werk. Hier is hoe dit gaan vir stelsels soos **Windows 2000** en **Windows Server 2003**:
 
@@ -87,7 +87,7 @@ Hierdie opstelling help op twee groot maniere:
 * Dit verseker dat as daar 'n spesifieke **"nee"** is, dit gerespekteer word, ongeag watter ander **"ja"** reëls daar is.
 * Dit laat die eienaar van 'n item die **laaste sê** hê oor wie binnekom, voordat enige reëls van ouer gidse of verder terug in werking tree.
 
-Deur dinge op hierdie manier te doen, kan die eienaar van 'n lêer of gids baie presies wees oor wie toegang kry, en verseker dat die regte mense kan inkom en die verkeerde nie.
+Deur dit op hierdie manier te doen, kan die eienaar van 'n lêer of gids baie presies wees oor wie toegang kry, en verseker dat die regte mense kan inkom en die verkeerde nie.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
@@ -127,17 +127,17 @@ Wanneer ons toegang tot hulpbronne bestuur, soos 'n gids, gebruik ons lyste en r
 
 #### Toegang tot 'n Spesifieke Groep Weier
 
-Stel jou voor jy het 'n gids genaamd Kostes, en jy wil hê almal moet toegang hê behalwe vir 'n bemarking span. Deur die reëls korrek op te stel, kan ons verseker dat die bemarking span eksplisiet toegang geweier word voordat ons almal anders toelaat. Dit word gedoen deur die reël om toegang tot die bemarking span te weier voor die reël wat toegang aan almal toelaat.
+Stel jou voor jy het 'n gids genaamd Koste, en jy wil hê almal moet toegang hê behalwe vir 'n bemarking span. Deur die reëls korrek op te stel, kan ons verseker dat die bemarking span eksplisiet toegang geweier word voordat ons almal anders toelaat. Dit word gedoen deur die reël om toegang tot die bemarking span te weier voor die reël wat toegang aan almal toelaat.
 
-#### Toegang aan 'n Spesifieke Lid van 'n Geweerde Groep Toelaat
+#### Toegang tot 'n Spesifieke Lid van 'n Geweerde Groep Toelaat
 
-Kom ons sê Bob, die bemarkingsdirekteur, het toegang tot die Kostes gids nodig, alhoewel die bemarking span oor die algemeen nie toegang moet hê nie. Ons kan 'n spesifieke reël (ACE) vir Bob byvoeg wat hom toegang grant, en dit voor die reël wat toegang aan die bemarking span weier plaas. Op hierdie manier kry Bob toegang ten spyte van die algemene beperking op sy span.
+Kom ons sê Bob, die bemarkingsdirekteur, het toegang tot die Koste gids nodig, alhoewel die bemarking span oor die algemeen nie toegang moet hê nie. Ons kan 'n spesifieke reël (ACE) vir Bob byvoeg wat hom toegang gee, en dit voor die reël wat toegang tot die bemarking span weier plaas. Op hierdie manier kry Bob toegang ten spyte van die algemene beperking op sy span.
 
 #### Toegangsbeheeringe Verstaan
 
 ACEs is die individuele reëls in 'n ACL. Hulle identifiseer gebruikers of groepe, spesifiseer watter toegang toegestaan of geweier word, en bepaal hoe hierdie reëls op sub-items van toepassing is (erfenis). Daar is twee hoof tipes ACEs:
 
-* **Generiese ACEs**: Hierdie geld breedweg, wat ofwel alle tipes objek beïnvloed of net tussen houers (soos gidse) en nie-houers (soos lêers) onderskei. Byvoorbeeld, 'n reël wat gebruikers toelaat om die inhoud van 'n gids te sien, maar nie toegang tot die lêers daarin te hê nie.
+* **Generiese ACEs**: Hierdie geld breedweg, wat ofwel al die tipes objek beïnvloed of net tussen houers (soos gidse) en nie-houers (soos lêers) onderskei. Byvoorbeeld, 'n reël wat gebruikers toelaat om die inhoud van 'n gids te sien, maar nie toegang tot die lêers daarin te hê nie.
 * **Objek-Spesifieke ACEs**: Hierdie bied meer presiese beheer, wat toelaat dat reëls vir spesifieke tipes objek of selfs individuele eienskappe binne 'n objek gestel word. Byvoorbeeld, in 'n gids van gebruikers, kan 'n reël 'n gebruiker toelaat om hul telefoonnommer op te dateer, maar nie hul aanmeldure nie.
 
 Elke ACE bevat belangrike inligting soos wie die reël van toepassing is (met 'n Sekuriteitsidentifiseerder of SID), wat die reël toelaat of weier (met 'n toegangsmasker), en hoe dit geërf word deur ander objek.
@@ -155,7 +155,7 @@ In samevatting help ACLs en ACEs om presiese toegangsbeheer te definieer, wat ve
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Tipe        | Vlag wat die tipe ACE aandui. Windows 2000 en Windows Server 2003 ondersteun ses tipes ACE: Drie generiese ACE tipes wat aan alle beveiligbare objek geheg is. Drie objek-spesifieke ACE tipes wat vir Aktiewe Gids objek kan voorkom.                                                                                                                                                                                                                                                            |
 | Vlagte      | Stel van bitvlagte wat erfenis en ouditering beheer.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Grootte     | Aantal bytes geheue wat vir die ACE toegeken word.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Grootte     | Aantal bytes van geheue wat vir die ACE toegeken is.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | Toegangsmasker | 32-bis waarde waarvan die bits ooreenstem met toegangregte vir die objek. Bits kan of aan of af gestel word, maar die instelling se betekenis hang af van die ACE tipe. Byvoorbeeld, as die bit wat ooreenstem met die reg om toestemmings te lees aangeskakel is, en die ACE tipe is Weier, weier die ACE die reg om die objek se toestemmings te lees. As dieselfde bit aangeskakel is, maar die ACE tipe is Toelaat, grant die ACE die reg om die objek se toestemmings te lees. Meer besonderhede van die Toegangsmasker verskyn in die volgende tabel. |
 | SID         | Identifiseer 'n gebruiker of groep wie se toegang deur hierdie ACE beheer of gemonitor word.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
@@ -170,7 +170,7 @@ In samevatting help ACLs en ACEs om presiese toegangsbeheer te definieer, wat ve
 | 28          | Generies ALLES (Lees, Skryf, Voer uit) | Alles hieronder                          |
 | 29          | Generies Voer uit                    | Alle dinge wat nodig is om 'n program uit te voer |
 | 30          | Generies Skryf                      | Alle dinge wat nodig is om na 'n lêer te skryf   |
-| 31          | Generies Lees                       | Alle dinge wat nodig is om 'n lêer te lees       |
+| 31          | Generies Lees                       | Alle dinge wat nodig is om na 'n lêer te lees       |
 
 ## Verwysings
 
@@ -184,7 +184,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

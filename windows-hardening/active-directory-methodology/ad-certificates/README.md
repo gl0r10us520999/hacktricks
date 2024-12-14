@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,9 +15,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-## Introduction
+## Inleiding
 
-### Components of a Certificate
+### Komponente van 'n Sertifikaat
 
 - Die **Onderwerp** van die sertifikaat dui sy eienaar aan.
 - 'n **Publieke Sleutel** word gekoppel aan 'n privaat besit sleutel om die sertifikaat aan sy regmatige eienaar te verbind.
@@ -26,65 +26,65 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 - Die **Uitgewer** verwys na die CA wat die sertifikaat uitgereik het.
 - **SubjectAlternativeName** laat vir addisionele name vir die onderwerp, wat identifikasiefleksibiliteit verbeter.
 - **Basiese Beperkings** identifiseer of die sertifikaat vir 'n CA of 'n eindentiteit is en definieer gebruiksbeperkings.
-- **Verlengde Sleutelgebruik (EKUs)** delineer die sertifikaat se spesifieke doele, soos kodeondertekening of e-posversleuteling, deur middel van Objektidentifiseerders (OIDs).
+- **Verlengde Sleutelgebruik (EKUs)** delineer die sertifikaat se spesifieke doele, soos kode ondertekening of e-pos versleuteling, deur middel van Objektidentifiseerders (OIDs).
 - Die **Handtekening Algoritme** spesifiseer die metode vir die ondertekening van die sertifikaat.
 - Die **Handtekening**, geskep met die uitgewer se privaat sleutel, waarborg die sertifikaat se egtheid.
 
-### Special Considerations
+### Spesiale Oorwegings
 
-- **Onderwerp Alternatiewe Name (SANs)** brei 'n sertifikaat se toepasbaarheid uit na verskeie identiteite, wat noodsaaklik is vir bedieners met verskeie domeine. Veilige uitreikprosesse is noodsaaklik om te verhoed dat aanvallers die SAN-spesifikasie manipuleer en sodoende identiteitsdiefstal veroorsaak.
+- **Onderwerp Alternatiewe Name (SANs)** brei 'n sertifikaat se toepasbaarheid uit na verskeie identiteite, wat noodsaaklik is vir bedieners met verskeie domeine. Veilige uitreikprosesse is noodsaaklik om te verhoed dat aanvallers die SAN-spesifikasie manipuleer en sodoende identiteitsdiefstal risikos skep.
 
-### Certificate Authorities (CAs) in Active Directory (AD)
+### Sertifikaatowerhede (CAs) in Aktiewe Gids (AD)
 
-AD CS erken CA sertifikate in 'n AD-woud deur middel van aangewese houers, elk wat unieke rolle dien:
+AD CS erken CA sertifikate in 'n AD woud deur middel van aangewese houers, elk wat unieke rolle dien:
 
-- Die **Sertifiseringsowerhede** houer bevat vertroude wortel CA sertifikate.
-- Die **Inskrywingsdienste** houer bevat Enterprise CA's en hul sertifikaat sjablone.
-- Die **NTAuthCertificates** objek sluit CA sertifikate in wat gemagtig is vir AD-outehentisering.
-- Die **AIA (Authority Information Access)** houer fasiliteer sertifikaatkettingvalidasie met tussenliggende en kruis CA sertifikate.
+- **Sertifikaatowerhede** houer bevat vertroude wortel CA sertifikate.
+- **Registrasiedienste** houer detail Enterprise CAs en hul sertifikaat sjablone.
+- **NTAuthCertificates** objek sluit CA sertifikate in wat gemagtig is vir AD-outeentifikasie.
+- **AIA (Authority Information Access)** houer fasiliteer sertifikaat ketting validasie met tussenliggende en kruis CA sertifikate.
 
-### Certificate Acquisition: Client Certificate Request Flow
+### Sertifikaat Verkryging: Kliënt Sertifikaat Versoek Stroom
 
 1. Die versoekproses begin met kliënte wat 'n Enterprise CA vind.
 2. 'n CSR word geskep, wat 'n publieke sleutel en ander besonderhede bevat, na die generering van 'n publieke-privaat sleutel paar.
 3. Die CA evalueer die CSR teenoor beskikbare sertifikaat sjablone, en stel die sertifikaat uit op grond van die sjabloon se toestemmings.
 4. Na goedkeuring, onderteken die CA die sertifikaat met sy privaat sleutel en keer dit terug na die kliënt.
 
-### Certificate Templates
+### Sertifikaat Sjablone
 
-Gedefinieer binne AD, skets hierdie sjablone die instellings en toestemmings vir die uitreiking van sertifikate, insluitend toegelate EKUs en inskrywings- of wysigingsregte, wat krities is vir die bestuur van toegang tot sertifikaatdienste.
+Gedefinieer binne AD, skets hierdie sjablone die instellings en toestemmings vir die uitreiking van sertifikate, insluitend toegelate EKUs en registrasie of wysigingsregte, wat krities is vir die bestuur van toegang tot sertifikaatdienste.
 
-## Certificate Enrollment
+## Sertifikaat Registrasie
 
-Die inskrywingsproses vir sertifikate word geinitieer deur 'n administrateur wat **'n sertifikaat sjabloon skep**, wat dan **gepubliseer** word deur 'n Enterprise Sertifikaatowerheid (CA). Dit maak die sjabloon beskikbaar vir kliëntinskrywing, 'n stap wat bereik word deur die sjabloon se naam by die `certificatetemplates` veld van 'n Active Directory objek te voeg.
+Die registrasieproses vir sertifikate word geinitieer deur 'n administrateur wat **'n sertifikaat sjabloon skep**, wat dan **gepubliseer** word deur 'n Enterprise Sertifikaatowerheid (CA). Dit maak die sjabloon beskikbaar vir kliëntregistrasie, 'n stap wat bereik word deur die sjabloon se naam by die `certificatetemplates` veld van 'n Aktiewe Gids objek te voeg.
 
-Vir 'n kliënt om 'n sertifikaat aan te vra, moet **inskrywingsregte** toegeken word. Hierdie regte word gedefinieer deur sekuriteitsbeskrywings op die sertifikaat sjabloon en die Enterprise CA self. Toestemmings moet in beide plekke toegeken word vir 'n versoek om suksesvol te wees.
+Vir 'n kliënt om 'n sertifikaat aan te vra, moet **registraseregte** toegeken word. Hierdie regte word gedefinieer deur sekuriteitsbeskrywings op die sertifikaat sjabloon en die Enterprise CA self. Toestemmings moet in beide plekke toegeken word vir 'n versoek om suksesvol te wees.
 
-### Template Enrollment Rights
+### Sjabloon Registraseregte
 
 Hierdie regte word gespesifiseer deur middel van Toegang Beheer Inskrywings (ACEs), wat toestemmings soos:
-- **Sertifikaat-Inskrywing** en **Sertifikaat-AutoInskrywing** regte, elk geassosieer met spesifieke GUIDs.
+- **Sertifikaat-Registrasie** en **Sertifikaat-AutoRegistrasie** regte, elk geassosieer met spesifieke GUIDs.
 - **VerlengdeRegte**, wat alle verlengde toestemmings toelaat.
 - **VolleBeheer/GemiddeldAlles**, wat volledige beheer oor die sjabloon bied.
 
-### Enterprise CA Enrollment Rights
+### Enterprise CA Registraseregte
 
 Die CA se regte word uiteengesit in sy sekuriteitsbeskrywing, toeganklik via die Sertifikaatowerheid bestuurskonsol. Sommige instellings laat selfs laag-geprivilegieerde gebruikers afstandstoegang toe, wat 'n sekuriteitskwessie kan wees.
 
-### Additional Issuance Controls
+### Bykomende Uitreikbeheer
 
-Sekere kontroles mag van toepassing wees, soos:
-- **Bestuurder Goedkeuring**: Plaas versoeke in 'n hangende toestand totdat dit deur 'n sertifikaatbestuurder goedgekeur word.
-- **Inskrywingsagente en Gemagtigde Handtekeninge**: Spesifiseer die aantal vereiste handtekeninge op 'n CSR en die nodige Aansoekbeleid OIDs.
+Sekere beheer kan van toepassing wees, soos:
+- **Bestuurder Goedkeuring**: Plaas versoeke in 'n hangende toestand totdat dit deur 'n sertifikaat bestuurder goedgekeur word.
+- **Registrasie Agente en Gemagtigde Handtekeninge**: Spesifiseer die aantal vereiste handtekeninge op 'n CSR en die nodige Aansoek Beleid OIDs.
 
-### Methods to Request Certificates
+### Metodes om Sertifikate aan te vra
 
 Sertifikate kan aangevra word deur:
-1. **Windows Kliënt Sertifikaat Inskrywing Protokol** (MS-WCCE), met DCOM interfaces.
+1. **Windows Kliënt Sertifikaat Registrasie Protokol** (MS-WCCE), met DCOM interfaces.
 2. **ICertPassage Afstand Protokol** (MS-ICPR), deur middel van benoemde pype of TCP/IP.
-3. Die **sertifikaat inskrywings web koppelvlak**, met die Sertifikaatowerheid Web Inskrywing rol geïnstalleer.
-4. Die **Sertifikaat Inskrywingsdiens** (CES), in samewerking met die Sertifikaat Inskrywing Beleid (CEP) diens.
-5. Die **Netwerk Toestel Inskrywing Diens** (NDES) vir netwerk toestelle, met die gebruik van die Eenvoudige Sertifikaat Inskrywing Protokol (SCEP).
+3. Die **sertifikaat registrasie web koppelvlak**, met die Sertifikaatowerheid Web Registrasie rol geïnstalleer.
+4. Die **Sertifikaat Registrasiediens** (CES), in samewerking met die Sertifikaat Registrasie Beleid (CEP) diens.
+5. Die **Netwerk Toestel Registrasiediens** (NDES) vir netwerk toestelle, met die gebruik van die Eenvoudige Sertifikaat Registrasie Protokol (SCEP).
 
 Windows gebruikers kan ook sertifikate aan vra via die GUI (`certmgr.msc` of `certlm.msc`) of opdraglyn gereedskap (`certreq.exe` of PowerShell se `Get-Certificate` opdrag).
 ```powershell

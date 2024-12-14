@@ -1,8 +1,8 @@
 # Eksterne Woud-domein - Eenrigting (Uitgaand)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,9 +15,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-In hierdie scenario **jou domein** is **vertrou** op **sekere voorregte** aan 'n hoof van **verskillende domeine**.
+In hierdie scenario **jou domein** is **vertrou** op sommige **privileges** aan 'n hoof van 'n **verskillende domeine**.
 
-## Opname
+## Enumerasie
 
 ### Uitgaande Vertroue
 ```powershell
@@ -43,7 +43,7 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Trust Account Attack
 
-'n Sekuriteitskwesbaarheid bestaan wanneer 'n vertrouensverhouding tussen twee domeine gevestig word, hier geïdentifiseer as domein **A** en domein **B**, waar domein **B** sy vertroue na domein **A** uitbrei. In hierdie opstelling word 'n spesiale rekening in domein **A** geskep vir domein **B**, wat 'n belangrike rol speel in die verifikasieproses tussen die twee domeine. Hierdie rekening, geassosieer met domein **B**, word gebruik om kaartjies te enkripteer vir toegang tot dienste oor die domeine.
+'n Sekuriteitskwesie bestaan wanneer 'n vertrouensverhouding tussen twee domeine gevestig word, hier geïdentifiseer as domein **A** en domein **B**, waar domein **B** sy vertroue na domein **A** uitbrei. In hierdie opstelling word 'n spesiale rekening in domein **A** geskep vir domein **B**, wat 'n belangrike rol speel in die verifikasieproses tussen die twee domeine. Hierdie rekening, wat met domein **B** geassosieer word, word gebruik om kaartjies te enkripteer vir toegang tot dienste oor die domeine.
 
 Die kritieke aspek om hier te verstaan, is dat die wagwoord en hash van hierdie spesiale rekening uit 'n Domeinbeheerder in domein **A** onttrek kan word met behulp van 'n opdraglyn hulpmiddel. Die opdrag om hierdie aksie uit te voer is:
 ```powershell
@@ -53,11 +53,11 @@ Hierdie ekstraksie is moontlik omdat die rekening, wat met 'n **$** na sy naam g
 
 **Waarskuwing:** Dit is haalbaar om hierdie situasie te benut om 'n voet aan die grond in domein **A** te verkry as 'n gebruiker, alhoewel met beperkte regte. Hierdie toegang is egter voldoende om enumerasie op domein **A** uit te voer.
 
-In 'n scenario waar `ext.local` die vertrouende domein is en `root.local` die vertroude domein is, sal 'n gebruikersrekening met die naam `EXT$` binne `root.local` geskep word. Deur spesifieke gereedskap is dit moontlik om die Kerberos vertrouingssleutels te dump, wat die kredensiale van `EXT$` in `root.local` onthul. Die opdrag om dit te bereik is:
+In 'n scenario waar `ext.local` die vertrouende domein is en `root.local` die vertroude domein is, sou 'n gebruikersrekening met die naam `EXT$` binne `root.local` geskep word. Deur spesifieke gereedskap is dit moontlik om die Kerberos vertrouingssleutels te dump, wat die kredensiale van `EXT$` in `root.local` onthul. Die opdrag om dit te bereik is:
 ```bash
 lsadump::trust /patch
 ```
-Hierdie kan gebruik word om die onttrokken RC4-sleutel te gebruik om as `root.local\EXT$` binne `root.local` te autentiseer met 'n ander hulpmiddelopdrag:
+Volg hierna kan 'n mens die onttrokken RC4-sleutel gebruik om as `root.local\EXT$` binne `root.local` te autentiseer met behulp van 'n ander hulpmiddelopdrag:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
@@ -65,17 +65,17 @@ Hierdie verifikasiefase maak die moontlikheid oop om dienste binne `root.local` 
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Versameling van duidelike teks vertrouingswagwoord
+### Versameling van duidelike teks wagwoord
 
-In die vorige vloei is die vertrouingshash gebruik in plaas van die **duidelike teks wagwoord** (wat ook **deur mimikatz gedump** is).
+In die vorige vloei is die vertrouenshash gebruik in plaas van die **duidelike teks wagwoord** (wat ook **deur mimikatz gedump** is).
 
-Die duidelike teks wagwoord kan verkry word deur die \[ CLEAR ] uitvoer van mimikatz van hexadesimaal te omskakel en null bytes ‘\x00’ te verwyder:
+Die duidelike teks wagwoord kan verkry word deur die \[ CLEAR ] uitvoer van mimikatz van hexadecimaal te omskakel en null bytes ‘\x00’ te verwyder:
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Soms, wanneer 'n vertrouingsverhouding geskep word, moet 'n wagwoord deur die gebruiker vir die vertroue getik word. In hierdie demonstrasie is die sleutel die oorspronklike vertrouingswagwoord en dus menslik leesbaar. Soos die sleutel siklusse (30 dae), sal die duidelike teks nie menslik leesbaar wees nie, maar tegnies steeds bruikbaar.
+Soms, wanneer 'n vertrouensverhouding geskep word, moet 'n wagwoord deur die gebruiker vir die vertroue getik word. In hierdie demonstrasie is die sleutel die oorspronklike vertrouenswagwoord en dus menslik leesbaar. Soos die sleutel siklusse (30 dae), sal die duidelike teks nie menslik leesbaar wees nie, maar tegnies steeds bruikbaar.
 
-Die duidelike teks wagwoord kan gebruik word om gereelde outentisering as die vertrouingsrekening uit te voer, 'n alternatief om 'n TGT aan te vra met die Kerberos geheime sleutel van die vertrouingsrekening. Hier, om root.local van ext.local te vra vir lede van Domain Admins:
+Die duidelike teks wagwoord kan gebruik word om gereelde outentisering as die vertrouensrekening uit te voer, 'n alternatief om 'n TGT aan te vra met die Kerberos geheime sleutel van die vertrouensrekening. Hier, om root.local van ext.local te vra vir lede van Domain Admins:
 
 ![](<../../.gitbook/assets/image (792).png>)
 

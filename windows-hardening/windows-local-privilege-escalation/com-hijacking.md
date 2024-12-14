@@ -17,7 +17,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ### Soek na nie-bestaande COM-komponente
 
-Aangesien die waardes van HKCU deur die gebruikers gewysig kan word, kan **COM Hijacking** as 'n **volhardende meganisme** gebruik word. Met `procmon` is dit maklik om gesoekte COM-registers te vind wat nie bestaan nie wat 'n aanvaller kan skep om volharding te hê. Filters:
+Aangesien die waardes van HKCU deur die gebruikers gewysig kan word, kan **COM Hijacking** as 'n **volhardende meganisme** gebruik word. Deur `procmon` te gebruik, is dit maklik om gesoekte COM-registers te vind wat nie bestaan nie wat 'n aanvaller kan skep om volharding te hê. Filters:
 
 * **RegOpenKey** operasies.
 * waar die _Resultaat_ **NAAM NIE GEVIND** is.
@@ -33,7 +33,7 @@ New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F
 
 Windows Take gebruik Aangepaste Triggers om COM-objekte aan te roep en omdat hulle deur die Taakbeplanner uitgevoer word, is dit makliker om te voorspel wanneer hulle geaktiveer gaan word.
 
-<pre class="language-powershell"><code class="lang-powershell"># Wys COM CLSIDs
+<pre class="language-powershell"><code class="lang-powershell"># Show COM CLSIDs
 $Tasks = Get-ScheduledTask
 
 foreach ($Task in $Tasks)
@@ -47,8 +47,8 @@ $usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
 
 if ($Task.Principal.GroupId -eq $usersGroup)
 {
-Write-Host "Taak Naam: " $Task.TaskName
-Write-Host "Taak Pad: " $Task.TaskPath
+Write-Host "Task Name: " $Task.TaskName
+Write-Host "Task Path: " $Task.TaskPath
 Write-Host "CLSID: " $Task.Actions.ClassId
 Write-Host
 }
@@ -56,13 +56,13 @@ Write-Host
 }
 }
 
-# Voorbeeld Uitset:
-<strong># Taak Naam:  Voorbeeld
-</strong># Taak Pad:  \Microsoft\Windows\Voorbeeld\
+# Sample Output:
+<strong># Task Name:  Voorbeeld
+</strong># Task Path:  \Microsoft\Windows\Voorbeeld\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [meer soos die vorige een...]</code></pre>
 
-Deur die uitset te kontroleer, kan jy een kies wat **elke keer 'n gebruiker aanmeld** gaan uitgevoer word, byvoorbeeld.
+Deur die uitvoer te kontroleer, kan jy een kies wat **elke keer wanneer 'n gebruiker aanmeld** uitgevoer gaan word, byvoorbeeld.
 
 Nou, deur te soek na die CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** in **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** en in HKLM en HKCU, sal jy gewoonlik vind dat die waarde nie in HKCU bestaan nie.
 ```bash
@@ -93,9 +93,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

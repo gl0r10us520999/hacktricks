@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 Proses kan op gasheer oopgemaak word waar die gebruikersnaam en óf wagwoord of hash bekend is deur die gebruik van WMI. Opdragte word uitgevoer met behulp van WMI deur Wmiexec, wat 'n semi-interaktiewe skaalervaring bied.
 
-**dcomexec.py:** Deur verskillende DCOM eindpunte te benut, bied hierdie skrip 'n semi-interaktiewe skaal soortgelyk aan wmiexec.py, spesifiek die ShellBrowserWindow DCOM objek. Dit ondersteun tans MMC20. Toepassing, Shell Windows, en Shell Browser Window objek. (bron: [Hacking Artikels](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Deur verskillende DCOM eindpunte te benut, bied hierdie skrip 'n semi-interaktiewe skaal soortgelyk aan wmiexec.py, spesifiek die ShellBrowserWindow DCOM objek. Dit ondersteun tans MMC20. Toepassing, Shell Windows, en Shell Browser Window objek. (bron: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## WMI Grondbeginsels
 
@@ -44,7 +44,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **Klasses**
 
-Om 'n WMI-klasnaam te ken, soos win32\_process, en die naamruimte waarin dit woon, is van kardinale belang vir enige WMI-operasie.  
+Om 'n WMI-klasnaam te ken, soos win32\_process, en die naamruimte waarin dit woon, is noodsaaklik vir enige WMI-operasie.  
 Opdragte om klasse te lys wat met `win32` begin:
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
@@ -70,11 +70,11 @@ $c.methods
 # Method listing and invocation
 Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Description", $null, "Name", $null, "c:\share\path",0)
 ```
-## WMI Enumerasie
+## WMI Opname
 
-### WMI Diens Status
+### WMI Diensstatus
 
-Opdragte om te verifieer of die WMI diens operasioneel is:
+Opdragte om te verifieer of die WMI-diens operasioneel is:
 ```bash
 # WMI service status check
 Get-Service Winmgmt
@@ -82,14 +82,14 @@ Get-Service Winmgmt
 # Via CMD
 net start | findstr "Instrumentation"
 ```
-### Stelsels en Proses Inligting
+### Stelsel- en Prosesinligting
 
-Versameling van stelsels en proses inligting deur WMI:
+Versameling van stelsel- en prosesinligting deur WMI:
 ```bash
 Get-WmiObject -ClassName win32_operatingsystem | select * | more
 Get-WmiObject win32_process | Select Name, Processid
 ```
-Vir aanvallers is WMI 'n kragtige hulpmiddel om sensitiewe data oor stelsels of domeine te enummer.
+Vir aanvallers is WMI 'n kragtige hulpmiddel om sensitiewe data oor stelsels of domeine te enumerate.
 ```bash
 wmic computerystem list full /format:list
 wmic process list /format:list
@@ -100,15 +100,15 @@ wmic sysaccount list /format:list
 ```
 Remote querying of WMI vir spesifieke inligting, soos plaaslike admins of ingelogde gebruikers, is haalbaar met sorgvuldige opdragkonstruksie.
 
-### **Handmatige Afgeleë WMI Vraestelling**
+### **Handmatige Afgeleë WMI Vraestelle**
 
-Stealthy identifikasie van plaaslike admins op 'n afgeleë masjien en ingelogde gebruikers kan bereik word deur spesifieke WMI-vrae. `wmic` ondersteun ook die lees van 'n tekslêer om opdragte op verskeie nodes gelyktydig uit te voer.
+Stealthy identifikasie van plaaslike admins op 'n afgeleë masjien en ingelogde gebruikers kan bereik word deur spesifieke WMI-vraestelle. `wmic` ondersteun ook die lees van 'n tekslêer om opdragte op verskeie nodes gelyktydig uit te voer.
 
 Om 'n proses afgeleë oor WMI uit te voer, soos om 'n Empire-agent te ontplooi, word die volgende opdragstruktuur gebruik, met suksesvolle uitvoering aangedui deur 'n terugwaarde van "0":
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Hierdie proses illustreer WMI se vermoë vir afstandsuitvoering en stelselening, wat die nut daarvan vir beide stelselsadministrasie en penetrasietoetsing beklemtoon.
+Hierdie proses illustreer WMI se vermoë vir afstandsuitvoering en stelselnommering, wat die nut daarvan vir beide stelselnavorsing en penetrasietoetsing beklemtoon.
 
 ## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
@@ -124,8 +124,8 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 {% endcode %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

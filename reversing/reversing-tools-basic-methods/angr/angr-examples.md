@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -54,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Invoer om adres te bereik (aanduiding van afdrukke)
+### Invoer om adres te bereik (aanduiding drukke)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -421,7 +421,7 @@ Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg 
 ### Toepassing van Beperkings
 
 {% hint style="info" %}
-Soms kos eenvoudige menslike operasies soos om 2 woorde van lengte 16 **karakter vir karakter** (lus) te vergelyk, **baie** vir **angr** omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
+Soms kos eenvoudige menslike operasies soos om 2 woorde van lengte 16 **karakter vir karakter** (lus) te vergelyk, **baie** vir 'n **angr** omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
 Daarom is dit makliker om **angr te vra om na 'n vorige punt te gaan** (waar die werklike moeilike deel reeds gedoen is) en **daardie beperkings handmatig in te stel**.
 {% endhint %}
 ```python
@@ -499,7 +499,7 @@ In sommige scenario's kan jy **veritesting** aktiveer, wat soortgelyke status sa
 {% endhint %}
 
 {% hint style="info" %}
-Nog iets wat jy in hierdie scenario's kan doen, is om die **funksie te hook wat angr iets gee wat dit makliker kan verstaan**.
+Nog iets wat jy in hierdie scenario's kan doen, is om die **funksie te hook** deur angr iets te gee wat dit makliker kan verstaan.
 {% endhint %}
 
 ### Simulasie Bestuurders
@@ -543,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking/Bypassing een oproep na 'n funksie
+### Hooking/Omseil een oproep na 'n funksie
 ```python
 # This level performs the following computations:
 #
@@ -695,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Simuleer scanf met verskeie parametre
+### Simuleer scanf met verskeie parameters
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.

@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ### **Binwalk**
 
-'n Gereedskap om binêre lêers te soek na ingebedde versteekte lêers en data. Dit word geïnstalleer via `apt` en sy bron is beskikbaar op [GitHub](https://github.com/ReFirmLabs/binwalk).
+'n Gereedskap om binêre lêers te soek vir ingebedde versteekte lêers en data. Dit word geïnstalleer via `apt` en sy bron is beskikbaar op [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -71,30 +71,30 @@ cmp original.jpg stego.jpg -b -l
 
 ### **Verborgen Gegewens in Spasies**
 
-Onsigbare karakters in blykbaar leë spasies mag inligting verberg. Om hierdie data te onttrek, besoek [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Onsigbare karakters in skynbaar leë spasies mag inligting verberg. Om hierdie data te onttrek, besoek [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
 ## **Onttrek van Gegewens uit Beelde**
 
 ### **Identifisering van Beeldbesonderhede met GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) dien om beeldlêertipes te bepaal en potensiële korrupsie te identifiseer. Voer die onderstaande opdrag uit om 'n beeld te ondersoek:
+[GraphicMagick](https://imagemagick.org/script/download.php) dien om beeldlêertipes te bepaal en potensiële korrupsie te identifiseer. Voer die onderstaande opdrag uit om 'n beeld te inspekteer:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Om herstel op 'n beskadigde beeld te probeer, kan dit help om 'n metadata-kommentaar by te voeg:
+Om 'n poging te doen om 'n beskadigde beeld te herstel, kan dit help om 'n metadata-kommentaar by te voeg:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **Steghide vir Data Versteeking**
 
-Steghide fasiliteer die verborge van data binne `JPEG, BMP, WAV, en AU` lêers, en is in staat om versleutelde data in te sluit en uit te trek. Installasie is eenvoudig met `apt`, en sy [bronkode is beskikbaar op GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide fasiliteer die verborge van data binne `JPEG, BMP, WAV, en AU` lêers, en is in staat om versleutelde data in te sluit en uit te trek. Installasie is eenvoudig met `apt`, en sy [bronskode is beskikbaar op GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Opdragte:**
 
 * `steghide info file` onthul of 'n lêer verborge data bevat.
 * `steghide extract -sf file [--passphrase password]` trek die verborge data uit, wagwoord is opsioneel.
 
-Vir web-gebaseerde uittrekking, besoek [hierdie webwerf](https://futureboy.us/stegano/decinput.html).
+Vir web-gebaseerde ekstraksie, besoek [hierdie webwerf](https://futureboy.us/stegano/decinput.html).
 
 **Bruteforce Aanval met Stegcracker:**
 
@@ -125,7 +125,7 @@ Fast Fourier Transform (FFT) tegnieke kan verborge inhoud in beelde onthul. Nutt
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic op GitHub](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy vir Klank- en Beeldlêers**
+### **Stegpy vir Klank en Beeld Lêers**
 
 Stegpy laat die insluiting van inligting in beeld- en klanklêers toe, wat formate soos PNG, BMP, GIF, WebP, en WAV ondersteun. Dit is beskikbaar op [GitHub](https://github.com/dhsdshdhk/stegpy).
 
@@ -141,7 +141,7 @@ pngcheck stego.png
 Vir verdere verkenning, oorweeg om te besoek:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Beeld Foutvlak Analise](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -160,7 +160,7 @@ Hierdie gereedskap is versoenbaar met 'n verskeidenheid formate, insluitend PNG,
 
 ### **ffmpeg**
 
-ffmpeg is noodsaaklik vir die beoordeling van die integriteit van klanklêers, wat gedetailleerde inligting uitlig en enige afwykings aanwys.
+ffmpeg is van kardinale belang vir die beoordeling van die integriteit van klanklêers, wat gedetailleerde inligting uitlig en enige afwykings aanwys.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -188,12 +188,12 @@ Die opsporing van DTMF-tones in klanklêers kan bereik word deur middel van aanl
 
 ### **Binary Length SQRT - QR Code**
 
-Binaire data wat tot 'n hele getal kwadrate, mag 'n QR-kode verteenwoordig. Gebruik hierdie snit om te kontroleer:
+Binaire data wat tot 'n heelgetal kwadrate, mag 'n QR-kode verteenwoordig. Gebruik hierdie snit om te kontroleer:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-For binary to image conversion, check [dcode](https://www.dcode.fr/binary-image). To read QR codes, use [this online barcode reader](https://online-barcode-reader.inliteresearch.com/).
+For binêre na beeld omskakeling, kyk na [dcode](https://www.dcode.fr/binary-image). Om QR-kodes te lees, gebruik [hierdie aanlyn strepieskode leser](https://online-barcode-reader.inliteresearch.com/).
 
 ### **Braille Vertaling**
 
@@ -205,16 +205,16 @@ Vir die vertaling van Braille is die [Branah Braille Translator](https://www.bra
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

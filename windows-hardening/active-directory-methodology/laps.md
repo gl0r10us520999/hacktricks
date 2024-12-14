@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Local Administrator Password Solution (LAPS) is 'n hulpmiddel wat gebruik word om 'n stelsel te bestuur waar **administrateur wagwoorde**, wat **uniek, ewekansig, en gereeld verander** word, toegepas word op domein-verbonden rekenaars. Hierdie wagwoorde word veilig binne Active Directory gestoor en is slegs toeganklik vir gebruikers wat toestemming gekry het deur Toegang Beheer Lyste (ACLs). Die sekuriteit van die wagwoord oordragte van die kliënt na die bediener word verseker deur die gebruik van **Kerberos weergawe 5** en **Gevorderde Versleuteling Standaard (AES)**.
+Local Administrator Password Solution (LAPS) is 'n hulpmiddel wat gebruik word om 'n stelsel te bestuur waar **administrateur wagwoorde**, wat **uniek, ewekansig, en gereeld verander** word, toegepas word op domein-verbonden rekenaars. Hierdie wagwoorde word veilig binne Active Directory gestoor en is slegs toeganklik vir gebruikers wat toestemming gekry het deur Toegangsbeheerlijste (ACLs). Die sekuriteit van die wagwoord oordragte van die kliënt na die bediener word verseker deur die gebruik van **Kerberos weergawe 5** en **Gevorderde Versleutelingstandaard (AES)**.
 
-In die domein se rekenaarobjekte, lei die implementering van LAPS tot die toevoeging van twee nuwe eienskappe: **`ms-mcs-AdmPwd`** en **`ms-mcs-AdmPwdExpirationTime`**. Hierdie eienskappe stoor die **plank teks administrateur wagwoord** en **sy vervaldatum**, onderskeidelik.
+In die domein se rekenaarobjekte, lei die implementering van LAPS tot die toevoeging van twee nuwe eienskappe: **`ms-mcs-AdmPwd`** en **`ms-mcs-AdmPwdExpirationTime`**. Hierdie eienskappe stoor die **planktekst administrateur wagwoord** en **sy vervaldatum**, onderskeidelik.
 
 ### Check if activated
 ```bash
@@ -105,7 +105,7 @@ As daar geen toegang tot 'n powershell is nie, kan jy hierdie voorreg op afstand
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-Dit sal al die wagwoorde wat die gebruiker kan lees, dump, wat jou toelaat om 'n beter voet aan die grond te kry met 'n ander gebruiker.
+Dit sal al die wagwoorde dump wat die gebruiker kan lees, wat jou toelaat om 'n beter posisie met 'n ander gebruiker te kry.
 
 ## ** Gebruik LAPS Wagwoord **
 ```
@@ -119,7 +119,7 @@ Password: 2Z@Ae)7!{9#Cq
 
 ### **Vervaldatum**
 
-Sodra jy admin is, is dit moontlik om die **wagwoorde** te **verkry** en 'n masjien te **verhoed** om sy **wagwoord** te **opdateer** deur die **vervaldatum in die toekoms** te stel.
+Sodra jy admin is, is dit moontlik om die **wagwoorde** te **verkry** en 'n masjien te **verhoed** om sy **wagwoord** te **opdateer** deur die vervaldatum in die toekoms te **stel**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -137,8 +137,8 @@ Die wagwoord sal steeds teruggestel word as 'n **admin** die **`Reset-AdmPwdPass
 Die oorspronklike bronkode vir LAPS kan [hier](https://github.com/GreyCorbel/admpwd) gevind word, daarom is dit moontlik om 'n agterdeur in die kode te plaas (binne die `Get-AdmPwdPassword` metode in `Main/AdmPwd.PS/Main.cs` byvoorbeeld) wat op een of ander manier **nuwe wagwoorde sal uitbring of dit êrens sal stoor**.
 
 Dan, compileer net die nuwe `AdmPwd.PS.dll` en laai dit op na die masjien in `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (en verander die wysigingstyd).
-
-## Verwysings
+  
+## References
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>

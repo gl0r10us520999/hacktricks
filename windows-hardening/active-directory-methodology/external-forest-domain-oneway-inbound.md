@@ -1,8 +1,8 @@
 # Eksterne Woud-Domein - Eenrigting (Inkomend) of bidireksioneel
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,7 +15,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-In hierdie scenario vertrou 'n eksterne domein jou (of albei vertrou mekaar), sodat jy 'n soort toegang daaroor kan kry.
+In hierdie scenario vertrou 'n eksterne domein jou (of albei vertrou mekaar), sodat jy 'n tipe toegang daaroor kan verkry.
 
 ## Enumerasie
 
@@ -87,7 +87,7 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 
 ### Aanmelding
 
-Deur 'n gewone metode te gebruik met die geloofsbriewe van die gebruikers wat toegang het tot die eksterne domein, behoort jy toegang te hê tot:
+Deur 'n gewone metode te gebruik met die geloofsbriewe van die gebruikers wat toegang het tot die eksterne domein, behoort jy toegang te hê:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```

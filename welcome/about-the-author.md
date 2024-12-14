@@ -21,7 +21,7 @@ Eerstens, dit is nodig om aan te dui dat alle **krediete van tegnieke van navors
 
 HackTricks is 'n opvoedkundige Wiki wat kennis oor **kubersekuriteit** saamstel, gelei deur Carlos met honderde medewerkers! Dit is 'n **groot versameling van hacking truuks** wat deur die gemeenskap so veel as moontlik opgedateer word om dit op datum te hou. As jy iets vind wat ontbreek of verouderd is, stuur asseblief 'n **Pull Request** na die [**Hacktricks Github**](https://github.com/carlospolop/hacktricks)!
 
-HackTricks is ook 'n wiki waar **baie navorsers ook hul nuutste bevindings deel**, so dit is 'n wonderlike plek om op hoogte te bly van die nuutste hacking tegnieke.
+HackTricks is ook 'n wiki waar **baie navorsers ook hul nuutste bevindings deel**, so dit is 'n wonderlike plek om op datum te bly met die nuutste hacking tegnieke.
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

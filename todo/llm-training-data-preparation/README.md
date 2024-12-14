@@ -34,7 +34,7 @@ Die doel van hierdie tweede fase is baie eenvoudig: **Steek die invoerdata en be
 
 {% hint style="success" %}
 Die doel van hierdie derde fase is baie eenvoudig: **Ken elkeen van die vorige tokens in die woordeskat 'n vektor van die gewenste dimensies toe om die model te train.** Elke woord in die woordeskat sal 'n punt in 'n ruimte van X dimensies wees.\
-Let daarop dat die posisie van elke woord in die ruimte aanvanklik net "ewekansig" geinitialiseer word en hierdie posisies is leerbare parameters (sal verbeter word tydens die opleiding).
+Let daarop dat die posisie van elke woord in die ruimte aanvanklik net "ewekansig" geïnitialiseer word en hierdie posisies is leerbare parameters (sal verbeter word tydens die opleiding).
 
 Boonop, tydens die token embedding **word 'n ander laag van embeddings geskep** wat (in hierdie geval) die **absolute posisie van die woord in die opleidingssin** verteenwoordig. Op hierdie manier sal 'n woord in verskillende posisies in die sin 'n ander voorstelling (betekenis) hê.
 {% endhint %}
@@ -69,7 +69,7 @@ Hierdie argitektuur sal vir beide, opleiding en voorspellings van teks gebruik w
 ## 6. Pre-training & Loading models
 
 {% hint style="success" %}
-Die doel van hierdie sesde fase is baie eenvoudig: **Oplei die model van nuuts af**. Hiervoor sal die vorige LLM-argitektuur gebruik word met 'n paar lusse wat oor die datastelle gaan met behulp van die gedefinieerde verliesfunksies en optimizer om al die parameters van die model op te lei.
+Die doel van hierdie sesde fase is baie eenvoudig: **Train die model van nuuts af**. Hiervoor sal die vorige LLM-argitektuur gebruik word met 'n paar lusse wat oor die datastelle gaan met behulp van die gedefinieerde verliesfunksies en optimizer om al die parameters van die model te train.
 {% endhint %}
 
 {% content-ref url="6.-pre-training-and-loading-models.md" %}
@@ -79,7 +79,7 @@ Die doel van hierdie sesde fase is baie eenvoudig: **Oplei die model van nuuts a
 ## 7.0. LoRA Improvements in fine-tuning
 
 {% hint style="success" %}
-Die gebruik van **LoRA verminder baie die berekening** wat nodig is om **fine tune** reeds opgelei modelle.
+Die gebruik van **LoRA verminder baie die berekening** wat nodig is om **fyn te stel** reeds opgelei modelle.
 {% endhint %}
 
 {% content-ref url="7.0.-lora-improvements-in-fine-tuning.md" %}
@@ -89,7 +89,7 @@ Die gebruik van **LoRA verminder baie die berekening** wat nodig is om **fine tu
 ## 7.1. Fine-Tuning for Classification
 
 {% hint style="success" %}
-Die doel van hierdie afdeling is om te wys hoe om 'n reeds vooropgeleide model te fine-tune sodat in plaas daarvan om nuwe teks te genereer, die LLM die **waarskynlikhede van die gegewe teks om in elkeen van die gegewe kategorieë gekategoriseer te word** (soos of 'n teks spam is of nie) sal gee.
+Die doel van hierdie afdeling is om te wys hoe om 'n reeds vooraf opgelei model fyn te stel sodat in plaas daarvan om nuwe teks te genereer, die LLM die **waarskynlikhede van die gegewe teks om in elkeen van die gegewe kategorieë gekategoriseer te word** (soos of 'n teks spam is of nie) sal kies.
 {% endhint %}
 
 {% content-ref url="7.1.-fine-tuning-for-classification.md" %}
@@ -99,7 +99,7 @@ Die doel van hierdie afdeling is om te wys hoe om 'n reeds vooropgeleide model t
 ## 7.2. Fine-Tuning to follow instructions
 
 {% hint style="success" %}
-Die doel van hierdie afdeling is om te wys hoe om **'n reeds vooropgeleide model te fine-tune om instruksies te volg** eerder as net teks te genereer, byvoorbeeld, om op take te reageer as 'n chat bot.
+Die doel van hierdie afdeling is om te wys hoe om **'n reeds vooraf opgelei model fyn te stel om instruksies te volg** eerder as net teks te genereer, byvoorbeeld, om op take te reageer as 'n chat bot.
 {% endhint %}
 
 {% content-ref url="7.2.-fine-tuning-to-follow-instructions.md" %}

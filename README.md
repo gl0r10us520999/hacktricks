@@ -55,7 +55,7 @@ Jy kan hul **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) om maklik **werkvloei** te bou en te **automate** wat aangedryf word deur die wêreld se **meest gevorderde** gemeenskap gereedskap.
+Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) om maklik te bou en **werkvloei** te outomatiseer wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.
 
 Kry Toegang Vandag:
 
@@ -67,7 +67,7 @@ Kry Toegang Vandag:
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Sluit by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener aan om met ervare hackers en bug bounty jagters te kommunikeer!
+Sluit by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener aan om met ervare hackers en bug bounty jagters te kommunikeer!
 
 * **Hacking Inligting:** Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
 * **Regstydse Hack Nuus:** Bly op hoogte van die vinnig bewegende hacking wêreld deur regstydse nuus en insigte
@@ -83,7 +83,7 @@ Sluit by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 
 **Kry 'n hacker se perspektief op jou web toepassings, netwerk, en wolk**
 
-**Vind en rapporteer kritieke, exploitable kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om voorregte te verhoog, en gebruik geoutomatiseerde exploits om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskep.
+**Vind en rapporteer kritieke, exploitable kwesbaarhede met werklike besigheidsimpak.** Gebruik ons 20+ pasgemaakte gereedskap om die aanvaloppervlak te karteer, vind sekuriteitskwessies wat jou toelaat om voorregte te verhoog, en gebruik outomatiese exploits om noodsaaklike bewyse te versamel, wat jou harde werk in oortuigende verslae omskep.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -95,12 +95,12 @@ Sluit by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 
 **SerpApi** bied vinnige en maklike regstydse API's om **toegang tot soekenjinresultate** te verkry. Hulle scrape soekenjins, hanteer proxies, los captchas op, en parse al die ryk gestructureerde data vir jou.
 
-'n Intekening op een van SerpApi se planne sluit toegang in tot meer as 50 verskillende API's vir die scraping van verskillende soekenjins, insluitend Google, Bing, Baidu, Yahoo, Yandex, en meer.\
-In teenstelling met ander verskaffers, **scrape SerpApi nie net organiese resultate nie**. SerpApi antwoorde sluit konsekwent al die advertensies, inline beelde en video's, kennisgrafieke, en ander elemente en funksies wat in die soekresultate teenwoordig is, in.
+'n Subskripsie op een van SerpApi se planne sluit toegang tot meer as 50 verskillende API's in vir die scraping van verskillende soekenjins, insluitend Google, Bing, Baidu, Yahoo, Yandex, en meer.\
+In teenstelling met ander verskaffers, **scrape SerpApi nie net organiese resultate nie**. SerpApi-antwoorde sluit konsekwent al die advertensies, inline prente en video's, kennisgrafieke, en ander elemente en funksies wat in die soekresultate teenwoordig is, in.
 
 Huidige SerpApi kliënte sluit **Apple, Shopify, en GrubHub** in.\
 Vir meer inligting, kyk na hul [**blog**](https://serpapi.com/blog/)**,** of probeer 'n voorbeeld in hul [**speelgrond**](https://serpapi.com/playground)**.**\
-Jy kan **'n gratis rekening** [**hier**](https://serpapi.com/users/sign_up)**.**
+Jy kan **'n gratis rekening skep** [**hier**](https://serpapi.com/users/sign_up)**.**
 
 ***
 
@@ -118,11 +118,11 @@ Leer die tegnologieë en vaardighede wat benodig word om kwesbaarheid navorsing,
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) is 'n professionele kuberveiligheidsmaatskappy gebaseer in **Amsterdam** wat help om **besighede** **oor die wêreld** teen die nuutste kuberveiligheidsbedreigings te beskerm deur **offensiewe-sekuriteit dienste** met 'n **moderne** benadering te bied.
+[**WebSec**](https://websec.nl) is 'n professionele kuberveiligheidsmaatskappy gebaseer in **Amsterdam** wat help om **besighede** **oor die wêreld** teen die nuutste kuberveiligheid bedreigings te beskerm deur **offensiewe-sekuriteit dienste** met 'n **moderne** benadering te bied.
 
 WebSec is 'n **alles-in-een sekuriteitsmaatskappy** wat beteken hulle doen dit alles; Pentesting, **Sekuriteit** Oudit, Bewustheidsopleiding, Phishing Campagnes, Kode Hersiening, Exploit Ontwikkeling, Sekuriteit Eksperte Uitsourcing en nog baie meer.
 
-Nog 'n interessante ding oor WebSec is dat, in teenstelling met die industrie gemiddelde, WebSec **baie selfversekerd is in hul vaardighede**, tot so 'n mate dat hulle **die beste kwaliteit resultate waarborg**, dit staan op hul webwerf "**As ons dit nie kan hack nie, betaal jy nie!**". Vir meer inligting, kyk na hul [**webwerf**](https://websec.nl/en/) en [**blog**](https://websec.nl/blog/)!
+Nog 'n interessante ding oor WebSec is dat, in teenstelling met die industrie gemiddelde, WebSec **baie selfversekerd is in hul vaardighede**, tot so 'n mate dat hulle **die beste kwaliteit resultate waarborg**, dit staan op hul webwerf "**As ons dit nie kan hack nie, betaal jy dit nie!**". Vir meer inligting, kyk na hul [**webwerf**](https://websec.nl/en/) en [**blog**](https://websec.nl/blog/)!
 
 Benewens die bogenoemde is WebSec ook 'n **toegewyde ondersteuner van HackTricks.**
 
@@ -150,7 +150,7 @@ Leer & oefen GCP Hacking: <img src=".gitbook/assets/grte.png" alt="" data-size="
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -43,7 +43,7 @@ sudo nc -k -v -l -p 386
 However, hierdie metode se sukses verskil.
 
 ### Metode 2: Volledige LDAP-bediener met Slapd
-'n Meer betroubare benadering behels die opstelling van 'n volledige LDAP-bediener omdat die drukker 'n null bind uitvoer gevolg deur 'n navraag voordat dit probeer om geloofsbriewe te bind.
+'n Meer betroubare benadering behels die opstelling van 'n volledige LDAP-bediener omdat die drukker 'n null bind uitvoer gevolg deur 'n navraag voordat dit probeer om akreditasie te bind.
 
 1. **LDAP-bedieneropstelling**: Die gids volg stappe van [hierdie bron](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
 2. **Belangrike Stappe**:
@@ -68,7 +68,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**intekening planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

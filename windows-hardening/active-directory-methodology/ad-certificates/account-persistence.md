@@ -1,16 +1,16 @@
 # AD CS Account Persistence
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -36,7 +36,7 @@ Upon successful request, a certificate along with its private key is generated i
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-Die `.pfx`-lêer kan dan na 'n teikenstelsel opgelaai word en gebruik word met 'n hulpmiddel genaamd [**Rubeus**](https://github.com/GhostPack/Rubeus) om 'n Ticket Granting Ticket (TGT) vir die gebruiker aan te vra, wat die aanvaller se toegang verleng solank die sertifikaat **geld** (tipies een jaar):
+Die `.pfx` lêer kan dan na 'n teikenstelsel opgelaai word en gebruik word met 'n hulpmiddel genaamd [**Rubeus**](https://github.com/GhostPack/Rubeus) om 'n Ticket Granting Ticket (TGT) vir die gebruiker aan te vra, wat die aanvaller se toegang verleng solank die sertifikaat **geld** (tipies een jaar):
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
@@ -44,17 +44,17 @@ Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass
 
 ## **Masjien Volhoubaarheid Verkry met Sertifikate - PERSIST2**
 
-'n Ander metode behels die inskrywing van 'n gecompromitteerde stelsel se masjienrekening vir 'n sertifikaat, wat die standaard `Machine` sjabloon gebruik wat sulke aksies toelaat. As 'n aanvaller verhoogde voorregte op 'n stelsel verkry, kan hulle die **SYSTEM** rekening gebruik om sertifikate aan te vra, wat 'n vorm van **volhoubaarheid** bied:
+'n Ander metode behels die inskrywing van 'n gecompromitteerde stelsel se masjienrekening vir 'n sertifikaat, wat die standaard `Machine` sjabloon gebruik wat sulke aksies toelaat. As 'n aanvaller verhoogde regte op 'n stelsel verkry, kan hulle die **SYSTEM** rekening gebruik om sertifikate aan te vra, wat 'n vorm van **volhoubaarheid** bied:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
 This access enables the attacker to authenticate to **Kerberos** as the machine account and utilize **S4U2Self** to obtain Kerberos service tickets for any service on the host, effectively granting the attacker persistent access to the machine.
 
-## **Uitbreiding van Volharding deur Sertifikaat Vernuwing - PERSIST3**
+## **Extending Persistence Through Certificate Renewal - PERSIST3**
 
 Die finale metode wat bespreek word, behels die benutting van die **geldigheid** en **vernuwingperiodes** van sertifikaat sjablone. Deur 'n sertifikaat te **vernuwe** voordat dit verval, kan 'n aanvaller die autentisering na Active Directory handhaaf sonder die behoefte aan addisionele kaartregistrasies, wat spore op die Sertifikaatowerheid (CA) bediener kan agterlaat.
 
-Hierdie benadering stel 'n **verlengde volharding** metode in staat, wat die risiko van opsporing minimaliseer deur minder interaksies met die CA bediener en die generering van artefakte te vermy wat administrateurs op die indringing kan waarsku.
+Hierdie benadering stel 'n **verlengde volharding** metode in, wat die risiko van opsporing minimaliseer deur minder interaksies met die CA bediener en die generering van artefakte te vermy wat administrateurs op die indringing kan waarsku.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

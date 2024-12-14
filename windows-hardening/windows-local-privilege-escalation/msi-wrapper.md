@@ -16,7 +16,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 
 Laai die gratis weergawe van die toepassing af van [https://www.exemsi.com/documentation/getting-started/](https://www.exemsi.com/download/), voer dit uit en verpak die "kwaadwillige" binêre daarop.\
-Let daarop dat jy 'n "**.bat**" kan verpak as jy **net** wil **uitvoer** **opdraglyne (in plaas van cmd.exe, kies die .bat-lêer)**
+Let daarop dat jy 'n "**.bat**" kan verpak as jy **net** die **opdraglyne** wil **uitvoer** **(in plaas van cmd.exe, kies die .bat-lêer)**
 
 ![](<../../.gitbook/assets/image (417).png>)
 

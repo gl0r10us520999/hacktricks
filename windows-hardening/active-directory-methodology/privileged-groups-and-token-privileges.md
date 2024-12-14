@@ -36,11 +36,11 @@ Om die lede van hierdie groep te identifiseer, word die volgende opdrag uitgevoe
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-Adding new users is toegelaat, sowel as plaaslike aanmelding by DC01.
+Adding new users is permitted, as well as local login to DC01.
 
-## AdminSDHolder groep
+## AdminSDHolder group
 
-Die **AdminSDHolder** groep se Toegangsbeheerlis (ACL) is van kardinale belang aangesien dit toestemmings vir alle "beskermde groepe" binne Active Directory stel, insluitend hoë-toegangs groepe. Hierdie meganisme verseker die sekuriteit van hierdie groepe deur ongeoorloofde wysigings te voorkom.
+Die **AdminSDHolder** groep se Toegangsbeheerlisensie (ACL) is van kardinale belang aangesien dit toestemmings vir alle "beskermde groepe" binne Active Directory stel, insluitend hoë-privilege groepe. Hierdie meganisme verseker die sekuriteit van hierdie groepe deur ongeoorloofde wysigings te voorkom.
 
 'n Aanvaller kan hiervan gebruik maak deur die **AdminSDHolder** groep se ACL te wysig, wat volle toestemmings aan 'n standaard gebruiker gee. Dit sou daardie gebruiker effektief volle beheer oor alle beskermde groepe gee. As hierdie gebruiker se toestemmings gewysig of verwyder word, sal dit binne 'n uur outomaties hersteld word weens die stelsel se ontwerp.
 
@@ -66,15 +66,15 @@ Toegang tot lêers op die DC is beperk tensy die gebruiker deel is van die `Serv
 
 ### Privilege Escalation
 
-Deur `PsService` of `sc` van Sysinternals te gebruik, kan 'n mens diensregte inspekteer en wysig. Die `Server Operators` groep het byvoorbeeld volle beheer oor sekere dienste, wat die uitvoering van arbitrêre opdragte en privilege escalasie toelaat:
+Deur `PsService` of `sc` van Sysinternals te gebruik, kan 'n mens diensregte inspekteer en wysig. Die `Server Operators` groep het byvoorbeeld volle beheer oor sekere dienste, wat die uitvoering van arbitrêre opdragte en privilege escalasie moontlik maak:
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
-Hierdie opdrag onthul dat `Server Operators` volle toegang het, wat die manipulasie van dienste vir verhoogde privaathede moontlik maak.
+Hierdie opdrag onthul dat `Server Operators` volle toegang het, wat die manipulasie van dienste vir verhoogde privilige moontlik maak.
 
 ## Rugsteun Operateurs
 
-Lidmaatskap in die `Backup Operators` groep bied toegang tot die `DC01` lêerstelsel as gevolg van die `SeBackup` en `SeRestore` privaathede. Hierdie privaathede stel vouer traversering, lysing, en lêer kopieer vermoëns in staat, selfs sonder eksplisiete toestemmings, met die gebruik van die `FILE_FLAG_BACKUP_SEMANTICS` vlag. Dit is nodig om spesifieke skripte vir hierdie proses te gebruik.
+Lidmaatskap in die `Backup Operators` groep bied toegang tot die `DC01` lêerstelsel as gevolg van die `SeBackup` en `SeRestore` privilige. Hierdie privilige stel vouer traversering, lysing, en lêer kopieer vermoëns in staat, selfs sonder eksplisiete toestemmings, met die gebruik van die `FILE_FLAG_BACKUP_SEMANTICS` vlag. Dit is nodig om spesifieke skripte vir hierdie proses te gebruik.
 
 Om groepslede te lys, voer uit:
 ```powershell
@@ -99,9 +99,9 @@ Get-SeBackupPrivilege
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Overwrite
 ```
-### AD-aanval
+### AD Aanval
 
-Direkte toegang tot die Domeinbeheerder se lêerstelsel stel die diefstal van die `NTDS.dit` databasis moontlik, wat alle NTLM-hashes vir domein gebruikers en rekenaars bevat.
+Direkte toegang tot die Domeinbeheerder se lêerstelsel maak die diefstal van die `NTDS.dit` databasis moontlik, wat alle NTLM hashes vir domein gebruikers en rekenaars bevat.
 
 #### Gebruik diskshadow.exe
 
@@ -118,7 +118,7 @@ expose %cdrive% F:
 end backup
 exit
 ```
-2. Kopieer `NTDS.dit` van die skaduwee-kopie:
+2. Kopieer `NTDS.dit` van die skadu kopie:
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
@@ -189,7 +189,7 @@ For more details on this attack vector, refer to ired.team.
 Dit is ook haalbaar om mimilib.dll te gebruik vir opdraguitvoering, dit aan te pas om spesifieke opdragte of omgekeerde shells uit te voer. [Check this post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) vir meer inligting.
 
 ### WPAD Record for MitM
-DnsAdmins kan DNS-rekords manipuleer om Man-in-the-Middle (MitM) aanvalle uit te voer deur 'n WPAD-rekord te skep nadat die globale navraagbloklys gedeaktiveer is. Gereedskap soos Responder of Inveigh kan gebruik word vir spoofing en om netwerkverkeer te vang.
+DnsAdmins kan DNS-rekords manipuleer om Man-in-the-Middle (MitM) aanvalle uit te voer deur 'n WPAD-rekord te skep nadat die globale navraag blokkelys gedeaktiveer is. Gereedskap soos Responder of Inveigh kan gebruik word vir spoofing en die vang van netwerkverkeer.
 
 ### Event Log Readers
 Lede kan toegang tot gebeurtenislogboekke hê, wat moontlik sensitiewe inligting soos platte wagwoorde of opdraguitvoeringsbesonderhede kan bevat:
@@ -218,12 +218,12 @@ Note: Hard link exploitation has been mitigated in recent Windows updates.
 
 ## Organisasie Bestuur
 
-In omgewings waar **Microsoft Exchange** ontplooi is, hou 'n spesiale groep bekend as **Organisasie Bestuur** beduidende vermoëns. Hierdie groep het die voorreg om **toegang te hê tot die posbusse van alle domein gebruikers** en handhaaf **volledige beheer oor die 'Microsoft Exchange Security Groups'** Organisatoriese Eenheid (OU). Hierdie beheer sluit die **`Exchange Windows Permissions`** groep in, wat uitgebuit kan word vir voorreg eskalasie.
+In omgewings waar **Microsoft Exchange** ontplooi is, hou 'n spesiale groep bekend as **Organisasie Bestuur** beduidende vermoëns. Hierdie groep het die voorreg om **toegang te hê tot die posbusse van alle domein gebruikers** en handhaaf **volledige beheer oor die 'Microsoft Exchange Veiligheidsgroepe'** Organisatoriese Eenheid (OU). Hierdie beheer sluit die **`Exchange Windows Permissions`** groep in, wat uitgebuit kan word vir voorreg eskalasie.
 
 ### Voorreg Uitbuiting en Opdragte
 
 #### Druk Operateurs
-Lede van die **Druk Operateurs** groep is toegerus met verskeie voorregte, insluitend die **`SeLoadDriverPrivilege`**, wat hulle toelaat om **lokaal aan te meld by 'n Domein Beheerder**, dit af te sluit, en drukkers te bestuur. Om hierdie voorregte te benut, veral as **`SeLoadDriverPrivilege`** nie sigbaar is onder 'n nie-verhoogde konteks nie, is dit nodig om Gebruikersrekeningbeheer (UAC) te omseil.
+Lede van die **Druk Operateurs** groep is toegerus met verskeie voorregte, insluitend die **`SeLoadDriverPrivilege`**, wat hulle toelaat om **lokaal aan te meld by 'n Domein Beheerder**, dit af te sluit, en drukkers te bestuur. Om hierdie voorregte uit te buit, veral as **`SeLoadDriverPrivilege`** nie sigbaar is onder 'n nie-verhoogde konteks nie, is dit nodig om die Gebruikersrekeningbeheer (UAC) te omseil.
 
 Om die lede van hierdie groep te lys, word die volgende PowerShell-opdrag gebruik:
 ```powershell
@@ -248,11 +248,11 @@ Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Us
 Vir eksploitasiemetodes wat verband hou met **WinRM**, moet spesifieke dokumentasie geraadpleeg word.
 
 #### Bediener Operateurs
-Hierdie groep het toestemming om verskeie konfigurasies op Domein Beheerders uit te voer, insluitend rugsteun en herstel regte, die verandering van stelseltijd, en die afsluiting van die stelsel. Om die lede te tel, is die opdrag wat verskaf word:
+Hierdie groep het toestemming om verskeie konfigurasies op Domeinbeheerders uit te voer, insluitend rugsteun- en herstelregte, die verandering van stelseltijd, en die afsluiting van die stelsel. Om die lede te tel, is die opdrag wat verskaf word:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-## Verwysings <a href="#references" id="references"></a>
+## References <a href="#references" id="references"></a>
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)
 * [https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/](https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/)
@@ -277,8 +277,8 @@ Kry Toegang Vandag:
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

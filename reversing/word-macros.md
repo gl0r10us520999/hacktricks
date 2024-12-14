@@ -24,7 +24,7 @@ Byvoorbeeld, in die volgende beeld kan jy sien dat 'n If wat nooit waar gaan wee
 
 ### Macro Forms
 
-Deur die **GetObject** funksie is dit moontlik om data van die vorms van die makro te verkry. Dit kan gebruik word om die analise te bemoeilik. Die volgende is 'n foto van 'n makro vorm wat gebruik word om **data binne tekskassies te verberg** (n tekskassie kan ander tekskassies verberg):
+Deur die **GetObject** funksie is dit moontlik om data van die vorms van die makro te verkry. Dit kan gebruik word om die analise te bemoeilik. Die volgende is 'n foto van 'n makro vorm wat gebruik word om **data binne tekskassies te verberg** (n tekskas kan ander tekskassies verberg):
 
 ![](<../.gitbook/assets/image (344).png>)
 

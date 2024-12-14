@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -17,11 +17,11 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is 'n gratis digitale seinanaliseerder vir GNU/Linux en macOS, ontwerp om inligting van onbekende radiosignale te onttrek. Dit ondersteun 'n verskeidenheid SDR-toestelle deur SoapySDR, en laat aanpasbare demodulasie van FSK, PSK en ASK seine toe, dekodeer analoog video, analiseer burstige seine en luister na analoog stemkanale (alles in werklike tyd).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is 'n gratis digitale seinanaliseerder vir GNU/Linux en macOS, ontwerp om inligting van onbekende radiosignale te onttrek. Dit ondersteun 'n verskeidenheid SDR-toestelle deur SoapySDR, en laat aanpasbare demodulasie van FSK, PSK en ASK seine toe, dekodeer analoog video, analiseer onderbrekingsseine en luister na analoog stemkanale (alles in werklike tyd).
 
 ### Basiese Konfigurasie
 
-Na die installasie is daar 'n paar dinge wat jy kan oorweeg om te konfigureer.\
+Na installasie is daar 'n paar dinge wat jy kan oorweeg om te konfigureer.\
 In instellings (die tweede tabknoppie) kan jy die **SDR-toestel** kies of **'n lêer** kies om te lees en watter frekwensie om te sintoniseer en die monster tempo (aanbeveel tot 2.56Msps as jou rekenaar dit ondersteun)\\
 
 ![](<../../.gitbook/assets/image (245).png>)
@@ -31,35 +31,35 @@ In die GUI gedrag is dit aanbeveel om 'n paar dinge in te skakel as jou rekenaar
 ![](<../../.gitbook/assets/image (472).png>)
 
 {% hint style="info" %}
-As jy besef dat jou rekenaar nie dinge opneem nie, probeer om OpenGL te deaktiveer en die monster tempo te verlaag.
+As jy agterkom dat jou rekenaar nie dinge opneem nie, probeer om OpenGL te deaktiveer en die monster tempo te verlaag.
 {% endhint %}
 
 ### Gebruik
 
-* Net om **'n bietjie van 'n sein te vang en dit te analiseer** hou net die knoppie "Druk om te vang" ingedruk solank as wat jy nodig het.
+* Net om **'n bietjie van 'n sein te vang en dit te analiseer** hou net die knoppie "Druk om te vang" ingedruk so lank as wat jy nodig het.
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* Die **Tuner** van SigDigger help om **beter seine te vang** (maar dit kan ook hulle vererger). Ideaal gesproke begin met 0 en hou **dit groter maak totdat** jy die **ruis** wat ingevoer word groter is as die **verbetering van die sein** wat jy nodig het).
+* Die **Tuner** van SigDigger help om **beter seine te vang** (maar dit kan ook hulle vererger). Ideaal gesproke begin met 0 en hou aan **om dit groter te maak totdat** jy die **ruis** wat ingevoer word **groter** vind as die **verbetering van die sein** wat jy nodig het).
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
 ### Sinchroniseer met radio kanaal
 
-Met [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sinchroniseer met die kanaal wat jy wil hoor, konfigureer die "Baseband audio preview" opsie, konfigureer die bandwydte om al die inligting wat gestuur word te kry en stel dan die Tuner in op die vlak voordat die ruis regtig begin toeneem:
+Met [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sinchroniseer met die kanaal wat jy wil hoor, konfigureer "Baseband audio preview" opsie, konfigureer die bandwydte om al die inligting wat gestuur word te kry en stel dan die Tuner in op die vlak voordat die ruis regtig begin toeneem:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
 ## Interessante truuks
 
-* Wanneer 'n toestel inligting in stoots stuur, is die **eerste deel gewoonlik 'n preamble**, so jy **hoef nie** te **sorg** as jy **nie inligting** daar vind **of as daar 'n paar foute** daar is nie.
-* In rame van inligting behoort jy gewoonlik **verskillende rame goed uitgelijnd tussen hulle** te vind:
+* Wanneer 'n toestel inligting in onderbrekings stuur, is die **eerste deel gewoonlik 'n preamble** so jy **hoef nie** te **sorg** as jy **nie inligting** daar vind **of as daar 'n paar foute** daar is nie.
+* In inligtingsraamwerke behoort jy gewoonlik **verskillende rame goed uitgelijnd tussen hulle** te vind:
 
 ![](<../../.gitbook/assets/image (1076).png>)
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-* **Nadat jy die bits herstel het, moet jy dit op een of ander manier verwerk**. Byvoorbeeld, in Manchester-kodering sal 'n op+af 'n 1 of 0 wees en 'n af+op sal die ander een wees. So pare van 1s en 0s (op en af) sal 'n werklike 1 of 'n werklike 0 wees.
+* **Nadat jy die bits herwin het, moet jy dit dalk op 'n sekere manier verwerk**. Byvoorbeeld, in Manchester-kodering sal 'n op+af 'n 1 of 0 wees en 'n af+op sal die ander een wees. So pare van 1s en 0s (op en af) sal 'n werklike 1 of 'n werklike 0 wees.
 * Selfs as 'n sein Manchester-kodering gebruik (dit is onmoontlik om meer as twee 0s of 1s agtereenvolgens te vind), kan jy **verskeie 1s of 0s saam in die preamble** vind!
 
 ### Ontdek modulasietipe met IQ
@@ -114,26 +114,26 @@ In hierdie voorbeeld kan jy sien hoe daar 'n **groot sirkel** is, maar ook **bai
 
 #### Met een simbool
 
-Kies die kleinste simbool wat jy kan vind (sodat jy seker is dit is net 1) en kyk na die "Keuse frekwensie". In hierdie geval sou dit 1.013kHz wees (so 1kHz).
+Kies die kleinste simbool wat jy kan vind (so jy is seker dit is net 1) en kyk na die "Keuse frekwensie". In hierdie geval sou dit 1.013kHz wees (so 1kHz).
 
 ![](<../../.gitbook/assets/image (78).png>)
 
 #### Met 'n groep simbole
 
-Jy kan ook die aantal simbole wat jy gaan kies, aandui en SigDigger sal die frekwensie van 1 simbool bereken (hoe meer simbole gekies, hoe beter waarskynlik). In hierdie scenario het ek 10 simbole gekies en die "Keuse frekwensie" is 1.004 Khz:
+Jy kan ook die aantal simbole wat jy gaan kies aandui en SigDigger sal die frekwensie van 1 simbool bereken (hoe meer simbole gekies, hoe beter waarskynlik). In hierdie scenario het ek 10 simbole gekies en die "Keuse frekwensie" is 1.004 Khz:
 
 ![](<../../.gitbook/assets/image (1008).png>)
 
 ### Kry Bits
 
-Aangesien dit 'n **AM-gemoduleerde** sein is en die **simbooltempo** (en wetende dat in hierdie geval iets op beteken 1 en iets af beteken 0), is dit baie maklik om die **bits** wat in die sein gekodeer is, te **verkry**. So, kies die sein met inligting en konfigureer die monster en besluit en druk monster (kyk dat **Amplitude** gekies is, die ontdekte **Simbooltempo** is geconfigureer en die **Gadner klokherstel** is gekies):
+Aangesien dit 'n **AM-gemoduleerde** sein is en die **simbooltempo** (en wetende dat in hierdie geval iets op beteken 1 en iets af beteken 0), is dit baie maklik om die **bits** wat in die sein gekodeer is te **verkry**. So, kies die sein met inligting en konfigureer die monster en besluit en druk monster (kyk dat **Amplitude** gekies is, die ontdekte **Simbooltempo** is geconfigureer en die **Gadner klokherwinning** is gekies):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
-* **Sinkroniseer met keuse-intervalle** beteken dat as jy voorheen intervalle gekies het om die simbooltempo te vind, daardie simbooltempo sal gebruik word.
-* **Handmatig** beteken dat die aangeduide simbooltempo gaan gebruik word
+* **Sinkroniseer met keuse-intervalle** beteken dat as jy voorheen intervalle gekies het om die simbooltempo te vind, daardie simbooltempo gebruik sal word.
+* **Handmatig** beteken dat die aangeduide simbooltempo gebruik gaan word
 * In **Vaste intervalkeuse** dui jy die aantal intervalle aan wat gekies moet word en dit bereken die simbooltempo daaruit
-* **Gadner klokherstel** is gewoonlik die beste opsie, maar jy moet steeds 'n paar benaderde simbooltempo aandui.
+* **Gadner klokherwinning** is gewoonlik die beste opsie, maar jy moet steeds 'n paar benaderde simbooltempo aandui.
 
 Wanneer jy op monster druk, verskyn dit:
 
@@ -151,7 +151,7 @@ Laastens **verhoog** die **Zoom** en **verander die Ry grootte** kan jy die bits
 
 As die sein meer as 1 bit per simbool het (byvoorbeeld 2), het SigDigger **geen manier om te weet watter simbool is** 00, 01, 10, 11 nie, so dit sal verskillende **grys skale** gebruik om elkeen te verteenwoordig (en as jy die bits kopieer, sal dit **nommers van 0 tot 3** gebruik, jy sal dit moet verwerk).
 
-Gebruik ook **kodifikasies** soos **Manchester**, en **op+af** kan **1 of 0** wees en 'n af+op kan 'n 1 of 0 wees. In daardie gevalle moet jy die **verkryde op (1) en af (0)** verwerk om die pare van 01 of 10 as 0s of 1s te vervang.
+Gebruik ook **kodering** soos **Manchester**, en **op+af** kan **1 of 0** wees en 'n af+op kan 'n 1 of 0 wees. In daardie gevalle moet jy die **verkrygde op (1) en af (0)** verwerk om die pare van 01 of 10 as 0s of 1s te vervang.
 
 ## FM Voorbeeld
 
@@ -165,7 +165,7 @@ Seinvoorbeeld wat inligting gemoduleer in FM stuur:
 
 ![](<../../.gitbook/assets/image (725).png>)
 
-In die vorige beeld kan jy redelik goed waarneem dat **2 frekwensies gebruik word**, maar as jy die **golfvorm** waarneem, mag jy **nie in staat wees om die 2 verskillende frekwensies korrek te identifiseer nie**:
+In die vorige beeld kan jy redelik goed waarneem dat **2 frekwensies gebruik word** maar as jy die **golfvorm** waarneem, mag jy **nie in staat wees om die 2 verskillende frekwensies korrek te identifiseer nie**:
 
 ![](<../../.gitbook/assets/image (717).png>)
 
@@ -173,7 +173,7 @@ Dit is omdat ek die sein in beide frekwensies opgeneem het, daarom is een ongeve
 
 ![](<../../.gitbook/assets/image (942).png>)
 
-As die gesinchroniseerde frekwensie **naby aan een frekwensie is as aan die ander**, kan jy maklik die 2 verskillende frekwensies sien:
+As die gesinchroniseerde frekwensie **naby aan een frekwensie is as aan die ander** kan jy maklik die 2 verskillende frekwensies sien:
 
 ![](<../../.gitbook/assets/image (422).png>)
 
@@ -181,11 +181,11 @@ As die gesinchroniseerde frekwensie **naby aan een frekwensie is as aan die ande
 
 #### Kontroleer die histogram
 
-Deur die frekwensie histogram van die sein met inligting te kontroleer, kan jy maklik 2 verskillende seine sien:
+Kontroleer die frekwensie histogram van die sein met inligting, jy kan maklik 2 verskillende seine sien:
 
 ![](<../../.gitbook/assets/image (871).png>)
 
-In hierdie geval, as jy die **Amplitude histogram** kontroleer, sal jy **slegs een amplitude** vind, so dit **kan nie AM wees nie** (as jy 'n baie amplitudes vind, kan dit wees omdat die sein krag verloor het langs die kanaal):
+In hierdie geval, as jy die **Amplitude histogram** nagaan, sal jy **slegs een amplitude** vind, so dit **kan nie AM wees nie** (as jy 'n baie amplitudes vind, kan dit wees omdat die sein krag langs die kanaal verloor het):
 
 ![](<../../.gitbook/assets/image (817).png>)
 
@@ -203,7 +203,7 @@ Boonop word 'n ander frekwensie "verteenwoordig" deur die IQ-grafiek deur 'n **s
 
 ### Kry Simbool Tempo
 
-Jy kan die **dieselfde tegniek as die een wat in die AM voorbeeld gebruik is** gebruik om die simbooltempo te kry sodra jy die frekwensies wat simbole dra, gevind het.
+Jy kan die **dieselfde tegniek as die een wat in die AM voorbeeld gebruik is** gebruik om die simbooltempo te kry sodra jy die frekwensies wat simbole dra gevind het.
 
 ### Kry Bits
 
@@ -215,7 +215,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

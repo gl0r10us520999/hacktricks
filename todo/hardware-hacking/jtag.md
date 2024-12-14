@@ -6,10 +6,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -23,7 +23,7 @@ In die **Raspberry PI** kan jy slegs **pinnes van 1 tot 6** gebruik (6pinnes, so
 
 ### Arduino
 
-In Arduino, nadat jy die kabels gekoppel het (pin 2 tot 11 aan JTAG-pinne en Arduino GND aan die basisbord GND), **laai die JTAGenum program in Arduino** en in die Serial Monitor stuur 'n **`h`** (opdrag vir hulp) en jy behoort die hulp te sien:
+In Arduino, nadat jy die kabels gekoppel het (pin 2 tot 11 aan JTAG-pinne en Arduino GND aan die basisbord GND), **laai die JTAGenum-program in Arduino** en in die Serial Monitor stuur 'n **`h`** (opdrag vir hulp) en jy behoort die hulp te sien:
 
 ![](<../../.gitbook/assets/image (939).png>)
 
@@ -42,10 +42,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

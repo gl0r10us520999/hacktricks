@@ -22,9 +22,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Overpass The Hash/Pass The Key (PTK)
 
-Die **Overpass The Hash/Pass The Key (PTK)** aanval is ontwerp vir omgewings waar die tradisionele NTLM-protokol beperk is, en Kerberos-outekenning prioriteit het. Hierdie aanval benut die NTLM-hash of AES-sleutels van 'n gebruiker om Kerberos-kaarte aan te vra, wat ongeoorloofde toegang tot hulpbronne binne 'n netwerk moontlik maak.
+Die **Overpass The Hash/Pass The Key (PTK)** aanval is ontwerp vir omgewings waar die tradisionele NTLM protokol beperk is, en Kerberos verifikasie prioriteit het. Hierdie aanval benut die NTLM hash of AES sleutels van 'n gebruiker om Kerberos kaartjies aan te vra, wat ongeoorloofde toegang tot hulpbronne binne 'n netwerk moontlik maak.
 
-Om hierdie aanval uit te voer, behels die aanvanklike stap die verkryging van die NTLM-hash of wagwoord van die geteikende gebruiker se rekening. Nadat hierdie inligting verkry is, kan 'n Ticket Granting Ticket (TGT) vir die rekening verkry word, wat die aanvaller in staat stel om toegang te verkry tot dienste of masjiene waartoe die gebruiker toestemming het.
+Om hierdie aanval uit te voer, behels die aanvanklike stap die verkryging van die NTLM hash of wagwoord van die geteikende gebruiker se rekening. Nadat hierdie inligting verkry is, kan 'n Ticket Granting Ticket (TGT) vir die rekening bekom word, wat die aanvaller in staat stel om toegang te verkry tot dienste of masjiene waartoe die gebruiker toestemming het.
 
 Die proses kan begin word met die volgende opdragte:
 ```bash

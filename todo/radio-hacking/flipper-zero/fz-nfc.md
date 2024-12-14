@@ -42,7 +42,7 @@ Vir **NFC kaarte tipe B, tipe F, en tipe V**, kan Flipper Zero 'n UID lees sonde
 
 Flipper Zero kan slegs 'n UID, SAK, ATQA, en gestoor data op bankkaarte **sonder om te stoor**.
 
-Bankkaart lees skermVir bankkaarte kan Flipper Zero slegs data lees **sonder om te stoor en dit te emuleer**.
+Bankkaart lees skermVir bankkaarte kan Flipper Zero slegs data lees **sonder om dit te stoor en te emuleer**.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
@@ -84,7 +84,7 @@ In die geval dat Flipper Zero nie in staat is om die tipe kaart van die lae-vlak
 #### EMV Bankkaarte (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
 Behalwe om eenvoudig die UID te lees, kan jy baie meer data van 'n bankkaart onttrek. Dit is moontlik om **die volle kaartnommer** (die 16 syfers aan die voorkant van die kaart), **geldigheidsdatum**, en in sommige gevalle selfs die **eienaarsnaam** saam met 'n lys van die **mees onlangse transaksies** te verkry.\
-Echter, jy **kan nie die CVV op hierdie manier lees nie** (die 3 syfers aan die agterkant van die kaart). Ook **bankkaarte is beskerm teen herhalingsaanvalle**, so om dit met Flipper te kopieer en dan te probeer emuleer om vir iets te betaal, sal nie werk nie.
+E however, jy **kan nie die CVV op hierdie manier lees nie** (die 3 syfers aan die agterkant van die kaart). Ook **bankkaarte is beskerm teen herhalingsaanvalle**, so om dit met Flipper te kopieer en dan te probeer emuleer om vir iets te betaal, sal nie werk nie.
 
 ## Verwysings
 

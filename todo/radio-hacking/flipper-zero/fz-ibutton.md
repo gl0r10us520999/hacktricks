@@ -25,7 +25,7 @@ Vir meer inligting oor wat 'n iButton is, kyk:
 
 ## Ontwerp
 
-Die **blou** deel van die volgende beeld is hoe jy die **regte iButton** moet **plaas** sodat die Flipper dit kan **lees.** Die **groen** deel is hoe jy die **leser** met die Flipper zero moet **raak** om 'n iButton **korrek na te boots**.
+Die **blou** deel van die volgende beeld is hoe jy die **regte iButton** moet **plaas** sodat die Flipper dit kan **lees.** Die **groen** deel is hoe jy die **leser** met die Flipper zero moet **raakvat** om 'n iButton **korrek na te boots**.
 
 <figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
@@ -33,7 +33,7 @@ Die **blou** deel van die volgende beeld is hoe jy die **regte iButton** moet **
 
 ### Lees
 
-In Leesmodus wag die Flipper vir die iButton-sleutel om aan te raak en kan dit enige van drie tipes sleutels verteer: **Dallas, Cyfral, en Metakom**. Die Flipper sal **self die tipe van die sleutel uitvind**. Die naam van die sleutelprotokol sal op die skerm bo die ID-nommer vertoon word.
+In Leesmodus wag die Flipper vir die iButton sleutel om raak te vat en kan enige van drie tipes sleutels verteer: **Dallas, Cyfral, en Metakom**. Die Flipper sal **self die tipe van die sleutel uitvind**. Die naam van die sleutelprotokol sal op die skerm bo die ID nommer vertoon word.
 
 ### Voeg handmatig by
 
@@ -44,7 +44,7 @@ Dit is moontlik om 'n iButton van tipe: **Dallas, Cyfral, en Metakom** **handmat
 Dit is moontlik om **opgeslage** iButtons (gelees of handmatig bygevoeg) te **naboots**.
 
 {% hint style="info" %}
-As jy nie die verwagte kontakte van die Flipper Zero kan laat aanraak nie, kan jy die **eksterne GPIO gebruik:**
+As jy nie die verwagte kontakte van die Flipper Zero kan laat raakvat nie, kan jy die **eksterne GPIO gebruik:**
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>

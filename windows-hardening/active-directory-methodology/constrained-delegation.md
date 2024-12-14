@@ -24,9 +24,9 @@ Deur dit kan 'n Domein admin **toelaat** dat 'n rekenaar **'n gebruiker of reken
 
 **Let wel**: As 'n gebruiker gemerk is as ‘_Rekening is sensitief en kan nie afgevaardig word_’ in AD, sal jy **nie in staat wees om** hulle na te boots nie.
 
-Dit beteken dat as jy **die hash van die diens** kompromitteer, jy **gebruikers kan naboots** en **toegang** namens hulle tot die **diens geconfigureer** (moontlike **privesc**).
+Dit beteken dat as jy die **hash van die diens** kompromitteer, jy **gebruikers kan naboots** en **toegang** namens hulle tot die **diens geconfigureer** (moontlike **privesc**).
 
-Boonop, jy **sal nie net toegang hê tot die diens wat die gebruiker kan naboots nie, maar ook tot enige diens** omdat die SPN (die diensnaam wat aangevra word) nie nagegaan word nie, net voorregte. Daarom, as jy toegang het tot **CIFS diens** kan jy ook toegang hê tot **HOST diens** deur die `/altservice` vlag in Rubeus te gebruik.
+Boonop, jy **sal nie net toegang hê tot die diens wat die gebruiker kan naboots nie, maar ook tot enige diens** omdat die SPN (die diensnaam wat aangevra word) nie nagegaan word nie, net voorregte. Daarom, as jy toegang het tot **CIFS diens** kan jy ook toegang hê tot **HOST diens** met die `/altservice` vlag in Rubeus.
 
 Ook, **LDAP diens toegang op DC**, is wat nodig is om 'n **DCSync** te benut.
 
@@ -63,9 +63,9 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Daar is **ander maniere om 'n TGT-tiket** of die **RC4** of **AES256** te verkry sonder om SYSTEM op die rekenaar te wees, soos die Printer Bug en onbeperkte delegasie, NTLM relaying en Active Directory Certificate Service misbruik.
+Daar is **ander maniere om 'n TGT kaartjie te verkry** of die **RC4** of **AES256** sonder om SYSTEM op die rekenaar te wees, soos die Printer Bug en onbeperkte delegasie, NTLM herlewing en misbruik van die Active Directory Sertifikaatdiens.
 
-**Net om daardie TGT-tiket (of gehasht) te hê, kan jy hierdie aanval uitvoer sonder om die hele rekenaar te kompromitteer.**
+**Net om daardie TGT kaartjie (of gehasht) te hê, kan jy hierdie aanval uitvoer sonder om die hele rekenaar te kompromitteer.**
 {% endhint %}
 
 {% code title="Using Rubeus" %}
@@ -103,8 +103,8 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 [**Meer inligting in ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

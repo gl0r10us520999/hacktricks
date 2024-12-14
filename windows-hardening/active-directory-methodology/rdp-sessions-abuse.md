@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## RDP Proses Inspuiting
 
-As die **eksterne groep** **RDP-toegang** tot enige **rekenaar** in die huidige domein het, kan 'n **aanvaller** daardie rekenaar **kompromitteer en op hom wag**.
+As die **buitengroep** **RDP-toegang** tot enige **rekenaar** in die huidige domein het, kan 'n **aanvaller** daardie rekenaar **kompromitteer en op hom wag**.
 
 Sodra daardie gebruiker via RDP toegang verkry het, kan die **aanvaller na daardie gebruiker se sessie pivot** en sy toestemmings in die eksterne domein misbruik.
 ```powershell

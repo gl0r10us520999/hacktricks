@@ -32,14 +32,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Special Considerations
 
-- **Onderwerp Alternatiewe Name (SANs)** brei 'n sertifikaat se toepasbaarheid uit na meerdere identiteite, wat noodsaaklik is vir bedieners met meerdere domeine. Veilige uitreikprosesse is noodsaaklik om te verhoed dat aanvallers die SAN-spesifikasie manipuleer en so identiteitsdiefstal veroorsaak.
+- **Onderwerp Alternatiewe Name (SANs)** brei 'n sertifikaat se toepasbaarheid uit na verskeie identiteite, wat noodsaaklik is vir bedieners met verskeie domeine. Veilige uitreikprosesse is noodsaaklik om te verhoed dat aanvallers die SAN-spesifikasie manipuleer en sodoende identiteitsdiefstal veroorsaak.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS erken CA-sertifikate in 'n AD-woud deur middel van aangewese houers, elk met unieke rolle:
+AD CS erken CA-sertifikate in 'n AD-woud deur middel van aangewese houers, elk wat unieke rolle dien:
 
 - Die **Sertifiseringsowerhede** houer bevat vertroude wortel CA-sertifikate.
-- Die **Inskrywingsdienste** houer bevat Enterprise CA's en hul sertifikaat sjablone.
+- Die **Inskrywingsdienste** houer detail Enterprise CA's en hul sertifikaat sjablone.
 - Die **NTAuthCertificates** objek sluit CA-sertifikate in wat gemagtig is vir AD-outehentisering.
 - Die **AIA (Owerheid Inligting Toegang)** houer fasiliteer sertifikaatkettingvalidasie met tussenliggende en kruis CA-sertifikate.
 
@@ -64,12 +64,12 @@ Vir 'n kliënt om 'n sertifikaat aan te vra, moet **inskrywingsregte** toegeken 
 
 Hierdie regte word gespesifiseer deur middel van Toegang Beheer Inskrywings (ACEs), wat toestemmings soos:
 - **Sertifikaat-Inskrywing** en **Sertifikaat-AutoInskrywing** regte, elk geassosieer met spesifieke GUIDs.
-- **VerlengdeRegte**, wat alle verlengde toestemmings toelaat.
-- **VolleBeheer/GemiddeldAl**, wat volledige beheer oor die sjabloon bied.
+- **Verlengde Regte**, wat alle verlengde toestemmings toelaat.
+- **Volle Beheer/Gemiddeld Alles**, wat volledige beheer oor die sjabloon bied.
 
 ### Enterprise CA Enrollment Rights
 
-Die CA se regte word uiteengesit in sy sekuriteitsbeskrywing, toeganklik via die Sertifikaatowerheid bestuurskonsol. Sommige instellings laat selfs laag-geprivilegieerde gebruikers afstandstoegang toe, wat 'n sekuriteitskwessie kan wees.
+Die CA se regte word uiteengesit in sy sekuriteitsbeskrywing, toeganklik via die Sertifikaatowerheid bestuurskonsol. Sommige instellings laat selfs laag-geprivilegieerde gebruikers toe om afstandstoegang te hê, wat 'n sekuriteitskwessie kan wees.
 
 ### Additional Issuance Controls
 
@@ -80,11 +80,11 @@ Sekere kontroles mag van toepassing wees, soos:
 ### Methods to Request Certificates
 
 Sertifikate kan aangevra word deur:
-1. **Windows Kliënt Sertifikaat Inskrywing Protokol** (MS-WCCE), met DCOM interfaces.
+1. **Windows Kliënt Sertifikaat Inskrywing Protokol** (MS-WCCE), wat DCOM interfaces gebruik.
 2. **ICertPassage Afstand Protokol** (MS-ICPR), deur middel van benoemde pype of TCP/IP.
 3. Die **sertifikaat inskrywings web koppelvlak**, met die Sertifikaatowerheid Web Inskrywing rol geïnstalleer.
 4. Die **Sertifikaat Inskrywingsdiens** (CES), in samewerking met die Sertifikaat Inskrywingsbeleid (CEP) diens.
-5. Die **Netwerk Toestel Inskrywingsdiens** (NDES) vir netwerktoestelle, met die Gebruik van die Eenvoudige Sertifikaat Inskrywingsprotokol (SCEP).
+5. Die **Netwerk Toestel Inskrywingsdiens** (NDES) vir netwerktoestelle, wat die Eenvoudige Sertifikaat Inskrywingsprotokol (SCEP) gebruik.
 
 Windows gebruikers kan ook sertifikate aan vra via die GUI (`certmgr.msc` of `certlm.msc`) of opdraglyn gereedskap (`certreq.exe` of PowerShell se `Get-Certificate` opdrag).
 ```powershell
@@ -105,7 +105,7 @@ is sentraal tot die vestiging van vertroue vir sertifikaatverifikasie.
 
 ### Veilige Kanaal (Schannel) Verifikasie
 
-Schannel fasiliteer veilige TLS/SSL verbindings, waar tydens 'n handdruk, die kliënt 'n sertifikaat aanbied wat, indien suksesvol geverifieer, toegang magtig. Die toewysing van 'n sertifikaat aan 'n AD-rekening kan die Kerberos se **S4U2Self** funksie of die sertifikaat se **Subject Alternative Name (SAN)** insluit, onder andere metodes.
+Schannel fasiliteer veilige TLS/SSL verbindings, waar tydens 'n handdruk, die kliënt 'n sertifikaat aanbied wat, indien suksesvol geverifieer, toegang magtig. Die toewysing van 'n sertifikaat aan 'n AD-rekening kan die Kerberos **S4U2Self** funksie of die sertifikaat se **Subject Alternative Name (SAN)** insluit, onder andere metodes.
 
 ### AD Sertifikaat Dienste Enumerasie
 

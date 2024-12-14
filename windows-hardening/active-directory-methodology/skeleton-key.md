@@ -10,14 +10,14 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Skeleton Key Aanval
 
-Die **Skeleton Key aanval** is 'n gesofistikeerde tegniek wat aanvallers toelaat om **Active Directory-outeentifikasie te omseil** deur 'n **meesterwagwoord** in die domeinbeheerder in te spuit. Dit stel die aanvaller in staat om **as enige gebruiker te autentiseer** sonder hul wagwoord, wat effektief **onbeperkte toegang** tot die domein verleen.
+Die **Skeleton Key aanval** is 'n gesofistikeerde tegniek wat aanvallers toelaat om **Active Directory-outeentifikasie te omseil** deur 'n **meesterwagwoord** in die domeinbeheerder in te spuit. Dit stel die aanvaller in staat om **as enige gebruiker te autentiseer** sonder hul wagwoord, wat effektief **onbeperkte toegang** tot die domein bied.
 
 Dit kan uitgevoer word met [Mimikatz](https://github.com/gentilkiwi/mimikatz). Om hierdie aanval uit te voer, is **Domein Admin regte 'n voorvereiste**, en die aanvaller moet elke domeinbeheerder teiken om 'n omvattende oortreding te verseker. Die effek van die aanval is egter tydelik, aangesien **herbegin van die domeinbeheerder die malware uitwis**, wat 'n herimplementering vir volgehoue toegang vereis.
 
@@ -25,9 +25,9 @@ Dit kan uitgevoer word met [Mimikatz](https://github.com/gentilkiwi/mimikatz). O
 
 ## Versagtings
 
-Versagtingsstrategieë teen sulke aanvalle sluit in om spesifieke gebeurtenis-ID's te monitor wat die installasie van dienste of die gebruik van sensitiewe voorregte aandui. Spesifiek, om te kyk vir Stelsels Gebeurtenis ID 7045 of Sekuriteit Gebeurtenis ID 4673 kan verdagte aktiwiteite onthul. Boonop kan die uitvoering van `lsass.exe` as 'n beskermde proses die aanvallers se pogings aansienlik bemoeilik, aangesien dit vereis dat hulle 'n kernmodus bestuurder gebruik, wat die kompleksiteit van die aanval verhoog.
+Versagtingsstrategieë teen sulke aanvalle sluit in om spesifieke gebeurtenis-ID's te monitor wat die installasie van dienste of die gebruik van sensitiewe voorregte aandui. Spesifiek, om te kyk na Stelsels Gebeurtenis ID 7045 of Sekuriteit Gebeurtenis ID 4673 kan verdagte aktiwiteite onthul. Boonop kan die uitvoering van `lsass.exe` as 'n beskermde proses die aanvallers se pogings aansienlik bemoeilik, aangesien dit vereis dat hulle 'n kernmodus bestuurder gebruik, wat die kompleksiteit van die aanval verhoog.
 
-Hier is die PowerShell-opdragte om sekuriteitsmaatreëls te verbeter:
+Hier is die PowerShell opdragte om sekuriteitsmaatreëls te verbeter:
 
 - Om die installasie van verdagte dienste te ontdek, gebruik: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
@@ -50,7 +50,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien aan die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

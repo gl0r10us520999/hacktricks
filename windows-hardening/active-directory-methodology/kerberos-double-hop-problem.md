@@ -1,16 +1,16 @@
 # Kerberos Double Hop Problem
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -22,29 +22,29 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Introduction
 
-Die Kerberos "Double Hop" probleem verskyn wanneer 'n aanvaller probeer om **Kerberos-outeentifikasie oor twee** **hops** te gebruik, byvoorbeeld deur **PowerShell**/**WinRM**.
+Die Kerberos "Double Hop" probleem verskyn wanneer 'n aanvaller probeer om **Kerberos-outekening oor twee** **hops** te gebruik, byvoorbeeld deur **PowerShell**/**WinRM**.
 
-Wanneer 'n **outeentifikasie** deur **Kerberos** plaasvind, word **akkrediteer** **nie** in **geheue** **gecache** nie. Daarom, as jy mimikatz uitvoer, sal jy **nie akkrediteer** van die gebruiker op die masjien vind nie, selfs al is hy besig om prosesse te loop.
+Wanneer 'n **outekening** deur **Kerberos** plaasvind, word **akkrediteer** **nie** in **geheue** gebuffer nie. Daarom, as jy mimikatz uitvoer, sal jy **nie akkrediteer** van die gebruiker op die masjien vind nie, selfs al is hy besig om prosesse te loop.
 
 Dit is omdat wanneer jy met Kerberos verbind, dit die stappe is:
 
-1. Gebruiker1 verskaf akkrediteer en die **domeinbeheerder** keer 'n Kerberos **TGT** terug na Gebruiker1.
+1. Gebruiker1 verskaf akkrediteer en die **domeinbeheerder** keer 'n Kerberos **TGT** aan Gebruiker1 terug.
 2. Gebruiker1 gebruik **TGT** om 'n **dienskaartjie** aan te vra om met Server1 te **verbinde**.
 3. Gebruiker1 **verbinde** met **Server1** en verskaf **dienskaartjie**.
-4. **Server1** **het nie** **akkrediteer** van Gebruiker1 gecache of die **TGT** van Gebruiker1 nie. Daarom, wanneer Gebruiker1 van Server1 probeer om in te log op 'n tweede bediener, kan hy **nie outentifiseer** nie.
+4. **Server1** **het nie** **akkrediteer** van Gebruiker1 gebuffer of die **TGT** van Gebruiker1 nie. Daarom, wanneer Gebruiker1 van Server1 probeer om in te log op 'n tweede bediener, kan hy **nie outentiseer** nie.
 
 ### Unconstrained Delegation
 
-As **unconstrained delegation** op die rekenaar geaktiveer is, sal dit nie gebeur nie, aangesien die **Server** 'n **TGT** van elke gebruiker wat dit toegang gee, **sal kry**. Boonop, as unconstrained delegation gebruik word, kan jy waarskynlik die **Domeinbeheerder** daarvan **kompromitteer**.\
+As **unconstrained delegation** geaktiveer is op die rekenaar, sal dit nie gebeur nie, aangesien die **Server** 'n **TGT** van elke gebruiker wat dit toegang gee, **sal kry**. Boonop, as unconstrained delegation gebruik word, kan jy waarskynlik die **Domeinbeheerder** van dit **kompromitteer**.\
 [**Meer inligting op die unconstrained delegation bladsy**](unconstrained-delegation.md).
 
 ### CredSSP
 
 'n Ander manier om hierdie probleem te vermy wat [**duidelik onveilig**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is, is **Credential Security Support Provider**. Van Microsoft:
 
-> CredSSP-outeentifikasie delegeer die gebruiker se akkrediteer van die plaaslike rekenaar na 'n afstandlike rekenaar. Hierdie praktyk verhoog die sekuriteitsrisiko van die afstandlike operasie. As die afstandlike rekenaar gekompromitteer word, kan die akkrediteer wat aan dit oorgedra word, gebruik word om die netwerk sessie te beheer.
+> CredSSP-outekening delegerer die gebruiker se akkrediteer van die plaaslike rekenaar na 'n afstandlike rekenaar. Hierdie praktyk verhoog die sekuriteitsrisiko van die afstandlike operasie. As die afstandlike rekenaar gekompromitteer word, kan die akkrediteer wat aan dit oorgedra word, gebruik word om die netwerk sessie te beheer.
 
-Dit word sterk aanbeveel dat **CredSSP** op produksiesisteme, sensitiewe netwerke en soortgelyke omgewings gedeaktiveer word weens sekuriteitskwessies. Om te bepaal of **CredSSP** geaktiveer is, kan die `Get-WSManCredSSP` opdrag uitgevoer word. Hierdie opdrag stel jou in staat om die **status van CredSSP** te **kontroleer** en kan selfs op afstand uitgevoer word, mits **WinRM** geaktiveer is.
+Dit word ten sterkste aanbeveel dat **CredSSP** op produksiesisteme, sensitiewe netwerke, en soortgelyke omgewings gedeaktiveer word weens sekuriteitskwessies. Om te bepaal of **CredSSP** geaktiveer is, kan die `Get-WSManCredSSP` opdrag uitgevoer word. Hierdie opdrag stel jou in staat om die **status van CredSSP** te **kontroleer** en kan selfs op afstand uitgevoer word, mits **WinRM** geaktiveer is.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -54,18 +54,18 @@ Get-WSManCredSSP
 
 ### Invoke Command
 
-Om die dubbele sprong probleem aan te spreek, word 'n metode met 'n geneste `Invoke-Command` voorgestel. Dit los die probleem nie direk op nie, maar bied 'n omweg sonder die behoefte aan spesiale konfigurasies. Die benadering stel in staat om 'n opdrag (`hostname`) op 'n sekondêre bediener uit te voer deur 'n PowerShell-opdrag wat vanaf 'n aanvanklike aanvalmasjien of deur 'n voorheen gevestigde PS-sessie met die eerste bediener uitgevoer word. Hier is hoe dit gedoen word:
+Om die dubbele sprongprobleem aan te spreek, word 'n metode met 'n geneste `Invoke-Command` aangebied. Dit los die probleem nie direk op nie, maar bied 'n omweg sonder die behoefte aan spesiale konfigurasies. Die benadering stel in staat om 'n opdrag (`hostname`) op 'n sekondêre bediener uit te voer deur 'n PowerShell-opdrag wat vanaf 'n aanvanklike aanvalmasjien of deur 'n voorheen gevestigde PS-sessie met die eerste bediener uitgevoer word. Hier is hoe dit gedoen word:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-Alternatiewelik, word dit voorgestel om 'n PS-Session met die eerste bediener te vestig en die `Invoke-Command` te gebruik met `$cred` om take te sentraliseer.
+Alternatiewelik, word daar voorgestel om 'n PS-Session met die eerste bediener te vestig en die `Invoke-Command` te gebruik met `$cred` om take te sentraliseer.
 
 ### Registreer PSSession Konfigurasie
 
-'n Oplossing om die dubbel hop probleem te omseil behels die gebruik van `Register-PSSessionConfiguration` met `Enter-PSSession`. Hierdie metode vereis 'n ander benadering as `evil-winrm` en laat 'n sessie toe wat nie ly aan die dubbel hop beperking nie.
+'n Oplossing om die dubbel hop probleem te omseil, behels die gebruik van `Register-PSSessionConfiguration` met `Enter-PSSession`. Hierdie metode vereis 'n ander benadering as `evil-winrm` en laat 'n sessie toe wat nie ly aan die dubbel hop beperking nie.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
@@ -74,7 +74,7 @@ klist
 ```
 ### PortForwarding
 
-Vir plaaslike administrateurs op 'n intermediêre teiken, laat port forwarding toe dat versoeke na 'n finale bediener gestuur word. Deur `netsh` te gebruik, kan 'n reël vir port forwarding bygevoeg word, saam met 'n Windows-vuurmuurreël om die voortgelei poort toe te laat.
+Vir plaaslike administrateurs op 'n intermediêre teiken, stel poortdoorstuur in staat dat versoeke na 'n finale bediener gestuur kan word. Deur `netsh` te gebruik, kan 'n reël vir poortdoorstuur bygevoeg word, saam met 'n Windows-vuurmuurreël om die deurgestuurde poort toe te laat.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
@@ -87,7 +87,7 @@ winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-Die installering van OpenSSH op die eerste bediener stel 'n omseiling van die dubbel-hop probleem in, wat veral nuttig is vir jump box scenario's. Hierdie metode vereis CLI installasie en opstelling van OpenSSH vir Windows. Wanneer dit geconfigureer is vir Wagwoordverifikasie, laat dit die intermediêre bediener toe om 'n TGT namens die gebruiker te verkry.
+Die installering van OpenSSH op die eerste bediener stel 'n omseiling van die dubbel-hop probleem in, wat veral nuttig is vir jump box scenario's. Hierdie metode vereis CLI installasie en opstelling van OpenSSH vir Windows. Wanneer dit geconfigureer is vir Wagwoordverifikasie, stel dit die intermediêre bediener in staat om 'n TGT namens die gebruiker te verkry.
 
 #### OpenSSH Installasiestappe
 

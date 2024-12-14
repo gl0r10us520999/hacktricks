@@ -1,5 +1,5 @@
-# Foutinspuutaanvalle
+# Fault Injection Attacks
 
-Foutinspuutaanvalle sluit in die invoer van eksterne steurings in elektroniese stroombane om sy gedrag te beïnvloed, wat kan lei tot die bekendmaking van inligting of selfs die omseil van sekere beperkings in die stroombaan. Hierdie aanvalle skep baie moontlikhede vir die aanval van elektroniese stroombane. Hierdie aanval word ook verwys as die foutiewe werking van elektroniese stroombane.
+Fault injections aanvalle sluit die invoer van eksterne verstorings in elektroniese kringe in om die gedrag daarvan te beïnvloed, wat lei tot die bekendmaking van inligting of selfs die omseiling van sekere beperkings in die kring. Hierdie aanvalle bied 'n groot aantal moontlikhede vir die aanval op elektroniese kringe. Hierdie aanval word ook verwys na as glitching van elektroniese kringe.
 
-Daar is baie metodes en mediums om 'n fout in 'n elektroniese stroombaan in te spuit.
+Daar is 'n groot aantal metodes en media vir die inspuiting van foute in 'n elektroniese kring.

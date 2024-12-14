@@ -1,4 +1,4 @@
-# Infrared
+# Infrarooi
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 **Infrarooi lig is onsigbaar vir mense**. IR golflengte is van **0.7 tot 1000 mikron**. Huishoudelike afstandsbedienings gebruik 'n IR sein vir datatransmissie en werk in die golflengte-reeks van 0.75..1.4 mikron. 'n Mikrocontroller in die afstandsbediening laat 'n infrarooi LED flikker met 'n spesifieke frekwensie, wat die digitale sein in 'n IR sein omskakel.
 
-Om IR seine te ontvang, word 'n **fotoreceiver** gebruik. Dit **omskakel IR lig in spanning pulsies**, wat reeds **digitale seine** is. Gewoonlik is daar 'n **donker ligfilter binne die ontvanger**, wat **slegs die gewenste golflengte deurlaat** en geraas uitsny.
+Om IR seine te ontvang, word 'n **fotoreceiver** gebruik. Dit **omskakel IR lig in spanning pulsasies**, wat reeds **digitale seine** is. Gewoonlik is daar 'n **donker ligfilter binne die ontvanger**, wat **slegs die gewenste golflengte deurlaat** en geraas uitsny.
 
 ### Verskeidenheid van IR Protokolle <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
@@ -33,13 +33,13 @@ IR protokolle verskil in 3 faktore:
 
 **1. Pulsafstand Kodering**
 
-Bits word gekodeer deur die duur van die spasie tussen pulsies te moduler. Die breedte van die puls self is konstant.
+Bits word gekodeer deur die duur van die spasie tussen pulss te moduler. Die breedte van die puls self is konstant.
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
 **2. Pulsbreedte Kodering**
 
-Bits word gekodeer deur modulasie van die pulsbreedte. Die breedte van die spasie na die pulsuitbarsting is konstant.
+Bits word gekodeer deur modulering van die pulsbreedte. Die breedte van die spasie na die pulsuitbarsting is konstant.
 
 <figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
 
@@ -57,7 +57,7 @@ Daar is IR protokolle wat **probeer om universeel te word** vir verskeie tipes t
 Fabrikante hou daarvan om hul eie unieke IR protokolle te gebruik, selfs binne dieselfde reeks toestelle (byvoorbeeld, TV-doosies). Daarom kan afstandsbedienings van verskillende maatskappye en soms van verskillende modelle van dieselfde maatskappy, nie met ander toestelle van dieselfde tipe werk nie.
 {% endhint %}
 
-### Verken 'n IR sein
+### Verkenning van 'n IR sein
 
 Die mees betroubare manier om te sien hoe die afstandsbediening se IR sein lyk, is om 'n oscilloskoop te gebruik. Dit demoduleer of keer nie die ontvangde sein om nie, dit word net "soos dit is" vertoon. Dit is nuttig vir toetsing en foutopsporing. Ek sal die verwagte sein op die voorbeeld van die NEC IR protokol wys.
 
@@ -73,12 +73,12 @@ NEC **opdrag**, benewens die preamble, bestaan uit 'n adresbyte en 'n opdrag-nom
 
 Die **herhalingskode** het 'n "1" na die preamble, wat 'n stopbit is.
 
-Vir **logika "0" en "1"** gebruik NEC Pulsafstand Kodering: eerstens word 'n pulsuitbarsting oorgedra waarna daar 'n pouse is, waarvan die lengte die waarde van die bit bepaal.
+Vir **logika "0" en "1"** gebruik NEC Pulsafstand Kodering: eerstens word 'n pulsuitbarsting oorgedra waarna daar 'n pouse is, sy lengte stel die waarde van die bit vas.
 
 ### Lugversorgers
 
 In teenstelling met ander afstandsbedienings, **stuur lugversorgers nie net die kode van die ingedrukte knoppie nie**. Hulle **stuur ook al die inligting** wanneer 'n knoppie ingedruk word om te verseker dat die **lugversorgingsmasjien en die afstandsbediening gesinchroniseer is**.\
-Dit sal verhoed dat 'n masjien wat op 20ºC ingestel is, verhoog word na 21ºC met een afstandsbediening, en dan wanneer 'n ander afstandsbediening, wat steeds die temperatuur as 20ºC het, gebruik word om die temperatuur verder te verhoog, dit "verhoog" na 21ºC (en nie na 22ºC nie, dink dit is op 21ºC).
+Dit sal verhoed dat 'n masjien wat op 20ºC ingestel is, verhoog word na 21ºC met een afstandsbediening, en dan wanneer 'n ander afstandsbediening, wat steeds die temperatuur as 20ºC het, gebruik word om die temperatuur verder te verhoog, dit "verhoog" dit na 21ºC (en nie na 22ºC nie, dink dit is op 21ºC).
 
 ### Aanvalle
 
@@ -98,7 +98,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

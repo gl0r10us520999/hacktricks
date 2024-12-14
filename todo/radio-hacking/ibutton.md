@@ -27,7 +27,7 @@ Gewoonlik impliseer iButton die fisiese vorm van die sleutel en leser - 'n ronde
 
 <figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
-Wanneer die sleutel die leser bereik, **raak die kontakte aan** en die sleutel word van krag voorsien om sy ID te **verzenden**. Soms word die sleutel **nie onmiddellik gelees** nie omdat die **kontak PSD van 'n interkom groter** is as wat dit moet wees. So die buite kontour van die sleutel en die leser kon nie aanraak nie. As dit die geval is, moet jy die sleutel oor een van die mure van die leser druk.
+Wanneer die sleutel die leser bereik, **raak die kontakte aan** en die sleutel word van krag voorsien om sy ID te **verzenden**. Soms word die sleutel **nie onmiddellik gelees** nie omdat die **kontak PSD van 'n interkom groter** is as wat dit moet wees. So die buite kontour van die sleutel en die leser kon nie aanraak nie. As dit die geval is, sal jy die sleutel oor een van die mure van die leser moet druk.
 
 <figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
@@ -41,7 +41,7 @@ Flipper kan beide in Meester en Slaaf modi werk. In die sleutel leesmodus, tree 
 
 ### Dallas, Cyfral & Metakom sleutels
 
-Vir inligting oor hoe hierdie sleutels werk, kyk die bladsy [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
+Vir inligting oor hoe hierdie sleutels werk, kyk na die bladsy [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
 ### Aanvalle
 

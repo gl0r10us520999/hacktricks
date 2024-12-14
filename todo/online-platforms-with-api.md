@@ -1,8 +1,8 @@
 # Aanlyn Platforms met API
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -72,7 +72,7 @@ Jy het 'n paar gratis toegang.
 
 ## [fullcontact](https://www.fullcontact.com/)
 
-Laat jou toe om te soek per e-pos, domein of maatskappy naam en om "persoonlike" inligting te verkry. Dit kan ook e-posse verifieer. Daar is 'n paar gratis toegang.
+Laat jou toe om te soek op e-pos, domein of maatskappy naam en "persoonlike" inligting te verkry. Dit kan ook e-posse verifieer. Daar is 'n paar gratis toegang.
 
 ## [RiskIQ](https://www.spiderfoot.net/documentation/)
 
@@ -84,11 +84,11 @@ Soek domeine, IP's en e-posse en kry inligting van dumps. Het 'n paar gratis toe
 
 ## [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Soek per IP en versamel inligting wat verband hou met verdagte aktiwiteite. Daar is 'n paar gratis toegang.
+Soek op IP en versamel inligting wat verband hou met verdagte aktiwiteite. Daar is 'n paar gratis toegang.
 
 ## [Greynoise](https://viz.greynoise.io/)
 
-Soek per IP of IP reeks en kry inligting oor IP's wat die Internet skandeer. 15 dae gratis toegang.
+Soek op IP of IP reeks en kry inligting oor IP's wat die Internet skandeer. 15 dae gratis toegang.
 
 ## [Shodan](https://www.shodan.io/)
 
@@ -100,7 +100,7 @@ Baie soortgelyk aan shodan
 
 ## [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Vind oop S3 emmers deur te soek per sleutelwoord.
+Vind oop S3 emmers deur te soek op sleutelwoord.
 
 ## [Dehashed](https://www.dehashed.com/data)
 
@@ -125,7 +125,7 @@ Verkry interessante inligting van IP's
 
 ## [haveibeenpwned](https://haveibeenpwned.com/)
 
-Soek per domein en e-pos en kry of dit gecompromitteer is en wagwoorde. Kommersieel?
+Soek op domein en e-pos en kry of dit gecompromitteer is en wagwoorde. Kommersieel?
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
@@ -140,8 +140,8 @@ Dit detecteer IP geolokasie, datacentrum, ASN en selfs VPN inligting. Dit bied g
 [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (in 'n kommersiële hulpmiddel?)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

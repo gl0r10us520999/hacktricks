@@ -61,7 +61,7 @@ python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target 
 ```
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray het ten doel om **Generiese Skryf/Generiese Alles toestemmings wat wye gebruikersgroepe oor domeinobjekte mag hê, te benut** om ShadowCredentials breedvoerig toe te pas. Dit behels om in die domein in te teken, die domein se funksionele vlak te verifieer, domeinobjekte te evalueer, en te probeer om KeyCredentials vir TGT verkryging en NT hash onthulling by te voeg. Skoonmaakopsies en rekursiewe uitbuitingstaktieke verbeter die nut daarvan.
+ShadowSpray het ten doel om **Generiese Skryf/Generiese Alles toestemmings wat wye gebruikersgroepe oor domeinobjekte mag hê, te benut** om ShadowCredentials breedvoerig toe te pas. Dit behels om in die domein in te teken, die domein se funksionele vlak te verifieer, domeinobjekte te enumeer, en te probeer om KeyCredentials vir TGT verkryging en NT hash onthulling by te voeg. Opruimopsies en rekursiewe benuttingstaktieke verbeter die nut daarvan.
 
 
 ## References
@@ -72,16 +72,16 @@ ShadowSpray het ten doel om **Generiese Skryf/Generiese Alles toestemmings wat w
 * [https://github.com/ShutdownRepo/pywhisker](https://github.com/ShutdownRepo/pywhisker)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -67,7 +67,7 @@ In hierdie geval gaan ek met 'n EPROM verbind: ATMEL901 24C256 PU27:
 ![](<../../.gitbook/assets/image (964).png>)
 
 Om met die bus pirate te praat, het ek Tera Term gebruik wat aan die pirate bus COM-poort gekoppel is met 'n Setup --> Serial Port --> Speed van 115200.\
-In die volgende kommunikasie kan jy vind hoe om die bus pirate voor te berei om I2C te praat en hoe om van die geheue te skryf en te lees (Kommentaar verskyn met "#", moenie verwag dat daardie deel in die kommunikasie sal wees):
+In die volgende kommunikasie kan jy vind hoe om die bus pirate voor te berei om I2C te praat en hoe om van die geheue te skryf en te lees (Kommentaar verskyn met "#", verwag nie daardie deel in die kommunikasie nie):
 ```bash
 # Check communication with buspirate
 i

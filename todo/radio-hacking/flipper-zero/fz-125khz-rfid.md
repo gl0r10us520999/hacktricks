@@ -36,12 +36,12 @@ Vir meer inligting oor hierdie tipes etikette [**lees hierdie inleiding**](../pe
 Probeer om die **kaartinligting** te **lees**. Dan kan dit **emuleer** word.
 
 {% hint style="warning" %}
-Let daarop dat sommige interkoms probeer om hulself te beskerm teen sleutelduplisering deur 'n skryfopdrag te stuur voordat hulle lees. As die skryf suksesvol is, word daardie etiket as vals beskou. Wanneer Flipper RFID emuleer, is daar geen manier vir die leser om dit van die oorspronklike een te onderskei nie, so sulke probleme ontstaan nie.
+Let daarop dat sommige interkoms probeer om hulself te beskerm teen sleutelduplisering deur 'n skryfopdrag te stuur voordat hulle lees. As die skryf slaag, word daardie etiket as vals beskou. Wanneer Flipper RFID emuleer, is daar geen manier vir die leser om dit van die oorspronklike een te onderskei nie, so sulke probleme ontstaan nie.
 {% endhint %}
 
 ### Voeg Handmatig By
 
-Jy kan **vals kaarte in Flipper Zero skep deur die data** wat jy handmatig invoer, en dit dan emuleer.
+Jy kan **vals kaarte in Flipper Zero skep deur die data** wat jy handmatig invoer en dit dan emuleer.
 
 #### ID's op kaarte
 

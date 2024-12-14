@@ -17,8 +17,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ### Kode
 
-Die volgende kode van [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Dit laat toe om **'n Proses ID as argument aan te dui** en 'n CMD **wat as die gebruiker** van die aangeduide proses loop, sal uitgevoer word.\
-Wanneer dit in 'n Hoë Integriteit proses loop, kan jy **die PID van 'n proses wat as Stelsel loop** (soos winlogon, wininit) aan dui en 'n cmd.exe as stelsel uitvoer.
+Die volgende kode van [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Dit laat jou toe om **'n Proses ID as argument aan te dui** en 'n CMD **wat as die gebruiker** van die aangeduide proses loop, sal uitgevoer word.\
+Wanneer jy in 'n Hoë Integriteit proses loop, kan jy **die PID van 'n proses wat as Stelsel loop** (soos winlogon, wininit) aan dui en 'n cmd.exe as stelsel uitvoer.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -157,7 +157,7 @@ return 0;
 
 ### Fout
 
-In sommige gevalle mag jy probeer om die Stelsel te verteenwoordig en dit sal nie werk nie, wat 'n uitvoer soos die volgende toon:
+In sommige gevalle mag jy probeer om die Stelsel te verpersoonlik en dit sal nie werk nie, wat 'n uitvoer soos die volgende toon:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -168,8 +168,8 @@ In sommige gevalle mag jy probeer om die Stelsel te verteenwoordig en dit sal ni
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Dit beteken dat selfs al werk jy op 'n Hoë Integriteit vlak **jy nie genoeg toestemming het**.\
-Kom ons kyk na die huidige Administrateur toestemming oor `svchost.exe` prosesse met **processes explorer** (of jy kan ook process hacker gebruik):
+Dit beteken dat selfs al werk jy op 'n Hoë Integriteit vlak **jy nie genoeg toestemmings het**.\
+Kom ons kyk na die huidige Administrateur toestemmings oor `svchost.exe` prosesse met **processes explorer** (of jy kan ook process hacker gebruik):
 
 1. Kies 'n proses van `svchost.exe`
 2. Regsklik --> Eienskappe

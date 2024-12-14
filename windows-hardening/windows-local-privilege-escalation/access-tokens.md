@@ -79,7 +79,7 @@ As jy **geldige kredensiale van enige ander gebruiker** het, kan jy 'n **nuwe aa
 ```
 runas /user:domain\username cmd.exe
 ```
-Die **toegangsteken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sekere voorwerpe van die netwerk benodig.\
+Die **toegangsteken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sommige voorwerpe van die netwerk moet verkry.\
 Jy kan 'n proses begin wat **verskillende geloofsbriewe gebruik om toegang tot netwerkdienste te verkry** met:
 ```
 runas /user:domain\username /netonly cmd.exe
@@ -90,12 +90,12 @@ This is useful if you have useful credentials to access objects in the network b
 
 There are two types of tokens available:
 
-* **Primary Token**: Dit dien as 'n voorstelling van 'n proses se sekuriteitsakkrediteer. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde voorregte vereis, wat die beginsel van voorregskeiding beklemtoon. Tipies is 'n verifikasiediens verantwoordelik vir token skepping, terwyl 'n aanmelddiens dit hanteer met die gebruiker se bedryfstelsel-skal. Dit is die moeite werd om op te let dat prosesse die primêre token van hul ouer proses by skepping erf.
-* **Impersonation Token**: Bemagtig 'n bedienertoepassing om die kliënt se identiteit tydelik aan te neem vir toegang tot veilige voorwerpe. Hierdie meganisme is gelaag in vier vlakke van werking:
+* **Primary Token**: Dit dien as 'n voorstelling van 'n proses se sekuriteitsakkrediteer. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde voorregte vereis, wat die beginsel van voorregskeiding beklemtoon. Gewoonlik is 'n verifikasiediens verantwoordelik vir token skepping, terwyl 'n aanmelddiens dit hanteer met die gebruiker se bedryfstelsel-skal. Dit is die moeite werd om op te let dat prosesse die primêre token van hul ouer proses by skepping erf.
+* **Impersonation Token**: Bemagtig 'n bedienertoepassing om die kliënt se identiteit tydelik aan te neem om toegang tot veilige voorwerpe te verkry. Hierdie meganisme is gelaag in vier vlakke van werking:
 * **Anonymous**: Gee bediener toegang soortgelyk aan dié van 'n onbekende gebruiker.
-* **Identification**: Laat die bediener toe om die kliënt se identiteit te verifieer sonder om dit te gebruik vir voorwerp toegang.
+* **Identification**: Laat die bediener toe om die kliënt se identiteit te verifieer sonder om dit te gebruik vir toegang tot voorwerpe.
 * **Impersonation**: Stel die bediener in staat om onder die kliënt se identiteit te werk.
-* **Delegation**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteit aanneming uit te brei na afstandstelsels waarmee die bediener interaksie het, wat akkrediteer behoud verseker.
+* **Delegation**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteit aanneming na afgeleë stelsels wat die bediener mee werk, uit te brei, wat akkrediteer behoud verseker.
 
 #### Impersonate Tokens
 

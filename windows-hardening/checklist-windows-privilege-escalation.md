@@ -15,7 +15,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-### **Beste hulpmiddel om te soek na Windows plaaslike privilege escalatie vektore:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Beste hulpmiddel om na Windows plaaslike privilege escalatie vektore te soek:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [Stelselinligting](windows-local-privilege-escalation/#system-info)
 
@@ -59,7 +59,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * [ ] Prosesse binaries [**lêer en vouer toestemmings**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [ ] [**Geheue Wagwoord mynbou**](windows-local-privilege-escalation/#memory-password-mining)
-* [ ] [**Onveilige GUI toepassings**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] [**Onveilige GUI apps**](windows-local-privilege-escalation/#insecure-gui-apps)
 * [ ] Steel kredensiale met **interessante prosesse** via `ProcDump.exe` ? (firefox, chrome, ens ...)
 
 ### [Dienste](windows-local-privilege-escalation/#services)
@@ -100,7 +100,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ### [Lêers en Register (Kredensiale)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Kredensiale**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH gas sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH gas sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**SSH sleutels in register**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
 * [ ] Wagwoorde in [**onbewaakte lêers**](windows-local-privilege-escalation/#unattended-files)?
 * [ ] Enige [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rugsteun?

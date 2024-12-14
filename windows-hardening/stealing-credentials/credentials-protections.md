@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## WDigest
 
-Die [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396) protokol, wat met Windows XP bekendgestel is, is ontwerp vir autentisering via die HTTP-protokol en is **standaard geaktiveer op Windows XP tot Windows 8.0 en Windows Server 2003 tot Windows Server 2012**. Hierdie standaardinstelling lei tot **planktekst wagwoordopberging in LSASS** (Local Security Authority Subsystem Service). 'n Aanvaller kan Mimikatz gebruik om **hierdie kredensiale** te **onttrek** deur die volgende uit te voer:
+Die [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396) protokol, wat met Windows XP bekendgestel is, is ontwerp vir autentisering via die HTTP-protokol en is **standaard geaktiveer op Windows XP tot Windows 8.0 en Windows Server 2003 tot Windows Server 2012**. Hierdie standaardinstelling lei tot **planktekst wagwoordopberging in LSASS** (Local Security Authority Subsystem Service). 'n Aanvaller kan Mimikatz gebruik om **hierdie kredensiale te onttrek** deur die volgende uit te voer:
 ```bash
 sekurlsa::wdigest
 ```
@@ -29,7 +29,7 @@ reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v Use
 ```
 ## LSA-beskerming
 
-Begin met **Windows 8.1**, het Microsoft die sekuriteit van LSA verbeter om **ongemagtigde geheuelees of kode-inspuitings deur onbetroubare prosesse te blokkeer**. Hierdie verbetering hinder die tipiese funksionering van opdragte soos `mimikatz.exe sekurlsa:logonpasswords`. Om **hierdie verbeterde beskerming in te skakel**, moet die _**RunAsPPL**_ waarde in _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ na 1 aangepas word:
+Beginne met **Windows 8.1**, het Microsoft die sekuriteit van LSA verbeter om **ongeautoriseerde geheuelees of kode-inspuitings deur onbetroubare prosesse te blokkeer**. Hierdie verbetering hinder die tipiese funksionering van opdragte soos `mimikatz.exe sekurlsa:logonpasswords`. Om **hierdie verbeterde beskerming in te skakel**, moet die _**RunAsPPL**_ waarde in _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ na 1 aangepas word:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
@@ -49,7 +49,7 @@ Om die aktiveringsstatus van **Credential Guard** te verifieer, kan die registri
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
-Voor 'n omvattende begrip en instruksies oor hoe om **Credential Guard** in Windows 10 in te skakel en sy outomatiese aktivering in kompatible stelsels van **Windows 11 Enterprise en Education (weergawe 22H2)**, besoek [Microsoft se dokumentasie](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
+Vir 'n omvattende begrip en instruksies oor die aktivering van **Credential Guard** in Windows 10 en sy outomatiese aktivering in kompatible stelsels van **Windows 11 Enterprise en Education (weergawe 22H2)**, besoek [Microsoft se dokumentasie](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
 Verder besonderhede oor die implementering van pasgemaakte SSPs vir kredensievangs word in [hierdie gids](../active-directory-methodology/custom-ssp.md) verskaf.
 
@@ -71,13 +71,13 @@ Vir meer gedetailleerde inligting besoek [hierdie hulpbron](https://blog.ahasaye
 
 ## Gekapte Kredensiale
 
-Windows beveilig **domeinkredensiale** deur die **Local Security Authority (LSA)**, wat aanmeldprosesse met sekuriteitsprotokolle soos **Kerberos** en **NTLM** ondersteun. 'n Sleutelkenmerk van Windows is sy vermoë om die **laaste tien domein aanmeldings** te kas om te verseker dat gebruikers steeds toegang tot hul rekenaars kan verkry, selfs as die **domeinbeheerder aflyn is**—'n voordeel vir skootrekenaargebruikers wat dikwels van hul maatskappy se netwerk af is.
+Windows beveilig **domein kredensiale** deur die **Local Security Authority (LSA)**, wat aanmeldprosesse ondersteun met sekuriteitsprotokolle soos **Kerberos** en **NTLM**. 'n Sleutelkenmerk van Windows is sy vermoë om die **laaste tien domein aanmeldings** te kas om te verseker dat gebruikers steeds toegang tot hul rekenaars kan kry, selfs as die **domeinbeheerder aflyn is**—'n voordeel vir skootrekenaargebruikers wat dikwels van hul maatskappy se netwerk af is.
 
-Die aantal gekapte aanmeldings is aanpasbaar via 'n spesifieke **registersleutel of groepsbeleid**. Om hierdie instelling te sien of te verander, word die volgende opdrag gebruik:
+Die aantal gekapte aanmeldings is aanpasbaar via 'n spesifieke **registersleutel of groepbeleid**. Om hierdie instelling te besigtig of te verander, word die volgende opdrag gebruik:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
-Toegang tot hierdie gekapte geloofsbriewe word streng beheer, met slegs die **SYSTEM** rekening wat die nodige regte het om dit te sien. Administrators wat toegang tot hierdie inligting benodig, moet dit met SYSTEM gebruikersregte doen. Die geloofsbriewe word gestoor by: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
+Access tot hierdie gekapte geloofsbriewe word streng beheer, met slegs die **SYSTEM** rekening wat die nodige regte het om dit te sien. Administrators wat toegang tot hierdie inligting benodig, moet dit met SYSTEM gebruikersregte doen. Die geloofsbriewe word gestoor by: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
 **Mimikatz** kan gebruik word om hierdie gekapte geloofsbriewe te onttrek met die opdrag `lsadump::cache`.
 
@@ -87,7 +87,7 @@ Vir verdere besonderhede bied die oorspronklike [bron](http://juggernaut.wikidot
 
 Lidmaatskap in die **Gekapte Gebruikersgroep** stel verskeie sekuriteitsverbeterings vir gebruikers in, wat hoër vlakke van beskerming teen diefstal en misbruik van geloofsbriewe verseker:
 
-* **Geloofsbriefdelegasie (CredSSP)**: Selfs al is die Groep Beleid instelling vir **Toelaat om standaard geloofsbriewe te delegeren** geaktiveer, sal gewone teks geloofsbriewe van Gekapte Gebruikers nie gekap word nie.
+* **Geloofsbriefdelegasie (CredSSP)**: Selfs as die Groep Beleid instelling vir **Toelaat om standaard geloofsbriewe te delegeren** geaktiveer is, sal gewone teks geloofsbriewe van Gekapte Gebruikers nie gekap word nie.
 * **Windows Digest**: Begin vanaf **Windows 8.1 en Windows Server 2012 R2**, sal die stelsel nie gewone teks geloofsbriewe van Gekapte Gebruikers, ongeag die Windows Digest status, cache nie.
 * **NTLM**: Die stelsel sal nie gewone teks geloofsbriewe of NT eenrigting funksies (NTOWF) van Gekapte Gebruikers cache nie.
 * **Kerberos**: Vir Gekapte Gebruikers sal Kerberos-verifikasie nie **DES** of **RC4 sleutels** genereer nie, en dit sal ook nie gewone teks geloofsbriewe of langtermyn sleutels buite die aanvanklike Ticket-Granting Ticket (TGT) verkryging cache nie.

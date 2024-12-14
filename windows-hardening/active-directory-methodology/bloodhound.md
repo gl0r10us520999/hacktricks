@@ -28,7 +28,7 @@ Dit kan gebruik word om kwesbaarhede aflyn te ontdek, of om verskillende toestan
 
 Jy sal die gebruikersnaam, wagwoord, en rigting benodig om te verbind (enige AD gebruiker is benodig).
 
-Om 'n snapshot van AD te neem, gaan na `File` --> `Create Snapshot` en voer 'n naam vir die snapshot in.
+Om 'n snapshot van AD te neem, gaan na `File` --> `Create Snapshot` en voer 'n naam in vir die snapshot.
 
 ## ADRecon
 
@@ -45,7 +45,7 @@ From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundA
 
 BloodHound gebruik grafteorie om die versteekte en dikwels onbedoelde verhoudings binne 'n Active Directory of Azure-omgewing te onthul. Aanvallers kan BloodHound gebruik om maklik hoogs komplekse aanvalspaaie te identifiseer wat andersins onmoontlik sou wees om vinnig te identifiseer. Verdedigers kan BloodHound gebruik om daardie selfde aanvalspaaie te identifiseer en te elimineer. Beide blou en rooi span kan BloodHound gebruik om maklik 'n dieper begrip van priviligeverhoudings in 'n Active Directory of Azure-omgewing te verkry.
 
-So, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound)is 'n wonderlike hulpmiddel wat 'n domein outomaties kan opnoem, al die inligting kan stoor, moontlike privilige-eskalasiepaaie kan vind en al die inligting kan vertoon met behulp van grafieke.
+So, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound)is 'n wonderlike hulpmiddel wat 'n domein outomaties kan opnoem, al die inligting kan stoor, moontlike privilige-eskalasiepaaie kan vind en al die inligting met behulp van grafieke kan vertoon.
 
 Booldhound bestaan uit 2 hoofdele: **ingestors** en die **visualiseringstoepassing**.
 
@@ -62,11 +62,11 @@ Na die skepping van BloodHound CE, is die hele projek opgedateer vir gebruiksgem
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
 3. Vind die ewekansig gegenereerde wagwoord in die terminaluitvoer van Docker Compose.  
-4. In 'n blaaier, navigeer na http://localhost:8080/ui/login. Teken in met 'n gebruikersnaam van admin en die ewekansig gegenereerde wagwoord uit die logs.  
+4. In 'n blaaier, navigeer na http://localhost:8080/ui/login. Teken in met 'n gebruikersnaam van admin en die ewekansig gegenereerde wagwoord uit die logs.
 
-Na hierdie sal jy die ewekansig gegenereerde wagwoord moet verander en jy sal die nuwe koppelvlak gereed hê, waarvan jy direk die ingestors kan aflaai.  
+Na hierdie sal jy die ewekansig gegenereerde wagwoord moet verander en jy sal die nuwe koppelvlak gereed hê, waarvan jy direk die ingestors kan aflaai.
 
-### SharpHound  
+### SharpHound
 
 Hulle het verskeie opsies, maar as jy SharpHound vanaf 'n rekenaar wat by die domein aangesluit is, wil uitvoer, met jou huidige gebruiker en al die inligting wil onttrek, kan jy doen:
 ```
@@ -75,7 +75,7 @@ Invoke-BloodHound -CollectionMethod All
 ```
 > Jy kan meer lees oor **CollectionMethod** en lus sessie [hier](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
 
-As jy SharpHound met verskillende geloofsbriewe wil uitvoer, kan jy 'n CMD netonly sessie skep en SharpHound van daar af uitvoer:
+As jy SharpHound met verskillende akrediteerbesonderhede wil uitvoer, kan jy 'n CMD netonly sessie skep en SharpHound van daar af uitvoer:
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
@@ -92,9 +92,9 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **evalueer die sekuriteitsposisie van 'n AD-omgewing** en bied 'n mooi **verslag** met grafieke.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **evalueer die sekuriteitsposisie van 'n AD omgewing** en bied 'n mooi **verslag** met grafieke.
 
-Om dit te laat loop, kan jy die binêre `PingCastle.exe` uitvoer en dit sal 'n **interaktiewe sessie** begin wat 'n menu van opsies aanbied. Die standaardopsie om te gebruik is **`healthcheck`** wat 'n basislyn **oorsig** van die **domein** sal vestig, en **misconfigurasies** en **kwesbaarhede** sal vind.&#x20;
+Om dit te laat loop, kan jy die binêre `PingCastle.exe` uitvoer en dit sal 'n **interaktiewe sessie** begin wat 'n menu van opsies aanbied. Die standaard opsie om te gebruik is **`healthcheck`** wat 'n basislyn **oorsig** van die **domein** sal vestig, en **misconfigurasies** en **kwesbaarhede** sal vind.&#x20;
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

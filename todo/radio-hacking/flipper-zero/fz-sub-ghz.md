@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero kan **radiofrekwensies in die reeks van 300-928 MHz ontvang en oordra** met sy ingeboude module, wat afstandbeheerder kan lees, stoor en emuleer. Hierdie beheerders word gebruik vir interaksie met hekke, hindernisse, radio slotte, afstandbeheer skakelaars, draadlose deurklokke, slim ligte, en meer. Flipper Zero kan jou help om te leer of jou sekuriteit gecompromitteer is.
+Flipper Zero kan **radiofrekwensies in die reeks van 300-928 MHz ontvang en oordra** met sy ingeboude module, wat afstandbeheerder kan lees, stoor en emuleer. Hierdie beheerders word gebruik vir interaksie met hekke, hindernisse, radio slotte, afstandbeheerder skakelaars, draadlose deurklokke, slim ligte, en meer. Flipper Zero kan jou help om te leer of jou sekuriteit gecompromitteer is.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -61,22 +61,22 @@ Op hierdie oomblik het dit **4 moduleringe** (AM270, AM650, FM328 en FM476), en 
 Jy kan **enige wat jou interesseer** stel, egter, as jy **nie seker is watter frekwensie** die een kan wees wat deur die afstandbeheerder gebruik word nie, **stel Hopping op AAN** (Af as standaard), en druk die knoppie verskeie kere totdat Flipper dit vasvang en jou die inligting gee wat jy nodig het om die frekwensie in te stel.
 
 {% hint style="danger" %}
-Om tussen frekwensies te skakel neem 'n bietjie tyd, daarom kan seine wat tydens die skakeling oorgedra word, gemis word. Vir beter seinontvangs, stel 'n vaste frekwensie vasgestel deur Frekwensie Analiseerder.
+Om tussen frekwensies te wissel neem 'n bietjie tyd, daarom kan seine wat tydens die wisseling oorgedra word, gemis word. Vir beter seinontvangs, stel 'n vaste frekwensie vasgestel deur Frekwensie Analiseerder.
 {% endhint %}
 
 ### **Lees Rau**
 
 {% hint style="info" %}
-Steal (en herhaal) 'n sein in die geconfigureerde frekwensie
+Steal (and replay) a signal in the configured frequency
 {% endhint %}
 
 Die **Lees Rau** opsie **registreer seine** wat in die luister frekwensie gestuur word. Dit kan gebruik word om 'n sein te **steel** en dit te **herhaal**.
 
-As standaard is **Lees Rau ook in 433.92 in AM650**, maar as jy met die Lees opsie gevind het dat die sein wat jou interesseer in 'n **ander frekwensie/modulering is, kan jy dit ook wysig** deur links te druk (terwyl jy binne die Lees Rau opsie is).
+As standaard is **Lees Rau ook in 433.92 in AM650**, maar as jy met die Lees opsie gevind het dat die sein wat jou interesseer in 'n **ander frekwensie/modulering is, kan jy dit ook aanpas** deur links te druk (terwyl jy binne die Lees Rau opsie is).
 
 ### Brute-Force
 
-As jy die protokol weet wat byvoorbeeld deur die motorhek gebruik word, is dit moontlik om **alle kodes te genereer en dit met die Flipper Zero te stuur.** Dit is 'n voorbeeld wat algemene algemene tipes motorhekke ondersteun: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+As jy die protokol weet wat byvoorbeeld deur die motorhuisdeur gebruik word, is dit moontlik om **alle kodes te genereer en dit met die Flipper Zero te stuur.** Dit is 'n voorbeeld wat algemene algemene tipes motorhuise ondersteun: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Voeg Handmatig By
 
@@ -131,7 +131,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

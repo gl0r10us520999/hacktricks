@@ -22,7 +22,7 @@ In Windows Vista en later weergawes, kom alle beskermde items met 'n **integrite
 'n Sleutelreël is dat voorwerpe nie gewysig kan word deur prosesse met 'n laer integriteitsvlak as die voorwerp se vlak nie. Die integriteitsvlakke is:
 
 * **Onbetroubaar**: Hierdie vlak is vir prosesse met anonieme aanmeldings. %%%Voorbeeld: Chrome%%%
-* **Laag**: Hoofsaaklik vir internetinteraksies, veral in Internet Explorer se Beskermde Modus, wat geassosieerde lêers en prosesse beïnvloed, en sekere vouers soos die **Tydelike Internet-gids**. Lae integriteitsprosesse ondervind beduidende beperkings, insluitend geen register skrywe toegang en beperkte gebruikersprofiel skrywe toegang nie.
+* **Laag**: Hoofsaaklik vir internetinteraksies, veral in Internet Explorer se Beskermde Modus, wat geassosieerde lêers en prosesse beïnvloed, en sekere vouers soos die **Tydelike Internet-gids**. Lae integriteitsprosesse ondervind beduidende beperkings, insluitend geen register skrywe toegang en beperkte gebruiker profiel skrywe toegang nie.
 * **Medium**: Die standaardvlak vir die meeste aktiwiteite, toegeken aan standaardgebruikers en voorwerpe sonder spesifieke integriteitsvlakke. Selfs lede van die Administrators-groep werk standaard op hierdie vlak.
 * **Hoog**: Gereserveer vir administrateurs, wat hulle toelaat om voorwerpe op laer integriteitsvlakke te wysig, insluitend dié op die hoë vlak self.
 * **Stelsel**: Die hoogste operasionele vlak vir die Windows-kern en kern dienste, buite bereik selfs vir administrateurs, wat beskerming van noodsaaklike stelselfunksies verseker.
@@ -39,7 +39,7 @@ Jy kan ook jou **huidige integriteitsvlak** verkry met `whoami /groups`
 ### Integriteitsvlakke in die lêerstelsel
 
 'n Voorwerp binne die lêerstelsel mag 'n **minimum integriteitsvlak vereiste** benodig en as 'n proses nie hierdie integriteitsvlak het nie, sal dit nie in staat wees om daarmee te kommunikeer.\
-Byvoorbeeld, laat ons **'n gewone lêer van 'n gewone gebruiker-konsol skep en die toestemmings nagaan**:
+Byvoorbeeld, kom ons **skep 'n gewone lêer vanaf 'n gewone gebruiker se konsole en kyk na die toestemmings**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -90,14 +90,30 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-Nou, wanneer ek `cmd-low.exe` uitvoer, sal dit **onder 'n lae-integriteitsvlak** loop in plaas van 'n medium een:
+Now, when I run `cmd-low.exe` it will **run under a low-integrity level** instead of a medium one:
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-Vir nuuskierige mense, as jy 'n hoë integriteitsvlak aan 'n binêre toewys (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), sal dit nie outomaties met 'n hoë integriteitsvlak loop nie (as jy dit van 'n medium integriteitsvlak aanroep --per standaard-- sal dit onder 'n medium integriteitsvlak loop).
+For curious people, if you assign high integrity level to a binary (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) it won't run with high integrity level automatically (if you invoke it from a medium integrity level --by default-- it will run under a medium integrity level).
 
-### Integriteitsvlakke in Prosesse
+### Integrity Levels in Processes
 
 Nie alle lêers en vouers het 'n minimum integriteitsvlak nie, **maar alle prosesse loop onder 'n integriteitsvlak**. En soortgelyk aan wat met die lêerstelsel gebeur het, **as 'n proses binne 'n ander proses wil skryf, moet dit ten minste dieselfde integriteitsvlak hê**. Dit beteken dat 'n proses met 'n lae integriteitsvlak nie 'n handvatsel met volle toegang tot 'n proses met 'n medium integriteitsvlak kan oopmaak nie.
 
 As gevolg van die beperkings wat in hierdie en die vorige afdeling bespreek is, is dit altyd **aanbeveel om 'n proses in die laagste moontlike integriteitsvlak te laat loop**.
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

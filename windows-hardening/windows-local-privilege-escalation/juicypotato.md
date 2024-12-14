@@ -16,7 +16,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% endhint %}
 
 {% hint style="warning" %}
-**JuicyPotato werk nie** op Windows Server 2019 en Windows 10 bou 1809 en later nie. egter, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) kan gebruik word om **die selfde voorregte te benut en `NT AUTHORITY\SYSTEM`** vlak toegang te verkry. _**Kyk:**_
+**JuicyPotato werk nie** op Windows Server 2019 en Windows 10 weergawe 1809 en later nie. egter, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) kan gebruik word om **die selfde voorregte te benut en `NT AUTHORITY\SYSTEM`** vlak toegang te verkry. _**Kyk:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -29,7 +29,7 @@ _'n gesuikerde weergawe van_ [_RottenPotatoNG_](https://github.com/breenmachine/
 
 #### Jy kan juicypotato aflaai van [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
-### Samevatting <a href="#summary" id="summary"></a>
+### Opsomming <a href="#summary" id="summary"></a>
 
 [**Van juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
@@ -37,11 +37,11 @@ _'n gesuikerde weergawe van_ [_RottenPotatoNG_](https://github.com/breenmachine/
 
 Ons het besluit om [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) te wapen: **Sê hallo aan Juicy Potato**.
 
-> Vir die teorie, sien [Rotten Potato - Privilege Escalation from Service Accounts to SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) en volg die ketting van skakels en verwysings.
+> Vir die teorie, sien [Rotten Potato - Voorreg Escalation van Diens Rekeninge na SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) en volg die ketting van skakels en verwysings.
 
 Ons het ontdek dat, behalwe `BITS`, daar 'n aantal COM bedieners is wat ons kan misbruik. Hulle moet net:
 
-1. deur die huidige gebruiker instantiëerbaar wees, normaalweg 'n “diens gebruiker” wat impersonasie voorregte het
+1. deur die huidige gebruiker instantiable wees, normaalweg 'n “diens gebruiker” wat impersonasie voorregte het
 2. die `IMarshal` koppelvlak implementeer
 3. as 'n verhoogde gebruiker (SYSTEM, Administrateur, …) loop
 
@@ -89,7 +89,7 @@ As die gebruiker `SeImpersonate` of `SeAssignPrimaryToken` regte het, dan is jy 
 
 Dit is byna onmoontlik om die misbruik van al hierdie COM Servers te voorkom. Jy kan dink aan die aanpassing van die regte van hierdie voorwerpe via `DCOMCNFG`, maar goeie geluk, dit gaan uitdagend wees.
 
-Die werklike oplossing is om sensitiewe rekeninge en toepassings wat onder die `* SERVICE` rekeninge loop, te beskerm. Om `DCOM` te stop, sal beslis hierdie ontploffing inhibeer, maar kan 'n ernstige impak op die onderliggende OS hê.
+Die werklike oplossing is om sensitiewe rekeninge en toepassings wat onder die `* SERVICE` rekeninge loop, te beskerm. Om `DCOM` te stop, sal beslis hierdie uitbuiting inhibeer, maar kan 'n ernstige impak op die onderliggende OS hê.
 
 From: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 

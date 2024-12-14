@@ -17,7 +17,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 In 'n ping antwoord TTL:\
 127 = Windows\
 254 = Cisco\
-Die res, 'n paar linux
+Die res, enige linux
 
 $1$- md5\
 $2$of $2a$ - Blowfish\
@@ -29,12 +29,12 @@ As jy nie weet wat agter 'n diens is nie, probeer om 'n HTTP GET versoek te maak
 **UDP Skande**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-'n Leë UDP-pakket word na 'n spesifieke poort gestuur. As die UDP-poort oop is, word daar geen antwoord van die teikenmasjien teruggestuur nie. As die UDP-poort gesluit is, moet 'n ICMP-poort onbereikbaar pakket van die teikenmasjien teruggestuur word.\
+'n Leë UDP-pakket word na 'n spesifieke poort gestuur. As die UDP-poort oop is, word daar geen antwoord van die teiken masjien teruggestuur nie. As die UDP-poort gesluit is, moet 'n ICMP poort onbereikbaar pakket van die teiken masjien teruggestuur word.\
 
 UDP-poort skandering is dikwels onbetroubaar, aangesien vuurmure en routers ICMP\
 pakkette kan laat val. Dit kan lei tot vals positiewe in jou skandering, en jy sal gereeld\
 UDP-poort skanderings sien wat alle UDP-poorte oop op 'n gescande masjien toon.\
-o Meeste poort skandeerders skandeer nie alle beskikbare poorte nie, en het gewoonlik 'n vooraf ingestelde lys\
+Die meeste poort skandeerders skandeer nie alle beskikbare poorte nie, en het gewoonlik 'n vooraf ingestelde lys\
 van “interessante poorte” wat geskandeer word.
 
 # CTF - Truuks
@@ -57,14 +57,14 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 **Xxencoding** --> Begin met "_begin \<mode> \<filename>_" en B64\
 \
 **Vigenere** (frekwensie analise) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
-**Scytale** (verskuiwing van karakters) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
+**Scytale** (offset van karakters) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
 
 **25x25 = QR**
 
 factordb.com\
 rsatool
 
-Snow --> Versteek boodskappe met spaties en tabulatoren
+Snow --> Versteek boodskappe met spaties en tabs
 
 # Characters
 
@@ -78,7 +78,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Support HackTricks</summary>
 
-* Check die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

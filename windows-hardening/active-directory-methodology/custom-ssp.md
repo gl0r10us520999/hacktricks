@@ -18,13 +18,13 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 ### Custom SSP
 
 [Leer wat 'n SSP (Security Support Provider) is hier.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
-Jy kan jou **eie SSP** skep om **in te vang** in **duidelike teks** die **akkrediteerings** wat gebruik word om toegang tot die masjien te verkry.
+Jy kan jou **eie SSP** skep om **in te vang** in **duidelike teks** die **akkrediteer** wat gebruik word om toegang tot die masjien te verkry.
 
 #### Mimilib
 
-Jy kan die `mimilib.dll` binêre gebruik wat deur Mimikatz verskaf word. **Dit sal alle akkrediteerings in duidelike teks in 'n lêer log.**\
+Jy kan die `mimilib.dll` binêre gebruik wat deur Mimikatz verskaf word. **Dit sal al die akkrediteer in duidelike teks in 'n lêer log.**\
 Plaas die dll in `C:\Windows\System32\`\
-Kry 'n lys van bestaande LSA Veiligheid Pakkette:
+Kry 'n lys van bestaande LSA Veiligheidspakkette:
 
 {% code title="attacker@target" %}
 ```bash

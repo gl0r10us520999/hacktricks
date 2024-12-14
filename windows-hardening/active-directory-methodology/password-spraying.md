@@ -17,22 +17,22 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
 
 {% embed url="https://academy.8ksec.io/" %}
 
 ## **Wachtwoord Spuit**
 
-Sodra jy verskeie **geldige gebruikersname** gevind het, kan jy die mees **gewone wagwoorde** probeer (hou in gedagte die wagwoordbeleid van die omgewing) met elkeen van die ontdekte gebruikers.\
-Deur **standaard** is die **minimum** **wagwoord** **lengte** **7**.
+Sodra jy verskeie **geldige gebruikersname** gevind het, kan jy die mees **gewone wagwoorde** probeer (hou rekening met die wagwoordbeleid van die omgewing) met elkeen van die ontdekte gebruikers.\
+Volgens **standaard** is die **minimum** **wagwoord** **lengte** **7**.
 
 Lyste van algemene gebruikersname kan ook nuttig wees: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-Let op dat jy **sekere rekeninge kan sluit as jy verskeie verkeerde wagwoorde probeer** (deur standaard meer as 10).
+Let op dat jy **sekere rekeninge kan sluit as jy verskeie verkeerde wagwoorde probeer** (volgens standaard meer as 10).
 
 ### Kry wagwoordbeleid
 
-As jy 'n paar gebruikerskredens of 'n shell as 'n domein gebruiker het, kan jy **die wagwoordbeleid kry met**:
+As jy 'n paar gebruikerskennisgewings of 'n shell as 'n domein gebruiker het, kan jy **die wagwoordbeleid kry met**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -49,7 +49,7 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### Exploitation from Linux (or all)
+### Exploitatie vanaf Linux (of alles)
 
 * Gebruik **crackmapexec:**
 ```bash
@@ -150,7 +150,7 @@ Om enige van hierdie gereedskap te gebruik, benodig jy 'n gebruikerslys en 'n wa
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Beheers iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
+Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
 
 {% embed url="https://academy.8ksec.io/" %}
 

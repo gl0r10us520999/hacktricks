@@ -19,7 +19,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 Proses kan op gasheer oopgemaak word waar die gebruikersnaam en óf wagwoord of hash bekend is deur die gebruik van WMI. Opdragte word uitgevoer met behulp van WMI deur Wmiexec, wat 'n semi-interaktiewe skaalervaring bied.
 
-**dcomexec.py:** Deur verskillende DCOM eindpunte te benut, bied hierdie skrip 'n semi-interaktiewe skaal soortgelyk aan wmiexec.py, spesifiek die ShellBrowserWindow DCOM objek. Dit ondersteun tans MMC20. Toepassing, Shell Windows, en Shell Browser Window objek. (bron: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Deur verskillende DCOM eindpunte te benut, bied hierdie skrip 'n semi-interaktiewe skaal soortgelyk aan wmiexec.py, spesifiek deur die ShellBrowserWindow DCOM objek te benut. Dit ondersteun tans MMC20. Toepassing, Shell Windows, en Shell Browser Window objek. (bron: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## WMI Grondbeginsels
 
@@ -100,9 +100,9 @@ wmic sysaccount list /format:list
 ```
 Remote querying of WMI vir spesifieke inligting, soos plaaslike admins of ingelogde gebruikers, is haalbaar met sorgvuldige opdragkonstruksie.
 
-### **Handmatige Afgeleë WMI Vraestelling**
+### **Handmatige Afgeleë WMI Vraestelle**
 
-Stealthy identifikasie van plaaslike admins op 'n afgeleë masjien en ingelogde gebruikers kan bereik word deur spesifieke WMI-vrae. `wmic` ondersteun ook die lees van 'n tekslêer om opdragte op verskeie nodes gelyktydig uit te voer.
+Stealthy identifikasie van plaaslike admins op 'n afgeleë masjien en ingelogde gebruikers kan bereik word deur spesifieke WMI-vraestelle. `wmic` ondersteun ook die lees van 'n tekslêer om opdragte op verskeie nodes gelyktydig uit te voer.
 
 Om 'n proses afgeleë oor WMI uit te voer, soos om 'n Empire-agent te ontplooi, word die volgende opdragstruktuur gebruik, met suksesvolle uitvoering aangedui deur 'n terugwaarde van "0":
 ```bash

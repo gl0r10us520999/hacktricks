@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -29,8 +29,8 @@ In die **Pass The Ticket (PTT)** aanvalmetode, **steel aanvallers 'n gebruiker s
 
 **Lees**:
 
-* [Oes tickets van Windows](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-windows.md)
-* [Oes tickets van Linux](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-linux.md)
+* [Haal tickets van Windows af](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-windows.md)
+* [Haal tickets van Linux af](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-linux.md)
 
 ### **Swapping Linux en Windows tickets tussen platforms**
 
